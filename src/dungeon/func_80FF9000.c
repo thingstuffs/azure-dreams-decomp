@@ -8,7 +8,7 @@ typedef struct S_80FF9000_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80FF9000_0;   /* obj in allocate_actor_and_initialize_parts */
 
 typedef struct S_80FF9000_1 {
@@ -29,12 +29,12 @@ typedef struct S_80FF9000_3 {
     s8 unk_24;
     s8 unk_25;
     u8 pad_26[0x6];
-    M2C_UNK * unk_2C;
+    s32 * unk_2C;
 } S_80FF9000_3;   /* part_b in allocate_actor_and_initialize_parts */
 
 typedef struct S_80FF9000_4 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];
@@ -86,7 +86,7 @@ void *allocate_actor_and_initialize_parts(s16 spawn_flags, s32 grid_x, s32 grid_
     work = NULL;
     alloc_kind = 0x112;
     saved_x = grid_x;
-    alloc_desc = ((M2C_UNK *)&D_80083498.next);
+    alloc_desc = ((s32 *)&D_80083498.next);
     saved_y = grid_y;
     random_bits = (s32) *(s8 *)0x4A64;
     obj = func_8003FD64(alloc_kind, alloc_desc);

@@ -1,18 +1,16 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3a_types.h"
 
 /* extern */
 void initialize_scene_action_record();      /* extern */
 
-typedef struct S_80090F84_0 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80090F84_0;   /* arg2 in run_action_then_fallback_on_flag */
+   /* arg2 in run_action_then_fallback_on_flag */
 
 
-void dispatch_actor_interaction_actions(s32 *, s32, S_80090F84_0 *);
+void dispatch_actor_interaction_actions(s32 *, s32, SpriteFlagsView *);
 /* Run the fallback handler if the value stays unchanged and either 0x6000 flag is set. */
-void run_action_then_fallback_on_flag(s32 *value, s32 context, S_80090F84_0 *record) {
+void run_action_then_fallback_on_flag(s32 *value, s32 context, SpriteFlagsView *record) {
     s32 previous_value;
 
     previous_value = *value;

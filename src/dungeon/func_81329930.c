@@ -2,6 +2,7 @@
 
 typedef s32 M2C_UNK;
 
+
 extern s32 D_80174AB4;
 extern s16 D_80174AB8;
 extern M2C_UNK D_80174BEC[];

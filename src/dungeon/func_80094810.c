@@ -1,8 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
-#include "m2c_compat.h"
-
 void apply_scaled_entity_velocity();                      /* extern */
 
 
@@ -18,12 +16,12 @@ void process_unflagged_linked_entries_alt(s32 firstNodeBase) {
     S_80099F70_1 *currentEntry;
 
     currentEntry = firstNodeBase + 0x20;
-    if (currentEntry != ((EntityRec *)(((M2C_UNK *)&D_800814A8)))->x.v) {
+    if (currentEntry != ((EntityRec *)(((s32 *)&D_800814A8)))->x.v) {
         do {
             if (currentEntry->unk_14 & 0x4000) {
                 apply_scaled_entity_velocity(currentEntry);
             }
             currentEntry = currentEntry->unk_5C + 0x20;
-        } while (currentEntry != ((EntityRec *)(((M2C_UNK *)&D_800814A8)))->x.v);
+        } while (currentEntry != ((EntityRec *)(((s32 *)&D_800814A8)))->x.v);
     }
 }

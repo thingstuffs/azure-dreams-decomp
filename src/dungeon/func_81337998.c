@@ -1,7 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 
 typedef struct S_8016E998_0 {
@@ -30,7 +29,7 @@ typedef struct S_8016E998_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     s8 unk_20;
 } S_8016E998_1;
@@ -63,7 +62,7 @@ typedef struct S_8016E998_5 {
 s32 func_8004491C();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                        /* extern */
-extern M2C_UNK D_8016E4E8;
+void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color);
 extern void *D_80175D78;
 
 /* Creates sixteen radial effect segments around the supplied position. */
@@ -78,7 +77,7 @@ void create_multi_form_segment_ring(EntityRec *origin) {
     s8 color_level = 0;
     s32 end_angle;
     s32 segment_index;
-    M2C_UNK *effect_handler;
+    s32 *effect_handler;
     void **effect_slot;
     S_8016E998_5 *appearance;
     S_8016E998_0 *effect_data;
@@ -86,12 +85,12 @@ void create_multi_form_segment_ring(EntityRec *origin) {
     S_8016E998_3 *position;
 
     segment_index = 0;
-    effect_handler = &D_8016E4E8;
+    effect_handler = &emit_multi_form_ring_geometry;
     effect_slot = &D_80175D78;
     end_angle = 0x100;
     do {
         effect = func_8003FC64(0x12);
-        if (effect != NULL) {
+        if (effect != 0) {
             effect_data = effect + 0x20;
             initial_count = 0x32;
             effect_data->unk_18 = (s16) initial_count;

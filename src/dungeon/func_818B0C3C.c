@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
 s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 frame) {
-    M2C_UNK *node_type;
+    s32 *node_type;
     u16 position_z;
     s32 angle;
     ovl_18d0850_818B0C3C_S_8002443C_3 *sprite;
@@ -12,7 +12,7 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
     s32 sprite_mode;
 
     node = func_8003FC64(0x212);
-    if (node != NULL) {
+    if (node != 0) {
         node_type = (void *)advance_height_offset_and_placement;
         ((ovl_18d0850_818B0C3C_S_8002443C_0 *)node)->unk_20 = owner;
         owner = (s32)(node + 0x20);
@@ -21,7 +21,7 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_06 = (s16) (-6 - (func_80069EF8() % 5));
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_08 = (u16) ((ovl_18d0850_818B0C3C_S_8002443C_2 *)origin)->unk_02.s;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0A = (u16) ((ovl_18d0850_818B0C3C_S_8002443C_2 *)origin)->unk_06.s;
-        node_type = (M2C_UNK *)(((ovl_18d0850_818B0C3C_S_8002443C_2 *)origin)->unk_0A.s);
+        node_type = (s32 *)(((ovl_18d0850_818B0C3C_S_8002443C_2 *)origin)->unk_0A.s);
         sprite_mode = 0x7E09;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0C = (u16)node_type;
         sprite = ((ovl_18d0850_818B0C3C_S_8002443C_0 *)node)->unk_0C;

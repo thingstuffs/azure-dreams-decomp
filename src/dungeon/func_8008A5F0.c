@@ -11,7 +11,7 @@ extern void begin_wake_nearby_monsters(u8 *state_ptr, s32 value, u8 *target_ptr,
 extern s32 collect_ground_item(void *, void *, void *, void *);
 extern void set_record_integer_tile_center(void *, u8, u8);
 
-extern M2C_UNK D_8008EAC8;
+void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, void *entity);
 extern u8 D_800DD0E0[];
 
 /* Updates movement toward the destination tile and handles arrival when the timer expires. */
@@ -49,7 +49,7 @@ void advance_alternate_tile_center_motion(void *actor, EntityRec *motion, void *
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if ((collect_ground_item(actor, motion, sprite, facing) << 0x10) > 0) {
-            ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = &D_8008EAC8;
+            ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = &handle_carrying_player_input;
         }
     }
 }

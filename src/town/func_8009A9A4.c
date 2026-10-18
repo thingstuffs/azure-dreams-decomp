@@ -1,19 +1,17 @@
 #include "common.h"
 
 #include "records/Rec_func_80094268_arg0.h"
+#include "shared/types3a_types.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 /* extern */
 
-typedef struct S_80098104_0 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80098104_0;   /* arg0 in tick_countdown_and_initialize_handler */
+   /* arg0 in tick_countdown_and_initialize_handler */
 
 
 void initialize_record_with_handler_and_count(Rec_func_80094268_arg0 *record, s32 setup_value, void *ptr2);
 /* Decrement the countdown and call initialize_record_with_handler_and_count when it reaches zero. */
-void tick_countdown_and_initialize_handler(S_80098104_0 *state, s32 context, s32 mode) {
+void tick_countdown_and_initialize_handler(UnsignedCountdownView *state, s32 context, s32 mode) {
     u16 remaining_ticks;
 
     remaining_ticks = state->unk_0A - 1;

@@ -1,11 +1,10 @@
 #include "modules/dungeon_ovl_19c6800.h"
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 int abs(int);
 s32 func_80065420();
-M2C_UNK func_80066640();
-M2C_UNK func_800666F4();
+s32 func_80066640(void *, s32);
+s32 func_800666F4(void *);
 void transform_rotated_vertices();
 typedef struct
 {

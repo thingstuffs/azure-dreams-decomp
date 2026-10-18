@@ -3,8 +3,6 @@
 #include "shared/slus_callbacks.h"
 
 
-typedef s32 M2C_UNK;
-
 typedef struct S_801711D0_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -50,7 +48,7 @@ extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern u8 D_801713A8[];
-extern M2C_UNK D_801719DC;
+void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void *entity_in, void *actor_in);
 extern u8 D_80174634[];
 extern u8 D_80174684[];
 
@@ -108,7 +106,7 @@ void *spawn_configured_actor_object(s16 flags, s16 value_24, s16 value_25, s16 v
         initialize_actor_sprite_and_animation(((void *)(obj)), part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_801719DC;
+        actor->unk_8C = &dispatch_actor_animation_and_action;
         work->unk_1C |= 0x40000;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }

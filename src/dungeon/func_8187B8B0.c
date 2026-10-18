@@ -1,5 +1,6 @@
 #include "modules/dungeon_native_abi.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/types3c_types.h"
 
 #ifndef NULL
 #define NULL 0
@@ -16,14 +17,7 @@ typedef struct S_func_800250B0_0 {
 
 
 
-typedef struct S_func_800250B0_2 {
-    u8 pad_00[0x02];
-    s16 unk_02;
-    u8 pad_04[0x02];
-    s16 unk_06;
-    u8 pad_08[0x02];
-    s16 unk_0A;
-} S_func_800250B0_2;
+
 
 typedef struct S_func_800250B0_3 {
     u8 pad_00[0x04];
@@ -64,9 +58,9 @@ void func_800250B0(
     s32 z_pos;
     void *init_obj;
     void *init_data;
-    S_func_800250B0_2 *x_dest;
-    S_func_800250B0_2 *y_dest;
-    S_func_800250B0_2 *z_dest;
+    SignedPositionView *x_dest;
+    SignedPositionView *y_dest;
+    SignedPositionView *z_dest;
 
     spawned_obj = func_8003FD64(0x211, source_obj);
     if (spawned_obj != NULL) {

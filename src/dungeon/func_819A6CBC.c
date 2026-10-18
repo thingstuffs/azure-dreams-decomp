@@ -4,7 +4,6 @@
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 
 typedef struct S_800244BC_0_pre {
     u16 unk_00;
@@ -31,7 +30,7 @@ typedef struct S_800244BC_2 {
 
 typedef struct S_800244BC_3 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
 } S_800244BC_3;
@@ -72,7 +71,7 @@ s32 rand();                                /* extern */
 void update_randomized_intermediate_points(void *);
 
 /* Move toward the target while spawning effects, then mark the sequence complete. */
-void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
+void func_800244BC(void *object, S_800244BC_2 *position, s32 context) {
     s16 target_pos[3];
     s16 phase;
     s32 effects_left;
@@ -104,7 +103,7 @@ void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
             do {
                 effect = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
                 effect_data = effect + 0x20;
-                if (effect != NULL) {
+                if (effect != 0) {
                     ((S_800244BC_3 *)effect)->unk_10 = update_randomized_intermediate_points;
                     effect_data->unk_3C = 0;
                     effect_data->unk_3E = (s16) ((rand() & 3) + 2);

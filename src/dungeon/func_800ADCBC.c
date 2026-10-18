@@ -1,12 +1,11 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 void *func_8003FD64();                  /* extern */
-extern M2C_UNK D_800B328C;
+extern void update_oriented_offset_effect_position(void *state, void *position);
 
 typedef struct S_800B341C_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
 } S_800B341C_0;
@@ -25,8 +24,8 @@ void allocate_payload_object(s32 allocationKey, s32 payloadValue, s16 payloadSho
 
     if (payloadValue != 0) {
         allocatedObject = func_8003FD64(0x210, allocationKey);
-        if (allocatedObject != NULL) {
-            ((S_800B341C_0 *)allocatedObject)->unk_10 = &D_800B328C;
+        if (allocatedObject != 0) {
+            ((S_800B341C_0 *)allocatedObject)->unk_10 = &update_oriented_offset_effect_position;
             objectData = allocatedObject + 0x20;
             ((S_800B341C_0 *)allocatedObject)->unk_20 = allocationKey;
             objectData->unk_04 = payloadValue;

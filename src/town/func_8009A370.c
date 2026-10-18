@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/types3a_types.h"
 
    /* arg0 in spawn_radial_objects */
 
@@ -9,10 +10,7 @@ typedef struct S_80097AD0_1 {
     union { u16 u16; s32 s32; } unk_08;   /* accessed as both */
 } S_80097AD0_1;   /* arg1 in spawn_radial_objects */
 
-typedef struct S_80097AD0_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80097AD0_2;   /* object in spawn_radial_objects */
+   /* object in spawn_radial_objects */
 
 typedef struct S_80097AD0_3 {
     u8 pad_00[0x14];
@@ -49,7 +47,7 @@ void spawn_radial_objects(MovingPosition *origin, S_80097AD0_1 *spread, s32 coun
     s32 angle_component;
     s32 y;
     u16 initial_y;
-    S_80097AD0_2 *object;
+    ObjectPayloadView *object;
 
     if (count != 0) {
         angle_step = 0x1000 / count;

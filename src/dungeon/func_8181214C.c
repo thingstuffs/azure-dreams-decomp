@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-s32 build_menu_text_page(s32 context, s32 scroll_y, s32 entry_count, M2C_UNK list_type) {
+s32 build_menu_text_page(s32 context, s32 scroll_y, s32 entry_count, s32 list_type) {
     s32 slot;
     s32 dest;
     s32 entry_type;

@@ -5,14 +5,13 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/dungeon_delay_views.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_8199AAD4_0_pre {
-    u16 unk_00;
-} S_8199AAD4_0_pre;   /* the 0x2 bytes before self in update_source_relative_position_delays_movement_advances_arc_toward_target, addressed as self[-1] */
+
 
 typedef struct S_8199AAD4_0 {
     void * unk_00;
@@ -79,10 +78,7 @@ typedef struct S_8199AAD4_8 {
     void * unk_0C;
 } S_8199AAD4_8;   /* call_node in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
-typedef struct S_8199AAD4_9 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_8199AAD4_9;   /* created in update_source_relative_position_delays_movement_advances_arc_toward_target */
+
 
 typedef struct S_8199AAD4_10 {
     u8 pad_00[0x8];
@@ -90,9 +86,7 @@ typedef struct S_8199AAD4_10 {
     void * unk_0C;
 } S_8199AAD4_10;   /* ((S_8199AAD4_0 *)self)->unk_00 in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
-typedef struct S_8199AAD4_11 {
-    u16 unk_00;
-} S_8199AAD4_11;   /* ((S_8199AAD4_0 *)self)->unk_0C in update_source_relative_position_delays_movement_advances_arc_toward_target */
+
 
 
 #define source source_or_step
@@ -131,7 +125,7 @@ void update_source_relative_position_delays_movement_advances_arc_toward_target(
     MovingPosition *position;
     void *entry_base;
     S_8199AAD4_5 *object_entry;
-    S_8199AAD4_9 *created;
+    DelayMotionZ *created;
     u8 *table_end;
     u8 *table_start;
     u8 *table_start_2;
@@ -171,7 +165,7 @@ void update_source_relative_position_delays_movement_advances_arc_toward_target(
             }
         }
 
-        if (((S_8199AAD4_11 *)(((S_8199AAD4_0 *)self)->unk_0C))->unk_00 & 0x80) {
+        if (((u16 *)(((S_8199AAD4_0 *)self)->unk_0C))[0] & 0x80) {
             ((S_8199AAD4_0 *)self)->unk_2E.s = 8;
             tail_z = ((S_8199AAD4_0 *)self)->unk_28.u;
             target_node = 9;
@@ -194,9 +188,9 @@ finish:
         ((S_8199AAD4_2 *)coords)->unk_08.at00.v = target[2];
         spawn_blinking_sprite_flash(((S_8199AAD4_2 *)coords)->unk_00.at02u.v, ((S_8199AAD4_2 *)coords)->unk_04.at02u.v,
                       ((S_8199AAD4_2 *)coords)->unk_08.at02u.v);
-        tail_z = ((S_8199AAD4_0_pre *)self)[-1].unk_00;
+        tail_z = ((u16 *)self)[-1];
         global_flags = (s32 *)0x80080000;
-        ((S_8199AAD4_0_pre *)self)[-1].unk_00 = tail_z | 0x8000;
+        ((u16 *)self)[-1] = tail_z | 0x8000;
         count = ((S_8199AAD4_0 *)self)->unk_28.p;
         flags_value = ((S_8199AAD4_4 *)global_flags)->unk_14A0;
         count++;

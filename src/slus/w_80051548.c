@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_80051548_Ptr
 {
@@ -26,13 +27,7 @@ typedef struct S_80051548_VolState
     s16 field0C;
 }
 S_80051548_VolState;
-typedef struct S_80051548_Vec
-{
-    s32 x;
-    s32 y;
-    s32 z;
-}
-S_80051548_Vec;
+
 typedef struct S_80051548_Flags
 {
     u8 unk[0xC];
@@ -46,7 +41,7 @@ extern s32 rsin(s32 angle);
 extern s32 rcos(s32 angle);
 extern s32 D_800814A0_abs __attribute__((section(".data")));
 /* Advances staged object motion and marks completion. */
-void func_80051548(S_80051548_Obj *obj, S_80051548_Vec *position, S_80051548_Flags *flags)
+void func_80051548(S_80051548_Obj *obj, IntVector3 *position, S_80051548_Flags *flags)
 {
     s16 state;
     u16 prior_state;

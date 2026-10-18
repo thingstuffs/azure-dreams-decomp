@@ -9,7 +9,7 @@ typedef struct S_80175060_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80175060_0;
 
 typedef struct S_80175060_1 {
@@ -41,10 +41,10 @@ typedef struct S_80175060_3 {
 
 void func_8003DB94(void *, void *, s32);  /* extern */
 s32 func_8004491C();           /* extern */
-M2C_UNK func_800478B8();                      /* extern */
+extern void func_800478B8(void *entity);                      /* extern */
 s32 rand();                                /* extern */
 extern M2C_UNK D_800DEA68;
-extern M2C_UNK D_80174F64;
+extern void update_radial_motion_or_complete(u16 *motion, s32 *position, u8 *object);
 
 /* Creates an object with randomized phase and rotation and copies its initial state. */
 s32 create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec *initial_state) {
@@ -60,7 +60,7 @@ s32 create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec *in
 
     object = func_8003FC64(0x212);
     if (object != NULL) {
-        ((S_80175060_0 *)object)->unk_10 = &D_80174F64;
+        ((S_80175060_0 *)object)->unk_10 = &update_radial_motion_or_complete;
         biased_phase = rand();
         phase_rand = biased_phase;
         part = object + 0x20;

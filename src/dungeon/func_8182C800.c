@@ -78,7 +78,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
     s32 direction_offset;
     s32 distance_fixed;
     s32 spread_decay;
-    M2C_UNK accel_x;
+    s32 accel_x;
     s32 distance_x;
     s32 motion_extent;
     s32 target;
@@ -265,7 +265,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
         trail_texture = D_800DEC28;
 spawn_trail:
         object = func_8003FD64(0x312, (ObjectNodeHeader **)&D_80083498);
-        if (object != NULL) {
+        if (object != 0) {
             sprite_work = (s32)(((S_8182C800_8 *)object)->unk_0C);
             ((S_8182C800_8 *)object)->unk_10 = (void *)move_the_effect_count_down_timer_fade_sprite_black;
             frame.vel_x = 0 - ((motion_extent = func_80069EF8()) & 0x1FF);
@@ -407,7 +407,7 @@ spawn_trail:
                 distance_x = 0x50;
                 do {
                     object = func_8003FD64(0x312, (ObjectNodeHeader **)&D_80083498);
-                    if (object != NULL) {
+                    if (object != 0) {
                         burst_sprite = ((S_8182C800_8 *)object)->unk_0C;
                         ((S_8182C800_8 *)object)->unk_10 = (void *)advance_motion_damping_downward_acceleration_count_down_fade_effect;
                         ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_00 =

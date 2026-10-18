@@ -2,7 +2,6 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_800DEAE0[];
@@ -11,7 +10,7 @@ typedef struct S_800F6090_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800F6090_0;
 
 typedef struct S_800F6090_1 {

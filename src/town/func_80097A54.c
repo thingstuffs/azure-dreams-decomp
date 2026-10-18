@@ -1,11 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/types3a_types.h"
 
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3;
 
 typedef struct {
     u8 pad[0xC];
@@ -23,21 +19,21 @@ typedef struct {
 extern s16 input_angle_with_offset(s32, s16);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void func_800652AC(Vec3 *, Vec3 *, Vec3 *);
+extern void func_800652AC(IntVector3 *, IntVector3 *, IntVector3 *);
 
 /* Moves the actor perpendicular to the selected direction unless the step changes sides. */
 void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(Actor *actor)
 {
-    Vec3 direction;
-    Vec3 step;
-    Vec3 position;
-    Vec3 side_result;
+    IntVector3 direction;
+    IntVector3 step;
+    IntVector3 position;
+    IntVector3 side_result;
     s16 direction_index;
     s32 initial_side;
     s32 fixed_coord;
-    Vec3 *direction_ptr;
-    Vec3 *position_ptr;
-    Vec3 *call_result;
+    IntVector3 *direction_ptr;
+    IntVector3 *position_ptr;
+    IntVector3 *call_result;
 
     direction_index = input_angle_with_offset(g_game_work.buttons, g_game_work.view.viewAngle);
     if (direction_index == -1) {

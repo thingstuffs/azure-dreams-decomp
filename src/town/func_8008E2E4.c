@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_8008BA44_0 {
     void * unk_00;
@@ -9,10 +10,7 @@ typedef struct S_8008BA44_0 {
     s32 unk_6C;
 } S_8008BA44_0;   /* obj in decrease_town_map_object_field_0a_and_transition */
 
-typedef struct S_8008BA44_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_8008BA44_1;   /* inner in decrease_town_map_object_field_0a_and_transition */
+   /* inner in decrease_town_map_object_field_0a_and_transition */
 
 typedef struct S_8008BA44_2 {
     u8 pad_00[0xA];
@@ -27,7 +25,7 @@ extern s32 D_800CFC7C[];
 /* Decrement the inner value, clamping it to zero and resetting object state if it becomes negative. */
 void decrease_town_map_object_field_0a_and_transition(S_8008BA44_0 *obj)
 {
-    S_8008BA44_1 *state;
+    UnsignedCountdownView *state;
     S_8008BA44_2 *signed_state;
     s32 reset_data;
 

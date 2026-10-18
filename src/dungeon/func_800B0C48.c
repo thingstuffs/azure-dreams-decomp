@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_800B63A8_0 {
@@ -32,7 +31,7 @@ typedef struct S_800B63A8_1 {
 } S_800B63A8_1;   /* arg0 in advance_effect_fade_and_flag */
 
 
-M2C_UNK func_800478B8();            /* extern */
+extern void func_800478B8(void *entity);            /* extern */
 
 /* Advance effect motion, fade its color, and flag it when its lifetime expires. */
 void advance_effect_fade_and_flag(void *effect, void *motion, void *primitive) {

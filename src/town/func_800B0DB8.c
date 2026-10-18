@@ -1,12 +1,8 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} UnkStruct_800B0DB8;
 
-extern UnkStruct_800B0DB8 D_80110EB8;
+extern ItemMenuSceneState D_80110EB8;
 
 /* Stores the value, sets the state to 3, and returns 2. */
 s32 set_item_menu_state_three(s32 value) {

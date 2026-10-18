@@ -7,7 +7,6 @@ const Copy24 D_80024014 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 
 extern s32 func_800644B8(s32);
 extern void func_80064840(void *, void *, void *);
@@ -63,7 +62,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     u16 saved_draw_control;
     s32 callback_arg;
     void *part;
-    M2C_UNK tag_mask;
+    s32 tag_mask;
     s16 flipped_x;
     s16 start_x;
     s16 end_x;

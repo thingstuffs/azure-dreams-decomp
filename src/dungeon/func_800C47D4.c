@@ -5,7 +5,6 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800C9F34_arg0.h"
 
-typedef s32 M2C_UNK;
 
 
 extern s32 check_entity_relation();

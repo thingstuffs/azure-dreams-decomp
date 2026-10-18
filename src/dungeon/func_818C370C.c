@@ -1,10 +1,9 @@
 #include "shared/object_node.h"
 #include "common.h"
-typedef long long s64;
+#include "m2c_compat.h"
 
+#include "records/Rec_D_80082E80.h"
 
-
-typedef s32 M2C_UNK;
 
 typedef struct {
     s32 words[6];
@@ -19,14 +18,14 @@ typedef struct {
 extern s32 D_80045C34[3];
 s32 func_8004491C();
 s32 func_80069EF8();
-extern M2C_UNK D_80024C48;
+void func_80024C48(void *effect, void *motion, Rec_D_80082E80 *visual);
 extern M2C_UNK D_80025AF0;
 
 typedef struct S_818C370C_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
 } S_818C370C_0;
@@ -73,7 +72,7 @@ s32 func_818C370C(S_818C370C_2 *owner, void *source_data) {
     object = func_8003FC64(0x212);
     if (object != 0) {
         state = object + 0x20;
-        ((S_818C370C_0 *)object)->unk_10 = &D_80024C48;
+        ((S_818C370C_0 *)object)->unk_10 = &func_80024C48;
         ((S_818C370C_0 *)object)->unk_20 = owner;
         state->unk_0E = 0;
         state->unk_10 = 0;

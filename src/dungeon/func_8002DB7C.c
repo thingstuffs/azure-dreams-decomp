@@ -1,14 +1,13 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK apply_object_setup_and_update();    /* extern */
-M2C_UNK set_record_data_pointer(void *);                            /* extern */
+s32 apply_object_setup_and_update(void *, s32, s32);    /* extern */
+s32 set_record_data_pointer(void *);                            /* extern */
 
 
 /* Decrements an object's countdown and invokes both handlers when it expires. */
-void advance_object_countdown_and_invoke_handlers(Rec_func_80094268_arg0 *object, M2C_UNK handlerContext, M2C_UNK handlerData) {
+void advance_object_countdown_and_invoke_handlers(Rec_func_80094268_arg0 *object, s32 handlerContext, s32 handlerData) {
     u16 remainingCount;
 
     remainingCount = object->unk_6C.as_u16 - 1;

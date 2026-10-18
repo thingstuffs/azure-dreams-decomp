@@ -1,13 +1,14 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
 
-M2C_UNK func_80048A44(); /* extern */
+typedef struct S_80048A44_Obj S_80048A44_Obj;
+
+extern void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 s16 get_rounded_facing_and_rounding_flag();       /* extern */
 extern u8 D_800DD030[];
 
@@ -32,7 +33,7 @@ typedef struct S_80091B5C_3 {
 
 /* Initializes the actor's action and turns it toward the current target. */
 void begin_actor_turn_toward_target(void *action, void *unused, void *actor, void *motion) {
-    M2C_UNK distance;
+    s32 distance;
     void *target;
 
     if (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000) {

@@ -21,7 +21,7 @@ typedef struct S_81971760_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_81971760_1;
 
 typedef struct S_81971760_2 {

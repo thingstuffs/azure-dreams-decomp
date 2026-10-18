@@ -4,6 +4,11 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
+#include "shared/entity.h"
+typedef struct R03_80170A28_S_80170A28_2 R03_80170A28_S_80170A28_2;
+typedef struct ActorActionView ActorActionView;
+typedef struct ActorSpriteView ActorSpriteView;
+
 typedef struct S_80DA1000_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -50,8 +55,8 @@ s16 set_or_clear_actor_status_slot(); /* extern */
 s32 generate_random_value();
 void initialize_actor_sprite_and_animation(); /* extern */
 s32 try_move_actor_to_valid_position(); /* extern */
-extern M2C_UNK D_8015EA3C;
-extern M2C_UNK D_8015EE68;
+void func_8015EA3C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
+void func_8015EE68(ActorActionView *action, void *context, ActorSpriteView *sprite, EntityRec *entity);
 extern M2C_UNK D_8016186C;
 
 void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) ;
@@ -77,10 +82,10 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
     saved_type = type_id;
     saved_y = grid_y;
     global_byte = (s32) *(s8 *)-0x56D4;
-    object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
+    object = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
     if (object != NULL) {
         entity = object + 0x20;
-        ((S_80DA1000_0 *)object)->unk_10 = &D_8015EA3C;
+        ((S_80DA1000_0 *)object)->unk_10 = &func_8015EA3C;
         entity->unk_13 = 0x1A;
         func_8004491C(object, func_80045340);
         type_data = ((S_80DA1000_0 *)object)->unk_08;
@@ -114,7 +119,7 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
         initialize_actor_sprite_and_animation(object, type_data, placement, spawn_flags);
         entity_data->unk_9A = 0xFF;
         entity_data->unk_9C = -1;
-        entity_data->unk_8C = &D_8015EE68;
+        entity_data->unk_8C = &func_8015EE68;
         try_move_actor_to_valid_position(entity_data, type_data, placement, entity);
     }
     return entity;

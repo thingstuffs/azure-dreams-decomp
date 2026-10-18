@@ -1,10 +1,5 @@
 #include "common.h"
-
-typedef struct S_800B8248_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800B8248_2;
-
+#include "shared/types3a_types.h"
 
 
 extern s32 *initialize_shared_script_data();
@@ -50,7 +45,7 @@ void initialize_building_region_resources(void) {
         slot = (void *)((slot_index * 2) + (s32)state_base);
         resource_index = slot->unk_33A4;
         if (resource_index != 0) {
-            ((S_800B8248_2 *)((void *)((resource_index << 5) + (s32)resources)))->unk_0A = 1;
+            ((ResourceSlotStateView *)((void *)((resource_index << 5) + (s32)resources)))->unk_0A = 1;
             region = (slot_index * 8) + D_800D2EA4;
             region_x = region->unk_00;
             region_y = region->unk_01;

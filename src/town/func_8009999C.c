@@ -3,19 +3,11 @@
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "shared/types3a_types.h"
 
-typedef struct S_800970FC_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800970FC_1;   /* coord in draw_entry_overlays */
+   /* coord in draw_entry_overlays */
 
-typedef struct S_800970FC_2 {
-    u16 unk_00;
-} S_800970FC_2;   /* &D_800D0504 in draw_entry_overlays */
+   /* &D_800D0504 in draw_entry_overlays */
 
 typedef struct S_800970FC_3 {
     u8 pad_00[0x8D0];
@@ -51,9 +43,7 @@ typedef struct S_800970FC_6 {
     union { u8 u8; u16 u16; } unk_06;   /* accessed as both */
 } S_800970FC_6;   /* xy in draw_entry_overlays */
 
-typedef struct S_800970FC_7 {
-    u16 unk_00;
-} S_800970FC_7;   /* D_800D04D8 in draw_entry_overlays */
+   /* D_800D04D8 in draw_entry_overlays */
 
 typedef struct S_800970FC_8 {
     u8 pad_00[0x2];
@@ -183,22 +173,22 @@ s32 draw_entry_overlays(void) {
         coord = D_80083780;
 #define D_80083780 (*coord)
         D_800D0460[0] = 0;
-        coord_x = ((S_800970FC_1 *)coord)->unk_02;
-        coord_y = ((S_800970FC_1 *)coord)->unk_06;
+        coord_x = ((SignedPositionView *)coord)->unk_02;
+        coord_y = ((SignedPositionView *)coord)->unk_06;
         height_index = check_masked_value_in_current_range(read_map_cell_at_world_position(coord_x, coord_y) & 0xFFFF);
         if (height_index != 0) {
-            coord_z = ((S_800970FC_1 *)coord)->unk_0A;
+            coord_z = ((SignedPositionView *)coord)->unk_0A;
             height_delta = (s32) (coord_z - D_800D45AA[height_index]) / 2;
             overlay_height = height_delta + 6;
             if ((u32) ((height_delta + 5) & 0xFFFF) < 0x3FU) {
                 D_800D0460[0] = 1;
                 scratch_control = (u32 *)0x1F80013C;
                 *scratch_control = 0;
-                func_800453E0(NULL, coord, D_800D04E0, (s16) (rotation + ((S_800970FC_2 *)(&D_800D0504))->unk_00));
+                func_800453E0(NULL, coord, D_800D04E0, (s16) (rotation + ((AngleHalfView *)(&D_800D0504))->unk_00));
                 scratch_control = (void *)0;
                 scratch_control = (u32 *)0x1F80013C;
                 *scratch_control = 0;
-                func_800453E0(D_800834B8, coord, entry, (s16) (rotation + ((S_800970FC_2 *)(&D_800D0504))->unk_00));
+                func_800453E0(D_800834B8, coord, entry, (s16) (rotation + ((AngleHalfView *)(&D_800D0504))->unk_00));
                 primitive = ((S_800970FC_3 *)CUR_PAGE)->unk_8D0;
                 ((S_800970FC_3 *)CUR_PAGE)->unk_8D0 = (void *) (primitive + 0xC);
                 func_80067E2C(primitive, CUR_PAGE);
@@ -241,7 +231,7 @@ s32 draw_entry_overlays(void) {
                     u8 *rect;
                     u32 edge_height;
                     rect = D_800D04D8;
-                    quad_x = ((S_800970FC_7 *)D_800D04D8)->unk_00;
+                    quad_x = ((DisplayXHalfView *)D_800D04D8)->unk_00;
                     rect_y = ((S_800970FC_8 *)rect)->unk_02;
                     page_offset = page_index;
                     if (page_offset != 0) {
@@ -382,7 +372,7 @@ s32 draw_entry_overlays(void) {
         scratch_control = (void *)0;
         scratch_control = (u32 *)0x1F80013C;
         *scratch_control = 0;
-        func_800453E0(D_800834B8, coord, entry, (s16) (rotation + ((S_800970FC_2 *)(&D_800D0504))->unk_00));
+        func_800453E0(D_800834B8, coord, entry, (s16) (rotation + ((AngleHalfView *)(&D_800D0504))->unk_00));
         return 0;
     }
     return 0;

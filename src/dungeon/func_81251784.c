@@ -9,9 +9,9 @@ s32 func_8004491C();
 void initialize_actor_sprite_and_animation();
 s32 try_move_actor_to_valid_position();
 void create_attached_sprite_with_offset();
-M2C_UNK func_80173C30();
-extern M2C_UNK D_8017112C;
-extern M2C_UNK D_80171514;
+s32 func_80173C30(void);
+void update_actor_movement_and_height(void *entity_arg, void *motion_arg, void *monster_arg);
+void update_object_animation(void *obj, void *motion, void *part, void *state);
 extern M2C_UNK D_80173E8C;
 extern void *D_80174710;
 
@@ -19,7 +19,7 @@ typedef struct S_80170F84_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80170F84_0;
 
 typedef struct S_80170F84_1 {
@@ -28,7 +28,7 @@ typedef struct S_80170F84_1 {
     u8 pad_14[0x8];
     s32 unk_1C;
     u8 pad_20[0x6C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];
@@ -56,7 +56,7 @@ typedef struct S_80170F84_3 {
     s8 unk_24;
     s8 unk_25;
     u8 pad_26[0x6];
-    M2C_UNK * unk_2C;
+    s32 * unk_2C;
 } S_80170F84_3;
 
 /* Create a dungeon entity and initialize its state and placement. */
@@ -74,11 +74,11 @@ void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile
     saved_tile_x = tile_x;
     saved_height = initial_height;
     saved_tile_y = tile_y;
-    entity = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
+    entity = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
     if (entity != NULL) {
         entity_state = entity + 0x20;
         D_80174710 = entity;
-        ((S_80170F84_0 *)entity)->unk_10 = &D_8017112C;
+        ((S_80170F84_0 *)entity)->unk_10 = &update_actor_movement_and_height;
         entity_state->unk_13 = 0x37;
         func_8004491C(entity, func_80045340);
         world_state = ((S_80170F84_0 *)entity)->unk_08;
@@ -91,7 +91,7 @@ void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile
         initialize_actor_sprite_and_animation(entity, world_state, tile_state, entity_id);
         entity_state->unk_9A = 0xFF;
         entity_state->unk_9C = -1;
-        entity_state->unk_8C = &D_80171514;
+        entity_state->unk_8C = &update_object_animation;
         entity_state->unk_1C = (s32) (entity_state->unk_1C | 0x40000);
         tile_state->unk_10 = 0x20;
         tile_state->unk_14 = (u16) (tile_state->unk_14 | 0xC);

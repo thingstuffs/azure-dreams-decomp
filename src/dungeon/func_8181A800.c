@@ -7,7 +7,6 @@ typedef struct S_8181A800_0 {
     s16 unk_04;
 } S_8181A800_0;   /* arg0 in render_textured_effect_parts; pointer addresses record offset 0x2 */
 
-typedef s32 M2C_UNK;
 
 extern void func_800478B8(void *);
 extern s16 D_80025914[9];

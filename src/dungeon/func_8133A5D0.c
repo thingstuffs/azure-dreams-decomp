@@ -7,7 +7,7 @@
 void *func_8003FD64();               /* extern */
 s32 func_8004491C();           /* extern */
 extern M2C_UNK D_80077854;
-extern M2C_UNK D_801714AC;
+extern void initialize_action_offset_and_notify(void *action, void *position);
 extern s16 D_80173AFC[];
 extern void *D_80175D54;
 extern void *D_80175DB8;
@@ -17,7 +17,7 @@ typedef struct S_801715D0_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_801715D0_1;
 
 typedef struct S_801715D0_2 {
@@ -49,7 +49,7 @@ typedef struct S_801715D0_7 {
 
 typedef struct S_801715D0_8 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
@@ -78,7 +78,7 @@ void create_action_offset_object(void) {
     owner_state = D_80175D54 + 0x20;
     object = func_8003FD64(0x12, D_80175D54);
     if (object != NULL) {
-        ((S_801715D0_1 *)object)->unk_10 = &D_801714AC;
+        ((S_801715D0_1 *)object)->unk_10 = &initialize_action_offset_and_notify;
         object_state = object + 0x20;
         func_8004491C(object, func_80045340);
         render_flags = ((S_801715D0_1 *)object)->unk_0C;

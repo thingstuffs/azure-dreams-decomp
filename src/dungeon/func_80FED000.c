@@ -78,7 +78,7 @@ void *allocate_and_initialize_node(s16 setup_bits, s32 grid_x, s32 grid_y, s16 p
     grid_y = 0;
     state = (void *)grid_y;
     grid_x = 0x112;
-    node = func_8003FD64(grid_x, ((M2C_UNK *)&D_80083498.next));
+    node = func_8003FD64(grid_x, ((s32 *)&D_80083498.next));
     if (node != NULL) {
         state = (DungeonSub1 *)((u8 *)node + 0x20);
         node->field10 = &D_8015EA7C;

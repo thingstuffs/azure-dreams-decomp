@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/object_node.h"
-#include "m2c_compat.h"
 
 extern void * func_8003FD64();
 extern s32 func_8004491C();
@@ -14,7 +13,7 @@ typedef struct S_800BC0A8_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
 } S_800BC0A8_0;
@@ -60,8 +59,8 @@ void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_5
     void *object;
     S_800BC0A8_1 *position;
 
-    object = func_8003FD64(0x202, ((M2C_UNK *)&D_80083498.next));
-    if (object != NULL) {
+    object = func_8003FD64(0x202, ((s32 *)&D_80083498.next));
+    if (object != 0) {
         ((S_800BC0A8_0 *)object)->unk_10 = update_orbiting_color_particle;
         func_8004491C(object, draw_shaded_quad_chain);
         position = ((S_800BC0A8_0 *)object)->unk_08;

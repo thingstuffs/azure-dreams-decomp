@@ -1,7 +1,5 @@
 #include "common.h"
 #include "shared/tile_object.h"
-#include "m2c_compat.h"
-
 extern s32 D_80174CD8[3];
 typedef struct {
     u8 data[24];
@@ -34,8 +32,8 @@ typedef struct S_80171168_2 {
 void move_boss_effect_to_offset(s32 offset_index) {
     const Config24 *offset_table;
     Config24 offsets;
-    M2C_UNK old_cell_mask;
-    M2C_UNK new_cell_mask;
+    s32 old_cell_mask;
+    s32 new_cell_mask;
     u8 *offset_bytes;
     TileObject *origin;
     u8 old_x;

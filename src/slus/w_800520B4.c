@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_800520B4_Sub {
     void *field_0x00;
@@ -20,15 +21,10 @@ typedef struct S_800520B4_Ptr {
     s16 field_0x1E;
 } S_800520B4_Ptr;
 
-typedef struct S_800520B4_Vec {
-    s32 field_0x00;
-    s32 field_0x04;
-    s32 field_0x08;
-} S_800520B4_Vec;
 
 typedef struct S_800520B4 {
     u8 pad_0x00[8];
-    S_800520B4_Vec *vec;
+    IntVector3 *vec;
     S_800520B4_Ptr *ptr;
     void (*update_func)(void);
     u8 pad_0x14[0xC];
@@ -45,7 +41,7 @@ void func_800520B4(S_800520B4 *object, void *context)
 {
     s16 *state_words;
     S_800520B4_Ptr *settings;
-    S_800520B4_Vec *vector;
+    IntVector3 *vector;
 
     object->update_func = func_80051F58;
     state_words = (s16 *)((u8 *)object + 0x20);
@@ -64,7 +60,7 @@ void func_800520B4(S_800520B4 *object, void *context)
     func_8004491C(object, func_80044BB0);
 
     vector = object->vec;
-    vector->field_0x00 = 0x980000;
-    vector->field_0x04 = 0x800000;
-    vector->field_0x08 = 0xA00000;
+    vector->x = 0x980000;
+    vector->y = 0x800000;
+    vector->z = 0xA00000;
 }

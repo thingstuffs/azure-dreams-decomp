@@ -3,8 +3,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
-
 extern s32 func_8004491C();
 void play_sound_if_enabled(s32);
 extern int func_80046398();
@@ -23,7 +21,7 @@ typedef struct S_800B2074_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     u16 * unk_20;
 } S_800B2074_1;
@@ -81,7 +79,7 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
     pos_z = world_z;
     tile_addr = g_game_work.map.cells;
     object = func_8003FC64(0x12);
-    if (object != NULL) {
+    if (object != 0) {
         init_object = object;
         {
             InitSlot slot = { advance_timed_panel_motion };

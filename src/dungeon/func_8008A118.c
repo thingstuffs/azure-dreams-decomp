@@ -8,14 +8,14 @@ void process_unflagged_linked_entries();                         /* extern */
 void process_unflagged_linked_entries_alt(s32);                         /* extern */
 s16 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);          /* extern */
 s32 play_sound_if_enabled(s32);                     /* extern */
-extern M2C_UNK D_80081484;
+extern s32 D_80081484;
 extern M2C_UNK D_800DD25C;
 extern s32 D_800E3540;
 
 
 typedef struct S_8008F878_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0xB];
     u8 unk_9B;
     u8 pad_9C[0x88];

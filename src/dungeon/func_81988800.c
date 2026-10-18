@@ -6,8 +6,9 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-
 typedef s32 M2C_UNK;
+
+
 
 typedef struct S_81988800_0 {
     void * unk_00;

@@ -3,6 +3,7 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082D58.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/types3a_types.h"
 void func_80033D08(void *block_data);
 void func_8003DB94();
 void func_800478B8();
@@ -13,9 +14,7 @@ s32 quantize_heading_to_sector();
 s32 check_heading_past_half_sector();
 
 
-typedef struct S_800AAB20_0_pre {
-    u16 unk_00;
-} S_800AAB20_0_pre;   /* the 0x2 bytes before arg0 in update_person_object, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_person_object, addressed as arg0[-1] */
 
 
 /* Updates an object and its display state, or removes it when requested. */
@@ -30,13 +29,13 @@ void update_person_object(void *object, s32 update_ctx, Rec_D_80082E80 *display)
             *active_flag = 0;
         }
         func_80033D08(object);
-        ((S_800AAB20_0_pre *)object)[-1].unk_00 = (u16) (((S_800AAB20_0_pre *)object)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)object)[-1].unk_00 = (u16) (((ObjectRetirementFlags *)object)[-1].unk_00 | 0x8000);
         object_flag_block.flags = object_flag_block.flags | 0x8000;
         return;
     }
     update_state_when_active(update_ctx);
     ((Rec_D_80082D58 *)object)->unk_50.as_xcdccad(object, object, update_ctx, display);
-    if (!(((S_800AAB20_0_pre *)object)[-1].unk_00 & 0x8000)) {
+    if (!(((ObjectRetirementFlags *)object)[-1].unk_00 & 0x8000)) {
         frame_index = quantize_heading_to_sector(((Rec_D_80082D58 *)object)->unk_72, ((Rec_D_80082D58 *)object)->unk_64);
         if (((Rec_D_80082D58 *)object)->unk_74 != frame_index) {
             func_8003DB94(display, ((Rec_D_80082D58 *)object)->unk_78[frame_index], display->unk_04.as_s8);

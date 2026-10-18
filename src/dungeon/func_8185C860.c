@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
 typedef struct S_8185C860_0 {
@@ -18,8 +17,8 @@ s32 try_apply_status_effect();
 extern u8 D_800E3D68;
 
 /* Apply a randomized effect to eligible targets within two tiles of the center. */
-void apply_randomized_effect_near_center(s16 center_x, s16 center_y, M2C_UNK source, s32 power) {
-    M2C_UNK effect_code;
+void apply_randomized_effect_near_center(s16 center_x, s16 center_y, s32 source, s32 power) {
+    s32 effect_code;
     s16 base_value;
     s32 effect_value;
     s32 distance_x;

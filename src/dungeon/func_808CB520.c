@@ -1,8 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
-
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_800661B0(); /* extern */
+s32 func_800661B0(void *, s32, s32, s32, s32, s32, s32); /* extern */
 s32 get_cached_catalog_glyph();                             /* extern */
 
 typedef struct S_801239B8_0 {

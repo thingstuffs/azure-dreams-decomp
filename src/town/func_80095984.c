@@ -1,6 +1,7 @@
 #include "shared/position_query.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/types3a_types.h"
 
 void initialize_scene_action_record();     /* extern */
 void initialize_motion_action();     /* extern */
@@ -14,19 +15,13 @@ s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();                                /
 extern u8 D_800CFCEF;
 
 
-typedef struct S_800930E4_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800930E4_0;   /* target in update_actor_interaction_actions */
+   /* target in update_actor_interaction_actions */
 
 typedef struct S_800930E4_1 {
     u8 unk_00;
 } S_800930E4_1;   /* &D_800CFCEF in update_actor_interaction_actions */
 
-typedef struct S_800930E4_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800930E4_2;   /* self in update_actor_interaction_actions */
+   /* self in update_actor_interaction_actions */
 
 typedef struct S_800930E4_3 {
     u8 pad_00[0x8];
@@ -36,8 +31,8 @@ typedef struct S_800930E4_3 {
 } S_800930E4_3;   /* state in update_actor_interaction_actions */
 
 /* Updates the target and dispatches actions based on its value, a countdown, and state flags. */
-void update_actor_interaction_actions(void *self_arg, void *target_arg, s32 context_arg) {
-    void *self;
+void update_actor_interaction_actions(void *self_arg, SignedHeightView *target_arg, s32 context_arg) {
+    UnsignedCountdownView *self;
     s32 context;
     s16 target_value;
     u16 countdown;
@@ -53,7 +48,7 @@ void update_actor_interaction_actions(void *self_arg, void *target_arg, s32 cont
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(target_arg);
     if (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0) {
         target_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(target_arg, ((u8 *)&D_800FE488));
-        if ((target_value - ((S_800930E4_0 *)target_arg)->unk_0A) >= 4) {
+        if ((target_value - target_arg->unk_0A) >= 4) {
             if (((S_800930E4_1 *)(&D_800CFCEF))->unk_00 == 0) {
                 initialize_action_object(self, target_arg, context);
                 return;
@@ -61,8 +56,8 @@ void update_actor_interaction_actions(void *self_arg, void *target_arg, s32 cont
         } else if (((S_800930E4_1 *)(&D_800CFCEF))->unk_00 == 0) {
             compute_and_clamps_vector_based_adjustment_updates_town(target_arg, target_value, ((u8 *)&D_800FE488));
         }
-        countdown = ((S_800930E4_2 *)self)->unk_0A - 1;
-        ((S_800930E4_2 *)self)->unk_0A = countdown;
+        countdown = self->unk_0A - 1;
+        self->unk_0A = countdown;
         if ((s16) countdown >= 0) {
             if (state->buttons & 0xF000) {
                 initialize_motion_action(self, target_arg, context);
@@ -75,8 +70,8 @@ void update_actor_interaction_actions(void *self_arg, void *target_arg, s32 cont
             return;
         }
     } else {
-        busy_countdown = ((S_800930E4_2 *)self)->unk_0A - 1;
-        ((S_800930E4_2 *)self)->unk_0A = busy_countdown;
+        busy_countdown = self->unk_0A - 1;
+        self->unk_0A = busy_countdown;
         if ((s16) busy_countdown >= 0) {
             return;
         }

@@ -12,7 +12,7 @@ typedef struct S_81959E04_0 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x4];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     s16 unk_20;
 } S_81959E04_0;   /* obj in func_81959E04 */

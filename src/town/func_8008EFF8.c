@@ -1,15 +1,16 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 extern int abs(int);
 
-typedef struct { s32 x; s32 y; s32 z; } Vec3i;
+
 typedef struct { s32 x; s32 y; s32 z; s32 pad; } Vec4i;
-typedef struct { Vec3i work; s32 unused[3]; s32 item; } WorkArea;
+typedef struct { IntVector3 work; s32 unused[3]; s32 item; } WorkArea;
 
 extern s32 dot_sign_with_truncated_q_12_coefficients();
 extern s32 forward_surface_query_with_argument();
 
 /* Selects the item with the smallest corrected probe value across the offsets. */
-s16 select_lowest_corrected_probe(Vec3i *origin, Vec4i *items, s32 count, s32 *best_item,
+s16 select_lowest_corrected_probe(IntVector3 *origin, Vec4i *items, s32 count, s32 *best_item,
                   u16 best_value, s32 initial_item)
 {
     WorkArea probe;

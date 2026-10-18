@@ -4,7 +4,6 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
 extern int abs(int);
 
 
@@ -31,7 +30,7 @@ void func_80024020(void *state, TrailMotion *motion, void *source_data) {
     s32 step_y;
     s32 offset_x;
     s32 offset_y;
-    M2C_UNK distance_or_script;
+    s32 distance_or_script;
     s32 abs_y;
     s32 dir_offset;
     s32 coord_x;
@@ -78,7 +77,7 @@ void func_80024020(void *state, TrailMotion *motion, void *source_data) {
         header_raw = (u32)scan_monster_along_heading(actor, end_x, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
     }
     actor->unk_60 = (TrailActor *)header_raw;
-    if (((TrailActor *)header_raw) != NULL) {
+    if (((TrailActor *)header_raw) != 0) {
         goto use_target;
     }
     distance_or_script = 0;
@@ -150,14 +149,14 @@ start_motion:
     case 2:
     motion->unk_14 = (s32) (motion->unk_14 + 0x100);
     coord_y = 0;
-    if (actor->unk_60 == NULL) {
+    if (actor->unk_60 == 0) {
         coord_y = -1;
     }
     coord_x = 2;
     distance_or_script = (s32)&update_flickering_effect_vertices;
 next_effect:
-    effect = func_8003FD64(0x201, ((M2C_UNK *)&D_80083498.next));
-    if (effect != NULL) {
+    effect = func_8003FD64(0x201, ((s32 *)&D_80083498.next));
+    if (effect != 0) {
         effect->unk_10 = distance_or_script;
         func_8004491C(effect, func_80024A1C);
         duration = state_obj->unk_50;
@@ -190,14 +189,14 @@ next_effect:
     }
     state_obj->unk_50 = 5U;
     state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
-    if (actor->unk_60 != NULL) {
+    if (actor->unk_60 != 0) {
         return;
     }
 start_hit:
     state_obj->unk_0A = 3;
     return;
     case 3:
-    if (actor->unk_60 != NULL) {
+    if (actor->unk_60 != 0) {
         apply_attack_power_and_element_effects(actor->unk_60, 0x10, state_obj->unk_09, 4, (s32) (s16) actor->unk_2A, actor, 2);
     }
     state_obj->unk_50 = 0x10U;

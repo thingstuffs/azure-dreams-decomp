@@ -1,9 +1,7 @@
 #include "slus/cd_cohort_types.h"
 
 
-typedef struct S_80083164 {
-    u16 unk0; /* Observed prefix; enclosing extent is unknown. */
-} S_80083164;
+
 
 
 /* RETAIL jump table for the state==1 dispatch: an ABSOLUTE in
@@ -15,7 +13,7 @@ typedef struct S_80083164 {
 extern u8  D_800814D1[1];    /* Observed tail-index byte view; no storage ownership. */
 extern u8  D_800814D8[8];     /* CdReadSync buffer (retail extent 8: small data at -G8) */
 extern u32 D_80081480[1];     /* retail extent 5: small data at -G8 */
-extern S_80083164 D_80083164[];
+extern u16 D_80083164[];
 
 extern int  CdSync(int mode, u8 *result);
 extern int  CdControl(u8 com, u8 *param, u8 *result);
@@ -490,7 +488,7 @@ process_queue:
     }
 
 finish:
-    if ((D_80083164[0].unk0 & 0x7FFF) == 0)
+    if ((D_80083164[0] & 0x7FFF) == 0)
         D_80083958[0].counter1 = 0;
     D_800814D0 = D_800814D0 & 0x1F;
 }

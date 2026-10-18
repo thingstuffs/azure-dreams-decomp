@@ -8,7 +8,7 @@ void *func_8003FD64();
 extern s32 func_8004491C();
 s32 func_8004DA74();
 s32 build_positioned_text_glyphs();
-M2C_UNK func_8004E5A0();
+extern char * func_8004E5A0(int value, unsigned short width, char *buf);
 s32 func_80069E98();
 void *func_800B119C();
 extern s32 allocate_panel_offset_or_zero(void);
@@ -58,13 +58,13 @@ void *create_panel_effect_object(void *owner)
         *((u16 *) (((s8 *) panel_pos) + 6)) = (u16) (*((u16 *) (((s8 *) owner_pos) + 6)));
         *((s16 *) (((s8 *) panel_pos) + 0xA)) = (s16) ((*((u16 *) (((s8 *) owner_pos) + 0xA)))
             - (D_800DDC40[*((u8 *) (((s8 *) entity) + 0x13))] + 0x50));
-        *((M2C_UNK **) (((s8 *) panel) + 0x10)) = update_attached_effect_position;
+        *((s32 **) (((s8 *) panel) + 0x10)) = update_attached_effect_position;
         func_8004491C(panel, transform_linked_quad_batches, owner_pos, panel_pos);
         panel_data = panel + 0x20;
         *((void **) (((s8 *) panel_data) + 0x14)) = entity;
         *((void **) (((s8 *) panel) + 0x20)) = (void *) (panel + 0x70);
         *((void **) (((s8 *) panel_data) + 4)) = (void *) (panel + 0x58);
-        *((M2C_UNK **) (((s8 *) panel) + 0x70)) = &D_80077FEC;
+        *((s32 **) (((s8 *) panel) + 0x70)) = &D_80077FEC;
         *((s32 *) (((s8 *) panel) + 0x58)) = color_or_addr;
         prim = allocate_panel_offset_or_zero();
         *((void **) (((s8 *) panel_data) + 0x28)) = prim;

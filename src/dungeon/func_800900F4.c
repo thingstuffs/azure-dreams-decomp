@@ -2,7 +2,6 @@
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
 typedef struct S_80095854_0 {
@@ -54,13 +53,13 @@ s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 
     ((S_80095854_0 *)record)->unk_9A = 0x31;
     ((S_80095854_0 *)record)->unk_9B = 0;
     ((S_80095854_0 *)record)->unk_8C = 0;
-    if (child != NULL) {
+    if (child != 0) {
         value = ((S_80095854_1 *)child)->unk_13;
         value = value > 0;
         status = value;
     }
     clear_player_linked_action_flags();
-    (*(M2C_UNK **)((u8 *)pointer_data + 0x2C)) = &D_800DD130;
+    (*(s32 **)((u8 *)pointer_data + 0x2C)) = &D_800DD130;
     func_80048A44(pointer_data, *((((s32) (g_game_work.view.viewAngle + ((S_80095854_0 *)record)->unk_2A + 0x100) >> 9) & 7)
         + &D_800DD130), 0, 1);
     D_80082E80.unk_030 = input_value;

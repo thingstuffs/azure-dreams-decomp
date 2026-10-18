@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_800A86BC_0 {
     s32 unk_00;
@@ -11,16 +12,13 @@ typedef struct S_800A86BC_0 {
     s32 unk_14;
 } S_800A86BC_0;   /* arg1 in update_fading_effect_motion */
 
-typedef struct S_800A86BC_1_pre {
-    u16 unk_00;
-} S_800A86BC_1_pre;   /* the 0x2 bytes before arg0 in update_fading_effect_motion, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_fading_effect_motion, addressed as arg0[-1] */
 
 typedef struct S_800A86BC_1 {
     u8 pad_00[0x2];
     u16 unk_02;
     s32 unk_04;
 } S_800A86BC_1;   /* arg0 in update_fading_effect_motion */
-
 
 
 extern void func_800478B8();
@@ -45,7 +43,7 @@ void update_fading_effect_motion(void *effect, S_800A86BC_0 *motion, Rec_D_80082
     ticks_left = ((S_800A86BC_1 *)effect)->unk_02 - 1;
     ((S_800A86BC_1 *)effect)->unk_02 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        ((S_800A86BC_1_pre *)effect)[-1].unk_00 = ((S_800A86BC_1_pre *)effect)[-1].unk_00 | 0x8000;
+        ((ObjectRetirementFlags *)effect)[-1].unk_00 = ((ObjectRetirementFlags *)effect)[-1].unk_00 | 0x8000;
         object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

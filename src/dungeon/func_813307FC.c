@@ -2,6 +2,11 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
+#include "records/Rec_D_80082E80.h"
+
+struct Dst;
+struct Elem;
+
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
     u8 pad_00[0x2];
@@ -13,18 +18,17 @@ typedef struct {
 #define NULL 0
 #endif
 
-typedef s32 M2C_UNK;
 
 
 typedef struct {
     s32 words[8];
 } __attribute__((packed)) LocalTable;
 
-extern M2C_UNK func_8003DB94();
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 extern s32 func_8004491C();
 extern u8 D_800DEAE0[];
 extern LocalTable D_8016482C;
-extern M2C_UNK D_80167540[3];
+void update_flickering_layer_sprite(void *effect_data, void *unused, Rec_D_80082E80 *effect);
 extern s32 D_80175D50;
 
 
@@ -43,7 +47,7 @@ typedef struct S_801677FC_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_801677FC_2;
 
 typedef struct S_801677FC_3 {
@@ -110,7 +114,7 @@ void create_forward_layered_sprite_pulse(void)
             effect_state = effect + 0x20;
             effect_state->unk_18 = 0xE;
             effect_state->unk_1A = 0xE;
-            ((S_801677FC_2 *)effect)->unk_10 = D_80167540;
+            ((S_801677FC_2 *)effect)->unk_10 = update_flickering_layer_sprite;
             func_8004491C(effect, func_80045340);
             render_flags = ((S_801677FC_2 *)effect)->unk_0C;
             render_flags->unk_10 = 0x60;

@@ -1,9 +1,6 @@
 #include "common.h"
 
 
-
-typedef s32 M2C_UNK;
-
 void update_state_activity_flags();
 extern s32 D_800E5910;
 

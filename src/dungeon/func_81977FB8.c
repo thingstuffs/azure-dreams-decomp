@@ -3,6 +3,7 @@
 #include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
+
 struct TargetVec;
 extern struct TargetVec *D_80026208[];
 void *func_8003FD64();
@@ -10,7 +11,7 @@ s32 func_8004491C();
 s32 func_800644B8();
 s32 func_80064584();
 s32 rand();
-extern M2C_UNK D_8002560C;
+extern void expand_fade(void *effect, void *position, void *sprite);
 extern M2C_UNK D_80026180;
 typedef struct TargetSub {
     u8 pad0[4];
@@ -61,7 +62,7 @@ void create_an_random_angle_height_offset_around_reference_position(void)
     obj = func_8003FD64(0x212, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         motion = &obj->sub;
-        obj->field10 = &D_8002560C;
+        obj->field10 = &expand_fade;
         motion->field4 = 0;
         motion->field6 = 0x20;
         angle_random = rand();

@@ -13,7 +13,7 @@ void set_record_integer_tile_center();
 s32 advance_status_timers();
 s32 play_sound_if_enabled();
 void reduce_actor_food_meter();
-extern M2C_UNK D_80170E9C;
+void update_entity_actions_facing_and_animation(void *entity, s32 context, void *sprite, void *state);
 extern u8 D_80174F30;
 extern u8 D_80174F38;
 extern u8 D_80174F40;
@@ -154,7 +154,7 @@ void advance_action_phases_and_animation(void *action, EntityRec *motion, void *
         motion->unk_0C = 0;
         ((S_80172524_0 *)action)->unk_98 = (u16) (((S_80172524_0 *)action)->unk_98 & 0xFFF7);
         reduce_actor_food_meter(actor, 0x100);
-        ((S_80172524_0 *)action)->unk_8C = &D_80170E9C;
+        ((S_80172524_0 *)action)->unk_8C = &update_entity_actions_facing_and_animation;
         g_dungeon_status.unk_0C = 0;
         ((EntityRec *)actor)->unk_46 = (u16) ((*(u16 *)((u8 *)actor + (0x46))) & 0x7FFF);
         advance_status_timers(actor);

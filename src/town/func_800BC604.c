@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082D58.h"
+#include "shared/dungeon_delay_views.h"
 
 
 extern void func_80033D08(void *);
@@ -9,10 +10,7 @@ extern s32 func_80064584(s32);
 extern void unlink_scene_list_node(void *);
 
 
-typedef struct S_800B9D64_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800B9D64_1;   /* arg1 in update_angle_driven_offset */
+   /* arg1 in update_angle_driven_offset */
 
 typedef struct S_800B9D64_2 {
     u8 pad_00[0x66];
@@ -20,7 +18,7 @@ typedef struct S_800B9D64_2 {
 } S_800B9D64_2;   /* ((Rec_D_80082D58 *)arg0)->unk_9C in update_angle_driven_offset */
 
 /* Updates an angle-driven offset and handles inactive objects. */
-void update_angle_driven_offset(void *object, void *offset_state)
+void update_angle_driven_offset(void *object, DelayMotionZ *offset_state)
 {
     s16 angle;
     s16 decay_angle;
@@ -39,7 +37,7 @@ void update_angle_driven_offset(void *object, void *offset_state)
     sector = angle / 0x200;
     if ((s8)(sector % 4) == ((Rec_D_80082D58 *)object)->unk_97) {
         phase_value = func_800644B8((s16)(angle % 0x200) * 2);
-        ((S_800B9D64_1 *)offset_state)->unk_08 = -((phase_value >> 4) * 0x1E00);
+        offset_state->unk_08 = -((phase_value >> 4) * 0x1E00);
         ((Rec_D_80082D58 *)object)->unk_66 = 30;
         return;
     }
@@ -54,12 +52,12 @@ void update_angle_driven_offset(void *object, void *offset_state)
                      * ((Rec_D_80082D58 *)object)->unk_66) << 8;
         offset = -amplitude;
 
-        ((S_800B9D64_1 *)offset_state)->unk_08 = offset;
+        offset_state->unk_08 = offset;
         if (offset > 0) {
-            ((S_800B9D64_1 *)offset_state)->unk_08 = amplitude;
+            offset_state->unk_08 = amplitude;
             return;
         }
     } else {
-        ((S_800B9D64_1 *)offset_state)->unk_08 = 0;
+        offset_state->unk_08 = 0;
     }
 }

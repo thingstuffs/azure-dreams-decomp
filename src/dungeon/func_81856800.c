@@ -6,6 +6,8 @@
 #include "shared/dungeon_status.h"
 
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/types3c_types.h"
 
 typedef struct S_func_81856800_1 {
     void * unk_00;
@@ -97,11 +99,7 @@ typedef struct S_func_81856800_4 {
     void * unk_20;
 } S_func_81856800_4;
 
-typedef struct S_func_81856800_5 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_func_81856800_5;
+
 
 typedef struct S_func_81856800_6 {
     void * unk_00;
@@ -152,14 +150,9 @@ typedef struct S_func_81856800_8 {
     void * unk_04;
 } S_func_81856800_8;
 
-typedef struct S_func_81856800_9 {
-    u16 unk_00;
-} S_func_81856800_9;
 
-typedef struct S_func_81856800_10 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_func_81856800_10;
+
+
 
 typedef struct S_func_81856800_11 {
     u8 pad_00[0x4];
@@ -210,14 +203,14 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
     S_func_81856800_2 *motion;
 #endif
     S_func_81856800_3 *object;
-    S_func_81856800_5 *owner;
+    MovingTile *owner;
     S_func_81856800_4 *object_base;
     S_func_81856800_4 *effect;
     S_func_81856800_6 *part;
 #ifdef __mips__
     S_func_81856800_7 *particle_data;
 #endif
-    S_func_81856800_10 *model;
+    EffectObjectPayloadView *model;
     S_func_81856800_11 *src_point;
     s16 coord_offset[3];
     s32 state;
@@ -326,10 +319,10 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
     switch (state) {
     case 0:
     {
-        S_func_81856800_9 *control;
+        u16 *control;
 
         control = action->unk_04;
-        if ((control->unk_00 & 0x80) == 0) {
+        if ((control[0] & 0x80) == 0) {
             return;
         }
     }
@@ -340,8 +333,8 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
 
 
             part = ((S_func_81856800_4 *)((u8 *)object->unk_60 - 32))->unk_0C;
-            object->unk_72.u8_72 = ((S_func_81856800_5 *)part)->unk_24;
-            object->unk_73.u8_73 = ((S_func_81856800_5 *)part)->unk_25;
+            object->unk_72.u8_72 = ((MovingTile *)part)->unk_24;
+            object->unk_73.u8_73 = ((MovingTile *)part)->unk_25;
         }
         model = object_base->unk_0C;
         if (resolve_record_orientation_or_fallback(model->unk_08, model, coord_offset, 0) == 0) {
@@ -632,7 +625,7 @@ case2_spawn_loop:
             return;
         }
         g_dungeon_status.unk_0C = 0;
-        ((S_func_81856800_9 *)((u8 *)action - 2))->unk_00 |= 0x8000;
+        ((u16 *)((u8 *)action - 2))[0] |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }
     }

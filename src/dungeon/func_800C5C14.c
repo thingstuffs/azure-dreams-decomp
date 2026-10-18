@@ -1,8 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
-
-M2C_UNK func_800478B8();                      /* extern */
+void func_800478B8(void *entity);                      /* extern */
 typedef struct S_800CB374_0_pre {
     u16 unk_00;
 } S_800CB374_0_pre;   /* the 0x2 bytes before arg0 in fade_effect_primitive, addressed as arg0[-1] */

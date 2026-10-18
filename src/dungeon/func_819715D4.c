@@ -1,6 +1,8 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
+
+struct Dst;
+struct Elem;
 
 typedef struct Bank1990800_19915d4_Sprite Bank1990800_19915d4_Sprite;
 typedef struct Bank1990800_19915d4_Object Bank1990800_19915d4_Object;
@@ -29,7 +31,7 @@ struct Bank1990800_19915d4_Object {
     s16 unk5A;
 };
 
-M2C_UNK func_8003DB94();
+extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 s32 rand();
 extern u8 D_800DECF8[];
 
@@ -59,7 +61,7 @@ void func_80024DD4(u16 *source, s32 unused_1, s32 unused_2, s16 base_x, s16 base
     u8 *object_data;
 
     object = func_8003FC64(0x212);
-    if (object != NULL) {
+    if (object != 0) {
         object_data = (u8 *)object + 0x20;
         ((S_819715D4_0 *)object_data)->unk_38 = 0x14;
         ((S_819715D4_0 *)object_data)->unk_3A = 0x14;

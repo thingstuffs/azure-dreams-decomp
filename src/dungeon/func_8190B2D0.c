@@ -192,9 +192,7 @@ typedef struct S_func_8190B2D0_7 {
     void * unk_34;
 } S_func_8190B2D0_7;
 
-typedef struct S_func_8190B2D0_8 {
-    u16 unk_0;
-} S_func_8190B2D0_8;
+
 
 typedef struct S_func_8190B2D0_9 {
     u8 pad_0[0x4];
@@ -270,7 +268,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                 (u16)(base_z - 64);
         }
 
-        if (((S_func_8190B2D0_8 *)effect->unk_4)->unk_0 & 0x80) {
+        if (((u16 *)effect->unk_4)[0] & 0x80) {
             if (!(effect->unk_7A & 4)) {
                 func_8004491C((u8 *)effect - 32, (s32)func_80045340);
                 sprite->unk_C.at_E_u8.unk_E = 20;

@@ -3,6 +3,7 @@
 
 /* first_pass warm draft: compiles, best score 106 @ 2.7.2 */
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_800500B4_4 {
     u8 pad_00[0x20];
@@ -45,15 +46,9 @@ typedef struct S_800500B4_10 {
     s16 unk_08;
 } S_800500B4_10;   /* ((S_800500B4_5 *)temp_v1)->unk_08 in animate_six_entry_selection_cursor */
 
-typedef struct S_800500B4_11 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800500B4_11;   /* ((S_800500B4_5 *)temp_v1)->unk_04 in animate_six_entry_selection_cursor */
+   /* ((S_800500B4_5 *)temp_v1)->unk_04 in animate_six_entry_selection_cursor */
 
-typedef struct S_800500B4_12 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800500B4_12;   /* ((S_800500B4_6 *)var_a3)->unk_20 in animate_six_entry_selection_cursor */
+   /* ((S_800500B4_6 *)var_a3)->unk_20 in animate_six_entry_selection_cursor */
 
 typedef struct S_800500B4_13 {
     u8 pad_00[0x4];
@@ -75,10 +70,7 @@ typedef struct S_800500B4_16 {
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
 } S_800500B4_16;   /* ((S_800500B4_8 *)(((S_800500B4_4 *)arg0)->unk_20))->unk_04 in animate_six_entry_selection_cursor */
 
-typedef struct S_800500B4_17 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800500B4_17;   /* ((S_800500B4_9 *)(((S_800500B4_4 *)arg0)->unk_24))->unk_04 in animate_six_entry_selection_cursor */
+   /* ((S_800500B4_9 *)(((S_800500B4_4 *)arg0)->unk_24))->unk_04 in animate_six_entry_selection_cursor */
 
 typedef struct S_800500B4_18 {
     u8 pad_00[0x4];
@@ -146,14 +138,14 @@ void animate_six_entry_selection_cursor(S_800500B4_1 *widgets, S_800500B4_0 *ani
     cursor_offset = cursor_offset - 0x28;
     ((S_800500B4_16 *)(((S_800500B4_8 *)(((S_800500B4_4 *)widgets)->unk_20))->unk_04))->unk_0A.s =
         (s16) ((start_index << 4) + cursor_offset);
-    ((S_800500B4_17 *)(((S_800500B4_9 *)(((S_800500B4_4 *)widgets)->unk_24))->unk_04))->unk_0A =
+    ((UnsignedWidgetYView *)(((S_800500B4_9 *)(((S_800500B4_4 *)widgets)->unk_24))->unk_04))->unk_0A =
         (u16) ((S_800500B4_16 *)(((S_800500B4_8 *)(((S_800500B4_4 *)widgets)->unk_20))->unk_04))->unk_0A.u;
     cursor_widget = widgets->unk_20;
-    ((S_800500B4_10 *)(cursor_widget->unk_08))->unk_08 = (s16) (((S_800500B4_11 *)(cursor_widget->unk_04))->unk_0A - 2);
+    ((S_800500B4_10 *)(cursor_widget->unk_08))->unk_08 = (s16) (((UnsignedWidgetYView *)(cursor_widget->unk_04))->unk_0A - 2);
     target_index = anim->unk_1C;
     entry_base = (u8 *) widgets;
     highlight_base = (u8 *) anim;
-    ((S_800500B4_18 *)(((S_800500B4_12 *)(((S_800500B4_6 *)widgets)->unk_20))->unk_08))->unk_04 =
+    ((S_800500B4_18 *)(((WidgetComponentView *)(((S_800500B4_6 *)widgets)->unk_20))->unk_08))->unk_04 =
         (s16) (-(target_index << 9) - ((s32) ((target_index - anim->unk_18) * -(anim->unk_14
         << 9)) / (s32) anim->unk_10));
     for (entry_index = 0; entry_index < 6; entry_index++) {

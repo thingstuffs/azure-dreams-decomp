@@ -4,7 +4,7 @@ void create_four_directional_effects(void *owner_arg, void *motion_arg, void *or
     u16 offsets[3];
     s32 effect_index;
     E_80174084_S_80DE6884_5 *owner;
-    E_80174084_M2C_UNK *effect_data;
+    s32 *effect_data;
     E_80174084_S_80DE6884_0 *origin;
     void *render_config;
     E_80174084_S_80DE6884_2 *render_data;
@@ -18,10 +18,10 @@ void create_four_directional_effects(void *owner_arg, void *motion_arg, void *or
     owner = owner_arg;
     resolve_record_orientation_or_fallback(origin->unk_08, origin, (s16 *)offsets, 0);
     effect_index = 0;
-    effect_data = (E_80174084_M2C_UNK *)((u32)dampen_actor_motion);
+    effect_data = (s32 *)((u32)dampen_actor_motion);
     do {
         effect = func_8003FC64(0x212);
-        if (effect != NULL) {
+        if (effect != 0) {
             render_config = &D_800DEA68;
             render_data = effect->unk_0C;
             effect->unk_10 = effect_data;

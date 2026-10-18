@@ -2,17 +2,16 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
-typedef s32 M2C_UNK;
 
 
 extern void set_record_integer_tile_center();
 extern s32 play_sound_if_enabled();
-extern M2C_UNK D_80170E94;
+void func_80170E94(void *actor, void *context, void *sprite, void *stats);
 
 
 typedef struct S_8017346C_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0xB];
     u8 unk_9B;
     u8 pad_9C[0x12];
@@ -65,7 +64,7 @@ void initialize_actor_motion_transition(S_8017346C_0 *actor, EntityRec *motion, 
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, action->unk_24, action->unk_25);
-        actor->unk_8C = &D_80170E94;
+        actor->unk_8C = &func_80170E94;
         g_dungeon_status.unk_0C = 0;
     }
 }

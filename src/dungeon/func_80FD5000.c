@@ -4,11 +4,16 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
+typedef struct ActionState ActionState;
+typedef struct ActorMotion ActorMotion;
+typedef struct ActorSprite ActorSprite;
+typedef struct CreatureState CreatureState;
+
 typedef struct S_80FD5000_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80FD5000_0;
 
 typedef struct S_80FD5000_1 {
@@ -18,7 +23,7 @@ typedef struct S_80FD5000_1 {
     u8 pad_18[0x4];
     s32 unk_1C;
     u8 pad_20[0x6C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];
@@ -41,7 +46,7 @@ typedef struct S_80FD5000_3 {
     u8 unk_24;
     u8 unk_25;
     u8 pad_26[0x6];
-    M2C_UNK * unk_2C;
+    s32 * unk_2C;
 } S_80FD5000_3;
 
 
@@ -54,7 +59,7 @@ typedef struct S_80FD5000_4 {
 
 void *func_8003FD64();
 s32 func_8004491C();
-M2C_UNK func_800673A0();
+s32 func_800673A0(void *, s32, s32);
 s16 set_or_clear_actor_status_slot(); /* extern */
 s32 generate_random_value();
 void initialize_actor_sprite_and_animation();
@@ -62,7 +67,7 @@ s32 try_move_actor_to_valid_position(); /* extern */
 void *func_8014C984();
 void *func_8014CA40();
 extern M2C_UNK D_8014CB40;
-extern M2C_UNK D_8014CF6C;
+void update_creature_action_and_animation(ActionState *action_state, ActorMotion *motion, ActorSprite *sprite, CreatureState *entity);
 extern M2C_UNK D_80151258;
 extern M2C_UNK D_80151298;
 
@@ -100,7 +105,7 @@ void *create_monster_actor_and_palette(s16 spawn_flags, s16 tile_x, s16 tile_y, 
     S_80FD5000_4 *selected3;
 
     actor_state = 0;
-    created = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
+    created = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
     if (created != 0) {
         actor_state = (S_80FD5000_1 *)((u8 *)created + 0x20);
         created->unk_10 = &D_8014CB40;
@@ -139,7 +144,7 @@ void *create_monster_actor_and_palette(s16 spawn_flags, s16 tile_x, s16 tile_y, 
         appearance_id = monster->unk_12;
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8014CF6C;
+        actor->unk_8C = &update_creature_action_and_animation;
         actor->unk_AE = appearance_id;
 
         entry = (S_80FD5000_4 *)monster->unk_08;

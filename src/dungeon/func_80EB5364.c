@@ -1,17 +1,19 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef s32 M2C_UNK;
+#include "shared/entity.h"
+
 
 void select_indirect_table_entry();
-M2C_UNK func_800478B8();
+void func_800478B8(void *entity);
 void apply_monster_koyaw_data();
 s32 refresh_actor_facing_and_lifecycle();
 s32 try_move_actor_to_valid_position();
 s32 sample_terrain_surface_height();
-extern M2C_UNK D_801711A4[];
+void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, EntityRec *status);
 extern M2C_UNK D_80174174[];
 extern M2C_UNK D_8017418C[];
 extern u8 D_801741D4[];
@@ -25,7 +27,7 @@ typedef struct S_80170B64_0 {
     u8 pad_6E[0x3];
     u8 unk_71;
     u8 pad_72[0x1A];
-    M2C_UNK (*unk_8C)(void *, void *, void *, void *);
+    s32 (*unk_8C)(void *, void *, void *, void *);
     union {
         struct { s32 v; } at00;
         struct { u8 pad[0x2]; s16 v; } at02;
@@ -80,8 +82,8 @@ typedef struct S_80170B64_3 {
 void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void *sprite_arg)
 {
     void *actor_base = actor;
-    M2C_UNK (*update_callback)(void *, void *, void *, void *);
-    M2C_UNK (*pause_callback)(void *, void *, void *, void *);
+    s32 (*update_callback)(void *, void *, void *, void *);
+    s32 (*pause_callback)(void *, void *, void *, void *);
     s16 floor_offset;
     s16 view_direction;
     s16 tile_height;
@@ -97,7 +99,7 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
     if (g_dungeon_status.flags & 0x2000) {
         void *paused_actor = actor;
         pause_callback = ((S_80170B64_0 *)actor)->unk_8C;
-        if (pause_callback == &D_801711A4) {
+        if (pause_callback == &update_actor_animation_and_dispatch) {
             pause_callback(paused_actor, motion, sprite_arg, paused_actor);
             return;
         }
@@ -112,7 +114,7 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
         if (update_callback != 0) {
             update_callback(actor, motion, sprite_arg, actor);
         }
-        ((M2C_UNK (**)(void *, void *, void *, void *))&D_801741D4)
+        ((s32 (**)(void *, void *, void *, void *))&D_801741D4)
         [((S_80170B64_0 *)actor)->unk_9A](actor, motion, sprite_arg, actor);
         if ((s16)previous_state != (s8)((S_80170B64_0 *)actor)->unk_6D) {
             try_move_actor_to_valid_position(actor, motion, sprite_arg, actor);

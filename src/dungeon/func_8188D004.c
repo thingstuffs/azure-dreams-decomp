@@ -1,13 +1,14 @@
 #include "common.h"
+#include "m2c_compat.h"
 
-typedef s32 M2C_UNK;
-
-M2C_UNK func_8002522C();
+#include "shared/object_node.h"
+typedef struct ParticleOrigin ParticleOrigin;
+void *create_moving_fading_particle(ParticleOrigin *origin, s16 angle, s16 radius, s16 height_offset, ObjectNodeHeader **allocation_head);
 void *func_8003FD64();
 s32 func_8004491C();
 
 extern M2C_UNK D_800247AC[3];
-extern M2C_UNK D_80024A68[3];
+s32 draw_adjacent_row_quads(void);
 
 /* Creates an object, copies three source fields to its child, and applies sixteen setup steps. */
 void *create_radial_effect_from_source(s32 type_code, void *source, s32 unused, s32 object_value)
@@ -22,8 +23,8 @@ void *create_radial_effect_from_source(s32 type_code, void *source, s32 unused, 
     type_id = type_code - 0x20;
     object = func_8003FD64(2, type_id);
     if (object != 0) {
-        *(M2C_UNK **)((u8 *)object + 0x10) = D_800247AC;
-        func_8004491C(object, D_80024A68);
+        *(s32 **)((u8 *)object + 0x10) = D_800247AC;
+        func_8004491C(object, draw_adjacent_row_quads);
 
         child = *(void **)((u8 *)object + 8);
         *(u16 *)((u8 *)child + 2) = *(u16 *)((u8 *)source + 2);
@@ -34,7 +35,7 @@ void *create_radial_effect_from_source(s32 type_code, void *source, s32 unused, 
         *(s32 *)((u8 *)object + 0x20) = stored_value;
 
         do {
-            func_8002522C(child, (s16)(step << 8), 0x40, -0x100, source);
+            create_moving_fading_particle(child, (s16)(step << 8), 0x40, -0x100, source);
             step += 1;
         } while (step < 0x10);
     }

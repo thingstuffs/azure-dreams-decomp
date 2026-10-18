@@ -1,13 +1,12 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 /* Frame element pointed to by S_80048A44_Obj.unk0; only the first field (a u16) is read here */
-typedef struct S_80048A44_Frame {
-    /* 0x0 */ u16 unk0;
-} S_80048A44_Frame;
+
 
 /* object touched by this function; only the accessed fields are named */
 typedef struct S_80048A44_Obj {
-    /* 0x00 */ S_80048A44_Frame *unk0;
+    /* 0x00 */ AnimationFrameRate *unk0;
     /* 0x04 */ u8 pad04;
     /* 0x05 */ u8 unk5;
     /* 0x06 */ u8 pad06[0x14 - 0x06];
@@ -53,7 +52,7 @@ void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 sl
     texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags((S_800489F4_Obj *)obj, frame_group, frame_index);
     func_80048998((S_80083110 *)obj, slot_index);
 
-    frame_value = obj->unk0->unk0;
+    frame_value = obj->unk0->value;
     divisor = D_80080A84;
     obj->unk14 = obj->unk14 & 0x9FFF;
     obj->unk5 = (u8)((s32)frame_value / (s32)divisor);

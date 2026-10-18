@@ -1,7 +1,6 @@
 #include "shared/object_node.h"
 #include "modules/dungeon_ovl_18d6800.h"
 #include "common.h"
-#include "m2c_compat.h"
 
    /* obj in spawn_owner_random_variant_effect */
 
@@ -12,11 +11,6 @@
    /* transform in spawn_owner_random_variant_effect */
 
    /* dst in spawn_owner_random_variant_effect */
-
-
-
-
-#define M2C_HIGH_WORD(product) ((s32) ((u64) (product).value >> 32))
 
 
 /* Spawn a 0x212 effect object for the owner with a random variant and spin, and copy the transform into it. */

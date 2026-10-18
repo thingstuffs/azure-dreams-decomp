@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct TownMoveInner {
     s32 unk0[3];
@@ -19,16 +20,11 @@ typedef struct TownMoveGlobal {
     u8 enabled;
 } TownMoveGlobal;
 
-typedef struct TownMoveOut {
-    s32 x;
-    s32 y;
-    s32 z;
-} TownMoveOut;
 
 extern TownMoveGlobal D_800CFCB4;
 
 /* Applies the enabled movement offsets, adding the z offset only when positive. */
-void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(TownMoveOut *out) {
+void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(IntVector3 *out) {
     s32 z_offset;
 
     if (D_800CFCB4.enabled != 0) {

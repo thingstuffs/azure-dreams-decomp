@@ -4,6 +4,10 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
+typedef struct ActionState ActionState;
+typedef struct ActorSprite ActorSprite;
+typedef struct CreatureState CreatureState;
+
 typedef struct S_81017000_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -50,8 +54,8 @@ s16 set_or_clear_actor_status_slot();
 s32 generate_random_value();
 void initialize_actor_sprite_and_animation();
 s32 try_move_actor_to_valid_position();
-extern M2C_UNK D_8015EA78;
-extern M2C_UNK D_8015F058;
+void func_8015EA78(void *obj, void *input_motion, void *input_part);
+void func_8015F058(ActionState *actor, void *context, ActorSprite *sprite_arg, CreatureState *creature);
 extern M2C_UNK D_80162880;
 extern M2C_UNK D_801628E0;
 
@@ -82,7 +86,7 @@ void *handle_spawn_overlay_s_effect_allocate_fill_two_parts_attributes_arm(s16 s
     final_arg0 = spawn_flags;
     if (obj != NULL) {
         work = obj + 0x20;
-        ((S_81017000_0 *)obj)->unk_10 = &D_8015EA78;
+        ((S_81017000_0 *)obj)->unk_10 = &func_8015EA78;
         work->unk_13 = 0x29;
         func_8004491C(obj, func_80045340);
         part_a = ((S_81017000_0 *)obj)->unk_08;
@@ -115,7 +119,7 @@ void *handle_spawn_overlay_s_effect_allocate_fill_two_parts_attributes_arm(s16 s
         initialize_actor_sprite_and_animation(obj, part_a, part_b, final_arg0);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8015F058;
+        actor->unk_8C = &func_8015F058;
         work->unk_1C |= 0x40000;
         actor->unk_92 = -0x18;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);

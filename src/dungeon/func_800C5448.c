@@ -1,12 +1,11 @@
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_800CABA8_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[4];
     union {
         struct { u16 pad_94; s16 ticks; } half;

@@ -8,7 +8,6 @@
 #endif
 
 
-typedef s32 M2C_UNK;
 
 typedef struct S_801656F8_2 {
     u8 pad_00[0x8];

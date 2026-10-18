@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cc5000.h"
 
-void func_80160180(CL_CC5000_80172180_S_80172180_1 *state, M2C_UNK position, CL_CC5000_80172180_S_80172180_2 *render_state, void *entity) {
+void func_80160180(CL_CC5000_80172180_S_80172180_1 *state, s32 position, CL_CC5000_80172180_S_80172180_2 *render_state, void *entity) {
     ((CL_CC5000_80172180_S_80172180_0 *)entity)->unk_71 = (u8) (((CL_CC5000_80172180_S_80172180_0 *)entity)->unk_71 & 0x7F);
     if (!(D_80083462 & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(entity - 0x20, position, 8, 0x300);

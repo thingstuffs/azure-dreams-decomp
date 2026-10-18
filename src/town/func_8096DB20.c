@@ -1,15 +1,13 @@
 #include "common.h"
 #include "records/Rec_func_801237A4_arg0.h"
+#include "shared/types3c_types.h"
 
 
 typedef struct S_80125FB8_1 {
     s32 unk_00;
 } S_80125FB8_1;   /* destination in animate_catalog_detail_to_grid */
 
-typedef struct S_80125FB8_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80125FB8_2;   /* *objects in animate_catalog_detail_to_grid */
+
 
 typedef struct S_80125FB8_3 {
     u8 pad_00[0x2];
@@ -60,7 +58,7 @@ void animate_catalog_detail_to_grid(Rec_func_801237A4_arg0 *state)
     case 3:
         object_index = 0x1C;
         do {
-            object_data = ((S_80125FB8_2 *)(D_80129728[object_index]))->unk_08;
+            object_data = ((CatalogObjectPayloadView *)(D_80129728[object_index]))->unk_08;
             data_value = object_data->unk_02;
             object_index += 1;
             object_data->unk_02 = (u16)(data_value - 0x100);
@@ -74,7 +72,7 @@ void animate_catalog_detail_to_grid(Rec_func_801237A4_arg0 *state)
     case 7:
         object_index = 0x1C;
         do {
-            object_data = ((S_80125FB8_2 *)(D_80129728[object_index]))->unk_08;
+            object_data = ((CatalogObjectPayloadView *)(D_80129728[object_index]))->unk_08;
             data_value = object_data->unk_02;
             object_index += 1;
             object_data->unk_02 = (u16)(data_value - 0x100);

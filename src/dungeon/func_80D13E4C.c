@@ -9,7 +9,7 @@
 
 typedef struct S_8017364C_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0x6];
     u16 unk_96;
     u16 unk_98;
@@ -215,7 +215,7 @@ void update_ability_action_and_completion(void *action, EntityRec *motion, void 
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm != D_80174E88) {
-            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_80174E88;
+            (*(s32 **)((u8 *)sprite + 0x2C)) = D_80174E88;
             func_80047784(sprite, D_80174E88[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v =
                 (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);

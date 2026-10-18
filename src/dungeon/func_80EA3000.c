@@ -1,11 +1,6 @@
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
-
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
-
 extern void clear_slot_and_update_linked_state(void *, void *);
 extern void *place_actor_at_directional_neighbor(void *, u8, u8, s16);
 extern s32 generate_random_value(void);
@@ -44,7 +39,7 @@ typedef struct { s32 value; } ItemWord;
 
     target = place_actor_at_directional_neighbor(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
                            *(s16 *)(actor_bytes + 0x2A));
-    if (target != NULL) {
+    if (target != 0) {
         if (target == (void *)D_800E3D7C[0]) {
             if (func_800C8310(target, target) != 0) {
                 return 0;

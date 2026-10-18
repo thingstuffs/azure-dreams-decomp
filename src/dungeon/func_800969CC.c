@@ -5,9 +5,9 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
-extern u8 D_800E0000[];
 
-#define M2C_BREAK() 0
+typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
+extern u8 D_800E0000[];
 
 s32 func_8003AD08();
 void func_800419EC();
@@ -36,7 +36,7 @@ extern M2C_UNK D_800E0D9E;
 extern M2C_UNK D_800E0DB8;
 extern M2C_UNK D_800E0DDD;
 extern M2C_UNK D_800E0DEA;
-extern M2C_UNK D_800E3648;
+extern ActiveEntry D_800E3648[32];
 
 
 typedef struct S_8009C12C_0 {

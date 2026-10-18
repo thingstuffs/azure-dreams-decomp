@@ -7,6 +7,21 @@
 #include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
+typedef struct {
+    s8 pad_00[0x8C];
+    void *unk_8C;
+} Actor;
+typedef struct {
+    u8 pad_00[0x2C];
+    u8 *unk_2C;
+} Entity;
+typedef struct {
+    u8 pad_00[0x1C];
+    s32 unk_1C;
+    u8 pad_20[0xA];
+    s16 unk_2A;
+} MapObject;
+
 
 typedef struct S_80170E9C_0 {
     u8 pad_00[0x8C];
@@ -67,12 +82,12 @@ s32 reset_actor_action_state();
 s32 process_selected_actor_record();
 void begin_actor_spell_action();
 void update_actor_movement_and_tile_position();
-M2C_UNK func_80171B58();
+extern void func_80171B58(void *);
 s32 check_movement_and_initialize_action();
 void start_directional_animation_if_allowed();
-M2C_UNK func_801737C4();
+extern void func_801737C4(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 s32 complete_timed_tile_movement();
-M2C_UNK func_801747D0();
+extern void func_801747D0(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
 extern u8 D_80174EE0[];
 extern M2C_UNK D_80174EF8;
 extern M2C_UNK D_80174F00;

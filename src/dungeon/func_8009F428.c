@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -17,7 +16,7 @@ typedef struct S_800A4B88_0_pre {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void func_8003DB94();     /* extern */
-M2C_UNK func_8003E188();            /* extern */
+extern void func_8003E188(s32 field_index, s32 flag);            /* extern */
 void func_80041E70();                      /* extern */
 void restore_player_control_callback();              /* extern */
 void cycle_map_cell_flags();             /* extern */
@@ -125,7 +124,7 @@ void apply_entity_action_flags(void *object, s32 action) {
         }
         restore_player_control_callback(object, object);
         update_state = &D_80082E80;
-        (((M2C_UNK *)update_state->unk_02C)) = D_800DD274;
+        (((s32 *)update_state->unk_02C)) = D_800DD274;
         func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (g_game_work.view.viewAngle + (((EntityRec *)object)->facing) + 0x100) >> 7) & 0x1C))), 0);
         reset_index = 3;
         reset_slot = D_80083110;

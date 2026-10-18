@@ -3,9 +3,10 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-extern int abs(int);
 
 typedef s32 M2C_UNK;
+extern int abs(int);
+
 typedef void (*Callback)();
 
 typedef union {
@@ -22,7 +23,7 @@ extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
-extern M2C_UNK D_80171514;
+extern void update_object_animation(void *obj, void *motion, void *part, void *state);
 extern Callback D_80173EF4[];
 extern M2C_UNK D_80173FC8[];
 
@@ -137,7 +138,7 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, void *
 
     if (g_dungeon_status.flags & 0x2000) {
         callback = (*(Callback *)((u8 *)entity_arg + (0x8C)));
-        if (callback == (Callback)&D_80171514) {
+        if (callback == (Callback)&update_object_animation) {
             callback(entity_arg, motion_arg, monster_arg, actor);
             return;
         }

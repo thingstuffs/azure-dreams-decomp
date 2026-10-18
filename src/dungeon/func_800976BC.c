@@ -5,8 +5,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
-
 typedef struct S_8009CE1C_3_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -56,9 +54,9 @@ typedef struct S_8009CE1C_2 {
 extern u8 D_800E3E41;
 void clear_player_linked_action_flags(void);
 s32 clamp_adjusted_value_0_to_99();
-M2C_UNK func_8009CFB4();
-M2C_UNK func_8009CFF4();
-M2C_UNK func_8009D034();
+s32 func_8009CFB4();
+s32 func_8009CFF4();
+s32 func_8009D034();
 extern s32 try_trigger_target_record_effect(EntityRec *entity, s32 flags, Rec_D_800287A4 *record);
 s32 play_sound_if_enabled(s32);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
@@ -86,7 +84,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
     requested_bonus = power_bonus;
     bonus = requested_bonus;
     affinity = 0;
-    if ((target != NULL) && (try_trigger_target_record_effect(target, (u16) element_mask, source_flags) == 0)) {
+    if ((target != 0) && (try_trigger_target_record_effect(target, (u16) element_mask, source_flags) == 0)) {
         if (requested_bonus == 0xFF) {
             bonus = ((S_8009CE1C_0 *)(((u8 *)D_800E3D7C)))->unk_11 * 4;
             if (bonus >= 0x64) {

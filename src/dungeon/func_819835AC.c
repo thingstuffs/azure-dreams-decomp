@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
 void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 *effect, ovl_19a332c_819835AC_S_819835AC_2 *motion, ovl_19a332c_819835AC_S_819835AC_3 *visual) {
-    ovl_19a332c_819835AC_M2C_VEC3S emit_offset;
+    struct { s16 x, y, z; } emit_offset;
     s32 aim_angle;
     s32 angle_mask;
     s32 normalized_angle;
@@ -118,7 +118,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         state = effect->unk_30;
         switch (state) {
         case 0:
-            resolve_record_orientation_or_fallback(*(M2C_UNK *)((((s32) (g_game_work.view.viewAngle
+            resolve_record_orientation_or_fallback(*(s32 *)((((s32) (g_game_work.view.viewAngle
                 + ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
                 + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
             sin_x = func_80064584(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16);
@@ -233,7 +233,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             if (__builtin_abs(approach_gap_z) >= 0x40) {
                 break;
             }
-            resolve_record_orientation_or_fallback(*(M2C_UNK *)((((s32) (g_game_work.view.viewAngle
+            resolve_record_orientation_or_fallback(*(s32 *)((((s32) (g_game_work.view.viewAngle
                 + ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
                 + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
             state1_move = &D_80083780;
@@ -359,7 +359,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             rise_speed = motion->unk_14.word;
             motion->unk_00.word = (s32) (motion->unk_00.word + motion->unk_0C.word);
             motion->unk_04.word = (s32) (motion->unk_04.word + motion->unk_10.word);
-            M2C_SFIELD(motion, 8) = (s32) (motion->unk_08.word + motion->unk_14.word);
+            motion->unk_08.word = (s32) (motion->unk_08.word + motion->unk_14.word);
             if ((s16) motion->unk_08.half.unk_0A.u16 > ((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)((u8 *)&D_800E3D7C
                 + 0)))->unk_88.s16) {
                 motion->unk_08.half.unk_0A.u16 =
@@ -445,12 +445,12 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 break;
             }
             effect->unk_8A = (u16) ((func_80069EF8() & 0x1F) + 0x10);
-            effect->unk_9C = NULL;
+            effect->unk_9C = 0;
             effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
             break;
         case 6:
             target = effect->unk_9C;
-            if (target != NULL) {
+            if (target != 0) {
                 related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) target - 0x20))->unk_08;
                 aim_angle = (s16)forward_monster_coordinate_delta((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
                     related_motion->unk_00.half.unk_02.s16, related_motion->unk_04.half.unk_06.s16);
@@ -539,7 +539,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                             (s16) related_motion->unk_08.half.unk_0A.u16, (s16) effect->unk_38,
                             (func_80069EF8() & 3) | 4);
                         actor_data->unk_1E = (u16) (actor_data->unk_1E | 0x2000);
-                        effect->unk_9C = NULL;
+                        effect->unk_9C = 0;
                         effect->unk_8A = (u16) ((func_80069EF8() & 0x1F) + 0x10);
                     }
                 }
@@ -557,7 +557,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 if ((search_ticks << 0x10) <= 0) {
                     new_target = find_eligible_nearby_entity(&D_80082E80.unk_000);
                     effect->unk_9C = new_target;
-                    if (new_target == NULL) {
+                    if (new_target == 0) {
                         effect->unk_30 = 0x10;
                         effect->unk_8A = 8U;
                     } else {

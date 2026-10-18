@@ -1,7 +1,5 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
-
 typedef struct S_80165164_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -39,8 +37,6 @@ typedef struct S_80165164_1 {
 } S_80165164_1;   /* arg0 in update_converging_fading_particle */
 
 
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
 
 
 /* Update effect motion and color, flagging it near its target or when fully faded. */

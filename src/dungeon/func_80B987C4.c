@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 
 
@@ -28,7 +27,7 @@ void start_directional_animation_if_allowed(void *action_state, void *action_con
             ((S_80171FC4_1 *)action_state)->unk_9A = 0x11;
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((S_80171FC4_1 *)action_state)->unk_9B = 0;
-            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80174F28;
+            (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80174F28;
             func_80047784(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &D_80174F28), 0);
             actor->unk_84 = 0x7C;

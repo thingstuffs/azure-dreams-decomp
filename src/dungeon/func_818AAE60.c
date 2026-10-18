@@ -4,7 +4,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
     ovl_18ca83c_818AAE60_Func818AAE60Scratch scratch;
     s16 *target_dist_cursor;
     s16 *path_dist_cursor;
-    M2C_UNK *destination;
+    s32 *destination;
     s32 state;
     s16 target_frames;
     s16 path_frames;
@@ -60,7 +60,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
         }
         target = ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_60;
         index = 1;
-        if (target != NULL) {
+        if (target != 0) {
             destination = ((ovl_18ca83c_818AAE60_S_80024660_7_pre *)target)[-1].unk_00;
             target_x_dist = ((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_00.at02.v;
             target_x_dist -= ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at02u.v;
@@ -145,7 +145,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
                 saved_y = path_y;
                 last_x = path_x;
             }
-            destination = (M2C_UNK *)&scratch;
+            destination = (s32 *)&scratch;
             index = 1;
             path_dist_cursor = (s16 *)((u8 *)&scratch + 2);
             dest_x = ((last_x << 16) >> 10) + ((dir_step_x[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);

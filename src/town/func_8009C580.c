@@ -4,17 +4,15 @@
 #include "shared/town_handler.h"
 
 
-typedef struct S_80099CE0_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80099CE0_2;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_44 in reset_player_slot_state */
+   /* ((Rec_func_80094268_arg0 *)arg0)->unk_44 in reset_player_slot_state */
 #include "shared/entity.h"
+#include "shared/types3a_types.h"
 void move_player_toward_target_with_timer(Rec_func_80094268_arg0 *motion, EntityRec *position, s32 context);
 
 
 /* Updates the object using its linked data, clears its slot flag, and resets its state. */
 void reset_player_slot_state(Rec_func_80094268_arg0 *object, void *ptr, void *ptr2) {
-    call_the_handler_selects_nonzero_entry((s32 *) ((S_80099CE0_2 *)(((Rec_func_80094268_arg0 *)object)->unk_44))->unk_08, object, ptr2);
+    call_the_handler_selects_nonzero_entry((s32 *) ((HandlerAddressWordView *)(((Rec_func_80094268_arg0 *)object)->unk_44))->unk_08, object, ptr2);
     D_80082660[object->unk_40].unk_00 = 0;
     object->unk_04.as_pm = &move_player_toward_target_with_timer;
     object->unk_0A.as_s16 = 0x20;

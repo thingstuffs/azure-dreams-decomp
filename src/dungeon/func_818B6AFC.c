@@ -1,25 +1,13 @@
 #include "modules/dungeon_ovl_18d6800.h"
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
-
-
-
-
-
-
-
-
-
-
-
    /* the 0x14 bytes before the target, addressed as target[-1] */
 
 
 
 
 /* Cycle through seven colors with fade-in and fade-out, then mark the effect finished. */
-void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, M2C_UNK render_arg, B28_818B6AFC_FxColorOut *color_out) {
+void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_818B6AFC_FxColorOut *color_out) {
     s32 fade_in_color;
     s16 fade_in_green;
     s32 hold_color;

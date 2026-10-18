@@ -8,9 +8,9 @@ extern M2C_UNK D_800E28B8;
 
 typedef struct S_800DCCF4_0 {
     s32 unk_00;
-    M2C_UNK * unk_04;
-    M2C_UNK * unk_08;
-    M2C_UNK * unk_0C;
+    s32 * unk_04;
+    s32 * unk_08;
+    s32 * unk_0C;
 } S_800DCCF4_0;   /* arg0 in initialize_object_tables_2 */
 
 

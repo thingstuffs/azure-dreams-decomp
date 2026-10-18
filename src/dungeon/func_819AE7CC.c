@@ -1,13 +1,12 @@
 #include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
-#include "m2c_compat.h"
 
 
 typedef struct S_80025FCC_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80025FCC_0;
 
 typedef struct S_80025FCC_1 {
@@ -27,7 +26,7 @@ typedef struct S_80025FCC_1 {
 
 typedef struct S_80025FCC_2 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     u8 pad_0C[0x1];
     s8 unk_0D;
     u8 pad_0E[0x2];

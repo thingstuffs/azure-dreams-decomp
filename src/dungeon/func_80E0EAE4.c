@@ -4,8 +4,6 @@
 #include "shared/entity.h"
 
 
-typedef s32 M2C_UNK;
-
 
 typedef struct S_801722E4_5_pre {
     void * unk_00;

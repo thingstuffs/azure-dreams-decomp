@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188298c.h"
 
-void advance_counter_and_propagate_target_flags(void *state, M2C_UNK context, Rec_D_80082E80 *target) {
+void advance_counter_and_propagate_target_flags(void *state, s32 context, Rec_D_80082E80 *target) {
     u16 update_count;
     ovl_188298c_81862B74_S_81862B74_1 *linked_object;
 

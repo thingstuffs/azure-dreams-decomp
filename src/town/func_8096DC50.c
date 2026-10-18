@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_801237A4_arg0.h"
+#include "shared/types3c_types.h"
 
 
 typedef struct S_801260E8_1 {
@@ -12,10 +13,7 @@ typedef struct S_801260E8_2 {
     s32 unk_00;
 } S_801260E8_2;   /* destination in animate_catalog_previous_detail */
 
-typedef struct S_801260E8_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_801260E8_3;   /* *objects_a1 in animate_catalog_previous_detail */
+
 
 typedef struct S_801260E8_4 {
     u8 pad_00[0x2];
@@ -101,7 +99,7 @@ void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
     case 10:
         object_index = 14;
         do {
-            object_data = ((S_801260E8_3 *)(D_80129728[object_index]))->unk_08;
+            object_data = ((CatalogObjectPayloadView *)(D_80129728[object_index]))->unk_08;
             object_word = object_data->unk_02;
             object_index += 1;
             object_data->unk_02 = (u16)(object_word - 0x100);
@@ -114,7 +112,7 @@ void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
     case 14:
         object_index = 14;
         do {
-            object_data = ((S_801260E8_3 *)(D_80129728[object_index]))->unk_08;
+            object_data = ((CatalogObjectPayloadView *)(D_80129728[object_index]))->unk_08;
             object_word = object_data->unk_02;
             object_index += 1;
             object_data->unk_02 = (u16)(object_word - 0x100);

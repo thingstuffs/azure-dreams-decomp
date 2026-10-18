@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_800B59A4_3 {
     u8 pad_00[0x30];
@@ -37,10 +38,6 @@ typedef struct S_800B59A4_1 {
     u8 unk_01;
 } S_800B59A4_1;
 
-typedef struct S_800B59A4_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800B59A4_2;
 
 /* Populate up to three display rows with entry text and positioned icons. */
 void populate_display_rows(s32 source_id, void *display) {
@@ -51,7 +48,7 @@ void populate_display_rows(s32 source_id, void *display) {
     void **entry_slot;
     void *entry;
     S_800B59A4_1 *entry_info;
-    S_800B59A4_2 *icon;
+    SignedWidgetYView *icon;
     void *row_display;
 
     row_display = display;

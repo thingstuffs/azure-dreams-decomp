@@ -3,9 +3,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
-
 
 
 

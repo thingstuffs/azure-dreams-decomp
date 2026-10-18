@@ -3,12 +3,11 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80092018_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0x6];
     union { u16 s; s16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
@@ -79,7 +78,7 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
     u16 anim_flags;
     u8 action_state;
     void *attachment;
-    M2C_UNK *move_state;
+    s32 *move_state;
 
     action_state = ((S_80092018_0 *)actor)->unk_9B;
     switch (action_state) {

@@ -34,7 +34,7 @@ extern M2C_UNK D_800E1C03;
 s32 check_trap_record_and_trigger_effects(void *record_data) {
         /* Retail forwards the current argument registers into display_fixed_item_action_message
        untouched; this row never writes the fourth argument. */
-    M2C_UNK check_mask;
+    s32 check_mask;
     S_800CD294_1 *entity;
 
     check_mask = 0x40;

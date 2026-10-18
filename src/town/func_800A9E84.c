@@ -1,15 +1,14 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 #include "shared/slus_callbacks.h"
+#include "shared/types3a_types.h"
+#include "shared/dungeon_trail_views.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_800A75E4_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800A75E4_0;   /* entry in fukidasi_set */
+   /* entry in fukidasi_set */
 
 typedef struct S_800A75E4_1 {
     u8 pad_00[0x8];
@@ -17,15 +16,9 @@ typedef struct S_800A75E4_1 {
     void * unk_0C;
 } S_800A75E4_1;   /* object in fukidasi_set */
 
-typedef struct S_800A75E4_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800A75E4_2;   /* part_data in fukidasi_set */
+   /* part_data in fukidasi_set */
 
-typedef struct S_800A75E4_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800A75E4_3;   /* part in fukidasi_set */
+   /* part in fukidasi_set */
 
 typedef struct S_800A75E4_4 {
     u8 pad_00[0x50];
@@ -56,12 +49,12 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
     void *entry_or_body;
     void *entry_data;
     void *object_template;
-    S_800A75E4_0 *entry;
+    ObjectPayloadView *entry;
     void *object;
     u8 *body;
-    S_800A75E4_3 *part;
+    TrailHeightView *part;
     s32 *value_slot;
-    S_800A75E4_2 *part_data;
+    EffectPrimitiveValueView *part_data;
 
     entry_or_body = NULL;
     entry_data = entry_or_body;

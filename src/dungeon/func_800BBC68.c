@@ -34,7 +34,7 @@ void display_actor_item_status_message();            /* extern */
 s32 apply_actor_food_preference();                /* extern */
 s32 create_five_point_effect(); /* extern */
 extern M2C_UNK D_800C135C;
-extern M2C_UNK D_800DEAE0;
+extern u8 D_800DEAE0[];
 extern M2C_UNK D_800E1482;
 
 /* Handles an object operation and updates its state or triggers its effect. */

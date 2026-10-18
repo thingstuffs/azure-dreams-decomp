@@ -20,7 +20,7 @@ void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *positio
     position->unk04 = (s32) (base_y + (y_offset * 0x10));
     func_800478B8(primitive_dst);
     if (primitive->unk_14.at00_u16.v & 0x4000) {
-        func_8003DB94(primitive, ((M2C_UNK *)D_800DEC70), 0);
+        func_8003DB94(primitive, ((s32 *)D_800DEC70), 0);
     }
     life = ((R16_80173738_S_80173738_0 *)effect)->unk_1A;
     if (life < 0xA) {

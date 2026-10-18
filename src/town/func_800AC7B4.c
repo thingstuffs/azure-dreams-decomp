@@ -1,16 +1,17 @@
 #include "common.h"
-typedef struct { s32 x; s32 y; s32 z; } Vec3;
-typedef struct { s16 field_0; s16 angle; } Rotation;
+#include "shared/types3a_types.h"
+
+
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void draw_random_colored_line(Vec3 * , Vec3 *);
-extern void apply_two_records_to_target(Vec3 * , Vec3 *);
+extern void draw_random_colored_line(IntVector3 * , IntVector3 *);
+extern void apply_two_records_to_target(IntVector3 * , IntVector3 *);
 extern s32 D_80100D1C;
 extern u16 D_80100D40, D_80100D42, D_80100D80, D_80100D82;
-extern Vec3 D_80100D48, D_80100D68;
-extern Rotation D_80100D60;
+extern IntVector3 D_80100D48, D_80100D68;
+extern PositionRotationPair D_80100D60;
 
-static inline s32 add_x_and_get_angle(Vec3 *position, s32 x_offset, Rotation *rotation)
+static inline s32 add_x_and_get_angle(IntVector3 *position, s32 x_offset, PositionRotationPair *rotation)
 {
     s32 next_angle = rotation->angle;
     position->x += x_offset;
@@ -18,18 +19,18 @@ static inline s32 add_x_and_get_angle(Vec3 *position, s32 x_offset, Rotation *ro
 }
 
 /* Update global positions using angle-based and fixed offsets from the origin. */
-void update_positions_from_origin(Vec3 *origin)
+void update_positions_from_origin(IntVector3 *origin)
 {
     s32 angle;
     s32 scale;
-    Vec3 *position = &D_80100D68;
+    IntVector3 *position = &D_80100D68;
     s16 initial_angle;
 
     ++origin;
     --origin;
     D_80100D40 += D_80100D80;
     {
-        Rotation *rotation = &D_80100D60;
+        PositionRotationPair *rotation = &D_80100D60;
 
         initial_angle = rotation->angle;
         angle = initial_angle;

@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_8004BDDC_0 {
     u8 pad_00[0x3];
@@ -54,11 +55,7 @@ typedef struct S_8004BDDC_1 {
     u8 unk_0B;
 } S_8004BDDC_1;   /* arg4 in func_8004BDDC */
 
-typedef struct S_8004BDDC_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_8004BDDC_2;   /* temp_s3 in func_8004BDDC */
+   /* temp_s3 in func_8004BDDC */
 
 
 s32 multiply_rgb_tint_saturated();                 /* extern */
@@ -85,17 +82,17 @@ void *func_8004BDDC(s32 tint_a, s32 tint_b, void *packet, void *record, void *co
     }
     color_record = (void *) ((u8 *) color_record + 0xC);
     color_1 = packet + 0x10;
-    ((S_8004BDDC_0 *)packet)->unk_10.at00.v = (s32) ((S_8004BDDC_2 *)color_record)->unk_00;
+    ((S_8004BDDC_0 *)packet)->unk_10.at00.v = (s32) ((PacketColorWords *)color_record)->unk_00;
     ((S_8004BDDC_0 *)packet)->unk_04 = (u8) ((S_8004BDDC_0 *)packet)->unk_10.at03.v;
     multiply_rgb_tint_saturated(color_1, tint_a);
     multiply_rgb_tint_saturated(color_1, tint_b);
     color_2 = packet + 0x1C;
-    ((S_8004BDDC_0 *)packet)->unk_1C.at00.v = (s32) ((S_8004BDDC_2 *)color_record)->unk_04;
+    ((S_8004BDDC_0 *)packet)->unk_1C.at00.v = (s32) ((PacketColorWords *)color_record)->unk_04;
     ((S_8004BDDC_0 *)packet)->unk_05 = (u8) ((S_8004BDDC_0 *)packet)->unk_1C.at03.v;
     multiply_rgb_tint_saturated(color_2, tint_a);
     multiply_rgb_tint_saturated(color_2, tint_b);
     color_3 = packet + 0x28;
-    ((S_8004BDDC_0 *)packet)->unk_28.at00.v = (s32) ((S_8004BDDC_2 *)color_record)->unk_08;
+    ((S_8004BDDC_0 *)packet)->unk_28.at00.v = (s32) ((PacketColorWords *)color_record)->unk_08;
     ((S_8004BDDC_0 *)packet)->unk_06 = (u8) ((S_8004BDDC_0 *)packet)->unk_28.at03.v;
     multiply_rgb_tint_saturated(color_3, tint_a);
     multiply_rgb_tint_saturated(color_3, tint_b);

@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80083160.h"
 
 typedef struct S_80089588_3 {
@@ -35,10 +34,10 @@ typedef struct S_80089588_2 {
 struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
 extern u8 D_801C9E40[16];
-M2C_UNK func_8006658C(void *, void *);
-M2C_UNK func_80067E2C();
-M2C_UNK func_80067EF4();
-M2C_UNK func_80067F20();
+s32 func_8006658C(void *, void *);
+s32 func_80067E2C(void *, s32);
+s32 func_80067EF4(void *, s32, s32);
+s32 func_80067F20(void *, s32, s32, s32, s32);
 
 /* Queue draw settings and horizontal strips for both ordering tables. */
 void queue_framebuffer_strip_quads(void) {

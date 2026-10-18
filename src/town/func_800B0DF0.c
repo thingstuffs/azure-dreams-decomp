@@ -1,12 +1,8 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} UnkStruct_800B0DB8;
 
-extern UnkStruct_800B0DB8 D_80110EB8;
+extern ItemMenuSceneState D_80110EB8;
 
 /* Initializes D_80110EB8 with the supplied value and a fixed value of 7. */
 s32 initialize_item_menu_scene_value(s32 value) {

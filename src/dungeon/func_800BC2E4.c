@@ -1,7 +1,5 @@
 #include "common.h"
 #include "shared/object_node.h"
-#include "m2c_compat.h"
-
 void *func_8003FD64();            /* extern */
 s32 func_8004491C();           /* extern */
 extern s32 D_80045C34[4];
@@ -12,7 +10,7 @@ typedef struct S_800C1A44_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800C1A44_0;
 
 typedef struct S_800C1A44_1 {
@@ -27,7 +25,7 @@ typedef struct S_800C1A44_1 {
 typedef struct S_800C1A44_2 {
     u8 pad_00[0x6];
     s16 unk_06;
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     s32 unk_0C;
 } S_800C1A44_2;
 
@@ -46,7 +44,7 @@ void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z) {
     S_800C1A44_3 *object_state;
 
     object = func_8003FD64(0x12, ((s32 *)&D_80083498.next));
-    if (object != NULL) {
+    if (object != 0) {
         ((S_800C1A44_0 *)object)->unk_10 = &D_800C1718[0];
         func_8004491C(object, &D_80045C34[0]);
         position = ((S_800C1A44_0 *)object)->unk_08;

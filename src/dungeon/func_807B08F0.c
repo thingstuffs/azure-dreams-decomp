@@ -1,11 +1,10 @@
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
-#include "m2c_compat.h"
 
 
 typedef struct S_807B08F0_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     u16 unk_20;
 } S_807B08F0_0;

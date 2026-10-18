@@ -3,7 +3,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -22,7 +21,7 @@ extern int abs(int);
 
 typedef struct S_801727C8_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0x6];
     u16 unk_96;
     u16 unk_98;
@@ -61,7 +60,7 @@ s32 advance_status_timers();
 s32 play_sound_if_enabled();
 s32 create_actor_spell_effect();
 void create_two_effect_groups();
-extern M2C_UNK D_801711A4;
+void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, EntityRec *status);
 extern u8 D_8017418C;
 extern u8 D_801741B4;
 extern u8 D_801741BC;
@@ -114,7 +113,7 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
                 entry = (u8 *)actor + 8;
                 break;
             default:
-                entry = NULL;
+                entry = 0;
                 break;
             }
         } else {
@@ -130,7 +129,7 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
                 entry = (u8 *)actor + 8;
                 break;
             default:
-                entry = NULL;
+                entry = 0;
                 break;
             }
         }
@@ -152,7 +151,7 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
                     }
                 } else if (D_8006DE24[*entry].kind == 2) {
                     target_owner = actor->target;
-                    if (target_owner != NULL) {
+                    if (target_owner != 0) {
                         void *owner = target_owner;
 
                         slot = (s32)(((S_801727C8_2_pre *)owner)[-1].unk_00);
@@ -199,7 +198,7 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
         (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_80EB6FC8 *)D_800814A8)->field_A6) - 1);
         advance_status_timers(actor);
         actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
-        ((S_801727C8_0 *)action)->unk_8C = &D_801711A4;
+        ((S_801727C8_0 *)action)->unk_8C = &update_actor_animation_and_dispatch;
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
@@ -253,7 +252,7 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
         }
         g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
-        ((S_801727C8_0 *)action)->unk_8C = &D_801711A4;
+        ((S_801727C8_0 *)action)->unk_8C = &update_actor_animation_and_dispatch;
         advance_status_timers(actor);
         if ((s8) ((u8)actor->unk_6D) > 0) {
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);

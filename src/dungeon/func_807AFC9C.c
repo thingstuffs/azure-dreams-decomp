@@ -11,7 +11,7 @@ typedef struct S_807AFC9C_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
 } S_807AFC9C_0;
@@ -30,7 +30,7 @@ typedef struct S_807AFC9C_1 {
 typedef struct S_807AFC9C_3 {
     u8 pad_00[0x6];
     s16 unk_06;
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     s8 unk_0C;
     s8 unk_0D;
     s8 unk_0E;

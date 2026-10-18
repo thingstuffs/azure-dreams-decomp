@@ -25,7 +25,7 @@ typedef struct S_7FFEA9D4_1 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x4];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0x2A];
     s16 unk_3E;
     s16 unk_40;
@@ -43,14 +43,14 @@ typedef struct S_7FFEA9D4_3 {
 
 void *func_7003CF18();                       /* extern */
 s32 func_700750E0();                                /* extern */
-M2C_UNK func_7010CD00(); /* extern */
+extern s32 func_7010CD00(void *, void *, s32, s32); /* extern */
 extern s32 D_80086AD8;
 extern u8 D_800E0F20[0x100];
 extern u16 D_80094422;
 extern M2C_UNK D_8010C994;
 
 /* Spawns randomized particles while the emitter is young and marks it inactive when its timer expires. */
-void spawn_young_emitter_particles(void *emitter, M2C_UNK init_param_1, M2C_UNK init_param_2) {
+void spawn_young_emitter_particles(void *emitter, s32 init_param_1, s32 init_param_2) {
     s32 z_offset;
     s32 spawn_count;
     s32 rand_value;

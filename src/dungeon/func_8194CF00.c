@@ -22,7 +22,7 @@ void create_textured_offset_object(void *source_object)
     object = func_8003FC64(0x212);
     if (object != NULL) {
         link = D_8002455C;
-        (*(M2C_UNK * *)((u8 *)object + 0x10)) = link;
+        (*(s32 * *)((u8 *)object + 0x10)) = link;
         value = (*(s32 *)((u8 *)source + 0));
         data = (u8 *)object + 0x20;
         (*(s32 *)((u8 *)object + 0x20)) = value;

@@ -8,7 +8,7 @@ typedef struct S_800B7D74_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800B7D74_0;
 
 typedef struct S_800B7D74_1 {
@@ -26,7 +26,7 @@ typedef struct S_800B7D74_1 {
 
 typedef struct S_800B7D74_2 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     u8 pad_0C[0x4];
     s16 unk_10;
     s16 unk_12;
@@ -36,7 +36,7 @@ typedef struct S_800B7D74_2 {
 
 typedef struct S_800B7D74_3 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
@@ -67,7 +67,7 @@ extern M2C_UNK D_8006E258;
 extern M2C_UNK D_8006E51C;
 extern M2C_UNK D_8006E57C;
 extern M2C_UNK D_8006E5D4;
-extern M2C_UNK D_800B7C14;
+void advance_effect_fade_and_remove(void *effect, void *motion, void *primitive);
 
 /* Spawns an effect at the given position with variant-specific graphics and randomized motion. */
 void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant) {
@@ -82,7 +82,7 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
     if (effect == NULL) {
         return;
     }
-    ((S_800B7D74_0 *)effect)->unk_10 = &D_800B7C14;
+    ((S_800B7D74_0 *)effect)->unk_10 = &advance_effect_fade_and_remove;
     func_8004491C(effect, func_80045340);
     motion = ((S_800B7D74_0 *)effect)->unk_08;
     motion->unk_02 = pos_x;

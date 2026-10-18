@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/entity.h"
-#include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
 typedef struct S_80093E74_7 {
@@ -32,12 +31,6 @@ typedef struct S_80093E74_5 {
     s32 unk_30;
 } S_80093E74_5;   /* Pointer addresses record offset 0x14. */
 
-
-
-
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
-
 typedef struct {
     s32 words[35];
 } Copy140;
@@ -50,7 +43,7 @@ extern u8 D_800E3E48[];
 
 /* Copy the indexed record into storage, clear its owner slot, and trigger an effect. */
 void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg2, EntityRec *owner) {
-    M2C_UNK effect_mask;
+    s32 effect_mask;
     u8 effect_x;
     u8 effect_y;
     s32 record_index;

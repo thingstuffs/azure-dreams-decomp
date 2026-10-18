@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource16_slot0.h"
 
-void begin_eligible_actor_action(Rec_func_800A9E70_arg0 *action_state, M2C_UNK context, Rec_D_80082E80 *animation, EntityRec *actor) {
+void begin_eligible_actor_action(Rec_func_800A9E70_arg0 *action_state, s32 context, Rec_D_80082E80 *animation, EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((((s16)try_claim_dungeon_action_slot(actor)) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, context, 8, 0x300);

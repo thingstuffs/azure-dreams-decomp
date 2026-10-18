@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
+#include "shared/types3a_types.h"
 
 
 extern s32 func_80033D08(void *);
@@ -11,9 +12,7 @@ extern s16 query_lowered_transform_position();
 extern u8 D_8009C5D8[];
 
 
-typedef struct S_8009C4E8_0_pre {
-    u16 unk_00;
-} S_8009C4E8_0_pre;   /* the 0x2 bytes before arg0 in update_timed_object_to_height_limit, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_timed_object_to_height_limit, addressed as arg0[-1] */
 
 typedef struct S_8009C4E8_0 {
     u8 pad_00[0x50];
@@ -43,7 +42,7 @@ void update_timed_object_to_height_limit(void *object, EntityRec *motion, S_8009
     ((S_8009C4E8_0 *)object)->unk_6C = timer;
     if ((s16)(timer) < 0) {
         func_80033D08(object);
-        ((S_8009C4E8_0_pre *)object)[-1].unk_00 |= 0x8000;
+        ((ObjectRetirementFlags *)object)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
         return;
     }

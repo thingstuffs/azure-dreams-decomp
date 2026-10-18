@@ -25,7 +25,7 @@ s32 use_item_to_reset_actor_statuses(void *actor, s32 cause, s16 amount)
 {
     s32 handle;
     s32 msg_value;
-    register M2C_UNK *msg;
+    register s32 *msg;
     register s32 msg_arg;
     DungeonGlobalStatus *counters;
     s32 slot;

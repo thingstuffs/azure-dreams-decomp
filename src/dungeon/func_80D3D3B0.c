@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -16,7 +15,7 @@ extern u8 D_80080000[];
 
 
 /* Turn toward the target and start an action once aligned. */
-s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, Rec_D_80082E80 *target,
+s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, s32 action_context, Rec_D_80082E80 *target,
     EntityRec *actor) {
     s32 target_angle;
     u16 result;

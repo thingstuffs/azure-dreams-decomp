@@ -1,15 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3a_types.h"
 
-typedef struct S_800A6F48_12 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800A6F48_12;
-
-typedef struct S_800A6F48_13 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800A6F48_13;
 
 typedef struct S_800A6F48_14 {
     u8 pad_00[0xC];
@@ -39,11 +31,7 @@ typedef struct S_800A6F48_1 {
     s32 unk_10;
 } S_800A6F48_1;   /* &D_800D0DD8 in create_paired_offset_effects */
 
-typedef struct S_800A6F48_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800A6F48_2;   /* arg2 in create_paired_offset_effects */
+   /* arg2 in create_paired_offset_effects */
 
 typedef struct S_800A6F48_3 {
     u8 pad_00[0x4];
@@ -103,7 +91,7 @@ typedef struct S_800A6F48_11 {
 } S_800A6F48_11;   /* arg3 in create_paired_offset_effects */
 
 /* Creates two offset objects, adjusts their components, and initializes the owner and color. */
-void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_state, S_800A6F48_2 *origin, S_800A6F48_11 *color) {
+void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_state, IntVector3 *origin, S_800A6F48_11 *color) {
     s32 position[5];
     s32 *offset_data;
     s32 *second_offset_data;
@@ -117,12 +105,12 @@ void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_stat
 
     spawn_state->unk_0C = &D_800D0DD8;
     offset_sum = ((S_800A6F48_1 *)(&D_800D0DD8))->unk_04 + ((S_800A6F48_1 *)(&D_800D0DD8))->unk_10;
-    position[0] = origin->unk_00 + ((s32) (offset_sum + (offset_sum >> 0x1F)) >> 1);
+    position[0] = origin->x + ((s32) (offset_sum + (offset_sum >> 0x1F)) >> 1);
     offset_data = spawn_state->unk_0C;
-    position[1] = origin->unk_04 + ((S_800A6F48_3 *)offset_data)->unk_04 + ((S_800A6F48_3 *)offset_data)->unk_10;
-    position[2] = origin->unk_08;
+    position[1] = origin->y + ((S_800A6F48_3 *)offset_data)->unk_04 + ((S_800A6F48_3 *)offset_data)->unk_10;
+    position[2] = origin->z;
     first_object = create_preset_sprite_object(position);
-    ((S_800A6F48_14 *)(((S_800A6F48_12 *)first_object)->unk_08))->unk_0C = 0x10000;
+    ((S_800A6F48_14 *)(((ObjectPayloadView *)first_object)->unk_08))->unk_0C = 0x10000;
     first_y_data = first_object->unk_08;
     y_component = first_y_data->unk_10;
     first_y_data->unk_10 = (s32) (y_component / 4);
@@ -132,10 +120,10 @@ void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_stat
     first_object->unk_B0 = 0;
     spawn_person_radial_effects(position);
     second_offset_data = spawn_state->unk_0C;
-    position[0] = origin->unk_00 - ((((S_800A6F48_7 *)second_offset_data)->unk_04
+    position[0] = origin->x - ((((S_800A6F48_7 *)second_offset_data)->unk_04
         + ((S_800A6F48_7 *)second_offset_data)->unk_10) / 3);
     first_object = create_preset_sprite_object(position);
-    ((S_800A6F48_15 *)(((S_800A6F48_13 *)first_object)->unk_08))->unk_0C = -0x8000;
+    ((S_800A6F48_15 *)(((ObjectPayloadView *)first_object)->unk_08))->unk_0C = -0x8000;
     second_y_data = first_object->unk_08;
     second_y_data->unk_10 = (s32) (second_y_data->unk_10 / 3);
     first_object->unk_B0 = 0;

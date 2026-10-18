@@ -4,13 +4,35 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
+typedef struct {
+    u8 value0;
+    u8 value1;
+    u8 value2;
+    u8 pad03[0x17];
+    s16 state;
+    u16 counter;
+    u8 pad20[8];
+    s32 flags;
+    u8 pad2c[2];
+    s16 mode;
+} InterpState;
+typedef struct {
+    u8 pad00[0x0c];
+    u8 value0;
+    u8 value1;
+    u8 value2;
+    u8 pad0f[0x0d];
+    u16 counter;
+    u16 counter_copy;
+} InterpTarget;
 
-M2C_UNK func_80064BC0();
-M2C_UNK func_80064CF0();
-M2C_UNK func_80064D80();
-M2C_UNK func_80065420();
-M2C_UNK func_80065820();
-extern M2C_UNK D_8009F21C;
+
+s32 func_80064BC0(void *, void *);
+s32 func_80064CF0(void *);
+s32 func_80064D80(void *);
+s32 func_80065420(void *, void *, void *, void *);
+s32 func_80065820(void *, void *);
+void interpolate_delayed_target_values(InterpState *state, void *unused, InterpTarget *target);
 extern M2C_UNK D_800DD824;
 
 /* Creates an object at transformed coordinates and initializes its rendering and state. */
@@ -34,7 +56,7 @@ void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 upda
     object = func_8003FC64(alloc_flags);
     if (object != NULL) {
         position = *(void **)((u8 *)object + 8);
-        *(void **)((u8 *)object + 0x10) = &D_8009F21C;
+        *(void **)((u8 *)object + 0x10) = &interpolate_delayed_target_values;
         *(u16 *)(scratchpad + 0x98) = 0;
         *(u16 *)(scratchpad + 0x9A) = 0;
         *(u32 *)(scratchpad + 0x34) = 0x1800;

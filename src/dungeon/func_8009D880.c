@@ -31,7 +31,7 @@ typedef struct S_800A2FE0_3 {
 
 typedef struct S_800A2FE0_4 {
     u8 pad_00[0x4];
-    M2C_UNK * unk_04;
+    s32 * unk_04;
 } S_800A2FE0_4;   /* globalData in distribute_experience_and_report_gains */
 
 void distribute_experience_and_report_gains(EntityRec *entity) {

@@ -1,6 +1,7 @@
 #include "modules/dungeon_ovl_189a800.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/dungeon_projectile_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -13,12 +14,7 @@ typedef struct S_8187B9E8_0 {
     s16 unk_72[23];
 } S_8187B9E8_0;   /* v in func_800251E8 */
 
-typedef struct S_8187B9E8_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8187B9E8_1;   /* p in func_800251E8 */
+
 
    /* r0 in func_800251E8 */
 
@@ -54,7 +50,7 @@ void func_800251E8(s32 radius, s32 initial_value, s16 extent, s32 position_x_wor
     s32 plane_radius;
     u32 component;
     MovingPosition *position;
-    void *effect;
+    ProjectileObject *effect;
     S_8187B9E8_4 *state;
     S_8187B9E8_3 *scale;
 
@@ -74,15 +70,15 @@ void func_800251E8(s32 radius, s32 initial_value, s16 extent, s32 position_x_wor
             ((S_8187B9E8_0 *)state)->unk_72[point_count] = component;
             point_count++;
         } while (point_count < 0x17);
-        position = ((S_8187B9E8_1 *)effect)->unk_08;
+        position = effect->unk_08;
         position->unk_02 = position_x;
         position->unk_06 = position_y;
         position->unk_0A = position_z;
-        scale = ((S_8187B9E8_1 *)effect)->unk_0C;
+        scale = effect->unk_0C;
         scale->unk_1E = 0x1000;
         scale->unk_1C = 0x1000;
         state->unk_14 = 0x17;
-        ((S_8187B9E8_1 *)effect)->unk_10 = func_80024D40;
+        effect->unk_10 = func_80024D40;
         state->unk_A0 = (func_80069EF8() & 0x3F) + 0x3C;
         state->unk_10 = extent;
         state->unk_12 = extent;

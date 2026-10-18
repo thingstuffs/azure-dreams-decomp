@@ -7,7 +7,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80171D74_0 {
@@ -60,7 +59,7 @@ typedef struct S_80171D74_5 {
     u8 pad_05[0xF];
     u16 unk_14;
     u8 pad_16[0x16];
-    union { M2C_UNK * p; u8 * p2; } unk_2C;   /* accessed as both */
+    union { s32 * p; u8 * p2; } unk_2C;   /* accessed as both */
 } S_80171D74_5;   /* arg2 in advance_linked_actor_motion_script */
 
 typedef struct S_80171D74_6 {
@@ -464,7 +463,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
         if ((s16) arc_frame >= 0x28) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            ((S_80171D74_3 *)motion_in)->unk_10 = NULL;
+            ((S_80171D74_3 *)motion_in)->unk_10 = 0;
             ((S_80171D74_3 *)motion_in)->unk_0C = 0;
         }
         turn_frame = (s16) ((S_80171D74_1 *)state_in)->unk_96;
@@ -635,8 +634,8 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
         if ((s16) hop_frame >= 5) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            ((S_80171D74_3 *)motion_in)->unk_14 = NULL;
-            ((S_80171D74_3 *)motion_in)->unk_10 = NULL;
+            ((S_80171D74_3 *)motion_in)->unk_14 = 0;
+            ((S_80171D74_3 *)motion_in)->unk_10 = 0;
             ((S_80171D74_3 *)motion_in)->unk_0C = 0;
         }
         break;
@@ -685,8 +684,8 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             frame_or_height = ((S_80171D74_3 *)motion_in)->unk_08.at02.v;
-            ((S_80171D74_3 *)motion_in)->unk_14 = NULL;
-            ((S_80171D74_3 *)motion_in)->unk_10 = NULL;
+            ((S_80171D74_3 *)motion_in)->unk_14 = 0;
+            ((S_80171D74_3 *)motion_in)->unk_10 = 0;
             ((S_80171D74_3 *)motion_in)->unk_0C = 0;
             owner_height = owner_state->unk_88;
             ((S_80171D74_1 *)state_in)->unk_9E = 0;

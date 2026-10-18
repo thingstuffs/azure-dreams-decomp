@@ -1,9 +1,10 @@
 #include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
 #include "common.h"
-#include "m2c_compat.h"
+
+struct S_800A5FC0_2;
 
 s32 func_8004491C();              /* extern */
-extern M2C_UNK D_800A5FC0;
+extern s32 D_800A5FC0(struct S_800A5FC0_2 *state);
 
 typedef struct S_800A613C_0 {
     u8 pad_00[0x8];

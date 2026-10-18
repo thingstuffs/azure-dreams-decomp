@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800CFCB4.h"
+#include "shared/types3a_types.h"
 
 void handle_insert_initialize_two_values_status_flags();        /* extern */
 void configure_the_set_mode_n_3();                         /* extern */
@@ -8,13 +9,10 @@ void initialize_optional_object_state(); /* extern */
 extern M2C_UNK D_800D0690;
 
 
-typedef struct S_8009C7A8_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_8009C7A8_1;   /* arg2 in select_object_state_by_mode */
+   /* arg2 in select_object_state_by_mode */
 
 /* Select a state value and update the record according to its mode flag. */
-void select_object_state_by_mode(Rec_D_800CFCB4 *record, s32 context, S_8009C7A8_1 *state, s32 default_value,
+void select_object_state_by_mode(Rec_D_800CFCB4 *record, s32 context, EffectStateWordView *state, s32 default_value,
     s32 alternate_value, s32 update_value) {
     if (record->unk_94 != 0) {
         state->unk_08 = alternate_value;

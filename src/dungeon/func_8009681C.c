@@ -19,7 +19,7 @@ extern M2C_UNK D_8009BE2C;
 typedef struct S_8009BF7C_0 {
     u8 pad_00[0xC];
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_8009BF7C_0;
 
 typedef struct S_8009BF7C_1 {

@@ -4,8 +4,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
-
 typedef struct S_8195281C_0_pre {
     u16 unk_00;
 } S_8195281C_0_pre;   /* the 0x2 bytes before arg0 in func_8195281C, addressed as arg0[-1] */
@@ -83,7 +81,7 @@ typedef struct S_8195281C_10 {
     u8 pad_00[0x60];
     void * unk_60;
     u8 pad_64[0x90];
-    M2C_UNK * unk_F4;
+    s32 * unk_F4;
 } S_8195281C_10;   /* ((S_8195281C_1 *)D_800814A8)->unk_00.i in func_8195281C */
 
 
@@ -159,7 +157,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         break;
     case 3:
         model = ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.i))->unk_60;
-        if (model != NULL) {
+        if (model != 0) {
             model_colors = ((S_8195281C_5_pre *)model)[-1].unk_00;
             ((S_8195281C_5 *)model)->unk_1C = (s32) (((S_8195281C_5 *)model)->unk_1C | 0x10000000);
             model_colors->unk_0C.at00.v = (u8) (model_colors->unk_0C.at00.v - 4);
@@ -183,7 +181,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
             }
         }
         model = ((S_8195281C_7 *)(((u8 *)D_800E3D7C)))->unk_60;
-        if (model != NULL) {
+        if (model != 0) {
             model_colors = ((S_8195281C_5_pre *)model)[-1].unk_00;
             model_colors->unk_0C.at00u.v = 0x808080;
         }

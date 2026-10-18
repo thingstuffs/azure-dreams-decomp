@@ -6,8 +6,6 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 resolve_record_orientation_or_fallback();     /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
@@ -36,7 +34,7 @@ typedef struct S_func_819B2800_1 {
 
 typedef struct S_func_819B2800_2 {
     u8 pad_00[0x10];
-    M2C_UNK *unk_10;
+    s32 *unk_10;
     u8 pad_14[0xC];
     void *unk_20;
     u8 pad_24[6];
@@ -104,7 +102,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
     s16 offset[3];
     u16 next_phase;
     u16 timer;
-    M2C_UNK effect_code;
+    s32 effect_code;
     s16 direction;
     s32 phase_or_delay;
     s32 pos_x;
@@ -140,7 +138,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         actor->unk_A6 = (u16) (actor->unk_A6 - 1);
         actor->unk_A8 = (u8) effect->unk_08;
         object_data = (S_func_819B2800_2 *) func_8003FD64(0x302, ((u8 *)(&D_80083498)));
-        if (object_data != NULL) {
+        if (object_data != 0) {
             model = location->unk_0C;
             if (resolve_record_orientation_or_fallback(model->unk_08, model, offset, 0) == 0) {
                 offset[2] = 0;
@@ -190,7 +188,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         }
         object_data = (S_func_819B2800_2 *) func_8003FD64(0x302, ((u8 *)(&D_80083498)));
         data_bytes = (u8 *) object_data;
-        if (object_data != NULL) {
+        if (object_data != 0) {
             visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
             object_data->unk_10 = update_actor_movement_animation_collision;
             func_8004491C(data_bytes, draw_fading_radial_effect_grid);

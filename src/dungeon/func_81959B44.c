@@ -1,8 +1,6 @@
 #include "shared/object_node.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
-#include "m2c_compat.h"
-
 void func_8004491C(void *, void *); /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
@@ -14,7 +12,7 @@ typedef struct S_81959B44_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_81959B44_0;
 
 typedef struct S_81959B44_1 {
@@ -45,7 +43,7 @@ typedef struct S_81959B44_2 {
 
 typedef struct S_81959B44_3 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     u8 pad_0C[0xA];
     s16 unk_16;
     s16 unk_18;
@@ -59,7 +57,7 @@ void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 rad
     s32 call_pad_6;
     s32 call_pad_8;
     s32 div6_magic;
-    M2C_UNK object_flags;
+    s32 object_flags;
     s16 pos_y;
     s16 pos_x;
     s32 ring_index;
@@ -83,7 +81,7 @@ void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 rad
             object_flags = 0x212;
         }
         object = func_8003FC64(object_flags);
-        if (object != NULL) {
+        if (object != 0) {
             ((S_81959B44_0 *)object)->unk_10 = &D_800250B4;
             func_8004491C(object, &D_80045C34);
             angle = ring_index << 8;

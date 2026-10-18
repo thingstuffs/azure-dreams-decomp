@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/types3a_types.h"
 
 #ifndef NULL
 #define NULL 0
@@ -9,11 +10,6 @@ typedef struct S_800A47A8_4 {
     u8 pad_00[0xC];
     void * unk_0C;
 } S_800A47A8_4;
-
-typedef struct S_800A47A8_5 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800A47A8_5;
 
 
 s32 func_8004491C();
@@ -73,7 +69,7 @@ void create_resource_display_object(s16 resource_index) {
     if (object != NULL) {
         ((S_800A47A8_0 *)object)->unk_10 = D_800A3918;
         func_8004491C(object, D_800A3B1C);
-        ((S_800A47A8_5 *)(((S_800A47A8_4 *)object)->unk_0C))->unk_08 = D_800D0C40[resource_index];
+        ((EffectPrimitiveValueView *)(((S_800A47A8_4 *)object)->unk_0C))->unk_08 = D_800D0C40[resource_index];
         component = ((S_800A47A8_0 *)object)->unk_0C;
         component->unk_0E = 0xE0;
         component->unk_0D = 0xE0;

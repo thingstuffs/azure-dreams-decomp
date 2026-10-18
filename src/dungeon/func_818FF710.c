@@ -39,8 +39,8 @@ extern Packed8 D_80024028;
 extern Packed32 D_80024038;
 extern M2C_UNK D_800245EC;
 extern M2C_UNK D_800246F8;
-extern M2C_UNK D_80024780;
-extern M2C_UNK D_8002499C;
+extern void advance_timed_visual_effect(void *state, void *position, void *visual);
+extern void update_tiled_fade_effect(void *effect, void *offset_state, void *render_state);
 extern Packed12 D_80025E28;
 extern Packed12 D_80025E34;
 extern Packed12 D_80025E40;
@@ -597,7 +597,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
         child_effect = first_object + 0x20;
         if (first_object != NULL) {
             child_effect->unk_02 = 0x78;
-            (*(M2C_UNK **)((u8 *)first_object + 0x10)) = &D_800246F8;
+            (*(s32 **)((u8 *)first_object + 0x10)) = &D_800246F8;
             func_8004491C(first_object, func_80045340);
             first_sprite = (*(void **)((u8 *)first_object + 0xC));
             first_sprite->unk_06 = 0;
@@ -631,7 +631,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
         child_effect = second_object + 0x20;
         if (second_object != NULL) {
             child_effect->unk_02 = 0x78;
-            (*(M2C_UNK **)((u8 *)second_object + 0x10)) = &D_80024780;
+            (*(s32 **)((u8 *)second_object + 0x10)) = &advance_timed_visual_effect;
             func_8004491C(second_object, func_80045340);
             second_sprite = (*(void **)((u8 *)second_object + 0xC));
             second_sprite->unk_14 &= 0xFFF3;
@@ -663,7 +663,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
         child_effect = third_object + 0x20;
         if (third_object != NULL) {
             child_effect->unk_02 = 0x78;
-            (*(M2C_UNK **)((u8 *)third_object + 0x10)) = &D_800245EC;
+            (*(s32 **)((u8 *)third_object + 0x10)) = &D_800245EC;
             func_8004491C(third_object, func_80045340);
             second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)third_object + 0xC));
             ((S_818FF710_21 *)((void *)second_sprite))->unk_06 = 0;
@@ -702,7 +702,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             child_effect->unk_38 = first_object + 0x20;
             child_effect->unk_3C = third_object + 0x20;
             child_effect->unk_40 = second_object + 0x20;
-            (*(M2C_UNK **)((u8 *)fourth_object + 0x10)) = &D_8002499C;
+            (*(s32 **)((u8 *)fourth_object + 0x10)) = &update_tiled_fade_effect;
             func_8004491C(particle_owner, sprite_resource);
             second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)fourth_object + 0xC));
             ((S_818FF710_24 *)((void *)second_sprite))->unk_06 = 0;

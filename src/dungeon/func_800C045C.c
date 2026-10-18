@@ -4,7 +4,10 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8003DB94();  /* extern */
+struct Dst;
+struct Elem;
+
+extern s32 func_8003DB94(struct Dst *state, struct Elem *entries, s32 index);  /* extern */
 extern s32 func_8004491C();
 s32 rand();                                /* extern */
 extern s32 play_sound_if_enabled();
@@ -15,7 +18,7 @@ typedef struct S_800C5BBC_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800C5BBC_0;
 
 typedef struct S_800C5BBC_1 {
@@ -55,7 +58,7 @@ typedef struct S_800C5BBC_4 {
 
 /* Spawn a burst of randomized particles and return the first particle. */
 void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound) {
-    M2C_UNK alloc_flags;
+    s32 alloc_flags;
     s32 particle_index;
     s32 remaining;
     S_800C5BBC_1 *position;

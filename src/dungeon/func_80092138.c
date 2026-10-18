@@ -1,8 +1,10 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 
-M2C_UNK func_8003DB94();        /* extern */
+struct Dst;
+struct Elem;
+
+extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);        /* extern */
 s32 generate_random_value(void);   /* extern */
 extern u8 D_800DD294[];
 
@@ -22,7 +24,7 @@ typedef struct S_80097898_1 {
     s16 unk_2A;
 } S_80097898_1;   /* saved in run_saved_actor_action */
 
-void run_saved_actor_action(void *object, M2C_UNK unused, void *animation, void *actor) {
+void run_saved_actor_action(void *object, s32 unused, void *animation, void *actor) {
         /* MATCH: retain retail's a0 table base after the explicit argument call. */
     u8 *table;
         /* MATCH: save a2 then a3 before loading the state-byte constant. */

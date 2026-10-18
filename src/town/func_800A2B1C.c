@@ -8,36 +8,15 @@ void initialize_optional_object_state(); /* extern */
 void initialize_the_active_flag_install_handler(); /* extern */
 extern s32 D_8006E240;
 #include "modules/town_town_windows.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/dungeon_projectile_views.h"
 void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context);
 extern u8 D_800D073C[];
 extern u8 D_800D0754[];
 extern u8 D_800D076C[];
 
 
-typedef struct S_800A027C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_800A027C_0;
-
-typedef struct S_800A027C_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800A027C_1;
-
-typedef struct S_800A027C_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800A027C_2;   /* arg1 in create_an_position_initializes_graphics_state */
+   /* arg1 in create_an_position_initializes_graphics_state */
 
 typedef struct S_800A027C_3 {
     u8 pad_00[0x8];
@@ -71,19 +50,19 @@ typedef struct S_800A027C_5 {
 } S_800A027C_5;   /* arg0 in create_an_position_initializes_graphics_state */
 
 /* Creates an object at the supplied position and initializes its graphics and state. */
-void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, S_800A027C_2 *position) {
+void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, MovingPosition *position) {
     u8 type;
     S_800A027C_4 *state;
     S_800A027C_3 *render;
-    S_800A027C_1 *coords;
+    MovingPosition *coords;
     void *object;
 
     object = func_8003FD64(0x136, ((s32 *)&D_80083498.next));
     if (object == 0) {
         return 0;
     }
-    coords = ((S_800A027C_0 *)object)->unk_08;
-    render = ((S_800A027C_0 *)object)->unk_0C;
+    coords = ((ProjectileObject *)object)->unk_08;
+    render = ((ProjectileObject *)object)->unk_0C;
     coords->unk_02 = (u16) position->unk_02;
     coords->unk_06 = (u16) position->unk_06;
     state = object + 0x20;
@@ -109,7 +88,7 @@ void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, S_800A
     } else {
         render->unk_08 = lookup_item_category_mapped_value(state->unk_4D, state->unk_4C);
     }
-    ((S_800A027C_0 *)object)->unk_10 = &dispatch_object_or_switch_alternate_state;
+    ((ProjectileObject *)object)->unk_10 = &dispatch_object_or_switch_alternate_state;
     initialize_the_active_flag_install_handler(state, state, coords, render);
 
     return object;

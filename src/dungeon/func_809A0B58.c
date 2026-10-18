@@ -2,7 +2,8 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef s32 M2C_UNK;
+typedef struct S_80047784 S_80047784;
+
 
 typedef struct S_func_809A0B58_0 {
     u8 pad_00[0x8C];
@@ -44,7 +45,7 @@ typedef struct S_func_809A0B58_3 {
     u16 unk_0A;
 } S_func_809A0B58_3;
 
-extern M2C_UNK func_80047784();
+void func_80047784(S_80047784 *object, s16 table_index, s16 entry_index);
 extern s16 get_offset_map_cell_value_and_flags();
 extern u8 D_80175EA8[9];
 

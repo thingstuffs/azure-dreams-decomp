@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 
 typedef struct S_800D1A80_0 {
@@ -37,10 +36,6 @@ typedef struct S_800D1A80_3 {
     s32 unk_10;
 } S_800D1A80_3;
 
-
-#define M2C_BREAK() 0
-#define M2C_SYNC() 0
-
 void unlink_entity_node(void *node);
 void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 flag_mask);
 void detach_record_and_update_slot_state(void *record);
@@ -50,7 +45,7 @@ s32 func_80042900(void *entry, s32 effect_id);
 /* Fade the entity to dark gray, then remove it and update its tile flags. */
 s32 fade_actor_to_removal(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visual, void *entity) {
     s16 fade_frames;
-    M2C_UNK tile_flags;
+    s32 tile_flags;
     s16 frames_left;
     s32 entity_ref;
     u8 blue;

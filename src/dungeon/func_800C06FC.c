@@ -1,7 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct CounterBlock {
@@ -9,7 +8,7 @@ typedef struct CounterBlock {
     u16 count;
 } CounterBlock;
 
-M2C_UNK func_8003DB94();        /* extern */
+s32 func_8003DB94();        /* extern */
 extern s32 func_8004491C();
 extern s32 play_sound_if_enabled();
 extern s32 func_80045C34();
@@ -20,7 +19,7 @@ typedef struct S_800C5E5C_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800C5E5C_0;
 
 typedef struct S_800C5E5C_1 {
@@ -54,7 +53,7 @@ typedef struct S_800C5E5C_3 {
 
 /* Spawn twelve effects at the given position, optionally playing a sound. */
 void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
-    M2C_UNK object_type;
+    s32 object_type;
     s32 effect_index;
     s32 effect_offset;
     s32 size;
@@ -80,7 +79,7 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
         } else {
             effect = func_8003FC64(object_type);
         }
-        if (effect != NULL) {
+        if (effect != 0) {
             ((S_800C5E5C_0 *)effect)->unk_10 = advance_effect_motion_and_fade;
             func_8004491C(effect, func_80045C34);
             transform = ((S_800C5E5C_0 *)effect)->unk_08;

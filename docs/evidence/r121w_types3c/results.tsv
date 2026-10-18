@@ -1,0 +1,25 @@
+lane	status	claims	changed_files	target_ids	definitions_removed	definitions_held	row_proof	notes
+V2_008	DELIVERED	6	1	T06	1	0	complete retail + genuine ASPSX TU; final windows MATCH; scratch certificate VALID	All assigned target views migrated, removed as unused, or already shared at B16b.
+V2_013	DELIVERED	6	2	T06,T37	3	0	complete retail + genuine ASPSX TU; final windows MATCH; scratch certificate VALID	All assigned target views migrated, removed as unused, or already shared at B16b.
+V2_014	DELIVERED	4	1	T01,T06,T32	3	0	complete retail + genuine ASPSX TU; final windows MATCH; scratch certificate VALID	All assigned target views migrated, removed as unused, or already shared at B16b.
+V2_015	DELIVERED	7	2	T01,T06,T22	4	0	complete retail + genuine ASPSX TU; final windows MATCH; scratch certificate VALID	All assigned target views migrated, removed as unused, or already shared at B16b.
+V2_017	PARTIAL	15	4	T05,T06,T09,T37	4	1	complete retail + genuine ASPSX TU; final windows MATCH; scratch certificate VALID	Four source-owned views migrated; one T37 view in the frozen module header remains. T05 homes were already shared.
+V2_021	DELIVERED	5	2	T01,T06	3	0	complete retail + genuine ASPSX TU; final windows MATCH; scratch certificate VALID	All assigned target views migrated, removed as unused, or already shared at B16b.
+V2_023	DELIVERED	9	1	T06	1	0	complete retail + genuine ASPSX TU; final windows MATCH; scratch certificate VALID	All assigned target views migrated, removed as unused, or already shared at B16b.
+V2_030	DELIVERED	5	1	T05,T06,T30	3	0	complete retail + genuine ASPSX TU; final windows MATCH; scratch certificate VALID	All assigned target views migrated, removed as unused, or already shared at B16b.
+V2_036	HOLD	3	0	T10	0	1	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_037	HOLD	3	0	T31	0	1	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_038	HOLD	5	0	T06,T09,T19,T23	0	4	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_039	HOLD	4	0	T13	0	1	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_040	HOLD	6	0	T30	0	1	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_041	HOLD	3	0	T19	0	1	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_042	HOLD	3	0	T19	0	1	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_043	HOLD	5	0	T05,T06	0	1	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_044	HOLD	3	0	T09,T19	0	2	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_045	HOLD	3	0	T09,T19	0	2	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_046	HOLD	8	0	T05,T06,T22,T37	0	7	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_049	HOLD	3	0	T09,T19	0	2	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_050	HOLD	3	0	T09,T19	0	2	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_059	HOLD	28	0	T03,T16,T18,T33	0	6	No source delivery; header freeze is the blocking constraint.	Assigned module headers are frozen; their definitions and consumers remain unchanged.
+V2_060	DELIVERED	10	1	T06	1	0	SLUS image SHA-1 + seven member/physical-owner genuine proofs; scratch certificate VALID	All assigned target views migrated, removed as unused, or already shared at B16b. Production owner review is pending in the baseline evidence document.
+V2_088	DELIVERED	6	6	T19,T22,T23	7	0	6/6 rows exact; final windows MATCH	All assigned target views migrated, removed as unused, or already shared at B16b. Catalog payload/default words stay separate from effect/position concepts.

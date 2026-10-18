@@ -5,6 +5,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 
+typedef struct S_80047784 S_80047784;
+
 
 typedef struct S_80172834_0 {
     u8 pad_00[0x8C];
@@ -20,11 +22,11 @@ typedef struct S_80172834_0 {
 } S_80172834_0;   /* arg0 in update_jump_motion_2 */
 
 
-M2C_UNK func_80047784();
+extern void func_80047784(S_80047784 *object, s16 table_index, s16 entry_index);
 s16 get_rounded_facing_and_rounding_flag();
 void set_record_integer_tile_center();
 s32 advance_status_timers();
-M2C_UNK func_800A9A04();
+extern void func_800A9A04(void *actor);
 void reduce_actor_food_meter();
 s32 check_actor_floor_trap();
 

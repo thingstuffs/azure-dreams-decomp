@@ -1,10 +1,9 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_func_80173D78_arg0.h"
 
-
-typedef s32 M2C_UNK;
 
 
 typedef struct S_80173D78_1 {
@@ -61,8 +60,8 @@ typedef struct S_80173D78_5 {
 extern s32 D_800C6AEC;
 extern M2C_UNK D_8017086C;
 extern M2C_UNK D_80170898;
-extern M2C_UNK D_80170EE4;
-extern M2C_UNK D_8017398C;
+void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_object, void *actor_data);
+void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state);
 
 void func_8004491C();
 void func_80044A50();
@@ -178,7 +177,7 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
         if (actor->unk_60.i == 0) {
 
             update_actor_status_and_food(actor);
-            ((Rec_func_80173D78_arg0 *)action)->unk_8C = &D_80170EE4;
+            ((Rec_func_80173D78_arg0 *)action)->unk_8C = &func_80170EE4;
             g_dungeon_status.unk_0A =
                 ((u16)g_dungeon_status.unk_0A) - 1;
             actor->unk_1C &= 0xEFFFFFFF;
@@ -258,7 +257,7 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
 
             ((Rec_func_80173D78_arg0 *)action)->unk_9A = 0x18;
             ((Rec_func_80173D78_arg0 *)action)->unk_9B = 0;
-            ((Rec_func_80173D78_arg0 *)action)->unk_8C = &D_8017398C;
+            ((Rec_func_80173D78_arg0 *)action)->unk_8C = &transfer_linked_object_state;
             g_dungeon_status.unk_0A =
                 ((u16)g_dungeon_status.unk_0A) - 1;
             actor->unk_6D = 0;

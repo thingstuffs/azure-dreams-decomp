@@ -1,8 +1,5 @@
 #include "modules/dungeon_ovl_184c800.h"
 
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
-
 #define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
 
 /* cfail-repair: tf7-phase1-cache-v3 */

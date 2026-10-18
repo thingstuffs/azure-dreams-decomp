@@ -10,7 +10,7 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
     ovl_19a332c_81983138_S_80024938_1 *motion;
     void *particle;
     union { ovl_19a332c_81983138_S_80024938_3 * pointer; s32 value; } effect_state;
-    union { s32 value; M2C_UNK *pointer; } size_texture;
+    union { s32 value; s32 *pointer; } size_texture;
 
     particle_index = 0;
     direction_angle = angle + 0x400;

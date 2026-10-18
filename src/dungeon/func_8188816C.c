@@ -4,7 +4,10 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8003DB94();  /* extern */
+struct Dst;
+struct Elem;
+
+extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);  /* extern */
 
 s32 rand();                                /* extern */
 extern M2C_UNK D_800263F8;

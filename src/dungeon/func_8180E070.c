@@ -12,7 +12,7 @@ typedef struct S_80027070_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80027070_0;
 
 typedef struct S_80027070_1 {
@@ -50,7 +50,7 @@ void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s
     S_80027070_1 *position;
     S_80027070_3 *state;
 
-    object = func_8003FD64(0x12, ((M2C_UNK *)&D_80083498.next));
+    object = func_8003FD64(0x12, ((s32 *)&D_80083498.next));
     if (object != NULL) {
         ((S_80027070_0 *)object)->unk_10 = &D_80026FB0;
         func_8004491C(object, func_80045340);

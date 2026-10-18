@@ -2,11 +2,14 @@
 #include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
 
+struct Dst;
+struct Elem;
+
 
 
 extern void func_8002421C();
-extern M2C_UNK func_8003DB94();
-extern M2C_UNK func_800478B8();
+extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+extern void func_800478B8(void *entity);
 extern s32 func_800644B8();
 extern s32 func_80064584();
 extern u8 D_800DEAE0[];

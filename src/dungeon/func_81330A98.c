@@ -5,7 +5,10 @@
 #include "records/Rec_func_80167A98_arg1.h"
 #include "records/Rec_func_80167A98_arg0.h"
 
-M2C_UNK func_8003DB94();  /* extern */
+struct Dst;
+struct Elem;
+
+extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);  /* extern */
 s32 func_8004491C();           /* extern */
 typedef struct {
     s16 x;
@@ -13,8 +16,8 @@ typedef struct {
     s16 z;
     u8 pad[0x5A];
 } PositionTableEntry;
-extern M2C_UNK D_800DE870;
-extern M2C_UNK D_800DEDB0;
+extern u8 D_800DE870[16];
+extern s32 D_800DEDB0[3];
 extern M2C_UNK D_800DEE38;
 extern M2C_UNK D_80167A2C;
 extern PositionTableEntry D_80175DD8[];
@@ -23,7 +26,7 @@ typedef struct S_80167A98_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80167A98_0;
 
 typedef struct S_80167A98_1 {

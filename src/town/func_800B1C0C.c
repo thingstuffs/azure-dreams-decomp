@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800AF254_arg1.h"
+#include "shared/types3a_types.h"
 
 
 typedef struct S_800AF36C_2 {
@@ -60,15 +61,6 @@ typedef struct S_800AF36C_12 {
     u16 unk_08;
 } S_800AF36C_12;
 
-typedef struct S_800AF36C_13 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800AF36C_13;
-
-typedef struct S_800AF36C_14 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800AF36C_14;
 
 typedef struct S_800AF36C_15 {
     u8 pad_00[0x8];
@@ -94,6 +86,6 @@ void set_item_menu_entry_coordinates(Rec_func_800AF254_arg1 *object) {
     ((S_800AF36C_11 *)(((S_800AF36C_6 *)(x_parts->unk_14))->unk_04))->unk_08 =
         (s16) (((S_800AF36C_12 *)(((S_800AF36C_7 *)(x_parts->unk_10))->unk_04))->unk_08 + 0x38);
     y_parts = object->unk_A8.as_pv;
-    ((S_800AF36C_13 *)(((S_800AF36C_8 *)(y_parts->unk_14))->unk_04))->unk_0A =
-        (s16) (((S_800AF36C_14 *)(((S_800AF36C_9 *)(y_parts->unk_10))->unk_04))->unk_0A - 9);
+    ((SignedWidgetYView *)(((S_800AF36C_8 *)(y_parts->unk_14))->unk_04))->unk_0A =
+        (s16) (((UnsignedWidgetYView *)(((S_800AF36C_9 *)(y_parts->unk_10))->unk_04))->unk_0A - 9);
 }

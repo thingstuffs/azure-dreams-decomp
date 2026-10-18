@@ -2,10 +2,6 @@
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 
-#include "m2c_compat.h"
-
-
-
 /* Creates an object, copies three source fields to its child, and runs 16 child setup steps. */
 void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value, void *source, s32 unused, s32 context)
 {
@@ -21,7 +17,7 @@ void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value
     object = func_8003FD64(2, adjusted_value);
     if (object != 0) {
         counter = D_80026324[0];
-        *(M2C_UNK **)((u8 *)object + 0x10) = create_radial_effect_from_source;
+        *(s32 **)((u8 *)object + 0x10) = create_radial_effect_from_source;
         D_80026324[0] = counter + 1;
         func_8004491C(object, build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table);
 

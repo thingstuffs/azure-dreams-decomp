@@ -13,9 +13,9 @@ void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end
     void *object;
 
     object = func_8003FC64(0x212);
-    if (object != NULL) {
+    if (object != 0) {
         state = object + 0x20;
-        (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_80024918;
+        (*(s32 **)((u8 *)object + 0x10)) = &D_80024918;
         (*(s32 *)((u8 *)object + 0x20)) = object_value;
         ((Row_8194D1E4_S_800249E4_0 *)state)->unk_74 = 0;
         ((Row_8194D1E4_S_800249E4_0 *)state)->unk_76 = setting;

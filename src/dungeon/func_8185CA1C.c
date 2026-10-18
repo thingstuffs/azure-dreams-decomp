@@ -1,13 +1,16 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 
-typedef s32 M2C_UNK;
+struct Dst;
+struct Elem;
 
-extern M2C_UNK func_8003DB94();
+
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 extern s32 func_8004491C();
 extern s32 rand();
-extern M2C_UNK D_8002418C;
+void func_8002418C(void *object_ref, void *unused, void *state);
 extern M2C_UNK D_800DEDB0[3];
 
 /* Creates and initializes an effect with a randomized offset from the source position. */
@@ -21,7 +24,7 @@ void func_8185CA1C(s32 effect_param, void *source_pos)
 
     effect = func_8003FC64(0x212);
     if (effect != 0) {
-        *((M2C_UNK **)(((s8 *)effect) + 0x10)) = &D_8002418C;
+        *((s32 **)(((s8 *)effect) + 0x10)) = &func_8002418C;
         sprite = *((void **)(((s8 *)effect) + 0xC));
         *((s32 *)(((s8 *)effect) + 0x20)) = effect_param;
         color = 0x80;

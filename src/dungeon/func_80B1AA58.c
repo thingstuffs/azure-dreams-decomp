@@ -30,7 +30,7 @@ void func_80047784();
 s16 get_rounded_facing_and_rounding_flag();
 void set_record_integer_tile_center();
 s32 advance_status_timers();
-M2C_UNK func_800A9A04();
+void func_800A9A04(void *actor);
 void reduce_actor_food_meter();
 s32 check_actor_floor_trap();
 

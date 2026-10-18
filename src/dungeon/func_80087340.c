@@ -1,11 +1,20 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
 
-M2C_UNK func_80042B68();             /* extern */
-M2C_UNK func_80048A44(); /* extern */
+typedef struct S_80048A44_Obj S_80048A44_Obj;
+typedef struct {
+    s8 type;
+    s8 value;
+} Slot;
+typedef struct {
+    u8 pad[0x2C];
+    Slot slots[4];
+} SlotOwner;
+
+void func_80042B68(SlotOwner *owner, s8 match_type);             /* extern */
+void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 void clear_player_linked_action_flags();                            /* extern */
 s32 generate_random_value();                                /* extern */
 extern u8 D_800DCFE0[];

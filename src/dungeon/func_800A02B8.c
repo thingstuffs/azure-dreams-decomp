@@ -15,12 +15,12 @@ typedef struct S_800A5A18_0 {
     u8 pad_00[0x8];
     s32 unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800A5A18_0;
 
 typedef struct S_800A5A18_1 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     u8 pad_0C[0x10];
     s16 unk_1C;
     s16 unk_1E;
@@ -40,7 +40,7 @@ void *create_textured_ellipse_effect(s32 object_id, s32 state_value) {
     S_800A5A18_1 *render_data;
     S_800A5A18_2 *state_data;
 
-    object = func_8003FD64(0x212, ((M2C_UNK *)&D_80083498.next));
+    object = func_8003FD64(0x212, ((s32 *)&D_80083498.next));
     if (object != NULL) {
         ((S_800A5A18_0 *)object)->unk_10 = &D_800A5828;
         func_8004491C(object, func_80045340);

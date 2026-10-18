@@ -1,7 +1,5 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
-
 typedef struct S_80F90E88_0 {
     s32 unk_00;
     u8 pad_04[0x4];
@@ -39,9 +37,9 @@ typedef struct S_80F90E88_2 {
 
 s32 func_80065420();
 s32 func_80066460();
-M2C_UNK func_80066640();
-M2C_UNK func_80066708();
-M2C_UNK func_80067F20();
+s32 func_80066640(void *, s32);
+s32 func_80066708(void *);
+s32 func_80067F20(void *, s32, s32, s32, s32);
 
 struct PackedPair {
     s32 first;
@@ -50,8 +48,8 @@ struct PackedPair {
 typedef struct PackedPair PackedPair;
 
 typedef struct {
-    M2C_UNK *input;
-    M2C_UNK *output;
+    s32 *input;
+    s32 *output;
     s16 rot_x;
     s16 rot_y;
     s16 rot_z;
@@ -151,8 +149,8 @@ loop_0:
     view_angle = gw->view.viewAngle;
     transform_rec.rot_y = 0;
     transform_rec.rot_x = 0;
-    transform_rec.input = (M2C_UNK *) points;
-    transform_rec.output = (M2C_UNK *) points;
+    transform_rec.input = (s32 *) points;
+    transform_rec.output = (s32 *) points;
     transform_rec.rot_z = -view_angle;
     transform_rec.translation = *(PackedPair *)((s8 *)model + 0xC);
     transform_rec.count = 2;

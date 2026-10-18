@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_8016A8E8_0 {
@@ -12,8 +11,6 @@ typedef struct S_8016A8E8_0 {
 } S_8016A8E8_0;   /* arg0 in update_lifetime_output_components; pointer addresses record offset 0x2 */
 
 
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
 
 
 /* Updates three output components from the remaining lifetime and flags expiry. */

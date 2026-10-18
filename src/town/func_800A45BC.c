@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/types3a_types.h"
 void func_800649A0(void);                            /* extern */
 void func_80064A40(void);                            /* extern */
 void func_80064CF0(void *);                      /* extern */
@@ -7,9 +9,7 @@ void func_80064D80(void *);                      /* extern */
 void func_80065320(void *, void *, void *);     /* extern */
 
 
-typedef struct S_800A1D1C_0_pre {
-    u16 unk_00;
-} S_800A1D1C_0_pre;   /* the 0x2 bytes before arg0 in render_shaded_object_primitive, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in render_shaded_object_primitive, addressed as arg0[-1] */
 
 typedef struct S_800A1D1C_0 {
     s32 (*unk_00)(void *, void *, void *);
@@ -54,17 +54,10 @@ typedef struct S_800A1D1C_4 {
     u16 unk_30;
 } S_800A1D1C_4;   /* scratch in render_shaded_object_primitive */
 
-typedef struct S_800A1D1C_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800A1D1C_5;   /* arg1 in render_shaded_object_primitive */
+   /* arg1 in render_shaded_object_primitive */
 
 /* Update primitive shading and transform object coordinates, or mark it inactive. */
-void render_shaded_object_primitive(void *object, S_800A1D1C_5 *coords, void *primitive) {
+void render_shaded_object_primitive(void *object, MovingPosition *coords, void *primitive) {
     s32 matrix_index;
     s32 red_scaled;
     s32 green_scaled;
@@ -78,7 +71,7 @@ void render_shaded_object_primitive(void *object, S_800A1D1C_5 *coords, void *pr
     render_state = ((S_800A1D1C_0 *)object)->unk_10;
     scratch = (u8 *)0x1F800000;
     if (((S_800A1D1C_1 *)render_state)->unk_0A != 0) {
-        ((S_800A1D1C_0_pre *)object)[-1].unk_00 = (u16) (((S_800A1D1C_0_pre *)object)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)object)[-1].unk_00 = (u16) (((ObjectRetirementFlags *)object)[-1].unk_00 | 0x8000);
         global_page = (u8 *)0x80080000;
         ((S_800A1D1C_2 *)global_page)->unk_14A0 |= 0x8000;
         return;

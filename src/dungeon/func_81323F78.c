@@ -9,6 +9,11 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 
+typedef struct {
+    u8 before_callback[0x8C];
+    void *callback;
+} CallbackOwner;
+
 typedef struct S_8016B778_2 {
     u8 pad_00[0x24];
     union {
@@ -55,7 +60,7 @@ void advance_actor_path();
 s32 func_8016C720();
 void clear_actor_flag_and_advance_action();
 s32 dispatch_actor_action_phase();
-M2C_UNK func_8016DAA4();
+extern void func_8016DAA4(CallbackOwner *owner, s32 unused, s32 first, s32 second);
 s32 execute_actor_script_command();
 extern M2C_UNK D_8017469C;
 extern M2C_UNK D_801746BC;

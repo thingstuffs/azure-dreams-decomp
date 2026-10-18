@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "shared/types3a_types.h"
 
 
 typedef struct {
@@ -9,14 +10,9 @@ typedef struct {
     u8 unk3;
 } Unk96134Bytes;
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} Unk96134Pos;
 
 typedef struct {
-    Unk96134Pos pos;
+    IntVector3 pos;
     u8 padC[0xC];
     Unk96134Bytes bytes;
 } Unk96134Work;
@@ -33,7 +29,7 @@ extern s32 is_town_state_pair_accepted(void);
 extern void initialize_scene_action_record(void *object, void *position, void *callback_data);
 extern void initialize_actor_movement_interaction_action(void *object, void *position, void *callback_data);
 extern void set_item_selection_data_pointer(void *object, void *position, void *callback_data);
-extern void *create_configured_object(void *context, Unk96134Pos *position, s32 mode);
+extern void *create_configured_object(void *context, IntVector3 *position, s32 mode);
 extern s32 get_first_free_four_byte_entry_index_n_1_none_available(void *ptr, s32 value);
 extern s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(s32 state_index);
 extern s32 count_type_n_4_links_whose_state_not_n_1(void);
@@ -59,11 +55,7 @@ typedef struct S_80093894_1 {
     s32 unk_08;
 } S_80093894_1;   /* context in handle_selection_and_create_object */
 
-typedef struct S_80093894_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80093894_2;   /* arg1 in handle_selection_and_create_object */
+   /* arg1 in handle_selection_and_create_object */
 
 typedef struct S_80093894_3 {
     void * unk_00;
@@ -80,7 +72,7 @@ void handle_selection_and_create_object(void) {
     ObjectNodeHeader *data;
     u8 *context;
     u8 *object;
-    S_80093894_2 *position;
+    IntVector3 *position;
     void *callback_data;
     void *created_entry;
     u32 state_code;
@@ -146,9 +138,9 @@ void handle_selection_and_create_object(void) {
         }
         }
 
-        work.pos.unk0 = position->unk_00;
-        work.pos.unk4 = position->unk_04;
-        work.pos.unk8 = position->unk_08 + D_800D0428;
+        work.pos.x = position->x;
+        work.pos.y = position->y;
+        work.pos.z = position->z + D_800D0428;
         mode = 0;
         if (state_is_12_or_13) {
             mode = is_available != 0;

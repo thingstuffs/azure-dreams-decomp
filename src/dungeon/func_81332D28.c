@@ -10,14 +10,14 @@ extern void func_8004491C(u8 *, u8 *);
 extern void initialize_actor_sprite_and_animation(u8 *, void *, void *, s32);
 extern void try_move_actor_to_valid_position(u8 *, void *, void *, u8 *);
 extern s32 clear_center_tile_flags_when_enabled(void);
-extern M2C_UNK D_80169EC0;
+extern void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data);
 extern M2C_UNK D_80173980;
 
 typedef struct S_80169D28_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80169D28_0;   /* obj in create_multi_form_actor */
 
 typedef struct S_80169D28_1 {
@@ -50,7 +50,7 @@ typedef struct S_80169D28_3 {
     s8 unk_24;
     s8 unk_25;
     u8 pad_26[0x6];
-    M2C_UNK * unk_2C;
+    s32 * unk_2C;
 } S_80169D28_3;   /* second in create_multi_form_actor */
 
 u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0A) {
@@ -75,7 +75,7 @@ u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0
         if (obj != NULL) {
             result = obj + 0x20;
             *D_80175D50 = obj;
-            ((S_80169D28_0 *)obj)->unk_10 = &D_80169EC0;
+            ((S_80169D28_0 *)obj)->unk_10 = &update_actor_callbacks_and_motion;
             child = obj + 0x20;
             ((S_80169D28_1 *)child)->unk_13 = 0x38;
             func_8004491C(obj, func_80045340);

@@ -3,7 +3,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -14,7 +13,7 @@ void update_actor_status_and_food();                      /* extern */
 void begin_pushed_actor_move(); /* extern */
 s32 begin_ready_actor_directional_action(); /* extern */
 void begin_actor_move_to_target_facing(); /* extern */
-M2C_UNK func_8016FA84();                            /* extern */
+void func_8016FA84(void *actor, void *action, void *entity, void *path_arg);                            /* extern */
 void advance_boss_actor_movement_state(); /* extern */
 s32 update_boss_action_result(); /* extern */
 s32 func_8017092C(); /* extern */

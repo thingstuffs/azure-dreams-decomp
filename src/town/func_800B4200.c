@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_8002E5D8 {
     s32 unk0;
@@ -7,14 +8,9 @@ typedef struct S_8002E5D8 {
     s32 unkC;
 } S_8002E5D8;
 
-typedef struct S_8002E5E8 {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} S_8002E5E8;
 
 extern S_8002E5D8 D_8002E5D8;
-extern S_8002E5E8 D_8002E5E8;
+extern DisplayPositionWords D_8002E5E8;
 
 typedef struct {
     s32 unk0;
@@ -26,16 +22,11 @@ typedef struct {
     u8 unkF;
 } S_800B4200_a1;
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} S_800B4200_a2;
 
 typedef struct {
     s32 unk0;
     S_800B4200_a1 *unk4;
-    S_800B4200_a2 *unk8;
+    DisplayPositionWords *unk8;
 } S_800B4200_a0;
 
 typedef union {
@@ -44,10 +35,10 @@ typedef union {
 
 /* Initialize the state and its buffers from templates, then set the position. */
 void initialize_templated_state_and_position(S_800B4200_a0 *state, S_8002E5D8 *params,
-                   S_800B4200_a2 *data, s32 x, S_800B4200_arg4 y_arg) {
+                   DisplayPositionWords *data, s32 x, S_800B4200_arg4 y_arg) {
     s32 y = y_arg.value;
     S_8002E5D8 *params_template = &D_8002E5D8;
-    S_8002E5E8 *data_template = &D_8002E5E8;
+    DisplayPositionWords *data_template = &D_8002E5E8;
     s32 *first_word;
 
     params->unk0 = params_template->unk0;
@@ -56,9 +47,9 @@ void initialize_templated_state_and_position(S_800B4200_a0 *state, S_8002E5D8 *p
     params->unk8 = params_template->unk8;
     params->unkC = params_template->unkC;
 
-    ((S_8002E5E8 *)data)->unk0 = *first_word;
-    ((S_8002E5E8 *)data)->unk4 = data_template->unk4;
-    ((S_8002E5E8 *)data)->unk8 = data_template->unk8;
+    data->unk0 = *first_word;
+    data->unk4 = data_template->unk4;
+    data->unk8 = data_template->unk8;
 
 
     state->unk4 = (S_800B4200_a1 *)params;

@@ -4,6 +4,8 @@
 #include "shared/dir_step.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
+typedef struct S_80048A44_Obj S_80048A44_Obj;
+
 typedef struct S_8008CD4C_0 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -30,7 +32,7 @@ typedef struct S_8008CD4C_3 {
 
 
 
-M2C_UNK func_80048A44();
+extern void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);
 s16 check_tile_entry_at_adjusted_height();
 void cycle_map_cell_flags();
 void update_map_cell_flags_with_item_limit();

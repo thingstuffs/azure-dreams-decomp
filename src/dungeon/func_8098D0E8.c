@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_801588E8_0 {
@@ -12,8 +11,6 @@ typedef struct S_801588E8_0 {
 } S_801588E8_0;   /* arg0 in apply_countdown_scaled_color_intensity; pointer addresses record offset 0x2 */
 
 
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
 
 
 /* Apply countdown-scaled intensity, decrement the timer, and flag completion at zero. */

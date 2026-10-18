@@ -3,11 +3,12 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
-M2C_UNK func_80048A44(); /* extern */
+typedef struct S_80048A44_Obj S_80048A44_Obj;
+
+void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 void process_unflagged_linked_entries();                         /* extern */
 s32 resolve_attack_damage_and_effects();    /* extern */
 void set_record_integer_tile_center();              /* extern */
@@ -33,7 +34,7 @@ extern s16 D_800DF248[];
 
 typedef struct S_800B348C_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0x6];
     union { u16 u; s16 s; } unk_96;   /* accessed as both */
     u16 unk_98;
@@ -80,7 +81,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
     u8 *windup_animations;
     u8 *attack_animations;
     u8 *mix_animations;
-    M2C_UNK sound_id;
+    s32 sound_id;
     s32 vertical_velocity;
     s32 unused_result;
     s32 launch_direction_offset;
@@ -104,7 +105,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD030;
             func_80048A44(animation, D_800DD030[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
-            ((S_800B348C_0 *)action_state)->unk_CC = NULL;
+            ((S_800B348C_0 *)action_state)->unk_CC = 0;
             if ((u16) ((S_800B348C_0 *)action_state)->unk_A6 >= 2U) {
                 return;
             }
@@ -119,7 +120,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD068;
             func_80048A44(animation, D_800DD068[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
-            ((S_800B348C_0 *)action_state)->unk_CC = NULL;
+            ((S_800B348C_0 *)action_state)->unk_CC = 0;
             ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
             return;
         }
@@ -246,8 +247,8 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
                     ((S_800B348C_0 *)action_state)->unk_A8 = 0U;
                 } else {
                     attack_target = (s32)actor->target;
-                    if (attack_target != NULL) {
-                        actor->target = NULL;
+                    if (attack_target != 0) {
+                        actor->target = 0;
                         ((S_800B348C_4 *)attack_target)->unk_1C = (s32) (((S_800B348C_4 *)attack_target)->unk_1C & 0xEFFFFFFF);
                         ((S_800B348C_7 *)(((S_800B348C_4_pre *)attack_target)[-1].unk_00))->unk_0C = 0x808080;
                         }
@@ -256,7 +257,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
                 EntityRec *attached_object;
 
                 attached_object = actor->target;
-                if (attached_object != NULL) {
+                if (attached_object != 0) {
                     attached_object->flags14 = (s32) (attached_object->flags14 | 0x01000000);
                 }
             }

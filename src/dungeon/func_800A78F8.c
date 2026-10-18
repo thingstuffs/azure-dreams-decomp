@@ -5,7 +5,6 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800AD058_arg0.h"
 
-typedef s32 M2C_UNK;
 
 s32 func_800644B8(s32);
 s32 func_80064584(s32);

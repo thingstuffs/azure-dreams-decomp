@@ -1,19 +1,18 @@
 #include "common.h"
 #include "shared/object_node.h"
-#include "m2c_compat.h"
 
 extern u8 D_80045340[];
 extern u8 D_800DEC70[];
 s32 func_8004491C();
 extern u8 D_800F6000[];
-extern M2C_UNK D_800F6A44;
+extern void advance_gravity_damped_effect_motion(void *entry, void *motion, void *object);
 
 
 typedef struct S_80921B2C_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80921B2C_0;
 
 typedef struct S_80921B2C_1 {
@@ -76,10 +75,10 @@ void func_80921B2C(S_80921B2C_3 *position, s16 x_offset, s16 y_offset, s16 z_off
     global_state = ((u8 *)(&D_80083498));
     direction_state = global_state + 0x20;
     effect = func_8003FC64(effect_type);
-    if (effect != NULL) {
+    if (effect != 0) {
         u8 *directions = direction_table;
 
-        effect->unk_10 = &D_800F6A44;
+        effect->unk_10 = &advance_gravity_damped_effect_motion;
         func_8004491C(effect, D_80045340);
         {
             S_80921B2C_1 *render_state;

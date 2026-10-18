@@ -18,7 +18,7 @@ typedef struct {
 
 typedef struct S_801728B4_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0x6];
     u16 unk_96;
     u16 unk_98;
@@ -45,7 +45,7 @@ typedef struct S_801728B4_6 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0x36];
     u16 unk_4A;
     u8 pad_4C[0x6F];
@@ -89,7 +89,7 @@ s32 advance_status_timers();
 s32 play_sound_if_enabled();
 s32 create_actor_spell_effect(void *, u8 *, s32, void *);
 extern M2C_UNK D_800D7960;
-extern M2C_UNK D_80170E54;
+extern void func_80170E54(void *controller, void *context, void *entity, EntityRec *actor_state);
 extern u8 D_80173C6C[];
 
 /* Updates an actor action, its visual effect, and completion cleanup. */
@@ -180,7 +180,7 @@ void resolve_actor_attack_damage(void *actor, EntityRec *motion, void *sprite, E
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
             play_sound_if_enabled(0x703);
             ((S_801728B4_0 *)actor)->unk_9B = (u8) (((S_801728B4_0 *)actor)->unk_9B + 1);
-            new_effect = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
+            new_effect = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
             ((S_801728B4_0 *)actor)->unk_A0 = new_effect;
             if (new_effect == NULL) {
                 return;
@@ -216,7 +216,7 @@ void resolve_actor_attack_damage(void *actor, EntityRec *motion, void *sprite, E
             (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_810AF0B4 *)D_800814A8)->field_A6) - 1);
             advance_status_timers(action);
             action->unk_6D = (u8) (((u8)action->unk_6D) - 1);
-            ((S_801728B4_0 *)actor)->unk_8C = &D_80170E54;
+            ((S_801728B4_0 *)actor)->unk_8C = &func_80170E54;
             action->unk_73 = 0;
             action->unk_72 = 0;
             action->unk_46 = (u16) (action->unk_46 & 0x7FFF);
@@ -267,7 +267,7 @@ void resolve_actor_attack_damage(void *actor, EntityRec *motion, void *sprite, E
         }
         g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
-        ((S_801728B4_0 *)actor)->unk_8C = &D_80170E54;
+        ((S_801728B4_0 *)actor)->unk_8C = &func_80170E54;
         advance_status_timers(action);
         if ((s8) ((u8)action->unk_6D) > 0) {
             action->unk_6D = (u8) (((u8)action->unk_6D) - 1);

@@ -2,9 +2,10 @@
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+
+typedef struct S_80047784 S_80047784;
 
 typedef struct S_801704A0_0 {
     u8 pad_00[0x8C];
@@ -21,12 +22,12 @@ typedef struct S_801704A0_0 {
     s32 unk_A4;
 } S_801704A0_0;   /* arg0 in move_boss_actor_to_tile */
 
-M2C_UNK func_80047784();
+void func_80047784(S_80047784 *object, s16 table_index, s16 entry_index);
 s32 func_800644B8();
 s16 get_rounded_facing_and_rounding_flag();
 void set_record_integer_tile_center();
 s32 advance_status_timers();
-M2C_UNK func_800A9A04();
+void func_800A9A04(void *actor);
 s32 check_actor_floor_trap();
 typedef struct {
     u8 pad[0x24];

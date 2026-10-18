@@ -3,8 +3,6 @@
 #include "shared/dungeon_status.h"
 
 
-typedef s32 M2C_UNK;
-
 #ifndef NULL
 #define NULL 0
 #endif
@@ -12,11 +10,11 @@ typedef s32 M2C_UNK;
 
 void *func_8003FD64();
 s32 play_sound_if_enabled();
-extern M2C_UNK D_800C4C00;
+void tick_view_color_flash(void *fade);
 
 typedef struct S_800C4D78_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
     u8 pad_24[0x2];
@@ -33,10 +31,10 @@ void create_view_color_flash(s32 payload, s16 trigger_event) {
     S_800C4D78_0 *object;
     s16 held_event = trigger_event;
 
-    object = func_8003FD64(0x200, ((M2C_UNK *)&D_80083498.next));
+    object = func_8003FD64(0x200, ((s32 *)&D_80083498.next));
     if (object != NULL) {
         object->unk_26 = 0x20;
-        object->unk_10 = &D_800C4C00;
+        object->unk_10 = &tick_view_color_flash;
         object->unk_20 = payload;
         if ((held_event << 0x10) != 0) {
             play_sound_if_enabled(0x501);

@@ -1,14 +1,15 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
-
 typedef s32 M2C_UNK;
+
+
 
 typedef struct S_800B23F8_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800B23F8_0;   /* obj in create_mode_configured_object */
 
 typedef struct S_800B23F8_1 {
@@ -104,7 +105,7 @@ post_kind:
         initialize_entity_sprite_effect(obj, part_a, (void *)value_or_part_b, init_mode);
         ((S_800B23F8_4 *)((void *)byte_or_work))->unk_9A = 0xFF;
         ((S_800B23F8_4 *)((void *)byte_or_work))->unk_9C = -1;
-        (*(M2C_UNK * *)((u8 *)((void *)byte_or_work) + 0x8C)) = &D_800B2A60;
+        (*(s32 * *)((u8 *)((void *)byte_or_work) + 0x8C)) = &D_800B2A60;
         ((S_800B23F8_3 *)((void *)value_or_part_b))->unk_08 = part_b_value;
     }
     return work;

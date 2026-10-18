@@ -4,6 +4,12 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
+#include "shared/entity.h"
+
+typedef struct R03_80170A28_S_80170A28_2 R03_80170A28_S_80170A28_2;
+typedef struct ActionState ActionState;
+typedef struct ActorSprite ActorSprite;
+
 typedef struct S_80FF3000_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -48,8 +54,8 @@ s16 set_or_clear_actor_status_slot();
 s32 generate_random_value();
 void initialize_actor_sprite_and_animation();
 s32 try_move_actor_to_valid_position();
-extern M2C_UNK D_80158A7C;
-extern M2C_UNK D_80158EA8;
+void func_80158A7C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
+void func_80158EA8(ActionState *actor, void *context, ActorSprite *sprite, EntityRec *entity);
 extern M2C_UNK D_8015C038;
 extern M2C_UNK D_8015C088;
 
@@ -82,7 +88,7 @@ void *create_and_initializes_dungeon_flags_placement_parameters(s16 init_flags, 
     object = func_8003FD64(pos_x, ((void *)&D_80083498.next));
     if (object != NULL) {
         object_state = object + 0x20;
-        ((S_80FF3000_0 *)object)->unk_10 = &D_80158A7C;
+        ((S_80FF3000_0 *)object)->unk_10 = &func_80158A7C;
         object_state->unk_13 = 0x28;
         func_8004491C(object, func_80045340);
         config_value = (s32) &D_8015C038;
@@ -115,7 +121,7 @@ void *create_and_initializes_dungeon_flags_placement_parameters(s16 init_flags, 
         initialize_actor_sprite_and_animation(object, base_data, placement, (s16)(s32) init_flags);
         extended_state->unk_9A = 0xFF;
         extended_state->unk_9C = -1;
-        extended_state->unk_8C = &D_80158EA8;
+        extended_state->unk_8C = &func_80158EA8;
         try_move_actor_to_valid_position(extended_state, base_data, placement, object_state);
     }
     return object_state;

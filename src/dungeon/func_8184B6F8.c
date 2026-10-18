@@ -1,5 +1,5 @@
 #include "common.h"
-#include "m2c_compat.h"
+typedef struct S_80024930_1 S_80024930_1;
 
 typedef struct S_80024EF8_0 {
     u8 pad_00[0x10];
@@ -10,11 +10,11 @@ typedef struct S_80024EF8_0 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 draw_shaded_textured_cylinder(void *, M2C_UNK, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
+s32 draw_shaded_textured_cylinder(void *unused_data, S_80024930_1 *center, s32 unused_value, s16 rotation, s32 height, s16 radius, u8 blend_mode, u8 brightness); /* extern */
 s32 func_800644B8(s32);                                                    /* extern */
 
 /* Draws two effect layers with opposing angles and phase-dependent sizes. */
-s32 func_80024EF8(S_80024EF8_0 *effect, M2C_UNK draw_arg1, M2C_UNK draw_arg2) {
+s32 func_80024EF8(S_80024EF8_0 *effect, s32 draw_arg1, s32 draw_arg2) {
     s32 primary_size;
     s32 secondary_size;
     u8 fade;

@@ -18,7 +18,7 @@ typedef struct S_800BBA40_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800BBA40_0;
 
 typedef struct S_800BBA40_1 {
@@ -33,7 +33,7 @@ typedef struct S_800BBA40_1 {
 typedef struct S_800BBA40_2 {
     u8 pad_00[0x6];
     s16 unk_06;
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     s32 unk_0C;
     u8 pad_10[0xC];
     s16 unk_1C;
@@ -68,7 +68,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
     call_data[0] = 0x01000340;
     call_data[1] = 0x01000080;
     draw_content_or_rect(0, 0, call_data, 1, 0);
-    effect = func_8003FD64(0x12, ((M2C_UNK *)&D_80083498.next));
+    effect = func_8003FD64(0x12, ((s32 *)&D_80083498.next));
     if (effect != NULL) {
         s32 angle_index;
         void *setup_cursor;
@@ -101,7 +101,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
             angle += 0x999;
             angle_index += 1;
         } while (angle_index < 5);
-        select_nearby_target_and_initialize_slot(((M2C_UNK *)&D_80083498.next), &D_80083780.x.v, 8, 0x300);
+        select_nearby_target_and_initialize_slot(((s32 *)&D_80083498.next), &D_80083780.x.v, 8, 0x300);
     }
     return effect;
 }

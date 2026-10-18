@@ -1,16 +1,11 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/types3a_types.h"
 
 /* D_80083160: shared state table (own view here). field_8 (cur reading) is
  * accessed directly on the base struct; a separate history view starting
  * at the SAME offset+8 holds cur again at +0 (unused via this view), the
  * previous reading (old, +4) and the trg mask (+8). */
-
-typedef struct {
-    s32 cur;
-    s32 old;
-    s32 trg;
-} Hist_8003E2D8;
 
 
 extern s32 read_combined_controller_buttons(s32 a0);
@@ -19,7 +14,7 @@ extern s32 read_combined_controller_buttons(s32 a0);
 void update_controller_buttons_and_triggers(void)
 {
     GameWork *pad_state = &g_game_work;
-    Hist_8003E2D8 *history = (Hist_8003E2D8 *)&pad_state->buttons;
+    ControllerButtonHistory *history = (ControllerButtonHistory *)&pad_state->buttons;
     s32 prev_buttons = pad_state->buttons;
     s32 buttons;
 

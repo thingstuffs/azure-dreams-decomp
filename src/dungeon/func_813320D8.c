@@ -2,8 +2,6 @@
 /* cfail-repair: true-name warm-start */
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
-
 typedef struct S_801690D8_0 {
     u8 unk_00;
     u8 unk_01;
@@ -42,7 +40,7 @@ typedef struct S_801690D8_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_801690D8_2;
 
 typedef struct S_801690D8_3 {
@@ -87,7 +85,7 @@ extern void func_8003DB94();
 extern s32 func_8004491C();
 extern u8 D_800DEAE0[3];
 extern Copy32 D_801648DC;
-extern M2C_UNK D_80168C88[3];
+void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in);
 extern u8 D_80175DD8[96];
 
 
@@ -142,7 +140,7 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 u
     do {
         object = func_8003FC64(0x12);
         effect = object + 0x20;
-        if (object != NULL) {
+        if (object != 0) {
             effect->unk_18 = 0xEU;
             if ((segment == 0) || (segment == 7)) {
                 effect->unk_18 = 8U;
@@ -157,7 +155,7 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 u
             effect->unk_1C = segment;
             effect->unk_1E = 0;
             effect->unk_24 = effect_value;
-            ((S_801690D8_2 *)object)->unk_10 = &D_80168C88;
+            ((S_801690D8_2 *)object)->unk_10 = &update_animated_textured_ribbon;
             func_8004491C(object, func_80045340);
             render_flags = ((S_801690D8_2 *)object)->unk_0C;
             render_flags->unk_10 = 0x20;

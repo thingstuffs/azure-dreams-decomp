@@ -7,7 +7,6 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 extern u8 D_80080000[];
 
 void func_800353F4(void *);                   /* extern */
@@ -31,7 +30,7 @@ typedef struct S_8016B0E8_0 {
     u8 pad_12[0x6];
     u32 unk_18;
     u8 pad_1C[0x70];
-    M2C_UNK (*unk_8C)(void *, void *, void *, void *);
+    s32 (*unk_8C)(void *, void *, void *, void *);
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   /* overlapping accesses */
     s16 unk_94;
     u8 pad_96[0x2];
@@ -159,8 +158,8 @@ static __inline__ u16 clamp_level(u32 level)
 
 /* Update actor state, animation, movement, and terrain height. */
 void update_actor_animation_movement_and_terrain(void *entity, void *motion, void *sprite) {
-    register M2C_UNK (*update_callback)(void *, void *, void *, void *);
-    register M2C_UNK (*paused_callback)(void *, void *, void *, void *);
+    register s32 (*update_callback)(void *, void *, void *, void *);
+    register s32 (*paused_callback)(void *, void *, void *, void *);
     register s16 base_height;
     register s32 view_direction;
     s16 direction_index;
@@ -270,7 +269,7 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
         slot_cursor = ((EntityRec *)(((u8 * *)(&D_800E3D7C))))->x.v + 4;
         do {
             linked_entry = ((S_8016B0E8_8 *)slot_cursor)->unk_AC;
-            if (linked_entry != NULL) {
+            if (linked_entry != 0) {
                 linked_sprite = ((S_8016B0E8_9_pre *)linked_entry)[-1].unk_00;
                 ((S_8016B0E8_10 *)linked_sprite)->unk_14 = (u16) (((S_8016B0E8_10 *)linked_sprite)->unk_14 & 0xFFBF);
             }
@@ -302,7 +301,7 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
     prior_state = (s8) ((S_8016B0E8_2 *)actor)->unk_6D;
     if (refresh_actor_facing_and_lifecycle(entity, motion, sprite, actor) == 0) {
         update_callback = ((S_8016B0E8_0 *)entity)->unk_8C;
-        if (update_callback != NULL) {
+        if (update_callback != 0) {
             update_callback(entity, motion, sprite, actor);
         }
         D_80174728[((S_8016B0E8_0 *)entity)->unk_9A](entity, motion, sprite, actor);

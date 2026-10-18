@@ -10,7 +10,7 @@ typedef struct S_80173140_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80173140_0;
 
 typedef struct S_80173140_1 {
@@ -38,7 +38,7 @@ typedef struct S_80173140_4 {
     u8 unk_24;
     u8 unk_25;
     u8 pad_26[0x6];
-    union { M2C_UNK * s; void * u; } unk_2C;   /* accessed as both */
+    union { s32 * s; void * u; } unk_2C;   /* accessed as both */
 } S_80173140_4;
 
 typedef struct S_80173140_5 {
@@ -53,7 +53,7 @@ void func_80047784();         /* extern */
 void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 void initialize_actor_sprite_and_animation(void *, void *, void *, s32); /* extern */
-extern M2C_UNK D_80171D74;
+extern void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *sprite_in);
 extern M2C_UNK D_80173DA4;
 extern void *D_80175D54;
 
@@ -79,16 +79,16 @@ void create_scripted_encounter_object(void) {
     void *state;
     S_80173140_1 *st;
 
-    object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
+    object = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
     if (object != NULL) {
         state = object + 0x20;
         st = (S_80173140_1 *)state;
-        ((S_80173140_0 *)object)->unk_10 = &D_80171D74;
+        ((S_80173140_0 *)object)->unk_10 = &advance_linked_actor_motion_script;
         st->unk_13 = 2;
         func_8004491C(object, func_80045340);
         object_attrs = ((S_80173140_0 *)object)->unk_08;
         ((S_80173140_2 *)object_attrs)->unk_0A =
-            (u16) ((S_80173140_5 *)((*(void * *)&((EntityRec *)(((M2C_UNK *)&D_80083498.next)))->z)))->unk_0A;
+            (u16) ((S_80173140_5 *)((*(void * *)&((EntityRec *)(((s32 *)&D_80083498.next)))->z)))->unk_0A;
         sprite = ((S_80173140_0 *)object)->unk_0C;
         origin_x = D_80082E80.tileX;
         ((S_80173140_4 *)sprite)->unk_24 = (u8) (origin_x - 1);
@@ -117,6 +117,6 @@ void create_scripted_encounter_object(void) {
         update_map_cell_flags_with_item_limit(cell_x, cell_y, cell_mask);
         unlink_entity_node(st);
         D_80175D54 = object;
-        ((S_80173140_0 *)object)->unk_10 = (M2C_UNK *) ((s32) ((S_80173140_0 *)object)->unk_10 | 0x80000000);
+        ((S_80173140_0 *)object)->unk_10 = (s32 *) ((s32) ((S_80173140_0 *)object)->unk_10 | 0x80000000);
     }
 }

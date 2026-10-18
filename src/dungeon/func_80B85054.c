@@ -2,8 +2,9 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-
 typedef s32 M2C_UNK;
+
+
 
 typedef struct S_80B85054_0 {
     u8 pad_00[0x8];

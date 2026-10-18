@@ -28,12 +28,12 @@ typedef struct S_80BFD000_3 {
     s8 unk_24;
     s8 unk_25;
     u8 pad_26[0x6];
-    M2C_UNK * unk_2C;
+    s32 * unk_2C;
 } S_80BFD000_3;
 
 typedef struct S_80BFD000_4 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0x2];
     s16 unk_92;
     u8 pad_94[0x6];

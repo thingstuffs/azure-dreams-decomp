@@ -8,7 +8,7 @@
 
 typedef struct S_80095A10_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0x6];
     u16 unk_96;
     u8 pad_98[0x3];
@@ -89,7 +89,7 @@ typedef struct S_80095A10_10 {
 s32 Control_CD();
 void func_800424E0();
 void func_80042560();
-M2C_UNK func_80042640();
+s32 func_80042640(void *, s32);
 void func_80042B68();
 void runtime_map_type_16_entry_code();
 s32 func_80047DB8();
@@ -134,7 +134,7 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
         if (!(((S_80095A10_1 *)animation)->unk_14 & 0xE000)) {
             return;
         }
-        (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD138;
+        (*(s32 **)((u8 *)animation + 0x2C)) = D_800DD138;
         func_80048A44(animation, *((((s32) (g_game_work.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
             >> 9) & 7) + D_800DD138), 0, 1);
         ((S_80095A10_1 *)animation)->unk_14 = (u16) (((S_80095A10_1 *)animation)->unk_14 | 0x200);
@@ -211,7 +211,7 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
         if ((ticks_left << 0x10) > 0) {
             return;
         }
-        (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD140;
+        (*(s32 **)((u8 *)animation + 0x2C)) = D_800DD140;
         func_80048A44(animation, *((((s32) (g_game_work.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
             >> 9) & 7) + D_800DD140), 0, 1);
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;
@@ -225,7 +225,7 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
         animation_table = D_800DCFB0;
         ((S_80095A10_1 *)animation)->unk_14 = (u16) (animation_flags & 0xFDFF);
 set_animation:
-        (*(M2C_UNK **)((u8 *)animation + 0x2C)) = animation_table;
+        (*(s32 **)((u8 *)animation + 0x2C)) = animation_table;
         func_80048A44(animation, *((((s32) (g_game_work.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
             >> 9) & 7) + animation_table), 0, 1);
 advance_state:

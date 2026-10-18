@@ -8,7 +8,7 @@ void select_and_start_target_action(void *action_state, void *action_context, vo
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x11;
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
-            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = ((u8 *)D_80175A54);
+            (*(s32 **)((u8 *)sprite + 0x2C)) = ((u8 *)D_80175A54);
             func_80047784(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + ((u8 *)D_80175A54)), 0);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);

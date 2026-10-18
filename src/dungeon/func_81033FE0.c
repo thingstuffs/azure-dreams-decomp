@@ -12,7 +12,6 @@ typedef struct {
     s16 y;
 } Pair16;
 
-typedef s32 M2C_UNK;
 
 extern void func_8003DB94(void *, void *, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
@@ -28,7 +27,7 @@ extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern s32 find_first_entry_matching_keys(void *, u16, u16, s16);
 extern void create_facing_offset_object(void *, void *, void *);
 
-extern M2C_UNK D_800DE870;
+extern u8 D_800DE870[16];
 extern u8 D_80170B48[];
 extern u8 D_801714B8;
 extern u8 D_8017609C[];

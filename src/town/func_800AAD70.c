@@ -13,6 +13,7 @@ struct Elem;
 void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 extern s32 func_8004491C();
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 void fade_timed_primitive(void *record_fields, void *unused, Rec_D_80082E80 *primitive);
 extern s32 D_800D1464;
 
@@ -23,23 +24,8 @@ typedef struct S_800A84D0_0 {
     s32 * unk_10;
 } S_800A84D0_0;
 
-typedef struct S_800A84D0_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800A84D0_1;
 
-typedef struct S_800A84D0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800A84D0_2;   /* arg0 in create_randomized_position_effect */
+   /* arg0 in create_randomized_position_effect */
 
 typedef struct S_800A84D0_3 {
     u8 pad_00[0xC];
@@ -61,10 +47,10 @@ typedef struct S_800A84D0_4 {
 } S_800A84D0_4;
 
 /* Creates an effect at the supplied position and initializes its sprite and random state. */
-void *create_randomized_position_effect(S_800A84D0_2 *source_position) {
+void *create_randomized_position_effect(MovingPosition *source_position) {
     s32 random_offset;
     S_800A84D0_3 *sprite;
-    S_800A84D0_1 *position;
+    MovingPosition *position;
     void *object;
     S_800A84D0_4 *effect_state;
 

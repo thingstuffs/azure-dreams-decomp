@@ -2,13 +2,12 @@
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_800D991C_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     s32 unk_90;
     u8 pad_94[0x2];
     s16 unk_96;
@@ -24,10 +23,10 @@ void func_8003DB94();        /* extern */
 s16 get_rounded_facing_and_rounding_flag();       /* extern */
 void set_record_integer_tile_center();              /* extern */
 s32 advance_status_timers();                      /* extern */
-M2C_UNK func_800A9A04();                      /* extern */
+void func_800A9A04(void *actor);                      /* extern */
 void reduce_actor_food_meter();             /* extern */
 s32 check_actor_floor_trap();                  /* extern */
-extern M2C_UNK D_800D8C64;
+void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, EntityRec *status);
 extern void *D_800E262C[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */
@@ -113,7 +112,7 @@ void update_actor_landing(void *motion_state, EntityRec *transform, void *map_en
                 }
             }
             if ((check_actor_floor_trap(map_entity, actor) << 0x10) > 0) {
-                ((S_800D991C_0 *)motion_state)->unk_8C = &D_800D8C64;
+                ((S_800D991C_0 *)motion_state)->unk_8C = &update_actor_facing_animation;
                 func_800A9A04(actor);
             }
         }

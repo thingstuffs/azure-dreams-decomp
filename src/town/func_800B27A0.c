@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_800AFF00_0 {
     s32 unk_00;
@@ -14,11 +15,7 @@ typedef struct S_800AFF00_1 {
     s32 unk_0C;
 } S_800AFF00_1;   /* src1 in initialize_item_menu_linked_blocks */
 
-typedef struct S_800AFF00_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800AFF00_2;   /* arg2 in initialize_item_menu_linked_blocks */
+   /* arg2 in initialize_item_menu_linked_blocks */
 
 typedef struct S_800AFF00_3 {
     u8 pad_00[0x4];
@@ -57,7 +54,7 @@ extern s32 D_8002E5D8[4];
 extern s32 D_8002E5E8[3];
 
 /* Initialize two linked data blocks from templates and set their default fields. */
-void initialize_item_menu_linked_blocks(S_800AFF00_4 *state, S_800AFF00_0 *primary, S_800AFF00_2 *secondary) {
+void initialize_item_menu_linked_blocks(S_800AFF00_4 *state, S_800AFF00_0 *primary, DisplayPositionWords *secondary) {
     s32 *primary_defaults = D_8002E5D8;
     s32 *secondary_defaults = D_8002E5E8;
     s32 secondary_head;
@@ -68,9 +65,9 @@ void initialize_item_menu_linked_blocks(S_800AFF00_4 *state, S_800AFF00_0 *prima
     primary->unk_08 = ((S_800AFF00_1 *)primary_defaults)->unk_08;
     secondary_head = D_8002E5E8[0];
     primary->unk_0C = ((S_800AFF00_1 *)primary_defaults)->unk_0C;
-    secondary->unk_00 = secondary_head;
-    secondary->unk_04 = ((S_800AFF00_3 *)secondary_defaults)->unk_04;
-    secondary->unk_08 = ((S_800AFF00_3 *)secondary_defaults)->unk_08;
+    secondary->unk0 = secondary_head;
+    secondary->unk4 = ((S_800AFF00_3 *)secondary_defaults)->unk_04;
+    secondary->unk8 = ((S_800AFF00_3 *)secondary_defaults)->unk_08;
     state->unk_04 = primary;
     state->unk_08 = secondary;
     state->unk_00 = 0;

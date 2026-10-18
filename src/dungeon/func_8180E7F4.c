@@ -3,7 +3,6 @@
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
 s16 find_matching_initial_stat_slot();
@@ -209,7 +208,7 @@ void *merge_creature_abilities_and_state(void *first, void *second, void *destin
     u8 *ability_ids;
     D_8006DE24_Record *result_seen;
     u8 *other_data;
-    M2C_UNK map_mask;
+    s32 map_mask;
     s16 result_primary;
     s16 donor_primary;
     u8 *merge_out;
@@ -268,12 +267,12 @@ void *merge_creature_abilities_and_state(void *first, void *second, void *destin
         second_creature = second;
         ability_limit = 2;
         result = select_object_by_flags_and_keys(first_creature, second_creature, &merged_element);
-        if (result == NULL) {
-            return NULL;
+        if (result == 0) {
+            return 0;
         }
         {
             void *copy_target = destination;
-            if (copy_target != NULL) {
+            if (copy_target != 0) {
                 func_80042710(copy_target, result);
                 if (first_creature == result) {
                     first_creature = destination;
@@ -566,7 +565,7 @@ merge_donor_primary:
         if (((S_800277F4_0 *)result)->unk_24.at01.v != 0) {
             ((S_800277F4_0 *)result)->unk_1C = (s32) (((S_800277F4_0 *)result)->unk_1C & ~8);
         }
-        if (destination == NULL) {
+        if (destination == 0) {
             func_80042984(result);
         }
         if ((((S_800277F4_0 *)result)->unk_48.at01.v != 0) && !(((S_800277F4_0 *)result)->unk_48.at03.v & 0x20)) {
@@ -585,7 +584,7 @@ merge_donor_primary:
                 ((S_800277F4_0 *)result)->unk_44 = (s8) slot_index;
             }
         }
-        if (destination == NULL) {
+        if (destination == 0) {
             func_800A31D0(donor);
             decrement_monster_entry_count(((S_800277F4_8 *)donor)->unk_13, 3);
             slot_index = find_entity_slot_by_field_ac(donor);

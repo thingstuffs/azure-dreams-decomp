@@ -6,7 +6,16 @@
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80042B68();             /* extern */
+typedef struct {
+    s8 type;
+    s8 value;
+} Slot;
+typedef struct {
+    u8 pad[0x2C];
+    Slot slots[4];
+} SlotOwner;
+
+extern void func_80042B68(SlotOwner *owner, s8 match_type);             /* extern */
 void begin_deferred_item_action(); /* extern */
 void clear_slot_and_update_linked_state();                         /* extern */
 s32 get_unused_text_buffer(void);                          /* extern */

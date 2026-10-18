@@ -1,10 +1,10 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AD058_arg2.h"
 
-typedef s32 M2C_UNK;
 
 typedef struct S_8017390C_0 {
     u8 pad_00[0x96];
@@ -68,7 +68,7 @@ extern s32 update_actor_defeat_removal();
 extern void *create_tracked_effect();
 
 extern M2C_UNK D_8006E240;
-extern M2C_UNK D_80173770;
+void func_80173770(void *actor, void *motion, void *visual);
 
 /* Spawns an object from stored appearance data and advances the actor's state. */
 void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 *render, void *actor_data)
@@ -127,7 +127,7 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
                 *(Unaligned32 *)((u8 *)spawned_data + 0x48) =
                     *(Unaligned32 *)((u8 *)actor_data + 0x48);
                 create_tracked_effect(spawned_obj, 0, 0, 0);
-                ((S_8017390C_2 *)spawned_obj)->unk_10 = &D_80173770;
+                ((S_8017390C_2 *)spawned_obj)->unk_10 = &func_80173770;
             }
             ((S_8017390C_1 *)actor_data)->unk_48 = 0;
             ((S_8017390C_1 *)actor_data)->unk_49 = 0;

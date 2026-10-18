@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 /* extern decls for callees; sizes/types from asm inspection */
 extern void func_8005CA70(void);
@@ -6,13 +7,8 @@ extern void audio_reset_all_voices(void);
 extern void func_8005A26C(void);
 extern void func_8005D838(int count, void *record);
 
-typedef struct {
-    int unk0;
-    int unk4;
-    int unk8; /* padding beyond 8 bytes to force %hi/%lo addressing (not gp-relative) */
-} S_80086CC0;
 
-extern S_80086CC0 D_80086CC0;
+extern SoundSequenceListState D_80086CC0;
 
 /* Resets sound state and slot tables, then initializes the record list at D_80086CC0. */
 void audio_reset_sequence_subsystem(void)

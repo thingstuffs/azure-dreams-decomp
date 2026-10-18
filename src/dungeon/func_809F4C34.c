@@ -2,13 +2,10 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_80082E80.h"
 
-#define M2C_BREAK() 0
-#define M2C_SYNC() 0
 
 void func_80047784();
 typedef struct Ent Ent;

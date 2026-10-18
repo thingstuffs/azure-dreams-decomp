@@ -1,9 +1,8 @@
 #include "modules/dungeon_ovl_1972800.h"
 #include "common.h"
-#include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern M2C_UNK D_80024830;
+extern void process_effect_modes_and_completion(void *state);
 
 typedef struct S_80024908_0 {
     u8 pad_00[0x10];
@@ -27,7 +26,7 @@ void allocate_and_initialize_effect_object(s32 alloc_arg, s16 value_26, s16 valu
     S_80024908_1 *state;
 
     object = func_8003FD64(0x200, (ObjectNodeHeader **)alloc_arg);
-    if (object != NULL) {
+    if (object != 0) {
         ((S_80024908_0 *)object)->unk_10 = process_effect_modes_and_completion;
         state = object + 0x20;
         state->unk_26 = value_26;

@@ -3,8 +3,6 @@
 #include "shared/slus_callbacks.h"
 
 
-typedef s32 M2C_UNK;
-
 typedef struct S_8016A870_0 {
     u8 pad_00[0x8];
     void * unk_08;

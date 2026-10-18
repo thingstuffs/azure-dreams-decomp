@@ -3,7 +3,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 extern u8 D_80080000[];
 
@@ -71,8 +70,8 @@ typedef struct S_800CB9DC_9 {
 } S_800CB9DC_9;   /* page14_again in advance_go_up_trap_sequence */
 
 
-M2C_UNK func_80040AA0();               /* extern */
-M2C_UNK func_800478B8();                      /* extern */
+extern void func_80040AA0(s16 requested_state);               /* extern */
+extern void func_800478B8(void *entity);                      /* extern */
 void mark_sprite_resources_for_purge();                            /* extern */
 void snapshot_inventory_and_familiars();           /* extern */
 void snapshot_inventory_familiar_records();                            /* extern */

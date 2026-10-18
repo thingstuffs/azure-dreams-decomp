@@ -5,7 +5,6 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -82,10 +81,10 @@ void begin_multi_form_ring_script(void) {
     ((S_8016EE8C_0 *)active_data)->unk_AB = 0;
     do {
         slot_offset = slot_index * 4;
-        object_data = ((S_8016EE8C_5 *)((slot_offset + ((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x.v)))->unk_AC;
+        object_data = ((S_8016EE8C_5 *)((slot_offset + ((EntityRec *)(((s32 *)&D_800E3D7C)))->x.v)))->unk_AC;
         if (object_data != 0) {
             unlink_entity_node(object_data);
-            object_header = ((S_8016EE8C_5 *)((slot_offset + ((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x.v)))->unk_AC
+            object_header = ((S_8016EE8C_5 *)((slot_offset + ((EntityRec *)(((s32 *)&D_800E3D7C)))->x.v)))->unk_AC
             - 0x20;
             ((S_8016EE8C_4 *)object_header)->unk_10 = (s32) (((S_8016EE8C_4 *)object_header)->unk_10 | 0x80000000);
         }

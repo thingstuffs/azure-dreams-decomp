@@ -8,11 +8,11 @@ void func_80024DB8(void **owner_ref, Row_818FF5B8_S_818FF5B8_4 *spawn_pos, Row_8
 
     object = func_8003FC64(0x212);
     state = object + 0x20;
-    if (object != NULL) {
+    if (object != 0) {
         state->unk_2C = (void *) *owner_ref;
         state->unk_30 = (s32) ((Row_818FF5B8_S_818FF5B8_1 *)(*owner_ref))->unk_60;
         state->unk_34 = owner_ref;
-        (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_80024750;
+        (*(s32 **)((u8 *)object + 0x10)) = &D_80024750;
         func_8004491C(object, func_80045340);
         sprite = (*(void **)((u8 *)object + 0xC));
         sprite->unk_10 = 0x20;

@@ -2,8 +2,9 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-
 typedef s32 M2C_UNK;
+
+
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);

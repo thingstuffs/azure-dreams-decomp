@@ -1,11 +1,12 @@
 #include "common.h"
-#include "m2c_compat.h"
+
+typedef struct S807AF9A4 S807AF9A4;
 
 typedef struct S_80175814_0 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x4];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
     u8 pad_24[0x6];
@@ -22,15 +23,15 @@ typedef struct S_80175814_1 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *func_8003FD64();                  /* extern */
 s32 play_sound_if_enabled();                     /* extern */
-extern M2C_UNK D_801756D4;
+extern void func_801756D4(S807AF9A4 *data);
 
 /* Creates an object linked to the source record and copies its initialization fields. */
 void create_linked_source_object(void *sourceRecordData) {
     S_80175814_0 *createdObject;
 
     createdObject = func_8003FD64(0x202, sourceRecordData - 0x20);
-    if (createdObject != NULL) {
-        createdObject->unk_10 = &D_801756D4;
+    if (createdObject != 0) {
+        createdObject->unk_10 = &func_801756D4;
         createdObject->unk_20 = sourceRecordData;
         createdObject->unk_08 = (s32) ((S_80175814_1 *)((u8 *)sourceRecordData - 0x18))->unk_00;
         createdObject->unk_2A = (u16) ((S_80175814_1 *)((u8 *)sourceRecordData - 0x18))->unk_42;

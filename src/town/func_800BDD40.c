@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_delay_views.h"
 
 s32 func_8004491C();           /* extern */
 void update_four_phase_animation(void *entity, void *context);
@@ -19,13 +20,10 @@ typedef struct S_800BB4A0_1 {
     s8 unk_97;
 } S_800BB4A0_1;   /* arg0 in initialize_object_header_and_state */
 
-typedef struct S_800BB4A0_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800BB4A0_2;   /* arg1 in initialize_object_header_and_state */
+   /* arg1 in initialize_object_header_and_state */
 
 /* Initializes an object's header and state, including its associated state value. */
-void initialize_object_header_and_state(void *objectState, S_800BB4A0_2 *associatedState) {
+void initialize_object_header_and_state(void *objectState, DelayMotionZ *associatedState) {
     S_800BB4A0_0 *objectHeader;
 
     objectHeader = objectState - 0x20;

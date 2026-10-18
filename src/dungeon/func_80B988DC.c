@@ -1,6 +1,11 @@
 #include "common.h"
 
-extern s32 update_actor_movement_to_tile(M2C_UNK);
+typedef struct ObjA0 ObjA0;
+typedef struct Motion Motion;
+typedef struct TilePos TilePos;
+#include "shared/entity.h"
+
+extern s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *target_tile, EntityRec *actor);
 extern void reduce_actor_food_meter(s32, s32);
 extern void advance_status_timers(s32);
 extern s32 check_actor_floor_trap(s32, s32);

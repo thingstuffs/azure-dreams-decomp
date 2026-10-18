@@ -2,9 +2,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct S_818DAE84_0_pre {
-    u16 unk_00;
-} S_818DAE84_0_pre;   /* the 0x2 bytes before arg0 in create_coordinate_sprite_object, addressed as arg0[-1] */
+
 
 typedef struct S_818DAE84_0 {
     void * unk_00;
@@ -45,7 +43,7 @@ void create_coordinate_sprite_object(void *state) {
     next_remaining = (u16)((S_818DAE84_0 *)state)->unk_10 - 1;
     ((S_818DAE84_0 *)state)->unk_10 = next_remaining;
     if ((next_remaining << 16) <= 0) {
-        ((S_818DAE84_0_pre *)state)[-1].unk_00 = (u16)(((S_818DAE84_0_pre *)state)[-1].unk_00 | 0x8000);
+        ((u16 *)state)[-1] = (u16)(((u16 *)state)[-1] | 0x8000);
         object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

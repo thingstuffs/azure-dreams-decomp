@@ -1,12 +1,10 @@
 #include "common.h"
 #include "shared/object_node.h"
-#include "m2c_compat.h"
-
 typedef struct S_800B1B10_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
     u8 pad_24[0x34];
@@ -109,9 +107,9 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     s16 compact_held = compact;
     u16 flags_held = flags;
     register s16 compact_s16;
-    M2C_UNK offset;
-    M2C_UNK obj;
-    M2C_UNK obj_2;
+    s32 offset;
+    s32 obj;
+    s32 obj_2;
     s32 style_byte;
     s32 geom;
     s32 call_kind;
@@ -130,9 +128,9 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     call_kind = 0x12;
     subroutine_arg4 = flags_held;
     alloc_data = &D_80083498;
-    obj = (M2C_UNK) func_8003FD64(call_kind, alloc_data);
+    obj = (s32) func_8003FD64(call_kind, alloc_data);
     compact_s16 = compact_held;
-    if (obj != NULL) {
+    if (obj != 0) {
         meta = ((S_800B1B10_0 *)obj)->unk_0C;
         header = ((S_800B1B10_0 *)obj)->unk_08;
         sub = obj + 0x20;

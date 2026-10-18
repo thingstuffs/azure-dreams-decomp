@@ -2,7 +2,6 @@
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 
 extern void func_80047784(void *, s32, s32);
@@ -52,7 +51,7 @@ void update_movement_and_directional_animation(void *state, void *motion_arg, vo
     void *motion = motion_arg;
     void *actor = actor_arg;
     void *entity = entity_arg;
-    M2C_UNK direction_info;
+    s32 direction_info;
     s32 move_ticks;
     s32 next_move_ticks;
     s32 tile_x;

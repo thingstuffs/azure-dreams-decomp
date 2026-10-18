@@ -2,17 +2,14 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/types3a_types.h"
 
 extern s32 read_map_cell_at_world_position();
 extern void set_actor_motion_state(Rec_func_80094268_arg0 *, void *);
 extern s32 check_masked_value_in_current_range();
 extern s16 D_800D45AA[];
 
-typedef struct S_8009BFD8_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_8009BFD8_3;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_7C.as_pv in select_object_value_by_height_band */
+   /* ((Rec_func_80094268_arg0 *)arg0)->unk_7C.as_pv in select_object_value_by_height_band */
 
 /* Selects one of three object values using a position-based table difference. */
 void select_object_value_by_height_band(Rec_func_80094268_arg0 *object, void *context, EntityRec *position, Rec_D_80082E80 *output)
@@ -32,14 +29,14 @@ void select_object_value_by_height_band(Rec_func_80094268_arg0 *object, void *co
         if (table_delta >= 0x19) {
             if (table_delta < 0x29) {
                 output->unk_08 =
-                    ((S_8009BFD8_3 *)(object->unk_7C.as_pv))->unk_04;
+                    ((HeightBandValues *)(object->unk_7C.as_pv))->unk_04;
                 return;
             }
             output->unk_08 =
-                ((S_8009BFD8_3 *)(object->unk_7C.as_pv))->unk_08;
+                ((HeightBandValues *)(object->unk_7C.as_pv))->unk_08;
             return;
         }
     }
 
-    output->unk_08 = ((S_8009BFD8_3 *)(object->unk_7C.as_pv))->unk_00;
+    output->unk_08 = ((HeightBandValues *)(object->unk_7C.as_pv))->unk_00;
 }

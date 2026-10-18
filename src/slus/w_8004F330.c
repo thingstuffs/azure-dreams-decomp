@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_8002E5D8 {
     s32 unk0;
@@ -7,25 +8,20 @@ typedef struct S_8002E5D8 {
     s32 unkC;
 } S_8002E5D8;
 
-typedef struct S_8002E5E8 {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} S_8002E5E8;
 
 extern S_8002E5D8 D_8002E5D8;
-extern S_8002E5E8 D_8002E5E8;
+extern DisplayPositionWords D_8002E5E8;
 
 typedef struct S_8004F330_Node {
     s32 unk0;
     S_8002E5D8 *unk4;
-    S_8002E5E8 *unk8;
+    DisplayPositionWords *unk8;
     s32 unkC;
 } S_8004F330_Node;
 
 typedef struct S_8004F330_Entity {
     u8 pad0[0x204];
-    S_8002E5E8 hdr;
+    DisplayPositionWords hdr;
     u8 pad1[0x220 - 0x210];
     S_8004F330_Node *ptrArray[7];
     S_8004F330_Node nodeArray[7];

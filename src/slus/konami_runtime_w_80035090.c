@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_80035090_1 {
     u8 pad_00[0x4];
@@ -9,10 +10,7 @@ typedef struct S_80035090_1 {
     void * unk_08;
 } S_80035090_1;   /* arg0 in runtime_unlink_doubly_linked_node */
 
-typedef struct S_80035090_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80035090_2;   /* ((S_80035090_1 *)arg0)->unk_04 in runtime_unlink_doubly_linked_node */
+   /* ((S_80035090_1 *)arg0)->unk_04 in runtime_unlink_doubly_linked_node */
 
 typedef struct S_80035090_3 {
     u8 pad_00[0x4];
@@ -29,6 +27,6 @@ typedef struct S_80035090_0 {
 
 /* Unlink a node from a doubly linked list by connecting its neighbors. */
 void runtime_unlink_doubly_linked_node(S_80035090_0 *node) {
-    ((S_80035090_2 *)(((S_80035090_1 *)node)->unk_04))->unk_08 = (void *) node->unk_08;
+    ((ListBacklinkView *)(((S_80035090_1 *)node)->unk_04))->unk_08 = (void *) node->unk_08;
     ((S_80035090_3 *)(((S_80035090_1 *)node)->unk_08))->unk_04 = (void *) node->unk_04;
 }

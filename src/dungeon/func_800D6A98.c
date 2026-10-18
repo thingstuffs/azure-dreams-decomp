@@ -1,13 +1,12 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8004DC14();                    /* extern */
 u32 func_80069E98();                             /* extern */
 void draw_filler_first_number(); /* extern */
 void pass_global_data_with_fixed_args();                            /* extern */
-M2C_UNK copy_cached_hud_rectangle_to_fixed_position();
+extern void copy_cached_hud_rectangle_to_fixed_position(void);
 typedef struct S_800DC1F8_0 {
     u8 pad_00[0x10];
     s32 unk_10;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_d54c.h"
 
-void ensure_resource_at_front(s32 resource_flag, M2C_UNK resource_group, M2C_UNK resource_id) {
+void ensure_resource_at_front(s32 resource_flag, s32 resource_group, s32 resource_id) {
     s32 entry_index;
 
     entry_index = find_resource_index_by_key(resource_flag, resource_group, resource_id);

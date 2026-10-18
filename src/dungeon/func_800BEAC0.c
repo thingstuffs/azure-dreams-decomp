@@ -7,7 +7,6 @@
 #include "shared/dungeon_status.h"
 
 
-typedef s32 M2C_UNK;
 void begin_deferred_item_action();
 void clear_slot_and_update_linked_state();
 s32 play_sound_if_enabled();

@@ -9,7 +9,7 @@ extern M2C_UNK D_800A624C;
 
 typedef struct S_800A634C_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800A634C_0;
 
 typedef struct S_800A634C_1 {

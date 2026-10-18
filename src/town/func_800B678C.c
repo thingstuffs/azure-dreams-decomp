@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct {
     s32 unk0;
@@ -7,14 +8,9 @@ typedef struct {
     s32 unkC;
 } Template16;
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} Template12;
 
 extern Template16 D_8002E5D8;
-extern Template12 D_8002E5E8;
+extern DisplayPositionWords D_8002E5E8;
 
 typedef struct {
     u8 unk0;
@@ -46,7 +42,7 @@ typedef struct {
 /* Initialize an entity and its part and vector storage from default templates. */
 void initialize_entity_display_parts(Entity *entity, Template16 *part, EntityVector *vector) {
     Template16 *part_template = &D_8002E5D8;
-    Template12 *vector_template = &D_8002E5E8;
+    DisplayPositionWords *vector_template = &D_8002E5E8;
     s32 *vector_word;
 
     part->unk0 = part_template->unk0;
@@ -55,9 +51,9 @@ void initialize_entity_display_parts(Entity *entity, Template16 *part, EntityVec
     part->unk8 = part_template->unk8;
     part->unkC = part_template->unkC;
 
-    ((Template12 *)vector)->unk0 = *vector_word;
-    ((Template12 *)vector)->unk4 = vector_template->unk4;
-    ((Template12 *)vector)->unk8 = vector_template->unk8;
+    ((DisplayPositionWords *)vector)->unk0 = *vector_word;
+    ((DisplayPositionWords *)vector)->unk4 = vector_template->unk4;
+    ((DisplayPositionWords *)vector)->unk8 = vector_template->unk8;
 
     entity->unk4 = (EntityPart *)part;
     entity->unk8 = vector;

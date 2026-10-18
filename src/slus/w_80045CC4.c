@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/types3a_types.h"
 
 #ifndef NULL
 #define NULL 0
@@ -35,10 +36,10 @@ typedef struct S_80045CC4_2 {
 
 
 typedef struct { s32 v; } SpS32;
-typedef struct { u16 v; } SpU16;
+
 typedef struct { s16 v; } SpS16;
 #define SP_S32(offset) (((SpS32 *)(scratchpad + (offset)))->v)
-#define SP_U16(offset) (((SpU16 *)(scratchpad + (offset)))->v)
+#define SP_U16(offset) (((ScratchUnsignedHalf *)(scratchpad + (offset)))->v)
 #define SP_S16(offset) (((SpS16 *)(scratchpad + (offset)))->v)
 
 typedef struct {

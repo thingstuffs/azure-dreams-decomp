@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 
 typedef struct S_80173D40_0 {
@@ -19,7 +18,7 @@ typedef struct S_80173D40_1 {
 
 
 /* Resets state to code 0x19 and updates the associated record flags. */
-void reset_linked_entity_state(S_80173D40_0 *state, M2C_UNK unused, S_80173D40_1 *flag_record, EntityRec *record) {
+void reset_linked_entity_state(S_80173D40_0 *state, s32 unused, S_80173D40_1 *flag_record, EntityRec *record) {
     state->unk_9A = 0x19;
     state->unk_9B = 0;
     state->unk_8C = 0;

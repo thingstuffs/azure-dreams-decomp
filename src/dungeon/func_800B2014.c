@@ -16,8 +16,8 @@ typedef struct {
 } Coord;
 
 extern s32 D_800835E8[];
-M2C_UNK func_8003E188();
-M2C_UNK func_80042640();
+extern void func_8003E188(s32 field_index, s32 flag);
+extern void func_80042640(void *obj, s16 monsterId);
 void func_800424E0(); /* extern */
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();

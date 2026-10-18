@@ -6,20 +6,26 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 
-typedef M2C_UNK (*Callback4)(void *, void *, void *, void *);
+struct Dst;
+struct Elem;
+typedef struct {
+    u8 pad[0x14];
+    u16 unk14;
+} S_80048AC8;
+
+typedef s32 (*Callback4)(void *, void *, void *, void *);
 extern u8 D_80096384[];
-M2C_UNK copy_words_forward();   /* extern */
-M2C_UNK func_8003DB94();             /* extern */
-M2C_UNK func_80040AA0();                     /* extern */
+extern void copy_words_forward(int *dst, int *src, int count);   /* extern */
+extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);             /* extern */
+extern void func_80040AA0(s16 requested_state);                     /* extern */
 s16 func_80042900();                 /* extern */
-M2C_UNK func_800478B8();                      /* extern */
+extern void func_800478B8(void *entity);                      /* extern */
 void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags();     /* extern */
-M2C_UNK func_80048AC8();             /* extern */
-M2C_UNK func_8004D294(); /* extern */
-M2C_UNK func_8004D7A8();                     /* extern */
-M2C_UNK SD_Call();                     /* extern */
+extern void func_80048AC8(S_80048AC8 *entity, void *slot_index);             /* extern */
+extern void func_8004D294(void *target_position, void *target_rotation, s32 transition_param); /* extern */
+extern void func_8004D7A8(int slot_selector);                     /* extern */
+extern short SD_Call(int flags);                     /* extern */
 s32 func_80053EF0();                         /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80096100(); /* extern */
@@ -232,13 +238,13 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     void *motion_or_count;
     GameWork *world_state;
     s32 repeat_pass;
-    M2C_UNK (*update_callback)(void *, void *, void *, void *);
-    M2C_UNK (*current_callback)(void *, void *, void *, void *);
-    M2C_UNK *record_or_page;
-    M2C_UNK *early_status;
+    s32 (*update_callback)(void *, void *, void *, void *);
+    s32 (*current_callback)(void *, void *, void *, void *);
+    s32 *record_or_page;
+    s32 *early_status;
     DungeonGlobalStatus *turn_status;
-    M2C_UNK *loop_status;
-    M2C_UNK *input_status;
+    s32 *loop_status;
+    s32 *input_status;
     s32 facing;
     s32 state_or_address;
     s16 floor_height;
@@ -297,14 +303,14 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     actor = linked_actor;
     world_object = (u8 *)world_state + 0x18;
     if (initial_flags & 4) {
-        record_or_page = (M2C_UNK *)0x80080000;
+        record_or_page = (s32 *)0x80080000;
         if ((D_800E3CD0 == 0) && (((s32)world_state->unk_010) != 0)) {
             D_800E3CD0 = 1;
             func_80040AA0(3);
             return;
         }
     } else {
-        record_or_page = (M2C_UNK *)0x80080000;
+        record_or_page = (s32 *)0x80080000;
     }
     if ((((S_80089AA0_1 *)record_or_page)->unk_AA0.u != 0) && (D_800E3CD0 == 0) && (func_80053EF0(1) == 0)) {
         SD_Call(0x200);
@@ -393,7 +399,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                     companion_slot = linked_actor + 4;
                     do {
                         companion = ((S_80089AA0_10 *)companion_slot)->unk_AC;
-                        if ((companion != NULL) && (companion->unk_25 != 0)) {
+                        if ((companion != 0) && (companion->unk_25 != 0)) {
                             companion_total = *companion_fraction + companion->unk_29;
                             *companion_fraction = companion_total;
                             companion_points = companion->unk_28;
@@ -429,7 +435,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                     (*(u16 *)((u8 *)linked_actor + 0x118)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0x118)) + 1);
                 }
                 advance_status_timers(actor);
-                current_callback = (*(M2C_UNK (**)(void *, void *, void *, void *))((u8 *)linked_actor + 0x8C));
+                current_callback = (*(s32 (**)(void *, void *, void *, void *))((u8 *)linked_actor + 0x8C));
                 if (current_callback == (Callback4)D_80096384) {
 
                     if ((func_80042900(actor, 0xA) << 0x10) == 0) {
@@ -498,8 +504,8 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     } else {
         ((S_80089AA0_16 *)sprite_or_root)->unk_14 = (u16) (((S_80089AA0_16 *)sprite_or_root)->unk_14 | 0x6000);
     }
-    update_callback = (*(M2C_UNK (**)(void *, void *, void *, void *))((u8 *)linked_actor + 0x8C));
-    if (update_callback != NULL) {
+    update_callback = (*(s32 (**)(void *, void *, void *, void *))((u8 *)linked_actor + 0x8C));
+    if (update_callback != 0) {
         update_callback(linked_actor, in_motion, sprite_or_root, actor);
     }
     D_800DD168[(*(u8 *)((u8 *)linked_actor + 0x9A))](linked_actor, in_motion, sprite_or_root, actor);
@@ -626,7 +632,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
         }
         linked_actor = find_eligible_actor_at_tile_and_height(actor, ((S_80089AA0_16 *)sprite_or_root)->unk_24,
             ((S_80089AA0_16 *)sprite_or_root)->unk_25, (s16) (*(u16 *)((u8 *)actor + 0x88)));
-        if (linked_actor != NULL) {
+        if (linked_actor != 0) {
             check_entity_relation(linked_actor, D_800814A8);
             (*(s32 *)((u8 *)linked_actor + 0x1C)) = (s32) ((*(s32 *)((u8 *)linked_actor + 0x1C)) & 0x7FFFFFFF);
         }
@@ -678,7 +684,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                             D_800E3DE8 = ((S_80089AA0_19 *)linked_actor)->unk_5C.p;
                             if (retry_callback > 0) {
                                 retry_callback |= 0x80000000;
-                                ((M2C_UNK (*)(void *, s32, s32)) retry_callback)((u8 *)record_or_page + 0x20,
+                                ((s32 (*)(void *, s32, s32)) retry_callback)((u8 *)record_or_page + 0x20,
                                     ((S_80089AA0_1 *)record_or_page)->unk_08, ((S_80089AA0_1 *)record_or_page)->unk_0C);
                                 if (!(((S_80089AA0_1 *)record_or_page)->unk_1E & 0x8000)
                                     && (((S_80089AA0_19 *)linked_actor)->unk_71 < 0)
@@ -712,7 +718,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                         ((S_80089AA0_27 *)root)->unk_3DE8 = ((S_80089AA0_19 *)linked_actor)->unk_5C.p;
                         if (height_or_callback > 0) {
                             height_or_callback |= 0x80000000;
-                            ((M2C_UNK (*)(void *, s32, s32)) height_or_callback)(linked_actor,
+                            ((s32 (*)(void *, s32, s32)) height_or_callback)(linked_actor,
                                 ((S_80089AA0_1 *)record_or_page)->unk_08, ((S_80089AA0_1 *)record_or_page)->unk_0C);
                         }
                         linked_actor = (u8 *)((S_80089AA0_27 *)root)->unk_3DE8 + 0x20;
@@ -755,7 +761,7 @@ begin_linked_pass:
         root = (void *)D_800E3D7C;
         record_or_page = ((S_80089AA0_16 *)root)->unk_5C;
         actor = (u8 *)record_or_page + 0x20;
-        motion_or_count = NULL;
+        motion_or_count = 0;
         if (actor != root) {
             do {
                 next_record = (*(void * *)((u8 *)actor + 0x5C));
@@ -764,7 +770,7 @@ begin_linked_pass:
                     || (((S_80089AA0_24 *)loop_status)->unk_14 != 0)) && (((S_80089AA0_1 *)record_or_page)->unk_10 > 0)) {
                     linked_actor = (void *)(s32)(s16)has_pending_actor_or_turn_action(0);
                     if (((S_80089AA0_24 *)loop_status)->unk_14 != 0) {
-                        if (linked_actor == NULL) {
+                        if (linked_actor == 0) {
                             if ((((S_80089AA0_1 *)record_or_page)->unk_B8 & 0xFFFF0000) == 0x150000) {
                                 ((S_80089AA0_24 *)loop_status)->unk_0C = (void *) ((u8 *)record_or_page + 0x20);
                             } else {
@@ -782,14 +788,14 @@ begin_linked_pass:
                     {
                         height_or_callback = ((S_80089AA0_1 *)record_or_page)->unk_10;
                         height_or_callback |= state_or_address;
-                        ((M2C_UNK (*)(void *, s32, s32)) height_or_callback)((u8 *)record_or_page + 0x20, callback_context,
+                        ((s32 (*)(void *, s32, s32)) height_or_callback)((u8 *)record_or_page + 0x20, callback_context,
                             ((S_80089AA0_1 *)record_or_page)->unk_0C);
                     }
                     if (!(((S_80089AA0_1 *)record_or_page)->unk_1E & 0x8000)) {
                         if ((*(s8 *)((u8 *)actor + 0x6D)) != 0) {
                             motion_or_count = (void *)((s32)motion_or_count + 1);
                         }
-                        if ((linked_actor == NULL) || ((has_pending_actor_or_turn_action(0) << 0x10) != 0)) {
+                        if ((linked_actor == 0) || ((has_pending_actor_or_turn_action(0) << 0x10) != 0)) {
                             record_or_page = D_800E3DE8;
                             actor = (u8 *)record_or_page + 0x20;
                             continue;
@@ -807,7 +813,7 @@ begin_linked_pass:
             if (((S_80089AA0_24 *)loop_status)->unk_08 == 0) {
                 if (((S_80089AA0_24 *)loop_status)->unk_04 == 0) {
                     ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) ((loop_flags & 0xEFF7) | 0x4000);
-                    if (motion_or_count != NULL) {
+                    if (motion_or_count != 0) {
                         repeat_pass = 1;
                         continue;
                     }
@@ -843,11 +849,11 @@ store_pending_actor:
             }
         }
 check_pass_completion:
-        if ((actor == (void *)D_800E3D7C) && (motion_or_count == NULL)) {
+        if ((actor == (void *)D_800E3D7C) && (motion_or_count == 0)) {
             ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) (((S_80089AA0_24 *)loop_status)->unk_02 & 0xFFFE);
         }
         final_flags = ((S_80089AA0_24 *)loop_status)->unk_02;
-        if (!(final_flags & 0x80) || (((S_80089AA0_24 *)loop_status)->unk_0C != NULL)
+        if (!(final_flags & 0x80) || (((S_80089AA0_24 *)loop_status)->unk_0C != 0)
             || (((S_80089AA0_24 *)loop_status)->unk_10 != 0) || (((S_80089AA0_24 *)loop_status)->unk_0A != 0)
             || (((S_80089AA0_24 *)loop_status)->unk_08 == 0)) {
             return;

@@ -1,12 +1,13 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct Actor Actor;
 typedef struct Subject Subject;
 typedef struct Motion Motion;
-typedef struct Context Context;
 
-typedef void (*TownCallback)(Actor *, Subject *, Motion *, Context *);
+
+typedef void (*TownCallback)(Actor *, Subject *, Motion *, TownMovementOutput *);
 
 struct Motion {
     u16 field_00;
@@ -29,10 +30,6 @@ struct Actor {
     s32 *value;
 };
 
-struct Context {
-    u8 pad_00[8];
-    s32 value;
-};
 
 typedef struct TownControl {
     u8 pad_00[0x10];
@@ -58,13 +55,13 @@ extern s16 get_smaller_query_result_capped_hex_80_writes_associated_output(Motio
 extern void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(Subject *, Motion *, s16);
 extern void call_the_same_context_both_processing_routines(Subject *, Motion *);
 extern void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(Subject *, Motion *);
-extern void select_object_value_by_height_band(Actor *, Subject *, Motion *, Context *);
-extern void set_actor_drop_state(Actor *, Subject *, Motion *, Context *);
+extern void select_object_value_by_height_band(Actor *, Subject *, Motion *, TownMovementOutput *);
+extern void set_actor_drop_state(Actor *, Subject *, Motion *, TownMovementOutput *);
 
-extern void D_800924EC(Actor *, Subject *, Motion *, Context *);
-extern void D_8009B454(Actor *, Subject *, Motion *, Context *);
-extern void D_8009B594(Actor *, Subject *, Motion *, Context *);
-extern void update_actor_with_controlled_motion(Actor *, Subject *, Motion *, Context *);
+extern void D_800924EC(Actor *, Subject *, Motion *, TownMovementOutput *);
+extern void D_8009B454(Actor *, Subject *, Motion *, TownMovementOutput *);
+extern void D_8009B594(Actor *, Subject *, Motion *, TownMovementOutput *);
+extern void update_actor_with_controlled_motion(Actor *, Subject *, Motion *, TownMovementOutput *);
 
 extern TownState D_80083498;
 extern TownControl D_800CFCB4;
@@ -73,7 +70,7 @@ extern MotionDelta D_800CFE08[];
 
 /* Update town movement and height, then copy the actor value into the context. */
 void update_actor_with_controlled_motion(Actor *actor, Subject *subject, Motion *motion,
-                   Context *context)
+                   TownMovementOutput *context)
 {
     TownControl *control = &D_800CFCB4;
     TownState *town_state;

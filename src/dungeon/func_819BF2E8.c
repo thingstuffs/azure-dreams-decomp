@@ -3,6 +3,8 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
+extern void shrink_effect_and_spawn_particles(void *effect, void *origin);
+
 
 typedef struct S_80024AE8_0 {
     u8 pad_00[0x20];
@@ -16,7 +18,7 @@ typedef struct S_80024AE8_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80024AE8_1;
 
 typedef struct S_80024AE8_2 {
@@ -44,7 +46,7 @@ void func_80024AE8(s32 effect_value, S_80024AE8_3 *position) {
     S_80024AE8_4 *render_state;
 
     effect = func_8003FC64(0x212);
-    if (effect != NULL) {
+    if (effect != 0) {
         effect_state = effect + 0x20;
         effect_state->unk_28 = 0x1E;
         effect_state->unk_2A = 0x1E;

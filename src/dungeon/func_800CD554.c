@@ -2,6 +2,8 @@
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 
+#include "slus/gp_shared_81510.h"
+
 void func_8003DB94();  /* extern */
 void *func_8003FD64();            /* extern */
 s32 func_8004491C();           /* extern */
@@ -10,9 +12,9 @@ void cycle_map_cell_flags();             /* extern */
 s8 find_active_rect_containing_point();                           /* extern */
 void set_record_integer_tile_center();              /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
-extern M2C_UNK D_800D2E9C;
-extern M2C_UNK D_800D3140;
-extern M2C_UNK D_800D36D0;
+void func_800D2E9C(void *object, void *motion, void *entity);
+void func_800D3140(s32 dispatch_arg0, s32 dispatch_arg1, s32 dispatch_arg2, u8 *state);
+s32 process_actor_state_chain(void *state_base, s32 entry_data, Entry *entry);
 extern M2C_UNK D_800DEF08;
 
 typedef struct S_800D2CB4_0 {
@@ -24,7 +26,7 @@ typedef struct S_800D2CB4_0 {
     u8 pad_20[0x68];
     s16 unk_88;
     u8 pad_8A[0x2];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0xA];
     s8 unk_9A;
     u8 pad_9B[0x1];
@@ -37,7 +39,7 @@ typedef struct S_800D2CB4_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800D2CB4_1;
 
 typedef struct S_800D2CB4_2 {
@@ -84,7 +86,7 @@ void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16
     saved_x = tile_x;
     saved_height = height;
     saved_y = tile_y;
-    object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
+    object = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
     if (object != NULL) {
         state = object + 0x20;
         state->unk_13 = 0x34;
@@ -93,7 +95,7 @@ void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16
             state->unk_14 = (s32) (state->unk_14 | 0x2000);
             state->unk_1C = (s32) (state->unk_1C | 0x2000);
         }
-        func_8004491C(object, &D_800D36D0);
+        func_8004491C(object, &process_actor_state_chain);
         position = ((S_800D2CB4_1 *)object)->unk_08;
         position->unk_0A = saved_height;
         graphics = ((S_800D2CB4_1 *)object)->unk_0C;
@@ -106,8 +108,8 @@ void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16
         graphics->unk_14 = (u16) (graphics->unk_14 | 0xC);
         graphics->unk_10 = (u16) (graphics->unk_10 | 0x20);
         graphics->unk_14 = (u16) (graphics->unk_14 | 0x100);
-        ((S_800D2CB4_1 *)object)->unk_10 = &D_800D2E9C;
-        state->unk_8C = &D_800D3140;
+        ((S_800D2CB4_1 *)object)->unk_10 = &func_800D2E9C;
+        state->unk_8C = &func_800D3140;
         graphics->unk_26 = find_active_rect_containing_point(graphics->unk_24, graphics->unk_25);
         set_record_integer_tile_center(position, graphics->unk_24, graphics->unk_25);
         state->unk_88 = sample_terrain_surface_height(position->unk_02, position->unk_06, position->unk_0A);

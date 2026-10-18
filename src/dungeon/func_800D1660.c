@@ -4,14 +4,16 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800D6DC0_arg1.h"
 
+typedef struct S_800D6C18_2 S_800D6C18_2;
+
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *func_8003FD64(s32, void *);       /* extern */
 void func_8004491C(void *, void *); /* extern */
 s32 func_800644B8(s32);                           /* extern */
 s32 func_80064584(s32);                           /* extern */
 void func_80047784(void *, u8, s32);              /* extern */
-extern M2C_UNK D_800D67B0;
-extern M2C_UNK D_800D6C18[2];
+extern s32 draw_linked_depth_sliced_quads(void *payload, void *position, void *render_state);
+extern void update_expiring_sprite_effect(void *effect, S_800D6C18_2 *size_state);
 extern M2C_UNK D_800E23D8;
 
 typedef struct {
@@ -63,7 +65,7 @@ typedef struct S_800D6DC0_1 {
     s16 unk_1C;
     s16 unk_1E;
     u8 pad_20[0xC];
-    M2C_UNK * unk_2C;
+    s32 * unk_2C;
 } S_800D6DC0_1;
 
 typedef struct S_800D6DC0_2 {
@@ -116,7 +118,7 @@ void create_radial_effect_segments(void *unused, Rec_func_800D6DC0_arg1 *origin,
             effect_state->unk_14 = origin;
             effect_state->unk_10 = segment;
             render_data = ((AllocBlock *)effect)->fieldc;
-            ((AllocBlock *)effect)->field10 = &D_800D6C18;
+            ((AllocBlock *)effect)->field10 = &update_expiring_sprite_effect;
             copy_end = (s32)((u8 *)copy_src + 0x30);
             copy_dst = render_data;
             do {
@@ -126,7 +128,7 @@ void create_radial_effect_segments(void *unused, Rec_func_800D6DC0_arg1 *origin,
             } while (copy_src != (void *)copy_end);
             render_data->unk_10 = 0x20;
             render_data->unk_14 = (u16) (render_data->unk_14 | 0xC);
-            func_8004491C(effect, &D_800D67B0);
+            func_8004491C(effect, &draw_linked_depth_sliced_quads);
             position = ((AllocBlock *)effect)->field8;
             position->unk_02 = (u16) origin->unk_02;
             start_angle = segment << 9;

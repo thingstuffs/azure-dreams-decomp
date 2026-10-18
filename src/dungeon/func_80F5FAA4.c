@@ -6,7 +6,6 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_801732A4_arg0.h"
 
@@ -77,14 +76,14 @@ s16 get_tile_chebyshev_distance();
 s32 has_pending_actor_or_turn_action();
 s32 play_sound_if_enabled();
 s32 generate_random_value();
-M2C_UNK func_800A9A04();
+extern void func_800A9A04(void *actor);
 void update_actor_status_and_food();
 void begin_pushed_actor_move();
 s32 begin_ready_actor_directional_action();
 s32 advance_actor_pending_action();
 void begin_actor_move_to_target_facing();
 void apply_clamped_actor_value_delta();
-M2C_UNK func_80171F94();
+extern void func_80171F94(void *action_state, void *action_context, void *sprite, EntityRec *actor);
 void advance_actor_effect_sequence();
 extern u8 D_800D7960[];
 extern u8 D_80170E68[];

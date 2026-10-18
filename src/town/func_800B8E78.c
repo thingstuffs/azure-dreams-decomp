@@ -1,15 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_800B65D8_4 {
     u8 pad_00[0x4];
     void * unk_04;
 } S_800B65D8_4;
-
-typedef struct S_800B65D8_5 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800B65D8_5;
 
 
 s32 func_80048DA0();                         /* extern */
@@ -28,10 +24,6 @@ typedef struct S_800B65D8_1 {
     void * unk_04;
 } S_800B65D8_1;
 
-typedef struct S_800B65D8_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800B65D8_2;
 
 typedef struct S_800B65D8_3 {
     u8 pad_00[0x5C];
@@ -49,7 +41,7 @@ void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode) {
     s32 spacing;
     s32 entry_id;
     S_800B65D8_1 *entry;
-    S_800B65D8_2 *position;
+    SignedWidgetYView *position;
 
     entry_index = (total_width = 0);
     lookup = D_80089344;
@@ -64,7 +56,7 @@ void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode) {
         entry->unk_00 = func_80048DCC(entry_id);
         spacing = func_80048DE8(entry_id);
         if (spacing == 0x10) {
-            ((S_800B65D8_5 *)(((S_800B65D8_4 *)entry)->unk_04))->unk_0A = 0;
+            ((SignedWidgetYView *)(((S_800B65D8_4 *)entry)->unk_04))->unk_0A = 0;
         } else {
             x_offset = total_width - (entry_index * 8);
             position = entry->unk_04;

@@ -1,8 +1,9 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
+struct Dst;
+struct Elem;
 
-M2C_UNK func_8003DB94();        /* extern */
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);        /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 extern u8 D_800DD294[];
 
@@ -33,7 +34,7 @@ typedef struct S_func_80097A68_3 {
 } S_func_80097A68_3;
 
 /* Initializes actor state and selects an animation from the adjusted facing angle. */
-void initialize_facing_animation(S_func_80097A68_0 *actor, M2C_UNK unused, S_func_80097A68_1 *anim,
+void initialize_facing_animation(S_func_80097A68_0 *actor, s32 unused, S_func_80097A68_1 *anim,
     S_func_80097A68_2 *facing_source) {
     actor->unk_9A = 0x38;
     actor->unk_9B = 0;

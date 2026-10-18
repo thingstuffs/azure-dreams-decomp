@@ -10,8 +10,6 @@ typedef struct {
     u8 field_49;
 } AppearanceFieldView_80E8F548;
 
-
-typedef s32 M2C_UNK;
 typedef struct {
     s32 value;
 } __attribute__((packed)) unaligned_s32;

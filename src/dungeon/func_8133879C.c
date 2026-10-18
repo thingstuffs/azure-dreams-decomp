@@ -12,7 +12,6 @@ typedef struct {
 
 
 
-typedef s32 M2C_UNK;
 extern u8 *D_80175D50[3];
 extern s16 func_8016F428(void *arg);
 

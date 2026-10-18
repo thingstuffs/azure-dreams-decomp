@@ -19,11 +19,11 @@ typedef struct {
 } SpriteFieldView_81008664;
 
 typedef long long s64;
-typedef s32 M2C_UNK;
+
 
 typedef struct S_func_81008664_1 {
     u8 pad_00[0x8C];
-    M2C_UNK *unk_8C;
+    s32 *unk_8C;
     union {
         s32 unk_90;
         struct {
@@ -124,7 +124,7 @@ void refresh_actor_proximity_state();
 void reduce_actor_food_meter();
 s16 sample_terrain_surface_height();
 extern s16 D_8008146E;
-extern M2C_UNK D_80171058;
+void update_creature_animation_action(void *actor, void *context, void *sprite_arg, void *creature);
 extern u8 D_80174888[];
 extern u8 D_801748F0[];
 extern u8 D_801748F8[];
@@ -135,10 +135,10 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
     S_func_81008664_5 *partner_motion;
     s16 saved_x;
     s16 saved_y;
-    M2C_UNK partner_tile_mask;
-    M2C_UNK tile_mask;
-    M2C_UNK restore_tile_mask;
-    M2C_UNK restore_partner_mask;
+    s32 partner_tile_mask;
+    s32 tile_mask;
+    s32 restore_tile_mask;
+    s32 restore_partner_mask;
     s16 launch_ticks;
     s16 fall_ticks;
     s32 tile_type;
@@ -173,7 +173,7 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
     void *reset_entity;
     void *finish_entity;
     u32 saved_handler;
-    M2C_UNK *next_handler;
+    s32 *next_handler;
     u32 active_count;
     u32 height_value;
     u32 height_offset;
@@ -463,7 +463,7 @@ place_actors:
         saved_handler = actor->unk_AC;
         partner_actor->unk_8C = saved_handler;
         reduce_actor_food_meter(reset_entity, 0x100);
-        next_handler = &D_80171058;
+        next_handler = &update_creature_animation_action;
         actor->unk_8C = next_handler;
         active_count = ((u16)g_dungeon_status.unk_0A);
         finish_entity = entity;

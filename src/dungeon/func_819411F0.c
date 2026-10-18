@@ -1,14 +1,13 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 
 typedef struct {
     s32 words[3];
 } __attribute__((packed)) Packed12;
 
 s32 func_8004491C();
-extern M2C_UNK D_800249A0;
+extern void decrement_object_counter(void *object);
 
 
 typedef struct S_800249F0_0 {
@@ -62,10 +61,10 @@ void *create_an_copied_position_packed_data_initialize_rendering_state(void *sou
     S_800249F0_4 *source_position;
 
     object = func_8003FC64(0x212);
-    if (object != NULL) {
+    if (object != 0) {
         state = object + 0x20;
         state->unk_2A = 0x3C;
-        (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_800249A0;
+        (*(s32 **)((u8 *)object + 0x10)) = &decrement_object_counter;
         func_8004491C(object, func_80045340);
         render_state = (*(void **)((u8 *)object + 0xC));
         ((S_800249F0_1 *)render_state)->unk_14 |= 0xC;
@@ -87,6 +86,6 @@ void *create_an_copied_position_packed_data_initialize_rendering_state(void *sou
         ((S_800249F0_5 *)render_state)->unk_08 = (void *) (object + 0x92);
         return state;
     } else {
-        return NULL;
+        return 0;
     }
 }

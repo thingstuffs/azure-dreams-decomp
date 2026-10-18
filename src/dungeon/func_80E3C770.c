@@ -2,7 +2,6 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
-typedef s32 M2C_UNK;
 
 #define U8_AT(p, off)  (*(u8 *)((u8 *)(p) + (off)))
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))

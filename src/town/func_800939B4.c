@@ -6,10 +6,7 @@ extern void initialize_scene_action_record(void *, void *, s32);
 extern void func_80093E98(void *, void *, s32);
 
 
-typedef struct S_80091114_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80091114_0;   /* state in update_and_fallback_on_input */
+   /* state in update_and_fallback_on_input */
 
 typedef struct S_80091114_1 {
     u8 pad_00[0xC];

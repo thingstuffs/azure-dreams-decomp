@@ -19,7 +19,7 @@ typedef struct S_80024ED4_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80024ED4_1;
 
 typedef struct S_80024ED4_2 {
@@ -39,7 +39,7 @@ typedef struct S_80024ED4_2 {
 
 typedef struct S_80024ED4_3 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     u8 pad_0C[0x10];
     s16 unk_1C;
     s16 unk_1E;
@@ -62,7 +62,7 @@ typedef struct S_80024ED4_4 {
 void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
     s32 setup_params[2];
     s32 segment_index;
-    M2C_UNK alloc_flags;
+    s32 alloc_flags;
     s16 angle;
     u16 x;
     u16 y;

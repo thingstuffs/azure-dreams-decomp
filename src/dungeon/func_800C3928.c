@@ -76,9 +76,7 @@ typedef struct S_800C9088_4 {
     u8 * unk_08;
 } S_800C9088_4;   /* descriptor in transform_shade_and_queue_model_quads */
 
-typedef struct S_800C9088_5 {
-    u16 unk_00;
-} S_800C9088_5;   /* indices in transform_shade_and_queue_model_quads */
+
 
 typedef struct S_800C9088_6 {
     s32 unk_00;
@@ -219,7 +217,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     normals = ((S_800C9088_4 *)descriptor)->unk_08;
 
     for (;;) {
-    vertex_xy = ((S_800C9088_12 *)(positions + ((S_800C9088_5 *)indices)->unk_00 * 8))->unk_00;
+    vertex_xy = ((S_800C9088_12 *)(positions + ((u16 *)indices)[0] * 8))->unk_00;
     vertex_index = (*(u16 *)((u8 *)indices + 2));
     ((S_800C9088_1 *)scratch)->unk_70 = vertex_xy;
     vertex_xy = ((S_800C9088_6 *)(positions + vertex_index * 8))->unk_00;
@@ -229,7 +227,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     vertex2_xy = ((S_800C9088_7 *)vertex2_pos)->unk_00;
     vertex3_pos = (u8 *)(last_index * 8 + (u32)positions);
     ((S_800C9088_1 *)scratch)->unk_80 = vertex2_xy;
-    z_index = ((S_800C9088_5 *)indices)->unk_00;
+    z_index = ((u16 *)indices)[0];
     vertex3_xy = ((S_800C9088_8 *)vertex3_pos)->unk_00;
 
     vertex_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;

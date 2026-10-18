@@ -1,8 +1,8 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 
-typedef s32 M2C_UNK;
 
 #ifndef NULL
 #define NULL 0

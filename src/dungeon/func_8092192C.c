@@ -1,13 +1,11 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
-
 typedef struct S_8092192C_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_8092192C_0;
 
 typedef struct S_8092192C_1 {
@@ -45,7 +43,7 @@ typedef struct S_8092192C_4 {
 extern u8 D_800DEC70[];
 s32 func_8004491C();
 void func_8003DB94();
-extern M2C_UNK D_800F68AC;
+void func_800F68AC(s16 *state, s32 *position, u16 *object);
 
 static __inline__ u32 set_flag_bits(u32 flags, u32 mask)
 {
@@ -66,8 +64,8 @@ void func_8092192C(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offse
     s32 base_z;
 
     object = func_8003FC64(0x212);
-    if (object != NULL) {
-        object->unk_10 = &D_800F68AC;
+    if (object != 0) {
+        object->unk_10 = &func_800F68AC;
         func_8004491C(object, func_80045340);
         render_state = object->unk_0C;
         flags = ((S_8092192C_1 *)render_state)->unk_14.s;

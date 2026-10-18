@@ -34,13 +34,13 @@ typedef struct S_8016ECE4_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_8016ECE4_2;
 
 typedef struct S_8016ECE4_3 {
     u8 pad_00[0x6];
     s16 unk_06;
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;

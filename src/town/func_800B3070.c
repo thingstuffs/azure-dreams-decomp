@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct { u8 r; u8 g; u8 b; u8 cd; } Color800497F4;
 typedef struct { s32 unk0; Color800497F4 *unk4; } Struct800497F4;
@@ -18,14 +19,11 @@ typedef struct S_800B07D0_2 {
 void func_800497F4(Struct800497F4 *object, s32 stop_at_gray);
 s32 advance_timed_tagged_stream();                         /* extern */
 
-typedef struct S_800B07D0_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_800B07D0_0;   /* arg0 in process_shop_embedded_data */
+   /* arg0 in process_shop_embedded_data */
 
 /* Process the embedded data and pass the record flag bits to its two linked handles. */
 void process_shop_embedded_data(void *record) {
     advance_timed_tagged_stream(record + 0x28);
-    func_800497F4(((S_800B07D0_2 *)(((S_800B07D0_1 *)record)->unk_CC))->unk_74, ((S_800B07D0_0 *)record)->unk_1C & 2);
-    func_800497F4(((S_800B07D0_2 *)(((S_800B07D0_1 *)record)->unk_CC))->unk_78, ((S_800B07D0_0 *)record)->unk_1C & 1);
+    func_800497F4(((S_800B07D0_2 *)(((S_800B07D0_1 *)record)->unk_CC))->unk_74, ((ItemMenuFlagsView *)record)->unk_1C & 2);
+    func_800497F4(((S_800B07D0_2 *)(((S_800B07D0_1 *)record)->unk_CC))->unk_78, ((ItemMenuFlagsView *)record)->unk_1C & 1);
 }

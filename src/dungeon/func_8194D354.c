@@ -1,13 +1,13 @@
 #include "modules/dungeon_ovl_7e6b7800.h"
 
 void update_three_way_target_effect(void *effect_arg, void *position) {
-    M2C_UNK fallback_pos[6];
+    s32 fallback_pos[6];
     Row_8194D1E4_Packed8 direction;
     Row_8194D1E4_FourWords transform[2];
     s16 offset[3];
-    M2C_UNK *target_pos;
+    s32 *target_pos;
     TileObject *tile_or_y_steps;
-    M2C_UNK *effect_pool;
+    s32 *effect_pool;
     EntityRec *origin;
 
     s16 phase;
@@ -95,7 +95,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
         view_heading >>= 7;
         view_heading &= 0x1C;
         state_or_heading = (*(s32 *)D_800E3D18);
-        actor_or_frame = (void *)(s32)*(M2C_UNK *)(view_heading + state_or_heading);
+        actor_or_frame = (void *)(s32)*(s32 *)(view_heading + state_or_heading);
         if (resolve_record_orientation_or_fallback(actor_or_frame, tile_or_y_steps, effect_data, offset_mode) != 0) {
             (*(s32 *)((u8 *)position + 0)) = (s32)((*(s32 *)((u8 *)position + 0)) + (offset[0] << 0x10));
             (*(s32 *)((u8 *)position + 4)) = (s32)((*(s32 *)((u8 *)position + 4)) + (offset[1] << 0x10));
@@ -214,18 +214,18 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
             effect_data = ((Row_8194D354_S_80024B54_1_pre *)actor_value_2)[-1].unk_00;
             (*(s32 *)((u8 *)effect_data + 0xC)) = neutral_color;
         }
-        effect_pool = (M2C_UNK *)0x80080000;
+        effect_pool = (s32 *)0x80080000;
         if (((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_1A != 0) {
             next_state_c3 = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.u;
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s = (s16)(next_state_c3 + 1);
             break;
         }
     case 4:
-        effect_pool = (M2C_UNK *)0x80080000;
+        effect_pool = (s32 *)0x80080000;
         if (((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_1A != 0) {
             break;
         }
-        effect_pool = (M2C_UNK *)((u8 *)effect_pool + 0x3460);
+        effect_pool = (s32 *)((u8 *)effect_pool + 0x3460);
         (*(s32 *)((u8 *)effect_pool + 0xC)) = 0;
         ((Row_8194D354_S_80024B54_11 *)effect_pool)->unk_0A = (u16)(((Row_8194D354_S_80024B54_11 *)effect_pool)->unk_0A - 1);
         (*(u16 *)((u8 *)effect_arg + -2)) = (u16)(((Row_8194D354_S_80024B54_0_pre *)effect_arg)[-1].unk_00 | 0x8000);

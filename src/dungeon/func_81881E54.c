@@ -1,13 +1,12 @@
 #include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
-#include "m2c_compat.h"
 
 
 typedef struct S_80025654_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80025654_0;
 
 typedef struct S_80025654_1 {
@@ -69,7 +68,7 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
     S_80025654_3 *object_settings;
 
     object = func_8003FC64(0x202);
-    if (object != NULL) {
+    if (object != 0) {
         object->unk_10 = fade_effect_color_below_eight;
         func_8004491C(object, (s32)process_linked_mesh_states_mode_0);
         transition = object->unk_08;

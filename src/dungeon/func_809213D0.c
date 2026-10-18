@@ -3,6 +3,7 @@
 
 typedef s32 M2C_UNK;
 
+
 #ifndef NULL
 #define NULL 0
 #endif
@@ -11,7 +12,7 @@ typedef struct S_800F63D0_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800F63D0_0;
 
 typedef struct S_800F63D0_1 {
@@ -26,7 +27,7 @@ typedef struct S_800F63D0_1 {
 typedef struct S_800F63D0_2 {
     u8 pad_00[0x6];
     s16 unk_06;
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     u8 pad_0C[0x4];
     s16 unk_10;
     u8 pad_12[0x2];
@@ -38,11 +39,11 @@ typedef struct S_800F63D0_2 {
 
 
 extern s32 func_80033BC0();
-extern M2C_UNK file_load_com();
+extern void file_load_com(void *packed_data);
 extern s32 func_8004491C();
 extern s16 get_surface_height_at_coordinates();
 extern u8 D_80045C34[]; /* overlays/dungeon/first_pass_matched/func_80D403A8.c */
-extern M2C_UNK D_800F62BC;
+extern void update_pulsing_actor_color(void *state_data, s32 unused, void *actor_data);
 extern M2C_UNK D_800F6F28;
 extern M2C_UNK D_800F6F30;
 
@@ -56,7 +57,7 @@ void create_fixed_tile_effect_if_available(void) {
         file_load_com(&D_800F6F28);
         object = func_8003FC64(0x12);
         if (object != NULL) {
-            object->unk_10 = &D_800F62BC;
+            object->unk_10 = &update_pulsing_actor_color;
             func_8004491C(object, &D_80045C34);
             graphics = object->unk_08;
             graphics->unk_02 = 0x820;

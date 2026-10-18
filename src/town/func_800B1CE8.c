@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_800AF448_0 {
     void * unk_00;
@@ -7,10 +8,7 @@ typedef struct S_800AF448_0 {
     void * unk_A8;
 } S_800AF448_0;   /* arg0 in update_item_menu_enabled_record */
 
-typedef struct S_800AF448_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_800AF448_1;   /* ((S_800AF448_0 *)arg0)->unk_00 in update_item_menu_enabled_record */
+   /* ((S_800AF448_0 *)arg0)->unk_00 in update_item_menu_enabled_record */
 
 typedef struct S_800AF448_2 {
     u8 pad_00[0x10];
@@ -26,7 +24,7 @@ extern M2C_UNK D_800792DC;
 
 /* Update an enabled object's data and reset its referenced pointer. */
 void update_item_menu_enabled_record(void *object) {
-    if (((S_800AF448_1 *)(((S_800AF448_0 *)object)->unk_00))->unk_1C != 0) {
+    if (((ItemMenuEnabledView *)(((S_800AF448_0 *)object)->unk_00))->unk_1C != 0) {
         func_8004CBFC(object + 0x1C, &D_800792DC, ((S_800AF448_2 *)(((S_800AF448_0 *)object)->unk_A8))->unk_10);
         *((S_800AF448_2 *)(((S_800AF448_0 *)object)->unk_A8))->unk_14 = &D_80071244;
     }

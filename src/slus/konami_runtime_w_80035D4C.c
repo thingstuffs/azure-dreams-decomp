@@ -1,18 +1,15 @@
 #include "common.h"
 
 #include "common.h"
+#include "shared/types3a_types.h"
 
-typedef struct {
-    s16 key;
-    s16 value;
-} Entry;
 
-extern Entry D_8006A94C[];
+extern ResidentBitmapEntry D_8006A94C[];
 extern void set_resident_bitmap_bit(s32 bit_id);
 
 /* Pass each matching key's value to set_resident_bitmap_bit. */
 void func_80035D4C(s16 key) {
-    Entry *entry = D_8006A94C;
+    ResidentBitmapEntry *entry = D_8006A94C;
 
     if (entry->key != 0) {
         do {

@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80083160.h"
 
 
@@ -50,8 +49,8 @@ typedef struct S_8009BE2C_6 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
-M2C_UNK func_8006658C();              /* extern */
-M2C_UNK func_800667A8();                  /* extern */
+extern s32 func_8006658C(void *, void *);              /* extern */
+extern s32 func_800667A8(void *, s32);                  /* extern */
 
 /* Draw a full-screen fade and mark the effect complete when its countdown ends. */
 void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {

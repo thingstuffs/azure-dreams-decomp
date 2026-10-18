@@ -10,10 +10,10 @@ void set_record_integer_tile_center();              /* extern */
 extern M2C_UNK D_80096384;
 
 /* Move the actor toward the destination tile and finish movement when the timer expires. */
-void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, EntityRec *motion, Rec_D_80082E80 *destination, M2C_UNK context) {
+void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, EntityRec *motion, Rec_D_80082E80 *destination, s32 context) {
     s16 frames_left;
     u16 actor_flags;
-    M2C_UNK saved_context;
+    s32 saved_context;
     saved_context = context;
 
     if (g_dungeon_status.flags & 0x80) {

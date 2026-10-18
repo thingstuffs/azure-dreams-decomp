@@ -2,8 +2,8 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
+#include "shared/entity.h"
 
-typedef s32 M2C_UNK;
 
 typedef struct S_FUNC_80A23000_BODY_0 {
     u8 pad_00[0x8];
@@ -53,7 +53,7 @@ extern void try_move_actor_to_valid_position();
 extern u8 D_8016AA58[];
 extern u8 D_8016E820[];
 extern u8 D_8016E860[];
-extern M2C_UNK D_8016AE84;
+void func_8016AE84(void *controller, void *context, void *entity, EntityRec *actor_state);
 
 
 
@@ -111,7 +111,7 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
         initialize_actor_sprite_and_animation(((void *)(object)), part_a, part_b, mask);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8016AE84;
+        actor->unk_8C = &func_8016AE84;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

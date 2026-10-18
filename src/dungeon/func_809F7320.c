@@ -8,6 +8,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80174800_arg0.h"
 
+#include "slus/gp_shared_81510.h"
+
 typedef struct S_80174B20_13 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -70,7 +72,7 @@ typedef struct S_80174B20_5 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80174B20_5;
 
 
@@ -140,8 +142,8 @@ extern s32 D_8006CD58;
 extern void *D_800DCEEC[];
 extern M2C_UNK D_800DCF5C;
 extern u8 D_8014A000[];
-extern M2C_UNK D_80174574;
-extern M2C_UNK D_801749F4;
+s32 update_actor_state_after_map_check(void *initial_payload, s32 entry_data, Entry *entry, s32 unused);
+void blend_effect_channels_to_gray(u8 *task, void *context, u8 *input);
 extern M2C_UNK D_801751F8;
 extern s32 D_80175200[];
 extern s16 D_80175218;
@@ -233,8 +235,8 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
         if (effect == NULL) {
             return;
         }
-        effect->unk_10 = &D_801749F4;
-        func_8004491C(effect, &D_80174574);
+        effect->unk_10 = &blend_effect_channels_to_gray;
+        func_8004491C(effect, &update_actor_state_after_map_check);
         tint = 0x808080;
         ((Rec_func_80174800_arg0 *)state)->unk_AC = effect;
         ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_00 = (s32) position->x.v;

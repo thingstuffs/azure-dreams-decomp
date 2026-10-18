@@ -88,11 +88,11 @@ struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
 extern u8 D_8014A000[];
 extern s16 D_80174F48[];
-M2C_UNK Control_CD();
-M2C_UNK sound_set_cd_cue_parameters();
+extern s32 Control_CD(s32 event_code, void *event_data, s32 payload);
+extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void func_80041588();
 s32 func_8004491C();
-M2C_UNK func_800445E0();
+extern int func_800445E0(void);
 s32 func_8003DB94();
 s32 select_indirect_table_entry();
 s32 rand();
@@ -107,7 +107,7 @@ void create_cylindrical_effect();
 s32 lookup_masked_byte_table(void *, ...);
 extern u8 *D_800DCEEC[];
 extern M2C_UNK D_800DCF5C;
-extern M2C_UNK D_8017487C;
+extern void func_8017487C(u8 *task, void *context, u8 *input);
 extern M2C_UNK D_80174FAC;
 extern M2C_UNK D_80174FB4;
 extern u8 D_80174FCC[];
@@ -189,7 +189,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, R
         if (object == 0) {
             return;
         }
-        object->unk_10.s = &D_8017487C;
+        object->unk_10.s = &func_8017487C;
         func_8004491C(object, func_80045340);
         ((S_801749A8_0 *)sequence)->unk_A4 = object;
         ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_00 = (s32) position->x.v;

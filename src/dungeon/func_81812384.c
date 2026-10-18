@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void *rebuild_menu_resource(Rec_func_80027328_arg0 *record, M2C_UNK resource_arg) {
+void *rebuild_menu_resource(Rec_func_80027328_arg0 *record, s32 resource_arg) {
     s32 resource_value;
 
     func_8004B1A4(record->unk_08);

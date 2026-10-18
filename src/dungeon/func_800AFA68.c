@@ -80,11 +80,11 @@ typedef struct S_SCRATCH {
 
 
 void func_800478B8();                      /* extern */
-M2C_UNK func_80064840(); /* extern */
+s32 func_80064840(void *, void *, void *); /* extern */
 void func_80064AE0(void *);
-M2C_UNK func_80064BC0();              /* extern */
-M2C_UNK func_80064CF0();                   /* extern */
-M2C_UNK func_80064D80();                   /* extern */
+s32 func_80064BC0(void *, void *);              /* extern */
+s32 func_80064CF0(void *);                   /* extern */
+s32 func_80064D80(void *);                   /* extern */
 u32 func_80065420(); /* extern */
 typedef struct S_800AFA68_part {
     u8 unk_00;
@@ -101,9 +101,9 @@ typedef struct S_800AFA68_part {
 typedef struct GeomSideEffects {
 } GeomSideEffects;
 u32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, GeomSideEffects);
-M2C_UNK func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, GeomSideEffects);
+s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, GeomSideEffects);
 
-M2C_UNK func_80065820();        /* extern */
+s32 func_80065820(void *, void *, ...);        /* extern */
 void func_8006658C(void *, void *);         /* extern */
 void func_800666F4(void *);                 /* extern */
 u16 sample_terrain_surface_height();                   /* extern */
@@ -249,8 +249,8 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                 func_80065820((u8 *)&scr->unk_100, rotation_matrix, world_x);
                 func_80064840(&saved_matrix, rotation_matrix, view_matrix);
                 func_80064BC0(view_matrix, (u8 *)&scr->unk_030);
-                func_80064D80((M2C_UNK *) view_matrix);
-                func_80064CF0((M2C_UNK *) view_matrix);
+                func_80064D80((s32 *) view_matrix);
+                func_80064CF0((s32 *) view_matrix);
                 for (;;) {
                 if (!(part_header->unk_00 & 0x20)) {
                     texture_u_byte = part_header->unk_08;
@@ -373,8 +373,8 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                 scr->unk_102 = (u16) (*((u16 *) (((s8 *) render_params) + 0x18)));
                 func_80065820((u8 *)&scr->unk_100, rotation_matrix, view_yaw);
                 func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
-                func_80064D80((M2C_UNK *) view_matrix);
-                func_80064CF0((M2C_UNK *) view_matrix);
+                func_80064D80((s32 *) view_matrix);
+                func_80064CF0((s32 *) view_matrix);
                 for (;;) {
                 if (!(part_header->unk_00 & 0x20)) {
                     scr->unk_008.s32 = (s32) part_header->unk_08;
@@ -516,8 +516,8 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                             func_80065820((u8 *)&scr->unk_100, rotation_matrix);
                             func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
                             func_80064BC0(view_matrix, shadow_scale);
-                            func_80064D80((M2C_UNK *) view_matrix);
-                            func_80064CF0((M2C_UNK *) view_matrix);
+                            func_80064D80((s32 *) view_matrix);
+                            func_80064CF0((s32 *) view_matrix);
                             {
                                 u16 right_x;
                                 u16 left_x;

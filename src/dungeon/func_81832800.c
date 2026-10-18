@@ -100,9 +100,7 @@ typedef struct S_func_81832800_7 {
     s32 unk_04;
 } S_func_81832800_7;
 
-typedef struct S_func_81832800_9 {
-    u16 unk_00;
-} S_func_81832800_9;
+
 
 
 void (*const dungeon_1852800_entry)(S_func_81832800_1 *, S_func_81832800_4 *, void *) = decrement_flagged_item_parameters;
@@ -407,7 +405,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
             return;
         }
         g_dungeon_status.unk_0C = 0;
-        ((S_func_81832800_9 *) ((u8 *) effect - 2))->unk_00 = (u16) (((S_func_81832800_9 *) ((u8 *) effect - 2))->unk_00
+        ((u16 *) ((u8 *) effect - 2))[0] = (u16) (((u16 *) ((u8 *) effect - 2))[0]
             | 0x8000);
         object_flag_block.flags |= 0x8000;
     }

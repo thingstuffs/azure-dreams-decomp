@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800B683C_arg0.h"
+#include "shared/types3a_types.h"
 
 extern s32 Control_CD();
 extern s32 get_enabled_record_flag_priority();
@@ -12,11 +13,6 @@ extern s16 D_80083D78[8];
 extern u8 D_800B5B20[16];
 
 
-typedef struct S_800B6E3C_1 {
-    s16 unk_00;
-    s16 unk_02;
-} S_800B6E3C_1;
-
 typedef struct S_800B6E3C_2 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -26,7 +22,7 @@ typedef struct S_800B6E3C_2 {
 s32 invalidate_cached_state_and_queue_read(void *state) {
     s32 state_code;
     s32 cache_addr;
-    S_800B6E3C_1 *cached_state;
+    CachedObjectCodePair *cached_state;
 
     ((Rec_func_800B683C_arg0 *)state)->unk_0A = get_mapped_object_code(((Rec_func_800B683C_arg0 *)state)->unk_04);
     state_code = get_enabled_record_flag_priority(((Rec_func_800B683C_arg0 *)state)->unk_04);

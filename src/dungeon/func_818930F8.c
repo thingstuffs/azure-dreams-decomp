@@ -1,8 +1,6 @@
 #include "modules/dungeon_ovl_18b2800.h"
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
-
    /* the 0x2 bytes before arg0 in func_800248F8, addressed as arg0[-1] */
 
    /* arg0 in func_800248F8 */
@@ -12,7 +10,7 @@
 
 
 /* Advance the object counters, apply the initial frame offset, and flag completion. */
-void func_800248F8(void *state, M2C_UNK draw_context, M2C_UNK update_context) {
+void func_800248F8(void *state, s32 draw_context, s32 update_context) {
     s16 frame;
     B22_818930F8_S_818930F8_1 *object;
 

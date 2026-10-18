@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/types3a_types.h"
 
 #ifndef NULL
 #define NULL 0
@@ -10,17 +11,8 @@ typedef struct S_800BA930_0_pre {
     u8 pad_04[0xC];
 } S_800BA930_0_pre;   /* the 0x10 bytes before arg0 in initialize_effect_with_random_angle, addressed as arg0[-1] */
 
-typedef struct S_800BA930_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800BA930_1;   /* particlePrim in initialize_effect_with_random_angle */
+   /* particlePrim in initialize_effect_with_random_angle */
 
-
-typedef struct Position {
-    s32 x;
-    s32 y;
-    s32 z;
-} Position;
 
 typedef struct Primitive {
     u8 pad0[8];
@@ -51,7 +43,7 @@ typedef struct Core {
 
 typedef struct Object {
     u8 pad0[8];
-    Position *position;
+    IntVector3 *position;
     Primitive *primitive;
     void *update;
 } Object;
@@ -59,7 +51,7 @@ typedef struct Object {
 extern Object *func_8003FD64();
 extern void func_8004491C();
 extern s32 rand(void);
-extern void configure_the_set_mode_n_3(Core *, Position *, void *);
+extern void configure_the_set_mode_n_3(Core *, IntVector3 *, void *);
 
 extern u8 D_80045C34[];
 extern u8 D_80046398[];
@@ -72,7 +64,7 @@ extern u8 D_800F8A1C[];
 extern u8 D_800F8A28[];
 
 /* Initialize an effect with a random angle and spawn its particle and textured children. */
-void initialize_effect_with_random_angle(Core *effect, Position *origin) {
+void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
     s32 random_angle;
     s32 biased_angle;
     s32 child_index;
@@ -87,7 +79,7 @@ void initialize_effect_with_random_angle(Core *effect, Position *origin) {
     void *parent_obj;
     Primitive *particle_prim;
     Primitive *texture_prim;
-    Position *child_pos;
+    IntVector3 *child_pos;
 
     ((S_800BA930_0_pre *)effect)[-1].unk_00 = D_800B9CB8;
     random_angle = rand();
@@ -117,7 +109,7 @@ void initialize_effect_with_random_angle(Core *effect, Position *origin) {
             particle_prim->red = g_game_work.view.unk_090;
             particle_prim->green = g_game_work.view.unk_091;
             particle_blue = g_game_work.view.unk_092;
-            ((S_800BA930_1 *)particle_prim)->unk_08 = child_index + 0x1A;
+            ((EffectPrimitiveValueView *)particle_prim)->unk_08 = child_index + 0x1A;
             particle_prim->blue = particle_blue;
             child_pos = child_obj->position;
             child_pos->x = origin->x;
@@ -204,7 +196,7 @@ void initialize_effect_with_random_angle(Core *effect, Position *origin) {
         particle_prim->green = g_game_work.view.unk_091;
         particle_prim->blue = g_game_work.view.unk_092;
         child_pos = child_obj->position;
-        ((S_800BA930_1 *)particle_prim)->unk_08 = 0x19;
+        ((EffectPrimitiveValueView *)particle_prim)->unk_08 = 0x19;
         child_pos->x = origin->x;
         center_y = origin->y;
         child_pos->z = 0;

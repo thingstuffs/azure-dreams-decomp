@@ -41,7 +41,7 @@ typedef struct S_800930F0_4 {
 } S_800930F0_4;
 
 typedef struct S_800930F0_5 {
-    union { M2C_UNK * s; void * (*u)(s32, s32); } unk_00;   /* accessed as both */
+    union { s32 * s; void * (*u)(s32, s32); } unk_00;   /* accessed as both */
     s32 unk_04;
     s32 unk_08;
 } S_800930F0_5;   /* &D_800E4938 in update_floor_exit_transition */
@@ -90,12 +90,12 @@ extern u16 D_8008146C;
 extern u8 D_80082E6B;
 extern s16 D_800DCED4[];
 extern s32 D_800DCF64;
-extern M2C_UNK D_800E3CD0;
-extern M2C_UNK D_800E4938;
+extern u8 D_800E3CD0;
+extern s32 D_800E4938[];
 
 /* Advances the dungeon transition through its delay, setup, and completion phases. */
 void update_floor_exit_transition(EntityRec *state, s32 unused, MovingTile *tile, S_800930F0_2 *actor) {
-    M2C_UNK *transition_base;
+    s32 *transition_base;
     u8 *saved_state_base;
     s32 *slot_cursor;
     s32 slot_index;
@@ -130,7 +130,7 @@ void update_floor_exit_transition(EntityRec *state, s32 unused, MovingTile *tile
         if ((s16) wait_ticks < 0x3D) {
             break;
         }
-        transition_base = (M2C_UNK *)0x800E0000;
+        transition_base = (s32 *)0x800E0000;
         saved_state_base = (u8 *)0x80010000;
         if (((S_800930F0_4 *)saved_state_base)->unk_3714.s & 4) {
             if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
@@ -198,8 +198,8 @@ void update_floor_exit_transition(EntityRec *state, s32 unused, MovingTile *tile
         state->unk_9B = (u8) (state->unk_9B + 1);
         break;
     case 16:
-        transition_base = (M2C_UNK *)0x800E0000;
-        if (((S_800930F0_7 *)(((M2C_UNK *)&D_80013714)))->unk_00 & 4) {
+        transition_base = (s32 *)0x800E0000;
+        if (((S_800930F0_7 *)(((s32 *)&D_80013714)))->unk_00 & 4) {
             if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
                 break;
             }

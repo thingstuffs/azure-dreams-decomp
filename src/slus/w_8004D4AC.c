@@ -4,6 +4,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct
 {
@@ -21,21 +22,12 @@ typedef struct
 }
 SVECTOR;
 
-typedef struct
-{
-    s32 vx;
-    s32 vy;
-    s32 vz;
-}
-VECTOR;
-
-
 
 extern void RotMatrix(SVECTOR *r, MATRIX *m);
 extern void SetRotMatrix(MATRIX *m);
 extern void SetTransMatrix(MATRIX *m);
-extern void TransMatrix(MATRIX *m, VECTOR *v);
-extern void RotTrans(SVECTOR *v0, VECTOR *v1, s32 *flg);
+extern void TransMatrix(MATRIX *m, GteTranslationVector *v);
+extern void RotTrans(SVECTOR *v0, GteTranslationVector *v1, s32 *flg);
 extern void CompMatrix(MATRIX *m0, MATRIX *m1, MATRIX *m2);
 extern void advance_timed_entity_motion(MATRIX *m);
 
@@ -43,7 +35,7 @@ extern void advance_timed_entity_motion(MATRIX *m);
 void func_8004D4AC(void)
 {
     GameView *transform = (GameView *)(&g_game_work.view);
-    VECTOR rotated_pos;
+    GteTranslationVector rotated_pos;
     MATRIX base_mat;
     MATRIX combined_mat;
     MATRIX offset_mat;

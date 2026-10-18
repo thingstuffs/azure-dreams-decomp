@@ -2,7 +2,6 @@
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80083460.h"
 
@@ -32,7 +31,7 @@ typedef struct S_800AAB10_2_pre {
 
 
 /* Processes the selected record, checks eligibility, and clears completed state. */
-s32 process_selected_actor_record(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, EntityRec *record) {
+s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, EntityRec *record) {
     s32 eligible;
     u8 type_id;
 

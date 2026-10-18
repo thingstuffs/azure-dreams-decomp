@@ -1,9 +1,9 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
 s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850_818B1334_S_818B1334_1 *source, ovl_18d0850_818B1334_S_818B1334_3 *target, void *context) {
-    M2C_UNK circle_values[34];
-    M2C_UNK *circle_entry;
-    register M2C_UNK *circle_table;
+    s32 circle_values[34];
+    s32 *circle_entry;
+    register s32 *circle_table;
     s16 radius;
     s32 entry_angle;
     s32 circle_angle;

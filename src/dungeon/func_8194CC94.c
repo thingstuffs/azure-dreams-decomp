@@ -6,15 +6,15 @@ void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s3
     void *effect;
     void *state;
     void *sprite;
-    effect = func_8003FD64(0x12, ((M2C_UNK *)&D_80083498.next));
+    effect = func_8003FD64(0x12, ((s32 *)&D_80083498.next));
     if (effect != 0) {
-        *((M2C_UNK **) (((s8 *) effect) + 0x10)) = &D_800240F0;
+        *((s32 **) (((s8 *) effect) + 0x10)) = &D_800240F0;
         color = 0x80;
         state = effect + 0x20;
         *((s16 *) (((s8 *) state) + 0xC)) = 0;
         *((s16 *) (((s8 *) state) + 0xE)) = 0;
         *((s32 *) (((s8 *) effect) + 0x20)) = effect_data;
-        *((M2C_UNK **) (((s8 *) state) + 4)) = ((M2C_UNK *)&D_80083498.next);
+        *((s32 **) (((s8 *) state) + 4)) = ((s32 *)&D_80083498.next);
         *((s32 *) (((s8 *) state) + 8)) = effect_param;
         sprite = *((void **) (((s8 *) effect) + 0xC));
         *((s8 *) (((s8 *) sprite) + 0xE)) = color;

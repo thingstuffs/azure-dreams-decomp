@@ -1,6 +1,9 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
+typedef struct S_801745F0_0 S_801745F0_0;
+
+typedef struct S_80047784 S_80047784;
 
 typedef struct S_80174690_4 {
     u8 pad_00[0x18];
@@ -15,13 +18,13 @@ typedef struct S_80174690_5 {
 
 void *func_8003FD64();               /* extern */
 s32 func_8004491C();           /* extern */
-M2C_UNK func_80047784();    /* extern */
-extern M2C_UNK D_801745F0;
+void func_80047784(S_80047784 *object, s16 table_index, s16 entry_index);    /* extern */
+void copy_linked_position_and_check_status(void *object, S_801745F0_0 *dest, Rec_D_80082E80 *status);
 
 typedef struct S_80174690_0 {
     u8 pad_00[0xC];
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80174690_0;
 
 typedef struct S_80174690_1 {
@@ -56,9 +59,9 @@ void create_action_sprite_effect(S_80174690_2 *source) {
     void *effect;
 
     effect = func_8003FD64(0x112, source);
-    if (effect != NULL) {
+    if (effect != 0) {
         sprite = ((S_80174690_0 *)effect)->unk_0C;
-        ((S_80174690_0 *)effect)->unk_10 = &D_801745F0;
+        ((S_80174690_0 *)effect)->unk_10 = &copy_linked_position_and_check_status;
         effect_data = effect + 0x20;
         effect_data->unk_18 = (void *) source->unk_0C;
         effect_data->unk_1C = (s32) source->unk_08;

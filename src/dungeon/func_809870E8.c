@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_8015E8E8_0 {
@@ -10,10 +9,6 @@ typedef struct S_8015E8E8_0 {
     u8 pad_9A[0x12];
     s16 unk_AC;
 } S_8015E8E8_0;   /* arg0 in apply_countdown_based_fade_three_output; pointer addresses record offset 0x2 */
-
-
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
 
 
 /* Applies a countdown-based fade to three output channels and flags completion. */

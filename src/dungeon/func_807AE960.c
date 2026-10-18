@@ -45,7 +45,7 @@ typedef struct S_807AE960_6 {
 
 
 extern void *D_800F6000[];
-M2C_UNK Control_CD();
+s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 s32 get_cd_command_queue_depth();
 void sound_set_cd_cue_parameters();
 int func_800445E0();

@@ -1,5 +1,6 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
+#include "shared/types3a_types.h"
 
 struct S_8006CE80_ptr
 {
@@ -21,13 +22,8 @@ struct S_8006CE44
 extern struct S_8006CE44 D_8006CE44[];
 extern s32 D_8006CE6C[];
 
-struct S_pad9
-{
-    s32 field0;
-    s32 pad4;
-    s32 pad8;
-};
-extern struct S_pad9 D_8008333C[];
+
+extern ResourceReadState D_8008333C[];
 extern s32 D_80080A7C;
 extern s32 D_8008148C;
 extern s32 D_80189394;

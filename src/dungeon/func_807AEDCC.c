@@ -3,11 +3,9 @@
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
-
 typedef struct S_800F65CC_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0x10];
     s16 unk_24;
 } S_800F65CC_0;
@@ -73,14 +71,14 @@ void initialize_overlay_effect_state(void) {
     effect_state->flags16 = (u16)(((s16)effect_state->flags16) | 1);
     do {
         state_value = *state_slot;
-        if (state_value != NULL) {
+        if (state_value != 0) {
             *state_value = state_code;
         }
         index -= 1;
         state_slot -= 1;
     } while (index >= 0);
     effect = func_8003FC64(0x12);
-    if (effect != NULL) {
+    if (effect != 0) {
         s16 *status_base;
 
         effect->unk_10 = (void *)update_overlay_state_and_retire;

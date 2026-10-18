@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
@@ -9,7 +8,7 @@ s32 advance_status_timers();                      /* extern */
 
 
 /* Clears the object's high flag bit and conditionally resets state and decrements its counter. */
-void clear_high_flag_and_update_counter(Rec_func_800A9E70_arg0 *state, M2C_UNK unused_1, M2C_UNK unused_2, EntityRec *object) {
+void clear_high_flag_and_update_counter(Rec_func_800A9E70_arg0 *state, s32 unused_1, s32 unused_2, EntityRec *object) {
     object->unk_71 = (u8) (object->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(object) << 0x10) == 0)
         && ((try_claim_dungeon_action_slot(object) << 0x10) == 0)) {

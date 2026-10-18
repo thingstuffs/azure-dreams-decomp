@@ -3,8 +3,11 @@
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
+
+typedef struct S_func_8132B8AC_0 S_func_8132B8AC_0;
+typedef struct S_func_8132B8AC_1 S_func_8132B8AC_1;
+typedef struct S_func_8132B8AC_2 S_func_8132B8AC_2;
 
 
 typedef struct S_80173F6C_5 {
@@ -23,7 +26,7 @@ s32 retain_spawn_resource(); /* extern */
 void initialize_actor_sprite_and_animation(); /* extern */
 void func_80047784(); /* extern */
 void create_boss_linked_effect(); /* extern */
-extern M2C_UNK D_801730AC;
+void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite);
 
 typedef struct S_80173F6C_0 {
     u8 pad_00[0x13];
@@ -67,7 +70,7 @@ typedef struct S_80173F6C_3 {
 
 /* Create and initialize an object with offset coordinates and directional animation. */
 void create_boss_directional_animation(void) {
-    M2C_UNK unused;
+    s32 unused;
     S_80173F6C_3 *sprite;
     S_80173F6C_0 *object_state;
     S_80173F6C_2 *model;
@@ -75,12 +78,12 @@ void create_boss_directional_animation(void) {
     u16 sprite_flags;
 
     object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
-    if (object != NULL) {
+    if (object != 0) {
         object_state = object + 0x20;
         object_state->unk_13 = 0x18;
         object_state->unk_9A = 0;
         object_state->unk_96 = 0;
-        ((S_80173F6C_1 *)object)->unk_10 = &D_801730AC;
+        ((S_80173F6C_1 *)object)->unk_10 = &func_801730AC;
         func_8004491C(object, func_80045340);
         model = ((S_80173F6C_1 *)object)->unk_08;
         model->unk_0A = (u16) ((S_80173F6C_5 *)((*(void * *)&((EntityRec *)((u8 *)(&D_80083498)))->z)))->unk_0A;
@@ -97,7 +100,7 @@ void create_boss_directional_animation(void) {
         update_map_cell_flags_with_item_limit(sprite->unk_24, sprite->unk_25,
                       (object_state->unk_1C & 0x2000) ? 0x300 : 0x3000);
         unlink_entity_node(object_state);
-        ((S_80173F6C_1 *)object)->unk_10 = (M2C_UNK *) ((s32) ((S_80173F6C_1 *)object)->unk_10 | 0x80000000);
+        ((S_80173F6C_1 *)object)->unk_10 = (s32 *) ((s32) ((S_80173F6C_1 *)object)->unk_10 | 0x80000000);
         create_boss_linked_effect(object_state, model, sprite);
         sprite_flags = sprite->unk_14;
         *D_80174CE0 = object;

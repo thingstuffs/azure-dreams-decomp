@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct TownMatrix {
     u8 bytes[0x20];
@@ -51,14 +52,6 @@ typedef struct TownObject {
     s16 half_height;
 } TownObject;
 
-typedef struct TownPoint {
-    u8 pad_00[2];
-    s16 x;
-    u8 pad_04[2];
-    s16 y;
-    u8 pad_08[2];
-    s16 z;
-} TownPoint;
 
 extern s32 func_800644B8(s32 angle);
 extern void func_800649A0(void);
@@ -69,7 +62,7 @@ extern void func_80064BC0(TownMatrix *matrix, TownVec32 *scale);
 extern void draw_random_tinted_quad_pair(u8 *effect);
 
 /* Spin and shrink the object, update both transforms, and mark completion at zero extent. */
-s32 animate_spinning_shrinking_object(TownObject *object, const TownPoint *point)
+s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionView *point)
 {
     TownScratch *scratch = (TownScratch *)0x1F800000;
     TownVec32 *translation;
@@ -118,9 +111,9 @@ s32 animate_spinning_shrinking_object(TownObject *object, const TownPoint *point
 
     translation = &scratch->translation;
     func_800649A0();
-    scratch->translation.x = point->x;
-    scratch->translation.y = point->y;
-    scratch->translation.z = point->z - (object->half_height / 2);
+    scratch->translation.x = point->unk_02;
+    scratch->translation.y = point->unk_06;
+    scratch->translation.z = point->unk_0A - (object->half_height / 2);
     scratch->scale.x = object->extent.signed_value;
     scratch->scale.y = object->extent.signed_value;
     scratch->scale.z = object->extent.signed_value;

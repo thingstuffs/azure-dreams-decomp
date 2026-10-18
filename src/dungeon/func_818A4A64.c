@@ -8,7 +8,7 @@ void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4
     object = func_8003FC64(0x212);
     if (object != NULL) {
         render_state = object->unk_0C;
-        object->unk_10 = (M2C_UNK *) func_80024230;
+        object->unk_10 = (s32 *) func_80024230;
         object->unk_20 = context_value;
         render_state->unk_0E = 0;
         render_state->unk_0D = 0;

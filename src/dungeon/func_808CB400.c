@@ -1,7 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-#define M2C_BREAK()  (0)
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80129728[];

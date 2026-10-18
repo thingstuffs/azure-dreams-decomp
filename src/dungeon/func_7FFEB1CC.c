@@ -1,10 +1,11 @@
 #include "common.h"
 
+typedef s32 M2C_UNK;
+
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef s32 M2C_UNK;
 typedef struct {
     s32 words[3];
 } __attribute__((packed)) Packed12;
@@ -64,7 +65,7 @@ void spawn_alternating_tick_effects(void *effect, s32 init_param_1, s32 init_par
             func_7010D230(spawned_effect, effect, init_param_1, init_param_2);
             (*(s16 *)((u8 *)spawned_effect + 0x3E)) = 0x1E;
             (*(s16 *)((u8 *)spawned_effect + 0x40)) = 0x1E;
-            (*(M2C_UNK * *)((u8 *)spawned_effect + 0x10)) = &D_8010CEE0;
+            (*(s32 * *)((u8 *)spawned_effect + 0x10)) = &D_8010CEE0;
 
             primitive = (*(void * *)((u8 *)spawned_effect + 8));
             ((S_7FFEB1CC_1 *)primitive)->unk_0A =

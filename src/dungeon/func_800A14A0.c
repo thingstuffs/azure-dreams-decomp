@@ -19,7 +19,7 @@ typedef struct S_800A6C00_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
     u8 pad_24[0x9C];

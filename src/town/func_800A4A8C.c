@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_800A21EC_0 {
     s32 unk_00;
@@ -26,12 +27,7 @@ typedef struct S_800A21EC_2 {
     s16 unk_20;
 } S_800A21EC_2;   /* arg0 in initialize_directional_object_state */
 
-typedef struct S_800A21EC_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800A21EC_3;   /* ((S_800A21EC_2 *)arg0)->unk_14 in initialize_directional_object_state */
-
+   /* ((S_800A21EC_2 *)arg0)->unk_14 in initialize_directional_object_state */
 
 
 extern s32 func_8004491C();
@@ -46,9 +42,9 @@ s32 initialize_directional_object_state(void *object, S_800A21EC_1 *placement, S
     state->unk_04 = 0;
     state->unk_05 = 0;
     func_8004491C(object - 0x20, &D_80046398);
-    placement->unk_00.at00.v = (s32) ((S_800A21EC_3 *)(((S_800A21EC_2 *)object)->unk_14))->unk_00;
-    placement->unk_04 = (s32) ((S_800A21EC_3 *)(((S_800A21EC_2 *)object)->unk_14))->unk_04;
-    placement->unk_08 = (s32) ((S_800A21EC_3 *)(((S_800A21EC_2 *)object)->unk_14))->unk_08;
+    placement->unk_00.at00.v = (s32) ((IntVector3 *)(((S_800A21EC_2 *)object)->unk_14))->x;
+    placement->unk_04 = (s32) ((IntVector3 *)(((S_800A21EC_2 *)object)->unk_14))->y;
+    placement->unk_08 = (s32) ((IntVector3 *)(((S_800A21EC_2 *)object)->unk_14))->z;
     ((S_800A21EC_2 *)object)->unk_00 = &copy_signed_inner_value_by_flag;
     if (((S_800A21EC_2 *)object)->unk_20 == 0) {
         s32 heading;

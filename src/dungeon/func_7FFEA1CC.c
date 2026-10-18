@@ -1,10 +1,10 @@
 #include "common.h"
+#include "m2c_compat.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef s32 M2C_UNK;
 
 typedef struct S_7FFEA1CC_0_pre {
     u16 unk_00;
@@ -22,7 +22,7 @@ typedef struct S_7FFEA1CC_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0x2A];
     s16 unk_3E;
     s16 unk_40;
@@ -49,10 +49,9 @@ typedef struct S_7FFEA1CC_4 {
 } S_7FFEA1CC_4;   /* ((S_7FFEA1CC_0 *)arg0)->unk_00 in spawn_periodic_source_effect */
 
 
-#define M2C_UNALIGNED32(expr) (expr)
 
 void *func_7003CF18();
-M2C_UNK func_7010C7A8();
+s32 func_7010C7A8(void *, void *, s32, s32);
 void *memcpy(void *, const void *, unsigned int);
 extern s32 D_80086AD8;
 extern u8 D_800E0F20[0x100];
@@ -61,7 +60,7 @@ extern M2C_UNK D_8010C460;
 extern M2C_UNK D_8010C984;
 
 /* Periodically spawns an effect and retires the source when its countdown expires. */
-void spawn_periodic_source_effect(void *source, M2C_UNK spawn_arg1, M2C_UNK spawn_arg2) {
+void spawn_periodic_source_effect(void *source, s32 spawn_arg1, s32 spawn_arg2) {
     s16 elapsed_ticks;
     u16 remaining_ticks;
     void *effect_position;

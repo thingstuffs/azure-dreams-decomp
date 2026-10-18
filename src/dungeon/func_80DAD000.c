@@ -4,6 +4,12 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
+#include "shared/entity.h"
+
+typedef struct R03_80170A28_S_80170A28_2 R03_80170A28_S_80170A28_2;
+typedef struct ActorActionView ActorActionView;
+typedef struct ActorSpriteView ActorSpriteView;
+
 typedef struct S_80DAD000_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -50,8 +56,8 @@ s16 set_or_clear_actor_status_slot(); /* extern */
 s32 generate_random_value();
 void initialize_actor_sprite_and_animation(); /* extern */
 s32 try_move_actor_to_valid_position(); /* extern */
-extern M2C_UNK D_80152A3C;
-extern M2C_UNK D_80152E68;
+void func_80152A3C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
+void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *sprite, EntityRec *entity);
 extern M2C_UNK D_8015586C;
 
 void *allocate_object_with_flags_and_placement(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) ;
@@ -77,10 +83,10 @@ void *allocate_object_with_flags_and_placement(s16 spawn_flags, s16 spawn_x, s16
     saved_value = initial_value;
     saved_y = spawn_y;
     global_byte = (s32) *(s8 *)-0x56D4;
-    object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
+    object = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
     if (object != NULL) {
         state = object + 0x20;
-        ((S_80DAD000_0 *)object)->unk_10 = &D_80152A3C;
+        ((S_80DAD000_0 *)object)->unk_10 = &func_80152A3C;
         state->unk_13 = 0x1A;
         func_8004491C(object, func_80045340);
         base_data = ((S_80DAD000_0 *)object)->unk_08;
@@ -114,7 +120,7 @@ void *allocate_object_with_flags_and_placement(s16 spawn_flags, s16 spawn_x, s16
         initialize_actor_sprite_and_animation(object, base_data, placement, spawn_flags);
         extended_state->unk_9A = 0xFF;
         extended_state->unk_9C = -1;
-        extended_state->unk_8C = &D_80152E68;
+        extended_state->unk_8C = &func_80152E68;
         try_move_actor_to_valid_position(extended_state, base_data, placement, state);
     }
     return state;

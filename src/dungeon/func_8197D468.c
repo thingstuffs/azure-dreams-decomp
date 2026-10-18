@@ -25,7 +25,7 @@ typedef struct S_8197D468_1 {
 } S_8197D468_1;
 
 typedef struct S_8197D468_2 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     s8 unk_04;
     s8 unk_05;
     u8 pad_06[0x2];
@@ -56,7 +56,7 @@ typedef struct S_8197D468_5 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
 } S_8197D468_5;

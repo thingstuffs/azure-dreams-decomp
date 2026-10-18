@@ -1,11 +1,12 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 
+#include "records/Rec_D_80082E80.h"
+
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern M2C_UNK D_80167540[3];
+extern void update_flickering_layer_sprite(void *effect_data, void *unused, Rec_D_80082E80 *effect);
 extern u8 D_800DEAE0[];
 extern s32 func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
@@ -20,7 +21,7 @@ typedef struct S_801676CC_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_801676CC_1;
 
 typedef struct S_801676CC_2 {
@@ -67,7 +68,7 @@ void create_layered_sprite_pulse(EntityRec *origin) {
 
     effect_index = 0;
     initial_ticks = 0xE;
-    effect_data = &D_80167540;
+    effect_data = &update_flickering_layer_sprite;
     scale_y = 0x1000;
     scale_x = 0x1400;
     do {

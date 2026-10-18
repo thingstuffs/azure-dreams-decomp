@@ -1,9 +1,7 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
-typedef struct S_80093524_0 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80093524_0;   /* arg0 in follow_linked_position_until_timeout */
+   /* arg0 in follow_linked_position_until_timeout */
 
 
 typedef struct CopySource {
@@ -22,18 +20,12 @@ typedef struct CopyGlobal {
     CopyMiddle *middle;
 } CopyGlobal;
 
-typedef struct CopyOutput {
-    s32 x;
-    s32 y;
-    s32 z;
-} CopyOutput;
-
 
 extern CopyGlobal D_800CFCB4;
-extern void func_80094894(S_80093524_0 *, CopyOutput *, s32);
+extern void func_80094894(UnsignedCountdownView *, IntVector3 *, s32);
 
 /* Copy source coordinates, decrement the counter, and call the handler when it becomes negative. */
-void follow_linked_position_until_timeout(S_80093524_0 *state, CopyOutput *out, s32 handler_arg) {
+void follow_linked_position_until_timeout(UnsignedCountdownView *state, IntVector3 *out, s32 handler_arg) {
     s16 remaining;
 
     out->x = D_800CFCB4.middle->source->x;

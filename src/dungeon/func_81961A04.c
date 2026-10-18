@@ -10,7 +10,7 @@
 
 
 extern s32 D_800273B0;
-extern M2C_UNK D_800CEEFC;
+extern u8 D_800CEEFC[];
 
 
 

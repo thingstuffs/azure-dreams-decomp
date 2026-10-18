@@ -1,7 +1,6 @@
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -37,10 +36,6 @@ typedef struct {
         struct { u8 pad[0x3]; u8 value; } u8_at_3;
     } field_48;
 } TargetFieldView_80E91000;
-
-
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
 
 extern void clear_slot_and_update_linked_state(void *);
 extern void *place_actor_at_directional_neighbor(void *, u8, u8, s16);
@@ -79,7 +74,7 @@ extern s32 D_8016EFE4[];
 
     target = place_actor_at_directional_neighbor(actor, ((OriginBytesFieldView_80E91000 *)origin_bytes)->field_24, ((OriginBytesFieldView_80E91000 *)origin_bytes)->field_25,
                            ((ActorBytesFieldView_80E91000 *)actor_bytes)->field_2A.s16);
-    if (target != NULL) {
+    if (target != 0) {
         if (target == (void *)D_800E3D7C[0]) {
             if (func_800C8310(target, target) != 0) {
                 return 0;

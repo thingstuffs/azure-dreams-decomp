@@ -2,13 +2,12 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "records/Rec_D_800CFCB4.h"
+#include "shared/types3a_types.h"
 
 typedef void (*Callback)(void *, void *, void *, s32);
 
 
-typedef struct S_8009B6B4_2_pre {
-    u16 unk_00;
-} S_8009B6B4_2_pre;   /* the 0x2 bytes before arg0 in update_motion_and_handle_terrain_contact, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_motion_and_handle_terrain_contact, addressed as arg0[-1] */
 
 typedef struct S_8009B6B4_2 {
     u8 pad_00[0x50];
@@ -50,7 +49,7 @@ void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *coll
         motion->flags14 = 0;
         ((Callback *)(*(void **)((u8 *)object + 0x58)))[1](object, collision, motion, callback_arg);
     }
-    if ((((S_8009B6B4_2_pre *)object)[-1].unk_00 & 0x8000) == 0 &&
+    if ((((ObjectRetirementFlags *)object)[-1].unk_00 & 0x8000) == 0 &&
         D_8009B454 == ((S_8009B6B4_2 *)object)->unk_50) {
         s32 tile_type;
 

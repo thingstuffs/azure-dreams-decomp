@@ -1,8 +1,6 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
-
 typedef struct S_800D1C70_0 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -12,7 +10,7 @@ typedef struct S_800D1C70_0 {
     u8 pad_20[0x68];
     s16 unk_88;
     u8 pad_8A[0x2];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0xA];
     s8 unk_9A;
     u8 pad_9B[0x1];
@@ -23,7 +21,7 @@ typedef struct S_800D1C70_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800D1C70_1;
 
 typedef struct S_800D1C70_2 {
@@ -63,13 +61,13 @@ void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 s8 find_active_rect_containing_point(u8, u8);
 void set_record_integer_tile_center(void *, u8, u8);
 s16 sample_terrain_surface_height(u16, u16, s16);
-extern M2C_UNK D_800D1E34;
-extern M2C_UNK D_800D20D8;
+void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity_arg);
+void process_actor_status_transitions(s32 dispatch_arg0, s32 dispatch_arg1, s32 dispatch_arg2, u8 *state);
 extern s32 D_800E2178;
 
 /* Creates a dungeon object at the given tile and height, initializing its sprite and tile flags. */
 void *create_actor_at_tile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
-    M2C_UNK tile_flags;
+    s32 tile_flags;
     s16 saved_kind;
     S_800D1C70_3 *sprite;
     S_800D1C70_2 *position;
@@ -83,12 +81,12 @@ void *create_actor_at_tile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
     u8 call_y;
 
     saved_kind = spawn_kind;
-    state = NULL;
+    state = 0;
     saved_x = tile_x;
     saved_height = height;
     saved_y = tile_y;
-    object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
-    if (object != NULL) {
+    object = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
+    if (object != 0) {
         state = object + 0x20;
         state->unk_13 = 0x34;
         kind = (s16) saved_kind;
@@ -108,8 +106,8 @@ void *create_actor_at_tile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
         sprite->unk_1E = 0x1800;
         sprite->unk_1C = 0x1800;
         func_8003DB94(sprite, &D_800E2178, 0);
-        ((S_800D1C70_1 *)object)->unk_10 = &D_800D1E34;
-        state->unk_8C = &D_800D20D8;
+        ((S_800D1C70_1 *)object)->unk_10 = &update_actor_floor_contact;
+        state->unk_8C = &process_actor_status_transitions;
         sprite->unk_26 = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
         set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
         state->unk_88 = sample_terrain_surface_height(position->unk_02, position->unk_06, position->unk_0A);

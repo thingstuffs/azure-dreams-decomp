@@ -1,10 +1,11 @@
 #include "common.h"
 
+typedef s32 M2C_UNK;
+
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef s32 M2C_UNK;
 
 typedef struct {
     s32 words[3];
@@ -12,7 +13,7 @@ typedef struct {
 
 
 void *func_7003CF18();
-M2C_UNK func_7010C274();
+extern s32 func_7010C274(void *, void *, s32, s32);
 
 extern s32 D_80086AD8;
 extern u16 D_80094422;
@@ -53,7 +54,7 @@ typedef struct S_7FFE99BC_3 {
 } S_7FFE99BC_3;   /* ((S_7FFE99BC_0 *)arg0)->unk_00 in spawn_odd_tick_emitter_effects */
 
 /* Spawn effects on early odd ticks and retire the emitter when its timer expires. */
-void spawn_odd_tick_emitter_effects(void *emitter, M2C_UNK spawn_param_1, M2C_UNK spawn_param_2) {
+void spawn_odd_tick_emitter_effects(void *emitter, s32 spawn_param_1, s32 spawn_param_2) {
     s16 tick;
     u16 ticks_left;
     void *effect_state;
@@ -68,7 +69,7 @@ void spawn_odd_tick_emitter_effects(void *emitter, M2C_UNK spawn_param_1, M2C_UN
             func_7010C274(effect, emitter, spawn_param_1, spawn_param_2);
             (*(s16 *)((u8 *)effect + 0x3E)) = 0x1E;
             (*(s16 *)((u8 *)effect + 0x40)) = 0x1E;
-            (*(M2C_UNK **)((u8 *)effect + 0x10)) = &D_8010BF40;
+            (*(s32 **)((u8 *)effect + 0x10)) = &D_8010BF40;
             effect_state = (*(void **)((u8 *)effect + 8));
             ((S_7FFE99BC_1 *)effect_state)->unk_0A =
                 (u16)(((S_7FFE99BC_1 *)effect_state)->unk_0A -

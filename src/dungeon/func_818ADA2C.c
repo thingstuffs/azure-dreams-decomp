@@ -1,6 +1,5 @@
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct ParticleRenderOwner {
     u8 pad_00[0xC];
@@ -20,7 +19,7 @@ typedef struct ParticleNode {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x4];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } ParticleNode;   
 
 typedef struct ParticlePositions {
@@ -84,7 +83,7 @@ void *create_moving_fading_particle(ParticleOrigin *origin, s16 angle, s16 radiu
     ParticleState *object_data;
 
     object = func_8003FD64(0x202, allocation_head);
-    if (object != NULL) {
+    if (object != 0) {
         ((ParticleNode *)object)->unk_10 = (void *)move_linked_effect_along_path;
         func_8004491C(object, (s32)func_80024ED0);
         positions = ((ParticleNode *)object)->unk_08;

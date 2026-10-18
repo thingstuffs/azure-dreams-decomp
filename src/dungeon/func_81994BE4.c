@@ -1,10 +1,8 @@
 #include "modules/dungeon_ovl_19b4800.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
-
 typedef struct Copy12 {
-    M2C_UNK word[3];
+    s32 word[3];
 } __attribute__((packed)) Copy12;
 typedef struct {
     u8 pad0[6];
@@ -57,11 +55,11 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, void *u
     S_800243E4_3 *parent_position;
 
     object = func_8003FC64(0x212);
-    if (object != NULL) {
+    if (object != 0) {
         state = object + 0x20;
         state->unk_2A = 0x9;
         state->unk_60 = parent;
-        (*(M2C_UNK **)((u8 *)object + 0x10)) = (M2C_UNK *)func_80024104;
+        (*(s32 **)((u8 *)object + 0x10)) = (s32 *)func_80024104;
         func_8004491C(object, (s32)func_80045340);
         part = (*(Part **)((u8 *)object + 0xC));
         part->field10 = 0x20;

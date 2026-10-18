@@ -1,12 +1,11 @@
 #include "modules/dungeon_ovl_18a6800.h"
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
-#include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_node.h"
 
 extern void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark();
-extern M2C_UNK D_800CEEFC;
+extern u8 D_800CEEFC[];
 
 /* One 4-byte slot of the fade record: only the second halfword is used. */
 typedef struct FadeChannel {

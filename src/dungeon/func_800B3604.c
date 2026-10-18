@@ -11,7 +11,7 @@ typedef struct S_800B8D64_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xE];
     s16 unk_22;
 } S_800B8D64_0;
@@ -27,7 +27,7 @@ typedef struct S_800B8D64_1 {
 
 typedef struct S_800B8D64_2 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
     u8 pad_16[0x6];

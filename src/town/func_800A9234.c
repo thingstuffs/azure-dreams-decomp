@@ -4,6 +4,7 @@
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "shared/dungeon_delay_views.h"
 
 
 typedef struct S_800A6994_0 {
@@ -12,13 +13,6 @@ typedef struct S_800A6994_0 {
     u8 pad_14[0x24];
     u16 unk_38;
 } S_800A6994_0;
-
-
-typedef struct S_800A6994_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800A6994_2;
-
 
 
 void select_object_value_by_height_band();
@@ -42,7 +36,7 @@ void update_actor_position_and_heading(void *actor, s32 update_context, void *po
         D_800D0C78 = ((EntityRec *)position)->x.v;
         saved_position = &D_800D0C78;
         ((EntityRec *)saved_position)->y.v = ((EntityRec *)position)->y.v;
-        ((S_800A6994_2 *)saved_position)->unk_08 = (*(s32 *)((u8 *)position + 8));
+        ((DelayMotionZ *)saved_position)->unk_08 = (*(s32 *)((u8 *)position + 8));
         initialize_object_entries(actor, setup_context, D_80100E24);
         select_object_value_by_height_band(actor, update_context, position, setup_context);
         heading = ((Rec_func_80094268_arg0 *)actor)->unk_72.as_u16;

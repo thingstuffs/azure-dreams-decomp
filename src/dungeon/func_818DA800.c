@@ -4,6 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_func_818DA800_1 {
     void *unk_00;
@@ -72,11 +73,7 @@ typedef struct S_func_818DA800_3 {
     union { s8 as_s8; u8 as_u8; } unk_73;
 } S_func_818DA800_3;
 
-typedef struct S_func_818DA800_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_func_818DA800_4;
+
 
 typedef struct S_func_818DA800_5 {
     u8 pad_00[8];
@@ -87,9 +84,7 @@ typedef struct S_func_818DA800_5 {
     void *unk_20;
 } S_func_818DA800_5;
 
-typedef struct S_func_818DA800_6 {
-    u16 unk_00;
-} S_func_818DA800_6;
+
 
 typedef struct S_func_818DA800_7 {
     void *unk_00;
@@ -156,7 +151,7 @@ void (*const dungeon_18fa800_entry)(S_func_818DA800_1 *, S_func_818DA800_2 *) = 
 void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
 {
     S_func_818DA800_3 *actor;
-    S_func_818DA800_4 *actor_data;
+    MovingTile *actor_data;
     void *image_base;
     void *resource_base;
     s32 actor_or_corner;
@@ -181,7 +176,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
     actor_header = (s32)((u8 *)actor - 0x20);
     switch (phase) {
     case 0:
-    if ((((S_func_818DA800_6 *)effect_state->unk_04)->unk_00 & 0x80) == 0) {
+    if ((((u16 *)effect_state->unk_04)[0] & 0x80) == 0) {
         break;
     }
     {
@@ -199,8 +194,8 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
             actor->unk_73.as_u8 = actor_data->unk_25;
         } else {
             prim = ((S_func_818DA800_5 *)((u8 *)target_actor - 0x20))->unk_0C;
-            actor->unk_72.as_u8 = ((S_func_818DA800_4 *)prim)->unk_24;
-            actor->unk_73.as_u8 = ((S_func_818DA800_4 *)prim)->unk_25;
+            actor->unk_72.as_u8 = ((MovingTile *)prim)->unk_24;
+            actor->unk_73.as_u8 = ((MovingTile *)prim)->unk_25;
         }
     }
 

@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
-typedef s32 M2C_UNK;
 
 typedef struct S_81940800_0_pre {
     u16 unk_00;

@@ -8,7 +8,7 @@ void update_actor_action_and_direction(void *action_state, void *context, void *
             ((R06_80172428_S_80172428_1 *)action_state)->unk_9A = 0x11;
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((R06_80172428_S_80172428_1 *)action_state)->unk_9B = 0;
-            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = ((u8 *)D_8017587C);
+            (*(s32 **)((u8 *)sprite + 0x2C)) = ((u8 *)D_8017587C);
             func_80047784(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + ((u8 *)D_8017587C)), 0);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);

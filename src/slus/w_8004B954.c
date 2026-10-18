@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -7,10 +8,6 @@
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-typedef struct {
-    s16 vx;
-    s16 vy;
-} DVEC;
 
 extern s32 multiply_rgb_tint_saturated(void *a, void *b);
 extern s32 rsin(s32 a);
@@ -20,7 +17,7 @@ extern s32 rcos(s32 a);
 void *func_8004B954(void *tint_a, void *tint_b, void *primitives,
                     void *color_data, void *style, s32 *out_count, s32 shaded)
 {
-    DVEC edge_pos;
+    ScreenPoint16 edge_pos;
     s32 center_x;
     s32 radius_x;
     s32 angle_step;

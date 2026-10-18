@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -8,7 +9,6 @@
 #define NULL 0
 #endif
 
-typedef s32 M2C_UNK;
 
 
 extern s32 func_8004491C();
@@ -20,7 +20,7 @@ typedef struct S_818BDD8C_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
 } S_818BDD8C_0;
@@ -39,7 +39,7 @@ typedef struct S_818BDD8C_2 {
 
 typedef struct S_818BDD8C_3 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;

@@ -2,6 +2,8 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
+typedef struct Rec_func_800D4BD4_arg2 Rec_func_800D4BD4_arg2;
+
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -9,9 +11,10 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 typedef s32 M2C_UNK;
+
 extern void func_8003DB94(void *, void *, s32);
 extern void play_sound_if_enabled(s32);
-extern M2C_UNK D_800D4DE8;
+void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_param);
 extern M2C_UNK D_800DECF8[3];
 /* Creates a colored effect at the source position and optionally plays a sound. */
 void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id)
@@ -31,7 +34,7 @@ void create_colored_effect_with_sound(void *source, s32 color, unsigned short so
     if (effect != 0) {
         effect_data = effect + 0x20;
         *((void **) (((u8 *) effect_data) + 0x24)) = source;
-        *((M2C_UNK **) (((u8 *) effect) + 0x10)) = &D_800D4DE8;
+        *((s32 **) (((u8 *) effect) + 0x10)) = &emit_particles_until_expired;
         *((s16 *) (((u8 *) effect_data) + 0x1E)) = 0x1E;
         render_flags = *((void **) (((u8 *) effect) + 0xC));
         *((s16 *) (((u8 *) render_flags) + 0x10)) = 0x20;

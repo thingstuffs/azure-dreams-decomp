@@ -1,10 +1,8 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
-
 typedef struct Copy12 {
-    M2C_UNK word[3];
+    s32 word[3];
 } __attribute__((packed)) Copy12;
 typedef struct {
     u8 pad0[6];
@@ -24,7 +22,7 @@ typedef struct {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void func_8004491C(void *, void *);                /* extern */
-extern M2C_UNK D_80024104;
+void func_80024104(void *owner);
 extern u8 D_800256E0[12];
 
 
@@ -61,11 +59,11 @@ void advance_object_spawning_displays_high(void *source) {
     S_800243D8_3 *source_position;
 
     object = func_8003FC64(0x212);
-    if (object != NULL) {
+    if (object != 0) {
         state = object + 0x20;
         state->unk_2A = 0xB;
         state->unk_60 = source;
-        (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_80024104;
+        (*(s32 **)((u8 *)object + 0x10)) = &func_80024104;
         func_8004491C(object, func_80045340);
         part = (*(Part **)((u8 *)object + 0xC));
         part->field10 = 0x20;

@@ -2,7 +2,6 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 
 typedef struct S_80D95000_0 {
     u8 pad_00[0x8];
@@ -64,7 +63,7 @@ void *damp_and_fade_effect_sprite(s16 init_flags, s16 x, s16 y, s16 initial_valu
     S_80D95000_2 *object_data;
     void *object;
     S_80D95000_4 *extended_state;
-    S_80D95000_1 *state = NULL;
+    S_80D95000_1 *state = 0;
     s8 saved_x;
     s8 saved_y;
     s16 saved_value;
@@ -75,8 +74,8 @@ void *damp_and_fade_effect_sprite(s16 init_flags, s16 x, s16 y, s16 initial_valu
     saved_value = initial_value;
     saved_y = y;
     global_byte = (s32) *(s8 *)-0x56D4;
-    object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
-    if (object != NULL) {
+    object = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
+    if (object != 0) {
         state = object + 0x20;
         ((S_80D95000_0 *)object)->unk_10 = &D_8016AA3C;
         state->unk_13 = 0x1A;

@@ -1,12 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
-
-
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
-
 typedef struct {
     s16 m[3][3];
     s16 pad;

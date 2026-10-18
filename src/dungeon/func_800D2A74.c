@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 
 typedef struct S_800D81D4_0_pre {
     u16 unk_00;
@@ -48,7 +47,7 @@ s32 func_80069EF8(void);
 /* Updates a rotating effect's motion, color, and lifetime. */
 void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion, void *primitive_data) {
     s32 phase_index;
-    M2C_UNK height_offset;
+    s32 height_offset;
     S_800D81D4_2 *primitive = primitive_data;
 
     effect->unk_48.s = (s16) (effect->unk_48.s - 1);

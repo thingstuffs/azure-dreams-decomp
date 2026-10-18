@@ -1,8 +1,9 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
+
+typedef struct S_80047784 S_80047784;
 
 typedef struct S_80172334_0 {
     u8 pad_00[0x8C];
@@ -15,11 +16,11 @@ typedef struct S_80172334_0 {
 } S_80172334_0;   /* arg0 in advance_timed_directional_reset */
 
 
-M2C_UNK func_80047784();         /* extern */
+void func_80047784(S_80047784 *object, s16 table_index, s16 entry_index);         /* extern */
 extern u8 D_80175F20;
 
 /* Advance the timer and reset the state and directional sprite after 60 ticks. */
-void advance_timed_directional_reset(void *state, M2C_UNK unused, void *sprite, EntityRec *orientation) {
+void advance_timed_directional_reset(void *state, s32 unused, void *sprite, EntityRec *orientation) {
     u16 ticks;
 
     ticks = ((S_80172334_0 *)state)->unk_A6 + 1;

@@ -1,11 +1,9 @@
 #include "common.h"
 #include "records/Rec_func_801237A4_arg0.h"
+#include "shared/types3c_types.h"
 
 
-typedef struct S_80125DDC_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80125DDC_1;   /* entry in animate_catalog_grid_to_detail */
+
 
 typedef struct S_80125DDC_2 {
     u8 pad_00[0x2];
@@ -35,7 +33,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         s32 entry_index;
         u8 *entry_table;
         void **entry_slot;
-        void *entry;
+        CatalogObjectPayloadView *entry;
         void *entry_data;
         u16 field_value;
 
@@ -44,7 +42,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         entry_slot = (void **)(entry_table + 0x70);
         do {
             entry = *entry_slot;
-            entry_data = ((S_80125DDC_1 *)entry)->unk_08;
+            entry_data = entry->unk_08;
             field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
             do {
                 entry_index++;
@@ -81,7 +79,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         s32 entry_index;
         u8 *entry_table;
         void **entry_slot;
-        void *entry;
+        CatalogObjectPayloadView *entry;
         void *entry_data;
         u16 field_value;
 
@@ -90,7 +88,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         entry_slot = (void **)(entry_table + 0x70);
         do {
             entry = *entry_slot;
-            entry_data = ((S_80125DDC_1 *)entry)->unk_08;
+            entry_data = entry->unk_08;
             field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
             do {
                 entry_index++;
@@ -106,7 +104,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         s32 entry_index;
         u8 *entry_table;
         void **entry_slot;
-        void *entry;
+        CatalogObjectPayloadView *entry;
         void *entry_data;
         u16 field_value;
 
@@ -115,7 +113,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         entry_slot = (void **)(entry_table + 0x70);
         do {
             entry = *entry_slot;
-            entry_data = ((S_80125DDC_1 *)entry)->unk_08;
+            entry_data = entry->unk_08;
             field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
             do {
                 entry_index++;

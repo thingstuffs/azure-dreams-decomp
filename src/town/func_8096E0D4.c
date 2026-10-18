@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3c_types.h"
 
 typedef struct {
     s32 unk0;
@@ -7,14 +8,10 @@ typedef struct {
     s32 unkC;
 } Template0;
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} Template1;
+
 
 extern Template0 D_8002E5D8;
-extern Template1 D_8002E5E8;
+extern CatalogRecordDefaults D_8002E5E8;
 
 typedef struct {
     s32 unk0;
@@ -43,7 +40,7 @@ typedef struct {
 /* Initialize the header and its two records from default templates. */
 void initialize_catalog_view_records(Header *header, Template0 *primary_record, Record1 *secondary_record) {
     Template0 *primary_defaults = &D_8002E5D8;
-    Template1 *secondary_defaults = &D_8002E5E8;
+    CatalogRecordDefaults *secondary_defaults = &D_8002E5E8;
     s32 *default_word;
 
     primary_record->unk0 = primary_defaults->unk0;
@@ -52,9 +49,9 @@ void initialize_catalog_view_records(Header *header, Template0 *primary_record, 
     primary_record->unk8 = primary_defaults->unk8;
     primary_record->unkC = primary_defaults->unkC;
 
-    ((Template1 *)secondary_record)->unk0 = *default_word;
-    ((Template1 *)secondary_record)->unk4 = secondary_defaults->unk4;
-    ((Template1 *)secondary_record)->unk8 = secondary_defaults->unk8;
+    ((CatalogRecordDefaults *)secondary_record)->unk0 = *default_word;
+    ((CatalogRecordDefaults *)secondary_record)->unk4 = secondary_defaults->unk4;
+    ((CatalogRecordDefaults *)secondary_record)->unk8 = secondary_defaults->unk8;
 
     header->unk4 = (Record0 *)primary_record;
     header->unk8 = secondary_record;

@@ -1,6 +1,5 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
 typedef struct
 {
     u8 b[32];
@@ -11,7 +10,7 @@ void *func_8003FD64();
 s32 func_8004491C();
 s32 func_80069EF8();
 extern DungeonTable D_8016A894;
-extern M2C_UNK D_801718E4;
+extern void func_801718E4(u8 *effect, s32 *motion);
 
 /* Creates an effect with direction-based position offsets and randomized velocity. */
 void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, s32 unused, s16 spread_mode)
@@ -32,7 +31,7 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
 
     effect = func_8003FD64(0x211, source);
     if (effect != 0) {
-        *((M2C_UNK **) (((s8 *) effect) + 0x10)) = &D_801718E4;
+        *((s32 **) (((s8 *) effect) + 0x10)) = &func_801718E4;
         entry = (u8 *)&direction_table + ((angle >> 7) & 0x1C);
         *((u16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 2)) =
             (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 2)));

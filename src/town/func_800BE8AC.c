@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_800BC00C_0 {
     u16 unk_00;
@@ -15,14 +16,7 @@ typedef struct S_800BC00C_0 {
 } S_800BC00C_0;   /* arg0 in update_effect_motion_size_and_brightness; pointer addresses record offset 0x2 */
 
 
-typedef struct S_800BC00C_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800BC00C_2;   /* arg1 in update_effect_motion_size_and_brightness */
+   /* arg1 in update_effect_motion_size_and_brightness */
 
 
 typedef struct {
@@ -36,7 +30,7 @@ typedef struct {
 void func_800478B8(void *entity);                      /* extern */
 
 /* Update effect motion, size and brightness, then mark it finished. */
-s32 update_effect_motion_size_and_brightness(void *effect_fields, S_800BC00C_2 *position, Rec_D_80082E80 *sprite) {
+s32 update_effect_motion_size_and_brightness(void *effect_fields, SignedPositionView *position, Rec_D_80082E80 *sprite) {
     s16 state;
     s32 fade_end_state;
     s32 global_flags;

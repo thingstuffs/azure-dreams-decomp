@@ -7,10 +7,12 @@
 #include "shared/entity.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8002589C();        /* extern */
-M2C_UNK func_80026548();                 /* extern */
-M2C_UNK func_8002660C();    /* extern */
-M2C_UNK func_800266D0();                  /* extern */
+#include "slus/gp_shared_81510.h"
+
+s32 func_8002589C(void *, s32, s32);        /* extern */
+s32 func_80026548(void *, s32);                 /* extern */
+void func_8002660C(Entry *entry, s16 *step, s32 lower, s32 upper);    /* extern */
+s32 func_800266D0(void *, void *);                  /* extern */
 s32 resolve_record_orientation_or_fallback(); /* extern */
 s32 func_8004491C();           /* extern */
 s32 find_eligible_entry_at_coordinates();                /* extern */

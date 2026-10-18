@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_80050CDC_0 {
     u8 pad_00[0x4];
@@ -16,10 +17,7 @@ typedef struct S_80050CDC_1 {
     u16 unk_0C;
 } S_80050CDC_1;   /* part in func_80050CDC */
 
-typedef struct S_80050CDC_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80050CDC_2;   /* arg0 in func_80050CDC */
+   /* arg0 in func_80050CDC */
 
 
 extern void func_8004B248(void *entries);
@@ -44,8 +42,8 @@ void func_80050CDC(void *effect, void *unused, void *parts)
     ((S_80050CDC_1 *)part)->unk_01 = color;
     ((S_80050CDC_1 *)part)->unk_00 = color;
 
-    ticks_left = ((S_80050CDC_2 *)effect)->unk_08 - 1;
-    ((S_80050CDC_2 *)effect)->unk_08 = ticks_left;
+    ticks_left = ((EffectCountdownView *)effect)->unk_08 - 1;
+    ((EffectCountdownView *)effect)->unk_08 = ticks_left;
     if (ticks_left == -1) {
         func_8004B248((u8 *)effect + 0x6C);
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;

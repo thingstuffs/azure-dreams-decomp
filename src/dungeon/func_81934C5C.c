@@ -48,8 +48,8 @@ void draw_red(void *effect) {
             return;
         }
         ((S_81934C5C_0 *)effect)->unk_24.at02.v = surface_height;
-        impact_effect = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next));
-        if (impact_effect != NULL) {
+        impact_effect = func_8003FD64(0x312, ((s32 *)&D_80083498.next));
+        if (impact_effect != 0) {
             impact_effect->unk_10 = &D_80024928;
             impact_effect->unk_20 = (void *) ((S_81934C5C_0 *)effect)->unk_00;
             func_8004491C(impact_effect, func_80045340);

@@ -4,7 +4,6 @@
 #include "shared/dir_step.h"
 
 
-typedef s32 M2C_UNK;
 
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();

@@ -3,11 +3,8 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "shared/types3a_types.h"
 
-typedef struct S_800BC574_6 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800BC574_6;
 
 typedef struct S_800BC574_7 {
     u8 pad_00[0xC];
@@ -30,17 +27,9 @@ typedef struct S_800BC574_0 {
     s32 * unk_10;
 } S_800BC574_0;
 
-typedef struct S_800BC574_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800BC574_1;   /* copy_dst in create_directional_sprite_effect */
+   /* copy_dst in create_directional_sprite_effect */
 
-typedef struct S_800BC574_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800BC574_2;   /* held_arg0 in create_directional_sprite_effect */
+   /* held_arg0 in create_directional_sprite_effect */
 
 typedef struct S_800BC574_3 {
     u8 pad_00[0xC8];
@@ -71,9 +60,9 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
     s32 position_z;
     S_800BC574_4 *sprite;
     S_800BC574_0 *effect;
-    S_800BC574_2 *source_pos = position;
+    IntVector3 *source_pos = position;
     GameWork *world_state = &g_game_work;
-    S_800BC574_1 *data_ptr;
+    IntVector3 *data_ptr;
     s16 saved_angle;
 
     effect = func_8003FD64(0x312, ((s32 *)&D_80083498.next));
@@ -83,25 +72,25 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
         func_8004491C(effect, func_80045340);
         sprite = effect->unk_0C;
         data_ptr = effect->unk_08;
-        data_ptr->unk_00 = (s32) source_pos->unk_00;
+        data_ptr->x = (s32) source_pos->x;
         data_ptr = effect->unk_08;
-        data_ptr->unk_04 = (s32) source_pos->unk_04;
+        data_ptr->y = (s32) source_pos->y;
         data_ptr = effect->unk_08;
-        position_z = source_pos->unk_08;
+        position_z = source_pos->z;
         {
             s16 angle_short;
 
             angle_short = (s16) saved_angle;
-            data_ptr->unk_08 = position_z;
-            ((S_800BC574_7 *)(((S_800BC574_6 *)effect)->unk_08))->unk_0C =
+            data_ptr->z = position_z;
+            ((S_800BC574_7 *)(((ObjectPayloadView *)effect)->unk_08))->unk_0C =
                 (s32) (func_80064584(angle_short + world_state->view.viewAngle) * 0x30);
-            ((S_800BC574_7 *)(((S_800BC574_6 *)effect)->unk_08))->unk_10 =
+            ((S_800BC574_7 *)(((ObjectPayloadView *)effect)->unk_08))->unk_10 =
                 (s32) (func_800644B8(angle_short + world_state->view.viewAngle) * 0x30);
         }
         {
             s32 init_value;
             s32 init_value_2;
-            S_800BC574_1 *sprite_table;
+            IntVector3 *sprite_table;
             s32 table_word;
 
             init_value_2 = 0x1000;
@@ -112,9 +101,9 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
             if (init_value > 0) {
                 sprite->unk_14 = (u16) (sprite->unk_14 | 1);
             }
-            sprite_table = (S_800BC574_1 *)&D_800F15E4;
+            sprite_table = (IntVector3 *)&D_800F15E4;
             sprite->unk_00 = sprite_table;
-            table_word = sprite_table->unk_04;
+            table_word = sprite_table->y;
             sprite->unk_04 = 0;
             sprite->unk_05 = 0;
             sprite->unk_0C = 0x808080;

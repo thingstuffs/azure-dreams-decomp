@@ -3,7 +3,6 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 
    /* the 0x2 bytes before arg0 in update_a_moving_effect_spawns_particles_advances_timed_phases, addressed as arg0[-1] */
 
@@ -31,7 +30,7 @@ extern u8 D_800E3D68;
 
 /* Updates a moving effect, spawns particles, and advances its timed phases. */
 void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect, B31_818C8A70_S_818C8A70_4 *position) {
-    M2C_UNK effect_mode;
+    s32 effect_mode;
     s16 coord;
     s16 coord_2;
     s16 phase;

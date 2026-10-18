@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800B0C68_arg0.h"
+#include "shared/types3a_types.h"
 
 
 typedef struct S_800B0C68_2 {
@@ -35,15 +36,6 @@ typedef struct S_800B0C68_7 {
     void * unk_04;
 } S_800B0C68_7;   /* ((S_800B0C68_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_0C in position_shop_row_widgets */
 
-typedef struct S_800B0C68_8 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800B0C68_8;
-
-typedef struct S_800B0C68_9 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800B0C68_9;
 
 typedef struct S_800B0C68_10 {
     u8 pad_00[0x8];
@@ -68,6 +60,6 @@ void position_shop_row_widgets(Rec_func_800B0C68_arg0 *menu) {
     ((S_800B0C68_11 *)(((S_800B0C68_7 *)(((S_800B0C68_3 *)(((Rec_func_800B0C68_arg0 *)menu)->unk_CC.as_pv))->unk_0C))->unk_04))->unk_08 =
         0;
     widgets = menu->unk_CC.as_pv;
-    ((S_800B0C68_8 *)(((S_800B0C68_4 *)(widgets->unk_0C))->unk_04))->unk_0A =
-        (s16) (((S_800B0C68_9 *)(((S_800B0C68_5 *)(widgets->unk_08))->unk_04))->unk_0A - 9);
+    ((SignedWidgetYView *)(((S_800B0C68_4 *)(widgets->unk_0C))->unk_04))->unk_0A =
+        (s16) (((UnsignedWidgetYView *)(((S_800B0C68_5 *)(widgets->unk_08))->unk_04))->unk_0A - 9);
 }

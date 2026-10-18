@@ -10,6 +10,9 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
+#include "records/Rec_func_8008ACDC_arg0.h"
+#include "records/Rec_D_80082E80.h"
+
 typedef struct {
     u8 pad[0x29C];
     void *table[1];
@@ -153,11 +156,11 @@ typedef struct S_func_800B1364_19 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 runtime_get_mode_indexed_value();
 s32 resolve_record_orientation_or_fallback();
-M2C_UNK func_8003E188();
+s32 func_8003E188(s32, s32);
 void func_800424E0();
-M2C_UNK func_80042640();
+s32 func_80042640(void *, s32);
 void func_80048A44();
-M2C_UNK func_80069E78();
+s32 func_80069E78(void *, s32);
 void create_familiar_deployment_effect_with_owner_state();
 void create_familiar_deployment_overlay();
 void clear_slot_and_update_linked_state();
@@ -177,7 +180,7 @@ void update_map_cell_flags_with_item_limit();
 void append_packed_action_record();
 void *advance_monster_timed_sequence();
 s32 read_monster_script_entry();
-void *(*load_monster_resource_data())(M2C_UNK, u8, u8, s16);
+void *(*load_monster_resource_data())(s32, u8, u8, s16);
 s32 find_or_retain_sprite_resource_slot();
 s32 raise_entity_level();
 s32 play_sound_if_enabled();
@@ -191,7 +194,7 @@ void spawn_directed_and_scattered_particles();
 extern s32 D_8007359C;
 extern s32 D_80081484;
 extern u32 D_800835E4[];
-extern M2C_UNK D_800B69DC;
+void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, s32 context, Rec_D_80082E80 *object, EntityRec *state);
 extern s8 D_800DCF4F;
 extern u8 D_800DD108[];
 extern u8 D_800DD110[];
@@ -252,7 +255,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
     void *save_data;
     S_func_800B1364_5 *hidden_creature;
     void *release_value;
-    S_func_800B1364_7 *global_state = (S_func_800B1364_7 *)((M2C_UNK *)&g_game_work.unk_000);
+    S_func_800B1364_7 *global_state = (S_func_800B1364_7 *)((s32 *)&g_game_work.unk_000);
 
     state = action->unk_9B;
     switch ((u32)(state)) {
@@ -295,7 +298,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             action->unk_C0 = item;
             saved_item = (S_func_800B1364_13 *)action->unk_BC;
             item_word = saved_item->unk_00;
-            callback = &D_800B69DC;
+            callback = &dispatch_actor_state_handler;
             action->unk_8C = callback;
             D_80081484 = item_word;
             return;

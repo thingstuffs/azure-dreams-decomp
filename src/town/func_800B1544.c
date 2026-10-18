@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_800AECA4_2 {
     u8 pad_00[0xD8];
@@ -50,30 +51,14 @@ typedef struct S_800AECA4_10 {
     void * unk_04;
 } S_800AECA4_10;   /* ((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_00 in initialize_item_menu_list_entries */
 
-typedef struct S_800AECA4_11 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800AECA4_11;   /* ((S_800AECA4_6 *)(((S_800AECA4_3 *)base)->unk_38))->unk_04 in initialize_item_menu_list_entries */
+   /* ((S_800AECA4_6 *)(((S_800AECA4_3 *)base)->unk_38))->unk_04 in initialize_item_menu_list_entries */
 
-typedef struct S_800AECA4_12 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800AECA4_12;   /* ((S_800AECA4_7 *)(((S_800AECA4_3 *)base)->unk_08))->unk_04 in initialize_item_menu_list_entries */
+   /* ((S_800AECA4_7 *)(((S_800AECA4_3 *)base)->unk_08))->unk_04 in initialize_item_menu_list_entries */
 
-typedef struct S_800AECA4_13 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800AECA4_13;   /* ((S_800AECA4_8 *)(((S_800AECA4_3 *)base)->unk_20))->unk_04 in initialize_item_menu_list_entries */
+   /* ((S_800AECA4_8 *)(((S_800AECA4_3 *)base)->unk_20))->unk_04 in initialize_item_menu_list_entries */
 
-typedef struct S_800AECA4_14 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800AECA4_14;
 
-typedef struct S_800AECA4_15 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800AECA4_15;   /* ((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_00))->unk_04 in initialize_item_menu_list_entries */
+   /* ((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_00))->unk_04 in initialize_item_menu_list_entries */
 
 
 int func_80049E6C();
@@ -117,7 +102,7 @@ void initialize_item_menu_list_entries(void *list) {
     *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_04 = &D_80077E84;
     row_index = 0;
     *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00 = func_80049E6C(((S_800AECA4_0 *)list)->unk_28);
-    ((S_800AECA4_15 *)(((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00))->unk_04))->unk_0A =
+    ((SignedWidgetYView *)(((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00))->unk_04))->unk_0A =
         (s16) ((((S_800AECA4_0 *)list)->unk_28 * 8) + 2);
     if (((S_800AECA4_0 *)list)->unk_28 > 0) {
         u8 *row_data_a = D_80077EF0;
@@ -129,7 +114,7 @@ void initialize_item_menu_list_entries(void *list) {
             row_slot = row_index * 4;
             {
                 u8 *row_slots = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
-                ((S_800AECA4_11 *)(((S_800AECA4_6 *)(((S_800AECA4_3 *)row_slots)->unk_38))->unk_04))->unk_0A = row_y;
+                ((SignedWidgetYView *)(((S_800AECA4_6 *)(((S_800AECA4_3 *)row_slots)->unk_38))->unk_04))->unk_0A = row_y;
             }
             {
                 row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
@@ -137,7 +122,7 @@ void initialize_item_menu_list_entries(void *list) {
             }
             {
                 row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
-                ((S_800AECA4_12 *)(((S_800AECA4_7 *)(((S_800AECA4_3 *)row_slots_m)->unk_08))->unk_04))->unk_0A = row_y;
+                ((SignedWidgetYView *)(((S_800AECA4_7 *)(((S_800AECA4_3 *)row_slots_m)->unk_08))->unk_04))->unk_0A = row_y;
             }
             {
                 row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
@@ -145,7 +130,7 @@ void initialize_item_menu_list_entries(void *list) {
             }
             {
                 row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
-                ((S_800AECA4_13 *)(((S_800AECA4_8 *)(((S_800AECA4_3 *)row_slots_m)->unk_20))->unk_04))->unk_0A = row_y;
+                ((SignedWidgetYView *)(((S_800AECA4_8 *)(((S_800AECA4_3 *)row_slots_m)->unk_20))->unk_04))->unk_0A = row_y;
             }
             {
                 row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
@@ -159,7 +144,7 @@ void initialize_item_menu_list_entries(void *list) {
             }
             row_index += 1;
             row_slot = row_slot + ((S_800AECA4_0 *)list)->unk_D8;
-            ((S_800AECA4_14 *)(((S_800AECA4_9 *)(((S_800AECA4_4 *)row_slot)->unk_50))->unk_04))->unk_0A = entry_y;
+            ((SignedWidgetYView *)(((S_800AECA4_9 *)(((S_800AECA4_4 *)row_slot)->unk_50))->unk_04))->unk_0A = entry_y;
             entry_y += 0x10;
         } while (row_index < ((S_800AECA4_0 *)list)->unk_28);
     }

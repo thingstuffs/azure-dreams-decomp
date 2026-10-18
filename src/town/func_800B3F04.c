@@ -1,10 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_func_800B15B8_arg0.h"
+#include "shared/types3a_types.h"
 
-typedef struct S_800B1664_0_pre {
-    u16 unk_00;
-} S_800B1664_0_pre;   /* the 0x2 bytes before arg0 in decay_shop_state_and_cleanup, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in decay_shop_state_and_cleanup, addressed as arg0[-1] */
 
 
 typedef struct S_800B1664_1 {
@@ -40,7 +39,7 @@ void decay_shop_state_and_cleanup(void *object) {
     if ((s16) ((S_800B1664_4 *)(((Rec_func_800B15B8_arg0 *)object)->unk_C0))->unk_06 < 0x11) {
         func_8004B248(object + 0xD0);
         reset_five_shop_slots(object);
-        ((S_800B1664_0_pre *)object)[-1].unk_00 = (u16) (((S_800B1664_0_pre *)object)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)object)[-1].unk_00 = (u16) (((ObjectRetirementFlags *)object)[-1].unk_00 | 0x8000);
         object_flag_block.flags |= 0x8000;
     }
 }

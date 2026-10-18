@@ -1,11 +1,6 @@
 #include "common.h"
 #include "shared/town_handler.h"
-
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} InitPosition;
+#include "shared/types3a_types.h"
 
 
 extern u8 D_800AA5F8[];
@@ -13,7 +8,7 @@ extern u8 D_800D0130[];
 extern void *D_800D0B14;
 extern s16 D_80100D18;
 extern s32 D_80100D1C;
-extern InitPosition D_80100D28;
+extern IntVector3 D_80100D28;
 extern s16 D_80100D40;
 extern s16 D_80100D42;
 extern s16 D_80100D60[];
@@ -22,7 +17,7 @@ extern s16 D_80100D80;
 extern s16 D_80100D82;
 
 /* Initializes object state and sets its starting position. */
-void initialize_object_state_and_position(void **object, InitPosition *start_position, void *ptr2) {
+void initialize_object_state_and_position(void **object, IntVector3 *start_position, void *ptr2) {
         s32 *position;
 
     call_the_handler_selects_nonzero_entry((s32 *) D_800D0130, (Rec_func_80094268_arg0 *) object, ptr2);

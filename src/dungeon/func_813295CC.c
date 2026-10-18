@@ -1,8 +1,12 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 
-typedef s32 M2C_UNK;
+typedef struct RegistrationNode RegistrationNode;
+struct Dst;
+struct Elem;
+
 
 typedef struct {
     s32 x;
@@ -30,13 +34,13 @@ typedef struct {
     u8 unk00[8];
     Vec3 *position;
     Sub *sub;
-    M2C_UNK *callback;
+    s32 *callback;
 } Node;
 
-extern void func_8003DB94(Sub *, M2C_UNK *, s32);
-extern void func_8004491C(Node *, M2C_UNK *);
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+s32 func_8004491C(RegistrationNode *entry, s32 registration_id);
 extern M2C_UNK D_800DE870;
-extern M2C_UNK D_80170D60;
+void func_80170D60(void *destination, s32 unused, void *source);
 
 /* Creates and configures a node at a fixed offset from the given position. */
 void create_offset_animation_sprite(void *unused, void *origin) {
@@ -47,7 +51,7 @@ void create_offset_animation_sprite(void *unused, void *origin) {
 
     node = (Node *)func_8003FC64(0x212);
     if (node != 0) {
-        node->callback = &D_80170D60;
+        node->callback = &func_80170D60;
         func_8004491C(node, func_80045340);
         node_sub = node->sub;
         node_sub->field_10 = 0x20;

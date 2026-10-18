@@ -1,7 +1,10 @@
 #include "common.h"
 #include "shared/sys_flags.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
+
+typedef struct S_80041E28_Dst S_80041E28_Dst;
+typedef struct S_80041E28_Src S_80041E28_Src;
+typedef struct CallbackObject CallbackObject;
 
 struct S_800E3E48 {
     u8 pad00[0x14];
@@ -22,22 +25,22 @@ extern s32 D_800E3D74;
 extern s16 D_800DCED4[];
 extern u8 D_800E045C[];
 
-extern M2C_UNK restore_actor_stats_from_snapshot();
-extern M2C_UNK func_800424E0();
-extern M2C_UNK func_80035208();
-extern M2C_UNK func_80042560();
-extern M2C_UNK func_80042640();
-extern M2C_UNK func_80042984();
+extern void restore_actor_stats_from_snapshot(S_80041E28_Dst *dst, S_80041E28_Src *src);
+extern void func_800424E0(void *, s32, void *);
+extern void func_80035208(s32 value);
+extern void func_80042560(CallbackObject *object);
+extern void func_80042640(void *obj, s16 monsterId);
+extern void func_80042984(void *entity);
 extern s32 func_800429E4();
-extern M2C_UNK func_80094A64();
-extern M2C_UNK func_80094AE8();
-extern M2C_UNK func_80094B54();
-extern M2C_UNK func_80094B94();
-extern M2C_UNK func_80094BD0();
+
+
+
+
+
 extern void equip_item_and_update_status();
 extern void change_equipped_item_and_notify();
 extern s32 find_valid_nearby_position();
-extern void *(*load_monster_resource_data())(M2C_UNK, s16, s16, s16);
+extern void *(*load_monster_resource_data(s32 resource_id, s32 resource_slot, s32 wait_for_read))(s32, s16, s16, s16);
 extern s32 retain_spawn_resource();
 extern s32 find_or_retain_sprite_resource_slot();
 extern s32 select_dungeon_spawn_tile();
@@ -197,13 +200,13 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, EntityRec *actor, u1
     if (((S_80094988_7 *)0x80010000)->unk_21E0 != 0xFF) {
         slot_ptr = (u8 *)((void **)0x80010248 + ((S_80094988_7 *)0x80010000)->unk_21E0);
     } else {
-        slot_ptr = NULL;
+        slot_ptr = 0;
     }
     equip_item_and_update_status(actor, slot_ptr);
     if (((S_80094988_7 *)0x80010000)->unk_21E1 != 0xFF) {
         slot_ptr = (u8 *)((void **)0x80010248 + ((S_80094988_7 *)0x80010000)->unk_21E1);
     } else {
-        slot_ptr = NULL;
+        slot_ptr = 0;
     }
     change_equipped_item_and_notify(actor, slot_ptr);
     slot_ptr = (u8 *)0x80010248;
@@ -242,7 +245,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, EntityRec *actor, u1
                         slot_rec = (void *)((u32)slot_offset +
                                             (u32)dungeon);
                         slot_rec->unk_AC = spawned;
-                        if (spawned != NULL) {
+                        if (spawned != 0) {
                             func_80042640(spawned,
                                           spawned->unk_13);
                             func_800424E0(spawned,

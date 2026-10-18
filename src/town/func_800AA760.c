@@ -2,6 +2,7 @@
 #include "shared/object_index_slots.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/types3a_types.h"
 
 #define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
 
@@ -23,19 +24,6 @@ typedef struct S_func_800AA760_0 {
     s8 *unk_98;
 } S_func_800AA760_0;
 
-typedef struct S_func_800AA760_1 {
-    u8 pad_00[2];
-    s16 unk_02;
-    u8 pad_04[2];
-    s16 unk_06;
-    u8 pad_08[2];
-    s16 unk_0A;
-} S_func_800AA760_1;
-
-typedef struct S_func_800AA760_2 {
-    u8 pad_00[8];
-    void *unk_08;
-} S_func_800AA760_2;
 
 typedef struct S_func_800AA760_3 {
     u8 pad_00[0x72];
@@ -43,20 +31,15 @@ typedef struct S_func_800AA760_3 {
 } S_func_800AA760_3;
 
 
-
-typedef struct S_func_800AA760_5 {
-    u16 unk_00;
-} S_func_800AA760_5;
-
 /* Updates the linked position, or clears the object flag and sets cleanup bits. */
-void update_linked_position_or_flag_object(S_func_800AA760_0 *object, S_func_800AA760_1 *out_position)
+void update_linked_position_or_flag_object(S_func_800AA760_0 *object, SignedPositionView *out_position)
 {
     s32 x_offset;
     s32 y_offset;
     s8 *object_flag;
     u8 link_id;
     u8 link_index;
-    S_func_800AA760_2 *linked_record;
+    ObjectPayloadView *linked_record;
     S_func_800AA760_3 *linked_entity;
     MovingPosition *linked_position;
 
@@ -68,7 +51,7 @@ void update_linked_position_or_flag_object(S_func_800AA760_0 *object, S_func_800
             *object_flag = 0;
         }
         func_80033D08(object);
-        ((S_func_800AA760_5 *)((u8 *)object - 2))->unk_00 |= 0x8000;
+        ((ObjectRetirementFlags *)((u8 *)object - 2))->unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
         return;
     }

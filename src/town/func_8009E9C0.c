@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "records/Rec_func_8009B828_arg0.h"
+#include "shared/types3a_types.h"
 void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 context, EntityRec *motion, s32 transition_arg);
 
 typedef struct S_8009C120_0 {
@@ -8,12 +9,7 @@ typedef struct S_8009C120_0 {
     s8 unk_15;
 } S_8009C120_0;   /* arg1 in initialize_target_motion_state */
 
-typedef struct S_8009C120_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8009C120_1;   /* arg2 in initialize_target_motion_state */
+   /* arg2 in initialize_target_motion_state */
 
 typedef struct S_8009C120_2 {
     u8 pad_00[0x50];
@@ -23,7 +19,7 @@ typedef struct S_8009C120_2 {
 } S_8009C120_2;   /* arg0 in initialize_target_motion_state */
 
 /* Clear status and values, then initialize the state's data pointer and mode. */
-void initialize_target_motion_state(S_8009C120_2 *state, S_8009C120_0 *status, S_8009C120_1 *values) {
+void initialize_target_motion_state(S_8009C120_2 *state, S_8009C120_0 *status, MotionDeltaView *values) {
     status->unk_15 = 0;
     values->unk_0C = 0;
     values->unk_10 = 0;

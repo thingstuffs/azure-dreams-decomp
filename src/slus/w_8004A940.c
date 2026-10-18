@@ -1,13 +1,11 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 /* {category, index} pair table at raw address 0x80013564 (not referenced
    elsewhere in this TU via a %hi/%lo symbol, so materialized as a literal,
    matching sibling func_8004A784's treatment of the neighboring 0x800133E8
    table). */
-typedef struct S_8004A940_Pair {
-    s16 a;
-    s16 b;
-} S_8004A940_Pair;
+
 
 /* 20-byte item record; offset 0xC holds a pointer this function writes. */
 typedef struct S_8004A940_Rec {
@@ -32,7 +30,7 @@ extern S_8004A940_CategoryEntry itemCategoryTable[];
 /* Assign consecutive 19-byte data blocks to the items selected by the category/index table. */
 void table_handle_assign_consecutive_n_19_byte_data_blocks_items_selected_category_index(void)
 {
-    S_8004A940_Pair *item_pair = (S_8004A940_Pair *)0x80013564;
+    ResourceCategoryPair *item_pair = (ResourceCategoryPair *)0x80013564;
     void *item_data = (void *)0x800133E8;
     S_8004A940_CategoryEntry *category_table;
     s32 pair_index = 0;

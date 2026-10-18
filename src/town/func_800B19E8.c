@@ -1,9 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/types3a_types.h"
 
-typedef struct S_800AF148_0_pre {
-    u16 unk_00;
-} S_800AF148_0_pre;
 
 typedef struct S_800AF148_0 {
     u8 pad_00[0x28];
@@ -22,7 +20,7 @@ void release_item_menu_list_object(s32 objectAddress) {
         objectFields = objectAddress + 0x20;
         send_item_menu_page_entries_to_formatter(((S_800AF148_0 *)objectFields)->unk_D8, ((S_800AF148_0 *)objectFields)->unk_28);
         func_8004B248(objectAddress + 0xFC);
-        ((S_800AF148_0_pre *)objectFields)[-1].unk_00 = (u16) (((S_800AF148_0_pre *)objectFields)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)objectFields)[-1].unk_00 = (u16) (((ObjectRetirementFlags *)objectFields)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

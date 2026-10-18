@@ -1,12 +1,13 @@
 #include "shared/object_node.h"
 #include "common.h"
 
+typedef s32 M2C_UNK;
+
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef s32 M2C_UNK;
 
 typedef struct S_800B0544_4 {
     u8 pad_00[0x8];
@@ -16,7 +17,7 @@ typedef struct S_800B0544_4 {
 
 typedef struct S_800B0544_5 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
+    s32 * unk_08;
 } S_800B0544_5;   /* ((S_800B0544_4 *)obj)->unk_0C in create_default_state_object */
 
 typedef struct S_800B0544_6 {
@@ -29,7 +30,7 @@ typedef struct S_800B0544_6 {
 } S_800B0544_6;   /* ((S_800B0544_4 *)obj)->unk_08 in create_default_state_object */
 
 
-extern M2C_UNK load_indexed_resource_package();
+extern int load_indexed_resource_package(short table_index);
 extern s32 func_8004491C();
 
 extern s16 D_8008146C;
@@ -41,7 +42,7 @@ extern M2C_UNK D_800DEF90;
 typedef struct S_800B0544_0 {
     u8 pad_00[0xC];
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800B0544_0;   /* obj in create_default_state_object */
 
 typedef struct S_800B0544_1 {

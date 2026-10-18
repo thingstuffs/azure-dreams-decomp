@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_8004C080_0 {
     u8 pad_00[0x1];
@@ -28,11 +29,7 @@ typedef struct S_8004C080_1 {
     s32 unk_20;
 } S_8004C080_1;   /* packet in func_8004C080 */
 
-typedef struct S_8004C080_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_8004C080_2;   /* record in func_8004C080 */
+   /* record in func_8004C080 */
 
 
 typedef struct Tint8004C080 {
@@ -97,15 +94,15 @@ void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
         ((S_8004C080_1 *)packet)->unk_03 = length_or_code;
         ((S_8004C080_1 *)packet)->unk_04.at03.v = primitive_type;
         ((S_8004C080_1 *)packet)->unk_04.at03.v = ((S_8004C080_0 *)command)->unk_01;
-        ((S_8004C080_1 *)packet)->unk_0C = ((S_8004C080_2 *)record)->unk_00;
+        ((S_8004C080_1 *)packet)->unk_0C = ((PacketColorWords *)record)->unk_00;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
         packet_color = packet + 0x14;
-        ((S_8004C080_1 *)packet)->unk_14 = ((S_8004C080_2 *)record)->unk_04;
+        ((S_8004C080_1 *)packet)->unk_14 = ((PacketColorWords *)record)->unk_04;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
         packet_color = packet + 0x1C;
-        ((S_8004C080_1 *)packet)->unk_1C = ((S_8004C080_2 *)record)->unk_08;
+        ((S_8004C080_1 *)packet)->unk_1C = ((PacketColorWords *)record)->unk_08;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
         return record;

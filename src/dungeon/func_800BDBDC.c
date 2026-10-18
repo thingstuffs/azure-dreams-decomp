@@ -1,12 +1,12 @@
 #include "shared/entity_action_selectors.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-typedef s32 M2C_UNK;
 
 typedef struct {
     u8 pad_0[0xA];

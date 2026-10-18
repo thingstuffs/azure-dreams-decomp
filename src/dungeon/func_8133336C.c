@@ -1,4 +1,5 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -7,7 +8,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
-typedef s32 M2C_UNK;
+
 
 
 typedef struct S_8016A36C_3 {
@@ -21,7 +22,7 @@ typedef struct S_8016A36C_3 {
     } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
-    union { M2C_UNK * p; u8 * p2; } unk_2C;   /* accessed as both */
+    union { s32 * p; u8 * p2; } unk_2C;   /* accessed as both */
 } S_8016A36C_3;   /* arg2 in update_multi_form_actor_control */
 
 
@@ -70,7 +71,7 @@ extern M2C_UNK D_80173AC8;
 /* Updates dungeon actor actions, facing, and idle animations. */
 void update_multi_form_actor_control(void *actor, void *context, void *sprite, EntityRec *entity) {
     void *pose_actor;
-    M2C_UNK distance;
+    s32 distance;
     u8 *idle_table;
     u8 *pose2_table;
     u8 *pose3_table;
@@ -115,16 +116,16 @@ void update_multi_form_actor_control(void *actor, void *context, void *sprite, E
         inactive_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
         switch (inactive_pose) {
         case 0xD:
-            if (((S_8016A36C_3 *)sprite)->unk_2C.p == (M2C_UNK *)((u8 *)&D_80173AC0 + 8)) {
+            if (((S_8016A36C_3 *)sprite)->unk_2C.p == (s32 *)((u8 *)&D_80173AC0 + 8)) {
                 return;
             }
-            (((S_8016A36C_3 *)sprite)->unk_2C.p) = (M2C_UNK *)((u8 *)&D_80173A58 + 0x68);
+            (((S_8016A36C_3 *)sprite)->unk_2C.p) = (s32 *)((u8 *)&D_80173A58 + 0x68);
             table_index = ((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
-            table_index += (unsigned long)(M2C_UNK *)((u8 *)&D_80173A58 + 0x68);
+            table_index += (unsigned long)(s32 *)((u8 *)&D_80173A58 + 0x68);
             func_80047784(sprite, *(u8 *)table_index, 0);
             return;
         case 0xE:
-            if (((S_8016A36C_3 *)sprite)->unk_2C.p == (M2C_UNK *)((u8 *)&D_80173A58 + 0x70)) {
+            if (((S_8016A36C_3 *)sprite)->unk_2C.p == (s32 *)((u8 *)&D_80173A58 + 0x70)) {
                 return;
             }
             (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_80173AC0;
@@ -136,9 +137,9 @@ void update_multi_form_actor_control(void *actor, void *context, void *sprite, E
             if (((S_8016A36C_3 *)sprite)->unk_2C.p == &D_80173AC8) {
                 return;
             }
-            (((S_8016A36C_3 *)sprite)->unk_2C.p) = (M2C_UNK *)((u8 *)&D_80173A00 + 0xC0);
+            (((S_8016A36C_3 *)sprite)->unk_2C.p) = (s32 *)((u8 *)&D_80173A00 + 0xC0);
             table_index = ((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
-            table_index += (unsigned long)(M2C_UNK *)((u8 *)&D_80173A00 + 0xC0);
+            table_index += (unsigned long)(s32 *)((u8 *)&D_80173A00 + 0xC0);
             func_80047784(sprite, *(u8 *)table_index, 0);
             return;
         }

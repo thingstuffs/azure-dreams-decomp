@@ -17,10 +17,7 @@ typedef struct S_80125800_3 {
     void * unk_04;
 } S_80125800_3;   /* ((S_80125800_2 *)(((S_80125800_1 *)obj)->unk_58))->unk_184 in interpolate_catalog_grid_cursor */
 
-typedef struct S_80125800_4 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80125800_4;   /* ((S_80125800_3 *)(((S_80125800_2 *)(((S_80125800_1 *)obj)->unk_58))->unk_184))->unk_04 in interpolate_catalog_grid_cursor */
+
 
 
 typedef struct SpriteFields {

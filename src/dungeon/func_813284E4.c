@@ -4,7 +4,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
@@ -75,7 +74,7 @@ static __inline__ u8 advance_tile(u8 tile, const u8 * table, u16 index)
 
 /* Choose a movement heading, advance the actor_in, and update its movement state. */
 void advance_boss_actor_movement_state(void *move_state, void *unused, void *position_in, void *actor_in) {
-    M2C_UNK tile_mask;
+    s32 tile_mask;
     register s16 *turn_offsets;
     s32 y_address;
     s32 target_y;
@@ -106,7 +105,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
             if (move_flags & 0x400) {
                 target = find_valid_monster_neighbor(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                     ((S_8016FCE4_1 *)position_in)->unk_24.at01.v);
-                if (target != NULL) {
+                if (target != 0) {
                     target_position = ((SpriteLinkPrefixView *)target)[-1].unk_00;
                     ((S_8016FCE4_0 *)actor_in)->unk_2A.u = get_rounded_facing_and_rounding_flag(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                         ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, target_position->unk_24, target_position->unk_25,

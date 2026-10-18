@@ -1,7 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+
+struct Dst;
+struct Elem;
 
 
 typedef struct S_800B7C14_1_pre {
@@ -28,8 +30,8 @@ typedef struct S_800B7C14_2 {
 } S_800B7C14_2;   /* arg1 in advance_effect_fade_and_remove */
 
 
-M2C_UNK func_8003DB94();        /* extern */
-M2C_UNK func_800478B8();                      /* extern */
+extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);        /* extern */
+extern void func_800478B8(void *entity);                      /* extern */
 
 /* Advance effect motion, fade its primitive, and mark it for removal when its lifetime ends. */
 void advance_effect_fade_and_remove(void *effect, void *motion, void *primitive) {

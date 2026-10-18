@@ -2,7 +2,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef s32 M2C_UNK;
 
 
 extern void func_800419EC(s32, s32);

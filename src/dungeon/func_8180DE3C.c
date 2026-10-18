@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef s32 M2C_UNK;
 
 typedef struct S_80026E3C_0_pre {
     u16 unk_00;
@@ -24,7 +23,7 @@ typedef struct S_80026E3C_1 {
 
 
 /* Alternate the effect shade, decay its intensity, and flag expiration. */
-void alternate_effect_shade_and_decay(void *effect, M2C_UNK ticks_left, S_80026E3C_1 *color)
+void alternate_effect_shade_and_decay(void *effect, s32 ticks_left, S_80026E3C_1 *color)
 {
     u16 frame;
     u16 intensity;

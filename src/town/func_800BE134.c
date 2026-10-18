@@ -2,14 +2,13 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
+#include "shared/types3a_types.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_800BB894_0_pre {
-    u16 unk_00;
-} S_800BB894_0_pre;   /* the 0x2 bytes before self in spawn_short_lived_objects_around_origin, addressed as self[-1] */
+   /* the 0x2 bytes before self in spawn_short_lived_objects_around_origin, addressed as self[-1] */
 
 
 typedef struct {
@@ -107,7 +106,7 @@ void spawn_short_lived_objects_around_origin(Self *self, Copy24 *origin) {
 
         self->timer = timer;
         if ((s16)timer <= 0) {
-            ((S_800BB894_0_pre *)self)[-1].unk_00 |= 0x8000;
+            ((ObjectRetirementFlags *)self)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= 0x8000;
         }
     }

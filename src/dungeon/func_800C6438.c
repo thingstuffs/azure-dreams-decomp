@@ -1,11 +1,13 @@
 #include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
+struct Dst;
+struct Elem;
 
-M2C_UNK func_8003DB94();
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 extern s32 func_8004491C();
 extern s32 play_sound_if_enabled();
 extern M2C_UNK D_800CB9DC;
@@ -15,7 +17,7 @@ typedef struct S_800CBB98_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
 } S_800CBB98_0;
@@ -60,7 +62,7 @@ void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *
     u32 tile_y_low;
 
     effect = func_8003FC64(2);
-    if (effect != NULL) {
+    if (effect != 0) {
         effect->unk_10 = &D_800CB9DC;
         func_8004491C(effect, func_80045340);
         position = effect->unk_08;

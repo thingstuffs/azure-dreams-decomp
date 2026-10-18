@@ -2,12 +2,6 @@
 #include "shared/game_work.h"
 
 
-typedef struct State {
-    s32 unk0;
-    s32 unk4;
-    s32 flags;
-} State;
-
 void update_actor_ground_and_input(s32 *, s32, s32);
 void initialize_scene_action_record();
 

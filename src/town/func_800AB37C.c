@@ -1,14 +1,10 @@
 #include "common.h"
+#include "shared/types3a_types.h"
+
 
 typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3;
-
-typedef struct {
-    Vec3 first;
-    Vec3 second;
+    IntVector3 first;
+    IntVector3 second;
 } Pair;
 
 typedef struct {

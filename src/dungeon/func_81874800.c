@@ -4,6 +4,7 @@
 
 typedef s32 M2C_UNK;
 
+
 extern const u8 D_80024004[48];
 extern const u8 D_80024034[4];
 extern M2C_UNK D_800E1C8A;

@@ -3,6 +3,8 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/types3c_types.h"
 
 extern int abs(int);
 
@@ -55,15 +57,9 @@ typedef struct S_81850800_2 {
     void * unk_00;
 } S_81850800_2;
 
-typedef struct S_81850800_3 {
-    u16 unk_00;
-} S_81850800_3;
 
-typedef struct S_81850800_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_81850800_4;
+
+
 
 typedef struct S_81850800_5 {
     union {
@@ -98,10 +94,7 @@ typedef struct S_81850800_5 {
     u8 unk_25;
 } S_81850800_5;
 
-typedef struct S_81850800_6 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_81850800_6;
+
 
 typedef struct S_81850800_7 {
     union {
@@ -188,11 +181,11 @@ typedef struct S_81850800_11 {
     s16 unk_4E;
 } S_81850800_11;
 
-void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite);
-void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, S_81850800_6 *) = decrement_flagged_item_parameters;
+void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion, SpriteFlagsView *sprite);
+void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, SpriteFlagsView *) = decrement_flagged_item_parameters;
 
 /* Advance a directional effect, spawn its particles, and apply its target impact. */
-void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite)
+void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion, SpriteFlagsView *sprite)
 {
     s32 step_x;
     s32 step_y;
@@ -218,7 +211,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
     u32 base_y;
     s16 ground_height;
     S_81850800_1 *caster_data;
-    S_81850800_4 *caster_sprite;
+    MovingTile *caster_sprite;
     S_81850800_8 *work;
     S_81850800_9 *obj;
     S_81850800_1 *target;
@@ -251,7 +244,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
 
     switch (mode) {
     case 0:
-        if ((((S_81850800_3 *)owner->unk_04)->unk_00 & 0x80) == 0) {
+        if ((((u16 *)owner->unk_04)[0] & 0x80) == 0) {
             return;
         }
         target = caster_data->unk_60;

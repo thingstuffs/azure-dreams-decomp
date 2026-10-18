@@ -20,7 +20,7 @@ typedef struct S_801724BC_2 {
     } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
-    M2C_UNK * unk_2C;
+    s32 * unk_2C;
 } S_801724BC_2;   /* arg2 in update_actor_behavior */
 
 
@@ -39,13 +39,13 @@ void begin_actor_move_to_target_facing(); /* extern */
 s32 reset_actor_action_state(); /* extern */
 s32 process_selected_actor_record(); /* extern */
 void begin_actor_spell_action(); /* extern */
-void advance_actor_stored_path_2(void *, M2C_UNK, void *, void *);                            /* extern */
+void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, void *path_state);                            /* extern */
 void select_and_advance_actor_move(); /* extern */
 s32 check_and_prepare_actor_move(); /* extern */
 void prepare_actor_path_movement(); /* extern */
 s32 func_80173EAC(); /* extern */
 void update_directional_action_display(); /* extern */
-extern M2C_UNK D_801724BC;
+void update_actor_behavior(void *actor, s32 context, void *sprite, EntityRec *state);
 extern M2C_UNK D_80175DF4;
 extern M2C_UNK D_80175DFC;
 extern M2C_UNK D_80175E04;
@@ -63,10 +63,10 @@ extern M2C_UNK D_80175E8C;
 extern M2C_UNK D_80175E94;
 
 /* Updates actor animation, facing, and actions from its dungeon state. */
-void update_actor_behavior(void *actor, M2C_UNK context, void *sprite, EntityRec *state) {
-    M2C_UNK path_info;
+void update_actor_behavior(void *actor, s32 context, void *sprite, EntityRec *state) {
+    s32 path_info;
     u8 *next_row;
-    M2C_UNK *current_row;
+    s32 *current_row;
     s32 state_flags;
     s32 action_id;
     s32 heading;
@@ -94,21 +94,21 @@ void update_actor_behavior(void *actor, M2C_UNK context, void *sprite, EntityRec
             if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E54) {
                 return;
             }
-            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E84;
+            (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80175E84;
             func_80047784(sprite, ((u8 *)&D_80175E84)[((s32) (g_game_work.view.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
             return;
         case 0xE:
             if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E5C) {
                 return;
             }
-            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E8C;
+            (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80175E8C;
             func_80047784(sprite, ((u8 *)&D_80175E8C)[((s32) (g_game_work.view.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
             return;
         case 0xF:
             if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E64) {
                 return;
             }
-            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E94;
+            (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80175E94;
             func_80047784(sprite, ((u8 *)&D_80175E94)[((s32) (g_game_work.view.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
             return;
         }
@@ -168,21 +168,21 @@ void update_actor_behavior(void *actor, M2C_UNK context, void *sprite, EntityRec
             switch (idle_mode) {
             case 0xD:
                 if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E24) {
-                    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E24;
+                    (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80175E24;
                     func_80047784(sprite, ((u8 *)&D_80175E24)[((s32) (g_game_work.view.viewAngle + state->facing + 0x100)
                         >> 9) & 7], 0);
                 }
                 break;
             case 0xE:
                 if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E2C) {
-                    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E2C;
+                    (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80175E2C;
                     func_80047784(sprite, ((u8 *)&D_80175E2C)[((s32) (g_game_work.view.viewAngle + state->facing + 0x100)
                         >> 9) & 7], 0);
                 }
                 break;
             case 0xF:
                 if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E34) {
-                    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E34;
+                    (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80175E34;
                     func_80047784(sprite, ((u8 *)&D_80175E34)[((s32) (g_game_work.view.viewAngle + state->facing + 0x100)
                         >> 9) & 7], 0);
                 }
@@ -278,13 +278,13 @@ void update_actor_behavior(void *actor, M2C_UNK context, void *sprite, EntityRec
             action_mode = state->unk_48;
             switch (action_mode) {
             case 0xD:
-                begin_actor_spell_action(actor, context, sprite, &D_80175DF4, &D_801724BC);
+                begin_actor_spell_action(actor, context, sprite, &D_80175DF4, &update_actor_behavior);
                 return;
             case 0xE:
-                begin_actor_spell_action(actor, context, sprite, &D_80175DFC, &D_801724BC);
+                begin_actor_spell_action(actor, context, sprite, &D_80175DFC, &update_actor_behavior);
                 return;
             case 0xF:
-                begin_actor_spell_action(actor, context, sprite, &D_80175E04, &D_801724BC);
+                begin_actor_spell_action(actor, context, sprite, &D_80175E04, &update_actor_behavior);
                 return;
             }
             return;
@@ -332,7 +332,7 @@ void update_actor_behavior(void *actor, M2C_UNK context, void *sprite, EntityRec
     if (current_row == next_row) {
         return;
     }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = next_row;
+    (*(s32 **)((u8 *)sprite + 0x2C)) = next_row;
     func_80047784(sprite, *(u8 *)((unsigned long)(((s32) (g_game_work.view.viewAngle + state->facing + 0x100) >> 9) & 7)
         + (unsigned long)next_row), 0);
     return;

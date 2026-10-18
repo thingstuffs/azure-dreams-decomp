@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_818C2F10_0_pre {
@@ -24,7 +23,7 @@ typedef struct S_818C2F10_2 {
 
 
 
-M2C_UNK func_800478B8();                      /* extern */
+extern void func_800478B8(void *entity);                      /* extern */
 
 /* Increment linked counters, reduce the stored value, and propagate status flags. */
 void func_818C2F10(void *entry, S_818C2F10_2 *value_state, Rec_D_80082E80 *status) {

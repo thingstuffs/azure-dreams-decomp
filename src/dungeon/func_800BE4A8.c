@@ -5,8 +5,6 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
-
 void begin_deferred_item_action(); /* extern */
 void clear_slot_and_update_linked_state();                         /* extern */
 void adjust_source_value_and_finalize();           /* extern */
@@ -23,7 +21,7 @@ s32 use_item_to_increase_luck(void *entity, s32 event, s16 event_type) {
 
     if (entity == ((s32)D_800E3D7C)) {
         ((EntityRec *)entity)->unk_110 = event;
-        begin_deferred_item_action(entity, ((M2C_UNK *)(&D_80083780)), ((M2C_UNK *)(&D_80082E80)), entity);
+        begin_deferred_item_action(entity, ((s32 *)(&D_80083780)), ((s32 *)(&D_80082E80)), entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {

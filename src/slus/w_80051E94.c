@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
 /* Element of the D_80071A68 lookup table indexed by an object's "kind" field. */
 typedef struct S_80071A68 {
@@ -33,16 +34,12 @@ typedef struct S_80051E94_Sub {
 /* Struct pointed to by S_80051E94.vecPtr (offset 0x8); populated by
  * func_8004491C as a side effect and then filled in here with three
  * 16.16-fixed-point constants (integer part only, low half zero). */
-typedef struct S_80051E94_Vec {
-    /* 0x00 */ s32 field_0x00;
-    /* 0x04 */ s32 field_0x04;
-    /* 0x08 */ s32 field_0x08;
-} S_80051E94_Vec;
+
 
 /* Common "Entity"/"Obj" object layout used across code.c: update_func at 0x10. */
 typedef struct S_80051E94 {
     /* 0x00 */ u8 unk00[0x8];
-    /* 0x08 */ S_80051E94_Vec *vecPtr;
+    /* 0x08 */ IntVector3 *vecPtr;
     /* 0x0C */ S_80051E94_Ptr *ptr;
     /* 0x10 */ void (*update_func)(void);
     /* 0x14 */ u8 unk14[0xC];
@@ -56,7 +53,7 @@ void func_80051E94(S_80051E94 *object, s32 sub_value)
 {
     S_80051E94_Sub *sub_state;
     S_80051E94_Ptr *render_state;
-    S_80051E94_Vec *render_vector;
+    IntVector3 *render_vector;
     s32 kind_value;
 
     object->update_func = func_80051CC4;
@@ -77,7 +74,7 @@ void func_80051E94(S_80051E94 *object, s32 sub_value)
     func_8004491C(object, func_80044BB0);
 
     render_vector = object->vecPtr;
-    render_vector->field_0x00 = 0x380000;
-    render_vector->field_0x04 = 0x280000;
-    render_vector->field_0x08 = 0x900000;
+    render_vector->x = 0x380000;
+    render_vector->y = 0x280000;
+    render_vector->z = 0x900000;
 }

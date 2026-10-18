@@ -4,6 +4,8 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 
+typedef struct S_80047784 S_80047784;
+
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
     u8 pad_00[0x8C];
@@ -15,8 +17,6 @@ typedef struct {
     u8 *field_2C;
 } SpriteFieldView_80DBD29C;
 
-
-typedef s32 M2C_UNK;
 
 
 typedef struct S_80174A9C_1 {
@@ -33,7 +33,7 @@ typedef struct S_80174A9C_2 {
 
 
 
-M2C_UNK func_80047784();
+void func_80047784(S_80047784 *object, s16 table_index, s16 entry_index);
 s32 find_eligible_actor_at_tile_and_height();
 s32 try_claim_dungeon_action_slot();
 s32 advance_status_timers();

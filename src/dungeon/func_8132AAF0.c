@@ -1,8 +1,10 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80174CD8.h"
+
+struct Dst;
+struct Elem;
 
 
 typedef struct S_801722F0_1 {
@@ -15,7 +17,7 @@ typedef struct S_801722F0_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_801722F0_2;
 
 typedef struct S_801722F0_3 {
@@ -46,10 +48,10 @@ typedef struct S_801722F0_5 {
 
 
 s32 func_8004491C();
-M2C_UNK func_8003DB94();
+extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 s32 play_sound_if_enabled();
-extern M2C_UNK D_800DE870;
-extern M2C_UNK D_80172274;
+extern u8 D_800DE870[16];
+extern void update_cascading_trail_emitter(void *record_data);
 extern Rec_D_80174CD8 *D_80174CD8;
 
 /* Create an effect at the source position and play its sound. */
@@ -63,12 +65,12 @@ void spawn_cascading_trail_emitter(void) {
 
     source_pos = D_80174CD8->unk_08;
     effect = func_8003FC64(0x212);
-    if (effect != NULL) {
+    if (effect != 0) {
         setup_data = func_80045340;
         effect_params = effect + 0x20;
         effect_params->unk_16 = 0x1E;
         effect_params->unk_18 = 0x1E;
-        ((S_801722F0_2 *)effect)->unk_10 = &D_80172274;
+        ((S_801722F0_2 *)effect)->unk_10 = &update_cascading_trail_emitter;
         func_8004491C(effect, setup_data);
         sprite = ((S_801722F0_2 *)effect)->unk_0C;
         sprite->unk_06 = 0;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void advance_effect_record_counters(u16 *counter, M2C_UNK unused, Rec_D_80082E80 *record) {
+void advance_effect_record_counters(u16 *counter, s32 unused, Rec_D_80082E80 *record) {
     u16 step;
     u16 field_value;
 

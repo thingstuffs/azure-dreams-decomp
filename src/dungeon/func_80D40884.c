@@ -27,7 +27,7 @@ extern void func_80047784();
 extern void set_record_integer_tile_center();
 extern s32 play_sound_if_enabled();
 extern s32 try_move_actor_to_valid_position();
-extern M2C_UNK create_owner_linked_directional_object();
+void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position, u8 *source_sprite);
 
 extern u8 D_800E23E0[];
 extern u8 D_800E2448[];

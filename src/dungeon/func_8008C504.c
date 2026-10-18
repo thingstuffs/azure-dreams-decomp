@@ -3,12 +3,11 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80091C64_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0x2];
     s16 unk_92;
     u8 pad_94[0x2];
@@ -37,13 +36,13 @@ s32 func_800644B8();
 s32 func_80064584();
 void set_record_integer_tile_center();
 s32 play_sound_if_enabled();
-extern M2C_UNK D_8008EAC8;
+void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, void *entity);
 extern u8 D_800DD038[];
 extern u8 D_800DD058[];
 
 /* Animate a hop and return to the entity's tile, then restore its facing and behavior. */
 void update_actor_hop_and_return(void *motion, EntityRec *position, void *entity, void *actor) {
-    M2C_UNK *next_behavior;
+    s32 *next_behavior;
     s16 frames_left;
     u8 phase;
     u16 return_duration;
@@ -137,7 +136,7 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, void *entity
         g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
         ((S_80091C64_1 *)actor)->unk_2A = (s16) ((S_80091C64_0 *)motion)->unk_11A;
         if (((S_80091C64_1 *)actor)->unk_1C & 0x100000) {
-            next_behavior = &D_8008EAC8;
+            next_behavior = &handle_carrying_player_input;
         } else {
             next_behavior = handle_player_input;
         }

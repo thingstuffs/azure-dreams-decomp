@@ -1,9 +1,8 @@
 #include "common.h"
 #include "records/Rec_D_80082D58.h"
+#include "shared/types3a_types.h"
 
-typedef struct S_800BA8C4_0_pre {
-    u16 unk_00;
-} S_800BA8C4_0_pre;   /* the 0x2 bytes before arg0 in process_zero_status_record, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in process_zero_status_record, addressed as arg0[-1] */
 
 
 void func_80033D08(void *block_data);
@@ -15,7 +14,7 @@ void process_zero_status_record(void *record) {
     if (*((Rec_D_80082D58 *)record)->unk_98.as_pu8 == 0) {
         unlink_scene_list_node(record);
         func_80033D08(record);
-        ((S_800BA8C4_0_pre *)record)[-1].unk_00 = (u16) (((S_800BA8C4_0_pre *)record)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)record)[-1].unk_00 = (u16) (((ObjectRetirementFlags *)record)[-1].unk_00 | 0x8000);
         D_800814A0.v |= 0x8000;
     }
 }

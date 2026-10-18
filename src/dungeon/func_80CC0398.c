@@ -8,6 +8,10 @@
 #include "shared/entity.h"
 
 typedef s32 M2C_UNK;
+typedef struct S_800AA258_2 S_800AA258_2;
+#include "records/Rec_func_800AA258_arg2.h"
+typedef struct S_8017405C_1 S_8017405C_1;
+
 
 typedef struct S_set_map_0 {
     u8 pad_00[0x2A];
@@ -38,17 +42,17 @@ s32 compare_monster_neighbor_values(u8 source_x, u8 source_y, u8 target_x, u8 ta
 s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 can_entity_gain_level(void *creature);
 void update_actor_status_and_food(void *creature);
-void begin_pushed_actor_move(void *actor, M2C_UNK context, void *sprite, void *creature);
-s32 begin_ready_actor_directional_action(void *actor, M2C_UNK context, void *sprite, void *creature);
-void advance_actor_pending_action(void *actor, M2C_UNK context, void *sprite, void *creature);
-void begin_actor_move_to_target_facing(void *actor, M2C_UNK context, void *sprite, void *creature);
+extern void begin_pushed_actor_move(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, EntityRec *actor);
+extern s32 begin_ready_actor_directional_action(void *entity, s32 context, Rec_func_800AA258_arg2 *sprite, s32 direction_frames);
+extern s32 advance_actor_pending_action(void *actor_state, s32 action, void *status, void *actor);
+extern void begin_actor_move_to_target_facing(Rec_func_800A9E70_arg0 *state, void *unused, Rec_func_800AA258_arg2 *position, EntityRec *entity);
 s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
-void process_selected_actor_record(void *actor, M2C_UNK context, void *sprite, void *creature);
-void update_object_or_select_directional_data(void *actor, M2C_UNK context, void *sprite, void *creature);
-void choose_heading_and_advance_actor(void *actor, M2C_UNK context, void *sprite, void *creature);
+extern s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, EntityRec *record);
+extern void update_object_or_select_directional_data(void *object_arg, void *context, void *source_arg, void *target_arg);
+extern void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *actor, void *movement);
 void func_80174924(void);
-s32 check_object_action_and_clear_flags(void *actor, M2C_UNK context, void *sprite, s32 value);
-s32 select_nearby_target_and_start_action(void *actor, M2C_UNK context, void *sprite, void *creature);
+extern s32 check_object_action_and_clear_flags(void *object, s32 query_x, s32 query_y, s32 action_override);
+extern s32 select_nearby_target_and_start_action(void *action_state, void *unused, void *actor_pos_arg, void *actor);
 
 extern u8 D_80176320[];
 extern M2C_UNK D_80176358;
@@ -62,8 +66,8 @@ static __inline__ void set_map(void *sprite, void *creature, u8 *direction_map) 
 }
 
 /* Updates dungeon creature actions, facing direction, and animation. */
-void update_creature_actions_and_animation(void *actor, M2C_UNK context, void *sprite, EntityRec *creature) {
-    M2C_UNK direction_aux;
+void update_creature_actions_and_animation(void *actor, s32 context, void *sprite, EntityRec *creature) {
+    s32 direction_aux;
     s32 status_flags;
     s8 tile_index;
     u16 action_flags;

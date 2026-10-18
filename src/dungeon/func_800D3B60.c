@@ -4,7 +4,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/actor_status.h"
 
@@ -71,7 +70,7 @@ s16 sample_terrain_surface_height();
 
 /* Advances an actor along a traversable heading and updates its movement state. */
 void advance_actor_traversable_heading(void *move_state, void *context, S_800D92C0_2 *position, void *actor) {
-    M2C_UNK tile_mask;
+    s32 tile_mask;
     s32 target_y;
     s32 target_x;
     s16 candidate_heading;

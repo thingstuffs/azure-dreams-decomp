@@ -3,12 +3,13 @@
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
-M2C_UNK func_80048A44(void *, u8, s32, s32); /* extern */
+typedef struct S_80048A44_Obj S_80048A44_Obj;
+
+void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 void begin_player_damage_reaction(); /* extern */

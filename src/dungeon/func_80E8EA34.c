@@ -3,6 +3,8 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
+typedef struct S_80047784 S_80047784;
+
 typedef struct {
     s32 value;
 } __attribute__((packed)) Packed4;
@@ -52,7 +54,7 @@ typedef struct S_80174234_3 {
     u16 unk_0A;
 } S_80174234_3;
 
-M2C_UNK func_80047784();         /* extern */
+extern void func_80047784(S_80047784 *object, s16 table_index, s16 entry_index);         /* extern */
 s32 get_unused_text_buffer();                                /* extern */
 s32 expand_text_control_codes();                  /* extern */
 void *func_80099290();                         /* extern */

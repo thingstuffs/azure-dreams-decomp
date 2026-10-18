@@ -15,7 +15,7 @@ extern u8 D_80175ED0[];
 
 typedef struct S_80172480_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0x2];
     s16 unk_92;
     u8 pad_94[0x7];

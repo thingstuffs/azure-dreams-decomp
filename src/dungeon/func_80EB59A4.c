@@ -8,6 +8,21 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 
+typedef struct {
+    s8 pad_00[0x8C];
+    void *unk_8C;
+} Actor;
+typedef struct {
+    u8 pad_00[0x2C];
+    u8 *unk_2C;
+} Entity;
+typedef struct {
+    u8 pad_00[0x1C];
+    s32 unk_1C;
+    u8 pad_20[0xA];
+    s16 unk_2A;
+} MapObject;
+
 
 typedef struct S_801711A4_2 {
     u8 pad_00[0x5];
@@ -35,9 +50,6 @@ typedef struct S_801711A4_3 {
 typedef struct EmptyArg {
 } EmptyArg;
 
-#define M2C_BREAK() 0
-#define M2C_SYNC() 0
-
 void func_80047784();
 s32 check_entity_relation();
 s8 find_active_rect_containing_point();
@@ -52,13 +64,13 @@ void begin_actor_move_to_target_facing();
 s32 reset_actor_action_state();
 s32 process_selected_actor_record();
 void begin_actor_spell_action();
-M2C_UNK func_801716CC();
-M2C_UNK func_80171884();
+extern void func_801716CC(void *motion, s32 unused, void *actor, void *path_state);
+extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, EntityRec *actor_data);
 s32 func_80171FCC();
-M2C_UNK func_80172190();
+extern void func_80172190(void *action_state, void *context, void *sprite, EntityRec *actor);
 s32 func_801722B8();
-M2C_UNK func_80173D10();
-extern M2C_UNK D_801711A4;
+extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
+extern void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, EntityRec *status);
 extern M2C_UNK D_8017418C;
 extern M2C_UNK D_80174194;
 extern M2C_UNK D_801741AC;
@@ -188,7 +200,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
                     active_actor = D_800814A8;
                     status->facing = angle;
                     if (active_actor->unk_9A == 0x11) {
-                        next_handler = &D_801711A4;
+                        next_handler = &update_actor_animation_and_dispatch;
                         begin_actor_spell_action(actor, context, sprite, &D_801741AC, next_handler);
                         return;
                     }
@@ -198,7 +210,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
                 case 1:
                 case 2:
                 case 3:
-                    next_handler = &D_801711A4;
+                    next_handler = &update_actor_animation_and_dispatch;
                     begin_actor_spell_action(actor, context, sprite, &D_801741AC, next_handler);
                     return;
                 case 4:

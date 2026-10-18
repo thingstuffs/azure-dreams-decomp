@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "shared/types3a_types.h"
 void func_80033CD8(void *block_data, s32 registration_id);           /* extern */
 s32 lookup_item_category_mapped_value();                /* extern */
 void *create_town_effect_object(); /* extern */
@@ -17,16 +18,12 @@ typedef struct S_800A7FD8_1 {
     s32 unk_60;
 } S_800A7FD8_1;
 
-typedef struct S_800A7FD8_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800A7FD8_2;
 
 /* present_flower_set: create a flower gift object and initialize its state and callback data. */
 void present_flower_set(s32 initial_value) {
     s32 callback_arg;
     S_800A7FD8_1 *state;
-    S_800A7FD8_2 *callback_data;
+    EffectStateWordView *callback_data;
     void *object;
 
     object = create_town_effect_object(0, 0, &update_linked_part_position, 0);

@@ -1,14 +1,10 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
-typedef struct Vec3i {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3i;
 
 typedef struct TownTransition {
-    Vec3i *target;
-    Vec3i *previous_target;
+    IntVector3 *target;
+    IntVector3 *previous_target;
     s32 x;
     s32 y;
     s32 z;
@@ -18,14 +14,14 @@ typedef struct TownTransition {
     s32 steps;
     s32 unk24;
     void (*callback)(void *, void *);
-    Vec3i *other;
+    IntVector3 *other;
 } TownTransition;
 
 extern void restart_or_update_midpoint_tracking(void *state);
 
 /* Reset on target changes or move toward the midpoint of the two targets. */
 void reset_or_advance_target_midpoint(TownTransition *state) {
-    Vec3i *target;
+    IntVector3 *target;
 
     target = state->target;
     if (target != state->previous_target) {

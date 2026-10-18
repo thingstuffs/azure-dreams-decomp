@@ -1,12 +1,10 @@
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
-#include "m2c_compat.h"
-
 typedef struct S_807AFAE4_0 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x4];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
     u8 pad_24[0x6];
@@ -27,7 +25,7 @@ void func_800F72E4(void *sourceData) {
     S_807AFAE4_0 *linkedObject;
 
     linkedObject = func_8003FD64(2, sourceData - 0x20);
-    if (linkedObject != NULL) {
+    if (linkedObject != 0) {
         linkedObject->unk_10 = (void *)advance_linked_particle_effect_state;
         linkedObject->unk_20 = sourceData;
         linkedObject->unk_08 = (s32) ((S_807AFAE4_1 *)((u8 *)sourceData - 0x18))->unk_00;

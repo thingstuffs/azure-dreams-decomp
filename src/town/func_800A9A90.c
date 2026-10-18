@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_800A71F0_0 {
     u8 pad_00[0x8];
@@ -17,11 +18,6 @@ typedef struct S_800A71F0_1 {
     s32 unk_10;
 } S_800A71F0_1;
 
-typedef struct S_800A71F0_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800A71F0_2;
 
 typedef struct S_800A71F0_3 {
     u8 pad_00[0x4];
@@ -53,7 +49,7 @@ void invoke_emote_object_callback(S_800A7338_0 *object);
 extern s32 D_800D0DF0;
 
 /* Creates a positioned object and initializes its state and sprite. */
-s32 create_positioned_sprite_object(void *position, s32 state_value, s32 graphic_id) {
+s32 create_positioned_sprite_object(IntVector3 *position, s32 state_value, s32 graphic_id) {
     void *object;
     void *object_state;
     void *transform;
@@ -66,9 +62,9 @@ s32 create_positioned_sprite_object(void *position, s32 state_value, s32 graphic
     object_state = object + 0x20;
     transform = ((S_800A71F0_0 *)object)->unk_08;
     sprite = ((S_800A71F0_0 *)object)->unk_0C;
-    ((S_800A71F0_1 *)transform)->unk_00 = (s32) ((S_800A71F0_2 *)position)->unk_00;
-    ((S_800A71F0_1 *)transform)->unk_04 = (s32) ((S_800A71F0_2 *)position)->unk_04;
-    (*(s32 *)((u8 *)transform + 8)) = (s32) (((S_800A71F0_2 *)position)->unk_08 + 0xFFDC0000);
+    ((S_800A71F0_1 *)transform)->unk_00 = (s32) position->x;
+    ((S_800A71F0_1 *)transform)->unk_04 = (s32) position->y;
+    (*(s32 *)((u8 *)transform + 8)) = (s32) (position->z + 0xFFDC0000);
     ((S_800A71F0_1 *)transform)->unk_0C = (s32) D_800D0DF0;
     ((S_800A71F0_1 *)transform)->unk_10 = (s32) ((S_800A71F0_3 *)(&D_800D0DF0))->unk_04;
     ((S_800A71F0_0 *)object)->unk_10 = &invoke_emote_object_callback;

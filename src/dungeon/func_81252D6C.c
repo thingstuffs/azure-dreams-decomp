@@ -13,8 +13,6 @@ typedef struct {
 extern int abs(int);
 
 
-typedef s32 M2C_UNK;
-
 extern s32 get_cd_command_queue_depth(void);
 extern s32 func_80047784();
 extern void *scan_monster_along_heading();
@@ -24,7 +22,7 @@ extern void play_sound_if_enabled();
 extern s32 create_actor_spell_effect();
 extern void create_effect_from_sprite_and_facing();
 
-extern M2C_UNK D_80171514;
+void update_object_animation(void *obj, void *motion, void *part, void *state);
 extern u8 D_80173E8C[8];
 extern u8 D_80173EDC[8];
 
@@ -210,7 +208,7 @@ void advance_actor_action_and_target(void *action, void *motion, void *sprite, v
         ((D800814A8FieldView_81252D6C *)D_800814A8)->field_A6--;
         advance_status_timers(actor);
         ((S_8017256C_1 *)actor)->unk_6D--;
-        ((S_8017256C_0 *)action)->unk_8C = &D_80171514;
+        ((S_8017256C_0 *)action)->unk_8C = &update_object_animation;
         ((S_8017256C_1 *)actor)->unk_73.u = 0;
         ((S_8017256C_1 *)actor)->unk_72.u = 0;
         ((S_8017256C_1 *)actor)->unk_46 &= 0x7FFF;
@@ -317,7 +315,7 @@ void advance_actor_action_and_target(void *action, void *motion, void *sprite, v
                 return;
             }
             g_dungeon_status.unk_0A--;
-            ((S_8017256C_0 *)action)->unk_8C = &D_80171514;
+            ((S_8017256C_0 *)action)->unk_8C = &update_object_animation;
             advance_status_timers(actor);
             ((S_8017256C_1 *)actor)->unk_6D--;
             ((S_8017256C_1 *)actor)->unk_73.u = 0;

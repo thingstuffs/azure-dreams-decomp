@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
+#include "shared/types3a_types.h"
 
 
 typedef struct Position {
@@ -14,13 +15,9 @@ typedef struct Position {
 
 extern u8 D_8009AE88[];
 extern u8 D_800D0078[];
-typedef struct Vec3 {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3;
 
-extern Vec3 D_800D0624;
+
+extern IntVector3 D_800D0624;
 
 extern void call_the_handler_selects_nonzero_entry();
 extern void clear_entity_record_fields();
@@ -29,7 +26,7 @@ extern void clear_entity_record_fields();
 void move_player_halfway_to_target(Rec_func_80094268_arg0 *state, Position *position, s32 context)
 {
     u16 timer;
-    Vec3 *target;
+    IntVector3 *target;
 
     target = &D_800D0624;
     position->half_dx = (target->x - position->x) / 2;

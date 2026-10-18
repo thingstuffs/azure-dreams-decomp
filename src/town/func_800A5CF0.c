@@ -1,22 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "shared/types3a_types.h"
 
-typedef struct S_800A3450_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800A3450_0;
-
-typedef struct S_800A3450_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800A3450_1;
-
-typedef struct S_800A3450_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800A3450_2;
 
 typedef struct S_800A3450_3 {
     u8 pad_00[0x10];
@@ -32,10 +17,10 @@ extern u8 D_800A34E0[];
 extern u8 D_800A3508[];
 
 /* Creates an object with copied input data, preset references, and an initial value. */
-void *allocate_object_with_initial_state(S_800A3450_2 *source_data, s16 initial_value)
+void *allocate_object_with_initial_state(EffectInitialState *source_data, s16 initial_value)
 {
-    S_800A3450_0 *object;
-    S_800A3450_1 *object_data;
+    ObjectPayloadView *object;
+    EffectInitialState *object_data;
     void *result;
 
     object = func_8003FD64(0x136, ((u8 *)(&D_80083498)));

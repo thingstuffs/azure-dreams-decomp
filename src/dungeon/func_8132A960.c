@@ -1,13 +1,18 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80174CD8.h"
+
+typedef struct S_801720D0_0 S_801720D0_0;
+
+struct Dst;
+struct Elem;
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef s32 M2C_UNK;
 
 
 typedef struct S_80172160_1 {
@@ -20,7 +25,7 @@ typedef struct S_80172160_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80172160_2;
 
 typedef struct S_80172160_3 {
@@ -54,11 +59,11 @@ typedef struct S_80172160_6 {
 
 
 
-extern M2C_UNK func_8003DB94();
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 extern s32 func_8004491C();
 extern s32 rand();
 extern M2C_UNK D_800DE870;
-extern M2C_UNK D_801720D0;
+void update_rising_trail_emitter(void *record_data, S_801720D0_0 *state);
 extern Rec_D_80174CD8 *D_80174CD8;
 
 /* Spawn and initialize an effect at a random offset from the source position. */
@@ -79,7 +84,7 @@ void spawn_rising_trail_emitter(void)
         effect_state = effect + 0x20;
         effect_state->unk_16 = 0x1E;
         effect_state->unk_18 = 0x1E;
-        ((S_80172160_2 *)effect)->unk_10 = &D_801720D0;
+        ((S_80172160_2 *)effect)->unk_10 = &update_rising_trail_emitter;
         func_8004491C(effect, func_80045340);
         sprite_header = ((S_80172160_2 *)effect)->unk_0C;
         sprite_header->unk_06 = 0;

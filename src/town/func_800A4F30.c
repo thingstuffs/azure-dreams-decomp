@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_800A2690_0 {
     u8 pad_00[0x4];
@@ -45,10 +46,7 @@ typedef struct S_800A2690_3 {
     s16 unk_18;
 } S_800A2690_3;   /* prim in draw_fading_flickering_triangle */
 
-typedef struct S_800A2690_4 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800A2690_4;   /* ((S_800A2690_0 *)arg0)->unk_14 in draw_fading_flickering_triangle */
+   /* ((S_800A2690_0 *)arg0)->unk_14 in draw_fading_flickering_triangle */
 
 
 extern s32 func_800644B8(s32);
@@ -124,7 +122,7 @@ void draw_fading_flickering_triangle(void *effect)
 
         intensity = (intensity * wave_sum) / 36864;
         intensity =
-            (intensity * ((S_800A2690_4 *)(((S_800A2690_0 *)effect)->unk_14))->unk_08) / 4096;
+            (intensity * ((EffectStateWordView *)(((S_800A2690_0 *)effect)->unk_14))->unk_08) / 4096;
         intensity /= 4;
 
         ((S_800A2690_3 *)triangle)->unk_0E = intensity;

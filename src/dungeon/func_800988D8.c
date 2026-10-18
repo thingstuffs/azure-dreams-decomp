@@ -4,8 +4,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
-
 void queue_black_draw_buffer_rectangle();
 s32 has_pending_actor_or_turn_action();
 void *create_fullscreen_quad_updater();
@@ -80,7 +78,7 @@ typedef struct S_func_8009E038_8 {
 
 /* Update the viewport transition, blending its bounds, center, scale, and brightness. */
 void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_func_8009E038_2 *render_params,
-    M2C_UNK *context) {
+    s32 *context) {
     s32 top_step;
     GameWork *input;
     s16 reset_frames;

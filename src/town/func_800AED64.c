@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "shared/types3a_types.h"
 
 extern void func_80046884(void *, void *, s32);
 extern s32 runtime_initialize_polygon_edges(s32, s32 *, u16 *);
@@ -156,9 +157,6 @@ typedef struct S_func_800AED64_6 {
     u32 unk_8D0;
 } S_func_800AED64_6;
 
-typedef struct S_func_800AED64_8 {
-    u16 unk_00;
-} S_func_800AED64_8;
 
 typedef struct S_func_800AED64_10 {
     u8 pad_00[0x4];
@@ -452,11 +450,11 @@ void render_shaded_map_tiles(void) {
                             scratch.ptr->unk_144 = work_value;
                         }
                     }
-                    tile_id = ((S_func_800AED64_8 *)(tile_map
+                    tile_id = ((MapTileHalfView *)(tile_map
                         + (scratch.ptr->unk_144 * 2)))->unk_00 & 0x3FFF;
                     scratch.ptr->unk_C0 = tile_id;
                     if (tile_id != 0) {
-                        tile_flags = ((S_func_800AED64_8 *)(tile_map + (scratch.ptr->unk_144 * 2)))->unk_00 & 0xC000;
+                        tile_flags = ((MapTileHalfView *)(tile_map + (scratch.ptr->unk_144 * 2)))->unk_00 & 0xC000;
                         scratch.ptr->unk_17C = tile_flags;
                         if (tile_flags != 0) {
                             scratch.ptr->unk_FC = 0;

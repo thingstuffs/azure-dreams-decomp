@@ -1,18 +1,19 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "m2c_compat.h"
 
-typedef s32 M2C_UNK;
+typedef struct S_80045C34 S_80045C34;
+
 typedef struct Copy12 {
-    M2C_UNK word[3];
+    s32 word[3];
 } __attribute__((packed)) Copy12;
 
-#define M2C_UNALIGNED32(expr) (expr)
 
 extern s32 func_8004491C();
 extern s32 rand();
 extern s32 func_80167088();
-extern M2C_UNK D_80045C34;
-extern M2C_UNK D_80165AB8;
+s32 func_80045C34(u8 *first_data, s32 link_value, S_80045C34 *value_record);
+void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite);
 extern M2C_UNK D_80173B34[3];
 
 
@@ -78,7 +79,7 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
 
     effect = func_8003FC64(0x12);
     if (effect != 0) {
-        (((ObjectNodeHeader *)effect)->unk_10) = &D_80165AB8;
+        (((ObjectNodeHeader *)effect)->unk_10) = &update_landing_particle_fade;
         x_jitter = rand() & 0x3F;
         base_x =
             ((S_80165F00_4 *)(source->unk_08))->unk_02 - 0x20;
@@ -96,7 +97,7 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
         effect_transform->unk_10 = 0;
         effect_transform->unk_0C = 0;
         ((S_80165F00_5 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_14 = 0x200000;
-        func_8004491C(effect, (void *)((s32)&D_80045C34));
+        func_8004491C(effect, (void *)((s32)&func_80045C34));
         sprite = (((ObjectNodeHeader *)effect)->unk_0C);
         sprite->unk_14 =
             (u16)(sprite->unk_14 & 0xFFF3);
@@ -114,4 +115,4 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
 
 /* MECHANISM: Dropping the cross-call destination cache gives the retail 0x20 frame and s0/s1 hold set.
    Split signed coordinate live ranges plus zero-arg RNG calls reproduce both addiu/store-delay sequences.
-   A fenced, a1-pinned 0x80040000 page splits D_80045C34; u8 0xFF and packed Copy12 close G0. */
+   A fenced, a1-pinned 0x80040000 page splits func_80045C34; u8 0xFF and packed Copy12 close G0. */

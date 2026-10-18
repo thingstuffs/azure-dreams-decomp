@@ -3,9 +3,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-typedef struct S_80024F40_0_pre {
-    u16 unk_00;
-} S_80024F40_0_pre;   /* the 0x2 bytes before arg0 in fade_packed_object_color_to_zero, addressed as arg0[-1] */
+
 
 typedef struct S_80024F40_0 {
     void * unk_00;
@@ -47,7 +45,7 @@ void fade_packed_object_color_to_zero(void *object) {
         break;
     case 1:
         (*(u16 *)((u8 *)object + -2)) =
-            (u16)(((S_80024F40_0_pre *)object)[-1].unk_00 | 0x8000);
+            (u16)(((u16 *)object)[-1] | 0x8000);
         object_flag_block.flags |= 0x8000;
         break;
     }

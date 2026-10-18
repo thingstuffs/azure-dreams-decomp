@@ -1,14 +1,10 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
-typedef struct Vec3i {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3i;
 
 typedef struct PositionLink {
     s8 pad0[8];
-    Vec3i *position;
+    IntVector3 *position;
 } PositionLink;
 
 typedef struct TownState {
@@ -22,10 +18,10 @@ typedef struct TownObject {
 } TownObject;
 
 extern TownState D_800CFCB4;
-extern void func_80094834(TownObject *, Vec3i *, void *);
+extern void func_80094834(TownObject *, IntVector3 *, void *);
 
 /* Move halfway toward the linked position and call func_80094834 when the timer expires. */
-void approach_linked_position_until_timeout(TownObject *object, Vec3i *position, void *context)
+void approach_linked_position_until_timeout(TownObject *object, IntVector3 *position, void *context)
 {
     position->x = (D_800CFCB4.link->position->x + position->x) / 2;
     position->y = (D_800CFCB4.link->position->y + position->y) / 2;

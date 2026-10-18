@@ -1,8 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800B0C68_arg0.h"
-
-
+#include "shared/types3a_types.h"
 
 
 typedef struct S_800B1188_2 {
@@ -85,11 +84,7 @@ typedef struct S_800B1188_14 {
     s16 unk_0A;
 } S_800B1188_14;
 
-typedef struct S_800B1188_15 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800B1188_15;   /* ((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_04))->unk_04 in initialize_shop_window_layout */
-
+   /* ((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_04))->unk_04 in initialize_shop_window_layout */
 
 
 extern void func_8004CBFC();
@@ -114,7 +109,7 @@ void initialize_shop_window_layout(void *ui) {
     *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_00 = &D_800788E0;
     header = ui + 0x34;
     *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04 = header;
-    ((S_800B1188_15 *)(((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04))->unk_04))->unk_0A =
+    ((SignedWidgetYView *)(((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04))->unk_04))->unk_0A =
         0x2F;
     process_shop_record_and_subrecord(header);
     position_shop_row_widgets(ui);

@@ -6,8 +6,6 @@ typedef struct {
     s32 words[4];
 } __attribute__((packed)) Copy16;
 
-#define M2C_UNALIGNED32(expr) (expr)
-
 
 typedef struct S_80025FB0_0 {
     u8 pad_00[0x10];

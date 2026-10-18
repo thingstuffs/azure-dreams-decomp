@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80100B70.h"
+#include "shared/types3a_types.h"
 
 #define SCALE255(value) ((u32)(value) / 255)
 
@@ -77,20 +78,11 @@ typedef struct S_800A1354_4 {
     u8 * unk_5C;
 } S_800A1354_4;   /* obj in draw_random_tinted_quad_pair */
 
-typedef struct S_800A1354_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800A1354_5;   /* ((S_800A1354_4 *)obj)->unk_54 in draw_random_tinted_quad_pair */
+   /* ((S_800A1354_4 *)obj)->unk_54 in draw_random_tinted_quad_pair */
 
-typedef struct S_800A1354_6 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800A1354_6;   /* ((S_800A1354_4 *)obj)->unk_58 in draw_random_tinted_quad_pair */
+   /* ((S_800A1354_4 *)obj)->unk_58 in draw_random_tinted_quad_pair */
 
-typedef struct S_800A1354_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800A1354_7;   /* ((S_800A1354_4 *)obj)->unk_5C in draw_random_tinted_quad_pair */
+   /* ((S_800A1354_4 *)obj)->unk_5C in draw_random_tinted_quad_pair */
 
 /* Draw two translucent quads with random vertex colors scaled by the effect intensity. */
 void draw_random_tinted_quad_pair(u8 *effect)
@@ -139,9 +131,9 @@ void draw_random_tinted_quad_pair(u8 *effect)
         func_80066844(quad);
         func_80066640(quad, 1);
 
-        copy_odd_halfwords_3(scratch + 0x74, ((S_800A1354_5 *)(((S_800A1354_4 *)vertex_group)->unk_54))->unk_08);
-        copy_odd_halfwords_3(scratch + 0x7C, ((S_800A1354_6 *)(((S_800A1354_4 *)vertex_group)->unk_58))->unk_08);
-        copy_odd_halfwords_3(scratch + 0x84, ((S_800A1354_7 *)(((S_800A1354_4 *)vertex_group)->unk_5C))->unk_08);
+        copy_odd_halfwords_3(scratch + 0x74, ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_54))->unk_08);
+        copy_odd_halfwords_3(scratch + 0x7C, ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_58))->unk_08);
+        copy_odd_halfwords_3(scratch + 0x84, ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_5C))->unk_08);
         copy_menu_vector_halfwords(scratch + 0x8C, scratch + 0x74);
         ((S_800A1354_1 *)scratch)->unk_C4 = func_800654B0(
             scratch + 0x74, scratch + 0x7C, scratch + 0x84, scratch + 0x8C, scratch + 0xE8, scratch + 0xEC,

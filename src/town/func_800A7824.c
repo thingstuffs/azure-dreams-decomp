@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
+#include "shared/types3a_types.h"
 
 
 extern s32 D_80082A38[];
@@ -21,10 +22,7 @@ typedef struct S_800A4F84_1 {
     void * unk_04;
 } S_800A4F84_1;   /* table + (state[1] * 8) in select_object_value_with_idle_fallback */
 
-typedef struct S_800A4F84_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800A4F84_2;   /* value in select_object_value_with_idle_fallback */
+   /* value in select_object_value_with_idle_fallback */
 
 
 extern s32 func_800352FC(void);
@@ -32,7 +30,7 @@ extern s32 func_800352FC(void);
 void select_object_value_with_idle_fallback(S_800A4F84_0 *object, s32 check_arg_1, s32 check_arg_2, s32 check_arg_3) {
     u8 *state;
     u8 *state_table;
-    S_800A4F84_2 *value;
+    EffectStateWordView *value;
     s32 idle_count;
     u8 state_index;
 

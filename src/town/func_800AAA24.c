@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "shared/types3a_types.h"
 
 void func_80033CD8(void *block_data, s32 registration_id);
 s32 lookup_item_category_mapped_value();                          /* extern */
@@ -21,16 +22,12 @@ typedef struct S_800A8184_1 {
     u8 unk_4D;
 } S_800A8184_1;
 
-typedef struct S_800A8184_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800A8184_2;
 
 /* Creates an object, selects its data, and initializes its state. */
 void create_indexed_effect_object(s32 index, s32 kind) {
     s32 object_id;
     S_800A8184_1 *state;
-    S_800A8184_2 *data;
+    EffectStateWordView *data;
     void *object;
     s32 saved_kind = kind;
 

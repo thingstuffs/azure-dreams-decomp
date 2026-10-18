@@ -8,7 +8,7 @@ typedef struct S_8106B000_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_8106B000_0;
 
 typedef struct S_8106B000_1 {
@@ -33,12 +33,12 @@ typedef struct S_8106B000_3 {
     s8 unk_24;
     s8 unk_25;
     u8 pad_26[0x6];
-    M2C_UNK * unk_2C;
+    s32 * unk_2C;
 } S_8106B000_3;
 
 typedef struct S_8106B000_4 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];
@@ -80,7 +80,7 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
     saved_input1 = input1;
     saved_input3 = input3;
     saved_input2 = input2;
-    allocation = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
+    allocation = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
     if (allocation != NULL) {
         record = allocation + 0x20;
         ((S_8106B000_0 *)allocation)->unk_10 = &D_8015EAA4;

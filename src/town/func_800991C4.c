@@ -1,10 +1,6 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
-typedef struct Vec3i {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3i;
 
 typedef struct Record {
     u8 flags;
@@ -18,12 +14,12 @@ extern Record *find_flagged_record_by_id(void *entry, u32 target_id);
 extern s32 func_80064584(s32 angle);
 extern s32 func_800644B8(s32 angle);
 
-extern Vec3i D_800D0AE4;
-extern Vec3i D_800D0AFC;
-extern Vec3i *D_80100D20;
+extern IntVector3 D_800D0AE4;
+extern IntVector3 D_800D0AFC;
+extern IntVector3 *D_80100D20;
 
 /* Computes the record-based position offset and publishes the resulting vector. */
-void compute_the_based_position_offset_publishes_resulting_vector(void *object, Vec3i *offset, void *resources) {
+void compute_the_based_position_offset_publishes_resulting_vector(void *object, IntVector3 *offset, void *resources) {
     Record *record;
     s32 angle;
     s32 x;

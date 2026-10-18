@@ -3,6 +3,9 @@
 #include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
+struct Dst;
+struct Elem;
+
 
 typedef struct S_80172CC8_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -38,14 +41,14 @@ typedef struct {
     u8 unk00[8];
     void *position;
     Sub *sub;
-    M2C_UNK *callback;
+    s32 *callback;
 } Node;
 
-M2C_UNK func_8003DB94();
+extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 s32 func_8004491C();
 
-extern M2C_UNK D_800DE870[3];
-extern M2C_UNK D_800DEDB0[3];
+extern u8 D_800DE870[16];
+extern s32 D_800DEDB0[3];
 extern M2C_UNK D_80170D60[3];
 
 /* Creates a node at an offset from the origin and configures its display variant. */

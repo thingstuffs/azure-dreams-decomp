@@ -11,7 +11,7 @@ extern M2C_UNK D_800E0A03[];
 extern M2C_UNK D_800E0A12[];
 
 /* Builds and displays an item message with the selected phrase and entity name. */
-void display_item_status_message(s32 entity, M2C_UNK item, s32 message_kind, s32 buffer_arg) {
+void display_item_status_message(s32 entity, s32 item, s32 message_kind, s32 buffer_arg) {
     s32 message;
 
     s32 text_end;

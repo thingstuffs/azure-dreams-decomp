@@ -5,7 +5,7 @@ void reset_dungeon_runtime_state(void) {
     s16 *progress_stats;
     s32 *reset_values;
 
-    bzero(((M2C_UNK *)D_800E3548), 0x100);
+    bzero(((s32 *)D_800E3548), 0x100);
     bzero(&D_800E36C8, 0x300);
     g_dungeon_status.unk_08 = 0;
     g_dungeon_status.unk_0A = 0;

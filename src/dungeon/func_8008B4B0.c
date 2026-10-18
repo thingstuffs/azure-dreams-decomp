@@ -83,7 +83,7 @@ typedef struct DdcbcEntry {
 } DdcbcEntry;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_8002534C(); /* extern */
+s32 func_8002534C(void *, s32, void *, EntityRec *); /* extern */
 void func_8003DB94();        /* extern */
 s32 func_80042900();                 /* extern */
 void func_80048A44(); /* extern */
@@ -131,10 +131,10 @@ extern M2C_UNK D_800E06BD;
 extern M2C_UNK D_800E06C0;
 extern M2C_UNK D_800E06E0;
 extern s32 D_800E3DF0[];
-extern M2C_UNK D_800E4938;
+extern s32 D_800E4938[];
 
 /* Wait for the menu to close, then dispatch the selected item or companion action. */
-void process_dungeon_menu_selection(void *state, M2C_UNK context, void *sprite, EntityRec *actor) {
+void process_dungeon_menu_selection(void *state, s32 context, void *sprite, EntityRec *actor) {
     s16 tile_x;
     s16 tile_y;
     u8 *anim_table;
@@ -160,7 +160,7 @@ void process_dungeon_menu_selection(void *state, M2C_UNK context, void *sprite, 
         func_8004B568();
         if (((S_80090C10_1 *)(&D_800E4938))->unk_00.s != &D_8004F5F4) {
             if ((func_80042900(actor, 0xA) << 0x10) != 0) {
-                (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_800DD274;
+                (*(s32 **)((u8 *)sprite + 0x2C)) = &D_800DD274;
                 func_8003DB94(sprite, *(s32 *)(D_800DD274 + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
                     >> 7) & 0x1C)), 0);
             } else {
@@ -169,7 +169,7 @@ void process_dungeon_menu_selection(void *state, M2C_UNK context, void *sprite, 
                 } else {
                     anim_table = D_800DCFB0;
                 }
-                (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = anim_table;
+                (*(s32 **)((u8 *)sprite + 0x2C)) = anim_table;
                 func_80048A44(sprite, *(anim_table + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                     0, 1);
             }

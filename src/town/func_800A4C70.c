@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3a_types.h"
 
 typedef struct S_800A23D0_0 {
     s32 unk_00;
@@ -25,11 +26,7 @@ typedef struct S_800A23D0_2 {
     s16 unk_20;
 } S_800A23D0_2;   /* arg0 in initialize_object_position_state */
 
-typedef struct S_800A23D0_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800A23D0_3;   /* ((S_800A23D0_2 *)arg0)->unk_14 in initialize_object_position_state */
+   /* ((S_800A23D0_2 *)arg0)->unk_14 in initialize_object_position_state */
 
 
 extern s32 func_8004491C();
@@ -44,9 +41,9 @@ void initialize_object_position_state(void *object, S_800A23D0_1 *position, S_80
     state->unk_04 = 0;
     state->unk_05 = 0;
     func_8004491C(object - 0x20, &D_80046398);
-    position->unk_00.at00.v = (s32) ((S_800A23D0_3 *)(((S_800A23D0_2 *)object)->unk_14))->unk_00;
-    position->unk_04.at00.v = (s32) ((S_800A23D0_3 *)(((S_800A23D0_2 *)object)->unk_14))->unk_04;
-    position->unk_08 = (s32) ((S_800A23D0_3 *)(((S_800A23D0_2 *)object)->unk_14))->unk_08;
+    position->unk_00.at00.v = (s32) ((IntVector3 *)(((S_800A23D0_2 *)object)->unk_14))->x;
+    position->unk_04.at00.v = (s32) ((IntVector3 *)(((S_800A23D0_2 *)object)->unk_14))->y;
+    position->unk_08 = (s32) ((IntVector3 *)(((S_800A23D0_2 *)object)->unk_14))->z;
     ((S_800A23D0_2 *)object)->unk_00 = &D_800A24A8;
     value_table = &D_800D0A48;
     state->unk_08 = (s32) value_table[((S_800A23D0_2 *)object)->unk_20];

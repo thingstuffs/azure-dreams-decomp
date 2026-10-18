@@ -5,8 +5,6 @@
 #include "records/Rec_func_800AD058_arg2.h"
 
 
-typedef s32 M2C_UNK;
-
 
 extern s32 play_sound_if_enabled();
 extern s32 update_actor_defeat_removal();

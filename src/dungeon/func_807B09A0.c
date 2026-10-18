@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -40,11 +41,11 @@ typedef struct S_807B09A0_0 {
 typedef struct S_807B09A0_1 {
     u8 pad_00[0xC];
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_807B09A0_1;
 
 typedef struct S_807B09A0_2 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     s8 unk_04;
     s8 unk_05;
     u8 pad_06[0x2];
@@ -75,7 +76,7 @@ void func_800F81A0(S_807B09A0_0 *emitter) {
     tick_count = emitter->unk_08 + 1;
     emitter->unk_08 = tick_count;
     if (tick_count & 1) {
-        particle = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next));
+        particle = func_8003FD64(0x312, ((s32 *)&D_80083498.next));
         if (particle != NULL) {
             particle->unk_10 = (void *)func_800F89B8;
             func_8004491C(particle, func_80045340);

@@ -72,7 +72,7 @@ extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 
 void *func_8003FD64();
-M2C_UNK func_80069EF8();
+s32 func_80069EF8(void);
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
 void *func_80099290();
@@ -98,7 +98,7 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
     s32 effect_data;
     s32 text_context;
     s32 new_text_context;
-    M2C_UNK direction_offset;
+    s32 direction_offset;
     s32 effect_mode;
     u16 effect_flags;
     s32 global_flags;

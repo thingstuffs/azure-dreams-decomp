@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
 typedef struct S_800A9AFC_2 {
@@ -11,7 +10,7 @@ typedef struct S_800A9AFC_2 {
 
 
 s32 func_80042900();             /* extern */
-M2C_UNK func_80069F28();     /* extern */
+extern s32 func_80069F28(void *, void *, s32);     /* extern */
 void cycle_map_cell_flags();             /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 

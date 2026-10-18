@@ -1,9 +1,6 @@
 #include "common.h"
+#include "shared/types3a_types.h"
 
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-} S_80013564;
 
 typedef struct {
     char unk[0x13];
@@ -18,11 +15,11 @@ S_800133E8 *func_8004A700(s16 first_value, s16 second_value)
     s32 slot = func_8004A6C0(0, 0);
 
     if (slot < 0x14) {
-        s32 offset = slot * sizeof(S_80013564);
+        s32 offset = slot * sizeof(ResourceCategoryPair);
 
         record = (S_800133E8 *)0x800133E8 + slot;
-        ((S_80013564 *)(offset + 0x80013564))->unk0 = first_value;
-        ((S_80013564 *)(offset + 0x80013564))->unk2 = second_value;
+        ((ResourceCategoryPair *)(offset + 0x80013564))->a = first_value;
+        ((ResourceCategoryPair *)(offset + 0x80013564))->b = second_value;
     }
 
     return record;

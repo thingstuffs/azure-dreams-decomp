@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -23,7 +22,7 @@ typedef struct S_8017294C_1 {
 
 
 /* Attempt an actor action and initialize its state and directional animation on success. */
-void attempt_actor_directional_action(S_8017294C_1 *action_state, M2C_UNK action_ctx, Rec_D_80082E80 *sprite, EntityRec *actor) {
+void attempt_actor_directional_action(S_8017294C_1 *action_state, s32 action_ctx, Rec_D_80082E80 *sprite, EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_ctx, 8, 0x300);

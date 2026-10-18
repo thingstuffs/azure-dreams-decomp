@@ -1,11 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
-
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
 
 extern void func_80047784(void *, u8, s32);
 extern void advance_status_timers(void *);

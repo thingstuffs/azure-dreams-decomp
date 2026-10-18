@@ -3,7 +3,6 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -102,7 +101,7 @@ typedef struct S_818154FC_10 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xA];
     u16 unk_1E;
 } S_818154FC_10;   /* node in func_818154FC */
@@ -161,7 +160,7 @@ extern u8 D_800DEC00[];
 extern s16 D_80025338[5];
 s32 func_8003DF74(s32, void *, Offset *, s32);     /* extern */
 s32 play_sound_if_enabled();                     /* extern */
-extern M2C_UNK D_800246DC;
+extern void func_800246DC(void *effect, void *position);
 
 /* Updates an effect through attachment, spawning, tracking, and cleanup. */
 void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite) {
@@ -342,7 +341,7 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
                     }
                 }
                 spawn_position = ((S_818154FC_10 *)node)->unk_08;
-                ((S_818154FC_10 *)node)->unk_10 = &D_800246DC;
+                ((S_818154FC_10 *)node)->unk_10 = &func_800246DC;
                 spawn_position->unk_00 = ((S_818154FC_0 *)effect)->unk_B0;
                 spawn_position->unk_04 = ((S_818154FC_0 *)effect)->unk_B4;
                 spawn_position->unk_08 = ((S_818154FC_0 *)effect)->unk_B8;

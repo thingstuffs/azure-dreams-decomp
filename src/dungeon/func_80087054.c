@@ -5,6 +5,8 @@ typedef struct { u8 pad[0x3714]; u16 flags; } SysPage;
 #include "shared/entity.h"
 
 typedef s32 M2C_UNK;
+typedef struct S_80048A44_Obj S_80048A44_Obj;
+
 
 typedef struct S_8008C7B4_0 {
     u8 pad_00[0x8C];
@@ -15,7 +17,7 @@ typedef struct S_8008C7B4_0 {
 } S_8008C7B4_0;   /* arg0 in begin_player_wait_turn */
 
 
-extern M2C_UNK func_80048A44();
+extern void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);
 extern void append_packed_action_record();
 extern s32 check_action_available_without_nearby_actor(void);
 extern u8 D_800DCFB0;

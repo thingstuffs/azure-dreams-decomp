@@ -1,9 +1,7 @@
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
 
-typedef struct S_8187BE9C_0_pre {
-    u16 unk_00;
-} S_8187BE9C_0_pre;   /* the 0x2 bytes before arg0 in create_object_offset, addressed as arg0[-1] */
+
 
 typedef struct S_8187BE9C_0 {
     u8 pad_00[0x2];
@@ -62,12 +60,12 @@ void create_object_offset(void *effect, s32 unused, S_8187BE9C_1 *primitive)
         ((S_8187BE9C_0 *)effect)->unk_04;
 
     if (((S_8187BE9C_0 *)effect)->unk_02.u <= 0) {
-        ((S_8187BE9C_0_pre *)effect)[-1].unk_00 |= 0x8000;
+        ((u16 *)effect)[-1] |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }
 
     if (primitive->unk_14 & 0x8000) {
-        ((S_8187BE9C_0_pre *)effect)[-1].unk_00 |= 0x8000;
+        ((u16 *)effect)[-1] |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }
 }

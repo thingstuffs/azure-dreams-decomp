@@ -1,8 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-M2C_UNK func_8006658C();                 /* extern */
-M2C_UNK func_800666F4();                      /* extern */
+s32 func_8006658C(void *, void *);                 /* extern */
+s32 func_800666F4(void *);                      /* extern */
 
 typedef struct S_800B0BE0_0 {
     u8 pad_00[0x4];
@@ -98,7 +96,7 @@ void *submit_textured_quad(s32 draw_context, S_800B0BE0_1 *draw_settings, void *
     texture_entry = *texture_cursor;
     primitive += 0x28;
     if (((S_800B0BE0_5 *)texture_entry)->unk_00 < 0) {
-        *texture_cursor = NULL;
+        *texture_cursor = 0;
     } else {
         *texture_cursor = texture_entry + 0xC;
     }

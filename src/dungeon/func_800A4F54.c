@@ -1,16 +1,17 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_func_800AA258_arg2.h"
 
-M2C_UNK func_80047784();         /* extern */
+typedef struct S_80047784 S_80047784;
+
+void func_80047784(S_80047784 *object, s16 table_index, s16 entry_index);         /* extern */
 void apply_actor_delta_and_cap_value();         /* extern */
 
 
 /* Set the entity to state 7 and select its directional sprite frame when ready. */
-s32 begin_ready_actor_directional_action(void *entity, M2C_UNK context, Rec_func_800AA258_arg2 *sprite, s32 direction_frames) {
+s32 begin_ready_actor_directional_action(void *entity, s32 context, Rec_func_800AA258_arg2 *sprite, s32 direction_frames) {
     if (((Rec_func_800A9E70_arg0 *)entity)->unk_64 > 0) {
         apply_actor_delta_and_cap_value(entity, context, sprite, entity);
         return 0;

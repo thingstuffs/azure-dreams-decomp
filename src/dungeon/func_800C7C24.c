@@ -1,5 +1,6 @@
 #include "modules/trap_effects_candidate.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/entity.h"
 
 

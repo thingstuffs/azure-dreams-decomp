@@ -1,14 +1,8 @@
 #include "modules/dungeon_native_abi.h"
 #include "shared/game_work.h"
+#include "shared/types3c_types.h"
 
-typedef struct S_8187B1F4_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8187B1F4_0;   /* arg1 in project_shaded_points_to_ordering_table */
+
 
 typedef struct S_8187B1F4_1 {
     u8 pad_00[0x90];
@@ -126,9 +120,9 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
     model_matrix = (u8 *)((u32)scratch | 0x74);
     transform_matrix = (u8 *)((u32)scratch | 0x54);
     do {
-        VFIELD(scratch, s32, 0x88) = ((S_8187B1F4_0 *)position)->unk_02;
-        VFIELD(scratch, s32, 0x8C) = ((S_8187B1F4_0 *)position)->unk_06;
-        ((S_8187B1F4_1 *)scratch)->unk_90 = ((S_8187B1F4_0 *)position)->unk_0A;
+        VFIELD(scratch, s32, 0x88) = ((SignedPositionView *)position)->unk_02;
+        VFIELD(scratch, s32, 0x8C) = ((SignedPositionView *)position)->unk_06;
+        ((S_8187B1F4_1 *)scratch)->unk_90 = ((SignedPositionView *)position)->unk_0A;
         func_800649A0();
         VFIELD(scratch, s32, 0x3C) = 0x1000;
         VFIELD(scratch, s32, 0x38) = 0x1000;

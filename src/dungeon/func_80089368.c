@@ -9,7 +9,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
-M2C_UNK func_8002534C(); /* extern */
+extern s32 func_8002534C(void *, void *, void *, void *); /* extern */
 void func_80048A44(); /* extern */
 void try_move_carrying_player(); /* extern */
 void select_state_16_directional_animation(); /* extern */
@@ -44,11 +44,11 @@ void select_position_data_and_update_owner();              /* extern */
 s32 lookup_definition_pair_value();                          /* extern */
 s32 generate_random_value(void);                          /* extern */
 extern M2C_UNK D_800245A8;
-extern M2C_UNK D_8004F5F4;
-extern M2C_UNK D_80050CAC;
-extern M2C_UNK D_800DCFB0;
+extern void * create_animated_selection_menu_owner(void *unused, void *source);
+extern void func_80050CAC(void);
+extern u8 D_800DCFB0[];
 extern u8 D_800DD0B8[];
-extern M2C_UNK (*D_800DD830[])(s32, u16);
+extern s32 (*D_800DD830[])(s32, u16);
 extern M2C_UNK D_800E3544;
 extern s32 D_800E4940;
 
@@ -184,7 +184,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                 if (!((*(u16 *)0x80013714) & 1) && (((u32)held_D_80083160->buttons) & 0x80)) {
                     ((S_8008EAC8_1 *)entity)->unk_8A = 2;
                     D_800E4940 = 2;
-                    begin_player_menu_action(object, aux_entity, sprite, &D_8004F5F4);
+                    begin_player_menu_action(object, aux_entity, sprite, &create_animated_selection_menu_owner);
                     D_80082E80.unk_030 = 0;
                     ((Rec_func_8008ACDC_arg0 *)object)->unk_C8 = 0;
                     ((Rec_func_8008ACDC_arg0 *)object)->unk_104 = 0;
@@ -360,7 +360,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                     }
                 }
                 if (((u32)held_D_80083160->buttons) & 0x80) {
-                    begin_player_menu_action(object, aux_entity, sprite, &D_80050CAC);
+                    begin_player_menu_action(object, aux_entity, sprite, &func_80050CAC);
                     return;
                 }
                 if ((((u32)held_D_80083160->buttons) & 0x10) || !(((u32)held_D_80083160->buttons) & 3)

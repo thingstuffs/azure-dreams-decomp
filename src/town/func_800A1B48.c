@@ -1,11 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "shared/dungeon_delay_views.h"
 
-typedef struct S_8009F2A8_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_8009F2A8_0;   /* arg2 in update_the_target_offset_advance_phase_handle_active_event */
+   /* arg2 in update_the_target_offset_advance_phase_handle_active_event */
 
 
 short SD_Call(int flags);
@@ -19,10 +17,10 @@ extern M2C_UNK D_800935BC;
 extern s32 D_800CFCC4;
 
 /* Update the target offset, advance the phase, and handle the active event. */
-void update_the_target_offset_advance_phase_handle_active_event(void *state, s32 event_id, void *target, s32 context) {
+void update_the_target_offset_advance_phase_handle_active_event(void *state, s32 event_id, DelayMotionZ *target, s32 context) {
     s32 active_event;
 
-    ((S_8009F2A8_0 *)target)->unk_08 = (s32) (((Rec_func_80094268_arg0 *)state)->unk_A0
+    target->unk_08 = (s32) (((Rec_func_80094268_arg0 *)state)->unk_A0
         + (func_800644B8(((Rec_func_80094268_arg0 *)state)->unk_6C.as_s16) << 7));
     (*(s16 *)((u8 *)state + 0x6C)) = (s16) ((u16) ((Rec_func_80094268_arg0 *)state)->unk_6C.as_s16 + 0x40);
     active_event = D_800CFCC4;

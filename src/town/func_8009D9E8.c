@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082D58.h"
-
+#include "shared/types3a_types.h"
 
 
 void func_80033D08(void *block_data);
@@ -11,9 +11,7 @@ void set_state_bytes_from_flags();
 s32 classify_object_against_bounds(void *, s32);
 
 
-typedef struct S_8009B148_0_pre {
-    u16 unk_00;
-} S_8009B148_0_pre;   /* the 0x2 bytes before arg0 in dispatch_object_event_or_retire, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in dispatch_object_event_or_retire, addressed as arg0[-1] */
 
 
 /* Dispatches an object event or cleans up the object when the event check succeeds. */
@@ -30,14 +28,14 @@ void dispatch_object_event_or_retire(void *object, s32 event, s32 event_data)
             *status_ptr = 0;
         }
         func_80033D08(object);
-        ((S_8009B148_0_pre *)object)[-1].unk_00 =
-            (u16)(((S_8009B148_0_pre *)object)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)object)[-1].unk_00 =
+            (u16)(((ObjectRetirementFlags *)object)[-1].unk_00 | 0x8000);
         object_flag_block.flags = object_flag_block.flags | 0x8000;
         return;
     }
     ((Rec_D_80082D58 *)object)->unk_50.as_x151a23(
         object, object, saved_event, saved_event_data);
-    if (!(((S_8009B148_0_pre *)object)[-1].unk_00 & 0x8000)) {
+    if (!(((ObjectRetirementFlags *)object)[-1].unk_00 & 0x8000)) {
         set_state_bytes_from_flags(update_object_and_clear_status_fields(saved_event), object);
     }
 }

@@ -4,11 +4,17 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
+#include "records/Rec_func_800A9E70_arg0.h"
+#include "shared/entity.h"
+
+typedef struct T_80170AA4_S_80170AA4_2 T_80170AA4_S_80170AA4_2;
+typedef struct ActorSpriteView ActorSpriteView;
+
 typedef struct S_func_80158898_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_func_80158898_0;
 
 typedef struct S_func_80158898_1 {
@@ -33,12 +39,12 @@ typedef struct S_func_80158898_3 {
     s8 unk_24;
     s8 unk_25;
     u8 pad_26[0x6];
-    M2C_UNK * unk_2C;
+    s32 * unk_2C;
 } S_func_80158898_3;
 
 typedef struct S_func_80158898_4 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    s32 * unk_8C;
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];
@@ -53,8 +59,8 @@ s16 set_or_clear_actor_status_slot();
 s32 generate_random_value();
 void initialize_actor_sprite_and_animation();
 s32 try_move_actor_to_valid_position();
-extern M2C_UNK D_80158AA4;
-extern M2C_UNK D_80158F68;
+void func_80158AA4(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part);
+void func_80158F68(Rec_func_800A9E70_arg0 *action, void *context, ActorSpriteView *sprite, EntityRec *actor);
 extern M2C_UNK D_8015BFB8;
 extern M2C_UNK D_8015C000;
 
@@ -78,10 +84,10 @@ extern M2C_UNK D_8015C000;
     saved_x = x;
     saved_config_value = config_value;
     saved_y = y;
-    object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
+    object = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
     if (object != NULL) {
         object_state = object + 0x20;
-        ((S_func_80158898_0 *)object)->unk_10 = &D_80158AA4;
+        ((S_func_80158898_0 *)object)->unk_10 = &func_80158AA4;
         object_state->unk_13 = 0x2B;
         func_8004491C(object, func_80045340);
         config = ((S_func_80158898_0 *)object)->unk_08;
@@ -116,7 +122,7 @@ extern M2C_UNK D_8015C000;
         initialize_actor_sprite_and_animation(object, config, placement, spawn_flags);
         behavior->unk_9A = 0xFF;
         behavior->unk_9C = -1;
-        behavior->unk_8C = &D_80158F68;
+        behavior->unk_8C = &func_80158F68;
         placement->unk_14 = (u16) (placement->unk_14 | 0xC);
         behavior->unk_AA = (s16) ((u16) object_state->unk_14 & 7);
         try_move_actor_to_valid_position(behavior, config, placement, object_state);

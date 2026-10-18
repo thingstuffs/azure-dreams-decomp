@@ -3,11 +3,12 @@
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
+
+typedef struct S_80048A44_Obj S_80048A44_Obj;
 extern u8 D_80080000[];
 
-typedef s32 M2C_UNK;
 
-extern M2C_UNK func_80048A44();
+void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);
 extern void adjust_source_value_and_finalize();
 extern s32 spawn_object_at_target_position();
 extern void append_packed_action_record();

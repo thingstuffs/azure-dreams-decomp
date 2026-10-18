@@ -1,7 +1,5 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
-
 typedef struct S_800CEFB8_0 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
@@ -151,17 +149,17 @@ typedef struct S_800CEFB8_9 {
 } S_800CEFB8_9;
 
 
-M2C_UNK func_80064840();
-M2C_UNK func_800649A0();
-M2C_UNK func_80064A40();
-M2C_UNK func_80064BC0();
-M2C_UNK func_80064CF0();
-M2C_UNK func_80064D80();
+s32 func_80064840(void *, void *, void *);
+s32 func_800649A0(void);
+s32 func_80064A40(void);
+s32 func_80064BC0(void *, void *);
+s32 func_80064CF0(void *);
+s32 func_80064D80(void *);
 s32 func_80065420();
-M2C_UNK func_800654B0();
-M2C_UNK func_80065820();
+s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+s32 func_80065820(void *, void *);
 u16 func_80065F90();
-M2C_UNK func_8006658C();
+s32 func_8006658C(void *, void *);
 extern s32 D_8006CD30[];
 
 /* Projects sprite parts between two endpoints and queues visible textured quads. */

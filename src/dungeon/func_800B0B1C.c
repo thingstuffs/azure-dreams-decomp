@@ -1,11 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
-
-#define M2C_BREAK() 0
-#define M2C_SYNC() 0
-
 typedef s32 (*D_800DF2A8_fn)(void *, s16, s32);
 extern D_800DF2A8_fn D_800DF2A8[];
 extern u8 D_800E3D40[16];

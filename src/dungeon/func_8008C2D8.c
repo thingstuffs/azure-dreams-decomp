@@ -1,9 +1,5 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
-
-#define M2C_BREAK() 0
-
 extern void restore_player_control_callback(void *, void *);
 extern void process_unflagged_linked_entries(s32);
 extern void process_unflagged_linked_entries_alt(s32);
@@ -36,7 +32,7 @@ void advance_banked_category_action(void *object, void *unused_1, void *unused_2
             func_800BCFBC(--bank);
         }
         if (callback((s32)context | 0xA0000000, callback_data, 0, 0) != 0) {
-            *(void **)((u8 *)object + 0x110) = NULL;
+            *(void **)((u8 *)object + 0x110) = 0;
             *((u8 *)object + 0x9B) += 1;
             return;
         }

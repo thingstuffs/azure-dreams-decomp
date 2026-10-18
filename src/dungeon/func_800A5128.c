@@ -4,7 +4,6 @@
 #include "records/Rec_func_800AA258_arg2.h"
 
 
-typedef s32 M2C_UNK;
 
 
 typedef struct S_800AA888_4 {
@@ -21,7 +20,7 @@ extern void update_map_cell_flags_with_item_limit();
 void begin_actor_move_to_target_facing(Rec_func_800A9E70_arg0 *state, void *unused, Rec_func_800AA258_arg2 *position, EntityRec *entity) {
     u8 tile_x;
     u8 tile_y;
-    M2C_UNK update_mask;
+    s32 update_mask;
 
     state->unk_9A.as_s8 = 0xB;
     state->unk_9B.as_s8 = 0;

@@ -1,11 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_800BB044_0 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x4];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
     u8 pad_24[0x8];
@@ -28,7 +27,7 @@ void create_actor_linked_effect(void *sourceData) {
     S_800BB044_0 *createdObject;
 
     createdObject = func_8003FD64(0x202, sourceData - 0x20);
-    if (createdObject != NULL) {
+    if (createdObject != 0) {
         createdObject->unk_10 = advance_particle_effect_state;
         createdObject->unk_20 = sourceData;
         createdObject->unk_08 = (s32) ((S_800BB044_1 *)((u8 *)sourceData - 0x18))->unk_00;
