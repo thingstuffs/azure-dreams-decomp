@@ -1,0 +1,63 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_6ef800_4000","n":16384,"o":7272448,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[5244,0,0,1330,4385,5422,3],"v":2147573760},"p":[{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+7272448	4	p	census:zero_fill>=16		0
+7272452	27	d	census:noncode:decode		1
+7272479	131	a	census:format:sjis	4a36795103a40451dd1eb0ee016c1df2dd0bf01621ace7db372044443187e94c	2
+7272610	20	d	census:noncode:decode		1
+7272630	366	a	census:format:sjis	b5aba7d0619b21098f464e7298d15fbe431dd7921da736c3aab25ce5a3ce4a38	2
+7272996	22	d	census:noncode:decode		1
+7273018	46	a	census:format:sjis	648c7fbb293c9ba314da87478c4736bb7ab7e53c06e3206adcd31d67e66f3b2c	2
+7273064	8	d	census:noncode:decode		1
+7273072	5	d	census:neighbour:noncode_typing_pending		1
+7273077	94	a	census:format:sjis	2b5d0c943d5c7a7754eeb104cb6da821f114a49c9c2ed66a5b11e162f5ceac41	2
+7273171	48	d	census:noncode:decode		1
+7273219	380	a	census:format:sjis	277d62a3b55fa490db6969fe48bcd8bde3e535f00b9ebfb60896cb83e079caa6	2
+7273599	14	d	census:noncode:decode		1
+7273613	92	a	census:format:sjis	180ac3b5a9bcde59a7d9497f1029a07a01772fb4b9096e0c6ceeabe2250f7d1b	2
+7273705	95	d	census:noncode:decode		1
+7273800	16	a	census:format:ptrtab	d56ca6ba8b9b49544406533beda9da950ca02a0c3f41681a187d3029869ea0ba	3
+7273816	3	d	census:noncode:decode		1
+7273819	31	p	census:zero_fill>=16		0
+7273850	34	d	census:noncode:decode		1
+7273884	16	a	census:format:ptrtab	d56ca6ba8b9b49544406533beda9da950ca02a0c3f41681a187d3029869ea0ba	3
+7273900	3	d	census:noncode:decode		1
+7273903	31	p	census:zero_fill>=16		0
+7273934	34	d	census:noncode:decode		1
+7273968	16	a	census:format:ptrtab	d56ca6ba8b9b49544406533beda9da950ca02a0c3f41681a187d3029869ea0ba	3
+7273984	3	d	census:noncode:decode		1
+7273987	31	p	census:zero_fill>=16		0
+7274018	34	d	census:noncode:decode		1
+7274052	16	a	census:format:ptrtab	d56ca6ba8b9b49544406533beda9da950ca02a0c3f41681a187d3029869ea0ba	3
+7274068	3	d	census:noncode:decode		1
+7274071	31	p	census:zero_fill>=16		0
+7274102	34	d	census:noncode:decode		1
+7274136	16	a	census:format:ptrtab	d56ca6ba8b9b49544406533beda9da950ca02a0c3f41681a187d3029869ea0ba	3
+7274152	3	d	census:noncode:decode		1
+7274155	29	p	census:zero_fill>=16		0
+7274184	90	d	census:noncode:decode		1
+7274274	22	p	census:zero_fill>=16		0
+7274296	6	d	census:noncode:decode		1
+7274302	18	p	census:zero_fill>=16		0
+7274320	12	d	census:noncode:decode		1
+7274332	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	4
+7274372	20	d	census:noncode:decode		1
+7274392	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	4
+7274493	3	u	census:unknown		0
+7274496	64	r	census:instance_proven		5
+7274560	428	r	census:c_row		5
+7274988	1492	r	census:instance_proven		5
+7276480	36	r	census:c_row		5
+7276516	708	r	census:instance_proven		5
+7277224	92	r	census:c_row		5
+7277316	392	r	census:instance_proven		5
+7277708	192	r	census:c_row		5
+7277900	1076	r	census:instance_proven		5
+7278976	12	r	census:c_row		5
+7278988	132	r	census:instance_proven		5
+7279120	12	r	census:c_row		5
+7279132	608	r	census:instance_proven		5
+7279740	4276	p	census:zero_fill>=16		0
+7284016	26	d	census:noncode:decode		1
+7284042	19	p	census:zero_fill>=16		0
+7284061	3841	d	census:noncode:decode		1
+7287902	930	p	census:zero_fill>=16		0

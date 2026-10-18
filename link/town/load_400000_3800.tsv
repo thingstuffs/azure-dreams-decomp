@@ -1,0 +1,49 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_400000_3800","n":14336,"o":4194304,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[9876,0,88,304,1675,2385,8],"v":2147573760},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{},{"census_label":"strongly_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+4194304	80	a	census:audit+noncode_confirmed	98faa09002ec715361da8bf9198516836a3582276601c6cf043927eca8ba6194	0
+4194384	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	1
+4194424	8	a	census:audit+noncode_confirmed	d7bdadc8663c3b2cf4d7f2eaf12538561a12327d3d8368f1f2bfc2d659f37114	0
+4194432	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	1
+4194472	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	0
+4194492	102	a	census:format:ascii	23f087f115d6350eeda0c95d4d88b02f0a46830749d5188c711b14ebc982ca32	1
+4194594	14	a	census:audit+noncode_confirmed	6ad8ce80f61e12543f6b250d144461afd937e77a5ec7a104b6892e382e1ee7cd	0
+4194608	584	r	census:c_row		2
+4195192	8	u	census:unknown		3
+4195200	88	r	census:T2_framed_ref:jtbl+ptr		4
+4195288	3624	r	census:c_row		2
+4198912	68	r	census:instance_proven		2
+4198980	36	r	census:c_row		2
+4199016	1588	r	census:instance_proven		2
+4200604	36	r	census:c_row		2
+4200640	708	r	census:instance_proven		2
+4201348	92	r	census:c_row		2
+4201440	392	r	census:instance_proven		2
+4201832	192	r	census:c_row		2
+4202024	1076	r	census:instance_proven		2
+4203100	12	r	census:c_row		2
+4203112	132	r	census:instance_proven		2
+4203244	12	r	census:c_row		2
+4203256	1252	r	census:instance_proven		2
+4204508	72	r	census:c_row		2
+4204580	58	d	census:noncode:decode		5
+4204638	18	p	census:zero_fill>=16		3
+4204656	58	d	census:noncode:decode		5
+4204714	18	p	census:zero_fill>=16		3
+4204732	58	d	census:noncode:decode		5
+4204790	18	p	census:zero_fill>=16		3
+4204808	36	d	census:noncode:decode		5
+4204844	38	p	census:zero_fill>=16		3
+4204882	18	d	census:noncode:decode		5
+4204900	38	p	census:zero_fill>=16		3
+4204938	18	d	census:noncode:decode		5
+4204956	36	p	census:zero_fill>=16		3
+4204992	1402	d	census:noncode:decode		5
+4206394	22	p	census:zero_fill>=16		3
+4206416	6	d	census:noncode:decode		5
+4206422	18	p	census:zero_fill>=16		3
+4206440	16	d	census:noncode:decode		5
+4206456	1500	p	census:zero_fill>=16		3
+4207956	4	d	census:noncode:decode		5
+4207960	264	p	census:zero_fill>=16		3
+4208224	1	d	census:noncode:decode		5
+4208225	415	p	census:zero_fill>=16		3

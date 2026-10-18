@@ -1,0 +1,239 @@
+{
+ "implementation": "tools/census/census.py",
+ "rules": {
+  "census:T1_twin": {
+   "kind": "T1_twin",
+   "label": "strongly_code"
+  },
+  "census:T1_twin:complete_masked_prologue_prefix": {
+   "kind": "T1_twin:complete_masked_prologue_prefix",
+   "label": "strongly_code"
+  },
+  "census:T1_twin:strict_replayed_prefix": {
+   "kind": "T1_twin:strict_replayed_prefix",
+   "label": "strongly_code"
+  },
+  "census:T2_framed_ref:jal": {
+   "kind": "T2_framed_ref:jal",
+   "label": "strongly_code"
+  },
+  "census:T2_framed_ref:jal+jtbl": {
+   "kind": "T2_framed_ref:jal+jtbl",
+   "label": "strongly_code"
+  },
+  "census:T2_framed_ref:jal+jtbl+lui_pair": {
+   "kind": "T2_framed_ref:jal+jtbl+lui_pair",
+   "label": "strongly_code"
+  },
+  "census:T2_framed_ref:jal+jtbl+lui_pair+ptr": {
+   "kind": "T2_framed_ref:jal+jtbl+lui_pair+ptr",
+   "label": "strongly_code"
+  },
+  "census:T2_framed_ref:jal+jtbl+ptr": {
+   "kind": "T2_framed_ref:jal+jtbl+ptr",
+   "label": "strongly_code"
+  },
+  "census:T2_framed_ref:jal+ptr": {
+   "kind": "T2_framed_ref:jal+ptr",
+   "label": "strongly_code"
+  },
+  "census:T2_framed_ref:jtbl": {
+   "kind": "T2_framed_ref:jtbl",
+   "label": "strongly_code"
+  },
+  "census:T2_framed_ref:jtbl+lui_pair+ptr": {
+   "kind": "T2_framed_ref:jtbl+lui_pair+ptr",
+   "label": "strongly_code"
+  },
+  "census:T2_framed_ref:jtbl+ptr": {
+   "kind": "T2_framed_ref:jtbl+ptr",
+   "label": "strongly_code"
+  },
+  "census:T2_framed_ref:lui_pair": {
+   "kind": "T2_framed_ref:lui_pair",
+   "label": "strongly_code"
+  },
+  "census:T2_framed_ref:ptr": {
+   "kind": "T2_framed_ref:ptr",
+   "label": "strongly_code"
+  },
+  "census:T3_leaf_ref:jal": {
+   "kind": "T3_leaf_ref:jal",
+   "label": "strongly_code"
+  },
+  "census:T3_leaf_ref:jal+jtbl": {
+   "kind": "T3_leaf_ref:jal+jtbl",
+   "label": "strongly_code"
+  },
+  "census:T3_leaf_ref:jtbl": {
+   "kind": "T3_leaf_ref:jtbl",
+   "label": "strongly_code"
+  },
+  "census:T3_leaf_ref:jtbl+lui_pair": {
+   "kind": "T3_leaf_ref:jtbl+lui_pair",
+   "label": "strongly_code"
+  },
+  "census:T3_leaf_ref:jtbl+ptr": {
+   "kind": "T3_leaf_ref:jtbl+ptr",
+   "label": "strongly_code"
+  },
+  "census:audit+noncode_confirmed": {
+   "kind": "audit+noncode_confirmed",
+   "label": "proven_data"
+  },
+  "census:c_row": {
+   "kind": "c_row",
+   "label": "proven_code"
+  },
+  "census:format:adpcm": {
+   "kind": "format:adpcm",
+   "label": "proven_data"
+  },
+  "census:format:ascii": {
+   "kind": "format:ascii",
+   "label": "proven_data"
+  },
+  "census:format:offtab": {
+   "kind": "format:offtab",
+   "label": "proven_data"
+  },
+  "census:format:ptrtab": {
+   "kind": "format:ptrtab",
+   "label": "proven_data"
+  },
+  "census:format:seq": {
+   "kind": "format:seq",
+   "label": "proven_data"
+  },
+  "census:format:sjis": {
+   "kind": "format:sjis",
+   "label": "proven_data"
+  },
+  "census:format:vab": {
+   "kind": "format:vab",
+   "label": "proven_data"
+  },
+  "census:instance_partial": {
+   "kind": "instance_partial",
+   "label": "proven_code"
+  },
+  "census:instance_proven": {
+   "kind": "instance_proven",
+   "label": "proven_code"
+  },
+  "census:ledger:data_row": {
+   "kind": "ledger:data_row",
+   "label": "proven_data"
+  },
+  "census:ledger:exe_header": {
+   "kind": "ledger:exe_header",
+   "label": "proven_data"
+  },
+  "census:ledger:matched_c_read": {
+   "kind": "ledger:matched_c_read",
+   "label": "proven_data"
+  },
+  "census:ledger:psyq_data": {
+   "kind": "ledger:psyq_data",
+   "label": "proven_data"
+  },
+  "census:ledger:rodata_owner": {
+   "kind": "ledger:rodata_owner",
+   "label": "proven_data"
+  },
+  "census:ledger:slus_c_data": {
+   "kind": "ledger:slus_c_data",
+   "label": "proven_data"
+  },
+  "census:ledger:slus_strings": {
+   "kind": "ledger:slus_strings",
+   "label": "proven_data"
+  },
+  "census:ledger:stale_or_prior_image_row": {
+   "kind": "ledger:stale_or_prior_image_row",
+   "label": "padding_leftover"
+  },
+  "census:load_image": {
+   "kind": "load_image",
+   "label": "image_metadata",
+   "source": "ledger/instance_load_regions.jsonl"
+  },
+  "census:load_view": {
+   "kind": "load_view",
+   "label": "image_metadata",
+   "source": "ledger/instance_load_regions.jsonl"
+  },
+  "census:neighbour:noncode_typing_pending": {
+   "kind": "sliver_between_noncode",
+   "label": "noncode_typing_pending"
+  },
+  "census:neighbour:padding_leftover": {
+   "kind": "sliver_between_noncode",
+   "label": "padding_leftover"
+  },
+  "census:neighbour:proven_data": {
+   "kind": "sliver_between_noncode",
+   "label": "proven_data"
+  },
+  "census:noncode:decode": {
+   "kind": "noncode:decode",
+   "label": "noncode_typing_pending"
+  },
+  "census:noncode:entropy:loaded": {
+   "kind": "noncode:high_entropy;conditional loader read extent",
+   "label": "noncode_typing_pending"
+  },
+  "census:noncode:entropy:unplaced": {
+   "kind": "noncode:high_entropy;disc content, placement unproven",
+   "label": "noncode_typing_pending"
+  },
+  "census:psyq_text": {
+   "kind": "psyq_text",
+   "label": "library_code"
+  },
+  "census:reg_sdk_asm": {
+   "kind": "reg_sdk_asm",
+   "label": "library_code"
+  },
+  "census:registered_image": {
+   "kind": "registered_image",
+   "label": "image_metadata",
+   "source": "config/link/"
+  },
+  "census:registered_tu": {
+   "implementation": "tools/gate/linklist.py:is_code",
+   "kind": "registered_tu",
+   "label": "proven_code",
+   "source": "config/link/"
+  },
+  "census:sdk_object": {
+   "kind": "sdk_object",
+   "label": "library_code"
+  },
+  "census:shape:T4_shape_noref": {
+   "kind": "strongly code (shape only):T4_shape_noref",
+   "label": "strongly_code"
+  },
+  "census:shape:T5_shape_noeval": {
+   "kind": "strongly code (shape only):T5_shape_noeval",
+   "label": "strongly_code"
+  },
+  "census:unknown": {
+   "kind": "unknown",
+   "label": "unknown"
+  },
+  "census:unresolved:audit_data_unconfirmed": {
+   "kind": "unresolved:audit_data_unconfirmed",
+   "label": "unknown"
+  },
+  "census:zero_fill>=16": {
+   "kind": "zero_fill>=16B",
+   "label": "padding_leftover"
+  },
+  "census:zero_gap<16": {
+   "kind": "zero_gap<16B",
+   "label": "padding_leftover"
+  }
+ },
+ "schema": "azure-clean.census-rules.v1"
+}

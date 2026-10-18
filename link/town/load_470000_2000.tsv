@@ -1,0 +1,31 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_470000_2000","n":8192,"o":4653056,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[4848,0,212,436,398,2298,0],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"strongly_code"},{"census_label":"proven_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+4653056	4	p	census:zero_fill>=16		0
+4653060	24	a	census:audit+noncode_confirmed	aa3f682f08c85b3067836dab6d321ea7e9b123000b867bb78bd23947b2e45cf3	1
+4653084	216	a	census:format:ptrtab	8bc361c61f0284566254d8bb1fa822c60d0216006695f5ddef757c2a41e40d18	2
+4653300	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	3
+4653340	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
+4653360	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	3
+4653461	3	a	census:audit+noncode_confirmed	63d4d13c78823b07ea2f9852186ec784401bf87e453d2b55b99f9a6cb54a4a83	1
+4653464	80	r	census:T1_twin		4
+4653544	16	r	census:T2_framed_ref:jtbl+ptr		4
+4653560	68	r	census:T1_twin		4
+4653628	48	r	census:T2_framed_ref:jtbl+ptr		4
+4653676	8	r	census:instance_partial		5
+4653684	4840	r	census:c_row		5
+4658524	116	d	census:noncode:decode		6
+4658640	16	a	census:format:ptrtab	3b65bb106bf3f772fdc12f39b3d9ee773c9fa1ee0ad177a36a44c08fa95921d2	2
+4658656	40	d	census:noncode:decode		6
+4658696	16	a	census:format:ptrtab	cf21577a631458549ce68952bdf362f8702570da307d2d239ed8b68d817bffdd	2
+4658712	3	d	census:noncode:decode		6
+4658715	29	p	census:zero_fill>=16		0
+4658744	30	d	census:noncode:decode		6
+4658774	22	p	census:zero_fill>=16		0
+4658796	6	d	census:noncode:decode		6
+4658802	18	p	census:zero_fill>=16		0
+4658820	36	d	census:noncode:decode		6
+4658856	456	p	census:zero_fill>=16		0
+4659312	26	d	census:noncode:decode		6
+4659338	19	p	census:zero_fill>=16		0
+4659357	141	d	census:noncode:decode		6
+4659498	1750	p	census:zero_fill>=16		0

@@ -1,0 +1,106 @@
+#{"a":0,"d":{"c":"town","e":"config/overlays/town.rowbase.jsonl proven regions with delta 0x7FB77800: census2_49E8C0_49E8C0, census2_49FD20_49FD20, census2_49FD58_49FD58, r121c2_4A04E4, r121c2_4A09B0, r121c2_4A0EA4 (+6 more)","i":"town/image_49e800","n":"0x6000","o":"0x49E800","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[10680,0,624,8428,2299,2529,16],"v":"0x80016000"},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"census_label":"strongly_code"},{"bindings":{"0x800160C0":"0x800160C0","0x80016650":"0x800166C8","0x80018A64":"0x80018A64","0x80018ADC":"0x80018ADC","0x80018B5C":"0x80018B5C","0x80018CFA":"0x80018CFA"},"evidence":"LL3a attestation sha256:fcca3ce2f4f5b0f5f2a12a5cea9bde7898f712804b1de39e86431d8daa14e666; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:vab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+4843520	4	p	census:zero_fill>=16		0
+4843524	24	a	census:audit+noncode_confirmed	9fa9ef07b63c213f7c834b648edce2a0ac319ec22963b8e1aff4e156bff06aae	1
+4843548	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	2
+4843588	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
+4843608	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	2
+4843709	3	a	census:audit+noncode_confirmed	64dd0363f1443509136c5cc85fcf48fcb3cbf2a215e03912e07f0c6ad2326a09	1
+4843712	20	r	census:c_row		3
+4843732	48	r	census:instance_proven		3
+4843780	704	r	census:c_row		3
+4844484	32	r	census:T2_framed_ref:jtbl+ptr		4
+4844516	52	r	census:T1_twin		4
+4844568	204	r	census:c_row		3
+4844772	192	r	census:instance_proven		3
+4844964	292	r	census:c_row		3
+"0x0049EEC8"	120	c	census:registered_tu		["func_8051EEC8","func_8051EE50","0x800166C8",5]
+4845376	1004	r	census:c_row		3
+"0x0049F32C"	8	c	census:registered_tu		["func_8051F32C",null,"0x80016B2C",0]
+4846388	612	r	census:c_row		3
+"0x49F598"	72	c	census:registered_tu		["func_8047F598","func_804B865C","0x80016D98",0]
+4847072	324	r	census:c_row		3
+4847396	8	r	census:T1_twin:strict_replayed_prefix		4
+4847404	40	r	census:T1_twin		4
+4847444	8	r	census:c_row		3
+4847452	68	r	census:T1_twin		4
+4847520	8	r	census:T2_framed_ref:jal+jtbl		4
+4847528	96	r	census:T1_twin		4
+4847624	572	r	census:c_row		3
+4848196	112	r	census:T1_twin		4
+4848308	196	r	census:c_row		3
+4848504	28	r	census:T2_framed_ref:jal+jtbl+ptr		4
+4848532	84	r	census:T1_twin		4
+4848616	424	r	census:c_row		3
+4849040	8	u	census:unknown		0
+4849048	48	r	census:T2_framed_ref:jal+jtbl+lui_pair		4
+4849096	8	u	census:unknown		0
+4849104	48	r	census:T2_framed_ref:jtbl+ptr		4
+4849152	212	r	census:instance_proven		3
+4849364	60	r	census:c_row		3
+4849424	1492	r	census:instance_proven		3
+4850916	36	r	census:c_row		3
+4850952	708	r	census:instance_proven		3
+4851660	92	r	census:c_row		3
+4851752	392	r	census:instance_proven		3
+4852144	192	r	census:c_row		3
+4852336	1076	r	census:instance_proven		3
+4853412	12	r	census:c_row		3
+4853424	132	r	census:instance_proven		3
+4853556	12	r	census:c_row		3
+4853568	1464	r	census:instance_proven		3
+4855032	420	d	census:noncode:decode		6
+4855452	16	a	census:format:ptrtab	e7338ef5b65189ed5819ff5fb66800c58f14c1a9eaf1a59268721f1f5ffa9621	7
+4855468	344	d	census:noncode:decode		6
+4855812	16	a	census:format:ptrtab	8b13a96a6084c98eb36ab2457604456883d29faa2ed8cbd30112343bfd4537f9	7
+4855828	12	d	census:noncode:decode		6
+4855840	16	a	census:format:ptrtab	2641870d8851a2a2f4669134735a308494786b5fb971b33a47fec1165b21082b	7
+4855856	80	d	census:noncode:decode		6
+4855936	36	p	census:zero_fill>=16		0
+4855972	114	d	census:noncode:decode		6
+4856086	22	p	census:zero_fill>=16		0
+4856108	6	d	census:noncode:decode		6
+4856114	18	p	census:zero_fill>=16		0
+4856132	18	d	census:noncode:decode		6
+4856150	1314	p	census:zero_fill>=16		0
+4857464	66	d	census:noncode:decode		6
+4857530	19	p	census:zero_fill>=16		0
+4857549	1	d	census:noncode:decode		6
+4857550	19	p	census:zero_fill>=16		0
+4857569	1	d	census:noncode:decode		6
+4857570	19	p	census:zero_fill>=16		0
+4857589	21	d	census:noncode:decode		6
+4857610	19	p	census:zero_fill>=16		0
+4857629	61	d	census:noncode:decode		6
+4857690	19	p	census:zero_fill>=16		0
+4857709	21	d	census:noncode:decode		6
+4857730	19	p	census:zero_fill>=16		0
+4857749	61	d	census:noncode:decode		6
+4857810	19	p	census:zero_fill>=16		0
+4857829	61	d	census:noncode:decode		6
+4857890	19	p	census:zero_fill>=16		0
+4857909	121	d	census:noncode:decode		6
+4858030	19	p	census:zero_fill>=16		0
+4858049	121	d	census:noncode:decode		6
+4858170	19	p	census:zero_fill>=16		0
+4858189	141	d	census:noncode:decode		6
+4858330	19	p	census:zero_fill>=16		0
+4858349	141	d	census:noncode:decode		6
+4858490	19	p	census:zero_fill>=16		0
+4858509	121	d	census:noncode:decode		6
+4858630	19	p	census:zero_fill>=16		0
+4858649	121	d	census:noncode:decode		6
+4858770	19	p	census:zero_fill>=16		0
+4858789	121	d	census:noncode:decode		6
+4858910	19	p	census:zero_fill>=16		0
+4858929	21	d	census:noncode:decode		6
+4858950	19	p	census:zero_fill>=16		0
+4858969	21	d	census:noncode:decode		6
+4858990	19	p	census:zero_fill>=16		0
+4859009	41	d	census:noncode:decode		6
+4859050	19	p	census:zero_fill>=16		0
+4859069	21	d	census:noncode:decode		6
+4859090	19	p	census:zero_fill>=16		0
+4859109	21	d	census:noncode:decode		6
+4859130	774	p	census:zero_fill>=16		0
+4859904	8192	a	census:format:vab	8b329e3a0c3100685c4c42bfd381cdcddc790079c2a4a4825a30b1ba7551efbf	8

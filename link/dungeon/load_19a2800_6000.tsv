@@ -1,0 +1,18 @@
+#{"a":0,"d":{"c":"dungeon","e":"ledger/instance_load_regions.jsonl: validated dungeon loader arithmetic (a1=0; selector 1..63); docs/evidence/dungeon_gap_183a800.json","i":"dungeon/load_19a2800_6000","n":24576,"o":26880000,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[9996,0,0,144,14408,28,0],"v":2147631104},"p":[{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+26880000	9996	r	census:c_row		0
+26889996	356	d	census:noncode:decode		1
+26890352	12	d	census:neighbour:noncode_typing_pending		1
+26890364	688	d	census:noncode:decode		1
+26891052	144	a	census:format:ptrtab	7dfa6b30ff96cc8dbcbcea3f8324d8b77323641bbce707ebf1ad157b1ff563e8	2
+26891196	2376	d	census:noncode:decode		1
+26893572	8	d	census:neighbour:noncode_typing_pending		1
+26893580	216	d	census:noncode:decode		1
+26893796	8	d	census:neighbour:noncode_typing_pending		1
+26893804	132	d	census:noncode:decode		1
+26893936	8	d	census:neighbour:noncode_typing_pending		1
+26893944	1480	d	census:noncode:decode		1
+26895424	84	d	census:noncode:entropy:unplaced		1
+26895508	28	p	census:zero_fill>=16		3
+26895536	8976	d	census:noncode:entropy:unplaced		1
+26904512	64	d	census:noncode:decode		1

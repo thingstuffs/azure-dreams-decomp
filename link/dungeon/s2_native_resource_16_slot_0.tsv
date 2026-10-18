@@ -1,0 +1,10 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_native_resource_16_slot_0","n":"0x6000","o":"0xc0b000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[14860,0,0,80,9636,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+12627968	2068	r	census:c_row		0
+"0xc0b814"	1376	c	census:registered_tu		["func_80BEB814",null,"0x80171014",1]
+12631412	11416	r	census:c_row		0
+12642828	96	d	census:noncode:decode		2
+12642924	24	a	census:format:ptrtab	9344b304b4c3253823fef2ff254f5b06e01f0b02a86f10139ec300c5b532122d	3
+12642948	16	d	census:noncode:decode		2
+12642964	56	a	census:format:ptrtab	f895a9e0b7a703250f0619549bcda55c94494e7dba12b71bf4a94ec5a7800adb	3
+12643020	9524	d	census:noncode:entropy:unplaced		2

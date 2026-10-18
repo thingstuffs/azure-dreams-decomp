@@ -1,0 +1,15 @@
+#{"a":0,"d":{"c":"dungeon","e":"ledger/instance_load_regions.jsonl: validated dungeon loader arithmetic (a1=0; selector 1..63); docs/evidence/dungeon_gap_183a800.json","i":"dungeon/load_186a800_6000","n":24576,"o":25602048,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[4240,0,2836,0,17500,0,0],"v":2147631104},"p":[{"census_label":"proven_code"},{"census_label":"strongly_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+25602048	4240	r	census:c_row		0
+25606288	204	r	census:T2_framed_ref:jtbl+ptr		1
+25606492	52	r	census:T1_twin		1
+25606544	144	r	census:T2_framed_ref:jtbl+ptr		1
+25606688	68	r	census:T1_twin		1
+25606756	376	r	census:T2_framed_ref:jtbl+ptr		1
+25607132	104	r	census:T1_twin		1
+25607236	4	r	census:T2_framed_ref:jtbl+ptr		1
+25607240	76	r	census:T1_twin		1
+25607316	1756	r	census:T2_framed_ref:jtbl+ptr		1
+25609072	52	r	census:T1_twin		1
+25609124	28	d	census:noncode:decode		2
+25609152	17472	d	census:noncode:entropy:unplaced		2

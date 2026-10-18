@@ -1,0 +1,25 @@
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F787800: native_resource_03_slot_0","i":"dungeon/bank_9e9000","l":"bank_9e9000_family","n":"0x6000","o":"0x9E9000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[13428,0,0,76,11072,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+10391552	552	r	census:c_row		0
+"0x9E9228"	1068	c	census:registered_tu		["func_809C9228",null,"0x80170A28",1]
+"0x9E9654"	1352	c	census:registered_tu		["func_809C9654",null,"0x80170E54",1]
+"0x9E9B9C"	600	c	census:registered_tu		["func_809C9B9C",null,"0x8017139C",1]
+10395124	1864	r	census:c_row		0
+"0x9EA53C"	100	c	census:registered_tu		["func_809CA53C",null,"0x80171D3C",1]
+"0x9EA5A0"	452	c	census:registered_tu		["func_809CA5A0",null,"0x80171DA0",1]
+"0x9EA764"	280	c	census:registered_tu		["func_809CA764",null,"0x80171F64",1]
+10397820	324	r	census:c_row		0
+"0x9EA9C0"	152	c	census:registered_tu		["func_809CA9C0",null,"0x801721C0",1]
+"0x9EAA58"	868	c	census:registered_tu		["func_809CAA58",null,"0x80172258",1]
+10399164	1128	r	census:c_row		0
+"0x9EB224"	1264	c	census:registered_tu		["func_809CB224",null,"0x80172A24",1]
+"0x9EB714"	940	c	census:registered_tu		["func_809CB714",null,"0x80172F14",1]
+10402496	152	r	census:c_row		0
+"0x9EBB58"	924	c	census:registered_tu		["func_809CBB58",null,"0x80173358",1]
+"0x9EBEF4"	828	c	census:registered_tu		["func_809CBEF4",null,"0x801736F4",1]
+10404400	580	r	census:c_row		0
+10404980	120	d	census:noncode:decode		2
+10405100	24	a	census:format:ptrtab	d0553b83c6951cc3c5cbd81e6bf88a8ecc6b7ffb4b7bbfe6eaad4d5c56f69ac2	3
+10405124	16	d	census:noncode:entropy:unplaced		2
+10405140	52	a	census:format:ptrtab	c2ac152416b898fdd863efe678b8ca72ffc6418097b6cc52cc5033a290ac6dc9	3
+10405192	10936	d	census:noncode:entropy:unplaced		2

@@ -1,0 +1,8 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s1.receipt.json: rowbase img_12e924c_8014ca4c","i":"dungeon/region_12e924c_12ee430","n":"0x51e4","o":"0x12e924c","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[20256,0,708,0,0,0,0],"v":"0x8014ca4c"},"p":[{"census_label":"proven_code"},{"census_label":"strongly_code"},{"bindings":{"0x80174fc0":"0x800f7a38","0x801750e4":"0x80151964"},"evidence":"docs/evidence/r121w_s1.receipt.json: dungeon/func_812CDDA0"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+19829324	5464	r	census:instance_partial		0
+19834788	7728	r	census:c_row		0
+19842516	708	r	census:T1_twin		1
+19843224	5384	r	census:c_row		0
+"0x12edda0"	716	c	census:registered_tu		["func_812CDDA0","func_809A32D4","0x801515a0",2]
+19849324	964	r	census:c_row		0

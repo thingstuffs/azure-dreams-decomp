@@ -1,0 +1,18 @@
+#{"a":0,"d":{"c":"town","e":"config/overlays/town.rowbase.jsonl proven region sweep_8EAB10","i":"town/ll3a_8eab10_8ee4c4","n":"0x000039B4","o":"0x008EAB10","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[14772,0,0,0,0,0,0],"v":"0x80122FA8"},"p":[{"census_label":"proven_code"},{},{"bindings":{"0x80124D14":"0x80124D48"},"evidence":"LL3a attestation sha256:ee8424bbf91a45284382556011e2fdbd69728dd782d1c6b862fead9cc13d6f5f; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x80124D14":"0x80124D7C"},"evidence":"LL3a attestation sha256:fedbab32b7e1ef7b1964ad9d074062e203fca903c9b9bfa6291316e4e758e632; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x801248C0":"0x801248C0","0x80125420":"0x8012547C"},"evidence":"LL3a attestation sha256:552edc2aa4e212d9be6f6837ebc2f523fd027e68f7fc8fae6bb1549a1f650fba; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x8008B2BC":"0x80125DD4"},"evidence":"LL3a attestation sha256:67d1574c6a52a76ae0e521b6497700826b5f5d030571e3d7c01202ff481a766c; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x800961A8":"0x80125F68","0x80096208":"0x801235EC","0x800962B8":"0x801247F8"},"evidence":"LL3a attestation sha256:c099c99eeb43a47e26e0b680aa69551542ce9643e79af6c6d7cac9139a723d82; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x8008B2BC":"0x8012645C"},"evidence":"LL3a attestation sha256:e6b84e83147c6587d4eb09b7ec7447cab2b0b861f31a96c05e3e3c6ba809b385; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x8008B2BC":"0x801264A4"},"evidence":"LL3a attestation sha256:911953ee17f2b37f8716ea60d3d1fd915aa7f672c4f32de655bbc574f00c8347; current-TU paired HI16/LO16 relocation screen; scoped window gate"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+9349904	7532	r	census:c_row		0
+"0x008EC87C"	52	c	census:registered_tu		["func_8096C87C",null,"0x80124D14",1]
+"0x008EC8B0"	52	c	census:registered_tu		["func_8096C8B0","func_8096C87C","0x80124D48",2]
+"0x008EC8E4"	52	c	census:registered_tu		["func_8096C8E4","func_8096C87C","0x80124D7C",3]
+9357592	1648	r	census:c_row		0
+"0x008ECF88"	92	c	census:registered_tu		["func_8096CF88",null,"0x80125420",1]
+"0x008ECFE4"	92	c	census:registered_tu		["func_8096CFE4","func_8096CF88","0x8012547C",4]
+9359424	2300	r	census:c_row		0
+"0x008ED93C"	8	c	census:registered_tu		["func_8096D93C","func_8008DB5C","0x80125DD4",5]
+9361732	396	r	census:c_row		0
+"0x008EDAD0"	48	c	census:registered_tu		["func_8096DAD0","func_80098A48","0x80125F68",6]
+9362176	1220	r	census:c_row		0
+"0x008EDFC4"	8	c	census:registered_tu		["func_8096DFC4","func_8008DB5C","0x8012645C",7]
+9363404	64	r	census:c_row		0
+"0x008EE00C"	8	c	census:registered_tu		["func_8096E00C","func_8008DB5C","0x801264A4",8]
+9363476	1200	r	census:c_row		0

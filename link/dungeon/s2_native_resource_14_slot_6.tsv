@@ -1,0 +1,14 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_native_resource_14_slot_6","n":"0x6000","o":"0xbdb000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[17988,0,0,320,6268,0,0],"v":"0x8014c800"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_code"},{"bindings":{"0x801745e0":"0x801505e0","0x8017487c":"0x8015087c","0x80174f48":"0x80150f48","0x80174fac":"0x80150fac","0x80174fb4":"0x80150fb4","0x80174fcc":"0x80150fcc","0x80174fcd":"0x80150fcd","0x80174fd0":"0x80150fd0"},"evidence":"docs/evidence/r121w_s2_receipts.json#dungeon/func_80BBF1A8"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+12431360	8	a	census:audit+noncode_confirmed	77da005230f5d0c201407cc286d7abd2f2cb3aaef3a421c7ab95c476c646ecb6	0
+12431368	100	a	census:format:ptrtab	e49d02dabf1120a4403e6e8995753c885ff8ed5dc797a655a94cfe62d34ccf53	1
+12431468	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	0
+12431472	36	a	census:format:ptrtab	d0c964d8d46f211a388cc8af42fb8cefae8682c0ad3ae1578e232fda2eca5242	1
+12431508	16660	r	census:c_row		2
+"0xbdf1a8"	1328	c	census:registered_tu		["func_80BBF1A8","func_80B9B1A8","0x801509a8",3]
+12449496	24	d	census:noncode:decode		4
+12449520	92	a	census:format:ascii	79ec49151559f3edd8a7d4ebee686455a8b071c32a55f11da46efbe17c2d4aa3	5
+12449612	24	a	census:format:ptrtab	8b051407274d9ef747e0506b404a8585350ebda807cb79014bb950543e9071a2	1
+12449636	16	d	census:noncode:decode		4
+12449652	56	a	census:format:ptrtab	6320a62d0e31a5319089b01f8154cd478514f72e0f39b1c6e77429a426741cd5	1
+12449708	6228	d	census:noncode:entropy:unplaced		4

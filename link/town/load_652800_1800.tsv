@@ -1,0 +1,19 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_652800_1800","n":6144,"o":6629376,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[3184,0,0,2960,0,0,0],"v":2147573760},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+6629376	88	a	census:ledger:data_row	a3240bcb541b2a87fa64a769f17bc381316bca88b117eb6f570b3c35907a021a	0
+6629464	56	r	census:c_row		1
+6629520	8	r	census:instance_proven		1
+6629528	24	r	census:c_row		1
+6629552	12	a	census:audit+noncode_confirmed	0de59d8dfe7eaf36c9cc3eddcc64ca3589c449681ffe03e1747c50fe0e5279ce	2
+6629564	16	a	census:format:ptrtab	1d38a837b2fd236eb7df9f18e6c0a774113f3ebd5e95b738a6627f4397a1e266	3
+6629580	40	a	census:audit+noncode_confirmed	7bee135fccf5a5fa74d4ed9c77051e261805ba04690e0bc40dd96ace3166db8e	2
+6629620	16	a	census:format:ptrtab	0874b5b1db22795f0a1ab24d172d65747e688a23e563ed1596d97def1ca9801a	3
+6629636	68	a	census:audit+noncode_confirmed	7e38f0120121b32c326e9458db4b8c9bc61b3f52d25994c4aa74f065cdc85416	2
+6629704	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	4
+6629744	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	2
+6629764	104	a	census:format:ascii	435d2a968c01e2395956577ebc6b17b1c08b37fc0970ea41de1b71c73bc8ec7d	4
+6629868	196	r	census:instance_partial		1
+6630064	204	r	census:c_row		1
+6630268	60	r	census:instance_proven		1
+6630328	2636	r	census:c_row		1
+6632964	2556	a	census:audit+noncode_confirmed	a9c2fd6f90b1ea2d551000544f73b4f17843c0867bee2d33e81c495a96e9f2ce	2

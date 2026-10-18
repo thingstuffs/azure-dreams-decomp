@@ -1,0 +1,23 @@
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F60D800: native_resource_12_slot_0","i":"dungeon/bank_b63000","l":"bank_b63000_family","n":"0x6000","o":"0xB63000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[21068,0,0,3508,0,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+11939840	1648	r	census:c_row		0
+"0xB63670"	1380	c	census:registered_tu		["func_80B43670",null,"0x80170E70",1]
+11942868	3772	r	census:c_row		0
+"0xB64A90"	864	c	census:registered_tu		["func_80B44A90",null,"0x80172290",1]
+11947504	100	r	census:c_row		0
+"0xB64E54"	1188	c	census:registered_tu		["func_80B44E54",null,"0x80172654",1]
+"0xB652F8"	1264	c	census:registered_tu		["func_80B452F8",null,"0x80172AF8",1]
+11950056	772	r	census:c_row		0
+"0xB65AEC"	808	c	census:registered_tu		["func_80B45AEC",null,"0x801732EC",1]
+11951636	2340	r	census:c_row		0
+"0xB66738"	164	c	census:registered_tu		["func_80B46738",null,"0x80173F38",1]
+11954140	4516	r	census:c_row		0
+"0xB67980"	236	c	census:registered_tu		["func_80B47980",null,"0x80175180",1]
+11958892	172	r	census:c_row		0
+"0xB67B18"	344	c	census:registered_tu		["func_80B47B18",null,"0x80175318",1]
+11959408	1500	r	census:c_row		0
+11960908	96	a	census:audit+noncode_confirmed	d87dcdb7d9c82186a9cc47a93953562ce9965d6e9892182c43585ae2d3e6ad6a	2
+11961004	24	a	census:format:ptrtab	ead48339143fe33024dcdc4399dfe3d1c5758b1bd414961e319abe9a3b1c5ced	3
+11961028	16	a	census:audit+noncode_confirmed	7242c175c3ab57b8e31b5214e80701b69d47a0b8da019567944bc053a7f8a295	2
+11961044	56	a	census:format:ptrtab	e845c6c9c529ffe0e7f0e37ab0df91c215500e81f935ce51044ac136aaf9d645	3
+11961100	3316	a	census:audit+noncode_confirmed	d9eb0b52a52181c4a6bdf3ed53bc30c32722e72283c80e4131f58da3eb7f6abf	2

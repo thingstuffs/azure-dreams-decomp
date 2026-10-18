@@ -739,10 +739,14 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
                     ((S_80171D74_3 *)motion_in)->unk_04.at02u.v = ((u16)D_80083780.y.w.i);
                 }
             }
-            shared_tail:
-            update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
-            break;
         }
+    case 5:
+    case 12:
+    case 14:
+    case 18:
+shared_tail:
+        update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        break;
     case 40:
         if ((is_special_floor_entry_absent(phase, target_state) << 0x10) != 0) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
@@ -781,11 +785,6 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
         apply_script_direction_record(state_in, motion_in, sprite_in);
         update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
         break;
-    case 5:
-    case 12:
-    case 14:
-    case 18:
-        goto shared_tail;
 
     case 42:
         snapshot_inventory_and_familiars(((s32)D_800E3D7C), target_state);

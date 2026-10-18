@@ -1,0 +1,41 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_6fd800_2000","n":8192,"o":7329792,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[4964,0,0,1016,71,2141,0],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+7329792	4	p	census:zero_fill>=16		0
+7329796	26	a	census:audit+noncode_confirmed	7020264aa0351313013cc41991949400eb6923bbb6f00071eed425784b92104e	1
+7329822	121	a	census:format:sjis	a9518d4d8934bc5ae8ff8529888580cd480b062a7799e5907977db04810e9a00	2
+7329943	86	a	census:audit+noncode_confirmed	ab36e0a298a478fe2669938d4036a9edc962e39a554f7f2553d8478c63788e74	1
+7330029	44	a	census:format:sjis	724c9e5684776890a353ccb57b0456f6dfc5abbd5ab543c44a4841a9f90ebafc	2
+7330073	13	a	census:audit+noncode_confirmed	8265d65658cd049ded0cb328a9e32c13641cf5fe6838826155e4081288457ce3	1
+7330086	43	a	census:format:sjis	c9da7aac89e033665b9c87bb8645452aea742a4a5e7531ec85b30f22a5198eee	2
+7330129	130	a	census:audit+noncode_confirmed	b9d39b1607efc86a711dc5024390deba28a2a5cd578877d885a5ade19e8ce414	1
+7330259	34	a	census:format:sjis	4a1a725646fa081d579040e6aed5d450ae2520bbb6a2dc0b6732d25e20c070ed	2
+7330293	15	a	census:audit+noncode_confirmed	b6ec156647ccfea3840dc81cfd7a7fbb6cdf4890fff06a70d1398184c1e5597c	1
+7330308	73	a	census:format:sjis	2485aa8e30b4c6983ee21451c92376c4952fa437531b33772cb70c0bc5e53600	2
+7330381	123	a	census:audit+noncode_confirmed	6b60dbb3219c1398bbc3c7cbb20d99eee79db2931d6b61e5892ba8e2bc56ced8	1
+7330504	16	a	census:format:ptrtab	1c852ddc767e797a5f5086939b37d83a75dd8d0c7444f95bd10c2f1bfcc13fef	3
+7330520	128	a	census:audit+noncode_confirmed	fc2df6dc0cc7e7abce04b05ba09072b10f8f97190f358a87370ca78112d352ea	1
+7330648	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	4
+7330688	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
+7330708	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	4
+7330809	3	a	census:audit+noncode_confirmed	21157cef7d94e5f9fd3cb4b01710764ca1eead9aaf9e67ca832a1925bab69d63	1
+7330812	8	r	census:instance_partial		5
+7330820	8	r	census:instance_proven		5
+7330828	196	r	census:c_row		5
+7331024	1492	r	census:instance_proven		5
+7332516	36	r	census:c_row		5
+7332552	708	r	census:instance_proven		5
+7333260	92	r	census:c_row		5
+7333352	392	r	census:instance_proven		5
+7333744	192	r	census:c_row		5
+7333936	1076	r	census:instance_proven		5
+7335012	12	r	census:c_row		5
+7335024	132	r	census:instance_proven		5
+7335156	12	r	census:c_row		5
+7335168	608	r	census:instance_proven		5
+7335776	12	p	census:zero_fill>=16		0
+7335788	4	d	census:noncode:decode		6
+7335792	520	p	census:zero_fill>=16		0
+7336312	26	d	census:noncode:decode		6
+7336338	19	p	census:zero_fill>=16		0
+7336357	41	d	census:noncode:decode		6
+7336398	1586	p	census:zero_fill>=16		0

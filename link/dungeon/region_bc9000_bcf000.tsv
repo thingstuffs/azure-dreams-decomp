@@ -1,0 +1,16 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s1.receipt.json: rowbase native_resource_14_slot_3","i":"dungeon/region_bc9000_bcf000","n":"0x6000","o":"0xbc9000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[17988,0,0,320,6268,0,0],"v":"0x8015e800"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_code"},{"bindings":{},"evidence":"docs/evidence/r121w_s1.receipt.json: dungeon/func_80BAC34C"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+12357632	8	a	census:audit+noncode_confirmed	dbedea8ee7779bf84d3c3f01d7e32cde1f4a78846ef89ea2bece029dfd99728e	0
+12357640	100	a	census:format:ptrtab	61ceaf0b33d1489cb0e74e5bfae3ec26ada50147f8834d08be574311417c3315	1
+12357740	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	0
+12357744	36	a	census:format:ptrtab	dd13e0456ab56a529f29df7e6ba751c76ebe32c02f734f80545447a1be64db1a	1
+12357780	12984	r	census:c_row		2
+"0xbcc34c"	1384	c	census:registered_tu		["func_80BAC34C","func_80A4AB34","0x80161b4c",3]
+12372148	3620	r	census:c_row		2
+12375768	24	d	census:noncode:decode		4
+12375792	92	a	census:format:ascii	79ec49151559f3edd8a7d4ebee686455a8b071c32a55f11da46efbe17c2d4aa3	5
+12375884	24	a	census:format:ptrtab	e4446e94cf3a97a010ede57c44d5af624593340cbd6f892cee1b3ecfb3538e56	1
+12375908	16	d	census:noncode:decode		4
+12375924	56	a	census:format:ptrtab	6f00eae1e10e5c3a7033e454beba7b3c84af56d3d3ec2a2e41bad50d8a35df9b	1
+12375980	6164	d	census:noncode:entropy:unplaced		4
+12382144	64	d	census:noncode:decode		4

@@ -16,6 +16,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "gate"))
 import linklist as L
+import byte_map_format as F
 
 INPUT_SCHEMA = "azure-clean.census-map.v1"
 IMAGE_ID = re.compile(r"[a-z][a-z0-9_]*/[A-Za-z0-9_]+\Z")
@@ -42,10 +43,59 @@ def read_jsonl(path):
                     raise ValueError(f"{path}:{n}: invalid JSON") from exc
 
 
-def image_path(root, image):
+def image_path(root, image, catalogue=None):
     if not IMAGE_ID.fullmatch(image):
         raise ValueError("unsafe image id: " + image)
-    return Path(root) / "config/link" / (image + ".json")
+    return Path(root) / (catalogue or "config/link") / (image + ".json")
+
+
+def load_maps(root, catalogue=None):
+    """Read either the production placement catalogue or an explicit byte-map catalogue.
+
+    A separate catalogue can extend coverage without re-keying compilation receipts for
+    unchanged placement inputs. Both use the identical production validator and indices.
+    """
+    if catalogue is None:
+        return L.load(root)
+    directory = Path(root) / catalogue
+    documents = F.load_documents(directory, root)
+    # v1 JSON remains readable for migration and small caller-supplied fixtures.
+    documents.extend((json.loads(p.read_text()), str(p))
+                     for p in sorted(directory.glob('*/*.json')))
+    return index_documents(documents)
+
+
+def index_documents(documents):
+    """Use production geometry/census validation and unchanged placement rules."""
+    images, by_place, by_row = {}, {}, {}
+    for doc, path in documents:
+        img = L.validate_image(doc, path)
+        if img['image'] in images:
+            raise ValueError('duplicate image '+img['image'])
+        images[img['image']] = img
+        for e in img['entries']:
+            if not L.is_code(e):
+                continue
+            if L.family(e['row'].split('/', 1)[0]) != img['container']:
+                raise ValueError('entry row belongs to another container: '+e['row'])
+            key = (img['container'], e['foff'])
+            if key in by_place or e['row'] in by_row:
+                raise ValueError('placement listed twice: '+e['row'])
+            by_place[key] = e
+            by_row[e['row']] = e
+    L.coverage(images)
+    local = {}
+    for e in by_row.values():
+        if e['home'] not in by_row:
+            raise ValueError('home row is not placed: '+e['home'])
+        h = by_row[e['home']]
+        if h['home'] != h['row'] or h['tu'] != e['tu'] or h['size'] != e['size']:
+            raise ValueError('home TU/size differs: '+e['row'])
+        if e is h and e['bindings']:
+            raise ValueError('a home entry takes no bindings: '+e['row'])
+        if e is not h:
+            local.setdefault(e['image'], {}).setdefault(h['vma'], []).append((h['image'], e['vma']))
+    return images, by_place, by_row, local
 
 
 def totals(spans):
@@ -255,9 +305,11 @@ def generate(root, labels_path, coverage_path, verify_retail=False):
     return docs, coverage_summary(coverage_path, headers)
 
 
-def describe(images, keys):
+def describe(images, keys, physical_roots=None):
     children = {e["ref"] for k in keys for e in images[k]["entries"] if e.get("kind") == "image"}
-    roots = sorted(set(keys)-children)
+    roots = sorted(set(keys)-children) if physical_roots is None else sorted(physical_roots)
+    if not roots or len(roots) != len(set(roots)) or set(roots) - set(keys):
+        raise ValueError("physical roots must be unique selected v1 images")
     by_cont = defaultdict(list)
     out = {}
     for key in sorted(keys):
@@ -271,11 +323,25 @@ def describe(images, keys):
             if a < last:
                 raise ValueError("selected root images overlap in " + cont)
             last = b
+    if physical_roots is not None:
+        # Historical placement views overlap. An explicit physical partition is the
+        # denominator; every selected view must reproduce its labels at every boundary.
+        physical = defaultdict(list)
+        for k in roots:
+            physical[images[k]["container"]].extend(flatten(images, k))
+        for cont in physical:
+            physical[cont].sort(key=lambda s: s["foff"])
+        for k in keys:
+            h = images[k]
+            expected = list(clipped(physical[h["container"]], h["foff"], h["foff"]+h["size"]))
+            if not expected or expected[0]["foff"] != h["foff"] or sum(s["size"] for s in expected) != h["size"]:
+                raise ValueError("image outside physical roots: " + k)
+            compare_labels(flatten(images, k), expected, k)
     return {"images": out, "roots": roots, "root_bytes": sum(images[k]["size"] for k in roots)}
 
 
-def check(root, labels_path=None, keys=None, complete=False):
-    images = L.load(root)[0]  # The production loader also checks gaps, overlaps, references and census totals.
+def check(root, labels_path=None, keys=None, complete=False, catalogue=None, physical_roots=None):
+    images = load_maps(root, catalogue)[0]  # Production validation for both catalogues.
     keys = keys or [k for k, v in images.items() if v["schema"] == L.MAP_SCHEMA]
     if not keys:
         raise ValueError("no whole-image maps selected")
@@ -287,7 +353,7 @@ def check(root, labels_path=None, keys=None, complete=False):
             if k not in headers or images[k].get("provenance", {}).get("labels_sha256") != sha256(labels_path):
                 raise ValueError("census export provenance differs: " + k)
             compare_labels(flatten(images, k), spans[k], k)
-    result = describe(images, keys)
+    result = describe(images, keys, physical_roots)
     if complete:
         expected = {r["container"]: r["bytes"] for r in read_jsonl(Path(root)/"ledger/containers.jsonl")}
         expected["slus"] = 524288
@@ -310,12 +376,15 @@ def main():
     p = sub.add_parser("generate")
     p.add_argument("--labels", type=Path, required=True)
     p.add_argument("--coverage-regions", type=Path)
-    p.add_argument("--write", action="store_true", help="write config/link after all validation passes")
+    p.add_argument("--write", action="store_true", help="write the compact catalogue after all validation passes")
     p.add_argument("--verify-retail", action="store_true")
+    p.add_argument("--catalogue", type=Path, default=Path("link"))
     p = sub.add_parser("check")
     p.add_argument("--labels", type=Path)
     p.add_argument("--image", action="append")
     p.add_argument("--complete-containers", action="store_true")
+    p.add_argument("--catalogue", type=Path, help="explicit byte-map directory; default config/link")
+    p.add_argument("--physical-roots", type=Path, help="JSON array of nonoverlapping physical root image IDs; all selected views must agree")
     a = ap.parse_args()
     try:
         if a.command == "generate":
@@ -324,17 +393,16 @@ def main():
             images = {k: L.validate_image(d) for k, d in docs.items()}
             result = describe(images, list(images))
             result["coverage_region_bytes_by_category"] = regions
-            result["link_file_bytes"] = {k: len((json.dumps(d, indent=1)+"\n").encode()) for k, d in docs.items()}
+            result["link_file_bytes"] = {k: sum(len(blob) for blob in F.encode(d)) for k, d in docs.items()}
             if a.write:
                 for k, d in docs.items():
-                    p = image_path(a.root, k)
-                    p.parent.mkdir(parents=True, exist_ok=True)
-                    tmp = p.with_suffix(".json.tmp")
-                    tmp.write_text(json.dumps(d, indent=1)+"\n")
-                    tmp.replace(p)
-                L.load(a.root)
+                    F.write(a.root/a.catalogue/k.split('/')[0], d)
+                load_maps(a.root, a.catalogue)
         else:
-            result = check(a.root, a.labels, a.image, a.complete_containers)
+            roots = json.loads(a.physical_roots.read_text()) if a.physical_roots else None
+            if roots is not None and not isinstance(roots, list):
+                raise ValueError("physical roots must be a JSON array")
+            result = check(a.root, a.labels, a.image, a.complete_containers, a.catalogue, roots)
         print(json.dumps(result, sort_keys=True, indent=2))
     except (OSError, ValueError, KeyError, TypeError) as exc:
         ap.exit(1, "byte map: " + str(exc) + "\n")

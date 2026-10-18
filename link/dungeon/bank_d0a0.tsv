@@ -1,0 +1,129 @@
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x8007D760: img_16ae8_80094248, img_4dae0_800cb240, img_d54c_8008ad4c, img_f6a8_8008ce08; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"dungeon/bank_d0a0","n":"0x41000","o":"0xD0A0","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[10472,0,656,225459,28906,58,689],"v":"0x8008A800","y":{"0x800CB21C":"0x800CB3A8","0x800D6910":"0x800D6938"}},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{},{"census_label":"proven_code"},{"census_label":"strongly_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:seq"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:vab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:adpcm"},{"bindings":{"0x800CB21C":"0x800CB4B0","0x800D6910":"0x800D6910"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"},{"bindings":{"0x800CB21C":"0x800CB63C","0x800D6910":"0x800D6974"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+53408	470	a	census:format:sjis	fe73f037e188c23196bcb60e6adfa1cae6f2c1310ab2ee26e96c9c558e0ab019	0
+53878	14	a	census:audit+noncode_confirmed	21c932d6a8415ec1ef487f6eb89126d352fe84d5dbc8f0e48b6a65d482350dba	1
+53892	60	a	census:format:sjis	92e685c3d3bd1400005b737312745539aae29668b733b087f0683f2186da3f51	0
+53952	20	a	census:audit+noncode_confirmed	198693d1d9086b7228677dc96369b895c8972b19c0245d1e445d6fad8db6e624	1
+53972	38	a	census:format:sjis	b7268cfc7d624e3beff5f2c636e5e79f72d939202e5b4903e1faeb62c89cabb4	0
+54010	14	a	census:audit+noncode_confirmed	b9f29e39e980367d9ef405806bdff673a991e76bb08369910d05a4bc8951473a	1
+54024	83	a	census:format:sjis	f106ba5fdb37209cfda804e87a22786db118a9c5f0453061b9172b0272e8dc8e	0
+54107	17	a	census:audit+noncode_confirmed	19dd05015b04a411e4c8bcadb92293a05cb3bbd45bdb2902d1a2b5a184806f68	1
+54124	61	a	census:format:sjis	e3618301789a0b739731df8df29cf80c1e105da5f0ee57902b7bec41727b8e83	0
+54185	11	a	census:audit+noncode_confirmed	d64febbdebd32c1b0bf7a575db3f6fe8e3c9ef403d296511e0bbd0d8372dcc4e	1
+54196	44	a	census:format:sjis	e3e1dd33602021f6af16555bacbaa1c766fffa85aec5974ce7a62edb5fedab52	0
+54240	16	a	census:audit+noncode_confirmed	dff1a41aa54406286a02cab5dba8f49e86befa36028d9577388e3885e2adc55d	1
+54256	94	a	census:format:sjis	cb2cc452fadf4497b9bbad5273f25af17749f7b037b0b460b0529bfad36c9404	0
+54350	18	a	census:audit+noncode_confirmed	a83666217c5e48767ad1c7e890c664d6c06b72e5fc5b8c293fd5a0c4fcdede0c	1
+54368	46	a	census:format:sjis	ecf85de09c8dd9ac1b8f972f433de564e54efe1ae2d5e3507a82769b4efa9a4b	0
+54414	18	a	census:audit+noncode_confirmed	ab7d1f1985d23ac22475617b108640138cb23d106e01b7f710c8b91f352f2d7a	1
+54432	50	a	census:format:sjis	c937a4f0d7e4fcca717a81fb9720a99858752e32bc3a8b5d75012e4eb16b2abe	0
+54482	18	a	census:audit+noncode_confirmed	2a8112e4dd86873d49135191a3abb0963b7271eed9ddb253d1151209e0300e5c	1
+54500	16	a	census:format:sjis	3f03a9387705640b5f84ffa4a9664aac2a4a4c4169bd2097fe5a023fb605820b	0
+54516	16	a	census:audit+noncode_confirmed	b7ad9a6be5a465f3386bb1c38c54cbb46034083b0def6cb76c234903d7d4adfc	1
+54532	18	a	census:format:sjis	f8147c911a8ad9c1ca1494c356005acf5e17aee921d8149c5bf656fd8e7029e8	0
+54550	54	u	census:unresolved:audit_data_unconfirmed		2
+54604	4784	r	census:c_row		3
+59388	844	a	census:audit+noncode_confirmed	0f7d20e007a4002cba07abc72534d4d80b37a988d0b7f6a87d4f320bb46234c9	1
+60232	16	u	census:unresolved:audit_data_unconfirmed		2
+60248	1184	r	census:c_row		3
+61432	1060	a	census:audit+noncode_confirmed	9b413401ddbb3345f6a8e2f0aeadc96878993673c0f6b592e66b15d7a825ae5b	1
+62492	8	u	census:unresolved:audit_data_unconfirmed		2
+62500	112	r	census:T1_twin		4
+62612	852	r	census:c_row		3
+63464	344	d	census:noncode:decode		5
+63808	320	d	census:noncode:entropy:unplaced		5
+64128	92	d	census:noncode:decode		5
+64220	8	d	census:neighbour:noncode_typing_pending		5
+64228	108	d	census:noncode:decode		5
+64336	8	d	census:neighbour:noncode_typing_pending		5
+64344	256	d	census:noncode:decode		5
+64600	12	d	census:neighbour:noncode_typing_pending		5
+64612	20	d	census:noncode:decode		5
+64632	8	d	census:neighbour:noncode_typing_pending		5
+64640	124	d	census:noncode:decode		5
+64764	12	d	census:neighbour:noncode_typing_pending		5
+64776	56	d	census:noncode:decode		5
+64832	256	d	census:noncode:entropy:unplaced		5
+65088	64	d	census:noncode:decode		5
+65152	832	d	census:noncode:entropy:unplaced		5
+65984	192	d	census:noncode:decode		5
+66176	128	d	census:noncode:entropy:unplaced		5
+66304	192	d	census:noncode:decode		5
+66496	448	d	census:noncode:entropy:unplaced		5
+66944	128	d	census:noncode:decode		5
+67072	3968	d	census:noncode:entropy:unplaced		5
+71040	64	d	census:noncode:decode		5
+71104	1344	d	census:noncode:entropy:unplaced		5
+72448	64	d	census:noncode:decode		5
+72512	384	d	census:noncode:entropy:unplaced		5
+72896	64	d	census:noncode:decode		5
+72960	1088	d	census:noncode:entropy:unplaced		5
+74048	384	d	census:noncode:decode		5
+74432	1088	d	census:noncode:entropy:unplaced		5
+75520	512	d	census:noncode:decode		5
+76032	192	d	census:noncode:entropy:unplaced		5
+76224	384	d	census:noncode:decode		5
+76608	2624	d	census:noncode:entropy:unplaced		5
+79232	128	d	census:noncode:decode		5
+79360	384	d	census:noncode:entropy:unplaced		5
+79744	424	d	census:noncode:decode		5
+80168	8	d	census:neighbour:noncode_typing_pending		5
+80176	208	d	census:noncode:decode		5
+80384	192	d	census:noncode:entropy:unplaced		5
+80576	320	d	census:noncode:decode		5
+80896	12	d	census:neighbour:noncode_typing_pending		5
+80908	148	d	census:noncode:decode		5
+81056	20	u	census:unknown		2
+81076	12	d	census:noncode:decode		5
+81088	192	d	census:noncode:entropy:unplaced		5
+81280	256	d	census:noncode:decode		5
+81536	128	d	census:noncode:entropy:unplaced		5
+81664	128	d	census:noncode:decode		5
+81792	256	d	census:noncode:entropy:unplaced		5
+82048	704	d	census:noncode:decode		5
+82752	512	d	census:noncode:entropy:unplaced		5
+83264	128	d	census:noncode:decode		5
+83392	704	d	census:noncode:entropy:unplaced		5
+84096	328	d	census:noncode:decode		5
+84424	8	d	census:neighbour:noncode_typing_pending		5
+84432	112	d	census:noncode:decode		5
+84544	512	d	census:noncode:entropy:unplaced		5
+85056	256	d	census:noncode:decode		5
+85312	1152	d	census:noncode:entropy:unplaced		5
+86464	344	d	census:noncode:decode		5
+86808	12	d	census:neighbour:noncode_typing_pending		5
+86820	92	d	census:noncode:decode		5
+86912	704	d	census:noncode:entropy:unplaced		5
+87616	192	d	census:noncode:decode		5
+87808	2304	d	census:noncode:entropy:unplaced		5
+90112	8	d	census:neighbour:noncode_typing_pending		5
+90120	184	d	census:noncode:decode		5
+90304	1792	d	census:noncode:entropy:unplaced		5
+92096	64	d	census:noncode:decode		5
+92160	740	a	census:audit+noncode_confirmed	efbdf3204586db4b609131a479ba6091303b6842d5a597cf42150d887ef35e9d	1
+92900	36	u	census:unresolved:audit_data_unconfirmed		2
+92936	1196	r	census:c_row		3
+94132	60	u	census:unknown		2
+94192	22	d	census:noncode:decode		5
+94214	58	p	census:zero_fill>=16		2
+94272	16	a	census:format:ascii	9949e415ce050d57de2337860e5b90cb08d69d9fcbb1ffec1ca85c1f61657f73	6
+94288	28841	a	census:format:seq	311f7c8d522444860a4cf5f89ee9d7f57489060b0c038199aada2c37422ca590	7
+123129	3	u	census:unresolved:audit_data_unconfirmed		2
+123132	140	r	census:T1_twin		4
+123272	1240	r	census:c_row		3
+124512	404	u	census:unknown		2
+124916	12	d	census:noncode:decode		5
+124928	9760	a	census:format:vab	3492f8c9a47775e6b7dd07198bd71d7877adb025e93470f065830513bd6344af	8
+134688	404	r	census:T1_twin		4
+135092	44	u	census:unknown		2
+135136	183056	a	census:format:adpcm	9077e0af3754e050e5ecc705603188d0f0f7592f170180dcda06775472be5f82	9
+318192	44	u	census:unresolved:audit_data_unconfirmed		2
+"0x4DB1C"	96	c	census:registered_tu		["func_8002DB1C",null,"0x800CB27C",2]
+318332	312	r	census:c_row		3
+"0x4DCB4"	96	c	census:registered_tu		["func_8002DCB4","func_8002DB1C","0x800CB414",2]
+318740	156	r	census:c_row		3
+"0x4DDB0"	96	c	census:registered_tu		["func_8002DDB0","func_8002DB1C","0x800CB510",10]
+318992	312	r	census:c_row		3
+"0x4DF48"	96	c	census:registered_tu		["func_8002DF48","func_8002DB1C","0x800CB6A8",11]
+319400	52	r	census:c_row		3
+319452	196	d	census:noncode:decode		5

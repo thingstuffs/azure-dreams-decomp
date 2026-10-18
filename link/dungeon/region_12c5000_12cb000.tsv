@@ -1,0 +1,20 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s1.receipt.json: rowbase w4d1_12c5000_bank","i":"dungeon/region_12c5000_12cb000","n":"0x6000","o":"0x12c5000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[21380,0,0,3196,0,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_code"},{},{"bindings":{"0x80174fc0":"0x800f7a38","0x801750e4":"0x80175964"},"evidence":"docs/evidence/r121w_s1.receipt.json: dungeon/func_812A9DA0"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+19681280	24	a	census:audit+noncode_confirmed	92d34034556518f7b49c7d465e01a5a3454f1beddb972c968bac52b1ee3e3222	0
+19681304	68	a	census:format:ptrtab	e67b5846bd8e2855135da1cc04d3f117052c7f861fd1812a7c69b9013670c29f	1
+19681372	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	0
+19681376	44	a	census:format:ptrtab	a9b9b5024a4f2f2e0fd2bea2efc11f72aea9fffb73e9aae5764072d192d3aaa7	1
+19681420	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	0
+19681424	28	a	census:format:ptrtab	c2fb882d7ecb9bb10807239c2ac1c31f3c4c31c855039df43f3d3440b9c5235a	1
+19681452	12420	r	census:c_row		2
+"0x12c8130"	1188	c	census:registered_tu		["func_812A8130",null,"0x80173930",3]
+19695060	708	r	census:c_row		2
+19695768	1400	r	census:instance_partial		2
+19697168	3984	r	census:c_row		2
+"0x12c9da0"	716	c	census:registered_tu		["func_812A9DA0","func_809A32D4","0x801755a0",4]
+19701868	964	r	census:c_row		2
+19702832	152	a	census:audit+noncode_confirmed	2ff3b584e5609bec5bebbcea084b5be8e5272e7190e87acd8ec0e9d211fdcd26	0
+19702984	24	a	census:format:ptrtab	33c213b1d469a8bc831aaa1ee9aace7c265d213dae9153e4c5e3bc0df537f951	1
+19703008	16	a	census:audit+noncode_confirmed	31c0e0900926537b57196c16b631087f3afcf979f4032aba4fd0af0c0e0fea50	0
+19703024	60	a	census:format:ptrtab	d6d6bd019fe4f44c6b259d7c889f0fc1988dc5c0c043bccdff0bd21b405f6739	1
+19703084	2772	a	census:audit+noncode_confirmed	4a34b7c94832324c1ac4e9310ab78c61c9a13f93ca25cf0de66e4fea6b8659c4	0

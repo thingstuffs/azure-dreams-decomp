@@ -1,0 +1,61 @@
+{
+ "entries": [
+  {
+   "container": "town",
+   "evidence": "docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md",
+   "foff": 8437760,
+   "format": "two symbol arrays; char name[32] plus little-endian u32 value; opaque separator",
+   "id": "symbol_dump",
+   "image": "town/leftover_symbol_dump",
+   "reason": "Developer symbol-name/value dump; 678 and 2909 validated 36-byte records separated by 168 opaque bytes; see link/leftovers/evidence/audit.json.",
+   "sha256": "9627fdd622764274d4bba589662217df270c6ebed6750f9465dab83b835716d0",
+   "size": 129300
+  },
+  {
+   "container": "town",
+   "evidence": "docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md",
+   "foff": 8792832,
+   "format": "Psy-Q debug type tables; detailed typing pending",
+   "id": "debug_type_info",
+   "image": "town/leftover_debug_type_info",
+   "reason": "Psy-Q developer struct/type information, cited bounded extent.",
+   "sha256": "b3a996727b69228de8779ace8aacbdd8aac40b3aaafc35d307e2bacebc86b8ab",
+   "size": 4352
+  },
+  {
+   "container": "town",
+   "evidence": "docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md",
+   "foff": 8357756,
+   "format": "path table; detailed typing pending",
+   "id": "scenario_paths",
+   "image": "town/leftover_scenario_paths",
+   "reason": "Build-root scenario path table inside a draft image; no opener found in the cited analysis.",
+   "sha256": "0561bc39ace91c964eeea9a12fe1b0bc571205201af4ef817894aa1f101f5309",
+   "size": 280
+  },
+  {
+   "container": "town",
+   "evidence": "docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md",
+   "foff": 8579072,
+   "format": "NUL-terminated developer text",
+   "id": "assembler_source",
+   "image": "town/leftover_assembler_source",
+   "reason": "Developer assembler/linker text residue at the cited anchor; bounded by its first NUL.",
+   "sha256": "5348a10c37377f0fa773fa940d6e17cc4bef84a51e1ec1b51ded4344355ec862",
+   "size": 260
+  },
+  {
+   "container": "town",
+   "evidence": "docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md",
+   "foff": 8595512,
+   "format": "NUL-terminated developer text",
+   "id": "link_line",
+   "image": "town/leftover_link_line",
+   "reason": "Developer assembler/linker text residue at the cited anchor; bounded by its first NUL.",
+   "sha256": "7f0a9f05b73b504cc811a2b5e84c4ad7bab4107b243bf3a7c9618e3f75598f7b",
+   "size": 45
+  }
+ ],
+ "group": "devkit",
+ "schema": "azure-clean.leftover-slices.v1"
+}

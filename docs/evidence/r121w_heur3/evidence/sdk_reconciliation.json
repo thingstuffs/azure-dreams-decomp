@@ -1,0 +1,68 @@
+{
+ "inherited_evidence": "docs/evidence/r121_remnants.sdk.json",
+ "events": [
+  {
+   "schema": "azure-clean.coverage-region.v1",
+   "container": "main",
+   "foff": 2561992,
+   "size": 104,
+   "category": "sdk_asm",
+   "active": true,
+   "evidence": "docs/evidence/r121_remnants.sdk.json",
+   "basis": "Reconcile existing complete Sony SDK member identification from coverage_residue into the reporting interval ledger; no new C or assembly admission",
+   "retail_sha256": "3b175235864c739f6d9fa48c4589d1f3631317a5aac4855140ac2bb0bf9eef6e",
+   "lane": "r121w_heur3"
+  },
+  {
+   "schema": "azure-clean.coverage-region.v1",
+   "container": "main",
+   "foff": 2562208,
+   "size": 136,
+   "category": "sdk_asm",
+   "active": true,
+   "evidence": "docs/evidence/r121_remnants.sdk.json",
+   "basis": "Reconcile existing complete Sony SDK member identification from coverage_residue into the reporting interval ledger; no new C or assembly admission",
+   "retail_sha256": "bf2101ffd41591f38a4f0dd260b22289c6eeb3e8b91416c96dd686bbef1fb1a0",
+   "lane": "r121w_heur3"
+  },
+  {
+   "schema": "azure-clean.coverage-region.v1",
+   "container": "main",
+   "foff": 2562392,
+   "size": 108,
+   "category": "sdk_asm",
+   "active": true,
+   "evidence": "docs/evidence/r121_remnants.sdk.json",
+   "basis": "Reconcile existing complete Sony SDK member identification from coverage_residue into the reporting interval ledger; no new C or assembly admission",
+   "retail_sha256": "00fb85f0f54031f2fa57511044aefda649acbccb70d413f5903165dae51000a8",
+   "lane": "r121w_heur3"
+  },
+  {
+   "schema": "azure-clean.coverage-region.v1",
+   "container": "ovmovie",
+   "foff": 5692,
+   "size": 48,
+   "category": "sdk_asm",
+   "active": true,
+   "evidence": "docs/evidence/r121_remnants.sdk.json",
+   "basis": "Reconcile existing complete Sony SDK member identification from coverage_residue into the reporting interval ledger; no new C or assembly admission",
+   "retail_sha256": "a942d028061958a31c0f64b31e7d7b3dd3d179dd034706326db5bf1f615449eb",
+   "lane": "r121w_heur3"
+  },
+  {
+   "schema": "azure-clean.coverage-region.v1",
+   "container": "ovmovie",
+   "foff": 5740,
+   "size": 832,
+   "category": "sdk_asm",
+   "active": true,
+   "evidence": "docs/evidence/r121_remnants.sdk.json",
+   "basis": "Reconcile existing complete Sony SDK member identification from coverage_residue into the reporting interval ledger; no new C or assembly admission",
+   "retail_sha256": "84ebd45015027b99202fe90e96599cf70eac5e31b6f06e3708ffdda50dea1227",
+   "lane": "r121w_heur3"
+  }
+ ],
+ "library_bytes_reconciled": 1396,
+ "new_library_evidence_bytes": 0,
+ "new_C_bytes": 0
+}

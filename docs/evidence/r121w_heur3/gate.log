@@ -1,0 +1,8 @@
+1 active windows; computing inputs_sha for 0 with journal records, 4 workers
+planning: inputs_sha 0/0 windows 0s
+0 windows use current input-bound lane proofs
+1 windows to gate (0 up to date), 4 workers
+done 1 (+0 serial retries) in 891s: {'MATCH': 1}
+final audit: inputs_sha 1/1 windows 127s
+final audit: inputs_sha 1/1 windows 127s
+fresh certification receipts: 1 windows

@@ -1,0 +1,48 @@
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F5A1800: img_bc3298_80164a98; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"dungeon/bank_bc3000","l":"bank_bb7000_family","n":"0x6000","o":"0xBC3000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[17988,0,0,308,6276,4,0],"v":"0x80164800","y":{"0x800B2A60":"0x80164E9C","0x800D4494":"0x80164E9C","0x800D6170":"0x80167B4C","0x801710EC":"0x80164E9C","0x80171138":"0x80164E9C","0x80171C34":"0x80165410","0x80171EFC":"0x80165D9C","0x80173C8C":"0x80168EF0","0x80174138":"0x80168EE8","0x80175220":"0x80168FD0","0x80175E40":"0x80168EE8","0x80175EA0":"0x80168F00"}},"p":[{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{},{"census_label":"proven_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+12333056	8	d	census:noncode:decode		0
+12333064	100	a	census:format:ptrtab	41ce394da1ca786cf1a273aafe4bc59e083b3ad590beb1800ec139c3480042d5	1
+12333164	4	p	census:zero_gap<16		2
+12333168	36	a	census:format:ptrtab	57b271fc19a2d763e500a6abbdc80ff3242a0bfb587899d9e5f7a195bb3dd29a	1
+12333204	516	r	census:instance_partial		3
+"0xBC3298"	1028	c	census:registered_tu		["func_80BA3298","func_80B97298","0x80164A98",2]
+12334748	1396	r	census:c_row		3
+"0xBC3C10"	1864	c	census:registered_tu		["func_80BA3C10","func_80B97C10","0x80165410",2]
+"0xBC4358"	580	c	census:registered_tu		["func_80BA4358","func_80A71D70","0x80165B58",2]
+"0xBC459C"	100	c	census:registered_tu		["func_80BA459C","func_809CA53C","0x80165D9C",2]
+"0xBC4600"	452	c	census:registered_tu		["func_80BA4600","func_80B98600","0x80165E00",2]
+"0xBC47C4"	280	c	census:registered_tu		["func_80BA47C4","func_80B987C4","0x80165FC4",2]
+"0xBC48DC"	124	c	census:registered_tu		["func_80BA48DC","func_80B988DC","0x801660DC",2]
+12339544	872	r	census:c_row		3
+"0xBC4CC0"	100	c	census:registered_tu		["func_80BA4CC0","func_80F88C30","0x801664C0",2]
+"0xBC4D24"	1048	c	census:registered_tu		["func_80BA4D24","func_80B98D24","0x80166524",2]
+12341564	1144	r	census:c_row		3
+"0xBC55B4"	752	c	census:registered_tu		["func_80BA55B4","func_80B995B4","0x80166DB4",2]
+12343460	32	r	census:c_row		3
+"0xBC58C4"	32	c	census:registered_tu		["func_80BA58C4","func_800AD90C","0x801670C4",2]
+"0xBC58E4"	32	c	census:registered_tu		["func_80BA58E4","func_800AD92C","0x801670E4",2]
+"0xBC5904"	56	c	census:registered_tu		["func_80BA5904","func_80F89D44","0x80167104",2]
+"0xBC593C"	1064	c	census:registered_tu		["func_80BA593C","func_80B9993C","0x8016713C",2]
+"0xBC5D64"	608	c	census:registered_tu		["func_80BA5D64","func_80B99D64","0x80167564",2]
+"0xBC5FC4"	200	c	census:registered_tu		["func_80BA5FC4","func_809A2D74","0x801677C4",2]
+"0xBC608C"	100	c	census:registered_tu		["func_80BA608C","func_80F8A600","0x8016788C",2]
+"0xBC60F0"	56	c	census:registered_tu		["func_80BA60F0","func_800ADA84","0x801678F0",2]
+"0xBC6128"	56	c	census:registered_tu		["func_80BA6128","func_800ADABC","0x80167928",2]
+"0xBC6160"	56	c	census:registered_tu		["func_80BA6160","func_800ADAF4","0x80167960",2]
+"0xBC6198"	56	c	census:registered_tu		["func_80BA6198","func_800CF1BC","0x80167998",2]
+12345808	56	r	census:c_row		3
+"0xBC6208"	324	c	census:registered_tu		["func_80BA6208","func_80976E28","0x80167A08",2]
+12346188	1384	r	census:c_row		3
+"0xBC68B4"	84	c	census:registered_tu		["func_80BA68B4","func_800D1050","0x801680B4",2]
+"0xBC6908"	68	c	census:registered_tu		["func_80BA6908","func_80A4B0F0","0x80168108",2]
+"0xBC694C"	1172	c	census:registered_tu		["func_80BA694C","func_80B9A94C","0x8016814C",2]
+12348896	496	r	census:c_row		3
+"0xBC6FD0"	172	c	census:registered_tu		["func_80BA6FD0","func_809F7148","0x801687D0",2]
+"0xBC707C"	300	c	census:registered_tu		["func_80BA707C","func_809F71F4","0x8016887C",2]
+12349864	1328	r	census:c_row		3
+12351192	24	d	census:noncode:decode		0
+12351216	92	a	census:format:ascii	79ec49151559f3edd8a7d4ebee686455a8b071c32a55f11da46efbe17c2d4aa3	4
+12351308	24	a	census:format:ptrtab	7ba5025fc91665e91c628fbc1aff13697eba86f5f8b54836d0861946a358c535	1
+12351332	16	d	census:noncode:decode		0
+12351348	56	a	census:format:ptrtab	cd02c5ebeda9624bced95d28a6141db2aea7653cd6fc1bf7d235b4e63b866fdd	1
+12351404	6228	d	census:noncode:entropy:unplaced		0

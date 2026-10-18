@@ -1,0 +1,11 @@
+#{"a":0,"d":{"c":"town","e":"config/overlays/town.rowbase.jsonl proven region sweep_68DCE4","i":"town/ll3a_68dce4_68f594","n":"0x000018B0","o":"0x0068DCE4","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[6320,0,0,0,0,0,0],"v":"0x80016CE4"},"p":[{"census_label":"proven_code"},{},{"bindings":{"0x80016000":"0x80016000","0x80016CC4":"0x80016CC4","0x80016DBC":"0x80016DBC","0x80017240":"0x800173E0","0x8001991C":"0x8001991C","0x80019988":"0x80019988","0x8001A5CC":"0x8001A5CC","0x8001A64C":"0x8001A64C"},"evidence":"LL3a attestation sha256:0c883e7e7945feb15f3bdd7541da39b49c53d08f82ed62901fded807316138d1; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x80016E48":"0x80016E48","0x8001825C":"0x80018404","0x8001A64C":"0x8001A64C","0x8001B14C":"0x8001B14C","0x8001C018":"0x8001C018","0x8001D6B5":"0x8001D6B5","0x8001D7A5":"0x8001D7A5","0x800227FB":"0x800227FB"},"evidence":"LL3a attestation sha256:6af2884173d699967f933c47a13f6bcab185060ba0b10a5a03f9b4590f444a29; current-TU paired HI16/LO16 relocation screen; scoped window gate"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+6872292	1372	r	census:c_row		0
+"0x0068E240"	156	c	census:registered_tu		["func_8070E240",null,"0x80017240",1]
+6873820	260	r	census:c_row		0
+"0x0068E3E0"	156	c	census:registered_tu		["func_8070E3E0","func_8070E240","0x800173E0",2]
+6874236	3552	r	census:c_row		0
+"0x0068F25C"	160	c	census:registered_tu		["func_8070F25C",null,"0x8001825C",1]
+6877948	264	r	census:c_row		0
+"0x0068F404"	160	c	census:registered_tu		["func_8070F404","func_8070F25C","0x80018404",3]
+6878372	240	r	census:c_row		0

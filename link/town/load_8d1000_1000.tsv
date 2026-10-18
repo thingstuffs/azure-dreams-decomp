@@ -1,0 +1,15 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: internal link-evidence; two header entries and >=95% internal calls on known starts; docs/evidence/town_scene_loader_receipt.json","i":"town/load_8d1000_1000","n":4096,"o":9244672,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[2972,0,0,1124,0,0,0],"v":null},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+9244672	28	a	census:ledger:data_row	f88ac002cc3e7675768ff0ba75c90259c9fd64f150b585528be93b53dd808655	0
+9244700	24	r	census:c_row		1
+9244724	76	a	census:audit+noncode_confirmed	2aa6a3cf4467d8e5224be27a054a651fe98070451fd929e1f3e4459d1c82ef99	2
+9244800	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	3
+9244840	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	2
+9244860	128	a	census:format:ascii	6a06c0b48f3cddadfd1d9d73d15319025e197eec79842cd3a89ca55fbaf9e187	3
+9244988	196	r	census:instance_partial		1
+9245184	724	r	census:instance_proven		1
+9245908	88	r	census:c_row		1
+9245996	1604	r	census:instance_proven		1
+9247600	16	r	census:c_row		1
+9247616	320	r	census:instance_proven		1
+9247936	832	a	census:audit+noncode_confirmed	c654019d29199859895678098144ec20eb9cfe5985c743ef93da56d59a60472b	2

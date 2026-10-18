@@ -1,0 +1,3 @@
+{"container": "work/disc/containers/MAIN_MAIN.BIN", "object_sha256": "da6667239d5da39af0582721d7ca40011ec5d51becdb020d3b1c155a8e856634", "object_size": 416, "object_start": "0x271848", "reviewer": "pending", "row_sha256": "3ab55a0f1f41698287658ae2491979e94fd9a912f084c47d498560a0ec7e445f", "row_size": 24, "row_start": "0x2719c4", "source": "build_slus/asm/psyq/libcard/main_patch_delay.s", "source_kind": "platform_asm", "symbol": "func_800219C4"}
+graph <root>/ledger/splits/overlay_modules.build.json
+gate root: <root>/build_ovl

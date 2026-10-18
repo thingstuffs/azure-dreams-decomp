@@ -1,0 +1,12 @@
+#{"a":0,"d":{"c":"town","e":"docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md:scene_record_20","i":"town/leftover_scene_record_20","n":2048,"o":8867840,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[0,0,0,578,110,1360,0],"v":null},"p":[{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"reason":"Bounded development residue; see docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+8867840	48	d	census:noncode:decode		0
+8867888	123	a	census:format:sjis	858ef7f5fdf24cef759fce644d71a5d6f2e68bf3696c3372d6db56ca4483f6a8	1
+8868011	12	d	census:noncode:decode		0
+8868023	288	a	census:format:sjis	9b5b15a5848b529c9d65f1a21fe478b04e0b984fdbfb57beb2abd0949e5997d8	1
+8868311	10	d	census:noncode:decode		0
+8868321	46	a	census:format:sjis	ce3c31ea84db42889c44d8004ac53558adaee5d3f3f0561c8ee8c96a28645297	1
+8868367	23	d	census:noncode:decode		0
+8868390	121	a	census:format:sjis	149a10132c4e5a62c1f8df79508564268c47499aef87aea23df9718b4626584c	1
+8868511	17	d	census:noncode:decode		0
+8868528	1360	l	census:zero_fill>=16		2

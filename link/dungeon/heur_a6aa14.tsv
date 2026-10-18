@@ -1,0 +1,3 @@
+#{"a":0,"d":{"c":"dungeon","e":"census:registered_image","i":"dungeon/heur_a6aa14","n":"0x120","o":"0xa6aa14","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[288,0,0,0,0,0,0],"v":"0x80174214"},"p":[{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+"0xa6aa14"	288	c	census:registered_tu		["func_80A4AA14",null,"0x80174214",0]

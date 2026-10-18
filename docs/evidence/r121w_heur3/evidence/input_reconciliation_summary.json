@@ -1,0 +1,12 @@
+{
+ "file": "evidence/input_reconciliation.json",
+ "bytes": 499685,
+ "sha256": "33fd59069841dacc860f503eea65565c783399bb1477ac694aa7e289ba8f975e",
+ "records": 1435,
+ "queues": {
+  "holds2": 742,
+  "handoff_code": 62,
+  "next": 631
+ },
+ "delivery": "compact summary; all outcomes and source input records are in results.tsv and refs"
+}

@@ -146,10 +146,12 @@ def not_yet_c(root):
                 if sp.get("result") in ("CFAIL", "M2C_FAIL") and sp["size"] > 8192: continue   # a whole-window view, not a function
                 ss.append(e)
         data_all = merge(data + dseg)
-        raw = inter(subtract(ss, C + data_all + cop), win)
+        # An evidenced SDK interval remains library code when a historical split
+        # view also names it. C and proven copies still have higher priority.
+        raw = inter(subtract(ss, C + data_all + cop + cats["sdk_asm"]), win)
         occ = merge(C + cop + raw)
         got_ = {}
-        for k in ("unported", "sdk_asm", "estimated_code"):
+        for k in ("sdk_asm", "unported", "estimated_code"):
             got_[k] = subtract(cats[k], occ + data_all); occ = merge(occ + got_[k])
         res[c] = dict(in_c=size(C), copies=size(cop), split=size(raw), sdk=size(got_["sdk_asm"]), unported=size(got_["unported"]), heuristic=size(got_["estimated_code"]))
     return res

@@ -1,0 +1,1453 @@
+[
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x49bfc",
+  "span_size": 104,
+  "foff": "0x49bfc",
+  "size": 104,
+  "donor": "town/func_800C9758",
+  "donor_foff": 300888,
+  "debt": "",
+  "diff_words": 6,
+  "diff_offsets": [
+   16,
+   28,
+   40,
+   44,
+   48,
+   68
+  ],
+  "base": "0x800c735c",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54cc4",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56254",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 40,
+    "before": 23,
+    "after": 28
+   },
+   {
+    "offset": 68,
+    "before": 640,
+    "after": 576
+   }
+  ],
+  "alias": "configure_actor_slot_28_and_render_state",
+  "source": "scratch/variants/town_49bfc/func_800C735C.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "47e06edeee6de34908fc8161e80be68669aa493f6e495416cdf8201209fd01d9",
+  "native_object_sha256": "291ea58ef784171d332dd612e88e182c71680e3b0b265bea79ee3e5e45d993ce",
+  "target_sha256": "62fdeca10f13148221eef1f0600f2d8ca02fe057ef29855108c2ed2491934e13",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4ba94",
+  "span_size": 104,
+  "foff": "0x4ba94",
+  "size": 104,
+  "donor": "town/func_800C9758",
+  "donor_foff": 300888,
+  "debt": "",
+  "diff_words": 6,
+  "diff_offsets": [
+   16,
+   28,
+   40,
+   44,
+   48,
+   68
+  ],
+  "base": "0x800c91f4",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54cbc",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x5624c",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 40,
+    "before": 23,
+    "after": 26
+   },
+   {
+    "offset": 68,
+    "before": 640,
+    "after": 704
+   }
+  ],
+  "alias": "configure_actor_slot_26_and_render_state",
+  "source": "scratch/variants/town_4ba94/func_800C91F4.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "84a364980ecf09d0ce7505e29b98b8314a19746325df3a6595a22808d96bcf28",
+  "native_object_sha256": "299d4a3e222f2f7af0facb7c34e5b070b0ee0b500473f88fba17b3ac60e7f184",
+  "target_sha256": "675889411c782031f8f4b8d4ee6b8e113f23a65c578bd2632035e6504c7a3fd8",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4d818",
+  "span_size": 104,
+  "foff": "0x4d818",
+  "size": 104,
+  "donor": "town/func_800C9758",
+  "donor_foff": 300888,
+  "debt": "",
+  "diff_words": 6,
+  "diff_offsets": [
+   16,
+   28,
+   40,
+   44,
+   48,
+   68
+  ],
+  "base": "0x800caf78",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54cb8",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56248",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 40,
+    "before": 23,
+    "after": 25
+   },
+   {
+    "offset": 68,
+    "before": 640,
+    "after": 576
+   }
+  ],
+  "alias": "configure_actor_slot_25_and_render_state",
+  "source": "scratch/variants/town_4d818/func_800CAF78.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "be43b54c0501fe8b5944e4ea6afbb7fac17c5d3f3184a9ba0e229740b7f174a0",
+  "native_object_sha256": "0da454f6015b3008ae76e537f7b429445ec66f40f22764b4a7cfe4294fa0fba0",
+  "target_sha256": "90b7a6ee097c690c5962e51c8ffe013cfc9edb2b9b100885f64f125fac01003b",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4e588",
+  "span_size": 416,
+  "foff": "0x4e588",
+  "size": 104,
+  "donor": "town/func_800C9758",
+  "donor_foff": 300888,
+  "debt": "",
+  "diff_words": 6,
+  "diff_offsets": [
+   16,
+   28,
+   40,
+   44,
+   48,
+   68
+  ],
+  "base": "0x800cbce8",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d7c",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x5630c",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 40,
+    "before": 23,
+    "after": 70
+   },
+   {
+    "offset": 68,
+    "before": 640,
+    "after": 4
+   }
+  ],
+  "alias": "configure_actor_slot_70_and_render_state",
+  "source": "scratch/variants/town_4e588/func_800CBCE8.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "964649ea53e47ebea01cc777580993e8d5b8dfbe78faca4051ef9a509b276bd9",
+  "native_object_sha256": "f2aeb5f221f4d10d4b3c73f473b2d2411e828436df6e968b6d2a6f8de6968414",
+  "target_sha256": "5bef814c8440d2de4738299ab20084f4e0e794380956cc94dd635de63827133d",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4e588",
+  "span_size": 416,
+  "foff": "0x4e5f0",
+  "size": 104,
+  "donor": "town/func_800C9758",
+  "donor_foff": 300888,
+  "debt": "",
+  "diff_words": 6,
+  "diff_offsets": [
+   16,
+   28,
+   40,
+   44,
+   48,
+   68
+  ],
+  "base": "0x800cbd50",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d80",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56310",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 40,
+    "before": 23,
+    "after": 71
+   },
+   {
+    "offset": 68,
+    "before": 640,
+    "after": 4
+   }
+  ],
+  "alias": "configure_actor_slot_71_and_render_state",
+  "source": "scratch/variants/town_4e5f0/func_800CBD50.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "aacd1614de4f94135c999d6fd93d39ac7f5145067b4656b5207ede89f25e4e9e",
+  "native_object_sha256": "393353e8f68cd42224e2c47e921a3f8c6248dd99df745d83a0fdff90e15a4d13",
+  "target_sha256": "c4ed794d6ed4e5cf2f4a83637be5055f073936cb7a0fb25e4e766c5cfaf1102e",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4e588",
+  "span_size": 416,
+  "foff": "0x4e658",
+  "size": 104,
+  "donor": "town/func_800C9758",
+  "donor_foff": 300888,
+  "debt": "",
+  "diff_words": 6,
+  "diff_offsets": [
+   16,
+   28,
+   40,
+   44,
+   48,
+   68
+  ],
+  "base": "0x800cbdb8",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d84",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56314",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 40,
+    "before": 23,
+    "after": 72
+   },
+   {
+    "offset": 68,
+    "before": 640,
+    "after": 4
+   }
+  ],
+  "alias": "configure_actor_slot_72_and_render_state",
+  "source": "scratch/variants/town_4e658/func_800CBDB8.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "eb1f949dbde5504f9265a664d50947e2ea4d0f554d0395b1f67fe747189fc970",
+  "native_object_sha256": "ed8f542e1b6b387441759eff3adfe4fea9e265c100540eea8b51c402d415bb06",
+  "target_sha256": "efffd1a2614237e30f85c4c1cd33301459d33785fde5b5f31e376adc413b018d",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4e588",
+  "span_size": 416,
+  "foff": "0x4e6c0",
+  "size": 104,
+  "donor": "town/func_800C9758",
+  "donor_foff": 300888,
+  "debt": "",
+  "diff_words": 6,
+  "diff_offsets": [
+   16,
+   28,
+   40,
+   44,
+   48,
+   68
+  ],
+  "base": "0x800cbe20",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d88",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56318",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 40,
+    "before": 23,
+    "after": 73
+   },
+   {
+    "offset": 68,
+    "before": 640,
+    "after": 4
+   }
+  ],
+  "alias": "configure_actor_slot_73_and_render_state",
+  "source": "scratch/variants/town_4e6c0/func_800CBE20.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "579ee8407a14031384181235ce32f433d30786a44900beef45c9a624675e81bf",
+  "native_object_sha256": "7ae8da32e1b438f79c9c36d6025d5e097a021a6009dd91adfc746f54580fb7e3",
+  "target_sha256": "0151f7137ad1eba20025ab5ed19f8a4ca3a57c7f3c457ea6fa7b3d945a285da6",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4eab8",
+  "span_size": 208,
+  "foff": "0x4eab8",
+  "size": 104,
+  "donor": "town/func_800C9758",
+  "donor_foff": 300888,
+  "debt": "",
+  "diff_words": 6,
+  "diff_offsets": [
+   16,
+   28,
+   40,
+   44,
+   48,
+   68
+  ],
+  "base": "0x800cc218",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54ca8",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56238",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 40,
+    "before": 23,
+    "after": 21
+   },
+   {
+    "offset": 68,
+    "before": 640,
+    "after": 576
+   }
+  ],
+  "alias": "configure_actor_slot_21_and_render_state",
+  "source": "scratch/variants/town_4eab8/func_800CC218.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "5bacaaed1076182c016a4982c19f85edc728aad227d36870c54077413a6fa80a",
+  "native_object_sha256": "33391bd9850a9ce8c844dc0223102cc116b4122d79ba78c7d2fde3ef8a7b4e74",
+  "target_sha256": "b61c4368c5a348598ab3740e07ca3b2cef50ea9904caab84fe2d0cc311ff3117",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4eab8",
+  "span_size": 208,
+  "foff": "0x4eb20",
+  "size": 104,
+  "donor": "town/func_800C9758",
+  "donor_foff": 300888,
+  "debt": "",
+  "diff_words": 6,
+  "diff_offsets": [
+   16,
+   28,
+   40,
+   44,
+   48,
+   68
+  ],
+  "base": "0x800cc280",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d00",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56290",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 40,
+    "before": 23,
+    "after": 44
+   },
+   {
+    "offset": 68,
+    "before": 640,
+    "after": 704
+   }
+  ],
+  "alias": "configure_actor_slot_44_and_render_state",
+  "source": "scratch/variants/town_4eb20/func_800CC280.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "4c850f983efdaae219de958ff6a3a85e6ecdb921c02d47d29d75529fec2ff2b2",
+  "native_object_sha256": "7da6bb5a2f2320f2acd0db57410ea4be7e64c6cb5dcbf2a046627966642e0fea",
+  "target_sha256": "4c462b9110b511d5d4670f6c263f96846ec597e9032cfc016e7e9785d4386967",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4fbc0",
+  "span_size": 816,
+  "foff": "0x4fbc0",
+  "size": 104,
+  "donor": "town/func_800C9758",
+  "donor_foff": 300888,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   16,
+   28,
+   40,
+   44,
+   48
+  ],
+  "base": "0x800cd320",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d50",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x562e0",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 40,
+    "before": 23,
+    "after": 64
+   }
+  ],
+  "alias": "configure_actor_slot_64_and_render_state",
+  "source": "scratch/variants/town_4fbc0/func_800CD320.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "a665bab48ed91517a3ceb3d5927eb4b8593753ec4b8bc4038225f1d66e2502dc",
+  "native_object_sha256": "a1b10c9997225a9a941eb3f4048cbbb67d97a881b172a46afb326765ba956806",
+  "target_sha256": "ea362829311b49a64cc149604384bfa2538742fc350d4c95bdb876cc25c2455f",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4fbc0",
+  "span_size": 816,
+  "foff": "0x4fc28",
+  "size": 104,
+  "donor": "town/func_800C9758",
+  "donor_foff": 300888,
+  "debt": "",
+  "diff_words": 6,
+  "diff_offsets": [
+   16,
+   28,
+   40,
+   44,
+   48,
+   68
+  ],
+  "base": "0x800cd388",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d54",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x562e4",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 40,
+    "before": 23,
+    "after": 65
+   },
+   {
+    "offset": 68,
+    "before": 640,
+    "after": 704
+   }
+  ],
+  "alias": "configure_actor_slot_65_and_render_state",
+  "source": "scratch/variants/town_4fc28/func_800CD388.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "2ed85d65136c6c5d0074d57ef17fc769067843c1a67eb18fd62cc49e83508fce",
+  "native_object_sha256": "679034dd2da8e123dac185d6d2eea75cbb05a65099492869e24ec303657344c2",
+  "target_sha256": "24d2c74f2459e4c91750064a1ac085b8472edb0135c3154b954b1eabaa2df861",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4fbc0",
+  "span_size": 816,
+  "foff": "0x4fc90",
+  "size": 104,
+  "donor": "town/func_800C9758",
+  "donor_foff": 300888,
+  "debt": "",
+  "diff_words": 6,
+  "diff_offsets": [
+   16,
+   28,
+   40,
+   44,
+   48,
+   68
+  ],
+  "base": "0x800cd3f0",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d58",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x562e8",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 40,
+    "before": 23,
+    "after": 66
+   },
+   {
+    "offset": 68,
+    "before": 640,
+    "after": 768
+   }
+  ],
+  "alias": "configure_actor_slot_66_and_render_state",
+  "source": "scratch/variants/town_4fc90/func_800CD3F0.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "9ea156c4a8a414791273dd3e34fbfae80ff509fc2aecdbbbf7779840bbb11da9",
+  "native_object_sha256": "883c7b3a30a5cab34fd3c0f0d4d61bf1681807575007400a50496b3faad20de7",
+  "target_sha256": "df673251807c97d4e3c6bc954e790d622bdc8b20ca752cd8d905948a76a34601",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4d174",
+  "span_size": 368,
+  "foff": "0x4d174",
+  "size": 92,
+  "donor": "town/func_800CABD0",
+  "donor_foff": 306128,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   24,
+   32,
+   44,
+   56,
+   64
+  ],
+  "base": "0x800ca8d4",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d8c",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56320",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 24,
+    "before": 2,
+    "after": 75
+   }
+  ],
+  "alias": "configure_actor_slot_75_and_copy_global",
+  "source": "scratch/variants/town_4d174/func_800CA8D4.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "f9e1566e4861de11a630ddae098d692842c3960962b09ac9b2c3f7b0ea90c791",
+  "native_object_sha256": "1283f143e44752b92dcb657f5c1744df2bd44e60f910471727bb921b00ae99da",
+  "target_sha256": "f056af12bc8b64f44067c88ddbe4498a92982beec823aa2a9b6fe548a3acd31f",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4d174",
+  "span_size": 368,
+  "foff": "0x4d1d0",
+  "size": 92,
+  "donor": "town/func_800CABD0",
+  "donor_foff": 306128,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   24,
+   32,
+   44,
+   56,
+   64
+  ],
+  "base": "0x800ca930",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d90",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56324",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 24,
+    "before": 2,
+    "after": 76
+   }
+  ],
+  "alias": "configure_actor_slot_76_and_copy_global",
+  "source": "scratch/variants/town_4d1d0/func_800CA930.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "59bcabb3883d5193dacb69a540ca2accb532bad01a84d602e64741d555eaf2f3",
+  "native_object_sha256": "d9b4f14ae4fccd56cb9c4ae2f68fd10d6faaa0f7bffc63a546fad75c25774f70",
+  "target_sha256": "5f00866549036f82fbc54ebe29c1d79b2905455cd404405361b7bb58f2bef21c",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4d174",
+  "span_size": 368,
+  "foff": "0x4d22c",
+  "size": 92,
+  "donor": "town/func_800CABD0",
+  "donor_foff": 306128,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   24,
+   32,
+   44,
+   56,
+   64
+  ],
+  "base": "0x800ca98c",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d94",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56328",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 24,
+    "before": 2,
+    "after": 77
+   }
+  ],
+  "alias": "configure_actor_slot_77_and_copy_global",
+  "source": "scratch/variants/town_4d22c/func_800CA98C.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "b751264c27b8d97026b2299b1f659e0d8c9475d8fa947d911c6ee82b26611326",
+  "native_object_sha256": "dd85a0f776866280d915b9e5c3185096135a9d3ce4452ffaf5de4e74230787d2",
+  "target_sha256": "9c09ed6a2d549d7c34f70b6ad4fdf44865194dbf430ef8f604f7bcd773ff1cf8",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4d174",
+  "span_size": 368,
+  "foff": "0x4d288",
+  "size": 92,
+  "donor": "town/func_800CABD0",
+  "donor_foff": 306128,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   24,
+   32,
+   44,
+   56,
+   64
+  ],
+  "base": "0x800ca9e8",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d98",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x5632c",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 24,
+    "before": 2,
+    "after": 78
+   }
+  ],
+  "alias": "configure_actor_slot_78_and_copy_global",
+  "source": "scratch/variants/town_4d288/func_800CA9E8.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "837724f629cb8e0442b046e7a08f1f5501be097a1264d13a02af108079fa775f",
+  "native_object_sha256": "412ea7d651289cef51ed047a75a152f10c7890ee554f869e0b0992872a799a28",
+  "target_sha256": "7b6f170a5e784cbe734e0c15dc4c0ae63fcb3af9344aa93991b6925519c401a3",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4cf44",
+  "span_size": 88,
+  "foff": "0x4cf44",
+  "size": 88,
+  "donor": "town/func_800CA8A0",
+  "donor_foff": 305312,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   28,
+   36,
+   40,
+   44,
+   60
+  ],
+  "base": "0x800ca6a4",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x58e58",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 60,
+    "before": 3072,
+    "after": 1024
+   }
+  ],
+  "alias": "initialize_mother_event_countdown_variant_4cf44",
+  "source": "scratch/variants/town_4cf44/func_800CA6A4.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "822368d594f9580402d735a1c85d5d9f94a505afc7bfc1af462a69f481c84abd",
+  "native_object_sha256": "2cc291259b2b5df79547868cfa006549b661525de59d67beea80f7f0d32437ab",
+  "target_sha256": "db28e5bf97b9dc6e9c841dc5fa83868a07d04e5cab028260dd639d8480c17d68",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "handoff_code",
+  "container": "town",
+  "span": "0x5c70c8",
+  "span_size": 84,
+  "foff": "0x5c70c8",
+  "size": 84,
+  "donor": "town/func_8064713C",
+  "donor_foff": 6058300,
+  "debt": "",
+  "diff_words": 2,
+  "diff_offsets": [
+   28,
+   36
+  ],
+  "base": "0x800160c8",
+  "region": "r121m_scene_5c7000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x5c89a8",
+    "context": "town/ll3a_5c7000_5c9000"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 28,
+    "before": 4807,
+    "after": 1749
+   }
+  ],
+  "alias": "set_state_4_run_transition_variant_5c70c8",
+  "source": "scratch/variants/town_5c70c8/func_800160C8.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "5e790590a25204a79c1471741c50cb478e936c6d89b38eec81d8c8f045b5b999",
+  "native_object_sha256": "dae63e73cd1aae424be9d07b97c7b8a45c29f7d34774daba116ff71b9605d22b",
+  "target_sha256": "cfc7d53a723477295bdc4ee305683c5b122b7bf58e7f5b740c3611f497ab924b",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4ce5c",
+  "span_size": 80,
+  "foff": "0x4ce5c",
+  "size": 80,
+  "donor": "town/func_800CCE0C",
+  "donor_foff": 314892,
+  "debt": "",
+  "diff_words": 3,
+  "diff_offsets": [
+   28,
+   44,
+   52
+  ],
+  "base": "0x800ca5bc",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x58e4c",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 52,
+    "before": 4,
+    "after": 8
+   }
+  ],
+  "alias": "initialize_actor_slot_eleven_countdown_variant_4ce5c",
+  "source": "scratch/variants/town_4ce5c/func_800CA5BC.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "a786ffb7fa8cd020288e41fe09c3a519f04de59165fdba2eb556f38364931680",
+  "native_object_sha256": "656f7818a13ce89e16e624628e4fec39785636ee4de1a4ca87128f82c66225c2",
+  "target_sha256": "07e111960db42ee63bca9d9277a3acd294eea5236be88c1f320b5f28f1c96dd9",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x47de8",
+  "span_size": 216,
+  "foff": "0x47e30",
+  "size": 72,
+  "donor": "town/func_800C7C08",
+  "donor_foff": 293896,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   8,
+   20,
+   32,
+   36,
+   40
+  ],
+  "base": "0x800c5590",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54c98",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56228",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 32,
+    "before": 48,
+    "after": 16
+   }
+  ],
+  "alias": "configure_actor_slot_16",
+  "source": "scratch/variants/town_47e30/func_800C5590.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "34a5eecca9b73ec9b11538d6808ebd6a04b518659b75c00bf6310ecc4b342fb3",
+  "native_object_sha256": "18ed262a0614cd9f171b92bcce10156ac43cfbf777127bdf139c4a1323409ad4",
+  "target_sha256": "41c14dd1f6ea88bce34471f97881bdb367bb6a7a677d4ecc54b909ea6cb195d0",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x47de8",
+  "span_size": 216,
+  "foff": "0x47e78",
+  "size": 72,
+  "donor": "town/func_800C7C08",
+  "donor_foff": 293896,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   8,
+   20,
+   32,
+   36,
+   40
+  ],
+  "base": "0x800c55d8",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54cac",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x5623c",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 32,
+    "before": 48,
+    "after": 22
+   }
+  ],
+  "alias": "configure_actor_slot_22",
+  "source": "scratch/variants/town_47e78/func_800C55D8.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "f5135619b9543f690ab579d1d021aacd1bb5bb28ca4d5ca8f932d34f42be33cc",
+  "native_object_sha256": "b3a8531db566cd91c254b423be5198e9d8fc3424a5f8000dd5aa5890dd1f471e",
+  "target_sha256": "36f58753cd0f22cd08f84b03ee2db48eccd4383619d45ff37b6c11bb09718845",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x48c2c",
+  "span_size": 144,
+  "foff": "0x48c2c",
+  "size": 72,
+  "donor": "town/func_800C7C08",
+  "donor_foff": 293896,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   8,
+   20,
+   32,
+   36,
+   40
+  ],
+  "base": "0x800c638c",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d4c",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x562dc",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 32,
+    "before": 48,
+    "after": 63
+   }
+  ],
+  "alias": "configure_actor_slot_63",
+  "source": "scratch/variants/town_48c2c/func_800C638C.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "cb8f2fe839b48ded877a670628995442e74eb2146fc3666f56459871c97aafdb",
+  "native_object_sha256": "daa4b4e9a011272591a4301ad1a2777652cd9eb187667e53593cb3bcae313ddc",
+  "target_sha256": "a9fe3245e2a9701e6fd3c0f5248805742c154f82d6a1d07f854d21738eb7042c",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x48c2c",
+  "span_size": 144,
+  "foff": "0x48c74",
+  "size": 72,
+  "donor": "town/func_800C7C08",
+  "donor_foff": 293896,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   8,
+   20,
+   32,
+   36,
+   40
+  ],
+  "base": "0x800c63d4",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54cd0",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56260",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 32,
+    "before": 48,
+    "after": 32
+   }
+  ],
+  "alias": "configure_actor_slot_32",
+  "source": "scratch/variants/town_48c74/func_800C63D4.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "d674122e2f4cd4f850877509cf2735ee7b4b3ff821abba85af284ef87e80ce12",
+  "native_object_sha256": "73eb583584f9ef75f4c4f090bbdac661a2c0771a839815b044e7b56afd66c57a",
+  "target_sha256": "c187dfc3a4ec7fabd291ad8d561d1f3585f56bd513ac1439716f15e5562a1f91",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4fbc0",
+  "span_size": 816,
+  "foff": "0x4fcf8",
+  "size": 72,
+  "donor": "town/func_800C7C08",
+  "donor_foff": 293896,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   8,
+   20,
+   32,
+   36,
+   40
+  ],
+  "base": "0x800cd458",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54cd8",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56268",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 32,
+    "before": 48,
+    "after": 34
+   }
+  ],
+  "alias": "configure_actor_slot_34",
+  "source": "scratch/variants/town_4fcf8/func_800CD458.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "ee68a1065b5fb88cb7549ab3367faf87b29e1885c77f1734dd280d14c61c2a5b",
+  "native_object_sha256": "97561d32807d3d7daa6080f4d83e36889395c06c50845ad943632e3142f5b671",
+  "target_sha256": "236b84e1ea05a598ae0ab96e44f2e07d66712e721d031028a80e19d33db1440e",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4fbc0",
+  "span_size": 816,
+  "foff": "0x4fd40",
+  "size": 72,
+  "donor": "town/func_800C7C08",
+  "donor_foff": 293896,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   8,
+   20,
+   32,
+   36,
+   40
+  ],
+  "base": "0x800cd4a0",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54c90",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56220",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 32,
+    "before": 48,
+    "after": 14
+   }
+  ],
+  "alias": "configure_actor_slot_14",
+  "source": "scratch/variants/town_4fd40/func_800CD4A0.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "3c388c392682bf3b46ba42f112edeca5d5ea2b78675eb8d12ac2560acf1f18c8",
+  "native_object_sha256": "469cb943f06dcf4f3e18e2aa9a2756cf4dc0a4504465ebf6f1bf0f369ee8a613",
+  "target_sha256": "0df18de73d085922096842883d787cc07c13a860e795b4a3f9a804bb9d6bb81d",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4fbc0",
+  "span_size": 816,
+  "foff": "0x4fd88",
+  "size": 72,
+  "donor": "town/func_800C7C08",
+  "donor_foff": 293896,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   8,
+   20,
+   32,
+   36,
+   40
+  ],
+  "base": "0x800cd4e8",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54ca4",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x56234",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 32,
+    "before": 48,
+    "after": 20
+   }
+  ],
+  "alias": "configure_actor_slot_20",
+  "source": "scratch/variants/town_4fd88/func_800CD4E8.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "71433f5e8a6aca580522872068bcaf49e7a72a303dbbb8d385d9d941719f7840",
+  "native_object_sha256": "4137b311da1da7fa9f9ec852cf1b6954c5f5c230945201a6b7b1ac89e9951106",
+  "target_sha256": "706bba84d98e17e8896fdc6950d652bc70a4eff3a8d830b8cb42b4581b8bb7df",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4fbc0",
+  "span_size": 816,
+  "foff": "0x4fdd0",
+  "size": 72,
+  "donor": "town/func_800C7C08",
+  "donor_foff": 293896,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   8,
+   20,
+   32,
+   36,
+   40
+  ],
+  "base": "0x800cd530",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54d38",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x562c8",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 32,
+    "before": 48,
+    "after": 58
+   }
+  ],
+  "alias": "configure_actor_slot_58",
+  "source": "scratch/variants/town_4fdd0/func_800CD530.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "45d827e48084cda8f79ac2b51fe9e307407a49b73492a3e7212494a74ceac568",
+  "native_object_sha256": "56c51c337cd770b36ca77803b8198b846e62d048220efd65facf272411abb439",
+  "target_sha256": "36e002d08a79eab03e62036c8ee9866a03c323f92d731e90c8db14199b6ec78c",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4fbc0",
+  "span_size": 816,
+  "foff": "0x4fe18",
+  "size": 72,
+  "donor": "town/func_800C7C08",
+  "donor_foff": 293896,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   8,
+   20,
+   32,
+   36,
+   40
+  ],
+  "base": "0x800cd578",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54cfc",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x5628c",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 32,
+    "before": 48,
+    "after": 43
+   }
+  ],
+  "alias": "configure_actor_slot_43",
+  "source": "scratch/variants/town_4fe18/func_800CD578.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "e580c009403db75a28cf893101629d95ab1510f96647f5d34f99c658d30d80d5",
+  "native_object_sha256": "d42f28484f05ceaab0f1635cd117a5dee74c51e3d5d322f7069fe4beca8edbf2",
+  "target_sha256": "952c053a640f0503c1e1ab83cc0e54ba29122f2f6ef1db752d01371690d74bd5",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4fbc0",
+  "span_size": 816,
+  "foff": "0x4fe60",
+  "size": 72,
+  "donor": "town/func_800C7C08",
+  "donor_foff": 293896,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   8,
+   20,
+   32,
+   36,
+   40
+  ],
+  "base": "0x800cd5c0",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x563a0",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 32,
+    "before": 48,
+    "after": 80
+   }
+  ],
+  "alias": "configure_actor_slot_80",
+  "source": "scratch/variants/town_4fe60/func_800CD5C0.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "102c1e0b81b16f338ca835f1fe8023a9ca269e5b86c819ec5d23436c0c4fb45d",
+  "native_object_sha256": "b79a18798228343cd4fab6be29414c120c7d00fe179d0a6d67da53d9086b7b70",
+  "target_sha256": "f247804082f099cbf1ebc13046e71de60bb385aca62c16000a210baab6a6d0c2",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x4fbc0",
+  "span_size": 816,
+  "foff": "0x4fea8",
+  "size": 72,
+  "donor": "town/func_800C7C08",
+  "donor_foff": 293896,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   8,
+   20,
+   32,
+   36,
+   40
+  ],
+  "base": "0x800cd608",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x54c68",
+    "context": "town/engine"
+   },
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x561f8",
+    "context": "town/engine"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 32,
+    "before": 48,
+    "after": 5
+   }
+  ],
+  "alias": "configure_actor_slot_5",
+  "source": "scratch/variants/town_4fea8/func_800CD608.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "3c0217ddbe3923d053aee800ddfdf834e6cc2d6b694f8bb5a2d274047a0a84c6",
+  "native_object_sha256": "9ef868ed2bf1341a215aefd7810bb70e4c064b837786cb120e4462261de6e04b",
+  "target_sha256": "dd2f773f9f08cb11e7a43471ad6d1c78ea4a769a32fa07d71ecff7ecffcd8162",
+  "cfg": "2.7.2-cdk-G0"
+ }
+]

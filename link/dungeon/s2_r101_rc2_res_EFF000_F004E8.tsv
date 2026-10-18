@@ -1,0 +1,12 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_r101_rc2_res_EFF000_F004E8","n":"0x14e8","o":"0xeff000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[5164,0,0,188,0,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:rodata_owner"},{"census_label":"proven_code"},{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+15724544	60	a	census:ledger:data_row	8a0a4249d9c081624e2bc875b127751f727f3eb78b21bce6e658d56d0b7c7c01	0
+15724604	4	a	census:ledger:rodata_owner	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	1
+15724608	68	a	census:ledger:data_row	76ca71765b72091eb560bb382a7246b9d06dea093fd69e6944185012be00bf9d	0
+15724676	4	a	census:ledger:rodata_owner	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	1
+15724680	20	a	census:ledger:data_row	86ab0949e55e036eba49c6fabc6b769f696db28c74ab1092dc67a680c3624fd3	0
+15724700	4	a	census:ledger:rodata_owner	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	1
+15724704	28	a	census:ledger:data_row	e3b11bc05ece0818e273ad249043dfe9af0e0e7c0c00501e632a8359a3b67144	0
+15724732	3036	r	census:c_row		2
+"0xeffc98"	640	c	census:registered_tu		["func_80EDFC98",null,"0x80171498",3]
+15728408	1488	r	census:c_row		2

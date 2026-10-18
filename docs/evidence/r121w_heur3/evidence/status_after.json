@@ -1,0 +1,34 @@
+{
+ "dungeon": {
+  "in_c": 6629744,
+  "copies": 50956,
+  "split": 0,
+  "sdk": 0,
+  "unported": 0,
+  "heuristic": 35120
+ },
+ "main": {
+  "in_c": 64968,
+  "copies": 1292,
+  "split": 0,
+  "sdk": 492,
+  "unported": 0,
+  "heuristic": 3924
+ },
+ "ovmovie": {
+  "in_c": 5516,
+  "copies": 0,
+  "split": 0,
+  "sdk": 880,
+  "unported": 0,
+  "heuristic": 0
+ },
+ "town": {
+  "in_c": 631352,
+  "copies": 184048,
+  "split": 0,
+  "sdk": 132,
+  "unported": 0,
+  "heuristic": 9944
+ }
+}

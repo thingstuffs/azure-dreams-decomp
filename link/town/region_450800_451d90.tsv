@@ -1,0 +1,27 @@
+#{"a":0,"d":{"c":"town","e":"docs/evidence/r121w_s1_wave2.receipt.json","i":"town/region_450800_451d90","n":"0x1590","o":"0x450800","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[4892,0,136,217,193,79,3],"v":"0x80016000"},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"strongly_code"},{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+4524032	4	p	census:zero_fill>=16		0
+4524036	24	a	census:audit+noncode_confirmed	6d84c5be75c95d69324f28118ea5086ba4cba42abbe05f54e0c0a2001046ceaf	1
+4524060	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	2
+4524100	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
+4524120	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	2
+4524221	3	u	census:unresolved:audit_data_unconfirmed		0
+4524224	68	r	census:T1_twin		3
+4524292	28	r	census:T2_framed_ref:jal+jtbl+lui_pair+ptr		3
+4524320	40	r	census:T1_twin		3
+4524360	8	r	census:instance_partial		4
+4524368	2868	r	census:c_row		4
+"0x451484"	176	c	census:registered_tu		["func_804D1484",null,"0x80016c84",0]
+4527412	1840	r	census:c_row		4
+4529252	68	d	census:noncode:decode		5
+4529320	16	a	census:format:ptrtab	2a92f27dd16feaa7ecf5ad1edbf48b2bc154b6605e5baa677271b27ca6472823	6
+4529336	40	d	census:noncode:decode		5
+4529376	16	a	census:format:ptrtab	b6ddacf6ffc66fb2c0c1f198328ca27d0ea71c704c2bdd3633d5a8fdacd7043e	6
+4529392	3	d	census:noncode:decode		5
+4529395	29	p	census:zero_fill>=16		0
+4529424	58	d	census:noncode:decode		5
+4529482	22	p	census:zero_fill>=16		0
+4529504	6	d	census:noncode:decode		5
+4529510	18	p	census:zero_fill>=16		0
+4529528	18	d	census:noncode:decode		5
+4529546	6	p	census:zero_fill>=16		0

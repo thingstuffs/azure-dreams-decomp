@@ -1,0 +1,37 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_6aa000_2800","n":10240,"o":6987776,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[6524,0,0,204,790,2722,0],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+6987776	4	p	census:zero_fill>=16		0
+6987780	24	a	census:audit+noncode_confirmed	9f3aad57c96db858bbb53b2b31bedae5688891d65cb21e2b45803ba41ab96244	1
+6987804	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	2
+6987844	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
+6987864	104	a	census:format:ascii	435d2a968c01e2395956577ebc6b17b1c08b37fc0970ea41de1b71c73bc8ec7d	2
+6987968	8	r	census:instance_partial		3
+6987976	56	r	census:instance_proven		3
+6988032	844	r	census:c_row		3
+6988876	1764	r	census:instance_proven		3
+6990640	36	r	census:c_row		3
+6990676	708	r	census:instance_proven		3
+6991384	92	r	census:c_row		3
+6991476	392	r	census:instance_proven		3
+6991868	192	r	census:c_row		3
+6992060	1076	r	census:instance_proven		3
+6993136	12	r	census:c_row		3
+6993148	132	r	census:instance_proven		3
+6993280	12	r	census:c_row		3
+6993292	1200	r	census:instance_proven		3
+6994492	28	d	census:noncode:decode		4
+6994520	16	a	census:format:ptrtab	4965004bdd9b935e4a30ee9827a7a916107183eaea61597e8a465a0b321b8b6c	5
+6994536	68	d	census:noncode:decode		4
+6994604	39	p	census:zero_fill>=16		0
+6994643	5	d	census:noncode:decode		4
+6994648	16	p	census:zero_fill>=16		0
+6994664	78	d	census:noncode:decode		4
+6994742	22	p	census:zero_fill>=16		0
+6994764	6	d	census:noncode:decode		4
+6994770	18	p	census:zero_fill>=16		0
+6994788	18	d	census:noncode:decode		4
+6994806	1002	p	census:zero_fill>=16		0
+6995808	526	d	census:noncode:decode		4
+6996334	19	p	census:zero_fill>=16		0
+6996353	61	d	census:noncode:decode		4
+6996414	1602	p	census:zero_fill>=16		0

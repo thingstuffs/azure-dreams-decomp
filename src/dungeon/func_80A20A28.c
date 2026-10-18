@@ -124,7 +124,6 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
     u8 *vertices;
     s32 right_bound;
     s32 ot_offset;
-    u8 *vertex_base;
     u8 *setup_source;
     s32 min_xy;
     s32 max_xy;
@@ -142,7 +141,6 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
     register s32 left_x;
     u32 addr_mask;
     u32 tag_mask;
-    S_func_80174228_1 *init_vertex;
     u8 *vertex;
     S_func_80174228_5 *prim;
     u8 shade;
@@ -172,33 +170,27 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
 
     do {
         item = (S_func_80174228_3 *)item_data;
-        vertex_base = vertices;
         i = 3;
         vertex_depth = -0xA0;
         prev_depth = 0x10;
         ((S_func_80174228_0 *)storage)->unk_7C.s32 = 0x40;
         half_width = ((S_func_80174228_0 *)storage)->unk_7C.u16;
-        init_vertex = (S_func_80174228_1 *)(vertex_base + 0x18);
         left_x = -half_width;
-loop_0:
-        {
-            init_vertex->unk_00 = half_width;
+        do {
+            ((S_func_80174228_1 *)vertices)[i].unk_00 = half_width;
             if (i < 2) {
-                init_vertex->unk_00 = left_x;
-                init_vertex->unk_02 = 0;
+                ((S_func_80174228_1 *)vertices)[i].unk_00 = left_x;
+                ((S_func_80174228_1 *)vertices)[i].unk_02 = 0;
             } else {
-                init_vertex->unk_02 = 0;
+                ((S_func_80174228_1 *)vertices)[i].unk_02 = 0;
             }
             if (i & 1) {
-                init_vertex->unk_04 = vertex_depth;
+                ((S_func_80174228_1 *)vertices)[i].unk_04 = vertex_depth;
             } else {
-                init_vertex->unk_04 = prev_depth;
+                ((S_func_80174228_1 *)vertices)[i].unk_04 = prev_depth;
             }
             i--;
-            init_vertex--;
-        }
-        if (i >= 0)
-            goto loop_0;
+        } while (i >= 0);
 
         render_arg = (s32)(storage + 0x28);
         setup_source = (u8 *)render_state;

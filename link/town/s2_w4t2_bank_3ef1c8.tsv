@@ -1,0 +1,5 @@
+#{"a":0,"d":{"c":"town","e":"docs/evidence/r121w_s2_receipts.json","i":"town/s2_w4t2_bank_3ef1c8","n":"0x4208","o":"0x3ef1c8","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[16904,0,0,0,0,0,0],"v":"0x800161c8"},"p":[{"census_label":"proven_code"},{"bindings":{"0x800199dc":"0x8001969c","0x8001ace8":"0x8001a418","0x8001ad60":"0x8001a490"},"evidence":"docs/evidence/r121w_s2_wave2_receipts.json#town/func_803D2814"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+4125128	13900	r	census:c_row		0
+"0x3f2814"	108	c	census:registered_tu		["func_803D2814","func_8032F354","0x80019814",1]
+4139136	2896	r	census:c_row		0

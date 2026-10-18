@@ -1,0 +1,3 @@
+#{"a":0,"d":{"c":"dungeon","e":"census:registered_image","i":"dungeon/heur_d16348","n":"0x364","o":"0xd16348","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[868,0,0,0,0,0,0],"v":"0x80167b48"},"p":[{"bindings":{"0x80173d58":"0x80167d58","0x80173d7c":"0x80167d7c","0x80173e18":"0x80167e18","0x80173e78":"0x80167e78","0x80173e7c":"0x80167e7c"},"evidence":{"from":"config/link/dungeon/heur_d16348.json"}}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+"0xd16348"	868	c	census:registered_tu		["func_80D16348","func_80CEA348","0x80167b48",0]

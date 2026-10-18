@@ -1,0 +1,27 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_6f4800_2000","n":8192,"o":7292928,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[4900,0,0,1409,2,1878,3],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+7292928	4	p	census:zero_fill>=16		0
+7292932	24	a	census:audit+noncode_confirmed	e3fc56c7476b0984f9feea2e736ea761429977ff6604c1547765563d1041b697	1
+7292956	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	2
+7292996	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
+7293016	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	2
+7293117	3	u	census:unresolved:audit_data_unconfirmed		0
+7293120	8	r	census:instance_partial		3
+7293128	8	r	census:instance_proven		3
+7293136	132	r	census:c_row		3
+7293268	1492	r	census:instance_proven		3
+7294760	36	r	census:c_row		3
+7294796	708	r	census:instance_proven		3
+7295504	92	r	census:c_row		3
+7295596	392	r	census:instance_proven		3
+7295988	192	r	census:c_row		3
+7296180	1076	r	census:instance_proven		3
+7297256	12	r	census:c_row		3
+7297268	132	r	census:instance_proven		3
+7297400	12	r	census:c_row		3
+7297412	608	r	census:instance_proven		3
+7298020	68	a	census:audit+noncode_confirmed	74393db50ee7afb09c5b43daa6e6729838e2d15ebe9f303a34e9dae0dac6fba0	1
+7298088	16	a	census:format:ptrtab	c326d36c6f2a5b714e6e49e2d70f47c50360c6f5226e3d3d897cd6da6997e0fe	4
+7298104	1140	a	census:audit+noncode_confirmed	4c5c34c9b569fff59af427a2408808545658452f42c8434b9f1861268418d5e3	1
+7299244	2	d	census:neighbour:noncode_typing_pending		5
+7299246	1874	p	census:zero_fill>=16		0

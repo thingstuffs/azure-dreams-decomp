@@ -1,0 +1,28 @@
+#{"a":0,"d":{"c":"town","e":"docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md:scene_record_13","i":"town/leftover_scene_record_13","n":2048,"o":8433664,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[0,0,0,1103,617,328,0],"v":null},"p":[{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"reason":"Bounded development residue; see docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+8433664	194	d	census:noncode:decode		0
+8433858	58	a	census:format:sjis	b4eec8b55017f85a93af6ef166a53f8ce699480c22408ac41a5b0ed3bad5d4ef	1
+8433916	16	d	census:noncode:decode		0
+8433932	26	a	census:format:sjis	03fd8eb51ba111feb04637dcc91ba24b734a08d46f330aecab82525070412fda	1
+8433958	55	d	census:noncode:decode		0
+8434013	35	a	census:format:sjis	57a1cab32881057ac9c64fc19f432e2aee93728e8e8e084a2b97b8cc1c5c4418	1
+8434048	55	d	census:noncode:decode		0
+8434103	17	a	census:format:sjis	f4fb59c5a12b018aa8ab2d3059911c899800f294eaebacbde3b8d9503903e33f	1
+8434120	18	d	census:noncode:decode		0
+8434138	186	a	census:format:sjis	842e28ca847c7e59206c1d1e72fa228b8ad85d698b926cf46014f83729f07449	1
+8434324	14	d	census:noncode:decode		0
+8434338	61	a	census:format:sjis	998fc9925479f189ae88e1117f5a909001ab4e81e78a43fb5754b5c7dc3a612f	1
+8434399	99	d	census:noncode:decode		0
+8434498	80	a	census:format:sjis	8a4521f51bfe035db1a495c8a6a2b370293ee3cedfe5fb10ad07b522d6de7182	1
+8434578	16	d	census:noncode:decode		0
+8434594	95	a	census:format:sjis	514b576207e815c1578b011256f5edc9dd3bb69cf520eca68946a02d51daff45	1
+8434689	12	d	census:noncode:decode		0
+8434701	141	a	census:format:sjis	042849055ccb24231878c29e30c00ec4faaa42617976833f3c40432259c76494	1
+8434842	52	d	census:noncode:decode		0
+8434894	113	a	census:format:sjis	e2f530aa1b7ab7494e8a5e43811f122423130a872e9a57bf2b6988035c36a1b5	1
+8435007	55	d	census:noncode:decode		0
+8435062	113	a	census:format:sjis	e2f530aa1b7ab7494e8a5e43811f122423130a872e9a57bf2b6988035c36a1b5	1
+8435175	22	d	census:noncode:decode		0
+8435197	178	a	census:format:sjis	a048fbe050507d7105479120c9d2ea0c0fdf9b7541907d9d777dc03f3d77f993	1
+8435375	9	d	census:noncode:decode		0
+8435384	328	l	census:zero_fill>=16		2

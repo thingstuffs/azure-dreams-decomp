@@ -1,0 +1,247 @@
+[
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x35c0c",
+  "span_size": 212,
+  "foff": "0x35c0c",
+  "size": 212,
+  "donor": "town/func_800B2024",
+  "donor_foff": 204836,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   8,
+   52,
+   104,
+   108,
+   160
+  ],
+  "base": "0x800b336c",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "matched-C-jal",
+    "row": "town/func_800B5CE0",
+    "foff": "0x35cf4",
+    "context": "town/engine"
+   }
+  ],
+  "alias": "update_alternate_menu_page_bounds",
+  "source": "scratch/extra_variants/town_35c0c/func_800B336C.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "f22f2c148815c8df40a33941950c13dfa477b1a586b72b05d41fac9f11926543",
+  "native_object_sha256": "45268a86575ba9a939dc5863d9bfbb53e5bb19df890340b618dbc3cee75251f7",
+  "target_sha256": "8b9ac663df152faa0a129ad5582c4b334e4eac57aafb8b23ab757055456b39de",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x3705c",
+  "span_size": 220,
+  "foff": "0x3705c",
+  "size": 220,
+  "donor": "town/func_800B1C0C",
+  "donor_foff": 203788,
+  "debt": "",
+  "diff_words": 5,
+  "diff_offsets": [
+   8,
+   56,
+   108,
+   136,
+   176
+  ],
+  "base": "0x800b47bc",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "matched-C-jal",
+    "row": "town/func_800B7138",
+    "foff": "0x37140",
+    "context": "town/engine"
+   },
+   {
+    "kind": "matched-C-jal",
+    "row": "town/func_800B7604",
+    "foff": "0x376c0",
+    "context": "town/engine"
+   }
+  ],
+  "alias": "set_alternate_menu_entry_coordinates",
+  "source": "scratch/extra_variants/town_3705c/func_800B47BC.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "bf26b8782c593d327c9bd39f418e7e08a7100537c814efc57bd1ae75d33deb74",
+  "native_object_sha256": "86c2d676b0b708aee5e0c90092668c62a6fcd84537c3f18f77c98f8ee9299768",
+  "target_sha256": "836d535b9f6644e5b5f58d074b2533c82074be93729ac591b8a0a87113951c4c",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x371a8",
+  "span_size": 112,
+  "foff": "0x371a8",
+  "size": 112,
+  "donor": "town/func_800B566C",
+  "donor_foff": 218732,
+  "debt": "",
+  "diff_words": 2,
+  "diff_offsets": [
+   48,
+   84
+  ],
+  "base": "0x800b4908",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "matched-C-jal",
+    "row": "town/func_800B7604",
+    "foff": "0x376cc",
+    "context": "town/engine"
+   }
+  ],
+  "alias": "arrange_ten_objects_in_menu_columns",
+  "source": "scratch/extra_variants/town_371a8/func_800B4908.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "ed5738bb8f89bb5db4c54cb44043f8c6cfd29d82bf4688767a08aac12d2a1457",
+  "native_object_sha256": "7402ca35470e040216774c5c3d20b67c160abdcb88cdcebb48e9e6bb60a24947",
+  "target_sha256": "5b12ab61e9d4e48e3cf7379da6ba81bd704eace77a9fb0f6d426102a0cfc4f8c",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x46b64",
+  "span_size": 200,
+  "foff": "0x46b64",
+  "size": 100,
+  "donor": "town/func_800C6A9C",
+  "donor_foff": 289436,
+  "debt": "",
+  "diff_words": 3,
+  "diff_offsets": [
+   24,
+   64,
+   72
+  ],
+  "base": "0x800c42c4",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x57934",
+    "context": "town/engine"
+   }
+  ],
+  "alias": "reset_object_handler_field_6c_value_15",
+  "source": "scratch/extra_variants/town_46b64/func_800C42C4.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "bb97c21a663a590ee28c59756b4dbca96d1dbe3af9f77535cf608352025c9367",
+  "native_object_sha256": "74d89c3915ff8e4a3cc08aca0539d54b6d117da498012d50cc7a3c065d50cb00",
+  "target_sha256": "ae05c581920cdb4feb356f5e1ffb640dcdd1f99f9c18a023b30095c34ef3597e",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x46b64",
+  "span_size": 200,
+  "foff": "0x46bc8",
+  "size": 100,
+  "donor": "town/func_800C6A9C",
+  "donor_foff": 289436,
+  "debt": "",
+  "diff_words": 4,
+  "diff_offsets": [
+   24,
+   64,
+   72,
+   76
+  ],
+  "base": "0x800c4328",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x57938",
+    "context": "town/engine"
+   }
+  ],
+  "alias": "reset_object_handler_field_72_value_800",
+  "source": "scratch/extra_variants/town_46bc8/func_800C4328.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "03a0797c9ac07ab0e21814ed084326824247c4b99adf0c53981e8229a559c11a",
+  "native_object_sha256": "2b912ba777c23488372c4c9ceb2de41408430e06e4ce251019e16760652e6efc",
+  "target_sha256": "8f7e06c2807e01bcb6d5a9fe6bafe498e3ee4fb9d60005d1be6437ba7d83bce0",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x46cf0",
+  "span_size": 100,
+  "foff": "0x46cf0",
+  "size": 100,
+  "donor": "town/func_800C6A9C",
+  "donor_foff": 289436,
+  "debt": "",
+  "diff_words": 4,
+  "diff_offsets": [
+   24,
+   64,
+   72,
+   76
+  ],
+  "base": "0x800c4450",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x57944",
+    "context": "town/engine"
+   }
+  ],
+  "alias": "reset_object_handler_field_72_value_400",
+  "source": "scratch/extra_variants/town_46cf0/func_800C4450.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "56daa8333ad71b56c8de77a44d3658071bca86c0cc2e26b49872ee1c42f42e4e",
+  "native_object_sha256": "1103cc9c57a0d04f66557031ea3916cf62b7f8ec4103d9dcddb9880d5d61a4f5",
+  "target_sha256": "9e855de530fb9593a2a1b07e1b8ca307b1aded1cf8e3816908aa64b9f462904b",
+  "cfg": "2.7.2-cdk-G0"
+ },
+ {
+  "queue": "status_estimated_code",
+  "container": "town",
+  "span": "0x46ee4",
+  "span_size": 544,
+  "foff": "0x46ee4",
+  "size": 100,
+  "donor": "town/func_800C6A9C",
+  "donor_foff": 289436,
+  "debt": "",
+  "diff_words": 3,
+  "diff_offsets": [
+   24,
+   64,
+   72
+  ],
+  "base": "0x800c4644",
+  "region": "xfer_town_B000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x57958",
+    "context": "town/engine"
+   }
+  ],
+  "alias": "reset_object_handler_field_6c_value_15",
+  "source": "scratch/extra_variants/town_46ee4/func_800C4644.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "2736ba2cb5ae23680f5e6441cc28660d04943c72408f3838fcb2a4402419e4ee",
+  "native_object_sha256": "5c8e94c7bb4f2f6595f697dae972f4fcee6ca9d4e7844986a1808010e47e8a92",
+  "target_sha256": "a346e2aedc29e29c5418204ca6470bfb95c80c167d54ba07954d345e4898413b",
+  "cfg": "2.7.2-cdk-G0"
+ }
+]

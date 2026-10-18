@@ -1,0 +1,39 @@
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F59B800: native_resource_13_slot_6; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"dungeon/bank_bb1000","l":"bank_b8d000_family","n":"0x6000","o":"0xBB1000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[13488,0,0,160,10928,0,0],"v":"0x8014C800","y":{"0x800B2A60":"0x8014CE5C","0x800D4494":"0x8014CE5C","0x800D8C64":"0x8014CE5C","0x80170E54":"0x8014CE5C","0x801710EC":"0x8014CE5C","0x80171138":"0x8014CE5C","0x80171C34":"0x8014D62C","0x80173A30":"0x8014FAC0","0x80173C74":"0x8014FD04","0x80173C7C":"0x8014FD0C","0x80173C8C":"0x8014FD2C","0x80173CD4":"0x8014FD44","0x80173CDC":"0x8014FD4C","0x80173CE4":"0x8014FD0C","0x80173CEC":"0x8014FD54","0x80175E40":"0x8014FD04","0x80175EA0":"0x8014FD4C"}},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_code"},{},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+12259328	84	a	census:format:ptrtab	4ce3e344442d82eaaad695426e1f2571dca90fa5543657ba02a9a06fba55dee0	0
+12259412	476	r	census:c_row		1
+"0xBB1230"	1068	c	census:registered_tu		["func_80B91230","func_809C9228","0x8014CA30",2]
+"0xBB165C"	1400	c	census:registered_tu		["func_80B9165C","func_80B6D65C","0x8014CE5C",2]
+"0xBB1BD4"	600	c	census:registered_tu		["func_80B91BD4","func_809C9B9C","0x8014D3D4",2]
+12262956	1864	r	census:c_row		1
+"0xBB2574"	100	c	census:registered_tu		["func_80B92574","func_809CA53C","0x8014DD74",2]
+"0xBB25D8"	452	c	census:registered_tu		["func_80B925D8","func_809CA5A0","0x8014DDD8",2]
+"0xBB279C"	280	c	census:registered_tu		["func_80B9279C","func_809CA764","0x8014DF9C",2]
+"0xBB28B4"	324	c	census:registered_tu		["func_80B928B4","func_80976E28","0x8014E0B4",2]
+"0xBB29F8"	152	c	census:registered_tu		["func_80B929F8","func_800D4124","0x8014E1F8",2]
+"0xBB2A90"	732	c	census:registered_tu		["func_80B92A90","func_80B6EA90","0x8014E290",2]
+"0xBB2D6C"	100	c	census:registered_tu		["func_80B92D6C","func_800CEE70","0x8014E56C",2]
+"0xBB2DD0"	1076	c	census:registered_tu		["func_80B92DD0","func_80B6EDD0","0x8014E5D0",2]
+"0xBB3204"	1264	c	census:registered_tu		["func_80B93204","func_80B6F204","0x8014EA04",2]
+"0xBB36F4"	832	c	census:registered_tu		["func_80B936F4","func_80B6F6F4","0x8014EEF4",2]
+"0xBB3A34"	316	c	census:registered_tu		["func_80B93A34","func_80B6FA34","0x8014F234",2]
+"0xBB3B70"	32	c	census:registered_tu		["func_80B93B70","func_800AD90C","0x8014F370",2]
+"0xBB3B90"	32	c	census:registered_tu		["func_80B93B90","func_800AD92C","0x8014F390",2]
+"0xBB3BB0"	56	c	census:registered_tu		["func_80B93BB0","func_800AD94C","0x8014F3B0",2]
+"0xBB3BE8"	924	c	census:registered_tu		["func_80B93BE8","func_809CBB58","0x8014F3E8",2]
+"0xBB3F84"	828	c	census:registered_tu		["func_80B93F84","func_809CBEF4","0x8014F784",2]
+"0xBB42C0"	200	c	census:registered_tu		["func_80B942C0","func_809A2D74","0x8014FAC0",2]
+"0xBB4388"	100	c	census:registered_tu		["func_80B94388","func_80F8A600","0x8014FB88",2]
+"0xBB43EC"	56	c	census:registered_tu		["func_80B943EC","func_800ADA84","0x8014FBEC",2]
+"0xBB4424"	56	c	census:registered_tu		["func_80B94424","func_800ADABC","0x8014FC24",2]
+"0xBB445C"	56	c	census:registered_tu		["func_80B9445C","func_800ADAF4","0x8014FC5C",2]
+"0xBB4494"	56	c	census:registered_tu		["func_80B94494","func_800CF1BC","0x8014FC94",2]
+12272844	56	r	census:c_row		1
+12272900	20	d	census:noncode:decode		3
+12272920	8	d	census:neighbour:noncode_typing_pending		3
+12272928	52	d	census:noncode:decode		3
+12272980	24	a	census:format:ptrtab	d357a9df811a26c0794812df5f81765580d46a434463ed6043733b297356d21c	0
+12273004	16	d	census:noncode:decode		3
+12273020	52	a	census:format:ptrtab	fbdacc2eb91fbf5b4f09bdbb54ee56ff0a35f678ebba7d551ddccc313874a190	0
+12273072	10768	d	census:noncode:entropy:unplaced		3
+12283840	64	d	census:noncode:decode		3

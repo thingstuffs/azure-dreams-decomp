@@ -1,0 +1,56 @@
+[
+ {
+  "queue": "handoff_code",
+  "container": "town",
+  "span": "0x5c70c8",
+  "span_size": 84,
+  "foff": "0x5c70c8",
+  "size": 84,
+  "donor": "town/func_8064713C",
+  "donor_foff": 6058300,
+  "debt": "",
+  "diff_words": 2,
+  "diff_offsets": [
+   28,
+   36
+  ],
+  "base": "0x800160c8",
+  "region": "r121m_scene_5c7000",
+  "entry_evidence": [
+   {
+    "kind": "interior-code-pointer-table",
+    "foff": "0x5c89a8",
+    "context": "town/ll3a_5c7000_5c9000"
+   }
+  ],
+  "semantic_immediates": [
+   {
+    "offset": 28,
+    "before": 4807,
+    "after": 1749
+   }
+  ],
+  "alias": "set_state_4_run_transition_variant_5c70c8",
+  "source": "scratch/variants/town_5c70c8/func_800160C8.c",
+  "status": "EXACT_NEW_C",
+  "source_sha256": "5e790590a25204a79c1471741c50cb478e936c6d89b38eec81d8c8f045b5b999",
+  "native_object_sha256": "dae63e73cd1aae424be9d07b97c7b8a45c29f7d34774daba116ff71b9605d22b",
+  "target_sha256": "cfc7d53a723477295bdc4ee305683c5b122b7bf58e7f5b740c3611f497ab924b",
+  "cfg": "2.7.2-cdk-G0",
+  "call_contracts": [
+   {
+    "offset": 24,
+    "source": "0x800176a0",
+    "target": "0x800176a0",
+    "authority": "same physical matched call image"
+   },
+   {
+    "offset": 52,
+    "source": "0x80016c64",
+    "target": "0x80016c64",
+    "authority": "same physical matched call image"
+   }
+  ],
+  "reason": "true-address name already names another scene function; region-specific readable naming needed"
+ }
+]

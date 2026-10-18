@@ -1,0 +1,195 @@
+#{"a":0,"d":{"c":"main","e":"ledger/instance_load_regions.jsonl: internal link-evidence; documented devkit-linked image; docs/evidence/main_kernel_callers/receipt.json","i":"main/load_269000_c800","n":51200,"o":2527232,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[28748,492,3756,2324,1683,14154,43],"v":null},"p":[{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"strongly_code"},{"census_label":"proven_code"},{"census_label":"library_code"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+2527232	4	d	census:noncode:decode		0
+2527236	52	a	census:format:ascii	f2c6fc0866da6fbec68c74e94d2f770b9201e9574d06304b09791c50c4a05504	1
+2527288	12	d	census:noncode:decode		0
+2527300	16	a	census:format:ascii	2a715b1f317d08562090f8dca2cf6f62883d557349087adebf2f627d5ef778ee	1
+2527316	4	p	census:zero_gap<16		2
+2527320	16	a	census:format:ptrtab	9ca7d906c4ed3dc049587f79f1a5bf4af3b860172d90b1ef1d607bbae0af5fe9	3
+2527336	4	p	census:zero_gap<16		2
+2527340	36	a	census:format:ptrtab	172fd7e4f586cb892e0816eb9786d1748210046b63bd397eec560a8f966acf41	3
+2527376	12	a	census:format:ascii	bc2f70b7d55afa711ed861d13abef3759a1ac2cb11f7ca5a8444cadcbb80d728	1
+2527388	8	d	census:noncode:decode		0
+2527396	64	a	census:format:ascii	0c80b69df31731caba828a1a9abf7f38cd8d93ee1b19c138c624128aa4421456	1
+2527460	60	d	census:noncode:decode		0
+2527520	38	a	census:format:ascii	bf0559ce53bdd60d99aedb0ae8aa54ebee8663d3faa40b72b91c09009c4f4729	1
+2527558	2	d	census:noncode:decode		0
+2527560	28	a	census:format:sjis	83289b1830b171f61158aaf388460030dbce5441810241ec7eed3ce7f3cf689a	4
+2527588	44	d	census:noncode:decode		0
+2527632	596	a	census:format:sjis	6bb81601abfa7cd2d0236e900203ed9b5a75cd281aa0d26d893e6482f49c0b9c	4
+2528228	32	d	census:noncode:decode		0
+2528260	200	a	census:format:sjis	69821d76432d8feb8d23f8d768ac403b4fb4cb42ff7b811308f76002e8e5a252	4
+2528460	40	d	census:noncode:decode		0
+2528500	78	a	census:format:sjis	01b7a907e75ace7a3ffb88aafdf58337eeba77a173730c813ccd7f6c7ae39256	4
+2528578	6	d	census:noncode:decode		0
+2528584	52	a	census:format:ascii	ec719c5d0b10efb241a2d84bdc82cfdf45661e3a57e9c36ec854c4ed191fc92a	1
+2528636	36	d	census:noncode:decode		0
+2528672	52	a	census:format:ascii	67a76d0cd326569be2116cb1a10607e9ead085cee92031328e934406f949a070	1
+2528724	4	p	census:zero_gap<16		2
+2528728	16	a	census:format:sjis	b3b7f4190de35d3edec7f80f4dcf3ac0ca592ad6e48b54682853ada0f8c46752	4
+2528744	12	d	census:neighbour:noncode_typing_pending		0
+2528756	4	d	census:noncode:decode		0
+2528760	103	a	census:format:ascii	8d60755f1de98fa42c0b71b9dc11615c7b3a0be27bdcfc9520afc19f9f592120	1
+2528863	101	d	census:noncode:decode		0
+2528964	76	a	census:format:sjis	97fed4424e1cb0b1b1df8a14e5d5b667e728752d42fa206d1acea3f42178c448	4
+2529040	12	d	census:noncode:decode		0
+2529052	26	a	census:format:sjis	58a4ac7643aa631e9b35fb2210022bbfe1c9fbe3ea1a124638573a31e2ede817	4
+2529078	2	d	census:noncode:decode		0
+2529080	52	a	census:format:ascii	5a1ae347e7490ef138cb2bf135e0a7711ae77670c60e34b1449918364b55d2e9	1
+2529132	16	a	census:format:ptrtab	5bf4f4b937c5ea4afcc5d8143f49c595b03b390a763bede9b8420e15bd340b57	3
+2529148	38	a	census:format:sjis	73767def0497f8ba9ec8f58ddb549cbae39c971ac32ce01f36c364741d4c76f8	4
+2529186	2	d	census:noncode:decode		0
+2529188	102	a	census:format:ascii	56efdffb497fa76bf7a1a23657aed19c33f15522c9e18ef029a9fe62f52dc6ce	1
+2529290	18	a	census:audit+noncode_confirmed	beee9f3df7af34130d0b65f863b786bf4a45316b621fa311d1bfac2f2d6ddb53	5
+2529308	24	a	census:format:ascii	fa46a2fe83429bd57966936c5d474d0b6ca0c865da95a97ad1141333ba989bd5	1
+2529332	8	a	census:audit+noncode_confirmed	6ca69c4060489e69631bfcd5ce9037a8fafe0dd5066ad7ef8ba018a38ef8a158	5
+2529340	97	a	census:format:ascii	e94d43f9858de6b8cd56fbd0fcab7edc83bad79ca60e2370531df9b92114a31c	1
+2529437	3	u	census:unresolved:audit_data_unconfirmed		2
+2529440	96	r	census:T2_framed_ref:jal+jtbl		6
+2529536	8	r	census:instance_partial		7
+2529544	3124	r	census:c_row		7
+2532668	60	r	census:instance_partial		7
+2532728	4224	r	census:c_row		7
+2536952	32	r	census:T2_framed_ref:jal		6
+2536984	60	r	census:T1_twin		6
+2537044	28	r	census:T2_framed_ref:jal		6
+2537072	2124	r	census:c_row		7
+2539196	72	r	census:T1_twin		6
+2539268	2404	r	census:c_row		7
+2541672	96	r	census:instance_partial		7
+2541768	304	r	census:c_row		7
+2542072	112	r	census:T1_twin		6
+2542184	56	r	census:T3_leaf_ref:jal		6
+2542240	40	r	census:c_row		7
+2542280	36	r	census:T2_framed_ref:jal		6
+2542316	144	r	census:T1_twin		6
+2542460	8	r	census:c_row		7
+2542468	64	r	census:T1_twin		6
+2542532	272	r	census:c_row		7
+2542804	80	r	census:T1_twin		6
+2542884	504	r	census:c_row		7
+2543388	96	r	census:instance_partial		7
+2543484	728	r	census:c_row		7
+2544212	36	r	census:T2_framed_ref:jal+jtbl		6
+2544248	144	r	census:T1_twin		6
+2544392	12	r	census:instance_proven		7
+2544404	80	r	census:T1_twin		6
+2544484	372	r	census:c_row		7
+2544856	116	r	census:T1_twin		6
+2544972	36	r	census:c_row		7
+2545008	88	r	census:instance_proven		7
+2545096	80	r	census:c_row		7
+2545176	52	r	census:T1_twin		6
+2545228	28	r	census:T3_leaf_ref:jal		6
+2545256	32	r	census:c_row		7
+2545288	64	r	census:instance_proven		7
+2545352	64	r	census:c_row		7
+2545416	168	r	census:T1_twin		6
+2545584	216	r	census:c_row		7
+2545800	48	r	census:T3_leaf_ref:jal		6
+2545848	64	r	census:T1_twin		6
+2545912	844	r	census:c_row		7
+2546756	64	r	census:T1_twin		6
+2546820	2232	r	census:c_row		7
+2549052	400	r	census:T1_twin		6
+2549452	40	r	census:c_row		7
+2549492	180	r	census:T1_twin		6
+2549672	8	r	census:c_row		7
+2549680	64	r	census:T1_twin		6
+2549744	272	r	census:c_row		7
+2550016	168	r	census:T1_twin		6
+2550184	88	r	census:instance_proven		7
+2550272	100	r	census:c_row		7
+2550372	80	r	census:instance_proven		7
+2550452	1056	r	census:c_row		7
+2551508	80	r	census:instance_proven		7
+2551588	1076	r	census:c_row		7
+2552664	16	r	census:instance_proven		7
+2552680	1684	r	census:c_row		7
+2554364	120	r	census:instance_proven		7
+2554484	296	r	census:c_row		7
+2554780	80	r	census:instance_proven		7
+2554860	64	r	census:c_row		7
+2554924	208	r	census:instance_proven		7
+2555132	628	r	census:c_row		7
+2555760	172	r	census:T1_twin		6
+2555932	168	r	census:c_row		7
+2556100	156	r	census:T1_twin		6
+2556256	592	r	census:c_row		7
+2556848	168	r	census:T1_twin		6
+2557016	376	r	census:c_row		7
+2557392	36	r	census:T2_framed_ref:jal		6
+2557428	148	r	census:T1_twin		6
+2557576	64	r	census:instance_proven		7
+2557640	572	r	census:c_row		7
+2558212	96	r	census:instance_partial		7
+2558308	224	r	census:instance_proven		7
+2558532	112	r	census:T1_twin		6
+2558644	56	r	census:T3_leaf_ref:jal		6
+2558700	40	r	census:c_row		7
+2558740	36	r	census:T2_framed_ref:jal		6
+2558776	144	r	census:T1_twin		6
+2558920	8	r	census:c_row		7
+2558928	64	r	census:T1_twin		6
+2558992	296	r	census:c_row		7
+2559288	88	r	census:instance_proven		7
+2559376	40	r	census:c_row		7
+2559416	80	r	census:instance_proven		7
+2559496	460	r	census:c_row		7
+2559956	208	r	census:T1_twin		6
+2560164	1440	r	census:c_row		7
+2561604	12	r	census:reg_sdk_asm		8
+2561616	4	p	census:zero_gap<16		2
+2561620	12	r	census:reg_sdk_asm		8
+2561632	4	p	census:zero_gap<16		2
+2561636	12	r	census:reg_sdk_asm		8
+2561648	4	p	census:zero_gap<16		2
+2561652	12	r	census:reg_sdk_asm		8
+2561664	4	p	census:zero_gap<16		2
+2561668	56	r	census:c_row		7
+2561724	12	r	census:reg_sdk_asm		8
+2561736	4	p	census:zero_gap<16		2
+2561740	12	r	census:reg_sdk_asm		8
+2561752	4	p	census:zero_gap<16		2
+2561756	188	r	census:c_row		7
+2561944	48	r	census:reg_sdk_asm		8
+2561992	104	r	census:sdk_object		8
+2562096	24	p	census:zero_fill>=16		2
+2562120	16	r	census:c_row		7
+2562136	64	r	census:T3_leaf_ref:jtbl+lui_pair		6
+2562200	8	r	census:instance_partial		7
+2562208	136	r	census:sdk_object		8
+2562344	40	u	census:unresolved:audit_data_unconfirmed		2
+2562384	8	r	census:instance_partial		7
+2562392	108	r	census:sdk_object		8
+2562500	24	r	census:reg_sdk_asm		8
+2562524	12	p	census:zero_fill>=16		2
+2562536	120	d	census:noncode:decode		0
+2562656	64	p	census:zero_fill>=16		2
+2562720	8	d	census:noncode:decode		0
+2562728	16	a	census:format:ascii	44c751be596bc27639f5bc1c7a7fcd2cbf76393cfd209719a58b7c43f1180b45	1
+2562744	36	a	census:format:ptrtab	81393cfb2d845fca205a5644393e5344eec6f3d53604a790a5cd43a970c85846	3
+2562780	80	d	census:noncode:decode		0
+2562860	320	a	census:format:ptrtab	038b129ba56e71bfd503f734cd3d559edbf923756fec1efb9e15c82527e3a8c9	3
+2563180	32	d	census:noncode:decode		0
+2563212	16	a	census:format:ptrtab	ed17fbddfb6fea2a4bd9864440f877d59d607ddca4fc50da6ca7bde31a348dd3	3
+2563228	88	d	census:noncode:decode		0
+2563316	52	a	census:format:ptrtab	d140edb54394c3e9ec172442030ea8f30e99f716c50224a3a94d4061888f03d7	3
+2563368	422	d	census:noncode:decode		0
+2563790	90	p	census:zero_fill>=16		2
+2563880	6	d	census:noncode:decode		0
+2563886	154	p	census:zero_fill>=16		2
+2564040	256	d	census:noncode:decode		0
+2564296	24	a	census:format:ptrtab	95802be90f3ac315c208fbb7750b3d2ca7543d5c1c8f2a1231ea3034f81cb34d	3
+2564320	4	p	census:zero_gap<16		2
+2564324	44	a	census:format:ptrtab	d12cda2e0cd78a352f3165c869d6cc4856db681df630ded45d5980ce1ec1ddb0	3
+2564368	283	d	census:noncode:decode		0
+2564651	33	p	census:zero_fill>=16		2
+2564684	3	d	census:noncode:decode		0
+2564687	8870	p	census:zero_fill>=16		2
+2573557	3	d	census:noncode:decode		0
+2573560	3615	p	census:zero_fill>=16		2
+2577175	1	d	census:noncode:decode		0
+2577176	780	p	census:zero_fill>=16		2
+2577956	4	d	census:noncode:decode		0
+2577960	472	p	census:zero_fill>=16		2

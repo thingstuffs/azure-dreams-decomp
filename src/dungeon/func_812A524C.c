@@ -333,17 +333,14 @@ block_27:
                                                     scan_kind = 0xF;
                                                     scan_group = 2;
                                                     scan_10 = (u8 *)0x80010000;
-loop_102:
-                                                    if ((scan_10[0x249] != scan_kind)
-                                                        || (scan_10[0x248] != scan_group)) {
-                                                        scan_index_10 += 1;
-                                                        scan_10 += 4;
-                                                        if (scan_index_10 < 0x14) {
-                                                            goto loop_102;
+                                                    do {
+                                                        if ((scan_10[scan_index_10 * 4 + 0x249] != scan_kind)
+                                                            || (scan_10[scan_index_10 * 4 + 0x248] != scan_group)) {
+                                                            scan_index_10 += 1;
+                                                        } else {
+                                                            goto action_10;
                                                         }
-                                                    } else {
-                                                        goto action_10;
-                                                    }
+                                                    } while (scan_index_10 < 0x14);
                                                 }
 block_105:
                                                 if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
@@ -354,17 +351,14 @@ block_105:
                                                         scan_kind = 0x12;
                                                         scan_group = 0x15;
                                                         scan_80 = (u8 *)0x80010000;
-loop_109:
-                                                        if ((scan_80[0x249] != scan_kind)
-                                                            || (scan_80[0x248] != scan_group)) {
-                                                            scan_index_80 += 1;
-                                                            scan_80 += 4;
-                                                            if (scan_index_80 < 0x14) {
-                                                                goto loop_109;
+                                                        do {
+                                                            if ((scan_80[scan_index_80 * 4 + 0x249] != scan_kind)
+                                                                || (scan_80[scan_index_80 * 4 + 0x248] != scan_group)) {
+                                                                scan_index_80 += 1;
+                                                            } else {
+                                                                goto action_80;
                                                             }
-                                                        } else {
-                                                            goto action_80;
-                                                        }
+                                                        } while (scan_index_80 < 0x14);
                                                     }
 block_112:
                                                     if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
@@ -375,18 +369,15 @@ block_112:
                                                             scan_kind = 4;
                                                             scan_group = 1;
                                                             scan_100 = (u8 *)0x80010000;
-loop_116:
-                                                            if ((scan_100[0x249] != scan_kind)
-                                                                || (scan_type = scan_100[0x248],
-                                                                    (scan_type != scan_group))) {
-                                                                scan_index_100 += 1;
-                                                                scan_100 += 4;
-                                                                if (scan_index_100 < 0x14) {
-                                                                    goto loop_116;
+                                                            do {
+                                                                if ((scan_100[scan_index_100 * 4 + 0x249] != scan_kind)
+                                                                    || (scan_type = scan_100[scan_index_100 * 4 + 0x248],
+                                                                        (scan_type != scan_group))) {
+                                                                    scan_index_100 += 1;
+                                                                } else {
+                                                                    goto action_100;
                                                                 }
-                                                            } else {
-                                                                goto action_100;
-                                                            }
+                                                            } while (scan_index_100 < 0x14);
                                                         }
 block_119:
                                                         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {

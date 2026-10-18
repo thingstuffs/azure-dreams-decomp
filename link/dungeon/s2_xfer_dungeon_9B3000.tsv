@@ -1,0 +1,17 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_xfer_dungeon_9B3000","n":"0x6000","o":"0x9b3000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[14328,0,0,300,9940,8,0],"v":"0x80152800"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{},{"census_label":"proven_code"},{"bindings":{"0x80042900":"0x80042900","0x80042B68":"0x80042B68","0x80047784":"0x80047784","0x800814A8":"0x800814A8","0x80082E80":"0x80082E80","0x80083160":"0x80083160","0x80083460":"0x80083460","0x8009A180":"0x8009A180","0x8009FD40":"0x8009FD40","0x800A2C34":"0x800A2C34","0x800A6D30":"0x800A6D30","0x800A9A04":"0x800A9A04","0x800A9A0C":"0x800A9A0C","0x800AA258":"0x800AA258","0x800AA6B4":"0x800AA6B4","0x800AA79C":"0x800AA79C","0x800AA888":"0x800AA888","0x801714D4":"0x801534D4","0x8017360C":"0x8015560C","0x80173E00":"0x80155E00","0x801740F0":"0x801560F0","0x801740F8":"0x801560F8","0x80174150":"0x80156150","0x80174158":"0x80156158","0x80174160":"0x80156160"},"evidence":"LL3a attestation sha256:06a20f051600c72a63ecd84a4fe94c06b32a1134301fe4541b7aea818420d4f8; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x801717F4":"0x801534D4"},"evidence":"docs/evidence/r121w_s2_receipts.json#dungeon/func_809968A8; B10 re-homed from dungeon/func_809A2F10 (now an LL placement of dungeon/func_80AF4148): bindings translated through dungeon/func_809A2F10's object-screen resolution"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+10170368	76	a	census:format:ptrtab	5d19e5f922fe12198c27af6070d0fac3da27193e550aaa1123838153bc722c44	0
+10170444	4	p	census:zero_gap<16		1
+10170448	124	a	census:format:ptrtab	34064a853d06468061ed7fd659e2697ec6d233e0d457e60949ada0027d337078	0
+10170572	4	p	census:zero_gap<16		1
+10170576	24	a	census:format:ptrtab	db631098b16d79a2e6b8b023d3dd55d6184e3f95f874a6e6fcdccf37f48153c3	0
+10170600	11556	r	census:c_row		2
+"0x009B5E0C"	1184	c	census:registered_tu		["func_80995E0C","func_80977E0C","0x8015560C",3]
+10183340	1532	r	census:c_row		2
+"0x9b68a8"	56	c	census:registered_tu		["func_809968A8","func_80AF4148","0x801560a8",4]
+10184928	136	d	census:noncode:decode		5
+10185064	24	a	census:format:ptrtab	24f86fc93c7fead7d8b6cbb9502bd9c91470a7c6bf32eb4be3020e5f856d1126	0
+10185088	16	d	census:noncode:entropy:unplaced		5
+10185104	52	a	census:format:ptrtab	5b0203855c9cfb9ca37b9fad7e989ea8afa64be7f8d91ef9a55dada62c8f20d5	0
+10185156	9724	d	census:noncode:entropy:unplaced		5
+10194880	64	d	census:noncode:decode		5

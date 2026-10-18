@@ -1,0 +1,13 @@
+{
+ "full_receipt": "scratch/donor_leads.json",
+ "full_receipt_bytes": 5513531,
+ "full_receipt_sha256": "395e11beeb3e212fcbfa03704d76272787dc729189855dd8b34b46582948f7f2",
+ "hits": 21946,
+ "unique_sites": 453,
+ "native_sites": 232,
+ "native_holds": {
+  "complete twin lacks independent matched caller or pointer-table entry": 183,
+  "retail difference lacks native ELF relocation": 49
+ },
+ "discovery_masks_grant_no_admission": true
+}

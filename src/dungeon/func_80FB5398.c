@@ -87,7 +87,6 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
     for (;;) {
         s32 right_x;
         s32 left_x;
-        Vertex *vertex;
         s32 camera_z;
         s16 min_y;
         s16 max_y;
@@ -110,25 +109,21 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
         object = object_data;
         height_pixels = 16;
         left_x = -right_x;
-        vertex = vertex_base + 3;
-loop_0:
-        {
-            vertex->x = right_x;
+
+        do {
+            vertex_base[index_or_row].x = right_x;
             if (index_or_row < 2) {
-                vertex->x = left_x;
+                vertex_base[index_or_row].x = left_x;
             }
-            vertex->y = 0;
+            vertex_base[index_or_row].y = 0;
             if (index_or_row & 1) {
-                vertex->z = bottom_bound;
+                vertex_base[index_or_row].z = bottom_bound;
             }
             else {
-                vertex->z = height_pixels;
+                vertex_base[index_or_row].z = height_pixels;
             }
             index_or_row--;
-            vertex--;
-        }
-        if (index_or_row >= 0)
-            goto loop_0;
+        } while (index_or_row >= 0);
         projection_ptr = &projection;
         camera_z = *((u16 *) (((u8 *) render_state) + 0xC8));
         projection.pad0A = 0;

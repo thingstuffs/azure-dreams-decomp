@@ -1,0 +1,19 @@
+#{"a":0,"d":{"c":"town","e":"config/overlays/town.rowbase.jsonl proven region sweep_594BE8","i":"town/ll3a_594be8_59564c","n":"0x00000A64","o":"0x00594BE8","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[2508,0,152,0,0,0,0],"v":"0x800163E8"},"p":[{"census_label":"proven_code"},{"census_label":"strongly_code"},{"bindings":{"0x800167E8":"0x80016774","0x80019DFC":"0x800181C8","0x8001B8F8":"0x80018EDC","0x8001C354":"0x8001925C"},"evidence":"LL3a attestation sha256:d584e026eaff277cebf9f27d92fb0d8d23088378771222f1bc03784145813da9; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x800167E8":"0x800168F8","0x80019DFC":"0x800181C8","0x8001B8F8":"0x80018F24","0x8001C354":"0x8001925C"},"evidence":"LL3a attestation sha256:2b09d17895cb454ee2c6475da1b9e198eb4311c47e306a4af8308577cea124c7; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{},{"bindings":{"0x800167E8":"0x8001697C","0x80019DFC":"0x800181C8","0x8001B8F8":"0x80018F3C","0x8001C354":"0x8001925C"},"evidence":"LL3a attestation sha256:b5d112c17c6ee30d20acdfc4aa54fd9b0949f29570fc878d716cb0732b0227d5; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x800167E8":"0x80016A30","0x80019DFC":"0x800181C8","0x8001B8F8":"0x80018F54","0x8001C354":"0x8001925C"},"evidence":"LL3a attestation sha256:fd9396f9e649f7dd7e1fbdd92ba77d517fddf042f77790b187b5879c706f3ebd; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x80016000":"0x80016000","0x80016930":"0x80016CB4","0x80018BD0":"0x80018BD0"},"evidence":"LL3a attestation sha256:0f710e5de787a1bf2bbddd9c38408e4865009d9d66c4b94ecd17d9e965661d06; current-TU paired HI16/LO16 relocation screen; scoped window gate"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+5852136	176	r	census:c_row		0
+5852312	52	r	census:T1_twin		1
+5852364	24	r	census:T2_framed_ref:jtbl+ptr		1
+5852388	100	r	census:c_row		0
+5852488	52	r	census:T1_twin		1
+5852540	24	r	census:T2_framed_ref:jtbl+ptr		1
+5852564	480	r	census:c_row		0
+"0x00594F74"	56	c	census:registered_tu		["func_80614F74","func_8032BFE8","0x80016774",2]
+5853100	332	r	census:c_row		0
+"0x005950F8"	56	c	census:registered_tu		["func_806150F8","func_8032BFE8","0x800168F8",3]
+"0x00595130"	76	c	census:registered_tu		["func_80615130",null,"0x80016930",4]
+"0x0059517C"	56	c	census:registered_tu		["func_8061517C","func_8032BFE8","0x8001697C",5]
+5853620	124	r	census:c_row		0
+"0x00595230"	56	c	census:registered_tu		["func_80615230","func_8032BFE8","0x80016A30",6]
+5853800	588	r	census:c_row		0
+"0x005954B4"	76	c	census:registered_tu		["func_806154B4","func_80615130","0x80016CB4",7]
+5854464	332	r	census:c_row		0

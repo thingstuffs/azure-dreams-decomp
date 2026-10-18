@@ -1,0 +1,45 @@
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7B5000: img_9411bc_800f61bc, img_9417d4_800f67d4","i":"dungeon/bank_941000","n":"0x6000","o":"0x941000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[3368,0,0,50,19620,1518,20],"v":"0x800F6000"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+9703424	32	a	census:ledger:data_row	e438c9c7c2307051c57157d3c10762061a80a5ebba160c2114b1678624ec3632	0
+9703456	1924	r	census:c_row		1
+"0x9417A4"	40	c	census:registered_tu		["func_809217A4",null,"0x800F67A4",2]
+9705420	1404	r	census:c_row		1
+9706824	624	d	census:noncode:decode		3
+9707448	20	p	census:zero_fill>=16		2
+9707468	12	d	census:noncode:decode		3
+9707480	20	u	census:unknown		2
+9707500	980	d	census:noncode:decode		3
+9708480	1856	d	census:noncode:entropy:unplaced		3
+9710336	512	d	census:noncode:decode		3
+9710848	1408	d	census:noncode:entropy:unplaced		3
+9712256	1088	d	census:noncode:decode		3
+9713344	448	d	census:noncode:entropy:unplaced		3
+9713792	40	d	census:noncode:decode		3
+9713832	12	d	census:neighbour:noncode_typing_pending		3
+9713844	76	d	census:noncode:decode		3
+9713920	448	d	census:noncode:entropy:unplaced		3
+9714368	704	d	census:noncode:decode		3
+9715072	512	d	census:noncode:entropy:unplaced		3
+9715584	640	d	census:noncode:decode		3
+9716224	1728	d	census:noncode:entropy:unplaced		3
+9717952	192	d	census:noncode:decode		3
+9718144	320	d	census:noncode:entropy:unplaced		3
+9718464	192	d	census:noncode:decode		3
+9718656	320	d	census:noncode:entropy:unplaced		3
+9718976	448	d	census:noncode:decode		3
+9719424	192	d	census:noncode:entropy:unplaced		3
+9719616	1344	d	census:noncode:decode		3
+9720960	448	d	census:noncode:entropy:unplaced		3
+9721408	1006	d	census:noncode:decode		3
+9722414	1498	p	census:zero_fill>=16		2
+9723912	504	d	census:noncode:decode		3
+9724416	1344	d	census:noncode:entropy:unplaced		3
+9725760	671	d	census:noncode:decode		3
+9726431	9	a	census:format:ascii	7d8721c686bde8af282914673b8336ea4b6307a2000a6473d1649b67dc5f9fac	4
+9726440	280	d	census:noncode:decode		3
+9726720	431	d	census:noncode:entropy:unplaced		3
+9727151	9	a	census:format:ascii	0adf9894eb0c0dc2903c90b9d627066b5968316e7737c17e8d26b62eb49124c7	4
+9727160	648	d	census:noncode:entropy:unplaced		3
+9727808	8	d	census:noncode:decode		3
+9727816	8	d	census:neighbour:noncode_typing_pending		3
+9727824	176	d	census:noncode:decode		3

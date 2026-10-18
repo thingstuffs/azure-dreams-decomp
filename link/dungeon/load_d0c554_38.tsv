@@ -1,0 +1,3 @@
+#{"a":0,"d":{"c":"dungeon","e":"census:load_view","i":"dungeon/load_d0c554_38","n":56,"o":13682004,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[56,0,0,0,0,0,0],"v":null},"p":[{"census_label":"proven_code"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+13682004	56	r	census:c_row		0

@@ -1,0 +1,6 @@
+#{"a":0,"d":{"c":"town","e":"config/overlays/town.rowbase.jsonl proven region r121o_595D90","i":"town/ll3a_595d90_595ef8","n":"0x00000168","o":"0x00595D90","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[360,0,0,0,0,0,0],"v":"0x80017590"},"p":[{"census_label":"proven_code"},{"bindings":{"0x800191EC":"0x800175B8","0x8001ACE8":"0x80018B58"},"evidence":"LL3a attestation sha256:9789f86144e2749e0a0bf3e26e3357236143672c4ef622698ee9bfe6eaece20e; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x80018E34":"0x80017200","0x80018EA8":"0x80017274","0x800190C0":"0x8001748C","0x800191EC":"0x800175B8","0x8001922C":"0x800175F8"},"evidence":"LL3a attestation sha256:c1cd31ce99b4797fcc408fb97cdc07c9ce04f87d048b30e95eb9caf9a59c19b8; current-TU paired HI16/LO16 relocation screen; scoped window gate"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+5856656	40	r	census:c_row		0
+"0x00595DB8"	64	c	census:registered_tu		["func_80615DB8","func_8032E9EC","0x800175B8",1]
+"0x00595DF8"	188	c	census:registered_tu		["func_80615DF8","func_8032EA2C","0x800175F8",2]
+5856948	68	r	census:c_row		0

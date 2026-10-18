@@ -1,0 +1,4 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_img_b7b244_80158a44","n":"0x4f98","o":"0xb7b244","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[20376,0,0,0,0,0,0],"v":"0x80158a44"},"p":[{"census_label":"proven_code"},{"bindings":{"0x8017458c":"0x8015c58c","0x80175180":"0x8015d180","0x80175318":"0x8015d318","0x80175b0c":"0x8015db0c","0x80175b14":"0x8015db14","0x80175b20":"0x8015db20","0x80175b24":"0x8015db24","0x80175b25":"0x8015db25","0x80175b28":"0x8015db28"},"evidence":"docs/evidence/r121w_s2_receipts.json#dungeon/func_80B5FC70"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+12038724	18988	r	census:c_row		0
+"0xb7fc70"	1388	c	census:registered_tu		["func_80B5FC70","func_80B47C70","0x8015d470",1]

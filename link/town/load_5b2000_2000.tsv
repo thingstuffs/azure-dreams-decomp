@@ -1,0 +1,43 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_5b2000_2000","n":8192,"o":5971968,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[5496,0,84,228,209,2175,0],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"census_label":"strongly_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+5971968	4	p	census:zero_fill>=16		0
+5971972	24	a	census:audit+noncode_confirmed	e768cbf28d439bb1083df29285cedeb9022a2138a271799e4a74c67fb51cb957	1
+5971996	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	2
+5972036	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
+5972056	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	2
+5972157	11	a	census:audit+noncode_confirmed	831138587e466147f2fc8290d46025d9313c542b0418a8084c0e264e2c5667b2	1
+5972168	56	r	census:instance_partial		3
+5972224	124	r	census:c_row		3
+5972348	32	r	census:T2_framed_ref:jtbl+ptr		4
+5972380	52	r	census:T1_twin		4
+5972432	232	r	census:c_row		3
+5972664	1492	r	census:instance_proven		3
+5974156	36	r	census:c_row		3
+5974192	708	r	census:instance_proven		3
+5974900	92	r	census:c_row		3
+5974992	392	r	census:instance_proven		3
+5975384	192	r	census:c_row		3
+5975576	1076	r	census:instance_proven		3
+5976652	12	r	census:c_row		3
+5976664	132	r	census:instance_proven		3
+5976796	12	r	census:c_row		3
+5976808	868	r	census:instance_proven		3
+5977676	72	r	census:c_row		3
+5977748	28	d	census:noncode:decode		5
+5977776	16	a	census:format:ptrtab	6eff9d302e3906ee17c7d50e8971be4f9e9a452dd88213a541d78a3fa5a34f9b	6
+5977792	56	d	census:noncode:decode		5
+5977848	16	a	census:format:ptrtab	9a273e647ae64242f0530c23156605206ef38db4dc767f34d9946354187ae8e8	6
+5977864	3	d	census:noncode:decode		5
+5977867	29	p	census:zero_fill>=16		0
+5977896	30	d	census:noncode:decode		5
+5977926	22	p	census:zero_fill>=16		0
+5977948	6	d	census:noncode:decode		5
+5977954	18	p	census:zero_fill>=16		0
+5977972	18	d	census:noncode:decode		5
+5977990	474	p	census:zero_fill>=16		0
+5978464	26	d	census:noncode:decode		5
+5978490	19	p	census:zero_fill>=16		0
+5978509	41	d	census:noncode:decode		5
+5978550	19	p	census:zero_fill>=16		0
+5978569	1	d	census:noncode:decode		5
+5978570	1590	p	census:zero_fill>=16		0

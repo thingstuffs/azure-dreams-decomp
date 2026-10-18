@@ -16,9 +16,13 @@ DISC_FILES = {"main": "MAIN/MAIN.BIN", "town": "TOWN/TOWN.BIN", "dungeon": "DUNG
               "ovmovie": "OVMOVIE.BIN", "slus": "SLUS_006.14"}
 
 
-def extract(root, disc, keys=None, output=None):
+def extract(root, disc, keys=None, output=None, catalogue=None):
     root = Path(root).resolve()
-    images = linklist.load(root)[0]
+    if catalogue is None:
+        images = linklist.load(root)[0]
+    else:
+        from byte_map import load_maps
+        images = load_maps(root, catalogue)[0]
     keys = keys or [k for k, v in images.items() if v["schema"] == linklist.MAP_SCHEMA]
     if any(k not in images or images[k]["schema"] != linklist.MAP_SCHEMA for k in keys):
         raise ValueError("selected image is missing or is still v0")
@@ -83,9 +87,10 @@ def main():
     ap.add_argument("--disc", type=Path, required=True)
     ap.add_argument("--image", action="append")
     ap.add_argument("--out", type=Path)
+    ap.add_argument("--catalogue", type=Path, help="byte-map catalogue, e.g. link")
     a = ap.parse_args()
     try:
-        print(json.dumps(extract(a.root, a.disc, a.image, a.out), sort_keys=True, indent=2))
+        print(json.dumps(extract(a.root, a.disc, a.image, a.out, a.catalogue), sort_keys=True, indent=2))
     except (OSError, ValueError, KeyError, TypeError) as exc:
         ap.exit(1, "extract assets: " + str(exc) + "\n")
 

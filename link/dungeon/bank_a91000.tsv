@@ -1,0 +1,18 @@
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F6DF800: native_resource_07_slot_0","i":"dungeon/bank_a91000","l":"bank_a91000_family","n":"0x6000","o":"0xA91000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[14648,0,0,76,9852,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+11079680	3440	r	census:c_row		0
+"0xA91D70"	580	c	census:registered_tu		["func_80A71D70",null,"0x80171570",1]
+11083700	1864	r	census:c_row		0
+"0xA926FC"	196	c	census:registered_tu		["func_80A726FC",null,"0x80171EFC",1]
+11085760	2188	r	census:c_row		0
+"0xA9304C"	1140	c	census:registered_tu		["func_80A7304C",null,"0x8017284C",1]
+11089088	2612	r	census:c_row		0
+"0xA93EF4"	1220	c	census:registered_tu		["func_80A73EF4",null,"0x801736F4",1]
+11092920	1408	r	census:c_row		0
+11094328	20	d	census:noncode:decode		2
+11094348	8	d	census:neighbour:noncode_typing_pending		2
+11094356	68	d	census:noncode:decode		2
+11094424	24	a	census:format:ptrtab	7acc3879c0f7bd8ea4c7617a5e491d1406610e89592af631f856154e00fc5910	3
+11094448	16	d	census:noncode:decode		2
+11094464	52	a	census:format:ptrtab	17251d5bc39f16ab2f4eb6e3b664c43f685f2adc63a952aec990e8643de91888	3
+11094516	9740	d	census:noncode:entropy:unplaced		2

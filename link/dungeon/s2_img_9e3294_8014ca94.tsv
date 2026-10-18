@@ -1,0 +1,9 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_img_9e3294_8014ca94","n":"0x52e8","o":"0x9e3294","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[20500,0,724,0,0,0,0],"v":"0x8014ca94"},"p":[{"census_label":"proven_code"},{"census_label":"strongly_code"},{"bindings":{"0x801717F4":"0x8014D0EC"},"evidence":"docs/evidence/r121w_s2_receipts.json#dungeon/func_809C6F10; B10 re-homed from dungeon/func_809A2F10 (now an LL placement of dungeon/func_80AF4148): bindings translated through dungeon/func_809A2F10's object-screen resolution"},{"bindings":{"0x80174e98":"0x80150e98","0x80175f9c":"0x80151f9c"},"evidence":"docs/evidence/r121w_s2_receipts.json#dungeon/func_809C77C0"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+10367636	10232	r	census:c_row		0
+10377868	724	r	census:T1_twin		1
+10378592	4528	r	census:c_row		0
+"0x9e6f10"	56	c	census:registered_tu		["func_809C6F10","func_80AF4148","0x80150710",2]
+10383176	2168	r	census:c_row		0
+"0x9e77c0"	292	c	census:registered_tu		["func_809C77C0","func_809A37C0","0x80150fc0",3]
+10385636	3224	r	census:c_row		0

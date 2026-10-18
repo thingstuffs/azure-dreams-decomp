@@ -1,0 +1,7 @@
+[
+ "main/main_bin",
+ "town/town_bin",
+ "dungeon/dungeon_bin",
+ "ovmovie/ovmovie_bin",
+ "slus/slus_bin"
+]

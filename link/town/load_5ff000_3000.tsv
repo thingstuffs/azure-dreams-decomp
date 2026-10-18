@@ -1,0 +1,45 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_5ff000_3000","n":12288,"o":6287360,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[9568,0,208,264,600,1648,0],"v":2147573760},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"strongly_code"},{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+6287360	28	a	census:audit+noncode_confirmed	319188a738bfba47cfab7393528bd553bc70c5457cc27f0372987fadae6fc247	0
+6287388	44	a	census:format:ascii	47be0dd6382ef68e60ce29a19cfa094667b69715333f36681c464fc85181f460	1
+6287432	8	a	census:audit+noncode_confirmed	d7bdadc8663c3b2cf4d7f2eaf12538561a12327d3d8368f1f2bfc2d659f37114	0
+6287440	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	1
+6287480	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	0
+6287500	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	1
+6287601	7	a	census:audit+noncode_confirmed	c37bba07c6ada8822f0af5905e37069c4316b6a9d13e3684cddb8e860232cfed	0
+6287608	84	r	census:T1_twin		2
+6287692	80	r	census:T2_framed_ref:jal+jtbl+ptr		2
+6287772	44	r	census:T1_twin		2
+6287816	8	r	census:instance_partial		3
+6287824	1188	r	census:c_row		3
+6289012	216	r	census:instance_proven		3
+6289228	2528	r	census:c_row		3
+6291756	68	r	census:instance_proven		3
+6291824	36	r	census:c_row		3
+6291860	1588	r	census:instance_proven		3
+6293448	36	r	census:c_row		3
+6293484	708	r	census:instance_proven		3
+6294192	92	r	census:c_row		3
+6294284	392	r	census:instance_proven		3
+6294676	192	r	census:c_row		3
+6294868	1076	r	census:instance_proven		3
+6295944	12	r	census:c_row		3
+6295956	132	r	census:instance_proven		3
+6296088	12	r	census:c_row		3
+6296100	1284	r	census:instance_proven		3
+6297384	268	d	census:noncode:decode		4
+6297652	16	a	census:format:ptrtab	e299d567e053407a8c079c97cb295b6c3c1fb5c75c83db8e9bf5234a585a4240	5
+6297668	3	d	census:noncode:decode		4
+6297671	29	p	census:zero_fill>=16		6
+6297700	34	d	census:noncode:decode		4
+6297734	22	p	census:zero_fill>=16		6
+6297756	6	d	census:noncode:decode		4
+6297762	18	p	census:zero_fill>=16		6
+6297780	18	d	census:noncode:decode		4
+6297798	286	p	census:zero_fill>=16		6
+6298084	4	d	census:noncode:decode		4
+6298088	816	p	census:zero_fill>=16		6
+6298904	166	d	census:noncode:decode		4
+6299070	19	p	census:zero_fill>=16		6
+6299089	101	d	census:noncode:decode		4
+6299190	458	p	census:zero_fill>=16		6

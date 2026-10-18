@@ -1,0 +1,47 @@
+{
+ "entries": [
+  {
+   "container": "town",
+   "evidence": "census:ledger:stale_or_prior_image_row",
+   "foff": 2560544,
+   "physical_root": "town/town_bin",
+   "sha256": "cbffb2bc39bae9de5b3071ede6ead5e93e2394efaf8bdca8abba15e113e569b5",
+   "size": 372
+  },
+  {
+   "container": "town",
+   "evidence": "census:ledger:stale_or_prior_image_row",
+   "foff": 6628260,
+   "physical_root": "town/town_bin",
+   "sha256": "6198d99a96b6bceb91a6a170c17566596f040e747d9275345ef38ac44037bdd8",
+   "size": 20
+  },
+  {
+   "container": "town",
+   "evidence": "census:ledger:stale_or_prior_image_row",
+   "foff": 6628296,
+   "physical_root": "town/town_bin",
+   "sha256": "67d893f7e862f01c9a29d010db9a74e95c6ed0cb7736b167043f78ab38837dea",
+   "size": 40
+  },
+  {
+   "container": "town",
+   "evidence": "census:ledger:stale_or_prior_image_row",
+   "foff": 6628352,
+   "physical_root": "town/town_bin",
+   "sha256": "9bac86b14fa5c93401dfccd5ecd152554830d7d91128aab4938aa515ed5bba75",
+   "size": 1024
+  },
+  {
+   "container": "town",
+   "evidence": "census:ledger:stale_or_prior_image_row",
+   "foff": 9243840,
+   "physical_root": "town/town_bin",
+   "sha256": "eb203ca2209b9ceadca94ed392ad1678ae9a2eb5c886960f23b9d1310e904a93",
+   "size": 832
+  }
+ ],
+ "group": "stale_images",
+ "schema": "azure-clean.leftover-intervals.v1",
+ "scope": "Only disjoint census ledger stale/prior intervals; no enclosing image extent or additional runtime deadness is inferred."
+}

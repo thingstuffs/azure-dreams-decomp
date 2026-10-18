@@ -1,0 +1,62 @@
+#{"a":0,"d":{"c":"town","e":"docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md:scene_record_16","i":"town/leftover_scene_record_16","n":10240,"o":8818688,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[0,0,0,7770,798,1672,0],"v":null},"p":[{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"reason":"Bounded development residue; see docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+8818688	210	d	census:noncode:decode		0
+8818898	196	a	census:format:sjis	f0058ea9fb2c3f26a01fae09f5128467de16a055ebbc788e8c4d7196a9095e8c	1
+8819094	31	d	census:noncode:decode		0
+8819125	215	a	census:format:sjis	b5623ab9867cb137a1c45a7cf537caf16c2211b5d4cdadd616a1f75f44adcd61	1
+8819340	17	d	census:noncode:decode		0
+8819357	24	a	census:format:sjis	81cf806c8858f5e59a0b5d2477fbe0bea796d1a3ac5888fc98187b5ebf2af688	1
+8819381	25	d	census:noncode:decode		0
+8819406	445	a	census:format:sjis	a4b180fef2e8ac3b7d6c91ef16472bd50488b6f3119e1b81e9103dc5e65b16dd	1
+8819851	17	d	census:noncode:decode		0
+8819868	351	a	census:format:sjis	503fec890f7cd51f8690fe14554cf8889f5c2680a6bdbb136ebbb6311c486305	1
+8820219	14	d	census:noncode:decode		0
+8820233	77	a	census:format:sjis	c800fcbc4931e1b286faa7c62a75299d05cbb59879971c9f0901070d4eb11876	1
+8820310	16	d	census:noncode:decode		0
+8820326	207	a	census:format:sjis	36c4f1ad7f0f6a8b3c97db9363d222e2a96fc04d31326d9f9f52c3ab0bd3b619	1
+8820533	12	d	census:noncode:decode		0
+8820545	297	a	census:format:sjis	5f6d28d7ddf27de12be75a73a88fae41bfacde25d51c0822ba0d256adb39d7dd	1
+8820842	16	d	census:noncode:decode		0
+8820858	152	a	census:format:sjis	77d07418ef8988ba3e72e15ca376af27960c4b9e654a959fe8d192351485f504	1
+8821010	12	d	census:noncode:decode		0
+8821022	234	a	census:format:sjis	bb60520ba11c16ca7a6a36083761af8c66865a1d38dd72a3c6011503137d8627	1
+8821256	72	d	census:noncode:decode		0
+8821328	176	a	census:format:sjis	e9189c9435fdbf280bf749d0178396b10144b924f99c877d9eb96d0c3c229b51	1
+8821504	18	d	census:noncode:decode		0
+8821522	65	a	census:format:sjis	95eaa6b4f82f86bce86824cd73596bc57f30e856d24339455002d8d5f8307528	1
+8821587	25	d	census:noncode:decode		0
+8821612	196	a	census:format:sjis	263ea2783689c8c3eefe4b401c6112bde188062bf26117ac97c10d95a9434170	1
+8821808	11	d	census:noncode:decode		0
+8821819	73	a	census:format:sjis	d55e8a2a63968df796e16677dbe7dde5336171b9f3a9db67e6d5ddefafbdeeab	1
+8821892	10	d	census:noncode:decode		0
+8821902	28	a	census:format:sjis	681227333144ba13bc4b797095b7dfe8b116a40fa22dc7a889565e91d62f6f79	1
+8821930	14	d	census:noncode:decode		0
+8821944	226	a	census:format:sjis	b296de54aae6b2ed8188825a31c5e49339b3fc87d364f53b2c247dff76b085ff	1
+8822170	16	d	census:noncode:decode		0
+8822186	307	a	census:format:sjis	4231cbc1e7db2f0299f439ff71f3347ca77dfba1a0bba2d2f6dfd3c4bdc0233a	1
+8822493	60	d	census:noncode:decode		0
+8822553	122	a	census:format:sjis	be2ec78476a399440883daf5e0df56d39e7834f15946185b46b0959fc8af87b6	1
+8822675	61	d	census:noncode:decode		0
+8822736	166	a	census:format:sjis	b6a915b23f495100a6e0b097feb0efc16182d9fa2d60b400c1dd8cd88b27c8ba	1
+8822902	10	d	census:noncode:decode		0
+8822912	121	a	census:format:sjis	ec287f3c9a14bd5c4035427b065871c455ad9c135002d38b062264800b36535e	1
+8823033	18	d	census:noncode:decode		0
+8823051	906	a	census:format:sjis	a07c317e87e8b10d60156a99188391a22c8128fd5f516b7e6c0683f4f8f4c19a	1
+8823957	14	d	census:noncode:decode		0
+8823971	247	a	census:format:sjis	f1e072cd56545f8115ba30de8fe74a43aacabc6b8e96428265430e5984353073	1
+8824218	12	d	census:noncode:decode		0
+8824230	529	a	census:format:sjis	a261b27e4f9af63d4dfaacd23bc786a36d25dba88353f2cecbac0df7d36abf1b	1
+8824759	16	d	census:noncode:decode		0
+8824775	125	a	census:format:sjis	2d64b2e1240b5adcd3d369618e24409494a847609651e8cdc7c88bcf8590ed5f	1
+8824900	16	d	census:noncode:decode		0
+8824916	379	a	census:format:sjis	f02b988084a24e9d5cc8a2d84c314c4502440de8ba4467245a1dffcaa0900b30	1
+8825295	12	d	census:noncode:decode		0
+8825307	832	a	census:format:sjis	1c069710cf1ecac7f14330537fda482dcddef7df016d4c799e62e509a0d899b4	1
+8826139	12	d	census:noncode:decode		0
+8826151	258	a	census:format:sjis	f621377bcd43db6d63b3a9e85744e24b908c86807ce7799c48d6e7ebebbbb36e	1
+8826409	12	d	census:noncode:decode		0
+8826421	590	a	census:format:sjis	3270441457cb068c8954616bd7aadaa1a53e50f7c5d57f5f0e0207135c7f7509	1
+8827011	17	d	census:noncode:decode		0
+8827028	226	a	census:format:sjis	b799aa3b19b40006eaf3ff3664d5b513105a99a15919784dcaa7234e890d8c26	1
+8827254	2	d	census:noncode:decode		0
+8827256	1672	l	census:zero_fill>=16		2

@@ -315,4 +315,52 @@ class Extraction(Fixture):
         with self.assertRaisesRegex(ValueError,'sha256 differs'):B.generate(self.root,labels,self.cp,verify_retail=True)
 
 
+
+
+class PhysicalViews(Fixture):
+    def test_explicit_physical_roots_count_overlapping_views_once(self):
+        a=doc([meta('unresolved',0,16)])
+        b=doc([meta('unresolved',0,16)],name='main/alias')
+        self.write(a,b)
+        result=B.check(self.root,physical_roots=['main/test'])
+        self.assertEqual(result['root_bytes'],16)
+        self.assertEqual(len(result['images']),2)
+
+    def test_conflicting_view_labels_fail_even_when_totals_are_equal(self):
+        a=doc([meta('unresolved',0,8),meta('padding',8,8)])
+        b=doc([meta('padding',0,8),meta('unresolved',8,8)],name='main/alias')
+        self.write(a,b)
+        with self.assertRaisesRegex(ValueError,'label differs'):
+            B.check(self.root,physical_roots=['main/test'])
+
+    def test_physical_roots_require_unique_selected_ids(self):
+        self.write(doc([meta('unresolved',0,16)]))
+        for roots in [[],['main/test','main/test'],['main/missing']]:
+            with self.subTest(roots=roots),self.assertRaisesRegex(ValueError,'unique selected'):
+                B.check(self.root,physical_roots=roots)
+
+    def test_view_outside_physical_roots_is_rejected(self):
+        a=doc([meta('unresolved',0,8)],size=8)
+        b=doc([meta('unresolved',0,16)],name='main/alias')
+        self.write(a,b)
+        with self.assertRaisesRegex(ValueError,'outside physical roots'):
+            B.check(self.root,physical_roots=['main/test'])
+
+    def test_explicit_roots_do_not_bypass_overlap_check(self):
+        self.write(doc([meta('unresolved',0,16)]),doc([meta('unresolved',0,16)],name='main/alias'))
+        with self.assertRaisesRegex(ValueError,'root images overlap'):
+            B.check(self.root,physical_roots=['main/test','main/alias'])
+
+    def test_separate_catalogue_uses_production_validation(self):
+        self.write(doc([meta('unresolved',0,16)]))
+        original=B.check(self.root)
+        (self.root/'config/link').rename(self.root/'public')
+        public=B.check(self.root,catalogue='public')
+        self.assertEqual(public,original)
+        d=doc([meta('unresolved',0,16)]);d['census']['unknown']=15
+        (self.root/'public/main/test.json').write_text(json.dumps(d))
+        with self.assertRaisesRegex(ValueError,'census totals differ'):
+            B.check(self.root,catalogue='public')
+
+
 if __name__=='__main__':unittest.main()

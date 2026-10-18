@@ -1,0 +1,20 @@
+{
+ "id": "town/func_80049BFC",
+ "change": "slot argument 28 -> 29",
+ "original_source_sha256": "0582327ce599274db209d8ff436a7713142439382d158ce83512aca64f2e6f29",
+ "control_source_sha256": "f44046528976dd6390cbdfcddfb380ba239db30670ad4d629a9ebdd3f764393d",
+ "measurement": {
+  "status": "ok",
+  "exact": false,
+  "subs": 1,
+  "indels": 0,
+  "total": 1,
+  "gen_words": 26,
+  "tgt_words": 26,
+  "class": "broad",
+  "signals": [],
+  "secs": 1.82,
+  "err": null
+ },
+ "passed": true
+}

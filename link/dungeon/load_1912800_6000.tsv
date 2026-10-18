@@ -1,0 +1,25 @@
+#{"a":0,"d":{"c":"dungeon","e":"ledger/instance_load_regions.jsonl: validated dungeon loader arithmetic (a1=0; selector 1..63); docs/evidence/dungeon_gap_183a800.json","i":"dungeon/load_1912800_6000","n":24576,"o":26290176,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[3928,0,2508,76,18064,0,0],"v":2147631104},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{"census_label":"strongly_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+26290176	76	a	census:ledger:data_row	49a7ebb216c39f7f6f712a49246023806724485774735c0fae224dffe113438c	0
+26290252	3928	r	census:c_row		1
+26294180	52	r	census:shape:T4_shape_noref		2
+26294232	132	r	census:T1_twin		2
+26294364	64	r	census:shape:T4_shape_noref		2
+26294428	56	r	census:T1_twin		2
+26294484	124	r	census:shape:T4_shape_noref		2
+26294608	48	r	census:T1_twin		2
+26294656	36	r	census:shape:T4_shape_noref		2
+26294692	100	r	census:T1_twin		2
+26294792	184	r	census:shape:T4_shape_noref		2
+26294976	128	r	census:T1_twin		2
+26295104	732	r	census:shape:T4_shape_noref		2
+26295836	48	r	census:T1_twin		2
+26295884	148	r	census:shape:T4_shape_noref		2
+26296032	96	r	census:T1_twin		2
+26296128	208	r	census:shape:T4_shape_noref		2
+26296336	48	r	census:T1_twin		2
+26296384	192	r	census:shape:T4_shape_noref		2
+26296576	72	r	census:T1_twin		2
+26296648	40	r	census:shape:T4_shape_noref		2
+26296688	80	d	census:noncode:decode		3
+26296768	17984	d	census:noncode:entropy:unplaced		3

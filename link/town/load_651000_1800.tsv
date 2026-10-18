@@ -1,0 +1,13 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_651000_1800","n":6144,"o":6623232,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[4836,0,0,222,0,1084,2],"v":2147573760},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{},{"census_label":"proven_code"},{"reason":"Census ledger stale/prior image witness: ledger:stale_or_prior_image_row"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+6623232	28	a	census:audit+noncode_confirmed	08730ac8dbc98a389dca2f88e60ed7468edcd8f842f252d8e98cee5e4ccd88fd	0
+6623260	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	1
+6623300	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	0
+6623320	102	a	census:format:ascii	23f087f115d6350eeda0c95d4d88b02f0a46830749d5188c711b14ebc982ca32	1
+6623422	2	u	census:unresolved:audit_data_unconfirmed		2
+6623424	4836	r	census:c_row		3
+6628260	20	l	census:ledger:stale_or_prior_image_row		4
+6628280	16	a	census:format:ptrtab	9692334728179b91d2b75c62302af32e54e009e21e4ed8405af3e8eac451d36f	5
+6628296	40	l	census:ledger:stale_or_prior_image_row		4
+6628336	16	a	census:format:ptrtab	61bebdecfa113470bfd5add5be9f252d64b58fa6648ada4a8c68ef30ecb52bc7	5
+6628352	1024	l	census:ledger:stale_or_prior_image_row		4

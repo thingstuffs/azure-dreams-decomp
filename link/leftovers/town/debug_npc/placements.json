@@ -1,0 +1,31 @@
+{
+ "entries": [
+  {
+   "container": "town",
+   "evidence": "docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md",
+   "extent": "verified 2048-byte slice; enclosing unit extent pending",
+   "foff": 8708096,
+   "id": "slice_84e000",
+   "image": "town/leftover_slice_84e000",
+   "reason": "Unused debug/test unit in the cited static reachability analysis; sector-bounded verified duplicate slice.",
+   "sha256": "0079a1e286aca93ae3bafc8a1359ceeae30f1986b26d217bbd6bfd09ef3d0914",
+   "size": 2048
+  },
+  {
+   "container": "town",
+   "descriptor_container": "slus",
+   "descriptor_evidence": "link/leftovers/evidence/audit.json",
+   "descriptor_foff": 346824,
+   "evidence": "docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md",
+   "extent": "complete descriptor-bounded 2048-byte load",
+   "foff": 8814592,
+   "id": "slice_868000",
+   "image": "town/leftover_slice_868000",
+   "reason": "Unused debug/test unit in the cited static reachability analysis; sector-bounded verified duplicate slice.",
+   "sha256": "0079a1e286aca93ae3bafc8a1359ceeae30f1986b26d217bbd6bfd09ef3d0914",
+   "size": 2048
+  }
+ ],
+ "group": "town/debug_npc",
+ "schema": "azure-clean.leftover-slices.v1"
+}

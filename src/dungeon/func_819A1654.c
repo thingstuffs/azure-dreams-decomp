@@ -518,17 +518,12 @@ loop_1:
             break;
 
         case 3:
-            if ((D_80082E94[0] & 0x8000) == 0) {
-                entity->timer--;
-                if (entity->timer >= 0) {
-                    goto cleanup;
-                }
+            if ((D_80082E94[0] & 0x8000) != 0 || --entity->timer < 0) {
+                entity->state = 4;
             }
-            entity->state = 4;
-                                /* fallthrough */
+            /* fallthrough */
 
         case 4:
-cleanup:
             if (((s16 *)D_800261B0)[0] == 0) {
                 ((Row_819A1654_ControlGlobal *)&g_dungeon_status)[0].active = 0;
                 D_80082E86[0] = 0;

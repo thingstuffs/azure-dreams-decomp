@@ -1,0 +1,8 @@
+# r121w_heur3: the remaining not-yet-C code (heuristic-only spans, split segments, census handoffs)
+
+Work ONLY inside this lane directory and your private repo root (built from the live B13 commit). IO discipline: `rg --max-filesize 4M` on narrow paths only; never search work/, the repo root or /home recursively. No git commits/ref moves outside your root. No binaries (decision 60f), no retail data (60c), receipts > 2 MB as summary + sha256 (62). Function names snake_case (decision 61). GATE ONLY AS NECESSARY: per-row/link-list checks while working, ONE scoped gate at the end (--workers 4, --only-window touched windows). New C: zero pins/asm/volatile/NON_MATCHING/pragma/goto/masks. Skip files that are relink copies or hand copies (non-home; LL4 deletes them). Do not write absolute /home paths into delivered files.
+
+## Task
+STATUS.md "Not yet C" (excl. library): heuristic-only 52,508 B (main 3,924, town 13,464, dungeon 35,120), undecompiled split segments 1,396 B (main 420, town 96, ovmovie 880), slus other hand asm 228 B. Plus census handoffs: 45 placed C handoffs + 17 placement holds (refs/handoff_code.tsv, next.tsv, census2_REPORT.md) and r121_heur's holds (refs/heur_REPORT.md, holds2.tsv). Methods that paid before: twin/donor masks (every diff a relocation) -> placement; rowbase promote; sdk2 donor admission; new C rows byte-exact. Classify first (code vs data misread; measure.tsv), then convert biggest first. Data misreads -> data labels in the census, not C.
+## Deliver
+delivery.patch (vs B13), measure.tsv, results.tsv, holds.tsv, touched_windows.txt, gate.log, REPORT.md (bytes to C per container, HOW TO CONTINUE).

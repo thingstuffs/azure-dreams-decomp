@@ -1,0 +1,5 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s1.receipt.json: rowbase native_18a6800_80024000","i":"dungeon/region_18a6800_18a8b24","n":"0x2324","o":"0x18a6800","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[8996,0,0,0,0,0,0],"v":"0x80024000"},"p":[{"census_label":"proven_code"},{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+25847808	4928	r	census:c_row		0
+"0x18a7b40"	860	c	census:registered_tu		["func_81887B40",null,"0x80025340",1]
+25853596	3208	r	census:c_row		0

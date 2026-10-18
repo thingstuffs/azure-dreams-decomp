@@ -1,0 +1,20 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_native_slot_d07000_80170800","n":"0x6000","o":"0xd07000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[20696,0,1144,2728,0,0,8],"v":"0x80170800"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{},{"census_label":"strongly_code"},{"census_label":"proven_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+13660160	108	a	census:format:ptrtab	6e0dbb6d8b73daa7cf3b847e9df99d9a163427e5c180d2e887218f7406608a35	0
+13660268	8	u	census:unresolved:audit_data_unconfirmed		1
+13660276	116	r	census:T2_framed_ref:jtbl		2
+13660392	140	r	census:T1_twin		2
+13660532	468	r	census:T2_framed_ref:jtbl		2
+13661000	68	r	census:T1_twin		2
+13661068	160	r	census:T2_framed_ref:jtbl		2
+13661228	120	r	census:T1_twin		2
+13661348	20	r	census:T2_framed_ref:jtbl		2
+13661368	52	r	census:T1_twin		2
+13661420	14912	r	census:c_row		3
+"0xd0af2c"	1304	c	census:registered_tu		["func_80CEAF2C",null,"0x8017472c",1]
+13677636	4480	r	census:c_row		3
+13682116	304	a	census:audit+noncode_confirmed	e14d4a1dd663eb30ffa91bdd15bfbeaf0dbc1eba6bbe89218253f776822c356b	4
+13682420	24	a	census:format:ptrtab	107c020f2418631623fe9ba2bf713b86ba4db8ca3d43f1b7c15dd5225643cda8	0
+13682444	16	a	census:audit+noncode_confirmed	5137f8540b9bc99ad093bf0c973e07caae1cff39a845c06ebf8a864bffb4f310	4
+13682460	52	a	census:format:ptrtab	c2b6f6ba04c6b589efa36b3ede328e68908c9c7a15d612d46074bacdecaec23d	0
+13682512	2224	a	census:audit+noncode_confirmed	d75e9622eaac1d7efcb544ada9f98a0424f3735de85951c531e4e1bb8e54b388	4

@@ -1,0 +1,45 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_6e1800_2000","n":8192,"o":7215104,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[6416,0,0,228,490,1058,0],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+7215104	4	p	census:zero_fill>=16		0
+7215108	24	a	census:audit+noncode_confirmed	90f3fe8f7f78413d6c22bdc06ab0d1875644c7dacf9135d30b28146cff9ffbb5	1
+7215132	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	2
+7215172	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
+7215192	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	2
+7215293	11	a	census:audit+noncode_confirmed	00cff0feaa0a53c2ddd70e63ae1740cd6e24606885f00c3fd1dda60119728ce2	1
+7215304	164	r	census:instance_partial		3
+7215468	396	r	census:instance_proven		3
+7215864	32	r	census:c_row		3
+7215896	56	r	census:instance_proven		3
+7215952	684	r	census:c_row		3
+7216636	1492	r	census:instance_proven		3
+7218128	36	r	census:c_row		3
+7218164	708	r	census:instance_proven		3
+7218872	92	r	census:c_row		3
+7218964	392	r	census:instance_proven		3
+7219356	192	r	census:c_row		3
+7219548	1076	r	census:instance_proven		3
+7220624	12	r	census:c_row		3
+7220636	132	r	census:instance_proven		3
+7220768	12	r	census:c_row		3
+7220780	868	r	census:instance_proven		3
+7221648	72	r	census:c_row		3
+7221720	76	d	census:noncode:decode		4
+7221796	16	a	census:format:ptrtab	8371d650ddcf73dcc41e7fe4278d275045a0e8cc1b2774eaf95b7d5b6e42aa68	5
+7221812	168	d	census:noncode:decode		4
+7221980	16	a	census:format:ptrtab	1edc119241cce7c3ba1f38f2fe24de5479dd855b380e7d26719e332033083044	5
+7221996	3	d	census:noncode:decode		4
+7221999	29	p	census:zero_fill>=16		0
+7222028	30	d	census:noncode:decode		4
+7222058	22	p	census:zero_fill>=16		0
+7222080	6	d	census:noncode:decode		4
+7222086	18	p	census:zero_fill>=16		0
+7222104	18	d	census:noncode:decode		4
+7222122	470	p	census:zero_fill>=16		0
+7222592	46	d	census:noncode:decode		4
+7222638	19	p	census:zero_fill>=16		0
+7222657	21	d	census:noncode:decode		4
+7222678	19	p	census:zero_fill>=16		0
+7222697	21	d	census:noncode:decode		4
+7222718	19	p	census:zero_fill>=16		0
+7222737	101	d	census:noncode:decode		4
+7222838	458	p	census:zero_fill>=16		0

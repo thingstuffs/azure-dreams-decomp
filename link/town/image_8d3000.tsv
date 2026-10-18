@@ -1,0 +1,41 @@
+#{"a":0,"d":{"c":"town","e":"config/overlays/town.rowbase.jsonl proven regions with delta 0x7F74D000: r121c3_8D6FA8, r121nd_8D6E64, sweep_8D33D8","i":"town/image_8d3000","n":"0x6000","o":"0x8D3000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[15740,0,220,456,6880,1280,0],"v":"0x80020000"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_code"},{},{"census_label":"strongly_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+9252864	16	a	census:audit+noncode_confirmed	4599282d3f9b45af3bd85923032da3555bb21379e7b4794d7cdc90902084ca13	0
+9252880	16	a	census:format:ptrtab	92c9ae7cb7855a85140815c55f85584be235f588469fcf56d3fb3efa01e1887a	1
+9252896	48	a	census:audit+noncode_confirmed	f08a9613d8c50e3e56103c001c95475b13f47c3b9e32eef3551c951d7b6a6d09	0
+9252944	24	a	census:format:ptrtab	7c02345e4fe0b53cf737e76198857bd795df91209c0fddacae3ad753fddd9b15	1
+9252968	32	a	census:audit+noncode_confirmed	fbc3523bd56853e35bd91903dce2e4646273f5f5faa8b67efd3548b3408e7799	0
+9253000	24	a	census:format:ptrtab	a6becd7aa4dc025e019be44c54d1454c8037be6a261188c43168add56aaa2efb	1
+9253024	96	a	census:audit+noncode_confirmed	a17e62aa40f3962dce43cd7e6d42665e40f692c5e7ae93d865500261322d3f6f	0
+9253120	20	a	census:format:ptrtab	fcc1be06279d8b3d847626ebf46f6de19b802acd61d1c2e116f45d62110f7b94	1
+9253140	32	a	census:audit+noncode_confirmed	5a471f8a3ab09fa71f785ef0d64aa2872647017a777edc5fccab19a14e73b04a	0
+9253172	16	a	census:format:ptrtab	8623de634855f6738fa65ce84e29680778f82d827cfa758718b7da2febc1a48a	1
+9253188	12	a	census:audit+noncode_confirmed	e6627b2fe234c715316eaadf501fd4c1167200f7b85e5a6824ad5068f82faf6a	0
+9253200	44	a	census:format:ptrtab	93093c0036a631c6bbfbe6db0f8e73b0d7e4ce6b041f76052fed8d9e02241117	1
+9253244	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	0
+9253248	24	a	census:format:ptrtab	a2272fdefb1b0550a661f577f9949454f4a941ffc12bacff50f2b19484a9dec6	1
+9253272	8	a	census:audit+noncode_confirmed	e9a01ce8cb99d49ca47fc94eba6eb6cb261d98040c93edf9249d02296a8fb6ad	0
+9253280	40	a	census:format:ptrtab	2c6441dff95c7438bfe5e44ab0d0a644aeecfc1d0714ac8cd0881d785d9dd597	1
+9253320	312	r	census:instance_partial		2
+9253632	3468	r	census:c_row		2
+"0x8D408C"	148	c	census:registered_tu		["func_808B408C","func_808166F4","0x8002108C",3]
+"0x8D4120"	164	c	census:registered_tu		["func_808B4120","func_80816788","0x80021120",3]
+9257412	4800	r	census:c_row		2
+9262212	144	r	census:T1_twin		4
+9262356	220	r	census:c_row		2
+9262576	76	r	census:T1_twin		4
+9262652	6628	r	census:c_row		2
+9269280	488	d	census:noncode:decode		5
+9269768	8	d	census:neighbour:noncode_typing_pending		5
+9269776	240	d	census:noncode:decode		5
+9270016	1280	p	census:zero_fill>=16		3
+9271296	320	d	census:noncode:decode		5
+9271616	1344	d	census:noncode:entropy:unplaced		5
+9272960	64	d	census:noncode:decode		5
+9273024	1728	d	census:noncode:entropy:unplaced		5
+9274752	120	d	census:noncode:decode		5
+9274872	12	d	census:neighbour:noncode_typing_pending		5
+9274884	508	d	census:noncode:decode		5
+9275392	832	d	census:noncode:entropy:unplaced		5
+9276224	448	d	census:noncode:decode		5
+9276672	768	d	census:noncode:entropy:unplaced		5

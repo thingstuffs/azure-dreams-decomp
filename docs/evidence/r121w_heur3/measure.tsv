@@ -1,0 +1,342 @@
+queue	item	container	foff	size	base_C	added_C	SDK_library	noncode	held	status	classification	reason	evidence
+status_estimated_code	1	main	0x23d10	68	0	0	0	0	68	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	2	main	0x240d0	68	0	0	0	0	68	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	3	main	0x26077c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	4	main	0x260844	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	5	main	0x260f4c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	6	main	0x26122c	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	7	main	0x261c00	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	8	main	0x261cc8	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	9	main	0x261d18	56	0	0	0	0	56	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	10	main	0x263820	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	11	main	0x26396c	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	12	main	0x263c4c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	13	main	0x263e48	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	14	main	0x26420c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	15	main	0x2642d4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	16	main	0x264324	56	0	0	0	0	56	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	17	main	0x2646ec	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	18	main	0x264734	136	0	0	0	0	136	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	19	main	0x26a53c	60	0	0	0	0	60	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	20	main	0x26b628	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	21	main	0x26bebc	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	22	main	0x26c880	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	23	main	0x26ca58	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	24	main	0x26cb34	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	25	main	0x26cb84	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	26	main	0x26ccdc	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	27	main	0x26cf34	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	28	main	0x26d2c0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	29	main	0x26d314	80	0	0	0	0	80	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	30	main	0x26d504	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	31	main	0x26d620	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	32	main	0x26d768	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	33	main	0x26d8b0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	34	main	0x26dc44	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	35	main	0x26e53c	400	0	0	0	0	400	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	36	main	0x26e760	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	37	main	0x26e7b0	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	38	main	0x26e960	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	39	main	0x26ffd4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	40	main	0x270118	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	41	main	0x270410	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	42	main	0x270640	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	43	main	0x27091c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	44	main	0x270a44	168	0	0	0	0	168	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	45	main	0x270b80	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	46	main	0x270bd0	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	47	main	0x270fd4	208	0	0	0	0	208	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	48	main	0x271650	4	0	0	0	0	4	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	49	main	0x271660	4	0	0	0	0	4	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	50	main	0x271670	4	0	0	0	0	4	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	51	main	0x271680	4	0	0	0	0	4	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	52	main	0x2716c8	4	0	0	0	0	4	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	53	main	0x2716d8	4	0	0	0	0	4	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_split	54	main	0x271798	152	0	0	152	0	0	SDK_LIBRARY	inherited_SDK_library_code	historical split without C	
+status_split	55	main	0x2718a0	136	0	0	136	0	0	SDK_LIBRARY	inherited_SDK_library_code	historical split without C	
+status_split	56	main	0x271958	132	0	0	132	0	0	SDK_LIBRARY	inherited_SDK_library_code	historical split without C	
+status_estimated_code	57	town	0x33d08	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	58	town	0x35850	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	59	town	0x359d0	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	60	town	0x35c0c	212	0	212	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	61	town	0x36ea0	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	62	town	0x3705c	220	0	220	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	63	town	0x37160	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	64	town	0x371a8	112	0	112	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	65	town	0x37270	144	0	0	0	0	144	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	66	town	0x3741c	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	67	town	0x37490	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	68	town	0x374d8	92	0	0	0	0	92	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	69	town	0x375bc	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	70	town	0x37878	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	71	town	0x37ca4	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	72	town	0x39264	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	73	town	0x3c510	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	74	town	0x3d11c	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	75	town	0x444c0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	76	town	0x463d4	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	77	town	0x46560	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	78	town	0x465a8	420	0	0	0	0	420	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	79	town	0x46b1c	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	80	town	0x46b64	200	0	200	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	81	town	0x46ca8	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	82	town	0x46cf0	100	0	100	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	83	town	0x46ee4	544	0	100	0	0	444	PARTIAL_NEW_C	mixed_C_and_unresolved	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	84	town	0x47218	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	85	town	0x47260	112	0	0	0	0	112	HOLD	unresolved_code_or_entry	retail difference lacks native ELF relocation	
+status_estimated_code	86	town	0x477c4	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	87	town	0x47da0	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	88	town	0x47de8	216	0	144	0	0	72	PARTIAL_NEW_C	mixed_C_and_unresolved	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	89	town	0x4814c	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	90	town	0x48934	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	91	town	0x48b3c	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	92	town	0x48be4	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	93	town	0x48c2c	144	0	144	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	94	town	0x4906c	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	95	town	0x49bfc	104	0	104	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	96	town	0x4a4e0	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	97	town	0x4a908	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	98	town	0x4a9ec	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	99	town	0x4ab64	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	100	town	0x4ae58	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	101	town	0x4b180	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	102	town	0x4b618	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	103	town	0x4ba04	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	104	town	0x4ba94	104	0	104	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	105	town	0x4c534	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	106	town	0x4ce5c	80	0	80	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	107	town	0x4cf44	88	0	88	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	108	town	0x4d174	368	0	368	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	109	town	0x4d39c	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	110	town	0x4d818	104	0	104	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	111	town	0x4d948	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	112	town	0x4dad4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	113	town	0x4e540	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	114	town	0x4e588	416	0	416	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	115	town	0x4ea70	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	116	town	0x4eab8	208	0	208	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	117	town	0x4f770	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	118	town	0x4fb78	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	119	town	0x4fbc0	816	0	816	0	0	0	DELIVERED_NEW_C	compiled_C	heuristic shape; no complete C owner	docs/evidence/r121w_heur3/receipts.json
+status_estimated_code	120	town	0x51320	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	retail difference lacks native ELF relocation	
+status_estimated_code	121	town	0x51434	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	retail difference lacks native ELF relocation	
+status_estimated_code	122	town	0x27159c	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	123	town	0x2abe54	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	124	town	0x2abed4	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	125	town	0x2ac9ac	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	126	town	0x2acf04	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	127	town	0x2acf4c	88	0	0	0	0	88	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	128	town	0x2ad304	88	0	0	0	0	88	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	129	town	0x2ad3dc	88	0	0	0	0	88	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	130	town	0x2ad69c	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	131	town	0x2ad7c4	48	0	0	0	0	48	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	132	town	0x2ad9e0	56	0	0	0	0	56	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	133	town	0x2adb7c	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	134	town	0x2adf28	48	0	0	0	0	48	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	135	town	0x2ae028	48	0	0	0	0	48	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	136	town	0x2af5b4	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	137	town	0x2d3ecc	24	0	0	0	0	24	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	138	town	0x2d3eec	24	0	0	0	0	24	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	139	town	0x3e82e8	56	0	0	0	0	56	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	140	town	0x3e86f8	48	0	0	0	0	48	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	141	town	0x3e9150	48	0	0	0	0	48	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	142	town	0x3e9d04	104	0	0	0	0	104	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	143	town	0x3e9db0	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	144	town	0x3e9ee4	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	145	town	0x3e9f2c	104	0	0	0	0	104	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	146	town	0x3e9fd8	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	147	town	0x3ea094	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	148	town	0x3ea3c0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	149	town	0x3eac0c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	150	town	0x3eb3c0	204	0	0	0	0	204	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	151	town	0x3eb698	48	0	0	0	0	48	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	152	town	0x3eb6d0	56	0	0	0	0	56	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	153	town	0x3eb740	56	0	0	0	0	56	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	154	town	0x3ec010	48	0	0	0	0	48	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	155	town	0x400390	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	156	town	0x438530	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	157	town	0x438a28	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	158	town	0x438ca0	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	159	town	0x49ebd0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	160	town	0x49f724	48	0	0	0	0	48	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	161	town	0x49f75c	172	0	0	0	0	172	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	162	town	0x49fa74	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	163	town	0x49fba8	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	164	town	0x49fd90	112	0	0	0	0	112	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	165	town	0x4cfa1c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	166	town	0x5534ec	56	0	0	0	0	56	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	167	town	0x553604	56	0	0	0	0	56	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	168	town	0x594c9c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	169	town	0x594d48	76	0	0	0	0	76	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	170	town	0x5b2188	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	171	town	0x5dd8f0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	172	town	0x6580a4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	173	town	0x78bdc4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	174	town	0x791084	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	175	town	0x7919a4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	176	town	0x796440	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	177	town	0x7f54f0	32	0	0	0	0	32	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	178	town	0x7f563c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	179	town	0x7f5778	32	0	0	0	0	32	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	180	town	0x7f57c0	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	181	town	0x7f8500	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	182	town	0x801204	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	183	town	0x8014d8	156	0	0	0	0	156	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	184	town	0x8015d4	224	0	0	0	0	224	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	185	town	0x832a5c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	186	town	0x832e4c	32	0	0	0	0	32	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	187	town	0x8331f8	32	0	0	0	0	32	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	188	town	0x833468	32	0	0	0	0	32	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	189	town	0x833524	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	190	town	0x8393e4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	191	town	0x83b31c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	192	town	0x83b3d0	156	0	0	0	0	156	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	193	town	0x83b4cc	252	0	0	0	0	252	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	194	town	0x843940	156	0	0	0	0	156	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	195	town	0x843a3c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	196	town	0x8d32b8	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	197	town	0x8d54cc	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	198	town	0x8d55f4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_split	199	town	0x271644	64	0	0	64	0	0	SDK_LIBRARY	inherited_SDK_library_code	historical split without C	
+status_split	200	town	0x2716bc	32	0	0	32	0	0	SDK_LIBRARY	inherited_SDK_library_code	historical split without C	
+status_estimated_code	201	dungeon	0x8394	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	202	dungeon	0x8c08	336	0	0	0	0	336	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	203	dungeon	0x93a0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	204	dungeon	0x9bc4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	205	dungeon	0xa3d8	336	0	0	0	0	336	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	206	dungeon	0xabfc	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	207	dungeon	0xb3e0	336	0	0	0	0	336	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	208	dungeon	0xbc84	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	209	dungeon	0x51ea14	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	210	dungeon	0x51f868	556	0	0	0	0	556	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	211	dungeon	0x524824	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	212	dungeon	0x8d1658	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	213	dungeon	0x9c7a8c	724	0	0	0	0	724	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	214	dungeon	0x9cda8c	724	0	0	0	0	724	HOLD	unresolved_code_or_entry	retail difference lacks native ELF relocation	
+status_estimated_code	215	dungeon	0x9d3a8c	724	0	0	0	0	724	HOLD	unresolved_code_or_entry	retail difference lacks native ELF relocation	
+status_estimated_code	216	dungeon	0x9d9a8c	724	0	0	0	0	724	HOLD	unresolved_code_or_entry	retail difference lacks native ELF relocation	
+status_estimated_code	217	dungeon	0x9dfa8c	724	0	0	0	0	724	HOLD	unresolved_code_or_entry	retail difference lacks native ELF relocation	
+status_estimated_code	218	dungeon	0x9e5a8c	724	0	0	0	0	724	HOLD	unresolved_code_or_entry	retail difference lacks native ELF relocation	
+status_estimated_code	219	dungeon	0xa1f3b0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	220	dungeon	0xa313b0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	221	dungeon	0xa6dbc4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	222	dungeon	0xa73bc4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	223	dungeon	0xa79bc4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	224	dungeon	0xa7fbc4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	225	dungeon	0xa85bc4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	226	dungeon	0xa8bbc4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	227	dungeon	0xa971e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	228	dungeon	0xa994c0	1400	0	0	0	0	1400	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	229	dungeon	0xa9d1e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	230	dungeon	0xa9f4c0	1400	0	0	0	0	1400	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	231	dungeon	0xaa31e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	232	dungeon	0xaa54c0	1400	0	0	0	0	1400	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	233	dungeon	0xaa91e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	234	dungeon	0xaab4c0	1400	0	0	0	0	1400	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	235	dungeon	0xaaf1e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	236	dungeon	0xab14c0	1400	0	0	0	0	1400	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	237	dungeon	0xab51e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	238	dungeon	0xab74c0	1400	0	0	0	0	1400	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	239	dungeon	0xac7208	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	240	dungeon	0xad9208	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	241	dungeon	0xae708c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	242	dungeon	0xaeb428	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	243	dungeon	0xaf7428	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	244	dungeon	0xafd428	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	245	dungeon	0xb09428	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	246	dungeon	0xb154b0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	247	dungeon	0xb17a80	1420	0	0	0	0	1420	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	248	dungeon	0xb1b4b0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	249	dungeon	0xb1da80	1420	0	0	0	0	1420	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	250	dungeon	0xb214b0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	251	dungeon	0xb23a80	1420	0	0	0	0	1420	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	252	dungeon	0xb274b0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	253	dungeon	0xb29a80	1420	0	0	0	0	1420	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	254	dungeon	0xb2d4b0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	255	dungeon	0xb2fa80	1420	0	0	0	0	1420	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	256	dungeon	0xb334b0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	257	dungeon	0xb35a80	1420	0	0	0	0	1420	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	258	dungeon	0xb3f1e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	259	dungeon	0xb451e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	260	dungeon	0xb4b1e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	261	dungeon	0xb511e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	262	dungeon	0xb571e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	263	dungeon	0xb5d1e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	264	dungeon	0xbc3250	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	265	dungeon	0xbd5250	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	266	dungeon	0xc3bb60	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	267	dungeon	0xc41370	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	268	dungeon	0xc47b60	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	269	dungeon	0xc4db60	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	270	dungeon	0xc53370	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	271	dungeon	0xc59b60	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	272	dungeon	0xc5f208	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	273	dungeon	0xc65208	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	274	dungeon	0xc6b208	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	275	dungeon	0xc71208	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	276	dungeon	0xc77208	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	277	dungeon	0xc7d208	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	278	dungeon	0xc83208	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	279	dungeon	0xc893b4	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	280	dungeon	0xcbf0d8	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	281	dungeon	0xcd10d8	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	282	dungeon	0xd3d288	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	283	dungeon	0xd4f288	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	284	dungeon	0xd875c4	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	285	dungeon	0xd914ec	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	286	dungeon	0xd974ec	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	287	dungeon	0xd9d4ec	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	288	dungeon	0xda34ec	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	289	dungeon	0xda94ec	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	290	dungeon	0xe0f210	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	291	dungeon	0xfd1724	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	292	dungeon	0xfd7724	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	293	dungeon	0xfe3724	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	294	dungeon	0xfe9724	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	295	dungeon	0xff5724	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	296	dungeon	0x1055300	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	297	dungeon	0x105b300	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	298	dungeon	0x1061300	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	299	dungeon	0x1067300	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	300	dungeon	0x106d300	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	301	dungeon	0x1073300	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	302	dungeon	0x10a40b0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	303	dungeon	0x10ce674	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	304	dungeon	0x10d31e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	305	dungeon	0x10d91e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	306	dungeon	0x10df1e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	307	dungeon	0x10e51e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	308	dungeon	0x10eb1e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	309	dungeon	0x10f11e0	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	310	dungeon	0x12743c0	40	0	0	0	0	40	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	311	dungeon	0x12c8dc8	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	312	dungeon	0x12cc75c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	313	dungeon	0x12ce5d4	708	0	0	0	0	708	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	314	dungeon	0x12d275c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	315	dungeon	0x12d45d4	708	0	0	0	0	708	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	316	dungeon	0x12d875c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	317	dungeon	0x12da5d4	708	0	0	0	0	708	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	318	dungeon	0x12de75c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	319	dungeon	0x12e05d4	708	0	0	0	0	708	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	320	dungeon	0x12e475c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	321	dungeon	0x12e65d4	708	0	0	0	0	708	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	322	dungeon	0x12ea75c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	323	dungeon	0x12ec5d4	708	0	0	0	0	708	HOLD	unresolved_code_or_entry	complete twin lacks independent matched caller or pointer-table entry	
+status_estimated_code	324	dungeon	0x1344f20	388	0	0	0	0	388	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	325	dungeon	0x134a618	64	0	0	0	0	64	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	326	dungeon	0x134c688	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	327	dungeon	0x1834e94	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	328	dungeon	0x1847144	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	329	dungeon	0x186c35c	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	330	dungeon	0x18bf430	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	331	dungeon	0x18c59cc	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	332	dungeon	0x18fb960	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	333	dungeon	0x1900ff8	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	334	dungeon	0x190eb98	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	335	dungeon	0x1914128	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_estimated_code	336	dungeon	0x1967240	72	0	0	0	0	72	HOLD	unresolved_code_or_entry	heuristic shape; no complete C owner	
+status_split	337	ovmovie	0x163c	880	0	0	880	0	0	SDK_LIBRARY	inherited_SDK_library_code	historical split without C	
+status_slus_other	0x101f8	slus	0x101f8	204	0	0	0	0	204	HOLD	startup_assembly	SLUS startup main: ordinary C and complete linked-EXE proof not recovered	config/slus_006.14.yaml
+status_slus_other	0x37e80	slus	0x37e80	8	0	0	0	8	0	INHERITED_NONCODE	inherited_data	MSC00 SDK member header words; existing bin split	config/slus_006.14.yaml
+status_slus_other	0x39788	slus	0x39788	8	0	0	0	8	0	INHERITED_NONCODE	inherited_padding	zero alignment after RotMatrixZ; existing bin split	config/slus_006.14.yaml
+status_slus_other	0x3d608	slus	0x3d608	8	0	0	0	8	0	INHERITED_NONCODE	inherited_data	SDK member header; existing bin split	config/slus_006.14.yaml

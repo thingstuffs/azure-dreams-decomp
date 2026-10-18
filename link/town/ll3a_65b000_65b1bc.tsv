@@ -1,0 +1,10 @@
+#{"a":0,"d":{"c":"town","e":"config/overlays/town.rowbase.jsonl proven region r121m_65b134_80016134","i":"town/ll3a_65b000_65b1bc","n":"0x000001BC","o":"0x0065B000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[252,0,0,189,0,0,3],"v":"0x80016000"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{},{"census_label":"proven_code"},{"bindings":{"0x800AE510":"0x800160F8"},"evidence":"LL3a attestation sha256:fa44b905f7b5995ae43fffc940bace800e85ad790c430f858385af48d63ff55d; current-TU paired HI16/LO16 relocation screen; scoped window gate"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+6664192	28	a	census:audit+noncode_confirmed	9dd6684fac790d5bd28565a18cf56572cb49983b91cb243ba0fd1e2f81106f1a	0
+6664220	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	1
+6664260	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	0
+6664280	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	1
+6664381	3	u	census:unresolved:audit_data_unconfirmed		2
+6664384	56	r	census:instance_partial		3
+"0x0065B0F8"	8	c	census:registered_tu		["func_806DB0F8","func_800B0DB0","0x800160F8",4]
+6664448	188	r	census:c_row		3

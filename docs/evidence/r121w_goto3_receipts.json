@@ -1,0 +1,1904 @@
+{
+  "schema": "r121w_goto3.source-cleanup.v1",
+  "base": "ddc07bc5949684593cdc45a67e378a1f18324318",
+  "base_name": "B13 private snapshot",
+  "new_rows": 0,
+  "new_coverage_bytes": 0,
+  "changed_homes": [
+    {
+      "row": "dungeon/func_812A524C",
+      "source": "src/dungeon/func_812A524C.c",
+      "before_sha256": "7d2db8603ebf827e6a125cfd9d2d472a01173dde11538b4682ef489afe4b8b4c",
+      "after_sha256": "0d129068098dfdeeee64600e2732afbded7e8f0659b1abee44eed29eadd92042",
+      "gotos_before": 11,
+      "gotos_after": 8,
+      "bytes": 5464,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 1366,
+        "tgt_words": 1366,
+        "class": "match",
+        "signals": [],
+        "secs": 3.47,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_8133AD74",
+      "source": "src/dungeon/func_8133AD74.c",
+      "before_sha256": "7d555c92000d06afa247b4a586e1af450033c9c6ae3becb7de6db6d51db47796",
+      "after_sha256": "08bdafa41c5f50f3ad948c5c854b49ada132f526ec070021a309764ce92008c3",
+      "gotos_before": 2,
+      "gotos_after": 1,
+      "bytes": 5068,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 1267,
+        "tgt_words": 1267,
+        "class": "match",
+        "signals": [],
+        "secs": 3.32,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80FB5398",
+      "source": "src/dungeon/func_80FB5398.c",
+      "before_sha256": "95fea240f1c14f2098b6e298a7824c2eb585decc9edfce16ebc30207c78ca7d2",
+      "after_sha256": "b06eba756a1783c804f0ddde48345f47858332ffa22c80706f774bfb2015ef53",
+      "gotos_before": 1,
+      "gotos_after": 0,
+      "bytes": 1500,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 375,
+        "tgt_words": 375,
+        "class": "match",
+        "signals": [],
+        "secs": 2.8,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80A20A28",
+      "source": "src/dungeon/func_80A20A28.c",
+      "before_sha256": "1699d4728a99014d3d04df1fba690dc8416ec87aad36d0faba27c6337da58aff",
+      "after_sha256": "28ae280561227cce0228f0a056f5d74856b247cde4d5e17d601fb3b77e8865bb",
+      "gotos_before": 1,
+      "gotos_after": 0,
+      "bytes": 1408,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 352,
+        "tgt_words": 352,
+        "class": "match",
+        "signals": [],
+        "secs": 2.66,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_819A1654",
+      "source": "src/dungeon/func_819A1654.c",
+      "before_sha256": "618a15e34d606bdc502ea385a53404899b4fe4b85086873dceb1ca6e692c42df",
+      "after_sha256": "6fe36127ed0fe444554d39fb139667cfcd8b1f1fc2f829482213a7f10b41f7fe",
+      "gotos_before": 2,
+      "gotos_after": 1,
+      "bytes": 4908,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 1227,
+        "tgt_words": 1227,
+        "class": "match",
+        "signals": [],
+        "secs": 3.02,
+        "err": null
+      }
+    }
+  ],
+  "measurements": [
+    {
+      "row": "dungeon/func_80084340",
+      "variant": "pending_loop",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80084340_pending_loop.c",
+      "sha256": "86dc8c7903a59caf0414c11d4266f71bb468217a98c99259cfeb62ad36f4fca3",
+      "gotos": 3,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 140,
+        "indels": 8,
+        "total": 148,
+        "gen_words": 1165,
+        "tgt_words": 1165,
+        "class": "broad",
+        "signals": [],
+        "secs": 3.21,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_800A8714",
+      "variant": "return_ability",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_800A8714_return_ability.c",
+      "sha256": "b2dde66e54fa719ca4ef49dfce0d81b08dae922c162c1a073c2ebc8ea13e7c03",
+      "gotos": 5,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 1817,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 3.03,
+        "err": "jtbl: local .rodata at 0x80089088 word 2: got 0x800AF8BC, retail 0x800AF89C (the switch's case->label table differs from retail)"
+      }
+    },
+    {
+      "row": "dungeon/func_800A8714",
+      "variant": "return_default",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_800A8714_return_default.c",
+      "sha256": "4f5dc87f0e84351575c478cb5b2bb11fb52d9b7297c5388aad60d9cd5b76f01b",
+      "gotos": 5,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 1817,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 3.05,
+        "err": "jtbl: local .rodata at 0x80089088 word 0: got 0x800AF578, retail 0x800AF57C (the switch's case->label table differs from retail)"
+      }
+    },
+    {
+      "row": "dungeon/func_800A8714",
+      "variant": "return_wait",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_800A8714_return_wait.c",
+      "sha256": "0f2cb9b69d44a56a1578b6c9ba5da56dff5ca5f9c98112446997836334062d16",
+      "gotos": 5,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 120,
+        "indels": 18,
+        "total": 138,
+        "gen_words": 1815,
+        "tgt_words": 1817,
+        "class": "polarity",
+        "signals": [
+          "swaps=3",
+          "polarity=1",
+          "remat=1",
+          "dead-word=2",
+          "length-words=1815/1817"
+        ],
+        "secs": 3.43,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_800CA184",
+      "variant": "edge_loop",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_800CA184_edge_loop.c",
+      "sha256": "81ca5fc57676fbace31cff0d2d6f37b91b1bec129359f46c0ecb3daa73d02c0e",
+      "gotos": 8,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 130,
+        "indels": 4,
+        "total": 134,
+        "gen_words": 934,
+        "tgt_words": 932,
+        "class": "const-remat",
+        "signals": [
+          "remat=1",
+          "addressing=2",
+          "length-words=934/932"
+        ],
+        "secs": 2.97,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80287C4C",
+      "variant": "direct_failure",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80287C4C_direct_failure.c",
+      "sha256": "69d2e791a76e7298e423bc420c325b656d19fd91acd57aaf25ea5e3ab62cc976",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 5,
+        "indels": 2,
+        "total": 7,
+        "gen_words": 1289,
+        "tgt_words": 1288,
+        "class": "polarity",
+        "signals": [
+          "polarity=1",
+          "remat=1"
+        ],
+        "secs": 2.79,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80A20A28",
+      "variant": "indexed_stable_base",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80A20A28_indexed_stable_base.c",
+      "sha256": "3e92e0e12ce88c6a6e0bead7d0e68e44ef3b81ca770feebca0605c4e24692bd1",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 352,
+        "tgt_words": 352,
+        "class": "match",
+        "signals": [],
+        "secs": 2.4,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80A20A28",
+      "variant": "indexed_storage_base",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80A20A28_indexed_storage_base.c",
+      "sha256": "b46f9df5bb98925d5e2be2ad61b9cffea89d5e58f3ccb9106c27ae7a454cc1a8",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 82,
+        "indels": 14,
+        "total": 96,
+        "gen_words": 356,
+        "tgt_words": 352,
+        "class": "li-expansion",
+        "signals": [
+          "lui_delta=-1",
+          "remat=2",
+          "addressing=2",
+          "length-words=356/352"
+        ],
+        "secs": 2.5,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80A20A28",
+      "variant": "indexed_vertices",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80A20A28_indexed_vertices.c",
+      "sha256": "2ee47836d4e36cb3c5c733f45787a66181101fb236c1536a02f9cff30779f965",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 6,
+        "indels": 2,
+        "total": 8,
+        "gen_words": 353,
+        "tgt_words": 352,
+        "class": "code-motion",
+        "signals": [
+          "indels=2(ins1/del1)",
+          "drift-ins:+nop",
+          "drift-del:-sw"
+        ],
+        "secs": 2.29,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80ABF07C",
+      "variant": "direct_object",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80ABF07C_direct_object.c",
+      "sha256": "19f230c59e9e2d4ebb8177aa2a92a1302aa823df967cad111fa0aeb9352fadef",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 1,
+        "indels": 0,
+        "total": 1,
+        "gen_words": 117,
+        "tgt_words": 117,
+        "class": "block-order",
+        "signals": [
+          "branch-displacement"
+        ],
+        "secs": 2.34,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80ABF07C",
+      "variant": "positive_random",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80ABF07C_positive_random.c",
+      "sha256": "e0278fc889015569a5f731b9d5e78209b372af9ba9cc8ed06041fc234ad4da9e",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 1,
+        "indels": 0,
+        "total": 1,
+        "gen_words": 117,
+        "tgt_words": 117,
+        "class": "block-order",
+        "signals": [
+          "branch-displacement"
+        ],
+        "secs": 2.28,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80ABF07C",
+      "variant": "random_switch",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80ABF07C_random_switch.c",
+      "sha256": "727b3a9dc9e30f38a0d043ed3a03e17366cec72a9750c82249388939c93c6c0e",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 1,
+        "indels": 0,
+        "total": 1,
+        "gen_words": 117,
+        "tgt_words": 117,
+        "class": "block-order",
+        "signals": [
+          "branch-displacement"
+        ],
+        "secs": 2.31,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80B467DC",
+      "variant": "base_after",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80B467DC_base_after.c",
+      "sha256": "091e7dfed419114d3c203fb74e9132e48fcd086bc41a13803df6a4faca5918e2",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 23,
+        "indels": 25,
+        "total": 48,
+        "gen_words": 367,
+        "tgt_words": 364,
+        "class": "hold-set",
+        "signals": [
+          "frame=-648/-640,saved=22/22",
+          "addressing=2",
+          "indels=28(ins14/del14)",
+          "drift-ins:+sw,+sw,+sw",
+          "drift-del:-sw,-sw,-sw",
+          "dead-word=1",
+          "length-words=367/364"
+        ],
+        "secs": 2.39,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80B467DC",
+      "variant": "cursor",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80B467DC_cursor.c",
+      "sha256": "22a956ce5b69d890de9d73887a2a041cdf983d47bca14d96280957dcfc64fa32",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 3,
+        "indels": 0,
+        "total": 3,
+        "gen_words": 364,
+        "tgt_words": 364,
+        "class": "broad",
+        "signals": [],
+        "secs": 2.44,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80B467DC",
+      "variant": "cursor_base_copy",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80B467DC_cursor_base_copy.c",
+      "sha256": "26cb992cdb7e65cff1d9b49ae0822e1c666dab1563eea8715d6f4bce95891699",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 3,
+        "indels": 4,
+        "total": 7,
+        "gen_words": 364,
+        "tgt_words": 364,
+        "class": "code-motion",
+        "signals": [
+          "indels=4(ins2/del2)",
+          "drift-ins:+lw,+addiu",
+          "drift-del:-lw,-move"
+        ],
+        "secs": 2.81,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80B467DC",
+      "variant": "cursor_reverse",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80B467DC_cursor_reverse.c",
+      "sha256": "deb65c955e9a01c806888386b8fc9eb2078a5a8b5325df4d6784493162b6ccf6",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 3,
+        "indels": 4,
+        "total": 7,
+        "gen_words": 364,
+        "tgt_words": 364,
+        "class": "code-motion",
+        "signals": [
+          "indels=4(ins2/del2)",
+          "drift-ins:+lw,+addiu",
+          "drift-del:-lw,-move"
+        ],
+        "secs": 2.5,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80B467DC",
+      "variant": "desc_base",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80B467DC_desc_base.c",
+      "sha256": "d6b199ac2178a1817924948336cf79dc31f04801bf0d87cd9db41cfdd6f52392",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 4,
+        "indels": 0,
+        "total": 4,
+        "gen_words": 364,
+        "tgt_words": 364,
+        "class": "hold-set",
+        "signals": [
+          "frame=-640/-640,saved=25/22"
+        ],
+        "secs": 2.41,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80B467DC",
+      "variant": "flat_do",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80B467DC_flat_do.c",
+      "sha256": "b246ec68fe2dd9c92870bdc451a3947e1e1e322000574ec5f6129fcb7dfca5dc",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 7,
+        "indels": 6,
+        "total": 13,
+        "gen_words": 364,
+        "tgt_words": 364,
+        "class": "broad",
+        "signals": [],
+        "secs": 2.59,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80B467DC",
+      "variant": "flat_while",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80B467DC_flat_while.c",
+      "sha256": "2053b0ff164f8191c65ba9744f312b4928da0541236ea1d305dda931f44db89d",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 7,
+        "indels": 10,
+        "total": 17,
+        "gen_words": 364,
+        "tgt_words": 364,
+        "class": "code-motion",
+        "signals": [
+          "indels=10(ins5/del5)",
+          "drift-ins:+lw,+li,+addu",
+          "drift-del:-move,-lw,-li",
+          "dead-word=1"
+        ],
+        "secs": 2.4,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80B467DC",
+      "variant": "inner_cursor",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80B467DC_inner_cursor.c",
+      "sha256": "1ac8776165b9dba78e33cf3bdde65f705480214505d97cadd580254ac80c1d23",
+      "gotos": 1,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 6,
+        "indels": 0,
+        "total": 6,
+        "gen_words": 364,
+        "tgt_words": 364,
+        "class": "broad",
+        "signals": [],
+        "secs": 2.38,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80B467DC",
+      "variant": "inner_only",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80B467DC_inner_only.c",
+      "sha256": "13aa8a1d2f93e1c80fda14b577251dbef9d6cd626213ebf3faec2d0bfc69a5e0",
+      "gotos": 1,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 6,
+        "indels": 2,
+        "total": 8,
+        "gen_words": 364,
+        "tgt_words": 364,
+        "class": "broad",
+        "signals": [],
+        "secs": 2.35,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80B467DC",
+      "variant": "outer_cursor",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80B467DC_outer_cursor.c",
+      "sha256": "8986dd691d01ba80bd9b071c1b27d68c9b9cacc8ac6b093cd5e7338fd6a96e20",
+      "gotos": 1,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 6,
+        "indels": 0,
+        "total": 6,
+        "gen_words": 364,
+        "tgt_words": 364,
+        "class": "broad",
+        "signals": [],
+        "secs": 2.39,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80B467DC",
+      "variant": "outer_only",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80B467DC_outer_only.c",
+      "sha256": "d4f85b927d363137e22c051ea7f5f092753e5ce9434f93ad5f88b15c09316581",
+      "gotos": 1,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 8,
+        "indels": 4,
+        "total": 12,
+        "gen_words": 364,
+        "tgt_words": 364,
+        "class": "broad",
+        "signals": [],
+        "secs": 2.39,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80B467DC",
+      "variant": "structured",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80B467DC_structured.c",
+      "sha256": "b5fff8dee90477e6cce52e8ea8f94a232e49b567e13d90d0066d170acff8ab2d",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 4,
+        "indels": 4,
+        "total": 8,
+        "gen_words": 364,
+        "tgt_words": 364,
+        "class": "code-motion",
+        "signals": [
+          "indels=4(ins2/del2)",
+          "drift-ins:+lw,+addiu",
+          "drift-del:-lw,-move"
+        ],
+        "secs": 2.47,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80CE9F34",
+      "variant": "attack_continue",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80CE9F34_attack_continue.c",
+      "sha256": "81aee4ff9d3fd02267dfd56865dbfd717c1d08884598f4ad475272b5f5bd86f5",
+      "gotos": 1,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 261,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 1.86,
+        "err": "gcc: /tmp/tmpgso8nku6/func_80CE9F34_attack_continue.c:111: label `loop' used but not defined"
+      }
+    },
+    {
+      "row": "dungeon/func_80CE9F34",
+      "variant": "traverse_continue",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80CE9F34_traverse_continue.c",
+      "sha256": "40c2a930708c001195f16460809fb0e48fa47a76791ebab587cedff78558653b",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 91,
+        "indels": 2,
+        "total": 93,
+        "gen_words": 261,
+        "tgt_words": 261,
+        "class": "addressing",
+        "signals": [
+          "addressing=3"
+        ],
+        "secs": 2.71,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80CEA348",
+      "variant": "attack_continue",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80CEA348_attack_continue.c",
+      "sha256": "59145fd5643cda9f623daa5f37a635aabcbb2aed34f8352f3bc77af6377564ba",
+      "gotos": 1,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 217,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 1.86,
+        "err": "gcc: /tmp/tmp1rax8bsw/func_80CEA348_attack_continue.c:80: label `loop' used but not defined"
+      }
+    },
+    {
+      "row": "dungeon/func_80CEA348",
+      "variant": "traverse_continue",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80CEA348_traverse_continue.c",
+      "sha256": "0c25cf0bd5bd01b3a5b0b25aa73f20e9027b03b33654254305a145d61b40015d",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 28,
+        "indels": 0,
+        "total": 28,
+        "gen_words": 217,
+        "tgt_words": 217,
+        "class": "reg-rename",
+        "signals": [
+          "regmap=3"
+        ],
+        "secs": 2.63,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80E64FF0",
+      "variant": "fall_guard",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80E64FF0_fall_guard.c",
+      "sha256": "591ea189a1273d32db5d84d5292188c1e78fa146bec8f5271fcaea0b7e884335",
+      "gotos": 1,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 8,
+        "indels": 50,
+        "total": 58,
+        "gen_words": 364,
+        "tgt_words": 362,
+        "class": "polarity",
+        "signals": [
+          "polarity=3",
+          "indels=52(ins26/del26)",
+          "drift-ins:+li,+bne,+lb",
+          "drift-del:-lb,-lb,-lhu",
+          "length-words=364/362"
+        ],
+        "secs": 2.46,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80E64FF0",
+      "variant": "fall_inside",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80E64FF0_fall_inside.c",
+      "sha256": "a4e61902d111b36eaf5a718cb543da14fb44f29ed28bd61eeecc2f5cc0e34306",
+      "gotos": 1,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 8,
+        "indels": 50,
+        "total": 58,
+        "gen_words": 364,
+        "tgt_words": 362,
+        "class": "polarity",
+        "signals": [
+          "polarity=3",
+          "indels=52(ins26/del26)",
+          "drift-ins:+li,+bne,+lb",
+          "drift-del:-lb,-lb,-lhu",
+          "length-words=364/362"
+        ],
+        "secs": 2.39,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80E64FF0",
+      "variant": "settle_guard",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80E64FF0_settle_guard.c",
+      "sha256": "5725a77c444649637c52ddd38b7dd9bc9e0c8fa7297d58cde24b68408e130ed5",
+      "gotos": 1,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 18,
+        "indels": 52,
+        "total": 70,
+        "gen_words": 364,
+        "tgt_words": 362,
+        "class": "polarity",
+        "signals": [
+          "swaps=4",
+          "polarity=2",
+          "lui_delta=-1",
+          "remat=1",
+          "indels=54(ins27/del27)",
+          "drift-ins:+move,+addu,+lw",
+          "drift-del:-lui,-addiu,-li",
+          "length-words=364/362"
+        ],
+        "secs": 2.46,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80E64FF0",
+      "variant": "settle_inside",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80E64FF0_settle_inside.c",
+      "sha256": "3baa50ace9d6648c17d6be39801f7eac43ced096ebb8b1a317f5d02689fa354a",
+      "gotos": 1,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 18,
+        "indels": 52,
+        "total": 70,
+        "gen_words": 364,
+        "tgt_words": 362,
+        "class": "polarity",
+        "signals": [
+          "swaps=4",
+          "polarity=2",
+          "lui_delta=-1",
+          "remat=1",
+          "indels=54(ins27/del27)",
+          "drift-ins:+move,+addu,+lw",
+          "drift-del:-lui,-addiu,-li",
+          "length-words=364/362"
+        ],
+        "secs": 2.45,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80F90E88",
+      "variant": "indexed_endpoints",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80F90E88_indexed_endpoints.c",
+      "sha256": "8713009bf6fa2ae086183b9a90f5e44913675488c6f15c56b701618c7d31a051",
+      "gotos": 2,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 58,
+        "indels": 22,
+        "total": 80,
+        "gen_words": 249,
+        "tgt_words": 245,
+        "class": "li-expansion",
+        "signals": [
+          "swaps=1",
+          "lui_delta=-2",
+          "remat=2",
+          "frame=-128/-136,saved=22/20",
+          "addressing=10",
+          "length-words=249/245"
+        ],
+        "secs": 2.49,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80F90E88",
+      "variant": "loop_0_only",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80F90E88_loop_0_only.c",
+      "sha256": "d21cbfc8676d8e7ec86ecaada3c107f67459d5c488eff162e0abb62c20ddc3d1",
+      "gotos": 2,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 5,
+        "indels": 6,
+        "total": 11,
+        "gen_words": 247,
+        "tgt_words": 245,
+        "class": "length-drift",
+        "signals": [
+          "swaps=1",
+          "indels=8(ins4/del4)",
+          "drift-ins:+sh,+bgez,+jr",
+          "drift-del:-addiu,-sh,-bgez",
+          "length-words=247/245"
+        ],
+        "secs": 2.25,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80F90E88",
+      "variant": "loop_1_only",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80F90E88_loop_1_only.c",
+      "sha256": "76b8b6c9e50fd0b07293e614111f5f053fee5321126c5da648f2174934886fd4",
+      "gotos": 2,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 53,
+        "indels": 11,
+        "total": 64,
+        "gen_words": 244,
+        "tgt_words": 245,
+        "class": "li-expansion",
+        "signals": [
+          "lui_delta=1",
+          "remat=1",
+          "addressing=2",
+          "length-words=244/245"
+        ],
+        "secs": 2.3,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80FB402C",
+      "variant": "second_direct_actor",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80FB402C_second_direct_actor.c",
+      "sha256": "3c75b18ab83d6b8fdb7bfd130b87614a1e559fb340b35f7ef16f50f988944d7a",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 1,
+        "indels": 0,
+        "total": 1,
+        "gen_words": 442,
+        "tgt_words": 442,
+        "class": "block-order",
+        "signals": [
+          "branch-displacement"
+        ],
+        "secs": 2.52,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80FB402C",
+      "variant": "split_actor_arg",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80FB402C_split_actor_arg.c",
+      "sha256": "a45e36d4cb48d85c2315b1722934c00b3f7b377ba5abda76497b4a3d6a7a4e85",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 1,
+        "indels": 0,
+        "total": 1,
+        "gen_words": 442,
+        "tgt_words": 442,
+        "class": "block-order",
+        "signals": [
+          "branch-displacement"
+        ],
+        "secs": 2.52,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80FB402C",
+      "variant": "split_random",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80FB402C_split_random.c",
+      "sha256": "90a4c5e2bc31fce60f94bdf17ff394862b725e19644fcbaef8584a3fe7394e45",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 1,
+        "indels": 0,
+        "total": 1,
+        "gen_words": 442,
+        "tgt_words": 442,
+        "class": "block-order",
+        "signals": [
+          "branch-displacement"
+        ],
+        "secs": 2.5,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80FB4C24",
+      "variant": "indexed_channels",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80FB4C24_indexed_channels.c",
+      "sha256": "415a6e211a0ce4629c13c9585b79b550ded11d05bc030c53e2f03eef7760193f",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 5,
+        "indels": 7,
+        "total": 12,
+        "gen_words": 150,
+        "tgt_words": 145,
+        "class": "polarity",
+        "signals": [
+          "polarity=1",
+          "indels=12(ins6/del6)",
+          "drift-ins:+move,+lw,+lw",
+          "drift-del:-addiu,-sll,-addu",
+          "length-words=150/145"
+        ],
+        "secs": 2.34,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80FB4C24",
+      "variant": "unpack_continue",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80FB4C24_unpack_continue.c",
+      "sha256": "44b66f6e8c34ecd591d38f1ac7fcd3b46da7954d2e40510ea2409c98f9f7ac8e",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 7,
+        "indels": 7,
+        "total": 14,
+        "gen_words": 150,
+        "tgt_words": 145,
+        "class": "polarity",
+        "signals": [
+          "polarity=1",
+          "indels=12(ins6/del6)",
+          "drift-ins:+move,+lw,+lw",
+          "drift-del:-addiu,-sll,-addu",
+          "length-words=150/145"
+        ],
+        "secs": 2.32,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_80FB5398",
+      "variant": "indexed_vertices",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_80FB5398_indexed_vertices.c",
+      "sha256": "c07db865ded833048141c9c99a8f5c37430d8affbe966b2ce379b08d091ec391",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 375,
+        "tgt_words": 375,
+        "class": "match",
+        "signals": [],
+        "secs": 2.23,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_8102FCB8",
+      "variant": "case12_first",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_8102FCB8_case12_first.c",
+      "sha256": "4465213ceb1715e113f221f7b74452d287023dab33e331eac406b3cb252b82bb",
+      "gotos": 0,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 481,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 2.42,
+        "err": "jtbl: local .rodata at 0x80170808 word 0: got 0x801718D8, retail 0x801718E8 (the switch's case->label table differs from retail)"
+      }
+    },
+    {
+      "row": "dungeon/func_8102FCB8",
+      "variant": "case12_status",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_8102FCB8_case12_status.c",
+      "sha256": "9149b1b6454d77a5dd1180a5c1859b78bce5adaf161626bbdafd567f90536d31",
+      "gotos": 0,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 481,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 2.43,
+        "err": "jtbl: local .rodata at 0x80170808 word 0: got 0x801718D8, retail 0x801718E8 (the switch's case->label table differs from retail)"
+      }
+    },
+    {
+      "row": "dungeon/func_8102FCB8",
+      "variant": "inline_cleanups",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_8102FCB8_inline_cleanups.c",
+      "sha256": "178526566e24d0687fc4caac20fea3552e1a3b96452ae393b1b777c1a1f17c87",
+      "gotos": 0,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 481,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 2.35,
+        "err": "jtbl: local .rodata at 0x80170808 word 0: got 0x801718D8, retail 0x801718E8 (the switch's case->label table differs from retail)"
+      }
+    },
+    {
+      "row": "dungeon/func_812A524C",
+      "variant": "all_structured_indexed",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_812A524C_all_structured_indexed.c",
+      "sha256": "1cdcf6ff4c4b49ea35d7e3c6b4d17b57c928afc045c5980f6f9326e0fdd369cd",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 122,
+        "indels": 88,
+        "total": 210,
+        "gen_words": 1372,
+        "tgt_words": 1366,
+        "class": "const-remat",
+        "signals": [
+          "remat=2",
+          "dead-word=3",
+          "length-words=1372/1366"
+        ],
+        "secs": 2.91,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_812A524C",
+      "variant": "group_pointer",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_812A524C_group_pointer.c",
+      "sha256": "2f7bce0ae73ae3692532de7aee113f036a7c336ba1dc0ffa49ae059524d89456",
+      "gotos": 10,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 35,
+        "indels": 2,
+        "total": 37,
+        "gen_words": 1367,
+        "tgt_words": 1366,
+        "class": "slot-rotation",
+        "signals": [
+          "swaps=4"
+        ],
+        "secs": 2.84,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_812A524C",
+      "variant": "indexed_scan",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_812A524C_indexed_scan.c",
+      "sha256": "c54956077c99781e35c6b84202e4785027a14fc8cfdf1888132084cd416d3745",
+      "gotos": 10,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 1366,
+        "tgt_words": 1366,
+        "class": "match",
+        "signals": [],
+        "secs": 2.74,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_812A524C",
+      "variant": "indexed_through_10",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_812A524C_indexed_through_10.c",
+      "sha256": "81f41412a7aadf4a62624f5483578a99c6499dbbd48c9751ddf13828c99b49c9",
+      "gotos": 10,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 1366,
+        "tgt_words": 1366,
+        "class": "match",
+        "signals": [],
+        "secs": 2.67,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_812A524C",
+      "variant": "indexed_through_100",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_812A524C_indexed_through_100.c",
+      "sha256": "f01dfc6cb16986dab7599a79909b80c8d948722d5b33b503aa4d0f1cbee9414f",
+      "gotos": 8,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 1366,
+        "tgt_words": 1366,
+        "class": "match",
+        "signals": [],
+        "secs": 2.71,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_812A524C",
+      "variant": "indexed_through_80",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_812A524C_indexed_through_80.c",
+      "sha256": "858a2a04a16e69663476ae74ed0431f1815c21e5ee817aedeab4ad5561c78a37",
+      "gotos": 9,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 1366,
+        "tgt_words": 1366,
+        "class": "match",
+        "signals": [],
+        "secs": 2.72,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_812A524C",
+      "variant": "int_cursor",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_812A524C_int_cursor.c",
+      "sha256": "d35569f3ac07cac2a78f77bab40f5420b21977e17388bf5984449188ddbf41f4",
+      "gotos": 10,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 35,
+        "indels": 2,
+        "total": 37,
+        "gen_words": 1367,
+        "tgt_words": 1366,
+        "class": "slot-rotation",
+        "signals": [
+          "swaps=4"
+        ],
+        "secs": 2.98,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_812A524C",
+      "variant": "scan_10",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_812A524C_scan_10.c",
+      "sha256": "314cf84350181fc3eae8e9a24f04fe16fcec3f815302a5da2c2bd6dab63dd55d",
+      "gotos": 10,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 37,
+        "indels": 2,
+        "total": 39,
+        "gen_words": 1367,
+        "tgt_words": 1366,
+        "class": "slot-rotation",
+        "signals": [
+          "swaps=6"
+        ],
+        "secs": 3.05,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_812A524C",
+      "variant": "scan_100",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_812A524C_scan_100.c",
+      "sha256": "0b7a7345bbcf97ae9bef9db2d3f471228ec328951283bde7f2a1cd41b343e209",
+      "gotos": 10,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 35,
+        "indels": 2,
+        "total": 37,
+        "gen_words": 1367,
+        "tgt_words": 1366,
+        "class": "slot-rotation",
+        "signals": [
+          "swaps=4"
+        ],
+        "secs": 3.0,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_812A524C",
+      "variant": "scan_80",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_812A524C_scan_80.c",
+      "sha256": "a82adba4d35fb1130639fc2b4a585b04672853bb0fbc361a37bbe91497f1ba4d",
+      "gotos": 10,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 36,
+        "indels": 2,
+        "total": 38,
+        "gen_words": 1367,
+        "tgt_words": 1366,
+        "class": "slot-rotation",
+        "signals": [
+          "swaps=5"
+        ],
+        "secs": 3.02,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_812A524C",
+      "variant": "search_then_action",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_812A524C_search_then_action.c",
+      "sha256": "0e84a1cded1912ff4dce9e216c82a1ce64ab92aaf1962865da1766e4c928b3bf",
+      "gotos": 10,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 46,
+        "indels": 8,
+        "total": 54,
+        "gen_words": 1370,
+        "tgt_words": 1366,
+        "class": "hold-set",
+        "signals": [
+          "swaps=1",
+          "frame=-72/-72,saved=18/16",
+          "addressing=1",
+          "length-words=1370/1366"
+        ],
+        "secs": 2.95,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_812A524C",
+      "variant": "uint_cursor",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_812A524C_uint_cursor.c",
+      "sha256": "d6611bbb2fd670367eadf4ba200beba9d9461f3a5d08212345fc13564c75fcbc",
+      "gotos": 10,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 35,
+        "indels": 2,
+        "total": 37,
+        "gen_words": 1367,
+        "tgt_words": 1366,
+        "class": "slot-rotation",
+        "signals": [
+          "swaps=4"
+        ],
+        "secs": 2.89,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_8133336C",
+      "variant": "state_fields_copy",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_8133336C_state_fields_copy.c",
+      "sha256": "cbf25a8fb466cd96069d81148f605385a8fd5385eafcaaa26823c7f2e957968b",
+      "gotos": 2,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 10,
+        "indels": 6,
+        "total": 16,
+        "gen_words": 790,
+        "tgt_words": 790,
+        "class": "const-remat",
+        "signals": [
+          "remat=1",
+          "dead-word=2"
+        ],
+        "secs": 2.96,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_8133336C",
+      "variant": "state_pose_copy",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_8133336C_state_pose_copy.c",
+      "sha256": "629496ead905a1984324990f68dfce81827697f2ccbe2348005c3a66cac2963b",
+      "gotos": 2,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 60,
+        "indels": 5,
+        "total": 65,
+        "gen_words": 793,
+        "tgt_words": 790,
+        "class": "polarity",
+        "signals": [
+          "polarity=1",
+          "lui_delta=-1",
+          "remat=4",
+          "dead-word=1",
+          "length-words=793/790"
+        ],
+        "secs": 3.19,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_8133AD74",
+      "variant": "case13_only",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_8133AD74_case13_only.c",
+      "sha256": "730c6e8e704091b0e99973358bdf5d9c1db4b32e25fc7ccefb20a418c05005af",
+      "gotos": 1,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 1267,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 2.7,
+        "err": "jtbl: local .rodata at 0x80164AE0 word 5: got 0x8017302C, retail 0x80173018 (the switch's case->label table differs from retail)"
+      }
+    },
+    {
+      "row": "dungeon/func_8133AD74",
+      "variant": "cases_only",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_8133AD74_cases_only.c",
+      "sha256": "f9dc3259dec4f33ec0647d859923afeb91830b028d154d8cf8e8447df2e9f2db",
+      "gotos": 1,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 1267,
+        "tgt_words": 1267,
+        "class": "match",
+        "signals": [],
+        "secs": 2.69,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_8133AD74",
+      "variant": "duplicate_tail",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_8133AD74_duplicate_tail.c",
+      "sha256": "316c278f2eff1393d50c16753396a829a7c5a56f4f039614d0b78d1d653af5ef",
+      "gotos": 0,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 1267,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 2.63,
+        "err": "jtbl: local .rodata at 0x80164AE0 word 2: got 0x80171F84, retail 0x80171FA0 (the switch's case->label table differs from retail)"
+      }
+    },
+    {
+      "row": "dungeon/func_8133AD74",
+      "variant": "move_real_cases",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_8133AD74_move_real_cases.c",
+      "sha256": "26f443442c31b690d02b174bc55cb78adc9da968e72621530a400fed2341e8cf",
+      "gotos": 0,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 1267,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 2.74,
+        "err": "jtbl: local .rodata at 0x80164AE0 word 5: got 0x8017302C, retail 0x80173018 (the switch's case->label table differs from retail)"
+      }
+    },
+    {
+      "row": "dungeon/func_8187C45C",
+      "variant": "clear_busy_copy",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_8187C45C_clear_busy_copy.c",
+      "sha256": "fefa9e9990a0d0a35ad64d619d9437573fa910480e2ff1b833e2859b951a36ab",
+      "gotos": 4,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 822,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 2.78,
+        "err": "jtbl: local .rodata at 0x80024078 word 0: got 0x00000020, retail 0x00200020 (the switch's case->label table differs from retail)"
+      }
+    },
+    {
+      "row": "dungeon/func_8187C45C",
+      "variant": "finish_fade_copy",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_8187C45C_finish_fade_copy.c",
+      "sha256": "27efd5411a76391f534b5aceb58ecda3c6221d75650cd692dcde496c5cc83044",
+      "gotos": 4,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 822,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 2.72,
+        "err": "jtbl: local .rodata at 0x80024078 word 0: got 0x00000020, retail 0x00200020 (the switch's case->label table differs from retail)"
+      }
+    },
+    {
+      "row": "dungeon/func_819835AC",
+      "variant": "duplicate_retirement",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_819835AC_duplicate_retirement.c",
+      "sha256": "90d693d96ff3e8250b1bb59fbd1e1181585a9ef42d26977564b23ccaaad98b06",
+      "gotos": 1,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 1130,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 2.61,
+        "err": "jtbl: local .rodata at 0x80024020 word 7: got 0x80025C8C, retail 0x80025C6C (the switch's case->label table differs from retail)"
+      }
+    },
+    {
+      "row": "dungeon/func_819835AC",
+      "variant": "guard_retirement",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_819835AC_guard_retirement.c",
+      "sha256": "b4e69c48eacb5247bc7decc1b5c61b1b2687f94951e7c9be0c61e306a0e2d4f3",
+      "gotos": 0,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 1130,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 2.57,
+        "err": "jtbl: local .rodata at 0x80024020 word 7: got 0x80025C8C, retail 0x80025C6C (the switch's case->label table differs from retail)"
+      }
+    },
+    {
+      "row": "dungeon/func_819A1654",
+      "variant": "duplicate_cleanup",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_819A1654_duplicate_cleanup.c",
+      "sha256": "15dab3f031e05d88fec044ad3066b6500cbedb6225c706421bbfc7432a8d91ff",
+      "gotos": 1,
+      "measurement": {
+        "status": "failed",
+        "exact": false,
+        "subs": null,
+        "indels": null,
+        "total": null,
+        "gen_words": null,
+        "tgt_words": 1227,
+        "class": "build-fail",
+        "signals": [],
+        "secs": 2.59,
+        "err": "jtbl: local .rodata at 0x80024078 word 4: got 0x8002610C, retail 0x800260F4 (the switch's case->label table differs from retail)"
+      }
+    },
+    {
+      "row": "dungeon/func_819A1654",
+      "variant": "local_interpolation",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_819A1654_local_interpolation.c",
+      "sha256": "85308942573e6bdd4a17191fd985277da17f268fdb9f7323cea275330a166363",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 25,
+        "indels": 0,
+        "total": 25,
+        "gen_words": 1227,
+        "tgt_words": 1227,
+        "class": "reg-rename",
+        "signals": [
+          "regmap=5"
+        ],
+        "secs": 2.99,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_819A1654",
+      "variant": "local_trail_index",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_819A1654_local_trail_index.c",
+      "sha256": "bc75b0bfcc76a98ef66bab29b6f0ff043b6b80b0b2dc711ab02289e839203ad4",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 15,
+        "indels": 0,
+        "total": 15,
+        "gen_words": 1227,
+        "tgt_words": 1227,
+        "class": "reg-rename",
+        "signals": [
+          "regmap=3"
+        ],
+        "secs": 3.14,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_819A1654",
+      "variant": "timer_and_for",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_819A1654_timer_and_for.c",
+      "sha256": "6c0c3a447e60d3cb93b34af864ed494af58e8a318ff9e51d5fdf31257a0f93dc",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 12,
+        "indels": 0,
+        "total": 12,
+        "gen_words": 1227,
+        "tgt_words": 1227,
+        "class": "reg-rename",
+        "signals": [
+          "regmap=2"
+        ],
+        "secs": 2.84,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_819A1654",
+      "variant": "timer_and_loop",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_819A1654_timer_and_loop.c",
+      "sha256": "bf6bda7cdba343d1e5095e6b0444206f73627353f22c2a0a11cc6d2bd3cd4997",
+      "gotos": 0,
+      "measurement": {
+        "status": "ok",
+        "exact": false,
+        "subs": 12,
+        "indels": 0,
+        "total": 12,
+        "gen_words": 1227,
+        "tgt_words": 1227,
+        "class": "reg-rename",
+        "signals": [
+          "regmap=2"
+        ],
+        "secs": 2.98,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_819A1654",
+      "variant": "timer_condition",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_819A1654_timer_condition.c",
+      "sha256": "6fe36127ed0fe444554d39fb139667cfcd8b1f1fc2f829482213a7f10b41f7fe",
+      "gotos": 1,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 1227,
+        "tgt_words": 1227,
+        "class": "match",
+        "signals": [],
+        "secs": 2.9,
+        "err": null
+      }
+    },
+    {
+      "row": "dungeon/func_819A1654",
+      "variant": "timer_if_else",
+      "candidate": "work/native_lane/r121w_goto3/candidates/dungeon/func_819A1654_timer_if_else.c",
+      "sha256": "653f919afef726bfa858d7adcdb4baa41e813849cb3c09a2f58d81a229b392ba",
+      "gotos": 1,
+      "measurement": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 1227,
+        "tgt_words": 1227,
+        "class": "match",
+        "signals": [],
+        "secs": 2.79,
+        "err": null
+      }
+    }
+  ],
+  "home_census": {
+    "definition": "Registry rows resolved through source_layout; each home source counted once, legacy relink/define copies excluded. Unregistered files and placement facades are excluded.",
+    "before_files": 219,
+    "before_gotos": 448,
+    "after_files": 217,
+    "after_gotos": 441,
+    "excluded_legacy_copies": [
+      {
+        "path": "src/dungeon/func_80B79054.c",
+        "row": "dungeon/func_80B79054",
+        "bytes": 476,
+        "gotos": 1,
+        "sha256": "316b6666d3925e5564de52f34edd0a123b0a075024d9b9d7097d9131aafd4983"
+      },
+      {
+        "path": "src/dungeon/func_80B8B054.c",
+        "row": "dungeon/func_80B8B054",
+        "bytes": 476,
+        "gotos": 1,
+        "sha256": "fb91c57e685e6fe9d9fa021ad6d1c88ce77af13caaa49616d042e21c9071ddc0"
+      }
+    ]
+  },
+  "dependency_closure": {
+    "direct_rows": [
+      "dungeon/func_80A20A28",
+      "dungeon/func_80A26A28",
+      "dungeon/func_80A2CA28",
+      "dungeon/func_80A32A28",
+      "dungeon/func_80A38A28",
+      "dungeon/func_80A3EA28",
+      "dungeon/func_80A44A28",
+      "dungeon/func_80FB5398",
+      "dungeon/func_80FBB398",
+      "dungeon/func_80FC1398",
+      "dungeon/func_80FC7398",
+      "dungeon/func_80FCD398",
+      "dungeon/func_80FD3398",
+      "dungeon/func_80FD9398",
+      "dungeon/func_812A524C",
+      "dungeon/func_8133AD74",
+      "dungeon/func_819A1654"
+    ],
+    "module_rows": [
+      "dungeon/func_812A50AC",
+      "dungeon/func_819A088C",
+      "dungeon/func_819A0D64",
+      "dungeon/func_819A0DB8",
+      "dungeon/func_819A0EF0",
+      "dungeon/func_819A0FC0",
+      "dungeon/func_819A1034",
+      "dungeon/func_819A1118",
+      "dungeon/func_819A133C",
+      "dungeon/func_819A13D0",
+      "dungeon/func_819A1450"
+    ],
+    "native_modules": [
+      "dungeon_ovl_12c50ac",
+      "dungeon_ovl_19c088c"
+    ],
+    "windows": [
+      "config/overlays/dungeon_deep_12c6000_truebase_80171800.overlay.yaml",
+      "config/overlays/dungeon_deep_19c0d64_truebase_80024564.overlay.yaml",
+      "config/overlays/dungeon_deep_a40000_truebase_80173800.overlay.yaml",
+      "config/overlays/dungeon_deep_a43258_truebase_8016aa58.overlay.yaml",
+      "config/overlays/dungeon_deep_a49258_truebase_80164a58.overlay.yaml",
+      "config/overlays/dungeon_deep_a4f258_truebase_8015ea58.overlay.yaml",
+      "config/overlays/dungeon_deep_a55258_truebase_80158a58.overlay.yaml",
+      "config/overlays/dungeon_deep_a5b258_truebase_80152a58.overlay.yaml",
+      "config/overlays/dungeon_deep_a61258_truebase_8014ca58.overlay.yaml",
+      "config/overlays/dungeon_deep_fd2000_truebase_80171800.overlay.yaml",
+      "config/overlays/dungeon_deep_fd8000_truebase_8016b800.overlay.yaml",
+      "config/overlays/dungeon_deep_fde000_truebase_80165800.overlay.yaml",
+      "config/overlays/dungeon_deep_fe4000_truebase_8015f800.overlay.yaml",
+      "config/overlays/dungeon_deep_fea000_truebase_80159800.overlay.yaml",
+      "config/overlays/dungeon_deep_ff0000_truebase_80153800.overlay.yaml",
+      "config/overlays/dungeon_deep_ff6000_truebase_8014d800.overlay.yaml",
+      "config/overlays/dungeon_deep_t8_19c0.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_12c5000.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_135ac7c.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_19c0800.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_19c0db8.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_a408fc.overlay.yaml",
+      "config/overlays/dungeon_native_gap_19c0d64.overlay.yaml"
+    ]
+  },
+  "retail_payloads_in_delivery": false,
+  "comparison_masks_added": false,
+  "native_certificates": [
+    {
+      "module": "dungeon_ovl_12c50ac",
+      "certificate": "ledger/modules/overlay_dungeon_ovl_12c50ac.json",
+      "certificate_sha256": "288fbc7ce0065f2117ebf749d11717ed8b19b0afeed7c76ad80f77b540a83360",
+      "windows": [
+        "config/overlays/dungeon_deep_12c6000_truebase_80171800.overlay.yaml",
+        "config/overlays/dungeon_deep_t8b_12c5000.overlay.yaml"
+      ],
+      "fingerprint": "f0c5a95fe935862c442d576c500c7bd170d5ee12abe49c17fb6f4ead5956cc0c",
+      "receipt_sha256": "b84f422c0b95e261951323118f0aa2301d7b644de082d7883af29536b952120d",
+      "reviewer": "orchestrator-r120",
+      "review_scope": "existing membership, types and ownership review unchanged; fresh build/placement proof"
+    },
+    {
+      "module": "dungeon_ovl_19c088c",
+      "certificate": "ledger/modules/overlay_dungeon_ovl_19c088c.json",
+      "certificate_sha256": "8dee97a7ec42d79a6b6646ecb05ea8197b47fa9b1ee450a09654bb40c280fb8e",
+      "windows": [
+        "config/overlays/dungeon_deep_19c0d64_truebase_80024564.overlay.yaml",
+        "config/overlays/dungeon_deep_t8_19c0.overlay.yaml",
+        "config/overlays/dungeon_deep_t8b_19c0800.overlay.yaml",
+        "config/overlays/dungeon_deep_t8b_19c0db8.overlay.yaml",
+        "config/overlays/dungeon_native_gap_19c0d64.overlay.yaml"
+      ],
+      "fingerprint": "7c2424627846c8b1f27bd241b76cd817f664538229e3725d8cfea0d6b15c7805",
+      "receipt_sha256": "5595a42a9ace6b69791eb030d0e1e185553cd00b041aece6c4b611ffc6edc16b",
+      "reviewer": "orchestrator-r120",
+      "review_scope": "existing membership, types and ownership review unchanged; fresh build/placement proof"
+    }
+  ],
+  "gate_summary": "docs/evidence/r121w_goto3_gate.json",
+  "outcomes": {
+    "result_records": 449,
+    "hold_records": 293,
+    "closed_starting_holds": 14,
+    "new_tree_holds": 0,
+    "covered_template_holds_closed": 12,
+    "covered_template_holds_remaining": 41,
+    "holds_by_reason": {
+      "existing placement covered; donor still contains goto": 41,
+      "home exact partial cleanup; donor still contains 8 gotos; no row admitted": 6,
+      "fresh structured spelling not byte-exact (polarity)": 4,
+      "fresh structured spelling not byte-exact (broad)": 2,
+      "manual shared-tail/control shape; recorded candidate absent from supplied snapshot": 86,
+      "structured spelling not byte-exact (broad)": 21,
+      "structured spelling not byte-exact (addressing)": 15,
+      "structured spelling not byte-exact (length-drift)": 13,
+      "structured spelling not byte-exact (slot-rotation)": 6,
+      "structured spelling not byte-exact (hold-set)": 16,
+      "structured spelling not byte-exact (polarity)": 8,
+      "structured spelling not byte-exact (li-expansion)": 8,
+      "structured spelling not byte-exact (code-motion)": 22,
+      "structured spelling not byte-exact (reorder-only)": 7,
+      "structured spelling not byte-exact (block-order)": 3,
+      "structured spelling not byte-exact (reg-rename)": 9,
+      "fresh structured spelling not byte-exact (const-remat)": 2,
+      "fresh structured spelling not byte-exact (block-order)": 2,
+      "fresh structured spelling not byte-exact (addressing)": 1,
+      "fresh structured spelling not byte-exact (reg-rename)": 1,
+      "three indexed scan back edges removed; eight early-action/control gotos retained": 1,
+      "fresh structured spelling not byte-exact (length-drift)": 1,
+      "fresh structured spelling failed compiler or jump-table check": 3,
+      "genuine cases share existing tail; case 13 goto retained": 1,
+      "structured spelling not byte-exact (build/table check)": 5,
+      "structured spelling not byte-exact (extent-prefix)": 1,
+      "timer condition and case-4 fallthrough exact; interpolation loop goto retained": 1,
+      "structured spelling not byte-exact (const-remat)": 7
+    },
+    "fresh_rows": 21,
+    "fresh_trials": 73
+  }
+}

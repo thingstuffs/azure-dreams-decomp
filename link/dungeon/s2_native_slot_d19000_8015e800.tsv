@@ -1,0 +1,20 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_native_slot_d19000_8015e800","n":"0x6000","o":"0xd19000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[20696,0,1144,2728,0,0,8],"v":"0x8015e800"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{},{"census_label":"strongly_code"},{"census_label":"proven_code"},{"bindings":{"0x80171790":"0x8015f790","0x80171928":"0x8015f928","0x801724bc":"0x801604bc","0x80175e24":"0x80163e24","0x80175e2c":"0x80163e2c","0x80175e34":"0x80163e34"},"evidence":"docs/evidence/r121w_s2_receipts.json#dungeon/func_80CFCF2C"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+13733888	108	a	census:format:ptrtab	1057b94a8ef5e9dd7bb147015fe51b7677a6c7681d12a2cf8b8cdde640b98770	0
+13733996	8	u	census:unresolved:audit_data_unconfirmed		1
+13734004	116	r	census:shape:T4_shape_noref		2
+13734120	140	r	census:T1_twin		2
+13734260	468	r	census:shape:T4_shape_noref		2
+13734728	68	r	census:T1_twin		2
+13734796	160	r	census:shape:T4_shape_noref		2
+13734956	120	r	census:T1_twin		2
+13735076	20	r	census:shape:T4_shape_noref		2
+13735096	52	r	census:T1_twin		2
+13735148	14912	r	census:c_row		3
+"0xd1cf2c"	1304	c	census:registered_tu		["func_80CFCF2C","func_80CEAF2C","0x8016272c",4]
+13751364	4480	r	census:c_row		3
+13755844	304	a	census:audit+noncode_confirmed	e14d4a1dd663eb30ffa91bdd15bfbeaf0dbc1eba6bbe89218253f776822c356b	5
+13756148	24	a	census:format:ptrtab	b99a84f2303772e9ad90e6f8fe932e13b328f8a220682c18611253f7923116ea	0
+13756172	16	a	census:audit+noncode_confirmed	c88fc0b2480c542f778da159f218f0d5a6fff4e0109b77fe6f76ea4213101344	5
+13756188	52	a	census:format:ptrtab	933f511a8c3a5e13d4da83eda9a9b1cdd037a5ce93c1511b1f3075a152502931	0
+13756240	2224	a	census:audit+noncode_confirmed	d75e9622eaac1d7efcb544ada9f98a0424f3735de85951c531e4e1bb8e54b388	5

@@ -1,0 +1,86 @@
+[
+ {
+  "container": "dungeon",
+  "detector_foff": "0xd07074",
+  "detector_size": 1144,
+  "complete_start_candidate": "0xd0706c",
+  "complete_size_candidate": 1152,
+  "candidate_vma": "0x8017086c",
+  "prefix_bytes": 8,
+  "body_sha256": "34cdbc99d7f33fc1ca5cc52ee0bb551028372bc6da5139b83056bf0e68448304",
+  "status": "HOLD",
+  "reason": "load-before-prologue prefix precedes detector start; complete C, entry and production placement proof still required"
+ },
+ {
+  "container": "dungeon",
+  "detector_foff": "0xd0d074",
+  "detector_size": 1144,
+  "complete_start_candidate": "0xd0d06c",
+  "complete_size_candidate": 1152,
+  "candidate_vma": "0x8016a86c",
+  "prefix_bytes": 8,
+  "body_sha256": "a8de765cd132b698b28aa9b91a4233e89299c39c085fa1a77c52952881c84bfd",
+  "status": "HOLD",
+  "reason": "load-before-prologue prefix precedes detector start; complete C, entry and production placement proof still required"
+ },
+ {
+  "container": "dungeon",
+  "detector_foff": "0xd13074",
+  "detector_size": 1144,
+  "complete_start_candidate": "0xd1306c",
+  "complete_size_candidate": 1152,
+  "candidate_vma": "0x8016486c",
+  "prefix_bytes": 8,
+  "body_sha256": "8345b56b15dd42e08151b047457a3321034c9e251455bc216811c232b4ab5787",
+  "status": "HOLD",
+  "reason": "load-before-prologue prefix precedes detector start; complete C, entry and production placement proof still required"
+ },
+ {
+  "container": "dungeon",
+  "detector_foff": "0xd19074",
+  "detector_size": 1144,
+  "complete_start_candidate": "0xd1906c",
+  "complete_size_candidate": 1152,
+  "candidate_vma": "0x8015e86c",
+  "prefix_bytes": 8,
+  "body_sha256": "87dd0d5e32df215e441d0635af13bb5fdebedc25bcd0b58ddd0538cbca97adc4",
+  "status": "HOLD",
+  "reason": "load-before-prologue prefix precedes detector start; complete C, entry and production placement proof still required"
+ },
+ {
+  "container": "dungeon",
+  "detector_foff": "0xd1f074",
+  "detector_size": 1144,
+  "complete_start_candidate": "0xd1f06c",
+  "complete_size_candidate": 1152,
+  "candidate_vma": "0x8015886c",
+  "prefix_bytes": 8,
+  "body_sha256": "ef63cd3e017bd95674624aa57fc7c608a2f59d04de8767a67876a5ea8b3dafe2",
+  "status": "HOLD",
+  "reason": "load-before-prologue prefix precedes detector start; complete C, entry and production placement proof still required"
+ },
+ {
+  "container": "dungeon",
+  "detector_foff": "0xd25074",
+  "detector_size": 1144,
+  "complete_start_candidate": "0xd2506c",
+  "complete_size_candidate": 1152,
+  "candidate_vma": "0x8015286c",
+  "prefix_bytes": 8,
+  "body_sha256": "d11891a26596d5cbae7d18d8a37795ed869e14493cbd74f77733a5cf52784535",
+  "status": "HOLD",
+  "reason": "load-before-prologue prefix precedes detector start; complete C, entry and production placement proof still required"
+ },
+ {
+  "container": "dungeon",
+  "detector_foff": "0xd2b074",
+  "detector_size": 1144,
+  "complete_start_candidate": "0xd2b06c",
+  "complete_size_candidate": 1152,
+  "candidate_vma": "0x8014c86c",
+  "prefix_bytes": 8,
+  "body_sha256": "17f6d001ebfb1c1ff8f7b10bdc017bd30b657348835047b47b031e267ea66cbb",
+  "status": "HOLD",
+  "reason": "load-before-prologue prefix precedes detector start; complete C, entry and production placement proof still required"
+ }
+]

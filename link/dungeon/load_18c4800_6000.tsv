@@ -1,0 +1,27 @@
+#{"a":0,"d":{"c":"dungeon","e":"ledger/instance_load_regions.jsonl: validated dungeon loader arithmetic (a1=0; selector 1..63); docs/evidence/dungeon_gap_183a800.json","i":"dungeon/load_18c4800_6000","n":24576,"o":25970688,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[1964,0,2624,40,19948,0,0],"v":2147631104},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_code"},{"census_label":"strongly_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+25970688	8	a	census:audit+noncode_confirmed	da34a83081b5d842e44ebe51b02262570d1a791340178b17ae0825791411dacf	0
+25970696	32	a	census:format:ptrtab	09c4c61680ceb63b359eb966171f61440073d372097d8f9af093741f71c6839c	1
+25970728	1964	r	census:c_row		2
+25972692	256	r	census:T2_framed_ref:jtbl+ptr		3
+25972948	52	r	census:T1_twin		3
+25973000	4	r	census:T2_framed_ref:jtbl+ptr		3
+25973004	140	r	census:T1_twin		3
+25973144	44	r	census:T2_framed_ref:jtbl+ptr		3
+25973188	68	r	census:T1_twin		3
+25973256	44	r	census:T2_framed_ref:jtbl+ptr		3
+25973300	52	r	census:T1_twin		3
+25973352	184	r	census:T2_framed_ref:jtbl+ptr		3
+25973536	236	r	census:T1_twin		3
+25973772	4	r	census:T2_framed_ref:jtbl+ptr		3
+25973776	64	r	census:T1_twin		3
+25973840	8	r	census:T2_framed_ref:jtbl+ptr		3
+25973848	108	r	census:T1_twin		3
+25973956	12	r	census:T2_framed_ref:jtbl+ptr		3
+25973968	124	r	census:T1_twin		3
+25974092	852	r	census:T2_framed_ref:jtbl+ptr		3
+25974944	60	r	census:T1_twin		3
+25975004	248	r	census:T2_framed_ref:jtbl+ptr		3
+25975252	64	r	census:T1_twin		3
+25975316	44	d	census:noncode:decode		4
+25975360	19904	d	census:noncode:entropy:unplaced		4

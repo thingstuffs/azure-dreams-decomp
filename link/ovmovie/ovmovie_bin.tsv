@@ -1,0 +1,121 @@
+#{"a":0,"d":{"c":"ovmovie","e":"Physical container root; no runtime address asserted.","i":"ovmovie/ovmovie_bin","n":3145728,"o":0,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[5516,828,52,15617,2926291,195705,1719],"v":null},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"type":"typing pending"},{},{"census_label":"proven_code"},{"census_label":"library_code"},{"census_label":"strongly_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: sliver_between_noncode"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+0	60	a	census:format:ascii	92977793f227adcbe7a96eaae9c7410b3ee9684e6d4d7eb6665bbc1d82d2cb87	0
+60	96	d	census:noncode:decode		1
+156	13	a	census:format:ascii	2955253d6a497653481a9acef604e0ba9fd42118208878c9b56c0753096e1771	0
+169	3	u	census:unknown		2
+172	5516	r	census:c_row		3
+5688	4	d	census:noncode:decode		1
+5692	828	r	census:sdk_object		4
+6520	52	r	census:shape:T4_shape_noref		5
+6572	60	p	census:zero_fill>=16		2
+6632	219	d	census:noncode:decode		1
+6851	21	a	census:format:sjis	956195e881967634f43f06227e89dc8cafa195a8b0c993d683247700da17ba9a	6
+6872	2219	d	census:noncode:decode		1
+9091	261	p	census:zero_fill>=16		2
+9352	44	d	census:noncode:decode		1
+9396	28	u	census:unknown		2
+9424	116	d	census:noncode:decode		1
+9540	12	d	census:neighbour:noncode_typing_pending		1
+9552	244	d	census:noncode:decode		1
+9796	36	u	census:unknown		2
+9832	1308	d	census:noncode:decode		1
+11140	68	u	census:unknown		2
+11208	64	d	census:noncode:decode		1
+11272	64	u	census:unknown		2
+11336	6976	d	census:noncode:decode		1
+18312	48	u	census:unknown		2
+18360	16	d	census:noncode:decode		1
+18376	32	u	census:unknown		2
+18408	5024	d	census:noncode:decode		1
+23432	16	u	census:unknown		2
+23448	16	d	census:noncode:decode		1
+23464	32	u	census:unknown		2
+23496	64	d	census:noncode:decode		1
+23560	32	u	census:unknown		2
+23592	352	d	census:noncode:decode		1
+23944	256	u	census:unknown		2
+24200	2896	d	census:noncode:decode		1
+27096	12	d	census:neighbour:noncode_typing_pending		1
+27108	244	d	census:noncode:decode		1
+27352	12	d	census:neighbour:noncode_typing_pending		1
+27364	1780	d	census:noncode:decode		1
+29144	12	d	census:neighbour:noncode_typing_pending		1
+29156	244	d	census:noncode:decode		1
+29400	12	d	census:neighbour:noncode_typing_pending		1
+29412	164	d	census:noncode:decode		1
+29576	32	u	census:unknown		2
+29608	32	d	census:noncode:decode		1
+29640	8	d	census:neighbour:noncode_typing_pending		1
+29648	184	d	census:noncode:decode		1
+29832	64	u	census:unknown		2
+29896	704	d	census:noncode:decode		1
+30600	512	u	census:unknown		2
+31112	80	d	census:noncode:decode		1
+31192	12	d	census:neighbour:noncode_typing_pending		1
+31204	244	d	census:noncode:decode		1
+31448	12	d	census:neighbour:noncode_typing_pending		1
+31460	27932	d	census:noncode:decode		1
+59392	984	a	census:audit+noncode_confirmed	a58400d923ca460987c0d0e867147b217ebc74e531456be3b1e72d3b223a80dd	7
+60376	12	a	census:neighbour:proven_data	10928154bfbc9214a25632ac7fb100610fc4d0eacdb7bd5e7eb295d5b59696ad	8
+60388	244	a	census:audit+noncode_confirmed	36435ec79240330101e43bd566a678417aad791d326fc081cc7f6984fc9b730b	7
+60632	12	a	census:neighbour:proven_data	68f1df9159e597cf8030a57c327ab17c1331f8e40f344ce1bf99a901ce07b6a3	8
+60644	244	a	census:audit+noncode_confirmed	4951bba72b408a80ce3114d48edcc5a61cfe49b6faa048830597d6f632f34918	7
+60888	12	a	census:neighbour:proven_data	716ba3cb4569793660c6f75da45a1e1d01c2614a6e068a732186fe20c96aca21	8
+60900	244	a	census:audit+noncode_confirmed	99480b5782ec889690c8bfb5db807bc16ef914eef517f8416e11bd048170df70	7
+61144	12	a	census:neighbour:proven_data	3b9603237991a2cd97b521767943c9b8dbe4a1552ca10d9af9fb62c47ddbd368	8
+61156	276	a	census:audit+noncode_confirmed	86e445210b3456747f44cf71145760812769e51950d84c741b0662ca128d74f7	7
+61432	12	a	census:neighbour:proven_data	ea71803745a3e12d0423b6b141bfd7be46709c080a0a57a51330c2dc11d93845	8
+61444	36	a	census:audit+noncode_confirmed	24f498f0fdd54863f99d2faa0f05203e213b2234b4bc80012616d438d10575af	7
+61480	20	u	census:unresolved:audit_data_unconfirmed		2
+61500	444	a	census:audit+noncode_confirmed	c35333da8d52143b6688fd3cef8cba43419d98ee0f29a295012a34774ed66ae2	7
+61944	12	a	census:neighbour:proven_data	b8e06a2af974be067e918d9b6e8e7ff6ca6c3e78cee5ceed46c7260614165d79	8
+61956	36	a	census:audit+noncode_confirmed	b1832138f714bd0a9db54f11257a06da29fd8cd9ecf7ba9031d6d04a9c973c12	7
+61992	20	u	census:unresolved:audit_data_unconfirmed		2
+62012	2572	a	census:audit+noncode_confirmed	af9a4a5990c48f785db9f632321d7ca747b74a01cae12d2359c8c75c6d5099c1	7
+64584	52	u	census:unresolved:audit_data_unconfirmed		2
+64636	1004	a	census:audit+noncode_confirmed	540b45e350fa62a10e0efece22708afdcc8684a2f18bfe05e0b64c6206d103f2	7
+65640	20	u	census:unresolved:audit_data_unconfirmed		2
+65660	2908	a	census:audit+noncode_confirmed	f6503497a09110a7b924264e3ae6679d77a8544bd9fa544c1e37c59fc0cd3ba0	7
+68568	12	a	census:neighbour:proven_data	80860b70c3cc7d6ac40f4c65793d38d56eb4927849cf9ee8902db32b28a598e7	8
+68580	244	a	census:audit+noncode_confirmed	f07987d5b69016b5d9eec40c610e561bb808004faeea2657b2e49e19c7841ca2	7
+68824	12	a	census:neighbour:proven_data	69de35b464314eebb887c1defb34dc5524d9b2ab5d22f305a065b956e22a0d71	8
+68836	244	a	census:audit+noncode_confirmed	de6ba7eec4caa6ed34048ce0188eb2f55923a9a825d403b17bb72cbb42b0301b	7
+69080	12	a	census:neighbour:proven_data	734ee7e08663a446561ec0cca2d7ea1b120ffaad14c73e997105aadb16a55488	8
+69092	244	a	census:audit+noncode_confirmed	1496f94ca20040b670b3f2ea34a5a4ed329e15e86dfe8750aabcf9d37d7572f1	7
+69336	12	a	census:neighbour:proven_data	36b160ad2073637a594c707360b76b0df9457f2828070025d453ff7e7480258c	8
+69348	276	a	census:audit+noncode_confirmed	ed6d39b250a916b7b3dc620d70385789a508246c41aebe481e9e1d55be546a9b	7
+69624	12	a	census:neighbour:proven_data	1fa06dd5019252649b9620671cb4b6db43ce45db5611ea7a23567a2d994a600b	8
+69636	36	a	census:audit+noncode_confirmed	a3e569e94b5c1e24ba21512b015361e4480bca9bb51cf71bb9ad2cebdfca3a83	7
+69672	20	u	census:unresolved:audit_data_unconfirmed		2
+69692	444	a	census:audit+noncode_confirmed	707618d4e64b9384473e6b5d10825a0a2eb15a4fe29f63770f0d52e2889e6d55	7
+70136	12	a	census:neighbour:proven_data	0a3eaf702cf06c2e407fc2f44fa4a935d4b2abb2ac9b00a33af919a540a07e5d	8
+70148	36	a	census:audit+noncode_confirmed	a40461d765d67323e69171152d1e939a426525c3d2b97938e5358fe51efd183a	7
+70184	20	u	census:unresolved:audit_data_unconfirmed		2
+70204	2572	a	census:audit+noncode_confirmed	22dd943dfc9c8564ac84a203a715adc75cff959f86f8fa0fddf73f58d0e4df68	7
+72776	52	u	census:unresolved:audit_data_unconfirmed		2
+72828	1004	a	census:audit+noncode_confirmed	03e2d496b857e9c0b401e6b7875ad7b1926f32d2bb2c4771cb52ea6a7dcb1cf3	7
+73832	20	u	census:unresolved:audit_data_unconfirmed		2
+73852	1164	a	census:audit+noncode_confirmed	9d6e65b02cfb4e2bc82bdec0866df5cc4edc2742ce46022f06d8a4912fca91d5	7
+75016	16	u	census:unresolved:audit_data_unconfirmed		2
+75032	624	d	census:noncode:decode		1
+75656	224	u	census:unknown		2
+75880	32	d	census:noncode:decode		1
+75912	32	u	census:unknown		2
+75944	736	d	census:noncode:decode		1
+76680	195384	p	census:zero_fill>=16		2
+272064	128	d	census:noncode:decode		1
+272192	146466	d	census:noncode:entropy:unplaced		1
+418658	21	a	census:format:sjis	14b62bdd3ead618fdc49e8547ea28061863698f694e54fcd06a9f1b021382654	6
+418679	632404	d	census:noncode:entropy:unplaced		1
+1051083	25	a	census:format:sjis	b66e89aafe4c2b88c2ca5fdf4babaa4b957afc4f68fbbf048725b95c10d2497c	6
+1051108	456224	d	census:noncode:entropy:unplaced		1
+1507332	20	a	census:format:sjis	f8a75d5cac7495c034c1db6077b00098431a042c183ed99d4c47000fce943538	6
+1507352	386972	d	census:noncode:entropy:unplaced		1
+1894324	23	a	census:format:sjis	bd75cb5289878ee8836edbb0daa824890177913b8469b27237580495884372a3	6
+1894347	314518	d	census:noncode:entropy:unplaced		1
+2208865	11	a	census:format:ascii	5574e9d56311903f92239449b76dae03cea21ee48c7f2e955f96e95967466657	0
+2208876	864855	d	census:noncode:entropy:unplaced		1
+3073731	23	a	census:format:sjis	90880e0f4455c53de4ba58dfff6563bb977dff4f75908daecfad8ecc3f203887	6
+3073754	71782	d	census:noncode:entropy:unplaced		1
+3145536	192	d	census:noncode:decode		1

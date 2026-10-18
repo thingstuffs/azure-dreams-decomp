@@ -1,0 +1,26 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_4f9000_2000","n":8192,"o":5214208,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[5064,0,0,220,366,2542,0],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+5214208	4	p	census:zero_fill>=16		0
+5214212	24	a	census:audit+noncode_confirmed	ca6fbd344dc3b6615da8c731c2b3a56725327f7bd06541e31d003fc25d95ff00	1
+5214236	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	2
+5214276	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
+5214296	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	2
+5214397	3	a	census:audit+noncode_confirmed	c673b41ca57586319066d8f199c0d675db08594b15425618f802a392f54d6cbb	1
+5214400	56	r	census:instance_partial		3
+5214456	5008	r	census:c_row		3
+5219464	100	d	census:noncode:decode		4
+5219564	16	a	census:format:ptrtab	edac62f4143f207049a0024f8a75cb18fddf95fc80b601a3d40c9a56adea1f79	5
+5219580	40	d	census:noncode:decode		4
+5219620	16	a	census:format:ptrtab	4aa11557d33a6b2fb5215aea0a8dd873d15913d44702311d2ce519f39142668c	5
+5219636	3	d	census:noncode:decode		4
+5219639	29	p	census:zero_fill>=16		0
+5219668	30	d	census:noncode:decode		4
+5219698	22	p	census:zero_fill>=16		0
+5219720	6	d	census:noncode:decode		4
+5219726	18	p	census:zero_fill>=16		0
+5219744	40	d	census:noncode:decode		4
+5219784	456	p	census:zero_fill>=16		0
+5220240	26	d	census:noncode:decode		4
+5220266	19	p	census:zero_fill>=16		0
+5220285	121	d	census:noncode:decode		4
+5220406	1994	p	census:zero_fill>=16		0

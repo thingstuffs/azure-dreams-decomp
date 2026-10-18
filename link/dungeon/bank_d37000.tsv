@@ -1,0 +1,39 @@
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F433800: r101_rc6_func_80D17F60, r101_rc6_func_80D19E4C, rc6_prefix_D37000, rc6_res_D372D0_D37F60, rc6_res_D384D8_D39E4C, rc6_res_D3A34C_D3B610; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"dungeon/bank_d37000","l":"bank_d31000_family","n":"0x6000","o":"0xD37000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[17932,0,0,196,6448,0,0],"v":"0x8016A800","y":{"0x800B2A60":"0x8016B760","0x801710EC":"0x8016B760","0x80171138":"0x8016B760","0x80171728":"0x8016B760","0x801717F4":"0x8016B760","0x80171C34":"0x8016BF1C","0x80171EFC":"0x8016C664","0x80173C7C":"0x8016EE88","0x80174138":"0x8016EE80","0x801743E8":"0x8016E598","0x80174E4C":"0x8016EEF0","0x80174E54":"0x8016EEF8","0x80174E5C":"0x8016EF00","0x80175988":"0x8016EE88","0x80175998":"0x8016EE98","0x801759C8":"0x8016EED8","0x80175E40":"0x8016EE80","0x80175EA0":"0x8016EEF0"}},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+13856768	116	a	census:ledger:data_row	67e35c68b8f7385447095e5873e02987082b9389fa8f69720fee3f4f9ea2ce98	0
+13856884	1688	r	census:c_row		1
+"0xD3770C"	276	c	census:registered_tu		["func_80D1770C","func_80D1170C","0x8016AF0C",2]
+13858848	368	r	census:c_row		1
+"0xD37990"	456	c	census:registered_tu		["func_80D17990","func_80D11990","0x8016B190",2]
+"0xD37B58"	1032	c	census:registered_tu		["func_80D17B58","func_80AC5B20","0x8016B358",2]
+13860704	1400	r	census:c_row		1
+"0xD384D8"	580	c	census:registered_tu		["func_80D184D8","func_80A71D70","0x8016BCD8",2]
+13862684	1864	r	census:c_row		1
+"0xD38E64"	108	c	census:registered_tu		["func_80D18E64","func_80D12E64","0x8016C664",2]
+"0xD38ED0"	452	c	census:registered_tu		["func_80D18ED0","func_809CA5A0","0x8016C6D0",2]
+"0xD39094"	280	c	census:registered_tu		["func_80D19094","func_809CA764","0x8016C894",2]
+"0xD391AC"	324	c	census:registered_tu		["func_80D191AC","func_80976E28","0x8016C9AC",2]
+"0xD392F0"	124	c	census:registered_tu		["func_80D192F0","func_80AC7330","0x8016CAF0",2]
+13865836	1068	r	census:c_row		1
+"0xD39798"	100	c	census:registered_tu		["func_80D19798","func_80F88C30","0x8016CF98",2]
+13867004	2896	r	census:c_row		1
+"0xD3A34C"	792	c	census:registered_tu		["func_80D1A34C","func_80AF200C","0x8016DB4C",2]
+13870692	32	r	census:c_row		1
+"0xD3A684"	32	c	census:registered_tu		["func_80D1A684","func_800AD90C","0x8016DE84",2]
+"0xD3A6A4"	32	c	census:registered_tu		["func_80D1A6A4","func_800AD92C","0x8016DEA4",2]
+"0xD3A6C4"	56	c	census:registered_tu		["func_80D1A6C4","func_800AD94C","0x8016DEC4",2]
+"0xD3A6FC"	912	c	census:registered_tu		["func_80D1A6FC","func_80AC854C","0x8016DEFC",2]
+"0xD3AA8C"	780	c	census:registered_tu		["func_80D1AA8C","func_80AC88DC","0x8016E28C",2]
+"0xD3AD98"	200	c	census:registered_tu		["func_80D1AD98","func_809A2D74","0x8016E598",2]
+"0xD3AE60"	100	c	census:registered_tu		["func_80D1AE60","func_80F8A600","0x8016E660",2]
+"0xD3AEC4"	56	c	census:registered_tu		["func_80D1AEC4","func_800ADA84","0x8016E6C4",2]
+"0xD3AEFC"	56	c	census:registered_tu		["func_80D1AEFC","func_800ADABC","0x8016E6FC",2]
+"0xD3AF34"	56	c	census:registered_tu		["func_80D1AF34","func_800ADAF4","0x8016E734",2]
+"0xD3AF6C"	356	c	census:registered_tu		["func_80D1AF6C","func_80D14F6C","0x8016E76C",2]
+13873360	1344	r	census:c_row		1
+13874704	112	r	census:instance_proven		1
+13874816	128	d	census:noncode:decode		3
+13874944	24	a	census:format:ptrtab	8865c8954314c5bd1e4db3b5f9cf21995d59fd4f8c4379499bfc9ae610d88e76	4
+13874968	16	d	census:noncode:entropy:loaded		3
+13874984	56	a	census:format:ptrtab	038c91e06b40a4a1a3019b4217e7043964d79a9e2c81d675632ec41fa982a33b	4
+13875040	6304	d	census:noncode:entropy:loaded		3

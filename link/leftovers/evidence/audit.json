@@ -1,0 +1,72 @@
+{
+ "optional_loads": [
+  {
+   "container": "town",
+   "descriptor_container": "slus",
+   "descriptor_foff": 346824,
+   "descriptor_sha256": "0dcc7a93ab808944a262c8b97a3c560e6851e84fa5a4c833249cdbd50bc43c2b",
+   "descriptor_size": 8,
+   "foff": 8814592,
+   "identical_slice_foffs": [
+    8708096,
+    8814592
+   ],
+   "load_vma": "0x80016000",
+   "scope": "Descriptor bounds one complete load; other occurrences prove exact slice identity, not enclosing allocations or a shared compiled TU.",
+   "sha256": "0079a1e286aca93ae3bafc8a1359ceeae30f1986b26d217bbd6bfd09ef3d0914",
+   "size": 2048
+  },
+  {
+   "container": "town",
+   "descriptor_container": "slus",
+   "descriptor_foff": 346832,
+   "descriptor_sha256": "88fbe30f4f3a148556b8571465839fec3cc453c2a7b7ed1c5577df94b8767585",
+   "descriptor_size": 8,
+   "foff": 8435712,
+   "identical_slice_foffs": [
+    8435712,
+    8699904
+   ],
+   "load_vma": "0x80016000",
+   "scope": "Descriptor bounds one complete load; other occurrences prove exact slice identity, not enclosing allocations or a shared compiled TU.",
+   "sha256": "d2d1c1adf4d59f40657f77462628c87a02e7ca2f9704952f2556c9e776ea248f",
+   "size": 2048
+  }
+ ],
+ "reproduction": "python3 tools/census/regenerate.py --disc DISC --output TEMP --check",
+ "schema": "azure-clean.leftover-audit.v1",
+ "slus_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+ "static_loading_evidence": "docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md",
+ "symbol_dump": {
+  "foff": 8437760,
+  "records": 3587,
+  "regions": [
+   {
+    "foff": 8437760,
+    "format": "char name[32], NUL-terminated and zero-filled; little-endian u32 value",
+    "records": 678,
+    "sha256": "40bb0ef509889783b681bd375ef1c58a342eb51b3b0365b38563290cb3a1cc36",
+    "size": 24408,
+    "stride": 36
+   },
+   {
+    "foff": 8462168,
+    "format": "opaque inter-table region; no padding claim",
+    "sha256": "af56931961b8ba0e9901c24543e0e2b1a8c675dbfc84721ce65dfc661af0a48d",
+    "size": 168
+   },
+   {
+    "foff": 8462336,
+    "format": "char name[32], NUL-terminated and zero-filled; little-endian u32 value",
+    "records": 2909,
+    "sha256": "33ef2e0b584e6b5c7c66d381d9c3a14b39d949b0fb453eec6ff41bad8cdb6cdf",
+    "size": 104724,
+    "stride": 36
+   }
+  ],
+  "scope": "Structural format validation only; symbol names and values are not exported.",
+  "sha256": "9627fdd622764274d4bba589662217df270c6ebed6750f9465dab83b835716d0",
+  "size": 129300
+ },
+ "town_sha256": "907725012d8d9e1deab18c28b62f4d304057e86a6415df605b9ffb87cfb2fe18"
+}

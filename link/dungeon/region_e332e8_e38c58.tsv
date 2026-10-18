@@ -1,0 +1,5 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s1_wave2.receipt.json","i":"dungeon/region_e332e8_e38c58","n":"0x5970","o":"0xe332e8","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[22896,0,0,0,0,0,0],"v":"0x8016aae8"},"p":[{"census_label":"proven_code"},{"bindings":{"0x8009a66c":"0x8009a8c0","0x80171e00":"0x8016bffc"},"evidence":"docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80E140B4"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+14889704	3532	r	census:c_row		0
+"0xe340b4"	1864	c	census:registered_tu		["func_80E140B4","func_80B97C10","0x8016b8b4",1]
+14895100	17500	r	census:c_row		0

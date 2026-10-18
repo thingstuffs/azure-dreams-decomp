@@ -1,0 +1,15 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_sweep_0DAEE4C","n":"0x3170","o":"0xdaee4c","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[12104,0,0,552,0,0,0],"v":"0x8017064c"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_code"},{},{"bindings":{"0x8016bd80":"0x80171d80"},"evidence":"docs/evidence/r121w_s2_receipts.json#dungeon/func_80D8FDCC"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+14347852	24	a	census:format:ptrtab	69da47dd2ceba08de7870df39599978643adaa7da8e1d43084822cfe06a1236d	0
+14347876	16	a	census:audit+noncode_confirmed	7ae9d64e5027c808d8df6c8191634eebac418123a966390f858771383a4bdd91	1
+14347892	60	a	census:format:ptrtab	8704532af97ae9a66c65d62c1479f11bf4d278a1a648fd0ce2d1ffccc4bb2560	0
+14347952	336	a	census:audit+noncode_confirmed	0fb3b6acd2faaedfcb332740a5ee90fd614ead990b5c6da551dcc2c04634deef	1
+14348288	84	a	census:format:ptrtab	669083f010fe9dd25c9d86c12149f50ba23261c81538bdbc4eb0ffcecbb74162	0
+14348372	30	a	census:format:sjis	849c954cc97934324bb27260be7f73281b162a89bc5770d99295ba8449bb793d	2
+14348402	2	a	census:audit+noncode_confirmed	00bc4b668ccce3ae825dbc18d6ff1dcdd9ec14b284c4f161fa5cfbb2d5069534	1
+14348404	456	r	census:instance_partial		3
+14348860	1068	r	census:c_row		3
+"0x00DAF668"	1312	c	census:registered_tu		["func_80D8F668",null,"0x80170E68",4]
+14351240	580	r	census:c_row		3
+"0xdafdcc"	1864	c	census:registered_tu		["func_80D8FDCC","func_80D95DCC","0x801715cc",5]
+14353684	6824	r	census:c_row		3

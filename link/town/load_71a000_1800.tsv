@@ -1,0 +1,21 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_71a000_1800","n":6144,"o":7446528,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[4908,0,3,469,155,609,0],"v":2147573760},"p":[{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"strongly_code"},{"census_label":"proven_code"},{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+7446528	4	d	census:noncode:decode		0
+7446532	26	a	census:audit+noncode_confirmed	f4df434940124698d60e87148b8ceb74aac48b04ddb27730ff8fd14aa84dc39f	1
+7446558	54	a	census:format:sjis	87e4c6e2c6e05d25ebf964f97cffa7cdfd05e4a8eae5b252d4b6c368fede97f1	2
+7446612	84	a	census:audit+noncode_confirmed	cc7f432a158ba5b70a69afe38cc752e2c81ac4ccf6df232942345e14401c5362	1
+7446696	16	a	census:format:ptrtab	7d819e2b63d9ac47d9f16cf3f95a4faa5cd9de28c5c90aacccb740fff56c155c	3
+7446712	128	a	census:audit+noncode_confirmed	ff891effcd86039a14a20f1dca0cb294ee20c516ad47cb64c79783e0c31f9b2f	1
+7446840	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	4
+7446880	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
+7446900	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	4
+7447001	3	r	census:T3_leaf_ref:jtbl		5
+7447004	8	r	census:instance_partial		6
+7447012	4900	r	census:c_row		6
+7451912	12	p	census:zero_fill>=16		7
+7451924	4	d	census:noncode:decode		0
+7451928	520	p	census:zero_fill>=16		7
+7452448	146	d	census:noncode:decode		0
+7452594	19	p	census:zero_fill>=16		7
+7452613	1	d	census:noncode:decode		0
+7452614	58	p	census:zero_fill>=16		7

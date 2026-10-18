@@ -1,0 +1,124 @@
+#{"a":0,"d":{"c":"town","e":"config/overlays/town.rowbase.jsonl proven regions with delta 0x7FC21000: r121nd_3F8A44, w4t2_bank_3f6298; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"town/image_3f6000","l":"image_3f6000_family","n":"0x4800","o":"0x3F6000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[10648,0,0,1126,4157,2484,17],"v":"0x80017000","y":{"0x80016064":"0x8001716C","0x8001608C":"0x80017194","0x8001902C":"0x80016FA8","0x8001916C":"0x8001713C","0x80019178":"0x80017148","0x8001917C":"0x8001714C","0x80019184":"0x80017154","0x80019190":"0x80017160","0x80019860":"0x80018A2C","0x8001C370":"0x80019BB8","0x8001C374":"0x80019BC0","0x8001DCCC":"0x8001A04C"}},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+4153344	363	a	census:audit+noncode_confirmed	58ebe24a663c59b5324f5c89d2f1facf4db867b234ac2c48c91a38efcf8d4f75	0
+4153707	41	a	census:format:ascii	c69e79d403b6bfbc60edef5f081e6918f3ccef6f1c4f94273c30690d0184d6fd	1
+4153748	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	0
+4153768	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	1
+4153869	11	a	census:audit+noncode_confirmed	c0de028b85f7cda4a2b0bec627f7c254d5bc170378d74a197deb27e4942fc8d0	0
+4153880	128	r	census:instance_partial		2
+4154008	32	r	census:c_row		2
+"0x3F62B8"	128	c	census:registered_tu		["func_804762B8",null,"0x800172B8",3]
+4154168	32	r	census:c_row		2
+"0x3F6358"	96	c	census:registered_tu		["func_80476358",null,"0x80017358",3]
+4154296	100	r	census:c_row		2
+"0x3F641C"	68	c	census:registered_tu		["func_8047641C",null,"0x8001741C",3]
+4154464	448	r	census:c_row		2
+"0x3F6620"	44	c	census:registered_tu		["func_80476620",null,"0x80017620",3]
+4154956	356	r	census:c_row		2
+"0x3F67B0"	36	c	census:registered_tu		["func_804767B0",null,"0x800177B0",3]
+4155348	188	r	census:c_row		2
+"0x3F6890"	36	c	census:registered_tu		["func_80476890",null,"0x80017890",3]
+"0x3F68B4"	148	c	census:registered_tu		["func_804768B4",null,"0x800178B4",3]
+4155720	672	r	census:c_row		2
+"0x3F6BE8"	120	c	census:registered_tu		["func_80476BE8",null,"0x80017BE8",3]
+"0x3F6C60"	96	c	census:registered_tu		["func_80476C60",null,"0x80017C60",3]
+"0x3F6CC0"	100	c	census:registered_tu		["func_80476CC0",null,"0x80017CC0",3]
+"0x3F6D24"	100	c	census:registered_tu		["func_80476D24",null,"0x80017D24",3]
+"0x3F6D88"	16	c	census:registered_tu		["func_80476D88",null,"0x80017D88",3]
+"0x3F6D98"	36	c	census:registered_tu		["func_80476D98",null,"0x80017D98",3]
+4156860	228	r	census:c_row		2
+"0x3F6EA0"	80	c	census:registered_tu		["func_80476EA0",null,"0x80017EA0",3]
+"0x3F6EF0"	108	c	census:registered_tu		["func_80476EF0",null,"0x80017EF0",3]
+4157276	80	r	census:c_row		2
+"0x3F6FAC"	108	c	census:registered_tu		["func_80476FAC",null,"0x80017FAC",3]
+4157464	1224	r	census:c_row		2
+"0x3F74E0"	404	c	census:registered_tu		["func_803D74E0","func_8046C280","0x800184E0",3]
+4159092	60	r	census:c_row		2
+"0x3F76B0"	212	c	census:registered_tu		["func_803D76B0","func_8032ECE4","0x800186B0",3]
+"0x3F7784"	240	c	census:registered_tu		["func_803D7784","func_8032EDB8","0x80018784",3]
+"0x3F7874"	60	c	census:registered_tu		["func_803D7874","func_8032EEA8","0x80018874",3]
+"0x3F78B0"	136	c	census:registered_tu		["func_803D78B0","func_8032EEE4","0x800188B0",3]
+4159800	392	r	census:c_row		2
+"0x3F7AC0"	100	c	census:registered_tu		["func_803D7AC0","func_8032F0F4","0x80018AC0",3]
+4160292	388	r	census:c_row		2
+"0x3F7CA8"	120	c	census:registered_tu		["func_803D7CA8","func_8032F2DC","0x80018CA8",3]
+4160800	2128	r	census:c_row		2
+"0x3F8570"	88	c	census:registered_tu		["func_803D8570","func_8032FBA4","0x80019570",3]
+"0x3F85C8"	124	c	census:registered_tu		["func_803D85C8","func_8032FBFC","0x800195C8",3]
+4163140	164	r	census:c_row		2
+4163304	860	r	census:instance_proven		2
+4164164	72	r	census:c_row		2
+4164236	292	r	census:instance_proven		2
+4164528	1184	p	census:zero_fill>=16		3
+4165712	86	d	census:noncode:decode		4
+4165798	19	p	census:zero_fill>=16		3
+4165817	61	d	census:noncode:decode		4
+4165878	19	p	census:zero_fill>=16		3
+4165897	181	d	census:noncode:decode		4
+4166078	19	p	census:zero_fill>=16		3
+4166097	81	d	census:noncode:decode		4
+4166178	19	p	census:zero_fill>=16		3
+4166197	41	d	census:noncode:decode		4
+4166238	19	p	census:zero_fill>=16		3
+4166257	81	d	census:noncode:decode		4
+4166338	19	p	census:zero_fill>=16		3
+4166357	41	d	census:noncode:decode		4
+4166398	19	p	census:zero_fill>=16		3
+4166417	61	d	census:noncode:decode		4
+4166478	19	p	census:zero_fill>=16		3
+4166497	41	d	census:noncode:decode		4
+4166538	19	p	census:zero_fill>=16		3
+4166557	181	d	census:noncode:decode		4
+4166738	18	p	census:zero_fill>=16		3
+4166756	4	d	census:noncode:decode		4
+4166760	924	p	census:zero_fill>=16		3
+4167684	44	d	census:noncode:decode		4
+4167728	98	a	census:format:sjis	e61fe63186303bdbe586fe1fa6c7d89535edc24198f917135df97f9fe125e900	5
+4167826	25	d	census:noncode:decode		4
+4167851	37	a	census:format:sjis	0b49d1b0dc847d2b616c14981ce2ee201e5000f838cca8d84996ed6c26855560	5
+4167888	29	d	census:noncode:decode		4
+4167917	59	a	census:format:sjis	d159beb7a5d82d0868b39c9450fb708cb17081beadb47dd660d6c6987eaa0a58	5
+4167976	16	d	census:noncode:decode		4
+4167992	17	u	census:unknown		3
+4168009	66	a	census:format:sjis	f6fe20500e9c2b67c781705608bb0ef64179b810b3b9612a9508ae0b1d7c97fc	5
+4168075	16	d	census:noncode:decode		4
+4168091	90	a	census:format:sjis	1bfc85a2cdff268c3c460fa802fa5d5f262eb3581a0fc273dd87aa24acb76e1c	5
+4168181	39	d	census:noncode:decode		4
+4168220	5	d	census:neighbour:noncode_typing_pending		4
+4168225	68	a	census:format:sjis	9c503038cc1cb1f037e5072cc2cdb18850b81d96d47f7a1a78c88be30694dfae	5
+4168293	32	d	census:noncode:decode		4
+4168325	40	a	census:format:sjis	3d0d1d57cb36ed2d0949db188b32898bea97c05bd2ef47c71b9d735c8a96e757	5
+4168365	7	d	census:neighbour:noncode_typing_pending		4
+4168372	54	d	census:noncode:decode		4
+4168426	16	a	census:format:sjis	0c62cdf4d2122c1e00739f5f342e1c12f89b0cce0f4098ad19aff0f7054f8ab4	5
+4168442	19	d	census:noncode:decode		4
+4168461	16	a	census:format:sjis	c767ada454667ec6f3bfbefa0aa4db9e0e7f5282786dfac36d1698e0a8e5cc7d	5
+4168477	147	d	census:noncode:decode		4
+4168624	16	a	census:format:ptrtab	cb431f786eca25880466bfa5bbad16a058626b93cea8a852927a205f7d23eabf	6
+4168640	3	d	census:noncode:decode		4
+4168643	29	p	census:zero_fill>=16		3
+4168672	136	d	census:noncode:decode		4
+4168808	20	p	census:zero_fill>=16		3
+4168828	146	d	census:noncode:decode		4
+4168974	18	p	census:zero_fill>=16		3
+4168992	454	d	census:noncode:decode		4
+4169446	18	p	census:zero_fill>=16		3
+4169464	270	d	census:noncode:decode		4
+4169734	22	p	census:zero_fill>=16		3
+4169756	110	d	census:noncode:decode		4
+4169866	22	p	census:zero_fill>=16		3
+4169888	160	d	census:noncode:decode		4
+4170048	16	a	census:format:ptrtab	7a809deb1a138ef7b1820b540e7f4245bcce016584f953e22b6567602e066374	6
+4170064	12	d	census:noncode:decode		4
+4170076	16	a	census:format:ptrtab	57b81262e7654436033aefbb22f1e30aa153947976e2ef79d4b1e2b9b0783a77	6
+4170092	3	d	census:noncode:decode		4
+4170095	29	p	census:zero_fill>=16		3
+4170124	108	d	census:noncode:decode		4
+4170232	16	a	census:format:ptrtab	4cffd9e7e6f36335b3bc395e59e7bb1462d71de71367823f859494bcfce547c6	6
+4170248	40	d	census:noncode:decode		4
+4170288	16	a	census:format:ptrtab	878196aefafa9fbe5d7dd4da1851b50d40e99a185e9282946686e73e2ec98d4a	6
+4170304	3	d	census:noncode:decode		4
+4170307	29	p	census:zero_fill>=16		3
+4170336	140	d	census:noncode:decode		4
+4170476	20	a	census:format:ptrtab	140669dff4df886c9f0ccc57e8bb105a9c3fd1441d82ef5abcf3606864461c18	6
+4170496	1280	d	census:noncode:decode		4

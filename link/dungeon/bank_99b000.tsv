@@ -1,0 +1,42 @@
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7CF800: img_99b060_8016a860; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"dungeon/bank_99b000","l":"bank_995000_family","n":"0x6000","o":"0x99B000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[14328,0,0,308,9940,0,0],"v":"0x8016A800","y":{"0x800B2A60":"0x8016B4D4","0x800D4494":"0x8016B4D4","0x80171138":"0x8016B4D4"}},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_code"},{},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+10072064	76	a	census:format:ptrtab	ab46a2795f9525e1b46c575eae159b48298aa48e03e47e00301331bdb9a8f5a5	0
+10072140	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	1
+10072144	124	a	census:format:ptrtab	d69f17f210a9d777d52bf6b8dd3cb9708b2d60f5b060dc34ebe9de30316ffc81	0
+10072268	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	1
+10072272	24	a	census:format:ptrtab	d9643b32da5c07f7cee6af0b818769ecb6a67bc23bc906adeb5c53fd9383949a	0
+10072296	136	r	census:c_row		2
+"0x99B170"	212	c	census:registered_tu		["func_8097B170","func_80975170","0x8016A970",3]
+"0x99B244"	364	c	census:registered_tu		["func_8097B244","func_80975244","0x8016AA44",3]
+"0x99B3B0"	504	c	census:registered_tu		["func_8097B3B0","func_809753B0","0x8016ABB0",3]
+10073512	1836	r	census:c_row		2
+"0x99BCD4"	1348	c	census:registered_tu		["func_8097BCD4","func_80975CD4","0x8016B4D4",3]
+"0x99C218"	540	c	census:registered_tu		["func_8097C218","func_80976218","0x8016BA18",3]
+"0x99C434"	1864	c	census:registered_tu		["func_8097C434","func_80976434","0x8016BC34",3]
+"0x99CB7C"	460	c	census:registered_tu		["func_8097CB7C","func_80976B7C","0x8016C37C",3]
+"0x99CD48"	224	c	census:registered_tu		["func_8097CD48","func_80976D48","0x8016C548",3]
+"0x99CE28"	324	c	census:registered_tu		["func_8097CE28","func_80976E28","0x8016C628",3]
+"0x99CF6C"	148	c	census:registered_tu		["func_8097CF6C","func_80976F6C","0x8016C76C",3]
+"0x99D000"	100	c	census:registered_tu		["func_8097D000","func_800CEE70","0x8016C800",3]
+"0x99D064"	484	c	census:registered_tu		["func_8097D064","func_80977064","0x8016C864",3]
+"0x99D248"	2124	c	census:registered_tu		["func_8097D248","func_80977248","0x8016CA48",3]
+"0x99DA94"	724	c	census:registered_tu		["func_8097DA94","func_80977A94","0x8016D294",3]
+10083688	32	r	census:c_row		2
+"0x99DD88"	44	c	census:registered_tu		["func_8097DD88","func_80977D88","0x8016D588",3]
+"0x99DDB4"	32	c	census:registered_tu		["func_8097DDB4","func_800AD92C","0x8016D5B4",3]
+"0x99DDD4"	56	c	census:registered_tu		["func_8097DDD4","func_800AD94C","0x8016D5D4",3]
+10083852	1184	r	census:c_row		2
+"0x99E2AC"	852	c	census:registered_tu		["func_8097E2AC","func_809782AC","0x8016DAAC",3]
+"0x99E600"	356	c	census:registered_tu		["func_8097E600","func_80978600","0x8016DE00",3]
+"0x99E764"	100	c	census:registered_tu		["func_8097E764","func_80F8A600","0x8016DF64",3]
+"0x99E7C8"	56	c	census:registered_tu		["func_8097E7C8","func_800ADA84","0x8016DFC8",3]
+"0x99E800"	56	c	census:registered_tu		["func_8097E800","func_800ADABC","0x8016E000",3]
+"0x99E838"	56	c	census:registered_tu		["func_8097E838","func_800ADAF4","0x8016E038",3]
+"0x99E870"	56	c	census:registered_tu		["func_8097E870","func_800CF1BC","0x8016E070",3]
+10086568	56	r	census:c_row		2
+10086624	136	d	census:noncode:decode		4
+10086760	24	a	census:format:ptrtab	51dd234dcf1f01a8a34060a99eee43af5ba6927b0ef29393607d6a193d73eeb4	0
+10086784	16	d	census:noncode:entropy:unplaced		4
+10086800	52	a	census:format:ptrtab	7e0e58db8bf354ec7bae0121b8cca8ddf0500f6d1ca6b8c1cee7bb8a3b7a31f1	0
+10086852	9724	d	census:noncode:entropy:unplaced		4
+10096576	64	d	census:noncode:decode		4

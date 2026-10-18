@@ -1,7 +1,6 @@
 # Link lists: one TU, many placements
 
-Decision 59 (r121). Design and census: `work/native_lane/_r120/linklist/REPORT.md`. This note describes the
-tooling (LL0); the conversions (LL1+) are separate batches.
+Decision 59 (r121). This note describes the link-list tooling and the public byte-map catalogue.
 
 ## Model
 
@@ -108,7 +107,7 @@ unknown span merely to extract it. Concrete object types and placement remain se
 A file container with several load bases can use `vma: null`. It has no direct TU entries and can refer
 to complete load images with `kind: image`, `ref`, `foff`, `size`, and `evidence`. Each reference must name
 an existing v1 image in the same container with exactly that extent; cycles and sparse v0 children fail.
-This lets `main/main_bin.json` cover all MAIN.BIN without moving its existing `main/image_25c800` code
+This lets `link/main/main_bin.tsv` cover all MAIN.BIN without moving its existing `main/image_25c800` code
 placements or inventing a single load address for the whole file. Recursive census walks count the
 child once. Legacy overlapping placement-list views are not automatically container roots: choose
 nonoverlapping physical owners before the complete-container rollout.
@@ -139,10 +138,10 @@ round of inference. Do not assume a missing type is a concrete type or an unknow
 
 ```sh
 python3 tools/byte_map.py generate --labels <export.jsonl> --verify-retail
-python3 tools/byte_map.py generate --labels <export.jsonl> --verify-retail --write
-python3 tools/byte_map.py check --labels <export.jsonl>
+python3 tools/byte_map.py generate --labels <export.jsonl> --verify-retail --catalogue link --write
+python3 tools/byte_map.py check --catalogue link --labels <export.jsonl>
 # Rollout completion claim requires all five physical containers:
-python3 tools/byte_map.py check --labels <export.jsonl> --complete-containers
+python3 tools/byte_map.py check --catalogue link --labels <export.jsonl> --complete-containers
 ```
 
 `--root <checkout>` precedes the subcommand. `generate` validates everything before writing; without
@@ -158,7 +157,7 @@ all code, `data_excluded` is not independent data proof, and `estimated_code` is
 admitted census tier. Neither the coverage ledger nor the generator changes census labels. Generated
 image provenance binds the SHA-256 of both the labels export and coverage ledger.
 
-`check` loads the production maps, recursively derives the seven totals, and, with `--labels`, compares
+`check` loads the selected catalogue (`config/link/` by default), recursively derives the seven totals, and, with `--labels`, compares
 labels at **every interval boundary**, permitting equivalent coalescing. A label swap with unchanged
 aggregate totals still fails. Its summary distinguishes referenced children from root images and refuses
 overlapping selected roots. `--image` can scope the summary; all v1 maps are still validated by the loader.
@@ -183,12 +182,101 @@ Outputs live under `work/assets/<container>/`, protected by both `.gitignore` an
 `--out` must resolve under that directory; symlink escapes fail. Names use offset, size, and a digest
 prefix, with full hashes retained in the maps/receipt. Never add extracted blobs or containers to a patch.
 
-## Prototype and rollout limit
+## Public byte-map catalogue and reproduction
 
-`work/native_lane/r121w_bytemap/prototype.py` reproduces a conservative three-image demonstration from
-staged MATCH code/data records and the census method's zero-run rule. It tiles a dungeon bank, a town
-module and the complete MAIN.BIN, preserving all 53 existing sample TU entries. It includes pending
-object types and two verified jump-table assets. The supplied census2 reports contain totals but no
-span export or detector implementation; therefore this prototype deliberately retains other bytes as
-`unknown`. Its figures are **not** the census2 classification totals or a claim of full five-container
-coverage. `REPORT.md` in that lane records the measured results and the remaining evidence dependency.
+`config/link/` remains the compilation catalogue. `link/<container>/<image>.tsv`
+is the complete public catalogue: 1,317 logical images, including five physical
+container roots, 443 exported load views and 37 leftover slices. Large images use
+`<image>.000.tsv`, `.001.tsv`, etc.; these are storage parts of one logical image.
+No part exceeds 2,000,000 bytes. The compact representation expands to the v1
+semantic schema above, including the original TU objects, geometry and bindings.
+
+Regenerate every public byte map from a fresh B13 clone plus this patch and a
+user-owned US disc image (raw BIN or ISO). Python 3 and its standard library suffice:
+
+```sh
+python3 tools/census/regenerate.py --disc /path/to/Azure_Dreams.bin \
+  --output /tmp/azure-census --check
+```
+
+The command extracts its temporary containers from ISO9660 directory records,
+checks their B13 identity hashes, recomputes all detectors and precision gates,
+validates bounded source/read and strict-prefix evidence, and writes regenerated
+maps under `/tmp/azure-census/link/`. `--check` compares the complete generated file
+set and every byte with committed `link/`; success reports `diff empty`. It needs
+no existing `work/`, lane files, compiler, receipt or analysis cache. Temporary
+retail containers are deleted at completion. Raw spans and detailed reports remain
+in the output directory, which carries `.ignore`; none are committed.
+
+The census and its masked-prefix helper are in `tools/census/`. All small inputs
+are in `config/census/`: snapshot/source hashes, SLUS section layout, conditional
+loader bank map, 69 accepted matched-read records, three strict replay prefixes,
+and the rule registry. The 541 stale historical proposals remain excluded; their
+hashes were not refreshed. Read instruction identities are SHA-256 hashes rather
+than copied instruction words. The inputs contain extents, addresses, types,
+relocation metadata and hashes, with no retail payloads.
+
+Each metadata interval cites a stable rule ID from `config/census/rules.json`,
+for example `census:zero_fill>=16`, `census:format:vab`, or
+`census:noncode:decode`. The registry links each ID to its exact census evidence
+kind and label. `tools/census/README.md` identifies the implementing functions and
+precedence. Generated-path references are never evidence. Source and generated
+census hashes are checked before rollout. Registered TU records are retained
+verbatim; their storage tag `census:registered_tu` denotes the existing committed
+`config/link/` object, without inferring additional compiled C.
+
+The TSV format (`azure-clean.bytemap.tsv.v1`) has a `#` JSON header followed by:
+
+```text
+o	n	k	r	h	x
+```
+
+| field | meaning |
+|---|---|
+| `o`, `n` | JSON scalars for file offset and size; original TU spelling retained |
+| `k` | `c` TU, `r` code region, `d` data, `a` asset, `p` padding, `l` leftover, `u` unresolved, `i` image reference |
+| `r` | committed census rule ID; TU rows use `census:registered_tu` |
+| `h` | asset SHA-256, otherwise empty |
+| `x` | metadata profile index, or JSON `[row,home,vma,profile]` for a TU |
+
+The header uses `s` format ID, `d` image metadata, `p` attribute profiles, `a`
+zero-based part number and `z` total parts. Image metadata uses `i/c/o/n/v/l/e/y`
+for image/container/offset/size/VMA/layout/evidence/symbols, `t` for the seven
+census totals in the table's order and `p` for label hash, coverage hash and source.
+TU identities omit the current container prefix; a null home means its own row.
+The default TU path is `src/<home>.c`; any exception, optional bindings and original
+evidence live in the TU profile. A legacy TU evidence note that mentions ignored
+files is represented by `{"from":"config/link/<image>.json"}` and restored from
+that committed original entry; no ignored path enters the public map. Absent optional fields stay absent. Profiles also
+hold repeated format, census-label, type, extractor
+or leftover-reason attributes. Readers reject unknown columns/keys, missing or
+duplicate parts, inconsistent headers, conflicting geometry and label totals.
+Adjacent metadata with equal kind, rule, label and attributes is merged, and any
+combined asset gets a fresh hash over its exact new extent. TU and image-reference
+boundaries survive unchanged.
+
+```sh
+python3 tools/byte_map.py check --catalogue link \
+  --physical-roots link/physical_roots.json --complete-containers
+python3 tools/extract_assets.py --catalogue link --disc /path/to/Azure_Dreams.bin
+PYTHONPATH=tools/tests python3 -m unittest tools.tests.test_byte_map \
+  tools.tests.test_byte_map_format tools.tests.test_byte_map_rollout \
+  tools.tests.test_linklist tools.tests.test_source_layout -q
+python3 -m unittest discover -s tools/census/tests -q
+```
+
+The byte-map reader decodes storage and uses the production geometry and census
+validators; its placement indices and rule-3 tables must equal `config/link/`.
+Without `--catalogue`, existing build callers continue to read `config/link/`.
+Only `physical_root=1` rows in generated `coverage.tsv` may be summed: historical
+views overlap and must agree with physical-root labels at every boundary.
+`strongly_code` remains separate from registered C. The decision-57 terminal
+non-code class is data awaiting typing, and is excluded from unknown/holds.
+
+`link/leftovers/` keeps the reviewed group notes, slice hashes and structure audits.
+The symbol dump contains two arrays of 678 and 2909 records plus a 168-byte opaque
+separator. Descriptor checks bound the optional NPC and shop loads to 2048 bytes;
+whole-container searches find two exact occurrences each. Slice identity does not
+prove shared compiled TUs, full twin allocations, four shop placements or runtime
+non-loading. The existing bounded holds remain valid. Any future compilation
+input change needs its own scoped gate; this catalogue does not change authority.

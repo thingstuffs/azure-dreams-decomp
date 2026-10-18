@@ -1,0 +1,31 @@
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_645000_4000","n":16384,"o":6574080,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[11492,0,0,4888,0,4,0],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+6574080	4	p	census:zero_fill>=16		0
+6574084	28	a	census:audit+noncode_confirmed	9df8016b346e8d36c0013b2b79c43a407730404a8d15508a98e99c0638a67894	1
+6574112	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	2
+6574152	8	a	census:audit+noncode_confirmed	d7bdadc8663c3b2cf4d7f2eaf12538561a12327d3d8368f1f2bfc2d659f37114	1
+6574160	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	2
+6574200	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
+6574220	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	2
+6574321	7	a	census:audit+noncode_confirmed	cd283d1c9b5348d81477f08ec366c4dd8389fe15218aff4224daa7413203ec00	1
+6574328	112	r	census:c_row		3
+6574440	72	r	census:instance_proven		3
+6574512	3740	r	census:c_row		3
+6578252	1632	r	census:instance_proven		3
+6579884	360	r	census:c_row		3
+6580244	68	r	census:instance_proven		3
+6580312	36	r	census:c_row		3
+6580348	1828	r	census:instance_proven		3
+6582176	36	r	census:c_row		3
+6582212	708	r	census:instance_proven		3
+6582920	92	r	census:c_row		3
+6583012	392	r	census:instance_proven		3
+6583404	192	r	census:c_row		3
+6583596	1076	r	census:instance_proven		3
+6584672	12	r	census:c_row		3
+6584684	132	r	census:instance_proven		3
+6584816	12	r	census:c_row		3
+6584828	992	r	census:instance_proven		3
+6585820	564	a	census:audit+noncode_confirmed	8a01add77c42f7c8a232e49ee9d3612a98edcdbdfd1411fa7370ae59de3134ac	1
+6586384	16	a	census:format:ptrtab	3b19462abddfbbaa742d05a923485da1818dcb1ce02a38b4b9fb3b415b3d03c0	4
+6586400	4064	a	census:audit+noncode_confirmed	019a8236ef63c87d933c3b0950955a309334e55e05591dace1215898155dd463	1

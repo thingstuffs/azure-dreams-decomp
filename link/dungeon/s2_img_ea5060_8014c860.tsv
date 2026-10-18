@@ -1,0 +1,13 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_img_ea5060_8014c860","n":"0x22ec","o":"0xea5060","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[8876,0,0,64,0,0,0],"v":"0x8014c860"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_code"},{"bindings":{"0x80047784":"0x80047784","0x800814A8":"0x800814A8","0x80082E80":"0x80082E80","0x80083160":"0x80083160","0x80083460":"0x80083460","0x8009A180":"0x8009A180","0x8009FB34":"0x8009FB34","0x8009FD7C":"0x8009FD7C","0x800A0818":"0x800A0818","0x800A1C58":"0x800A1C58","0x800A9A0C":"0x800A9A0C","0x800AA258":"0x800AA258","0x800AA6B4":"0x800AA6B4","0x800AA79C":"0x800AA79C","0x800AA888":"0x800AA888","0x800AA924":"0x800AA924","0x800AAB10":"0x800AAB10","0x800AAF00":"0x800AAF00","0x800E2970":"0x800E2970","0x801716F4":"0x8014D6F4","0x80171CA8":"0x8014DCA8","0x80171EEC":"0x8014DEEC","0x801726B0":"0x8014E6B0","0x80172874":"0x8014E874","0x8017298C":"0x8014E98C","0x8017430C":"0x8015030C","0x80174FE4":"0x80150FE4","0x80175554":"0x80151554","0x8017555C":"0x8015155C","0x80175564":"0x80151564","0x80175594":"0x80151594","0x8017559C":"0x8015159C","0x801755A4":"0x801515A4"},"evidence":"LL3a attestation sha256:0ad8b004ac3b22d866bc2c233d0d0c1d666d1c34ca9ff45877fc183f1ef885a6; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+15356000	12	a	census:format:ptrtab	b64d8e20986d077687e3ae75d7f960fb7dc3a379b0b6c4caa9bdaf7ba044a290	0
+15356012	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	1
+15356016	20	a	census:format:ptrtab	8fc6519190d55c97c66d41fc667a43d6de7b25d8ead1b12b41fe35e81297ca62	0
+15356036	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	1
+15356040	24	a	census:format:ptrtab	770ba14d1c435f73ce8d3cf0210ccc30d010e102cad26ff3b20100291b5c6060	0
+15356064	604	r	census:instance_partial		2
+15356668	3064	r	census:c_row		2
+"0x00EA5EF4"	1460	c	census:registered_tu		["func_80E85EF4","func_80E61EF4","0x8014D6F4",3]
+15361192	580	r	census:c_row		2
+"0xea66ec"	1864	c	census:registered_tu		["func_80E866EC",null,"0x8014deec",4]
+15363636	1304	r	census:c_row		2

@@ -1,0 +1,21 @@
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F661800: native_resource_10_slot_0","i":"dungeon/bank_b0f000","l":"bank_b0f000_family","n":"0x6000","o":"0xB0F000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[20864,0,0,3712,0,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+11595776	1852	r	census:c_row		0
+"0xB0F73C"	456	c	census:registered_tu		["func_80AEF73C",null,"0x80170F3C",1]
+"0xB0F904"	1776	c	census:registered_tu		["func_80AEF904",null,"0x80171104",1]
+"0xB0FFF4"	1416	c	census:registered_tu		["func_80AEFFF4",null,"0x801717F4",1]
+11601276	4868	r	census:c_row		0
+"0xB11880"	512	c	census:registered_tu		["func_80AF1880",null,"0x80173080",1]
+11606656	1420	r	census:c_row		0
+"0xB1200C"	792	c	census:registered_tu		["func_80AF200C",null,"0x8017380C",1]
+11608868	3444	r	census:c_row		0
+"0xB13098"	844	c	census:registered_tu		["func_80AF3098",null,"0x80174898",1]
+11613156	1500	r	census:c_row		0
+"0xB139C0"	172	c	census:registered_tu		["func_80AF39C0",null,"0x801751C0",1]
+11614828	1756	r	census:c_row		0
+"0xB14148"	56	c	census:registered_tu		["func_80AF4148",null,"0x80175948",1]
+11616640	156	a	census:audit+noncode_confirmed	15abbd25c5d226e626ff865abe8a8c6e0d05e645717c1c2384eb9001c1cf6866	2
+11616796	24	a	census:format:ptrtab	c5082aa7b9e26a4ffc091140d76aa723a142ba2173857f2092b8914c91dcccc6	3
+11616820	16	a	census:audit+noncode_confirmed	2bfdc72b15e7a2ef246fc293b67fb715e4e068c000e779550a94b4c0a1dddeb6	2
+11616836	60	a	census:format:ptrtab	f60685be1af79b88fba9e3c611e7398d19decc3b68d95dae9fdd7fdbb3ee53d0	3
+11616896	3456	a	census:audit+noncode_confirmed	476c2e51f57a4f266ffa570409803aae53b9f67197d36e52877b69f72c55d8fb	2

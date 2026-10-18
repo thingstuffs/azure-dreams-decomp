@@ -1,0 +1,42 @@
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7E717800: native_ovl_7e717800_map","i":"dungeon/bank_190c800","n":"0x6000","o":"0x190C800","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[5408,0,3628,148,15392,0,0],"v":"0x80024000"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_code"},{},{"census_label":"strongly_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+26265600	8	a	census:audit+noncode_confirmed	799ee62577a3ce94bf1485e915d8b903b7615ac0059d344450578a9b2b6fa6e8	0
+26265608	64	a	census:format:ptrtab	f99242cd9743a557a5b03788ed33ae2845d8e1aaf76813708319cb525fdcf6eb	1
+26265672	40	a	census:audit+noncode_confirmed	092b0b3cdb33f25b432e2a0819dbc397575cdf0df5bca4d7d5253469a0014246	0
+26265712	36	a	census:format:ptrtab	8a99fe92d4f960313292843bbb9e7d6e1718acdc264a8d805889f62db6a0fa66	1
+26265748	3008	r	census:c_row		2
+"0x190D454"	592	c	census:registered_tu		["func_818ED454","func_818F96DC","0x80024C54",3]
+26269348	1808	r	census:c_row		2
+26271156	60	r	census:T2_framed_ref:jtbl+ptr		4
+26271216	132	r	census:T1_twin		4
+26271348	20	r	census:T2_framed_ref:jtbl+ptr		4
+26271368	100	r	census:T1_twin		4
+26271468	60	r	census:T2_framed_ref:jtbl+ptr		4
+26271528	48	r	census:T1_twin		4
+26271576	20	r	census:T2_framed_ref:jtbl+ptr		4
+26271596	48	r	census:T1_twin		4
+26271644	36	r	census:T2_framed_ref:jtbl+ptr		4
+26271680	120	r	census:T1_twin		4
+26271800	172	r	census:T2_framed_ref:jtbl+ptr		4
+26271972	128	r	census:T1_twin		4
+26272100	32	r	census:T2_framed_ref:jtbl+ptr		4
+26272132	92	r	census:T1_twin		4
+26272224	84	r	census:T2_framed_ref:jtbl+ptr		4
+26272308	64	r	census:T1_twin		4
+26272372	360	r	census:T2_framed_ref:jtbl+ptr		4
+26272732	88	r	census:T1_twin		4
+26272820	696	r	census:T2_framed_ref:jtbl+ptr		4
+26273516	88	r	census:T1_twin		4
+26273604	572	r	census:T2_framed_ref:jtbl+ptr		4
+26274176	52	r	census:T1_twin		4
+26274228	48	r	census:T2_framed_ref:jtbl+ptr		4
+26274276	48	r	census:T1_twin		4
+26274324	12	r	census:T2_framed_ref:jtbl+ptr		4
+26274336	84	r	census:T1_twin		4
+26274420	16	r	census:T2_framed_ref:jtbl+ptr		4
+26274436	84	r	census:T1_twin		4
+26274520	96	r	census:T2_framed_ref:jtbl+ptr		4
+26274616	168	r	census:T1_twin		4
+26274784	96	d	census:noncode:decode		5
+26274880	15232	d	census:noncode:entropy:unplaced		5
+26290112	64	d	census:noncode:decode		5
