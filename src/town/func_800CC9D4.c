@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 
 void initialize_reaction_data_and_timer_13(void *);                            /* extern */
 
@@ -19,10 +20,7 @@ typedef struct S_800CA134_1 {
     union { s16 n; u16 v; } unk_0A;   /* accessed as both */
 } S_800CA134_1;   /* arg1 in ease_reaction_position_with_vertical_offset */
 
-typedef struct S_800CA134_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800CA134_2;   /* target in ease_reaction_position_with_vertical_offset */
+   /* target in ease_reaction_position_with_vertical_offset */
 
 typedef struct S_800CA134_3 {
     u8 pad_00[0x2];
@@ -52,13 +50,13 @@ void ease_reaction_position_with_vertical_offset(void *state, void *position) {
         - ((S_800CA134_1 *)position)->unk_06;
     (*(s16 *)((u8 *)position + (6))) = (s16) ((u16) ((S_800CA134_1 *)position)->unk_06 + (y_delta / 4));
     {
-        void *target;
+        SignedHeightView *target;
         s32 z_step;
         s32 target_z;
 
         target = target_table->unk_08;
         z_step = ((S_800CA134_1 *)position)->unk_0A.n;
-        target_z = ((S_800CA134_2 *)target)->unk_0A;
+        target_z = target->unk_0A;
         z_step += 0xD0;
         z_step = target_z - z_step;
         ((S_800CA134_1 *)position)->unk_0A.n += z_step / 4;

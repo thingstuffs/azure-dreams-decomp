@@ -1,9 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_800203D8_0_pre {
-    u16 unk_00;
-} S_800203D8_0_pre;   /* the 0x2 bytes before arg0 in fade_linked_object_color, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in fade_linked_object_color, addressed as arg0[-1] */
 
 typedef struct S_800203D8_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -38,7 +37,7 @@ void fade_linked_object_color(void *fade) {
         color = ((S_800203D8_0 *)fade)->unk_08 + 0xFFF7F7F8U;
         ((S_800203D8_0 *)fade)->unk_08 = color;
         if (color <= 0x80808) {
-            ((S_800203D8_0_pre *)fade)[-1].unk_00 |= 0x8000;
+            ((ObjectStatusPrefix16 *)fade)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= 0x8000;
         }
         break;

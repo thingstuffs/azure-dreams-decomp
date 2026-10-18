@@ -1,10 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_80F8ADE0_0_pre {
-    u16 unk_00;
-} S_80F8ADE0_0_pre;   /* the 0x2 bytes before arg0 in create_cylindrical_effect, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in create_cylindrical_effect, addressed as arg0[-1] */
 
 typedef struct S_80F8ADE0_0 {
     u8 pad_00[0x48];
@@ -36,7 +35,7 @@ void create_cylindrical_effect(void *state) {
         ((S_80F8ADE0_0 *)state)->unk_4C = (s16) ((u16) ((S_80F8ADE0_0 *)state)->unk_4C + 1);
     }
     if (((S_80F8ADE0_0 *)state)->unk_4C == 0xF) {
-        ((S_80F8ADE0_0_pre *)state)[-1].unk_00 = (u16) (((S_80F8ADE0_0_pre *)state)[-1].unk_00 | 0x8000);
+        ((ObjectStatusPrefix16 *)state)[-1].unk_00 = (u16) (((ObjectStatusPrefix16 *)state)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

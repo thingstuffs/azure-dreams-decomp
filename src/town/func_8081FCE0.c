@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/types3b_types.h"
 
 #ifndef NULL
 #define NULL 0
@@ -20,11 +21,7 @@ typedef struct S_800224E0_0 {
     s16 unk_28;
 } S_800224E0_0;   /* obj in create_minigame_display_objects */
 
-typedef struct S_800224E0_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800224E0_1;   /* prim in create_minigame_display_objects */
+   /* prim in create_minigame_display_objects */
 
 typedef struct S_800224E0_2 {
     u8 pad_00[0x48];
@@ -85,7 +82,7 @@ void create_minigame_display_objects(void)
     u8 *parent_state;
     u8 *child_slot;
     u8 *callback;
-    u8 *prim;
+    IntVector3 *prim;
     u8 *draw_state;
     u8 *object_state;
     u8 *child_script;
@@ -104,8 +101,8 @@ void create_minigame_display_objects(void)
         parent_state = obj + 0x20;
         prim = ((S_800224E0_0 *)obj)->unk_08;
         ((S_800224E0_0 *)obj)->unk_10 = D_80022768;
-        ((S_800224E0_1 *)prim)->unk_00 = 0x04600000;
-        ((S_800224E0_1 *)prim)->unk_04 = 0x03600000;
+        prim->x = 0x04600000;
+        prim->y = 0x03600000;
         ((S_800224E0_2 *)parent_state)->unk_48 = callback;
         configure_the_set_mode_n_3(parent_state, prim, D_80024470);
     }
@@ -149,10 +146,10 @@ void create_minigame_display_objects(void)
         ((S_800224E0_4 *)draw_state)->unk_05 = 0;
         draw_state = (u8 *)&((S_800224E0_4 *)draw_state)->unk_0C;
         *(u32 *)draw_state = neutral_color;
-        ((S_800224E0_1 *)prim)->unk_00 = 0x04400000;
-        ((S_800224E0_1 *)prim)->unk_04 = 0x02C00000;
+        prim->x = 0x04400000;
+        prim->y = 0x02C00000;
         object_state = obj + 0x20;
-        ((S_800224E0_1 *)prim)->unk_08 = 0;
+        prim->z = 0;
         (*(void * volatile *)((u8 *)object_state + 0x50)) = callback;
         configure_the_set_mode_n_3(render_state, ((S_800224E0_0 *)obj)->unk_08, D_800244A0);
     }

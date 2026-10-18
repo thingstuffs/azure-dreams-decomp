@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_8081508C_0 {
     s32 unk_00;
@@ -10,9 +11,7 @@ typedef struct S_8081508C_0 {
     s32 unk_14;
 } S_8081508C_0;   /* arg1 in advance_three_component_motion */
 
-typedef struct S_8081508C_1_pre {
-    u16 unk_00;
-} S_8081508C_1_pre;   /* the 0x2 bytes before arg0 in advance_three_component_motion, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in advance_three_component_motion, addressed as arg0[-1] */
 
 typedef struct S_8081508C_1 {
     u8 pad_00[0xE];
@@ -32,7 +31,7 @@ void advance_three_component_motion(void *timer_state, void *motion) {
     ticks_left = ((S_8081508C_1 *)timer_state)->unk_0E - 1;
     ((S_8081508C_1 *)timer_state)->unk_0E = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        (*(u16 *)((u8 *)timer_state + -2)) = (u16) (((S_8081508C_1_pre *)timer_state)[-1].unk_00 | 0x8000);
+        (*(u16 *)((u8 *)timer_state + -2)) = (u16) (((ObjectStatusPrefix16 *)timer_state)[-1].unk_00 | 0x8000);
         D_80084D5C |= 0x8000;
     }
 }

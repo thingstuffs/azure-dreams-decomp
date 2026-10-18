@@ -1,15 +1,13 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_delay_views.h"
 
 void configure_the_set_mode_n_1();         /* extern */
 s32 get_transform_entry_by_index();                         /* extern */
 extern s32 D_8006ADD4;
 extern M2C_UNK D_800C2A10;
 
-typedef struct S_800C2988_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800C2988_0;   /* motion in update_transform_motion_page */
+   /* motion in update_transform_motion_page */
 
 typedef struct S_800C2988_1 {
     u8 pad_00[0x16];
@@ -22,7 +20,7 @@ typedef struct S_800C2988_1 {
 
 /* Sets the motion page and updates the object state and orientation. */
 void update_transform_motion_page(void *object_data, void *motion_data) {
-    register S_800C2988_0 *motion = motion_data;
+    register DelayMotionZ *motion = motion_data;
 
     u32 page;
 

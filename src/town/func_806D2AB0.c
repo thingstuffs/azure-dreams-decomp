@@ -1,25 +1,17 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "shared/types3b_types.h"
 
 
 typedef void (*Callback3)(void *, void *, s32);
 typedef void (*Callback1)(s32);
 
-typedef struct S_806D2AB0_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_806D2AB0_0;   /* arg0 in func_806D2AB0 */
+   /* arg0 in func_806D2AB0 */
 
-typedef struct S_806D2AB0_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_806D2AB0_1;   /* ptr in func_806D2AB0 */
+   /* ptr in func_806D2AB0 */
 
-typedef struct S_806D2AB0_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_806D2AB0_2;   /* (offset - index) * 4 + (u8 *)arg0 in func_806D2AB0 */
+   /* (offset - index) * 4 + (u8 *)arg0 in func_806D2AB0 */
 
 
 extern u8 D_80016148[16];
@@ -33,7 +25,7 @@ s32 func_806D2AB0(s32 *entries, s32 target_key)
     s32 key_or_offset;
 
     entry_index = 0;
-    if (((S_806D2AB0_0 *)entries)->unk_08 != 0) {
+    if (((TownEventEntryValueView *)entries)->unk_08 != 0) {
         entry = entries;
         while (1) {
             key_or_offset = *entry;
@@ -41,11 +33,11 @@ s32 func_806D2AB0(s32 *entries, s32 target_key)
                 break;
             entry += 7;
             entry_index++;
-            if (((S_806D2AB0_1 *)entry)->unk_08 == 0)
+            if (((TownEventEntryValueView *)entry)->unk_08 == 0)
                 break;
         }
         key_or_offset = entry_index * 8;
-        if (((S_806D2AB0_2 *)((key_or_offset - entry_index) * 4 + (u8 *)entries))->unk_08 != 0) {
+        if (((TownEventEntryValueView *)((key_or_offset - entry_index) * 4 + (u8 *)entries))->unk_08 != 0) {
             return entry_index;
         }
     }

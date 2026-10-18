@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 extern int abs(int);
 
 #ifndef NULL
@@ -22,11 +23,7 @@ typedef struct S_8052F2C8_1 {
     u16 unk_58;
 } S_8052F2C8_1;   /* root in animate_rising_effect_object */
 
-typedef struct S_8052F2C8_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_8052F2C8_2;   /* state_held in animate_rising_effect_object */
+   /* state_held in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_3 {
     u8 pad_00[0x8];
@@ -51,15 +48,9 @@ typedef struct S_8052F2C8_5 {
     u16 unk_16;
 } S_8052F2C8_5;   /* root_obj in animate_rising_effect_object */
 
-typedef struct S_8052F2C8_6 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_8052F2C8_6;   /* data1 in animate_rising_effect_object */
+   /* data1 in animate_rising_effect_object */
 
-typedef struct S_8052F2C8_7 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_8052F2C8_7;   /* spawn_data in animate_rising_effect_object */
+   /* spawn_data in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_8 {
     s32 unk_00;
@@ -126,8 +117,8 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
     void *root_obj;
     void *position;
     void *data0;
-    void *data1;
-    void *spawn_data;
+    TownScoreCounterView *data1;
+    TownScoreCounterView *spawn_data;
     void *entity_data;
     s32 *money;
 
@@ -140,7 +131,7 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
 
     if (((S_8052F2C8_1 *)root)->unk_54.s == 9) {
         mode = ((S_8052F2C8_0 *)obj_held)->unk_0C.s;
-        if (mode == 1 && ((S_8052F2C8_2 *)state_held)->unk_00 <= 0x04DFFFFF) {
+        if (mode == 1 && ((IntVector3 *)state_held)->x <= 0x04DFFFFF) {
             state = ((S_8052F2C8_1 *)root)->unk_56;
             switch (state) {
             case 0:
@@ -190,8 +181,8 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
     case 1:
         step = ((S_8052F2C8_0 *)obj_held)->unk_04 + ((S_8052F2C8_0 *)obj_held)->unk_08;
         ((S_8052F2C8_0 *)obj_held)->unk_04 = step;
-        sum = ((S_8052F2C8_2 *)state_held)->unk_00 + ((S_8052F2C8_0 *)obj_held)->unk_04;
-        ((S_8052F2C8_2 *)state_held)->unk_00 = sum;
+        sum = ((IntVector3 *)state_held)->x + ((S_8052F2C8_0 *)obj_held)->unk_04;
+        ((IntVector3 *)state_held)->x = sum;
         if (sum <= 0x0427FFFF) {
             ((S_8052F2C8_0 *)obj_held)->unk_0E = 6;
             money = &D_80095AAC;
@@ -211,7 +202,7 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
 
             target_y_addr = &D_80132AEC;
             target_y = *target_y_addr;
-            current_y = ((S_8052F2C8_2 *)state_held)->unk_04;
+            current_y = ((IntVector3 *)state_held)->y;
             delta = target_y - current_y;
             delta = abs(delta);
             if (delta > 0x200000) {
@@ -233,10 +224,10 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
             ((S_8052F2C8_0 *)obj_held)->unk_10 |= 4;
             data1 = ((S_8052F2C8_1 *)root)->unk_00;
             ((S_8052F2C8_1 *)root)->unk_54.u++;
-            ((S_8052F2C8_6 *)data1)->unk_14 += 2;
+            data1->unk_14 += 2;
             if (((S_8052F2C8_1 *)root)->unk_54.s == 10) {
                 data1 = ((S_8052F2C8_1 *)root)->unk_00;
-                ((S_8052F2C8_6 *)data1)->unk_14 += 10;
+                data1->unk_14 += 10;
             }
             break;
         }
@@ -248,7 +239,7 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
         ((S_8052F2C8_0 *)obj_held)->unk_10 |= 4;
         spawn_data = ((S_8052F2C8_1 *)root)->unk_00;
         count = 1;
-        ((S_8052F2C8_7 *)spawn_data)->unk_14++;
+        spawn_data->unk_14++;
         scale = 0x1000;
         do {
             work = func_800373DC(0x136);
@@ -257,9 +248,9 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
                 func_8003BC18(work, D_8003C558);
                 position = ((S_8052F2C8_3 *)work)->unk_08;
                 entity_data = ((S_8052F2C8_3 *)work)->unk_0C.p32;
-                ((S_8052F2C8_8 *)position)->unk_00 = ((S_8052F2C8_2 *)state_held)->unk_00;
-                ((S_8052F2C8_8 *)position)->unk_04 = ((S_8052F2C8_2 *)state_held)->unk_04;
-                ((S_8052F2C8_8 *)position)->unk_08 = ((S_8052F2C8_2 *)state_held)->unk_08;
+                ((S_8052F2C8_8 *)position)->unk_00 = ((IntVector3 *)state_held)->x;
+                ((S_8052F2C8_8 *)position)->unk_04 = ((IntVector3 *)state_held)->y;
+                ((S_8052F2C8_8 *)position)->unk_08 = ((IntVector3 *)state_held)->z;
                 work_value = ((S_8052F2C8_0 *)obj_held)->unk_04;
                 ((S_8052F2C8_3 *)work)->unk_20 = root;
                 ((S_8052F2C8_3 *)work)->unk_24 = work_value;
@@ -285,9 +276,9 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
         count = 7;
         do {
             count--;
-            x = (((func_80071494() & 0xFF) - 0x80) << 14) + ((S_8052F2C8_2 *)state_held)->unk_00;
+            x = (((func_80071494() & 0xFF) - 0x80) << 14) + ((IntVector3 *)state_held)->x;
             rnd = func_80071494();
-            create_object_position_configures_color(0, x, ((S_8052F2C8_2 *)state_held)->unk_04 + 0x80000,
+            create_object_position_configures_color(0, x, ((IntVector3 *)state_held)->y + 0x80000,
                           ((rnd % 80) << 16) + 0xFFB00000);
         } while (count >= 0);
         timer_end = (u16)((S_8052F2C8_0 *)obj_held)->unk_0E - 1;
@@ -299,8 +290,8 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
 
     case 3:
         ((S_8052F2C8_1 *)root)->unk_58 |= 2;
-        sum3 = ((S_8052F2C8_2 *)state_held)->unk_00 + ((S_8052F2C8_0 *)obj_held)->unk_04;
-        ((S_8052F2C8_2 *)state_held)->unk_00 = sum3;
+        sum3 = ((IntVector3 *)state_held)->x + ((S_8052F2C8_0 *)obj_held)->unk_04;
+        ((IntVector3 *)state_held)->x = sum3;
         if (sum3 > 0x055FFFFF) {
             ((S_8052F2C8_0 *)obj_held)->unk_0E = 5;
             func_80058F88(0x50C);
@@ -317,7 +308,7 @@ case_4_loop:
         count4--;
         x4 = (((func_80071494() & 0xFF) - 0x80) << 14) + base;
         rnd4 = func_80071494();
-        create_object_position_configures_color(0, x4, ((S_8052F2C8_2 *)state_held)->unk_04 + 0x80000,
+        create_object_position_configures_color(0, x4, ((IntVector3 *)state_held)->y + 0x80000,
                       ((rnd4 & 0x3F) << 16) | mask);
         if (count4 >= 0) {
             goto case_4_loop;

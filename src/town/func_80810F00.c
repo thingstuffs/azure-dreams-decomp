@@ -1,8 +1,7 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_80810F00_0_pre {
-    u16 unk_00;
-} S_80810F00_0_pre;   /* the 0x2 bytes before arg0 in func_80810F00, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in func_80810F00, addressed as arg0[-1] */
 
 typedef struct S_80810F00_0 {
     s16 unk_00;
@@ -22,6 +21,7 @@ extern s32 D_80084D5C;
 
 /* Process an entry in state zero and propagate its linked status flag. */
 void func_80810F00(void *entry) {
+    ObjectStatusPrefix16 *entry_view = entry;
     u16 *flags;
     void *flag_data;
 
@@ -30,8 +30,8 @@ void func_80810F00(void *entry) {
         func_80058588(*((S_80810F00_0 *)entry)->unk_08, func_80071424(((S_80810F00_0 *)entry)->unk_04),
             ((S_80810F00_0 *)entry)->unk_04);
         if (((S_80810F00_1 *)flag_data)->unk_0C & 2) {
-            flags = &((S_80810F00_0_pre *)entry)[-1].unk_00;
-            *flags = (u16) (((S_80810F00_0_pre *)entry)[-1].unk_00 | 0x8000);
+            flags = &entry_view[-1].unk_00;
+            *flags = (u16) (entry_view[-1].unk_00 | 0x8000);
             D_80084D5C |= 0x8000;
         }
     }

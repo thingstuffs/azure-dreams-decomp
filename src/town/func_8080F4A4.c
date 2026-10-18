@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_func_8080F4A4_1 {
     s32 unk_00;
@@ -83,11 +84,7 @@ typedef struct S_func_8080F4A4_8 {
     s16 unk_70;
 } S_func_8080F4A4_8;
 
-typedef struct S_func_8080F4A4_9 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_func_8080F4A4_9;
+
 
 #ifndef NULL
 #define NULL 0
@@ -248,9 +245,9 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
                 sprite_data = sprite->unk_0C;
                 sprite->unk_10 = (s32 *)D_8052B054;
                 func_8003BC18(sprite, &D_8003C558);
-                ((S_func_8080F4A4_9 *)sprite->unk_08)->unk_00 = (s32) ((sprite_index << 0x17) + 0x04600000);
-                ((S_func_8080F4A4_9 *)sprite->unk_08)->unk_04 = 0x03600000;
-                ((S_func_8080F4A4_9 *)sprite->unk_08)->unk_08 = 0xFE000000;
+                ((IntVector3 *)sprite->unk_08)->x = (s32) ((sprite_index << 0x17) + 0x04600000);
+                ((IntVector3 *)sprite->unk_08)->y = 0x03600000;
+                ((IntVector3 *)sprite->unk_08)->z = 0xFE000000;
                 sprite_data->unk_1E = sprite_scale;
                 sprite_data->unk_1C = sprite_scale;
                 sprite_data->unk_14 = (u16) (sprite_data->unk_14 | 0xC);

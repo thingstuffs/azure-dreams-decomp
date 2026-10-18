@@ -14,11 +14,7 @@ typedef struct S_800C4F6C_6 {
 } S_800C4F6C_6;   /* ((S_800C4F6C_5 *)arg0)->unk_80 in initialize_object_resources_2 */
 
 
-typedef struct S_800C4F6C_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800C4F6C_0;   /* arg1 in initialize_object_resources_2 */
+   /* arg1 in initialize_object_resources_2 */
 
 typedef struct S_800C4F6C_1 {
     s32 * unk_00;
@@ -53,15 +49,16 @@ extern M2C_UNK D_800D50F8;
 extern M2C_UNK D_800D5120;
 extern M2C_UNK D_800D5124;
 #include "records/Rec_D_80100D98.h"
+#include "shared/types3b_types.h"
 extern Rec_D_80100D98 D_80100D98;
 
 /* Initialize object resources and display state, then copy its position to shared state. */
-void initialize_object_resources_2(void *object, S_800C4F6C_0 *position, S_800C4F6C_2 *display_state) {
+void initialize_object_resources_2(void *object, IntVector3 *position, S_800C4F6C_2 *display_state) {
     EntityRec *shared_position;
 
     initialize_object_and_register_slot(object, 0x1D, &D_800D5120, &D_800D5124,
                   &D_800D50F0, &D_800D50F8);
-    position->unk_08 = 0xFF800000;
+    position->z = 0xFF800000;
     ((S_800C4F6C_6 *)(((S_800C4F6C_5 *)object)->unk_80))->unk_04 = &D_800D50DC;
     ((S_800C4F6C_1 *)((u8 *)object - 0x10))->unk_00 = &set_camera_chase_data;
     display_state->unk_10 = 0;
@@ -71,10 +68,10 @@ void initialize_object_resources_2(void *object, S_800C4F6C_0 *position, S_800C4
     create_resource_display_object(1);
     display_state->unk_1E = 0x800;
     display_state->unk_1C = 0x800;
-    position->unk_04 = 0x04300000;
-    ((EntityRec *)((u8 *)(&D_80083780)))->x.v = position->unk_00;
+    position->y = 0x04300000;
+    ((EntityRec *)((u8 *)(&D_80083780)))->x.v = position->x;
     shared_position = &D_80083780;
-    shared_position->y.v = (s32) position->unk_04;
-    shared_position->z.v = (s32) position->unk_08;
+    shared_position->y.v = (s32) position->y;
+    shared_position->z.v = (s32) position->z;
     copy_entity_record_fields(&D_80100D98, shared_position);
 }

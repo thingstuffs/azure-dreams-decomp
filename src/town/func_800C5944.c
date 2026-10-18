@@ -3,10 +3,9 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_800C30A4_0_pre {
-    u16 unk_00;
-} S_800C30A4_0_pre;   /* the 0x2 bytes before arg0 in clear_object_slot_and_mark_removed, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in clear_object_slot_and_mark_removed, addressed as arg0[-1] */
 
 
 /* Clears the object slot and sets the object and global removal flags. */
@@ -17,6 +16,6 @@ void clear_object_slot_and_mark_removed(void *object) {
     slots = D_80082660;
     slot_offset = ((Rec_func_80094268_arg0 *)object)->unk_60 * 8;
     (*(s32 *)((u8 *)(slots + slot_offset) + 4)) = 0;
-    (*(u16 *)((u8 *)object + -2)) = (u16) (((S_800C30A4_0_pre *)object)[-1].unk_00 | 0x8000);
+    (*(u16 *)((u8 *)object + -2)) = (u16) (((ObjectStatusPrefix16 *)object)[-1].unk_00 | 0x8000);
     object_flag_block.flags |= 0x8000;
 }

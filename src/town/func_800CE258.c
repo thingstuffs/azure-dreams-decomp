@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_80082D58.h"
+#include "shared/types3b_types.h"
 
 void func_80033D08(void *block_data);
 s32 func_800644B8();                             /* extern */
@@ -13,22 +14,11 @@ typedef struct S_800CB9B8_1 {
     void * unk_0C;
 } S_800CB9B8_1;
 
-typedef struct S_800CB9B8_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800CB9B8_2;   /* arg1 in update_entity_relative_position */
+   /* arg1 in update_entity_relative_position */
 
-typedef struct S_800CB9B8_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800CB9B8_3;
 
-typedef struct S_800CB9B8_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800CB9B8_4;
+
+
 
 typedef struct S_800CB9B8_5 {
     u8 pad_00[0x72];
@@ -43,10 +33,10 @@ typedef struct S_800CB9B8_6 {
 /* extern */
 
 /* Compute an entity-relative position, or run fallback updates if its state check fails. */
-void update_entity_relative_position(Rec_D_80082D58 *entity, S_800CB9B8_2 *out_pos) {
+void update_entity_relative_position(Rec_D_80082D58 *entity, IntVector3 *out_pos) {
     void *state;
-    S_800CB9B8_3 *base_pos;
-    S_800CB9B8_4 *height_info;
+    IntVector3 *base_pos;
+    ObjectPayloadView *height_info;
     S_800CB9B8_1 *state_header;
 
     state = entity->unk_9C;
@@ -58,7 +48,7 @@ void update_entity_relative_position(Rec_D_80082D58 *entity, S_800CB9B8_2 *out_p
         clear_object_slot_and_mark_removed(entity);
         return;
     }
-    out_pos->unk_00 = (s32) (base_pos->unk_00 + (func_800644B8(((S_800CB9B8_5 *)(entity->unk_9C))->unk_72) * 0x140));
-    out_pos->unk_04 = (s32) (base_pos->unk_04 + (func_80064584(((S_800CB9B8_5 *)(entity->unk_9C))->unk_72) * 0x140));
-    out_pos->unk_08 = (s32) (base_pos->unk_08 + (((S_800CB9B8_6 *)(height_info->unk_08))->unk_03 << 0x11) + 0x100000);
+    out_pos->x = (s32) (base_pos->x + (func_800644B8(((S_800CB9B8_5 *)(entity->unk_9C))->unk_72) * 0x140));
+    out_pos->y = (s32) (base_pos->y + (func_80064584(((S_800CB9B8_5 *)(entity->unk_9C))->unk_72) * 0x140));
+    out_pos->z = (s32) (base_pos->z + (((S_800CB9B8_6 *)(height_info->unk_08))->unk_03 << 0x11) + 0x100000);
 }

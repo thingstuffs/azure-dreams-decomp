@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "shared/types3b_types.h"
 
 
 extern s32 has_pending_actor_or_turn_action(void *);
@@ -25,12 +26,7 @@ typedef struct S_801739F8_0 {
 } S_801739F8_0;   /* arg0 in advance_bank_actor_animation */
 
 
-typedef struct S_801739F8_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_801739F8_4;   /* global in advance_bank_actor_animation */
+   /* global in advance_bank_actor_animation */
 
 /* Advances entity animation states and updates the shared activity count. */
 void advance_bank_actor_animation(void *controller, void *context, void *sprite, void *entity)
@@ -82,7 +78,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
         }
 
         dungeon_state = &g_dungeon_status.unk_00;
-        if (((S_801739F8_4 *)dungeon_state)->unk_02 & 0x1000) {
+        if (((UnsignedPositionXZView *)dungeon_state)->unk_02 & 0x1000) {
             return;
         }
 
@@ -130,7 +126,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
         direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         func_80047784(sprite, D_80174AF4[direction & 7], 0);
         ((EntityRec *)entity)->flags1C |= 0x40000;
-        ((S_801739F8_4 *)dungeon_state)->unk_0A++;
+        ((UnsignedPositionXZView *)dungeon_state)->unk_0A++;
 
         ((S_801739F8_0 *)controller)->unk_9B++;
         return;

@@ -1,12 +1,10 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_800240B0_0 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_800240B0_0;   /* arg2 in toggle_gym_sprite_by_scene_phase */
+   /* arg2 in toggle_gym_sprite_by_scene_phase */
 
 /* Update bit 0x80 according to the pointed-to value. */
-void toggle_gym_sprite_by_scene_phase(s16 **value_ptr, s32 unused, S_800240B0_0 *object) {
+void toggle_gym_sprite_by_scene_phase(s16 **value_ptr, s32 unused, SpriteFlagsView *object) {
     s16 *value;
 
     value = *value_ptr;

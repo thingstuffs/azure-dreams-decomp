@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 
 
 
@@ -23,18 +24,14 @@ typedef struct S_800BDBD0_1 {
     s16 unk_20;
 } S_800BDBD0_1;
 
-typedef struct S_800BDBD0_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800BDBD0_2;
+
 
 
 /* Creates an object at the supplied position and initializes its visual properties. */
 void *create_positioned_visual_object(TownPropPosition *source_pos, s32 object_data, s32 angle, s32 visual_data) {
     S_800BDBD0_0 *object;
     S_800BDBD0_1 *visual;
-    S_800BDBD0_2 *position;
+    IntVector3 *position;
 
     object = func_8003FC64(0x136);
     if (object != NULL) {
@@ -48,9 +45,9 @@ void *create_positioned_visual_object(TownPropPosition *source_pos, s32 object_d
         visual->unk_0C = 0x808080;
         visual->unk_08 = visual_data;
         position = object->unk_08;
-        position->unk_00 = source_pos->unk_00;
-        position->unk_04 = source_pos->unk_04;
-        position->unk_08 = source_pos->unk_08;
+        position->x = source_pos->unk_00;
+        position->y = source_pos->unk_04;
+        position->z = source_pos->unk_08;
     }
     return object;
 }

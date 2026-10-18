@@ -4,6 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "shared/types3b_types.h"
 
 #ifndef NULL
 #define NULL 0
@@ -60,11 +61,7 @@ typedef struct SlotObject {
     s16 unk_24;
 } SlotObject;
 
-typedef struct SlotPosition {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} SlotPosition;
+
 
 typedef struct SlotPrimitive {
     void *unk_00;
@@ -479,11 +476,11 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                 payout_obj = coin;
                 ((SlotObject *)coin)->unk_10 = D_800236BC;
                 ((SlotBody *)(((SlotObject *)coin)->unk_08.p))->unk_00 =
-                    ((SlotPosition *)position)->unk_00 + (s32)0xFEC00000;
+                    ((IntVector3 *)position)->x + (s32)0xFEC00000;
                 ((SlotBody *)(((SlotObject *)coin)->unk_08.p))->unk_04 =
-                    ((SlotPosition *)position)->unk_04 + (s32)0xFFC00000;
+                    ((IntVector3 *)position)->y + (s32)0xFFC00000;
                 ((SlotBody *)(((SlotObject *)coin)->unk_08.p))->unk_08 =
-                    ((SlotPosition *)position)->unk_08 + (s32)0xFFC00000;
+                    ((IntVector3 *)position)->z + (s32)0xFFC00000;
                 primitive = ((SlotObject *)coin)->unk_08.p;
                 ((SlotPrimitive *)primitive)->unk_10 = 0;
                 ((SlotPrimitive *)primitive)->unk_0C = 0;

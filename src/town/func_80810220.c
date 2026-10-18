@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_80810220_0 {
     s16 unk_00;
@@ -22,10 +23,7 @@ typedef struct S_80810220_2 {
     s32 unk_0C;
 } S_80810220_2;   /* output_data in func_80810220 */
 
-typedef struct S_80810220_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80810220_3;   /* value_data in func_80810220 */
+   /* value_data in func_80810220 */
 
 typedef struct S_80810220_4 {
     u8 pad_00[0x22];
@@ -37,7 +35,7 @@ extern u32 D_80012BCC[4];
 extern u8 D_805300C4[0x100];
 extern u32 D_80530100[];
 
-void update_item_panel_selection(S_80810220_0 *control_data, S_80810220_3 *value_data, S_80810220_2 *output_data) {
+void update_item_panel_selection(S_80810220_0 *control_data, TownPanelSelectionView *value_data, S_80810220_2 *output_data) {
     S_80810220_1 *child;
     s16 called;
     s16 state;

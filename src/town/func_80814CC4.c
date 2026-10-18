@@ -1,9 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_80814CC4_0_pre {
-    u16 unk_00;
-} S_80814CC4_0_pre;   /* the 0x2 bytes before arg0 in advance_effect_and_reduce_scale, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in advance_effect_and_reduce_scale, addressed as arg0[-1] */
 
 typedef struct S_80814CC4_0 {
     void * unk_00;
@@ -33,6 +32,7 @@ extern s32 D_80084D5C;
 
 /* Advance motion and reduce scale, marking the effect complete at the scale threshold. */
 void advance_effect_and_reduce_scale(void *effect, void *motion, void *scale) {
+    ObjectStatusPrefix16 *effect_view = effect;
     u16 *flags;
     u16 next_scale;
     void *object;
@@ -46,8 +46,8 @@ void advance_effect_and_reduce_scale(void *effect, void *motion, void *scale) {
     ((S_80814CC4_3 *)scale)->unk_1E = next_scale;
     if ((u16) ((S_80814CC4_3 *)scale)->unk_1C < 0x201U) {
         ((S_80814CC4_2 *)object)->unk_58 = (u16) (((S_80814CC4_2 *)object)->unk_58 & 0xFFFE);
-        flags = &((S_80814CC4_0_pre *)effect)[-1].unk_00;
-        *flags = (u16) (((S_80814CC4_0_pre *)effect)[-1].unk_00 | 0x8000);
+        flags = &effect_view[-1].unk_00;
+        *flags = (u16) (effect_view[-1].unk_00 | 0x8000);
         D_80084D5C |= 0x8000;
     }
 }

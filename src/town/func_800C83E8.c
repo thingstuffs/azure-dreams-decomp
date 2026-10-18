@@ -1,14 +1,12 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_delay_views.h"
 
 extern M2C_UNK D_800C5BA8;
 extern s32 D_800D0428;
 
-typedef struct S_800C5B48_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800C5B48_0;   /* arg1 in move_motion_value_halfway_toward */
+   /* arg1 in move_motion_value_halfway_toward */
 
 typedef struct S_800C5B48_1 {
     u8 pad_00[0x54];
@@ -18,7 +16,7 @@ typedef struct S_800C5B48_1 {
 } S_800C5B48_1;   /* arg0 in move_motion_value_halfway_toward */
 
 /* Move the motion value halfway toward the target sum and switch callbacks when the countdown expires. */
-void move_motion_value_halfway_toward(S_800C5B48_1 *actor, S_800C5B48_0 *motion) {
+void move_motion_value_halfway_toward(S_800C5B48_1 *actor, DelayMotionZ *motion) {
     s32 current_value;
     u16 ticks_left;
 

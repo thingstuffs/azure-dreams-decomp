@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/types3b_types.h"
+#include "shared/dungeon_trail_views.h"
 
 s32 func_80052374();                             /* extern */
 void func_80058F88();        /* extern */
@@ -26,9 +28,7 @@ void set_record_global_flags_object();                      /* extern */
 void set_bit_preceding_flags_global();                      /* extern */
 void tick_timed_object_and_mark_complete();                      /* extern */
 s32 func_80243A38();
-typedef struct S_80527D5C_0_pre {
-    u16 unk_00;
-} S_80527D5C_0_pre;   /* the 0x2 bytes before arg0 in run_collection_round_sequence, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in run_collection_round_sequence, addressed as arg0[-1] */
 
 typedef struct S_80527D5C_0 {
     u8 pad_00[0x4];
@@ -51,15 +51,7 @@ typedef struct S_80527D5C_1 {
     s16 unk_88;
 } S_80527D5C_1;
 
-typedef struct S_80527D5C_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80527D5C_2;   /* &D_80132AE8 in run_collection_round_sequence */
+   /* &D_80132AE8 in run_collection_round_sequence */
 
 typedef struct S_80527D5C_3 {
     u8 pad_00[0x4];
@@ -100,10 +92,7 @@ typedef struct S_80527D5C_6 {
     u16 unk_1C;
 } S_80527D5C_6;   /* first in run_collection_round_sequence */
 
-typedef struct S_80527D5C_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80527D5C_7;   /* state8_item_addr in run_collection_round_sequence */
+   /* state8_item_addr in run_collection_round_sequence */
 
 typedef struct S_80527D5C_8 {
     u8 pad_00[0x8];
@@ -126,9 +115,7 @@ typedef struct S_80527D5C_10 {
     s16 unk_06;
 } S_80527D5C_10;
 
-typedef struct S_80527D5C_11 {
-    u16 unk_00;
-} S_80527D5C_11;
+
 
 /* extern */
 
@@ -146,6 +133,7 @@ void run_collection_round_sequence(void *sequence) {
     s32 orbit_offset;
     s32 cosine;
     s32 count_addr;
+    u16 *round_count;
     s32 height_or_index;
     s32 coord_delta;
     void *owner;
@@ -180,15 +168,15 @@ void run_collection_round_sequence(void *sequence) {
     phase_data = (u8 *) owner + 0x20;
     switch (state) {
     case 0:
-        start_x = ((S_80527D5C_2 *)(&D_80132AE8))->unk_00.at02.v;
+        start_x = ((TrailMotion *)(&D_80132AE8))->unk_00.unk_02.unk_02;
         ((S_80527D5C_0 *)sequence)->unk_30 = start_x;
-        start_y = ((S_80527D5C_2 *)(&D_80132AE8))->unk_04.at02.v;
+        start_y = ((TrailMotion *)(&D_80132AE8))->unk_04.unk_06.unk_06;
         ((S_80527D5C_0 *)sequence)->unk_28 = 4U;
         ((S_80527D5C_0 *)sequence)->unk_36.s = 1;
         ((S_80527D5C_0 *)sequence)->unk_32 = start_y;
-        ((S_80527D5C_2 *)(&D_80132AE8))->unk_14 = 0xFFE00000;
-        ((S_80527D5C_2 *)(&D_80132AE8))->unk_10 = -0x200000;
-        ((S_80527D5C_2 *)(&D_80132AE8))->unk_0C = -0x200000;
+        ((TrailMotion *)(&D_80132AE8))->unk_14 = 0xFFE00000;
+        ((TrailMotion *)(&D_80132AE8))->unk_10 = -0x200000;
+        ((TrailMotion *)(&D_80132AE8))->unk_0C = -0x200000;
         (*(s32 *)((u8 *)render_or_counts + (0))) = (s32) &func_802483B8;
         ((S_80527D5C_3 *)(&D_801328E8))->unk_04 = (s32) &advance_accumulator_reset_lowering_stored;
 
@@ -200,11 +188,11 @@ void run_collection_round_sequence(void *sequence) {
         if ((start_ticks << 0x10) <= 0) {
             ((S_80527D5C_0 *)sequence)->unk_28 = 0x10U;
             ((S_80527D5C_0 *)sequence)->unk_36.s = 2;
-            ((S_80527D5C_2 *)(&D_80132AE8))->unk_0C = (s32) ((0x420 - (s16) ((S_80527D5C_0 *)sequence)->unk_30)
+            ((TrailMotion *)(&D_80132AE8))->unk_0C = (s32) ((0x420 - (s16) ((S_80527D5C_0 *)sequence)->unk_30)
                 << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
-            ((S_80527D5C_2 *)(&D_80132AE8))->unk_10 = (s32) ((0x460 - (s16) ((S_80527D5C_0 *)sequence)->unk_32)
+            ((TrailMotion *)(&D_80132AE8))->unk_10 = (s32) ((0x460 - (s16) ((S_80527D5C_0 *)sequence)->unk_32)
                 << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
-            ((S_80527D5C_2 *)(&D_80132AE8))->unk_14 = 0xFFF40000;
+            ((TrailMotion *)(&D_80132AE8))->unk_14 = 0xFFF40000;
         }
         break;
 
@@ -217,8 +205,8 @@ void run_collection_round_sequence(void *sequence) {
         move_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
         ((S_80527D5C_0 *)sequence)->unk_28 = move_ticks;
         if ((move_ticks << 0x10) <= 0) {
-            ((S_80527D5C_2 *)(&D_80132AE8))->unk_10 = 0;
-            ((S_80527D5C_2 *)(&D_80132AE8))->unk_0C = 0;
+            ((TrailMotion *)(&D_80132AE8))->unk_10 = 0;
+            ((TrailMotion *)(&D_80132AE8))->unk_0C = 0;
             ((S_80527D5C_0 *)sequence)->unk_36.s = 3;
         }
         break;
@@ -241,7 +229,7 @@ void run_collection_round_sequence(void *sequence) {
         (*(u16 *)((u8 *)render_or_counts + (0x10))) =
             (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10))) + 0x200) & 0xFFF);
         height_or_index = (s16) func_8025E01C(position);
-        if (!(((S_80527D5C_2 *)(&D_80132AE8))->unk_0A < height_or_index)) {
+        if (!(((TrailMotion *)(&D_80132AE8))->unk_0A < height_or_index)) {
             if ((*(s16 *)((u8 *)render_or_counts + (0x10))) == 0x800) {
                 ((S_80527D5C_0 *)sequence)->unk_36.s = 4;
                 create_initialize_eight_objects_table(sequence);
@@ -270,8 +258,8 @@ void run_collection_round_sequence(void *sequence) {
             (*(u16 *)((u8 *)render_or_counts + (0x10))) = 0x800U;
             func_80244588();
             func_802445FC((s32) &func_80290318);
-            ((S_80527D5C_0 *)sequence)->unk_30 = (u16) ((S_80527D5C_2 *)(&D_80132AE8))->unk_00.at02.v;
-            center_y = (u16) ((S_80527D5C_2 *)(&D_80132AE8))->unk_04.at02.v;
+            ((S_80527D5C_0 *)sequence)->unk_30 = (u16) ((TrailMotion *)(&D_80132AE8))->unk_00.unk_02.unk_02;
+            center_y = (u16) ((TrailMotion *)(&D_80132AE8))->unk_04.unk_06.unk_06;
             ((S_80527D5C_0 *)sequence)->unk_2C.u = 0U;
             ((S_80527D5C_0 *)sequence)->unk_2A.u = (u16) (((S_80527D5C_0 *)sequence)->unk_2A.u & 0x7FFF);
             ((S_80527D5C_0 *)sequence)->unk_36.s = 6;
@@ -376,7 +364,7 @@ void run_collection_round_sequence(void *sequence) {
         render_or_counts = D_80530658;
         for (height_or_index = 7; height_or_index >= 0; height_or_index--) {
             item_slot = (height_or_index << 2) + (s32) sequence;
-            item = ((S_80527D5C_7 *)item_slot)->unk_08;
+            item = ((ObjectPayloadView *)item_slot)->unk_08;
             item_flags = ((S_80527D5C_8 *)item)->unk_28;
             {
                 coord_or_sound = (s32) ((S_80527D5C_8 *)item)->unk_08;
@@ -398,7 +386,8 @@ void run_collection_round_sequence(void *sequence) {
                         ((S_80527D5C_8 *)item)->unk_28 = (u16) (item_flags | 1);
                         count_addr = ((S_80527D5C_0 *)sequence)->unk_34 * 2;
                         count_addr += (s32) render_or_counts;
-                        ((S_80527D5C_11 *)count_addr)->unk_00 = (u16) (((S_80527D5C_11 *)count_addr)->unk_00 + 1);
+                        round_count = (u16 *)count_addr;
+                        *round_count = (u16) (*round_count + 1);
                         coord_or_sound = 0x703;
                         if ((*(s16 *)((u8 *)render_or_counts + ((((S_80527D5C_0 *)sequence)->unk_34 * 2)))) < 7) {
                             coord_or_sound = 0x702;
@@ -453,23 +442,23 @@ void run_collection_round_sequence(void *sequence) {
         break;
 
     case 0x100:
-        (*(u16 *)((u8 *)sequence + (-2))) = (u16) (((S_80527D5C_0_pre *)sequence)[-1].unk_00 | 0x8000);
+        (*(u16 *)((u8 *)sequence + (-2))) = (u16) (((ObjectStatusPrefix16 *)sequence)[-1].unk_00 | 0x8000);
         D_80084D5C |= 0x8000;
         break;
     }
 
     if (((S_80527D5C_0 *)sequence)->unk_36.s >= 4) {
-        if (((S_80527D5C_2 *)(&D_80132AE8))->unk_00.at00.v <= 0x03CFFFFF) {
-            ((S_80527D5C_2 *)(&D_80132AE8))->unk_00.at00.v = 0x03D00000;
+        if (((TrailMotion *)(&D_80132AE8))->unk_00.unk_00 <= 0x03CFFFFF) {
+            ((TrailMotion *)(&D_80132AE8))->unk_00.unk_00 = 0x03D00000;
         }
         if ((*(s32 *)((u8 *)(&D_80132AE8) + (4))) <= 0x044FFFFF) {
-            ((S_80527D5C_2 *)(&D_80132AE8))->unk_04.at00.v = 0x04500000;
+            ((TrailMotion *)(&D_80132AE8))->unk_04.unk_04 = 0x04500000;
         }
-        if (((S_80527D5C_2 *)(&D_80132AE8))->unk_00.at00.v > 0x04700000) {
-            ((S_80527D5C_2 *)(&D_80132AE8))->unk_00.at00.v = 0x04700000;
+        if (((TrailMotion *)(&D_80132AE8))->unk_00.unk_00 > 0x04700000) {
+            ((TrailMotion *)(&D_80132AE8))->unk_00.unk_00 = 0x04700000;
         }
         if ((*(s32 *)((u8 *)(&D_80132AE8) + (4))) > 0x04700000) {
-            ((S_80527D5C_2 *)(&D_80132AE8))->unk_04.at00.v = 0x04700000;
+            ((TrailMotion *)(&D_80132AE8))->unk_04.unk_04 = 0x04700000;
         }
     }
     return;

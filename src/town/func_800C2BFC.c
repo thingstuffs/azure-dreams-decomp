@@ -48,10 +48,7 @@ typedef struct S_800C035C_3 {
     union { s16 s; s16 u; u16 p; } unk_C8;   /* accessed as both */
 } S_800C035C_3;
 
-typedef struct S_800C035C_4 {
-    s16 unk_00;
-    s16 unk_02;
-} S_800C035C_4;
+
 
 typedef struct S_800C035C_5 {
     u8 pad_00[0x30];
@@ -109,6 +106,7 @@ extern u8 D_8006CCF8[];
 extern M2C_UNK D_80089960;
 extern u8 D_800CFCEE;
 #include "records/Rec_D_800FE490.h"
+#include "shared/types3b_types.h"
 extern Rec_D_800FE490 D_800FE490;
 extern Rec_D_80100D98 D_80100D98;
 
@@ -136,7 +134,7 @@ void update_player_minigame_motion(void *actor, S_800C035C_1 *motion, Rec_D_8008
     s32 motion_flags;
     u16 elapsed_time;
     S_800C035C_3 *controls;
-    S_800C035C_4 *progress;
+    MinigameProgressPair16 *progress;
     S_800C035C_2 *course;
 
     controls = ((s32 *)&g_game_work.unk_000);

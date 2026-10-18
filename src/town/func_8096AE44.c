@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_801232DC_0 {
     void * unk_00;
@@ -24,10 +25,7 @@ typedef struct S_801232DC_4 {
     void * unk_00;
 } S_801232DC_4;   /* object_base[0x61] in layout_catalog_entry_grid */
 
-typedef struct S_801232DC_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_801232DC_5;
+
 
 typedef struct S_801232DC_6 {
     u8 pad_00[0x8];
@@ -177,7 +175,7 @@ initial_loop:
         ((S_801232DC_4 *)(object_base[0x61]))->unk_00 = D_80128614;
     }
     do {
-        ((S_801232DC_9 *)(((S_801232DC_5 *)(*display_slot))->unk_08))->unk_06 = final_width;
+        ((S_801232DC_9 *)(((ObjectPayloadView *)(*display_slot))->unk_08))->unk_06 = final_width;
         object = *display_slot;
         initial_index += 1;
         ((S_801232DC_10 *)(object->unk_08.at00.v))->unk_08 = final_x;

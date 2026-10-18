@@ -3,13 +3,10 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800206D0_arg1.h"
+#include "shared/types3b_types.h"
 
 
-typedef struct Vec3 {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3;
+
 
 
 typedef struct S_800236BC_1 {
@@ -36,7 +33,7 @@ extern void unlink_scene_list_node(void *);
 extern s32 handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(void *, void *, void *, void *);
 
 extern s32 D_80012D5C[];
-extern Vec3 D_80020278;
+extern TownRewardValues D_80020278;
 extern u8 D_80024488[];
 extern s32 D_800244DC[];
 extern s32 D_80024628[];
@@ -45,7 +42,7 @@ extern u8 D_800D0420[];
 /* Updates a bouncing pickup, awards its value on collision, and expires it. */
 void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
 {
-    Vec3 reward_values = D_80020278;
+    TownRewardValues reward_values = D_80020278;
     s16 state;
     s32 sprite_data;
     s32 reward_amount;

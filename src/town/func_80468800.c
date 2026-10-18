@@ -2,20 +2,18 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "shared/types3b_types.h"
 
 #define FIELD(expr, type, offset) (*(type)((u8 *)(expr) + (offset)))
 
 
-typedef struct S_func_80019800_1 {
-    s16 unk_00;
-    s16 unk_02;
-} S_func_80019800_1;
+
 
 extern void *select_event_data_table();
 
 /* Checks the active event and dispatches the 0x27/0x200 handler when matched. */
 s32 dispatch_active_event_27(void) {
-    S_func_80019800_1 *event;
+    TownEventArgumentPair16 *event;
 
     if ((u8) D_8001E950->dispatchState < 2U) {
         event = select_event_data_table(D_8001E950->dispatchState,

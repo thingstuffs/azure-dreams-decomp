@@ -1,8 +1,7 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_808127A4_0_pre {
-    u16 unk_00;
-} S_808127A4_0_pre;   /* the 0x2 bytes before arg0 in animate_linked_value_threshold, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in animate_linked_value_threshold, addressed as arg0[-1] */
 
 typedef struct S_808127A4_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -49,8 +48,8 @@ void animate_linked_value_threshold(void *record_ptr) {
         ((S_808127A4_0 *)record_ptr)->unk_16.u += ((S_808127A4_0 *)record_ptr)->unk_02.s >> 2;
         threshold_value = (((S_808127A4_0 *)record_ptr)->unk_16.u + 8) & 0xFFFF;
         if (threshold_value >= 0xF9U) {
-            flags = &((S_808127A4_0_pre *)record_ptr)[-1].unk_00;
-            *flags = (u16) (((S_808127A4_0_pre *)record_ptr)[-1].unk_00 | 0x8000);
+            flags = &((ObjectStatusPrefix16 *)record_ptr)[-1].unk_00;
+            *flags = (u16) (((ObjectStatusPrefix16 *)record_ptr)[-1].unk_00 | 0x8000);
             *(s32 *) 0x80084D5C = D_80084D5C | 0x8000;
         }
     }

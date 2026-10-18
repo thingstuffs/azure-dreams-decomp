@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
 /* extern */
 
@@ -10,19 +11,12 @@ typedef struct S_800CE2D4_0 {
     s16 unk_86;
 } S_800CE2D4_0;   /* arg0 in tick_countdown_toward_target */
 
-typedef struct S_800CE2D4_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800CE2D4_1;   /* arg1 in tick_countdown_toward_target */
+   /* arg1 in tick_countdown_toward_target */
 
 
 void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_context);
 /* Decrement the countdown and ease the current values toward their targets. */
-void tick_countdown_toward_target(S_800CE2D4_0 *state, S_800CE2D4_1 *current, s32 context) {
+void tick_countdown_toward_target(S_800CE2D4_0 *state, SignedPositionView *current, s32 context) {
     u16 ticks_left;
     u32 target_delta;
 

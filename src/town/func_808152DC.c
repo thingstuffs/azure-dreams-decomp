@@ -1,8 +1,7 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_808152DC_0_pre {
-    u16 unk_00;
-} S_808152DC_0_pre;   /* the 0x2 bytes before record in func_808152DC, addressed as record[-1] */
+   /* the 0x2 bytes before record in func_808152DC, addressed as record[-1] */
 
 typedef struct S_808152DC_0 {
     u8 pad_00[0x50];
@@ -32,7 +31,7 @@ void func_808152DC(void *record) {
     ((S_808152DC_0 *)record)->unk_52 = timer;
     if ((timer << 0x10) <= 0) {
         func_80058F88(0x1603);
-        (*(u16 *)((u8 *)record + -2)) = ((S_808152DC_0_pre *)record)[-1].unk_00 | 0x8000;
+        (*(u16 *)((u8 *)record + -2)) = ((ObjectStatusPrefix16 *)record)[-1].unk_00 | 0x8000;
         D_80084D5C |= 0x8000;
     }
 }

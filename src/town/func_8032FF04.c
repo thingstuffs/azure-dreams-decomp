@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/dungeon_delay_views.h"
+#include "shared/types3b_types.h"
 
 
 extern u8 *D_80016000;
@@ -15,10 +17,7 @@ typedef struct S_8001A704_1 {
     s32 unk_04;
 } S_8001A704_1;   /* position in set_selected_entry_position */
 
-typedef struct S_8001A704_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_8001A704_2;   /* position2 in set_selected_entry_position */
+   /* position2 in set_selected_entry_position */
 
 /* Set position coordinates to the selected entry's offsets plus scaled x and y. */
 void set_selected_entry_position(s32 unused, s32 x, s32 y)
@@ -40,13 +39,13 @@ void set_selected_entry_position(s32 unused, s32 x, s32 y)
     x += value;
     ((S_8001A704_1 *)position)->unk_04 = x;
     {
-        void *position2;
+        TownDestinationYView *position2;
 
         position2 = (*(void **)((u8 *)root + 0x1C));
         y <<= 5;
         value = ((S_8001A704_0 *)((void *)index))->unk_0E;
         y += value;
-        ((S_8001A704_2 *)position2)->unk_08 = y;
+        position2->unk_08 = y;
     }
 }
 

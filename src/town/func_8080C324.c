@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_8080C324_0 {
     u8 pad_00[0x8];
@@ -22,11 +23,7 @@ typedef struct S_8080C324_2 {
     s16 unk_1E;
 } S_8080C324_2;   /* inner in func_8080C324 */
 
-typedef struct S_8080C324_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_8080C324_3;   /* ((S_8080C324_0 *)node)->unk_08 in func_8080C324 */
+   /* ((S_8080C324_0 *)node)->unk_08 in func_8080C324 */
 
 
 typedef struct {
@@ -117,9 +114,9 @@ s32 func_8080C324(void) {
         ((S_8080C324_0 *)node)->unk_10 = (s32)D_80527250;
         func_8003BC18(node, D_8003C558);
         render_state = ((S_8080C324_0 *)node)->unk_0C;
-        ((S_8080C324_3 *)(((S_8080C324_0 *)node)->unk_08))->unk_00 = 0x03A00000;
-        ((S_8080C324_3 *)(((S_8080C324_0 *)node)->unk_08))->unk_04 = 0x01E00000;
-        ((S_8080C324_3 *)(((S_8080C324_0 *)node)->unk_08))->unk_08 = 0x00200000;
+        ((IntVector3 *)(((S_8080C324_0 *)node)->unk_08))->x = 0x03A00000;
+        ((IntVector3 *)(((S_8080C324_0 *)node)->unk_08))->y = 0x01E00000;
+        ((IntVector3 *)(((S_8080C324_0 *)node)->unk_08))->z = 0x00200000;
         ((S_8080C324_0 *)node)->unk_CC = root;
         render_state->unk_1E = 0x1000;
         render_state->unk_1C = 0x1000;

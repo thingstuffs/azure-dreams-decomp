@@ -1,14 +1,12 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "shared/types3b_types.h"
 
 
 typedef void (*ReportFunc)(void *, void *, u32);
 
-typedef struct S_800168B4_1 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800168B4_1;
+
 
 
 typedef struct S_800168B4_3 {
@@ -65,7 +63,7 @@ void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_
 
             bucket_bits = flags >> 19;
             bank_bits = (flags >> 23) & 1;
-            if ((((S_800168B4_1 *)((bucket_bits & 0x7E0) +
+            if ((((TownResourceGroupView *)((bucket_bits & 0x7E0) +
                           *((s32 *)((u8 *)((s32)D_80016000->unk_30) +
                                     (bank_bits * 4)))))->unk_0A != 0) ||
                 (bank_bits != 0)) {

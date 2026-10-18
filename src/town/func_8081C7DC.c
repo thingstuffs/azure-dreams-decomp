@@ -1,17 +1,13 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_projectile_views.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_800267DC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_800267DC_0;
+
 
 typedef struct S_800267DC_1 {
     s32 unk_00;
@@ -60,7 +56,7 @@ extern u8 D_800F1564[];
 void create_randomized_trail_particle(S_800267DC_2 *source) {
     S_800267DC_3 *sprite;
     S_800267DC_1 *motion;
-    S_800267DC_0 *effect;
+    ProjectileObject *effect;
 
     effect = func_8003FC64(0x136);
     if (effect != NULL) {

@@ -3,6 +3,7 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
+#include "shared/types3b_types.h"
 
 
 typedef struct State8081A3D8 {
@@ -73,11 +74,7 @@ typedef struct S_800243D8_2 {
     s16 unk_1E;
 } S_800243D8_2;   /* inner in advance_object_spawning_displays_high */
 
-typedef struct S_800243D8_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800243D8_3;   /* ((S_800243D8_0 *)object)->unk_08 in advance_object_spawning_displays_high */
+   /* ((S_800243D8_0 *)object)->unk_08 in advance_object_spawning_displays_high */
 
 /* Advances object spawning, result displays, and high-score handling. */
 void advance_object_spawning_displays_high(State8081A3D8 *controller)
@@ -122,9 +119,9 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
                 ((S_800243D8_0 *)object)->unk_10 = D_80024B48;
                 func_8004491C(object, func_80045340);
                 inner_data = ((S_800243D8_0 *)object)->unk_0C;
-                ((S_800243D8_3 *)(((S_800243D8_0 *)object)->unk_08))->unk_00 = 0x03200000;
-                ((S_800243D8_3 *)(((S_800243D8_0 *)object)->unk_08))->unk_04 = 0x02E00000;
-                ((S_800243D8_3 *)(((S_800243D8_0 *)object)->unk_08))->unk_08 = 0xFFFC0000;
+                ((IntVector3 *)(((S_800243D8_0 *)object)->unk_08))->x = 0x03200000;
+                ((IntVector3 *)(((S_800243D8_0 *)object)->unk_08))->y = 0x02E00000;
+                ((IntVector3 *)(((S_800243D8_0 *)object)->unk_08))->z = 0xFFFC0000;
                 {
                     u16 object_phase = controller->phase;
                     ((S_800243D8_1 *)object_tail)->unk_AC = controller;

@@ -21,14 +21,10 @@ extern Rec_D_800CFCB4 D_800CFCB4;
 extern u8 D_800D0420[];
 extern s32 D_800D0438;
 #include "records/Rec_D_800FE490.h"
+#include "shared/dungeon_projectile_views.h"
 extern Rec_D_800FE490 D_800FE490;
 
-typedef struct S_800C01DC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_800C01DC_0;
+
 
 typedef struct S_800C01DC_1 {
     u8 pad_00[0x10];
@@ -39,7 +35,7 @@ typedef struct S_800C01DC_1 {
 
 /* Initializes the town object and sets its position from the current position entry. */
 void initialize_object_at_current_position(void) {
-    S_800C01DC_0 *object;
+    ProjectileObject *object;
 
     D_800D0438 = 0;
     object = initialize_scene_object_in_buffer(0, ((void *)&D_80083498.next), 0x22);

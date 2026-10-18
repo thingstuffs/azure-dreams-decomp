@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_80022C8C_0 {
     u8 pad_00[0x8];
@@ -23,11 +24,7 @@ typedef struct S_80022C8C_1 {
     s16 unk_1E;
 } S_80022C8C_1;   /* record in initialize_gym_minigame */
 
-typedef struct S_80022C8C_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80022C8C_2;   /* ((S_80022C8C_0 *)((void *)state))->unk_08 in initialize_gym_minigame */
+   /* ((S_80022C8C_0 *)((void *)state))->unk_08 in initialize_gym_minigame */
 
 
 #define NULL ((void *)0)
@@ -134,9 +131,9 @@ loop_0:
                       ((S_80022C8C_0 *)((void *)object_or_slot))->unk_08,
                       &D_80026F0C);
 
-        ((S_80022C8C_2 *)(((S_80022C8C_0 *)((void *)object_or_slot))->unk_08))->unk_00 = 0x03800000;
-        ((S_80022C8C_2 *)(((S_80022C8C_0 *)((void *)object_or_slot))->unk_08))->unk_04 = 0x03C00000;
-        ((S_80022C8C_2 *)(((S_80022C8C_0 *)((void *)object_or_slot))->unk_08))->unk_08 = 0;
+        ((IntVector3 *)(((S_80022C8C_0 *)((void *)object_or_slot))->unk_08))->x = 0x03800000;
+        ((IntVector3 *)(((S_80022C8C_0 *)((void *)object_or_slot))->unk_08))->y = 0x03C00000;
+        ((IntVector3 *)(((S_80022C8C_0 *)((void *)object_or_slot))->unk_08))->z = 0;
         ((S_80022C8C_0 *)((void *)object_or_slot))->unk_20 = parent_link;
     }
 

@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 void func_80033CD8(void *block_data, s32 registration_id);           /* extern */
 struct Dst;
 struct Elem;
@@ -28,11 +29,7 @@ typedef struct S_800C8A68_1 {
     s32 unk_10;
 } S_800C8A68_1;
 
-typedef struct S_800C8A68_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800C8A68_2;   /* arg0 in func_800C8A68 */
+   /* arg0 in func_800C8A68 */
 
 typedef struct S_800C8A68_3 {
     u8 pad_00[0x90];
@@ -48,7 +45,7 @@ typedef struct S_800C8A68_4 {
 } S_800C8A68_4;
 
 /* Allocate and initialize an object at an offset from the supplied position. */
-s32 func_800C8A68(S_800C8A68_2 *source_pos) {
+s32 func_800C8A68(IntVector3 *source_pos) {
     S_800C8A68_1 *position;
     S_800C8A68_3 *object_state;
     S_800C8A68_4 *render_state;
@@ -62,9 +59,9 @@ s32 func_800C8A68(S_800C8A68_2 *source_pos) {
     position = ((S_800C8A68_0 *)object)->unk_08;
     render_state = ((S_800C8A68_0 *)object)->unk_0C;
     object_state = object + 0x20;
-    position->unk_00 = source_pos->unk_00;
-    position->unk_04 = source_pos->unk_04;
-    offset_z = source_pos->unk_08 + 0xFFDC0000;
+    position->unk_00 = source_pos->x;
+    position->unk_04 = source_pos->y;
+    offset_z = source_pos->z + 0xFFDC0000;
     position->unk_0C = 0x100000;
     position->unk_10 = 0;
     position->unk_08 = offset_z;

@@ -1,21 +1,16 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 extern int abs(int);
 
 
-typedef struct S_8001A8DC_0 {
-    s16 unk_00;
-    s16 unk_02;
-} S_8001A8DC_0;   /* other in blend_point_2s_by_signed_weight */
+   /* other in blend_point_2s_by_signed_weight */
 
 typedef struct S_8001A8DC_1 {
     u16 unk_00;
     u16 unk_02;
 } S_8001A8DC_1;   /* base in blend_point_2s_by_signed_weight */
 
-typedef struct S_8001A8DC_2 {
-    s16 unk_00;
-    s16 unk_02;
-} S_8001A8DC_2;   /* out in blend_point_2s_by_signed_weight */
+   /* out in blend_point_2s_by_signed_weight */
 
 /* Blend two points using the signed weight over the absolute weight sum; return the scaled y delta. */
 s32 blend_point_2s_by_signed_weight(void *base_point, void *other_point, s32 blend_weight, s32 other_weight, void *result_point)
@@ -27,10 +22,10 @@ s32 blend_point_2s_by_signed_weight(void *base_point, void *other_point, s32 ble
     s32 base_x;
     s32 base_y;
     void *base;
-    void *other;
+    SignedPair16 *other;
     s32 weight;
     s32 total_weight;
-    void *out;
+    SignedPair16 *out;
 
     base = base_point;
     other = other_point;
@@ -41,16 +36,16 @@ s32 blend_point_2s_by_signed_weight(void *base_point, void *other_point, s32 ble
     total_weight = abs(total_weight);
     abs_other_weight = abs(abs_other_weight);
     total_weight += abs_other_weight;
-    other_x = ((S_8001A8DC_0 *)other)->unk_00;
+    other_x = other->unk_00;
     base_x = ((S_8001A8DC_1 *)base)->unk_00;
-    ((S_8001A8DC_2 *)out)->unk_00 =
+    out->unk_00 =
         base_x
     + ((other_x - (s16)((S_8001A8DC_1 *)base)->unk_00) * weight) / total_weight;
-    other_y = ((S_8001A8DC_0 *)other)->unk_02;
+    other_y = other->unk_02;
     base_y = ((S_8001A8DC_1 *)base)->unk_02;
     scaled_y_delta =
         (other_y - (s16)((S_8001A8DC_1 *)base)->unk_02) * weight;
-    ((S_8001A8DC_2 *)out)->unk_02 =
+    out->unk_02 =
         base_y + scaled_y_delta / total_weight;
     return scaled_y_delta;
 }

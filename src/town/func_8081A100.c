@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "shared/types3b_types.h"
 
 #ifndef NULL
 #define NULL 0
@@ -38,14 +39,10 @@ typedef struct S_80024100_2 {
     s16 unk_1A;
 } S_80024100_2;   /* part in initialize_mogura_minigame */
 
-typedef struct Vec3i {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3i;
 
-extern Vec3i D_80020090;
-extern Vec3i D_800200A8;
+
+extern TownRewardValues D_80020090;
+extern TownRewardValues D_800200A8;
 extern s32 D_800243D8;
 extern s32 D_80024954;
 extern s32 D_800249A0;
@@ -64,8 +61,8 @@ extern void tw_sd_sq_ld_call(s32, s32);
 /* Initializes shared state and three columns of linked display objects. */
 s32 initialize_mogura_minigame(void)
 {
-    Vec3i primary_values;
-    Vec3i secondary_values;
+    TownRewardValues primary_values;
+    TownRewardValues secondary_values;
     void *parent_state;
     void *object;
     S_80024100_2 *element;

@@ -3,15 +3,14 @@
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "shared/types3b_types.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
 
-typedef struct S_800BFB8C_0_pre {
-    u16 unk_00;
-} S_800BFB8C_0_pre;
+
 
 typedef struct S_800BFB8C_0 {
     u8 pad_00[0x8];
@@ -121,7 +120,7 @@ void spawn_randomized_timed_objects(void *source)
     ((S_800BFB8C_0 *)source)->unk_0E = next_value;
     if ((next_value << 0x10) <= 0) {
         (*(u16 *)((u8 *)source + -2)) =
-            (u16)(((S_800BFB8C_0_pre *)source)[-1].unk_00 | 0x8000);
+            (u16)(((ObjectStatusPrefix16 *)source)[-1].unk_00 | 0x8000);
         object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 

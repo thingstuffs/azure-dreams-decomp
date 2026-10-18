@@ -1,13 +1,10 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/types3b_types.h"
 
 typedef void (*TownCallback)(s32);
 
-typedef struct TownState {
-    s32 mode;
-    s32 value4;
-    s32 value8;
-} TownState;
+
 
 typedef struct TownCallbacks {
     u8 pad0[0x244];
@@ -19,7 +16,7 @@ typedef struct TownCallbacks {
 
 typedef struct TownRoot {
     u8 pad0[0x1C];
-    TownState *state;
+    TownSceneModeState *state;
     TownCallbacks *callbacks;
 } TownRoot;
 
@@ -28,7 +25,7 @@ typedef struct TownRoot {
 void run_scene_callbacks_with_mode_adjustments(void) {
     TownRoot **root_ptr;
     TownRoot *root;
-    TownState *state;
+    TownSceneModeState *state;
 
     root_ptr = (TownRoot **) ((s8 *)(&D_80016000));
     (*root_ptr)->callbacks->callback258(10);

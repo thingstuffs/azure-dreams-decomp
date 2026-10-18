@@ -1,17 +1,14 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/types3b_types.h"
+#include "shared/dungeon_projectile_views.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_800BF3F0_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_800BF3F0_0;
+
 
 typedef struct S_800BF3F0_1 {
     u8 pad_00[0x8];
@@ -24,20 +21,14 @@ typedef struct S_800BF3F0_1 {
     s16 unk_20;
 } S_800BF3F0_1;
 
-typedef struct S_800BF3F0_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800BF3F0_2;
+
 
 typedef struct S_800BF3F0_3 {
     u8 pad_00[0x48];
     s32 unk_48;
 } S_800BF3F0_3;
 
-typedef struct S_800BF3F0_4_pre {
-    u16 unk_00;
-} S_800BF3F0_4_pre;   /* the 0x2 bytes before arg0 in func_800BF3F0, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in func_800BF3F0, addressed as arg0[-1] */
 
 
 extern void func_8004491C(void *, void *);
@@ -52,7 +43,7 @@ extern s32 D_800D2344[3];
 void func_800BF3F0(void *caller_data)
 {
     S_800BF3F0_3 *transform;
-    S_800BF3F0_2 *position;
+    IntVector3 *position;
     void *object;
     S_800BF3F0_1 *render_state;
     s32 transform_value;
@@ -63,8 +54,8 @@ void func_800BF3F0(void *caller_data)
         func_8004491C(object, D_80046398);
         color = 0x00808080U;
 
-        ((S_800BF3F0_0 *)object)->unk_10 = D_800BF1C8;
-        render_state = ((S_800BF3F0_0 *)object)->unk_0C;
+        ((ProjectileObject *)object)->unk_10 = D_800BF1C8;
+        render_state = ((ProjectileObject *)object)->unk_0C;
         render_state->unk_1C = 0x1000;
         render_state->unk_1E = 0x1000;
         render_state->unk_20 = 0x1000;
@@ -72,14 +63,14 @@ void func_800BF3F0(void *caller_data)
         transform = object + 0x20;
         render_state->unk_1A = 0;
         render_state->unk_08 = 0x4A;
-        position = ((S_800BF3F0_0 *)object)->unk_08;
-        position->unk_00 = 0x02C00000;
-        position->unk_04 = 0x02300000;
+        position = ((ProjectileObject *)object)->unk_08;
+        position->x = 0x02C00000;
+        position->y = 0x02300000;
         transform_value = D_800D2344[0];
-        position->unk_08 = 0xFFC00000;
+        position->z = 0xFFC00000;
         transform->unk_48 = transform_value;
         configure_the_set_mode_n_1(transform, position, D_800D232C);
     }
-    ((S_800BF3F0_4_pre *)caller_data)[-1].unk_00 |= 0x8000;
+    ((ObjectStatusPrefix16 *)caller_data)[-1].unk_00 |= 0x8000;
     object_flag_block.flags |= 0x8000;
 }

@@ -1,8 +1,7 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_80815160_0_pre {
-    u16 unk_00;
-} S_80815160_0_pre;   /* the 0x2 bytes before arg0 in process_state_zero_record, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in process_state_zero_record, addressed as arg0[-1] */
 
 typedef struct S_80815160_0 {
     s16 unk_00;
@@ -22,6 +21,7 @@ extern s32 D_80084D5C;
 
 /* Processes a state-zero record and sets record/global flags if its linked record has bit 3 set. */
 void process_state_zero_record(void *record) {
+    ObjectStatusPrefix16 *record_view = record;
     u16 *flags;
     void *linked_record;
 
@@ -30,8 +30,8 @@ void process_state_zero_record(void *record) {
         func_80058588(*((S_80815160_0 *)record)->unk_08, func_80071424(((S_80815160_0 *)record)->unk_04),
             ((S_80815160_0 *)record)->unk_04);
         if (((S_80815160_1 *)linked_record)->unk_1A & 8) {
-            flags = &((S_80815160_0_pre *)record)[-1].unk_00;
-            *flags = (u16) (((S_80815160_0_pre *)record)[-1].unk_00 | 0x8000);
+            flags = &record_view[-1].unk_00;
+            *flags = (u16) (record_view[-1].unk_00 | 0x8000);
             D_80084D5C |= 0x8000;
         }
     }

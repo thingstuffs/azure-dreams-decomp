@@ -1,9 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_80020360_0_pre {
-    u16 unk_00;
-} S_80020360_0_pre;   /* the 0x2 bytes before arg0 in show_delayed_scene_tile_until_complete, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in show_delayed_scene_tile_until_complete, addressed as arg0[-1] */
 
 typedef struct S_80020360_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -53,7 +52,7 @@ void show_delayed_scene_tile_until_complete(void *object)
     case 1:
         if (status_data->unk_2A & 1) {
             page = 0x80080000;
-            ((S_80020360_0_pre *)object)[-1].unk_00 |= 0x8000;
+            ((ObjectStatusPrefix16 *)object)[-1].unk_00 |= 0x8000;
             ((S_80020360_2 *)((void *)page))->unk_14A0 |= 0x8000;
         }
         break;

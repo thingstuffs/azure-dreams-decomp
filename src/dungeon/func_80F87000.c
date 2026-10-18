@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_80F87000_0 {
     u8 pad_00[0x8];
@@ -17,10 +18,7 @@ typedef struct S_80F87000_1 {
     s32 unk_1C;
 } S_80F87000_1;   /* work in func_80170880 */
 
-typedef struct S_80F87000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80F87000_2;   /* part_a in func_80170880 */
+   /* part_a in func_80170880 */
 
 typedef struct S_80F87000_3 {
     u8 pad_00[0x24];
@@ -63,7 +61,7 @@ void *func_80170880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     s32 kind;
     void *work = 0;
     void *obj;
-    void *part_a;
+    SignedHeightView *part_a;
     S_80F87000_3 *part_b;
     S_80F87000_4 *actor;
     s32 left;
@@ -85,7 +83,7 @@ void *func_80170880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         func_8004491C(obj, func_80045340);
 
         part_a = ((S_80F87000_0 *)obj)->unk_08;
-        ((S_80F87000_2 *)part_a)->unk_0A = saved_spawn;
+        part_a->unk_0A = saved_spawn;
         part_b = ((S_80F87000_0 *)obj)->unk_0C;
         kind = flags & 3;
         part_b->unk_25 = saved_variant;

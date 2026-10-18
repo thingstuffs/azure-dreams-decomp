@@ -1,9 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_805267E0_0_pre {
-    u16 unk_00;
-} S_805267E0_0_pre;   /* the 0x2 bytes before arg0 in fade_panel_after_linked_flag, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in fade_panel_after_linked_flag, addressed as arg0[-1] */
 
 typedef struct S_805267E0_0 {
     s16 unk_00;
@@ -57,7 +56,7 @@ void fade_panel_after_linked_flag(void *effect) {
         color = ((S_805267E0_0 *)effect)->unk_08 + 0xFFF7F7F8;
         ((S_805267E0_0 *)effect)->unk_08 = color;
         if (color <= 0x80808) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_805267E0_0_pre *)effect)[-1].unk_00 | 0x8000);
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].unk_00 | 0x8000);
             D_80084D5C |= 0x8000;
         }
         break;

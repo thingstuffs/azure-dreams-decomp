@@ -6,6 +6,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_80171138_0 {
     u8 pad_00[0x8C];
@@ -18,20 +19,7 @@ typedef struct S_80171138_0 {
     s16 unk_A0;
 } S_80171138_0;   /* arg0 in update_bank_actor_state */
 
-typedef struct S_80171138_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x1C];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80171138_1;   /* arg3 in update_bank_actor_state */
+   /* arg3 in update_bank_actor_state */
 
 typedef struct S_80171138_2 {
     u8 pad_00[0x24];
@@ -66,7 +54,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
     void *actor;
     void *context;
     void *sprite;
-    void *stats;
+    ActorUnsignedFlagsView *stats;
     s32 angle_aux;
     s32 status_flags;
     s8 tile_index;
@@ -84,24 +72,24 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
         return;
     }
 
-    if (((S_80171138_1 *)stats)->unk_25 == 0) {
+    if (stats->unk_25 == 0) {
         advance_actor_pending_action(actor, context, sprite, stats);
         if (((S_80171138_2 *)sprite)->unk_2C == D_80174AFC) {
             return;
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
         func_80047784(sprite,
-            D_80174AF4[((g_game_work.view.viewAngle + ((S_80171138_1 *)stats)->unk_2A + 0x100) >> 9) & 7],
+            D_80174AF4[((g_game_work.view.viewAngle + stats->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
 
-    if (((S_80171138_1 *)stats)->unk_1C & 0x200) {
+    if (stats->unk_1C & 0x200) {
         if (((S_80171138_2 *)sprite)->unk_2C == D_80174AFC) {
             ((S_80171138_0 *)actor)->unk_9A = 0xD;
             ((S_80171138_0 *)actor)->unk_9B = 1;
             ((S_80171138_0 *)actor)->unk_8C = 0;
-            ((S_80171138_1 *)stats)->unk_1C &= ~0x40000;
+            stats->unk_1C &= ~0x40000;
             return;
         }
         if (reset_actor_action_state(actor, context, sprite, D_80174AF4) != 0) {
@@ -110,7 +98,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((S_80171138_1 *)stats)->unk_1C & 0x100) {
+        if (stats->unk_1C & 0x100) {
             begin_pushed_actor_move(actor, context, sprite, stats);
             return;
         }
@@ -123,20 +111,20 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
             ((S_80171138_0 *)actor)->unk_A0 = 0;
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AD4;
             func_80047784(sprite,
-                D_80174AD4[((g_game_work.view.viewAngle + ((S_80171138_1 *)stats)->unk_2A + 0x100) >> 9) & 7],
+                D_80174AD4[((g_game_work.view.viewAngle + stats->unk_2A + 0x100) >> 9) & 7],
                 ((S_80171138_0 *)actor)->unk_A0);
         }
 
-        ((S_80171138_1 *)stats)->unk_1C |= 0x40000;
+        stats->unk_1C |= 0x40000;
         ((S_80171138_0 *)actor)->unk_98 &= 0xFFF7;
 
-        if (((S_80171138_1 *)stats)->unk_64 != 0) {
+        if (stats->unk_64 != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_80174ADC) != 0) {
                 return;
             }
         }
 
-        if (((S_80171138_1 *)stats)->unk_1C & 0x80000) {
+        if (stats->unk_1C & 0x80000) {
             begin_actor_move_to_target_facing(actor, context, sprite, stats);
             ((S_80171138_0 *)actor)->unk_A0 = 0;
             update_bank_actor_sprite_state(actor, context, sprite, stats);
@@ -151,13 +139,13 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
     tile_index = find_active_rect_containing_point(((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v);
     ((S_80171138_2 *)sprite)->unk_26 = tile_index;
 
-    if (((S_80171138_1 *)stats)->unk_6D > 0) {
-        if (((S_80171138_1 *)stats)->unk_1C & 0x20) {
+    if (stats->unk_6D > 0) {
+        if (stats->unk_1C & 0x20) {
             update_actor_status_and_food(stats);
             return;
         }
         if (!(((S_80171138_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX))) {
-            action_state = ((S_80171138_1 *)stats)->unk_46;
+            action_state = stats->unk_46;
             if (!(action_state & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(stats,
@@ -168,12 +156,12 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
                 if ((complete_actor_jump_to_destination(actor, context, sprite, 0) << 16) == 0) {
                     return;
                 }
-                action_state = ((S_80171138_1 *)stats)->unk_46 | 0x4000;
-                ((S_80171138_1 *)stats)->unk_46 = action_state;
+                action_state = stats->unk_46 | 0x4000;
+                stats->unk_46 = action_state;
             }
 
             if (action_state & 0x8000) {
-                switch (((S_80171138_1 *)stats)->unk_46 & 0x3FFF) {
+                switch (stats->unk_46 & 0x3FFF) {
                 case 9:
                     start_bank_actor_hit_reaction(actor, context, sprite, stats);
                     return;
@@ -201,7 +189,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
                         D_80082E80.tileX, D_80082E80.tileY,
                         &angle_aux);
                     player = D_800814A8;
-                    ((S_80171138_1 *)stats)->unk_2A = facing_angle;
+                    stats->unk_2A = facing_angle;
                     if (player->unk_9A != 0x11) {
                         update_actor_status_and_food(stats);
                         return;
@@ -226,7 +214,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
         return;
     }
 
-    status_flags = ((S_80171138_1 *)stats)->unk_1C;
+    status_flags = stats->unk_1C;
     if (status_flags & 0x2000) {
         return;
     }
@@ -244,7 +232,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
         if ((compare_monster_neighbor_values(
                 ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
                 D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-            ((S_80171138_1 *)stats)->unk_2A = (s16)get_rounded_facing_and_rounding_flag(
+            stats->unk_2A = (s16)get_rounded_facing_and_rounding_flag(
                 ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
                 D_80082E80.tileX, D_80082E80.tileY, &angle_aux);
         }

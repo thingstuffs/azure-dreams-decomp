@@ -3,6 +3,7 @@
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_trail_views.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
@@ -14,15 +15,7 @@ extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern Callback D_80174B1C[];
 
-typedef struct S_80170A70_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80170A70_0;   /* arg1 in update_bank_actor_movement */
+   /* arg1 in update_bank_actor_movement */
 
 typedef struct S_80170A70_1 {
     u8 pad_00[0x4];
@@ -85,17 +78,17 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
         try_move_actor_to_valid_position(entity, motion_arg, sprite_arg, entity);
     }
 
-    ((S_80170A70_0 *)motion_arg)->unk_00.at00.v += ((S_80170A70_0 *)motion_arg)->unk_0C;
-    ((S_80170A70_0 *)motion_arg)->unk_04.at00.v += ((S_80170A70_0 *)motion_arg)->unk_10;
+    ((TrailMotion *)motion_arg)->unk_00.unk_00 += ((TrailMotion *)motion_arg)->unk_0C;
+    ((TrailMotion *)motion_arg)->unk_04.unk_04 += ((TrailMotion *)motion_arg)->unk_10;
 
     if (!((*(s32 *)((u8 *)entity + (0x1C))) & 0x40000) &&
         !((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
-        ((S_80170A70_0 *)motion_arg)->unk_14 += (*(s8 *)((u8 *)entity + (0x9D))) * 0x14000;
+        ((TrailMotion *)motion_arg)->unk_14 += (*(s8 *)((u8 *)entity + (0x9D))) * 0x14000;
         (*(u8 *)((u8 *)entity + (0x9D)))++;
     } else {
         (*(u8 *)((u8 *)entity + (0x9D))) = 0;
     }
-    (*(s32 *)((u8 *)entity + (0x90))) += ((S_80170A70_0 *)motion_arg)->unk_14;
+    (*(s32 *)((u8 *)entity + (0x90))) += ((TrailMotion *)motion_arg)->unk_14;
     sprite_flags = ((S_80170A70_1 *)sprite_arg)->unk_14;
 
     if (!(sprite_flags & 0x8000)) {
@@ -147,7 +140,7 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
 
             if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
                 ground_height = (s16)(sample_terrain_surface_height(
-                    ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
+                    ((TrailMotion *)motion_arg)->unk_00.unk_02.unk_02, ((TrailMotion *)motion_arg)->unk_04.unk_06.unk_06,
                     (s16)(object->unk_88.u - 0x20)) -
                     object->unk_88.u);
                 if ((*(s16 *)((u8 *)entity + (0x92))) > ground_height - 0x30) {
@@ -164,12 +157,12 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
             if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
 
                 ground_delta = (s16)sample_terrain_surface_height(
-                    ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
+                    ((TrailMotion *)motion_arg)->unk_00.unk_02.unk_02, ((TrailMotion *)motion_arg)->unk_04.unk_06.unk_06,
                     (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
                 if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
                     (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
                     (*(u8 *)((u8 *)entity + (0x9D))) = 0;
-                    ((S_80170A70_0 *)motion_arg)->unk_14 = 0;
+                    ((TrailMotion *)motion_arg)->unk_14 = 0;
                     object->unk_1C |= 0x08000000;
                 }
             }
@@ -189,12 +182,12 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
             if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
 
                 ground_delta = (s16)sample_terrain_surface_height(
-                    ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
+                    ((TrailMotion *)motion_arg)->unk_00.unk_02.unk_02, ((TrailMotion *)motion_arg)->unk_04.unk_06.unk_06,
                     (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
                 if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
                     (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
                     (*(u8 *)((u8 *)entity + (0x9D))) = 0;
-                    ((S_80170A70_0 *)motion_arg)->unk_14 = 0;
+                    ((TrailMotion *)motion_arg)->unk_14 = 0;
                     object->unk_1C |= 0x08000000;
                 }
             }
@@ -214,7 +207,7 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
 
             if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
                 ground_height = (s16)(sample_terrain_surface_height(
-                    ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
+                    ((TrailMotion *)motion_arg)->unk_00.unk_02.unk_02, ((TrailMotion *)motion_arg)->unk_04.unk_06.unk_06,
                     (s16)(object->unk_88.u - 0x20)) -
                     object->unk_88.u);
                 if ((*(s16 *)((u8 *)entity + (0x92))) > ground_height - 0x30) {
@@ -244,7 +237,7 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
         }
     }
 
-    ((S_80170A70_0 *)motion_arg)->unk_0A =
+    ((TrailMotion *)motion_arg)->unk_0A =
         object->unk_88.u + (u16)(*(s16 *)((u8 *)entity + (0x92))) + bob_offset;
     ((S_80170A70_1 *)sprite_arg)->unk_14 |= 0x40;
 }

@@ -2,13 +2,10 @@
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "records/Rec_func_800206D0_arg1.h"
+#include "shared/types3b_types.h"
 
 
-typedef struct Vec3 {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3;
+
 
 typedef struct S_800206D0_0 {
     s16 unk_00;
@@ -46,7 +43,7 @@ extern void unlink_scene_list_node(void *);
 extern s32 handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(void *, void *, void *, void *);
 
 extern s32 D_80012D5C[];
-extern Vec3 D_80020020;
+extern TownRewardValues D_80020020;
 extern u8 D_80024420[];
 extern s32 D_8002445C[];
 extern s32 D_80024628[];
@@ -57,7 +54,7 @@ extern u8 D_800D0420[];
 void update_bouncing_pickup(void *pickup, void *motion, void *sprite)
 {
     void *source_object = ((S_800206D0_0 *)pickup)->unk_04;
-    Vec3 reward_units = D_80020020;
+    TownRewardValues reward_units = D_80020020;
     s32 timer;
     s32 reward = 1;
     u32 state;

@@ -1,9 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_80026D28_0_pre {
-    u16 unk_00;
-} S_80026D28_0_pre;   /* the 0x2 bytes before arg0 in tick_timed_sound, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in tick_timed_sound, addressed as arg0[-1] */
 
 typedef struct S_80026D28_0 {
     u8 pad_00[0x50];
@@ -35,7 +34,7 @@ void tick_timed_sound(void *object)
     ((S_80026D28_0 *)object)->unk_52 = timer;
     if ((timer << 16) <= 0) {
         SD_Call(0x1603);
-        ((S_80026D28_0_pre *)object)[-1].unk_00 |= 0x8000;
+        ((ObjectStatusPrefix16 *)object)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }
 }

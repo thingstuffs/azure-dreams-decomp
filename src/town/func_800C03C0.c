@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "shared/types3b_types.h"
 
 
 typedef struct S_800BDB20_0 {
@@ -11,11 +12,7 @@ typedef struct S_800BDB20_0 {
     s32 unk_10;
 } S_800BDB20_0;
 
-typedef struct S_800BDB20_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800BDB20_1;
+
 
 
 typedef struct S_800BDB20_3 {
@@ -30,7 +27,7 @@ typedef struct S_800BDB20_3 {
 void *create_positioned_graphic_object_2(TownPropPosition *position, s32 object_param, s32 graphics_id) {
     S_800BDB20_3 *render_data;
     S_800BDB20_0 *object;
-    S_800BDB20_1 *object_pos;
+    IntVector3 *object_pos;
 
     object = func_8003FC64(0x132);
     if (object != 0) {
@@ -38,9 +35,9 @@ void *create_positioned_graphic_object_2(TownPropPosition *position, s32 object_
         render_data = object->unk_0C;
         object_pos = object->unk_08;
         object->unk_10 = object_param;
-        object_pos->unk_00 = (s32) position->unk_00;
-        object_pos->unk_04 = (s32) position->unk_04;
-        object_pos->unk_08 = (s32) position->unk_08;
+        object_pos->x = (s32) position->unk_00;
+        object_pos->y = (s32) position->unk_04;
+        object_pos->z = (s32) position->unk_08;
         render_data->unk_0C = 0x808080;
         render_data->unk_1E = 0x1000;
         render_data->unk_1C = 0x1000;

@@ -5,6 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "shared/dungeon_projectile_views.h"
 
 
 typedef struct {
@@ -75,12 +76,7 @@ extern s32 create_dual_buffer_object(s32, s32, s32);
 extern void set_object_data_pointer_2(s32);
 
 
-typedef struct S_800211A4_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_800211A4_0;   /* object in update_betting_effect */
+   /* object in update_betting_effect */
 
 typedef struct S_800211A4_1 {
     u8 pad_00[0x4];
@@ -215,14 +211,14 @@ void update_betting_effect(TownEffect *input)
         for (column = 2; column >= 0; column--) {
             object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
             if (object != 0) {
-                object_child = ((S_800211A4_0 *)object)->unk_0C;
-                ((S_800211A4_0 *)object)->unk_10 = D_800220A8;
+                object_child = ((ProjectileObject *)object)->unk_0C;
+                ((ProjectileObject *)object)->unk_10 = D_800220A8;
                 object_link = (u8 *)object + 0x20;
                 func_8004491C(object, func_80045340);
-                ((S_800211A4_13 *)(((S_800211A4_0 *)object)->unk_08))->unk_00 =
+                ((S_800211A4_13 *)(((ProjectileObject *)object)->unk_08))->unk_00 =
                     (column << 23) + 0x04600000;
-                ((S_800211A4_13 *)(((S_800211A4_0 *)object)->unk_08))->unk_04 = 0x03600000;
-                ((S_800211A4_13 *)(((S_800211A4_0 *)object)->unk_08))->unk_08 = 0xFE000000;
+                ((S_800211A4_13 *)(((ProjectileObject *)object)->unk_08))->unk_04 = 0x03600000;
+                ((S_800211A4_13 *)(((ProjectileObject *)object)->unk_08))->unk_08 = 0xFE000000;
                 object_child->unk_1C =
                     object_child->unk_1E = 0x1000;
                 object_child->unk_14 |= 0x000C;

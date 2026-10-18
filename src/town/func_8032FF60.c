@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/dungeon_delay_views.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_8001A760_0 {
     u8 pad_00[0x8];
@@ -20,10 +22,7 @@ typedef struct S_8001A760_2 {
     s32 unk_04;
 } S_8001A760_2;   /* out1 in set_tile_center_destination */
 
-typedef struct S_8001A760_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_8001A760_3;   /* out2 in set_tile_center_destination */
+   /* out2 in set_tile_center_destination */
 
 
 extern u8 D_80016000[0x10];
@@ -33,7 +32,7 @@ void set_tile_center_destination(s32 unused, s32 x_offset, s32 y_offset) {
     S_8001A760_0 *ctx;
     S_8001A760_1 *tile;
     S_8001A760_2 *x_dest;
-    S_8001A760_3 *y_dest;
+    TownDestinationYView *y_dest;
     s32 tile_coord;
     s32 tile_coord_2;
 

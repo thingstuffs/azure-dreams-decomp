@@ -1,11 +1,10 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 extern int abs(int);
 
-typedef struct S_8080C650_0_pre {
-    u16 unk_00;
-} S_8080C650_0_pre;   /* the 0x2 bytes before in0 in func_8080C650, addressed as in0[-1] */
+   /* the 0x2 bytes before in0 in func_8080C650, addressed as in0[-1] */
 
 typedef struct S_8080C650_0 {
     u8 pad_00[0x15];
@@ -474,7 +473,7 @@ void func_8080C650(void *in0, void *motion, void *in2) {
         break;
     case 0x109:
         func_8023FB18(in0);
-        (*(u16 *)((u8 *)in0 + -2)) = (u16) (((S_8080C650_0_pre *)in0)[-1].unk_00 | 0x8000);
+        (*(u16 *)((u8 *)in0 + -2)) = (u16) (((ObjectStatusPrefix16 *)in0)[-1].unk_00 | 0x8000);
         D_80084D5C |= 0x8000;
         return;
     }

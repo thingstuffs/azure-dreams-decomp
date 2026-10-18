@@ -1,9 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_80811034_0_pre {
-    u16 unk_00;
-} S_80811034_0_pre;   /* the 0x2 bytes before arg0 in func_80811034, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in func_80811034, addressed as arg0[-1] */
 
 typedef struct S_80811034_0 {
     u8 pad_00[0x2];
@@ -20,7 +19,7 @@ void func_80811034(void *record) {
     countdown = ((S_80811034_0 *)record)->unk_02 - 1;
     ((S_80811034_0 *)record)->unk_02 = countdown;
     if ((countdown << 0x10) <= 0) {
-        (*(u16 *)((u8 *)record + -2)) = (u16) (((S_80811034_0_pre *)record)[-1].unk_00 | 0x8000);
+        (*(u16 *)((u8 *)record + -2)) = (u16) (((ObjectStatusPrefix16 *)record)[-1].unk_00 | 0x8000);
         D_80084D5C |= 0x8000;
     }
 }

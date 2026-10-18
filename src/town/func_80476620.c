@@ -1,17 +1,14 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
-typedef struct {
-    s32 value;
-    s32 unk4;
-    s32 unk8;
-} Entry;
+
 
 typedef struct {
     s32 unk0[8];
     s32 value;
 } Destination;
 
-extern Entry D_80016470[];
+extern TownIndexedValueEntry D_80016470[];
 extern Destination D_800164D0;
 
 /* Copies the indexed entry's value to the shared destination and returns it. */

@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_808B3620_4 {
     u8 pad_00[0x64];
@@ -22,10 +23,7 @@ typedef struct S_808B3620_1 {
     s32 unk_0C;
 } S_808B3620_1;
 
-typedef struct S_808B3620_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_808B3620_2;   /* held_arg0 in dev_copy_overlay_work_and_trace_48 */
+   /* held_arg0 in dev_copy_overlay_work_and_trace_48 */
 
 typedef struct S_808B3620_3 {
     u8 pad_00[0x6C];
@@ -70,7 +68,7 @@ loop_0:
         ((S_808B3620_1 *)dst_words)->unk_00 = ((S_808B3620_0 *)src_words)->unk_00;
     } while (0);
     kind_format = D_A0700000 + 0x144;
-    ((S_808B3620_4 *)(*(void **)(D_A0700000 + 0xF58)))->unk_64.s(kind_format, D_A0700150, ((S_808B3620_2 *)p)->unk_08,
+    ((S_808B3620_4 *)(*(void **)(D_A0700000 + 0xF58)))->unk_64.s(kind_format, D_A0700150, ((TownFormatKindView *)p)->unk_08,
         dst_words);
     ((S_808B3620_4 *)(*(void **)(D_A0700000 + 0xF58)))->unk_64.u(kind_format, D_A0700158, *(s32 *)(D_A0700000 + 0xF48));
     ((S_808B3620_4 *)(*(void **)(D_A0700000 + 0xF58)))->unk_64.u(D_A0700168, D_A070017C, 0x30);

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "shared/types3b_types.h"
 
 #ifndef NULL
 #define NULL 0
@@ -22,11 +23,7 @@ extern u8 D_8052F2C8[];
 extern u8 D_8028E170[];
 
 
-typedef struct S_808139C8_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_808139C8_0;
+
 
 typedef struct S_808139C8_1 {
     u8 pad_00[0x4];
@@ -45,7 +42,7 @@ typedef struct S_808139C8_1 {
 /* Creates an object and initializes its position and sprite data. */
 void func_808139C8(FiveWords *init_data, s32 y_position)
 {
-    u8 *position;
+    IntVector3 *position;
     u8 *object;
     u8 *sprite;
 
@@ -56,9 +53,9 @@ void func_808139C8(FiveWords *init_data, s32 y_position)
         func_8003BC18(object, D_8003C558);
         position = ((ObjectNodeHeader *)object)->unk_08;
         sprite = ((ObjectNodeHeader *)object)->unk_0C;
-        ((S_808139C8_0 *)position)->unk_00 = 0x05380000;
-        ((S_808139C8_0 *)position)->unk_04 = y_position;
-        ((S_808139C8_0 *)position)->unk_08 = 0xFFE00000;
+        position->x = 0x05380000;
+        position->y = y_position;
+        position->z = 0xFFE00000;
         ((S_808139C8_1 *)sprite)->unk_1E = 0x1000;
         ((S_808139C8_1 *)sprite)->unk_1C = 0x1000;
         ((S_808139C8_1 *)sprite)->unk_08 = (s32)D_8028E170;

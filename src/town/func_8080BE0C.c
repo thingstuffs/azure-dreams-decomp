@@ -1,8 +1,7 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_8080BE0C_0_pre {
-    u16 unk_00;
-} S_8080BE0C_0_pre;   /* the 0x2 bytes before entry in update_panel_aggregate_value, addressed as entry[-1] */
+   /* the 0x2 bytes before entry in update_panel_aggregate_value, addressed as entry[-1] */
 
 typedef struct S_8080BE0C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -60,7 +59,7 @@ void update_panel_aggregate_value(void *entry) {
     case 1:
         func_80058588(total, func_80071424(((S_8080BE0C_0 *)entry)->unk_04), ((S_8080BE0C_0 *)entry)->unk_04);
         if (((S_8080BE0C_1 *)data_ptr)->unk_2A & 1) {
-            (*(u16 *)((u8 *)entry + -2)) = (u16) (((S_8080BE0C_0_pre *)entry)[-1].unk_00 | 0x8000);
+            (*(u16 *)((u8 *)entry + -2)) = (u16) (((ObjectStatusPrefix16 *)entry)[-1].unk_00 | 0x8000);
             D_80084D5C |= 0x8000;
         }
         return;

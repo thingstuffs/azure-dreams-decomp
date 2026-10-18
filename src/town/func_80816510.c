@@ -1,10 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_80020510_0_pre {
-    u16 unk_00;
-} S_80020510_0_pre;   /* the 0x2 bytes before arg0 in tick_summed_scene_value_text, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in tick_summed_scene_value_text, addressed as arg0[-1] */
 
 typedef struct S_80020510_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -59,9 +58,9 @@ void tick_summed_scene_value_text(void *entry) {
         format_decimal_field_space_padded(value_sum, strlen(((S_80020510_0 *)entry)->unk_04),
                       ((S_80020510_0 *)entry)->unk_04);
         if (((S_80020510_1 *)linked_object)->unk_2A & 1) {
-            flags = &((S_80020510_0_pre *)entry)[-1].unk_00;
+            flags = &((ObjectStatusPrefix16 *)entry)[-1].unk_00;
             *flags =
-                (u16) (((S_80020510_0_pre *)entry)[-1].unk_00 | 0x8000);
+                (u16) (((ObjectStatusPrefix16 *)entry)[-1].unk_00 | 0x8000);
             object_flag_block.flags |= 0x8000;
         }
         break;

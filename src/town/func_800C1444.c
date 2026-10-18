@@ -2,11 +2,9 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
+#include "shared/types3b_types.h"
 
-typedef struct State {
-    s16 state;
-    s16 timer;
-} State;
+
 
 typedef struct Motion {
     s32 x;
@@ -17,11 +15,7 @@ typedef struct Motion {
     s32 dz;
 } Motion;
 
-typedef struct Position {
-    s32 x;
-    s32 y;
-    s32 z;
-} Position;
+
 
 typedef struct Sprite {
     u8 pad0[0xC];
@@ -36,7 +30,7 @@ typedef struct Sprite {
 
 typedef struct Object {
     u8 pad0[8];
-    Position *position;
+    IntVector3 *position;
     Sprite *sprite;
     void (*callback)(void);
 } Object;
@@ -56,7 +50,7 @@ extern u8 D_800F15AC[];
 extern u16 D_80113138[];
 
 /* Update motion, spawn particles, and flash then restore the palette. */
-void update_motion_spawn_particles(State *state, Motion *motion, u8 *sprite_data)
+void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8 *sprite_data)
 {
     u16 colors[16];
     s32 index;

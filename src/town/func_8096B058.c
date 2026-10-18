@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_801234F0_0 {
     s32 unk_00;
@@ -33,15 +34,9 @@ typedef struct S_801234F0_4 {
     s16 unk_08;
 } S_801234F0_4;   /* ((S_801234F0_0 *)(*dst))->unk_08 in layout_catalog_frame */
 
-typedef struct S_801234F0_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_801234F0_5;   /* ((S_801234F0_1 *)tail_dst)->unk_30 in layout_catalog_frame */
+   /* ((S_801234F0_1 *)tail_dst)->unk_30 in layout_catalog_frame */
 
-typedef struct S_801234F0_6 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_801234F0_6;   /* ((S_801234F0_1 *)tail_dst)->unk_34 in layout_catalog_frame */
+   /* ((S_801234F0_1 *)tail_dst)->unk_34 in layout_catalog_frame */
 
 typedef struct S_801234F0_7 {
     u8 pad_00[0x6];
@@ -93,13 +88,13 @@ void layout_catalog_frame(void) {
 
         object_table = (u8 *)&D_80129728;
         source_table = (u8 *)&D_80126A18;
-        ((S_801234F0_7 *)(((S_801234F0_5 *)(((S_801234F0_1 *)object_table)->unk_30))->unk_08))->unk_06 =
+        ((S_801234F0_7 *)(((ObjectPayloadView *)(((S_801234F0_1 *)object_table)->unk_30))->unk_08))->unk_06 =
             ((S_801234F0_2 *)source_table)->unk_64;
-        ((S_801234F0_7 *)(((S_801234F0_5 *)(((S_801234F0_1 *)object_table)->unk_30))->unk_08))->unk_08 =
+        ((S_801234F0_7 *)(((ObjectPayloadView *)(((S_801234F0_1 *)object_table)->unk_30))->unk_08))->unk_08 =
             ((S_801234F0_2 *)source_table)->unk_66;
-        ((S_801234F0_8 *)(((S_801234F0_6 *)(((S_801234F0_1 *)object_table)->unk_34))->unk_08))->unk_06 =
+        ((S_801234F0_8 *)(((ObjectPayloadView *)(((S_801234F0_1 *)object_table)->unk_34))->unk_08))->unk_06 =
             ((S_801234F0_2 *)source_table)->unk_6C;
-        ((S_801234F0_8 *)(((S_801234F0_6 *)(((S_801234F0_1 *)object_table)->unk_34))->unk_08))->unk_08 =
+        ((S_801234F0_8 *)(((ObjectPayloadView *)(((S_801234F0_1 *)object_table)->unk_34))->unk_08))->unk_08 =
             ((S_801234F0_2 *)source_table)->unk_6E;
     }
 }

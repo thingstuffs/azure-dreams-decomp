@@ -1,10 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_8002017C_0_pre {
-    u16 unk_00;
-} S_8002017C_0_pre;   /* the 0x2 bytes before arg0 in fade_delayed_scene_tile_on_completion, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in fade_delayed_scene_tile_on_completion, addressed as arg0[-1] */
 
 typedef struct S_8002017C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -56,7 +55,7 @@ void fade_delayed_scene_tile_on_completion(void *effect) {
         fade_rgb = ((S_8002017C_0 *)effect)->unk_08 + 0xFFF7F7F8;
         ((S_8002017C_0 *)effect)->unk_08 = fade_rgb;
         if (fade_rgb <= 0x80808) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8002017C_0_pre *)effect)[-1].unk_00 | 0x8000);
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].unk_00 | 0x8000);
             object_flag_block.flags |= 0x8000;
         }
         break;

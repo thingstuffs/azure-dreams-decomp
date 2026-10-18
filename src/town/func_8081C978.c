@@ -1,17 +1,13 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_projectile_views.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_80026978_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80026978_0;
+
 
 typedef struct S_80026978_1 {
     u8 pad_00[0x2];
@@ -75,10 +71,10 @@ void create_brief_randomized_particle(S_80026978_1 *origin)
 
     effect = func_8003FC64(0x136);
     if (effect != NULL) {
-        ((S_80026978_0 *)effect)->unk_10 = D_80026B00;
+        ((ProjectileObject *)effect)->unk_10 = D_80026B00;
         func_8004491C(effect, func_80045340);
-        transform = ((S_80026978_0 *)effect)->unk_08;
-        sprite = ((S_80026978_0 *)effect)->unk_0C;
+        transform = ((ProjectileObject *)effect)->unk_08;
+        sprite = ((ProjectileObject *)effect)->unk_0C;
         effect_state = (S_80026978_3 *)((u8 *)effect + 0x20);
         spawn_x = (origin->unk_02 + (rand() % 40)) - 0x14;
         transform->unk_02 = spawn_x;

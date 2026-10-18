@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
 typedef struct TownState {
     s16 state;
@@ -10,11 +11,7 @@ typedef struct TownState {
     u16 flags;
 } TownState;
 
-typedef struct Transform {
-    s32 x;
-    s32 y;
-    s32 z;
-} Transform;
+
 
 typedef struct Part {
     u8 pad0[6];
@@ -29,7 +26,7 @@ typedef struct Part {
 
 typedef struct Object {
     u8 pad0[8];
-    Transform *transform;
+    IntVector3 *transform;
     Part *part;
     void *callback;
     u8 pad14[14];

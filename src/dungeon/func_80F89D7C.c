@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "shared/dungeon_trail_views.h"
 
 typedef struct S_8017357C_0 {
     u8 pad_00[0x8C];
@@ -18,10 +19,7 @@ typedef struct S_8017357C_0 {
 } S_8017357C_0;   /* arg0 in handle_actor_action_effects */
 
 
-typedef struct S_8017357C_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_8017357C_3;   /* counter_base in handle_actor_action_effects */
+   /* counter_base in handle_actor_action_effects */
 
 
 extern s32 func_80042900(void *, s32);
@@ -53,7 +51,7 @@ void handle_actor_action_effects(void *controller, EntityRec *motion, void *spri
         func_80047784(sprite,
             D_80174AFC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A
+        ((TrailHeightView *)(u8 *)&g_dungeon_status.unk_00)->unk_0A = ((TrailHeightView *)(u8 *)&g_dungeon_status.unk_00)->unk_0A
         - 1;
         ((S_8017357C_0 *)controller)->unk_9B++;
         return;
@@ -71,8 +69,8 @@ void handle_actor_action_effects(void *controller, EntityRec *motion, void *spri
             } else {
                 ((S_8017357C_0 *)controller)->unk_96.s = 3;
 
-                ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A =
-                    ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A + 1;
+                ((TrailHeightView *)(u8 *)&g_dungeon_status.unk_00)->unk_0A =
+                    ((TrailHeightView *)(u8 *)&g_dungeon_status.unk_00)->unk_0A + 1;
                 ((S_8017357C_0 *)controller)->unk_9B++;
             }
             return;
@@ -145,8 +143,8 @@ void handle_actor_action_effects(void *controller, EntityRec *motion, void *spri
         } else {
             ((S_8017357C_0 *)controller)->unk_96.s = 3;
 
-            ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A =
-                ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A + 1;
+            ((TrailHeightView *)(u8 *)&g_dungeon_status.unk_00)->unk_0A =
+                ((TrailHeightView *)(u8 *)&g_dungeon_status.unk_00)->unk_0A + 1;
             ((S_8017357C_0 *)controller)->unk_9B++;
         }
         return;

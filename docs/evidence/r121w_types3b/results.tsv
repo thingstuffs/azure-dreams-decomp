@@ -1,0 +1,5 @@
+lane	status	claimed_paths	changed_sources	definitions_removed	ordinary_home_rows	atomic_module_members	affected_active_windows	current_match_windows	unproved_windows	proof
+V2_051	COMPLETE	30	8	10	0	28	334	334	[]	source exact; complete module scratch certificate PASS
+V2_085	PARTIAL_BASELINE_GATE_METADATA	36	36	48	36	0	26	25	"[""config/overlays/town_scene.overlay.yaml""]"	source exact; broad window blocked by baseline negative-level sentinel schema
+V2_086	PARTIAL_BASELINE_GATE_METADATA	36	36	43	36	0	21	20	"[""config/overlays/town_scene_79.overlay.yaml""]"	source exact; broad window blocked by baseline negative-level sentinel schema
+V2_087	PARTIAL_BASELINE_GATE_METADATA	36	35	40	35	0	16	15	"[""config/overlays/town_scene_79.overlay.yaml""]"	source exact; broad window blocked by baseline negative-level sentinel schema

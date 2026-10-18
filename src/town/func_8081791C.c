@@ -2,6 +2,7 @@
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_8002191C_0 {
     u8 pad_00[0x4];
@@ -17,10 +18,7 @@ typedef struct S_8002191C_0 {
     union { s16 s; u16 u; } unk_36;   /* accessed as both */
 } S_8002191C_0;   /* scene in count_entries_matching_search_path */
 
-typedef struct S_8002191C_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_8002191C_1;   /* root in count_entries_matching_search_path */
+   /* root in count_entries_matching_search_path */
 
 typedef struct S_8002191C_2 {
     u8 pad_00[0x2];
@@ -40,10 +38,7 @@ typedef struct S_8002191C_3 {
     union { s16 s; u16 u; } unk_10;   /* accessed as both */
 } S_8002191C_3;   /* global in count_entries_matching_search_path */
 
-typedef struct S_8002191C_4 {
-    u8 pad_00[0x8];
-    union { struct { void * v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_8002191C_4;   /* work in count_entries_matching_search_path */
+   /* work in count_entries_matching_search_path */
 
 typedef struct S_8002191C_5 {
     u8 pad_00[0x68];
@@ -55,10 +50,7 @@ typedef struct S_8002191C_6 {
     u16 unk_08;
 } S_8002191C_6;   /* node_part in count_entries_matching_search_path */
 
-typedef struct S_8002191C_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_8002191C_7;   /* node in count_entries_matching_search_path */
+   /* node in count_entries_matching_search_path */
 
 typedef struct S_8002191C_8 {
     u8 pad_00[0x2];
@@ -141,7 +133,7 @@ void count_entries_matching_search_path(void *scene)
     u8 *global = (u8 *)&D_800834B8;
     u8 *work;
     void *root = ((S_8002191C_0 *)scene)->unk_04;
-    void *compare = ((S_8002191C_1 *)root)->unk_08;
+    void *compare = ((ObjectPayloadView *)root)->unk_08;
     u8 *part = (u8 *)root + 0x20;
     s16 mode = ((S_8002191C_0 *)scene)->unk_36.s;
     u16 value;
@@ -237,7 +229,7 @@ void count_entries_matching_search_path(void *scene)
         }
         ((S_8002191C_3 *)global)->unk_10.s = (((S_8002191C_3 *)global)->unk_10.u + 0x200) & 0xFFF;
         i = query_lowered_transform_position(work);
-        if (((S_8002191C_4 *)work)->unk_08.at02.v < i) {
+        if (((TownSearchWorkView *)work)->unk_08.at02.v < i) {
             break;
         }
     }
@@ -388,10 +380,10 @@ void count_entries_matching_search_path(void *scene)
         global = (u8 *)D_800272A0;
         work = (u8 *)scene + 0x1C;
         do {
-            void *node = ((S_8002191C_4 *)work)->unk_08.at00.v;
+            void *node = ((TownSearchWorkView *)work)->unk_08.at00.v;
             u8 *node_part = (u8 *)node + 0x20;
             u16 node_flags = ((S_8002191C_6 *)node_part)->unk_08;
-            void *node_pos = ((S_8002191C_7 *)node)->unk_08;
+            void *node_pos = ((ObjectPayloadView *)node)->unk_08;
 
             if ((node_flags & 3) == 0) {
                 s32 delta0;

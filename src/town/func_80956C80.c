@@ -1,10 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_80023C80_0_pre {
-    u16 unk_00;
-} S_80023C80_0_pre;   /* the 0x2 bytes before obj in update_object_state_and_size, addressed as obj[-1] */
+   /* the 0x2 bytes before obj in update_object_state_and_size, addressed as obj[-1] */
 
 typedef struct S_80023C80_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -17,14 +16,7 @@ typedef struct S_80023C80_0 {
     s16 unk_12;
 } S_80023C80_0;   /* obj in update_object_state_and_size */
 
-typedef struct S_80023C80_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80023C80_1;   /* (void *)work in update_object_state_and_size */
+   /* (void *)work in update_object_state_and_size */
 
 
 /* Advances object state, updates coordinates and size, or sets status flags. */
@@ -51,19 +43,19 @@ void update_object_state_and_size(void *object) {
 
         coords_ref = ((S_80023C80_0 *)obj)->unk_04;
         coord = (s32)*coords_ref;
-        coord = ((S_80023C80_1 *)((void *)coord))->unk_02;
+        coord = ((SignedPositionView *)((void *)coord))->unk_02;
         if (coord < 0) {
             coord += 0x1F;
         }
         ((S_80023C80_0 *)obj)->unk_0C.s = (u16) ((coord >> 5) + 0x94);
         coord = (s32)*coords_ref;
-        coord = ((S_80023C80_1 *)((void *)coord))->unk_06;
+        coord = ((SignedPositionView *)((void *)coord))->unk_06;
         if (coord < 0) {
             coord += 0x1F;
         }
         ((S_80023C80_0 *)obj)->unk_0E.s = (u16) ((coord >> 5) + 0x75);
         coord = (s32)*coords_ref;
-        coord = ((S_80023C80_1 *)((void *)coord))->unk_0A;
+        coord = ((SignedPositionView *)((void *)coord))->unk_0A;
         coord = 0 - coord;
         offset = coord >> 6;
         if (coord < 0) {
@@ -83,7 +75,7 @@ void update_object_state_and_size(void *object) {
     }
     case 2:
         (*(u16 *)((u8 *)obj + -2)) =
-            (u16) (((S_80023C80_0_pre *)obj)[-1].unk_00 | 0x8000);
+            (u16) (((ObjectStatusPrefix16 *)obj)[-1].unk_00 | 0x8000);
         object_flag_block.flags |= 0x8000;
         break;
     }

@@ -1,11 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/types3b_types.h"
 
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3_32;
+
 
 
 extern s32 func_800644B8(s32 angle);
@@ -14,10 +11,10 @@ extern s32 check_actor_data_references_match(void *actor);
 extern void func_80033D08(void *object);
 
 /* Computes an offset position from the linked object, flagging failed validation. */
-void compute_offset_position_linked_object(void *object, Vec3_32 *out_pos)
+void compute_offset_position_linked_object(void *object, IntVector3 *out_pos)
 {
     void *linked_object = *(void **)((u8 *)object + 0x9C);
-    Vec3_32 *base_pos = *(Vec3_32 **)((u8 *)linked_object - 0x18);
+    IntVector3 *base_pos = *(IntVector3 **)((u8 *)linked_object - 0x18);
 
     if (check_actor_data_references_match(linked_object) == 0) {
         func_80033D08(object);

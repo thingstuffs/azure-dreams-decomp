@@ -1,10 +1,7 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
-typedef struct Vec3 {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3;
+
 
 typedef struct Motion {
     s32 x;
@@ -43,7 +40,7 @@ typedef struct State {
     s16 threshold;
 } State;
 
-extern Vec3 D_80526448;
+extern TownRewardValues D_80526448;
 extern s32 D_80530130[];
 extern u8 D_805300F4[];
 extern u8 D_80290704[];
@@ -63,7 +60,7 @@ void animate_bouncing_score_object(State *st, Motion *mot, Actor *actor)
     Actor *act = actor;
     Entity *entity;
     s16 dispatch_a1;
-    Vec3 choices;
+    TownRewardValues choices;
     s32 value;
     u32 result_v0;
 

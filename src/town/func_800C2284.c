@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "records/Rec_func_8008F074_arg0.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_800BF9E4_0_pre {
     u8 * unk_00;
@@ -8,11 +9,7 @@ typedef struct S_800BF9E4_0_pre {
 } S_800BF9E4_0_pre;   /* the 0x10 bytes before arg0 in create_positioned_linked_visual_child, addressed as arg0[-1] */
 
 
-typedef struct S_800BF9E4_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800BF9E4_1;   /* arg1 in create_positioned_linked_visual_child */
+   /* arg1 in create_positioned_linked_visual_child */
 
 typedef struct S_800BF9E4_2 {
     u8 pad_00[0x8];
@@ -32,11 +29,7 @@ typedef struct S_800BF9E4_3 {
     s16 unk_20;
 } S_800BF9E4_3;
 
-typedef struct S_800BF9E4_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800BF9E4_4;
+
 
 typedef struct S_800BF9E4_5 {
     u8 pad_00[0xA0];
@@ -57,18 +50,18 @@ extern s32 D_800D237C[];
 extern u8 D_800F9F78[];
 
 /* Initialize the object and create a positioned visual child linked to it. */
-void create_positioned_linked_visual_child(void *object, S_800BF9E4_1 *position, s32 resource_context) {
+void create_positioned_linked_visual_child(void *object, IntVector3 *position, s32 resource_context) {
     void *child;
     S_800BF9E4_5 *child_data;
     S_800BF9E4_3 *child_visual;
-    S_800BF9E4_4 *child_position;
+    IntVector3 *child_position;
 
     ((S_800BF9E4_0_pre *)object)[-1].unk_00 = &D_800BF8DC[0];
     ((Rec_func_8008F074_arg0 *)object)->unk_50 = 0;
     func_8004491C(object - 0x20, &D_80045340[0]);
-    position->unk_00 = 0x0F200000;
-    position->unk_04 = 0x02600000;
-    position->unk_08 = 0;
+    position->x = 0x0F200000;
+    position->y = 0x02600000;
+    position->z = 0;
     configure_the_set_mode_n_1(object, position, &D_800D2364[0]);
     func_8003DB94(resource_context, &D_800F9F78[0], 0);
     ((Rec_func_8008F074_arg0 *)object)->unk_48 = D_800D237C[0];
@@ -85,9 +78,9 @@ void create_positioned_linked_visual_child(void *object, S_800BF9E4_1 *position,
         child_visual->unk_0C = 0x808080;
         child_visual->unk_08 = 0x75;
         child_position = ((S_800BF9E4_2 *)child)->unk_08;
-        child_position->unk_00 = 0x0FA00000;
-        child_position->unk_04 = 0x02300000;
-        child_position->unk_08 = 0;
+        child_position->x = 0x0FA00000;
+        child_position->y = 0x02300000;
+        child_position->z = 0;
         child_data->unk_A0 = object;
     }
 }

@@ -1,10 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_80026748_0_pre {
-    u16 unk_00;
-} S_80026748_0_pre;   /* the 0x2 bytes before arg0 in update_record_and_install_next_table, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_record_and_install_next_table, addressed as arg0[-1] */
 
 typedef struct S_80026748_0 {
     void * unk_00;
@@ -32,6 +31,7 @@ typedef struct S_80026748_3 {
 
 /* Advance effect motion and shrink its scale, marking completion at the threshold. */
 void update_record_and_install_next_table(void *effect, S_80026748_1 *motion, S_80026748_3 *transform) {
+    ObjectStatusPrefix16 *effect_view = effect;
     u16 scale;
     S_80026748_2 *render_state;
 
@@ -44,7 +44,7 @@ void update_record_and_install_next_table(void *effect, S_80026748_1 *motion, S_
     transform->unk_1C = scale;
     if ((u32) (scale & 0xFFFF) < 0x201U) {
         render_state->unk_58 = (u16) (render_state->unk_58 & 0xFFFE);
-        ((S_80026748_0_pre *)effect)[-1].unk_00 = (u16) (((S_80026748_0_pre *)effect)[-1].unk_00 | 0x8000);
+        effect_view[-1].unk_00 = (u16) (effect_view[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

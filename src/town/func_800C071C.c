@@ -1,5 +1,7 @@
 #include "modules/town_map_props.h"
 #include "common.h"
+#include "shared/dungeon_delay_views.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_800BDE7C_0 {
     u8 pad_00[0x68];
@@ -8,21 +10,18 @@ typedef struct S_800BDE7C_0 {
     s32 * unk_A0;
 } S_800BDE7C_0;   /* arg0 in update_record_output_grid */
 
-typedef struct S_800BDE7C_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800BDE7C_1;   /* arg2 in update_record_output_grid */
+   /* arg2 in update_record_output_grid */
 
 
 
-void update_record_output_grid(S_800BDE7C_0 *record, s32 unused_value, S_800BDE7C_1 *output, s32 unused_value2)
+void update_record_output_grid(S_800BDE7C_0 *record, s32 unused_value, TownGridOutputView *output, s32 unused_value2)
 {
     s16 state;
         /* MATCH: Preserve retail's source register after making call arguments explicit. */
     s32 *source;
         /* MATCH: Keep incoming call arguments in their ABI registers across dispatch. */
     S_800BDE7C_0 *call_arg0 = record;
-    S_800BDE7C_1 *call_arg2 = output;
+    TownGridOutputView *call_arg2 = output;
 
     state = record->unk_68.s;
     source = record->unk_A0;

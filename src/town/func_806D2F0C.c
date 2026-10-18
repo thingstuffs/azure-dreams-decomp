@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_8001670C_0 {
     u8 pad_00[0x2];
@@ -12,10 +13,7 @@ typedef struct S_8001670C_1 {
     s16 unk_18;
 } S_8001670C_1;   /* ctx in process_flag_test_record */
 
-typedef struct S_8001670C_2 {
-    s16 unk_00;
-    s16 unk_02;
-} S_8001670C_2;   /* pair in process_flag_test_record */
+   /* pair in process_flag_test_record */
 
 
 extern s32 attach_global_data_and_invoke_callback(u32, s32);
@@ -32,7 +30,7 @@ s32 process_flag_test_record(u32 records, s32 condition_arg, u32 context, s32 re
     record_index = attach_global_data_and_invoke_callback(records, record_selector);
     pair = (((S_8001670C_0 *)(record_index * 8 + records))->unk_02 * 4)
     + ((S_8001670C_1 *)context)->unk_14;
-    update_flag_test_target(((S_8001670C_2 *)pair)->unk_00, ((S_8001670C_2 *)pair)->unk_02);
+    update_flag_test_target(((FlagTestTargetPair16 *)pair)->unk_00, ((FlagTestTargetPair16 *)pair)->unk_02);
     if (condition_arg != 0 && check_all_flag_test_bits(condition_arg) != 0) {
         set_flag_test_indexed_bit(((S_8001670C_1 *)context)->unk_18);
     }

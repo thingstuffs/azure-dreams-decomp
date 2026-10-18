@@ -1,11 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_projectile_views.h"
 
-typedef struct SpawnSlot {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} SpawnSlot;   /* slot in spawn_offset_seed_effect */
+   /* slot in spawn_offset_seed_effect */
 
 typedef struct SpawnMotion {
     s32 unk_00;
@@ -39,7 +35,7 @@ void spawn_offset_seed_effect(SpawnSeed *seed) {
     s32 global_word;
     void *sprite;
     SpawnMotion *motion;
-    SpawnSlot *slot;
+    ProjectileObject *slot;
 
     slot = func_800373DC(0x136);
     if (slot != 0) {

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 extern int abs(int);
 
 typedef struct S_800BD688_9 {
@@ -20,9 +21,7 @@ typedef struct S_800BD688_11 {
 } S_800BD688_11;   /* ((S_800BD688_9 *)arg0)->unk_04 in randomize_paired_object_motion */
 
 
-typedef struct S_800BD688_0_pre {
-    u16 unk_00;
-} S_800BD688_0_pre;   /* the 0x2 bytes before arg0 in randomize_paired_object_motion, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in randomize_paired_object_motion, addressed as arg0[-1] */
 
 typedef struct S_800BD688_0 {
     void * unk_00;
@@ -168,7 +167,7 @@ void randomize_paired_object_motion(void *pair_in) {
         break;
     case 1:
         flag_page = (s32 *)0x80080000;
-        ((S_800BD688_0_pre *)pair)[-1].unk_00 = (u16) (((S_800BD688_0_pre *)pair)[-1].unk_00 | 0x8000);
+        ((ObjectStatusPrefix16 *)pair)[-1].unk_00 = (u16) (((ObjectStatusPrefix16 *)pair)[-1].unk_00 | 0x8000);
         flag_page[0x14A0 / 4] |= 0x8000;
         break;
     }

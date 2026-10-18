@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/types3b_types.h"
 
 typedef struct S_80814610_0 {
     u8 pad_00[0x8];
@@ -16,9 +17,7 @@ typedef struct S_80814610_1 {
     u16 unk_14;
 } S_80814610_1;   /* arg2 in func_80814610 */
 
-typedef struct S_80814610_2_pre {
-    u16 unk_00;
-} S_80814610_2_pre;   /* the 0x2 bytes before arg0 in func_80814610, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in func_80814610, addressed as arg0[-1] */
 void func_8003EA54(void *);                 /* extern */
 extern s32 D_80084D5C;
 
@@ -40,7 +39,7 @@ void func_80814610(void *object, void *motion, void *visual) {
     }
     func_8003EA54(visual);
     if (((S_80814610_1 *)visual)->unk_14 & 0x6000) {
-        (*(u16 *)((u8 *)object + -2)) = (u16) (((S_80814610_2_pre *)object)[-1].unk_00 | 0x8000);
+        (*(u16 *)((u8 *)object + -2)) = (u16) (((ObjectStatusPrefix16 *)object)[-1].unk_00 | 0x8000);
         D_80084D5C |= 0x8000;
     }
 }

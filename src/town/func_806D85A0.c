@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "shared/town_root.h"
+#include "shared/types3b_types.h"
 extern u8 D_80018FD0[];
 
 
@@ -12,10 +13,7 @@ typedef struct S_806D85A0_1 {
     void * unk_6000;
 } S_806D85A0_1;
 
-typedef struct S_806D85A0_4 {
-    s16 unk_00;
-    s16 unk_02;
-} S_806D85A0_4;
+
 
 
 void *func_80017024();                 /* extern */
@@ -88,8 +86,8 @@ void func_806D85A0(void) {
                             y_offset = 0;
 y_cell:
                             cell_value = x_offset + y_offset;
-                            cell_x = ((S_806D85A0_4 *)position)->unk_00 + x_offset;
-                            cell_y = ((S_806D85A0_4 *)position)->unk_02 + y_offset;
+                            cell_x = ((SignedPair16 *)position)->unk_00 + x_offset;
+                            cell_y = ((SignedPair16 *)position)->unk_02 + y_offset;
                             D_80016000->unk_20->callback_2D0(cell_x,
                                 cell_y, cell_value);
                             y_offset += 1;

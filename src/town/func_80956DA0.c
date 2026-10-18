@@ -1,20 +1,11 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_80956DA0_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80956DA0_3;
 
-typedef struct S_80956DA0_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80956DA0_4;
+
+
 
 
 s32 func_8004491C();           /* extern */
@@ -62,9 +53,9 @@ void create_user_data_object(s32 user_data) {
         func_8004491C(object, &D_80044BB0);
         render_state = ((S_80956DA0_0 *)object)->unk_0C;
         instance_data->unk_04 = user_data;
-        ((S_80956DA0_4 *)(((S_80956DA0_3 *)object)->unk_08))->unk_02 = 0xF0;
-        ((S_80956DA0_4 *)(((S_80956DA0_3 *)object)->unk_08))->unk_06 = 0xAC;
-        ((S_80956DA0_4 *)(((S_80956DA0_3 *)object)->unk_08))->unk_0A = 0;
+        ((SignedPositionView *)(((ObjectPayloadView *)object)->unk_08))->unk_02 = 0xF0;
+        ((SignedPositionView *)(((ObjectPayloadView *)object)->unk_08))->unk_06 = 0xAC;
+        ((SignedPositionView *)(((ObjectPayloadView *)object)->unk_08))->unk_0A = 0;
         render_state->unk_1E = 0x1000;
         render_state->unk_1C = 0x1000;
         render_state->unk_06 = 0x10;

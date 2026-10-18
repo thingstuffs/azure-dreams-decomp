@@ -1,11 +1,9 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "shared/types3b_types.h"
 
-typedef struct S_8002082C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_8002082C_0;   /* (u8 *)arg0 + count * 4 in create_eight_linked_scene_sprites */
+   /* (u8 *)arg0 + count * 4 in create_eight_linked_scene_sprites */
 
 typedef struct S_8002082C_1 {
     u8 pad_00[0x8];
@@ -64,7 +62,7 @@ void create_eight_linked_scene_sprites(void *owner) {
     slot_index = 7;
     do {
         object = func_8003FD64(0x136, ((s32 *)(&D_80083498)));
-        ((S_8002082C_0 *)((u8 *)owner + slot_index * 4))->unk_08 = object;
+        ((ObjectPayloadView *)((u8 *)owner + slot_index * 4))->unk_08 = object;
         slot_offset = slot_index * 4;
         if (object != 0) {
             object->unk_10 = D_80022698;

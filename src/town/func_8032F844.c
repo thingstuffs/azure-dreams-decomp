@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "shared/types3b_types.h"
 
 
 typedef s32 (*TownCallback)(void *, void *, s32);
@@ -14,10 +15,7 @@ typedef struct S_8001A044_1 {
     void * unk_00;
 } S_8001A044_1;   /* l1_v0 in build_object_set_and_select_lists */
 
-typedef struct S_8001A044_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8001A044_2;   /* l1_v1 in build_object_set_and_select_lists */
+   /* l1_v1 in build_object_set_and_select_lists */
 
 typedef struct S_8001A044_3 {
     s32 unk_00;
@@ -55,10 +53,7 @@ typedef struct S_8001A044_9 {
     s32 unk_04;
 } S_8001A044_9;
 
-typedef struct S_8001A044_11 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_8001A044_11;
+
 
 
 extern void *find_masked_record_and_initialize(void *, void *);
@@ -119,7 +114,7 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
                 group_entry = (void *)(group_bits & 0x7E0);
                 group_bank = ((S_8001A044_1 *)group_bank)->unk_00;
                 group_entry = (void *)((u32)group_entry + (u32)group_bank);
-                if (((S_8001A044_2 *)group_entry)->unk_0A != 0 || bank_bits != 0) {
+                if (((TownResourceGroupView *)group_entry)->unk_0A != 0 || bank_bits != 0) {
                     record = (void *)((u32)(record_index * 0x1C) + (u32)records);
                     if (record->unk_08 != 0) {
                         ((Rec_D_80016000 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_14 = record_index;
@@ -128,7 +123,7 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
                                    (variant_index & 0xFF);
                         record->unk_00 = updated_flags;
                         next_object_set = populate_and_dispatch_entry_records(p,
-                              (void *)((S_8001A044_11 *)((variant_index * 0x10) +
+                              (void *)((TownEventEntryValueView *)((variant_index * 0x10) +
                                             (u8 *)record->unk_10))->unk_08,
                               updated_flags, record_index);
                         if ((next_object_set - 0x14) != p) {

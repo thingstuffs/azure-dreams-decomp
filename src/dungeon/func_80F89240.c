@@ -4,6 +4,8 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/object_links.h"
 extern int abs(int);
 
 
@@ -29,16 +31,9 @@ typedef struct S_80172A40_0 {
     s16 unk_A0;
 } S_80172A40_0;   /* arg0 in update_bank_actor_targeted_action */
 
-typedef struct S_80172A40_2_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80172A40_2_pre;   /* the 0x14 bytes before target in update_bank_actor_targeted_action, addressed as target[-1] */
+   /* the 0x14 bytes before target in update_bank_actor_targeted_action, addressed as target[-1] */
 
-typedef struct S_80172A40_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172A40_3;   /* record in update_bank_actor_targeted_action */
+   /* record in update_bank_actor_targeted_action */
 
 typedef struct S_80172A40_4 {
     u8 pad_00[0x14];
@@ -61,8 +56,8 @@ void update_bank_actor_targeted_action(void *owner_input, EntityRec *motion_inpu
     s32 special_copy;
     u8 *item_entry;
     u8 *item_table;
-    void *target;
-    void *target_record;
+    SpriteLinkPrefixView *target;
+    MovingTile *target_record;
     s32 target_x;
     s32 abs_x;
     s32 abs_y;
@@ -125,9 +120,9 @@ void update_bank_actor_targeted_action(void *owner_input, EntityRec *motion_inpu
             if (special_copy) {
                 target = D_800814A8;
                 object->target = target;
-                target_record = ((S_80172A40_2_pre *)target)[-1].unk_00;
-                object->unk_72 = ((S_80172A40_3 *)target_record)->unk_24;
-                object->unk_73 = ((S_80172A40_3 *)target_record)->unk_25;
+                target_record = target[-1].unk_00;
+                object->unk_72 = target_record->unk_24;
+                object->unk_73 = target_record->unk_25;
             } else {
                 item_table = D_8006DE24;
                 item_id = *item_slot;
@@ -135,9 +130,9 @@ void update_bank_actor_targeted_action(void *owner_input, EntityRec *motion_inpu
                 if (item_entry[0x12] == 2) {
                     target = object->target;
                     if (target != 0) {
-                        target_record = ((S_80172A40_2_pre *)target)[-1].unk_00;
-                        object->unk_72 = ((S_80172A40_3 *)target_record)->unk_24;
-                        object->unk_73 = ((S_80172A40_3 *)target_record)->unk_25;
+                        target_record = target[-1].unk_00;
+                        object->unk_72 = target_record->unk_24;
+                        object->unk_73 = target_record->unk_25;
                     }
                 } else {
                     object->target = scan_monster_along_heading(

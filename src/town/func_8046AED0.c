@@ -2,22 +2,20 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "shared/types3b_types.h"
 
-typedef struct Message {
-    s16 x;
-    s16 y;
-} Message;
 
-extern Message *select_event_data_table(s32, u8);
+
+extern TownEventArgumentPair16 *select_event_data_table(s32, u8);
 extern void func_8001E578(s32);
 
 /* Dispatch the enabled town message coordinates and advance the town state. */
 s32 dispatch_enabled_message_coordinates(void) {
-    Message *message;
+    TownEventArgumentPair16 *message;
 
     if (D_8001E950->dispatchState == 1) {
         message = select_event_data_table(0, D_8001E950->unk_05);
-        D_80016000->unk_20->callback_2F8(message->x, message->y);
+        D_80016000->unk_20->callback_2F8(message->unk_00, message->unk_02);
         D_8001E950->dispatchState++;
         func_8001E578(0x408);
         return 1;

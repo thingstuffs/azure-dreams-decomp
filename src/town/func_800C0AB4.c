@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_trail_views.h"
 
 
 typedef struct S_800BE214_3 {
@@ -42,13 +43,10 @@ typedef struct S_800BE214_0 {
 } S_800BE214_0;   /* arg0 in advance_actor_animation_pose */
 
 
-typedef struct S_800BE214_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800BE214_2;   /* arg1 in advance_actor_animation_pose */
+   /* arg1 in advance_actor_animation_pose */
 
 /* Advances the actor animation state and applies a timed pose offset. */
-void advance_actor_animation_pose(S_800BE214_0 *actor, S_800BE214_2 *pose, Rec_D_80082E80 *animation) {
+void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, Rec_D_80082E80 *animation) {
     void *animations[9];
     s16 animation_index;
     s32 state;

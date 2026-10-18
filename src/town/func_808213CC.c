@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/types3b_types.h"
 
 
 extern void func_800672D8();
@@ -10,9 +11,7 @@ extern u8 D_80024680[];
 extern u8 D_800246C0[];
 
 
-typedef struct S_80023BCC_0_pre {
-    u16 unk_00;
-} S_80023BCC_0_pre;   /* the 0x2 bytes before arg0 in update_minigame_image_animation, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_minigame_image_animation, addressed as arg0[-1] */
 
 typedef struct S_80023BCC_0 {
     u8 pad_00[0x5C];
@@ -95,7 +94,7 @@ void update_minigame_image_animation(void *anim)
     timer = ((S_80023BCC_0 *)anim)->unk_5E - 1;
     ((S_80023BCC_0 *)anim)->unk_5E = timer;
     if ((s16)timer <= 0) {
-        ((S_80023BCC_0_pre *)anim)[-1].unk_00 |= 0x8000;
+        ((ObjectStatusPrefix16 *)anim)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }
 }
