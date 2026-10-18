@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_func_818BC9CC_0 {
     u8 pad_00[0x4];
@@ -14,14 +15,7 @@ typedef struct S_func_818BC9CC_0 {
     u8 unk_0E;
 } S_func_818BC9CC_0;
 
-typedef struct S_func_818BC9CC_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_func_818BC9CC_1;
+
 
 typedef struct S_func_818BC9CC_2 {
     u8 pad_00[0x18];
@@ -127,7 +121,7 @@ extern u16 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, void *);
 
 /* Draw four shaded textured quads around the given position. */
-s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
+s32 func_818BC9CC(S_func_818BC9CC_0 *effect, MovingPosition *position)
 {
     S_func_818BC9CC_2 *scratch;
     S_func_818BC9CC_3 *packet;

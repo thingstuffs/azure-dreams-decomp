@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "modules/dungeon_native_abi.h"
+#include "shared/dungeon_moving_views.h"
 extern void *D_800FBE1C;
 typedef union { u8 first; s8 bytes[9]; } DungeonFlagBuffer9;
 extern DungeonFlagBuffer9 D_800DCF5B;
@@ -14,7 +15,7 @@ struct Position3;
 struct S807AF9A4;
 struct S_807AFB48_0;
 struct S_807AFB48_2;
-struct S_807AFC9C_2;
+
 struct S_807AFC9C_4;
 struct S_807B09A0_0;
 struct UnkStruct807B11B8;
@@ -53,7 +54,7 @@ s32 draw_linked_particle_effect_primitives(struct DungeonObject *object, u16 *or
 void advance_linked_particle_effect_state(struct S807AF9A4 *data);
 void func_800F72E4(void *sourceData);
 void func_800F7348(void *transition, struct S_807AFB48_0 *position, struct S_807AFB48_2 *color);
-void func_800F749C(s32 spawn_arg, struct S_807AFC9C_2 *origin, struct S_807AFC9C_4 *source);
+void func_800F749C(s32 spawn_arg, MovingPosition *origin, struct S_807AFC9C_4 *source);
 void update_owner_attached_color_effect(void *effect, struct Position3 *position, struct ColorPart *tint);
 void func_800F784C(void *parent_data);
 void func_800F7910(void *motion_data, s16 *position);

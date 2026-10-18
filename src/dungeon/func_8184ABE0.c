@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef s32 M2C_UNK;
 
@@ -21,23 +22,9 @@ typedef struct S_800243E0_1 {
     s16 unk_1E;
 } S_800243E0_1;
 
-typedef struct S_800243E0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800243E0_2;
 
-typedef struct S_800243E0_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800243E0_3;   /* arg0 in create_type_212_effect_object */
+
+   /* arg0 in create_type_212_effect_object */
 
 
 extern M2C_UNK func_8003DB94();
@@ -46,10 +33,10 @@ extern s32 D_80024374;
 extern M2C_UNK D_800DE870;
 
 /* Creates a type 0x212 object, initializes its appearance, and copies the supplied components. */
-void *create_type_212_effect_object(S_800243E0_3 *source) {
+void *create_type_212_effect_object(MovingPosition *source) {
     S_800243E0_1 *appearance;
     S_800243E0_0 *object;
-    S_800243E0_2 *components;
+    MovingPosition *components;
     void *result; /* MATCH: Keep the merged return value in v0 for the shared epilogue. */
 
     object = func_8003FC64(0x212);

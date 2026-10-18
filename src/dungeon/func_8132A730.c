@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80171F30_0 {
     u8 pad_00[0x8];
@@ -34,23 +35,9 @@ typedef struct S_80171F30_4 {
     s16 unk_34;
 } S_80171F30_4;   /* tail in spawn_jittered_trail_particle */
 
-typedef struct S_80171F30_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80171F30_5;   /* ((S_80171F30_0 *)object)->unk_08 in spawn_jittered_trail_particle */
+   /* ((S_80171F30_0 *)object)->unk_08 in spawn_jittered_trail_particle */
 
-typedef struct S_80171F30_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80171F30_6;   /* ((S_80171F30_1 *)arg0)->unk_08 in spawn_jittered_trail_particle */
+   /* ((S_80171F30_1 *)arg0)->unk_08 in spawn_jittered_trail_particle */
 
 
 extern u8 D_80171704[];
@@ -102,12 +89,12 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
         }
     }
     ((S_80171F30_0 *)object)->unk_10 = (void *)resource_addr;
-    ((S_80171F30_5 *)(((S_80171F30_0 *)object)->unk_08))->unk_02 =
-        ((S_80171F30_6 *)(parent->unk_08))->unk_02;
-    ((S_80171F30_5 *)(((S_80171F30_0 *)object)->unk_08))->unk_06 =
-        ((S_80171F30_6 *)(parent->unk_08))->unk_06;
-    ((S_80171F30_5 *)(((S_80171F30_0 *)object)->unk_08))->unk_0A =
-        ((S_80171F30_6 *)(parent->unk_08))->unk_0A;
+    ((MovingPosition *)(((S_80171F30_0 *)object)->unk_08))->unk_02 =
+        ((MovingPosition *)(parent->unk_08))->unk_02;
+    ((MovingPosition *)(((S_80171F30_0 *)object)->unk_08))->unk_06 =
+        ((MovingPosition *)(parent->unk_08))->unk_06;
+    ((MovingPosition *)(((S_80171F30_0 *)object)->unk_08))->unk_0A =
+        ((MovingPosition *)(parent->unk_08))->unk_0A;
 
     if ((mode_value << 16) == 0) {
         jitter = rand();

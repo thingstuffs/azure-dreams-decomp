@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80AC55DC_0 {
     u8 pad_00[0x8];
@@ -59,14 +60,7 @@ typedef struct S_80AC55DC_5 {
     s16 unk_0A;
 } S_80AC55DC_5;   /* ((S_80AC55DC_0 *)node)->unk_08 in create_returning_sprite_effect */
 
-typedef struct S_80AC55DC_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80AC55DC_6;   /* ((S_80AC55DC_1 *)arg0)->unk_08 in create_returning_sprite_effect */
+   /* ((S_80AC55DC_1 *)arg0)->unk_08 in create_returning_sprite_effect */
 
 
 extern void func_8004491C(void *, void *);
@@ -94,16 +88,16 @@ void create_returning_sprite_effect(
         ((S_80AC55DC_0 *)node)->unk_10 = D_80170A84;
 
         ((S_80AC55DC_5 *)(((S_80AC55DC_0 *)node)->unk_08))->unk_02 =
-            ((S_80AC55DC_6 *)(origin->unk_08))->unk_02 + offset_x;
+            ((MovingPosition *)(origin->unk_08))->unk_02 + offset_x;
         ((S_80AC55DC_5 *)(((S_80AC55DC_0 *)node)->unk_08))->unk_06 =
-            ((S_80AC55DC_6 *)(origin->unk_08))->unk_06 + offset_y;
+            ((MovingPosition *)(origin->unk_08))->unk_06 + offset_y;
         ((S_80AC55DC_5 *)(((S_80AC55DC_0 *)node)->unk_08))->unk_0A =
-            ((S_80AC55DC_6 *)(origin->unk_08))->unk_0A + offset_z - 0x14;
+            ((MovingPosition *)(origin->unk_08))->unk_0A + offset_z - 0x14;
 
         work = (S_80AC55DC_2 *)((u8 *)node + 0x20);
-        work->unk_36 = ((S_80AC55DC_6 *)(origin->unk_08))->unk_02;
-        work->unk_38 = ((S_80AC55DC_6 *)(origin->unk_08))->unk_06;
-        work->unk_3A = ((S_80AC55DC_6 *)(origin->unk_08))->unk_0A;
+        work->unk_36 = ((MovingPosition *)(origin->unk_08))->unk_02;
+        work->unk_38 = ((MovingPosition *)(origin->unk_08))->unk_06;
+        work->unk_3A = ((MovingPosition *)(origin->unk_08))->unk_0A;
         step_x = -(offset_x << 16) / (duration / 8);
         work->unk_40 = step_x / 2;
         step_y = -(offset_y << 16) / (duration / 8);

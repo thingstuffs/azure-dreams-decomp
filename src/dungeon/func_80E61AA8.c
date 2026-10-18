@@ -2,6 +2,7 @@
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/sprite_frame_state.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
@@ -29,17 +30,7 @@ typedef struct S_801712A8_0 {
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
 } S_801712A8_0;   /* actor in update_actor_facing_and_floor_contact */
 
-typedef struct S_801712A8_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_801712A8_1;   /* monster in update_actor_facing_and_floor_contact */
+   /* monster in update_actor_facing_and_floor_contact */
 
 typedef struct S_801712A8_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -99,7 +90,7 @@ void update_actor_facing_and_floor_contact(void *entity, S_801712A8_2 *motion, v
         try_move_actor_to_valid_position(entity, motion, monster, actor);
     }
 
-    monster_flags = ((S_801712A8_1 *)monster)->unk_14;
+    monster_flags = ((SpriteAnimationTableView *)monster)->unk_14;
     if (!(monster_flags & 0x8000)) {
         s32 angle_sector;
 
@@ -110,31 +101,31 @@ void update_actor_facing_and_floor_contact(void *entity, S_801712A8_2 *motion, v
         direction_copy = direction;
 
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
-            u8 *tile_map = ((S_801712A8_1 *)monster)->unk_2C;
+            u8 *tile_map = ((SpriteAnimationTableView *)monster)->unk_2C;
             if (tile_map != 0) {
                 select_indirect_table_entry(monster, tile_map[direction_index],
-                              ((S_801712A8_1 *)monster)->unk_04);
+                              ((SpriteAnimationTableView *)monster)->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
 
         if (dir_sprite_flag[direction_copy] != 0) {
-            ((S_801712A8_1 *)monster)->unk_14 |= 1;
+            ((SpriteAnimationTableView *)monster)->unk_14 |= 1;
         } else {
-            ((S_801712A8_1 *)monster)->unk_14 &= 0xFFFE;
+            ((SpriteAnimationTableView *)monster)->unk_14 &= 0xFFFE;
         }
 
         if (!(((S_801712A8_0 *)actor)->unk_1C.u & 0x20)) {
-            if (!(((S_801712A8_1 *)monster)->unk_14 & 0x40)) {
+            if (!(((SpriteAnimationTableView *)monster)->unk_14 & 0x40)) {
                 func_800478B8(monster);
             }
         } else {
-            ((S_801712A8_1 *)monster)->unk_14 |= 0x7000;
+            ((SpriteAnimationTableView *)monster)->unk_14 |= 0x7000;
         }
 
         apply_monster_koyaw_data(((S_801712A8_0 *)actor)->unk_1C.s, (u8 *)monster + 0xC);
     } else {
-        ((S_801712A8_1 *)monster)->unk_14 =
+        ((SpriteAnimationTableView *)monster)->unk_14 =
             (monster_flags & 0x0800) ? (monster_flags & 0x8FFF) : (monster_flags | 0x7000);
     }
 
@@ -170,8 +161,8 @@ void update_actor_facing_and_floor_contact(void *entity, S_801712A8_2 *motion, v
         if (((S_801712A8_0 *)actor)->unk_1C.u & 0x40000000) {
             ((S_801712A8_0 *)actor)->unk_1C.u &= 0xBFFFFFFF;
             floor_height = sample_terrain_surface_height(
-                (((S_801712A8_1 *)monster)->unk_24 << 6) | 0x20,
-                (((S_801712A8_1 *)monster)->unk_25 << 6) | 0x20,
+                (((SpriteAnimationTableView *)monster)->unk_24 << 6) | 0x20,
+                (((SpriteAnimationTableView *)monster)->unk_25 << 6) | 0x20,
                 (s16)(((S_801712A8_0 *)actor)->unk_88.u - 0x20));
             (*(s16 *)((u8 *)entity + 0x92)) +=
                 ((S_801712A8_0 *)actor)->unk_88.u - floor_height;
@@ -182,6 +173,6 @@ void update_actor_facing_and_floor_contact(void *entity, S_801712A8_2 *motion, v
     }
     motion->unk_0A =
         ((S_801712A8_0 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
-    ((S_801712A8_1 *)monster)->unk_14 |= 0x40;
+    ((SpriteAnimationTableView *)monster)->unk_14 |= 0x40;
 
 }

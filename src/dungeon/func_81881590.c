@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -12,14 +13,7 @@ typedef struct S_80024D90_0 {
     s32 * unk_10;
 } S_80024D90_0;
 
-typedef struct S_80024D90_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024D90_1;   /* saved_arg0 in spawn_ring_effects */
+   /* saved_arg0 in spawn_ring_effects */
 
 typedef struct S_80024D90_2 {
     u8 pad_00[0x2];
@@ -55,7 +49,7 @@ typedef struct S_80024D90_4 {
 
 /* Spawns sixteen effects in a ring around the source position. */
 void *spawn_ring_effects(void *source_pos, s16 effect_param) {
-    register void *origin = source_pos;
+    register MovingPosition *origin = source_pos;
     register s16 state_param = effect_param;
     register s32 effect_index = 0;
     register s32 *callback = func_80024B98;
@@ -74,12 +68,12 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
             func_8004491C(effect, (s32)func_80045C34);
             angle = effect_index << 8;
             position = ((S_80024D90_0 *)effect)->unk_08;
-            value = ((S_80024D90_1 *)origin)->unk_02 + (func_80064584(angle) >> 7);
+            value = origin->unk_02 + (func_80064584(angle) >> 7);
             position->unk_02 = value;
-            value = ((S_80024D90_1 *)origin)->unk_06 + (func_800644B8(angle) >> 7);
+            value = origin->unk_06 + (func_800644B8(angle) >> 7);
             position->unk_06 = value;
             position->unk_0A =
-                (s16)(((S_80024D90_1 *)origin)->unk_0A - 0x100);
+                (s16)(origin->unk_0A - 0x100);
             component = ((S_80024D90_0 *)effect)->unk_0C;
             ((S_80024D90_3 *)component)->unk_1C = 0x800;
             ((S_80024D90_3 *)component)->unk_1E = 0x1CCC;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800D4954_0_pre {
     u16 unk_00;
@@ -26,14 +27,7 @@ typedef struct S_800D4954_2 {
     s16 unk_0A;
 } S_800D4954_2;   /* arg1 in update_attached_effect */
 
-typedef struct S_800D4954_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800D4954_3;
+
 
 typedef struct S_800D4954_4 {
     u8 pad_00[0xC];
@@ -59,7 +53,7 @@ void update_attached_effect(void *effect, S_800D4954_2 *position, S_800D4954_4 *
     u16 next_scale;
     void *source;
     S_800D4954_5 *source_header;
-    S_800D4954_3 *source_position;
+    MovingPosition *source_position;
 
     source = ((S_800D4954_0 *)effect)->unk_88;
     source_position = ((S_800D4954_1_pre *)source)[-1].unk_00;

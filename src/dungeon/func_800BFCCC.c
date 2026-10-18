@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -29,23 +30,9 @@ typedef struct S_800C542C_2_pre {
 } S_800C542C_2_pre;   /* the 0x18 bytes before arg0 in create_orbiting_teleport_effect, addressed as arg0[-1] */
 
 
-typedef struct S_800C542C_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800C542C_3;   /* target in create_orbiting_teleport_effect */
+   /* target in create_orbiting_teleport_effect */
 
-typedef struct S_800C542C_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800C542C_4;   /* source in create_orbiting_teleport_effect */
+   /* source in create_orbiting_teleport_effect */
 
 typedef struct S_800C542C_5 {
     u8 pad_00[0x1C];
@@ -76,8 +63,8 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
 {
     void *object;
     S_800C542C_1 *display;
-    S_800C542C_4 *source;
-    S_800C542C_3 *target;
+    MovingPosition *source;
+    MovingPosition *target;
     S_800C542C_5 *record;
     void *callback;
     s16 saved_mode;

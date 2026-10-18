@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80172A14_0 {
     u8 pad_00[0xAC];
@@ -27,23 +28,9 @@ typedef struct S_80172A14_3 {
     u16 unk_14;
 } S_80172A14_3;
 
-typedef struct S_80172A14_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80172A14_4;
 
-typedef struct S_80172A14_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80172A14_5;   /* arg1 in create_boss_linked_effect */
+
+   /* arg1 in create_boss_linked_effect */
 
 typedef struct S_80172A14_6 {
     u8 pad_00[0x8];
@@ -64,11 +51,11 @@ extern u8 D_80172874[];
 extern u8 D_80174ABC[];
 
 /* Create an effect linked to its owner and initialize its position and rendering. */
-void create_boss_linked_effect(void *owner, S_80172A14_5 *source_pos) {
+void create_boss_linked_effect(void *owner, MovingPosition *source_pos) {
     S_80172A14_3 *render_flags;
     void *effect;
     S_80172A14_2 *effect_state;
-    S_80172A14_4 *effect_pos;
+    MovingPosition *effect_pos;
 
     effect = func_8003FD64(0x12, (u8 *)owner - 0x20);
     if (effect != 0) {

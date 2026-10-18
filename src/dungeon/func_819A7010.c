@@ -4,20 +4,14 @@
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80024810_2 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_80024810_2;
 
-typedef struct S_80024810_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024810_3;
+
 
 
 typedef struct S_80024810_0_pre {
@@ -65,9 +59,9 @@ void update_jittered_effect_points(void *effect) {
     owner = ((S_80024810_0 *)effect)->unk_00;
     target = (void *) (((S_80024810_0 *)effect)->unk_34 - 0x20);
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
-    ((S_80024810_0 *)effect)->unk_24 = (u16) ((S_80024810_3 *)(target->unk_08))->unk_02;
-    ((S_80024810_0 *)effect)->unk_26 = (u16) ((S_80024810_3 *)(target->unk_08))->unk_06;
-    ((S_80024810_0 *)effect)->unk_28 = (s16) (((S_80024810_3 *)(target->unk_08))->unk_0A - 0x20);
+    ((S_80024810_0 *)effect)->unk_24 = (u16) ((MovingPosition *)(target->unk_08))->unk_02;
+    ((S_80024810_0 *)effect)->unk_26 = (u16) ((MovingPosition *)(target->unk_08))->unk_06;
+    ((S_80024810_0 *)effect)->unk_28 = (s16) (((MovingPosition *)(target->unk_08))->unk_0A - 0x20);
     ((S_80024810_0 *)effect)->unk_04 = (u16) D_80083780.x.w.i;
     ((S_80024810_0 *)effect)->unk_06 = (u16) D_80083780.y.w.i;
     ((S_80024810_0 *)effect)->unk_08 = (u16) D_80083780.z.w.i;

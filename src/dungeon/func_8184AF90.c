@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 M2C_UNK func_8003DB94();      /* extern */
 s32 func_8004491C();           /* extern */
@@ -19,14 +20,7 @@ typedef struct S_80024790_0 {
     u16 unk_20;
 } S_80024790_0;
 
-typedef struct S_80024790_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024790_1;   /* arg0 in func_80024790 */
+   /* arg0 in func_80024790 */
 
 typedef struct S_80024790_2 {
     u8 pad_00[0x2];
@@ -60,7 +54,7 @@ typedef struct S_80024790_4 {
 } S_80024790_4;
 
 /* Creates an effect at the origin with index-dependent color, scale, and position. */
-s32 func_80024790(S_80024790_1 *origin, u16 index) {
+s32 func_80024790(MovingPosition *origin, u16 index) {
     u8 color_index;
     s32 frame;
     s16 scale;

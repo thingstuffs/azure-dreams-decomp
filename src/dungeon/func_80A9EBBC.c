@@ -3,7 +3,7 @@
 void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void *unused_context) {
     R08_801743BC_S_801743BC_0 *effect;
     R08_801743BC_S_801743BC_3 *sprite;
-    R08_801743BC_S_801743BC_1 *effect_pos;
+    MovingPosition *effect_pos;
 
     effect = func_8003FC64(0x212);
     if (effect != NULL) {

@@ -1,16 +1,10 @@
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 extern u8 D_80080000[];
 
 
-typedef struct S_80AC5820_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80AC5820_0;   /* arg1 in spawn_random_velocity_offset_effect */
+   /* arg1 in spawn_random_velocity_offset_effect */
 
 typedef struct S_80AC5820_1_pre {
     u16 unk_00;
@@ -24,14 +18,7 @@ typedef struct S_80AC5820_1 {
     void * unk_A8;
 } S_80AC5820_1;   /* arg0 in spawn_random_velocity_offset_effect */
 
-typedef struct S_80AC5820_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80AC5820_2;   /* other in spawn_random_velocity_offset_effect */
+   /* other in spawn_random_velocity_offset_effect */
 
 
 extern void func_800478B8();
@@ -50,7 +37,7 @@ typedef struct StackWork {
 } StackWork;
 
 /* Updates the relative position value with an angle bias and flags countdown completion. */
-void spawn_random_velocity_offset_effect(void *state, S_80AC5820_0 *position, Rec_D_80082E80 *result)
+void spawn_random_velocity_offset_effect(void *state, MovingPosition *position, Rec_D_80082E80 *result)
 {
     StackWork work;
     s16 ticks_left;
@@ -58,7 +45,7 @@ void spawn_random_velocity_offset_effect(void *state, S_80AC5820_0 *position, Re
     s32 reference_value;
     s8 *angle_bias;
     u32 angle_page;
-    S_80AC5820_2 *reference_pos;
+    MovingPosition *reference_pos;
 
     work.xyz[0] = position->unk_02;
     work.xyz[1] = position->unk_06;

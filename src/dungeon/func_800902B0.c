@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80095A10_0 {
     u8 pad_00[0x8C];
@@ -72,14 +73,7 @@ typedef struct S_80095A10_7 {
     s16 unk_0A;
 } S_80095A10_7;
 
-typedef struct S_80095A10_8 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80095A10_8;   /* arg1 in update_familiar_summoning */
+   /* arg1 in update_familiar_summoning */
 
 typedef struct S_80095A10_9 {
     u8 pad_00[0x2];
@@ -118,7 +112,7 @@ extern void *D_800E3DF0[];
 extern s8 D_800E3E40;
 
 /* Advances the resource loading, object creation, and animation sequence. */
-void update_familiar_summoning(u8 *actor, void *position, void *animation, u8 *context) {
+void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animation, u8 *context) {
 
     u8 *animation_table;
     s32 load_resource;
@@ -187,9 +181,9 @@ void update_familiar_summoning(u8 *actor, void *position, void *animation, u8 *c
             ((S_80095A10_6 *)object_scale)->unk_1E = 0x800;
             ((S_80095A10_6 *)object_scale)->unk_1C = 0x800;
             object_position = ((S_80095A10_5_pre *)object)[-1].unk_00;
-            ((S_80095A10_7 *)object_position)->unk_02 = (u16) ((S_80095A10_8 *)position)->unk_02;
-            ((S_80095A10_7 *)object_position)->unk_06 = (u16) ((S_80095A10_8 *)position)->unk_06;
-            ((S_80095A10_7 *)object_position)->unk_0A = (s16) (((S_80095A10_8 *)position)->unk_0A - 0x10);
+            ((S_80095A10_7 *)object_position)->unk_02 = (u16) position->unk_02;
+            ((S_80095A10_7 *)object_position)->unk_06 = (u16) position->unk_06;
+            ((S_80095A10_7 *)object_position)->unk_0A = (s16) (position->unk_0A - 0x10);
             func_80042640(object, ((S_80095A10_5 *)object)->unk_13);
             func_800424E0(object, ((S_80095A10_5 *)object)->unk_13, resource_info);
             object_flags = ((S_80095A10_5 *)object)->unk_1C;

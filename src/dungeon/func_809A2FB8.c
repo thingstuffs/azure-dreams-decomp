@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 
 typedef struct S_801747B8_0 {
@@ -10,14 +11,7 @@ typedef struct S_801747B8_0 {
     u16 unk_14;
 } S_801747B8_0;   /* arg2 in update_effect_fade_and_history */
 
-typedef struct S_801747B8_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801747B8_1;   /* arg1 in update_effect_fade_and_history */
+   /* arg1 in update_effect_fade_and_history */
 
 typedef struct S_801747B8_2 {
     u8 pad_00[0x20];
@@ -35,17 +29,10 @@ typedef struct S_801747B8_3 {
     u16 unk_14;
 } S_801747B8_3;   /* (*(void * *)((u8 *)arg0 + 0x18)) in update_effect_fade_and_history */
 
-typedef struct S_801747B8_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801747B8_4;   /* (*(void * *)((u8 *)arg0 + 0x1C)) in update_effect_fade_and_history */
+   /* (*(void * *)((u8 *)arg0 + 0x1C)) in update_effect_fade_and_history */
 
 /* Updates an effect's color fade and delayed position history. */
-void update_effect_fade_and_history(void *effect, S_801747B8_1 *position, S_801747B8_0 *primitive)
+void update_effect_fade_and_history(void *effect, MovingPosition *position, S_801747B8_0 *primitive)
 {
     s16 trail_length;
     s32 sample_index;
@@ -84,7 +71,7 @@ void update_effect_fade_and_history(void *effect, S_801747B8_1 *position, S_8017
     }
 
     trail_tail = (u8 *)(sample_index * 2 + (s32)(u32)effect);
-    ((S_801747B8_2 *)trail_tail)->unk_20 = ((S_801747B8_4 *)((*(void * *)((u8 *)effect + 0x1C))))->unk_02;
-    ((S_801747B8_2 *)trail_tail)->unk_26 = ((S_801747B8_4 *)((*(void * *)((u8 *)effect + 0x1C))))->unk_06;
-    ((S_801747B8_2 *)trail_tail)->unk_2C = ((S_801747B8_4 *)((*(void * *)((u8 *)effect + 0x1C))))->unk_0A;
+    ((S_801747B8_2 *)trail_tail)->unk_20 = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->unk_02;
+    ((S_801747B8_2 *)trail_tail)->unk_26 = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->unk_06;
+    ((S_801747B8_2 *)trail_tail)->unk_2C = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->unk_0A;
 }

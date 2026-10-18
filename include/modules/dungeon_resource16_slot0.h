@@ -18,6 +18,7 @@
 #include "records/Rec_func_8017360C_arg0.h"
 #include "shared/object_flags.h"
 #include "records/Rec_func_801732A4_arg0.h"
+#include "shared/sprite_frame_state.h"
 
 #define NULL 0
 typedef struct R16_80170878_S_80170878_0 {
@@ -242,17 +243,7 @@ typedef struct R16_801725A4_S_801725A4_1 {
     union { u8 s; s8 u; } unk_72;   
     union { u8 s; s8 u; } unk_73;   
 } R16_801725A4_S_801725A4_1;
-typedef struct R16_801725A4_S_801725A4_2 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} R16_801725A4_S_801725A4_2;
+
 typedef struct R16_801725A4_S_801725A4_3 {
     u8 pad_00[0xC];
     s32 unk_0C;

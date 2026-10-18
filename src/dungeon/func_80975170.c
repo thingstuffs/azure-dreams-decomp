@@ -1,11 +1,11 @@
 #include "modules/dungeon_ovl_9950e8.h"
 
-void advance_and_fade_transformed_effect(void *effect, S_80975170_1 *transform, Rec_D_80082E80 *render_state)
+void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform, Rec_D_80082E80 *render_state)
 {
     s16 ticks_left;
     s32 brightness;
     u16 render_offset;
-    S_80975170_2 *source_transform;
+    MovingPosition *source_transform;
 
     source_transform = ((S_80975170_0 *)effect)->unk_B0;
     transform->unk_02 = source_transform->unk_02;

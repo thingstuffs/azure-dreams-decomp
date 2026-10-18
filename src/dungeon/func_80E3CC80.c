@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -48,14 +49,7 @@ typedef struct S_80E3CC80_3 {
     s16 unk_16;
 } S_80E3CC80_3;   /* b in handle_spawns_up_sixteen_particles_randomized_offsets_velocities */
 
-typedef struct S_80E3CC80_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80E3CC80_4;   /* arg0 in handle_spawns_up_sixteen_particles_randomized_offsets_velocities */
+   /* arg0 in handle_spawns_up_sixteen_particles_randomized_offsets_velocities */
 
 
 extern void func_8004491C(void *object, void *data);
@@ -64,7 +58,7 @@ extern s32 rand(void);
 extern u8 D_801763D0[];
 
 /* Spawns up to sixteen particles with randomized offsets and velocities. */
-void handle_spawns_up_sixteen_particles_randomized_offsets_velocities(S_80E3CC80_4 *origin, S_80E3CC80_2 *source_sprite) {
+void handle_spawns_up_sixteen_particles_randomized_offsets_velocities(MovingPosition *origin, S_80E3CC80_2 *source_sprite) {
     s32 remaining;
     s32 image;
     u16 sprite_flags;

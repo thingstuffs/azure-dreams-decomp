@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_8128D000_0_pre {
     u16 unk_00;
@@ -44,14 +45,7 @@ typedef struct S_8128D000_3 {
     u16 unk_1E;
 } S_8128D000_3;   /* dst in update_smoothed_motion_and_transition_brightness */
 
-typedef struct S_8128D000_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8128D000_4;   /* out in update_smoothed_motion_and_transition_brightness */
+   /* out in update_smoothed_motion_and_transition_brightness */
 
 typedef struct S_8128D000_5 {
     u8 pad_00[0x1];
@@ -83,7 +77,7 @@ void update_smoothed_motion_and_transition_brightness(void *root_data, void *out
 {
     s16 motion_offset[3];
     void *root = root_data;
-    void *out = out_coords;
+    MovingPosition *out = out_coords;
     S_8128D000_3 *dst = dst_data;
     S_8128D000_1 *owner;
     S_8128D000_5 *coord_data;
@@ -98,18 +92,18 @@ void update_smoothed_motion_and_transition_brightness(void *root_data, void *out
         dst->unk_14 &= 0xFF7F;
     }
 
-    ((S_8128D000_4 *)out)->unk_02 = coord_data->unk_02;
-    ((S_8128D000_4 *)out)->unk_06 = coord_data->unk_06;
-    ((S_8128D000_4 *)out)->unk_0A = coord_data->unk_0A;
+    out->unk_02 = coord_data->unk_02;
+    out->unk_06 = coord_data->unk_06;
+    out->unk_0A = coord_data->unk_0A;
 
     motion_part = owner->unk_0C;
     if (func_8003DA40(motion_part->unk_08, motion_part, motion_offset,
                       ((S_8128D000_0 *)root)->unk_B6) != 0) {
-        ((S_8128D000_4 *)out)->unk_02 +=
+        out->unk_02 +=
             (motion_offset[0] + ((S_8128D000_0 *)root)->unk_B0) / 2;
-        ((S_8128D000_4 *)out)->unk_06 +=
+        out->unk_06 +=
             (motion_offset[1] + ((S_8128D000_0 *)root)->unk_B2) / 2;
-        ((S_8128D000_4 *)out)->unk_0A +=
+        out->unk_0A +=
             (motion_offset[2] + ((S_8128D000_0 *)root)->unk_B4) / 2;
         ((S_8128D000_0 *)root)->unk_B0 = motion_offset[0];
         ((S_8128D000_0 *)root)->unk_B2 = motion_offset[1];

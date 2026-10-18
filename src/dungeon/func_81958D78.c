@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -14,23 +15,9 @@ typedef struct S_80024578_0 {
     s32 unk_28;
 } S_80024578_0;   /* object in update_actor_effect_sequence */
 
-typedef struct S_80024578_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024578_1;   /* part in update_actor_effect_sequence */
+   /* part in update_actor_effect_sequence */
 
-typedef struct S_80024578_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024578_2;   /* arg0 in update_actor_effect_sequence */
+   /* arg0 in update_actor_effect_sequence */
 
 typedef struct S_80024578_3 {
     u8 pad_00[0x8];
@@ -47,10 +34,10 @@ extern u8 D_80028208[9];
 extern u8 D_800DF334[9];
 
 /* Allocate and initialize an effect object from the supplied part data. */
-void *update_actor_effect_sequence(S_80024578_2 *source_part, s32 offset_base) {
+void *update_actor_effect_sequence(MovingPosition *source_part, s32 offset_base) {
     s32 init_data[2];
     void *object;
-    S_80024578_1 *part;
+    MovingPosition *part;
     S_80024578_3 *effect;
     void *result;
 

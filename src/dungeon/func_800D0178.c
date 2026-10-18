@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800D58D8_0_pre {
     void * unk_00;
@@ -44,23 +45,9 @@ typedef struct S_800D58D8_3 {
     s16 unk_1E;
 } S_800D58D8_3;
 
-typedef struct S_800D58D8_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800D58D8_4;
 
-typedef struct S_800D58D8_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800D58D8_5;   /* arg1 in update_facing_and_spawn_expired_effect */
+
+   /* arg1 in update_facing_and_spawn_expired_effect */
 
 typedef struct S_800D58D8_6 {
     u8 pad_00[0x8];
@@ -83,14 +70,14 @@ extern s32 D_800D586C[];
 extern s32 D_800DE870[];
 
 /* Update sprite facing and animation, then spawn an effect when the countdown expires. */
-void update_facing_and_spawn_expired_effect(void *state, void *position, void *sprite) {
+void update_facing_and_spawn_expired_effect(void *state, MovingPosition *position, void *sprite) {
     Vec3u16 delta;
     s16 facing;
     void *direction_frames;
     u16 ticks_left;
     void *effect_render;
     void *owner;
-    void *effect_pos;
+    MovingPosition *effect_pos;
     void *effect;
 
     facing = ((s32) (g_game_work.view.viewAngle + ((S_800D58D8_0 *)state)->unk_2A + 0x100) >> 9) & 7;
@@ -112,9 +99,9 @@ void update_facing_and_spawn_expired_effect(void *state, void *position, void *s
             ((S_800D58D8_3 *)effect_render)->unk_10 = 0x20;
             ((S_800D58D8_3 *)effect_render)->unk_14 = (u16) (((S_800D58D8_3 *)effect_render)->unk_14 | 0xC);
             effect_pos = ((S_800D58D8_2 *)effect)->unk_08;
-            ((S_800D58D8_4 *)effect_pos)->unk_02 = (u16) ((S_800D58D8_5 *)position)->unk_02;
-            ((S_800D58D8_4 *)effect_pos)->unk_06 = (u16) ((S_800D58D8_5 *)position)->unk_06;
-            ((S_800D58D8_4 *)effect_pos)->unk_0A = (u16) ((S_800D58D8_5 *)position)->unk_0A;
+            effect_pos->unk_02 = (u16) position->unk_02;
+            effect_pos->unk_06 = (u16) position->unk_06;
+            effect_pos->unk_0A = (u16) position->unk_0A;
             effect_render = ((S_800D58D8_2 *)effect)->unk_0C;
             ((S_800D58D8_3 *)effect_render)->unk_1E = 0x1800;
             ((S_800D58D8_3 *)effect_render)->unk_1C = 0x1800;
@@ -125,9 +112,9 @@ void update_facing_and_spawn_expired_effect(void *state, void *position, void *s
             ((S_800D58D8_2 *)effect)->unk_10 = &D_800D586C;
             owner = ((S_800D58D8_0_pre *)state)[-1].unk_00;
             if (resolve_record_orientation_or_fallback(((S_800D58D8_6 *)owner)->unk_08, owner, &delta, 0) != 0) {
-                ((S_800D58D8_4 *)effect_pos)->unk_02 = (u16) (((S_800D58D8_4 *)effect_pos)->unk_02 + delta.x);
-                ((S_800D58D8_4 *)effect_pos)->unk_06 = (u16) (((S_800D58D8_4 *)effect_pos)->unk_06 + delta.y);
-                ((S_800D58D8_4 *)effect_pos)->unk_0A = (u16) (((S_800D58D8_4 *)effect_pos)->unk_0A + delta.z);
+                effect_pos->unk_02 = (u16) (effect_pos->unk_02 + delta.x);
+                effect_pos->unk_06 = (u16) (effect_pos->unk_06 + delta.y);
+                effect_pos->unk_0A = (u16) (effect_pos->unk_0A + delta.z);
             }
             func_8003DB94(((S_800D58D8_2 *)effect)->unk_0C, &D_800DE870, 0);
         }

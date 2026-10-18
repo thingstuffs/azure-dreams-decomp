@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 
 #ifndef NULL
@@ -28,14 +29,7 @@ typedef struct S_80164ED0_4 {
     s32 unk_14;
 } S_80164ED0_4;
 
-typedef struct S_80164ED0_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80164ED0_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_random_velocity_child_effect */
+   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_random_velocity_child_effect */
 
 typedef struct S_80164ED0_6 {
     u8 pad_00[0x6];
@@ -74,11 +68,11 @@ void create_random_velocity_child_effect(EntityRec *parent, s32 state_value, s16
     if (effect != NULL) {
         ((S_80164ED0_0 *)effect)->unk_10 = D_80164DA4;
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_02 = (s16)
-        (((S_80164ED0_5 *)((*(void * *)&parent->z)))->unk_02 + offset_x);
+        (((MovingPosition *)((*(void * *)&parent->z)))->unk_02 + offset_x);
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_06 = (s16)
-        (((S_80164ED0_5 *)((*(void * *)&parent->z)))->unk_06 + offset_y);
+        (((MovingPosition *)((*(void * *)&parent->z)))->unk_06 + offset_y);
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0A = (s16)
-        (((S_80164ED0_5 *)((*(void * *)&parent->z)))->unk_0A + offset_z);
+        (((MovingPosition *)((*(void * *)&parent->z)))->unk_0A + offset_z);
         ((S_80164ED0_6 *)(((S_80164ED0_2 *)effect)->unk_0C))->unk_06 = 6;
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0C = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 6);

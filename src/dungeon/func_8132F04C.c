@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct Packed12 {
     u8 bytes[12];
@@ -38,14 +39,7 @@ typedef struct S_8016604C_2 {
     s16 unk_1E;
 } S_8016604C_2;
 
-typedef struct S_8016604C_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8016604C_3;   /* ((S_8016604C_0 *)arg0)->unk_08 in scatter_landing_sparks_on_grid */
+   /* ((S_8016604C_0 *)arg0)->unk_08 in scatter_landing_sparks_on_grid */
 
 typedef struct S_8016604C_4 {
     u8 pad_00[0x2];
@@ -81,14 +75,14 @@ void scatter_landing_sparks_on_grid(S_8016604C_0 *source) {
                 if (particle != NULL) {
                     (((ObjectNodeHeader *)particle)->unk_10) = effect_data;
                     jitter_or_scale = rand();
-                    x_base = ((S_8016604C_3 *)(source->unk_08))->unk_02 + (grid_x << 6);
+                    x_base = ((MovingPosition *)(source->unk_08))->unk_02 + (grid_x << 6);
                     x_base -= 0x20;
                     ((S_8016604C_4 *)((((ObjectNodeHeader *)particle)->unk_08)))->unk_02 = (s16) (x_base + (jitter_or_scale & 0x3F));
                     y_random = rand();
-                    y_base = ((S_8016604C_3 *)(source->unk_08))->unk_06 + (grid_y << 6);
+                    y_base = ((MovingPosition *)(source->unk_08))->unk_06 + (grid_y << 6);
                     y_base -= 0x20;
                     ((S_8016604C_4 *)((((ObjectNodeHeader *)particle)->unk_08)))->unk_06 = (s16) (y_base + (y_random & 0x3F));
-                    ((S_8016604C_4 *)((((ObjectNodeHeader *)particle)->unk_08)))->unk_0A = (s16) (((S_8016604C_3 *)(source->unk_08))->unk_0A - 0x100);
+                    ((S_8016604C_4 *)((((ObjectNodeHeader *)particle)->unk_08)))->unk_0A = (s16) (((MovingPosition *)(source->unk_08))->unk_0A - 0x100);
                     motion = (((ObjectNodeHeader *)particle)->unk_08);
                     motion->unk_10 = 0;
                     motion->unk_0C = 0;

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800264D4_0 {
     u8 pad_00[0x8];
@@ -11,14 +12,7 @@ typedef struct S_800264D4_0 {
     void * unk_20;
 } S_800264D4_0;
 
-typedef struct S_800264D4_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800264D4_1;   /* arg0 in create_linked_objects */
+   /* arg0 in create_linked_objects */
 
 typedef struct S_800264D4_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -89,7 +83,7 @@ void *func_8003FD64(s32, void *);
 s32 func_8004491C(void *, void *);
 
 /* Creates six linked objects at the source position and initializes their position histories. */
-void *create_linked_objects(S_800264D4_1 *source_pos, s32 effect_value, s16 sprite_id, s16 effect_option) {
+void *create_linked_objects(MovingPosition *source_pos, s32 effect_value, s16 sprite_id, s16 effect_option) {
     s32 object_index;
     s32 sprite_index;
     s32 fixed_x;

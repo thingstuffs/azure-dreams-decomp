@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80024334_0 {
     void * unk_00;
@@ -28,18 +29,11 @@ typedef struct S_80024334_2 {
     u16 unk_14;
 } S_80024334_2;   /* arg2 in apply_minigame_object_tint */
 
-typedef struct S_80024334_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024334_3;   /* arg1 in apply_minigame_object_tint */
+   /* arg1 in apply_minigame_object_tint */
 
 
 /* Apply object flags and tint, and copy the selected value triplet. */
-void apply_minigame_object_tint(S_80024334_0 *state, S_80024334_3 *selected_values, S_80024334_2 *render_state) {
+void apply_minigame_object_tint(S_80024334_0 *state, MovingPosition *selected_values, S_80024334_2 *render_state) {
     S_80024334_1 *source;
 
     source = state->unk_00;

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_818D4B94_2 {
     u8 pad_00[0x8];
@@ -18,14 +19,7 @@ typedef struct S_818D4B94_4 {
     s16 unk_0A;
 } S_818D4B94_4;
 
-typedef struct S_818D4B94_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_818D4B94_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80024394 */
+   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80024394 */
 
 
 
@@ -66,13 +60,13 @@ void func_80024394(ObjectNodeHeader *source, s32 setting_14, s32 setting_08, s32
     effect = func_8003FD64(0x211, &source->next);
     if (effect != NULL) {
         ((S_818D4B94_0 *)effect)->unk_10 = (void *)func_80024294;
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_02 = (s16) (((S_818D4B94_5 *)source->unk_08)->unk_02 + offset_x);
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_06 = (s16) (((S_818D4B94_5 *)source->unk_08)->unk_06 + offset_y);
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_0A = (s16) (((S_818D4B94_5 *)source->unk_08)->unk_0A + offset_z);
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_02 = (s16) (((MovingPosition *)source->unk_08)->unk_02 + offset_x);
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_06 = (s16) (((MovingPosition *)source->unk_08)->unk_06 + offset_y);
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_0A = (s16) (((MovingPosition *)source->unk_08)->unk_0A + offset_z);
         state = effect + 0x20;
-        state->unk_34 = (u16) ((S_818D4B94_5 *)source->unk_08)->unk_02;
-        state->unk_36 = (u16) ((S_818D4B94_5 *)source->unk_08)->unk_06;
-        state->unk_38 = (u16) ((S_818D4B94_5 *)source->unk_08)->unk_0A;
+        state->unk_34 = (u16) ((MovingPosition *)source->unk_08)->unk_02;
+        state->unk_36 = (u16) ((MovingPosition *)source->unk_08)->unk_06;
+        state->unk_38 = (u16) ((MovingPosition *)source->unk_08)->unk_0A;
         signed_duration = (s16) duration;
         delta_x = -(offset_x << 16);
         step_count = signed_duration / 8;

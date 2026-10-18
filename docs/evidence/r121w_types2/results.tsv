@@ -1,0 +1,383 @@
+item	source	home	local	shared_type	status	proof	reason
+T05	src/dungeon/func_7FFE79F4.c	dungeon/func_7FFE79F4	S_7FFE79F4_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFE79F4.c	dungeon/func_7FFE79F4	S_7FFE79F4_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFE7BE8.c	dungeon/func_7FFE7BE8	S_7FFE7BE8_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFE7BE8.c	dungeon/func_7FFE7BE8	S_7FFE7BE8_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFE7CBC.c	dungeon/func_7FFE7CBC	S_7FFE7CBC_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFE7CBC.c	dungeon/func_7FFE7CBC	S_7FFE7CBC_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFE83DC.c	dungeon/func_7FFE83DC	S_7FFE83DC_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFE83DC.c	dungeon/func_7FFE83DC	S_7FFE83DC_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFE89B0.c	dungeon/func_7FFE89B0	S_7FFE89B0_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFE9150.c	dungeon/func_7FFE9150	S_7FFE9150_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFE93E8.c	dungeon/func_7FFE93E8	S_7FFE93E8_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFE93E8.c	dungeon/func_7FFE93E8	S_7FFE93E8_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFEA9D4.c	dungeon/func_7FFEA9D4	S_7FFEA9D4_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFEAC44.c	dungeon/func_7FFEAC44	S_7FFEAC44_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFEAC44.c	dungeon/func_7FFEAC44	S_7FFEAC44_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFEBCCC.c	dungeon/func_7FFEBCCC	S_7FFEBCCC_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_7FFEBCCC.c	dungeon/func_7FFEBCCC	S_7FFEBCCC_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8008DCFC.c	dungeon/func_8008DCFC	S_8009345C_13	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8008E510.c	dungeon/func_8008E510	S_80093C70_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8008E62C.c	dungeon/func_8008E62C	S_80093D8C_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800902B0.c	dungeon/func_800902B0	S_80095A10_8	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800942BC.c	dungeon/func_800942BC	S_80099A1C_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800A3D40.c	dungeon/func_800A3D40	S_800A94A0_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800A3D40.c	dungeon/func_800A3D40	S_800A94A0_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800A70CC.c	dungeon/func_800A70CC	S_800AC82C_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800A84EC.c	dungeon/func_800A84EC	S_800ADC4C_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800AAEF4.c	dungeon/func_800AAEF4	S_800B0654_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800AB5D4.c	dungeon/func_800AB5D4	S_800B0D34_7	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800AB5D4.c	dungeon/func_800AB5D4	S_800B0D34_8	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800ADB2C.c	dungeon/func_800ADB2C	S_800B328C_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800ADB2C.c	dungeon/func_800ADB2C	S_800B328C_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800AEE80.c	dungeon/func_800AEE80	S_800B45E0_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800AF1AC.c	dungeon/func_800AF1AC	S_800B490C_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800AF51C.c	dungeon/func_800AF51C	S_800B4C7C_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800B10B4.c	dungeon/func_800B10B4	S_800B6814_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800B2400.c	dungeon/func_800B2400	S_800B7B60_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800B2400.c	dungeon/func_800B2400	S_800B7B60_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800BD0C4.c	dungeon/func_800BD0C4	S_800C2824_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800BF39C.c	dungeon/func_800BF39C	S_800C4AFC_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800BF39C.c	dungeon/func_800BF39C	S_800C4AFC_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800BF7C0.c	dungeon/func_800BF7C0	S_800C4F20_12	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800BFCCC.c	dungeon/func_800BFCCC	S_800C542C_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800BFCCC.c	dungeon/func_800BFCCC	S_800C542C_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800C587C.c	dungeon/func_800C587C	S_800CAFDC_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800C5D60.c	dungeon/func_800C5D60	S_800CB4C0_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800C5D60.c	dungeon/func_800C5D60	S_800CB4C0_7	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800C60CC.c	dungeon/func_800C60CC	S_800CB82C_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800CDFD8.c	dungeon/func_800CDFD8	S_func_800CDFD8_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800CF1F4.c	dungeon/func_800CF1F4	S_800D4954_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800CF350.c	dungeon/func_800CF350	S_800D4AB0_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800CF474.c	dungeon/func_800CF474	S_800D4BD4_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800CF688.c	dungeon/func_800CF688	S_800D4DE8_7	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800CFB34.c	dungeon/func_800CFB34	S_800D5294_6	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800D0178.c	dungeon/func_800D0178	S_800D58D8_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800D0178.c	dungeon/func_800D0178	S_800D58D8_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800D066C.c	dungeon/func_800D066C	S_800D5DCC_9	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800D1374.c	dungeon/func_800D1374	S_800D6AD4_9	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800D188C.c	dungeon/func_800D188C	S_800D6FEC_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800D188C.c	dungeon/func_800D188C	S_800D6FEC_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800D2858.c	dungeon/func_800D2858	S_func_800D7FB8_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_809A2FB8.c	dungeon/func_809A2FB8	S_801747B8_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_809A2FB8.c	dungeon/func_809A2FB8	S_801747B8_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_809A3110.c	dungeon/func_809A3110	S_80174910_8	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_809F33F8.c	dungeon/func_809F33F8	S_80170BF8_2	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_809F6BEC.c	dungeon/func_809F6BEC	S_801743EC_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80A1FBBC.c	dungeon/func_80A1FBBC	S_801733BC_10	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80A1FBBC.c	dungeon/func_80A1FBBC	S_801733BC_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80AC55DC.c	dungeon/func_80AC55DC	S_80AC55DC_6	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80AC5820.c	dungeon/func_80AC5820	S_80AC5820_0	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80AC5820.c	dungeon/func_80AC5820	S_80AC5820_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80AC5B20.c	dungeon/func_80AC5B20	S_80171320_0	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80AC8DBC.c	dungeon/func_80AC8DBC	S_801745BC_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80B1B010.c	dungeon/func_80B1B010	S_80172810_4	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80B6F204.c	dungeon/func_80B6F204	S_80172A04_4	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80B97298.c	dungeon/func_80B97298	S_80170A98_0	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80BC3AC4.c	dungeon/func_80BC3AC4	S_801732C4_6	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80BFEDA4.c	dungeon/func_80BFEDA4	ActionSpriteView	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80C412B4.c	dungeon/func_80C412B4	S_80172AB4_4	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80CBD2E0.c	dungeon/func_80CBD2E0	S_80170AE0_0	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80D17000.c	dungeon/func_80D17000	S_80D17000_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80D23000.c	dungeon/func_80D23000	S_80D23000_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80D29000.c	dungeon/func_80D29000	S_80D29000_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80D35000.c	dungeon/func_80D35000	S_80D35000_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80D3B9B0.c	dungeon/func_80D3B9B0	S_801711B0_1	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80D3E260.c	dungeon/func_80D3E260	S_80173A60_8	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80D3FD8C.c	dungeon/func_80D3FD8C	S_8017558C_7	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80D403A8.c	dungeon/func_80D403A8	S_80175BA8_7	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80D653B8.c	dungeon/func_80D653B8	S_80D653B8_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80D65810.c	dungeon/func_80D65810	S_80D65810_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80D659DC.c	dungeon/func_80D659DC	S_80D659DC_9	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80D65C5C.c	dungeon/func_80D65C5C	S_80D65C5C_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80D91070.c	dungeon/func_80D91070	S_80172870_4	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80DBBFC8.c	dungeon/func_80DBBFC8	S_801737C8_6	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80DBD3EC.c	dungeon/func_80DBD3EC	S_80174BEC_6	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80E122F4.c	dungeon/func_80E122F4	S_80E122F4_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80E12504.c	dungeon/func_80E12504	S_80175D04_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80E372D0.c	dungeon/func_80E372D0	S_80170AD0_1	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80E3ADF0.c	dungeon/func_80E3ADF0	S_801745F0_0	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80E3ADF0.c	dungeon/func_80E3ADF0	S_801745F0_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80E3AF4C.c	dungeon/func_80E3AF4C	S_8017474C_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80E3AF4C.c	dungeon/func_80E3AF4C	S_8017474C_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80E3B390.c	dungeon/func_80E3B390	S_80174B90_8	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80E3B390.c	dungeon/func_80E3B390	S_80174B90_9	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80E3C5D0.c	dungeon/func_80E3C5D0	S_80175DD0_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80E3CC80.c	dungeon/func_80E3CC80	S_80E3CC80_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80E61AA8.c	dungeon/func_80E61AA8	S_801712A8_1	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_80EDFC98.c	dungeon/func_80EDFC98	S_80171498_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80F0B2A8.c	dungeon/func_80F0B2A8	S_80172AA8_4	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80F3575C.c	dungeon/func_80F3575C	S_80172F5C_4	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_80FCB5EC.c	dungeon/func_80FCB5EC	ActorSprite	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	named extraction adapter; unrelated aggregate/prototype scopes excluded; exact typed layout
+T04	src/dungeon/func_80FD75EC.c	dungeon/func_80FD75EC	ActorSprite	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	named extraction adapter; unrelated aggregate/prototype scopes excluded; exact typed layout
+T04	src/dungeon/func_8100D034.c	dungeon/func_8100D034	ActorSprite	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	named extraction adapter; unrelated aggregate/prototype scopes excluded; exact typed layout
+T04	src/dungeon/func_81019034.c	dungeon/func_81019034	ActorSprite	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	named extraction adapter; unrelated aggregate/prototype scopes excluded; exact typed layout
+T04	src/dungeon/func_8101F034.c	dungeon/func_8101F034	ActorSprite	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	named extraction adapter; unrelated aggregate/prototype scopes excluded; exact typed layout
+T04	src/dungeon/func_8102B034.c	dungeon/func_8102B034	ActorSprite	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	named extraction adapter; unrelated aggregate/prototype scopes excluded; exact typed layout
+T05	src/dungeon/func_8102F0D4.c	dungeon/func_8102F0D4	S_8102F0D4_0	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8102F0D4.c	dungeon/func_8102F0D4	S_8102F0D4_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8102F20C.c	dungeon/func_8102F20C	S_8102F20C_0	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8102F20C.c	dungeon/func_8102F20C	S_8102F20C_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81032CDC.c	dungeon/func_81032CDC	S_801744DC_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81032EEC.c	dungeon/func_81032EEC	S_801746EC_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81033FE0.c	dungeon/func_81033FE0	S_801757E0_7	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_81083284.c	dungeon/func_81083284	S_80170A84_0	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_810860B4.c	dungeon/func_810860B4	S_801738B4_2	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_810873C8.c	dungeon/func_810873C8	S_80174BC8_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8108809C.c	dungeon/func_8108809C	S_8017589C_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81251000.c	dungeon/func_81251000	S_81251000_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81251350.c	dungeon/func_81251350	S_80170B50_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81251350.c	dungeon/func_81251350	S_80170B50_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81251544.c	dungeon/func_81251544	S_80170D44_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81251544.c	dungeon/func_81251544	S_80170D44_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81251618.c	dungeon/func_81251618	S_80170E18_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81251618.c	dungeon/func_81251618	S_80170E18_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81257000.c	dungeon/func_81257000	S_81257000_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81263000.c	dungeon/func_81263000	S_81263000_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81269000.c	dungeon/func_81269000	S_81269000_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81275000.c	dungeon/func_81275000	S_81275000_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8127B000.c	dungeon/func_8127B000	S_8127B000_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8128D000.c	dungeon/func_8128D000	S_8128D000_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132A730.c	dungeon/func_8132A730	S_80171F30_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132A730.c	dungeon/func_8132A730	S_80171F30_6	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132AE10.c	dungeon/func_8132AE10	S_80172610_6	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132AE10.c	dungeon/func_8132AE10	S_80172610_7	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132B214.c	dungeon/func_8132B214	S_80172A14_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132B214.c	dungeon/func_8132B214	S_80172A14_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132B300.c	dungeon/func_8132B300	S_80172B00_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132B300.c	dungeon/func_8132B300	S_80172B00_6	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132DED0.c	dungeon/func_8132DED0	S_80164ED0_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132E018.c	dungeon/func_8132E018	S_80165018_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132E2FC.c	dungeon/func_8132E2FC	S_801652FC_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132E6F8.c	dungeon/func_8132E6F8	S_801656F8_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132E83C.c	dungeon/func_8132E83C	S_8016583C_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132ED0C.c	dungeon/func_8132ED0C	S_80165D0C_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132F04C.c	dungeon/func_8132F04C	S_8016604C_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8132F204.c	dungeon/func_8132F204	S_80166204_6	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T04	src/dungeon/func_81332EC0.c	dungeon/func_81332EC0	S_80169EC0_4	SpriteAnimationTableView	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8133A3F0.c	dungeon/func_8133A3F0	S_func_8133A3F0_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8133A5D0.c	dungeon/func_8133A5D0	S_801715D0_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8133A5D0.c	dungeon/func_8133A5D0	S_801715D0_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8180D4D4.c	dungeon/func_8180D4D4	S_800264D4_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8180DA84.c	dungeon/func_8180DA84	S_80026A84_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81814EDC.c	dungeon/func_81814EDC	S_81814EDC_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81814EDC.c	dungeon/func_81814EDC	S_81814EDC_6	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_818154FC.c	dungeon/func_818154FC	S_818154FC_6	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8184A930.c	dungeon/func_8184A930	S_80024130_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8184A930.c	dungeon/func_8184A930	S_80024130_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8184AAA0.c	dungeon/func_8184AAA0	S_800242A0_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8184AAA0.c	dungeon/func_8184AAA0	S_800242A0_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8184ABE0.c	dungeon/func_8184ABE0	S_800243E0_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8184ABE0.c	dungeon/func_8184ABE0	S_800243E0_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8184AD50.c	dungeon/func_8184AD50	S_80024550_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8184AF90.c	dungeon/func_8184AF90	S_80024790_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8184B130.c	dungeon/func_8184B130	S_80024930_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_8185CE28.c	dungeon/func_8185CE28	S_8185CE28_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_818BC9CC.c	dungeon/func_818BC9CC	S_func_818BC9CC_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_818C29D4.c	dungeon/func_818C29D4	S_818C29D4_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_818FF710.c	dungeon/func_818FF710	S_818FF710_6	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81958BC4.c	dungeon/func_81958BC4	S_800243C4_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81958D78.c	dungeon/func_81958D78	S_80024578_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81958D78.c	dungeon/func_81958D78	S_80024578_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_81976850.c	dungeon/func_81976850	S_81976850_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/town/func_8009A370.c	town/func_8009A370	S_80097AD0_0	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/town/func_800A2B1C.c	town/func_800A2B1C	S_800A027C_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/town/func_800A2B1C.c	town/func_800A2B1C	S_800A027C_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/town/func_800A3BAC.c	town/func_800A3BAC	S_800A130C_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/town/func_800A45BC.c	town/func_800A45BC	S_800A1D1C_5	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/town/func_800AA760.c	town/func_800AA760	S_func_800AA760_4	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/town/func_800AAD70.c	town/func_800AAD70	S_800A84D0_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/town/func_800AAD70.c	town/func_800AAD70	S_800A84D0_2	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/town/func_800AB1FC.c	town/func_800AB1FC	S_800A895C_0	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/town/func_800AE614.c	town/func_800AE614	S_800ABD74_0	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/town/func_800BDAB8.c	town/func_800BDAB8	S_800BB218_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/town/func_803304A0.c	town/func_803304A0	S_8001ACA0_1	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/town/func_80821B34.c	town/func_80821B34	S_80024334_3	MovingPosition	DELIVERED	registered per-row exact + dependent windows	explicit call-root view; exact extent, alignment and all used field types
+T05	src/dungeon/func_800A2FBC.c	dungeon/func_800A2FBC	S_800A871C_21	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_800B30D0.c	dungeon/func_800B30D0	S_800B8830_4	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_800D56E4.c	dungeon/func_800D56E4	S_800DAE44_4	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_800D5B7C.c	dungeon/func_800D5B7C	S_800DB2DC_4	MovingPosition	DELIVERED	complete native TU + dependent windows	named extraction adapter; unrelated aggregate/prototype scopes excluded; exact typed layout
+T05	src/dungeon/func_800D5B7C.c	dungeon/func_800D5B7C	S_800DB2DC_7	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	include/modules/dungeon_ovl_183a800.h	dungeon/func_8181B1A0	S_8181B1A0_5	MovingPosition	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T05	include/modules/dungeon_ovl_183a800.h	dungeon/func_8181B3E8	S_80024BE8_6	MovingPosition	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T05	src/dungeon/func_81875B38.c	dungeon/func_81875B38	S_func_81875B38_3	MovingPosition	DELIVERED	complete native TU + dependent windows	named extraction adapter; unrelated aggregate/prototype scopes excluded; exact typed layout
+T05	src/dungeon/func_8187B8B0.c	dungeon/func_8187B8B0	S_func_800250B0_1	MovingPosition	DELIVERED	complete native TU + dependent windows	named extraction adapter; unrelated aggregate/prototype scopes excluded; exact typed layout
+T05	src/dungeon/func_8187B9E8.c	dungeon/func_8187B9E8	S_8187B9E8_2	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_8187BFE0.c	dungeon/func_8187BFE0	S_8187BFE0_4	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_8187BFE0.c	dungeon/func_8187BFE0	S_8187BFE0_5	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_81881168.c	dungeon/func_81881168	S_80024968_1	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_81881168.c	dungeon/func_81881168	S_80024968_2	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_81881298.c	dungeon/func_81881298	S_80024A98_1	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_81881298.c	dungeon/func_81881298	S_80024A98_2	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_81881590.c	dungeon/func_81881590	S_80024D90_1	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_818817D8.c	dungeon/func_818817D8	S_80024FD8_1	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_818817D8.c	dungeon/func_818817D8	S_80024FD8_2	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_81881AE0.c	dungeon/func_81881AE0	S_800252E0_2	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_81881CC4.c	dungeon/func_81881CC4	S_800254C4_1	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_81881CC4.c	dungeon/func_81881CC4	S_800254C4_2	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_81887E9C.c	dungeon/func_81887E9C	S_8002569C_2	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_818D4B94.c	dungeon/func_818D4B94	S_818D4B94_5	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_818FA12C.c	dungeon/func_818FA12C	TableEntryView	MovingPosition	DELIVERED	complete native TU + dependent windows	named extraction adapter; unrelated aggregate/prototype scopes excluded; exact typed layout
+T05	src/dungeon/func_819711E0.c	dungeon/func_819711E0	S_819711E0_2	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_819711E0.c	dungeon/func_819711E0	S_819711E0_3	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_81971760.c	dungeon/func_81971760	S_81971760_3	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_81971760.c	dungeon/func_81971760	S_81971760_4	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_8197192C.c	dungeon/func_8197192C	S_8197192C_3	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_8199AAD4.c	dungeon/func_8199AAD4	S_8199AAD4_3	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_819A7010.c	dungeon/func_819A7010	S_80024810_3	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_819ACB28.c	dungeon/func_819ACB28	S_819ACB28_3	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_819AD1DC.c	dungeon/func_819AD1DC	S_819AD1DC_1	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_819AD81C.c	dungeon/func_819AD81C	S_819AD81C_6	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_819AE378.c	dungeon/func_819AE378	S_80025B78_1	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_819AE378.c	dungeon/func_819AE378	S_80025B78_2	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_807AFC9C.c	dungeon/func_807AFC9C	S_807AFC9C_2	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	src/dungeon/func_807B0238.c	dungeon/func_807B0238	S_807B0238_6	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T05	include/modules/dungeon_ovl_9950e8.h	dungeon/func_80975170	S_80975170_1	MovingPosition	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T05	include/modules/dungeon_ovl_9950e8.h	dungeon/func_80975170	S_80975170_2	MovingPosition	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T05	include/modules/dungeon_ovl_9950e8.h	dungeon/func_80975244	S_80975244_4	MovingPosition	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T05	include/modules/dungeon_ovl_9950e8.h	dungeon/func_80975244	S_80975244_5	MovingPosition	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T05	include/modules/dungeon_ovl_be1084.h	dungeon/func_80BC1528	S_80BC1528_4	MovingPosition	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T05	src/dungeon/func_80F8A70C.c	dungeon/func_80F8A70C	S_80173F0C_2	MovingPosition	DELIVERED	complete native TU + dependent windows	native member local; exact typed layout
+T04	include/modules/dungeon_resource03_slot0.h	dungeon/func_809C9228	R03_80170A28_S_80170A28_0	SpriteAnimationTableView	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T03	include/modules/dungeon_resource03_slot0.h	dungeon/func_809C9B9C	R03_8017139C_S_8017139C_3	ActorStatusBytesView	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T02	include/modules/dungeon_resource03_slot0.h	dungeon/func_809CB224	R03_80172A24_S_80172A24_2_pre	SpriteLinkPrefixView	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T01	include/modules/dungeon_resource03_slot0.h	dungeon/func_809CB224	R03_80172A24_S_80172A24_3	MovingTile	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T05	include/modules/dungeon_resource08_slot0.h	dungeon/func_80A9EBBC	R08_801743BC_S_801743BC_1	MovingPosition	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T04	include/modules/dungeon_resource10_slot0.h	dungeon/func_80AEF904	R10_80171104_S_80171104_0	SpriteAnimationTableView	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T04	include/modules/dungeon_resource12_slot0.h	dungeon/func_80B452F8	R12_80172AF8_S_80172AF8_4	SpriteAnimationTableView	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T04	include/modules/dungeon_resource16_slot0.h	dungeon/func_80BECDA4	R16_801725A4_S_801725A4_2	SpriteAnimationTableView	DELIVERED	complete native TU + dependent windows	atomic native module; historical name suffix and exact layout; all member pointer uses
+T03_HELD_ENTRY	src/dungeon/func_809C9B9C.c	dungeon/func_809C9B9C	S_8017139C_3	ActorStatusBytesView	CLEARED	28-member dungeon_resource03_slot0, renewed certificate and placement windows	former claim dungeon/func_809CFB9C is covered at its module-owned home
+T03_HELD_ENTRY	src/dungeon/func_809C9B9C.c	dungeon/func_809C9B9C	S_8017139C_3	ActorStatusBytesView	CLEARED	28-member dungeon_resource03_slot0, renewed certificate and placement windows	former claim dungeon/func_809D5B9C is covered at its module-owned home
+T03_HELD_ENTRY	src/dungeon/func_809C9B9C.c	dungeon/func_809C9B9C	S_8017139C_3	ActorStatusBytesView	CLEARED	28-member dungeon_resource03_slot0, renewed certificate and placement windows	former claim dungeon/func_809DBB9C is covered at its module-owned home
+T03_HELD_ENTRY	src/dungeon/func_809C9B9C.c	dungeon/func_809C9B9C	S_8017139C_3	ActorStatusBytesView	CLEARED	28-member dungeon_resource03_slot0, renewed certificate and placement windows	former claim dungeon/func_809E1B9C is covered at its module-owned home
+T03_HELD_ENTRY	src/dungeon/func_809C9B9C.c	dungeon/func_809C9B9C	S_8017139C_3	ActorStatusBytesView	CLEARED	28-member dungeon_resource03_slot0, renewed certificate and placement windows	former claim dungeon/func_809E7B9C is covered at its module-owned home
+T03_HELD_ENTRY	src/dungeon/func_809C9B9C.c	dungeon/func_809C9B9C	S_8017139C_3	ActorStatusBytesView	CLEARED	28-member dungeon_resource03_slot0, renewed certificate and placement windows	former claim dungeon/func_809EDB9C is covered at its module-owned home
+T03_HELD_ENTRY	src/dungeon/func_809C9B9C.c	dungeon/func_809C9B9C	S_8017139C_3	ActorStatusBytesView	CLEARED	28-member dungeon_resource03_slot0, renewed certificate and placement windows	former claim dungeon/func_80A1DBCC is covered at its module-owned home
+T03_HELD_ENTRY	src/dungeon/func_809C9B9C.c	dungeon/func_809C9B9C	S_8017139C_3	ActorStatusBytesView	CLEARED	28-member dungeon_resource03_slot0, renewed certificate and placement windows	former claim dungeon/func_80A23BCC is covered at its module-owned home
+T03_HELD_ENTRY	src/dungeon/func_809C9B9C.c	dungeon/func_809C9B9C	S_8017139C_3	ActorStatusBytesView	CLEARED	28-member dungeon_resource03_slot0, renewed certificate and placement windows	former claim dungeon/func_80A29BCC is covered at its module-owned home
+T03_HELD_ENTRY	src/dungeon/func_809C9B9C.c	dungeon/func_809C9B9C	S_8017139C_3	ActorStatusBytesView	CLEARED	28-member dungeon_resource03_slot0, renewed certificate and placement windows	former claim dungeon/func_80A2FBCC is covered at its module-owned home
+T03_HELD_ENTRY	src/dungeon/func_809C9B9C.c	dungeon/func_809C9B9C	S_8017139C_3	ActorStatusBytesView	CLEARED	28-member dungeon_resource03_slot0, renewed certificate and placement windows	former claim dungeon/func_80A35BCC is covered at its module-owned home
+T03_HELD_ENTRY	src/dungeon/func_809C9B9C.c	dungeon/func_809C9B9C	S_8017139C_3	ActorStatusBytesView	CLEARED	28-member dungeon_resource03_slot0, renewed certificate and placement windows	former claim dungeon/func_80A3BBCC is covered at its module-owned home
+T05	src/dungeon/func_809A41CC.c	dungeon/func_807AFC9C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_809AA1CC.c	dungeon/func_807AFC9C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_809B01CC.c	dungeon/func_807AFC9C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_809B61CC.c	dungeon/func_807AFC9C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_809BC1CC.c	dungeon/func_807AFC9C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_809C21CC.c	dungeon/func_807AFC9C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_809C81CC.c	dungeon/func_807AFC9C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80A25BBC.c	dungeon/func_80A1FBBC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80A2BBBC.c	dungeon/func_80A1FBBC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80A31BBC.c	dungeon/func_80A1FBBC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80A37BBC.c	dungeon/func_80A1FBBC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80A3DBBC.c	dungeon/func_80A1FBBC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80A43BBC.c	dungeon/func_80A1FBBC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80ACB5DC.c	dungeon/func_80AC55DC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80AD15DC.c	dungeon/func_80AC55DC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80AD75DC.c	dungeon/func_80AC55DC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80ADD5DC.c	dungeon/func_80AC55DC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80AE35DC.c	dungeon/func_80AC55DC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80AE95DC.c	dungeon/func_80AC55DC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80AF54F8.c	dungeon/func_80AC55DC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80AFB4F8.c	dungeon/func_80AC55DC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80B014F8.c	dungeon/func_80AC55DC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80B074F8.c	dungeon/func_80AC55DC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80B0D4F8.c	dungeon/func_80AC55DC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80B134F8.c	dungeon/func_80AC55DC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80BC9AC4.c	dungeon/func_80BC3AC4		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80BCFAC4.c	dungeon/func_80BC3AC4		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80BD5AC4.c	dungeon/func_80BC3AC4		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80BDBAC4.c	dungeon/func_80BC3AC4		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80BE1AC4.c	dungeon/func_80BC3AC4		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80BE7AC4.c	dungeon/func_80BC3AC4		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T04	src/dungeon/func_80D419B0.c	dungeon/func_80D3B9B0		SpriteAnimationTableView	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T04	src/dungeon/func_80D479B0.c	dungeon/func_80D3B9B0		SpriteAnimationTableView	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T04	src/dungeon/func_80D4D9B0.c	dungeon/func_80D3B9B0		SpriteAnimationTableView	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T04	src/dungeon/func_80D539B0.c	dungeon/func_80D3B9B0		SpriteAnimationTableView	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T04	src/dungeon/func_80D599B0.c	dungeon/func_80D3B9B0		SpriteAnimationTableView	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T04	src/dungeon/func_80D5F9B0.c	dungeon/func_80D3B9B0		SpriteAnimationTableView	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80D6B810.c	dungeon/func_80D65810		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80D6B9DC.c	dungeon/func_80D659DC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80D6BC5C.c	dungeon/func_80D65C5C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80D71810.c	dungeon/func_80D65810		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80D71C5C.c	dungeon/func_80D65C5C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80D77810.c	dungeon/func_80D65810		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80D77C5C.c	dungeon/func_80D65C5C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80D7D810.c	dungeon/func_80D65810		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80D7DC5C.c	dungeon/func_80D65C5C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80D83810.c	dungeon/func_80D65810		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80D83C5C.c	dungeon/func_80D65C5C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80D89810.c	dungeon/func_80D65810		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80D89C5C.c	dungeon/func_80D65C5C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80DC1FC8.c	dungeon/func_80DBBFC8		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80DC33EC.c	dungeon/func_80DBD3EC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80DC7FC8.c	dungeon/func_80DBBFC8		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80DC93EC.c	dungeon/func_80DBD3EC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80DCDFC8.c	dungeon/func_80DBBFC8		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80DCF3EC.c	dungeon/func_80DBD3EC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80DD3FC8.c	dungeon/func_80DBBFC8		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80DD53EC.c	dungeon/func_80DBD3EC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80DD9FC8.c	dungeon/func_80DBBFC8		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80DDB3EC.c	dungeon/func_80DBD3EC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80DDFFC8.c	dungeon/func_80DBBFC8		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80DE13EC.c	dungeon/func_80DBD3EC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80E40F4C.c	dungeon/func_80E3AF4C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80E42C80.c	dungeon/func_80E3CC80		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80E46F4C.c	dungeon/func_80E3AF4C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80E48C80.c	dungeon/func_80E3CC80		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80E4CF4C.c	dungeon/func_80E3AF4C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80E4EC80.c	dungeon/func_80E3CC80		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80E52F4C.c	dungeon/func_80E3AF4C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80E54C80.c	dungeon/func_80E3CC80		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80E58F4C.c	dungeon/func_80E3AF4C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80E5AC80.c	dungeon/func_80E3CC80		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80E5EF4C.c	dungeon/func_80E3AF4C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80E60C80.c	dungeon/func_80E3CC80		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80F9070C.c	dungeon/func_80F8A70C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80F9670C.c	dungeon/func_80F8A70C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80F9C70C.c	dungeon/func_80F8A70C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80FA270C.c	dungeon/func_80F8A70C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80FA870C.c	dungeon/func_80F8A70C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_80FAE70C.c	dungeon/func_80F8A70C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81038CDC.c	dungeon/func_81032CDC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81038EEC.c	dungeon/func_81032EEC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81039FE0.c	dungeon/func_81033FE0		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8103ECDC.c	dungeon/func_81032CDC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8103EEEC.c	dungeon/func_81032EEC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8103FFE0.c	dungeon/func_81033FE0		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81044CDC.c	dungeon/func_81032CDC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81044EEC.c	dungeon/func_81032EEC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81045FE0.c	dungeon/func_81033FE0		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8104ACDC.c	dungeon/func_81032CDC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8104AEEC.c	dungeon/func_81032EEC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8104BFE0.c	dungeon/func_81033FE0		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81050CDC.c	dungeon/func_81032CDC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81050EEC.c	dungeon/func_81032EEC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81051FE0.c	dungeon/func_81033FE0		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81056CDC.c	dungeon/func_81032CDC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81056EEC.c	dungeon/func_81032EEC		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81057FE0.c	dungeon/func_81033FE0		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8108E09C.c	dungeon/func_8108809C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8109409C.c	dungeon/func_8108809C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8109A09C.c	dungeon/func_8108809C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_810A009C.c	dungeon/func_8108809C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_810A609C.c	dungeon/func_8108809C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_810AC09C.c	dungeon/func_8108809C		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8127B350.c	dungeon/func_81251350		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8127B618.c	dungeon/func_81251618		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81281098.c	dungeon/func_81257000		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81281350.c	dungeon/func_81251350		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81281618.c	dungeon/func_81251618		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81287098.c	dungeon/func_81251000		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81287350.c	dungeon/func_81251350		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81287618.c	dungeon/func_81251618		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8128D350.c	dungeon/func_81251350		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8128D618.c	dungeon/func_81251618		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81293098.c	dungeon/func_81269000		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81293350.c	dungeon/func_81251350		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81293618.c	dungeon/func_81251618		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81299098.c	dungeon/func_81251000		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81299350.c	dungeon/func_81251350		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_81299618.c	dungeon/func_81251618		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8129F098.c	dungeon/func_81275000		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8129F350.c	dungeon/func_81251350		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES
+T05	src/dungeon/func_8129F618.c	dungeon/func_81251618		MovingPosition	SKIPPED_RELINK_COPY	B13 original restored and separately reverified	RELINK_COPY_NON_HOME_LL4_DELETES

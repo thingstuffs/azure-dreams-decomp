@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 #define M2C_BREAK() 0
 #define M2C_SYNC() 0
@@ -92,14 +93,7 @@ typedef struct S_func_800CDFD8_1 {
     u16 unk_10A;
 } S_func_800CDFD8_1;
 
-typedef struct S_func_800CDFD8_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_func_800CDFD8_2;
+
 
 typedef struct S_func_800CDFD8_3 {
     u8 pad_00[0x8D0];
@@ -191,7 +185,7 @@ typedef struct S_func_800CDFD8_9 {
 } S_func_800CDFD8_9;
 
 /* Project sprite parts into textured quads and link visible quads into the ordering table. */
-void render_actor_sprite_parts(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 *sprite, s16 depth_bias) {
+void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_800CDFD8_5 *sprite, s16 depth_bias) {
     s32 screen_y3;
     s16 left_x;
     s32 first_three_visible;

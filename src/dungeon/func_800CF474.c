@@ -2,6 +2,7 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_800D4BD4_arg2.h"
 #include "records/Rec_func_800D4BD4_arg1.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800D4BD4_0 {
     u8 pad_00[0xC];
@@ -23,14 +24,7 @@ typedef struct S_800D4BD4_2 {
     u16 unk_14;
 } S_800D4BD4_2;
 
-typedef struct S_800D4BD4_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800D4BD4_3;
+
 
 
 typedef struct S_800D4BD4_5 {
@@ -54,7 +48,7 @@ void initialize_effect_object_state(void *object, Rec_func_800D4BD4_arg1 *source
 {
     S_800D4BD4_2 *render_config;
     S_800D4BD4_5 *render_data;
-    S_800D4BD4_3 *object_position;
+    MovingPosition *object_position;
     S_800D4BD4_0 *state;
     s32 source_value;
     u16 flags;

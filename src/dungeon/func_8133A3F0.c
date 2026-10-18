@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_func_8133A3F0_0 {
     u8 pad_00[0x8];
@@ -24,14 +25,7 @@ typedef struct S_func_8133A3F0_1 {
     s16 unk_1E;
 } S_func_8133A3F0_1;
 
-typedef struct S_func_8133A3F0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_func_8133A3F0_2;
+
 
 extern s32 func_8004491C();
 extern s32 D_80170F68;
@@ -41,7 +35,7 @@ extern s8 D_80175DC1;
 void create_encounter_actor_object(void) {
     S_func_8133A3F0_0 *object;
     S_func_8133A3F0_1 *render_state;
-    S_func_8133A3F0_2 *position;
+    MovingPosition *position;
 
     object = func_8003FC64(0x112);
     if (object != 0) {

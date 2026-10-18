@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef s32 M2C_UNK;
 
@@ -18,23 +19,9 @@ typedef struct S_800B7B60_1_pre {
     u8 pad_04[0x14];
 } S_800B7B60_1_pre;   /* the 0x18 bytes before arg0 in allocate_object_at_coordinates, addressed as arg0[-1] */
 
-typedef struct S_800B7B60_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800B7B60_2;
 
-typedef struct S_800B7B60_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800B7B60_3;
+
+
 
 
 #ifndef NULL
@@ -48,9 +35,9 @@ extern M2C_UNK D_800B7774;
 /* Allocates an object, copies the source coordinates, and increments the object counter. */
 void *allocate_object_at_coordinates(void *source, s32 *init_value) {
     u16 coord_z;
-    S_800B7B60_3 *src_coords;
+    MovingPosition *src_coords;
     S_800B7B60_0 *object;
-    S_800B7B60_2 *dst_coords;
+    MovingPosition *dst_coords;
 
     object = func_8003FC64(0x12);
     if (object != NULL) {

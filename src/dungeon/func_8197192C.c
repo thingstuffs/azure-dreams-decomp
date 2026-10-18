@@ -7,6 +7,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_8197192C_0_pre {
     u16 unk_00;
@@ -81,14 +82,7 @@ typedef struct S_8197192C_2 {
     u16 unk_00;
 } S_8197192C_2;   /* D_80082E86 in advance_effect_sequence */
 
-typedef struct S_8197192C_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8197192C_3;   /* gbase in advance_effect_sequence */
+   /* gbase in advance_effect_sequence */
 
 typedef struct S_8197192C_4 {
     u16 unk_00;
@@ -220,9 +214,9 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         ((S_8197192C_2 *)((u16 *)(&D_80082E80.unk_006)))->unk_00 = 6;
         state_2 = ((u8 *)(&D_80083780));
         ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
-        ((S_8197192C_0 *)effect)->unk_7C.s = ((S_8197192C_3 *)state_2)->unk_02;
-        ((S_8197192C_0 *)effect)->unk_7E.s = ((S_8197192C_3 *)state_2)->unk_06;
-        coord_z = ((S_8197192C_3 *)state_2)->unk_0A;
+        ((S_8197192C_0 *)effect)->unk_7C.s = ((MovingPosition *)state_2)->unk_02;
+        ((S_8197192C_0 *)effect)->unk_7E.s = ((MovingPosition *)state_2)->unk_06;
+        coord_z = ((MovingPosition *)state_2)->unk_0A;
         ((S_8197192C_4 *)&D_80025FF4)->unk_00 = 1;
         ((S_8197192C_0 *)effect)->unk_80.s = coord_z;
     case 1:

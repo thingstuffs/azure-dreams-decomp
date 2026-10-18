@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 
 typedef s32 M2C_UNK;
@@ -21,14 +22,7 @@ typedef struct S_800D6AD4_8 {
     s32 unk_14;
 } S_800D6AD4_8;
 
-typedef struct S_800D6AD4_9 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800D6AD4_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_offset_sprite_effect */
+   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_offset_sprite_effect */
 
 
 
@@ -94,11 +88,11 @@ void create_offset_sprite_effect(EntityRec *parent, s32 state_value, s16 x_offse
     if (object != 0) {
         ((S_800D6AD4_0 *)object)->unk_10 = D_800D6804;
         ((S_800D6AD4_8 *)(((S_800D6AD4_6 *)object)->unk_08))->unk_02 =
-            (u16)((S_800D6AD4_9 *)((*(void * *)&parent->z)))->unk_02;
+            (u16)((MovingPosition *)((*(void * *)&parent->z)))->unk_02;
         ((S_800D6AD4_8 *)(((S_800D6AD4_6 *)object)->unk_08))->unk_06 =
-            (u16)((S_800D6AD4_9 *)((*(void * *)&parent->z)))->unk_06;
+            (u16)((MovingPosition *)((*(void * *)&parent->z)))->unk_06;
         ((S_800D6AD4_8 *)(((S_800D6AD4_6 *)object)->unk_08))->unk_0A =
-            (u16)((S_800D6AD4_9 *)((*(void * *)&parent->z)))->unk_0A;
+            (u16)((MovingPosition *)((*(void * *)&parent->z)))->unk_0A;
         x_position = ((S_800D6AD4_0 *)object)->unk_08;
         x_position->unk_02 =
             (u16)(x_position->unk_02 + x_offset);

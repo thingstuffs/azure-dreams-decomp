@@ -1,4 +1,5 @@
 #include "modules/dungeon_native_abi.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -13,14 +14,7 @@ typedef struct S_func_800250B0_0 {
     s32 unk_20;
 } S_func_800250B0_0;
 
-typedef struct S_func_800250B0_1 {
-    u8 pad_00[0x02];
-    u16 unk_02;
-    u8 pad_04[0x02];
-    u16 unk_06;
-    u8 pad_08[0x02];
-    u16 unk_0A;
-} S_func_800250B0_1;
+
 
 typedef struct S_func_800250B0_2 {
     u8 pad_00[0x02];
@@ -79,7 +73,7 @@ void func_800250B0(
         saved_pair = paired_value;
         spawned_obj->unk_10 = (s32)func_80024FF0;
         z_offset = rand() & 0x1F;
-        x_pos = ((S_func_800250B0_1 *)source_obj->unk_08)->unk_02;
+        x_pos = ((MovingPosition *)source_obj->unk_08)->unk_02;
         x_dest = spawned_obj->unk_08;
         x_pos += z_offset;
         x_bias = x_offset - 0x10;
@@ -87,7 +81,7 @@ void func_800250B0(
         x_dest->unk_02 = (s16)x_pos;
 
         y_jitter = rand() & 0x1F;
-        y_pos = ((S_func_800250B0_1 *)source_obj->unk_08)->unk_06;
+        y_pos = ((MovingPosition *)source_obj->unk_08)->unk_06;
         y_dest = spawned_obj->unk_08;
         y_pos += y_jitter;
         y_bias = y_offset - 0x10;
@@ -98,7 +92,7 @@ void func_800250B0(
         init_obj = spawned_obj;
         init_data = project_colored_point_to_ordering_table;
         z_jitter &= 0x1F;
-        z_pos = ((S_func_800250B0_1 *)source_obj->unk_08)->unk_0A;
+        z_pos = ((MovingPosition *)source_obj->unk_08)->unk_0A;
         actor_data = (S_func_800250B0_3 *)((u8 *)spawned_obj + 0x20);
         z_dest = spawned_obj->unk_08;
         z_pos += z_jitter;

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 #define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
 
@@ -41,14 +42,7 @@ typedef struct S_func_800AA760_3 {
     s16 unk_72;
 } S_func_800AA760_3;
 
-typedef struct S_func_800AA760_4 {
-    u8 pad_00[2];
-    u16 unk_02;
-    u8 pad_04[2];
-    u16 unk_06;
-    u8 pad_08[2];
-    u16 unk_0A;
-} S_func_800AA760_4;
+
 
 typedef struct S_func_800AA760_5 {
     u16 unk_00;
@@ -64,7 +58,7 @@ void update_linked_position_or_flag_object(S_func_800AA760_0 *object, S_func_800
     u8 link_index;
     S_func_800AA760_2 *linked_record;
     S_func_800AA760_3 *linked_entity;
-    S_func_800AA760_4 *linked_position;
+    MovingPosition *linked_position;
 
     link_id = object->unk_60;
     link_index = link_id & 0xFF;

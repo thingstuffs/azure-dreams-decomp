@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 
 typedef struct {
@@ -113,14 +114,7 @@ typedef struct S_801757E0_6 {
     void * unk_08;
 } S_801757E0_6;   /* owner in update_action_and_check_forward_tile */
 
-typedef struct S_801757E0_7 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801757E0_7;   /* transform in update_action_and_check_forward_tile */
+   /* transform in update_action_and_check_forward_tile */
 
 /* Update the action sequence, spawning particles and checking the tile ahead. */
 void update_action_and_check_forward_tile(void *actor, void *motion, void *animation, EntityRec *entity)
@@ -137,7 +131,7 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
     void *particle;
     void *particle_work;
     void *sprite;
-    void *particle_transform;
+    MovingPosition *particle_transform;
     void *owner;
     Pair16 *directions;
     s32 spin_angle;
@@ -180,18 +174,18 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
                 owner = ((S_801757E0_0_pre *)actor)[-1].unk_00;
                 particle_transform = ((S_801757E0_4 *)particle)->unk_08;
                 if (resolve_record_orientation_or_fallback(((S_801757E0_6 *)owner)->unk_08, owner, offsets, 1)) {
-                    ((S_801757E0_7 *)particle_transform)->unk_02 = ((S_801757E0_2 *)motion)->unk_02.u;
-                    ((S_801757E0_7 *)particle_transform)->unk_06 = ((S_801757E0_2 *)motion)->unk_06.u;
-                    ((S_801757E0_7 *)particle_transform)->unk_0A = ((S_801757E0_2 *)motion)->unk_0A.u;
-                    ((S_801757E0_7 *)particle_transform)->unk_02 += offsets[0];
-                    ((S_801757E0_7 *)particle_transform)->unk_06 += offsets[1];
-                    ((S_801757E0_7 *)particle_transform)->unk_0A += offsets[2];
+                    particle_transform->unk_02 = ((S_801757E0_2 *)motion)->unk_02.u;
+                    particle_transform->unk_06 = ((S_801757E0_2 *)motion)->unk_06.u;
+                    particle_transform->unk_0A = ((S_801757E0_2 *)motion)->unk_0A.u;
+                    particle_transform->unk_02 += offsets[0];
+                    particle_transform->unk_06 += offsets[1];
+                    particle_transform->unk_0A += offsets[2];
                 }
 
                 x = (func_80069EF8() & 0x1F) - 0x10;
                 y = (func_80069EF8() & 0x1F) - 0x10;
-                ((S_801757E0_7 *)particle_transform)->unk_02 += x;
-                ((S_801757E0_7 *)particle_transform)->unk_06 += y;
+                particle_transform->unk_02 += x;
+                particle_transform->unk_06 += y;
                 ((S_801757E0_3 *)particle_work)->unk_50.n = x << 12;
                 ((S_801757E0_3 *)particle_work)->unk_54.n = y << 12;
                 ((S_801757E0_3 *)particle_work)->unk_50.n += D_8017610C[(((u16)entity->facing) >> 9) & 7].x << 16;

@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/dungeon_moving_views.h"
 extern int abs(int);
 
 
@@ -124,14 +125,7 @@ typedef struct OutView {
     s32 unk_14;
 } OutView;
 
-typedef struct TableEntryView {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} TableEntryView;
+
 
 typedef struct ObjHeadView {
     void * unk_00;
@@ -271,7 +265,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
     ParentView *parent;
     BaseView *parent_base;
     SrcView *target_pos;
-    TableEntryView *origin;
+    MovingPosition *origin;
     OutPair out_pair;
     Copy24 velocities;
     s32 state;

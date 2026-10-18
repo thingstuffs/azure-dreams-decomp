@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80093C70_0 {
     u8 pad_00[0x8];
@@ -14,14 +15,7 @@ typedef struct S_80093C70_0 {
     void * unk_20;
 } S_80093C70_0;
 
-typedef struct S_80093C70_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80093C70_1;
+
 
 
 typedef struct S_80093C70_3 {
@@ -55,7 +49,7 @@ extern M2C_UNK D_80093A94;
 void create_familiar_deployment_effect_with_owner_state(s32 priority, EntityRec *source_pos, Rec_D_80082E80 *owner) {
     S_80093C70_3 *sprite;
     void *effect;
-    S_80093C70_1 *position;
+    MovingPosition *position;
     S_80093C70_5 *effect_state;
     u16 flags;
 

@@ -5,6 +5,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_8017558C_0 {
     u8 pad_00[0x8C];
@@ -63,14 +64,7 @@ typedef struct S_8017558C_6 {
     s16 unk_1E;
 } S_8017558C_6;
 
-typedef struct S_8017558C_7 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8017558C_7;
+
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -110,7 +104,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, Rec_D_8
     s32 next_phase;
     void *effect;
     S_8017558C_5 *effect_state;
-    S_8017558C_7 *effect_position;
+    MovingPosition *effect_position;
 
     s32 global_flags;
 

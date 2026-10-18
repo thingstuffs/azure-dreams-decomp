@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80172610_0 {
     u8 pad_00[0x2A];
@@ -58,23 +59,9 @@ typedef struct S_80172610_5 {
     s16 unk_C8;
 } S_80172610_5;   /* state in update_boss_actor_direction_state */
 
-typedef struct S_80172610_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80172610_6;   /* output in update_boss_actor_direction_state */
+   /* output in update_boss_actor_direction_state */
 
-typedef struct S_80172610_7 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80172610_7;   /* source in update_boss_actor_direction_state */
+   /* source in update_boss_actor_direction_state */
 
 typedef struct S_80172610_8 {
     u8 pad_00[0x9A];
@@ -93,13 +80,13 @@ extern u8 D_80174C6C[];
 void update_boss_actor_direction_state(void *actor_data, void *output_data, void *context_data)
 {
     u8 *actor;
-    u8 *output;
+    MovingPosition *output;
     u8 *context;
     u8 *owner;
     u8 *base;
     register u8 *saved_base;
     u8 *linked;
-    u8 *source;
+    MovingPosition *source;
     s32 facing_index;
     s32 direction_index;
     s32 effect_index;
@@ -150,9 +137,9 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
     }
 
     ((S_80172610_4 *)context)->unk_14 = ((S_80172610_3 *)linked)->unk_14;
-    ((S_80172610_6 *)output)->unk_02 = ((S_80172610_7 *)source)->unk_02;
-    ((S_80172610_6 *)output)->unk_06 = ((S_80172610_7 *)source)->unk_06;
-    ((S_80172610_6 *)output)->unk_0A = ((S_80172610_7 *)source)->unk_0A;
+    output->unk_02 = source->unk_02;
+    output->unk_06 = source->unk_06;
+    output->unk_0A = source->unk_0A;
 
     effect_index = ((g_game_work.view.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
     effect = D_800DCECC[effect_index];

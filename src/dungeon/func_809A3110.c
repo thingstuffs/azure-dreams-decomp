@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80174910_6 {
     u8 pad_00[0x8];
@@ -13,14 +14,7 @@ typedef struct S_80174910_7 {
     void * unk_0C;
 } S_80174910_7;
 
-typedef struct S_80174910_8 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80174910_8;   /* ((S_80174910_6 *)arg0)->unk_08 in create_three_linked_palette_objects */
+   /* ((S_80174910_6 *)arg0)->unk_08 in create_three_linked_palette_objects */
 
 typedef struct S_80174910_9 {
     u8 pad_00[0x8];
@@ -112,15 +106,15 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
             ((S_80174910_0 *)object)->unk_10 = object_callback;
             object_data->unk_18 = (void *) source->unk_0C;
             object_data->unk_1C = (void *) source->unk_08;
-            first_component = ((S_80174910_8 *)(((S_80174910_6 *)source)->unk_08))->unk_02;
+            first_component = ((MovingPosition *)(((S_80174910_6 *)source)->unk_08))->unk_02;
             object_data->unk_24 = first_component;
             object_data->unk_22 = first_component;
             object_data->unk_20 = first_component;
-            second_component = ((S_80174910_8 *)(((S_80174910_6 *)source)->unk_08))->unk_06;
+            second_component = ((MovingPosition *)(((S_80174910_6 *)source)->unk_08))->unk_06;
             object_data->unk_2A = second_component;
             object_data->unk_28 = second_component;
             object_data->unk_26 = second_component;
-            third_component = ((S_80174910_8 *)(((S_80174910_6 *)source)->unk_08))->unk_0A;
+            third_component = ((MovingPosition *)(((S_80174910_6 *)source)->unk_08))->unk_0A;
             object_data->unk_0C = effect_param;
             object_data->unk_34 = object_index;
             object_data->unk_30 = third_component;

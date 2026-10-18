@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef long long s64;
 
@@ -37,14 +38,7 @@ typedef struct S_80D17000_2 {
     void * unk_A8;
 } S_80D17000_2;   /* arg0 in damp_and_fade_effect_sprite */
 
-typedef struct S_80D17000_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80D17000_3;   /* other in damp_and_fade_effect_sprite */
+   /* other in damp_and_fade_effect_sprite */
 
 
 extern void func_800478B8(void *);
@@ -70,7 +64,7 @@ void damp_and_fade_effect_sprite(void *effect, void *motion, void *sprite)
     s16 life;
     s32 effect_depth;
     s32 render_value;
-    void *anchor;
+    MovingPosition *anchor;
 
     ((S_80D17000_0 *)motion)->unk_00.at00.v += ((S_80D17000_0 *)motion)->unk_0C;
     ((S_80D17000_0 *)motion)->unk_04.at00.v += ((S_80D17000_0 *)motion)->unk_10;
@@ -94,9 +88,9 @@ void damp_and_fade_effect_sprite(void *effect, void *motion, void *sprite)
     effect_depth = func_80065420(projection.xyz, &projection.out18, &projection.out20, &projection.out24);
 
     anchor = ((S_80D17000_2 *)effect)->unk_A8;
-    projection.xyz[0] = ((S_80D17000_3 *)anchor)->unk_02;
-    projection.xyz[1] = ((S_80D17000_3 *)anchor)->unk_06;
-    projection.xyz[2] = ((S_80D17000_3 *)anchor)->unk_0A;
+    projection.xyz[0] = anchor->unk_02;
+    projection.xyz[1] = anchor->unk_06;
+    projection.xyz[2] = anchor->unk_0A;
     ((S_80D17000_1 *)sprite)->unk_06 = effect_depth -
         func_80065420(projection.xyz, &projection.out18, &projection.out20, &projection.out24) -
         D_800DCECC[((g_game_work.view.viewAngle + ((S_80D17000_2 *)effect)->unk_94 + 0x100) >> 9) & 7] * 2;

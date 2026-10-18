@@ -2,6 +2,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80172B00_0 {
     u8 pad_00[0x2A];
@@ -46,23 +47,9 @@ typedef struct S_80172B00_4 {
     s16 unk_C8;
 } S_80172B00_4;   /* base_83160 in create_boss_child_effect */
 
-typedef struct S_80172B00_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80172B00_5;
 
-typedef struct S_80172B00_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80172B00_6;   /* arg1 in create_boss_child_effect */
+
+   /* arg1 in create_boss_child_effect */
 
 typedef struct S_80172B00_7 {
     u8 pad_00[0x1C];
@@ -88,12 +75,12 @@ typedef struct {
 } Copy48;
 
 /* Creates a child effect with copied position and sprite data and direction-dependent appearance. */
-void create_boss_child_effect(void *parent_data, S_80172B00_6 *source_pos, void *sprite_template) {
+void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, void *sprite_template) {
     s32 parent_object;
     void *sprite;
     void *effect_data;
     void *effect_object;
-    S_80172B00_5 *effect_pos;
+    MovingPosition *effect_pos;
     CopyBlock *copy_dst;
     CopyBlock *copy_src;
     u16 template_1c;

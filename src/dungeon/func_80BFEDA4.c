@@ -4,6 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/sprite_frame_state.h"
 
 #ifndef DUNGEON_ACTOR_ITEM_SLOTS_VIEW
 #define DUNGEON_ACTOR_ITEM_SLOTS_VIEW
@@ -47,17 +48,7 @@ typedef struct ActionActorView {
     union { u8 unsignedByte; s8 signedByte; } targetY;
 } ActionActorView;
 
-typedef struct ActionSpriteView {
-    u8 pad_00[0x4];
-    s8 animationState;
-    u8 pad_05[0xF];
-    u16 flags;
-    u8 pad_16[0xE];
-    u8 tileX;
-    u8 tileY;
-    u8 pad_26[0x6];
-    u8 * animationTable;
-} ActionSpriteView;
+
 
 typedef struct MotionResetView {
     u8 pad_00[0xC];
@@ -79,7 +70,7 @@ extern void create_actor_linked_effect(void *);
 extern u8 D_8015F014[];
 extern u8 D_8016220C[];
 
-void update_actor_motion_variant(void *owner, void *motion, void *actor, void *object_in)
+void update_actor_motion_variant(void *owner, void *motion, SpriteAnimationTableView *actor, void *object_in)
 {
     void *object = object_in;
     register s32 is_special;
@@ -91,7 +82,7 @@ void update_actor_motion_variant(void *owner, void *motion, void *actor, void *o
     u32 action_index;
     void *target;
     DefEntry *definition;
-    u8 *target_sprite;
+    SpriteAnimationTableView *target_sprite;
     DefEntry *definitions;
     u32 item_id;
     s32 state;
@@ -146,9 +137,9 @@ void update_actor_motion_variant(void *owner, void *motion, void *actor, void *o
                 target = D_800814A8;
                 ((ActionActorView *)object)->target = target;
                 target_sprite = ((ObjectNodeHeader *)((u8 *)target - 0x20))->unk_0C;
-                action_value = ((ActionSpriteView *)target_sprite)->tileX;
+                action_value = target_sprite->unk_24;
                 ((ActionActorView *)object)->targetX.unsignedByte = action_value;
-                action_value = ((ActionSpriteView *)target_sprite)->tileY;
+                action_value = target_sprite->unk_25;
                 ((ActionActorView *)object)->targetY.unsignedByte = action_value;
             } else {
                 definitions = D_8006DE24;
@@ -158,16 +149,16 @@ void update_actor_motion_variant(void *owner, void *motion, void *actor, void *o
                     target = ((ActionActorView *)object)->target;
                     if (target != 0) {
                         target_sprite = ((ObjectNodeHeader *)((u8 *)target - 0x20))->unk_0C;
-                        action_value = ((ActionSpriteView *)target_sprite)->tileX;
+                        action_value = target_sprite->unk_24;
                         ((ActionActorView *)object)->targetX.unsignedByte = action_value;
-                        action_value = ((ActionSpriteView *)target_sprite)->tileY;
+                        action_value = target_sprite->unk_25;
                         ((ActionActorView *)object)->targetY.unsignedByte = action_value;
                     }
                 } else {
                     target = scan_monster_along_heading(
                         object,
-                        ((ActionSpriteView *)actor)->tileX,
-                        ((ActionSpriteView *)actor)->tileY,
+                        actor->unk_24,
+                        actor->unk_25,
                         ((ActionActorView *)object)->facing,
                         0x10);
                     ((ActionActorView *)object)->target = target;
@@ -193,7 +184,7 @@ void update_actor_motion_variant(void *owner, void *motion, void *actor, void *o
         ((MotionResetView *)motion)->motionFlags = 0;
         ((MotionResetView *)motion)->velocityY = 0;
         ((MotionResetView *)motion)->velocityX = 0;
-        set_record_integer_tile_center(motion, ((ActionSpriteView *)actor)->tileX, ((ActionSpriteView *)actor)->tileY);
+        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
         g_dungeon_status.unk_0C = 0;
         ((PlayerActionCountView *)D_800814A8)->remainingActions--;
         advance_status_timers(object);
@@ -206,32 +197,32 @@ void update_actor_motion_variant(void *owner, void *motion, void *actor, void *o
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((ActionSpriteView *)actor)->flags |= 0x0800;
+            actor->unk_14 |= 0x0800;
             return;
         }
-        ((ActionSpriteView *)actor)->flags &= 0xF7FF;
+        actor->unk_14 &= 0xF7FF;
         ((ObjectActionState *)owner)->phase++;
 
     case 2:
-        if (((ActionSpriteView *)actor)->animationState != 4 || !(((ActionSpriteView *)actor)->flags & 0x1000)) {
-            if ((((ActionSpriteView *)actor)->flags & 0xE000) == 0) {
+        if (actor->unk_04 != 4 || !(actor->unk_14 & 0x1000)) {
+            if ((actor->unk_14 & 0xE000) == 0) {
                 return;
             }
         }
         ((ObjectActionState *)owner)->flags |= 0x80;
-        if ((((ActionSpriteView *)actor)->flags & 0xE000) == 0) {
+        if ((actor->unk_14 & 0xE000) == 0) {
             return;
         }
 
         ((MotionResetView *)motion)->motionFlags = 0;
         ((MotionResetView *)motion)->velocityY = 0;
         ((MotionResetView *)motion)->velocityX = 0;
-        set_record_integer_tile_center(motion, ((ActionSpriteView *)actor)->tileX, ((ActionSpriteView *)actor)->tileY);
+        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
 
         {
             u8 *direction_table = D_8016220C;
-            if (((ActionSpriteView *)actor)->animationTable != direction_table) {
-                ((ActionSpriteView *)actor)->animationTable = direction_table;
+            if (actor->unk_2C != direction_table) {
+                actor->unk_2C = direction_table;
                 func_80047784(
                     actor,
                     direction_table[((g_game_work.view.viewAngle + ((ActionActorView *)object)->facing + 0x100) >> 9) & 7],

@@ -5,20 +5,14 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800D4BD4_arg1.h"
 #include "records/Rec_func_800D4BD4_arg2.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800D5294_5 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_800D5294_5;
 
-typedef struct S_800D5294_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800D5294_6;
+
 
 
 typedef struct S_800D5294_0_pre {
@@ -70,11 +64,11 @@ void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *p
     S_800D5294_2 *particle_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
-    position->unk_02.as_s16 = (s16) (((S_800D5294_6 *)(parent->unk_08))->unk_02
+    position->unk_02.as_s16 = (s16) (((MovingPosition *)(parent->unk_08))->unk_02
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
-    position->unk_06.as_s16 = (s16) (((S_800D5294_6 *)(parent->unk_08))->unk_06
+    position->unk_06.as_s16 = (s16) (((MovingPosition *)(parent->unk_08))->unk_06
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
-    position->unk_0A.as_s16 = (s16) (((S_800D5294_6 *)(parent->unk_08))->unk_0A
+    position->unk_0A.as_s16 = (s16) (((MovingPosition *)(parent->unk_08))->unk_0A
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
     tick_or_offset = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 = tick_or_offset;

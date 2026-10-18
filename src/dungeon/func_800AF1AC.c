@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -57,14 +58,7 @@ typedef struct S_800B490C_4 {
     u16 unk_1E;
 } S_800B490C_4;   /* arg2 in update_attached_fading_effect */
 
-typedef struct S_800B490C_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800B490C_5;   /* ((S_800B490C_0 *)arg0)->unk_14 in update_attached_fading_effect */
+   /* ((S_800B490C_0 *)arg0)->unk_14 in update_attached_fading_effect */
 
 
 
@@ -105,13 +99,13 @@ void update_attached_fading_effect(void *effect, S_800B490C_2 *motion, S_800B490
     parent_pos = ((S_800B490C_0 *)effect)->unk_14;
     if (parent_pos != NULL) {
         motion->unk_02 = (u16) (motion->unk_02 - (((S_800B490C_0 *)effect)->unk_18 - parent_pos->unk_02));
-        ((S_800B490C_0 *)effect)->unk_18 = (u16) ((S_800B490C_5 *)(((S_800B490C_0 *)effect)->unk_14))->unk_02;
+        ((S_800B490C_0 *)effect)->unk_18 = (u16) ((MovingPosition *)(((S_800B490C_0 *)effect)->unk_14))->unk_02;
         motion->unk_06 = (u16) (motion->unk_06 - (((S_800B490C_0 *)effect)->unk_1A
-            - ((S_800B490C_5 *)(((S_800B490C_0 *)effect)->unk_14))->unk_06));
-        ((S_800B490C_0 *)effect)->unk_1A = (u16) ((S_800B490C_5 *)(((S_800B490C_0 *)effect)->unk_14))->unk_06;
+            - ((MovingPosition *)(((S_800B490C_0 *)effect)->unk_14))->unk_06));
+        ((S_800B490C_0 *)effect)->unk_1A = (u16) ((MovingPosition *)(((S_800B490C_0 *)effect)->unk_14))->unk_06;
         motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v - (((S_800B490C_0 *)effect)->unk_1C
-            - ((S_800B490C_5 *)(((S_800B490C_0 *)effect)->unk_14))->unk_0A));
-        ((S_800B490C_0 *)effect)->unk_1C = (u16) ((S_800B490C_5 *)(((S_800B490C_0 *)effect)->unk_14))->unk_0A;
+            - ((MovingPosition *)(((S_800B490C_0 *)effect)->unk_14))->unk_0A));
+        ((S_800B490C_0 *)effect)->unk_1C = (u16) ((MovingPosition *)(((S_800B490C_0 *)effect)->unk_14))->unk_0A;
     }
     phase = ((S_800B490C_0 *)effect)->unk_08;
     switch (phase) {

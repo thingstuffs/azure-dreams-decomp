@@ -2,6 +2,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80175D54.h"
+#include "shared/dungeon_moving_views.h"
 
 void *func_8003FD64();               /* extern */
 s32 func_8004491C();           /* extern */
@@ -32,23 +33,9 @@ typedef struct S_801715D0_3 {
     s8 unk_59;
 } S_801715D0_3;
 
-typedef struct S_801715D0_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801715D0_4;
 
-typedef struct S_801715D0_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801715D0_5;
+
+
 
 typedef struct S_801715D0_6 {
     u8 pad_00[0x2A];
@@ -77,9 +64,9 @@ void create_action_offset_object(void) {
     s32 owner_y;
     s32 tile_x;
     s32 tile_y;
-    S_801715D0_4 *object_pos;
+    MovingPosition *object_pos;
     S_801715D0_6 *owner_state;
-    S_801715D0_5 *owner_pos;
+    MovingPosition *owner_pos;
     u8 *direction;
     u8 *direction_table;
     S_801715D0_3 *object_state;

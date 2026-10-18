@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 void *func_8003FD64();
 void *build_positioned_text_glyphs();
@@ -37,14 +38,7 @@ typedef struct S_800B4C7C_2 {
     u16 unk_02;
 } S_800B4C7C_2;
 
-typedef struct S_800B4C7C_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800B4C7C_3;
+
 
 typedef struct S_800B4C7C_4 {
     u8 pad_00[0x6];
@@ -83,7 +77,7 @@ void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callba
     u16 anchor_x;
     u16 anchor_y;
     u16 anchor_z;
-    S_800B4C7C_3 *position;
+    MovingPosition *position;
     S_800B4C7C_5 *text_link;
     S_800B4C7C_6 *text_metrics;
     void *text_position;

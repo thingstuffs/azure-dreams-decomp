@@ -106,14 +106,7 @@ typedef struct S_818FF710_5 {
     s32 unk_14;
 } S_818FF710_5;   /* arg1 in update_effect_particles_and_cleanup */
 
-typedef struct S_818FF710_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_818FF710_6;
+
 
 typedef struct S_818FF710_7_pre {
     void * unk_00;
@@ -368,7 +361,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
     S_818FF710_15 *first_sprite;
     S_818FF710_18 *second_sprite;
     S_818FF710_14 *child_effect;
-    S_818FF710_6 *parent_position;
+    MovingPosition *parent_position;
     void *parent;
     void *third_object;
     void *fourth_object;

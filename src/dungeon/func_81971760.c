@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 s32 func_80069EF8();
 extern M2C_UNK D_80025FE8;
@@ -39,23 +40,9 @@ typedef struct S_81971760_2 {
     s16 unk_1E;
 } S_81971760_2;
 
-typedef struct S_81971760_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_81971760_3;
 
-typedef struct S_81971760_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_81971760_4;
+
+
 
 typedef struct {
     s32 y;
@@ -71,7 +58,7 @@ void func_80024F60(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x
     S_81971760_2 *render_data;
     S_81971760_0 *effect_state;
     void *effect;
-    S_81971760_4 *origin = origin_data;
+    MovingPosition *origin = origin_data;
     s32 initial_y = offset_yz.y;
     s32 initial_z = offset_yz.z;
     effect = func_8003FC64(0x212);
@@ -104,12 +91,12 @@ void func_80024F60(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x
         jittered_x = effect_state->unk_44;
         coord -= 0x10;
         effect_state->unk_48 = coord + (random_value & 0x1F);
-        ((S_81971760_3 *)offset_x)->unk_02 = jittered_x;
-        ((S_81971760_3 *)offset_x)->unk_06 = (u16) effect_state->unk_46;
-        ((S_81971760_3 *)offset_x)->unk_0A = (u16) effect_state->unk_48;
-        ((S_81971760_3 *)offset_x)->unk_02 = (u16) (((S_81971760_3 *)offset_x)->unk_02 + origin->unk_02);
-        ((S_81971760_3 *)offset_x)->unk_06 = (u16) (((S_81971760_3 *)offset_x)->unk_06 + origin->unk_06);
-        ((S_81971760_3 *)offset_x)->unk_0A = (u16) (((S_81971760_3 *)offset_x)->unk_0A + origin->unk_0A);
+        ((MovingPosition *)offset_x)->unk_02 = jittered_x;
+        ((MovingPosition *)offset_x)->unk_06 = (u16) effect_state->unk_46;
+        ((MovingPosition *)offset_x)->unk_0A = (u16) effect_state->unk_48;
+        ((MovingPosition *)offset_x)->unk_02 = (u16) (((MovingPosition *)offset_x)->unk_02 + origin->unk_02);
+        ((MovingPosition *)offset_x)->unk_06 = (u16) (((MovingPosition *)offset_x)->unk_06 + origin->unk_06);
+        ((MovingPosition *)offset_x)->unk_0A = (u16) (((MovingPosition *)offset_x)->unk_0A + origin->unk_0A);
         render_data = ((S_81971760_1 *)effect)->unk_0C;
         render_data->unk_1E = 0x800;
         render_data->unk_1C = 0x800;

@@ -294,17 +294,7 @@ typedef struct R12_80172AF8_S_80172AF8_3 {
     u8 unk_24;
     u8 unk_25;
 } R12_80172AF8_S_80172AF8_3;
-typedef struct R12_80172AF8_S_80172AF8_4 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} R12_80172AF8_S_80172AF8_4;
+
 typedef struct R12_80172AF8_S_80172AF8_7 {
     u8 pad_00[0xA];
     u16 unk_0A;

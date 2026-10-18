@@ -1,6 +1,7 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80024930_0 {
     u8 pad_00[0x18];
@@ -34,14 +35,7 @@ typedef struct S_80024930_0 {
     u16 unk_E6;
 } S_80024930_0;   /* scratch in draw_shaded_textured_cylinder */
 
-typedef struct S_80024930_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024930_1;   /* arg1 in draw_shaded_textured_cylinder */
+   /* arg1 in draw_shaded_textured_cylinder */
 
    /* *global_page in draw_shaded_textured_cylinder */
 
@@ -97,7 +91,7 @@ extern u32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern s32 func_80066460(s32, s32, s32, s32);
 
 /* Draws a shaded, textured cylindrical wall using 16 quads. */
-s32 draw_shaded_textured_cylinder(void *unused_data, S_80024930_1 *center, s32 unused_value, s16 rotation,
+s32 draw_shaded_textured_cylinder(void *unused_data, MovingPosition *center, s32 unused_value, s16 rotation,
                   s32 height, s16 radius, u8 blend_mode, u8 brightness)
 {
     u8 *scratch = (u8 *)0x1F800000;

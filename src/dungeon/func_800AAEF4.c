@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 s32 func_80065420();        /* extern */
 
@@ -12,14 +13,7 @@ typedef struct S_800B0654_0 {
     s32 unk_C0;
 } S_800B0654_0;   /* arg2 in copy_adjusted_state_values */
 
-typedef struct S_800B0654_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800B0654_1;   /* arg0 in copy_adjusted_state_values */
+   /* arg0 in copy_adjusted_state_values */
 
 typedef struct S_800B0654_2 {
     u8 pad_00[0x4];
@@ -27,7 +21,7 @@ typedef struct S_800B0654_2 {
 } S_800B0654_2;   /* arg1 in copy_adjusted_state_values */
 
 /* Copy three source values into the destination state and store the adjusted calculation result. */
-void copy_adjusted_state_values(S_800B0654_1 *sourceValues, S_800B0654_2 *resultAdjustment, void *destinationState) {
+void copy_adjusted_state_values(MovingPosition *sourceValues, S_800B0654_2 *resultAdjustment, void *destinationState) {
     ((S_800B0654_0 *)destinationState)->unk_28 = (u16) sourceValues->unk_02;
     ((S_800B0654_0 *)destinationState)->unk_2A = (u16) sourceValues->unk_06;
     ((S_800B0654_0 *)destinationState)->unk_2C = (u16) sourceValues->unk_0A;

@@ -1,13 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
-typedef struct S_800A895C_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800A895C_0;   /* arg0 in spawn_radial_effect_objects */
+   /* arg0 in spawn_radial_effect_objects */
 
 typedef struct S_800A895C_1 {
     union { u16 u16; s32 s32; } unk_00;   /* accessed as both */
@@ -46,7 +40,7 @@ typedef struct {
 } StackRecord;
 
 /* Spawns objects at randomized positions around a center with evenly spaced angles. */
-void spawn_radial_effect_objects(S_800A895C_0 *center, S_800A895C_1 *spread, s32 count) {
+void spawn_radial_effect_objects(MovingPosition *center, S_800A895C_1 *spread, s32 count) {
     StackRecord record;
     s32 angle;
     s32 angle_step;

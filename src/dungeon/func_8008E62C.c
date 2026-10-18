@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 
 void *func_8003FD64();                  /* extern */
 s32 func_8004491C();           /* extern */
@@ -20,14 +21,7 @@ typedef struct S_80093D8C_0 {
     s16 unk_26;
 } S_80093D8C_0;
 
-typedef struct S_80093D8C_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80093D8C_1;
+
 
 
 typedef struct S_80093D8C_3 {
@@ -50,7 +44,7 @@ typedef struct S_80093D8C_3 {
 void create_familiar_deployment_overlay(s32 sort_order, EntityRec *source_pos, Rec_D_80082E80 *owner) {
     S_80093D8C_3 *sprite;
     S_80093D8C_0 *effect;
-    S_80093D8C_1 *position;
+    MovingPosition *position;
 
     effect = func_8003FD64(0x310, sort_order - 0x20);
     if (effect != NULL) {

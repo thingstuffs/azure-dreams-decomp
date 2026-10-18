@@ -4,6 +4,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct EarlyCallData {
     u8 pad0[8];
@@ -38,14 +39,7 @@ typedef struct S_800AC82C_3 {
 } S_800AC82C_3;
 
 
-typedef struct S_800AC82C_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800AC82C_5;
+
 
 typedef struct S_800AC82C_6 {
     u8 pad_00[0x2A];
@@ -82,7 +76,7 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, EntityRec 
     u8 tile_x;
     u8 tile_y;
     S_800AC82C_3 *parent_data;
-    S_800AC82C_5 *parent_position;
+    MovingPosition *parent_position;
     void *parent;
     S_800AC82C_6 *parent_rotation;
 

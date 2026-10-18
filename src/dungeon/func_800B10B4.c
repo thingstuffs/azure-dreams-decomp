@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -27,14 +28,7 @@ typedef struct S_800B6814_1 {
     s32 unk_14;
 } S_800B6814_1;   /* part in spawn_randomized_radial_burst */
 
-typedef struct S_800B6814_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800B6814_2;   /* arg0 in spawn_randomized_radial_burst */
+   /* arg0 in spawn_randomized_radial_burst */
 
 typedef struct S_800B6814_3 {
     u8 pad_00[0x4];
@@ -70,7 +64,7 @@ extern s32 D_800B63A8;
 extern s32 D_800DEC00;
 
 /* Spawns a randomized radial burst of particles at the given position. */
-void spawn_randomized_radial_burst(S_800B6814_2 *origin)
+void spawn_randomized_radial_burst(MovingPosition *origin)
 {
     s32 particle_count;
     s32 angle_step;

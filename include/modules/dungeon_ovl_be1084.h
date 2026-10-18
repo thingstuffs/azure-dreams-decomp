@@ -44,6 +44,7 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 /* Project linked points and queue their tile and draw-mode packets for rendering. */
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80BC1264_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -140,14 +141,7 @@ typedef struct S_80BC1528_3 {
     s16 unk_0A;
 } S_80BC1528_3;   /* ((S_80BC1528_0 *)obj)->unk_08 in func_80170D28 */
 
-typedef struct S_80BC1528_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80BC1528_4;   /* ((S_80BC1528_1 *)saved_arg0)->unk_08 in func_80170D28 */
+   /* ((S_80BC1528_1 *)saved_arg0)->unk_08 in func_80170D28 */
 
 
 extern void *func_8003FD64(s32, void *);

@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_moving_views.h"
 
 
 typedef s32 M2C_UNK;
@@ -41,14 +42,7 @@ typedef struct S_8185CE28_1 {
     s16 unk_24;
 } S_8185CE28_1;
 
-typedef struct S_8185CE28_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8185CE28_2;   /* arg1 in func_8185CE28 */
+   /* arg1 in func_8185CE28 */
 
 typedef struct S_8185CE28_3 {
     u8 pad_00[0x2];
@@ -70,7 +64,7 @@ typedef struct S_8185CE28_3 {
 } S_8185CE28_3;
 
 /* Creates an effect at an indexed radial offset from the supplied position. */
-s32 func_8185CE28(s32 effect_param, S_8185CE28_2 *position, s16 effect_index)
+s32 func_8185CE28(s32 effect_param, MovingPosition *position, s16 effect_index)
 {
     s16 phase_index;
     s32 phase_step;

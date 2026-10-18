@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_moving_views.h"
 
 
 typedef s32 M2C_UNK;
@@ -50,14 +51,7 @@ typedef struct S_80D65C5C_4 {
     s32 unk_14;
 } S_80D65C5C_4;   /* ((S_80D65C5C_0 *)node)->unk_08 in spawn_directional_random_velocity_effect */
 
-typedef struct S_80D65C5C_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80D65C5C_5;   /* ((S_80D65C5C_1 *)arg0)->unk_08 in spawn_directional_random_velocity_effect */
+   /* ((S_80D65C5C_1 *)arg0)->unk_08 in spawn_directional_random_velocity_effect */
 
 typedef struct S_80D65C5C_6 {
     u8 pad_00[0x6];
@@ -85,11 +79,11 @@ void spawn_directional_random_velocity_effect(S_80D65C5C_1 *source, s32 angle)
         ((S_80D65C5C_0 *)node)->unk_10 = D_80171384;
 
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_02 =
-            ((S_80D65C5C_5 *)(source->unk_08))->unk_02;
+            ((MovingPosition *)(source->unk_08))->unk_02;
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_06 =
-            ((S_80D65C5C_5 *)(source->unk_08))->unk_06;
+            ((MovingPosition *)(source->unk_08))->unk_06;
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_0A =
-            ((S_80D65C5C_5 *)(source->unk_08))->unk_0A - 0x58;
+            ((MovingPosition *)(source->unk_08))->unk_0A - 0x58;
 
         direction_step = (s16 *)((u8 *)D_800E2468 + (((u32)angle >> 7) & 0x1C));
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_02 += direction_step[0] * 0x12;

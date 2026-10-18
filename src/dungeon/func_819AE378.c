@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 
 #ifndef NULL
@@ -15,23 +16,9 @@ typedef struct S_80025B78_0 {
     M2C_UNK * unk_10;
 } S_80025B78_0;
 
-typedef struct S_80025B78_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80025B78_1;
 
-typedef struct S_80025B78_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80025B78_2;   /* arg1 in create_copied_effect_object */
+
+   /* arg1 in create_copied_effect_object */
 
 typedef struct S_80025B78_3 {
     s32 unk_00;
@@ -72,10 +59,10 @@ typedef struct Block32 {
 } Block32;
 
 /* Creates an object and copies the supplied triplet, state fields, and 32-byte data block. */
-void *create_copied_effect_object(void *source_data, S_80025B78_2 *source_triplet, S_80025B78_4 *source_state)
+void *create_copied_effect_object(void *source_data, MovingPosition *source_triplet, S_80025B78_4 *source_state)
 {
     void *object;
-    S_80025B78_1 *triplet;
+    MovingPosition *triplet;
     S_80025B78_3 *state;
 
     object = func_8003FC64(0x202);

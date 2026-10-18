@@ -6,6 +6,7 @@ extern int abs(int);
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct ItemSlots {
     u8 pad_00[8];
@@ -21,17 +22,7 @@ typedef struct PlayerActionCounter {
     u16 pendingActions;
 } PlayerActionCounter;
 
-typedef struct ActorSprite {
-    u8 pad_00[4];
-    s8 frame;
-    u8 pad_05[0xF];
-    u16 flags;
-    u8 pad_16[0xE];
-    u8 tileX;
-    u8 tileY;
-    u8 pad_26[6];
-    u8 *directionFrames;
-} ActorSprite;
+
 
 typedef struct ActionState {
     u8 pad_00[0x8C];
@@ -66,7 +57,7 @@ extern u8 D_8014D058[];
 extern u8 D_80150888[];
 
 /* Starts the selected actor action, waits for completion, and resets its state. */
-void start_actor_action_and_reset(ActionState *action_state, EntityRec *motion, ActorSprite *sprite, EntityRec *actor)
+void start_actor_action_and_reset(ActionState *action_state, EntityRec *motion, SpriteAnimationTableView *sprite, EntityRec *actor)
 {
     u8 *item_slot;
     s32 phase;
@@ -141,8 +132,8 @@ void start_actor_action_and_reset(ActionState *action_state, EntityRec *motion, 
             } else {
                 actor->target =
                     scan_monster_along_heading(actor,
-                                  sprite->tileX,
-                                  sprite->tileY,
+                                  sprite->unk_24,
+                                  sprite->unk_25,
                                   actor->facing, 0x10);
                 {
                     s32 abs_x = abs(actor->unk_72);
@@ -159,7 +150,7 @@ void start_actor_action_and_reset(ActionState *action_state, EntityRec *motion, 
                               &action_state->flags) == 0) {
                 return;
             }
-            sprite->flags &= 0xF7FF;
+            sprite->unk_14 &= 0xF7FF;
             create_two_row_object_group(position, (s16)(((s32)*item_slot - 1) % 3));
             play_sound_if_enabled(0x703);
             action_state->phase++;
@@ -169,7 +160,7 @@ void start_actor_action_and_reset(ActionState *action_state, EntityRec *motion, 
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, sprite->tileX, sprite->tileY);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.unk_0C = 0;
         ((PlayerActionCounter *)D_800814A8)->pendingActions--;
         advance_status_timers(actor);
@@ -182,28 +173,28 @@ void start_actor_action_and_reset(ActionState *action_state, EntityRec *motion, 
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            sprite->flags |= 0x800;
+            sprite->unk_14 |= 0x800;
             return;
         }
-        sprite->flags &= 0xF7FF;
+        sprite->unk_14 &= 0xF7FF;
         action_state->phase++;
 
     case 2:
-        if (!((sprite->frame == 3) &&
-              (sprite->flags & 0x1000)) &&
-            !(sprite->flags & 0xE000)) {
+        if (!((sprite->unk_04 == 3) &&
+              (sprite->unk_14 & 0x1000)) &&
+            !(sprite->unk_14 & 0xE000)) {
             return;
         }
         action_state->flags |= 0x80;
-        if (!(sprite->flags & 0xE000)) {
+        if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, sprite->tileX, sprite->tileY);
-        if (sprite->directionFrames != D_80150888) {
-            sprite->directionFrames = D_80150888;
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        if (sprite->unk_2C != D_80150888) {
+            sprite->unk_2C = D_80150888;
             func_80047784(
                 sprite,
                 D_80150888[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -216,7 +207,7 @@ void start_actor_action_and_reset(ActionState *action_state, EntityRec *motion, 
             }
             g_dungeon_status.unk_0A--;
         }
-        sprite->flags &= 0xF7FF;
+        sprite->unk_14 &= 0xF7FF;
         action_state->handler = D_8014D058;
         advance_status_timers(actor);
         if (actor->unk_6D > 0) {

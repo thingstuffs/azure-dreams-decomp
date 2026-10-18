@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_800247B8_arg0.h"
+#include "shared/dungeon_moving_views.h"
 
 #define UNALIGNED32(expr) (expr)
 
@@ -48,14 +49,7 @@ typedef struct S_800D4AB0_3 {
     s16 unk_0A;
 } S_800D4AB0_3;
 
-typedef struct S_800D4AB0_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800D4AB0_4;
+
 
 typedef struct S_800D4AB0_5_pre {
     void * unk_00;
@@ -68,7 +62,7 @@ void create_attached_effect(Rec_func_800247B8_arg0 *owner) {
     S_800D4AB0_2 *render_data;
     void *effect;
     S_800D4AB0_0 *effect_state;
-    S_800D4AB0_4 *source_position;
+    MovingPosition *source_position;
 
     effect = func_8003FC64(0x12);
     effect_state = effect + 0x20;

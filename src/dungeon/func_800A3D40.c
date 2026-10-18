@@ -7,6 +7,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800A94A0_0 {
     void * unk_00;
@@ -37,23 +38,9 @@ typedef struct S_800A94A0_3 {
     u8 unk_09;
 } S_800A94A0_3;
 
-typedef struct S_800A94A0_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800A94A0_4;
 
-typedef struct S_800A94A0_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800A94A0_5;
+
+
 
 typedef struct S_800A94A0_6 {
     s32 unk_00;
@@ -117,12 +104,12 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
     s32 global_flags;
     u8 variant;
     s16 effect_id;
-    S_800A94A0_4 *effect_position;
+    MovingPosition *effect_position;
     S_800A94A0_7 *actor_state;
     void *effect;
     S_800A94A0_3 *effect_state;
     void *linked_object;
-    S_800A94A0_5 *actor_position;
+    MovingPosition *actor_position;
     TileObject *map_state;
 
     actor_state = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04;

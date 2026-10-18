@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 
 #ifndef NULL
@@ -28,14 +29,7 @@ typedef struct S_801656F8_4 {
     s32 unk_14;
 } S_801656F8_4;
 
-typedef struct S_801656F8_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801656F8_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_short_lived_child_particle */
+   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_short_lived_child_particle */
 
 typedef struct S_801656F8_6 {
     u8 pad_00[0x6];
@@ -77,11 +71,11 @@ void create_short_lived_child_particle(EntityRec *source, s16 effect_param, s32 
     if (effect != NULL) {
         ((S_801656F8_0 *)effect)->unk_10 = D_801654F0;
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_02 = (s16)
-        (((S_801656F8_5 *)((*(void * *)&source->z)))->unk_02 + offset_x);
+        (((MovingPosition *)((*(void * *)&source->z)))->unk_02 + offset_x);
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_06 = (s16)
-        (((S_801656F8_5 *)((*(void * *)&source->z)))->unk_06 + offset_y);
+        (((MovingPosition *)((*(void * *)&source->z)))->unk_06 + offset_y);
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_0A = (s16)
-        (((S_801656F8_5 *)((*(void * *)&source->z)))->unk_0A + offset_z);
+        (((MovingPosition *)((*(void * *)&source->z)))->unk_0A + offset_z);
         ((S_801656F8_6 *)(((S_801656F8_2 *)effect)->unk_0C))->unk_06 = 6;
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_0C = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 4);

@@ -1,6 +1,7 @@
 #include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -23,14 +24,7 @@ typedef struct S_800252E0_1 {
     u32 unk_C0;
 } S_800252E0_1;   /* scratch in queue_projected_point_primitives */
 
-typedef struct S_800252E0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800252E0_2;   /* input in queue_projected_point_primitives */
+   /* input in queue_projected_point_primitives */
 
 typedef struct S_800252E0_3 {
     u8 pad_00[0xC];
@@ -71,7 +65,7 @@ extern u8 D_80080000[];
 
 /* Queue projected point primitives from a linked list into the ordering table. */
 s32 queue_projected_point_primitives(void *node_data, void *position_data, void *appearance_data) {
-    void *position = position_data;
+    MovingPosition *position = position_data;
     void *appearance = appearance_data;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *render_slot = D_80080000 + 0x3160;
@@ -87,11 +81,11 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
         ((S_800252E0_1 *)scratch)->unk_18 = packet_cursor;
     }
     for (;;) {
-        u16 coord = ((S_800252E0_2 *)position)->unk_02;
+        u16 coord = position->unk_02;
         ((S_800252E0_1 *)scratch)->unk_00 = coord;
-        coord = ((S_800252E0_2 *)position)->unk_06;
+        coord = position->unk_06;
         ((S_800252E0_1 *)scratch)->unk_02 = coord;
-        ((S_800252E0_1 *)scratch)->unk_04 = ((S_800252E0_2 *)position)->unk_0A;
+        ((S_800252E0_1 *)scratch)->unk_04 = position->unk_0A;
         packet = ((S_800252E0_1 *)scratch)->unk_18;
         ((S_800252E0_1 *)scratch)->unk_18 = (u8 *)packet + 0xC;
         ((S_800252E0_1 *)scratch)->unk_C0 = func_80065420(

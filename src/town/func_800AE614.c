@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
@@ -19,18 +20,11 @@ typedef struct {
     s16 c;
 } StackRecord;
 
-typedef struct S_800ABD74_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800ABD74_0;   /* base in spawn_person_radial_effects */
+   /* base in spawn_person_radial_effects */
 
 /* Spawns effects near the source position in evenly spaced directions. */
 void spawn_person_radial_effects(void *source) {
-    S_800ABD74_0 *origin;
+    MovingPosition *origin;
     StackRecord effect;
     s32 angle;
     s32 effect_count;

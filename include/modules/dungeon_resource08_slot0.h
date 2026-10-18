@@ -18,6 +18,7 @@
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_func_801736F4_arg0.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 #define NULL 0
 typedef s32 R08_8017087C_M2C_UNK;
@@ -359,14 +360,7 @@ typedef struct R08_801743BC_S_801743BC_0 {
     u8 pad_14[0x26];
     s16 unk_3A;
 } R08_801743BC_S_801743BC_0;
-typedef struct R08_801743BC_S_801743BC_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} R08_801743BC_S_801743BC_1;
+
 typedef struct R08_801743BC_S_801743BC_3 {
     u8 pad_00[0xC];
     s8 unk_0C;

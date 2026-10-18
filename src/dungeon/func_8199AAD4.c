@@ -4,6 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -54,14 +55,7 @@ typedef struct S_8199AAD4_2 {
     } unk_08;   /* overlapping accesses */
 } S_8199AAD4_2;   /* coords in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
-typedef struct S_8199AAD4_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8199AAD4_3;   /* position in update_source_relative_position_delays_movement_advances_arc_toward_target */
+   /* position in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
 typedef struct S_8199AAD4_4 {
     u8 pad_00[0x14A0];
@@ -134,7 +128,7 @@ void update_source_relative_position_delays_movement_advances_arc_toward_target(
     void *iteration;
     S_8199AAD4_6 *target_node;
     S_8199AAD4_8 *call_node;
-    S_8199AAD4_3 *position;
+    MovingPosition *position;
     void *entry_base;
     S_8199AAD4_5 *object_entry;
     S_8199AAD4_9 *created;

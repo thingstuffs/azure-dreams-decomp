@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_81275000_0_pre {
     u16 unk_00;
@@ -45,14 +46,7 @@ typedef struct S_81275000_3 {
     u16 unk_1E;
 } S_81275000_3;   /* dst in func_8014C898 */
 
-typedef struct S_81275000_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_81275000_4;   /* out in func_8014C898 */
+   /* out in func_8014C898 */
 
 typedef struct S_81275000_5 {
     u8 pad_00[0x1];
@@ -82,7 +76,7 @@ void func_8014C898(void *root_data, void *position_data, void *render_data)
 void func_8014C898(void *root_data, void *position_data, void *render_data)
 {
     s16 motion_offset[3];
-    register void *out_pos = position_data;
+    register MovingPosition *out_pos = position_data;
     S_81275000_3 *render_part = render_data;
     S_81275000_2 *source_pos;
     S_81275000_1 *owner;
@@ -98,18 +92,18 @@ void func_8014C898(void *root_data, void *position_data, void *render_data)
         render_part->unk_14 &= 0xFF7F;
     }
 
-    ((S_81275000_4 *)out_pos)->unk_02 = transform->unk_02;
-    ((S_81275000_4 *)out_pos)->unk_06 = transform->unk_06;
-    ((S_81275000_4 *)out_pos)->unk_0A = transform->unk_0A;
+    out_pos->unk_02 = transform->unk_02;
+    out_pos->unk_06 = transform->unk_06;
+    out_pos->unk_0A = transform->unk_0A;
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, motion_offset,
                       ((S_81275000_0 *)root_data)->unk_B6) != 0) {
-        ((S_81275000_4 *)out_pos)->unk_02 +=
+        out_pos->unk_02 +=
             (motion_offset[0] + ((S_81275000_0 *)root_data)->unk_B0) / 2;
-        ((S_81275000_4 *)out_pos)->unk_06 +=
+        out_pos->unk_06 +=
             (motion_offset[1] + ((S_81275000_0 *)root_data)->unk_B2) / 2;
-        ((S_81275000_4 *)out_pos)->unk_0A +=
+        out_pos->unk_0A +=
             (motion_offset[2] + ((S_81275000_0 *)root_data)->unk_B4) / 2;
         ((S_81275000_0 *)root_data)->unk_B0 = motion_offset[0];
         ((S_81275000_0 *)root_data)->unk_B2 = motion_offset[1];

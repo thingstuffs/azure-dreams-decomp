@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -26,14 +27,7 @@ typedef struct S_7FFE7CBC_1 {
     u16 unk_14;
 } S_7FFE7CBC_1;
 
-typedef struct S_7FFE7CBC_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_7FFE7CBC_2;
+
 
 typedef struct S_7FFE7CBC_3 {
     u8 pad_00[0x8];
@@ -56,14 +50,7 @@ typedef struct S_7FFE7CBC_4 {
     s16 unk_1E;
 } S_7FFE7CBC_4;
 
-typedef struct S_7FFE7CBC_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_7FFE7CBC_5;   /* ((S_7FFE7CBC_3 *)arg0)->unk_08 in create_colored_source_effect */
+   /* ((S_7FFE7CBC_3 *)arg0)->unk_08 in create_colored_source_effect */
 
 
 
@@ -79,7 +66,7 @@ void create_colored_source_effect(S_7FFE7CBC_3 *source, s32 color) {
     S_7FFE7CBC_1 *render_state;
     S_7FFE7CBC_4 *render_data;
     S_7FFE7CBC_0 *effect;
-    S_7FFE7CBC_2 *position;
+    MovingPosition *position;
 
     effect = func_7003CF18(0x12);
     if (effect != NULL) {
@@ -92,11 +79,11 @@ void create_colored_source_effect(S_7FFE7CBC_3 *source, s32 color) {
             (u16)(render_state->unk_14 | 0xC);
         position = effect->unk_08;
         position->unk_02 =
-            (u16)((S_7FFE7CBC_5 *)(source->unk_08))->unk_02;
+            (u16)((MovingPosition *)(source->unk_08))->unk_02;
         position->unk_06 =
-            (u16)((S_7FFE7CBC_5 *)(source->unk_08))->unk_06;
+            (u16)((MovingPosition *)(source->unk_08))->unk_06;
         position->unk_0A =
-            (u16)((S_7FFE7CBC_5 *)(source->unk_08))->unk_0A;
+            (u16)((MovingPosition *)(source->unk_08))->unk_0A;
         render_data = effect->unk_0C;
         render_data->unk_0C.at02.v = 0x80;
         render_data->unk_0C.at01.v = 0x80;

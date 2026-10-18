@@ -5,6 +5,7 @@
 #include "modules/dungeon_native_abi.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 typedef struct S_8181A800_0 {
     u16 unk_00;
     u8 pad_02[0x2];
@@ -103,14 +104,7 @@ typedef struct S_8181B1A0_4 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_8181B1A0_4;
-typedef struct S_8181B1A0_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8181B1A0_5;
+
 typedef struct S_8181B1A0_0 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -217,14 +211,7 @@ typedef struct S_80024BE8_5 {
     s32 unk_10;
     s32 unk_14;
 } S_80024BE8_5;
-typedef struct S_80024BE8_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024BE8_6;
+
 typedef struct S_80024BE8_7 {
     u8 pad_00[0x88];
     u16 unk_88;

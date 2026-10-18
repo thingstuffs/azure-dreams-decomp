@@ -2,6 +2,7 @@
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_8002569C_6 {
     u8 pad_00[0xC];
@@ -39,14 +40,7 @@ typedef struct S_8002569C_1 {
     u16 unk_16;
 } S_8002569C_1;
 
-typedef struct S_8002569C_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8002569C_2;   /* arg0 in create_object_offset */
+   /* arg0 in create_object_offset */
 
 typedef struct S_8002569C_3 {
     u8 pad_00[0x16];
@@ -71,7 +65,7 @@ typedef struct S_8002569C_5 {
 } S_8002569C_5;
 
 /* Create an object offset from an origin and record its starting position. */
-void *create_object_offset(S_8002569C_2 *origin, s16 angle, s16 radius, s16 height_offset, s32 alloc_arg) {
+void *create_object_offset(MovingPosition *origin, s16 angle, s16 radius, s16 height_offset, s32 alloc_arg) {
     s16 height;
     u16 slot_index;
     u16 origin_x;

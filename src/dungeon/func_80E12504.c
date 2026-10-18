@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
+#include "shared/dungeon_moving_views.h"
 
 
 typedef struct {
@@ -65,14 +66,7 @@ typedef struct S_80175D04_4 {
     s32 unk_14;
 } S_80175D04_4;   /* out in create_source_adjusted_motion_object */
 
-typedef struct S_80175D04_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80175D04_5;   /* child in create_source_adjusted_motion_object */
+   /* child in create_source_adjusted_motion_object */
 
 /* Creates an object with a source-adjusted position and motion toward a directional target. */
 void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_pos, S_80175D04_3 *source)
@@ -84,7 +78,7 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
     s16 axis_step;
     Copy24 *motion;
     void *object;
-    S_80175D04_5 *child_pos;
+    MovingPosition *child_pos;
     S_80175D04_2 *render;
 
     direction_bits = actor->unk_2A;

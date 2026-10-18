@@ -4,6 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -82,14 +83,7 @@ typedef struct S_800B8830_3 {
     } unk_08;   /* overlapping accesses */
 } S_800B8830_3;   /* arg1 in update_arcing_effect */
 
-typedef struct S_800B8830_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800B8830_4;   /* position in update_arcing_effect */
+   /* position in update_arcing_effect */
 
 typedef struct S_800B8830_5 {
     s32 unk_00;
@@ -130,7 +124,7 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
     s16 state;
     s16 one;
     void *source;
-    S_800B8830_4 *pos_record;
+    MovingPosition *pos_record;
     s32 curve;
     u16 render_flags;
     u16 counter;

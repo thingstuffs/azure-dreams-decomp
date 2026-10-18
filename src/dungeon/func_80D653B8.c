@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/game_work.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -45,14 +46,7 @@ typedef struct S_80D653B8_3 {
     s16 unk_2A;
 } S_80D653B8_3;   /* arg3 in create_anchored_directional_object */
 
-typedef struct S_80D653B8_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80D653B8_4;   /* position in create_anchored_directional_object */
+   /* position in create_anchored_directional_object */
 
 typedef struct S_80D653B8_5 {
     u8 pad_00[0x2];
@@ -80,7 +74,7 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
 {
     void *object;
     S_80D653B8_2 *object_data;
-    S_80D653B8_4 *position;
+    MovingPosition *position;
     S_80D653B8_0 *object_work;
 
     (void)unused;

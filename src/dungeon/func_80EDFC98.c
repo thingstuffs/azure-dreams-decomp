@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -51,14 +52,7 @@ typedef struct S_80171498_4 {
     s16 unk_0A;
 } S_80171498_4;   /* ((S_80171498_0 *)effect)->unk_08 in create_random_color_offset_effect */
 
-typedef struct S_80171498_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80171498_5;   /* ((S_80171498_1 *)arg0)->unk_08 in create_random_color_offset_effect */
+   /* ((S_80171498_1 *)arg0)->unk_08 in create_random_color_offset_effect */
 
 
 void *func_8003FD64();
@@ -91,11 +85,11 @@ void create_random_color_offset_effect(
         ((S_80171498_0 *)effect)->unk_10 = D_801712C4;
 
         ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_02 =
-            ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_02 + held_offset_x;
+            ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_02 + held_offset_x;
         ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_06 =
-            ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_06 + held_offset_y;
+            ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_06 + held_offset_y;
         ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_0A =
-            ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_0A + held_offset_z;
+            ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_0A + held_offset_z;
 
         source_data = ((S_80171498_1 *)parent)->unk_0C;
         if (resolve_record_orientation_or_fallback(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
@@ -105,9 +99,9 @@ void create_random_color_offset_effect(
         }
 
         effect_data = (u8 *)effect + 0x20;
-        ((S_80171498_3 *)effect_data)->unk_5A = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_02;
-        ((S_80171498_3 *)effect_data)->unk_5E = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_06;
-        ((S_80171498_3 *)effect_data)->unk_62 = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_0A;
+        ((S_80171498_3 *)effect_data)->unk_5A = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_02;
+        ((S_80171498_3 *)effect_data)->unk_5E = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_06;
+        ((S_80171498_3 *)effect_data)->unk_62 = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_0A;
 
         source_data = ((S_80171498_1 *)parent)->unk_0C;
         if (resolve_record_orientation_or_fallback(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
@@ -116,9 +110,9 @@ void create_random_color_offset_effect(
             ((S_80171498_3 *)effect_data)->unk_62 += source_offset.z;
         }
 
-        ((S_80171498_3 *)effect_data)->unk_36 = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_02;
-        ((S_80171498_3 *)effect_data)->unk_38 = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_06;
-        ((S_80171498_3 *)effect_data)->unk_3A = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_0A;
+        ((S_80171498_3 *)effect_data)->unk_36 = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_02;
+        ((S_80171498_3 *)effect_data)->unk_38 = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_06;
+        ((S_80171498_3 *)effect_data)->unk_3A = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_0A;
 
         step = 0;
         do {

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_801743EC_0 {
     u8 pad_00[0x4];
@@ -12,14 +13,7 @@ typedef struct S_801743EC_0 {
 } S_801743EC_0;   /* arg0 in update_effect_trajectory_and_sprite */
 
 
-typedef struct S_801743EC_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801743EC_2;   /* arg1 in update_effect_trajectory_and_sprite */
+   /* arg1 in update_effect_trajectory_and_sprite */
 
 
 typedef struct {
@@ -47,7 +41,7 @@ extern void func_800478B8(void *);
 extern void transform_rotated_vertices(void *);
 
 /* Update the effect trajectory and sprite, then flag completion when its animation ends. */
-void update_effect_trajectory_and_sprite(void *effect, void *position, void *sprite)
+void update_effect_trajectory_and_sprite(void *effect, MovingPosition *position, void *sprite)
 {
     CallRecord transform;
     OutputVector transformed_position;
@@ -80,9 +74,9 @@ void update_effect_trajectory_and_sprite(void *effect, void *position, void *spr
         transform.field18 = 1;
         transform.field1A = 1;
         transform_rotated_vertices(&transform);
-        ((S_801743EC_2 *)position)->unk_02 = transformed_position.x;
-        ((S_801743EC_2 *)position)->unk_06 = transformed_position.y;
-        ((S_801743EC_2 *)position)->unk_0A = transformed_position.z;
+        position->unk_02 = transformed_position.x;
+        position->unk_06 = transformed_position.y;
+        position->unk_0A = transformed_position.z;
 
         break;
     case 1:

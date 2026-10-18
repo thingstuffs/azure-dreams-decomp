@@ -2,9 +2,10 @@
 #define R108_BANK19_H
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
-struct S_80024968_2;
-struct S_80024A98_2;
-struct S_80024FD8_2;
+#include "shared/dungeon_moving_views.h"
+
+
+
 struct S_800250E8_0;
 struct S_80025654_2;
 struct S_80025654_4;
@@ -17,13 +18,13 @@ s32 func_80045C34(u8 *,s32,struct S_80045C34 *);
 s32 process_linked_mesh_states_mode_0(void *,s32,void *);
 void follow_brighten(u8 *,u8 *,u8 *);
 void tint_effect_and_advance_motion(void *,void *);
-void *create_initialized_effect_object(s32,struct S_80024968_2 *,s16,s32);
+void *create_initialized_effect_object(s32,MovingPosition *,s16,s32);
 void func_80024A00(void *,s32,void *);
-void *create_radial_effect_node(struct S_80024A98_2 *);
+void *create_radial_effect_node(MovingPosition *);
 void func_80024B98(void *,void *,void *);
 void *spawn_ring_effects(void *,s16);
 void move_and_fade_effect(void *,void *,void *);
-void *create_effect_render_object(struct S_80024FD8_2 *,s16,s16);
+void *create_effect_render_object(MovingPosition *,s16,s16);
 void update_spark_effect(void *,struct S_800250E8_0 *,void *);
 s32 queue_projected_point_primitives(void *,void *,void *);
 s32 allocate_jittered_effect_node(void *,s16,s16,s16);

@@ -18,14 +18,7 @@ typedef struct S_800CB82C_0 {
     u16 unk_1E;
 } S_800CB82C_0;
 
-typedef struct S_800CB82C_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800CB82C_1;
+
 
 typedef struct S_800CB82C_2 {
     u8 pad_00[0x2];
@@ -92,9 +85,9 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
     s32 global_flags;
     void *map_data;
     void *object_state;
-    void *position;
+    MovingPosition *position;
     void *object;
-    void *owner_map;
+    MovingTile *owner_map;
     u16 object_count;
 
     object = func_8003FC64(0x102);
@@ -102,22 +95,22 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
         ((S_800CB82C_0 *)object)->unk_10 = &D_800CB600;
         func_8004491C(object, func_80045340);
         position = ((S_800CB82C_0 *)object)->unk_08;
-        ((S_800CB82C_1 *)position)->unk_02 = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_02;
-        ((S_800CB82C_1 *)position)->unk_06 = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_06;
-        ((S_800CB82C_1 *)position)->unk_0A = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_08.at02.v;
+        position->unk_02 = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_02;
+        position->unk_06 = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_06;
+        position->unk_0A = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_08.at02.v;
         map_data = ((S_800CB82C_0 *)object)->unk_0C;
         ((S_800CB82C_3 *)map_data)->unk_08 = &D_800E03BC;
         ((S_800CB82C_3 *)map_data)->unk_14 = (u16) (((S_800CB82C_3 *)map_data)->unk_14 | 0xC);
-        ((S_800CB82C_3 *)map_data)->unk_24 = (s8) ((u16) ((S_800CB82C_1 *)position)->unk_02 >> 6);
-        ((S_800CB82C_3 *)map_data)->unk_25 = (s8) ((u16) ((S_800CB82C_1 *)position)->unk_06 >> 6);
+        ((S_800CB82C_3 *)map_data)->unk_24 = (s8) ((u16) position->unk_02 >> 6);
+        ((S_800CB82C_3 *)map_data)->unk_25 = (s8) ((u16) position->unk_06 >> 6);
         object_state = object + 0x20;
         (*(s16 *)((u8 *)object_state + 0x96)) = 0x10;
         ((S_800CB82C_4 *)object_state)->unk_08 = (u8) D_800E3CC8;
         ((S_800CB82C_4 *)object_state)->unk_09 = (u8) ((S_800CB82C_5 *)(&D_800E3CC8))->unk_01;
         ((S_800CB82C_4 *)object_state)->unk_60 = owner;
         owner_map = ((SpriteLinkPrefixView *)owner)[-1].unk_00;
-        ((S_800CB82C_4 *)object_state)->unk_72 = (u8) ((MovingTile *)owner_map)->unk_24;
-        ((S_800CB82C_4 *)object_state)->unk_73 = (u8) ((MovingTile *)owner_map)->unk_25;
+        ((S_800CB82C_4 *)object_state)->unk_72 = (u8) owner_map->unk_24;
+        ((S_800CB82C_4 *)object_state)->unk_73 = (u8) owner_map->unk_25;
         ((S_800CB82C_4 *)object_state)->unk_88 = (u16) ((u16)source_state->unk_88);
         ((S_800CB82C_4 *)object_state)->unk_13 = 0xFF;
         ((S_800CB82C_4 *)object_state)->unk_14 = (s32) source_state->flags14;

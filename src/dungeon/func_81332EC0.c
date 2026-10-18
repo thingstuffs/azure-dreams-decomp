@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/object_links.h"
+#include "shared/sprite_frame_state.h"
 
 #ifndef NULL
 #define NULL ((void *)0)
@@ -52,17 +53,7 @@ typedef struct S_80169EC0_3 {
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
 } S_80169EC0_3;   /* actor in update_actor_callbacks_and_motion */
 
-typedef struct S_80169EC0_4 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80169EC0_4;   /* data in update_actor_callbacks_and_motion */
+   /* data in update_actor_callbacks_and_motion */
 
 typedef struct S_80169EC0_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -87,7 +78,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
     s32 actor_flags;
     s32 slot_index;
     u8 *slot_ptr;
-    void *slot_entry;
+    SpriteLinkPrefixView *slot_entry;
     S_80169EC0_2 *slot_record;
     u16 status;
     u16 height;
@@ -109,7 +100,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
         do {
             slot_entry = ((S_80169EC0_0 *)slot_ptr)->unk_AC;
             if (slot_entry != NULL) {
-                slot_record = ((SpriteLinkPrefixView *)slot_entry)[-1].unk_00;
+                slot_record = slot_entry[-1].unk_00;
                 slot_record->unk_14 &= 0xFFBF;
             }
             slot_index--;
@@ -153,7 +144,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
         try_move_actor_to_valid_position(owner_arg, motion, data, actor);
     }
 
-    status = ((S_80169EC0_4 *)data)->unk_14;
+    status = ((SpriteAnimationTableView *)data)->unk_14;
     if (!(status & 0x8000)) {
         u16 frame_status;
         u16 cleared_status;
@@ -161,26 +152,26 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
         state_bits = (s32)state_bits >> 9;
         direction = state_bits & 7;
         if ((*(s16 *)((u8 *)owner_arg + (0x94))) != direction) {
-            u8 *facing_steps = ((S_80169EC0_4 *)data)->unk_2C;
+            u8 *facing_steps = ((SpriteAnimationTableView *)data)->unk_2C;
             if (facing_steps != NULL) {
-                select_indirect_table_entry(data, facing_steps[direction], ((S_80169EC0_4 *)data)->unk_04);
+                select_indirect_table_entry(data, facing_steps[direction], ((SpriteAnimationTableView *)data)->unk_04);
             }
             (*(s16 *)((u8 *)owner_arg + (0x94))) = direction;
         }
 
-        frame_status = ((S_80169EC0_4 *)data)->unk_14;
+        frame_status = ((SpriteAnimationTableView *)data)->unk_14;
         cleared_status = frame_status & 0xFFFE;
-        ((S_80169EC0_4 *)data)->unk_14 = cleared_status;
+        ((SpriteAnimationTableView *)data)->unk_14 = cleared_status;
         if (!(((S_80169EC0_3 *)actor)->unk_1C & 0x20)) {
             if (!(frame_status & 0x40)) {
                 func_800478B8(data);
             }
         } else {
-            ((S_80169EC0_4 *)data)->unk_14 = cleared_status | 0x7000;
+            ((SpriteAnimationTableView *)data)->unk_14 = cleared_status | 0x7000;
         }
         apply_monster_koyaw_data(((S_80169EC0_3 *)actor)->unk_1C, (u8 *)data + 0xC);
     } else {
-        ((S_80169EC0_4 *)data)->unk_14 = (status & 0x800) ?
+        ((SpriteAnimationTableView *)data)->unk_14 = (status & 0x800) ?
                                 (status & 0x8FFF) : (status | 0x7000);
     }
 
@@ -217,8 +208,8 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
         actor_flags = ((S_80169EC0_3 *)actor)->unk_1C;
         if (actor_flags & 0x40000000) {
             ((S_80169EC0_3 *)actor)->unk_1C = actor_flags & 0xBFFFFFFF;
-            terrain_height = sample_terrain_surface_height((((S_80169EC0_4 *)data)->unk_24 << 6) | 0x20,
-                                   (((S_80169EC0_4 *)data)->unk_25 << 6) | 0x20,
+            terrain_height = sample_terrain_surface_height((((SpriteAnimationTableView *)data)->unk_24 << 6) | 0x20,
+                                   (((SpriteAnimationTableView *)data)->unk_25 << 6) | 0x20,
                                    (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20));
             (*(s16 *)((u8 *)owner_arg + (0x92))) += ((S_80169EC0_3 *)actor)->unk_88.u - terrain_height;
             ((S_80169EC0_3 *)actor)->unk_88.u = terrain_height;
@@ -230,5 +221,5 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
     ((S_80169EC0_5 *)motion)->unk_0A = (*(s8 *)((u8 *)owner_arg + (0xAA))) +
                               (((S_80169EC0_3 *)actor)->unk_88.u +
                                (*(u16 *)((u8 *)owner_arg + (0x92))));
-    ((S_80169EC0_4 *)data)->unk_14 |= 0x40;
+    ((SpriteAnimationTableView *)data)->unk_14 |= 0x40;
 }

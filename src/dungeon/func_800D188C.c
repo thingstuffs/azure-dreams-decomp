@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800D6FEC_0_pre {
     u16 unk_00;
@@ -13,31 +14,17 @@ typedef struct S_800D6FEC_0 {
     void * unk_B0;
 } S_800D6FEC_0;   /* arg0 in update_effect_countdown */
 
-typedef struct S_800D6FEC_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800D6FEC_1;   /* arg1 in update_effect_countdown */
+   /* arg1 in update_effect_countdown */
 
-typedef struct S_800D6FEC_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800D6FEC_2;
+
 
 
 M2C_UNK func_800478B8();                     /* extern */
 
 /* Copy stored values, run the update, and flag completion when the count reaches zero. */
-void update_effect_countdown(void *object, S_800D6FEC_1 *output, M2C_UNK update_arg) {
+void update_effect_countdown(void *object, MovingPosition *output, M2C_UNK update_arg) {
     u16 remaining;
-    S_800D6FEC_2 *source;
+    MovingPosition *source;
 
     source = ((S_800D6FEC_0 *)object)->unk_B0;
     output->unk_02 = (u16) source->unk_02;

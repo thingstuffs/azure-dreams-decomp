@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef long long s64;
 typedef s32 M2C_UNK;
@@ -24,14 +25,7 @@ typedef struct S_7FFE79F4_0 {
     u16 unk_40;
 } S_7FFE79F4_0;   /* arg0 in update_emitter_and_spawn_particles */
 
-typedef struct S_7FFE79F4_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_7FFE79F4_1;   /* arg1 in update_emitter_and_spawn_particles */
+   /* arg1 in update_emitter_and_spawn_particles */
 
 typedef struct S_7FFE79F4_2 {
     u8 pad_00[0x8];
@@ -63,14 +57,7 @@ typedef struct S_7FFE79F4_4 {
     s16 unk_0A;
 } S_7FFE79F4_4;
 
-typedef struct S_7FFE79F4_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_7FFE79F4_5;
+
 
 
 
@@ -84,7 +71,7 @@ extern u16 D_80094422;
 extern M2C_UNK D_8010AA44;
 
 /* Update the emitter position, spawn particles, and mark it for removal when its lifetime expires. */
-void update_emitter_and_spawn_particles(void *emitter, void *position, M2C_UNK init_arg) {
+void update_emitter_and_spawn_particles(void *emitter, MovingPosition *position, M2C_UNK init_arg) {
     s32 product;
     s32 coordinate;
     s32 spawn_count;
@@ -95,11 +82,11 @@ void update_emitter_and_spawn_particles(void *emitter, void *position, M2C_UNK i
     void *particle;
 
     parent = ((S_7FFE79F4_0 *)emitter)->unk_24;
-    ((S_7FFE79F4_1 *)position)->unk_02 = (u16) (((S_7FFE79F4_5 *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_02
+    position->unk_02 = (u16) (((MovingPosition *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_02
         + ((S_7FFE79F4_0 *)emitter)->unk_3C);
-    ((S_7FFE79F4_1 *)position)->unk_06 = (u16) (((S_7FFE79F4_5 *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_06
+    position->unk_06 = (u16) (((MovingPosition *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_06
         + ((S_7FFE79F4_0 *)emitter)->unk_3E);
-    ((S_7FFE79F4_1 *)position)->unk_0A = (u16) (((S_7FFE79F4_5 *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_0A
+    position->unk_0A = (u16) (((MovingPosition *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_0A
         + ((S_7FFE79F4_0 *)emitter)->unk_40);
     age = ((S_7FFE79F4_0 *)emitter)->unk_16 + 1;
     ((S_7FFE79F4_0 *)emitter)->unk_16 = age;
@@ -118,8 +105,8 @@ void update_emitter_and_spawn_particles(void *emitter, void *position, M2C_UNK i
                 product = 0x32;
                 ((S_7FFE79F4_3 *)particle)->unk_4A = product;
                 particle_pos = ((S_7FFE79F4_3 *)particle)->unk_08;
-                ((S_7FFE79F4_3 *)particle)->unk_58 = (u16) ((S_7FFE79F4_1 *)position)->unk_02;
-                ((S_7FFE79F4_3 *)particle)->unk_5A = (u16) ((S_7FFE79F4_1 *)position)->unk_06;
+                ((S_7FFE79F4_3 *)particle)->unk_58 = (u16) position->unk_02;
+                ((S_7FFE79F4_3 *)particle)->unk_5A = (u16) position->unk_06;
                 ((S_7FFE79F4_3 *)particle)->unk_10 = &D_8010AA44;
                 product = ((S_7FFE79F4_3 *)particle)->unk_4A * func_7006DD28(((S_7FFE79F4_3 *)particle)->unk_48);
                 coordinate = ((S_7FFE79F4_3 *)particle)->unk_58;
@@ -130,7 +117,7 @@ void update_emitter_and_spawn_particles(void *emitter, void *position, M2C_UNK i
                 coordinate += product >> 0xC;
                 ((S_7FFE79F4_4 *)particle_pos)->unk_06 = coordinate;
                 product = func_700750E0() & 0x3F;
-                ((S_7FFE79F4_4 *)particle_pos)->unk_0A = (s16)(((S_7FFE79F4_1 *)position)->unk_0A - product);
+                ((S_7FFE79F4_4 *)particle_pos)->unk_0A = (s16)(position->unk_0A - product);
             }
         } while (spawn_count < 4);
     }

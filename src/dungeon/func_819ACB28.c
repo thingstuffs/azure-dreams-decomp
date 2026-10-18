@@ -3,6 +3,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "records/Rec_func_800249DC_arg0.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_819ACB28_0_pre {
     u16 unk_00;
@@ -28,14 +29,7 @@ typedef struct S_819ACB28_1 {
 } S_819ACB28_1;   /* data_ptr in advance_effect_phases */
 
 
-typedef struct S_819ACB28_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_819ACB28_3;   /* offsets in advance_effect_phases */
+   /* offsets in advance_effect_phases */
 
 typedef struct S_819ACB28_4 {
     u8 pad_00[0xC];
@@ -65,7 +59,7 @@ void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, S_819AC
 {
     s16 mode;
     u16 mode_value;
-    S_819ACB28_3 *offsets;
+    MovingPosition *offsets;
     S_819ACB28_1 *data_ptr;
 
     D_80027452[0] = D_80027452[0] + 1;

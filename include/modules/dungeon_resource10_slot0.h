@@ -166,17 +166,7 @@ typedef struct R10_80170F3C_S_80170F3C_4 {
     s8 unk_9C;
 } R10_80170F3C_S_80170F3C_4;
 typedef void (*R10_80171104_ActorCallback)(void *, void *, void *, void *);
-typedef struct R10_80171104_S_80171104_0 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} R10_80171104_S_80171104_0;
+
 typedef struct R10_80171104_S_80171104_1 {
     u8 pad_00[0x1C];
     union { u32 u; s32 s; } unk_1C;   

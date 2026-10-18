@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80174BC8_0 {
     u8 pad_00[0x8];
@@ -29,14 +30,7 @@ typedef struct S_80174BC8_1 {
 } S_80174BC8_1;   /* prim in create_offset_actor_object */
 
 
-typedef struct S_80174BC8_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80174BC8_3;   /* dst in create_offset_actor_object */
+   /* dst in create_offset_actor_object */
 
 
 typedef struct {
@@ -54,7 +48,7 @@ s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *
 {
     u16 offsets[3];
     S_80174BC8_0 *object;
-    S_80174BC8_3 *object_data;
+    MovingPosition *object_data;
     S_80174BC8_1 *primitive;
 
     object = func_8003FC64(0x312);

@@ -2,15 +2,9 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
-typedef struct S_8102F20C_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8102F20C_0;   /* arg1 in apply_relative_projected_depth */
+   /* arg1 in apply_relative_projected_depth */
 
 typedef struct S_8102F20C_1_pre {
     u16 unk_00;
@@ -23,14 +17,7 @@ typedef struct S_8102F20C_1 {
     void * unk_28;
 } S_8102F20C_1;   /* arg0 in apply_relative_projected_depth */
 
-typedef struct S_8102F20C_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8102F20C_2;
+
 
 typedef struct S_8102F20C_3 {
     u8 pad_00[0x6];
@@ -51,14 +38,14 @@ extern s32 func_80065420(void *, void *, void *, void *);
 extern void func_800478B8(void *);
 
 /* Apply a relative projected depth with a direction bias and propagate output status flags. */
-void apply_relative_projected_depth(void *entity, S_8102F20C_0 *position, void *output) {
+void apply_relative_projected_depth(void *entity, MovingPosition *position, void *output) {
     Stack3 coords;
     M2C_UNK projection_flags;
     M2C_UNK depth_cue;
     M2C_UNK screen_xy[2];
     s16 depth_delta;
     s32 depth_bias;
-    S_8102F20C_2 *base_position;
+    MovingPosition *base_position;
     S_8102F20C_3 *result;
 
     result = output;

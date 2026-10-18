@@ -2,6 +2,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "records/Rec_func_800243C4_arg1.h"
+#include "shared/dungeon_moving_views.h"
 
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
@@ -45,14 +46,7 @@ typedef struct S_800243C4_1 {
 } S_800243C4_1;
 
 
-typedef struct S_800243C4_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800243C4_3;
+
 
 typedef struct S_800243C4_4 {
     u8 pad_00[0xC];
@@ -70,7 +64,7 @@ void func_800243C4(void *effect, Rec_func_800243C4_arg1 *position, S_800243C4_4 
 {
     s16 phase;
     u16 phase_value;
-    S_800243C4_3 *base_position;
+    MovingPosition *base_position;
     S_800243C4_1 *source;
 
     D_800281F8.value = D_800281F8.value + 1;

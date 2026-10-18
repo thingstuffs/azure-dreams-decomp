@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80174BEC_0_pre {
     void * unk_00;
@@ -66,14 +67,7 @@ typedef struct S_80174BEC_5 {
     u8 * unk_2C;
 } S_80174BEC_5;   /* render in spawn_directional_particles_and_reset_actor */
 
-typedef struct S_80174BEC_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80174BEC_6;   /* position in spawn_directional_particles_and_reset_actor */
+   /* position in spawn_directional_particles_and_reset_actor */
 
 typedef struct S_80174BEC_7 {
     u8 pad_00[0x8];
@@ -198,31 +192,31 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
                         func_80047784(render, animation, 0);
 
                         position = ((S_80174BEC_4 *)particle)->unk_08;
-                        ((S_80174BEC_6 *)position)->unk_02 = ((u16)source_pos->x.w.i);
-                        ((S_80174BEC_6 *)position)->unk_06 = ((u16)source_pos->y.w.i);
-                        ((S_80174BEC_6 *)position)->unk_0A = ((u16)source_pos->z.w.i);
+                        ((MovingPosition *)position)->unk_02 = ((u16)source_pos->x.w.i);
+                        ((MovingPosition *)position)->unk_06 = ((u16)source_pos->y.w.i);
+                        ((MovingPosition *)position)->unk_0A = ((u16)source_pos->z.w.i);
 
                         map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
                         if (func_8003DF74(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
-                            ((S_80174BEC_6 *)position)->unk_02 += map_offset.x;
-                            ((S_80174BEC_6 *)position)->unk_06 += map_offset.y;
-                            ((S_80174BEC_6 *)position)->unk_0A += map_offset.z;
+                            ((MovingPosition *)position)->unk_02 += map_offset.x;
+                            ((MovingPosition *)position)->unk_06 += map_offset.y;
+                            ((MovingPosition *)position)->unk_0A += map_offset.z;
                         }
 
                         offset_x = (func_80069EF8() & 0x1F) - 0x10;
                         offset_y = (func_80069EF8() & 0x1F) - 0x10;
-                        coord = ((S_80174BEC_6 *)position)->unk_02;
+                        coord = ((MovingPosition *)position)->unk_02;
                         coord += offset_x;
-                        position_y = ((S_80174BEC_6 *)position)->unk_06 + offset_y;
-                        ((S_80174BEC_6 *)position)->unk_02 = coord;
-                        ((S_80174BEC_6 *)position)->unk_06 = position_y;
+                        position_y = ((MovingPosition *)position)->unk_06 + offset_y;
+                        ((MovingPosition *)position)->unk_02 = coord;
+                        ((MovingPosition *)position)->unk_06 = position_y;
                         offset_z = func_80069EF8() & 0x1F;
                         velocity_x = (s32)(offset_x << 16) >> 4;
                         velocity_y = (s32)(offset_y << 16) >> 4;
-                        coord = ((S_80174BEC_6 *)position)->unk_0A;
+                        coord = ((MovingPosition *)position)->unk_0A;
                         coord -= 0x14;
                         coord += offset_z;
-                        ((S_80174BEC_6 *)position)->unk_0A = coord;
+                        ((MovingPosition *)position)->unk_0A = coord;
                         ((S_80174BEC_3 *)motion)->unk_A4 = velocity_x;
                         ((S_80174BEC_3 *)motion)->unk_A8 = velocity_y;
 
@@ -280,31 +274,31 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
                         ((S_80174BEC_5 *)render)->unk_14 |= 2;
 
                         position = ((S_80174BEC_4 *)particle)->unk_08;
-                        ((S_80174BEC_6 *)position)->unk_02 = ((u16)source_pos->x.w.i);
-                        ((S_80174BEC_6 *)position)->unk_06 = ((u16)source_pos->y.w.i);
-                        ((S_80174BEC_6 *)position)->unk_0A = ((u16)source_pos->z.w.i);
+                        ((MovingPosition *)position)->unk_02 = ((u16)source_pos->x.w.i);
+                        ((MovingPosition *)position)->unk_06 = ((u16)source_pos->y.w.i);
+                        ((MovingPosition *)position)->unk_0A = ((u16)source_pos->z.w.i);
 
                         map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
                         if (resolve_record_orientation_or_fallback(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
-                            ((S_80174BEC_6 *)position)->unk_02 += map_offset.x;
-                            ((S_80174BEC_6 *)position)->unk_06 += map_offset.y;
-                            ((S_80174BEC_6 *)position)->unk_0A += map_offset.z;
+                            ((MovingPosition *)position)->unk_02 += map_offset.x;
+                            ((MovingPosition *)position)->unk_06 += map_offset.y;
+                            ((MovingPosition *)position)->unk_0A += map_offset.z;
                         }
 
                         offset_x = (func_80069EF8() & 0x1F) - 0x10;
                         offset_y = (func_80069EF8() & 0x1F) - 0x10;
-                        coord = ((S_80174BEC_6 *)position)->unk_02;
+                        coord = ((MovingPosition *)position)->unk_02;
                         coord += offset_x;
-                        position_y = ((S_80174BEC_6 *)position)->unk_06 + offset_y;
-                        ((S_80174BEC_6 *)position)->unk_02 = coord;
-                        ((S_80174BEC_6 *)position)->unk_06 = position_y;
+                        position_y = ((MovingPosition *)position)->unk_06 + offset_y;
+                        ((MovingPosition *)position)->unk_02 = coord;
+                        ((MovingPosition *)position)->unk_06 = position_y;
                         offset_z = func_80069EF8() & 0x1F;
                         velocity_x = (s32)(offset_x << 16) >> 4;
                         velocity_y = (s32)(offset_y << 16) >> 4;
-                        position_z = ((S_80174BEC_6 *)position)->unk_0A;
+                        position_z = ((MovingPosition *)position)->unk_0A;
                         position_z -= 0x14;
                         position_z += offset_z;
-                        ((S_80174BEC_6 *)position)->unk_0A = position_z;
+                        ((MovingPosition *)position)->unk_0A = position_z;
                         ((S_80174BEC_3 *)motion)->unk_60 = velocity_x;
                         ((S_80174BEC_3 *)motion)->unk_64 = velocity_y;
 

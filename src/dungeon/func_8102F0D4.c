@@ -2,16 +2,10 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 typedef long long M2C_S64;
 
-typedef struct S_8102F0D4_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8102F0D4_0;   /* arg1 in update_relative_depth_and_expire */
+   /* arg1 in update_relative_depth_and_expire */
 
 typedef struct S_8102F0D4_1_pre {
     u16 unk_00;
@@ -25,14 +19,7 @@ typedef struct S_8102F0D4_1 {
     void * unk_A8;
 } S_8102F0D4_1;   /* arg0 in update_relative_depth_and_expire */
 
-typedef struct S_8102F0D4_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8102F0D4_2;
+
 
 
 
@@ -41,7 +28,7 @@ s32 func_80065420();
 extern s32 func_800478B8();
 
 /* Updates relative depth with a direction offset and flags expiration when the countdown ends. */
-void update_relative_depth_and_expire(void *state, S_8102F0D4_0 *position, Rec_D_80082E80 *entity) {
+void update_relative_depth_and_expire(void *state, MovingPosition *position, Rec_D_80082E80 *entity) {
     u16 coords[3];
     M2C_S64 transform_result;
     s16 transform_aux;
@@ -50,7 +37,7 @@ void update_relative_depth_and_expire(void *state, S_8102F0D4_0 *position, Rec_D
     s32 reference_depth;
     s8 *direction_offset;
     u16 ticks_left;
-    S_8102F0D4_2 *reference_pos;
+    MovingPosition *reference_pos;
 
     coords[0] = position->unk_02;
     coords[1] = position->unk_06;

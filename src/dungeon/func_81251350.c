@@ -3,6 +3,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80170B50_0 {
     u8 pad_00[0x8];
@@ -46,23 +47,9 @@ typedef struct S_80170B50_3 {
     M2C_UNK * unk_2C;
 } S_80170B50_3;
 
-typedef struct S_80170B50_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80170B50_4;
 
-typedef struct S_80170B50_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80170B50_5;   /* arg1 in create_attached_sprite_with_offset */
+
+   /* arg1 in create_attached_sprite_with_offset */
 
 typedef struct S_80170B50_6 {
     u8 pad_00[0x8];
@@ -91,12 +78,12 @@ extern s32 func_8004491C();
 extern M2C_UNK func_80047784();
 
 /* Creates an attached sprite object with copied appearance and an optional position offset. */
-void create_attached_sprite_with_offset(void *owner_data, S_80170B50_5 *base_position, void *sprite_template, s16 offset_id) {
+void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_position, void *sprite_template, s16 offset_id) {
     u32 sprite_flags;
     u16 sprite_height;
     s16 saved_offset_id;
     S_80170B50_6 *owner_model;
-    S_80170B50_4 *position;
+    MovingPosition *position;
     void *sprite;
     void *object_data;
     void *object;

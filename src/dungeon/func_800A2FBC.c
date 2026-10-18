@@ -8,6 +8,7 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 s32 resolve_record_orientation_or_fallback();
 s32 dispatch_dungeon_category_action();
@@ -151,14 +152,7 @@ typedef struct S_800A871C_20 {
     void * unk_2C;
 } S_800A871C_20;   /* ((S_800A871C_1 *)r_arg0)->unk_90 in update_dropped_object_motion */
 
-typedef struct S_800A871C_21 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800A871C_21;   /* ((S_800A871C_1 *)r_arg0)->unk_8C in update_dropped_object_motion */
+   /* ((S_800A871C_1 *)r_arg0)->unk_8C in update_dropped_object_motion */
 
 typedef struct S_800A871C_22 {
     u8 pad_00[0x124];
@@ -246,7 +240,7 @@ void update_dropped_object_motion(void *object, register void *motion, void *til
                 ((S_800A871C_2 *)(&offset[2]))->unk_00 = -0x30;
             }
             ((S_800A871C_3 *)motion)->unk_08.at02.v =
-                (s16) (((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2]);
+                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2]);
             ((S_800A871C_4 *)tile)->unk_24.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_24;
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_25;
             set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
@@ -290,10 +284,10 @@ void update_dropped_object_motion(void *object, register void *motion, void *til
             && ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000)) {
             ((S_800A871C_1 *)object)->unk_A2 = 1;
             ((S_800A871C_3 *)motion)->unk_00.at02.v =
-                (s16) (((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_02 + offset[0]);
+                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->unk_02 + offset[0]);
             ((S_800A871C_3 *)motion)->unk_04.at02.v =
-                (s16) (((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_06 + offset[1]);
-            source_height = ((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2];
+                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->unk_06 + offset[1]);
+            source_height = ((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2];
             height_source = D_800814A8;
             ((S_800A871C_3 *)motion)->unk_08.at02.v = (s16) (source_height + 8);
             (*(u16 *)((u8 *)object_data + (0x88))) = ((u16)height_source->unk_88);

@@ -1,6 +1,7 @@
 #include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80024A98_0 {
     u8 pad_00[0x8];
@@ -9,23 +10,9 @@ typedef struct S_80024A98_0 {
     void * unk_10;
 } S_80024A98_0;   /* node in create_radial_effect_node */
 
-typedef struct S_80024A98_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024A98_1;   /* coords in create_radial_effect_node */
+   /* coords in create_radial_effect_node */
 
-typedef struct S_80024A98_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024A98_2;   /* arg0 in create_radial_effect_node */
+   /* arg0 in create_radial_effect_node */
 
 typedef struct S_80024A98_3 {
     u8 pad_00[0xC];
@@ -43,12 +30,12 @@ typedef struct S_80024A98_3 {
 extern u8 D_800DE938[];
 
 /* Creates a visual node at the supplied coordinates with 16 evenly spaced radial effects. */
-void *create_radial_effect_node(S_80024A98_2 *source_coords)
+void *create_radial_effect_node(MovingPosition *source_coords)
 {
     s16 angle;
     s32 effect_index;
     S_80024A98_3 *part;
-    S_80024A98_1 *coords;
+    MovingPosition *coords;
     S_80024A98_0 *node;
 
     node = func_8003FC64(0x202);

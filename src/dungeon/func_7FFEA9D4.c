@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_7FFEA9D4_4 {
     u8 pad_00[0xC];
@@ -32,14 +33,7 @@ typedef struct S_7FFEA9D4_1 {
     u16 unk_60;
 } S_7FFEA9D4_1;
 
-typedef struct S_7FFEA9D4_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_7FFEA9D4_2;
+
 
 typedef struct S_7FFEA9D4_3 {
     u8 pad_00[0x13];
@@ -67,7 +61,7 @@ void spawn_young_emitter_particles(void *emitter, M2C_UNK init_param_1, M2C_UNK 
     u16 ticks_left;
     u16 active_count;
     u16 *header;
-    S_7FFEA9D4_2 *position;
+    MovingPosition *position;
     S_7FFEA9D4_3 *emitter_data;
     S_7FFEA9D4_1 *particle;
 

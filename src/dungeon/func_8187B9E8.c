@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_189a800.h"
 #include "modules/dungeon_native_abi.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -19,14 +20,7 @@ typedef struct S_8187B9E8_1 {
     void * unk_10;
 } S_8187B9E8_1;   /* p in func_800251E8 */
 
-typedef struct S_8187B9E8_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8187B9E8_2;   /* r0 in func_800251E8 */
+   /* r0 in func_800251E8 */
 
 typedef struct S_8187B9E8_3 {
     u8 pad_00[0x1C];
@@ -59,7 +53,7 @@ void func_800251E8(s32 radius, s32 initial_value, s16 extent, s32 position_x_wor
     s32 angle_b;
     s32 plane_radius;
     u32 component;
-    S_8187B9E8_2 *position;
+    MovingPosition *position;
     void *effect;
     S_8187B9E8_4 *state;
     S_8187B9E8_3 *scale;

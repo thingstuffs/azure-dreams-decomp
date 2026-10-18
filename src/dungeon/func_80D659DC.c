@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 
 #ifndef NULL
@@ -27,14 +28,7 @@ typedef struct S_80D659DC_8 {
     s32 unk_14;
 } S_80D659DC_8;
 
-typedef struct S_80D659DC_9 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80D659DC_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_angled_random_velocity_effect */
+   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_angled_random_velocity_effect */
 
 
 typedef struct EffectBase {
@@ -108,11 +102,11 @@ void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effec
         base = &effect->base;
         ((S_80D659DC_0 *)effect)->unk_10 = &D_800D707C;
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_02 = (u16)
-        ((S_80D659DC_9 *)((*(void * *)&source->z)))->unk_02;
+        ((MovingPosition *)((*(void * *)&source->z)))->unk_02;
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_06 = (u16)
-        ((S_80D659DC_9 *)((*(void * *)&source->z)))->unk_06;
+        ((MovingPosition *)((*(void * *)&source->z)))->unk_06;
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_0A = (s16)
-        (((S_80D659DC_9 *)((*(void * *)&source->z)))->unk_0A - 0x58);
+        (((MovingPosition *)((*(void * *)&source->z)))->unk_0A - 0x58);
         direction = (void *)D_800E2468 + ((angle >> 7) & 0x1C);
         position_x = ((S_80D659DC_0 *)effect)->unk_08;
         position_x->unk_02 = (u16)

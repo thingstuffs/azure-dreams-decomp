@@ -5,9 +5,9 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
     u16 position[4];
     u8 *motion;
     s16 use_player_target;
-    void *target;
+    SpriteLinkPrefixView *target;
     s32 delay;
-    u8 *action_status;
+    MovingTile *action_status;
 
     use_player_target = 0;
     switch (((R03_80172A24_S_80172A24_0 *)action_state)->unk_9B) {
@@ -60,15 +60,15 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
                 if (player_target != 0) {
                     target = D_800814A8;
                     actor->target = target;
-                    action_status = (u8 *)((R03_80172A24_S_80172A24_2_pre *)target)[-1].unk_00;
-                    actor->unk_72 = ((R03_80172A24_S_80172A24_3 *)action_status)->unk_24;
-                    actor->unk_73 = ((R03_80172A24_S_80172A24_3 *)action_status)->unk_25;
+                    action_status = (u8 *)target[-1].unk_00;
+                    actor->unk_72 = action_status->unk_24;
+                    actor->unk_73 = action_status->unk_25;
                 } else if (D_8006DE24[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
-                        action_status = (u8 *)((R03_80172A24_S_80172A24_2_pre *)target)[-1].unk_00;
-                        actor->unk_72 = ((R03_80172A24_S_80172A24_3 *)action_status)->unk_24;
-                        actor->unk_73 = ((R03_80172A24_S_80172A24_3 *)action_status)->unk_25;
+                        action_status = (u8 *)target[-1].unk_00;
+                        actor->unk_72 = action_status->unk_24;
+                        actor->unk_73 = action_status->unk_25;
                     }
                 } else {
                     actor->target =

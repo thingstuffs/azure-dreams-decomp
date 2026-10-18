@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 void *func_8003FD64();            /* extern */
 s32 func_8004491C();           /* extern */
@@ -19,14 +20,7 @@ typedef struct S_800ADC4C_0 {
     s16 unk_28;
 } S_800ADC4C_0;
 
-typedef struct S_800ADC4C_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800ADC4C_1;
+
 
 
 typedef struct S_800ADC4C_3 {
@@ -42,7 +36,7 @@ typedef struct S_800ADC4C_3 {
 void *create_status_linked_render_effect(EntityRec *source_pos, s32 render_param, s16 initial_state, s8 *status) {
     S_800ADC4C_0 *object;
     S_800ADC4C_3 *render_data;
-    S_800ADC4C_1 *position;
+    MovingPosition *position;
 
     object = func_8003FD64(0x12, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {

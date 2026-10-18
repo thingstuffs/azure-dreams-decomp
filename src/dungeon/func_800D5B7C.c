@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
+#include "shared/dungeon_moving_views.h"
 
 
 
@@ -9,14 +10,7 @@ typedef struct S_800DB2DC_6 {
     void * unk_08;
 } S_800DB2DC_6;
 
-typedef struct S_800DB2DC_7 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800DB2DC_7;
+
 
 
 
@@ -64,14 +58,7 @@ typedef struct S_800DB2DC_3 {
     s32 unk_2C;
 } S_800DB2DC_3;
 
-typedef struct S_800DB2DC_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800DB2DC_4;   /* held_arg0 in create_two_effect_groups */
+   /* held_arg0 in create_two_effect_groups */
 
 typedef struct S_800DB2DC_5 {
     u8 pad_00[0x4];
@@ -80,7 +67,7 @@ typedef struct S_800DB2DC_5 {
 } S_800DB2DC_5;
 
 /* Creates two groups of four effects using the source position and visual state. */
-void create_two_effect_groups(S_800DB2DC_4 *position, S_800DB2DC_2 *source_visual, S_800DB2DC_1 *source_arg, s16 effect_param) {
+void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_visual, S_800DB2DC_1 *source_arg, s16 effect_param) {
     register M2C_UNK *callback;
     s32 scale;
     s16 saved_param;
@@ -118,11 +105,11 @@ void create_two_effect_groups(S_800DB2DC_4 *position, S_800DB2DC_2 *source_visua
                 visual->unk_12 =
                     (s16)(source_offset - 0x80);
                 ((S_800DB2DC_0 *)effect)->unk_20 = position;
-                ((S_800DB2DC_7 *)(((S_800DB2DC_6 *)effect)->unk_08))->unk_02 =
+                ((MovingPosition *)(((S_800DB2DC_6 *)effect)->unk_08))->unk_02 =
                     (u16)position->unk_02;
-                ((S_800DB2DC_7 *)(((S_800DB2DC_6 *)effect)->unk_08))->unk_06 =
+                ((MovingPosition *)(((S_800DB2DC_6 *)effect)->unk_08))->unk_06 =
                     (u16)position->unk_06;
-                ((S_800DB2DC_7 *)(((S_800DB2DC_6 *)effect)->unk_08))->unk_0A =
+                ((MovingPosition *)(((S_800DB2DC_6 *)effect)->unk_08))->unk_0A =
                     (u16)position->unk_0A;
                 effect_state = effect + 0x20;
                 effect_state->unk_06 = saved_param;

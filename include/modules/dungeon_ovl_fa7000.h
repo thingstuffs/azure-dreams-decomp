@@ -6,6 +6,7 @@
 #include "shared/tile_object.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "shared/dungeon_moving_views.h"
 extern u8 D_80174AD4[];
 void func_80047784();
 s32 compare_monster_neighbor_values();
@@ -48,7 +49,7 @@ void update_directional_sprite_state_and_signals(BankActorState *state, s32 acti
 void restore_bank_actor_callback_b(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target);
 void restore_bank_actor_callback_c(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target);
 void restore_bank_actor_callback_d(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target);
-void update_bank_effect_fade(void *effect, void *position, void *visual);
+void update_bank_effect_fade(void *effect, MovingPosition *position, void *visual);
 void start_bank_actor_hit_reaction(void *work, void *part_a, void *part_b, EntityRec *actor);
 void update_bank_timed_effect(void *state_input, void *motion_input, void *animation_input, void *actor_input);
 void create_cylindrical_effect(void *state);

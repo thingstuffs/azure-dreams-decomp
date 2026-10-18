@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct { u32 addr:24; u32 len:8; } Tag818C29D4;
 
@@ -66,14 +67,7 @@ typedef struct S_818C29D4_2 {
 } S_818C29D4_2;   /* scratch in draw_shaded_textured_quad */
 
 
-typedef struct S_818C29D4_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_818C29D4_4;   /* arg1 in draw_shaded_textured_quad */
+   /* arg1 in draw_shaded_textured_quad */
 
 typedef struct S_818C29D4_5 {
     u8 pad_00[0x3];
@@ -106,7 +100,7 @@ typedef struct S_818C29D4_7 {
 } S_818C29D4_7;   /* ((Rec_D_80083160 *)D_80083160)->unk_00.as_pu8 in draw_shaded_textured_quad */
 
 /* Builds and queues a shaded textured quad with texture-window commands. */
-s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
+s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
 {
     u8 *scratch = (u8 *)0x1F800000;
     s32 angle;

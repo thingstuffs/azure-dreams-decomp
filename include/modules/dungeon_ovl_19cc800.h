@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800249DC_arg0.h"
+#include "shared/dungeon_moving_views.h"
 typedef struct MotionRecord {
     s16 unk_00;
     s16 unk_02;
@@ -40,7 +41,7 @@ struct Position;
 struct RenderData;
 struct S_8002593C_1;
 struct S_8002593C_2;
-struct S_80025B78_2;
+
 struct S_80025B78_4;
 struct S_819ACB28_4;
 
@@ -48,7 +49,7 @@ void func_80024020(struct EventState *event);
 void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, struct S_819ACB28_4 *packed_value);
 void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base);
 void run_warp_cutscene(struct Motion *motion, struct Position *position, u8 *color);
-void *move_effect_toward_target(void *src);
+void *move_effect_toward_target(MovingPosition *src);
 void advance_effect_motion_and_speed(MotionRecord *motion, EntityRec *position);
 void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param, s32 render_param);
 void copy_follower_owner_position_and_color(FollowerRecord *record, EntityRec *position, struct RenderData *render);
@@ -61,7 +62,7 @@ void set_animation_entry_address(AnimPlayer *player, s16 entry_index);
 void build_install(void *base_matrix, struct S_8002593C_1 *position, struct S_8002593C_2 *rotation);
 void fade_color_to_black(void *owner, s32 unused, void *color_data);
 s32 process_effect_buffer_chain(void *initial_state, s32 initial_value, struct Entry *initial_entry);
-void *create_copied_effect_object(void *source_data, struct S_80025B78_2 *source_triplet, struct S_80025B78_4 *source_state);
+void *create_copied_effect_object(void *source_data, MovingPosition *source_triplet, struct S_80025B78_4 *source_state);
 void initialize_inventory_packet(void *state, void *points, void *appearance);
 void *func_80025FCC(s16 x, s16 y, s16 z, s16 effect_param);
 void fade_effect_color_to_black(void *record, s32 unused, struct EffectColor *color);

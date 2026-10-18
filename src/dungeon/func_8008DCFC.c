@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 Control_CD(); /* extern */
@@ -140,14 +141,7 @@ typedef struct S_8009345C_12 {
     s16 unk_0A;
 } S_8009345C_12;
 
-typedef struct S_8009345C_13 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8009345C_13;   /* map in update_familiar_deployment_change */
+   /* map in update_familiar_deployment_change */
 
 typedef struct S_8009345C_14 {
     u8 pad_00[0xD0];
@@ -167,7 +161,7 @@ typedef struct S_8009345C_16 {
 } S_8009345C_16;   /* ((((S_8009345C_4 *)(&D_800DD262))->unk_00.s * 4) + actor) in update_familiar_deployment_change */
 
 /* Advances the object replacement sequence, including animation, messages, and cleanup. */
-void update_familiar_deployment_change(void *actor, void *map, void *entity, void *context) {
+void update_familiar_deployment_change(void *actor, MovingPosition *map, void *entity, void *context) {
 
     M2C_UNK *remove_text;
     M2C_UNK *create_text;
@@ -297,9 +291,9 @@ void update_familiar_deployment_change(void *actor, void *map, void *entity, voi
                 ((S_8009345C_11 *)object_scale)->unk_1E = 0x800;
                 ((S_8009345C_11 *)object_scale)->unk_1C = 0x800;
                 object_position = ((S_8009345C_10_pre *)new_object)[-1].unk_00;
-                ((S_8009345C_12 *)object_position)->unk_02 = (u16) ((S_8009345C_13 *)map)->unk_02;
-                ((S_8009345C_12 *)object_position)->unk_06 = (u16) ((S_8009345C_13 *)map)->unk_06;
-                ((S_8009345C_12 *)object_position)->unk_0A = (s16) (((S_8009345C_13 *)map)->unk_0A - 0x10);
+                ((S_8009345C_12 *)object_position)->unk_02 = (u16) map->unk_02;
+                ((S_8009345C_12 *)object_position)->unk_06 = (u16) map->unk_06;
+                ((S_8009345C_12 *)object_position)->unk_0A = (s16) (map->unk_0A - 0x10);
                 func_80042640(new_object, ((S_8009345C_10 *)new_object)->unk_13);
                 func_800424E0(new_object, ((S_8009345C_10 *)new_object)->unk_13, *message_or_list.base);
                 object_flags = ((S_8009345C_10 *)new_object)->unk_1C;

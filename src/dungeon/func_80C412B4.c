@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/sprite_frame_state.h"
 extern int abs(int);
 
 typedef struct S_80172AB4_0 {
@@ -42,17 +43,7 @@ typedef struct S_80172AB4_3 {
     u8 unk_25;
 } S_80172AB4_3;   /* record in update_actor_move_animation_and_recovery */
 
-typedef struct S_80172AB4_4 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80172AB4_4;   /* arg2 in update_actor_move_animation_and_recovery */
+   /* arg2 in update_actor_move_animation_and_recovery */
 
 typedef struct S_80172AB4_5 {
     u8 pad_00[0x2];
@@ -162,8 +153,8 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, void *
             } else {
                 ((S_80172AB4_1 *)actor)->unk_60 =
                     scan_monster_along_heading(actor,
-                                  ((S_80172AB4_4 *)sprite)->unk_24,
-                                  ((S_80172AB4_4 *)sprite)->unk_25,
+                                  ((SpriteAnimationTableView *)sprite)->unk_24,
+                                  ((SpriteAnimationTableView *)sprite)->unk_25,
                                   ((S_80172AB4_1 *)actor)->unk_2A, 0x10);
                 ((S_80172AB4_1 *)actor)->unk_72.s = abs(((S_80172AB4_1 *)actor)->unk_72.u);
                 ((S_80172AB4_1 *)actor)->unk_73.s = abs(((S_80172AB4_1 *)actor)->unk_73.u);
@@ -176,7 +167,7 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, void *
                               (u16 *)((u8 *)action + 0x98)) == 0) {
                 return;
             }
-            ((S_80172AB4_4 *)sprite)->unk_14 &= 0xF7FF;
+            ((SpriteAnimationTableView *)sprite)->unk_14 &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_row_object_group(position, (s16)(((s32)*move_id - 1) % 3));
             ((S_80172AB4_0 *)action)->unk_9B++;
@@ -186,7 +177,7 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, void *
         ((S_80172AB4_5 *)motion)->unk_14 = 0;
         ((S_80172AB4_5 *)motion)->unk_10 = 0;
         ((S_80172AB4_5 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((S_80172AB4_4 *)sprite)->unk_24, ((S_80172AB4_4 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteAnimationTableView *)sprite)->unk_24, ((SpriteAnimationTableView *)sprite)->unk_25);
         g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(actor);
@@ -198,11 +189,11 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, void *
         return;
 
     case 1:
-        if (((S_80172AB4_4 *)sprite)->unk_14 & 0x8000) {
+        if (((SpriteAnimationTableView *)sprite)->unk_14 & 0x8000) {
             ((S_80172AB4_0 *)action)->unk_9B = 3;
             return;
         }
-        if (!(((S_80172AB4_4 *)sprite)->unk_14 & 0x6000)) {
+        if (!(((SpriteAnimationTableView *)sprite)->unk_14 & 0x6000)) {
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174D9C;
@@ -235,21 +226,21 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, void *
 
     case 3:
         if (get_cd_command_queue_depth() != 0) {
-            ((S_80172AB4_4 *)sprite)->unk_14 |= 0x800;
+            ((SpriteAnimationTableView *)sprite)->unk_14 |= 0x800;
             return;
         }
-        ((S_80172AB4_4 *)sprite)->unk_14 &= 0xF7FF;
+        ((SpriteAnimationTableView *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172AB4_0 *)action)->unk_9B++;
 
     case 4:
-        if (!(((((S_80172AB4_4 *)sprite)->unk_04 == 1) &&
-               (((S_80172AB4_4 *)sprite)->unk_14 & 0x1000)) ||
-              (((S_80172AB4_4 *)sprite)->unk_14 & 0xE000))) {
+        if (!(((((SpriteAnimationTableView *)sprite)->unk_04 == 1) &&
+               (((SpriteAnimationTableView *)sprite)->unk_14 & 0x1000)) ||
+              (((SpriteAnimationTableView *)sprite)->unk_14 & 0xE000))) {
             return;
         }
         ((S_80172AB4_0 *)action)->unk_96 = 3;
         ((S_80172AB4_0 *)action)->unk_98 |= 0x80;
-        if (!(((S_80172AB4_4 *)sprite)->unk_14 & 0xE000)) {
+        if (!(((SpriteAnimationTableView *)sprite)->unk_14 & 0xE000)) {
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174D9C;
@@ -264,7 +255,7 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, void *
         return;
 
     case 5:
-        if (!(((S_80172AB4_4 *)sprite)->unk_14 & 0xE000)) {
+        if (!(((SpriteAnimationTableView *)sprite)->unk_14 & 0xE000)) {
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174D94;
@@ -276,14 +267,14 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, void *
         return;
 
     case 0xFF:
-        if (!(((S_80172AB4_4 *)sprite)->unk_14 & 0xE000)) {
+        if (!(((SpriteAnimationTableView *)sprite)->unk_14 & 0xE000)) {
             return;
         }
         ((S_80172AB4_5 *)motion)->unk_14 = 0;
         ((S_80172AB4_5 *)motion)->unk_10 = 0;
         ((S_80172AB4_5 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((S_80172AB4_4 *)sprite)->unk_24, ((S_80172AB4_4 *)sprite)->unk_25);
-        if (((S_80172AB4_4 *)sprite)->unk_2C != D_80174D4C) {
+        set_record_integer_tile_center(motion, ((SpriteAnimationTableView *)sprite)->unk_24, ((SpriteAnimationTableView *)sprite)->unk_25);
+        if (((SpriteAnimationTableView *)sprite)->unk_2C != D_80174D4C) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174D4C;
             func_80047784(
                 sprite,
@@ -297,7 +288,7 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, void *
             }
             g_dungeon_status.unk_0A--;
         }
-        ((S_80172AB4_4 *)sprite)->unk_14 &= 0xF7FF;
+        ((SpriteAnimationTableView *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172AB4_0 *)action)->unk_8C = &D_80170E7C;
         advance_status_timers(actor);
         if (((S_80172AB4_1 *)actor)->unk_6D.u > 0) {

@@ -43,14 +43,14 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
     ((R10_80171104_ActorCallback *)D_80175A1C)[(*(u8 *)((u8 *)actor + 0x9A))](actor, motion, object, actor);
 
     if ((*(u8 *)((u8 *)actor + 0x9A)) != 0xE ||
-        (((R10_80171104_S_80171104_0 *)object)->unk_14 & 0x40) ||
+        (((SpriteAnimationTableView *)object)->unk_14 & 0x40) ||
         ((*(u32 *)((u8 *)actor + 0x1C)) & 0x20)) {
         shifted_direction = (s32)old_direction << 16;
     } else {
-        if (((R10_80171104_S_80171104_0 *)object)->unk_2C != ((u8 *)D_80175988) &&
-            ((R10_80171104_S_80171104_0 *)object)->unk_2C != ((u8 *)D_801759A0) &&
-            ((R10_80171104_S_80171104_0 *)object)->unk_2C != ((u8 *)D_801759B0) &&
-            ((R10_80171104_S_80171104_0 *)object)->unk_2C != ((u8 *)D_801759B8)) {
+        if (((SpriteAnimationTableView *)object)->unk_2C != ((u8 *)D_80175988) &&
+            ((SpriteAnimationTableView *)object)->unk_2C != ((u8 *)D_801759A0) &&
+            ((SpriteAnimationTableView *)object)->unk_2C != ((u8 *)D_801759B0) &&
+            ((SpriteAnimationTableView *)object)->unk_2C != ((u8 *)D_801759B8)) {
             (*(u8 * *)((u8 *)object + 0x2C)) = ((u8 *)D_80175988);
             func_80047784(object,
                 ((u8 *)D_80175988)[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
@@ -58,7 +58,7 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
             (*(s16 *)((u8 *)actor + 0xA0)) = 10;
         }
 
-        if (((R10_80171104_S_80171104_0 *)object)->unk_2C == ((u8 *)D_80175988)) {
+        if (((SpriteAnimationTableView *)object)->unk_2C == ((u8 *)D_80175988)) {
             timer = (*(u16 *)((u8 *)actor + 0x9E));
             (*(u16 *)((u8 *)actor + 0x9E)) = timer + 1;
             if (timer >= (*(s16 *)((u8 *)actor + 0xA0))) {
@@ -70,11 +70,11 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
             }
         }
 
-        if (((R10_80171104_S_80171104_0 *)object)->unk_2C == ((u8 *)D_801759A0)) {
+        if (((SpriteAnimationTableView *)object)->unk_2C == ((u8 *)D_801759A0)) {
             timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
             (*(s16 *)((u8 *)actor + 0xA0)) = timer;
             if ((timer << 16) <= 0 &&
-                (((R10_80171104_S_80171104_0 *)object)->unk_14 & 0xE000)) {
+                (((SpriteAnimationTableView *)object)->unk_14 & 0xE000)) {
                 (*(u8 * *)((u8 *)object + 0x2C)) = ((u8 *)D_801759B0);
                 func_80047784(object,
                     ((u8 *)D_801759B0)[((g_game_work.view.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
@@ -86,11 +86,11 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
             }
         }
 
-        if (((R10_80171104_S_80171104_0 *)object)->unk_2C == ((u8 *)D_801759B0)) {
+        if (((SpriteAnimationTableView *)object)->unk_2C == ((u8 *)D_801759B0)) {
             timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
             (*(s16 *)((u8 *)actor + 0xA0)) = timer;
             if ((timer << 16) <= 0 &&
-                (((R10_80171104_S_80171104_0 *)object)->unk_14 & 0xE000)) {
+                (((SpriteAnimationTableView *)object)->unk_14 & 0xE000)) {
                 (*(u8 * *)((u8 *)object + 0x2C)) = ((u8 *)D_801759B8);
                 func_80047784(object,
                     ((u8 *)D_801759B8)[((g_game_work.view.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
@@ -99,7 +99,7 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
             }
         }
 
-        if (((R10_80171104_S_80171104_0 *)object)->unk_2C != ((u8 *)D_801759B8)) {
+        if (((SpriteAnimationTableView *)object)->unk_2C != ((u8 *)D_801759B8)) {
             shifted_direction = (s32)old_direction << 16;
         } else {
             timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
@@ -107,7 +107,7 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
             if ((timer << 16) > 0) {
                 shifted_direction = (s32)old_direction << 16;
             } else {
-                if (((R10_80171104_S_80171104_0 *)object)->unk_14 & 0xE000) {
+                if (((SpriteAnimationTableView *)object)->unk_14 & 0xE000) {
                     (*(u8 * *)((u8 *)object + 0x2C)) = ((u8 *)D_80175988);
                     func_80047784(object,
                         ((u8 *)D_80175988)[((g_game_work.view.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100)
@@ -124,7 +124,7 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
         try_move_actor_to_valid_position(actor, motion, object, actor_copy);
     }
 
-    flags = ((R10_80171104_S_80171104_0 *)object)->unk_14;
+    flags = ((SpriteAnimationTableView *)object)->unk_14;
     if (!(flags & 0x8000)) {
         s16 view_index;
         s32 old_direction;
@@ -133,30 +133,30 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
         view_index = old_direction;
         view_index_copy = old_direction;
         if ((*(s16 *)((u8 *)actor + 0x94)) != view_index) {
-            animation = ((R10_80171104_S_80171104_0 *)object)->unk_2C;
+            animation = ((SpriteAnimationTableView *)object)->unk_2C;
             if (animation != 0) {
-                select_indirect_table_entry(object, animation[view_index], ((R10_80171104_S_80171104_0 *)object)->unk_04);
+                select_indirect_table_entry(object, animation[view_index], ((SpriteAnimationTableView *)object)->unk_04);
             }
             (*(s16 *)((u8 *)actor + 0x94)) = old_direction;
         }
 
         if (dir_sprite_flag[view_index_copy] != 0) {
-            ((R10_80171104_S_80171104_0 *)object)->unk_14 |= 1;
+            ((SpriteAnimationTableView *)object)->unk_14 |= 1;
         } else {
-            ((R10_80171104_S_80171104_0 *)object)->unk_14 &= 0xFFFE;
+            ((SpriteAnimationTableView *)object)->unk_14 &= 0xFFFE;
         }
         if (!(((R10_80171104_S_80171104_1 *)actor_copy)->unk_1C.u & 0x20)) {
-            if (!(((R10_80171104_S_80171104_0 *)object)->unk_14 & 0x40)) {
+            if (!(((SpriteAnimationTableView *)object)->unk_14 & 0x40)) {
                 func_800478B8(object);
             }
         } else {
-            ((R10_80171104_S_80171104_0 *)object)->unk_14 |= 0x7000;
+            ((SpriteAnimationTableView *)object)->unk_14 |= 0x7000;
         }
         apply_monster_koyaw_data(((R10_80171104_S_80171104_1 *)actor_copy)->unk_1C.s, object + 0xC);
     } else if (flags & 0x800) {
-        ((R10_80171104_S_80171104_0 *)object)->unk_14 = flags & 0x8FFF;
+        ((SpriteAnimationTableView *)object)->unk_14 = flags & 0x8FFF;
     } else {
-        ((R10_80171104_S_80171104_0 *)object)->unk_14 = flags | 0x7000;
+        ((SpriteAnimationTableView *)object)->unk_14 = flags | 0x7000;
     }
 
     ((R10_80171104_S_80171104_2 *)motion)->unk_00.at00.v += ((R10_80171104_S_80171104_2 *)motion)->unk_0C;
@@ -190,8 +190,8 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
 
             if (((R10_80171104_S_80171104_1 *)actor_copy)->unk_1C.u & 0x40000000) {
                 ((R10_80171104_S_80171104_1 *)actor_copy)->unk_1C.u &= 0xBFFFFFFF;
-                floor_height = ((s16)sample_terrain_surface_height((((R10_80171104_S_80171104_0 *)object)->unk_24 << 6) | 0x20,
-                                       (((R10_80171104_S_80171104_0 *)object)->unk_25 << 6) | 0x20,(s16)((s16)(((R10_80171104_S_80171104_1 *)actor_copy)->unk_88.u - 0x20))));
+                floor_height = ((s16)sample_terrain_surface_height((((SpriteAnimationTableView *)object)->unk_24 << 6) | 0x20,
+                                       (((SpriteAnimationTableView *)object)->unk_25 << 6) | 0x20,(s16)((s16)(((R10_80171104_S_80171104_1 *)actor_copy)->unk_88.u - 0x20))));
                 (*(s16 *)((u8 *)actor + 0x92)) += ((R10_80171104_S_80171104_1 *)actor_copy)->unk_88.u - floor_height;
                 ((R10_80171104_S_80171104_1 *)actor_copy)->unk_88.s = floor_height;
             }
@@ -203,7 +203,7 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
     }
 
     ((R10_80171104_S_80171104_2 *)motion)->unk_0A = ((R10_80171104_S_80171104_1 *)actor_copy)->unk_88.u + (*(s16 *)((u8 *)actor + 0x92));
-    ((R10_80171104_S_80171104_0 *)object)->unk_14 |= 0x40;
+    ((SpriteAnimationTableView *)object)->unk_14 |= 0x40;
 
     return;
 }

@@ -18,16 +18,16 @@ void create_parent_return_effect(
         ((S_80BC1528_0 *)effect)->unk_10 = advance_effect_toward_target;
 
         ((S_80BC1528_3 *)(((S_80BC1528_0 *)effect)->unk_08))->unk_02 =
-            ((S_80BC1528_4 *)(parent->unk_08))->unk_02 + offset_x;
+            ((MovingPosition *)(parent->unk_08))->unk_02 + offset_x;
         ((S_80BC1528_3 *)(((S_80BC1528_0 *)effect)->unk_08))->unk_06 =
-            ((S_80BC1528_4 *)(parent->unk_08))->unk_06 + offset_y;
+            ((MovingPosition *)(parent->unk_08))->unk_06 + offset_y;
         ((S_80BC1528_3 *)(((S_80BC1528_0 *)effect)->unk_08))->unk_0A =
-            ((S_80BC1528_4 *)(parent->unk_08))->unk_0A + offset_z - 100;
+            ((MovingPosition *)(parent->unk_08))->unk_0A + offset_z - 100;
 
         effect_data = (u8 *)effect + 0x20;
-        effect_data->unk_36 = ((S_80BC1528_4 *)(parent->unk_08))->unk_02;
-        effect_data->unk_38 = ((S_80BC1528_4 *)(parent->unk_08))->unk_06;
-        effect_data->unk_3A = ((S_80BC1528_4 *)(parent->unk_08))->unk_0A;
+        effect_data->unk_36 = ((MovingPosition *)(parent->unk_08))->unk_02;
+        effect_data->unk_38 = ((MovingPosition *)(parent->unk_08))->unk_06;
+        effect_data->unk_3A = ((MovingPosition *)(parent->unk_08))->unk_0A;
 
         step_x = -(offset_x << 16) / (duration / 8);
         effect_data->unk_40 = step_x / 2;

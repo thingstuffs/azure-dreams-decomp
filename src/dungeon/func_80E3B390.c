@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80174B90_4 {
     u8 pad_00[0x14];
@@ -23,23 +24,9 @@ typedef struct S_80174B90_7 {
     s32 unk_28;
 } S_80174B90_7;
 
-typedef struct S_80174B90_8 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80174B90_8;
 
-typedef struct S_80174B90_9 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80174B90_9;   /* ((S_80174B90_6 *)arg0)->unk_08 in create_terrain_scaled_actor_effect */
+
+   /* ((S_80174B90_6 *)arg0)->unk_08 in create_terrain_scaled_actor_effect */
 
 
 void *func_8003FD64();               /* extern */
@@ -103,12 +90,12 @@ void create_terrain_scaled_actor_effect(S_80174B90_2 *source, s32 state_00, s32 
         render_data->unk_0C = 0x808080;
         render_data->unk_28 = (s32) ((S_80174B90_7 *)(((S_80174B90_4 *)effect_state)->unk_14))->unk_28;
         render_data->unk_12 = (u16) ((S_80174B90_7 *)(((S_80174B90_4 *)effect_state)->unk_14))->unk_12;
-        ((S_80174B90_8 *)(((S_80174B90_5 *)effect)->unk_08))->unk_02 =
-            (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)source)->unk_08))->unk_02;
-        ((S_80174B90_8 *)(((S_80174B90_5 *)effect)->unk_08))->unk_06 =
-            (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)source)->unk_08))->unk_06;
-        ((S_80174B90_8 *)(((S_80174B90_5 *)effect)->unk_08))->unk_0A =
-            (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)source)->unk_08))->unk_0A;
+        ((MovingPosition *)(((S_80174B90_5 *)effect)->unk_08))->unk_02 =
+            (u16) ((MovingPosition *)(((S_80174B90_6 *)source)->unk_08))->unk_02;
+        ((MovingPosition *)(((S_80174B90_5 *)effect)->unk_08))->unk_06 =
+            (u16) ((MovingPosition *)(((S_80174B90_6 *)source)->unk_08))->unk_06;
+        ((MovingPosition *)(((S_80174B90_5 *)effect)->unk_08))->unk_0A =
+            (u16) ((MovingPosition *)(((S_80174B90_6 *)source)->unk_08))->unk_0A;
         func_80047784(render_data, 0x46, 0);
         func_8004491C(effect, &D_80175540);
         ((S_80174B90_0 *)effect)->unk_20 = state_00;

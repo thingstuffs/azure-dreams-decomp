@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 
 
@@ -16,14 +17,7 @@ typedef struct S_819AD1DC_0 {
     M2C_UNK * unk_10;
 } S_819AD1DC_0;   /* obj in func_819AD1DC */
 
-typedef struct S_819AD1DC_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_819AD1DC_1;   /* src in func_819AD1DC */
+   /* src in func_819AD1DC */
 
 typedef struct S_819AD1DC_2 {
     u8 pad_00[0x2];
@@ -62,7 +56,7 @@ typedef struct S_819AD1DC_4 {
 } S_819AD1DC_4;   /* render in func_819AD1DC */
 
 /* Spawn the nine trail sprites at the source position, the last one larger and all fading with distance. */
-void *move_effect_toward_target(void *src)
+void *move_effect_toward_target(MovingPosition *src)
 {
     s32 i;
     s32 *handler;
@@ -88,16 +82,16 @@ void *move_effect_toward_target(void *src)
             ((S_819AD1DC_0 *)obj)->unk_10 = handler;
             func_8004491C(obj, process_linked_mesh_states_mode_0);
             coords = ((S_819AD1DC_0 *)obj)->unk_08;
-            x = ((S_819AD1DC_1 *)src)->unk_02;
+            x = src->unk_02;
             part = obj + 0x20;
             coords->unk_02 = x;
             coords->unk_0E = x;
             part->unk_1C = x;
-            y = ((S_819AD1DC_1 *)src)->unk_06;
+            y = src->unk_06;
             coords->unk_06 = y;
             coords->unk_12 = y;
             part->unk_1E = y;
-            z = ((S_819AD1DC_1 *)src)->unk_0A;
+            z = src->unk_0A;
             coords->unk_0A = z;
             coords->unk_16 = z;
             part->unk_20 = z;

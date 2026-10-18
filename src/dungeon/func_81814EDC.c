@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_81814EDC_0_pre {
     u16 unk_00;
@@ -50,14 +51,7 @@ typedef struct S_81814EDC_2 {
     s16 unk_1E;
 } S_81814EDC_2;
 
-typedef struct S_81814EDC_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_81814EDC_3;   /* source in func_81814EDC */
+   /* source in func_81814EDC */
 
 typedef struct S_81814EDC_4 {
     u8 pad_00[0x2];
@@ -81,14 +75,7 @@ typedef struct S_81814EDC_5 {
     s32 unk_60;
 } S_81814EDC_5;
 
-typedef struct S_81814EDC_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_81814EDC_6;
+
 
 typedef struct S_81814EDC_7_pre {
     void * unk_00;
@@ -154,7 +141,7 @@ void func_81814EDC(void *effect, void *position) {
     S_81814EDC_9 *owner_sprite;
     S_81814EDC_2 *sprite;
     S_81814EDC_5 *debris;
-    S_81814EDC_6 *owner_position;
+    MovingPosition *owner_position;
     void *particle;
 
     if (((S_81814EDC_0 *)effect)->unk_00 == 0) {
@@ -175,7 +162,7 @@ void func_81814EDC(void *effect, void *position) {
             {
                 s32 random_offset = func_80069EF8() & 0x1F;
                 s32 coordinate;
-                coordinate = ((S_81814EDC_3 *)position)->unk_02;
+                coordinate = ((MovingPosition *)position)->unk_02;
 
                 coordinate -= 0x10;
                 coordinate += random_offset;
@@ -184,7 +171,7 @@ void func_81814EDC(void *effect, void *position) {
             {
                 s32 random_offset = func_80069EF8() & 0x1F;
                 s32 coordinate;
-                coordinate = ((S_81814EDC_3 *)position)->unk_06;
+                coordinate = ((MovingPosition *)position)->unk_06;
 
                 coordinate -= 0x10;
                 coordinate += random_offset;
@@ -193,7 +180,7 @@ void func_81814EDC(void *effect, void *position) {
             {
                 s32 random_offset = func_80069EF8() & 7;
                 s32 coordinate;
-                coordinate = ((S_81814EDC_3 *)position)->unk_0A;
+                coordinate = ((MovingPosition *)position)->unk_0A;
 
                 coordinate -= 4;
                 coordinate += random_offset;

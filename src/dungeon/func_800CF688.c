@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800D4BD4_arg1.h"
 #include "records/Rec_func_800D4BD4_arg2.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -46,14 +47,7 @@ typedef struct S_800D4DE8_6 {
     u16 unk_0A;
 } S_800D4DE8_6;   /* global in emit_particles_until_expired */
 
-typedef struct S_800D4DE8_7 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800D4DE8_7;
+
 
 typedef struct S_800D4DE8_8 {
     u8 pad_00[0x13];
@@ -77,13 +71,13 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
     position->unk_02.as_s16 =
-        (s16)(((S_800D4DE8_7 *)(parent->unk_08))->unk_02 +
+        (s16)(((MovingPosition *)(parent->unk_08))->unk_02 +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
     position->unk_06.as_s16 =
-        (s16)(((S_800D4DE8_7 *)(parent->unk_08))->unk_06 +
+        (s16)(((MovingPosition *)(parent->unk_08))->unk_06 +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
     position->unk_0A.as_s16 =
-        (s16)(((S_800D4DE8_7 *)(parent->unk_08))->unk_0A +
+        (s16)(((MovingPosition *)(parent->unk_08))->unk_0A +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
     age = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 = age;

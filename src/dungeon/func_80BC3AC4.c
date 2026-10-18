@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 
 typedef struct {
@@ -71,14 +72,7 @@ typedef struct S_801732C4_5 {
     s16 unk_1C;
 } S_801732C4_5;   /* object_base in advance_actor_item_use_sequence_2 */
 
-typedef struct S_801732C4_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801732C4_6;   /* transform in advance_actor_item_use_sequence_2 */
+   /* transform in advance_actor_item_use_sequence_2 */
 
 typedef struct S_801732C4_7 {
     u8 pad_00[0x6];
@@ -273,7 +267,7 @@ void advance_actor_item_use_sequence_2(void *action, EntityRec *motion, void *sp
         {
             void *object;
             u8 *object_base;
-            void *transform;
+            MovingPosition *transform;
             void *display;
             u16 timer;
             u16 flags;
@@ -292,9 +286,9 @@ void advance_actor_item_use_sequence_2(void *action, EntityRec *motion, void *sp
             (*(void * *)((u8 *)object + 0x10)) = D_80171080;
             func_8004491C(object, func_80045340);
             transform = (*(void * *)((u8 *)object + 8));
-            ((S_801732C4_6 *)transform)->unk_02 = ((u16)motion->x.w.i);
-            ((S_801732C4_6 *)transform)->unk_06 = ((u16)motion->y.w.i);
-            ((S_801732C4_6 *)transform)->unk_0A = ((u16)motion->z.w.i) - 0x60;
+            transform->unk_02 = ((u16)motion->x.w.i);
+            transform->unk_06 = ((u16)motion->y.w.i);
+            transform->unk_0A = ((u16)motion->z.w.i) - 0x60;
             display = (*(void * *)((u8 *)object + 0xC));
             (*(Packet12 *)((u8 *)object + 0x48)) = D_80174694;
             ((S_801732C4_7 *)display)->unk_08 = (u8 *)object + 0x48;

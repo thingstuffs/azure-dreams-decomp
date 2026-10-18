@@ -1,6 +1,7 @@
 #include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 
 typedef struct S_80024968_0 {
@@ -12,27 +13,13 @@ typedef struct S_80024968_0 {
     s32 unk_20;
 } S_80024968_0;
 
-typedef struct S_80024968_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024968_1;
 
-typedef struct S_80024968_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024968_2;   /* arg1 in create_initialized_effect_object */
+
+   /* arg1 in create_initialized_effect_object */
 
 /* Creates an object, copies three values into its data, and initializes it. */
-void *create_initialized_effect_object(s32 resource_id, S_80024968_2 *source_values, s16 setup_value, s32 object_value) {
-    S_80024968_1 *target_values;
+void *create_initialized_effect_object(s32 resource_id, MovingPosition *source_values, s16 setup_value, s32 object_value) {
+    MovingPosition *target_values;
     S_80024968_0 *object;
 
     object = func_8003FD64(2, (ObjectNodeHeader **)(resource_id - 0x20));

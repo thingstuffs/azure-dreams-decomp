@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_81269000_0_pre {
     u16 unk_00;
@@ -45,14 +46,7 @@ typedef struct S_81269000_3 {
     u16 unk_1E;
 } S_81269000_3;   /* dst in update_variant_part_brightness */
 
-typedef struct S_81269000_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_81269000_4;   /* out in update_variant_part_brightness */
+   /* out in update_variant_part_brightness */
 
 typedef struct S_81269000_5 {
     u8 pad_00[0x1];
@@ -83,7 +77,7 @@ void update_variant_part_brightness(void *root_data, void *position_data, void *
 {
     s16 offset[3];
     void *root = root_data;
-    void *output_pos = position_data;
+    MovingPosition *output_pos = position_data;
     S_81269000_3 *render_part = render_data;
     S_81269000_1 *owner;
     S_81269000_5 *transform;
@@ -98,18 +92,18 @@ void update_variant_part_brightness(void *root_data, void *position_data, void *
         render_part->unk_14 &= 0xFF7F;
     }
 
-    ((S_81269000_4 *)output_pos)->unk_02 = transform->unk_02;
-    ((S_81269000_4 *)output_pos)->unk_06 = transform->unk_06;
-    ((S_81269000_4 *)output_pos)->unk_0A = transform->unk_0A;
+    output_pos->unk_02 = transform->unk_02;
+    output_pos->unk_06 = transform->unk_06;
+    output_pos->unk_0A = transform->unk_0A;
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, offset,
                       ((S_81269000_0 *)root)->unk_B6) != 0) {
-        ((S_81269000_4 *)output_pos)->unk_02 +=
+        output_pos->unk_02 +=
             (offset[0] + ((S_81269000_0 *)root)->unk_B0) / 2;
-        ((S_81269000_4 *)output_pos)->unk_06 +=
+        output_pos->unk_06 +=
             (offset[1] + ((S_81269000_0 *)root)->unk_B2) / 2;
-        ((S_81269000_4 *)output_pos)->unk_0A +=
+        output_pos->unk_0A +=
             (offset[2] + ((S_81269000_0 *)root)->unk_B4) / 2;
         ((S_81269000_0 *)root)->unk_B0 = offset[0];
         ((S_81269000_0 *)root)->unk_B2 = offset[1];

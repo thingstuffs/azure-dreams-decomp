@@ -1,6 +1,7 @@
 #include "modules/dungeon_native_abi.h"
 #include "modules/dungeon_ovl_1894800.h"
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -18,14 +19,7 @@ typedef struct S_func_81875B38_2 {
     s32 unk_10;
 } S_func_81875B38_2;
 
-typedef struct S_func_81875B38_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_func_81875B38_3;
+
 
 typedef struct S_func_81875B38_4 {
     u8 pad_00[0x2];
@@ -76,19 +70,19 @@ void func_80025338(
     if (effect_ptr != NULL) {
         effect_ptr->unk_10 = (s32)func_80025278;
         jitter = rand() & 0x1F;
-        effect_pos = ((S_func_81875B38_3 *)source_obj->unk_08)->unk_02 + jitter;
+        effect_pos = ((MovingPosition *)source_obj->unk_08)->unk_02 + jitter;
         effect_pos += x_offset - 0x10;
         ((S_func_81875B38_4 *)effect_ptr->unk_08)->unk_02 = effect_pos;
 
         jitter = rand() & 0x1F;
-        effect_pos = ((S_func_81875B38_3 *)source_obj->unk_08)->unk_06 + jitter;
+        effect_pos = ((MovingPosition *)source_obj->unk_08)->unk_06 + jitter;
         effect_pos += y_offset - 0x10;
         ((S_func_81875B38_4 *)effect_ptr->unk_08)->unk_06 = effect_pos;
 
         jitter = rand() & 0x1F;
         effect_obj = effect_ptr;
         effect_ptr = effect_offset_32(effect_obj);
-        effect_pos = ((S_func_81875B38_3 *)source_obj->unk_08)->unk_0A + jitter;
+        effect_pos = ((MovingPosition *)source_obj->unk_08)->unk_0A + jitter;
         effect_pos += z_offset - 0x10;
         ((S_func_81875B38_4 *)effect_obj->unk_08)->unk_0A = effect_pos;
         ((S_func_81875B38_5 *)effect_ptr)->unk_14 = property_34;

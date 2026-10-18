@@ -88,7 +88,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
     s32 impact_sprite;
     s32 particle_count_m;
     S_80024BE8_1 *task;
-    S_80024BE8_6 *origin;
+    MovingPosition *origin;
     S_80024BE8_4 *source_sprite;
     void *target;
     u8 *direction_table;

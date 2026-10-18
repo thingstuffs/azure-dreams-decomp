@@ -1,6 +1,7 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800BB218_0 {
     u16 unk_00;
@@ -27,14 +28,7 @@ typedef struct S_800BB218_2 {
     s8 unk_97;
 } S_800BB218_2;   /* object in draw_randomized_white_points */
 
-typedef struct S_800BB218_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800BB218_3;   /* coords in draw_randomized_white_points */
+   /* coords in draw_randomized_white_points */
 
 typedef struct S_800BB218_4 {
     u32 unk_00;
@@ -63,7 +57,7 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
     s32 point_index;
     u8 *scratch;
     u8 *object;
-    u8 *coords;
+    MovingPosition *coords;
     u32 addr_mask;
     u32 tag_mask;
     u8 *arena;
@@ -103,16 +97,16 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
                 s32 base_radius = ((S_800BB218_2 *)object)->unk_97;
                 radius_offset = (point_index / 8) % 12 + 0x48;
                 ((S_800BB218_0 *)scratch)->unk_14 =
-                    ((S_800BB218_3 *)coords)->unk_02 + ((x_scale * (base_radius + radius_offset)) >> 8);
+                    coords->unk_02 + ((x_scale * (base_radius + radius_offset)) >> 8);
             }
 
             ((S_800BB218_0 *)scratch)->unk_16 =
-                ((S_800BB218_3 *)coords)->unk_06 +
+                coords->unk_06 +
                 (((func_80064584(angle) >> 4) *
                   (((S_800BB218_2 *)object)->unk_97 + radius_offset)) >> 8);
 
             ((S_800BB218_0 *)scratch)->unk_18 =
-                ((S_800BB218_3 *)coords)->unk_0A -
+                coords->unk_0A -
                 (((func_800644B8((point_index % 16) << 6) >> 4) *
                   (((S_800BB218_2 *)object)->unk_66 + 0x10)) >> 8);
 

@@ -56,33 +56,33 @@ void update_entity_facing_motion_and_ground(void *entity, R03_80170A28_S_80170A2
         try_move_actor_to_valid_position(entity, motion, part, entity);
     }
 
-    part_flags = ((R03_80170A28_S_80170A28_0 *)part)->unk_14;
+    part_flags = ((SpriteAnimationTableView *)part)->unk_14;
     if (!(part_flags & 0x8000)) {
         rounded_angle = g_game_work.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         state_or_direction = (rounded_angle >> 9) & 7;
         direction_index = state_or_direction;
         direction_copy = state_or_direction;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_copy) {
-            if (((R03_80170A28_S_80170A28_0 *)part)->unk_2C != 0) {
+            if (((SpriteAnimationTableView *)part)->unk_2C != 0) {
                 select_indirect_table_entry(part,
-                              ((R03_80170A28_S_80170A28_0 *)part)->unk_2C[direction_copy],
-                              ((R03_80170A28_S_80170A28_0 *)part)->unk_04);
+                              ((SpriteAnimationTableView *)part)->unk_2C[direction_copy],
+                              ((SpriteAnimationTableView *)part)->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = state_or_direction;
         }
 
         direction_flag = dir_sprite_flag[direction_index];
         if (direction_flag != 0) {
-            ((R03_80170A28_S_80170A28_0 *)part)->unk_14 |= 1;
+            ((SpriteAnimationTableView *)part)->unk_14 |= 1;
         } else {
-            ((R03_80170A28_S_80170A28_0 *)part)->unk_14 &= 0xFFFE;
+            ((SpriteAnimationTableView *)part)->unk_14 &= 0xFFFE;
         }
         if (!(((R03_80170A28_S_80170A28_1 *)entity_base)->unk_1C & 0x20)) {
-            if (!(((R03_80170A28_S_80170A28_0 *)part)->unk_14 & 0x40)) {
+            if (!(((SpriteAnimationTableView *)part)->unk_14 & 0x40)) {
                 func_800478B8(part);
             }
         } else {
-            ((R03_80170A28_S_80170A28_0 *)part)->unk_14 |= 0x7000;
+            ((SpriteAnimationTableView *)part)->unk_14 |= 0x7000;
         }
         apply_monster_koyaw_data(((R03_80170A28_S_80170A28_1 *)entity_base)->unk_1C, (u8 *)part + 0xC);
     } else {
@@ -91,7 +91,7 @@ void update_entity_facing_motion_and_ground(void *entity, R03_80170A28_S_80170A2
         } else {
             new_part_flags = part_flags | 0x7000;
         }
-        ((R03_80170A28_S_80170A28_0 *)part)->unk_14 = new_part_flags;
+        ((SpriteAnimationTableView *)part)->unk_14 = new_part_flags;
     }
 
     motion->unk_00.at00.v += motion->unk_0C;
@@ -129,8 +129,8 @@ void update_entity_facing_motion_and_ground(void *entity, R03_80170A28_S_80170A2
             if (entity_flags & 0x40000000) {
                 ((R03_80170A28_S_80170A28_1 *)entity_base)->unk_1C = entity_flags & 0xBFFFFFFF;
                 ground_height = ((s16)sample_terrain_surface_height(
-                    (((R03_80170A28_S_80170A28_0 *)part)->unk_24 << 6) | 0x20,
-                    (((R03_80170A28_S_80170A28_0 *)part)->unk_25 << 6) | 0x20,
+                    (((SpriteAnimationTableView *)part)->unk_24 << 6) | 0x20,
+                    (((SpriteAnimationTableView *)part)->unk_25 << 6) | 0x20,
                     (s16)(((R03_80170A28_S_80170A28_1 *)entity_base)->unk_88 - 0x20)));
                 (*(s16 *)((u8 *)entity + 0x92)) +=
                     ((R03_80170A28_S_80170A28_1 *)entity_base)->unk_88 - ground_height;
@@ -146,7 +146,7 @@ void update_entity_facing_motion_and_ground(void *entity, R03_80170A28_S_80170A2
     entity_base = (u8 *)entity_base + 0x88;
     motion->unk_0A =
         *(u16 *)entity_base + (*(u16 *)((u8 *)entity + 0x92));
-    ((R03_80170A28_S_80170A28_0 *)part)->unk_14 |= 0x40;
+    ((SpriteAnimationTableView *)part)->unk_14 |= 0x40;
 
     return;
 }

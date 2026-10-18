@@ -3,6 +3,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -36,14 +37,7 @@ typedef struct S_func_800D7FB8_1 {
     s16 unk_4A;
 } S_func_800D7FB8_1;
 
-typedef struct S_func_800D7FB8_2 {
-    u8 pad_00[2];
-    u16 unk_02;
-    u8 pad_04[2];
-    u16 unk_06;
-    u8 pad_08[2];
-    u16 unk_0A;
-} S_func_800D7FB8_2;
+
 
 typedef struct S_func_800D7FB8_3 {
     u8 *unk_00;
@@ -110,9 +104,9 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
                 entry->d81d4 = (u8 *)&D_800D81D4;
                 func_8004491C(entry, func_80045340);
                 sub_data = entry->sub;
-                ((S_func_800D7FB8_2 *)entry->child)->unk_02 = controller->unk_04;
-                ((S_func_800D7FB8_2 *)entry->child)->unk_06 = controller->unk_06;
-                ((S_func_800D7FB8_2 *)entry->child)->unk_0A = controller->unk_08;
+                ((MovingPosition *)entry->child)->unk_02 = controller->unk_04;
+                ((MovingPosition *)entry->child)->unk_06 = controller->unk_06;
+                ((MovingPosition *)entry->child)->unk_0A = controller->unk_08;
                 sub_data->unk_1E = 0x400;
                 sub_data->unk_1C = 0x400;
                 sub_data->unk_10 = 0x20;
@@ -125,7 +119,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
                 sub_data->unk_08 = resource_word;
                 __builtin_memcpy((u8 *)entry + 0x2C, (u8 *)controller + 4, 8);
                 entry_data->unk_4A = (spawn_index & 1) ? 1 : -1;
-                ((S_func_800D7FB8_2 *)entry->child)->unk_0A = controller->unk_08;
+                ((MovingPosition *)entry->child)->unk_0A = controller->unk_08;
             }
             spawn_index -= 1;
         } while (spawn_index >= 0);

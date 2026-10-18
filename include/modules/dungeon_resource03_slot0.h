@@ -16,6 +16,10 @@
 #include "shared/def_table.h"
 #include "records/Rec_func_801736F4_arg0.h"
 #include "records/Rec_func_800AA258_arg2.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/actor_status.h"
+#include "shared/object_links.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef s32 R03_80170854_M2C_UNK;
 typedef struct R03_80170854_S_8016A854_0 {
@@ -51,17 +55,7 @@ typedef struct R03_80170854_S_8016A854_4 {
     s8 unk_9C;
 } R03_80170854_S_8016A854_4;
 typedef void (*R03_80170A28_EntityCallback)(void *, void *, void *, void *);
-typedef struct R03_80170A28_S_80170A28_0 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} R03_80170A28_S_80170A28_0;
+
 typedef struct R03_80170A28_S_80170A28_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -108,12 +102,7 @@ typedef struct R03_8017139C_S_8017139C_2 {
     u16 unk_98;
     u8 unk_9A;
 } R03_8017139C_S_8017139C_2;
-typedef struct R03_8017139C_S_8017139C_3 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} R03_8017139C_S_8017139C_3;
+
 typedef struct R03_801715F4_S_80171C34_1 {
     u8 pad_00[0x12];
     u8 unk_12;
@@ -258,15 +247,8 @@ typedef struct R03_80172A24_S_80172A24_0 {
     u8 pad_9A[0x1];
     u8 unk_9B;
 } R03_80172A24_S_80172A24_0;
-typedef struct R03_80172A24_S_80172A24_2_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} R03_80172A24_S_80172A24_2_pre;
-typedef struct R03_80172A24_S_80172A24_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} R03_80172A24_S_80172A24_3;
+
+
 typedef struct R03_80172A24_S_80172A24_7 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -437,4 +419,7 @@ void fade_entity_colors_to_neutral(Resource03CallbackState *state, void *motion,
 void func_80173BCC(Resource03CallbackState *state, void *motion, void *position, void *actor);
 void func_80173C04(Resource03CallbackState *state, void *motion, void *position, void *actor);
 void func_80173C3C(Resource03CallbackState *state, void *motion, void *position, void *actor);
+/* Compatibility for registered relink copies pending LL4 deletion.
+ * Production home members use the shared concept directly. */
+typedef SpriteAnimationTableView R03_80170A28_S_80170A28_0;
 #endif

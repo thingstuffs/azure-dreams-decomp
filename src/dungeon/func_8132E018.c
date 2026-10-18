@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80165018_0 {
     u8 pad_00[0x8];
@@ -31,14 +32,7 @@ typedef struct S_80165018_4 {
     s16 unk_34;
 } S_80165018_4;   /* tail in create_jittered_child_effect */
 
-typedef struct S_80165018_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80165018_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_jittered_child_effect */
+   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_jittered_child_effect */
 
 typedef struct S_80165018_6 {
     u8 pad_00[0x2];
@@ -78,17 +72,17 @@ void create_jittered_child_effect(EntityRec *parent, s32 effect_value, s16 effec
     if (effect != 0) {
         ((S_80165018_0 *)effect)->unk_10 = D_80164DA4;
         jitter = rand() & 7;
-        coordinate = ((S_80165018_5 *)((*(void * *)&parent->z)))->unk_02 + offset_x;
+        coordinate = ((MovingPosition *)((*(void * *)&parent->z)))->unk_02 + offset_x;
         coordinate -= 3;
         coordinate += jitter;
         ((S_80165018_6 *)(((S_80165018_0 *)effect)->unk_08))->unk_02 = (s16)coordinate;
         jitter = rand() & 7;
-        coordinate = ((S_80165018_5 *)((*(void * *)&parent->z)))->unk_06 + offset_y;
+        coordinate = ((MovingPosition *)((*(void * *)&parent->z)))->unk_06 + offset_y;
         coordinate -= 3;
         coordinate += jitter;
         ((S_80165018_6 *)(((S_80165018_0 *)effect)->unk_08))->unk_06 = (s16)coordinate;
         jitter = rand() & 7;
-        coordinate = ((S_80165018_5 *)((*(void * *)&parent->z)))->unk_0A + offset_z;
+        coordinate = ((MovingPosition *)((*(void * *)&parent->z)))->unk_0A + offset_z;
         coordinate -= 3;
         coordinate += jitter;
         ((S_80165018_6 *)(((S_80165018_0 *)effect)->unk_08))->unk_0A = (s16)coordinate;

@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_81976850_0 {
     void * unk_00;
@@ -31,14 +32,7 @@ typedef struct S_81976850_2 {
     s32 unk_14;
 } S_81976850_2;   /* arg1 in func_81976850 */
 
-typedef struct S_81976850_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_81976850_3;   /* coords in func_81976850 */
+   /* coords in func_81976850 */
 
 typedef struct S_81976850_4 {
     u8 pad_00[0xC];
@@ -91,7 +85,7 @@ void func_81976850(void *effect, void *motion, void *visual)
 {
     Vec16 delta;
     void *source;
-    void *source_pos;
+    MovingPosition *source_pos;
     void *target_pos;
     EntityRec *scene;
     void *object;
@@ -115,9 +109,9 @@ void func_81976850(void *effect, void *motion, void *visual)
         if ((((S_81976850_1 *)source)->unk_14 & 0x8000) ||
             resolve_record_orientation_or_fallback(((S_81976850_1 *)source)->unk_08, source, &delta, 0)) {
             source_pos = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_08;
-            ((S_81976850_2 *)motion)->unk_00.at02.v = ((S_81976850_3 *)source_pos)->unk_02;
-            ((S_81976850_2 *)motion)->unk_04.at02.v = ((S_81976850_3 *)source_pos)->unk_06;
-            source_z = ((S_81976850_3 *)source_pos)->unk_0A;
+            ((S_81976850_2 *)motion)->unk_00.at02.v = source_pos->unk_02;
+            ((S_81976850_2 *)motion)->unk_04.at02.v = source_pos->unk_06;
+            source_z = source_pos->unk_0A;
             ((S_81976850_2 *)motion)->unk_08.at02.v = source_z;
 
             if (!(((S_81976850_1 *)source)->unk_14 & 0x8000)) {

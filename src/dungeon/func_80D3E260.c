@@ -8,6 +8,7 @@ extern int abs(int);
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 
 typedef struct Copy48 {
@@ -85,14 +86,7 @@ typedef struct S_80173A60_6 {
     void * unk_2C;
 } S_80173A60_6;   /* copy in advance_actor_item_action */
 
-typedef struct S_80173A60_8 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80173A60_8;   /* target in advance_actor_item_action */
+   /* target in advance_actor_item_action */
 
 typedef struct S_80173A60_9 {
     u8 pad_00[0xA];
@@ -237,7 +231,7 @@ void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprit
             if (effect != 0) {
                 u8 *effect_state;
                 u8 *effect_sprite;
-                u8 *effect_pos;
+                MovingPosition *effect_pos;
                 u8 *anim_table;
                 u8 *anim_entry;
                 s8 *height_offsets;
@@ -273,9 +267,9 @@ void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprit
                 ((S_80173A60_4 *)effect_state)->unk_2A = ((S_80173A60_0 *)actor_state)->unk_2A.u;
 
                 effect_pos = ((S_80173A60_5 *)effect)->unk_08;
-                ((S_80173A60_8 *)effect_pos)->unk_02 = ((u16)motion->x.w.i);
-                ((S_80173A60_8 *)effect_pos)->unk_06 = ((u16)motion->y.w.i);
-                ((S_80173A60_8 *)effect_pos)->unk_0A = ((u16)motion->z.w.i);
+                effect_pos->unk_02 = ((u16)motion->x.w.i);
+                effect_pos->unk_06 = ((u16)motion->y.w.i);
+                effect_pos->unk_0A = ((u16)motion->z.w.i);
             }
         }
 

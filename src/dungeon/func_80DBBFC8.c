@@ -7,6 +7,7 @@ extern int abs(int);
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 
 typedef struct {
@@ -69,14 +70,7 @@ typedef struct S_801737C8_5 {
     u16 unk_1E;
 } S_801737C8_5;   /* child in advance_item_visual_action */
 
-typedef struct S_801737C8_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801737C8_6;   /* coords in advance_item_visual_action */
+   /* coords in advance_item_visual_action */
 
 /* Process item use, spawn its visual effect, and finish the action when ready. */
 void advance_item_visual_action(void *controller, EntityRec *motion, void *actor, void *object)
@@ -218,7 +212,7 @@ void advance_item_visual_action(void *controller, EntityRec *motion, void *actor
                 if (object != 0) {
                     u8 *effect_data;
                     void *sprite;
-                    void *effect_pos;
+                    MovingPosition *effect_pos;
                     s32 dx;
                     s32 dy;
                     s32 color_bits;
@@ -233,14 +227,14 @@ void advance_item_visual_action(void *controller, EntityRec *motion, void *actor
                     ((S_801737C8_5 *)sprite)->unk_10 = dim_channel;
                     ((S_801737C8_5 *)sprite)->unk_14 |= 0x0C;
                     effect_pos = (*(void * *)((u8 *)object + 8));
-                    ((S_801737C8_6 *)effect_pos)->unk_02 = ((u16)motion->x.w.i);
-                    ((S_801737C8_6 *)effect_pos)->unk_06 = ((u16)motion->y.w.i);
-                    ((S_801737C8_6 *)effect_pos)->unk_0A = ((u16)motion->z.w.i);
+                    effect_pos->unk_02 = ((u16)motion->x.w.i);
+                    effect_pos->unk_06 = ((u16)motion->y.w.i);
+                    effect_pos->unk_0A = ((u16)motion->z.w.i);
 
                     dx = (rand() & 0x3F) - 0x20;
                     dy = (rand() & 0x3F) - 0x20;
-                    ((S_801737C8_6 *)effect_pos)->unk_02 += dx;
-                    ((S_801737C8_6 *)effect_pos)->unk_06 += dy;
+                    effect_pos->unk_02 += dx;
+                    effect_pos->unk_06 += dy;
                     ((S_801737C8_5 *)sprite)->unk_1C = 0x1000;
                     ((S_801737C8_5 *)sprite)->unk_1E = 0x1000;
 

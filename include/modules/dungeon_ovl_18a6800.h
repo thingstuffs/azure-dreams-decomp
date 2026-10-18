@@ -1,10 +1,11 @@
 #ifndef DUNGEON_OVL_18A6800_H
 #define DUNGEON_OVL_18A6800_H
+#include "shared/dungeon_moving_views.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
 struct FadeEndpoints; struct FadeSettings;
-struct S_8002569C_2; struct S_80025160_1;
+ struct S_80025160_1;
 struct Actor; struct Motion;
 /* The effect's colour record: three bytes fading toward black. */
 typedef struct EffectColor {
@@ -14,7 +15,7 @@ typedef struct EffectColor {
     u8 blue;
 } EffectColor;
 ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(struct FadeEndpoints *, struct FadeSettings *);
-void *create_object_offset(struct S_8002569C_2 *, s16, s16, s16, s32);
+void *create_object_offset(MovingPosition *, s16, s16, s16, s32);
 void advance_the_effect_state_updates_motion_sets_display_color(void *, s32, struct S_80025160_1 *);
 s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *, void *, void *);
 void advance_and_fade_effect_flagging_expiration_timer_runs_out(struct Actor *, struct Motion *, struct EffectColor *);

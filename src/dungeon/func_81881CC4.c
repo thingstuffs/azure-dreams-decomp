@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800254C4_0 {
     u8 pad_00[0x8];
@@ -8,23 +9,9 @@ typedef struct S_800254C4_0 {
     s32 * unk_10;
 } S_800254C4_0;   /* node in allocate_jittered_effect_node */
 
-typedef struct S_800254C4_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800254C4_1;   /* payload in allocate_jittered_effect_node */
+   /* payload in allocate_jittered_effect_node */
 
-typedef struct S_800254C4_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800254C4_2;   /* source in allocate_jittered_effect_node */
+   /* source in allocate_jittered_effect_node */
 
 typedef struct S_800254C4_3 {
     u8 pad_00[0x1A];
@@ -42,7 +29,7 @@ typedef struct S_800254C4_4 {
 
 /* Allocates a node, copies or jitters its source values, and initializes its fields. */
 s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_mode) {
-    register void *source = source_data;
+    register MovingPosition *source = source_data;
     register s16 field_1a = initial_1a;
     register s16 field_1c = initial_1c;
     register s16 mode = spawn_mode;
@@ -56,20 +43,20 @@ s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial
         func_8004491C(node, (s32)queue_projected_point_primitives);
         mode_test = mode << 0x10;
         {
-            S_800254C4_1 *payload = ((S_800254C4_0 *)node)->unk_08;
+            MovingPosition *payload = ((S_800254C4_0 *)node)->unk_08;
 
             s32 value_0a;
 
             if (mode_test == 0) {
                 payload->unk_02 =
-                    (u16)((((S_800254C4_2 *)source)->unk_02 + (rand() & 0x1F)) - 0x10);
+                    (u16)((source->unk_02 + (rand() & 0x1F)) - 0x10);
                 payload->unk_06 =
-                    (u16)((((S_800254C4_2 *)source)->unk_06 + (rand() & 0x1F)) - 0x10);
-                value_0a = ((S_800254C4_2 *)source)->unk_0A - 0x50;
+                    (u16)((source->unk_06 + (rand() & 0x1F)) - 0x10);
+                value_0a = source->unk_0A - 0x50;
             } else {
-                payload->unk_02 = ((S_800254C4_2 *)source)->unk_02;
-                payload->unk_06 = ((S_800254C4_2 *)source)->unk_06;
-                value_0a = ((S_800254C4_2 *)source)->unk_0A;
+                payload->unk_02 = source->unk_02;
+                payload->unk_06 = source->unk_06;
+                value_0a = source->unk_0A;
             }
             payload->unk_0A = value_0a;
         }

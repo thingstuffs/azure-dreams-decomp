@@ -3,6 +3,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct {
     s32 word0;
@@ -56,30 +57,16 @@ typedef struct S_80170E18_3 {
     s16 unk_2A;
 } S_80170E18_3;   /* arg3 in create_effect_from_sprite_and_facing */
 
-typedef struct S_80170E18_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80170E18_4;
 
-typedef struct S_80170E18_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80170E18_5;   /* arg1 in create_effect_from_sprite_and_facing */
+
+   /* arg1 in create_effect_from_sprite_and_facing */
 
 /* Creates an effect using the supplied sprite data, transform, and facing. */
-void create_effect_from_sprite_and_facing(void *unused, S_80170E18_5 *source_transform, void *sprite_template, S_80170E18_3 *facing_source) {
+void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, S_80170E18_3 *facing_source) {
     S_80170E18_2 *sprite;
     void *effect;
     S_80170E18_0 *effect_state;
-    S_80170E18_4 *transform;
+    MovingPosition *transform;
     void *sprite_data;
     Block16 *src;
     Block16 *dst;

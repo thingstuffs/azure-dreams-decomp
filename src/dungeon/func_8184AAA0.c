@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 M2C_UNK func_8003DB94();
 s32 func_8004491C();
@@ -27,29 +28,15 @@ typedef struct S_800242A0_1 {
     s16 unk_1E;
 } S_800242A0_1;
 
-typedef struct S_800242A0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800242A0_2;
 
-typedef struct S_800242A0_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800242A0_3;   /* arg1 in allocate_effect_at_coordinates */
+
+   /* arg1 in allocate_effect_at_coordinates */
 
 /* Allocate and initialize an object with the supplied value and coordinates. */
-void *allocate_effect_at_coordinates(s32 object_value, S_800242A0_3 *source_coords) {
+void *allocate_effect_at_coordinates(s32 object_value, MovingPosition *source_coords) {
     S_800242A0_1 *sprite;
     S_800242A0_0 *object;
-    S_800242A0_2 *coords;
+    MovingPosition *coords;
 
     object = func_8003FC64(0x212);
     if (object != NULL) {

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80173F0C_0 {
     u8 pad_00[0x4];
@@ -16,14 +17,7 @@ typedef struct S_80173F0C_0 {
 } S_80173F0C_0;   /* arg0 in update_bank_effect_fade */
 
 
-typedef struct S_80173F0C_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80173F0C_2;   /* arg1 in update_bank_effect_fade */
+   /* arg1 in update_bank_effect_fade */
 
 
 typedef struct {
@@ -52,7 +46,7 @@ extern s32 rand(void);
 extern void transform_rotated_vertices(void *);
 
 /* Updates the effect's motion and fade, then marks it for removal. */
-void update_bank_effect_fade(void *effect, void *position, void *visual)
+void update_bank_effect_fade(void *effect, MovingPosition *position, void *visual)
 {
     CallRecord transform;
     OutputVector transformed_pos;
@@ -101,9 +95,9 @@ void update_bank_effect_fade(void *effect, void *position, void *visual)
         transform.field18 = 1;
         transform.field1A = 1;
         transform_rotated_vertices(&transform);
-        ((S_80173F0C_2 *)position)->unk_02 = transformed_pos.x;
-        ((S_80173F0C_2 *)position)->unk_06 = transformed_pos.y;
-        ((S_80173F0C_2 *)position)->unk_0A = transformed_pos.z;
+        position->unk_02 = transformed_pos.x;
+        position->unk_06 = transformed_pos.y;
+        position->unk_0A = transformed_pos.z;
         ((S_80173F0C_0 *)effect)->unk_48--;
         break;
     case 1:

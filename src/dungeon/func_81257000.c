@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_81257000_0_pre {
     u16 unk_00;
@@ -45,14 +46,7 @@ typedef struct S_81257000_3 {
     u16 unk_1E;
 } S_81257000_3;   /* dst in copy_part_state */
 
-typedef struct S_81257000_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_81257000_4;   /* out in copy_part_state */
+   /* out in copy_part_state */
 
 typedef struct S_81257000_5 {
     u8 pad_00[0x1];
@@ -83,7 +77,7 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
 {
     s16 pos_offset[3];
     void *root = root_arg;
-    void *out_pos = out_pos_arg;
+    MovingPosition *out_pos = out_pos_arg;
     S_81257000_3 *dst_part = dst_part_arg;
     S_81257000_1 *owner;
     S_81257000_5 *part_data;
@@ -98,18 +92,18 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
         dst_part->unk_14 &= 0xFF7F;
     }
 
-    ((S_81257000_4 *)out_pos)->unk_02 = part_data->unk_02;
-    ((S_81257000_4 *)out_pos)->unk_06 = part_data->unk_06;
-    ((S_81257000_4 *)out_pos)->unk_0A = part_data->unk_0A;
+    out_pos->unk_02 = part_data->unk_02;
+    out_pos->unk_06 = part_data->unk_06;
+    out_pos->unk_0A = part_data->unk_0A;
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, pos_offset,
                       ((S_81257000_0 *)root)->unk_B6) != 0) {
-        ((S_81257000_4 *)out_pos)->unk_02 +=
+        out_pos->unk_02 +=
             (pos_offset[0] + ((S_81257000_0 *)root)->unk_B0) / 2;
-        ((S_81257000_4 *)out_pos)->unk_06 +=
+        out_pos->unk_06 +=
             (pos_offset[1] + ((S_81257000_0 *)root)->unk_B2) / 2;
-        ((S_81257000_4 *)out_pos)->unk_0A +=
+        out_pos->unk_0A +=
             (pos_offset[2] + ((S_81257000_0 *)root)->unk_B4) / 2;
         ((S_81257000_0 *)root)->unk_B0 = pos_offset[0];
         ((S_81257000_0 *)root)->unk_B2 = pos_offset[1];

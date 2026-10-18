@@ -86,7 +86,7 @@ void update_overlay_object_action(void *owner, void *motion, void *actor, void *
                     }
                 } else {
                     spawn = scan_monster_along_heading(
-                        object,(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_24),(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_25),(s16)(((R16_801725A4_S_801725A4_1 *)object)->unk_2A),
+                        object,(u8)(((SpriteAnimationTableView *)actor)->unk_24),(u8)(((SpriteAnimationTableView *)actor)->unk_25),(s16)(((R16_801725A4_S_801725A4_1 *)object)->unk_2A),
                         0x10);
                     ((R16_801725A4_S_801725A4_1 *)object)->unk_60 = spawn;
 
@@ -111,7 +111,7 @@ void update_overlay_object_action(void *owner, void *motion, void *actor, void *
         ((R16_801725A4_S_801725A4_3 *)motion)->unk_14 = 0;
         ((R16_801725A4_S_801725A4_3 *)motion)->unk_10 = 0;
         ((R16_801725A4_S_801725A4_3 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion,(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_24),(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_25));
+        set_record_integer_tile_center(motion,(u8)(((SpriteAnimationTableView *)actor)->unk_24),(u8)(((SpriteAnimationTableView *)actor)->unk_25));
         g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(object);
@@ -124,31 +124,31 @@ void update_overlay_object_action(void *owner, void *motion, void *actor, void *
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((R16_801725A4_S_801725A4_2 *)actor)->unk_14 |= 0x0800;
+            ((SpriteAnimationTableView *)actor)->unk_14 |= 0x0800;
             return;
         }
-        ((R16_801725A4_S_801725A4_2 *)actor)->unk_14 &= 0xF7FF;
+        ((SpriteAnimationTableView *)actor)->unk_14 &= 0xF7FF;
         ((R16_801725A4_S_801725A4_0 *)owner)->unk_9B++;
 
     case 2:
-        if (((R16_801725A4_S_801725A4_2 *)actor)->unk_04 != 4 || !(((R16_801725A4_S_801725A4_2 *)actor)->unk_14 & 0x1000)) {
-            if ((((R16_801725A4_S_801725A4_2 *)actor)->unk_14 & 0xE000) == 0) {
+        if (((SpriteAnimationTableView *)actor)->unk_04 != 4 || !(((SpriteAnimationTableView *)actor)->unk_14 & 0x1000)) {
+            if ((((SpriteAnimationTableView *)actor)->unk_14 & 0xE000) == 0) {
                 return;
             }
         }
         ((R16_801725A4_S_801725A4_0 *)owner)->unk_98 |= 0x80;
-        if ((((R16_801725A4_S_801725A4_2 *)actor)->unk_14 & 0xE000) == 0) {
+        if ((((SpriteAnimationTableView *)actor)->unk_14 & 0xE000) == 0) {
             return;
         }
 
         ((R16_801725A4_S_801725A4_3 *)motion)->unk_14 = 0;
         ((R16_801725A4_S_801725A4_3 *)motion)->unk_10 = 0;
         ((R16_801725A4_S_801725A4_3 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion,(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_24),(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_25));
+        set_record_integer_tile_center(motion,(u8)(((SpriteAnimationTableView *)actor)->unk_24),(u8)(((SpriteAnimationTableView *)actor)->unk_25));
 
         {
             u8 *direction_table = ((u8 *)D_8017420C);
-            if (((R16_801725A4_S_801725A4_2 *)actor)->unk_2C != direction_table) {
+            if (((SpriteAnimationTableView *)actor)->unk_2C != direction_table) {
                 (*(u8 * *)((u8 *)actor + 0x2C)) = direction_table;
                 func_80047784(
                     actor,(u8)(direction_table[((g_game_work.view.viewAngle + ((R16_801725A4_S_801725A4_1 *)object)->unk_2A + 0x100) >> 9) & 7]),

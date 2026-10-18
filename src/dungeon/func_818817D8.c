@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80024FD8_0 {
     u8 pad_00[0x8];
@@ -8,23 +9,9 @@ typedef struct S_80024FD8_0 {
     void * unk_10;
 } S_80024FD8_0;
 
-typedef struct S_80024FD8_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024FD8_1;
 
-typedef struct S_80024FD8_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024FD8_2;   /* arg0 in create_effect_render_object */
+
+   /* arg0 in create_effect_render_object */
 
 typedef struct S_80024FD8_3 {
     u8 pad_00[0xC];
@@ -51,14 +38,14 @@ typedef struct S_80024FD8_4 {
 
 
 /* Creates a render object at the supplied position and initializes its effect state. */
-void *create_effect_render_object(S_80024FD8_2 *source_pos, s16 effect_param, s16 size)
+void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, s16 size)
 {
     s32 signed_size;
     s32 render_code;
     u16 object_count;
     S_80024FD8_3 *render_state;
     void *object;
-    S_80024FD8_1 *position;
+    MovingPosition *position;
     S_80024FD8_4 *effect_state;
 
     object = func_8003FC64(0x202);

@@ -36,9 +36,9 @@ void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offs
         render = ((S_8181B1A0_1 *)effect)->unk_0C;
         render->unk_14 = (u16) (render->unk_14 | 0xC);
         position = ((S_8181B1A0_1 *)effect)->unk_08;
-        position->unk_02 = (s16) (((S_8181B1A0_5 *)(((S_8181B1A0_4 *)source)->unk_08))->unk_02 + offset_x);
-        position->unk_06 = (s16) (((S_8181B1A0_5 *)(((S_8181B1A0_4 *)source)->unk_08))->unk_06 + offset_y);
-        position->unk_0A = (s16) (((S_8181B1A0_5 *)(((S_8181B1A0_4 *)source)->unk_08))->unk_0A + offset_z);
+        position->unk_02 = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->unk_02 + offset_x);
+        position->unk_06 = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->unk_06 + offset_y);
+        position->unk_0A = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->unk_0A + offset_z);
         render = ((S_8181B1A0_1 *)effect)->unk_0C;
         render->unk_1E = 0x1000;
         render->unk_1C = 0x1000;

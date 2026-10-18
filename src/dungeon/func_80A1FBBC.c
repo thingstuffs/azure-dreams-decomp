@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_80083460.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_801733BC_0 {
     u8 pad_00[0xC];
@@ -37,14 +38,7 @@ typedef struct S_801733BC_2 {
     u16 unk_20;
 } S_801733BC_2;   /* object in update_particles_projectile_and_fade */
 
-typedef struct S_801733BC_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801733BC_3;   /* arg1 in update_particles_projectile_and_fade */
+   /* arg1 in update_particles_projectile_and_fade */
 
 typedef struct S_801733BC_4 {
     u8 pad_00[0x96];
@@ -79,14 +73,7 @@ typedef struct S_801733BC_8 {
     u16 unk_18;
 } S_801733BC_8;   /* projectilePart in update_particles_projectile_and_fade */
 
-typedef struct S_801733BC_10 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801733BC_10;   /* ((S_801733BC_2 *)object)->unk_08 in update_particles_projectile_and_fade */
+   /* ((S_801733BC_2 *)object)->unk_08 in update_particles_projectile_and_fade */
 
 
 typedef struct {
@@ -119,7 +106,7 @@ extern void announce_familiar_defeat(void *);
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32, s32);
 
 /* Updates an entity's particles, projectile, and fade-out sequence before removing it. */
-void update_particles_projectile_and_fade(void *effect_state, void *position, void *render_part, void *entity)
+void update_particles_projectile_and_fade(void *effect_state, MovingPosition *position, void *render_part, void *entity)
 {
     Rect rect;
     Point center;
@@ -150,12 +137,12 @@ void update_particles_projectile_and_fade(void *effect_state, void *position, vo
                 ((S_801733BC_2 *)spawned_object)->unk_10 = particle_callback;
 
                 random_offset = func_80069EF8();
-                ((S_801733BC_10 *)(((S_801733BC_2 *)spawned_object)->unk_08))->unk_02 =
-                    ((S_801733BC_3 *)position)->unk_02 + (random_offset & 0x3F) - 0x20;
+                ((MovingPosition *)(((S_801733BC_2 *)spawned_object)->unk_08))->unk_02 =
+                    position->unk_02 + (random_offset & 0x3F) - 0x20;
 
                 random_offset = func_80069EF8();
-                ((S_801733BC_10 *)(((S_801733BC_2 *)spawned_object)->unk_08))->unk_06 =
-                    ((S_801733BC_3 *)position)->unk_06 + (random_offset & 0x3F) - 0x20;
+                ((MovingPosition *)(((S_801733BC_2 *)spawned_object)->unk_08))->unk_06 =
+                    position->unk_06 + (random_offset & 0x3F) - 0x20;
 
                 random_offset = func_80069EF8();
                 {
@@ -169,9 +156,9 @@ void update_particles_projectile_and_fade(void *effect_state, void *position, vo
                     random_offset %= ((S_801733BC_1 *)effect_state)->unk_A8.s + 0x60;
                     particle_render = 0x00040404;
                     particle_color = 0x00500000;
-                    source_z = ((S_801733BC_3 *)position)->unk_0A;
+                    source_z = position->unk_0A;
                     particle_color |= 0x5050;
-                    ((S_801733BC_10 *)(((S_801733BC_2 *)spawned_object)->unk_08))->unk_0A =
+                    ((MovingPosition *)(((S_801733BC_2 *)spawned_object)->unk_08))->unk_0A =
                         source_z - random_offset - 0x10;
 
                     particle_state = (u8 *)spawned_object + 0x20;
@@ -245,11 +232,11 @@ void update_particles_projectile_and_fade(void *effect_state, void *position, vo
         func_8004491C(spawned_object, D_80174228);
         frames_left = (u32)D_801741A4;
         ((S_801733BC_2 *)spawned_object)->unk_10 = (void *)frames_left;
-        ((S_801733BC_2 *)spawned_object)->unk_20 = ((S_801733BC_3 *)position)->unk_02;
-        projectile_y = ((S_801733BC_3 *)position)->unk_06;
+        ((S_801733BC_2 *)spawned_object)->unk_20 = position->unk_02;
+        projectile_y = position->unk_06;
         projectile_state = (u8 *)spawned_object + 0x20;
         ((S_801733BC_8 *)projectile_state)->unk_02 = projectile_y;
-        projectile_z = ((S_801733BC_3 *)position)->unk_0A;
+        projectile_z = position->unk_0A;
         ((S_801733BC_8 *)projectile_state)->unk_10 = 0xFFFC0000;
         ((S_801733BC_8 *)projectile_state)->unk_0C = 0;
         ((S_801733BC_8 *)projectile_state)->unk_14 = 0xFFFE8000;

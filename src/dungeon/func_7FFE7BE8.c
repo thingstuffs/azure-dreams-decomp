@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_7FFE7BE8_0 {
     u8 pad_00[0x8];
@@ -17,23 +18,9 @@ typedef struct S_7FFE7BE8_1 {
     u16 unk_14;
 } S_7FFE7BE8_1;
 
-typedef struct S_7FFE7BE8_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_7FFE7BE8_2;
 
-typedef struct S_7FFE7BE8_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_7FFE7BE8_3;   /* arg2 in initialize_source_position_object */
+
+   /* arg2 in initialize_source_position_object */
 
 typedef struct S_7FFE7BE8_4 {
     u8 pad_00[0xC];
@@ -58,11 +45,11 @@ extern s32 D_8004136C;
 extern s32 D_800E2BB8;
 
 /* Initialize the object from its source and position, then configure its display state. */
-void initialize_source_position_object(S_7FFE7BE8_0 *object, S_7FFE7BE8_5 *source, S_7FFE7BE8_3 *position)
+void initialize_source_position_object(S_7FFE7BE8_0 *object, S_7FFE7BE8_5 *source, MovingPosition *position)
 {
     S_7FFE7BE8_1 *display_flags;
     S_7FFE7BE8_4 *display_state;
-    S_7FFE7BE8_2 *object_position;
+    MovingPosition *object_position;
     s32 source_value;
 
     object->unk_44 = source;

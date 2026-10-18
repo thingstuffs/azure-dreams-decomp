@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct S_80172810_0 {
     u8 pad_00[0x8C];
@@ -26,17 +27,7 @@ typedef struct S_80172810_3 {
     u8 unk_25;
 } S_80172810_3;   /* rec in advance_actor_motion_action */
 
-typedef struct S_80172810_4 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80172810_4;   /* arg2 in advance_actor_motion_action */
+   /* arg2 in advance_actor_motion_action */
 
 
 typedef struct S_80172810_7 {
@@ -134,7 +125,7 @@ void advance_actor_motion_action(void *action_state, void *position, void *sprit
                     }
                 } else {
                     actor->target =
-                        scan_monster_along_heading(actor, ((S_80172810_4 *)sprite)->unk_24, ((S_80172810_4 *)sprite)->unk_25,
+                        scan_monster_along_heading(actor, ((SpriteAnimationTableView *)sprite)->unk_24, ((SpriteAnimationTableView *)sprite)->unk_25,
                                       actor->facing, 0x10);
                     offset_x = abs(actor->unk_72);
                     offset_y = abs(actor->unk_73);
@@ -149,7 +140,7 @@ void advance_actor_motion_action(void *action_state, void *position, void *sprit
             if (position == 0) {
                 return;
             }
-            ((S_80172810_4 *)sprite)->unk_14 &= 0xF7FF;
+            ((SpriteAnimationTableView *)sprite)->unk_14 &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_row_object_group(saved_position, (*motion - 1) % 3);
             ((S_80172810_0 *)action_state)->unk_9B = ((S_80172810_0 *)action_state)->unk_9B + 1;
@@ -159,7 +150,7 @@ void advance_actor_motion_action(void *action_state, void *position, void *sprit
         ((EntityRec *)position)->flags14 = 0;
         ((EntityRec *)position)->unk_10 = 0;
         ((EntityRec *)position)->unk_0C = 0;
-        set_record_integer_tile_center(position, ((S_80172810_4 *)sprite)->unk_24, ((S_80172810_4 *)sprite)->unk_25);
+        set_record_integer_tile_center(position, ((SpriteAnimationTableView *)sprite)->unk_24, ((SpriteAnimationTableView *)sprite)->unk_25);
         g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1;
         advance_status_timers(actor);
@@ -172,16 +163,16 @@ void advance_actor_motion_action(void *action_state, void *position, void *sprit
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((S_80172810_4 *)sprite)->unk_14 |= 0x800;
+            ((SpriteAnimationTableView *)sprite)->unk_14 |= 0x800;
             return;
         }
-        ((S_80172810_4 *)sprite)->unk_14 &= 0xF7FF;
+        ((SpriteAnimationTableView *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172810_0 *)action_state)->unk_9B = ((S_80172810_0 *)action_state)->unk_9B + 1;
                                 /* fallthrough */
     case 2:
-        if ((((S_80172810_4 *)sprite)->unk_04 == 14 && (((S_80172810_4 *)sprite)->unk_14 & 0x1000)) ||
-            (((S_80172810_4 *)sprite)->unk_14 & 0xE000)) {
-            ((S_80172810_4 *)sprite)->unk_14 |= 0x800;
+        if ((((SpriteAnimationTableView *)sprite)->unk_04 == 14 && (((SpriteAnimationTableView *)sprite)->unk_14 & 0x1000)) ||
+            (((SpriteAnimationTableView *)sprite)->unk_14 & 0xE000)) {
+            ((SpriteAnimationTableView *)sprite)->unk_14 |= 0x800;
             ((S_80172810_0 *)action_state)->unk_96 = 0x3;
             ((S_80172810_0 *)action_state)->unk_98 |= 0x80;
         }
@@ -189,19 +180,19 @@ void advance_actor_motion_action(void *action_state, void *position, void *sprit
         ((S_80172810_0 *)action_state)->unk_96 = wait_ticks;
         if ((s16)wait_ticks <= 0) {
             ((S_80172810_0 *)action_state)->unk_96 = 0;
-            ((S_80172810_4 *)sprite)->unk_14 &= 0xF7FF;
+            ((SpriteAnimationTableView *)sprite)->unk_14 &= 0xF7FF;
         }
-        if ((((S_80172810_4 *)sprite)->unk_14 & 0xE000) == 0) {
+        if ((((SpriteAnimationTableView *)sprite)->unk_14 & 0xE000) == 0) {
             return;
         }
         ((EntityRec *)position)->flags14 = 0;
         ((EntityRec *)position)->unk_10 = 0;
         ((EntityRec *)position)->unk_0C = 0;
-        set_record_integer_tile_center(position, ((S_80172810_4 *)sprite)->unk_24, ((S_80172810_4 *)sprite)->unk_25);
+        set_record_integer_tile_center(position, ((SpriteAnimationTableView *)sprite)->unk_24, ((SpriteAnimationTableView *)sprite)->unk_25);
         {
             u8 *direction_frames = D_801739C0;
 
-            if (((S_80172810_4 *)sprite)->unk_2C != direction_frames) {
+            if (((SpriteAnimationTableView *)sprite)->unk_2C != direction_frames) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_frames;
                 func_80047784(sprite,
                     direction_frames[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -213,7 +204,7 @@ void advance_actor_motion_action(void *action_state, void *position, void *sprit
             return;
         }
         ((S_80172810_7 *)action_globals)->unk_0A = ((S_80172810_7 *)action_globals)->unk_0A - 1;
-        ((S_80172810_4 *)sprite)->unk_14 &= 0xF7FF;
+        ((SpriteAnimationTableView *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172810_0 *)action_state)->unk_8C = D_80170E54;
         advance_status_timers(actor);
         if (actor->unk_6D > 0) {

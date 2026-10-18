@@ -37,16 +37,16 @@ void advance_stored_entity_path(void *controller, void *context, void *entity, v
     direction = ((s16)get_rounded_facing_and_rounding_flag(
         x,
         y,
-        ((R03_8017139C_S_8017139C_3 *)((u8 *)state + ((R03_8017139C_S_8017139C_0 *)state)->unk_8A.s))->unk_74,
-        ((R03_8017139C_S_8017139C_3 *)((u8 *)state + ((R03_8017139C_S_8017139C_0 *)state)->unk_8A.s))->unk_7C,
+        ((ActorStatusBytesView *)((u8 *)state + ((R03_8017139C_S_8017139C_0 *)state)->unk_8A.s))->unk_74,
+        ((ActorStatusBytesView *)((u8 *)state + ((R03_8017139C_S_8017139C_0 *)state)->unk_8A.s))->unk_7C,
         (u8 *)controller + 0x98));
     move_result = ((s16)check_movement_clearance_and_height(direction, entity, state, 0x20));
 
     ((Rec_D_80082E80 *)entity)->unk_24 =
-        ((R03_8017139C_S_8017139C_3 *)((u8 *)state + ((R03_8017139C_S_8017139C_0 *)state)->unk_8A.s))->unk_74;
+        ((ActorStatusBytesView *)((u8 *)state + ((R03_8017139C_S_8017139C_0 *)state)->unk_8A.s))->unk_74;
     move_flags = 0x3000;
     ((Rec_D_80082E80 *)entity)->unk_25 =
-        ((R03_8017139C_S_8017139C_3 *)((u8 *)state + ((R03_8017139C_S_8017139C_0 *)state)->unk_8A.s))->unk_7C;
+        ((ActorStatusBytesView *)((u8 *)state + ((R03_8017139C_S_8017139C_0 *)state)->unk_8A.s))->unk_7C;
     ((R03_8017139C_S_8017139C_0 *)state)->unk_8A.u++;
 
     {

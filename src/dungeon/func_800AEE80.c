@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800B45E0_0_pre {
     u16 unk_00;
@@ -53,14 +54,7 @@ typedef struct S_800B45E0_4 {
     s16 unk_1E;
 } S_800B45E0_4;   /* arg2 in update_anchored_fading_effect */
 
-typedef struct S_800B45E0_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800B45E0_5;   /* ((S_800B45E0_0 *)arg0)->unk_14 in update_anchored_fading_effect */
+   /* ((S_800B45E0_0 *)arg0)->unk_14 in update_anchored_fading_effect */
 
 
 s32 func_8004491C();
@@ -95,13 +89,13 @@ void update_anchored_fading_effect(void *effect, S_800B45E0_2 *motion, S_800B45E
     anchor = ((S_800B45E0_0 *)effect)->unk_14;
     if (anchor != NULL) {
         motion->unk_02 = (u16) (motion->unk_02 - (((S_800B45E0_0 *)effect)->unk_18 - anchor->unk_02));
-        ((S_800B45E0_0 *)effect)->unk_18 = (u16) ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_02;
+        ((S_800B45E0_0 *)effect)->unk_18 = (u16) ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->unk_02;
         motion->unk_06 = (u16) (motion->unk_06 - (((S_800B45E0_0 *)effect)->unk_1A
-            - ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_06));
-        ((S_800B45E0_0 *)effect)->unk_1A = (u16) ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_06;
+            - ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->unk_06));
+        ((S_800B45E0_0 *)effect)->unk_1A = (u16) ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->unk_06;
         motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v - (((S_800B45E0_0 *)effect)->unk_1C
-            - ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_0A));
-        ((S_800B45E0_0 *)effect)->unk_1C = (u16) ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_0A;
+            - ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->unk_0A));
+        ((S_800B45E0_0 *)effect)->unk_1C = (u16) ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->unk_0A;
     }
     phase = ((S_800B45E0_0 *)effect)->unk_08;
     switch (phase) {

@@ -12,6 +12,7 @@
  *   - the two overlay data symbols are this image's
  */
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_801652FC_0 {
     u8 pad_00[0x8];
@@ -56,14 +57,7 @@ typedef struct S_801652FC_3 {
     s16 unk_0A;
 } S_801652FC_3;   /* ((S_801652FC_1 *)obj)->unk_08 in create_converging_fading_particle */
 
-typedef struct S_801652FC_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801652FC_4;   /* ((S_801652FC_2 *)saved_arg0)->unk_08 in create_converging_fading_particle */
+   /* ((S_801652FC_2 *)saved_arg0)->unk_08 in create_converging_fading_particle */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -94,16 +88,16 @@ void create_converging_fading_particle(
         ((S_801652FC_1 *)object)->unk_10 = D_80165164;
 
         ((S_801652FC_3 *)(((S_801652FC_1 *)object)->unk_08))->unk_02 =
-            ((S_801652FC_4 *)(source_obj->unk_08))->unk_02 + saved_offset_x;
+            ((MovingPosition *)(source_obj->unk_08))->unk_02 + saved_offset_x;
         ((S_801652FC_3 *)(((S_801652FC_1 *)object)->unk_08))->unk_06 =
-            ((S_801652FC_4 *)(source_obj->unk_08))->unk_06 + saved_offset_y;
+            ((MovingPosition *)(source_obj->unk_08))->unk_06 + saved_offset_y;
         ((S_801652FC_3 *)(((S_801652FC_1 *)object)->unk_08))->unk_0A =
-            ((S_801652FC_4 *)(source_obj->unk_08))->unk_0A + saved_offset_z - 40;
+            ((MovingPosition *)(source_obj->unk_08))->unk_0A + saved_offset_z - 40;
 
         state = (u8 *)object + 0x20;
-        ((S_801652FC_0 *)state)->unk_42 = ((S_801652FC_4 *)(source_obj->unk_08))->unk_02;
-        ((S_801652FC_0 *)state)->unk_44 = ((S_801652FC_4 *)(source_obj->unk_08))->unk_06;
-        ((S_801652FC_0 *)state)->unk_46 = ((S_801652FC_4 *)(source_obj->unk_08))->unk_0A;
+        ((S_801652FC_0 *)state)->unk_42 = ((MovingPosition *)(source_obj->unk_08))->unk_02;
+        ((S_801652FC_0 *)state)->unk_44 = ((MovingPosition *)(source_obj->unk_08))->unk_06;
+        ((S_801652FC_0 *)state)->unk_46 = ((MovingPosition *)(source_obj->unk_08))->unk_0A;
 
         quotient_x = -(saved_offset_x << 16) / ((s16)duration / 8);
         calculation = quotient_x / 2;

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -83,14 +84,7 @@ typedef struct S_80175BA8_6 {
     s16 unk_1E;
 } S_80175BA8_6;
 
-typedef struct S_80175BA8_7 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80175BA8_7;
+
 
 
 extern void *func_8003FD64();
@@ -117,7 +111,7 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
     void *effect_sprite;
     void *effect;
     void *effect_state;
-    void *effect_position;
+    MovingPosition *effect_position;
 
     phase = ((S_80175BA8_0 *)actor_state)->unk_9B;
     switch (phase) {
@@ -157,9 +151,9 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
                 ((S_80175BA8_6 *)effect_sprite)->unk_10 = 0x40;
                 ((S_80175BA8_6 *)effect_sprite)->unk_14 |= 0xC;
                 effect_position = ((S_80175BA8_4 *)effect)->unk_08;
-                ((S_80175BA8_7 *)effect_position)->unk_02 = ((S_80175BA8_1 *)position)->unk_02;
-                ((S_80175BA8_7 *)effect_position)->unk_06 = ((S_80175BA8_1 *)position)->unk_06;
-                ((S_80175BA8_7 *)effect_position)->unk_0A = ((S_80175BA8_2 *)actor_info)->unk_88;
+                effect_position->unk_02 = ((S_80175BA8_1 *)position)->unk_02;
+                effect_position->unk_06 = ((S_80175BA8_1 *)position)->unk_06;
+                effect_position->unk_0A = ((S_80175BA8_2 *)actor_info)->unk_88;
                 effect_sprite = ((S_80175BA8_4 *)effect)->unk_0C;
                 ((S_80175BA8_6 *)effect_sprite)->unk_1E = 0xA00;
                 ((S_80175BA8_6 *)effect_sprite)->unk_1C = 0xA00;

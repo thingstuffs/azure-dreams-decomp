@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 
 typedef s32 M2C_UNK;
@@ -40,14 +41,7 @@ typedef struct S_80D65810_3 {
     u16 unk_0A;
 } S_80D65810_3;
 
-typedef struct S_80D65810_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80D65810_4;   /* input in create_origin_motion_effect */
+   /* input in create_origin_motion_effect */
 
 typedef struct S_80D65810_5 {
     u8 pad_00[0xC];
@@ -74,7 +68,7 @@ extern void update_effect_collision_and_lifetime(void);
 void create_origin_motion_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {
     void *origin_ptr;
     u16 render_flags;
-    S_80D65810_4 *origin;
+    MovingPosition *origin;
     u16 x;
     s16 y;
     s16 z;

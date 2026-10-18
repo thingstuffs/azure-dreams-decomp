@@ -19,4 +19,20 @@ typedef struct SpriteFrameState {
     /* 0x28 */ int unk_28;
     /* 0x2C */ void *frameTable;
 } SpriteFrameState;
+
+/* Exact partial view used by the actor callback/facing handlers. The table
+ * pointer remains unsigned char *, independently of SpriteFrameState's void *.
+ * Size 0x30 and alignment 4 describe this view, not an allocation extent. */
+typedef struct SpriteAnimationTableView {
+    unsigned char pad_00[0x4];
+    signed char unk_04;
+    unsigned char pad_05[0xF];
+    unsigned short unk_14;
+    unsigned char pad_16[0xE];
+    unsigned char unk_24;
+    unsigned char unk_25;
+    unsigned char pad_26[0x6];
+    unsigned char *unk_2C;
+} SpriteAnimationTableView;
+
 #endif

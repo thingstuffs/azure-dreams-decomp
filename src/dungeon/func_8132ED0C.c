@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -67,14 +68,7 @@ typedef struct S_80165D0C_3 {
     s32 unk_14;
 } S_80165D0C_3;
 
-typedef struct S_80165D0C_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80165D0C_4;   /* ((S_80165D0C_0 *)arg0)->unk_08 in create_ballistic_landing_particle */
+   /* ((S_80165D0C_0 *)arg0)->unk_08 in create_ballistic_landing_particle */
 
 /* Spawn an effect relative to the source with randomized motion and sprite size. */
 void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 scale, s16 offset_x, s16 offset_y, s16 offset_z,
@@ -88,15 +82,15 @@ void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 s
     if (effect != NULL) {
         (((ObjectNodeHeader *)effect)->unk_10) = &D_80165AB8;
         ((S_80165D0C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_02 =
-            (s16) (((S_80165D0C_4 *)(source->unk_08))->unk_02 + offset_x);
+            (s16) (((MovingPosition *)(source->unk_08))->unk_02 + offset_x);
         ((S_80165D0C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_06 =
-            (s16) (((S_80165D0C_4 *)(source->unk_08))->unk_06 + offset_y);
+            (s16) (((MovingPosition *)(source->unk_08))->unk_06 + offset_y);
         ((S_80165D0C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_0A =
-            (s16) (((S_80165D0C_4 *)(source->unk_08))->unk_0A + offset_z);
+            (s16) (((MovingPosition *)(source->unk_08))->unk_0A + offset_z);
         effect_state = effect + 0x20;
-        effect_state->unk_42 = (u16) ((S_80165D0C_4 *)(source->unk_08))->unk_02;
-        effect_state->unk_44 = (u16) ((S_80165D0C_4 *)(source->unk_08))->unk_06;
-        effect_state->unk_46 = (u16) ((S_80165D0C_4 *)(source->unk_08))->unk_0A;
+        effect_state->unk_42 = (u16) ((MovingPosition *)(source->unk_08))->unk_02;
+        effect_state->unk_44 = (u16) ((MovingPosition *)(source->unk_08))->unk_06;
+        effect_state->unk_46 = (u16) ((MovingPosition *)(source->unk_08))->unk_0A;
         ((S_80165D0C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
         ((S_80165D0C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
         ((S_80165D0C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_14 = (s32) (velocity_z + 0xFFFC0000);

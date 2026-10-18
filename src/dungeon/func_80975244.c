@@ -1,10 +1,10 @@
 #include "modules/dungeon_ovl_9950e8.h"
 
-void create_directional_template_effect(void *unused, S_80975244_5 *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
+void create_directional_template_effect(void *unused, MovingPosition *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
     S_80975244_2 *sprite;
     void *effect;
     S_80975244_0 *effect_state;
-    S_80975244_4 *effect_pos;
+    MovingPosition *effect_pos;
     void *template_data;
     Block16 *src;
     Block16 *dst;

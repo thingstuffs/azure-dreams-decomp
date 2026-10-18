@@ -34,23 +34,9 @@ typedef struct S_80975170_0 {
     void * unk_B0;
 } S_80975170_0;   /* arg0 in func_80170970 */
 
-typedef struct S_80975170_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80975170_1;   /* arg1 in func_80170970 */
+   /* arg1 in func_80170970 */
 
-typedef struct S_80975170_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80975170_2;   /* src in func_80170970 */
+   /* src in func_80170970 */
 
 
 extern void func_800478B8(void *render_state);
@@ -60,6 +46,7 @@ extern void func_800478B8(void *render_state);
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct {
     s32 word0;
@@ -71,7 +58,7 @@ typedef struct {
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, u8, s32);
-void advance_and_fade_transformed_effect(void *effect, S_80975170_1 *transform, Rec_D_80082E80 *render_state);
+void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform, Rec_D_80082E80 *render_state);
 extern u8 D_80174128[8];
 
 typedef struct S_80975244_0 {
@@ -113,23 +100,9 @@ typedef struct S_80975244_3 {
     s16 unk_2A;
 } S_80975244_3;   /* arg3 in func_80170A44 */
 
-typedef struct S_80975244_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80975244_4;   /* temp_v1_2 in func_80170A44 */
+   /* temp_v1_2 in func_80170A44 */
 
-typedef struct S_80975244_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80975244_5;   /* arg1 in func_80170A44 */
+   /* arg1 in func_80170A44 */
 
 /* Creates an effect from a sprite template and sets its directional frame and position. */
 #endif

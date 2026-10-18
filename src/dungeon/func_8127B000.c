@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_8127B000_0_pre {
     u16 unk_00;
@@ -44,14 +45,7 @@ typedef struct S_8127B000_3 {
     u16 unk_1E;
 } S_8127B000_3;   /* dst in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading */
 
-typedef struct S_8127B000_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8127B000_4;   /* out in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading */
+   /* out in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading */
 
 typedef struct S_8127B000_5 {
     u8 pad_00[0x1];
@@ -83,7 +77,7 @@ void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(v
 {
     s16 offset[3];
     void *root = root_arg;
-    void *transform = output_transform;
+    MovingPosition *transform = output_transform;
     S_8127B000_3 *render_part = target_part;
     S_8127B000_1 *owner;
     S_8127B000_5 *part_transform;
@@ -98,18 +92,18 @@ void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(v
         render_part->unk_14 &= 0xFF7F;
     }
 
-    ((S_8127B000_4 *)transform)->unk_02 = part_transform->unk_02;
-    ((S_8127B000_4 *)transform)->unk_06 = part_transform->unk_06;
-    ((S_8127B000_4 *)transform)->unk_0A = part_transform->unk_0A;
+    transform->unk_02 = part_transform->unk_02;
+    transform->unk_06 = part_transform->unk_06;
+    transform->unk_0A = part_transform->unk_0A;
 
     motion_part = owner->unk_0C;
     if (func_8003DA40(motion_part->unk_08, motion_part, offset,
                       ((S_8127B000_0 *)root)->unk_B6) != 0) {
-        ((S_8127B000_4 *)transform)->unk_02 +=
+        transform->unk_02 +=
             (offset[0] + ((S_8127B000_0 *)root)->unk_B0) / 2;
-        ((S_8127B000_4 *)transform)->unk_06 +=
+        transform->unk_06 +=
             (offset[1] + ((S_8127B000_0 *)root)->unk_B2) / 2;
-        ((S_8127B000_4 *)transform)->unk_0A +=
+        transform->unk_0A +=
             (offset[2] + ((S_8127B000_0 *)root)->unk_B4) / 2;
         ((S_8127B000_0 *)root)->unk_B0 = offset[0];
         ((S_8127B000_0 *)root)->unk_B2 = offset[1];

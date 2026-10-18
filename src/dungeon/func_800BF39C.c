@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -25,23 +26,9 @@ typedef struct S_800C4AFC_1 {
     void * unk_10;
 } S_800C4AFC_1;   /* object in create_timed_paired_particle_emitter */
 
-typedef struct S_800C4AFC_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800C4AFC_2;   /* arg0 in create_timed_paired_particle_emitter */
+   /* arg0 in create_timed_paired_particle_emitter */
 
-typedef struct S_800C4AFC_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800C4AFC_3;   /* (void *)temp in create_timed_paired_particle_emitter */
+   /* (void *)temp in create_timed_paired_particle_emitter */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -52,12 +39,12 @@ extern void tick_paired_particle_emitter(void);
 extern u8 D_800DCF78[12];
 
 /* Create an effect object, copy its source components, and initialize its state. */
-void create_timed_paired_particle_emitter(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
+void create_timed_paired_particle_emitter(MovingPosition *source, s32 effect_param, s32 state_param)
 {
     s32 effect_init[2];
     void *object;
     s32 init_value;
-    S_800C4AFC_3 *components;
+    MovingPosition *components;
     DungeonGlobalStatus *status;
     u8 *state;
     u8 *effect;

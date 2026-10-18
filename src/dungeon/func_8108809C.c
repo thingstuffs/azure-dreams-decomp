@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -62,14 +63,7 @@ typedef struct S_8017589C_4 {
     s32 unk_08;
 } S_8017589C_4;   /* source in create_randomized_offset_object */
 
-typedef struct S_8017589C_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8017589C_5;   /* copy in create_randomized_offset_object */
+   /* copy in create_randomized_offset_object */
 
 /* Creates an object with randomized initial state and source-derived offsets. */
 void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data, Rec_D_80082E80 *source_node)
@@ -118,9 +112,9 @@ void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data
         delta[0] = 0;
         source = work->unk_48;
         if (resolve_record_orientation_or_fallback(source->unk_08, source, delta, 3) != 0) {
-            ((S_8017589C_5 *)copy)->unk_02 += delta[0];
-            ((S_8017589C_5 *)copy)->unk_06 += delta[1];
-            ((S_8017589C_5 *)copy)->unk_0A += delta[2];
+            ((MovingPosition *)copy)->unk_02 += delta[0];
+            ((MovingPosition *)copy)->unk_06 += delta[1];
+            ((MovingPosition *)copy)->unk_0A += delta[2];
             work->unk_0A = delta[0];
             work->unk_0C = delta[1];
             work->unk_0E.u = delta[2];

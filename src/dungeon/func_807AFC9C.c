@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 s32 rand();                                /* extern */
 extern M2C_UNK D_800FBE24;
@@ -24,14 +25,7 @@ typedef struct S_807AFC9C_1 {
     s16 unk_0A;
 } S_807AFC9C_1;
 
-typedef struct S_807AFC9C_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_807AFC9C_2;   /* arg1 in func_800F749C */
+   /* arg1 in func_800F749C */
 
 typedef struct S_807AFC9C_3 {
     u8 pad_00[0x6];
@@ -60,7 +54,7 @@ typedef struct S_807AFC9C_5 {
 } S_807AFC9C_5;
 
 /* Spawns an effect near the origin with color channels selected by the source flags. */
-void func_800F749C(s32 spawn_arg, S_807AFC9C_2 *origin, S_807AFC9C_4 *source) {
+void func_800F749C(s32 spawn_arg, MovingPosition *origin, S_807AFC9C_4 *source) {
     S_807AFC9C_3 *sprite;
     S_807AFC9C_1 *position;
     void *effect;

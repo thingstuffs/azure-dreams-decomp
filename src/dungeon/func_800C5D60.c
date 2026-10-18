@@ -1,20 +1,14 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800CB4C0_6 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_800CB4C0_6;   /* arg0 in create_source_linked_fading_effect */
 
-typedef struct S_800CB4C0_7 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800CB4C0_7;   /* ((S_800CB4C0_6 *)arg0)->unk_08 in create_source_linked_fading_effect */
+   /* ((S_800CB4C0_6 *)arg0)->unk_08 in create_source_linked_fading_effect */
 
 
 M2C_UNK func_8003DB94();  /* extern */
@@ -49,14 +43,7 @@ typedef struct S_800CB4C0_2 {
     void * unk_0C;
 } S_800CB4C0_2;   /* arg0 in create_source_linked_fading_effect */
 
-typedef struct S_800CB4C0_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800CB4C0_3;
+
 
 typedef struct S_800CB4C0_4 {
     u8 pad_00[0xC];
@@ -79,7 +66,7 @@ void *create_source_linked_fading_effect(void *source, s16 copy_position) {
     void *object;
     S_800CB4C0_5 *state;
     S_800CB4C0_4 *source_display;
-    S_800CB4C0_3 *position;
+    MovingPosition *position;
 
     object = func_8003FD64(0x100, source);
     if (object != NULL) {
@@ -95,9 +82,9 @@ void *create_source_linked_fading_effect(void *source, s16 copy_position) {
             ((S_800CB4C0_0 *)object)->unk_08 = ((S_800CB4C0_2 *)source)->unk_08;
         } else {
             position = ((S_800CB4C0_0 *)object)->unk_08;
-            position->unk_02 = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)source)->unk_08))->unk_02;
-            position->unk_06 = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)source)->unk_08))->unk_06;
-            position->unk_0A = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)source)->unk_08))->unk_0A;
+            position->unk_02 = (u16) ((MovingPosition *)(((S_800CB4C0_6 *)source)->unk_08))->unk_02;
+            position->unk_06 = (u16) ((MovingPosition *)(((S_800CB4C0_6 *)source)->unk_08))->unk_06;
+            position->unk_0A = (u16) ((MovingPosition *)(((S_800CB4C0_6 *)source)->unk_08))->unk_0A;
             source_display = ((S_800CB4C0_2 *)source)->unk_0C;
             display_value = source_display->unk_0C;
             display->unk_10 = 0x60;

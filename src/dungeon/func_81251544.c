@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80170D44_0_pre {
     u16 unk_00;
@@ -15,35 +16,21 @@ typedef struct S_80170D44_0 {
     void * unk_AC;
 } S_80170D44_0;   /* arg0 in expand_fade_effect_and_expire */
 
-typedef struct S_80170D44_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80170D44_1;   /* arg1 in expand_fade_effect_and_expire */
+   /* arg1 in expand_fade_effect_and_expire */
 
-typedef struct S_80170D44_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80170D44_2;   /* src in expand_fade_effect_and_expire */
+   /* src in expand_fade_effect_and_expire */
 
 
 extern void func_800478B8(void *primitive);
 
 
 /* Copy the effect position, expand and fade its primitive, and flag expiration. */
-void expand_fade_effect_and_expire(void *effect, S_80170D44_1 *position, Rec_D_80082E80 *primitive)
+void expand_fade_effect_and_expire(void *effect, MovingPosition *position, Rec_D_80082E80 *primitive)
 {
     s16 ticks_left;
     s32 shade;
     u16 extent;
-    S_80170D44_2 *source_position;
+    MovingPosition *source_position;
 
     source_position = ((S_80170D44_0 *)effect)->unk_AC;
     position->unk_02 = source_position->unk_02;

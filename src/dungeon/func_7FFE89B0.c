@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef s32 M2C_UNK;
 
@@ -56,14 +57,7 @@ typedef struct S_7FFE89B0_4 {
     s32 unk_14;
 } S_7FFE89B0_4;
 
-typedef struct S_7FFE89B0_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_7FFE89B0_5;
+
 
 typedef struct S_7FFE89B0_6 {
     u8 pad_00[0x13];
@@ -90,11 +84,11 @@ void emit_parent_relative_particles(void *emitter, void *position, M2C_UNK spawn
     void *particle;
 
     parent = ((S_7FFE89B0_0 *)emitter)->unk_24;
-    ((S_7FFE89B0_1 *)position)->unk_02 = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_02
+    ((S_7FFE89B0_1 *)position)->unk_02 = (s16) (((MovingPosition *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_02
         + ((S_7FFE89B0_0 *)emitter)->unk_3C);
-    ((S_7FFE89B0_1 *)position)->unk_06 = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_06
+    ((S_7FFE89B0_1 *)position)->unk_06 = (s16) (((MovingPosition *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_06
         + ((S_7FFE89B0_0 *)emitter)->unk_3E);
-    ((S_7FFE89B0_1 *)position)->unk_0A = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_0A
+    ((S_7FFE89B0_1 *)position)->unk_0A = (s16) (((MovingPosition *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_0A
         + ((S_7FFE89B0_0 *)emitter)->unk_40);
     age = ((S_7FFE89B0_0 *)emitter)->unk_16 + 1;
     ((S_7FFE89B0_0 *)emitter)->unk_16 = age;

@@ -2,16 +2,10 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 
-typedef struct S_800CAFDC_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800CAFDC_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_salam_particles */
+   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_salam_particles */
 
 
 void *func_8003FD64();               /* extern */
@@ -75,9 +69,9 @@ void spawn_salam_particles(EntityRec *source, s16 effect_param, s32 render_param
             ((S_800CAFDC_0 *)particle)->unk_10 = &D_800CAED0;
             func_8004491C(particle, func_80045340);
             motion = ((S_800CAFDC_0 *)particle)->unk_08;
-            motion->unk_02 = (s16) ((((S_800CAFDC_5 *)((*(void * *)&source->z)))->unk_02 + (rand() & 0x3F)) - 0x20);
-            motion->unk_06 = (s16) ((((S_800CAFDC_5 *)((*(void * *)&source->z)))->unk_06 + (rand() & 0x3F)) - 0x20);
-            motion->unk_0A = (s16) ((((S_800CAFDC_5 *)((*(void * *)&source->z)))->unk_0A + (rand() & 0x3F)) - 0x20);
+            motion->unk_02 = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_02 + (rand() & 0x3F)) - 0x20);
+            motion->unk_06 = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_06 + (rand() & 0x3F)) - 0x20);
+            motion->unk_0A = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_0A + (rand() & 0x3F)) - 0x20);
             angle = rand();
             motion->unk_0C = (s32) (func_80064584(angle) << 5);
             motion->unk_10 = (s32) (func_800644B8(angle) << 5);

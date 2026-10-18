@@ -3,6 +3,7 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_801744DC_arg1.h"
 #include "records/Rec_func_801744DC_arg0.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_801744DC_0 {
     u8 pad_00[0x1E];
@@ -39,14 +40,7 @@ typedef struct S_801744DC_2 {
     s16 unk_1E;
 } S_801744DC_2;   /* part in spawn_directional_particle */
 
-typedef struct S_801744DC_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801744DC_3;   /* coords in spawn_directional_particle */
+   /* coords in spawn_directional_particle */
 
 
 typedef struct {
@@ -68,7 +62,7 @@ void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744D
     void *effect;
     S_801744DC_0 *motion;
     S_801744DC_2 *sprite;
-    S_801744DC_3 *position;
+    MovingPosition *position;
     s32 velocity_bias;
 
     effect = func_8003FC64(0x212);

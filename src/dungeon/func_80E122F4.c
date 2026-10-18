@@ -2,6 +2,7 @@
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_moving_views.h"
 
 
 typedef struct {
@@ -56,14 +57,7 @@ typedef struct S_80E122F4_3 {
     s32 unk_18;
 } S_80E122F4_3;   /* part in func_80E122F4 */
 
-typedef struct S_80E122F4_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80E122F4_4;   /* coords in func_80E122F4 */
+   /* coords in func_80E122F4 */
 
 typedef struct S_80E122F4_5 {
     s32 unk_00;
@@ -88,7 +82,7 @@ void *func_80E122F4(S_80E122F4_0 *owner, void *transform, void *source)
     S_80E122F4_5 *reference;
     void *obj;
     S_80E122F4_2 *source_obj;
-    S_80E122F4_4 *coords;
+    MovingPosition *coords;
     S_80E122F4_1 *child;
     S_80E122F4_3 *part;
     s32 delta;

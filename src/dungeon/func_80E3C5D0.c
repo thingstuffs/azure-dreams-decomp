@@ -3,6 +3,7 @@
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80173D78_arg0.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -45,14 +46,7 @@ typedef struct S_80175DD0_3 {
     u16 unk_12;
 } S_80175DD0_3;   /* coords in spawn_offset_motion_object */
 
-typedef struct S_80175DD0_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80175DD0_4;   /* arg1 in spawn_offset_motion_object */
+   /* arg1 in spawn_offset_motion_object */
 
 
 extern s32 resolve_record_orientation_or_fallback();
@@ -64,7 +58,7 @@ extern s32 D_80175C60;
 extern s32 D_80175D74;
 
 /* Creates an object at a source position offset and sets its orientation from the parent. */
-void spawn_offset_motion_object(void *parent_data, S_80175DD0_4 *origin, Rec_D_80082E80 *source_data, s16 position_index) {
+void spawn_offset_motion_object(void *parent_data, MovingPosition *origin, Rec_D_80082E80 *source_data, s16 position_index) {
     u16 position_offset[3];
     u16 angle;
     s32 direction_offset;

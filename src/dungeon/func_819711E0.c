@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_819711E0_0_pre {
     u16 unk_00;
@@ -23,32 +24,18 @@ typedef struct S_819711E0_1 {
     s8 unk_0E;
 } S_819711E0_1;   /* arg2 in func_800249E0 */
 
-typedef struct S_819711E0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_819711E0_2;   /* arg1 in func_800249E0 */
+   /* arg1 in func_800249E0 */
 
-typedef struct S_819711E0_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_819711E0_3;   /* src in func_800249E0 */
+   /* src in func_800249E0 */
 
 
 
 
 /* Decrement the timer, update scale and position, and flag completion at zero. */
-void func_800249E0(void *state, S_819711E0_2 *position, S_819711E0_1 *scale) {
+void func_800249E0(void *state, MovingPosition *position, S_819711E0_1 *scale) {
     s32 scale_factor;
     u16 ticks_left;
-    S_819711E0_3 *base_position;
+    MovingPosition *base_position;
 
     ticks_left = ((S_819711E0_0 *)state)->unk_38.s - 1;
     scale_factor = (s32) ((s32) (ticks_left << 16) >> 9) / (s16) ((S_819711E0_0 *)state)->unk_3A;

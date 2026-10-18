@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 
 typedef s32 M2C_UNK;
@@ -37,17 +38,7 @@ typedef struct S_801738B4_1_pre {
     u8 pad_04[0x10];
 } S_801738B4_1_pre;   /* the 0x14 bytes before copy_object in advance_actor_item_use_sequence, addressed as copy_object[-1] */
 
-typedef struct S_801738B4_2 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_801738B4_2;   /* entity in advance_actor_item_use_sequence */
+   /* entity in advance_actor_item_use_sequence */
 
 
 typedef struct S_801738B4_4 {
@@ -138,8 +129,8 @@ void advance_actor_item_use_sequence(void *action_ctx, EntityRec *scene_object, 
                 }
             } else {
                 target_x = (s32)scan_monster_along_heading(actor,
-                    ((S_801738B4_2 *)entity)->unk_24,
-                    ((S_801738B4_2 *)entity)->unk_25,
+                    ((SpriteAnimationTableView *)entity)->unk_24,
+                    ((SpriteAnimationTableView *)entity)->unk_25,
                     (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
                 (*(void * *)((u8 *)actor + 0x60)) = (void *)target_x;
                 target_x = __builtin_abs(*(s8 *)((u8 *)actor + 0x72));
@@ -156,7 +147,7 @@ void advance_actor_item_use_sequence(void *action_ctx, EntityRec *scene_object, 
             scene_object->flags14 = 0;
             scene_object->unk_10 = 0;
             scene_object->unk_0C = 0;
-            set_record_integer_tile_center(scene_object, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
+            set_record_integer_tile_center(scene_object, ((SpriteAnimationTableView *)entity)->unk_24, ((SpriteAnimationTableView *)entity)->unk_25);
             active_object = D_800814A8;
             g_dungeon_status.unk_0C = 0;
             (*(u16 *)((u8 *)active_object + 0xA6))--;
@@ -171,25 +162,25 @@ void advance_actor_item_use_sequence(void *action_ctx, EntityRec *scene_object, 
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            ((S_801738B4_2 *)entity)->unk_14 |= 0x0800;
+            ((SpriteAnimationTableView *)entity)->unk_14 |= 0x0800;
             break;
         }
-        ((S_801738B4_2 *)entity)->unk_14 &= 0xF7FF;
+        ((SpriteAnimationTableView *)entity)->unk_14 &= 0xF7FF;
         ((S_801738B4_0 *)action_ctx)->unk_9B++;
 
     case 2:
-        if ((((S_801738B4_2 *)entity)->unk_04 == 3 &&
-             (((S_801738B4_2 *)entity)->unk_14 & 0x1000)) ||
-            (((S_801738B4_2 *)entity)->unk_14 & 0xE000)) {
+        if ((((SpriteAnimationTableView *)entity)->unk_04 == 3 &&
+             (((SpriteAnimationTableView *)entity)->unk_14 & 0x1000)) ||
+            (((SpriteAnimationTableView *)entity)->unk_14 & 0xE000)) {
             create_offset_actor_object(action_ctx, scene_object, entity);
             ((S_801738B4_0 *)action_ctx)->unk_9B++;
         }
 
     case 3:
-        if ((((S_801738B4_2 *)entity)->unk_04 == 4 &&
-             (((S_801738B4_2 *)entity)->unk_14 & 0x1000)) ||
-            (((S_801738B4_2 *)entity)->unk_14 & 0xE000)) {
-            ((S_801738B4_2 *)entity)->unk_14 |= 0x0800;
+        if ((((SpriteAnimationTableView *)entity)->unk_04 == 4 &&
+             (((SpriteAnimationTableView *)entity)->unk_14 & 0x1000)) ||
+            (((SpriteAnimationTableView *)entity)->unk_14 & 0xE000)) {
+            ((SpriteAnimationTableView *)entity)->unk_14 |= 0x0800;
             ((S_801738B4_0 *)action_ctx)->unk_96 = 1;
             ((S_801738B4_0 *)action_ctx)->unk_98 |= 0x0080;
         }
@@ -198,17 +189,17 @@ void advance_actor_item_use_sequence(void *action_ctx, EntityRec *scene_object, 
         ((S_801738B4_0 *)action_ctx)->unk_96 = remaining_ticks;
         if ((s16)remaining_ticks <= 0) {
             ((S_801738B4_0 *)action_ctx)->unk_96 = 0;
-            ((S_801738B4_2 *)entity)->unk_14 &= 0xF7FF;
+            ((SpriteAnimationTableView *)entity)->unk_14 &= 0xF7FF;
         }
-        if (!(((S_801738B4_2 *)entity)->unk_14 & 0xE000)) {
+        if (!(((SpriteAnimationTableView *)entity)->unk_14 & 0xE000)) {
             break;
         }
 
         scene_object->flags14 = 0;
         scene_object->unk_10 = 0;
         scene_object->unk_0C = 0;
-        set_record_integer_tile_center(scene_object, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
-        if (((S_801738B4_2 *)entity)->unk_2C != D_80175F10) {
+        set_record_integer_tile_center(scene_object, ((SpriteAnimationTableView *)entity)->unk_24, ((SpriteAnimationTableView *)entity)->unk_25);
+        if (((SpriteAnimationTableView *)entity)->unk_2C != D_80175F10) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = D_80175F10;
             func_80047784(entity,
                 D_80175F10[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],

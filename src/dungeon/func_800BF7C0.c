@@ -19,14 +19,7 @@ typedef struct S_800C4F20_11 {
     s16 unk_88;
 } S_800C4F20_11;   /* ((S_800C4F20_10 *)arg0)->unk_24 in update_orbiting_teleport_effect */
 
-typedef struct S_800C4F20_12 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800C4F20_12;   /* ((S_800C4F20_10 *)arg0)->unk_1C in update_orbiting_teleport_effect */
+   /* ((S_800C4F20_10 *)arg0)->unk_1C in update_orbiting_teleport_effect */
 
 
 typedef struct S_800C4F20_0_pre {
@@ -284,9 +277,9 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
         return;
     }
     if (((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_14 & 0x100000) {
-        ((S_800C4F20_12 *)(((S_800C4F20_10 *)anim)->unk_1C))->unk_02 = (u16) position->unk_02;
-        ((S_800C4F20_12 *)(((S_800C4F20_10 *)anim)->unk_1C))->unk_06 = (u16) position->unk_06;
-        ((S_800C4F20_12 *)(((S_800C4F20_10 *)anim)->unk_1C))->unk_0A = (u16) position->unk_0A;
+        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->unk_02 = (u16) position->unk_02;
+        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->unk_06 = (u16) position->unk_06;
+        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->unk_0A = (u16) position->unk_0A;
     }
     ((S_800C4F20_0 *)anim)->unk_2C = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_2C + 1);
     transform->unk_1A = (u16) (transform->unk_1A - 0x80);

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_81263000_0_pre {
     u16 unk_00;
@@ -45,14 +46,7 @@ typedef struct S_81263000_3 {
     u16 unk_1E;
 } S_81263000_3;   /* dst in create_flagged_actor_object_2 */
 
-typedef struct S_81263000_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_81263000_4;   /* out in create_flagged_actor_object_2 */
+   /* out in create_flagged_actor_object_2 */
 
 typedef struct S_81263000_5 {
     u8 pad_00[0x1];
@@ -99,18 +93,18 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
         target_part->unk_14 &= 0xFF7F;
     }
 
-    ((S_81263000_4 *)output_pos)->unk_02 = pos_data->unk_02;
-    ((S_81263000_4 *)output_pos)->unk_06 = pos_data->unk_06;
-    ((S_81263000_4 *)output_pos)->unk_0A = pos_data->unk_0A;
+    ((MovingPosition *)output_pos)->unk_02 = pos_data->unk_02;
+    ((MovingPosition *)output_pos)->unk_06 = pos_data->unk_06;
+    ((MovingPosition *)output_pos)->unk_0A = pos_data->unk_0A;
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, offset,
                       ((S_81263000_0 *)root)->unk_B6) != 0) {
-        ((S_81263000_4 *)output_pos)->unk_02 +=
+        ((MovingPosition *)output_pos)->unk_02 +=
             (offset[0] + ((S_81263000_0 *)root)->unk_B0) / 2;
-        ((S_81263000_4 *)output_pos)->unk_06 +=
+        ((MovingPosition *)output_pos)->unk_06 +=
             (offset[1] + ((S_81263000_0 *)root)->unk_B2) / 2;
-        ((S_81263000_4 *)output_pos)->unk_0A +=
+        ((MovingPosition *)output_pos)->unk_0A +=
             (offset[2] + ((S_81263000_0 *)root)->unk_B4) / 2;
         ((S_81263000_0 *)root)->unk_B0 = offset[0];
         ((S_81263000_0 *)root)->unk_B2 = offset[1];

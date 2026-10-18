@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80099A1C_0 {
     u16 unk_00;
@@ -10,14 +11,7 @@ typedef struct S_80099A1C_0 {
     s32 unk_C0;
 } S_80099A1C_0;   /* scratch in apply_scratch_parameters_to_chain */
 
-typedef struct S_80099A1C_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80099A1C_1;   /* arg1 in apply_scratch_parameters_to_chain */
+   /* arg1 in apply_scratch_parameters_to_chain */
 
 typedef struct S_80099A1C_2 {
     u8 pad_00[0x6];
@@ -48,7 +42,7 @@ extern s32 func_80065420(void *, void *, void *, void *);
 extern void queue_visible_rectangle_copy(void *, void *);
 
 /* Build scratch parameters and apply them to each object in a linked chain. */
-s32 apply_scratch_parameters_to_chain(void *object, S_80099A1C_1 *position, S_80099A1C_2 *offset_data)
+s32 apply_scratch_parameters_to_chain(void *object, MovingPosition *position, S_80099A1C_2 *offset_data)
 {
     u8 *scratch;
     void *next_node;

@@ -1,6 +1,7 @@
 #include "modules/dungeon_ovl_189a800.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_8187BFE0_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -75,23 +76,9 @@ typedef struct S_8187BFE0_3 {
     u16 unk_1E;
 } S_8187BFE0_3;   /* sprite in initialize_star_effect_sequence */
 
-typedef struct S_8187BFE0_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8187BFE0_4;   /* dst in initialize_star_effect_sequence */
+   /* dst in initialize_star_effect_sequence */
 
-typedef struct S_8187BFE0_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8187BFE0_5;   /* source in initialize_star_effect_sequence */
+   /* source in initialize_star_effect_sequence */
 
 typedef struct {
     u8 bytes[12];
@@ -105,11 +92,11 @@ extern s16 D_8002694C[5];
 
 /* Initializes a five-point star and spawns its edge effects over successive updates. */
 void initialize_star_effect_sequence(void *state_data, void *source_data) {
-    u8 *source_position;
+    MovingPosition *source_position;
     u8 *node;
     u8 *edge_data;
     u8 *sprite;
-    u8 *dest_position;
+    MovingPosition *dest_position;
     u8 *globals_page = (u8 *)0x80020000;
     s32 vertex_index;
     s32 angle_offset;
@@ -157,9 +144,9 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
             ((S_8187BFE0_3 *)sprite)->unk_14 &= 0xFFF3;
 
             dest_position = ((S_8187BFE0_1 *)node)->unk_08;
-            ((S_8187BFE0_4 *)dest_position)->unk_02 = ((S_8187BFE0_5 *)source_position)->unk_02;
-            ((S_8187BFE0_4 *)dest_position)->unk_06 = ((S_8187BFE0_5 *)source_position)->unk_06;
-            ((S_8187BFE0_4 *)dest_position)->unk_0A = ((S_8187BFE0_5 *)source_position)->unk_0A;
+            dest_position->unk_02 = source_position->unk_02;
+            dest_position->unk_06 = source_position->unk_06;
+            dest_position->unk_0A = source_position->unk_0A;
 
             switch (((S_8187BFE0_0 *)state_data)->unk_1C.s) {
             case 0:

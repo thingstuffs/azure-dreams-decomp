@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_819AD81C_0_pre {
     u16 unk_00;
@@ -105,14 +106,7 @@ typedef struct S_819AD81C_5 {
     u16 unk_1E;
 } S_819AD81C_5;   /* attached in func_819AD81C */
 
-typedef struct S_819AD81C_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_819AD81C_6;   /* link in func_819AD81C */
+   /* link in func_819AD81C */
 
 
 s32 func_800644B8();
@@ -289,9 +283,9 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
         }
         link = ((S_819AD81C_5 *)attached)->unk_08;
         info = ((S_819AD81C_5 *)attached)->unk_0C;
-        ((S_819AD81C_2 *)motion)->unk_00.at02.v = (s16) ((S_819AD81C_6 *)link)->unk_02;
-        ((S_819AD81C_2 *)motion)->unk_04.at02.v = (s16) ((S_819AD81C_6 *)link)->unk_06;
-        ((S_819AD81C_2 *)motion)->unk_08.at02.v = (s16) ((S_819AD81C_6 *)link)->unk_0A;
+        ((S_819AD81C_2 *)motion)->unk_00.at02.v = (s16) ((MovingPosition *)link)->unk_02;
+        ((S_819AD81C_2 *)motion)->unk_04.at02.v = (s16) ((MovingPosition *)link)->unk_06;
+        ((S_819AD81C_2 *)motion)->unk_08.at02.v = (s16) ((MovingPosition *)link)->unk_0A;
         ((S_819AD81C_1 *)gfx)->unk_16 = (u16) ((S_819AD81C_4 *)info)->unk_16;
         ((S_819AD81C_1 *)gfx)->unk_18 = (u16) ((S_819AD81C_4 *)info)->unk_18;
         ((S_819AD81C_1 *)gfx)->unk_1A = (u16) ((S_819AD81C_4 *)info)->unk_1A;

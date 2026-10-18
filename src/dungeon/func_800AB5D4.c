@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
 
 
 extern void func_8004E994();
@@ -63,26 +64,12 @@ typedef struct S_800B0D34_6_pre {
     u16 unk_00;
 } S_800B0D34_6_pre;   /* the 0x2 bytes before entry in update_attached_effect_position, addressed as entry[-1] */
 
-typedef struct S_800B0D34_7 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800B0D34_7;   /* arg1 in update_attached_effect_position */
+   /* arg1 in update_attached_effect_position */
 
-typedef struct S_800B0D34_8 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800B0D34_8;   /* source in update_attached_effect_position */
+   /* source in update_attached_effect_position */
 
 /* Updates status colors and exit animation, releases finished objects, and copies their position. */
-void update_attached_effect_position(void *object, void *position, void *anim_state) {
+void update_attached_effect_position(void *object, MovingPosition *position, void *anim_state) {
     u16 frame_count;
     s32 base_phase;
     s16 phase;
@@ -169,13 +156,13 @@ void update_attached_effect_position(void *object, void *position, void *anim_st
         ((S_800B0D34_3 *)anim_state)->unk_04 = 0;
     }
     {
-        void *source = ((S_800B0D34_1_pre *)info)[-1].unk_00;
+        MovingPosition *source = ((S_800B0D34_1_pre *)info)[-1].unk_00;
         s32 z_adjustment;
         u16 source_z;
-        ((S_800B0D34_7 *)position)->unk_02 = ((S_800B0D34_8 *)source)->unk_02;
-        ((S_800B0D34_7 *)position)->unk_06 = ((S_800B0D34_8 *)source)->unk_06;
+        position->unk_02 = source->unk_02;
+        position->unk_06 = source->unk_06;
         z_adjustment = D_800DDC40[((S_800B0D34_1 *)info)->unk_13] + 0x50;
-        source_z = ((S_800B0D34_8 *)source)->unk_0A;
-        ((S_800B0D34_7 *)position)->unk_0A = source_z - z_adjustment;
+        source_z = source->unk_0A;
+        position->unk_0A = source_z - z_adjustment;
     }
 }

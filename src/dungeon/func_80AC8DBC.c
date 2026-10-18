@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_801745BC_0_pre {
     void * unk_00;
@@ -46,14 +47,7 @@ typedef struct S_801745BC_4 {
     u16 unk_2A;
 } S_801745BC_4;   /* owner in process_nodes_at_target_tile */
 
-typedef struct S_801745BC_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801745BC_5;   /* position in process_nodes_at_target_tile */
+   /* position in process_nodes_at_target_tile */
 
 
 typedef struct OffsetPair {
@@ -82,7 +76,7 @@ void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 ta
     s32 match_y;
     register void *owner_data = ((S_801745BC_0_pre *)head)[-1].unk_04;
     void *next_link = ((S_801745BC_0 *)head)->unk_5C;
-    void *position = ((S_801745BC_0_pre *)head)[-1].unk_00;
+    MovingPosition *position = ((S_801745BC_0_pre *)head)[-1].unk_00;
     u16 height_arg = target_height;
     s32 center_height;
     s32 low_height;
@@ -119,10 +113,10 @@ void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 ta
                         offset = (OffsetPair *)((u8 *)&offsets +
                             (((s16)angle >> 7) & 0x1C));
                         spawn_radial_particle_burst(
-                            (s16)(((S_801745BC_5 *)position)->unk_02 + (offset->x * 32)),
-                            (s16)(((S_801745BC_5 *)position)->unk_06 +
+                            (s16)(position->unk_02 + (offset->x * 32)),
+                            (s16)(position->unk_06 +
                                   ((s32)(offset->y << 16) >> 11)),
-                            (s16)(((S_801745BC_5 *)position)->unk_0A - 0x20),
+                            (s16)(position->unk_0A - 0x20),
                             ((S_801745BC_4 *)owner)->unk_14,
                             (s32)(s16)angle);
                     } else {

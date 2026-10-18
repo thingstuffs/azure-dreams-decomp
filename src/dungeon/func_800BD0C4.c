@@ -17,14 +17,7 @@ typedef struct S_800C2824_1 {
     void * unk_08;
 } S_800C2824_1;   /* object_base in update_return_magic_sacrifice */
 
-typedef struct S_800C2824_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800C2824_2;   /* object_vertices in update_return_magic_sacrifice */
+   /* object_vertices in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_3 {
     u8 pad_00[0x2];
@@ -158,11 +151,11 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
     u16 vertex_y;
     u16 vertex_z;
     u8 shade;
-    void *object_coords;
+    MovingTile *object_coords;
     void *object_base;
     void *source_object;
 
-    void *object_vertices;
+    MovingPosition *object_vertices;
     void *finished_object;
     void *release_object;
     u32 release_coord;
@@ -193,13 +186,13 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         func_80044A50(object_base);
         retire_tracked_effect_by_id(object_base);
         object_vertices = ((S_800C2824_1 *)object_base)->unk_08;
-        vertex_x = ((S_800C2824_2 *)object_vertices)->unk_02;
+        vertex_x = object_vertices->unk_02;
         ((S_800C2824_3 *)vertices)->unk_02 = vertex_x;
         ((S_800C2824_3 *)vertices)->unk_0E = vertex_x;
-        vertex_y = ((S_800C2824_2 *)object_vertices)->unk_06;
+        vertex_y = object_vertices->unk_06;
         ((S_800C2824_3 *)vertices)->unk_06 = vertex_y;
         ((S_800C2824_3 *)vertices)->unk_12 = vertex_y;
-        vertex_z = ((S_800C2824_2 *)object_vertices)->unk_0A;
+        vertex_z = object_vertices->unk_0A;
         ((S_800C2824_3 *)vertices)->unk_0A = vertex_z;
         ((S_800C2824_3 *)vertices)->unk_16 = vertex_z;
         func_8004491C(effect - 0x20, &D_800CEF54);
@@ -279,7 +272,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         effect_object = source_object;
         effect_param = ((S_800C2824_8 *)effect_object)->unk_88;
         D_800DF55C = effect_object;
-        if (create_five_point_effect(((MovingTile *)object_coords)->unk_24, ((MovingTile *)object_coords)->unk_25,
+        if (create_five_point_effect(object_coords->unk_24, object_coords->unk_25,
             effect_param, &D_800DF45C, 0x2800, 0x208020, &D_800C27F0) == 0) {
             return;
         }

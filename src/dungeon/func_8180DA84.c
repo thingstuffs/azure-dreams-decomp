@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 
 #ifndef NULL
 #define NULL 0
@@ -32,14 +33,7 @@ typedef struct S_80026A84_1 {
     void * unk_20;
 } S_80026A84_1;
 
-typedef struct S_80026A84_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80026A84_2;   /* arg0 in create_six_offset_effects */
+   /* arg0 in create_six_offset_effects */
 
 typedef struct S_80026A84_3 {
     u8 pad_00[0x2];
@@ -93,7 +87,7 @@ typedef struct S_80026A84_7 {
 } S_80026A84_7;   /* arg1 in create_six_offset_effects */
 
 /* Creates six linked effects at an offset from the origin and initializes their points. */
-void *create_six_offset_effects(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_param, Rec_D_80082E80 *source)
+void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos, s32 effect_param, Rec_D_80082E80 *source)
 {
     u16 offset[3];
     s32 *callback;

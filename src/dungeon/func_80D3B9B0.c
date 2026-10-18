@@ -2,6 +2,7 @@
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/sprite_frame_state.h"
 
 
 typedef void (*Callback)(void *, void *, void *, void *);
@@ -29,17 +30,7 @@ typedef struct S_801711B0_0 {
     s32 unk_14;
 } S_801711B0_0;   /* motion in update_actor_visual_motion */
 
-typedef struct S_801711B0_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_801711B0_1;   /* part in update_actor_visual_motion */
+   /* part in update_actor_visual_motion */
 
 typedef struct S_801711B0_2 {
     u8 pad_00[0x1C];
@@ -121,7 +112,7 @@ void update_actor_visual_motion(void *object_arg, void *motion_arg, void *part_a
         (*(u8 *)((u8 *)object_arg + (0x9D))) = 0;
     }
     (*(s32 *)((u8 *)object_arg + (0x90))) += ((S_801711B0_0 *)motion_arg)->unk_14;
-    part_flags = ((S_801711B0_1 *)part_arg)->unk_14;
+    part_flags = ((SpriteAnimationTableView *)part_arg)->unk_14;
 
     if (!(part_flags & 0x8000)) {
         u16 facing_flags;
@@ -130,34 +121,34 @@ void update_actor_visual_motion(void *object_arg, void *motion_arg, void *part_a
         state_or_dir = direction;
         if ((*(s16 *)((u8 *)object_arg + (0x94))) != state_or_dir) {
             select_indirect_table_entry(part_arg,
-                (*(u8 *)((u8 *)(((S_801711B0_1 *)part_arg)->unk_2C) + (state_or_dir))),
-                ((S_801711B0_1 *)part_arg)->unk_04);
+                (*(u8 *)((u8 *)(((SpriteAnimationTableView *)part_arg)->unk_2C) + (state_or_dir))),
+                ((SpriteAnimationTableView *)part_arg)->unk_04);
             (*(s16 *)((u8 *)object_arg + (0x94))) = direction;
         }
 
         if (dir_sprite_flag[state_or_dir] != 0) {
-            facing_flags = ((S_801711B0_1 *)part_arg)->unk_14;
+            facing_flags = ((SpriteAnimationTableView *)part_arg)->unk_14;
             facing_flags |= 1;
         } else {
-            facing_flags = ((S_801711B0_1 *)part_arg)->unk_14 & 0xFFFE;
+            facing_flags = ((SpriteAnimationTableView *)part_arg)->unk_14 & 0xFFFE;
         }
-        ((S_801711B0_1 *)part_arg)->unk_14 = facing_flags;
+        ((SpriteAnimationTableView *)part_arg)->unk_14 = facing_flags;
 
         apply_monster_koyaw_data(((S_801711B0_2 *)base)->unk_1C, (u8 *)part_arg + 0xC);
         if (!(((S_801711B0_2 *)base)->unk_1C & 0x20)) {
-            if (!(((S_801711B0_1 *)part_arg)->unk_14 & 0x40)) {
+            if (!(((SpriteAnimationTableView *)part_arg)->unk_14 & 0x40)) {
                 func_800478B8(part_arg);
             }
         } else {
-            ((S_801711B0_1 *)part_arg)->unk_14 |= 0x7000;
+            ((SpriteAnimationTableView *)part_arg)->unk_14 |= 0x7000;
             ((S_801711B0_2 *)base)->unk_1C &= 0xFFFBFFFF;
         }
 
         normal_flags = ((S_801711B0_2 *)base)->unk_1C & 0xF7FFFFFF;
         ((S_801711B0_2 *)base)->unk_1C = normal_flags;
         if (normal_flags & 0x40000) {
-            if (!(((S_801711B0_1 *)part_arg)->unk_14 & 0x40) &&
-                ((S_801711B0_1 *)part_arg)->unk_2C == D_800E23E0) {
+            if (!(((SpriteAnimationTableView *)part_arg)->unk_14 & 0x40) &&
+                ((SpriteAnimationTableView *)part_arg)->unk_2C == D_800E23E0) {
                 s32 bob_signed;
 
                 bob_step = (*(u16 *)((u8 *)object_arg + (0x9E)))++;
@@ -199,9 +190,9 @@ void update_actor_visual_motion(void *object_arg, void *motion_arg, void *part_a
     } else {
         new_part_flags = part_flags & 0x800;
         if (new_part_flags) {
-            ((S_801711B0_1 *)part_arg)->unk_14 = part_flags & 0x8FFF;
+            ((SpriteAnimationTableView *)part_arg)->unk_14 = part_flags & 0x8FFF;
         } else {
-            ((S_801711B0_1 *)part_arg)->unk_14 = part_flags | 0x7000;
+            ((SpriteAnimationTableView *)part_arg)->unk_14 = part_flags | 0x7000;
         }
 
         special_flags = ((S_801711B0_2 *)base)->unk_1C & 0xF7FFFFFF;
@@ -224,8 +215,8 @@ void update_actor_visual_motion(void *object_arg, void *motion_arg, void *part_a
                 }
             }
         } else {
-            if (!(((S_801711B0_1 *)part_arg)->unk_14 & 0x40) &&
-                ((S_801711B0_1 *)part_arg)->unk_2C == D_800E23E0) {
+            if (!(((SpriteAnimationTableView *)part_arg)->unk_14 & 0x40) &&
+                ((SpriteAnimationTableView *)part_arg)->unk_2C == D_800E23E0) {
                 s32 bob_signed;
 
                 bob_step = (*(u16 *)((u8 *)object_arg + (0x9E)))++;
@@ -255,8 +246,8 @@ void update_actor_visual_motion(void *object_arg, void *motion_arg, void *part_a
     if (flags & 0x40000000) {
         ((S_801711B0_2 *)base)->unk_1C = flags & 0xBFFFFFFF;
         ground_height = sample_terrain_surface_height(
-            (((S_801711B0_1 *)part_arg)->unk_24 << 6) | 0x20,
-            (((S_801711B0_1 *)part_arg)->unk_25 << 6) | 0x20,
+            (((SpriteAnimationTableView *)part_arg)->unk_24 << 6) | 0x20,
+            (((SpriteAnimationTableView *)part_arg)->unk_25 << 6) | 0x20,
             (s16)(((S_801711B0_2 *)base)->unk_88 - 0x20));
         if (ground_height < 0x200) {
             (*(u16 *)((u8 *)object_arg + (0x92))) += ((S_801711B0_2 *)base)->unk_88 - ground_height;
@@ -266,5 +257,5 @@ void update_actor_visual_motion(void *object_arg, void *motion_arg, void *part_a
 
     ((S_801711B0_0 *)motion_arg)->unk_0A = ((S_801711B0_2 *)base)->unk_88 +
         (*(u16 *)((u8 *)object_arg + (0x92))) - (*(u16 *)((u8 *)object_arg + (0xA2)));
-    ((S_801711B0_1 *)part_arg)->unk_14 |= 0x40;
+    ((SpriteAnimationTableView *)part_arg)->unk_14 |= 0x40;
 }
