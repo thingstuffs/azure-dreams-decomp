@@ -42,8 +42,8 @@ No `#define <old> func_<new>` relocation lines and no `-D` symbols: rebinding ha
   source_layout projection is in use, that the projection is exactly the planned set of symlinks.
 - `tools/row_db.py check` checks every entry against its split record (MATCH C row, extent, link vma), the
   registry (`source_row`), the home's resolved source (`tu`), refuses a placement row that is a module member and cross-container
-  homes (not modelled yet; a module-member HOME is allowed, its member file compiles standalone or the gate fails), and refuses a placement that still has a copy file in `src/`. A placement's `raw/` file is
-  optional.
+  homes (not modelled yet; a module-member HOME is allowed, its member file compiles standalone or the gate fails), and refuses a placement that still has a copy file in `src/`. Archived first-pass facts are
+  indexed by `config/frozen_raw.jsonl`; placements have no current raw text.
 
 ## Not yet modelled
 

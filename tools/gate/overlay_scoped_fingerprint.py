@@ -11,6 +11,7 @@ from __future__ import annotations
 import ast, bisect, hashlib, json, os, pickle, re, shutil, subprocess, sys, threading
 from pathlib import Path
 from functools import lru_cache
+import asm_paths
 from gate_read_cache import read_json, read_jsonl, read_text, read_records, observe, observing, merge_observed, stamp_of, volatile, VOLATILE
 
 # Per-process memo. An entry holds {path: identity} for every input probed while it was computed
@@ -402,9 +403,9 @@ def noreturn(root, fam, offsets, splits, regions, G):
     # use this resolver when their view omits raw/.
     if _exists(root/'tools/gate/gen_noreturn_syms.py'):
         sys.path.insert(0,str(root/'tools'))
-        from gate.gen_noreturn_syms import _find_root, scoped_inputs
+        from gate.gen_noreturn_syms import _find_root, scoped_inputs, frozen_sha
     else:
-        from gen_noreturn_syms import _find_root, scoped_inputs
+        from gen_noreturn_syms import _find_root, scoped_inputs, frozen_sha
     evidence=_find_root(root/'tools/_')
     # Bind content and ABSENCE for every selected frozen source, not just the
     # extracted names. Region sources are selected exactly as _scope_index.
@@ -425,7 +426,7 @@ def noreturn(root, fam, offsets, splits, regions, G):
             if source:
                 name=f'raw/{fam}/'+Path(source).name
                 if name in selected:continue
-                p=evidence/name;selected[name]=G.sha(p) if _exists(p) else None
+                selected[name]=frozen_sha(evidence,name)
     return {'semantic':scoped_inputs(fam,offsets,root=evidence),'regions':scope_records,'frozen_sources':dict(sorted(selected.items())), 'false_member_records':[r for r in records(evidence/'config/noreturn_false_members.jsonl') if r.get('family',r.get('container'))==fam]}
 
 def retail(root, container, start, size, G):
@@ -544,7 +545,7 @@ def _window_digest(root,wn,wins,splits,reg,physical,assign,regions,owners,mods,l
                 name=matched_source(root,grp,r)
                 sources.update(include_inputs(root,[name],version,flags,G))
             else:
-                sources.update({n:G.sha(root/n) for n in G.closure(root,[r['asm_path']])})
+                sources.update({n:G.sha(asm_paths.resolve(root,n)) for n in G.closure(root,[r['asm_path']])})
     import linklist
     observe(linklist.link_dir(root))  # memo invalidation: the directory, each container directory, each list
     if linklist.link_dir(root).is_dir():

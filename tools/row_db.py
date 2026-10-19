@@ -18,6 +18,7 @@ import argparse, json, os, re, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, RAW, window_map, covering_windows, read_jsonl, write_jsonl, sha_file
+from frozen_raw import entry as frozen_entry
 from source_layout import row_path as layout_row_path
 
 SPLITS = LEDGER / "splits"
@@ -75,6 +76,10 @@ def slus_member_definitions(raw, names):
     """Canonical member identities include names registered in the alias table."""
     from slus_partitions import read_aliases, spans
     raw = Path(raw)
+    if raw.is_relative_to(ROOT / "raw"):
+        frozen = frozen_entry(str(raw.relative_to(ROOT)))
+        if frozen is not None:
+            return frozen.get("canonical", [])
     return sorted(spans(raw.read_text(), read_aliases(names))) if raw.is_file() else []
 
 
@@ -171,8 +176,8 @@ def cmd_check(a):
                 print(f"{ovl}: MATCH row {r['func_vram']} has no c_path"); bad += 1; continue
             if f"{fam}/{r['func_vram']}" in placements:
                 pass  # placement: raw/ is optional (decision 59); src/ resolves to the home TU below
-            elif not (RAW / fam / name).exists():
-                print(f"{ovl}: raw/{fam}/{name} missing"); bad += 1
+            elif frozen_entry(f"raw/{fam}/{name}") is None:
+                print(f"{ovl}: frozen baseline for {fam}/{name} missing"); bad += 1
             if not (layout_row_path({"container": fam, "c_path": name}, ROOT)).exists():
                 print(f"{ovl}: src/{fam}/{name} missing"); bad += 1
             if not covering_windows(fam, r["foff"], r["size"], wm):

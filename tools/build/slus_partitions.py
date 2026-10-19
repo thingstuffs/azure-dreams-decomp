@@ -88,6 +88,10 @@ def load_plan(file):
 
 def validate_context(plan, modules, logical_edges, raw_root, aliases=None):
     """Validate original recipe/raw provenance and known destination modules."""
+    raw_root = Path(raw_root).absolute()
+    table_path = raw_root.parents[1] / 'config/frozen_raw.jsonl'
+    frozen = ({r['path']: r for r in (json.loads(line) for line in table_path.read_text().splitlines() if line)}
+              if table_path.is_file() else None)
     by_module = {m['name']:m for m in modules}
     if len(by_module) != len(modules):
         raise PartitionError('duplicate destination module')
@@ -116,10 +120,17 @@ def validate_context(plan, modules, logical_edges, raw_root, aliases=None):
         e = by_source.get(parent['source'])
         if not e or {k:e[k] for k in RECIPE_KEYS} != parent['recipe']:
             raise PartitionError('partition parent recipe drift: '+parent['id'])
-        raw = Path(raw_root) / PurePosixPath(parent['source']).name
-        if not raw.is_file() or hashlib.sha256(raw.read_bytes()).hexdigest() != parent['raw_sha256']:
-            raise PartitionError('partition frozen source mismatch: '+parent['id'])
-        if set(spans(raw.read_text(),aliases)) != set(parent['functions']):
+        raw = raw_root / PurePosixPath(parent['source']).name
+        if frozen is not None:
+            fact = frozen.get('raw/slus/' + raw.name)
+            if not fact or fact['sha256'] != parent['raw_sha256']:
+                raise PartitionError('partition frozen source mismatch: '+parent['id'])
+            actual = set(fact.get('canonical', ()))
+        else:
+            if not raw.is_file() or hashlib.sha256(raw.read_bytes()).hexdigest() != parent['raw_sha256']:
+                raise PartitionError('partition frozen source mismatch: '+parent['id'])
+            actual = set(spans(raw.read_text(),aliases))
+        if actual != set(parent['functions']):
             raise PartitionError('partition functions differ from frozen definitions: '+parent['id'])
         if whole_functions.intersection(parent['functions']):
             raise PartitionError('partition function is also owned by a whole module member')

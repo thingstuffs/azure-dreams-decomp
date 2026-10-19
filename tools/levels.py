@@ -33,7 +33,8 @@ are already excluded by L4).  A row that cannot reach L5 stays at L4 with its re
 import re, collections, sys
 from row_cache import RowCache, FactInputs, text_key
 from pathlib import Path
-from common import ROOT, LEDGER, rows, read_jsonl, write_jsonl, raw_path
+from common import ROOT, LEDGER, rows, read_jsonl, write_jsonl, raw_path, sha_file
+from frozen_raw import entry as frozen_entry
 from source_layout import row_path as layout_row_path
 from census import (M2C_LOCAL_RE, audit_index, DECL_LINE, DEF_HEADER_RE,
                      audit_sites, live_sites as census_live_sites)
@@ -491,8 +492,19 @@ def row_view(r, by_id, root=None):
     home = by_id.get(r.get("source_row") or "")
     h = home or r
     cp = layout_row_path(r, root or ROOT)
-    text = (cp if cp.exists() else raw_path(r)).read_text(errors="replace")
-    raw_text = raw_path(h).read_text(errors="replace") if raw_path(h).exists() else ""
+    text = cp.read_text(errors="replace")
+    evidence_root = Path(root or ROOT)
+    if (evidence_root / "config/frozen_raw.jsonl").is_file():
+        baseline = frozen_entry(f"raw/{h['container']}/{Path(h['c_path']).name}", evidence_root)
+        # evaluate_row only tests equality with the pinned text. Keep the exact
+        # equality fact without storing the first-pass source in the public tree.
+        equal = baseline is not None and sha_file(cp) == baseline["sha256"]
+        raw_text = text if equal else "\0frozen-first-pass-differs\0"
+    elif (evidence_root / "raw").is_dir():
+        # Small synthetic tests still model the original text directly.
+        raw_text = raw_path(h).read_text(errors="replace")
+    else:
+        raise FileNotFoundError(evidence_root / "config/frozen_raw.jsonl")
     if home:
         r = dict(r, func=h["func"], defs=h.get("defs"), true_name=h.get("true_name"))
     return r, text, raw_text

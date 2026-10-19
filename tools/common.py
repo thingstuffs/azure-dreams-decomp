@@ -62,7 +62,7 @@ def clean_path(row) -> Path:
 
 def current_text(row) -> str:
     p = clean_path(row)
-    return (p if p.exists() else raw_path(row)).read_text(errors="replace")
+    return p.read_text(errors="replace")
 
 _WM = None
 def window_map():

@@ -15,6 +15,7 @@ if ROOT.name=='tools': ROOT=ROOT.parent
 SCHEMA='overlay-module-native-v4'
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling import when loaded as gate.overlay_module_gate
 from source_layout import row_relative, mapping as source_mapping
+import asm_paths
 import overlay_native_rodata as N
 import overlay_native_allocations as Z
 from gate_read_cache import digest, read_jsonl, read_text, read_json as _read_json, read_records as _read_records
@@ -261,7 +262,7 @@ def closure(root,starts):
  while pending:
   n=pending.pop()
   if n in found:continue
-  p=local(root,n);t=read_text(p);found.add(n)
+  lp=local(root,n);p=asm_paths.resolve(root,n) if n.startswith('asm/') else lp;t=read_text(p);found.add(n)
   for line in t.splitlines():
    if not re.match(r'\s*(?:#\s*include|\.include)\b',line):continue
    hit=re.match(r'\s*(?:#\s*include|\.include)\s+"([^"]+)"',line)
@@ -269,17 +270,18 @@ def closure(root,starts):
     # Ask the actual preprocessor about conditional/system includes; inactive
     # NON_MATCHING headers are not build dependencies.
     gcc=root/'toolchain/compilers/gcc-2.7.2-cdk'
+    viaslus=p!=lp
     pdep=subprocess.run([str(gcc/'gcc'),'-B'+str(gcc)+'/', '-M','-G0','-I'+str(root/'include'),str(p)],capture_output=True,text=True,check=True)
     for dep in pdep.stdout.replace('\\\n',' ').split(':',1)[1].split():
      dest=Path(dep).absolute()
      if not dest.is_relative_to(root):raise ValueError('system dependency outside fingerprint root: '+dep)
-     found.add(str(dest.relative_to(root)))
+     found.add((asm_paths.logical(root,dest) or str(dest.relative_to(root))) if viaslus else str(dest.relative_to(root)))
     continue
    key=(p.parent,hit[1])
    target=resolved.get(key)
    if target is None:
-    opts=[p.parent/hit[1],root/'include'/hit[1],root/hit[1]]
-    dest=next((Path(os.path.abspath(o)) for o in opts if o.is_file()),None)
+    opts=[lp.parent/hit[1],root/'include'/hit[1],root/hit[1]]
+    dest=next((Path(os.path.abspath(o)) for o in opts if asm_paths.is_file(root,o)),None)
     if dest is None or not dest.is_relative_to(root):raise ValueError('include escapes build root: '+line)
     target=str(dest.relative_to(root));resolved[key]=target
    pending.append(target)
@@ -482,8 +484,7 @@ def build(m,out,root=ROOT,substitutions=None,*,artifact_only=False):
  sys.path.insert(0,str(root/'tools/fidelity'));import aspsx_diff as A
  (out/'IN.S').write_bytes(A.aspsx_input(canon.decode()))
  # ASPSX has a DOS path-length limit; keep its working directory short.
- (root/'work').mkdir(exist_ok=True)
- with tempfile.TemporaryDirectory(prefix='g',dir=root/'work') as td:
+ with tempfile.TemporaryDirectory(prefix='g',dir='/tmp') as td:
   td=Path(td);shutil.copy2(out/'IN.S',td/'IN.S')
   command([root/'toolchain/genuine/bin/wibo',root/'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE','-q','-G0',*genuine_flags(m,root),'-o','OUT.OBJ','IN.S'],td,dict(env,TMPDIR=str(td),TMP=str(td),TEMP=str(td)),out/'genuine.log')
   shutil.copy2(td/'OUT.OBJ',out/'OUT.OBJ')

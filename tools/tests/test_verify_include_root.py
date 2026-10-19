@@ -76,7 +76,7 @@ class IncludeRootTests(unittest.TestCase):
         self.assertLess(command.index("-I"), command.index(row["flags"]))
         self.assertEqual(command[command.index("-I") + 1], str(self.root / "changed"))
 
-    def test_slus_none_keeps_current_and_historical_include_defaults(self):
+    def test_slus_none_uses_current_include_default(self):
         import slus_module_context as context
         raw = self.root / "raw.c"
         raw.write_text(self.source.read_text())
@@ -94,7 +94,7 @@ class IncludeRootTests(unittest.TestCase):
             verify.compile_slus(row, self.source, self.root / "out")
             verify.compile_slus(row, raw, self.root / "out")
             verify.compile_slus(row, self.source, self.root / "out", self.root / "changed")
-        self.assertEqual(selected, [verify.ROOT / "include", verify.RAW / "include",
+        self.assertEqual(selected, [verify.ROOT / "include", verify.ROOT / "include",
                                     (self.root / "changed").resolve()])
 
 

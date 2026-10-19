@@ -19,6 +19,14 @@ ROOT = Path(__file__).resolve().parents[1]
 if ROOT.name == "tools":
     ROOT = ROOT.parent
 CONTAINERS = {"main", "town", "dungeon", "ovmovie", "slus", "dungeon_engine"}
+SUBSYSTEMS = {"engine", "frontend", "town", "dungeon", "movie", *CONTAINERS}
+# Shared homes a row may move into from any container. A row never lands under
+# ANOTHER container's directory (flat src/<container>/ listings collect TUs).
+SHARED_SUBSYSTEMS = {"engine", "frontend", "movie"}
+
+
+def _home_dirs(container):
+    return {container} | SHARED_SUBSYSTEMS | ({"dungeon"} if container == "dungeon_engine" else set())
 
 
 def _stamp(path):
@@ -50,7 +58,7 @@ def _safe_path(value, container):
         raise ValueError("source path must be a string")
     p = PurePosixPath(value)
     if (str(p) != value or p.is_absolute() or ".." in p.parts
-            or len(p.parts) < 3 or p.parts[:2] != ("src", container)
+            or len(p.parts) < 3 or p.parts[0] != "src" or p.parts[1] not in _home_dirs(container)
             or p.suffix != ".c" or "\\" in value):
         raise ValueError("unsafe source path: " + value)
     return value
@@ -80,8 +88,6 @@ def _load(path, stamp, rows_path, rows_stamp):
         if row.get("source_row"):
             raise ValueError("a link-list placement has no source path of its own: " + rid)
         value = _safe_path(record["path"], row["container"])
-        if Path(value).name != Path(row["c_path"]).name:
-            raise ValueError("layout must preserve the row filename: " + rid)
         if value in paths:
             raise ValueError("two rows share a source path: " + value)
         mapping[rid] = value
@@ -170,7 +176,8 @@ def slus_source(source, root=ROOT):
     rid = "slus/" + p.stem
     if rid in registry(root):
         return row_path(rid, root)
-    return Path(root) / "src/slus" / Path(*p.parts[1:])
+    old = "src/slus/" + Path(*p.parts[1:]).as_posix()
+    return Path(root) / tu_moves(root).get(old, old)
 
 
 def validate(root=ROOT, *, require_files=True):
@@ -181,6 +188,30 @@ def validate(root=ROOT, *, require_files=True):
         if require_files and not p.is_file():
             raise ValueError("missing source for " + row["id"] + ": " + str(p))
     return len(reg)
+
+
+def tu_moves(root=ROOT):
+    """Old physical TU path -> new TU path, for wrappers outside the row ledger."""
+    path = Path(root).absolute() / "ledger/tu_layout.jsonl"
+    result = {}
+    if not path.exists():
+        return result
+    for line in path.read_text().splitlines():
+        if not line.strip():
+            continue
+        record = json.loads(line)
+        if set(record) != {"old", "new"}:
+            raise ValueError("TU layout record requires old and new")
+        old, new = record["old"], record["new"]
+        for value in (old, new):
+            p = PurePosixPath(value)
+            if (str(p) != value or p.is_absolute() or ".." in p.parts or len(p.parts) < 3
+                    or p.parts[0] != "src" or p.parts[1] not in SUBSYSTEMS or p.suffix != ".c"):
+                raise ValueError("unsafe TU layout path: " + str(value))
+        if old in result or new in result.values():
+            raise ValueError("duplicate TU layout path")
+        result[old] = new
+    return result
 
 
 def projection_plan(root=ROOT, source_root=None):
@@ -197,6 +228,14 @@ def projection_plan(root=ROOT, source_root=None):
             # Preserve nested manifest/wrapper paths as well as flat aliases.
             if entry.is_file() or entry.is_dir():
                 wanted[container_dir.name + "/" + entry.name] = entry
+    for old, new in tu_moves(root).items():
+        # Legacy build recipes still name flat src/<container>/<stem>.c;
+        # expose moved physical wrappers under that spelling.
+        if len(PurePosixPath(old).parts) != 3:
+            continue
+        target = source_root / Path(new).relative_to("src")
+        if target.is_file():
+            wanted[Path(old).relative_to("src").as_posix()] = target
     for r in reg.values():
         target = row_path(r, root) if source_root == canonical else source_root / Path(row_relative(r, root)).relative_to("src")
         if source_root != canonical and not target.is_file():
@@ -216,8 +255,10 @@ def materialize_flat(destination, root=ROOT, source_root=None):
     source_root = Path(source_root).absolute() if source_root else canonical
     reg = registry(root)
     moved = [r for r in reg.values() if row_relative(r, root) != flat_relative(r)]
-    if not moved or (source_root != canonical and not any(
-            (source_root / Path(row_relative(r, root)).relative_to("src")).is_file() for r in moved)):
+    if not moved and not tu_moves(root):
+        return source_root
+    if source_root != canonical and not any(
+            (source_root / Path(row_relative(r, root)).relative_to("src")).is_file() for r in moved):
         return source_root
     destination = Path(destination).absolute()
     if destination.is_symlink() or not destination.resolve().is_relative_to(root.resolve()):

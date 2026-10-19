@@ -29,6 +29,7 @@ import yaml
 from gate_read_cache import read_json, read_text, digest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import asm_paths  # noqa: E402
 from overlay_evidence import (  # noqa: E402
     DEFAULT_NORETURN_FILE, candidate_noreturn_syms, evidence_env,
     evidence_env_with_candidate, load_noreturn_file, proven_false_members,
@@ -204,12 +205,15 @@ def validate_asm_source(raw: str | Path, kind: str = "platform_asm", *,
     boundary = ASM_SOURCE_ROOTS[kind].as_posix()
     path = Path(raw)
     if not path.is_absolute():
-        path = root / path
+        path = asm_paths.resolve(root, path.as_posix())
     try:
         resolved = path.resolve(strict=True)
     except OSError as exc:
         raise SystemExit(f"{kind} source missing: {path}: {exc}") from exc
     library_root = (root / ASM_SOURCE_ROOTS[kind]).resolve()
+    if not (root / ASM_SOURCE_ROOTS[kind]).exists():
+        # No asm -> build_slus/asm facade in this checkout: the regenerated tree is the library.
+        library_root = (root / asm_paths.FALLBACK_PREFIX / ASM_SOURCE_ROOTS[kind]).resolve()
     try:
         resolved.relative_to(library_root)
     except ValueError as exc:

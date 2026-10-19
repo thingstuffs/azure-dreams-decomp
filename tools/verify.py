@@ -186,7 +186,9 @@ def gate_root(raw: bool) -> Path:
     """build_ovl/ (over src/) or build_ovl_raw/ (over raw/).  Created when missing; never rebuilt
     here, because verify runs concurrently (campaign workers, gates) and mk_ovl_root.sh replaces
     the tools copy.  Rebuild explicitly: `bash tools/build/mk_ovl_root.sh` / `RAW=1 bash ...`."""
-    b = ROOT / ("build_ovl_raw" if raw else "build_ovl")
+    if raw:
+        raise ValueError("raw baseline gate retired; use the release archive in an isolated historical checkout")
+    b = ROOT / "build_ovl"
     if raw not in _ROOTS:
         if not (b / "tools/aligned_score.py").exists() or not (b / "overlays/dungeon/overlay_first_pass_results.json").exists():
             env = dict(os.environ); env["RAW"] = "1" if raw else "0"
@@ -356,7 +358,7 @@ def postprocess_slus(assembly, names_only=False, root=None):
 
 
 def compile_slus(row, cfile, outdir, include_root=None):
-    inc = Path(include_root).resolve() if include_root else RAW / "include"
+    inc = Path(include_root).resolve() if include_root else ROOT / "include"
     # round 78: a CURRENT text (anything but the frozen raw/ file) compiles against the live include/, as the SLUS
     # build does.  The raw/include default made 182 SLUS rows fail to compile at all (m2c_compat.h and the
     # include/shared/ type headers are not in the frozen snapshot); measured over all 884 SLUS rows: live include
@@ -403,7 +405,7 @@ def _compile_slus_source(row, cfile, outdir, inc, root=ROOT):
         return None, str(exc)
     (Path(outdir) / "a.proc.s").write_text(processed)
     command = [str(VENV_PY), str(MASPSX), "--aspsx-version=2.79", "--dont-force-G0",
-               "--run-assembler", "--gnu-as-path=mipsel-linux-gnu-as", f"-I{root / 'raw'}", f"-I{inc}",
+               "--run-assembler", "--gnu-as-path=mipsel-linux-gnu-as", f"-I{root / 'include'}", f"-I{inc}",
                "-EL", "-march=r3000", "-G8", *asflags, "-o", str(o_path)]
     r = subprocess.run(command, input=processed, capture_output=True, text=True, cwd=root, env=_env())
     if r.returncode != 0 or not o_path.exists():
@@ -432,7 +434,7 @@ def compile_slus_units(row, cfile, outdir, include_root=None, root=ROOT):
         context = any(unit["role"] in ("module", "remainder") for unit in units)
         if context and include_root is not None and Path(include_root).resolve() != root / "include":
             raise ValueError("module compilation requires current shared headers")
-        inc = Path(include_root).resolve() if include_root else root / ("include" if context else "raw/include")
+        inc = Path(include_root).resolve() if include_root else root / "include"
         aliases = read_aliases(root / "config/names.tsv") if context else {}
         results, expected, emitted = [], {}, {}
         owners = {owner["source"]: owner for owner in modules(root)} if not historical else {}
@@ -804,6 +806,8 @@ def main():
     ap.add_argument("--data-only", action="store_true", help="--baseline: select only registered overlay data rows")
     ap.add_argument("--dry-run", action="store_true", help="rebaseline modes: check and report, write nothing")
     a = ap.parse_args()
+    if a.baseline:
+        ap.error("--baseline is retired with raw/; first-pass metrics and hashes are in ledger/baseline.jsonl")
     if a.rebaseline_slus:
         res = rebaseline_slus([x for x in a.rebaseline_slus.split(",") if x], dry_run=a.dry_run)
         for r in res: print(json.dumps(r))

@@ -5,7 +5,7 @@
   "config/overlays/town.rodata_owners.jsonl": "6c14d261e85cd33c4f32278dbd2144ccfc9c81e3f9ba5c8b0efbd69af67fbbf6",
   "ledger/coverage_regions.jsonl": "a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e",
   "ledger/instances.jsonl": "d80ba884f8910a34b14201a25c1e67661d6ae5c863554dcf06d28d4b01721b5e",
-  "ledger/rows.jsonl": "eb6b571802605f23214362c4ab4790eb2c619f090fa0c701be495e47d799229d",
+  "ledger/rows.jsonl": "c190588fbd8783ed92453978f17a1a4e63d7b36bddb2698b20e2a0307c87f4b4",
   "ledger/sdk_objects.jsonl": "5a527af461c33de5289967269e8465825a771dcae2af1fe824dd5e1a3357fcc5",
   "ledger/splits/dungeon.jsonl": "ee0e7c45fda5542b689544056edbadd6d252c54eb872681fee5d4fe84073dd83",
   "ledger/splits/dungeon_engine.jsonl": "b6a4dba29e09b8586e92676305505e73b29cb7d087ede30fbc6e730f9cbbf1b3",

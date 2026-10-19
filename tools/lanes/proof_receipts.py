@@ -21,6 +21,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT/'tools'), str(ROOT/'tools/gate')]
+import asm_paths
 SCHEMA = 'azure-proof-receipt.v1'
 KINDS = {'overlay-window', 'overlay-module', 'overlay-module-placement', 'native-candidate', 'row-score'}
 _SNAPSHOT = ContextVar('portable_proof_hashes', default=None)
@@ -147,9 +148,7 @@ def assembly_inputs(root, name):
         item = pending.pop()
         if item in found:
             continue
-        p = local(root, item)
-        if not p.is_file() and item.startswith('asm/'):
-            p = local(root, 'build_slus/'+item)
+        p = asm_paths.resolve(root, local(root, item).relative_to(root).as_posix())
         if not p.is_file():
             raise ValueError('assembly input missing: ' + item)
         found[item] = sha(p)
@@ -162,9 +161,10 @@ def assembly_inputs(root, name):
             hit = re.fullmatch(r'\s*(?:\.(?:include|incbin)|#\s*include)\s+"([^"]+)"\s*(?:,.*)?', line)
             if not hit:
                 raise ValueError('unmodelled assembly dependency: ' + line)
-            candidates = [p.parent/hit[1], root/'include'/hit[1], root/hit[1],
+            # Lexical parent of the LOGICAL name: names stay asm/... whichever layout holds the file.
+            candidates = [(root/item).parent/hit[1], root/'include'/hit[1], root/hit[1],
                           root/'build_ovl_gate'/hit[1]]
-            matches = [q for q in candidates if q.is_file()]
+            matches = [q for q in candidates if asm_paths.is_file(root, q)]
             if not matches:
                 raise ValueError('missing assembly dependency: ' + line)
             for q in matches:
@@ -273,7 +273,7 @@ def bank_inputs(root,family,offsets,rosters,G):
     if key not in cache:
         # Same frozen-source selector as compile evidence, without repeatedly
         # decoding/indexing an entire split table at every isolated offset.
-        paths={str(p.relative_to(root)):sha(p) if p.is_file() else None for p in selected}
+        paths={str(p.relative_to(root)):C.frozen_sha(root,str(p.relative_to(root))) for p in selected}
         cache[key]=dict(semantic=C.scoped_inputs(family,offsets,root=root),regions=regions,
                         frozen_sources=dict(sorted(paths.items())),
                         false_member_records=[r for r in records(root/'config/noreturn_false_members.jsonl')
@@ -405,7 +405,7 @@ def inputs(root, kind, target):
             raise ValueError('SLUS row receipts require a separate proof adapter')
         return dict(schema=SCHEMA,kind=kind,target=target,row=row,
                     window=window_inputs(root,row['gate_config']),
-                    raw=optional(root,[f"raw/{row['container']}/{Path(row['c_path']).name}"]))
+                    frozen_baseline=optional(root,["config/frozen_raw.jsonl"]))
     raise ValueError('unsupported portable proof kind: '+str(kind))
 
 

@@ -45610,7 +45610,7 @@
         "docs/evidence/dungeon_ovl_7e6e1800.md",
         "docs/evidence/dungeon_ovl_7e6e1800.recipe.json",
         "docs/evidence/dungeon_ovl_7e6e1800.gap.json",
-        "raw/dungeon/func_81922E70.c"
+        "docs/evidence/modules/func_81922E70.json"
       ],
       "genuine_aspsx": {
         "flags": [
@@ -46123,7 +46123,7 @@
         "docs/evidence/dungeon_ovl_19c088c.md",
         "docs/evidence/dungeon_ovl_19c088c.recipe.json",
         "docs/evidence/dungeon_ovl_19c088c.gap.json",
-        "raw/dungeon/func_819A0D64.c",
+        "docs/evidence/modules/func_819A0D64.json",
         "src/dungeon/modules/ovl_19c088c_data.c"
       ],
       "genuine_aspsx": {
@@ -46790,9 +46790,9 @@
         "docs/evidence/dungeon_ovl_190d6a4.md",
         "docs/evidence/dungeon_ovl_190d6a4.recipe.json",
         "docs/evidence/dungeon_ovl_190d6a4.0x190d6d4.gap.json",
-        "raw/dungeon/func_818ED6D4.c",
+        "docs/evidence/modules/func_818ED6D4.json",
         "docs/evidence/dungeon_ovl_190d6a4.0x190d7a0.gap.json",
-        "raw/dungeon/func_818ED7A0.c"
+        "docs/evidence/modules/func_818ED7A0.json"
       ],
       "genuine_aspsx": {
         "flags": [
@@ -47417,9 +47417,9 @@
         "docs/evidence/dungeon_ovl_191284c.md",
         "docs/evidence/dungeon_ovl_191284c.recipe.json",
         "docs/evidence/dungeon_ovl_191284c.0x1913098.gap.json",
-        "raw/dungeon/func_818F3098.c",
+        "docs/evidence/modules/func_818F3098.json",
         "docs/evidence/dungeon_ovl_191284c.0x191333c.gap.json",
-        "raw/dungeon/func_818F333C.c"
+        "docs/evidence/modules/func_818F333C.json"
       ],
       "genuine_aspsx": {
         "flags": [

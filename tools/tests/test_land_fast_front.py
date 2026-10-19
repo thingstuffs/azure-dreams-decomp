@@ -80,7 +80,9 @@ class FastFrontTests(unittest.TestCase):
         for pattern in G.SCRUB_PATTERNS:
             self.put('docs/new.md',pattern)
             with contextlib.redirect_stdout(io.StringIO()),self.assertRaisesRegex((G.Stop,P.G.Stop),'scrub hook'):land.scrub()
-        self.put('docs/new.md','clean');self.put('src/demo/a.c',G.SCRUB_PATTERNS[0]);self.put('raw/test.bin',G.SCRUB_PATTERNS[1])
+        self.put('docs/new.md','clean');self.put('src/demo/a.c',G.SCRUB_PATTERNS[0]);self.put('raw/test.c',G.SCRUB_PATTERNS[1])
+        with contextlib.redirect_stdout(io.StringIO()),self.assertRaisesRegex((G.Stop,P.G.Stop),'scrub hook'):land.scrub()
+        (self.root/'raw/test.c').unlink()
         with contextlib.redirect_stdout(io.StringIO()):land.scrub()
 
     def test_preflight_success_keeps_source_and_removes_worktree(self):

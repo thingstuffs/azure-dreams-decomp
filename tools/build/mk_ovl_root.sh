@@ -7,11 +7,14 @@
 # Gate build outputs land in build_ovl/work/.
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-# RAW=1 builds a second root over raw/ (the untouched pinned sources) for A/B checks;
+if [ "${RAW:-0}" = "1" ]; then
+  echo "raw overlay view retired; use the release archive in an isolated historical checkout" >&2
+  exit 2
+fi
 # EXP=<name> SRCROOT=<dir> builds build_ovl_<name>/ over any tree laid out like src/ (experiments
 # gate candidate C without touching src/ and without disturbing the standing root)
 if [ -n "${EXP:-}" ]; then B="$ROOT/build_ovl_$EXP"; SRCROOT="${SRCROOT:?EXP needs SRCROOT}";
-elif [ "${RAW:-0}" = "1" ]; then B="$ROOT/build_ovl_raw"; SRCROOT="$ROOT/raw"; else B="$ROOT/build_ovl"; SRCROOT="$ROOT/src"; fi
+else B="$ROOT/build_ovl"; SRCROOT="$ROOT/src"; fi
 for need in toolchain/compilers/gcc-2.7.2/cc1 .venv/bin/python work/disc/containers/DUNGEON_DUNGEON.BIN work/disc/extract/SLUS_006.14 tools/maspsx/maspsx.py; do
   [ -e "$ROOT/$need" ] || { echo "missing $need: run tools/setup.sh" >&2; exit 1; }
 done
@@ -56,7 +59,7 @@ ln -sfn "$ROOT/build_slus/build" "$B/build"
 ln -sfn "$SRCROOT" "$B/src"
 ln -sfn "$ROOT/ledger" "$B/ledger"
 ln -sfn "$ROOT/docs" "$B/docs"
-ln -sfn "$ROOT/raw" "$B/raw"   # module review_inputs may cite raw/ m2c first passes
+rm -f "$B/raw"   # stale view link from before raw retirement
 mkdir -p "$B/tools/fidelity" "$B/tools/build" "$B/work/disc"
 cp "$ROOT/tools/build/slus_rodata_trim.py" "$B/tools/build/slus_rodata_trim.py"
 ln -sfn "$ROOT/work/disc/containers" "$B/work/disc/containers"
@@ -67,10 +70,6 @@ if [ -d "$ROOT/tools/learnings" ]; then cp -rL "$ROOT/tools/learnings" "$B/tools
 for f in aspsx_diff.py objread.py certify_overlay_module.py; do
   cp "$ROOT/tools/fidelity/$f" "$B/tools/fidelity/$f"
 done
-if [ "${RAW:-0}" = "1" ]; then
-  touch "$B/config/overlay_modules_disabled"
-else
-  rm -f "$B/config/overlay_modules_disabled"
-  PYTHONDONTWRITEBYTECODE=1 python3 "$ROOT/tools/gate/overlay_module_gate.py" --root "$ROOT" --graph
-fi
+rm -f "$B/config/overlay_modules_disabled"
+PYTHONDONTWRITEBYTECODE=1 python3 "$ROOT/tools/gate/overlay_module_gate.py" --root "$ROOT" --graph
 echo "gate root: $B"

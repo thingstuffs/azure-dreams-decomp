@@ -13,6 +13,7 @@ Only one site is erased per experiment, from the ORIGINAL pinned text, so each r
 that pin's own necessity.  Greedy multi-site erasure is a separate transform (xform/pins).
 """
 import argparse, collections, json, os, random, re, sys, tempfile, time
+import common
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from common import LEDGER, ROOT, rows, read_jsonl, append_jsonl, raw_path
@@ -541,9 +542,13 @@ def main():
     ap.add_argument("--sample", type=int); ap.add_argument("--all", action="store_true"); ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--workers", type=int, default=4); ap.add_argument("--out", default="ledger/pins.jsonl"); ap.add_argument("--report")
     ap.add_argument("--container"); ap.add_argument("--max-sites", type=int, default=40)
+    ap.add_argument("--raw-root", type=Path, help="extracted release archive raw/ directory")
     a = ap.parse_args()
     if a.report:
         report(a.report); return
+    if a.raw_root is None or not a.raw_root.is_dir():
+        raise SystemExit("pin baseline census requires --raw-root with an extracted release archive")
+    common.RAW = a.raw_root.resolve()
     rs = [r for r in rows() if r["exists"] and not r.get("source_row") and r["stock"] and (not a.container or r["container"] == a.container)]
     cen = {c["id"]: c for c in read_jsonl(LEDGER / "census.jsonl")}
     pinned = [r for r in rs if cen.get(r["id"], {}).get("pin_total", 0) > 0]

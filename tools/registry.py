@@ -14,6 +14,7 @@ import json, re, collections, subprocess, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, RAW, OVERLAYS, is_stock_cfg, is_keyed_asflags, parse_cfg, write_jsonl, read_jsonl, sha_file, window_map, covering_windows
+from frozen_raw import entry as frozen_entry
 
 DEF_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_ \*]*?\b\**(func_[0-9A-F]{8})\s*\(", re.M)
 SPLITS = LEDGER / "splits"
@@ -51,7 +52,7 @@ def overlay_rows():
                 continue
             cfg = r.get("config") or ""
             cell, flags = parse_cfg(cfg) if cfg else ("", [])
-            src = RAW / ovl / Path(r["c_path"]).name
+            frozen = frozen_entry(f"raw/{ovl}/{Path(r['c_path']).name}")
             gate = r.get("gate_config"); derived = False
             if not gate:
                 gate = pick(r); derived = gate is not None
@@ -59,7 +60,7 @@ def overlay_rows():
                 "id": f"{ovl}/{r['func_vram']}", "container": ovl, "func": r["func_vram"],
                 "true_name": r.get("true_name"), "cfg": cfg, "cell": cell, "flags": " ".join(flags),
                 "size": int(r["size"]), "foff": int(r["foff"]), "c_path": r["c_path"],
-                "exists": src.exists(), "src_sha": sha_file(src) if src.exists() else None,
+                "exists": frozen is not None, "src_sha": frozen["sha256"] if frozen else None,
                 "gate_config": gate, "instances": int(r.get("instances") or 1),
                 "row_asflags": asflags.get(r["func_vram"]),
                 "stock": is_stock_cfg(cfg) and not is_keyed_asflags(asflags.get(r["func_vram"])) and cfg != "platform-asm",
@@ -77,6 +78,10 @@ def overlay_rows():
             entry = placements.get(rec["id"])
             if entry is not None and entry["home"] != rec["id"]:
                 rec["source_row"] = entry["home"]
+                # A placement has no first-pass text of its own in the clean
+                # tree, even if the release archive retains its old copy.
+                rec["exists"] = False
+                rec["src_sha"] = None
             out.append(rec)
     return out
 
@@ -86,15 +91,14 @@ def slus_rows():
     sizes = json.load(open(ROOT / "config/func_sizes.json"))
     out = []
     for e in edges:
-        src = RAW / "slus" / Path(e["src"]).name
-        text = src.read_text(errors="replace") if src.exists() else ""
-        defs = sorted(set(DEF_RE.findall(text)))
+        frozen = frozen_entry(f"raw/slus/{Path(e['src']).name}")
+        defs = frozen.get("defs", []) if frozen else []
         cfg = (e["ccver"] + (" " + e["ccflags"] if e["ccflags"] else "")).strip()
         out.append({
             "id": f"slus/{Path(e['src']).stem}", "container": "slus", "func": defs[0] if len(defs) == 1 else None,
             "true_name": None, "cfg": cfg, "cell": e["ccver"], "flags": e["ccflags"],
             "size": sum(sizes.get(d, 0) for d in defs), "foff": None, "c_path": e["src"],
-            "exists": src.exists(), "src_sha": sha_file(src) if src.exists() else None,
+            "exists": frozen is not None, "src_sha": frozen["sha256"] if frozen else None,
             "gate_config": "build.ninja", "instances": 1, "row_asflags": e["asflags"] or None,
             "stock": is_stock_cfg(cfg) and not is_keyed_asflags(e["asflags"]),
             "kind": "slus", "defs": defs, "ndefs": len(defs),

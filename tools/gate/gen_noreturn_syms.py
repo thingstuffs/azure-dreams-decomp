@@ -48,9 +48,10 @@ measured breaks of landed byte-exact rows: func_80024948 (dungeon_deep_t8_197a),
 func_80024094 (fid_818ED25C) and func_8002614C (fid_819ACDA0). The scan globs are
 now restricted to TRACKED roots and a ``work/`` glob is a hard error.
 
-RAW, NOT SRC -- WHERE THE DECLARATIONS ACTUALLY LIVE (measured 2026-09-22).
-The scan reads the FROZEN PINNED CORPUS ``raw/<container>/*.c`` (git-tracked,
-6,775 files), not the live ``src/<container>/``. Reason: the transform layers
+FROZEN FIRST-PASS FACTS, NOT SRC (measured 2026-09-22).
+The scan uses zero-argument noreturn names derived from the archived
+``raw/<container>/*.c`` corpus into ``config/frozen_raw.jsonl``, not the live
+``src/<container>/``. Reason: the transform layers
 (t1_boiler and the pin-reducing passes) STRIP ``__attribute__((noreturn))``
 declarations out of src/ as dead code -- only 45 of 2,743 dungeon files under
 src/ still carry one, against 1,074 symbols recoverable from raw/. A census
@@ -66,12 +67,12 @@ invariant is held as a test -- ``tools/tests/test_gen_noreturn_syms.py``,
 ``SrcAddsNothing`` -- so a future declaration appearing in src/ becomes a
 visible failure someone has to decide on rather than a silent divergence.
 
-ROOT RESOLUTION (2026-09-22). ``ROOT`` used to be ``parents[1]``, which is
+ROOT RESOLUTION (2026-09-22; raw retirement 2026-10-19). ``ROOT`` used to be ``parents[1]``, which is
 ``<repo>/tools`` for this file and ``build_ovl`` for the live copy
 mk_ovl_root.sh drops at ``build_ovl/tools/gen_noreturn_syms.py`` -- neither of
 which holds ``raw/``, so every family matched 0 sources and the module failed
-closed from the repo root. ROOT is now the first ancestor holding BOTH ``raw/``
-and the false-members file, which resolves to the repo from either copy
+closed from the repo root. ROOT is now the first ancestor holding the frozen
+table (or a synthetic test ``raw/``) and the false-members file, which resolves to the repo from either copy
 (``build_ovl/config/*`` are the same inodes as ``config/*``, so a write through
 either path lands in the repo config exactly as before).
 
@@ -124,13 +125,13 @@ FALSE_MEMBER_SCHEMA = "azure-clean.noreturn-false-member.v1"
 def _find_root(script: Path) -> Path:
     """The repo root, found from EITHER copy of this script (see the docstring).
 
-    The marker pair is the frozen C corpus ``raw/`` plus the false-members file:
+    The marker pair is the frozen fact table (or test corpus ``raw/``) plus the false-members file:
     both are repo-only, so the walk stops at the repo whether this file is
     ``<repo>/tools/gate/gen_noreturn_syms.py`` or the real-file copy
     mk_ovl_root.sh installs at ``<repo>/build_ovl/tools/gen_noreturn_syms.py``
     (build_ovl has neither marker, so the walk simply continues past it)."""
     for cand in [script.parent, *script.parent.parents]:
-        if (cand / "raw").is_dir() and (cand / FALSE_MEMBERS_PATH).is_file():
+        if ((cand / "config/frozen_raw.jsonl").is_file() or (cand / "raw").is_dir()) and (cand / FALSE_MEMBERS_PATH).is_file():
             return cand
     raise SystemExit(
         f"gen_noreturn_syms: cannot locate the repo root from {script} -- no "
@@ -145,11 +146,11 @@ ROOT = _find_root(Path(__file__).resolve())
 # own C sources (see the module docstring for why sharing is unsound), and ONLY
 # TRACKED ones (see TRACKED_SOURCE_ROOTS / _assert_tracked_source_globs).
 CONTAINERS: dict[str, dict[str, object]] = {
-    # WHY raw/ AND NOT src/ (measured 2026-09-22, see the module docstring):
+    # WHY archived raw facts AND NOT src/ (measured 2026-09-22, see the module docstring):
     # the transform layers strip __attribute__((noreturn)) declarations out of
     # the live src/ tree (45 of 2,743 dungeon files still carry one, vs 1,074
-    # symbols in raw/), so src/ is not an evidence base any more. raw/ is the
-    # FROZEN, git-tracked pinned corpus: deterministic, reviewable, and it is
+    # symbols in the archive), so src/ is not an evidence base any more. The
+    # frozen table is deterministic and reviewable, and it is
     # not rewritten by a live wave. Measured the same day: src/<container>/*.c
     # adds ZERO symbols beyond the raw scan in every family, and a landed
     # candidate self-serves its own declarations at compile time, so src
@@ -351,6 +352,12 @@ def collect(globs: list[str], label: str = "scan globs") -> set[str]:
     _assert_tracked_source_globs(label, globs)
     names: set[str] = set()
     for glob in globs:
+        if glob.startswith("raw/") and _has_frozen(ROOT):
+            from fnmatch import fnmatch
+            for rel, rec in _frozen(ROOT).items():
+                if fnmatch(rel, glob):
+                    names.update(rec.get("noreturn", ()))
+            continue
         for path in sorted(ROOT.glob(glob)):
             try:
                 text = path.read_text(errors="replace")
@@ -421,6 +428,30 @@ def _stamp(path: Path):
     except FileNotFoundError:
         return None
     return st.st_mtime_ns, st.st_size, st.st_ctime_ns, st.st_dev, st.st_ino
+
+
+def _has_frozen(root: Path) -> bool:
+    return (root / "config/frozen_raw.jsonl").is_file()
+
+
+@lru_cache(maxsize=16)
+def _frozen(root: Path) -> dict:
+    return {r["path"]: r for r in
+            (json.loads(line) for line in (root / "config/frozen_raw.jsonl").read_text().splitlines() if line)}
+
+
+def frozen_sha(root: Path, rel: str) -> str | None:
+    if not _has_frozen(root):
+        p = root / rel
+        import hashlib
+        return hashlib.sha256(p.read_bytes()).hexdigest() if p.is_file() else None
+    rec = _frozen(root).get(rel)
+    return rec["sha256"] if rec else None
+
+
+def _source_stamp(path: Path):
+    root = path.parents[2]
+    return frozen_sha(root, str(path.relative_to(root))) if _has_frozen(root) else _stamp(path)
 
 
 def _row_source(root: Path, fam: str, rec: dict) -> Path | None:
@@ -514,7 +545,11 @@ def _scope_names(sources: tuple, stamps: tuple, excluded: frozenset) -> frozense
     names = set()
     for source, stat in zip(sources, stamps):
         if stat is not None:
-            names.update(_bank_source(source, *stat))
+            root = source.parents[2]
+            if _has_frozen(root):
+                names.update(_frozen(root)[str(source.relative_to(root))].get("noreturn", ()))
+            else:
+                names.update(_bank_source(source, *stat))
     return frozenset(names - excluded)
 
 
@@ -538,7 +573,7 @@ def scoped_census(fam: str, foff: int, *, root: Path | None = None) -> dict:
     key = (root, fam, sources)
     item = cache.get(key) if cache is not None else None
     if item is None:
-        stamps = tuple(_stamp(p) for p in sources)
+        stamps = tuple(_source_stamp(p) for p in sources)
         item = (_scope_names(sources, stamps, family[1]),
                 tuple(f"raw/{fam}/{p.name}" for p, st in zip(sources, stamps)
                       if st is not None))
@@ -614,7 +649,7 @@ def scoped_inputs(fam: str, foffs, *, root: Path | None = None) -> dict:
         key = (root, fam, identity, sources)
         item = cache.get(key) if cache is not None else None
         if item is None:
-            source_stamps = tuple(_stamp(p) for p in sources)
+            source_stamps = tuple(_source_stamp(p) for p in sources)
             names = _scope_names(sources, source_stamps, excluded)
             item = {"scope": list(identity), "names": sorted(names)}
             if cache is not None:
@@ -631,6 +666,10 @@ def count_sources(globs: list[str]) -> int:
     the scan dirs were empty at Phase-B activation time). Writing a header-only
     census in that state silently disables every tail-call jal->j conversion for
     the container (residual_routing_20260712.md A2/B5). We fail closed on it."""
+    if _has_frozen(ROOT):
+        from fnmatch import fnmatch
+        return sum(sum(1 for rel in _frozen(ROOT) if fnmatch(rel, glob)) if glob.startswith("raw/")
+                   else sum(1 for _ in ROOT.glob(glob)) for glob in globs)
     return sum(1 for glob in globs for _ in ROOT.glob(glob))
 
 

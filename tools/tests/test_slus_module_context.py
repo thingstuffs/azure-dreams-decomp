@@ -69,6 +69,30 @@ class ModuleContextTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 C.compilation_source(self.row, self.root / 'src/slus/a.c', self.root / 'scratch', self.root)
 
+    def test_inlined_wrapper_uses_recorded_physical_tu(self):
+        from source_layout import slus_source
+        wrapper = self.root / 'src/slus/sample.c'
+        moved = self.root / 'src/engine/audio/sample.c'
+        moved.parent.mkdir(parents=True)
+        moved.write_text('#include "shared.h"\nint count = 4;\n'
+                         'int a(void) { return count + 1; }\n'
+                         'int b(void) { return a(); }\n')
+        wrapper.unlink()
+        (self.root / 'ledger').mkdir()
+        (self.root / 'ledger/tu_layout.jsonl').write_text(
+            json.dumps({'old': 'src/slus/sample.c', 'new': 'src/engine/audio/sample.c'}) + '\n')
+        (self.root / 'ledger/layout_inline.jsonl').write_text(''.join(
+            json.dumps({'tu_new': 'src/engine/audio/sample.c', 'member_id': 'slus/' + name,
+                        'order': order}) + '\n'
+            for order, name in enumerate(('a', 'b'), 1)))
+        self.assertEqual(slus_source('src/sample.c', self.root), moved)
+        self.assertEqual(C.compilation_source(self.row, self.root / 'src/slus/a.c',
+                                              self.root / 'scratch', self.root), moved)
+        candidate = self.root / 'scratch/candidate.c'
+        candidate.write_text('int a(void) { return 3; }\n')
+        with self.assertRaisesRegex(ValueError, 'edit the inlined physical TU'):
+            C.compilation_source(self.row, candidate, self.root / 'scratch', self.root)
+
     def test_logical_rows_survive_one_physical_edge(self):
         ninja = 'build build/src/sample.o: cc src/sample.c\n  ccver = 2.7.2-cdk\n  ccflags = \n  asflags = \n'
         edges = slus_edges(ninja, self.root)

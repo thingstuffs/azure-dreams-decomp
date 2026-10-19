@@ -154,9 +154,11 @@ remain intact in the retail-exact private image.
 
 `row_db.slus_edges` projects the active physical graph before expanding whole
 modules. `row_db check` also projects the pinned graph and validates frozen raw
-provenance; an active plan cannot silently keep the old original-source compiler
-inputs. The exporter exposes frozen `raw/slus` and removes an obsolete optional
-plan link when the canonical plan is removed. No production plan is present.
+provenance via the frozen SHA and canonical function list in
+`config/frozen_raw.jsonl`; an active plan cannot silently keep the old
+original-source compiler inputs. The exporter links this derived table into
+the SLUS view and removes an obsolete optional plan link when the canonical
+plan is removed. No production plan is present.
 
 The [gate receipt](evidence/slus_partitions/gate_receipt.json) exercises the full
 `SlusView` implementation and the row verifier. A collector candidate is written

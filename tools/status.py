@@ -510,7 +510,7 @@ def main():
     def cur_facts(r):
         if r.get("source_row"): return None   # link-list placement: its home's TU is counted once (placed_shapes adds the bytes)
         cp = layout_row_path(r, ROOT)
-        p = cp if cp.exists() else ROOT / "raw" / r["container"] / _P(r["c_path"]).name
+        p = cp
         if not p.exists(): return None
         t = p.read_text(errors="replace")
         def compute():
@@ -712,7 +712,7 @@ def main():
                 pt_sites += [s for s in audit_sites().get(k, []) if s.startswith("PASSTHRU_NO_ARGS|")]
             if not pt_sites: continue
             cpv = layout_row_path(r, ROOT)
-            pv = cpv if cpv.exists() else ROOT / "raw" / r["container"] / _P(r["c_path"]).name
+            pv = cpv
             if not pv.exists(): continue
             textv = pv.read_text(errors="replace")
             _census_mod._VOID_EXACT_TARGETS = full_void

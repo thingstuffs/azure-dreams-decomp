@@ -605,6 +605,13 @@ from unittest import mock
 if __name__=='__main__':unittest.main()
 
 class WindowModulesFamily(unittest.TestCase):
+    def test_unproved_neighbor_stays_unknown(self):
+        short_level = {'id': 'town/func_80049BFC', 'level': -1}
+        self.assertEqual(F.row_eligibility({'row_kind': 'function'}, short_level),
+                         {'l3': False, 'pins': None, 'tail_jumps': None, 'residue': ['unleveled'], 'level': -1})
+        self.assertEqual(F.row_eligibility({'row_kind': 'data'}, short_level),
+                         {'l2': False, 'pins': None, 'tail_jumps': None, 'residue': ['unleveled'], 'level': -1})
+
     def test_foreign_container_module_is_not_in_window(self):
         import overlay_scoped_fingerprint as S
         class G:

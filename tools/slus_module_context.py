@@ -154,6 +154,20 @@ def compilation_source(row, candidate, outdir, root=ROOT):
         return match.group(1) + json.dumps(str(path.resolve()))
 
     text = include.sub(replace, text)
+    if not seen and module["members"]:
+        # LL7 inlines the physical member fragments into the wrapper. The
+        # ledger keeps their source SHA and order for provenance. A later
+        # per-member candidate must edit the physical TU, not resurrect an
+        # include that no longer exists.
+        evidence = Path(root) / "ledger/layout_inline.jsonl"
+        records = [json.loads(line) for line in evidence.read_text().splitlines() if line.strip()] if evidence.exists() else []
+        recorded = [r["member_id"] for r in sorted(records, key=lambda r: r["order"])
+                    if r["tu_new"] == str(module_path.relative_to(root))]
+        if recorded == [m["id"] for m in module["members"]]:
+            expected = source_path(next(m["source"] for m in module["members"] if m["id"] == row["id"]), root)
+            if candidate != expected.resolve():
+                raise ValueError(f"{module['name']}: edit the inlined physical TU")
+            return module_path
     if seen != [m["id"] for m in module["members"]]:
         raise ValueError(f"{module['name']}: C includes must match declared member order exactly")
     target = Path(outdir) / module_path.name

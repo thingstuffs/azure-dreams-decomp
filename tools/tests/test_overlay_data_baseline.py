@@ -102,18 +102,19 @@ class DispatchAndAppend(unittest.TestCase):
             before=json.dumps(dict(id=row['id'],exact=False,total=1))+'\n'
             (ledger/'baseline.jsonl').write_text(before)
             with patch.object(V,'rows',return_value=[row]),patch.object(V,'LEDGER',ledger),patch.object(V,'CACHE',ledger/'cache'),patch.object(V,'read_baseline_slus',return_value={}),patch.object(V,'verify_overlay') as score,patch.object(V,'gate_fallback') as gate,patch.object(sys,'argv',['verify.py','--baseline','--data-only','--workers','1']),contextlib.redirect_stdout(io.StringIO()):
-                V.main()
+                with self.assertRaises(SystemExit):V.main()
             score.assert_not_called();gate.assert_not_called()
             self.assertEqual((ledger/'baseline.jsonl').read_text(),before)
 
-    def test_baseline_keeps_measured_source_hash_if_registry_is_stale(self):
+    def test_baseline_cli_does_not_rescore_archived_source(self):
         row=dict(id='dungeon/D_80000008',kind='overlay',row_kind='data',
                  exists=True,stock=True,container='dungeon',src_sha='stale-registry')
         with tempfile.TemporaryDirectory() as td:
             ledger=Path(td)
-            with patch.object(V,'rows',return_value=[row]),patch.object(V,'raw_path',return_value=Path('raw.c')),patch.object(V,'verify_data',return_value=dict(exact=True,src_sha='actual-compiled-source')),patch.object(V,'LEDGER',ledger),patch.object(V,'CACHE',ledger/'cache'),patch.object(V,'read_baseline_slus',return_value={}),patch.object(sys,'argv',['verify.py','--baseline','--data-only','--workers','1']),contextlib.redirect_stdout(io.StringIO()):
-                V.main()
-            self.assertEqual(json.loads((ledger/'baseline.jsonl').read_text())['src_sha'],'actual-compiled-source')
+            with patch.object(V,'rows',return_value=[row]),patch.object(V,'verify_data') as score,patch.object(V,'LEDGER',ledger),patch.object(sys,'argv',['verify.py','--baseline','--data-only','--workers','1']),contextlib.redirect_stdout(io.StringIO()):
+                with self.assertRaises(SystemExit):V.main()
+            score.assert_not_called()
+            self.assertFalse((ledger/'baseline.jsonl').exists())
 
     def test_data_never_instruction_scored(self):
         row=dict(kind='overlay',row_kind='data')

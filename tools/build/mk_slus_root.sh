@@ -6,15 +6,13 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 B="$ROOT/build_slus"; mkdir -p "$B/config"
+if [ -L "$B/raw" ]; then echo "unsafe symlink: $B/raw" >&2; exit 1; fi
+if [ -L "$B/raw/slus" ]; then rm "$B/raw/slus"; fi
+if [ -d "$B/raw" ]; then rmdir "$B/raw" 2>/dev/null || true; fi
 for need in toolchain/compilers/gcc-2.7.2/cc1 .venv/bin/splat baserom/slus_006.14 tools/maspsx/maspsx.py; do
   [ -e "$ROOT/$need" ] || { echo "missing $need: run tools/setup.sh" >&2; exit 1; }
 done
-if [ -L "$B/raw" ]; then echo "unsafe symlink: $B/raw" >&2; exit 1; fi
-mkdir -p "$B/raw"
-if [ -e "$B/raw/slus" ] && [ ! -L "$B/raw/slus" ]; then
-  echo "refusing to replace $B/raw/slus" >&2; exit 1
-fi
-ln -sfn "$ROOT/raw/slus" "$B/raw/slus"
+ln -sfn "$ROOT/config/frozen_raw.jsonl" "$B/config/frozen_raw.jsonl"
 # A directory symlink makes src/../build resolve outside this build root.
 # Active partition aggregators include generated bodies there, so expose their
 # canonical files through a managed real directory (as SlusView already does).

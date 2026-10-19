@@ -183,7 +183,7 @@ def tool_fingerprint() -> str:
     for f in files:
         h.update(str(f).encode())
         h.update(_sha(f.read_bytes()).encode() if f.exists() else b"-")
-    for inc in (ROOT / "include", ROOT / "raw/include"):
+    for inc in (ROOT / "include",):
         for p in sorted(inc.rglob("*")):
             if p.is_file():
                 st = p.stat(); h.update(f"{p}:{st.st_size}:{st.st_mtime_ns}".encode())
@@ -852,7 +852,7 @@ def prepare_slus(row, cfile, cfg, asflags, td):
         g_src = verify.postprocess_slus(s_raw, names_only=True)
     except ValueError as exc:
         return None, str(exc)
-    as_args = ["--aspsx-version=2.79", "--dont-force-G0", f"-I{ROOT / 'raw'}", f"-I{ROOT / 'include'}",
+    as_args = ["--aspsx-version=2.79", "--dont-force-G0", f"-I{ROOT / 'include'}",
                "-EL", "-march=r3000", "-G8"] + asflags.split()
     # maspsx_exact exactly as verify_slus decides it (pinned TU object; name-masked text fallback)
     ref = (verify.read_baseline_slus() or {}).get(row["id"])

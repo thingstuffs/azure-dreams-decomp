@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Static census of every row's C at the pin -> ledger/census.jsonl (one record per row)."""
-import json, re, collections
+import argparse, json, re, collections
 from pathlib import Path
+import common
 from common import ROOT, LEDGER, rows, write_jsonl, raw_path
 from source_layout import row_path as layout_row_path, source_files as layout_source_files
 from pin_census import sites_of, arm_labels, HAS_PP_RE
@@ -269,6 +270,12 @@ def census_one(row, audit):
     return rec
 
 def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--raw-root", type=Path, help="extracted release archive raw/ directory")
+    args = ap.parse_args()
+    if args.raw_root is None or not args.raw_root.is_dir():
+        raise SystemExit("pinned census is frozen; pass --raw-root with an extracted release archive to regenerate it")
+    common.RAW = args.raw_root.resolve()
     audit = audit_index()
     rs = rows()
     recs = [census_one(r, audit) for r in rs]

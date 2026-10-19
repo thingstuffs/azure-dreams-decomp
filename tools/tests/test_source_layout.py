@@ -112,16 +112,31 @@ class LayoutTest(unittest.TestCase):
         self.layout([])
         self.assertEqual(L.row_path(self.rows[0], self.root), before)
 
-    def test_unsafe_unknown_duplicate_and_stem_change(self):
+    def test_unsafe_unknown_duplicate_and_collision(self):
         for records in ([{"id": "dungeon/unknown", "path": "src/dungeon/unknown.c"}],
                         [{"id": self.rows[0]["id"], "path": "src/dungeon/../func_A.c"}],
-                        [{"id": self.rows[0]["id"], "path": "src/slus/func_A.c"}],
-                        [{"id": self.rows[0]["id"], "path": "src/dungeon/renamed.c"}],
+                        [{"id": self.rows[0]["id"], "path": "src/unknown/func_A.c"}],
                         [{"id": self.rows[0]["id"], "path": "/src/dungeon/func_A.c"}],
                         [{"id": self.rows[0]["id"], "path": "src/dungeon/func_A.c"}] * 2):
             self.layout(records)
             with self.assertRaises(ValueError):
                 L.mapping(self.root)
+
+    def test_cross_container_leaf_rename_and_wrapper_projection(self):
+        old = self.root / "src/slus/w_B.c"
+        new = self.root / "src/engine/audio/write_reverb.c"
+        new.parent.mkdir(parents=True)
+        old.rename(new)
+        self.layout([{"id": "slus/w_B", "path": "src/engine/audio/write_reverb.c"}])
+        self.assertEqual(L.row_path("slus/w_B", self.root), new)
+        self.assertEqual(L.slus_source("src/w_B.c", self.root), new)
+        wrapper = self.root / "src/engine/audio/reverb_wrapper.c"
+        wrapper.write_text("wrapper\n")
+        (self.root / "ledger/tu_layout.jsonl").write_text(
+            json.dumps({"old": "src/slus/reverb_wrapper.c", "new": "src/engine/audio/reverb_wrapper.c"}) + "\n")
+        flat = L.materialize_flat(self.root / "projection", self.root)
+        self.assertEqual((flat / "slus/w_B.c").read_bytes(), new.read_bytes())
+        self.assertEqual((flat / "slus/reverb_wrapper.c").read_bytes(), wrapper.read_bytes())
 
     def test_symlink_escape_and_unmanaged_projection(self):
         directory = self.root / "src/dungeon/escape"
