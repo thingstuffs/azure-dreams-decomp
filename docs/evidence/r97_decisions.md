@@ -425,3 +425,38 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     r121_sdk (9.5 MB -> 0.4 MB); later lanes slim at assembly. Clone size is dominated by history (ledger/sweeps,
     ledger/gate.jsonl rewritten every landing, old receipts): that is the repo-tidy archive step and the approved
     history rewrite, not this decision. SECOND LOOK: no.
+63. **(r121, delegated 2026-10-17) Naming batch details under decision 61.** (a) Developer/script names with evidence
+    of being original (125, e.g. CheckBuildBuildingLandNo, flgtst) keep their spelling; everything else converts to
+    snake_case with the binary prefix dropped (4,670 converted, 3,773 prefixes dropped). (b) Global data names follow
+    the same convention as functions (snake_case: gameWork -> game_work), types stay PascalCase, macros UPPER_SNAKE.
+    (c) New luna proposals land as "(medium)" after filtering (no `_copy_N`, no embedded addresses, no generic or
+    truncated names); spot checks: 0 of 40 wrong after filtering, about 20% weak but accurate. (d) Collisions inside
+    one link resolve by address order with existing names winning, suffix `_2`/`_3`. SECOND LOOK: no.
+64. **(r121, delegated 2026-10-17) Placement baselines.** A link-list placement compiles the same object as its home
+    TU (modulo address rebinding), so a placement without its own measurement adopts its home's exact proof as its
+    decision-50 baseline line (139 r121_heur placements in B10), in line with the readers rule that a placement
+    inherits its home's text facts and keeps its own gate fact. The landing gate still proves every placement window.
+    SECOND LOOK: no.
+65. **(r121, OWNER rulings 2026-10-18) Source tree shape for LL7.** Binary evidence (adjacency within and across
+    images, section order, file-private state, names on the disc; lanes r121w_tu1-tu4) supports about 6,500-7,000
+    compiler units with a physical floor near 3,200; of 410 private-state candidate merges 22 proved byte-exact. A
+    few-hundred-file tree would invent TU boundaries. (a) Tree = the five subsystem roots + feature folders +
+    behaviour file names (snake_case, no address or numeric suffix) + only PROVEN TU merges; no bank, selector, floor
+    or address folders. (b) Native multi-function TUs inline their member fragments into the TU's single .c before
+    publication (provenance kept in evidence); no private .inc files in the public tree. (c) Large folders split into
+    behaviour subfolders where evidence supports the grouping. (d) Monster variant folders keep the provisional labels
+    beldo, beldo_large, beldo_old, kewne, kewne_uncached until loader evidence gives better ones. (e) Colliding proven
+    Konami file names keep their exact spelling in separate small provenance namespaces (card/c_server.c vs
+    libcard/c_server.c; devkit sn_main.c / flgtst.c), applied only once a complete TU supports the name.
+66. **(r121, OWNER ruling 2026-10-19) Unrecoverable details.** When retail bytes prove a structure (e.g. a switch
+    with an extra case label) but not one of its values (several values give identical bytes), the source keeps the
+    proven structure with an in-range value and a one-line comment saying the value is unrecoverable and which range
+    is byte-equivalent; a spelling known not to be original (a goto) is not preferred over it. Every case is recorded
+    in ledger/unrecoverable_details.jsonl; before landing, evidence that names the value (other switches on the same
+    variable, command/ID tables) is searched and used when found. First case: w_8005552C.
+67. **(r121, OWNER rulings 2026-10-19) Public repository.** (a) The existing public repository stays public; no
+    pushes until the clean release. (b) Release = history rewrite with git filter-repo (drop ledger history churn,
+    sweeps, agents, binaries/objects/retail dumps, retail hex in evidence, raw/) and a force-push to the same
+    repository, after a fresh clone plus the disc builds MATCH; old objects may remain reachable on the host.
+    (c) Initialised game data written as C (src D_*.c tables) is source and stays; "no retail data in git" covers
+    binary dumps, assets (graphics, audio, video), object files and hex blobs in evidence or receipts.
