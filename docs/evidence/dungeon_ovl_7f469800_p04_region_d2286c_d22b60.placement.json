@@ -1,0 +1,117 @@
+{
+  "schema": "azure-clean.module-placement-review.v2",
+  "module": "dungeon_ovl_7f469800_p04",
+  "placement": "dungeon_ovl_7f469800_p04_region_d2286c_d22b60",
+  "review": {
+    "membership": "pending",
+    "types": "pending",
+    "ownership": "pending",
+    "reviewer": "pending"
+  },
+  "basis": "Complete native membership and explicit link-list import projection. Imported storage types, consumer bounds and ownership require destination review; computational byte equality is insufficient.",
+  "views": {},
+  "maps": {
+    "destination_image": {
+      "kind": "link_image",
+      "image": "dungeon/region_d2286c_d22b60",
+      "link_list": "config/link/dungeon/region_d2286c_d22b60.json",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 13772908,
+      "file_end": 13773664,
+      "delta": 2135136256,
+      "basis": "docs/evidence/r121w_s1.receipt.json: rowbase r121w_s1_dungeon_d1f000"
+    }
+  },
+  "placement_descriptor": {
+    "key": "dungeon_ovl_7f469800_p04_region_d2286c_d22b60",
+    "module": "dungeon_ovl_7f469800_p04",
+    "image": "dungeon/region_d2286c_d22b60",
+    "home_image": "dungeon/bank_d07000",
+    "recipe": {
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": ""
+    },
+    "members": [
+      {
+        "home": "dungeon/func_80CEA86C",
+        "row": "dungeon/func_80D0286C"
+      }
+    ],
+    "imports": [
+      {
+        "symbol": "D_80082E80",
+        "kind": "runtime_data",
+        "vma": 2148019840,
+        "view_bytes": 64,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_ovl_7f469800_p04.imports.json",
+        "declaration": "include/shared/tile_object.h"
+      },
+      {
+        "symbol": "D_80083460",
+        "kind": "runtime_data",
+        "vma": 2148021344,
+        "view_bytes": 32,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_ovl_7f469800_p04.imports.json",
+        "declaration": "include/shared/dungeon_status.h"
+      },
+      {
+        "symbol": "func_800644B8",
+        "kind": "function",
+        "vma": 2147894456
+      },
+      {
+        "symbol": "func_800A0818",
+        "kind": "function",
+        "vma": 2148141080
+      },
+      {
+        "symbol": "func_800A2B04",
+        "kind": "function",
+        "vma": 2148150020
+      },
+      {
+        "symbol": "func_800A4ACC",
+        "kind": "function",
+        "vma": 2148158156
+      },
+      {
+        "symbol": "func_800A9A04",
+        "kind": "function",
+        "vma": 2148178436
+      },
+      {
+        "symbol": "func_800AD594",
+        "kind": "function",
+        "vma": 2148193684
+      },
+      {
+        "symbol": "func_800AD9B4",
+        "kind": "function",
+        "vma": 2148194740
+      },
+      {
+        "symbol": "func_801724BC",
+        "kind": "function",
+        "vma": 2148902076
+      }
+    ],
+    "review": {
+      "membership": "pending",
+      "types": "pending",
+      "ownership": "pending",
+      "reviewer": "pending"
+    },
+    "review_inputs": [
+      "docs/evidence/dungeon_ovl_7f469800_p04.imports.json",
+      "docs/evidence/dungeon_ovl_7f469800_p04_region_d2286c_d22b60.placement.json"
+    ]
+  },
+  "checks": {
+    "membership": "Complete natural member projection, recipe, source_row, split and proven code load extents validated.",
+    "types": "HOLD: destination consumer/type and full imported storage bounds need reviewer decisions.",
+    "ownership": "HOLD: declared destination asset views are bounded map candidates; code equality does not establish ownership or residency.",
+    "callable_identity": "HOLD: target 0x8015A4BC at file 0xD20CBC is outside the declared image and lacks a registered complete callback identity."
+  }
+}

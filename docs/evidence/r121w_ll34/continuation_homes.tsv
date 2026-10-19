@@ -1,0 +1,6 @@
+row	size	legacy_home	header_chain	proposed_root	next
+dungeon/func_81283B64	852	dungeon/func_8127DB64	dungeon/func_8127DB64 -> dungeon/func_809782AC	dungeon/func_809782AC	Compile and screen this root at the destination recipe; the header chain is provenance, not object-equivalence proof.
+dungeon/func_8128FB64	852	dungeon/func_8127DB64	dungeon/func_8127DB64 -> dungeon/func_809782AC	dungeon/func_809782AC	Compile and screen this root at the destination recipe; the header chain is provenance, not object-equivalence proof.
+dungeon/func_81295B64	852	dungeon/func_8127DB64	dungeon/func_8127DB64 -> dungeon/func_809782AC	dungeon/func_809782AC	Compile and screen this root at the destination recipe; the header chain is provenance, not object-equivalence proof.
+dungeon/func_812A1B64	852	dungeon/func_8127DB64	dungeon/func_8127DB64 -> dungeon/func_809782AC	dungeon/func_809782AC	Compile and screen this root at the destination recipe; the header chain is provenance, not object-equivalence proof.
+dungeon/func_8128FEB8	100	dungeon/func_8127DEB8	dungeon/func_8127DEB8 -> dungeon/func_80F88C30	dungeon/func_80F88C30	Compile and screen this root at the destination recipe; the header chain is provenance, not object-equivalence proof.

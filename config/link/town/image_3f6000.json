@@ -1,226 +1,266 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/image_3f6000",
- "container": "town",
- "foff": "0x3F6000",
- "size": "0x4800",
- "vma": "0x80017000",
- "layout": "image_3f6000_family",
- "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FC21000: r121nd_3F8A44, w4t2_bank_3f6298; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
- "entries": [
-  {
-   "row": "town/func_804762B8",
-   "tu": "src/town/func_804762B8.c",
-   "home": "town/func_804762B8",
-   "foff": "0x3F62B8",
-   "vma": "0x800172B8",
-   "size": 128
-  },
-  {
-   "row": "town/func_80476358",
-   "tu": "src/town/func_80476358.c",
-   "home": "town/func_80476358",
-   "foff": "0x3F6358",
-   "vma": "0x80017358",
-   "size": 96
-  },
-  {
-   "row": "town/func_8047641C",
-   "tu": "src/town/func_8047641C.c",
-   "home": "town/func_8047641C",
-   "foff": "0x3F641C",
-   "vma": "0x8001741C",
-   "size": 68
-  },
-  {
-   "row": "town/func_80476620",
-   "tu": "src/town/func_80476620.c",
-   "home": "town/func_80476620",
-   "foff": "0x3F6620",
-   "vma": "0x80017620",
-   "size": 44
-  },
-  {
-   "row": "town/func_804767B0",
-   "tu": "src/town/func_804767B0.c",
-   "home": "town/func_804767B0",
-   "foff": "0x3F67B0",
-   "vma": "0x800177B0",
-   "size": 36
-  },
-  {
-   "row": "town/func_80476890",
-   "tu": "src/town/func_80476890.c",
-   "home": "town/func_80476890",
-   "foff": "0x3F6890",
-   "vma": "0x80017890",
-   "size": 36
-  },
-  {
-   "row": "town/func_804768B4",
-   "tu": "src/town/func_804768B4.c",
-   "home": "town/func_804768B4",
-   "foff": "0x3F68B4",
-   "vma": "0x800178B4",
-   "size": 148
-  },
-  {
-   "row": "town/func_80476BE8",
-   "tu": "src/town/func_80476BE8.c",
-   "home": "town/func_80476BE8",
-   "foff": "0x3F6BE8",
-   "vma": "0x80017BE8",
-   "size": 120
-  },
-  {
-   "row": "town/func_80476C60",
-   "tu": "src/town/func_80476C60.c",
-   "home": "town/func_80476C60",
-   "foff": "0x3F6C60",
-   "vma": "0x80017C60",
-   "size": 96
-  },
-  {
-   "row": "town/func_80476CC0",
-   "tu": "src/town/func_80476CC0.c",
-   "home": "town/func_80476CC0",
-   "foff": "0x3F6CC0",
-   "vma": "0x80017CC0",
-   "size": 100
-  },
-  {
-   "row": "town/func_80476D24",
-   "tu": "src/town/func_80476D24.c",
-   "home": "town/func_80476D24",
-   "foff": "0x3F6D24",
-   "vma": "0x80017D24",
-   "size": 100
-  },
-  {
-   "row": "town/func_80476D88",
-   "tu": "src/town/func_80476D88.c",
-   "home": "town/func_80476D88",
-   "foff": "0x3F6D88",
-   "vma": "0x80017D88",
-   "size": 16
-  },
-  {
-   "row": "town/func_80476D98",
-   "tu": "src/town/func_80476D98.c",
-   "home": "town/func_80476D98",
-   "foff": "0x3F6D98",
-   "vma": "0x80017D98",
-   "size": 36
-  },
-  {
-   "row": "town/func_80476EA0",
-   "tu": "src/town/func_80476EA0.c",
-   "home": "town/func_80476EA0",
-   "foff": "0x3F6EA0",
-   "vma": "0x80017EA0",
-   "size": 80
-  },
-  {
-   "row": "town/func_80476EF0",
-   "tu": "src/town/func_80476EF0.c",
-   "home": "town/func_80476EF0",
-   "foff": "0x3F6EF0",
-   "vma": "0x80017EF0",
-   "size": 108
-  },
-  {
-   "row": "town/func_80476FAC",
-   "tu": "src/town/func_80476FAC.c",
-   "home": "town/func_80476FAC",
-   "foff": "0x3F6FAC",
-   "vma": "0x80017FAC",
-   "size": 108
-  },
-  {
-   "row": "town/func_803D74E0",
-   "tu": "src/town/func_8046C280.c",
-   "home": "town/func_8046C280",
-   "foff": "0x3F74E0",
-   "vma": "0x800184E0",
-   "size": 404
-  },
-  {
-   "row": "town/func_803D76B0",
-   "tu": "src/town/func_8032ECE4.c",
-   "home": "town/func_8032ECE4",
-   "foff": "0x3F76B0",
-   "vma": "0x800186B0",
-   "size": 212
-  },
-  {
-   "row": "town/func_803D7784",
-   "tu": "src/town/func_8032EDB8.c",
-   "home": "town/func_8032EDB8",
-   "foff": "0x3F7784",
-   "vma": "0x80018784",
-   "size": 240
-  },
-  {
-   "row": "town/func_803D7874",
-   "tu": "src/town/func_8032EEA8.c",
-   "home": "town/func_8032EEA8",
-   "foff": "0x3F7874",
-   "vma": "0x80018874",
-   "size": 60
-  },
-  {
-   "row": "town/func_803D78B0",
-   "tu": "src/town/func_8032EEE4.c",
-   "home": "town/func_8032EEE4",
-   "foff": "0x3F78B0",
-   "vma": "0x800188B0",
-   "size": 136
-  },
-  {
-   "row": "town/func_803D7AC0",
-   "tu": "src/town/func_8032F0F4.c",
-   "home": "town/func_8032F0F4",
-   "foff": "0x3F7AC0",
-   "vma": "0x80018AC0",
-   "size": 100
-  },
-  {
-   "row": "town/func_803D7CA8",
-   "tu": "src/town/func_8032F2DC.c",
-   "home": "town/func_8032F2DC",
-   "foff": "0x3F7CA8",
-   "vma": "0x80018CA8",
-   "size": 120
-  },
-  {
-   "row": "town/func_803D8570",
-   "tu": "src/town/func_8032FBA4.c",
-   "home": "town/func_8032FBA4",
-   "foff": "0x3F8570",
-   "vma": "0x80019570",
-   "size": 88
-  },
-  {
-   "row": "town/func_803D85C8",
-   "tu": "src/town/func_8032FBFC.c",
-   "home": "town/func_8032FBFC",
-   "foff": "0x3F85C8",
-   "vma": "0x800195C8",
-   "size": 124
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/image_3f6000",
+  "container": "town",
+  "foff": "0x3F6000",
+  "size": "0x4800",
+  "vma": "0x80017000",
+  "layout": "image_3f6000_family",
+  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FC21000: r121nd_3F8A44, w4t2_bank_3f6298; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "entries": [
+    {
+      "row": "town/func_804762B8",
+      "tu": "src/town/func_804762B8.c",
+      "home": "town/func_804762B8",
+      "foff": "0x3F62B8",
+      "vma": "0x800172B8",
+      "size": 128
+    },
+    {
+      "row": "town/func_80476358",
+      "tu": "src/town/func_80476358.c",
+      "home": "town/func_80476358",
+      "foff": "0x3F6358",
+      "vma": "0x80017358",
+      "size": 96
+    },
+    {
+      "row": "town/func_8047641C",
+      "tu": "src/town/func_8047641C.c",
+      "home": "town/func_8047641C",
+      "foff": "0x3F641C",
+      "vma": "0x8001741C",
+      "size": 68
+    },
+    {
+      "row": "town/func_80476620",
+      "tu": "src/town/func_80476620.c",
+      "home": "town/func_80476620",
+      "foff": "0x3F6620",
+      "vma": "0x80017620",
+      "size": 44
+    },
+    {
+      "row": "town/func_804767B0",
+      "tu": "src/town/func_804767B0.c",
+      "home": "town/func_804767B0",
+      "foff": "0x3F67B0",
+      "vma": "0x800177B0",
+      "size": 36
+    },
+    {
+      "row": "town/func_80476890",
+      "tu": "src/town/func_80476890.c",
+      "home": "town/func_80476890",
+      "foff": "0x3F6890",
+      "vma": "0x80017890",
+      "size": 36
+    },
+    {
+      "row": "town/func_804768B4",
+      "tu": "src/town/func_804768B4.c",
+      "home": "town/func_804768B4",
+      "foff": "0x3F68B4",
+      "vma": "0x800178B4",
+      "size": 148
+    },
+    {
+      "row": "town/func_80476BE8",
+      "tu": "src/town/func_80476BE8.c",
+      "home": "town/func_80476BE8",
+      "foff": "0x3F6BE8",
+      "vma": "0x80017BE8",
+      "size": 120
+    },
+    {
+      "row": "town/func_80476C60",
+      "tu": "src/town/func_80476C60.c",
+      "home": "town/func_80476C60",
+      "foff": "0x3F6C60",
+      "vma": "0x80017C60",
+      "size": 96
+    },
+    {
+      "row": "town/func_80476CC0",
+      "tu": "src/town/func_80476CC0.c",
+      "home": "town/func_80476CC0",
+      "foff": "0x3F6CC0",
+      "vma": "0x80017CC0",
+      "size": 100
+    },
+    {
+      "row": "town/func_80476D24",
+      "tu": "src/town/func_80476D24.c",
+      "home": "town/func_80476D24",
+      "foff": "0x3F6D24",
+      "vma": "0x80017D24",
+      "size": 100
+    },
+    {
+      "row": "town/func_80476D88",
+      "tu": "src/town/func_80476D88.c",
+      "home": "town/func_80476D88",
+      "foff": "0x3F6D88",
+      "vma": "0x80017D88",
+      "size": 16
+    },
+    {
+      "row": "town/func_80476D98",
+      "tu": "src/town/func_80476D98.c",
+      "home": "town/func_80476D98",
+      "foff": "0x3F6D98",
+      "vma": "0x80017D98",
+      "size": 36
+    },
+    {
+      "row": "town/func_80476EA0",
+      "tu": "src/town/func_80476EA0.c",
+      "home": "town/func_80476EA0",
+      "foff": "0x3F6EA0",
+      "vma": "0x80017EA0",
+      "size": 80
+    },
+    {
+      "row": "town/func_80476EF0",
+      "tu": "src/town/func_80476EF0.c",
+      "home": "town/func_80476EF0",
+      "foff": "0x3F6EF0",
+      "vma": "0x80017EF0",
+      "size": 108
+    },
+    {
+      "row": "town/func_80476FAC",
+      "tu": "src/town/func_80476FAC.c",
+      "home": "town/func_80476FAC",
+      "foff": "0x3F6FAC",
+      "vma": "0x80017FAC",
+      "size": 108
+    },
+    {
+      "row": "town/func_803D74E0",
+      "tu": "src/town/func_8046C280.c",
+      "home": "town/func_8046C280",
+      "foff": "0x3F74E0",
+      "vma": "0x800184E0",
+      "size": 404,
+      "bindings": {
+        "0x8001E7E4": "0x8001E7E4"
+      }
+    },
+    {
+      "row": "town/func_803D76B0",
+      "tu": "src/town/func_8032ECE4.c",
+      "home": "town/func_8032ECE4",
+      "foff": "0x3F76B0",
+      "vma": "0x800186B0",
+      "size": 212,
+      "bindings": {
+        "0x8001E7E4": "0x8001E7E4"
+      }
+    },
+    {
+      "row": "town/func_803D7784",
+      "tu": "src/town/func_8032EDB8.c",
+      "home": "town/func_8032EDB8",
+      "foff": "0x3F7784",
+      "vma": "0x80018784",
+      "size": 240,
+      "bindings": {
+        "0x8001E7E4": "0x8001E7E4"
+      }
+    },
+    {
+      "row": "town/func_803D7874",
+      "tu": "src/town/func_8032EEA8.c",
+      "home": "town/func_8032EEA8",
+      "foff": "0x3F7874",
+      "vma": "0x80018874",
+      "size": 60,
+      "bindings": {
+        "0x8001E7E4": "0x8001E7E4"
+      }
+    },
+    {
+      "row": "town/func_803D78B0",
+      "tu": "src/town/func_8032EEE4.c",
+      "home": "town/func_8032EEE4",
+      "foff": "0x3F78B0",
+      "vma": "0x800188B0",
+      "size": 136,
+      "bindings": {
+        "0x8001E7E4": "0x8001E7E4"
+      }
+    },
+    {
+      "row": "town/func_803D7AC0",
+      "tu": "src/town/func_8032F0F4.c",
+      "home": "town/func_8032F0F4",
+      "foff": "0x3F7AC0",
+      "vma": "0x80018AC0",
+      "size": 100,
+      "bindings": {
+        "0x8001E7E4": "0x8001E7E4"
+      }
+    },
+    {
+      "row": "town/func_803D7CA8",
+      "tu": "src/town/func_8032F2DC.c",
+      "home": "town/func_8032F2DC",
+      "foff": "0x3F7CA8",
+      "vma": "0x80018CA8",
+      "size": 120,
+      "bindings": {
+        "0x8001E7E4": "0x8001E7E4"
+      }
+    },
+    {
+      "row": "town/func_803D8570",
+      "tu": "src/town/func_8032FBA4.c",
+      "home": "town/func_8032FBA4",
+      "foff": "0x3F8570",
+      "vma": "0x80019570",
+      "size": 88,
+      "bindings": {
+        "0x8001E7E4": "0x8001E7E4"
+      }
+    },
+    {
+      "row": "town/func_803D85C8",
+      "tu": "src/town/func_8032FBFC.c",
+      "home": "town/func_8032FBFC",
+      "foff": "0x3F85C8",
+      "vma": "0x800195C8",
+      "size": 124,
+      "bindings": {
+        "0x8001E7E4": "0x8001E7E4"
+      }
+    },
+    {
+      "row": "town/func_80478A44",
+      "tu": "src/town/func_8046D7E4.c",
+      "home": "town/func_8046D7E4",
+      "foff": "0x3F8A44",
+      "vma": "0x80019A44",
+      "size": 72,
+      "bindings": {
+        "0x80016000": "0x80016000",
+        "0x8001E7E4": "0x80019A44"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    }
+  ],
+  "symbols": {
+    "0x80016064": "0x8001716C",
+    "0x8001608C": "0x80017194",
+    "0x8001902C": "0x80016FA8",
+    "0x8001916C": "0x8001713C",
+    "0x80019178": "0x80017148",
+    "0x8001917C": "0x8001714C",
+    "0x80019184": "0x80017154",
+    "0x80019190": "0x80017160",
+    "0x80019860": "0x80018A2C",
+    "0x8001C370": "0x80019BB8",
+    "0x8001C374": "0x80019BC0",
+    "0x8001DCCC": "0x8001A04C"
   }
- ],
- "symbols": {
-  "0x80016064": "0x8001716C",
-  "0x8001608C": "0x80017194",
-  "0x8001902C": "0x80016FA8",
-  "0x8001916C": "0x8001713C",
-  "0x80019178": "0x80017148",
-  "0x8001917C": "0x8001714C",
-  "0x80019184": "0x80017154",
-  "0x80019190": "0x80017160",
-  "0x80019860": "0x80018A2C",
-  "0x8001C370": "0x80019BB8",
-  "0x8001C374": "0x80019BC0",
-  "0x8001DCCC": "0x8001A04C"
- }
 }

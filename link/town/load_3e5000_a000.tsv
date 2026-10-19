@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_3e5000_a000","n":40960,"o":4083712,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[20920,0,1288,10454,5435,2791,72],"v":2147573760},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:adpcm"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"census_label":"strongly_code"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_3e5000_a000","n":40960,"o":4083712,"p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:2809a724d1a9b06fd15b7abcde5f8136ec2e82a22cba80cdf525f8cb4290319b"],"t":[20920,0,1288,10454,5435,2791,72],"v":2147573760},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:adpcm"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"census_label":"strongly_code"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 4083712	32	a	census:format:adpcm	11fd67fb0f2bfa2bce42d0d11a4919ef95f8ea7a05bef6708221b1e6a0334541	0
 4083744	13	d	census:noncode:decode		1
@@ -144,10 +144,7 @@ o	n	k	r	h	x
 4110200	2200	r	census:c_row		7
 4112400	8	r	census:T1_twin:complete_masked_prologue_prefix		8
 4112408	40	r	census:T1_twin		8
-4112448	5192	r	census:c_row		7
-4117640	860	r	census:instance_proven		7
-4118500	72	r	census:c_row		7
-4118572	292	r	census:instance_proven		7
+4112448	6416	r	census:c_row		7
 4118864	1264	p	census:zero_fill>=16		3
 4120128	944	a	census:audit+noncode_confirmed	61dfbfa8295b123d932a4fad126e105e7b61002b426ce6fdfde4e106a7f2a687	5
 4121072	2	d	census:neighbour:noncode_typing_pending		1

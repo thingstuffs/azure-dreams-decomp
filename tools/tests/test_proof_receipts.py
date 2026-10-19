@@ -149,6 +149,24 @@ standalone_build:
         after=self.snapshot();self.assertNotEqual(before,after)
         self.assertIn('src/main/a.h',after['sources'])
 
+    def test_empty_placement_intent_does_not_change_an_existing_window_digest(self):
+        before=self.snapshot()
+        self.write_placements=[]
+        (self.root/'config/overlays/module_placements.json').write_text(json.dumps(dict(schema='azure-clean.module-placements.v1',placements=[])))
+        self.assertEqual(before,self.snapshot())
+
+    def test_v4_family_census_and_absolute_symbols_are_real_production_dependencies(self):
+        before=self.snapshot()
+        for name in ('config/noreturn_syms.txt','config/sibcall_syms.txt','config/overlays/abs_syms.txt'):
+            path=self.root/name
+            path.write_text('first\n');first=self.snapshot()
+            path.write_text('second\n');second=self.snapshot()
+            self.assertNotEqual(before,first,name)
+            self.assertNotEqual(first,second,name)
+            path.unlink()
+        (self.root/'config/noreturn_syms.town.txt').write_text('unrelated family\n')
+        self.assertEqual(before,self.snapshot())
+
     def test_assembly_incbin_and_include_closure(self):
         (self.root/'src/main/a.s').write_text('.include "body.inc"\n.incbin "blob.bin"\n')
         (self.root/'src/main/body.inc').write_text('.word 0\n')

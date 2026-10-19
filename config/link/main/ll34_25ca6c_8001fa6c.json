@@ -1,0 +1,79 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "main/ll34_25ca6c_8001fa6c",
+  "container": "main",
+  "foff": "0x25CA6C",
+  "size": "0x868C",
+  "vma": "0x8001FA6C",
+  "evidence": "config/overlays/main.rowbase.jsonl:xfer_main_25CA6C",
+  "entries": [
+    {
+      "row": "main/func_80010F94",
+      "tu": "src/main/func_80010F94.c",
+      "home": "main/func_80010F94",
+      "foff": "0x260F94",
+      "vma": "0x80023F94",
+      "size": 12
+    },
+    {
+      "row": "main/func_80011298",
+      "tu": "src/main/func_80011298.c",
+      "home": "main/func_80011298",
+      "foff": "0x261298",
+      "vma": "0x80024298",
+      "size": 64
+    },
+    {
+      "row": "main/func_80011D10",
+      "tu": "src/main/func_80011D10.c",
+      "home": "main/func_80011D10",
+      "foff": "0x261D10",
+      "vma": "0x80024D10",
+      "size": 8
+    },
+    {
+      "row": "main/func_8001292C",
+      "tu": "src/main/func_8001292C.c",
+      "home": "main/func_8001292C",
+      "foff": "0x26292C",
+      "vma": "0x8002592C",
+      "size": 16
+    },
+    {
+      "row": "main/func_8001344C",
+      "tu": "src/main/func_8001344C.c",
+      "home": "main/func_8001344C",
+      "foff": "0x26344C",
+      "vma": "0x8002644C",
+      "size": 72
+    },
+    {
+      "row": "main/func_80013E90",
+      "tu": "src/main/func_80013E90.c",
+      "home": "main/func_80013E90",
+      "foff": "0x263E90",
+      "vma": "0x80026E90",
+      "size": 64
+    },
+    {
+      "row": "main/func_800140E0",
+      "tu": "src/main/func_800140E0.c",
+      "home": "main/func_800140E0",
+      "foff": "0x2640E0",
+      "vma": "0x800270E0",
+      "size": 224
+    },
+    {
+      "row": "main/func_8001431C",
+      "tu": "src/main/func_80011D10.c",
+      "home": "main/func_80011D10",
+      "foff": "0x26431C",
+      "vma": "0x8002731C",
+      "size": 8,
+      "bindings": {
+        "0x80024D10": "0x8002731C"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    }
+  ]
+}

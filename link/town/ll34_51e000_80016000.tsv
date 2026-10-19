@@ -1,0 +1,201 @@
+#{"a":0,"d":{"b":{"path":"ledger/instance_load_regions.jsonl","record_sha256":"7b572ed03871078852ce17c94d2dcd299c5f33949a7e4507d2647a52234f744e"},"c":"town","e":"ledger/instance_load_regions.jsonl; validated packed-CD loader record","i":"town/ll34_51e000_80016000","n":"0x4000","o":"0x51E000","p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:2809a724d1a9b06fd15b7abcde5f8136ec2e82a22cba80cdf525f8cb4290319b"],"t":[11052,0,0,624,1371,3333,4],"v":"0x80016000"},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"bindings":{"0x800167E8":"0x80016150","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018CF4","0x8001C354":"0x80019130"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x800161A8","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018CFC","0x8001C354":"0x80019130"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x800161E0"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x800161E8","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018D34","0x8001C354":"0x80019130"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x80016220"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x80016228","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018D4C","0x8001C354":"0x80019130"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x80016260"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x80016268","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018D64","0x8001C354":"0x80019130"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x800162A0"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x800162A8","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018D7C","0x8001C354":"0x80019130"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x800162E0"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x800162E8","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018D94","0x8001C354":"0x80019130"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x80016320"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x80016328","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018DAC","0x8001C354":"0x80019130"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x80016360"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x80016368","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018DD4","0x8001C354":"0x80019130"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x800163A0"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x800163A8","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018DFC","0x8001C354":"0x80019130"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x800163E0"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x800163E8","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018E14","0x8001C354":"0x80019130"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x80016420"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x80016428","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018E2C","0x8001C354":"0x80019130"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x80016460"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x80016468","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018E54","0x8001C354":"0x80019134"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x800164C0","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018E5C","0x8001C354":"0x80019134"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x800164F8"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800167E8":"0x80016500","0x80019DFC":"0x80017EDC","0x8001B8F8":"0x80018E84","0x8001C354":"0x80019130"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x80016538"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80018A54":"0x80016B34"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80018ABC":"0x80016B9C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80018AEC":"0x80016BCC"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80018B64":"0x80016C44","0x8001C31C":"0x800190F8"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80018C4C":"0x80016D2C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016034":"0x80016020","0x8001605C":"0x80016048","0x80018D14":"0x80016DF4"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80018D14":"0x80016DF4","0x80018E34":"0x80016F14"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80018EA8":"0x80016F88"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80016034":"0x80016020","0x8001605C":"0x80016048","0x80018F20":"0x80017000","0x800193F4":"0x800174D4"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80016034":"0x80016020","0x8001605C":"0x80016048","0x80018F20":"0x80017000","0x800190C0":"0x800171A0"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001932C":"0x8001740C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80017200":"0x8001740C","0x80017244":"0x80017450"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80019394":"0x80017474","0x8001A5E4":"0x800185FC"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800193F4":"0x800174D4"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x8001941C":"0x800174FC"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80019448":"0x80017528"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80019484":"0x80017564"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80010000":"0x80010000","0x80016064":"0x80016050","0x8001608C":"0x80016078","0x800194E4":"0x800175C4"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016064":"0x80016050","0x8001608C":"0x80016078","0x800195B8":"0x80017698"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800196A8":"0x80017788"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800196A8":"0x80017788","0x800196E4":"0x800177C4","0x8001DCCC":"0x8001971C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x8001941C":"0x800174FC","0x8001976C":"0x8001784C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80019860":"0x80017940","0x8001ACE8":"0x8001886C","0x8001AD60":"0x800188E4","0x8001ADE0":"0x80018964"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800194E4":"0x800175C4","0x80019860":"0x80017940","0x800198F4":"0x800179D4"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80019958":"0x80017A38","0x8001ACE8":"0x8001886C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80019988":"0x80017A68","0x8001ACE8":"0x8001886C","0x8001AD60":"0x800188E4"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800199DC":"0x80017ABC","0x8001ADE0":"0x80018964","0x8001B8AA":"0x80018C26"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80019A34":"0x80017B14"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x8001789C":"0x80017B98","0x800178C0":"0x80017BBC"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80019ADC":"0x80017BBC"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800199DC":"0x80017ABC","0x80019B54":"0x80017C34","0x8001ACE8":"0x8001886C","0x8001AD60":"0x800188E4"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80019BC0":"0x80017CA0","0x8001ACE8":"0x8001886C","0x80020000":"0x8001CDD8"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80019BC0":"0x80017CF4","0x8001ACE8":"0x800188E4","0x80020000":"0x8001CDD8"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80019C68":"0x80017D48","0x8001ACE8":"0x8001886C","0x8001AD60":"0x800188E4","0x8001ADE0":"0x80018964"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80019CD8":"0x80017DB8","0x8001ADE0":"0x80018964"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800194E4":"0x800175C4","0x80019D44":"0x80017E24","0x8001ADE0":"0x80018964"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800172C8":"0x800175C4","0x80017B84":"0x80017E80","0x80018668":"0x80018964"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800194E4":"0x800175C4","0x80019860":"0x80017940","0x80019CD8":"0x80017DB8","0x80019DFC":"0x80017EDC","0x8001ACE8":"0x8001886C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80019EA8":"0x80017F88","0x8001ACE8":"0x8001886C","0x8001AD60":"0x800188E4","0x8001ADE0":"0x80018964","0x8001B8A8":"0x80018C24"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80017C8C":"0x80017F88","0x80017D78":"0x80018074","0x80018668":"0x80018964","0x80019550":"0x80019150"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80016094":"0x80016080","0x800160A0":"0x8001608C","0x800160CC":"0x800160B8","0x800160FC":"0x800160E8","0x800196E4":"0x800177C4","0x8001976C":"0x8001784C","0x80019F94":"0x80018074","0x8001A044":"0x80018124","0x8001DC10":"0x800196D8"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x8001A3A4":"0x80018484"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001A3FC":"0x800184DC","0x8001C370":"0x80019148","0x8001C374":"0x8001914C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x8001825C":"0x80018558","0x8001954C":"0x8001914C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x80016748":"0x80016540","0x80019860":"0x80017940","0x8001A044":"0x80018124","0x8001A484":"0x80018564","0x8001B8A8":"0x80018C24","0x8001C370":"0x80019148","0x8001C480":"0x80019258","0x8001DA10":"0x80019618","0x8001DC10":"0x800196D8","0x8001DCD0":"0x80019720"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800182EC":"0x800185E8","0x80018F50":"0x80019114"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x800AE510":"0x800185F4"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016108":"0x800160F4","0x80019448":"0x80017528","0x80019484":"0x80017564","0x8001A5E4":"0x800185FC","0x8001C380":"0x80019158"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001A628":"0x80018640"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001A658":"0x80018670"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001A678":"0x80018690"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001A6DC":"0x800186F4"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001A704":"0x8001871C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001A760":"0x80018778"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001A7F4":"0x8001880C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001ACE8":"0x8001886C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001AD60":"0x800188E4"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001ADE0":"0x80018964"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001A5BC":"0x80018A10"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001A634":"0x80018A88"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001A670":"0x80018AC4"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80016000":"0x80016000","0x8001B0C8":"0x80018B00"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x8001ADE0":"0x80018964","0x8001B0E8":"0x80018B20"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x8001ACE8":"0x8001886C","0x8001AD60":"0x800188E4","0x8001B168":"0x80018BA0"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+5365760	4	p	census:zero_fill>=16		0
+5365764	24	a	census:audit+noncode_confirmed	b7a61404c2d612f1d4c95d6a3cb7a043e7fc8f0632fb8aaf875edff8fe3f26c8	1
+5365788	44	a	census:format:ascii	13acbf17b33e17239d8b9e48376af455a97ba95a3bafa73a4d8a16df6b99dc2a	2
+5365832	8	a	census:audit+noncode_confirmed	d7bdadc8663c3b2cf4d7f2eaf12538561a12327d3d8368f1f2bfc2d659f37114	1
+5365840	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	2
+5365880	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
+5365900	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	2
+5366001	3	a	census:audit+noncode_confirmed	a543997d84f12798350c09bdef2cdb171bf41ed3e4a5f808af2feb0c56263009	1
+5366004	4	u	census:unresolved:audit_data_unconfirmed		0
+5366008	56	r	census:instance_partial		3
+"0x51E130"	32	c	census:registered_tu		["func_8059E130",null,"0x80016130",0]
+"0x51E150"	56	c	census:registered_tu		["func_8059E150","func_8032BFE8","0x80016150",4]
+"0x51E188"	32	c	census:registered_tu		["func_8059E188",null,"0x80016188",0]
+"0x51E1A8"	56	c	census:registered_tu		["func_8059E1A8","func_8032BFE8","0x800161A8",5]
+"0x51E1E0"	8	c	census:registered_tu		["func_8059E1E0","func_800B0DB0","0x800161E0",6]
+"0x51E1E8"	56	c	census:registered_tu		["func_8059E1E8","func_8032BFE8","0x800161E8",7]
+"0x51E220"	8	c	census:registered_tu		["func_8059E220","func_800B0DB0","0x80016220",8]
+"0x51E228"	56	c	census:registered_tu		["func_8059E228","func_8032BFE8","0x80016228",9]
+"0x51E260"	8	c	census:registered_tu		["func_8059E260","func_800B0DB0","0x80016260",10]
+"0x51E268"	56	c	census:registered_tu		["func_8059E268","func_8032BFE8","0x80016268",11]
+"0x51E2A0"	8	c	census:registered_tu		["func_8059E2A0","func_800B0DB0","0x800162A0",12]
+"0x51E2A8"	56	c	census:registered_tu		["func_8059E2A8","func_8032BFE8","0x800162A8",13]
+"0x51E2E0"	8	c	census:registered_tu		["func_8059E2E0","func_800B0DB0","0x800162E0",14]
+"0x51E2E8"	56	c	census:registered_tu		["func_8059E2E8","func_8032BFE8","0x800162E8",15]
+"0x51E320"	8	c	census:registered_tu		["func_8059E320","func_800B0DB0","0x80016320",16]
+"0x51E328"	56	c	census:registered_tu		["func_8059E328","func_8032BFE8","0x80016328",17]
+"0x51E360"	8	c	census:registered_tu		["func_8059E360","func_800B0DB0","0x80016360",18]
+"0x51E368"	56	c	census:registered_tu		["func_8059E368","func_8032BFE8","0x80016368",19]
+"0x51E3A0"	8	c	census:registered_tu		["func_8059E3A0","func_800B0DB0","0x800163A0",20]
+"0x51E3A8"	56	c	census:registered_tu		["func_8059E3A8","func_8032BFE8","0x800163A8",21]
+"0x51E3E0"	8	c	census:registered_tu		["func_8059E3E0","func_800B0DB0","0x800163E0",22]
+"0x51E3E8"	56	c	census:registered_tu		["func_8059E3E8","func_8032BFE8","0x800163E8",23]
+"0x51E420"	8	c	census:registered_tu		["func_8059E420","func_800B0DB0","0x80016420",24]
+"0x51E428"	56	c	census:registered_tu		["func_8059E428","func_8032BFE8","0x80016428",25]
+"0x51E460"	8	c	census:registered_tu		["func_8059E460","func_800B0DB0","0x80016460",26]
+"0x51E468"	56	c	census:registered_tu		["func_8059E468","func_8032BFE8","0x80016468",27]
+5366944	32	r	census:c_row		3
+"0x51E4C0"	56	c	census:registered_tu		["func_8059E4C0","func_8032BFE8","0x800164C0",28]
+"0x51E4F8"	8	c	census:registered_tu		["func_8059E4F8","func_800B0DB0","0x800164F8",29]
+"0x51E500"	56	c	census:registered_tu		["func_8059E500","func_8032BFE8","0x80016500",30]
+"0x51E538"	8	c	census:registered_tu		["func_8059E538","func_800B0DB0","0x80016538",31]
+5367104	1524	r	census:c_row		3
+"0x51EB34"	104	c	census:registered_tu		["func_8059EB34","func_8032E254","0x80016B34",32]
+"0x51EB9C"	48	c	census:registered_tu		["func_8059EB9C","func_8032E2BC","0x80016B9C",33]
+"0x51EBCC"	60	c	census:registered_tu		["func_8059EBCC","func_8032E2EC","0x80016BCC",34]
+5368840	60	r	census:instance_proven		3
+"0x51EC44"	232	c	census:registered_tu		["func_8059EC44","func_8032E364","0x80016C44",35]
+"0x51ED2C"	200	c	census:registered_tu		["func_8059ED2C","func_8032E44C","0x80016D2C",36]
+"0x51EDF4"	288	c	census:registered_tu		["func_8059EDF4","func_8032E514","0x80016DF4",37]
+"0x51EF14"	116	c	census:registered_tu		["func_8059EF14","func_8032E634","0x80016F14",38]
+"0x51EF88"	120	c	census:registered_tu		["func_8059EF88","func_8032E6A8","0x80016F88",39]
+"0x51F000"	416	c	census:registered_tu		["func_8059F000","func_8032E720","0x80017000",40]
+"0x51F1A0"	260	c	census:registered_tu		["func_8059F1A0","func_8032E8C0","0x800171A0",41]
+5370532	360	r	census:c_row		3
+"0x51F40C"	68	c	census:registered_tu		["func_8059F40C","func_8032EB2C","0x8001740C",42]
+"0x51F450"	36	c	census:registered_tu		["func_8059F450","func_80481244","0x80017450",43]
+"0x51F474"	96	c	census:registered_tu		["func_8059F474","func_8032EB94","0x80017474",44]
+"0x51F4D4"	40	c	census:registered_tu		["func_8059F4D4","func_8032EBF4","0x800174D4",45]
+"0x51F4FC"	44	c	census:registered_tu		["func_8059F4FC","func_8032EC1C","0x800174FC",46]
+"0x51F528"	60	c	census:registered_tu		["func_8059F528","func_8032EC48","0x80017528",47]
+"0x51F564"	96	c	census:registered_tu		["func_8059F564","func_8032EC84","0x80017564",48]
+"0x51F5C4"	212	c	census:registered_tu		["func_8059F5C4","func_8032ECE4","0x800175C4",49]
+"0x51F698"	240	c	census:registered_tu		["func_8059F698","func_8032EDB8","0x80017698",50]
+"0x51F788"	60	c	census:registered_tu		["func_8059F788","func_8032EEA8","0x80017788",51]
+"0x51F7C4"	136	c	census:registered_tu		["func_8059F7C4","func_8032EEE4","0x800177C4",52]
+"0x51F84C"	244	c	census:registered_tu		["func_8059F84C","func_8032EF6C","0x8001784C",53]
+"0x51F940"	148	c	census:registered_tu		["func_8059F940","func_8032F060","0x80017940",54]
+"0x51F9D4"	100	c	census:registered_tu		["func_8059F9D4","func_8032F0F4","0x800179D4",55]
+"0x51FA38"	48	c	census:registered_tu		["func_8059FA38","func_8032F158","0x80017A38",56]
+"0x51FA68"	84	c	census:registered_tu		["func_8059FA68","func_8032F188","0x80017A68",57]
+"0x51FABC"	88	c	census:registered_tu		["func_8059FABC","func_8032F1DC","0x80017ABC",58]
+"0x51FB14"	132	c	census:registered_tu		["func_8059FB14","func_8032F234","0x80017B14",59]
+"0x51FB98"	36	c	census:registered_tu		["func_8059FB98","func_8048189C","0x80017B98",60]
+"0x51FBBC"	120	c	census:registered_tu		["func_8059FBBC","func_8032F2DC","0x80017BBC",61]
+"0x51FC34"	108	c	census:registered_tu		["func_8059FC34","func_8032F354","0x80017C34",62]
+"0x51FCA0"	84	c	census:registered_tu		["func_8059FCA0","func_8032F3C0","0x80017CA0",63]
+"0x51FCF4"	84	c	census:registered_tu		["func_8059FCF4","func_8032F3C0","0x80017CF4",64]
+"0x51FD48"	112	c	census:registered_tu		["func_8059FD48","func_8032F468","0x80017D48",65]
+"0x51FDB8"	108	c	census:registered_tu		["func_8059FDB8","func_8032F4D8","0x80017DB8",66]
+"0x51FE24"	92	c	census:registered_tu		["func_8059FE24","func_8032F544","0x80017E24",67]
+"0x51FE80"	92	c	census:registered_tu		["func_8059FE80","func_80481B84","0x80017E80",68]
+"0x51FEDC"	172	c	census:registered_tu		["func_8059FEDC","func_8032F5FC","0x80017EDC",69]
+"0x51FF88"	220	c	census:registered_tu		["func_8059FF88","func_8032F6A8","0x80017F88",70]
+5374052	16	r	census:c_row		3
+"0x520074"	176	c	census:registered_tu		["func_805A0074","func_80481D78","0x80018074",71]
+"0x520124"	864	c	census:registered_tu		["func_805A0124","func_8032F844","0x80018124",72]
+"0x520484"	88	c	census:registered_tu		["func_805A0484","func_8032FBA4","0x80018484",73]
+"0x5204DC"	124	c	census:registered_tu		["func_805A04DC","func_8032FBFC","0x800184DC",74]
+"0x520558"	12	c	census:registered_tu		["func_805A0558","func_8048225C","0x80018558",75]
+"0x520564"	132	c	census:registered_tu		["func_805A0564","func_8032FC84","0x80018564",76]
+"0x5205E8"	12	c	census:registered_tu		["func_805A05E8","func_804822EC","0x800185E8",77]
+"0x5205F4"	8	c	census:registered_tu		["func_805A05F4","func_800B0DB0","0x800185F4",78]
+"0x5205FC"	68	c	census:registered_tu		["func_805A05FC","func_8032FDE4","0x800185FC",79]
+"0x520640"	48	c	census:registered_tu		["func_805A0640","func_8032FE28","0x80018640",80]
+"0x520670"	32	c	census:registered_tu		["func_805A0670","func_8032FE58","0x80018670",81]
+"0x520690"	100	c	census:registered_tu		["func_805A0690","func_8032FE78","0x80018690",82]
+"0x5206F4"	40	c	census:registered_tu		["func_805A06F4","func_8032FEDC","0x800186F4",83]
+"0x52071C"	92	c	census:registered_tu		["func_805A071C","func_8032FF04","0x8001871C",84]
+"0x520778"	148	c	census:registered_tu		["func_805A0778","func_8032FF60","0x80018778",85]
+"0x52080C"	96	c	census:registered_tu		["func_805A080C","func_8032FFF4","0x8001880C",86]
+"0x52086C"	120	c	census:registered_tu		["func_805A086C","func_803304E8","0x8001886C",87]
+"0x5208E4"	128	c	census:registered_tu		["func_805A08E4","func_80330560","0x800188E4",88]
+"0x520964"	112	c	census:registered_tu		["func_805A0964","func_803305E0","0x80018964",89]
+5376468	60	r	census:instance_proven		3
+"0x520A10"	60	c	census:registered_tu		["func_805A0A10","func_804735BC","0x80018A10",90]
+5376588	60	r	census:instance_proven		3
+"0x520A88"	60	c	census:registered_tu		["func_805A0A88","func_80473634","0x80018A88",91]
+"0x520AC4"	60	c	census:registered_tu		["func_805A0AC4","func_80473670","0x80018AC4",92]
+"0x520B00"	32	c	census:registered_tu		["func_805A0B00","func_803308C8","0x80018B00",93]
+"0x520B20"	128	c	census:registered_tu		["func_805A0B20","func_803308E8","0x80018B20",94]
+"0x520BA0"	132	c	census:registered_tu		["func_805A0BA0","func_80330968","0x80018BA0",95]
+5377060	12	d	census:noncode:decode		96
+5377072	188	p	census:zero_fill>=16		0
+5377260	76	d	census:noncode:decode		96
+5377336	16	a	census:format:ptrtab	6efcc3bddd0ee3ae83f0aaef66d0d8167dcf53e72915d65425f3e6dc3587e0b9	97
+5377352	8	d	census:noncode:decode		96
+5377360	16	a	census:format:ptrtab	c1183e45f22a1d9197ef15ed5999dceb504045c6d5be6781a864a8f9d467d010	97
+5377376	8	d	census:noncode:decode		96
+5377384	16	a	census:format:ptrtab	bd08bcdae06f82d78a2f290e860a09e4e8a491a125818b4e209cb65179075172	97
+5377400	8	d	census:noncode:decode		96
+5377408	16	a	census:format:ptrtab	ff950d0d9959023faba070cb0b4ada992a3d06264d38c207f1b1192377ac8a6e	97
+5377424	8	d	census:noncode:decode		96
+5377432	16	a	census:format:ptrtab	58450eda8d3de5e58388f4f5bdc05fe4d7cb472c7297f61a9913d91fb5b81de3	97
+5377448	24	d	census:noncode:decode		96
+5377472	16	a	census:format:ptrtab	e153fd655ea1a3c9f331e3652e48bd6e947d5aa24ace2a12370a57bb9db2a350	97
+5377488	24	d	census:noncode:decode		96
+5377512	16	a	census:format:ptrtab	13a9bf790b4bc470b94e0af340b22497c37aa78dcc93b30780ff95d7f5ec2a0c	97
+5377528	8	d	census:noncode:decode		96
+5377536	16	a	census:format:ptrtab	5ac81e5a1fa07fdcb5b505767b1fd5a4d75147bb68bd470c4e8c492efaafc5e8	97
+5377552	8	d	census:noncode:decode		96
+5377560	16	a	census:format:ptrtab	2d0319329d1b23b4cb3f8442e49b79d43cc10050505a228d5a3fef955a8028d5	97
+5377576	24	d	census:noncode:decode		96
+5377600	16	a	census:format:ptrtab	9dd8a136c3fc9d036c1863b05d18e4bafc5097623a030846e50b666e842f00a3	97
+5377616	16	d	census:noncode:decode		96
+5377632	16	a	census:format:ptrtab	ff8fd347eba2c6ffc6c8eef20ae6adf7ca318bc294fce256aa62192fed59a87d	97
+5377648	152	d	census:noncode:decode		96
+5377800	16	a	census:format:ptrtab	2b84320e61b9de150594c2b3927d3ddeb0ea0393d6dd94beca373d0b8297c7f7	97
+5377816	12	d	census:noncode:decode		96
+5377828	16	a	census:format:ptrtab	0d2c8297adc543b91c566b357e3be13cfbf82c5bf45d036f17167290db52b054	97
+5377844	12	d	census:noncode:decode		96
+5377856	16	a	census:format:ptrtab	9bd9aa600a30525a58ac02cd6a7ad794ae73c942fc993b9fcb6dd97da5c16123	97
+5377872	12	d	census:noncode:decode		96
+5377884	16	a	census:format:ptrtab	43f2d932cb676addaf2064760861671083b9a60a6db604077cc5e1b92efa63ad	97
+5377900	12	d	census:noncode:decode		96
+5377912	16	a	census:format:ptrtab	47322ea03f1ba0550d1ad1c50f891d969baeec48a51fe44443c8bf0ebac913fa	97
+5377928	12	d	census:noncode:decode		96
+5377940	16	a	census:format:ptrtab	7c9b9a054252e09b00be42ac0ef190ba3cac7d90a35f303db414fadad53c0195	97
+5377956	12	d	census:noncode:decode		96
+5377968	16	a	census:format:ptrtab	9e80290594bcd1c72b0b0c5640aab54ce6b37783662539ba80d8085877381a7f	97
+5377984	12	d	census:noncode:decode		96
+5377996	16	a	census:format:ptrtab	958a24be82c8095d443f83e227ba2cae6933854f2c3864e9966a789fc5576569	97
+5378012	12	d	census:noncode:decode		96
+5378024	16	a	census:format:ptrtab	e0a538d8c179cf7eab3b32f45144f7236e813309fb991131d18bbc4685c85c7b	97
+5378040	12	d	census:noncode:decode		96
+5378052	16	a	census:format:ptrtab	f56f71b7ce74893f0fe2bf80fb30abedfcd7a9accd7e3e8f2214c9e44c5cbe51	97
+5378068	12	d	census:noncode:decode		96
+5378080	16	a	census:format:ptrtab	61408fb31491bdf19611ae73600446bb7e6cc9bdea4184797a985fd6ca06f2d5	97
+5378096	12	d	census:noncode:decode		96
+5378108	16	a	census:format:ptrtab	0958ddebb18132a6b1a8889a70164954bbfa86786019ec2439d2b6a9dbce8799	97
+5378124	12	d	census:noncode:decode		96
+5378136	16	a	census:format:ptrtab	42fb969a14cea29c9bb692a5ef9dfaa58f680c98126053542c98adb9b7885ff4	97
+5378152	3	d	census:noncode:decode		96
+5378155	29	p	census:zero_fill>=16		0
+5378184	118	d	census:noncode:decode		96
+5378302	22	p	census:zero_fill>=16		0
+5378324	6	d	census:noncode:decode		96
+5378330	18	p	census:zero_fill>=16		0
+5378348	44	d	census:noncode:decode		96
+5378392	1480	p	census:zero_fill>=16		0
+5379872	66	d	census:noncode:decode		96
+5379938	19	p	census:zero_fill>=16		0
+5379957	21	d	census:noncode:decode		96
+5379978	19	p	census:zero_fill>=16		0
+5379997	21	d	census:noncode:decode		96
+5380018	19	p	census:zero_fill>=16		0
+5380037	21	d	census:noncode:decode		96
+5380058	19	p	census:zero_fill>=16		0
+5380077	21	d	census:noncode:decode		96
+5380098	19	p	census:zero_fill>=16		0
+5380117	21	d	census:noncode:decode		96
+5380138	19	p	census:zero_fill>=16		0
+5380157	61	d	census:noncode:decode		96
+5380218	19	p	census:zero_fill>=16		0
+5380237	61	d	census:noncode:decode		96
+5380298	19	p	census:zero_fill>=16		0
+5380317	61	d	census:noncode:decode		96
+5380378	19	p	census:zero_fill>=16		0
+5380397	21	d	census:noncode:decode		96
+5380418	19	p	census:zero_fill>=16		0
+5380437	21	d	census:noncode:decode		96
+5380458	19	p	census:zero_fill>=16		0
+5380477	61	d	census:noncode:decode		96
+5380538	19	p	census:zero_fill>=16		0
+5380557	21	d	census:noncode:decode		96
+5380578	19	p	census:zero_fill>=16		0
+5380597	201	d	census:noncode:decode		96
+5380798	19	p	census:zero_fill>=16		0
+5380817	1	d	census:noncode:decode		96
+5380818	1326	p	census:zero_fill>=16		0

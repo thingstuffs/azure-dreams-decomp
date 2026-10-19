@@ -1,0 +1,31 @@
+{
+  "module": "town_context_boundary_adjustment",
+  "ledger_group": {
+    "container": "town",
+    "module": "context_boundary_adjustment.c",
+    "module_index": 134017
+  },
+  "members": [
+    "town/func_80091B34",
+    "town/func_80091B74"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Complete current compiler-unit closure of refs private-state candidate group_0264.",
+    "All home members are byte-adjacent in one proven load region at their unchanged uniform compiler recipe.",
+    "Private helper set func_8008F2D4 has local linkage in the native object; complete emitted payload and every member require fresh retail and genuine proof."
+  ],
+  "candidate": "group_0264",
+  "private_groups": [
+    "p01240"
+  ],
+  "private_functions": [
+    "func_8008F2D4"
+  ],
+  "standalone_source_sha256": {
+    "town/func_80091B34": "b0ae8627d5053160c94e6fb1bd2218d30b48340ebf787f9f2712a8928c9d3b3d",
+    "town/func_80091B74": "ed3245417ce2f29721ce1a63900513de101b91256033346a99f888a46cbfd342"
+  },
+  "source_facades": "Original home files remain standalone row/placement facades; native source contains one shared declaration block and unchanged function bodies with private linkage."
+}

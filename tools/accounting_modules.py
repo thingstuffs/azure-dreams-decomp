@@ -25,6 +25,9 @@ def overlay_statuses(root):
 
 def overlay_placements(root):
     from overlay_module_evidence import all_members
-    return {a['id']:{'outcome':'applied','module':e['module']['key'],
+    result={a['id']:{'outcome':'applied','module':e['module']['key'],
                      'module_fingerprint':e['certificate']['fingerprint']['sha256']}
             for e in overlay_statuses(root) if e['valid'] for a in all_members(e['module'])}
+    import overlay_module_placements as P
+    result.update(P.valid_placements(root))
+    return result

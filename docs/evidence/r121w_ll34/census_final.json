@@ -1,0 +1,3814 @@
+{
+ "scopes": 476,
+ "retired_raw_files": 553,
+ "checks": [
+  {
+   "container": "dungeon",
+   "bank": "r121nd_C413B8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_C533B8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_ac9e88_80167688",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_acfe88_80161688",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_ad5e88_8015b688",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_adbe88_80155688",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_ae1e88_8014f688",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_FEF340",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc3_rest_129B350_129BD14",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_12a1060_80169860",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_12a7060_80163860",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc3_rest_12AD350_12ADD14",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_12b3060_80157860",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_12b9060_80151860",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_12bf060_8014b860",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_AEB5DC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_AF15DC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_AF75DC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_AFD5DC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_B035DC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_B095DC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_B1B4F8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_B214F8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_B274F8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_B2D4F8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_B334F8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_12D006C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_12D606C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_12DC06C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_12E206C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_9CA57C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_9D057C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_9D657C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_9DC57C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121nd_9E857C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_4399DC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_458D58",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121m_scene_470000",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121m_scene_480000",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_48ED08",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_4A09C0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_4D06A8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121m_cfg_ovl_4d9100",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121m_scene_4f9000",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_520074",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_554944",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_582790",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_596B60",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_5B2D68",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121m_scene_5c7000",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_600CA4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_618D74",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121m_scene_629000",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_64747C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121m_scene_649000",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121m_scene_64b000",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_64DDF0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121m_scene_64f000",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121m_scene_651000",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_655AF8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6594A4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_65BC6C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6726A0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_690D5C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6AB00C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6CD450",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6E28AC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6F0C9C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6F5404",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6F7C04",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6FE780",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_705D00",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121m_cfg_ovl_71a1ec",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "sweep_65462C",
+   "before_names": 1,
+   "after_names": 1,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_837F20",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_83AF54",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_8447F0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_83AEC4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_844760",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_837E68",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "xfer_town_B000",
+   "before_names": 67,
+   "after_names": 67,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_838470",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_844BE4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_4397E8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_458B64",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_48EB14",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_4A07CC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_4D04B4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_51FE80",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_554750",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_58259C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_59696C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_5B2B74",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_600AB0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_618B80",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_647288",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_64DBFC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_655904",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6592B0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_65BA78",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6724AC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_690B68",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6AAE18",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6CD25C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6E26B8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6F0AA8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6F5210",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6F7A10",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6FE58C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_705B0C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_837FB8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_838014",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_8CE4D8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_8000E0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_803428",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_83841C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_8396FC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_844B90",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_800090",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_8033D8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_8383CC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_8396AC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_844B40",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_3F8A44",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_3FD244",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6197D8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_659FB4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6E3190",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_837ED8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "xfer_dungeon_A3000",
+   "before_names": 111,
+   "after_names": 111,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "sweep_6452C4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6AA328",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6AA360",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_6FDC98",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_705218",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_832AD4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "isolated:6387512",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6F7128",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc3_rest_129DB64_129E68C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc3_rest_12AFB64_12B068C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121o_51F2A4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121o_5819C0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_5956E0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_595708",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121o_595D90",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_5B2230",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_5B2258",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "isolated:6145020",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "isolated:6145060",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121_remnant_5FF7F0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121o_5FF850",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "isolated:6387556",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "isolated:6387596",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121o_618094",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121o_6466AC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121o_68FF8C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_439500",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_45887C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_48E82C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_4A04E4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_4D01CC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_51F450",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_51FB98",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_554468",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_581B6C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_5822B4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_595F3C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_596684",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_5B288C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_600170",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6007C8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "isolated:6386840",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_618240",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_618898",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_646858",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_646FA0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_64D914",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_65561C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_658FC8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_65B790",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6721C4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_690138",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_690880",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6AAB30",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6CCF74",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6E23D0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6F07C0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6F4F28",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6F7728",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6FE2A4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_705824",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_844C8C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_9a1060_80164860",
+   "before_names": 4,
+   "after_names": 4,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_9a7060_8015e860",
+   "before_names": 4,
+   "after_names": 4,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_9ad060_80158860",
+   "before_names": 4,
+   "after_names": 4,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_9b9060_8014c860",
+   "before_names": 4,
+   "after_names": 4,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_9c1000_80172800",
+   "before_names": 15,
+   "after_names": 15,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_9f5054_80164854",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_resource_03_slot_3",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_resource_03_slot_4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_a07054_80152854",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_resource_03_slot_6",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_A99E5C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_A9FE5C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_AA5E5C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_AABE5C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_AB1E5C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_AB7E5C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_ac3e88_8016d688",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "sweep_0AE5958",
+   "before_names": 5,
+   "after_names": 5,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc6_res_AEE164_AEF574",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_af3774_80166f74",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc6_res_AFA164_AFB574",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc6_res_B00164_B01574",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_b05774_80154f74",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc6_res_B0C164_B0D574",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_B18324",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_B1E324",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_B24324",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_B2A324",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_B30324",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_B36324",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_B3B804",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_B41804",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_B47804",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_B4D804",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_B53804",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_B59804",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_B5F804",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_bed060_80164860",
+   "before_names": 8,
+   "after_names": 8,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_bf3060_8015e860",
+   "before_names": 15,
+   "after_names": 15,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_bf9060_80158860",
+   "before_names": 8,
+   "after_names": 8,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_bff060_80152860",
+   "before_names": 8,
+   "after_names": 8,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_c05060_8014c860",
+   "before_names": 7,
+   "after_names": 7,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_C194AC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_C1F4AC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_C2B4AC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_resource_16_slot_6",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_C8C148",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_c8f060_8016a860",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_C98148",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_c9b060_8015e860",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_ca1060_80158860",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_CAA148",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_cad060_8014c860",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_cbf120_80164920",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_cd1120_80152920",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_ce32e0_8016aae0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_ce92e0_80164ae0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_cf52e0_80158ae0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_cfb2e0_80152ae0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_d012e0_8014cae0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_slot_d31000_80170800",
+   "before_names": 1,
+   "after_names": 1,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc6_res_D3A34C_D3B610",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_d3d2d0_80164ad0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc6_res_D4634C_D47610",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc6_res_D4C34C_D4D610",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_d4f2d0_80152ad0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc6_res_D5834C_D59680",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "sweep_0D5B284",
+   "before_names": 14,
+   "after_names": 14,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_d61284_8016aa84",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_d67284_80164a84",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_d6d284_8015ea84",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_d73284_80158a84",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_d79284_80152a84",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_d7f284_8014ca84",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "sweep_0DAEE4C",
+   "before_names": 2,
+   "after_names": 2,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r101rc4_res_DB7524_DB7FF4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_dbb054_80164854",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r101rc4_res_DC3524_DC3FF4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r101rc4_res_DC9524_DC9FF4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_DCF8A4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_DD58A4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_slot_dd9000_80170800",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_ddf7d8_8016afd8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_de57d8_80164fd8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_deb7d8_8015efd8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_df17d8_80158fd8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_df77d8_80152fd8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_dfd7d8_8014cfd8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_E119BC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_slot_e15000_8015e800",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_slot_e1b000_80158800",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_E239BC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_slot_e27000_8014c800",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "sweep_0E56C58",
+   "before_names": 8,
+   "after_names": 8,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_e5d2d0_8016aad0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_e632d0_80164ad0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_e692d0_8015ead0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_e6f2d0_80158ad0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_e752d0_80152ad0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_e7b2d0_8014cad0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "sweep_0E81AA8",
+   "before_names": 7,
+   "after_names": 7,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_e89730_8016cf30",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_e8f730_80166f30",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_e95730_80160f30",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_e99060_80158860",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_ea1730_80154f30",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_ea7730_8014ef30",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r101_rc2_res_F00A4C_F03640",
+   "before_names": 2,
+   "after_names": 2,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_F0871C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_F0E71C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_F1471C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_F1A71C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_F2071C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_F2671C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_f2baac_801732ac",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_slot_f2f000_8016a800",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_f35054_80164854",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_slot_f3b000_8015e800",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_slot_f41000_80158800",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_f47054_80152854",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r101_rc2_res_F4F798_F50528",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_slot_f7d000_80170800",
+   "before_names": 1,
+   "after_names": 1,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_f8323c_8016aa3c",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_f89060_80164860",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_slot_f8f000_8015e800",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_slot_f95000_80158800",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_f9b060_80152860",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_slot_fa1000_8014c800",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "sweep_0FFB000",
+   "before_names": 2,
+   "after_names": 2,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_1003B14",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_1009B14",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_100FB14",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_1015B14",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_101BB14",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_1021B14",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_102D810",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_1031278_80164a78",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_1039810",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_103F810",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_1043278_80152a78",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_104B810",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "sweep_104F83C",
+   "before_names": 1,
+   "after_names": 1,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_1055674_8016ae74",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_105b674_80164e74",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_10641F8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_106A1F8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_10701F8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_10761F8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "native_slot_1079000_80170800",
+   "before_names": 7,
+   "after_names": 7,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_107f2a4_8016aaa4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_10852a4_80164aa4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc7_res_108D68C_108E45C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc7_res_109368C_109445C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_10972a4_80152aa4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc7_res_109F68C_10A045C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "sweep_10A3000",
+   "before_names": 3,
+   "after_names": 3,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_10AC878",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_10B2878",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_10B8878",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_10BE878",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_10C4878",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_10CA878",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "sweep_10CDDF4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_10d3054_8016a854",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_10d9054_80164854",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_10df054_8015e854",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_10e5054_80158854",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_10eb054_80152854",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_10f1054_8014c854",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "rc3_rest_1271784_12736C4",
+   "before_names": 15,
+   "after_names": 15,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_1279620",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_127F620",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_1285620",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_128B620",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_1291620",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121_followup_1297620",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_12cb24c_8016aa4c",
+   "before_names": 1,
+   "after_names": 1,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_12d124c_80164a4c",
+   "before_names": 1,
+   "after_names": 1,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_12d724c_8015ea4c",
+   "before_names": 1,
+   "after_names": 1,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_12dd24c_80158a4c",
+   "before_names": 1,
+   "after_names": 1,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_12e924c_8014ca4c",
+   "before_names": 1,
+   "after_names": 1,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "w4t2_bank_5ff1d0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_6E1AF8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_6E1B50",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_8395EC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_83960C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_83962C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_83964C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_83966C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_83968C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "isolated:9232412",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6CC98C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_8CFB70",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_8D0B70",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_8D1B70",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_8D2C34",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_439EC0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_439F50",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_45923C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_4592CC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_48F1EC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_48F27C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_4A0EA4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_4A0F34",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_4D0B8C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_4D0C1C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_520558",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_5205E8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_554E28",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_554EB8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_582C74",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_582D04",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_597044",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_5970D4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_5B324C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_5B32DC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_601188",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_601218",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_619258",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6192E8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_647960",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6479F0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_64E2D4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_64E364",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_655FDC",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_65606C",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_659988",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_659A18",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_65C150",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_65C1E0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_672B84",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_672C14",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_68F6D0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_691240",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6912D0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6AB4F0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6AB580",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6CD934",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6CD9C4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6E2D90",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6E2E20",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6F1180",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6F1210",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6F58E8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6F5978",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6F80E8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6F8178",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6FEC64",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_6FECF4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_7061E4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c2_706274",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "img_d54c_8008ad4c",
+   "before_names": 3,
+   "after_names": 3,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_10ABDB4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_10B1DB4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_10B7DB4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_10BDDB4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_10C3DB4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_10C9DB4",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_1278B28",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_127A0F0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_127A3E8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_127EB28",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_12800F0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_12803E8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_1284B28",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_12860F0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_12863E8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_128AB28",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_128C0F0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_128C3E8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_1290B28",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_12920F0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_12923E8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_1296B28",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_12980F0",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "r121c2_12983E8",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "jtbl_1343F78",
+   "before_names": 62,
+   "after_names": 62,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "dungeon",
+   "bank": "xfer_dungeon_134D800",
+   "before_names": 31,
+   "after_names": 31,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_7F5684",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_7F5798",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_833104",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_833218",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121c3_833374",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  },
+  {
+   "container": "town",
+   "bank": "r121nd_833488",
+   "before_names": 0,
+   "after_names": 0,
+   "lost": [],
+   "gained": []
+  }
+ ]
+}

@@ -1,31 +1,45 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/s2_r101_rc2_res_F00A4C_F03640",
- "container": "dungeon",
- "foff": "0xf00a4c",
- "size": "0x2bf4",
- "vma": "0x8017224c",
- "evidence": "docs/evidence/r121w_s2_receipts.json",
- "entries": [
-  {
-   "row": "dungeon/func_80EE0C90",
-   "tu": "src/dungeon/func_80EE6C90.c",
-   "home": "dungeon/func_80EE6C90",
-   "foff": "0xf00c90",
-   "vma": "0x80172490",
-   "size": 1864,
-   "bindings": {
-    "0x8016cc44": "0x80172c44"
-   },
-   "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80EE0C90"
-  },
-  {
-   "row": "dungeon/func_80EE30E0",
-   "home": "dungeon/func_80EE30E0",
-   "tu": "src/dungeon/func_80EE30E0.c",
-   "foff": "0x00F030E0",
-   "vma": "0x801748E0",
-   "size": 1376
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/s2_r101_rc2_res_F00A4C_F03640",
+  "container": "dungeon",
+  "foff": "0xf00a4c",
+  "size": "0x2bf4",
+  "vma": "0x8017224c",
+  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "entries": [
+    {
+      "row": "dungeon/func_80EE0C90",
+      "tu": "src/dungeon/func_80EE6C90.c",
+      "home": "dungeon/func_80EE6C90",
+      "foff": "0xf00c90",
+      "vma": "0x80172490",
+      "size": 1864,
+      "bindings": {
+        "0x8016cc44": "0x80172c44",
+        "0x8016D2C0": "0x8016D2C0"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80EE0C90"
+    },
+    {
+      "row": "dungeon/func_80EE271C",
+      "tu": "src/dungeon/func_809D1AC0.c",
+      "home": "dungeon/func_809D1AC0",
+      "foff": "0xF0271C",
+      "vma": "0x80173F1C",
+      "size": 32,
+      "bindings": {
+        "0x800AD058": "0x800AD058",
+        "0x8016D2C0": "0x80173F1C"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "dungeon/func_80EE30E0",
+      "home": "dungeon/func_80EE30E0",
+      "tu": "src/dungeon/func_80EE30E0.c",
+      "foff": "0x00F030E0",
+      "vma": "0x801748E0",
+      "size": 1376
+    }
+  ]
 }

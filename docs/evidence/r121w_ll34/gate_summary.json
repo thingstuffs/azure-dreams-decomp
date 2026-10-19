@@ -1,0 +1,13 @@
+{
+  "returncode": 0,
+  "windows": 1917,
+  "journal_windows": 1917,
+  "results": {
+    "MATCH": 1917
+  },
+  "elapsed_seconds": 14950.4,
+  "scoped_gate_windows": 1916,
+  "per_row_check_windows": [
+    "config/overlays/town_deep_t8b_64d298.overlay.yaml"
+  ]
+}

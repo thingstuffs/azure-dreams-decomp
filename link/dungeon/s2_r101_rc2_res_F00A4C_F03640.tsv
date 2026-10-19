@@ -1,8 +1,10 @@
-#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_r101_rc2_res_F00A4C_F03640","n":"0x2bf4","o":"0xf00a4c","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[11252,0,0,0,0,0,0],"v":"0x8017224c"},"p":[{"census_label":"proven_code"},{"bindings":{"0x8016cc44":"0x80172c44"},"evidence":"docs/evidence/r121w_s2_receipts.json#dungeon/func_80EE0C90"},{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_r101_rc2_res_F00A4C_F03640","n":"0x2bf4","o":"0xf00a4c","p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:2809a724d1a9b06fd15b7abcde5f8136ec2e82a22cba80cdf525f8cb4290319b"],"t":[11252,0,0,0,0,0,0],"v":"0x8017224c"},"p":[{"census_label":"proven_code"},{"bindings":{"0x8016D2C0":"0x8016D2C0","0x8016cc44":"0x80172c44"},"evidence":"docs/evidence/r121w_s2_receipts.json#dungeon/func_80EE0C90"},{"bindings":{"0x800AD058":"0x800AD058","0x8016D2C0":"0x80173F1C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 15731276	580	r	census:c_row		0
 "0xf00c90"	1864	c	census:registered_tu		["func_80EE0C90","func_80EE6C90","0x80172490",1]
-15733720	7188	r	census:c_row		0
+15733720	4932	r	census:c_row		0
+"0xF0271C"	32	c	census:registered_tu		["func_80EE271C","func_809D1AC0","0x80173F1C",2]
+15738684	2224	r	census:c_row		0
 15740908	48	r	census:instance_proven		0
 15740956	196	r	census:c_row		0
-"0x00F030E0"	1376	c	census:registered_tu		["func_80EE30E0",null,"0x801748E0",2]
+"0x00F030E0"	1376	c	census:registered_tu		["func_80EE30E0",null,"0x801748E0",3]

@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: internal link-evidence; two header entries and >=95% internal calls on known starts; docs/evidence/town_scene_loader_receipt.json","i":"town/load_8ce000_1000","n":4096,"o":9232384,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[3800,0,0,292,0,4,0],"v":null},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_code"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: internal link-evidence; two header entries and >=95% internal calls on known starts; docs/evidence/town_scene_loader_receipt.json","i":"town/load_8ce000_1000","n":4096,"o":9232384,"p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:2809a724d1a9b06fd15b7abcde5f8136ec2e82a22cba80cdf525f8cb4290319b"],"t":[3800,0,0,292,0,4,0],"v":null},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_code"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 9232384	28	a	census:audit+noncode_confirmed	5599b3f2ff1c053bb8476c178e8c468bae97f78764a895f04ce2d4d3ea7e2887	0
 9232412	24	r	census:c_row		1
@@ -8,9 +8,4 @@ o	n	k	r	h	x
 9232556	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	0
 9232576	128	a	census:format:ascii	e260488a008503af99380f0640f2224d7d9a296522a404a5425f7a2164a45183	3
 9232704	196	r	census:instance_partial		1
-9232900	724	r	census:instance_proven		1
-9233624	88	r	census:c_row		1
-9233712	1604	r	census:instance_proven		1
-9235316	16	r	census:c_row		1
-9235332	320	r	census:instance_proven		1
-9235652	828	r	census:c_row		1
+9232900	3580	r	census:c_row		1

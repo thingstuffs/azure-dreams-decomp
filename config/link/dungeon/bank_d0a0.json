@@ -1,57 +1,106 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/bank_d0a0",
- "container": "dungeon",
- "foff": "0xD0A0",
- "size": "0x41000",
- "vma": "0x8008A800",
- "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x8007D760: img_16ae8_80094248, img_4dae0_800cb240, img_d54c_8008ad4c, img_f6a8_8008ce08; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
- "entries": [
-  {
-   "row": "dungeon/func_8002DB1C",
-   "tu": "src/dungeon/func_8002DB1C.c",
-   "home": "dungeon/func_8002DB1C",
-   "foff": "0x4DB1C",
-   "vma": "0x800CB27C",
-   "size": 96
-  },
-  {
-   "row": "dungeon/func_8002DCB4",
-   "tu": "src/dungeon/func_8002DB1C.c",
-   "home": "dungeon/func_8002DB1C",
-   "foff": "0x4DCB4",
-   "vma": "0x800CB414",
-   "size": 96
-  },
-  {
-   "row": "dungeon/func_8002DDB0",
-   "tu": "src/dungeon/func_8002DB1C.c",
-   "home": "dungeon/func_8002DB1C",
-   "foff": "0x4DDB0",
-   "vma": "0x800CB510",
-   "size": 96,
-   "bindings": {
-    "0x800CB21C": "0x800CB4B0",
-    "0x800D6910": "0x800D6910"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "dungeon/func_8002DF48",
-   "tu": "src/dungeon/func_8002DB1C.c",
-   "home": "dungeon/func_8002DB1C",
-   "foff": "0x4DF48",
-   "vma": "0x800CB6A8",
-   "size": 96,
-   "bindings": {
-    "0x800CB21C": "0x800CB63C",
-    "0x800D6910": "0x800D6974"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_d0a0",
+  "container": "dungeon",
+  "foff": "0xD0A0",
+  "size": "0x41000",
+  "vma": "0x8008A800",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x8007D760: img_16ae8_80094248, img_4dae0_800cb240, img_d54c_8008ad4c, img_f6a8_8008ce08; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "entries": [
+    {
+      "row": "dungeon/func_7FFEDB5C",
+      "tu": "src/dungeon/func_7FFEDB5C.c",
+      "home": "dungeon/func_7FFEDB5C",
+      "foff": "0xDB5C",
+      "vma": "0x8008B2BC",
+      "size": 8
+    },
+    {
+      "row": "dungeon/func_7FFEDB64",
+      "tu": "src/dungeon/func_7FFEDB5C.c",
+      "home": "dungeon/func_7FFEDB5C",
+      "foff": "0xDB64",
+      "vma": "0x8008B2C4",
+      "size": 8,
+      "bindings": {
+        "0x8008B2BC": "0x8008B2C4"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "dungeon/func_7FFEDB6C",
+      "tu": "src/dungeon/func_7FFEDB5C.c",
+      "home": "dungeon/func_7FFEDB5C",
+      "foff": "0xDB6C",
+      "vma": "0x8008B2CC",
+      "size": 8,
+      "bindings": {
+        "0x8008B2BC": "0x8008B2CC"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "dungeon/func_7FFEDB74",
+      "tu": "src/dungeon/func_7FFEDB5C.c",
+      "home": "dungeon/func_7FFEDB5C",
+      "foff": "0xDB74",
+      "vma": "0x8008B2D4",
+      "size": 8,
+      "bindings": {
+        "0x8008B2BC": "0x8008B2D4"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "dungeon/func_8002DB1C",
+      "tu": "src/dungeon/func_8002DB1C.c",
+      "home": "dungeon/func_8002DB1C",
+      "foff": "0x4DB1C",
+      "vma": "0x800CB27C",
+      "size": 96
+    },
+    {
+      "row": "dungeon/func_8002DCB4",
+      "tu": "src/dungeon/func_8002DB1C.c",
+      "home": "dungeon/func_8002DB1C",
+      "foff": "0x4DCB4",
+      "vma": "0x800CB414",
+      "size": 96,
+      "bindings": {
+        "0x8008B2BC": "0x8008B2BC"
+      }
+    },
+    {
+      "row": "dungeon/func_8002DDB0",
+      "tu": "src/dungeon/func_8002DB1C.c",
+      "home": "dungeon/func_8002DB1C",
+      "foff": "0x4DDB0",
+      "vma": "0x800CB510",
+      "size": 96,
+      "bindings": {
+        "0x800CB21C": "0x800CB4B0",
+        "0x800D6910": "0x800D6910",
+        "0x8008B2BC": "0x8008B2BC"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "dungeon/func_8002DF48",
+      "tu": "src/dungeon/func_8002DB1C.c",
+      "home": "dungeon/func_8002DB1C",
+      "foff": "0x4DF48",
+      "vma": "0x800CB6A8",
+      "size": 96,
+      "bindings": {
+        "0x800CB21C": "0x800CB63C",
+        "0x800D6910": "0x800D6974",
+        "0x8008B2BC": "0x8008B2BC"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    }
+  ],
+  "symbols": {
+    "0x800CB21C": "0x800CB3A8",
+    "0x800D6910": "0x800D6938"
   }
- ],
- "symbols": {
-  "0x800CB21C": "0x800CB3A8",
-  "0x800D6910": "0x800D6938"
- }
 }

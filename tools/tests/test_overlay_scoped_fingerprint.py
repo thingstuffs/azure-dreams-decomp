@@ -221,6 +221,26 @@ class ScopedFingerprint(unittest.TestCase):
  def test_eligibility(self):
   with self.edit('ledger/levels.jsonl',lambda v:v[0].update(pins_left=1)):
    with self.assertRaisesRegex(ValueError,'placement screen'):self.fp()
+ def test_seed_level_neighbor_is_bound_not_eligible(self):
+  # ledger/levels.jsonl seeds new rows as {"id","level":-1} until a full gate computes levels.
+  seed=lambda v:v.__setitem__(3,{'id':v[3]['id'],'level':-1})
+  with self.edit('ledger/levels.jsonl',seed):
+   fp=self.fp()
+   self.assertNotEqual(fp['sha256'],self.baseline['sha256'])
+   # deterministic: a second read of the same seed state binds the same digest
+   self.assertEqual(self.fp()['sha256'],fp['sha256'])
+  self.assertEqual(self.fp()['sha256'],self.baseline['sha256'])
+ def test_seed_level_grants_no_eligibility(self):
+  seed={'id':'dungeon/func_80024040','level':-1}
+  for kind,key in ((None,'l3'),('data','l2')):
+   e=F.row_eligibility({'row_kind':kind},seed)
+   self.assertIs(e[key],False);self.assertIsNone(e['pins']);self.assertIsNone(e['tail_jumps']);self.assertEqual(e['residue'],['unleveled'])
+  full={'id':'x','level':3,'pins_left':0,'tail_jumps':0,'l4_residue':['not_in_module']}
+  self.assertEqual(F.row_eligibility({},full),{'l3':True,'pins':0,'tail_jumps':0,'residue':[]})
+  with self.assertRaises(KeyError):F.row_eligibility({},{'id':'x','level':3})  # non-seed incomplete record still fails closed
+ def test_seed_level_member_fails_screen(self):
+  with self.edit('ledger/levels.jsonl',lambda v:v.__setitem__(0,{'id':v[0]['id'],'level':-1})):
+   with self.assertRaisesRegex(ValueError,'placement screen'):self.fp()
  def test_placement_level_cycle_retained(self):
   with self.edit('ledger/levels.jsonl',lambda v:v[0].update(level=4,l4_residue=[])):self.assertEqual(self.fp(),self.baseline)
  def test_compiler_identity(self):
@@ -316,9 +336,11 @@ class ScopedFingerprint(unittest.TestCase):
    finally:alias.unlink()
    self.assertEqual(self.fp(),with_facade)
  def test_nonbanked_families_fail_closed(self):
-  for container in ['main','unknown']:
+  for container in ['unknown']:
    m=dict(self.m,container=container)
    with self.assertRaisesRegex(ValueError,'does not model this container evidence'):F.fingerprint(m,self.r,G)
+  with self.assertRaisesRegex(ValueError,'MAIN scoped modules currently require text-only'):
+   F.fingerprint(dict(self.m,container='main'),self.r,G)
  def test_mutation_restoration(self):self.assertEqual(self.fp(),self.baseline)
 
  def test_sibcall_is_module_and_window_dependency(self):

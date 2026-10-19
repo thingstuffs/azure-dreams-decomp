@@ -309,7 +309,8 @@ def window_modules():
     """
     global _WMODULES
     if _WMODULES is None:
-        from gate.overlay_module_gate import load_modules, affected_windows
+        from gate.overlay_module_gate import load_modules
+        from gate.overlay_module_placements import affected_windows
         modules = {}
         for module in load_modules(ROOT):
             for name in affected_windows(module, ROOT):

@@ -1,54 +1,70 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/region_cd1120_cd5a3c",
- "container": "dungeon",
- "foff": "0xcd1120",
- "size": "0x491c",
- "vma": "0x80152920",
- "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_cd1120_80152920",
- "entries": [
-  {
-   "row": "dungeon/func_80CB3B9C",
-   "home": "dungeon/func_80AC854C",
-   "tu": "src/dungeon/func_80AC854C.c",
-   "foff": "0x00CD3B9C",
-   "vma": "0x8015539C",
-   "size": 912,
-   "bindings": {
-    "0x80174E4C": "0x801572FC",
-    "0x80083160": "0x80083160",
-    "0x80047784": "0x80047784",
-    "0x80083460": "0x80083460",
-    "0x80042900": "0x80042900",
-    "0x800AA6B4": "0x800AA6B4",
-    "0x800AA79C": "0x800AA79C",
-    "0x800A2C34": "0x800A2C34",
-    "0x800AA258": "0x800AA258",
-    "0x800AA888": "0x800AA888",
-    "0x801743E8": "0x80155A38",
-    "0x800814A8": "0x800814A8",
-    "0x8009A180": "0x8009A180",
-    "0x800A9A0C": "0x800A9A0C",
-    "0x800A9A04": "0x800A9A04",
-    "0x80082E80": "0x80082E80",
-    "0x8009FD40": "0x8009FD40",
-    "0x800A6D30": "0x800A6D30",
-    "0x80042B68": "0x80042B68",
-    "0x80174E54": "0x80157304",
-    "0x80171728": "0x8015302C",
-    "0x80173D4C": "0x8015539C"
-   },
-   "evidence": "LL3a attestation sha256:621b2acf7f828fdc9f4453a38878862b71c11309c42eeb66e90e1f09da2d4b86; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "dungeon/func_80CB4640",
-   "home": "dungeon/func_80C96640",
-   "tu": "src/dungeon/func_80C96640.c",
-   "foff": "0xcd4640",
-   "vma": "0x80155e40",
-   "size": 1248,
-   "bindings": {},
-   "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CB4640"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/region_cd1120_cd5a3c",
+  "container": "dungeon",
+  "foff": "0xcd1120",
+  "size": "0x491c",
+  "vma": "0x80152920",
+  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_cd1120_80152920",
+  "entries": [
+    {
+      "row": "dungeon/func_80CB3B04",
+      "tu": "src/dungeon/func_809D1AC0.c",
+      "home": "dungeon/func_809D1AC0",
+      "foff": "0xCD3B04",
+      "vma": "0x80155304",
+      "size": 32,
+      "bindings": {
+        "0x800AD058": "0x800AD058",
+        "0x8016D2C0": "0x80155304"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "dungeon/func_80CB3B9C",
+      "home": "dungeon/func_80AC854C",
+      "tu": "src/dungeon/func_80AC854C.c",
+      "foff": "0x00CD3B9C",
+      "vma": "0x8015539C",
+      "size": 912,
+      "bindings": {
+        "0x80174E4C": "0x801572FC",
+        "0x80083160": "0x80083160",
+        "0x80047784": "0x80047784",
+        "0x80083460": "0x80083460",
+        "0x80042900": "0x80042900",
+        "0x800AA6B4": "0x800AA6B4",
+        "0x800AA79C": "0x800AA79C",
+        "0x800A2C34": "0x800A2C34",
+        "0x800AA258": "0x800AA258",
+        "0x800AA888": "0x800AA888",
+        "0x801743E8": "0x80155A38",
+        "0x800814A8": "0x800814A8",
+        "0x8009A180": "0x8009A180",
+        "0x800A9A0C": "0x800A9A0C",
+        "0x800A9A04": "0x800A9A04",
+        "0x80082E80": "0x80082E80",
+        "0x8009FD40": "0x8009FD40",
+        "0x800A6D30": "0x800A6D30",
+        "0x80042B68": "0x80042B68",
+        "0x80174E54": "0x80157304",
+        "0x80171728": "0x8015302C",
+        "0x80173D4C": "0x8015539C",
+        "0x8016D2C0": "0x8016D2C0"
+      },
+      "evidence": "LL3a attestation sha256:621b2acf7f828fdc9f4453a38878862b71c11309c42eeb66e90e1f09da2d4b86; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "dungeon/func_80CB4640",
+      "home": "dungeon/func_80C96640",
+      "tu": "src/dungeon/func_80C96640.c",
+      "foff": "0xcd4640",
+      "vma": "0x80155e40",
+      "size": 1248,
+      "bindings": {
+        "0x8016D2C0": "0x8016D2C0"
+      },
+      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CB4640"
+    }
+  ]
 }

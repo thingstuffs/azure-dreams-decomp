@@ -1,0 +1,31 @@
+{
+  "module": "dungeon_actor_directional_action",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "actor_directional_action.c",
+    "module_index": 134011
+  },
+  "members": [
+    "dungeon/func_800A4F54",
+    "dungeon/func_800A4FF4"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Complete current compiler-unit closure of refs private-state candidate group_0133.",
+    "All home members are byte-adjacent in one proven load region at their unchanged uniform compiler recipe.",
+    "Private helper set func_800AA754 has local linkage in the native object; complete emitted payload and every member require fresh retail and genuine proof."
+  ],
+  "candidate": "group_0133",
+  "private_groups": [
+    "p00535"
+  ],
+  "private_functions": [
+    "func_800AA754"
+  ],
+  "standalone_source_sha256": {
+    "dungeon/func_800A4F54": "03cc996fb7cffa0ff3ac332d96011f20a24e1b8457403272e787fc01b88051ed",
+    "dungeon/func_800A4FF4": "b28d36855222523aee9b321c28ef83e4d328424c44617c3e02c899db52b6e8bb"
+  },
+  "source_facades": "Original home files remain standalone row/placement facades; native source contains one shared declaration block and unchanged function bodies with private linkage."
+}

@@ -1,6 +1,6 @@
-# Reproducible B13 census
+# Reproducible census
 
-From a fresh clone at B13 plus the cumulative patch, run:
+From the consolidated tree, run:
 
 ```sh
 python3 tools/census/regenerate.py --disc /path/to/Azure_Dreams.bin \
@@ -15,12 +15,13 @@ means every generated file is byte-identical to git. `regeneration_receipt.json`
 and `coverage.tsv` are in the output directory. Raw spans are ignored outputs,
 never prerequisites. Output retail containers are removed on exit.
 
-`config/census/snapshot.json` records the B13 metadata/source snapshot and retail
-identity hashes. `typed_data.jsonl` contains 69 bounded reads still valid on B13;
+`config/census/snapshot.json` records the metadata/source snapshot anchored at B16 and retail
+identity hashes. `typed_data.jsonl` contains 68 bounded reads with current source attestations;
 `replayed_prefixes.jsonl` contains three strictly checked prefixes. The 541 stale
 historical proposals are omitted. Source and binary identities, instruction hash
 and load opcode, C read extent, complete donor extent and relocation masks are
-checked again each run. No proposal is re-signed. `slus_layout.json` is linked
+checked again each run. No proposal is re-signed. The B17 refresh omits one stale SLUS read record
+whose source changed on B16; its old attestation is retained only in history. `slus_layout.json` is linked
 section geometry, and `cd_bank_map.json` records conditional static loader extents;
 it makes no runtime-observation claim. None contains retail payloads or binaries.
 

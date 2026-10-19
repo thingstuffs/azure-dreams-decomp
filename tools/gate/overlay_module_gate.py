@@ -225,7 +225,11 @@ def validate_runtime(root,d):
 
 def graph(root=ROOT,*,modules=None,registry=None):
  root=Path(root);layout=source_mapping(root);reg=rows(root) if registry is None else registry;mods=load_modules(root) if modules is None else modules;taken={a['id'] for m in mods for a in all_members(m)}
+ import overlay_module_placements as P
+ placements=P.load(root,mods)
+ taken.update(a['id'] for p in placements for a in p['projected'])
  edges=[{'module':m['key'],'source':m['source'],'recipe':m['recipe'],'rows':[a['id'] for a in all_members(m)]} for m in mods]
+ edges += [{'module':p['module'],'placement':p['key'],'image':p['image'],'source':next(m['source'] for m in mods if m['key']==p['module']),'recipe':p['recipe'],'rows':[a['id'] for a in p['projected']]} for p in placements]
  edges += [{'source':row_relative(r, root, layout=layout),'recipe':{'cfg':r['cfg'],'row_asflags':r.get('row_asflags') or ''},'rows':[rid]} for rid,r in sorted(reg.items()) if rid not in taken]
  return {'schema':SCHEMA,'logical_rows':len(reg),'edges':edges}
 
@@ -339,7 +343,7 @@ def legacy_fingerprint(m,root=ROOT,windows=True):
    if (root/p).exists():names.add(p)
  # Resolve the combined include closure once; shared headers are read once.
  names.update(closure(root,source_starts))
- gate_names=['overlay_scoped_fingerprint.py','gate_read_cache.py','overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py','overlay_native_allocations.py','overlay_switch_allocations.py','linklist.py']
+ gate_names=['overlay_scoped_fingerprint.py','gate_read_cache.py','overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py','overlay_native_allocations.py','overlay_switch_allocations.py','linklist.py','overlay_module_placements.py']
  tools=[gate_tool(root,n) for n in gate_names]
  tools += [root/'tools/fidelity'/n for n in ['aspsx_diff.py','objread.py','certify_overlay_module.py']]
  tools += [root/'tools/overlay_module_evidence.py',root/'tools/build/slus_rodata_trim.py']
@@ -402,18 +406,18 @@ def sections(path):
  b=path.read_bytes();off=struct.unpack_from('<I',b,32)[0];ent,num,ni=struct.unpack_from('<HHH',b,46);hs=[struct.unpack_from('<10I',b,off+i*ent) for i in range(num)];s=b[hs[ni][4]:hs[ni][4]+hs[ni][5]]
  return [{'name':s[h[0]:].split(b'\0',1)[0].decode(),'type':h[1],'flags':h[2],'size':h[5]} for h in hs]
 
-def build(m,out,root=ROOT,substitutions=None):
+def build(m,out,root=ROOT,substitutions=None,*,artifact_only=False):
  root=Path(root).absolute();out=Path(out).absolute()
  import overlay_scoped_fingerprint as scoped
  if scoped.enabled(root):scoped.reject_environment()
  out.mkdir(parents=True,exist_ok=True)
- if Z.enabled(m):return Z.build(m,out,root,sys.modules[__name__],substitutions)
+ if Z.enabled(m):return Z.build(m,out,root,sys.modules[__name__],substitutions,artifact_only=artifact_only)
  if substitutions:
   if set(substitutions)&{a['source'] for a in m.get('data_members',[])}:
    raise ValueError('separate prefix data candidate requires a complete TU edit')
   if set(substitutions)-{a['source'] for a in m['members']}:raise ValueError('candidate is not a function member')
  if not scoped.enabled(root) and json.loads((root/'ledger/splits/overlay_modules.build.json').read_text())!=graph(root):raise ValueError('physical graph stale or incomplete')
- before=fingerprint(m,root);env=dict(os.environ,TMPDIR=str(out),PYTHONDONTWRITEBYTECODE='1')
+ before=fingerprint(m,root,windows=not artifact_only);env=dict(os.environ,TMPDIR=str(out),PYTHONDONTWRITEBYTECODE='1')
  for k in ['AZURE_MASPSX','AZURE_MASPSX_COMPANION','MASPSX_NORETURN_FILE','MASPSX_SIBCALL_FILE']:env.pop(k,None)
  suffix='.'+m['container'] if m['container']!='main' else ''
  for kind in ['NORETURN','SIBCALL']:env['MASPSX_'+kind+'_FILE']=str(root/'config'/(kind.lower()+'_syms'+suffix+'.txt'))
@@ -516,7 +520,7 @@ def build(m,out,root=ROOT,substitutions=None):
   genuine.extend(struct.pack('<'+'I'*len(words),*words))
  if len(ge.obj.sections['.text'])+prefix!=len(genuine) or genuine!=data:raise ValueError('unaccounted genuine bytes or resolved mismatch')
  (out/'genuine.bin').write_bytes(genuine)
- after=fingerprint(m,root)
+ after=fingerprint(m,root,windows=not artifact_only)
  if before!=after or any(sha(substitutions[k])!=h for k,h in candidate_hashes.items()):raise ValueError('inputs changed during module build')
  receipt={'schema':SCHEMA,'module':m['key'],'fingerprint':before,'members':[a['id'] for a in all_members(m)],'physical':{'compile_edges':1,'functions':[a['function'] for a in m['members']],'payload':payload,'owned_data':m['owned_data'],'imports':m['imports']},'gate':{'result':'MATCH','foff':first['foff'],'vma':first['vma'],'bytes':len(data),'rebuilt_sha256':sha(binary),'retail_sha256':sha(out/'retail.bin'),'masked':0,'raw_substitution_bytes':0},'genuine':{'result':'MATCH','version':'2.79','whole_tu':True,'flags':['-q','-G0']+genuine_flags(m,root),'bytes':len(genuine),'masked':0,'sha256':sha(out/'genuine.bin')},'candidates':candidate_hashes,'candidate_paths':{k:str(Path(v).absolute()) for k,v in (substitutions or {}).items()}}
  receipt['artifacts']={n:sha(out/n) for n in ['module.s','sectioned.s','module.untrimmed.o','rodata_proof.json','module.o','module.ld','module.elf','module.bin','retail.bin','IN.S','OUT.OBJ','genuine.bin']};(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
@@ -524,7 +528,9 @@ def build(m,out,root=ROOT,substitutions=None):
 
 def project_segments(segments,build_dir,overlay,root=ROOT):
  """Called before ordinary row compilation. A single touched row rebuilds all siblings."""
- root=Path(root).absolute();family=overlay.split('_')[0];receipts=[]
+ root=Path(root).absolute();family=overlay.split('_')[0]
+ import overlay_module_placements as P
+ receipts=P.project(segments,build_dir,overlay,root)
  for m in load_modules(root):
   if m['container']!=family:continue
   hits=[(i,s,a) for i,s in enumerate(segments) for a in (m['members'] if Z.switches(m) else all_members(m)) if s.start<a['foff']+a['size'] and a['foff']<s.end]
@@ -537,7 +543,9 @@ def project_segments(segments,build_dir,overlay,root=ROOT):
     # Gate-export labels may use the equivalent space spelling.
     if s.match.config!=m['recipe']['cfg'].replace('-G0',' -G0'):raise ValueError('per-row recipe move forbidden inside module')
    if Path(s.match.source).resolve()!=(root/a['source']).resolve():substitutions[a['source']]=str(s.match.source)
-  receipt,binary=build(m,build_dir/'modules'/m['key'],root,substitutions);blob=binary.read_bytes()
+  if substitutions or Z.switches(m):receipt,binary=build(m,build_dir/'modules'/m['key'],root,substitutions)
+  else:receipt,binary=P.home_build(m,build_dir/'modules'/m['key'],root)
+  blob=binary.read_bytes()
   for i,s,a in hits:
    target=binary.parent/(a.get('function',a.get('symbol'))+'.bin');offset=Z.offset(m,a['foff'],a['size']) if Z.enabled(m) else a['foff']-module_first(m)['foff'];target.write_bytes(blob[offset:offset+a['size']]);segments[i]=dataclasses.replace(s,kind='rowbase',bytes_path=target,module_key=m['key'],section=f'.ovlseg_{s.index:04d}')
   projected_allocations=[]
@@ -546,6 +554,9 @@ def project_segments(segments,build_dir,overlay,root=ROOT):
  return receipts
 
 def verify_window_modules(receipts,root=ROOT):
+ import overlay_module_placements as P
+ P.verify_projections([r for r in receipts if r.get('placement')],root)
+ receipts=[r for r in receipts if not r.get('placement')]
  mods={m['key']:m for m in load_modules(root)} if receipts else {}
  for projection in receipts:
   m=mods[projection['module']]

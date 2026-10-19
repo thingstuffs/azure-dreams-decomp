@@ -1,0 +1,13 @@
+{
+  "schema": "azure-clean.ll34-screen-summary.v1",
+  "screen_file": "scratch/screen.json",
+  "screen_bytes": 4561652,
+  "screen_sha256": "e305cdd4aea4fc1beaab4a9af4b22d2f1ce672f9ebe4814c4a954c3504c74f11",
+  "starting_items": 3139,
+  "prepared_placements": 2215,
+  "instance_placements": 1662,
+  "stale_instance_texts_reproved": 1615,
+  "paired_hi16_lo16": 2652,
+  "relocations": 8572,
+  "note": "Admission evaluates every relocated instruction field; the scoped production window gate is final byte authority. Large native-object detail stays in ignored scratch, per decision 62."
+}

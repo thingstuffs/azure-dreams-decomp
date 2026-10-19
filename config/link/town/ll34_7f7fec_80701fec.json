@@ -1,0 +1,75 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_7f7fec_80701fec",
+  "container": "town",
+  "foff": "0x7F7FEC",
+  "size": "0x788",
+  "vma": "0x80701FEC",
+  "evidence": "config/overlays/town.rowbase.jsonl:town100_7F7FEC_run_true_0x80701FEC",
+  "entries": [
+    {
+      "row": "town/func_80878110",
+      "tu": "src/town/func_80878110.c",
+      "home": "town/func_80878110",
+      "foff": "0x7F8110",
+      "vma": "0x80702110",
+      "size": 112
+    },
+    {
+      "row": "town/func_80878180",
+      "tu": "src/town/func_80878180.c",
+      "home": "town/func_80878180",
+      "foff": "0x7F8180",
+      "vma": "0x80702180",
+      "size": 72
+    },
+    {
+      "row": "town/func_808781C8",
+      "tu": "src/town/func_808781C8.c",
+      "home": "town/func_808781C8",
+      "foff": "0x7F81C8",
+      "vma": "0x807021C8",
+      "size": 152
+    },
+    {
+      "row": "town/func_80878260",
+      "tu": "src/town/func_80878260.c",
+      "home": "town/func_80878260",
+      "foff": "0x7F8260",
+      "vma": "0x80702260",
+      "size": 92
+    },
+    {
+      "row": "town/func_808782BC",
+      "tu": "src/town/func_808782BC.c",
+      "home": "town/func_808782BC",
+      "foff": "0x7F82BC",
+      "vma": "0x807022BC",
+      "size": 88
+    },
+    {
+      "row": "town/func_80878670",
+      "tu": "src/town/func_80878670.c",
+      "home": "town/func_80878670",
+      "foff": "0x7F8670",
+      "vma": "0x80702670",
+      "size": 80
+    },
+    {
+      "row": "town/func_808786C0",
+      "tu": "src/town/func_808786C0.c",
+      "home": "town/func_808786C0",
+      "foff": "0x7F86C0",
+      "vma": "0x807026C0",
+      "size": 84
+    },
+    {
+      "row": "town/func_80878714",
+      "tu": "src/town/func_80878714.c",
+      "home": "town/func_80878714",
+      "foff": "0x7F8714",
+      "vma": "0x80702714",
+      "size": 96
+    }
+  ]
+}

@@ -27,7 +27,7 @@ redirection) and the link-list files that decide the placement's symbols (`windo
 With no config/link/ directory every function here is inert: no placement, no rebinding, no extra inputs.
 """
 from __future__ import annotations
-import json, re, subprocess
+import hashlib, json, re, subprocess
 from functools import lru_cache
 from pathlib import Path
 
@@ -41,7 +41,7 @@ NM = "mipsel-linux-gnu-nm"
 ENTRY_KEYS = {"row", "tu", "home", "foff", "vma", "size"}
 ENTRY_OPTIONAL = {"bindings", "evidence"}
 IMAGE_KEYS = {"schema", "image", "container", "foff", "size", "vma", "entries"}
-IMAGE_OPTIONAL = {"layout", "evidence", "symbols"}
+IMAGE_OPTIONAL = {"layout", "evidence", "symbols", "load_evidence"}
 
 
 def is_code(entry):
@@ -109,6 +109,13 @@ def validate_image(doc, path="<image>"):
         if any(not isinstance(provenance[k], str) or not re.fullmatch(r"[0-9a-f]{64}", provenance[k])
                for k in ("labels_sha256", "coverage_sha256")) or not isinstance(provenance["source"], str) or not provenance["source"].strip():
             raise ValueError("invalid byte map provenance")
+    if "load_evidence" in doc:
+        proof = doc["load_evidence"]
+        if (not isinstance(proof, dict) or set(proof) != {"path", "record_sha256"}
+                or proof["path"] != "ledger/instance_load_regions.jsonl"
+                or not isinstance(proof["record_sha256"], str)
+                or not re.fullmatch(r"[0-9a-f]{64}", proof["record_sha256"])):
+            raise ValueError("invalid image load_evidence")
     img = dict(doc, foff=num(doc["foff"]), size=num(doc["size"]),
                vma=None if whole and doc["vma"] is None else num(doc["vma"]), path=str(path),
                symbols=_addr_map(doc.get("symbols"), "image symbols"))
@@ -310,7 +317,7 @@ def _inside(img, address):
     return img["vma"] <= address < img["vma"] + img["size"]
 
 
-def binding(root, entry, address):
+def binding(root, entry, address, *, home_image=None):
     """Linker semantics for one placement, by address (first rule that applies):
     1. the TU's own entry point -> this placement's vma
     2. entry.bindings (per-placement override, evidence-backed)
@@ -320,7 +327,12 @@ def binding(root, entry, address):
        symbol lies in the home image -> shifted by the image delta
     5. image.symbols (per-image map, e.g. the image's own data objects)
     6. unchanged (resident: SLUS / the engine build this image links against)"""
-    images, _, by_row, local = load(root)
+    return _binding(load(root), entry, address, home_image)
+
+
+def _binding(tables, entry, address, home_image=None):
+    """Same address rules over one validator's already observed link census."""
+    images, _, by_row, local = tables
     home = by_row[entry["home"]]
     if entry["row"] == home["row"]:
         return address
@@ -328,7 +340,7 @@ def binding(root, entry, address):
         return entry["vma"]
     if address in entry["bindings"]:
         return entry["bindings"][address]
-    img, himg = images[entry["image"]], images[home["image"]]
+    img, himg = images[entry["image"]], images[home_image or home["image"]]
     hits = local.get(entry["image"], {}).get(address, [])
     if _inside(himg, address):
         hits = [h for h in hits if h[0] == himg["image"]]
@@ -389,8 +401,63 @@ def window_files(root, row_ids):
         for x in [e, *members[e["image"]]]:
             if x["home"] != x["row"]:
                 out.add(images[by_row[x["home"]]["image"]]["path"])
+    # These records authorize no-region bases. Their bytes are proof inputs too.
+    for img in images.values():
+        if img["path"] in out and img.get("load_evidence"):
+            out.add(str(Path(root) / img["load_evidence"]["path"]))
     base = Path(root).absolute()
     return sorted(str(Path(p).absolute().relative_to(base)) for p in out)
+
+
+# Load-region record kinds that establish a link base (ledger/instance_load_regions.jsonl). A record
+# with any other method (a heuristic or a future free-form kind) cannot authorize a no-region base.
+LOAD_METHODS = ("validated ", "internal link-evidence")
+
+
+def placement_vma(root, container, foff, size, row, proven_delta=None, *, allow_legacy=False):
+    """A fileless placement's load address, checked against a proven region or load record.
+
+    Solved regions still require rowbase promotion. A no-region image must bind an exact
+    current instance-load-region record; free-form evidence text cannot authorize a base.
+    """
+    e = placement(root, container, foff, row)
+    if e is None or e["home"] == row:
+        return None
+    if e["size"] != size:
+        raise ValueError("placement extent differs from split: " + row)
+    img = load(root)[0][e["image"]]
+    # Existing placements keep their original proven-rowbase/window behavior.
+    # Only an explicitly evidenced image opts into the new no-region link path.
+    if allow_legacy and not img.get("load_evidence"):
+        return None
+    if proven_delta is not None:
+        if e["vma"] != foff + proven_delta:
+            raise ValueError("placement vma disagrees with proven rowbase: " + row)
+        return e["vma"]
+    root = Path(root)
+    from gate_read_cache import read_records
+    region_path = root / "config/overlays" / (family(container) + ".rowbase.jsonl")
+    for region in read_records(region_path) if region_path.exists() else ():
+        if num(region["foff_start"]) <= foff < num(region["foff_end"]):
+            raise ValueError("placement requires proven rowbase promotion: " + row)
+    img = load(root)[0][e["image"]]
+    proof = img.get("load_evidence")
+    if proof is None:
+        raise ValueError("placement image has no checked load evidence: " + row)
+    hits = [r for r in read_records(root / proof["path"])
+            if hashlib.sha256(json.dumps(r, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+            == proof["record_sha256"]]
+    if len(hits) != 1:
+        raise ValueError("placement load evidence is missing or stale: " + row)
+    r = hits[0]
+    if (r.get("schema") != "azure-clean.instance-load-region.v1"
+            or r["container"] != family(container)
+            or not isinstance(r.get("method"), str) or not r["method"].startswith(LOAD_METHODS) or not r.get("evidence")
+            or not num(r["foff"]) <= img["foff"] < img["foff"] + img["size"] <= num(r["foff"]) + num(r["size"])
+            or num(r["base"]) - num(r["foff"]) != num(r["delta"])
+            or img["vma"] - img["foff"] != num(r["delta"])):
+        raise ValueError("placement image disagrees with load evidence: " + row)
+    return e["vma"]
 
 
 def split_vma(rec):
@@ -413,6 +480,15 @@ def check(root, splits, registry, tu_of):
     if not by_row:
         return []
     bad = []
+    if (Path(root)/'config/overlays/module_placements.json').exists():
+        try:
+            import overlay_module_placements as MP
+            MP.load(root)
+            G=MP.authority()
+            if G.read_json(Path(root)/'ledger/splits/overlay_modules.build.json')!=G.graph(root):
+                bad.append('module placement physical graph stale')
+        except (OSError,ValueError,KeyError,TypeError) as exc:
+            bad.append('module placements: '+str(exc))
     index = {}
     for cont, recs in splits.items():
         for r in recs:
@@ -440,7 +516,7 @@ def check(root, splits, registry, tu_of):
         if rid in module_rows and e["home"] != rid:
             # A home may be a module member: its member file is compiled standalone at the placement and the
             # window gate proves it (or fails closed). A placement row inside a module is a module placement.
-            bad.append(where + " is a module member (module placements are not modelled yet)")
+            bad.append(where + " is both a home module member and a copy (duplicate physical ownership)")
         reg = registry.get(rid)
         if reg is None:
             bad.append(where + " is not registered"); continue

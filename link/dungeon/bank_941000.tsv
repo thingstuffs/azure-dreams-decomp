@@ -1,9 +1,10 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7B5000: img_9411bc_800f61bc, img_9417d4_800f67d4","i":"dungeon/bank_941000","n":"0x6000","o":"0x941000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[3368,0,0,50,19620,1518,20],"v":"0x800F6000"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7B5000: img_9411bc_800f61bc, img_9417d4_800f67d4","i":"dungeon/bank_941000","n":"0x6000","o":"0x941000","p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:2809a724d1a9b06fd15b7abcde5f8136ec2e82a22cba80cdf525f8cb4290319b"],"t":[3368,0,0,50,19620,1518,20],"v":"0x800F6000"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 9703424	32	a	census:ledger:data_row	e438c9c7c2307051c57157d3c10762061a80a5ebba160c2114b1678624ec3632	0
 9703456	1924	r	census:c_row		1
 "0x9417A4"	40	c	census:registered_tu		["func_809217A4",null,"0x800F67A4",2]
-9705420	1404	r	census:c_row		1
+"0x9417CC"	8	c	census:registered_tu		["func_809217CC",null,"0x800F67CC",2]
+9705428	1396	r	census:c_row		1
 9706824	624	d	census:noncode:decode		3
 9707448	20	p	census:zero_fill>=16		2
 9707468	12	d	census:noncode:decode		3

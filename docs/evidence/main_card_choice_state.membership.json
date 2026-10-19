@@ -1,0 +1,61 @@
+{
+  "module": "main_card_choice_state",
+  "ledger_group": {
+    "container": "main",
+    "module": "card_choice_state.c",
+    "module_index": 3
+  },
+  "members": [
+    "main/func_80013FD4",
+    "main/func_80013FF8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Bounded feature consolidation; no assertion of an original Konami file boundary.",
+  "basis": [
+    "All members are distinct retained homes, in one proven load region and one home image.",
+    "File extents meet exactly; no gap, data row, alignment bytes or other function intervenes.",
+    "All members use the identical compiler/assembler cell; the complete native build verifies natural allocation order and all bytes.",
+    "Bodies implement the same narrowly described feature; existing per-row contracts remain visible."
+  ],
+  "review": "reviewed",
+  "reviewer": "codex-r121w-tu1",
+  "assignment_changes": [
+    {
+      "before": {
+        "id": "main/func_80013FD4",
+        "container": "main",
+        "module": "c_server.c",
+        "module_index": 3,
+        "confidence": "proven"
+      },
+      "after": {
+        "id": "main/func_80013FD4",
+        "container": "main",
+        "module": "card_choice_state.c",
+        "module_index": 3,
+        "confidence": "strong"
+      }
+    },
+    {
+      "before": {
+        "id": "main/func_80013FF8",
+        "container": "main",
+        "module": "c_server.c",
+        "module_index": 3,
+        "confidence": "proven"
+      },
+      "after": {
+        "id": "main/func_80013FF8",
+        "container": "main",
+        "module": "card_choice_state.c",
+        "module_index": 3,
+        "confidence": "strong"
+      }
+    }
+  ],
+  "source_sha256": {
+    "src/main/func_80013FD4.c": "0c786b786d5f20b434f4dd2ec723d7d38779fe5b0a8996b9bfdfdcdbc75b99f0",
+    "src/main/func_80013FF8.c": "c12a46213753067b4212b1a98d46382fbbff6fde7cd40b5b1b6ec81667c90935"
+  }
+}

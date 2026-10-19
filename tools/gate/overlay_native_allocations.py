@@ -142,8 +142,8 @@ def check_views(m,ma,ge,addresses):
     if symbol is None and view is ge and ma.obj.symbols[slot['symbol']][2]=='local':continue
     if not symbol or tuple(symbol[:2])!=(section,slot['offset']):raise ValueError('owned symbol placement differs')
    addresses[slot['symbol']]=a['vma']+slot['offset']
-def build(m,out,root,G,substitutions=None):
- validate(m,root);out.mkdir(parents=True,exist_ok=True);before=G.fingerprint(m,root);env=dict(os.environ,TMPDIR=str(out),PYTHONDONTWRITEBYTECODE='1')
+def build(m,out,root,G,substitutions=None,*,artifact_only=False):
+ validate(m,root);out.mkdir(parents=True,exist_ok=True);before=G.fingerprint(m,root,windows=not artifact_only);env=dict(os.environ,TMPDIR=str(out),PYTHONDONTWRITEBYTECODE='1')
  source=root/m['source'];candidate_hashes={}
  if substitutions:
   if set(substitutions)-{a['source'] for a in m['members']}:raise ValueError('candidate is not a function member')
@@ -210,7 +210,7 @@ def build(m,out,root,G,substitutions=None):
    genuine.extend(struct.pack('<'+'I'*len(words),*words))
  if genuine!=packed or not A.compare_units(ma,ge)['exact']:raise ValueError('whole-object genuine mismatch')
  (out/'genuine.bin').write_bytes(genuine);(out/'rodata_proof.json').write_text(json.dumps(proof_record(m,padding,original,cooked,ma,ge,(out/'IN.S').read_text(),root,out),indent=2)+'\n')
- after=G.fingerprint(m,root)
+ after=G.fingerprint(m,root,windows=not artifact_only)
  if before!=after or any(G.sha(substitutions[k])!=h for k,h in candidate_hashes.items()):raise ValueError('inputs changed during complete-object build')
  first=min(m['allocations'],key=lambda a:a['foff']);h=hashlib.sha256(packed).hexdigest()
  receipt=dict(schema=G.SCHEMA,module=m['key'],fingerprint=before,members=[a['id'] for a in G.all_members(m)],physical=dict(compile_edges=1,functions=[a['function'] for a in m['members']],payload=payload,owned_data=[],imports=m['imports'],allocation_model=m['allocation_model'],allocations=m['allocations']),gate=dict(result='MATCH',foff=first['foff'],vma=first['vma'],bytes=len(packed),rebuilt_sha256=h,retail_sha256=h,masked=0,raw_substitution_bytes=0),genuine=dict(result='MATCH',version='2.79',whole_tu=True,flags=['-q','-G0']+G.genuine_flags(m,root),bytes=len(genuine),masked=0,sha256=h),candidates=candidate_hashes,candidate_paths={k:str(Path(v).absolute()) for k,v in (substitutions or {}).items()})

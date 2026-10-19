@@ -1,0 +1,19 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_800070_80701070",
+  "container": "town",
+  "foff": "0x800070",
+  "size": "0x20",
+  "vma": "0x80701070",
+  "evidence": "config/overlays/town.rowbase.jsonl:r121li_800070",
+  "entries": [
+    {
+      "row": "town/func_80880070",
+      "tu": "src/town/func_80880070.c",
+      "home": "town/func_80880070",
+      "foff": "0x800070",
+      "vma": "0x80701070",
+      "size": 32
+    }
+  ]
+}

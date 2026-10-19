@@ -76,7 +76,7 @@ def certificate_reason(m,cert,root=ROOT):
   if wr.get('fingerprint')!=current:return 'window module build stale'
   reason=receipt_reason(m,wr,root,str(Path(w['proof_dir'])/'module'))
   if reason:return reason
-  segs=[s for s in manifest['c_segments'] if s.get('module')==m['key']]
+  segs=[s for s in manifest['c_segments'] if s.get('module')==m['key'] and not s.get('module_placement')]
   expected=[(a['foff'],a['size']) for a in selected if not Z.switches(m) or a in m['members']]
   if Z.enabled(m):
    owned=projection.get('projected_allocations',[])
@@ -99,7 +99,10 @@ def module_status(root=ROOT):
  return out
 
 def valid_placements(root=ROOT):
- return {a['id']:{'outcome':'applied','module':e['module']['key'],'module_fingerprint':e['certificate']['fingerprint']['sha256']} for e in module_status(root) if e['valid'] for a in all_members(e['module'])}
+ import overlay_module_placements as P
+ result={a['id']:{'outcome':'applied','module':e['module']['key'],'module_fingerprint':e['certificate']['fingerprint']['sha256']} for e in module_status(root) if e['valid'] for a in all_members(e['module'])}
+ result.update(P.valid_placements(root))
+ return result
 
 
 def source_contexts(root=ROOT):
@@ -111,9 +114,16 @@ def source_contexts(root=ROOT):
  """
  root=Path(root).absolute();out={}
  base=closure(root,['include/common.h','include/m2c_compat.h'])
- for m in load_modules(root):
+ mods=load_modules(root)
+ for m in mods:
   member_sources={a['source'] for a in all_members(m)}
   names=closure(root,[m['source'],*m['headers']])-base-member_sources
   context='\n'.join((root/name).read_text() for name in sorted(names))
   for a in all_members(m):out[a['id']]=context
+ # A fileless placement copy scans its home's body (levels.row_view via source_row)
+ # and receives exactly its home's shared context.
+ import overlay_module_placements as P
+ by_key={m['key']:m for m in mods}
+ for p in P.load(root,mods):
+  for a,home in zip(p['projected'],all_members(by_key[p['module']])):out[a['id']]=out[home['id']]
  return out

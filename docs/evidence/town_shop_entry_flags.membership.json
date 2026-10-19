@@ -1,0 +1,61 @@
+{
+  "module": "town_shop_entry_flags",
+  "ledger_group": {
+    "container": "town",
+    "module": "shop_entry_flags.c",
+    "module_index": 22
+  },
+  "members": [
+    "town/func_800B0098",
+    "town/func_800B00C8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Bounded feature consolidation; no assertion of an original Konami file boundary.",
+  "basis": [
+    "All members are distinct retained homes, in one proven load region and one home image.",
+    "File extents meet exactly; no gap, data row, alignment bytes or other function intervenes.",
+    "All members use the identical compiler/assembler cell; the complete native build verifies natural allocation order and all bytes.",
+    "Bodies implement the same narrowly described feature; existing per-row contracts remain visible."
+  ],
+  "review": "reviewed",
+  "reviewer": "codex-r121w-tu1",
+  "assignment_changes": [
+    {
+      "before": {
+        "id": "town/func_800B0098",
+        "container": "town",
+        "module": "shop.c",
+        "module_index": 22,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "town/func_800B0098",
+        "container": "town",
+        "module": "shop_entry_flags.c",
+        "module_index": 22,
+        "confidence": "strong"
+      }
+    },
+    {
+      "before": {
+        "id": "town/func_800B00C8",
+        "container": "town",
+        "module": "shop.c",
+        "module_index": 22,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "town/func_800B00C8",
+        "container": "town",
+        "module": "shop_entry_flags.c",
+        "module_index": 22,
+        "confidence": "strong"
+      }
+    }
+  ],
+  "source_sha256": {
+    "src/town/func_800B0098.c": "6496e671c34ebe73ffa13cb19eb0f36874bec69b311ffbc04b794153980fe08a",
+    "src/town/func_800B00C8.c": "61aceeec18d923877255254b49ced22f1a0f746200e8e5dc094a75dfcdeb31c7"
+  }
+}

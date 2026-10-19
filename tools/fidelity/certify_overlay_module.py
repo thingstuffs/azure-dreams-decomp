@@ -100,11 +100,19 @@ def certification_window_lock(root,name):
   try:yield
   finally:fcntl.flock(f,fcntl.LOCK_UN)
 
+def home_projection(records,key):
+ matches=[r for r in records if r.get('module')==key and not r.get('placement')]
+ if len(matches)!=1:raise ValueError('window lacks unique native home projection: '+key)
+ return matches[0]
+
 def certify(key,root,reviewer,gate_receipts=None,transaction=None,window_workers=8):
  root=Path(root).absolute()
  import overlay_scoped_fingerprint as scoped
  if scoped.enabled(root):scoped.reject_environment()
  authority=(root/'ledger').resolve().parent;m=next(m for m in load_modules(root) if m['key']==key)
+ import overlay_module_placements as MP
+ placement_renewals=[s['placement']['key'] for s in MP.recorded_statuses(authority) if s['placement']['module']==key and not s['valid']]
+ if placement_renewals and gate_receipts is None:raise ValueError('recorded module placements require fresh canonical gate receipts: '+str(placement_renewals))
  if m['review']['reviewer']!=reviewer or any(m['review'][k]!='reviewed' for k in ['membership','types','ownership']):raise ValueError('review incomplete')
  # Exported JSON must be exactly the canonical split ledger, including every neighbour.
  import yaml
@@ -136,7 +144,7 @@ def certify(key,root,reviewer,gate_receipts=None,transaction=None,window_workers
    if blob.read_bytes()!=ret:raise ValueError('affected window mismatch')
    # The durable certificate format and every authoritative check are unchanged.
    shutil.copy2(blob,win/'window.bin');shutil.copy2(manifest,win/'manifest.json')
-   pr=next(x for x in records if x['module']==key)
+   pr=home_projection(records,key)
    (win/'projection.json').write_text(json.dumps(pr,indent=2)+'\n')
    shutil.copytree(modules/key,win/'module',dirs_exist_ok=True)
   print(json.dumps({'step':'certificate-window','module':key,'config':wn,'gate':'reused' if fresh else 'built'}),flush=True)
@@ -151,18 +159,33 @@ def certify(key,root,reviewer,gate_receipts=None,transaction=None,window_workers
  reason=certificate_reason(m,cert,authority)
  if reason:raise ValueError(reason)
  p=root/'ledger/modules'/('overlay_'+key+'.json');p.parent.mkdir(parents=True,exist_ok=True);tmp=p.with_suffix('.tmp');tmp.write_text(json.dumps(cert,indent=2)+'\n');tmp.replace(p)
+ for placement in placement_renewals:
+  MP.certify(placement,root,gate_receipts,transaction)
  return cert,p
 
 def main():
  ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('module');ap.add_argument('--root',required=True,type=Path);ap.add_argument('--reviewer',required=True)
  ap.add_argument('--portable-output',type=Path,help='freeze this successful canonical certificate and all consumed inputs for a reviewed package')
+ ap.add_argument('--placement',help='certify an explicit complete-module link placement instead of the home')
+ ap.add_argument('--scratch-output',type=Path,help='compute a review-pending placement proof; never L4 authority')
  ap.add_argument('--gate-receipts',type=Path);ap.add_argument('--transaction');ap.add_argument('--window-workers',type=int,default=8)
  args=ap.parse_args()
  if bool(args.gate_receipts)!=bool(args.transaction) or args.window_workers<1:ap.error('receipt directory/token must be supplied together; window workers must be positive')
- c,p=certify(args.module,args.root,args.reviewer,args.gate_receipts,args.transaction,args.window_workers)
+ if args.placement:
+  import overlay_module_placements as P
+  if args.gate_receipts is None:ap.error('module placements require fresh gate receipts')
+  descriptor=next(x for x in P.load(args.root) if x['key']==args.placement)
+  if descriptor['module']!=args.module:ap.error('placement belongs to another module')
+  if not args.scratch_output and descriptor['review']['reviewer']!=args.reviewer:ap.error('placement reviewer differs')
+  c,p=P.certify(args.placement,args.root,args.gate_receipts,args.transaction,output=args.scratch_output,scratch=bool(args.scratch_output))
+ else:
+  if args.scratch_output:ap.error('--scratch-output requires --placement')
+  c,p=certify(args.module,args.root,args.reviewer,args.gate_receipts,args.transaction,args.window_workers)
  if args.portable_output:
   authority=(args.root/'ledger').resolve().parent;sys.path.insert(0,str(authority/'tools/lanes'))
-  from proof_receipts import export_module
-  export_module(authority,args.module,args.portable_output)
+  from proof_receipts import export_module, export_placement
+  if args.scratch_output:ap.error('scratch placements cannot be exported as production authority')
+  if args.placement:export_placement(authority,args.placement,args.portable_output)
+  else:export_module(authority,args.module,args.portable_output)
  print(json.dumps({'module':c['module'],'members':c['members'],'certificate':str(p),'windows':[w['config'] for w in c['windows']],'result':'CERTIFIED'},indent=2))
 if __name__=='__main__':main()

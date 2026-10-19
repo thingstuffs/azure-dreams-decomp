@@ -1,0 +1,61 @@
+{
+  "module": "town_person_timers",
+  "ledger_group": {
+    "container": "town",
+    "module": "person_timers.c",
+    "module_index": 42
+  },
+  "members": [
+    "town/func_800C641C",
+    "town/func_800C6458"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Bounded feature consolidation; no assertion of an original Konami file boundary.",
+  "basis": [
+    "All members are distinct retained homes, in one proven load region and one home image.",
+    "File extents meet exactly; no gap, data row, alignment bytes or other function intervenes.",
+    "All members use the identical compiler/assembler cell; the complete native build verifies natural allocation order and all bytes.",
+    "Bodies implement the same narrowly described feature; existing per-row contracts remain visible."
+  ],
+  "review": "reviewed",
+  "reviewer": "codex-r121w-tu1",
+  "assignment_changes": [
+    {
+      "before": {
+        "id": "town/func_800C641C",
+        "container": "town",
+        "module": "person.c",
+        "module_index": 42,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "town/func_800C641C",
+        "container": "town",
+        "module": "person_timers.c",
+        "module_index": 42,
+        "confidence": "strong"
+      }
+    },
+    {
+      "before": {
+        "id": "town/func_800C6458",
+        "container": "town",
+        "module": "person.c",
+        "module_index": 42,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "town/func_800C6458",
+        "container": "town",
+        "module": "person_timers.c",
+        "module_index": 42,
+        "confidence": "strong"
+      }
+    }
+  ],
+  "source_sha256": {
+    "src/town/func_800C641C.c": "86a9a2437ad8c7545ce3db6cd72a44c2eb0dda9ba8971077b1e6f0d8589b2f97",
+    "src/town/func_800C6458.c": "d0b5aff73c5c1d44f82f90134c6961ee42120aebeef2a471e0f847a613d26d8c"
+  }
+}

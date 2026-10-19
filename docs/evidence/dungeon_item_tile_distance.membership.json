@@ -1,0 +1,31 @@
+{
+  "module": "dungeon_item_tile_distance",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "item_tile_distance.c",
+    "module_index": 134009
+  },
+  "members": [
+    "dungeon/func_8009A590",
+    "dungeon/func_8009A5E0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Complete current compiler-unit closure of refs private-state candidate group_0127.",
+    "All home members are byte-adjacent in one proven load region at their unchanged uniform compiler recipe.",
+    "Private helper set func_8009FCF0 has local linkage in the native object; complete emitted payload and every member require fresh retail and genuine proof."
+  ],
+  "candidate": "group_0127",
+  "private_groups": [
+    "p00527"
+  ],
+  "private_functions": [
+    "func_8009FCF0"
+  ],
+  "standalone_source_sha256": {
+    "dungeon/func_8009A590": "a756e9fb9e12bdc7c21c27cfe10c1fe7e945050b59612ed83551fa0e00600bf9",
+    "dungeon/func_8009A5E0": "430b4ba3aebd68bee1fafc7e480fad5f7b1e01ff4f15c4ee5774037716338696"
+  },
+  "source_facades": "Original home files remain standalone row/placement facades; native source contains one shared declaration block and unchanged function bodies with private linkage."
+}

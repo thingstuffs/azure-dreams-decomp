@@ -1,0 +1,191 @@
+{
+  "schema": "azure-clean.module-placement-review.v2",
+  "module": "dungeon_ovl_a01054",
+  "placement": "dungeon_ovl_a01054_bank_a07000",
+  "review": {
+    "membership": "pending",
+    "types": "pending",
+    "ownership": "pending",
+    "reviewer": "pending"
+  },
+  "basis": "Complete native membership and explicit link-list import projection. Imported storage types, consumer bounds and ownership require destination review; computational byte equality is insufficient.",
+  "views": {
+    "D_80158A28": {
+      "symbol": "D_80158A28",
+      "kind": "data",
+      "vma": 2148870696,
+      "foff": 10514984,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/dungeon_ovl_a01054_bank_a07000.placement.json"
+    },
+    "D_80158E54": {
+      "symbol": "D_80158E54",
+      "kind": "data",
+      "vma": 2148871764,
+      "foff": 10516052,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/dungeon_ovl_a01054_bank_a07000.placement.json"
+    },
+    "D_8015BC7C": {
+      "symbol": "D_8015BC7C",
+      "kind": "data",
+      "vma": 2148883580,
+      "foff": 10527868,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/dungeon_ovl_a01054_bank_a07000.placement.json"
+    },
+    "D_8015BCDC": {
+      "symbol": "D_8015BCDC",
+      "kind": "data",
+      "vma": 2148883676,
+      "foff": 10527964,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/dungeon_ovl_a01054_bank_a07000.placement.json"
+    }
+  },
+  "maps": {
+    "destination_image": {
+      "kind": "link_image",
+      "image": "dungeon/bank_a07000",
+      "link_list": "config/link/dungeon/bank_a07000.json",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 10514432,
+      "file_end": 10539008,
+      "delta": 2138355712,
+      "basis": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F74B800: img_a07054_80152854; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)"
+    }
+  },
+  "placement_descriptor": {
+    "key": "dungeon_ovl_a01054_bank_a07000",
+    "module": "dungeon_ovl_a01054",
+    "image": "dungeon/bank_a07000",
+    "home_image": "dungeon/bank_a01000",
+    "recipe": {
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": ""
+    },
+    "members": [
+      {
+        "home": "dungeon/func_809E1054",
+        "row": "dungeon/func_809E7054"
+      }
+    ],
+    "imports": [
+      {
+        "symbol": "D_80083498",
+        "kind": "runtime_data",
+        "vma": 2148021400,
+        "view_bytes": 32,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_ovl_a01054.imports.json",
+        "declaration": "include/shared/object_node.h"
+      },
+      {
+        "symbol": "D_80158A28",
+        "kind": "data",
+        "vma": 2148870696,
+        "foff": 10514984,
+        "view_bytes": 1,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/dungeon_ovl_a01054_bank_a07000.placement.json"
+      },
+      {
+        "symbol": "D_80158E54",
+        "kind": "data",
+        "vma": 2148871764,
+        "foff": 10516052,
+        "view_bytes": 1,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/dungeon_ovl_a01054_bank_a07000.placement.json"
+      },
+      {
+        "symbol": "D_8015BC7C",
+        "kind": "data",
+        "vma": 2148883580,
+        "foff": 10527868,
+        "view_bytes": 1,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/dungeon_ovl_a01054_bank_a07000.placement.json"
+      },
+      {
+        "symbol": "D_8015BCDC",
+        "kind": "data",
+        "vma": 2148883676,
+        "foff": 10527964,
+        "view_bytes": 1,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/dungeon_ovl_a01054_bank_a07000.placement.json"
+      },
+      {
+        "symbol": "func_8003FD64",
+        "kind": "function",
+        "vma": 2147745124
+      },
+      {
+        "symbol": "func_8004491C",
+        "kind": "function",
+        "vma": 2147764508
+      },
+      {
+        "symbol": "func_80045340",
+        "kind": "function",
+        "vma": 2147767104
+      },
+      {
+        "symbol": "func_800A48F0",
+        "kind": "function",
+        "vma": 2148157680
+      },
+      {
+        "symbol": "func_800A6D30",
+        "kind": "function",
+        "vma": 2148166960
+      },
+      {
+        "symbol": "func_800A9C18",
+        "kind": "function",
+        "vma": 2148178968
+      },
+      {
+        "symbol": "func_800AA36C",
+        "kind": "function",
+        "vma": 2148180844
+      }
+    ],
+    "review": {
+      "membership": "pending",
+      "types": "pending",
+      "ownership": "pending",
+      "reviewer": "pending"
+    },
+    "review_inputs": [
+      "docs/evidence/dungeon_ovl_a01054.imports.json",
+      "docs/evidence/dungeon_ovl_a01054_bank_a07000.placement.json"
+    ]
+  },
+  "checks": {
+    "membership": "Complete natural member projection, recipe, source_row, split and proven code load extents validated.",
+    "types": "HOLD: destination consumer/type and full imported storage bounds need reviewer decisions.",
+    "ownership": "HOLD: declared destination asset views are bounded map candidates; code equality does not establish ownership or residency."
+  }
+}

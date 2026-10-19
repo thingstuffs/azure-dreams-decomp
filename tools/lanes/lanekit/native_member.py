@@ -43,6 +43,11 @@ def membership(row):
         return None
     # Read this small manifest first; ordinary rows avoid the full validator.
     doc = json.loads(path.read_text())
+    # A copy of a module member is a fileless placement of the physical home TU. Copies of ordinary
+    # (non-module) homes keep the ordinary route (link-list placements predate module placements).
+    if row.get('source_row') and any(a['id'] == row['source_row'] for m in doc['modules']
+                                     for a in m['members'] + m.get('data_members', [])):
+        raise ValueError('stage the physical home member, not a fileless placement: '+row['id'])
     matches = [m for m in doc['modules'] if any(a['id'] == row['id']
                for a in m['members'] + m.get('data_members', []))]
     if not matches:

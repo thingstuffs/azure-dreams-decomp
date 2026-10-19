@@ -1,0 +1,31 @@
+{
+  "module": "town_item_menu_request_input",
+  "ledger_group": {
+    "container": "town",
+    "module": "item_menu_request_input.c",
+    "module_index": 134024
+  },
+  "members": [
+    "town/func_800B2CC4",
+    "town/func_800B2D30"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Complete current compiler-unit closure of refs private-state candidate group_0308.",
+    "All home members are byte-adjacent in one proven load region at their unchanged uniform compiler recipe.",
+    "Private helper set func_800B0424 has local linkage in the native object; complete emitted payload and every member require fresh retail and genuine proof."
+  ],
+  "candidate": "group_0308",
+  "private_groups": [
+    "p01307"
+  ],
+  "private_functions": [
+    "func_800B0424"
+  ],
+  "standalone_source_sha256": {
+    "town/func_800B2CC4": "bb7fdb44a853ab78a076a5c8badfd484d815f8c2134adc8a77e35b124ffbd813",
+    "town/func_800B2D30": "2604c32931ea470f426ca02575fe939d4c968758378967933804893e04691462"
+  },
+  "source_facades": "Original home files remain standalone row/placement facades; native source contains one shared declaration block and unchanged function bodies with private linkage."
+}

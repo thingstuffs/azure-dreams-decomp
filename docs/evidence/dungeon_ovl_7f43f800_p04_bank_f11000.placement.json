@@ -1,0 +1,95 @@
+{
+  "schema": "azure-clean.module-placement-review.v2",
+  "module": "dungeon_ovl_7f43f800_p04",
+  "placement": "dungeon_ovl_7f43f800_p04_bank_f11000",
+  "review": {
+    "membership": "pending",
+    "types": "pending",
+    "ownership": "pending",
+    "reviewer": "pending"
+  },
+  "basis": "Complete native membership and explicit link-list import projection. Imported storage types, consumer bounds and ownership require destination review; computational byte equality is insufficient.",
+  "views": {
+    "D_80174EA0": {
+      "symbol": "D_80174EA0",
+      "kind": "data",
+      "vma": 2148937416,
+      "foff": 15816392,
+      "view_bytes": 9,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/dungeon_ovl_7f43f800_p04_bank_f11000.placement.json"
+    }
+  },
+  "maps": {
+    "destination_image": {
+      "kind": "link_image",
+      "image": "dungeon/bank_f11000",
+      "link_list": "config/link/dungeon/bank_f11000.json",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 15798272,
+      "file_end": 15822848,
+      "delta": 2133121024,
+      "basis": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F24D800: img_f138e0_801610e0, r101_rc2_func_80EF24E8, r101_rc2_func_80EF3D14, r101_rc2_func_80EF3FB0, r101_rc2_res_F116D8_F124E8, r101_rc2_res_F12A4C_F138E0 (+4 more); symbol map: r121 obj_screen bindings of the placements in this image (rule 5)"
+    }
+  },
+  "placement_descriptor": {
+    "key": "dungeon_ovl_7f43f800_p04_bank_f11000",
+    "module": "dungeon_ovl_7f43f800_p04",
+    "image": "dungeon/bank_f11000",
+    "home_image": "dungeon/bank_d31000",
+    "recipe": {
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": ""
+    },
+    "members": [
+      {
+        "home": "dungeon/func_80D12E64",
+        "row": "dungeon/func_80EF33D8"
+      }
+    ],
+    "imports": [
+      {
+        "symbol": "D_80083160",
+        "kind": "runtime_data",
+        "vma": 2148020576,
+        "view_bytes": 512,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_ovl_7f43f800_p04.imports.json",
+        "declaration": "include/shared/game_work.h"
+      },
+      {
+        "symbol": "D_80174EA0",
+        "kind": "data",
+        "vma": 2148937416,
+        "foff": 15816392,
+        "view_bytes": 9,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/dungeon_ovl_7f43f800_p04_bank_f11000.placement.json"
+      },
+      {
+        "symbol": "func_80047784",
+        "kind": "function",
+        "vma": 2147776388
+      }
+    ],
+    "review": {
+      "membership": "pending",
+      "types": "pending",
+      "ownership": "pending",
+      "reviewer": "pending"
+    },
+    "review_inputs": [
+      "docs/evidence/dungeon_ovl_7f43f800_p04.imports.json",
+      "docs/evidence/dungeon_ovl_7f43f800_p04_bank_f11000.placement.json"
+    ]
+  },
+  "checks": {
+    "membership": "Complete natural member projection, recipe, source_row, split and proven code load extents validated.",
+    "types": "HOLD: destination consumer/type and full imported storage bounds need reviewer decisions.",
+    "ownership": "HOLD: declared destination asset views are bounded map candidates; code equality does not establish ownership or residency."
+  }
+}

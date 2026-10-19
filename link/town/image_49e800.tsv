@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"town","e":"config/overlays/town.rowbase.jsonl proven regions with delta 0x7FB77800: census2_49E8C0_49E8C0, census2_49FD20_49FD20, census2_49FD58_49FD58, r121c2_4A04E4, r121c2_4A09B0, r121c2_4A0EA4 (+6 more)","i":"town/image_49e800","n":"0x6000","o":"0x49E800","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[10680,0,624,8428,2299,2529,16],"v":"0x80016000"},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"census_label":"strongly_code"},{"bindings":{"0x800160C0":"0x800160C0","0x80016650":"0x800166C8","0x80018A64":"0x80018A64","0x80018ADC":"0x80018ADC","0x80018B5C":"0x80018B5C","0x80018CFA":"0x80018CFA"},"evidence":"LL3a attestation sha256:fcca3ce2f4f5b0f5f2a12a5cea9bde7898f712804b1de39e86431d8daa14e666; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:vab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"town","e":"config/overlays/town.rowbase.jsonl proven regions with delta 0x7FB77800: census2_49E8C0_49E8C0, census2_49FD20_49FD20, census2_49FD58_49FD58, r121c2_4A04E4, r121c2_4A09B0, r121c2_4A0EA4 (+6 more)","i":"town/image_49e800","n":"0x6000","o":"0x49E800","p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:2809a724d1a9b06fd15b7abcde5f8136ec2e82a22cba80cdf525f8cb4290319b"],"t":[10680,0,624,8428,2299,2529,16],"v":"0x80016000"},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"census_label":"strongly_code"},{"bindings":{"0x800160C0":"0x800160C0","0x80016650":"0x800166C8","0x80018A64":"0x80018A64","0x80018ADC":"0x80018ADC","0x80018B5C":"0x80018B5C","0x80018CFA":"0x80018CFA"},"evidence":"LL3a attestation sha256:fcca3ce2f4f5b0f5f2a12a5cea9bde7898f712804b1de39e86431d8daa14e666; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:vab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 4843520	4	p	census:zero_fill>=16		0
 4843524	24	a	census:audit+noncode_confirmed	9fa9ef07b63c213f7c834b648edce2a0ac319ec22963b8e1aff4e156bff06aae	1
@@ -6,14 +6,10 @@ o	n	k	r	h	x
 4843588	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
 4843608	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	2
 4843709	3	a	census:audit+noncode_confirmed	64dd0363f1443509136c5cc85fcf48fcb3cbf2a215e03912e07f0c6ad2326a09	1
-4843712	20	r	census:c_row		3
-4843732	48	r	census:instance_proven		3
-4843780	704	r	census:c_row		3
+4843712	772	r	census:c_row		3
 4844484	32	r	census:T2_framed_ref:jtbl+ptr		4
 4844516	52	r	census:T1_twin		4
-4844568	204	r	census:c_row		3
-4844772	192	r	census:instance_proven		3
-4844964	292	r	census:c_row		3
+4844568	688	r	census:c_row		3
 "0x0049EEC8"	120	c	census:registered_tu		["func_8051EEC8","func_8051EE50","0x800166C8",5]
 4845376	1004	r	census:c_row		3
 "0x0049F32C"	8	c	census:registered_tu		["func_8051F32C",null,"0x80016B2C",0]
@@ -36,19 +32,11 @@ o	n	k	r	h	x
 4849048	48	r	census:T2_framed_ref:jal+jtbl+lui_pair		4
 4849096	8	u	census:unknown		0
 4849104	48	r	census:T2_framed_ref:jtbl+ptr		4
-4849152	212	r	census:instance_proven		3
-4849364	60	r	census:c_row		3
-4849424	1492	r	census:instance_proven		3
-4850916	36	r	census:c_row		3
-4850952	708	r	census:instance_proven		3
-4851660	92	r	census:c_row		3
-4851752	392	r	census:instance_proven		3
-4852144	192	r	census:c_row		3
-4852336	1076	r	census:instance_proven		3
-4853412	12	r	census:c_row		3
-4853424	132	r	census:instance_proven		3
-4853556	12	r	census:c_row		3
-4853568	1464	r	census:instance_proven		3
+4849152	5580	r	census:c_row		3
+4854732	60	r	census:instance_proven		3
+4854792	60	r	census:c_row		3
+4854852	60	r	census:instance_proven		3
+4854912	120	r	census:c_row		3
 4855032	420	d	census:noncode:decode		6
 4855452	16	a	census:format:ptrtab	e7338ef5b65189ed5819ff5fb66800c58f14c1a9eaf1a59268721f1f5ffa9621	7
 4855468	344	d	census:noncode:decode		6

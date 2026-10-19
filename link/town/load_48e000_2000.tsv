@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_48e000_2000","n":8192,"o":4775936,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[5160,0,0,220,366,2446,0],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_48e000_2000","n":8192,"o":4775936,"p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:2809a724d1a9b06fd15b7abcde5f8136ec2e82a22cba80cdf525f8cb4290319b"],"t":[5160,0,0,220,366,2446,0],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 4775936	4	p	census:zero_fill>=16		0
 4775940	24	a	census:audit+noncode_confirmed	3fbcdcab619bbc42cbea03adaab42bcd9f0af575acf918cde648e69279fbf28c	1
@@ -6,19 +6,7 @@ o	n	k	r	h	x
 4776004	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
 4776024	104	a	census:format:ascii	435d2a968c01e2395956577ebc6b17b1c08b37fc0970ea41de1b71c73bc8ec7d	2
 4776128	56	r	census:instance_partial		3
-4776184	8	r	census:instance_proven		3
-4776192	344	r	census:c_row		3
-4776536	1492	r	census:instance_proven		3
-4778028	36	r	census:c_row		3
-4778064	708	r	census:instance_proven		3
-4778772	92	r	census:c_row		3
-4778864	392	r	census:instance_proven		3
-4779256	192	r	census:c_row		3
-4779448	1076	r	census:instance_proven		3
-4780524	12	r	census:c_row		3
-4780536	132	r	census:instance_proven		3
-4780668	12	r	census:c_row		3
-4780680	608	r	census:instance_proven		3
+4776184	5104	r	census:c_row		3
 4781288	100	d	census:noncode:decode		4
 4781388	16	a	census:format:ptrtab	2aa1f9a25a63655a39909e60cf8f8340c0f8df82d840d9776af789c32ee5d547	5
 4781404	40	d	census:noncode:decode		4

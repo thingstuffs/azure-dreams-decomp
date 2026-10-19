@@ -183,6 +183,15 @@ def invalid_certificates(root, roster, workers=1):
         if key=='manifest' and not entry['valid']:raise ValueError(entry['reason'])
         if key in roster and not entry['valid']:invalid[key]=entry['reason'] or 'certificate invalid'
     if not set(roster).issubset(seen):raise ValueError('recorded certificate absent from module status: '+str(sorted(set(roster)-seen)))
+    if not any((root/'ledger/modules').glob('placement_*.json')):
+        return invalid
+    sys.path[:0]=[str(root/'tools'),str(root/'tools/gate')]
+    import overlay_module_placements as MP
+    for placement in MP.recorded_statuses(root):
+        if not placement['valid']:
+            key=placement['placement']['module']
+            if key not in roster:raise ValueError('invalid placement owner has no managed home certificate: '+key)
+            invalid[key]='placement '+placement['placement']['key']+': '+str(placement['reason'])
     return invalid
 
 def _renewal_cost(root,key):

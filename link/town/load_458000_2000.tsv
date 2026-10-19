@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_458000_2000","n":8192,"o":4554752,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[6120,0,0,212,354,1506,0],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_458000_2000","n":8192,"o":4554752,"p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:2809a724d1a9b06fd15b7abcde5f8136ec2e82a22cba80cdf525f8cb4290319b"],"t":[6120,0,0,212,354,1506,0],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 4554752	4	p	census:zero_fill>=16		0
 4554756	24	a	census:audit+noncode_confirmed	a2500604a62c7f59eb9afbc1b04da3184e48cbbacc515cae9481b9092693f803	1
@@ -6,21 +6,7 @@ o	n	k	r	h	x
 4554820	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	1
 4554840	102	a	census:format:ascii	23f087f115d6350eeda0c95d4d88b02f0a46830749d5188c711b14ebc982ca32	2
 4554942	10	a	census:audit+noncode_confirmed	1ffd61395e51c34e449a32a1bf36b51d114acb00a0add00e5304fbd4d4a5842e	1
-4554952	256	r	census:c_row		3
-4555208	8	r	census:instance_proven		3
-4555216	160	r	census:c_row		3
-4555376	1548	r	census:instance_proven		3
-4556924	36	r	census:c_row		3
-4556960	708	r	census:instance_proven		3
-4557668	92	r	census:c_row		3
-4557760	392	r	census:instance_proven		3
-4558152	192	r	census:c_row		3
-4558344	1076	r	census:instance_proven		3
-4559420	12	r	census:c_row		3
-4559432	132	r	census:instance_proven		3
-4559564	12	r	census:c_row		3
-4559576	1424	r	census:instance_proven		3
-4561000	72	r	census:c_row		3
+4554952	6120	r	census:c_row		3
 4561072	124	d	census:noncode:decode		4
 4561196	16	a	census:format:ptrtab	3eaf921ff5681de7794a64a062feac26f08e9860c17d3d5b459462ab4bbfcab5	5
 4561212	3	d	census:noncode:decode		4

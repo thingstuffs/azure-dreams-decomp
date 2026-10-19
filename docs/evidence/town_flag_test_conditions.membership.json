@@ -1,0 +1,61 @@
+{
+  "module": "town_flag_test_conditions",
+  "ledger_group": {
+    "container": "town",
+    "module": "flag_test_conditions.c",
+    "module_index": 95
+  },
+  "members": [
+    "town/func_806D2DE4",
+    "town/func_806D2E54"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Bounded feature consolidation; no assertion of an original Konami file boundary.",
+  "basis": [
+    "All members are distinct retained homes, in one proven load region and one home image.",
+    "File extents meet exactly; no gap, data row, alignment bytes or other function intervenes.",
+    "All members use the identical compiler/assembler cell; the complete native build verifies natural allocation order and all bytes.",
+    "Bodies implement the same narrowly described feature; existing per-row contracts remain visible."
+  ],
+  "review": "reviewed",
+  "reviewer": "codex-r121w-tu1",
+  "assignment_changes": [
+    {
+      "before": {
+        "id": "town/func_806D2DE4",
+        "container": "town",
+        "module": "main_seg3.c",
+        "module_index": 95,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "town/func_806D2DE4",
+        "container": "town",
+        "module": "flag_test_conditions.c",
+        "module_index": 95,
+        "confidence": "strong"
+      }
+    },
+    {
+      "before": {
+        "id": "town/func_806D2E54",
+        "container": "town",
+        "module": "main_seg3.c",
+        "module_index": 95,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "town/func_806D2E54",
+        "container": "town",
+        "module": "flag_test_conditions.c",
+        "module_index": 95,
+        "confidence": "strong"
+      }
+    }
+  ],
+  "source_sha256": {
+    "src/town/func_806D2DE4.c": "3f856f649604e595f422cf021809c2b22e7e4cc7e5bbe24738651fcb8d261a39",
+    "src/town/func_806D2E54.c": "10f4a80264bd86053c3dd8b70d35889c467cdd93fb1a49b25c12b515dda10fd7"
+  }
+}

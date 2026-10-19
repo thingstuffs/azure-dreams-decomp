@@ -102,6 +102,8 @@ class Segment:
     match: MatchEntry | None = None
     bytes_path: Path | None = None
     module_key: str | None = None
+    module_placement: str | None = None
+    module_artifact_sha256: str | None = None
 
     @property
     def size(self) -> int:
@@ -363,7 +365,16 @@ def load_matches(sb: dict[str, Any], window_start: int, window_end: int,
             true_name = row.get("true_name")
             if family is not None:
                 delta = _rowbase_proven_delta(family, int(row["foff"]))
-                if delta is not None:
+                import linklist
+                placed_vma = linklist.placement_vma(
+                    ROOT, family, int(row["foff"]), int(row["size"]),
+                    family + "/" + func, proven_delta=delta, allow_legacy=True)
+                if placed_vma is not None:
+                    expected = f"func_{placed_vma:08X}"
+                    if true_name != expected:
+                        raise SystemExit(f"placement {func}: split true_name disagrees with image vma {expected}")
+                    section_func, link_vram = expected, placed_vma
+                elif delta is not None:
                     expected = f"{'D' if row.get('row_kind') == 'data' else 'func'}_{int(row['foff']) + delta:08X}"
                     if isinstance(true_name, str) and true_name == expected:
                         section_func, link_vram = true_name, int(row["foff"]) + delta
@@ -939,7 +950,8 @@ def compile_c_segments(
                 # row's TRUE name for an in-region row, and a bare true name is
                 # a RAM-slot label shared by several rows, so the name alone
                 # resolved the WRONG row's dial (docs/rowbase_identity.md R1).
-                default_as_flags(seg.match.func, overlay, foff=seg.match.start),
+                default_as_flags(_place["row"].split("/", 1)[1] if _place is not None else seg.match.func,
+                                 overlay, foff=seg.match.start),
             ],
             env=seg_env,
         )
@@ -1492,6 +1504,8 @@ def write_manifest(path: Path, cfg_name: str, container: Path, segments: list[Se
                 "config": s.match.config if s.match else None,
                 "source_group": s.match.source_group if s.match else None,
                 "module": s.module_key,
+                "module_placement": s.module_placement,
+                "module_artifact_sha256": s.module_artifact_sha256,
                 **({"rowbase_link_vram": f"0x{s.match.link_vram:X}"}
                    if s.match and s.match.link_vram is not None else {}),
             }
@@ -1507,6 +1521,8 @@ def write_manifest(path: Path, cfg_name: str, container: Path, segments: list[Se
                 "source": rel(s.match.source) if s.match else None,
                 "source_group": s.match.source_group if s.match else None,
                 "module": s.module_key,
+                "module_placement": s.module_placement,
+                "module_artifact_sha256": s.module_artifact_sha256,
             }
             for s in segments if s.kind == "platform_asm"
         ],
@@ -1519,6 +1535,8 @@ def write_manifest(path: Path, cfg_name: str, container: Path, segments: list[Se
                 "source": rel(s.match.source) if s.match else None,
                 "source_group": s.match.source_group if s.match else None,
                 "module": s.module_key,
+                "module_placement": s.module_placement,
+                "module_artifact_sha256": s.module_artifact_sha256,
             }
             for s in segments if s.kind == "game_asm"
         ],

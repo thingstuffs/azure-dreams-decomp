@@ -1,0 +1,15 @@
+{
+  "paired_addend": {
+    "row": "town/func_80481E28",
+    "symbol": "D_8001DC10",
+    "binding": "0x800193F8",
+    "wrong_binding": "0x800493F8",
+    "elf_hi_addend": "0x00000000",
+    "retail_hi16": 32770,
+    "retail_lo16": 37880,
+    "wrong_hi16": 32773,
+    "wrong_lo16": 37880,
+    "result": "REJECTED: same LO16, different HI16; full binding is required"
+  },
+  "unit_controls": "test_linklist_load.py: stale record, wrong geometry, missing evidence, solved-region bypass, proven-base disagreement, legacy compatibility"
+}

@@ -70465,6 +70465,2464 @@
         "docs/evidence/town_ovl_6f48d0.imports.json",
         "docs/evidence/town_ovl_6f48d0.md"
       ]
+    },
+    {
+      "key": "dungeon_item_slot_search",
+      "container": "dungeon",
+      "name": "item_slot_search.c",
+      "region": "xfer_dungeon_A3000",
+      "source": "src/dungeon/modules/item_slot_search.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "dungeon/func_80093850",
+          "source": "src/dungeon/func_80093850.c",
+          "function": "func_80098FB0",
+          "foff": 735312,
+          "vma": 2148110256,
+          "size": 72
+        },
+        {
+          "id": "dungeon/func_80093898",
+          "source": "src/dungeon/func_80093898.c",
+          "function": "func_80098FF8",
+          "foff": 735384,
+          "vma": 2148110328,
+          "size": 84
+        },
+        {
+          "id": "dungeon/func_800938EC",
+          "source": "src/dungeon/func_800938EC.c",
+          "function": "func_8009904C",
+          "foff": 735468,
+          "vma": 2148110412,
+          "size": 68
+        }
+      ],
+      "owned_data": [],
+      "imports": [],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu1"
+      },
+      "review_inputs": [
+        "docs/evidence/dungeon_item_slot_search.md",
+        "docs/evidence/dungeon_item_slot_search.membership.json",
+        "docs/evidence/dungeon_item_slot_search.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/dungeon_item_slot_search.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/dungeon_item_slot_search.recipe.json"
+      }
+    },
+    {
+      "key": "main_card_slot_refresh",
+      "container": "main",
+      "name": "card_slot_refresh.c",
+      "region": "xfer_main_25CA6C",
+      "source": "src/main/modules/card_slot_refresh.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "main/func_80011274",
+          "source": "src/main/func_80011274.c",
+          "function": "func_80024274",
+          "foff": 2495092,
+          "vma": 2147631732,
+          "size": 36
+        },
+        {
+          "id": "main/func_80011298",
+          "source": "src/main/func_80011298.c",
+          "function": "func_80024298",
+          "foff": 2495128,
+          "vma": 2147631768,
+          "size": 64
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_80023E14",
+          "kind": "function",
+          "vma": 2147630612
+        },
+        {
+          "symbol": "func_800240EC",
+          "kind": "function",
+          "vma": 2147631340
+        },
+        {
+          "symbol": "func_80024160",
+          "kind": "function",
+          "vma": 2147631456
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu1"
+      },
+      "review_inputs": [
+        "docs/evidence/main_card_slot_refresh.md",
+        "docs/evidence/main_card_slot_refresh.membership.json",
+        "docs/evidence/main_card_slot_refresh.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/main_card_slot_refresh.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/main_card_slot_refresh.recipe.json"
+      }
+    },
+    {
+      "key": "main_card_slot_records",
+      "container": "main",
+      "name": "card_slot_records.c",
+      "region": "xfer_main_25CA6C",
+      "source": "src/main/modules/card_slot_records.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "main/func_80013240",
+          "source": "src/main/func_80013240.c",
+          "function": "func_80026240",
+          "foff": 2503232,
+          "vma": 2147639872,
+          "size": 48
+        },
+        {
+          "id": "main/func_80013270",
+          "source": "src/main/func_80013270.c",
+          "function": "func_80026270",
+          "foff": 2503280,
+          "vma": 2147639920,
+          "size": 76
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_80024298",
+          "kind": "function",
+          "vma": 2147631768
+        },
+        {
+          "symbol": "func_80026920",
+          "kind": "function",
+          "vma": 2147641632
+        },
+        {
+          "symbol": "func_80027BF4",
+          "kind": "function",
+          "vma": 2147646452
+        },
+        {
+          "symbol": "func_80040AA0",
+          "kind": "function",
+          "vma": 2147748512
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu1"
+      },
+      "review_inputs": [
+        "docs/evidence/main_card_slot_records.md",
+        "docs/evidence/main_card_slot_records.membership.json",
+        "docs/evidence/main_card_slot_records.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/main_card_slot_records.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/main_card_slot_records.recipe.json"
+      }
+    },
+    {
+      "key": "main_card_save_request",
+      "container": "main",
+      "name": "card_save_request.c",
+      "region": "xfer_main_25CA6C",
+      "source": "src/main/modules/card_save_request.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "main/func_80013720",
+          "source": "src/main/func_80013720.c",
+          "function": "func_80026720",
+          "foff": 2504480,
+          "vma": 2147641120,
+          "size": 8
+        },
+        {
+          "id": "main/func_80013728",
+          "source": "src/main/func_80013728.c",
+          "function": "func_80026728",
+          "foff": 2504488,
+          "vma": 2147641128,
+          "size": 32
+        }
+      ],
+      "owned_data": [],
+      "imports": [],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu1"
+      },
+      "review_inputs": [
+        "docs/evidence/main_card_save_request.md",
+        "docs/evidence/main_card_save_request.membership.json",
+        "docs/evidence/main_card_save_request.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/main_card_save_request.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/main_card_save_request.recipe.json"
+      }
+    },
+    {
+      "key": "main_card_choice_state",
+      "container": "main",
+      "name": "card_choice_state.c",
+      "region": "xfer_main_25CA6C",
+      "source": "src/main/modules/card_choice_state.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "main/func_80013FD4",
+          "source": "src/main/func_80013FD4.c",
+          "function": "func_80026FD4",
+          "foff": 2506708,
+          "vma": 2147643348,
+          "size": 36
+        },
+        {
+          "id": "main/func_80013FF8",
+          "source": "src/main/func_80013FF8.c",
+          "function": "func_80026FF8",
+          "foff": 2506744,
+          "vma": 2147643384,
+          "size": 32
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_800269B4",
+          "kind": "function",
+          "vma": 2147641780
+        },
+        {
+          "symbol": "func_80026B18",
+          "kind": "function",
+          "vma": 2147642136
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu1"
+      },
+      "review_inputs": [
+        "docs/evidence/main_card_choice_state.md",
+        "docs/evidence/main_card_choice_state.membership.json",
+        "docs/evidence/main_card_choice_state.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/main_card_choice_state.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/main_card_choice_state.recipe.json"
+      }
+    },
+    {
+      "key": "town_shop_value_dispatch",
+      "container": "town",
+      "name": "shop_value_dispatch.c",
+      "region": "sweep_2AB9C0",
+      "source": "src/town/modules/shop_value_dispatch.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0 -O1",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_8032EAE8",
+          "source": "src/town/func_8032EAE8.c",
+          "function": "func_800192E8",
+          "foff": 2812648,
+          "vma": 2147586792,
+          "size": 32
+        },
+        {
+          "id": "town/func_8032EB08",
+          "source": "src/town/func_8032EB08.c",
+          "function": "func_80019308",
+          "foff": 2812680,
+          "vma": 2147586824,
+          "size": 36
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_8001922C",
+          "kind": "function",
+          "vma": 2147586604
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu1"
+      },
+      "review_inputs": [
+        "docs/evidence/town_shop_value_dispatch.md",
+        "docs/evidence/town_shop_value_dispatch.membership.json",
+        "docs/evidence/town_shop_value_dispatch.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_shop_value_dispatch.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_shop_value_dispatch.recipe.json"
+      }
+    },
+    {
+      "key": "town_person_idle_dispatch",
+      "container": "town",
+      "name": "person_idle_dispatch.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/person_idle_dispatch.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800C5520",
+          "source": "src/town/func_800C5520.c",
+          "function": "func_800C2C80",
+          "foff": 283936,
+          "vma": 2148281472,
+          "size": 48
+        },
+        {
+          "id": "town/func_800C5550",
+          "source": "src/town/func_800C5550.c",
+          "function": "func_800C2CB0",
+          "foff": 283984,
+          "vma": 2148281520,
+          "size": 92
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_8003DB94",
+          "kind": "function",
+          "vma": 2147736468
+        },
+        {
+          "symbol": "func_80047784",
+          "kind": "function",
+          "vma": 2147776388
+        },
+        {
+          "symbol": "func_800478B8",
+          "kind": "function",
+          "vma": 2147776696
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu1"
+      },
+      "review_inputs": [
+        "docs/evidence/town_person_idle_dispatch.md",
+        "docs/evidence/town_person_idle_dispatch.membership.json",
+        "docs/evidence/town_person_idle_dispatch.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_person_idle_dispatch.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_person_idle_dispatch.recipe.json"
+      }
+    },
+    {
+      "key": "town_person_timers",
+      "container": "town",
+      "name": "person_timers.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/person_timers.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800C641C",
+          "source": "src/town/func_800C641C.c",
+          "function": "func_800C3B7C",
+          "foff": 287772,
+          "vma": 2148285308,
+          "size": 60
+        },
+        {
+          "id": "town/func_800C6458",
+          "source": "src/town/func_800C6458.c",
+          "function": "func_800C3BB8",
+          "foff": 287832,
+          "vma": 2148285368,
+          "size": 60
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_800C4174",
+          "kind": "function",
+          "vma": 2148286836
+        },
+        {
+          "symbol": "func_800C41D4",
+          "kind": "function",
+          "vma": 2148286932
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu1"
+      },
+      "review_inputs": [
+        "docs/evidence/town_person_timers.md",
+        "docs/evidence/town_person_timers.membership.json",
+        "docs/evidence/town_person_timers.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_person_timers.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_person_timers.recipe.json"
+      }
+    },
+    {
+      "key": "town_shop_entry_flags",
+      "container": "town",
+      "name": "shop_entry_flags.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/shop_entry_flags.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B0098",
+          "source": "src/town/func_800B0098.c",
+          "function": "func_800AD7F8",
+          "foff": 196760,
+          "vma": 2148194296,
+          "size": 48
+        },
+        {
+          "id": "town/func_800B00C8",
+          "source": "src/town/func_800B00C8.c",
+          "function": "func_800AD828",
+          "foff": 196808,
+          "vma": 2148194344,
+          "size": 164
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_8004A618",
+          "kind": "function",
+          "vma": 2147788312
+        },
+        {
+          "symbol": "func_8004A638",
+          "kind": "function",
+          "vma": 2147788344
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu1"
+      },
+      "review_inputs": [
+        "docs/evidence/town_shop_entry_flags.md",
+        "docs/evidence/town_shop_entry_flags.membership.json",
+        "docs/evidence/town_shop_entry_flags.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_shop_entry_flags.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_shop_entry_flags.recipe.json"
+      }
+    },
+    {
+      "key": "town_flag_test_pair_actions",
+      "container": "town",
+      "name": "flag_test_pair_actions.c",
+      "region": "sweep_652D10",
+      "source": "src/town/modules/flag_test_pair_actions.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_806D2F0C",
+          "source": "src/town/func_806D2F0C.c",
+          "function": "func_8001670C",
+          "foff": 6631180,
+          "vma": 2147575564,
+          "size": 168
+        },
+        {
+          "id": "town/func_806D2FB4",
+          "source": "src/town/func_806D2FB4.c",
+          "function": "func_800167B4",
+          "foff": 6631348,
+          "vma": 2147575732,
+          "size": 100
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_800161EC",
+          "kind": "function",
+          "vma": 2147574252
+        },
+        {
+          "symbol": "func_80016510",
+          "kind": "function",
+          "vma": 2147575056
+        },
+        {
+          "symbol": "func_80016654",
+          "kind": "function",
+          "vma": 2147575380
+        },
+        {
+          "symbol": "func_80016CCC",
+          "kind": "function",
+          "vma": 2147577036
+        },
+        {
+          "symbol": "func_80016D20",
+          "kind": "function",
+          "vma": 2147577120
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu1"
+      },
+      "review_inputs": [
+        "docs/evidence/town_flag_test_pair_actions.md",
+        "docs/evidence/town_flag_test_pair_actions.membership.json",
+        "docs/evidence/town_flag_test_pair_actions.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_flag_test_pair_actions.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_flag_test_pair_actions.recipe.json"
+      }
+    },
+    {
+      "key": "town_flag_test_conditions",
+      "container": "town",
+      "name": "flag_test_conditions.c",
+      "region": "sweep_652D10",
+      "source": "src/town/modules/flag_test_conditions.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_806D2DE4",
+          "source": "src/town/func_806D2DE4.c",
+          "function": "func_800165E4",
+          "foff": 6630884,
+          "vma": 2147575268,
+          "size": 112
+        },
+        {
+          "id": "town/func_806D2E54",
+          "source": "src/town/func_806D2E54.c",
+          "function": "func_80016654",
+          "foff": 6630996,
+          "vma": 2147575380,
+          "size": 92
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_80016584",
+          "kind": "function",
+          "vma": 2147575172
+        },
+        {
+          "symbol": "func_80016CCC",
+          "kind": "function",
+          "vma": 2147577036
+        },
+        {
+          "symbol": "func_80016D20",
+          "kind": "function",
+          "vma": 2147577120
+        },
+        {
+          "symbol": "func_80016D78",
+          "kind": "function",
+          "vma": 2147577208
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu1"
+      },
+      "review_inputs": [
+        "docs/evidence/town_flag_test_conditions.md",
+        "docs/evidence/town_flag_test_conditions.membership.json",
+        "docs/evidence/town_flag_test_conditions.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_flag_test_conditions.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_flag_test_conditions.recipe.json"
+      }
+    },
+    {
+      "key": "dungeon_item_tile_distance",
+      "container": "dungeon",
+      "name": "item_tile_distance.c",
+      "region": "xfer_dungeon_A3000",
+      "source": "src/dungeon/modules/item_tile_distance.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "dungeon/func_8009A590",
+          "source": "src/dungeon/func_8009A590.c",
+          "function": "func_8009FCF0",
+          "foff": 763280,
+          "vma": 2148138224,
+          "size": 80
+        },
+        {
+          "id": "dungeon/func_8009A5E0",
+          "source": "src/dungeon/func_8009A5E0.c",
+          "function": "func_8009FD40",
+          "foff": 763360,
+          "vma": 2148138304,
+          "size": 60
+        }
+      ],
+      "owned_data": [],
+      "imports": [],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/dungeon_item_tile_distance.md",
+        "docs/evidence/dungeon_item_tile_distance.membership.json",
+        "docs/evidence/dungeon_item_tile_distance.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/dungeon_item_tile_distance.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/dungeon_item_tile_distance.recipe.json"
+      }
+    },
+    {
+      "key": "dungeon_actor_sprite_lifecycle",
+      "container": "dungeon",
+      "name": "actor_sprite_lifecycle.c",
+      "region": "xfer_dungeon_A3000",
+      "source": "src/dungeon/modules/actor_sprite_lifecycle.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "dungeon/func_800A46D8",
+          "source": "src/dungeon/func_800A46D8.c",
+          "function": "func_800A9E38",
+          "foff": 804568,
+          "vma": 2148179512,
+          "size": 56
+        },
+        {
+          "id": "dungeon/func_800A4710",
+          "source": "src/dungeon/func_800A4710.c",
+          "function": "func_800A9E70",
+          "foff": 804624,
+          "vma": 2148179568,
+          "size": 1000
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_8006CCF8",
+          "kind": "data",
+          "vma": 2147929336,
+          "foff": 263416,
+          "view_bytes": 8,
+          "owner": "retail_asset:baserom/slus_006.14",
+          "asset": "baserom/slus_006.14",
+          "map": "slus_load",
+          "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+        },
+        {
+          "symbol": "D_80083160",
+          "kind": "runtime_data",
+          "vma": 2148020576,
+          "view_bytes": 512,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1858800.imports.json",
+          "declaration": "include/shared/game_work.h"
+        },
+        {
+          "symbol": "D_80083460",
+          "kind": "runtime_data",
+          "vma": 2148021344,
+          "view_bytes": 32,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1852800.imports.json",
+          "declaration": "include/shared/dungeon_status.h"
+        },
+        {
+          "symbol": "D_800DCE68",
+          "kind": "data",
+          "vma": 2148388456,
+          "foff": 1013512,
+          "view_bytes": 4,
+          "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+          "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+          "map": "dungeon_resident",
+          "evidence": "docs/evidence/dungeon_engine_experience.imports.json"
+        },
+        {
+          "symbol": "func_8003DB94",
+          "kind": "function",
+          "vma": 2147736468
+        },
+        {
+          "symbol": "func_80047738",
+          "kind": "function",
+          "vma": 2147776312
+        },
+        {
+          "symbol": "func_800478B8",
+          "kind": "function",
+          "vma": 2147776696
+        },
+        {
+          "symbol": "func_800A2BDC",
+          "kind": "function",
+          "vma": 2148150236
+        },
+        {
+          "symbol": "func_800ACB98",
+          "kind": "function",
+          "vma": 2148191128
+        },
+        {
+          "symbol": "func_800ACD74",
+          "kind": "function",
+          "vma": 2148191604
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/dungeon_actor_sprite_lifecycle.md",
+        "docs/evidence/dungeon_actor_sprite_lifecycle.membership.json",
+        "docs/evidence/dungeon_actor_sprite_lifecycle.recipe.json",
+        "docs/evidence/dungeon_engine_experience.imports.json",
+        "docs/evidence/dungeon_ovl_1852800.imports.json",
+        "docs/evidence/dungeon_ovl_1858800.imports.json",
+        "docs/evidence/dungeon_ovl_fa7000.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/dungeon_actor_sprite_lifecycle.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/dungeon_actor_sprite_lifecycle.recipe.json"
+      }
+    },
+    {
+      "key": "dungeon_actor_directional_action",
+      "container": "dungeon",
+      "name": "actor_directional_action.c",
+      "region": "xfer_dungeon_A3000",
+      "source": "src/dungeon/modules/actor_directional_action.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "dungeon/func_800A4F54",
+          "source": "src/dungeon/func_800A4F54.c",
+          "function": "func_800AA6B4",
+          "foff": 806740,
+          "vma": 2148181684,
+          "size": 160
+        },
+        {
+          "id": "dungeon/func_800A4FF4",
+          "source": "src/dungeon/func_800A4FF4.c",
+          "function": "func_800AA754",
+          "foff": 806900,
+          "vma": 2148181844,
+          "size": 72
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80083160",
+          "kind": "runtime_data",
+          "vma": 2148020576,
+          "view_bytes": 512,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1858800.imports.json",
+          "declaration": "include/shared/game_work.h"
+        },
+        {
+          "symbol": "D_80083460",
+          "kind": "runtime_data",
+          "vma": 2148021344,
+          "view_bytes": 32,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1852800.imports.json",
+          "declaration": "include/shared/dungeon_status.h"
+        },
+        {
+          "symbol": "func_80047784",
+          "kind": "function",
+          "vma": 2147776388
+        },
+        {
+          "symbol": "func_800AD4D0",
+          "kind": "function",
+          "vma": 2148193488
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/dungeon_actor_directional_action.md",
+        "docs/evidence/dungeon_actor_directional_action.membership.json",
+        "docs/evidence/dungeon_actor_directional_action.recipe.json",
+        "docs/evidence/dungeon_ovl_1852800.imports.json",
+        "docs/evidence/dungeon_ovl_1858800.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/dungeon_actor_directional_action.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/dungeon_actor_directional_action.recipe.json"
+      }
+    },
+    {
+      "key": "dungeon_actor_path_dispatch",
+      "container": "dungeon",
+      "name": "actor_path_dispatch.c",
+      "region": "xfer_dungeon_A3000",
+      "source": "src/dungeon/modules/actor_path_dispatch.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "dungeon/func_800C47D4",
+          "source": "src/dungeon/func_800C47D4.c",
+          "function": "func_800C9F34",
+          "foff": 935892,
+          "vma": 2148310836,
+          "size": 424
+        },
+        {
+          "id": "dungeon/func_800C497C",
+          "source": "src/dungeon/func_800C497C.c",
+          "function": "func_800CA0DC",
+          "foff": 936316,
+          "vma": 2148311260,
+          "size": 260
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_800814A8",
+          "kind": "runtime_data",
+          "vma": 2148013224,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_19ba800.imports.json",
+          "declaration": "include/shared/record_ptrs.h"
+        },
+        {
+          "symbol": "D_80083460",
+          "kind": "runtime_data",
+          "vma": 2148021344,
+          "view_bytes": 32,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1852800.imports.json",
+          "declaration": "include/shared/dungeon_status.h"
+        },
+        {
+          "symbol": "func_8009A180",
+          "kind": "function",
+          "vma": 2148114816
+        },
+        {
+          "symbol": "func_8009FB34",
+          "kind": "function",
+          "vma": 2148137780
+        },
+        {
+          "symbol": "func_800A0818",
+          "kind": "function",
+          "vma": 2148141080
+        },
+        {
+          "symbol": "func_800A1C58",
+          "kind": "function",
+          "vma": 2148146264
+        },
+        {
+          "symbol": "func_800CA93C",
+          "kind": "function",
+          "vma": 2148313404
+        },
+        {
+          "symbol": "func_800CAA94",
+          "kind": "function",
+          "vma": 2148313748
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/dungeon_actor_path_dispatch.md",
+        "docs/evidence/dungeon_actor_path_dispatch.membership.json",
+        "docs/evidence/dungeon_actor_path_dispatch.recipe.json",
+        "docs/evidence/dungeon_ovl_1852800.imports.json",
+        "docs/evidence/dungeon_ovl_19ba800.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/dungeon_actor_path_dispatch.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/dungeon_actor_path_dispatch.recipe.json"
+      }
+    },
+    {
+      "key": "dungeon_object_setup_links",
+      "container": "dungeon",
+      "name": "object_setup_links.c",
+      "region": "xfer_dungeon_A3000",
+      "source": "src/dungeon/modules/object_setup_links.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "dungeon/func_800D7364",
+          "source": "src/dungeon/func_800D7364.c",
+          "function": "func_800DCAC4",
+          "foff": 1012580,
+          "vma": 2148387524,
+          "size": 288
+        },
+        {
+          "id": "dungeon/func_800D7484",
+          "source": "src/dungeon/func_800D7484.c",
+          "function": "func_800DCBE4",
+          "foff": 1012868,
+          "vma": 2148387812,
+          "size": 88
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_800DBE98",
+          "kind": "function",
+          "vma": 2148384408
+        },
+        {
+          "symbol": "func_800DC628",
+          "kind": "function",
+          "vma": 2148386344
+        },
+        {
+          "symbol": "func_800DCA1C",
+          "kind": "function",
+          "vma": 2148387356
+        },
+        {
+          "symbol": "func_800DCA88",
+          "kind": "function",
+          "vma": 2148387464
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/dungeon_object_setup_links.md",
+        "docs/evidence/dungeon_object_setup_links.membership.json",
+        "docs/evidence/dungeon_object_setup_links.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/dungeon_object_setup_links.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/dungeon_object_setup_links.recipe.json"
+      }
+    },
+    {
+      "key": "main_card_slot_menu_request",
+      "container": "main",
+      "name": "card_slot_menu_request.c",
+      "region": "xfer_main_25CA6C",
+      "source": "src/main/modules/card_slot_menu_request.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "main/func_80012B38",
+          "source": "src/main/func_80012B38.c",
+          "function": "func_80025B38",
+          "foff": 2501432,
+          "vma": 2147638072,
+          "size": 8
+        },
+        {
+          "id": "main/func_80012B40",
+          "source": "src/main/func_80012B40.c",
+          "function": "func_80025B40",
+          "foff": 2501440,
+          "vma": 2147638080,
+          "size": 32
+        }
+      ],
+      "owned_data": [],
+      "imports": [],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/main_card_slot_menu_request.md",
+        "docs/evidence/main_card_slot_menu_request.membership.json",
+        "docs/evidence/main_card_slot_menu_request.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/main_card_slot_menu_request.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/main_card_slot_menu_request.recipe.json"
+      }
+    },
+    {
+      "key": "town_map_cell_read",
+      "container": "town",
+      "name": "map_cell_read.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/map_cell_read.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_8008E94C",
+          "source": "src/town/func_8008E94C.c",
+          "function": "func_8008C0AC",
+          "foff": 59724,
+          "vma": 2148057260,
+          "size": 68
+        },
+        {
+          "id": "town/func_8008E990",
+          "source": "src/town/func_8008E990.c",
+          "function": "func_8008C0F0",
+          "foff": 59792,
+          "vma": 2148057328,
+          "size": 68
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80083160",
+          "kind": "runtime_data",
+          "vma": 2148020576,
+          "view_bytes": 512,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1858800.imports.json",
+          "declaration": "include/shared/game_work.h"
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_map_cell_read.md",
+        "docs/evidence/town_map_cell_read.membership.json",
+        "docs/evidence/town_map_cell_read.recipe.json",
+        "docs/evidence/dungeon_ovl_1858800.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_map_cell_read.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_map_cell_read.recipe.json"
+      }
+    },
+    {
+      "key": "town_context_boundary_adjustment",
+      "container": "town",
+      "name": "context_boundary_adjustment.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/context_boundary_adjustment.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_80091B34",
+          "source": "src/town/func_80091B34.c",
+          "function": "func_8008F294",
+          "foff": 72500,
+          "vma": 2148070036,
+          "size": 64
+        },
+        {
+          "id": "town/func_80091B74",
+          "source": "src/town/func_80091B74.c",
+          "function": "func_8008F2D4",
+          "foff": 72564,
+          "vma": 2148070100,
+          "size": 124
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_8008F350",
+          "kind": "function",
+          "vma": 2148070224
+        },
+        {
+          "symbol": "func_8008F3CC",
+          "kind": "function",
+          "vma": 2148070348
+        },
+        {
+          "symbol": "func_8008F41C",
+          "kind": "function",
+          "vma": 2148070428
+        },
+        {
+          "symbol": "func_8008F50C",
+          "kind": "function",
+          "vma": 2148070668
+        },
+        {
+          "symbol": "func_8008F520",
+          "kind": "function",
+          "vma": 2148070688
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_context_boundary_adjustment.md",
+        "docs/evidence/town_context_boundary_adjustment.membership.json",
+        "docs/evidence/town_context_boundary_adjustment.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_context_boundary_adjustment.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_context_boundary_adjustment.recipe.json"
+      }
+    },
+    {
+      "key": "town_input_direction_angle",
+      "container": "town",
+      "name": "input_direction_angle.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/input_direction_angle.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800973F8",
+          "source": "src/town/func_800973F8.c",
+          "function": "func_80094B58",
+          "foff": 95224,
+          "vma": 2148092760,
+          "size": 112
+        },
+        {
+          "id": "town/func_80097468",
+          "source": "src/town/func_80097468.c",
+          "function": "func_80094BC8",
+          "foff": 95336,
+          "vma": 2148092872,
+          "size": 84
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80083160",
+          "kind": "runtime_data",
+          "vma": 2148020576,
+          "view_bytes": 512,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1858800.imports.json",
+          "declaration": "include/shared/game_work.h"
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_input_direction_angle.md",
+        "docs/evidence/town_input_direction_angle.membership.json",
+        "docs/evidence/town_input_direction_angle.recipe.json",
+        "docs/evidence/dungeon_ovl_1858800.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_input_direction_angle.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_input_direction_angle.recipe.json"
+      }
+    },
+    {
+      "key": "town_item_index_flags",
+      "container": "town",
+      "name": "item_index_flags.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/item_index_flags.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800A13DC",
+          "source": "src/town/func_800A13DC.c",
+          "function": "func_8009EB3C",
+          "foff": 136156,
+          "vma": 2148133692,
+          "size": 96
+        },
+        {
+          "id": "town/func_800A143C",
+          "source": "src/town/func_800A143C.c",
+          "function": "func_8009EB9C",
+          "foff": 136252,
+          "vma": 2148133788,
+          "size": 68
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_800814A0",
+          "kind": "runtime_data",
+          "vma": 2148013216,
+          "view_bytes": 16,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1852800.imports.json",
+          "declaration": "include/shared/object_flags.h"
+        },
+        {
+          "symbol": "func_80033D08",
+          "kind": "function",
+          "vma": 2147695880
+        },
+        {
+          "symbol": "func_8008F134",
+          "kind": "function",
+          "vma": 2148069684
+        },
+        {
+          "symbol": "func_8009F6E4",
+          "kind": "function",
+          "vma": 2148136676
+        },
+        {
+          "symbol": "func_8009FA14",
+          "kind": "function",
+          "vma": 2148137492
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_item_index_flags.md",
+        "docs/evidence/town_item_index_flags.membership.json",
+        "docs/evidence/town_item_index_flags.recipe.json",
+        "docs/evidence/dungeon_ovl_1852800.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_item_index_flags.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_item_index_flags.recipe.json"
+      }
+    },
+    {
+      "key": "town_item_entry_copy",
+      "container": "town",
+      "name": "item_entry_copy.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/item_entry_copy.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800A23CC",
+          "source": "src/town/func_800A23CC.c",
+          "function": "func_8009FB2C",
+          "foff": 140236,
+          "vma": 2148137772,
+          "size": 452
+        },
+        {
+          "id": "town/func_800A2590",
+          "source": "src/town/func_800A2590.c",
+          "function": "func_8009FCF0",
+          "foff": 140688,
+          "vma": 2148138224,
+          "size": 120
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80100A10",
+          "kind": "data",
+          "vma": 2148534800,
+          "foff": 537264,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:xfer_town_B000",
+          "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
+        },
+        {
+          "symbol": "D_80100AF8",
+          "kind": "data",
+          "vma": 2148535032,
+          "foff": 537496,
+          "view_bytes": 84,
+          "owner": "retail_asset:town:xfer_town_B000",
+          "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
+        },
+        {
+          "symbol": "func_8003C06C",
+          "kind": "function",
+          "vma": 2147729516
+        },
+        {
+          "symbol": "func_800422DC",
+          "kind": "function",
+          "vma": 2147754716
+        },
+        {
+          "symbol": "func_800423C0",
+          "kind": "function",
+          "vma": 2147754944
+        },
+        {
+          "symbol": "func_80042640",
+          "kind": "function",
+          "vma": 2147755584
+        },
+        {
+          "symbol": "func_8009F6E4",
+          "kind": "function",
+          "vma": 2148136676
+        },
+        {
+          "symbol": "func_8009F970",
+          "kind": "function",
+          "vma": 2148137328
+        },
+        {
+          "symbol": "func_800B2344",
+          "kind": "function",
+          "vma": 2148213572
+        },
+        {
+          "symbol": "memset",
+          "kind": "function",
+          "vma": 2147917544
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_item_entry_copy.md",
+        "docs/evidence/town_item_entry_copy.membership.json",
+        "docs/evidence/town_item_entry_copy.recipe.json",
+        "docs/evidence/town_town_windows_1f5b8.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_item_entry_copy.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_item_entry_copy.recipe.json"
+      }
+    },
+    {
+      "key": "town_item_menu_display_resource",
+      "container": "town",
+      "name": "item_menu_display_resource.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/item_menu_display_resource.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B17FC",
+          "source": "src/town/func_800B17FC.c",
+          "function": "func_800AEF5C",
+          "foff": 202748,
+          "vma": 2148200284,
+          "size": 124
+        },
+        {
+          "id": "town/func_800B1878",
+          "source": "src/town/func_800B1878.c",
+          "function": "func_800AEFD8",
+          "foff": 202872,
+          "vma": 2148200408,
+          "size": 264
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_8002E5E8",
+          "kind": "data",
+          "vma": 2147673576,
+          "foff": 7656,
+          "view_bytes": 12,
+          "owner": "retail_asset:baserom/slus_006.14",
+          "asset": "baserom/slus_006.14",
+          "map": "slus_load",
+          "evidence": "docs/evidence/dungeon_ovl_1831370.imports.json"
+        },
+        {
+          "symbol": "D_800814A0",
+          "kind": "runtime_data",
+          "vma": 2148013216,
+          "view_bytes": 16,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1852800.imports.json",
+          "declaration": "include/shared/object_flags.h"
+        },
+        {
+          "symbol": "func_8003FD64",
+          "kind": "function",
+          "vma": 2147745124
+        },
+        {
+          "symbol": "func_8004491C",
+          "kind": "function",
+          "vma": 2147764508
+        },
+        {
+          "symbol": "func_80049004",
+          "kind": "function",
+          "vma": 2147782660
+        },
+        {
+          "symbol": "func_800491CC",
+          "kind": "function",
+          "vma": 2147783116
+        },
+        {
+          "symbol": "func_8004B248",
+          "kind": "function",
+          "vma": 2147791432
+        },
+        {
+          "symbol": "func_8004CAA0",
+          "kind": "function",
+          "vma": 2147797664
+        },
+        {
+          "symbol": "func_800AE630",
+          "kind": "function",
+          "vma": 2148197936
+        },
+        {
+          "symbol": "func_800AEB9C",
+          "kind": "function",
+          "vma": 2148199324
+        },
+        {
+          "symbol": "func_800AEEF0",
+          "kind": "function",
+          "vma": 2148200176
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_item_menu_display_resource.md",
+        "docs/evidence/town_item_menu_display_resource.membership.json",
+        "docs/evidence/town_item_menu_display_resource.recipe.json",
+        "docs/evidence/dungeon_ovl_1831370.imports.json",
+        "docs/evidence/dungeon_ovl_1852800.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_item_menu_display_resource.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_item_menu_display_resource.recipe.json"
+      }
+    },
+    {
+      "key": "town_item_menu_page_format",
+      "container": "town",
+      "name": "item_menu_page_format.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/item_menu_page_format.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B1980",
+          "source": "src/town/func_800B1980.c",
+          "function": "func_800AF0E0",
+          "foff": 203136,
+          "vma": 2148200672,
+          "size": 104
+        },
+        {
+          "id": "town/func_800B19E8",
+          "source": "src/town/func_800B19E8.c",
+          "function": "func_800AF148",
+          "foff": 203240,
+          "vma": 2148200776,
+          "size": 108
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_800814A0",
+          "kind": "runtime_data",
+          "vma": 2148013216,
+          "view_bytes": 16,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1852800.imports.json",
+          "declaration": "include/shared/object_flags.h"
+        },
+        {
+          "symbol": "func_8004B248",
+          "kind": "function",
+          "vma": 2147791432
+        },
+        {
+          "symbol": "func_8004E99C",
+          "kind": "function",
+          "vma": 2147805596
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_item_menu_page_format.md",
+        "docs/evidence/town_item_menu_page_format.membership.json",
+        "docs/evidence/town_item_menu_page_format.recipe.json",
+        "docs/evidence/dungeon_ovl_1852800.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_item_menu_page_format.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_item_menu_page_format.recipe.json"
+      }
+    },
+    {
+      "key": "town_actor_display_resource",
+      "container": "town",
+      "name": "actor_display_resource.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/actor_display_resource.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B2A38",
+          "source": "src/town/func_800B2A38.c",
+          "function": "func_800B0198",
+          "foff": 207416,
+          "vma": 2148204952,
+          "size": 124
+        },
+        {
+          "id": "town/func_800B2AB4",
+          "source": "src/town/func_800B2AB4.c",
+          "function": "func_800B0214",
+          "foff": 207540,
+          "vma": 2148205076,
+          "size": 192
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_8002E5E8",
+          "kind": "data",
+          "vma": 2147673576,
+          "foff": 7656,
+          "view_bytes": 12,
+          "owner": "retail_asset:baserom/slus_006.14",
+          "asset": "baserom/slus_006.14",
+          "map": "slus_load",
+          "evidence": "docs/evidence/dungeon_ovl_1831370.imports.json"
+        },
+        {
+          "symbol": "D_800814A0",
+          "kind": "runtime_data",
+          "vma": 2148013216,
+          "view_bytes": 16,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1852800.imports.json",
+          "declaration": "include/shared/object_flags.h"
+        },
+        {
+          "symbol": "func_8003FC64",
+          "kind": "function",
+          "vma": 2147744868
+        },
+        {
+          "symbol": "func_8004491C",
+          "kind": "function",
+          "vma": 2147764508
+        },
+        {
+          "symbol": "func_80049004",
+          "kind": "function",
+          "vma": 2147782660
+        },
+        {
+          "symbol": "func_800491CC",
+          "kind": "function",
+          "vma": 2147783116
+        },
+        {
+          "symbol": "func_8004B248",
+          "kind": "function",
+          "vma": 2147791432
+        },
+        {
+          "symbol": "func_8004CAA0",
+          "kind": "function",
+          "vma": 2147797664
+        },
+        {
+          "symbol": "func_800AFE10",
+          "kind": "function",
+          "vma": 2148204048
+        },
+        {
+          "symbol": "func_800B0158",
+          "kind": "function",
+          "vma": 2148204888
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_actor_display_resource.md",
+        "docs/evidence/town_actor_display_resource.membership.json",
+        "docs/evidence/town_actor_display_resource.recipe.json",
+        "docs/evidence/dungeon_ovl_1831370.imports.json",
+        "docs/evidence/dungeon_ovl_1852800.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_actor_display_resource.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_actor_display_resource.recipe.json"
+      }
+    },
+    {
+      "key": "town_item_menu_request_input",
+      "container": "town",
+      "name": "item_menu_request_input.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/item_menu_request_input.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B2CC4",
+          "source": "src/town/func_800B2CC4.c",
+          "function": "func_800B0424",
+          "foff": 208068,
+          "vma": 2148205604,
+          "size": 108
+        },
+        {
+          "id": "town/func_800B2D30",
+          "source": "src/town/func_800B2D30.c",
+          "function": "func_800B0490",
+          "foff": 208176,
+          "vma": 2148205712,
+          "size": 332
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80083160",
+          "kind": "runtime_data",
+          "vma": 2148020576,
+          "view_bytes": 512,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1858800.imports.json",
+          "declaration": "include/shared/game_work.h"
+        },
+        {
+          "symbol": "func_80053DA8",
+          "kind": "function",
+          "vma": 2147827112
+        },
+        {
+          "symbol": "func_800AE484",
+          "kind": "function",
+          "vma": 2148197508
+        },
+        {
+          "symbol": "func_800AE4D4",
+          "kind": "function",
+          "vma": 2148197588
+        },
+        {
+          "symbol": "func_800AF1B4",
+          "kind": "function",
+          "vma": 2148200884
+        },
+        {
+          "symbol": "func_800AF234",
+          "kind": "function",
+          "vma": 2148201012
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_item_menu_request_input.md",
+        "docs/evidence/town_item_menu_request_input.membership.json",
+        "docs/evidence/town_item_menu_request_input.recipe.json",
+        "docs/evidence/dungeon_ovl_1858800.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_item_menu_request_input.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_item_menu_request_input.recipe.json"
+      }
+    },
+    {
+      "key": "town_shop_object_value_format",
+      "container": "town",
+      "name": "shop_object_value_format.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/shop_object_value_format.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B36B8",
+          "source": "src/town/func_800B36B8.c",
+          "function": "func_800B0E18",
+          "foff": 210616,
+          "vma": 2148208152,
+          "size": 280
+        },
+        {
+          "id": "town/func_800B37D0",
+          "source": "src/town/func_800B37D0.c",
+          "function": "func_800B0F30",
+          "foff": 210896,
+          "vma": 2148208432,
+          "size": 100
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80073414",
+          "kind": "data",
+          "vma": 2147955732,
+          "foff": 289812,
+          "view_bytes": 4,
+          "owner": "retail_asset:baserom/slus_006.14",
+          "asset": "baserom/slus_006.14",
+          "map": "slus_load",
+          "evidence": "docs/evidence/dungeon_engine_dungeon_util.imports.json"
+        },
+        {
+          "symbol": "func_8004B1A4",
+          "kind": "function",
+          "vma": 2147791268
+        },
+        {
+          "symbol": "func_8004B404",
+          "kind": "function",
+          "vma": 2147791876
+        },
+        {
+          "symbol": "func_8004E298",
+          "kind": "function",
+          "vma": 2147803800
+        },
+        {
+          "symbol": "func_8004E5A0",
+          "kind": "function",
+          "vma": 2147804576
+        },
+        {
+          "symbol": "func_8004E69C",
+          "kind": "function",
+          "vma": 2147804828
+        },
+        {
+          "symbol": "memset",
+          "kind": "function",
+          "vma": 2147917544
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_shop_object_value_format.md",
+        "docs/evidence/town_shop_object_value_format.membership.json",
+        "docs/evidence/town_shop_object_value_format.recipe.json",
+        "docs/evidence/dungeon_engine_dungeon_util.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_shop_object_value_format.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_shop_object_value_format.recipe.json"
+      }
+    },
+    {
+      "key": "town_indexed_entry_remove",
+      "container": "town",
+      "name": "indexed_entry_remove.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/indexed_entry_remove.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B4A04",
+          "source": "src/town/func_800B4A04.c",
+          "function": "func_800B2164",
+          "foff": 215556,
+          "vma": 2148213092,
+          "size": 44
+        },
+        {
+          "id": "town/func_800B4A30",
+          "source": "src/town/func_800B4A30.c",
+          "function": "func_800B2190",
+          "foff": 215600,
+          "vma": 2148213136,
+          "size": 132
+        }
+      ],
+      "owned_data": [],
+      "imports": [],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_indexed_entry_remove.md",
+        "docs/evidence/town_indexed_entry_remove.membership.json",
+        "docs/evidence/town_indexed_entry_remove.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_indexed_entry_remove.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_indexed_entry_remove.recipe.json"
+      }
+    },
+    {
+      "key": "town_secondary_item_menu_input",
+      "container": "town",
+      "name": "secondary_item_menu_input.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/secondary_item_menu_input.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B4E78",
+          "source": "src/town/func_800B4E78.c",
+          "function": "func_800B25D8",
+          "foff": 216696,
+          "vma": 2148214232,
+          "size": 52
+        },
+        {
+          "id": "town/func_800B4EAC",
+          "source": "src/town/func_800B4EAC.c",
+          "function": "func_800B260C",
+          "foff": 216748,
+          "vma": 2148214284,
+          "size": 552
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80083160",
+          "kind": "runtime_data",
+          "vma": 2148020576,
+          "view_bytes": 512,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1858800.imports.json",
+          "declaration": "include/shared/game_work.h"
+        },
+        {
+          "symbol": "func_8004B08C",
+          "kind": "function",
+          "vma": 2147790988
+        },
+        {
+          "symbol": "func_80053DA8",
+          "kind": "function",
+          "vma": 2147827112
+        },
+        {
+          "symbol": "func_800B1DCC",
+          "kind": "function",
+          "vma": 2148212172
+        },
+        {
+          "symbol": "func_800B1F80",
+          "kind": "function",
+          "vma": 2148212608
+        },
+        {
+          "symbol": "func_800B2068",
+          "kind": "function",
+          "vma": 2148212840
+        },
+        {
+          "symbol": "func_800B2394",
+          "kind": "function",
+          "vma": 2148213652
+        },
+        {
+          "symbol": "func_800B2400",
+          "kind": "function",
+          "vma": 2148213760
+        },
+        {
+          "symbol": "func_800B2CE8",
+          "kind": "function",
+          "vma": 2148216040
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_secondary_item_menu_input.md",
+        "docs/evidence/town_secondary_item_menu_input.membership.json",
+        "docs/evidence/town_secondary_item_menu_input.recipe.json",
+        "docs/evidence/dungeon_ovl_1858800.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_secondary_item_menu_input.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_secondary_item_menu_input.recipe.json"
+      }
+    },
+    {
+      "key": "town_paged_entry_brightness",
+      "container": "town",
+      "name": "paged_entry_brightness.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/paged_entry_brightness.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B5A18",
+          "source": "src/town/func_800B5A18.c",
+          "function": "func_800B3178",
+          "foff": 219672,
+          "vma": 2148217208,
+          "size": 348
+        },
+        {
+          "id": "town/func_800B5B74",
+          "source": "src/town/func_800B5B74.c",
+          "function": "func_800B32D4",
+          "foff": 220020,
+          "vma": 2148217556,
+          "size": 72
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_8004AC3C",
+          "kind": "function",
+          "vma": 2147789884
+        },
+        {
+          "symbol": "func_8004DC14",
+          "kind": "function",
+          "vma": 2147802132
+        },
+        {
+          "symbol": "func_800B39E4",
+          "kind": "function",
+          "vma": 2148219364
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_paged_entry_brightness.md",
+        "docs/evidence/town_paged_entry_brightness.membership.json",
+        "docs/evidence/town_paged_entry_brightness.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_paged_entry_brightness.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_paged_entry_brightness.recipe.json"
+      }
+    },
+    {
+      "key": "town_paired_entry_update",
+      "container": "town",
+      "name": "paired_entry_update.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/modules/paired_entry_update.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B6664",
+          "source": "src/town/func_800B6664.c",
+          "function": "func_800B3DC4",
+          "foff": 222820,
+          "vma": 2148220356,
+          "size": 108
+        },
+        {
+          "id": "town/func_800B66D0",
+          "source": "src/town/func_800B66D0.c",
+          "function": "func_800B3E30",
+          "foff": 222928,
+          "vma": 2148220464,
+          "size": 56
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_800B3C74",
+          "kind": "function",
+          "vma": 2148220020
+        },
+        {
+          "symbol": "func_800B3D84",
+          "kind": "function",
+          "vma": 2148220292
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_paired_entry_update.md",
+        "docs/evidence/town_paired_entry_update.membership.json",
+        "docs/evidence/town_paired_entry_update.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_paired_entry_update.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_paired_entry_update.recipe.json"
+      }
+    },
+    {
+      "key": "town_grid_rectangle_preset",
+      "container": "town",
+      "name": "grid_rectangle_preset.c",
+      "region": "sweep_2AB9C0",
+      "source": "src/town/modules/grid_rectangle_preset.c",
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_8032D894",
+          "source": "src/town/func_8032D894.c",
+          "function": "func_80018094",
+          "foff": 2807956,
+          "vma": 2147582100,
+          "size": 168
+        },
+        {
+          "id": "town/func_8032D93C",
+          "source": "src/town/func_8032D93C.c",
+          "function": "func_8001813C",
+          "foff": 2808124,
+          "vma": 2147582268,
+          "size": 36
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80016000",
+          "kind": "runtime_data",
+          "vma": 2147573760,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "declaration": "include/shared/record_ptrs.h",
+          "evidence": "docs/evidence/town_ovl_2d3f0c.imports.json"
+        },
+        {
+          "symbol": "func_8001AC6C",
+          "kind": "function",
+          "vma": 2147593324
+        },
+        {
+          "symbol": "func_8001ACA0",
+          "kind": "function",
+          "vma": 2147593376
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tu4"
+      },
+      "review_inputs": [
+        "docs/evidence/town_grid_rectangle_preset.md",
+        "docs/evidence/town_grid_rectangle_preset.membership.json",
+        "docs/evidence/town_grid_rectangle_preset.recipe.json",
+        "docs/evidence/town_ovl_2d3f0c.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_grid_rectangle_preset.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_grid_rectangle_preset.recipe.json"
+      }
     }
   ]
 }

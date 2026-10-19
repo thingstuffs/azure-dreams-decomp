@@ -1,0 +1,16 @@
+{
+  "windows": 1917,
+  "changed_files": 1938,
+  "changed_linklists": 562,
+  "reason_counts": {
+    "converted_span": 720,
+    "home_span": 124,
+    "changed_link_dependency": 934,
+    "retired_raw_bank": 1759,
+    "new_window": 252,
+    "physical_module_dependency": 1
+  },
+  "global_tool_change": "Integration consolidation gate must refresh other windows; this lane gates only its content dependency union.",
+  "scoped_gate_windows": 1916,
+  "per_row_checks_after_scoped_gate": 1
+}

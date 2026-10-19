@@ -1,0 +1,167 @@
+{
+  "schema": "azure-clean.module-placement-review.v2",
+  "module": "dungeon_ovl_7f469800_p04",
+  "placement": "dungeon_ovl_7f469800_p04_bank_d25000",
+  "review": {
+    "membership": "pending",
+    "types": "pending",
+    "ownership": "pending",
+    "reviewer": "pending"
+  },
+  "basis": "Codex r121w_ll5b destination review: one complete 756-byte function with the unchanged home source/header ABI; no initialized or imported bank data, no owned allocations. The two SLUS runtime views and seven resident function targets retain their exact home declarations and addresses. The one moved callback is an evidenced complete projection of dungeon/func_80CE8CBC and is stored as a callable identity, never dereferenced as data. Membership, type/storage and load checks are explicit below; byte/genuine and window proofs remain separate issuance requirements.",
+  "views": {},
+  "maps": {
+    "destination_image": {
+      "kind": "link_image",
+      "image": "dungeon/bank_d25000",
+      "link_list": "config/link/dungeon/bank_d25000.json",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 13783040,
+      "file_end": 13807616,
+      "delta": 2135087104,
+      "basis": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F42D800: native_slot_d25000_80152800; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)"
+    }
+  },
+  "placement_descriptor": {
+    "key": "dungeon_ovl_7f469800_p04_bank_d25000",
+    "module": "dungeon_ovl_7f469800_p04",
+    "image": "dungeon/bank_d25000",
+    "home_image": "dungeon/bank_d07000",
+    "recipe": {
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": ""
+    },
+    "members": [
+      {
+        "home": "dungeon/func_80CEA86C",
+        "row": "dungeon/func_80D0886C"
+      }
+    ],
+    "imports": [
+      {
+        "symbol": "D_80082E80",
+        "kind": "runtime_data",
+        "vma": 2148019840,
+        "view_bytes": 64,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_ovl_7f469800_p04.imports.json",
+        "declaration": "include/shared/tile_object.h"
+      },
+      {
+        "symbol": "D_80083460",
+        "kind": "runtime_data",
+        "vma": 2148021344,
+        "view_bytes": 32,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_ovl_7f469800_p04.imports.json",
+        "declaration": "include/shared/dungeon_status.h"
+      },
+      {
+        "symbol": "func_800644B8",
+        "kind": "function",
+        "vma": 2147894456
+      },
+      {
+        "symbol": "func_800A0818",
+        "kind": "function",
+        "vma": 2148141080
+      },
+      {
+        "symbol": "func_800A2B04",
+        "kind": "function",
+        "vma": 2148150020
+      },
+      {
+        "symbol": "func_800A4ACC",
+        "kind": "function",
+        "vma": 2148158156
+      },
+      {
+        "symbol": "func_800A9A04",
+        "kind": "function",
+        "vma": 2148178436
+      },
+      {
+        "symbol": "func_800AD594",
+        "kind": "function",
+        "vma": 2148193684
+      },
+      {
+        "symbol": "func_800AD9B4",
+        "kind": "function",
+        "vma": 2148194740
+      },
+      {
+        "symbol": "func_801724BC",
+        "kind": "function",
+        "vma": 2148877500
+      }
+    ],
+    "review": {
+      "membership": "pending",
+      "types": "pending",
+      "ownership": "pending",
+      "reviewer": "pending"
+    },
+    "review_inputs": [
+      "docs/evidence/dungeon_ovl_7f469800_p04.imports.json",
+      "docs/evidence/dungeon_ovl_7f469800_p04_bank_d25000.placement.json"
+    ]
+  },
+  "checks": [
+    {
+      "symbol": "D_80082E80",
+      "result": "unchanged resident runtime view",
+      "declaration": "include/shared/tile_object.h",
+      "view_bytes": 64
+    },
+    {
+      "symbol": "D_80083460",
+      "result": "unchanged resident runtime view",
+      "declaration": "include/shared/dungeon_status.h",
+      "view_bytes": 32
+    },
+    {
+      "symbol": "func_800644B8",
+      "result": "unchanged resident function target",
+      "vma": 2147894456
+    },
+    {
+      "symbol": "func_800A0818",
+      "result": "unchanged resident function target",
+      "vma": 2148141080
+    },
+    {
+      "symbol": "func_800A2B04",
+      "result": "unchanged resident function target",
+      "vma": 2148150020
+    },
+    {
+      "symbol": "func_800A4ACC",
+      "result": "unchanged resident function target",
+      "vma": 2148158156
+    },
+    {
+      "symbol": "func_800A9A04",
+      "result": "unchanged resident function target",
+      "vma": 2148178436
+    },
+    {
+      "symbol": "func_800AD594",
+      "result": "unchanged resident function target",
+      "vma": 2148193684
+    },
+    {
+      "symbol": "func_800AD9B4",
+      "result": "unchanged resident function target",
+      "vma": 2148194740
+    },
+    {
+      "symbol": "func_801724BC",
+      "result": "same complete callback logical home",
+      "vma": 2148877500,
+      "row": "dungeon/func_80D06CBC",
+      "home": "dungeon/func_80CE8CBC"
+    }
+  ]
+}

@@ -1,24 +1,38 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/region_12e924c_12ee430",
- "container": "dungeon",
- "foff": "0x12e924c",
- "size": "0x51e4",
- "vma": "0x8014ca4c",
- "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_12e924c_8014ca4c",
- "entries": [
-  {
-   "row": "dungeon/func_812CDDA0",
-   "home": "dungeon/func_809A32D4",
-   "tu": "src/dungeon/func_809A32D4.c",
-   "foff": "0x12edda0",
-   "vma": "0x801515a0",
-   "size": 716,
-   "bindings": {
-    "0x80174fc0": "0x800f7a38",
-    "0x801750e4": "0x80151964"
-   },
-   "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_812CDDA0"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/region_12e924c_12ee430",
+  "container": "dungeon",
+  "foff": "0x12e924c",
+  "size": "0x51e4",
+  "vma": "0x8014ca4c",
+  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_12e924c_8014ca4c",
+  "entries": [
+    {
+      "row": "dungeon/func_812CD0B0",
+      "tu": "src/dungeon/func_8097DD68.c",
+      "home": "dungeon/func_8097DD68",
+      "foff": "0x12ED0B0",
+      "vma": "0x801508B0",
+      "size": 32,
+      "bindings": {
+        "0x800AD058": "0x800AD058",
+        "0x8016D568": "0x801508B0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "dungeon/func_812CDDA0",
+      "home": "dungeon/func_809A32D4",
+      "tu": "src/dungeon/func_809A32D4.c",
+      "foff": "0x12edda0",
+      "vma": "0x801515a0",
+      "size": 716,
+      "bindings": {
+        "0x80174fc0": "0x800f7a38",
+        "0x801750e4": "0x80151964",
+        "0x8016D568": "0x8016D568"
+      },
+      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_812CDDA0"
+    }
+  ]
 }

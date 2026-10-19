@@ -1,0 +1,79 @@
+{
+  "module": "dungeon_item_slot_search",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "item_slot_search.c",
+    "module_index": 3
+  },
+  "members": [
+    "dungeon/func_80093850",
+    "dungeon/func_80093898",
+    "dungeon/func_800938EC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Bounded feature consolidation; no assertion of an original Konami file boundary.",
+  "basis": [
+    "All members are distinct retained homes, in one proven load region and one home image.",
+    "File extents meet exactly; no gap, data row, alignment bytes or other function intervenes.",
+    "All members use the identical compiler/assembler cell; the complete native build verifies natural allocation order and all bytes.",
+    "Bodies implement the same narrowly described feature; existing per-row contracts remain visible."
+  ],
+  "review": "reviewed",
+  "reviewer": "codex-r121w-tu1",
+  "assignment_changes": [
+    {
+      "before": {
+        "id": "dungeon/func_80093850",
+        "container": "dungeon",
+        "module": "inventory.c",
+        "module_index": 3,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_80093850",
+        "container": "dungeon",
+        "module": "item_slot_search.c",
+        "module_index": 3,
+        "confidence": "strong"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_80093898",
+        "container": "dungeon",
+        "module": "inventory.c",
+        "module_index": 3,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_80093898",
+        "container": "dungeon",
+        "module": "item_slot_search.c",
+        "module_index": 3,
+        "confidence": "strong"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_800938EC",
+        "container": "dungeon",
+        "module": "inventory.c",
+        "module_index": 3,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_800938EC",
+        "container": "dungeon",
+        "module": "item_slot_search.c",
+        "module_index": 3,
+        "confidence": "strong"
+      }
+    }
+  ],
+  "source_sha256": {
+    "src/dungeon/func_80093850.c": "7ec0cb9b464554a0359ebde67f618002f8b84e510acd010650ec264f43338bd6",
+    "src/dungeon/func_80093898.c": "ff3fa0ffc838717608c40a1667f253303bb157b9515e0ad0d21a552d17218491",
+    "src/dungeon/func_800938EC.c": "3a492f22d8daa500411cfe8f4bfa2ff6e9e7ad26c42bb18e43b3fafc58a29cfb"
+  }
+}

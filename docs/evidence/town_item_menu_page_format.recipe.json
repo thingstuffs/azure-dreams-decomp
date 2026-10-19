@@ -1,0 +1,16 @@
+{
+  "module": "town_item_menu_page_format",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": [
+    "Same whole-TU genuine ASPSX 2.79 nonoptimizing assembler recipe as the supplied tu1 pilot; compiler recipe is unchanged."
+  ]
+}

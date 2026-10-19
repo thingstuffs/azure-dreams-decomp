@@ -16,6 +16,17 @@ class CompactMaps(Fixture):
     def public(self, document):
         return F.write(self.root/'link'/document['container'], document)
 
+    def test_bound_load_evidence_round_trips_and_is_validated(self):
+        d = doc([meta('unresolved',0,16)],vma='0x80000000')
+        d['load_evidence'] = dict(path='ledger/instance_load_regions.jsonl',record_sha256='a'*64)
+        paths = self.public(d)
+        self.assertEqual(F.read_parts(paths),d)
+        self.assertEqual(B.load_maps(self.root,'link')[0]['main/test']['load_evidence'],d['load_evidence'])
+        d['load_evidence']['record_sha256'] = 'a'*63
+        self.public(d)
+        with self.assertRaisesRegex(ValueError,'load_evidence'):
+            B.load_maps(self.root,'link')
+
     def test_all_seven_labels_profiles_and_tu_fields_round_trip(self):
         code = dict(row='main/func_80000000', home='main/func_80000000', tu='src/main/home.c',
                     foff='0x0', vma='0x80000000', size=4, evidence='unchanged placement', bindings={})

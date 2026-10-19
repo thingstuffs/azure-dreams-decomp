@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_437800_3800","n":14336,"o":4421632,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[10344,0,440,217,1172,2152,11],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"strongly_code"},{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_437800_3800","n":14336,"o":4421632,"p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:2809a724d1a9b06fd15b7abcde5f8136ec2e82a22cba80cdf525f8cb4290319b"],"t":[10344,0,440,217,1172,2152,11],"v":2147573760},"p":[{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"strongly_code"},{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 4421632	4	p	census:zero_fill>=16		0
 4421636	24	a	census:audit+noncode_confirmed	13f62d716cc89929754eb658adea0c76dfba3300a8117ec596bdc971183edd65	1
@@ -17,20 +17,11 @@ o	n	k	r	h	x
 4426776	132	r	census:T1_twin		3
 4426908	4	r	census:T2_framed_ref:jtbl+ptr		3
 4426912	64	r	census:T1_twin		3
-4426976	316	r	census:c_row		4
-4427292	212	r	census:instance_proven		4
-4427504	60	r	census:c_row		4
-4427564	1492	r	census:instance_proven		4
-4429056	36	r	census:c_row		4
-4429092	708	r	census:instance_proven		4
-4429800	92	r	census:c_row		4
-4429892	392	r	census:instance_proven		4
-4430284	192	r	census:c_row		4
-4430476	1076	r	census:instance_proven		4
-4431552	12	r	census:c_row		4
-4431564	132	r	census:instance_proven		4
-4431696	12	r	census:c_row		4
-4431708	908	r	census:instance_proven		4
+4426976	5340	r	census:c_row		4
+4432316	60	r	census:instance_proven		4
+4432376	60	r	census:c_row		4
+4432436	60	r	census:instance_proven		4
+4432496	120	r	census:c_row		4
 4432616	108	d	census:noncode:decode		5
 4432724	16	a	census:format:ptrtab	270149ef350bb1ac08bb34d2a85dfe1d11e05f80edec2f4248ec60d7a9af7239	6
 4432740	424	d	census:noncode:decode		5

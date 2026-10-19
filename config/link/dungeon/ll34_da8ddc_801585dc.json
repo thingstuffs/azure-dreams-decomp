@@ -1,0 +1,29 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/ll34_da8ddc_801585dc",
+  "container": "dungeon",
+  "foff": "0xDA8DDC",
+  "size": "0x38",
+  "vma": "0x801585DC",
+  "evidence": "ledger/instance_load_regions.jsonl; internal link-evidence; coherent function-pointer table",
+  "entries": [
+    {
+      "row": "dungeon/func_80D88DDC",
+      "tu": "src/dungeon/func_800CF1BC.c",
+      "home": "dungeon/func_800CF1BC",
+      "foff": "0xDA8DDC",
+      "vma": "0x801585DC",
+      "size": 56,
+      "bindings": {
+        "0x800AB464": "0x800AB464",
+        "0x800D4494": "0x80153F1C",
+        "0x800D491C": "0x801585DC"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    }
+  ],
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "2412270383b6a5d6cf7f0b902c4292e3c9d506a03ca67a0d1edc69aa38dadbd9"
+  }
+}

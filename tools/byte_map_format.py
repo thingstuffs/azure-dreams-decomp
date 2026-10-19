@@ -15,7 +15,7 @@ PART_BYTES = 1_500_000
 LABELS = ('proven_code', 'library_code', 'strongly_code', 'proven_data',
           'noncode_typing_pending', 'padding_leftover', 'unknown')
 HEADER = dict(image='i', container='c', foff='o', size='n', vma='v', layout='l',
-              evidence='e', symbols='y', census='t', provenance='p')
+              evidence='e', symbols='y', census='t', provenance='p', load_evidence='b')
 KINDS = dict(code_region='r', data='d', asset='a', padding='p', leftover='l',
              unresolved='u', image='i')
 

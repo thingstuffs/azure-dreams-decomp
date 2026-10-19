@@ -1,183 +1,496 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/s2_xfer_town_B000",
- "container": "town",
- "foff": "0xb000",
- "size": "0x8b000",
- "vma": "0x80088760",
- "evidence": "docs/evidence/r121w_s2_receipts.json",
- "entries": [
-  {
-   "row": "town/func_8008DB5C",
-   "home": "town/func_8008DB5C",
-   "tu": "src/town/func_8008DB5C.c",
-   "foff": "0x0000DB5C",
-   "vma": "0x8008B2BC",
-   "size": 8
-  },
-  {
-   "row": "town/func_80091B34",
-   "tu": "src/town/func_80091B34.c",
-   "home": "town/func_80091B34",
-   "foff": "0x11b34",
-   "vma": "0x8008f294",
-   "size": 64
-  },
-  {
-   "row": "town/func_80098A48",
-   "home": "town/func_80098A48",
-   "tu": "src/town/func_80098A48.c",
-   "foff": "0x00018A48",
-   "vma": "0x800961A8",
-   "size": 48
-  },
-  {
-   "row": "town/func_800B0DB0",
-   "home": "town/func_800B0DB0",
-   "tu": "src/town/func_800B0DB0.c",
-   "foff": "0x00030DB0",
-   "vma": "0x800AE510",
-   "size": 8
-  },
-  {
-   "row": "town/func_800B2AB4",
-   "home": "town/func_800B2AB4",
-   "tu": "src/town/func_800B2AB4.c",
-   "foff": "0x00032AB4",
-   "vma": "0x800B0214",
-   "size": 192
-  },
-  {
-   "row": "town/func_800B61C4",
-   "home": "town/func_800B2AB4",
-   "tu": "src/town/func_800B2AB4.c",
-   "foff": "0x000361C4",
-   "vma": "0x800B3924",
-   "size": 192,
-   "bindings": {
-    "0x8003FC64": "0x8003FC64",
-    "0x800B0198": "0x800B38A8",
-    "0x800AFE10": "0x800B3598",
-    "0x800B0158": "0x800B3868",
-    "0x8004491C": "0x8004491C",
-    "0x8004CAA0": "0x8004CAA0",
-    "0x8004B248": "0x8004B248",
-    "0x800814A0": "0x800814A0",
-    "0x800B0214": "0x800B3924"
-   },
-   "evidence": "LL3a attestation sha256:cbfd3f74a0107597f0dff27d522382d916c239b52d2726d430a9e10a8629c619; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "town/func_800C43C0",
-   "home": "town/func_800C43C0",
-   "tu": "src/town/func_800C43C0.c",
-   "foff": "0x000443C0",
-   "vma": "0x800C1B20",
-   "size": 16
-  },
-  {
-   "row": "town/func_800C4404",
-   "home": "town/func_800C43C0",
-   "tu": "src/town/func_800C43C0.c",
-   "foff": "0x00044404",
-   "vma": "0x800C1B64",
-   "size": 16,
-   "bindings": {
-    "0x800834B6": "0x800834B6",
-    "0x800C1B20": "0x800C1B64"
-   },
-   "evidence": "LL3a attestation sha256:d33abd337e0281ed6d43cd46e90cd6c50e3132a280dc56c0c3fd8b00e6801d4a; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "town/func_800C8D68",
-   "tu": "src/town/func_800C8D68.c",
-   "home": "town/func_800C8D68",
-   "foff": "0x48d68",
-   "vma": "0x800c64c8",
-   "size": 124
-  },
-  {
-   "row": "town/func_80028E68",
-   "tu": "src/town/func_800C8D68.c",
-   "home": "town/func_800C8D68",
-   "foff": "0x48e68",
-   "vma": "0x800c65c8",
-   "size": 124,
-   "bindings": {
-    "0x800c641c": "0x800c645c",
-    "0x800C1B20": "0x800C1B20",
-    "0x800B0214": "0x800B0214",
-    "0x800C9B44": "0x800C9B44"
-   },
-   "evidence": "docs/evidence/r121w_s2_receipts.json#town/func_80028E68; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
-  },
-  {
-   "row": "town/func_800CC3E4",
-   "home": "town/func_800CC3E4",
-   "tu": "src/town/func_800CC3E4.c",
-   "foff": "0x0004C3E4",
-   "vma": "0x800C9B44",
-   "size": 200
-  },
-  {
-   "row": "town/func_800D0A3C",
-   "home": "town/func_8009C3A0",
-   "tu": "src/town/func_8009C3A0.c",
-   "foff": "0x00050A3C",
-   "vma": "0x800CE19C",
-   "size": 112,
-   "bindings": {
-    "0x80095388": "0x80095388",
-    "0x8009A1A4": "0x800CEA40",
-    "0x80099B00": "0x800CE19C"
-   },
-   "evidence": "LL3a attestation sha256:a2215bdff280230ed1fe6dcd52772b25d462899a9fc28f794d07343489412237; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "town/func_800D0AAC",
-   "home": "town/func_800CC3E4",
-   "tu": "src/town/func_800CC3E4.c",
-   "foff": "0x00050AAC",
-   "vma": "0x800CE20C",
-   "size": 200,
-   "bindings": {
-    "0x800C2AE8": "0x800C2AE8",
-    "0x800C9DB8": "0x800CEA80",
-    "0x800C9C94": "0x800CE9EC",
-    "0x80095388": "0x80095388",
-    "0x800C9B44": "0x800CE20C"
-   },
-   "evidence": "LL3a attestation sha256:e72e34542f4a64573e75ba4cd0dc3411ca9321b1f90ce5aaa20ffe2e92ab0e63; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "town/func_800D0C2C",
-   "home": "town/func_8009C3A0",
-   "tu": "src/town/func_8009C3A0.c",
-   "foff": "0x00050C2C",
-   "vma": "0x800CE38C",
-   "size": 112,
-   "bindings": {
-    "0x80095388": "0x80095388",
-    "0x8009A1A4": "0x800CEB54",
-    "0x80099B00": "0x800CE38C"
-   },
-   "evidence": "LL3a attestation sha256:7436ba6dd1f469a7df09537a16eababd31ba9c4cca3963576f447f3fedc2ebe8; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "town/func_800D0C9C",
-   "home": "town/func_800CC3E4",
-   "tu": "src/town/func_800CC3E4.c",
-   "foff": "0x00050C9C",
-   "vma": "0x800CE3FC",
-   "size": 200,
-   "bindings": {
-    "0x800C2AE8": "0x800C2AE8",
-    "0x800C9DB8": "0x800CEB94",
-    "0x800C9C94": "0x800CEB00",
-    "0x80095388": "0x80095388",
-    "0x800C9B44": "0x800CE3FC"
-   },
-   "evidence": "LL3a attestation sha256:06a91ba2d653dd99b949d9cece96103871656380af259e048cdc9f14ad7d788e; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/s2_xfer_town_B000",
+  "container": "town",
+  "foff": "0xb000",
+  "size": "0x8b000",
+  "vma": "0x80088760",
+  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "entries": [
+    {
+      "row": "town/func_8008DB5C",
+      "home": "town/func_8008DB5C",
+      "tu": "src/town/func_8008DB5C.c",
+      "foff": "0x0000DB5C",
+      "vma": "0x8008B2BC",
+      "size": 8
+    },
+    {
+      "row": "town/func_8008DB64",
+      "tu": "src/town/func_8008DB5C.c",
+      "home": "town/func_8008DB5C",
+      "foff": "0xDB64",
+      "vma": "0x8008B2C4",
+      "size": 8,
+      "bindings": {
+        "0x8008B2BC": "0x8008B2C4"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_8008DB6C",
+      "tu": "src/town/func_8008DB5C.c",
+      "home": "town/func_8008DB5C",
+      "foff": "0xDB6C",
+      "vma": "0x8008B2CC",
+      "size": 8,
+      "bindings": {
+        "0x8008B2BC": "0x8008B2CC"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_8008DB74",
+      "tu": "src/town/func_8008DB5C.c",
+      "home": "town/func_8008DB5C",
+      "foff": "0xDB74",
+      "vma": "0x8008B2D4",
+      "size": 8,
+      "bindings": {
+        "0x8008B2BC": "0x8008B2D4"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_80091B34",
+      "tu": "src/town/func_80091B34.c",
+      "home": "town/func_80091B34",
+      "foff": "0x11b34",
+      "vma": "0x8008f294",
+      "size": 64
+    },
+    {
+      "row": "town/func_80098460",
+      "tu": "src/town/func_80098460.c",
+      "home": "town/func_80098460",
+      "foff": "0x18460",
+      "vma": "0x80095BC0",
+      "size": 48
+    },
+    {
+      "row": "town/func_80098490",
+      "tu": "src/town/func_80098460.c",
+      "home": "town/func_80098460",
+      "foff": "0x18490",
+      "vma": "0x80095BF0",
+      "size": 48,
+      "bindings": {
+        "0x800D0410": "0x800D0414",
+        "0x8008C4C8": "0x8008C570",
+        "0x80095BC0": "0x80095BF0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_800984C0",
+      "tu": "src/town/func_80098460.c",
+      "home": "town/func_80098460",
+      "foff": "0x184C0",
+      "vma": "0x80095C20",
+      "size": 48,
+      "bindings": {
+        "0x800D0410": "0x800D0418",
+        "0x8008C4C8": "0x8008C610",
+        "0x80095BC0": "0x80095C20"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_80098A48",
+      "home": "town/func_80098A48",
+      "tu": "src/town/func_80098A48.c",
+      "foff": "0x00018A48",
+      "vma": "0x800961A8",
+      "size": 48
+    },
+    {
+      "row": "town/func_800A1F74",
+      "tu": "src/town/func_8008DB5C.c",
+      "home": "town/func_8008DB5C",
+      "foff": "0x21F74",
+      "vma": "0x8009F6D4",
+      "size": 8,
+      "bindings": {
+        "0x8008B2BC": "0x8009F6D4"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_800A9E58",
+      "tu": "src/town/func_800A9E58.c",
+      "home": "town/func_800A9E58",
+      "foff": "0x29E58",
+      "vma": "0x800A75B8",
+      "size": 44
+    },
+    {
+      "row": "town/func_800B0DB0",
+      "home": "town/func_800B0DB0",
+      "tu": "src/town/func_800B0DB0.c",
+      "foff": "0x00030DB0",
+      "vma": "0x800AE510",
+      "size": 8
+    },
+    {
+      "row": "town/func_800B29F8",
+      "tu": "src/town/func_800B29F8.c",
+      "home": "town/func_800B29F8",
+      "foff": "0x329F8",
+      "vma": "0x800B0158",
+      "size": 64
+    },
+    {
+      "row": "town/func_800B2AB4",
+      "home": "town/func_800B2AB4",
+      "tu": "src/town/func_800B2AB4.c",
+      "foff": "0x00032AB4",
+      "vma": "0x800B0214",
+      "size": 192
+    },
+    {
+      "row": "town/func_800B6108",
+      "tu": "src/town/func_800B29F8.c",
+      "home": "town/func_800B29F8",
+      "foff": "0x36108",
+      "vma": "0x800B3868",
+      "size": 64,
+      "bindings": {
+        "0x800B0134": "0x800B384C",
+        "0x800AFF00": "0x800B3688",
+        "0x800B0024": "0x800B3734",
+        "0x800B0158": "0x800B3868"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_800B61C4",
+      "home": "town/func_800B2AB4",
+      "tu": "src/town/func_800B2AB4.c",
+      "foff": "0x000361C4",
+      "vma": "0x800B3924",
+      "size": 192,
+      "bindings": {
+        "0x8003FC64": "0x8003FC64",
+        "0x800B0198": "0x800B38A8",
+        "0x800AFE10": "0x800B3598",
+        "0x800B0158": "0x800B3868",
+        "0x8004491C": "0x8004491C",
+        "0x8004CAA0": "0x8004CAA0",
+        "0x8004B248": "0x8004B248",
+        "0x800814A0": "0x800814A0",
+        "0x800B0214": "0x800B3924",
+        "0x800C6880": "0x800C6880",
+        "0x80095BC0": "0x80095BC0",
+        "0x800A75B8": "0x800A75B8",
+        "0x800C0AC8": "0x800C0AC8",
+        "0x8008B2BC": "0x8008B2BC"
+      },
+      "evidence": "LL3a attestation sha256:cbfd3f74a0107597f0dff27d522382d916c239b52d2726d430a9e10a8629c619; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_800C3368",
+      "tu": "src/town/func_800C3368.c",
+      "home": "town/func_800C3368",
+      "foff": "0x43368",
+      "vma": "0x800C0AC8",
+      "size": 44
+    },
+    {
+      "row": "town/func_800C3394",
+      "tu": "src/town/func_800C3368.c",
+      "home": "town/func_800C3368",
+      "foff": "0x43394",
+      "vma": "0x800C0AF4",
+      "size": 44,
+      "bindings": {
+        "0x8009E218": "0x8009E258",
+        "0x800C0AC8": "0x800C0AF4"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_800C33C0",
+      "tu": "src/town/func_800C3368.c",
+      "home": "town/func_800C3368",
+      "foff": "0x433C0",
+      "vma": "0x800C0B20",
+      "size": 44,
+      "bindings": {
+        "0x8009E218": "0x80093C40",
+        "0x800C0AC8": "0x800C0B20"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_800C33EC",
+      "tu": "src/town/func_800C3368.c",
+      "home": "town/func_800C3368",
+      "foff": "0x433EC",
+      "vma": "0x800C0B4C",
+      "size": 44,
+      "bindings": {
+        "0x8009E218": "0x80093C58",
+        "0x800C0AC8": "0x800C0B4C"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_800C3418",
+      "tu": "src/town/func_800C3368.c",
+      "home": "town/func_800C3368",
+      "foff": "0x43418",
+      "vma": "0x800C0B78",
+      "size": 44,
+      "bindings": {
+        "0x8009E218": "0x8009E2C0",
+        "0x800C0AC8": "0x800C0B78"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_800C3444",
+      "tu": "src/town/func_800C3368.c",
+      "home": "town/func_800C3368",
+      "foff": "0x43444",
+      "vma": "0x800C0BA4",
+      "size": 44,
+      "bindings": {
+        "0x8009E218": "0x8009E348",
+        "0x800C0AC8": "0x800C0BA4"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_800C3470",
+      "tu": "src/town/func_800C3368.c",
+      "home": "town/func_800C3368",
+      "foff": "0x43470",
+      "vma": "0x800C0BD0",
+      "size": 44,
+      "bindings": {
+        "0x8009E218": "0x8009E370",
+        "0x800C0AC8": "0x800C0BD0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_800C37E0",
+      "tu": "src/town/func_8008DB5C.c",
+      "home": "town/func_8008DB5C",
+      "foff": "0x437E0",
+      "vma": "0x800C0F40",
+      "size": 8,
+      "bindings": {
+        "0x8008B2BC": "0x800C0F40"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_800C43C0",
+      "home": "town/func_800C43C0",
+      "tu": "src/town/func_800C43C0.c",
+      "foff": "0x000443C0",
+      "vma": "0x800C1B20",
+      "size": 16
+    },
+    {
+      "row": "town/func_800C4404",
+      "home": "town/func_800C43C0",
+      "tu": "src/town/func_800C43C0.c",
+      "foff": "0x00044404",
+      "vma": "0x800C1B64",
+      "size": 16,
+      "bindings": {
+        "0x800834B6": "0x800834B6",
+        "0x800C1B20": "0x800C1B64",
+        "0x800C6880": "0x800C6880",
+        "0x80095BC0": "0x80095BC0",
+        "0x800A75B8": "0x800A75B8",
+        "0x800C0AC8": "0x800C0AC8",
+        "0x800B0158": "0x800B0158",
+        "0x8008B2BC": "0x8008B2BC"
+      },
+      "evidence": "LL3a attestation sha256:d33abd337e0281ed6d43cd46e90cd6c50e3132a280dc56c0c3fd8b00e6801d4a; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_800C8B10",
+      "tu": "src/town/func_800A9E58.c",
+      "home": "town/func_800A9E58",
+      "foff": "0x48B10",
+      "vma": "0x800C6270",
+      "size": 44,
+      "bindings": {
+        "0x800A74D8": "0x800C6180",
+        "0x800A71F0": "0x800A71F0",
+        "0x800D0E04": "0x800ED15C",
+        "0x800A75B8": "0x800C6270"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_800C8D68",
+      "tu": "src/town/func_800C8D68.c",
+      "home": "town/func_800C8D68",
+      "foff": "0x48d68",
+      "vma": "0x800c64c8",
+      "size": 124
+    },
+    {
+      "row": "town/func_80028E68",
+      "tu": "src/town/func_800C8D68.c",
+      "home": "town/func_800C8D68",
+      "foff": "0x48e68",
+      "vma": "0x800c65c8",
+      "size": 124,
+      "bindings": {
+        "0x800c641c": "0x800c645c",
+        "0x800C1B20": "0x800C1B20",
+        "0x800B0214": "0x800B0214",
+        "0x800C9B44": "0x800C9B44",
+        "0x800C6880": "0x800C6880",
+        "0x80095BC0": "0x80095BC0",
+        "0x800A75B8": "0x800A75B8",
+        "0x800C0AC8": "0x800C0AC8",
+        "0x800B0158": "0x800B0158",
+        "0x8008B2BC": "0x8008B2BC"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#town/func_80028E68; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+    },
+    {
+      "row": "town/func_800C9120",
+      "tu": "src/town/func_800C9120.c",
+      "home": "town/func_800C9120",
+      "foff": "0x49120",
+      "vma": "0x800C6880",
+      "size": 96
+    },
+    {
+      "row": "town/func_800C9384",
+      "tu": "src/town/func_800C9120.c",
+      "home": "town/func_800C9120",
+      "foff": "0x49384",
+      "vma": "0x800C6AE4",
+      "size": 96,
+      "bindings": {
+        "0x800C2E84": "0x800C2E84",
+        "0x800D58CC": "0x800D591C",
+        "0x80082660": "0x80082660",
+        "0x800C6814": "0x800C6A78",
+        "0x800C6880": "0x800C6AE4"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_800CC3E4",
+      "home": "town/func_800CC3E4",
+      "tu": "src/town/func_800CC3E4.c",
+      "foff": "0x0004C3E4",
+      "vma": "0x800C9B44",
+      "size": 200
+    },
+    {
+      "row": "town/func_800D0A3C",
+      "home": "town/func_8009C3A0",
+      "tu": "src/town/func_8009C3A0.c",
+      "foff": "0x00050A3C",
+      "vma": "0x800CE19C",
+      "size": 112,
+      "bindings": {
+        "0x80095388": "0x80095388",
+        "0x8009A1A4": "0x800CEA40",
+        "0x80099B00": "0x800CE19C"
+      },
+      "evidence": "LL3a attestation sha256:a2215bdff280230ed1fe6dcd52772b25d462899a9fc28f794d07343489412237; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_800D0AAC",
+      "home": "town/func_800CC3E4",
+      "tu": "src/town/func_800CC3E4.c",
+      "foff": "0x00050AAC",
+      "vma": "0x800CE20C",
+      "size": 200,
+      "bindings": {
+        "0x800C2AE8": "0x800C2AE8",
+        "0x800C9DB8": "0x800CEA80",
+        "0x800C9C94": "0x800CE9EC",
+        "0x80095388": "0x80095388",
+        "0x800C9B44": "0x800CE20C",
+        "0x800C6880": "0x800C6880",
+        "0x80095BC0": "0x80095BC0",
+        "0x800A75B8": "0x800A75B8",
+        "0x800C0AC8": "0x800C0AC8",
+        "0x800B0158": "0x800B0158",
+        "0x8008B2BC": "0x8008B2BC"
+      },
+      "evidence": "LL3a attestation sha256:e72e34542f4a64573e75ba4cd0dc3411ca9321b1f90ce5aaa20ffe2e92ab0e63; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_800D0C2C",
+      "home": "town/func_8009C3A0",
+      "tu": "src/town/func_8009C3A0.c",
+      "foff": "0x00050C2C",
+      "vma": "0x800CE38C",
+      "size": 112,
+      "bindings": {
+        "0x80095388": "0x80095388",
+        "0x8009A1A4": "0x800CEB54",
+        "0x80099B00": "0x800CE38C"
+      },
+      "evidence": "LL3a attestation sha256:7436ba6dd1f469a7df09537a16eababd31ba9c4cca3963576f447f3fedc2ebe8; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_800D0C9C",
+      "home": "town/func_800CC3E4",
+      "tu": "src/town/func_800CC3E4.c",
+      "foff": "0x00050C9C",
+      "vma": "0x800CE3FC",
+      "size": 200,
+      "bindings": {
+        "0x800C2AE8": "0x800C2AE8",
+        "0x800C9DB8": "0x800CEB94",
+        "0x800C9C94": "0x800CEB00",
+        "0x80095388": "0x80095388",
+        "0x800C9B44": "0x800CE3FC",
+        "0x800C6880": "0x800C6880",
+        "0x80095BC0": "0x80095BC0",
+        "0x800A75B8": "0x800A75B8",
+        "0x800C0AC8": "0x800C0AC8",
+        "0x800B0158": "0x800B0158",
+        "0x8008B2BC": "0x8008B2BC"
+      },
+      "evidence": "LL3a attestation sha256:06a91ba2d653dd99b949d9cece96103871656380af259e048cdc9f14ad7d788e; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_800D1B68",
+      "tu": "src/town/func_800D1A4C.c",
+      "home": "town/func_800D1A4C",
+      "foff": "0x51B68",
+      "vma": "0x800CF2C8",
+      "size": 96,
+      "bindings": {
+        "0x800C2E84": "0x800C2E84",
+        "0x800D77B0": "0x800D783C",
+        "0x80082660": "0x80082660",
+        "0x800C3BB8": "0x800C3BB8",
+        "0x800CF1AC": "0x800CF2C8"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_800D1BC8",
+      "tu": "src/town/func_800D1AAC.c",
+      "home": "town/func_800D1AAC",
+      "foff": "0x51BC8",
+      "vma": "0x800CF328",
+      "size": 96,
+      "bindings": {
+        "0x800C2E84": "0x800C2E84",
+        "0x800D77B8": "0x800D7844",
+        "0x80082660": "0x80082660",
+        "0x800C3B7C": "0x800C3B7C",
+        "0x800CF20C": "0x800CF328"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    }
+  ]
 }

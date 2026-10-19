@@ -47,8 +47,7 @@ No `#define <old> func_<new>` relocation lines and no `-D` symbols: rebinding ha
 
 ## Not yet modelled
 
-Module placements (certified-module members and their bank copies), cross-container homes, placements whose
-image has no proven rowbase region (the gate links at a true base only inside one). Text-reading reporting tools
+Module placements (certified-module members and their bank copies) and cross-container homes. Text-reading reporting tools
 (status shape census, decl/struct census, levels record facts, dashboard) still read the home text once per
 placement; LL1 must make them count each TU once (`source_layout.source_items` already does).
 
@@ -280,3 +279,20 @@ whole-container searches find two exact occurrences each. Slice identity does no
 prove shared compiled TUs, full twin allocations, four shop placements or runtime
 non-loading. The existing bounded holds remain valid. Any future compilation
 input change needs its own scoped gate; this catalogue does not change authority.
+
+## Load evidence outside rowbase regions (LL3c)
+
+A fileless placement outside every rowbase region may obtain its link VMA from
+its image. The image must carry `load_evidence` with exactly `path` (the tracked
+`ledger/instance_load_regions.jsonl`) and `record_sha256` (SHA-256 of the selected
+record serialized as sorted-key compact JSON). The gate checks the current record,
+container, image containment, base/delta consistency, exact placement size and
+split true name. Free-form `evidence` text alone cannot authorize the base.
+A solved rowbase region still requires normal promotion; this path cannot bypass it.
+When a proven rowbase delta exists, the placement must agree with it.
+
+The load-record file participates in the affected window's inputs alongside its
+image and home-image lists. A linked-base witness retains its stated scope: it
+does not establish that retail executes a documented devkit-linked image.
+Placement assembler flags resolve by the logical row key, retaining their identity
+when several no-region images share a true-name label.

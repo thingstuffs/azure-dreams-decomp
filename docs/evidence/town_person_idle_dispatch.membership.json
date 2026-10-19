@@ -1,0 +1,61 @@
+{
+  "module": "town_person_idle_dispatch",
+  "ledger_group": {
+    "container": "town",
+    "module": "person_idle_dispatch.c",
+    "module_index": 42
+  },
+  "members": [
+    "town/func_800C5520",
+    "town/func_800C5550"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Bounded feature consolidation; no assertion of an original Konami file boundary.",
+  "basis": [
+    "All members are distinct retained homes, in one proven load region and one home image.",
+    "File extents meet exactly; no gap, data row, alignment bytes or other function intervenes.",
+    "All members use the identical compiler/assembler cell; the complete native build verifies natural allocation order and all bytes.",
+    "Bodies implement the same narrowly described feature; existing per-row contracts remain visible."
+  ],
+  "review": "reviewed",
+  "reviewer": "codex-r121w-tu1",
+  "assignment_changes": [
+    {
+      "before": {
+        "id": "town/func_800C5520",
+        "container": "town",
+        "module": "person.c",
+        "module_index": 42,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "town/func_800C5520",
+        "container": "town",
+        "module": "person_idle_dispatch.c",
+        "module_index": 42,
+        "confidence": "strong"
+      }
+    },
+    {
+      "before": {
+        "id": "town/func_800C5550",
+        "container": "town",
+        "module": "person.c",
+        "module_index": 42,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "town/func_800C5550",
+        "container": "town",
+        "module": "person_idle_dispatch.c",
+        "module_index": 42,
+        "confidence": "strong"
+      }
+    }
+  ],
+  "source_sha256": {
+    "src/town/func_800C5520.c": "e5f1133f4cd6a56f977b8f93d815e984f378a964fd8620525b47bba7b8802f5f",
+    "src/town/func_800C5550.c": "fa72b05520f2d5411cda0eade2e5ed20de284dd78014b29ee0f640dfe28c6cea"
+  }
+}

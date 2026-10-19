@@ -1,0 +1,14 @@
+{
+  "module": "main_card_slot_refresh",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Use the established whole-TU ASPSX 2.79 -0 recipe, and require direct genuine equality with the unmasked GCC stream; no per-function assembler overrides."
+}

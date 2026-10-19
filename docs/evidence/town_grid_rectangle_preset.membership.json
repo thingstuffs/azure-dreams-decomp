@@ -1,0 +1,31 @@
+{
+  "module": "town_grid_rectangle_preset",
+  "ledger_group": {
+    "container": "town",
+    "module": "grid_rectangle_preset.c",
+    "module_index": 134030
+  },
+  "members": [
+    "town/func_8032D894",
+    "town/func_8032D93C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Complete current compiler-unit closure of refs private-state candidate group_0360.",
+    "All home members are byte-adjacent in one proven load region at their unchanged uniform compiler recipe.",
+    "Private helper set func_80018094 has local linkage in the native object; complete emitted payload and every member require fresh retail and genuine proof."
+  ],
+  "candidate": "group_0360",
+  "private_groups": [
+    "p01367"
+  ],
+  "private_functions": [
+    "func_80018094"
+  ],
+  "standalone_source_sha256": {
+    "town/func_8032D894": "0c9a60f6f2d113d5d30b506be4a3b253dcbd1d950d0c7d76c648c5b7b8e9a211",
+    "town/func_8032D93C": "7103ab85ae7bfb3b1c10ae086dbe4209e150b42a8ef2f3a82f8e5e3ea9348838"
+  },
+  "source_facades": "Original home files remain standalone row/placement facades; native source contains one shared declaration block and unchanged function bodies with private linkage."
+}

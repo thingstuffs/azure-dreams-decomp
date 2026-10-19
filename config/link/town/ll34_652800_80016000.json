@@ -1,0 +1,71 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_652800_80016000",
+  "container": "town",
+  "foff": "0x652800",
+  "size": "0x1800",
+  "vma": "0x80016000",
+  "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
+  "entries": [
+    {
+      "row": "town/func_806D2890",
+      "tu": "src/town/func_800B0DB0.c",
+      "home": "town/func_800B0DB0",
+      "foff": "0x652890",
+      "vma": "0x80016090",
+      "size": 8,
+      "bindings": {
+        "0x800AE510": "0x80016090"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_806D2AB0",
+      "tu": "src/town/func_806D2AB0.c",
+      "home": "town/func_806D2AB0",
+      "foff": "0x652AB0",
+      "vma": "0x800162B0",
+      "size": 204
+    },
+    {
+      "row": "town/func_806D2B7C",
+      "tu": "src/town/func_8032EEA8.c",
+      "home": "town/func_8032EEA8",
+      "foff": "0x652B7C",
+      "vma": "0x8001637C",
+      "size": 60,
+      "bindings": {
+        "0x800196A8": "0x8001637C"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_806D2BB8",
+      "tu": "src/town/func_806D2BB8.c",
+      "home": "town/func_806D2BB8",
+      "foff": "0x652BB8",
+      "vma": "0x800163B8",
+      "size": 132
+    },
+    {
+      "row": "town/func_806D2C3C",
+      "tu": "src/town/func_806D2C3C.c",
+      "home": "town/func_806D2C3C",
+      "foff": "0x652C3C",
+      "vma": "0x8001643C",
+      "size": 212
+    },
+    {
+      "row": "town/func_806D35DC",
+      "tu": "src/town/func_806D35DC.c",
+      "home": "town/func_806D35DC",
+      "foff": "0x6535DC",
+      "vma": "0x80016DDC",
+      "size": 40
+    }
+  ],
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "bfd967c481bf3ee78240f00eb1a11d19a85bf58103886f93dcde5a00610c5386"
+  }
+}

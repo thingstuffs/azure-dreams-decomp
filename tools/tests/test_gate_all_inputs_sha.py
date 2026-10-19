@@ -1,4 +1,6 @@
-"""tools/build/gate_all.py: inputs_sha must hash the container's maspsx census files, not just
+"""Legacy v3 census oracle (v4 dependencies: test_proof_receipts).
+
+tools/build/gate_all.py: legacy_inputs_sha must hash the container's maspsx census files, not just
 the window YAML, split records and src/*.c.
 
 Bug: config/noreturn_syms[.<container>].txt and config/sibcall_syms[.<container>].txt (main family
@@ -81,9 +83,9 @@ class InputsShaCensusFiles(unittest.TestCase):
         self._write("noreturn_syms.txt", "sym_a\n")
         self._write("sibcall_syms.txt", "sym_b\n")
         y = self._yaml("main_boot")
-        before = gate_all.inputs_sha(y)
+        before = gate_all.legacy_inputs_sha(y)
         self._write("noreturn_syms.txt", "sym_a\nsym_c\n")
-        after = gate_all.inputs_sha(y)
+        after = gate_all.legacy_inputs_sha(y)
         self.assertNotEqual(before, after)
 
     def test_sha_unaffected_by_a_different_familys_census(self):
@@ -91,19 +93,19 @@ class InputsShaCensusFiles(unittest.TestCase):
         self._write("sibcall_syms.txt", "sym_b\n")
         self._write("noreturn_syms.town.txt", "unrelated\n")
         y = self._yaml("main_boot")
-        before = gate_all.inputs_sha(y)
+        before = gate_all.legacy_inputs_sha(y)
         self._write("noreturn_syms.town.txt", "unrelated\nchanged\n")
-        after = gate_all.inputs_sha(y)
+        after = gate_all.legacy_inputs_sha(y)
         self.assertEqual(before, after, "main's sha must not depend on the town family's census")
 
     def test_sha_changes_when_the_abs_syms_file_changes(self):
         # config/overlays/abs_syms.txt (round 95 equate migration) resolves names every window's rows reference
         y = self._yaml("town_scene")
-        before = gate_all.inputs_sha(y)
+        before = gate_all.legacy_inputs_sha(y)
         (self.tmp / "config/overlays/abs_syms.txt").write_text("D_80701DC4_0 = 0x80701DC4;\n")
-        mid = gate_all.inputs_sha(y)
+        mid = gate_all.legacy_inputs_sha(y)
         (self.tmp / "config/overlays/abs_syms.txt").write_text("D_80701DC4_0 = 0x80701DC4;\nT_80010000 = 0x80010000;\n")
-        after = gate_all.inputs_sha(y)
+        after = gate_all.legacy_inputs_sha(y)
         self.assertNotEqual(before, mid)
         self.assertNotEqual(mid, after)
 
@@ -111,7 +113,7 @@ class InputsShaCensusFiles(unittest.TestCase):
         self._write("noreturn_syms.dungeon.txt", "sym_a\n")
         self._write("sibcall_syms.dungeon.txt", "sym_b\n")
         y = self._yaml("dungeon_deep_0a68")
-        self.assertEqual(gate_all.inputs_sha(y), gate_all.inputs_sha(y))
+        self.assertEqual(gate_all.legacy_inputs_sha(y), gate_all.legacy_inputs_sha(y))
 
 
 if __name__ == "__main__":

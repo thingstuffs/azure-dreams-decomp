@@ -1,0 +1,4 @@
+ok config/noreturn_syms.txt: 32 symbol(s) [main]
+ok config/noreturn_syms.town.txt: 213 symbol(s) [town]; 2 false member(s) excluded
+ok config/noreturn_syms.dungeon.txt: 1014 symbol(s) [dungeon]; 60 false member(s) excluded
+ok config/noreturn_syms.ovmovie.txt: 0 symbol(s) [ovmovie]

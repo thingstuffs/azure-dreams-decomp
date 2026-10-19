@@ -22,7 +22,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT/'tools'), str(ROOT/'tools/gate')]
 SCHEMA = 'azure-proof-receipt.v1'
-KINDS = {'overlay-window', 'overlay-module', 'native-candidate', 'row-score'}
+KINDS = {'overlay-window', 'overlay-module', 'overlay-module-placement', 'native-candidate', 'row-score'}
 _SNAPSHOT = ContextVar('portable_proof_hashes', default=None)
 
 
@@ -353,6 +353,10 @@ def window_inputs(root, target):
     # Link lists (docs/LINK_LISTS.md): the image files that decide this window's placements. Empty (and
     # therefore no change to any digest) while the window holds no placement row.
     symbols.extend(linklist.window_files(root, ids))
+    import overlay_module_placements as MP
+    placed=[p for p in MP.load(root) if p['container']==family and MP.intersects(p,start,end)]
+    if placed:
+        modules.extend(dict(placement=MP.inputs(p,root),artifact=G.fingerprint(next(m for m in G.load_modules(root) if m['key']==p['module']),root,windows=False)) for p in placed)
 
     # Capture all include namespace bytes conservatively; source-local header
     # additions and transitive/macro includes are independently rediscovered -M.
@@ -380,6 +384,13 @@ def inputs(root, kind, target):
     if kind == 'overlay-window':
         return window_inputs(root, target)
     G, S = _authorities()
+    if kind == 'overlay-module-placement':
+        import overlay_module_placements as MP
+        p = next(p for p in MP.load(root) if p['key'] == target)
+        m = next(m for m in G.load_modules(root) if m['key'] == p['module'])
+        return dict(schema=SCHEMA, kind=kind, target=target, fingerprint=MP.fingerprint(p,m,root),
+                    tools=extra_tools(root), environment=environment(),
+                    windows={wn:window_inputs(root,wn) for wn in MP.windows(p,root)})
     if kind in ('overlay-module', 'native-candidate'):
         m = next(m for m in G.load_modules(root) if m['key']==target)
         version = G.module_compiler(m)
@@ -629,15 +640,69 @@ def import_module(root, source):
     return doc
 
 
+def export_placement(root, key, directory):
+    """Carry a current reviewed shard, the whole TU, and every destination window."""
+    import overlay_module_placements as MP
+    root=Path(root);directory=Path(directory)
+    p=next(p for p in MP.load(root) if p['key']==key)
+    certificate=(root/'ledger/modules'/('placement_'+key+'.json')).read_bytes()
+    cert=json.loads(certificate);before=inputs(root,'overlay-module-placement',key)
+    reason=MP.certificate_reason(p,cert,root)
+    if reason:raise ValueError('cannot carry invalid placement certificate: '+reason)
+    refs=[cert['proof_dir'],*(w['proof_dir'] for w in cert['windows'])]
+    directory.mkdir(parents=True,exist_ok=False)
+    try:
+        (directory/'certificate.json').write_bytes(certificate)
+        for i,name in enumerate(refs):
+            path=MP.proof_path(root,name)
+            if path.is_symlink() or any(p.is_symlink() for p in path.rglob('*')):
+                raise ValueError('linked module placement proof artifact')
+            shutil.copytree(path,directory/'proofs'/str(i))
+        return publish(directory,'overlay-module-placement',key,before,inputs(root,'overlay-module-placement',key),
+                       'MATCH',metadata=dict(proof_dirs=refs))
+    except BaseException:
+        shutil.rmtree(directory)
+        raise
+
+
+def import_placement(root, source):
+    """Revalidate the original shard at guarded proof paths; never re-sign review."""
+    import overlay_module_placements as MP
+    root=Path(root);source=Path(source)
+    doc=verify(root,source,expected_kind='overlay-module-placement');key=doc['target']
+    cert=json.loads((source/'certificate.json').read_text())
+    refs=[cert['proof_dir'],*(w['proof_dir'] for w in cert['windows'])]
+    if doc['metadata'].get('proof_dirs')!=refs:raise ValueError('placement proof directories differ')
+    staged=[]
+    for i,name in enumerate(refs):
+        if not name.startswith('work/module_placement_proofs/'+key+'/'):
+            raise ValueError('unsupported placement proof destination')
+        dest=private(root,name)
+        for p in (source/'proofs'/str(i)).rglob('*'):
+            if p.is_file():
+                q=private(root,str((dest/p.relative_to(source/'proofs'/str(i))).relative_to(root)))
+                staged.append((p,q))
+    for p,q in staged:
+        q.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,q)
+    p=next(p for p in MP.load(root) if p['key']==key)
+    reason=MP.certificate_reason(p,cert,root)
+    if reason:raise ValueError('carried placement certificate failed validation: '+reason)
+    dest=private(root,'ledger/modules/placement_'+key+'.json');dest.parent.mkdir(parents=True,exist_ok=True)
+    dest.write_bytes((source/'certificate.json').read_bytes())
+    return doc
+
+
 def main(argv=None):
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--root',type=Path,required=True)
     commands=ap.add_subparsers(dest='command',required=True)
     p=commands.add_parser('verify');p.add_argument('directory',type=Path)
     p=commands.add_parser('export-module');p.add_argument('key');p.add_argument('directory',type=Path)
+    p=commands.add_parser('export-placement');p.add_argument('key');p.add_argument('directory',type=Path)
     a=ap.parse_args(argv)
     with input_snapshot():
         if a.command=='verify':doc=verify(a.root,a.directory);print(json.dumps(dict(kind=doc['kind'],target=doc['target'],result='CURRENT')))
+        elif a.command=='export-placement':print(export_placement(a.root,a.key,a.directory))
         else:print(export_module(a.root,a.key,a.directory))
 
 if __name__=='__main__':main()
@@ -670,7 +735,8 @@ def package_receipts(package):
 def module_window_proofs(root, source, output):
     """A canonically validated module certificate already contains exact windows."""
     source=Path(source);output=Path(output)
-    doc=verify(root,source,expected_kind='overlay-module')
+    doc=verify(root,source)
+    if doc['kind'] not in ('overlay-module','overlay-module-placement'):raise ValueError('window derivation requires a complete module or placement certificate')
     cert=json.loads((source/'certificate.json').read_text());result={}
     for i,window in enumerate(cert['windows'],1):
         target=window['config'];directory=output/Path(target).stem

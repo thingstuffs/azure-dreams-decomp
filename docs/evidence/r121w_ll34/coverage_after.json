@@ -1,0 +1,142 @@
+{
+  "schema": "azure-clean.whole-image-coverage.v1",
+  "basis": "ledger attestations; no rebuild; heuristics explicitly separated",
+  "containers": {
+    "dungeon": {
+      "file_bytes": 27813888,
+      "whole_image": {
+        "c_rows": 6642568,
+        "proven_instances": 38132,
+        "data_excluded": 358840,
+        "sdk_asm": 0,
+        "unported": 1344,
+        "estimated_code": 35120,
+        "unknown": 20737884,
+        "code_bytes_classified_or_estimated": 6717164,
+        "c_coverage_before_pct": 98.8895,
+        "c_coverage_after_pct": 99.4572,
+        "scope_bytes": 27813888,
+        "partition_bytes": 27813888
+      },
+      "windows": {
+        "c_rows": 6549172,
+        "proven_instances": 17192,
+        "data_excluded": 358840,
+        "sdk_asm": 0,
+        "unported": 1344,
+        "estimated_code": 29064,
+        "unknown": 761288,
+        "code_bytes_classified_or_estimated": 6596772,
+        "c_coverage_before_pct": 99.2784,
+        "c_coverage_after_pct": 99.539,
+        "scope_bytes": 7716900,
+        "partition_bytes": 7716900
+      },
+      "denominator_complete": false,
+      "proven_instance_records": 7459,
+      "note": "Before/after share the final denominator; unknown bytes prevent a complete whole-image code percentage."
+    },
+    "main": {
+      "file_bytes": 2578432,
+      "whole_image": {
+        "c_rows": 66260,
+        "proven_instances": 0,
+        "data_excluded": 6996,
+        "sdk_asm": 144,
+        "unported": 348,
+        "estimated_code": 3924,
+        "unknown": 2500760,
+        "code_bytes_classified_or_estimated": 70676,
+        "c_coverage_before_pct": 93.7518,
+        "c_coverage_after_pct": 93.7518,
+        "scope_bytes": 2578432,
+        "partition_bytes": 2578432
+      },
+      "windows": {
+        "c_rows": 66260,
+        "proven_instances": 0,
+        "data_excluded": 6996,
+        "sdk_asm": 144,
+        "unported": 348,
+        "estimated_code": 3924,
+        "unknown": 43160,
+        "code_bytes_classified_or_estimated": 70676,
+        "c_coverage_before_pct": 93.7518,
+        "c_coverage_after_pct": 93.7518,
+        "scope_bytes": 120832,
+        "partition_bytes": 120832
+      },
+      "denominator_complete": false,
+      "proven_instance_records": 10,
+      "note": "Before/after share the final denominator; unknown bytes prevent a complete whole-image code percentage."
+    },
+    "ovmovie": {
+      "file_bytes": 3145728,
+      "whole_image": {
+        "c_rows": 5516,
+        "proven_instances": 0,
+        "data_excluded": 15640,
+        "sdk_asm": 0,
+        "unported": 880,
+        "estimated_code": 0,
+        "unknown": 3123692,
+        "code_bytes_classified_or_estimated": 6396,
+        "c_coverage_before_pct": 86.2414,
+        "c_coverage_after_pct": 86.2414,
+        "scope_bytes": 3145728,
+        "partition_bytes": 3145728
+      },
+      "windows": {
+        "c_rows": 5516,
+        "proven_instances": 0,
+        "data_excluded": 15640,
+        "sdk_asm": 0,
+        "unported": 880,
+        "estimated_code": 0,
+        "unknown": 109036,
+        "code_bytes_classified_or_estimated": 6396,
+        "c_coverage_before_pct": 86.2414,
+        "c_coverage_after_pct": 86.2414,
+        "scope_bytes": 131072,
+        "partition_bytes": 131072
+      },
+      "denominator_complete": false,
+      "proven_instance_records": 0,
+      "note": "Before/after share the final denominator; unknown bytes prevent a complete whole-image code percentage."
+    },
+    "town": {
+      "file_bytes": 16889856,
+      "whole_image": {
+        "c_rows": 806600,
+        "proven_instances": 5280,
+        "data_excluded": 134015,
+        "sdk_asm": 132,
+        "unported": 0,
+        "estimated_code": 13464,
+        "unknown": 15930365,
+        "code_bytes_classified_or_estimated": 825476,
+        "c_coverage_before_pct": 97.7133,
+        "c_coverage_after_pct": 98.353,
+        "scope_bytes": 16889856,
+        "partition_bytes": 16889856
+      },
+      "windows": {
+        "c_rows": 541580,
+        "proven_instances": 816,
+        "data_excluded": 134015,
+        "sdk_asm": 96,
+        "unported": 0,
+        "estimated_code": 11852,
+        "unknown": 392151,
+        "code_bytes_classified_or_estimated": 554344,
+        "c_coverage_before_pct": 97.6975,
+        "c_coverage_after_pct": 97.8447,
+        "scope_bytes": 1080510,
+        "partition_bytes": 1080510
+      },
+      "denominator_complete": false,
+      "proven_instance_records": 367,
+      "note": "Before/after share the final denominator; unknown bytes prevent a complete whole-image code percentage."
+    }
+  }
+}

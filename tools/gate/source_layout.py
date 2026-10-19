@@ -313,3 +313,10 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def physical_owner(row_or_id, root=ROOT):
+    """Reviewed physical module for a home/member/admitted placement, else None."""
+    import overlay_module_placements as P
+    rid = row_or_id if isinstance(row_or_id, str) else row_or_id['id']
+    return P.owner(root, rid)

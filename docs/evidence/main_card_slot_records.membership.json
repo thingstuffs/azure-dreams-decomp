@@ -1,0 +1,61 @@
+{
+  "module": "main_card_slot_records",
+  "ledger_group": {
+    "container": "main",
+    "module": "card_slot_records.c",
+    "module_index": 3
+  },
+  "members": [
+    "main/func_80013240",
+    "main/func_80013270"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Bounded feature consolidation; no assertion of an original Konami file boundary.",
+  "basis": [
+    "All members are distinct retained homes, in one proven load region and one home image.",
+    "File extents meet exactly; no gap, data row, alignment bytes or other function intervenes.",
+    "All members use the identical compiler/assembler cell; the complete native build verifies natural allocation order and all bytes.",
+    "Bodies implement the same narrowly described feature; existing per-row contracts remain visible."
+  ],
+  "review": "reviewed",
+  "reviewer": "codex-r121w-tu1",
+  "assignment_changes": [
+    {
+      "before": {
+        "id": "main/func_80013240",
+        "container": "main",
+        "module": "c_server.c",
+        "module_index": 3,
+        "confidence": "proven"
+      },
+      "after": {
+        "id": "main/func_80013240",
+        "container": "main",
+        "module": "card_slot_records.c",
+        "module_index": 3,
+        "confidence": "strong"
+      }
+    },
+    {
+      "before": {
+        "id": "main/func_80013270",
+        "container": "main",
+        "module": "c_server.c",
+        "module_index": 3,
+        "confidence": "proven"
+      },
+      "after": {
+        "id": "main/func_80013270",
+        "container": "main",
+        "module": "card_slot_records.c",
+        "module_index": 3,
+        "confidence": "strong"
+      }
+    }
+  ],
+  "source_sha256": {
+    "src/main/func_80013240.c": "aa4122779fce57fce8904e6a08e9bee740690cc1188b412fd162c283ef450102",
+    "src/main/func_80013270.c": "1c9e1d15cd2d2a89fc4c2e3cfaaaf64ef2ba3539c49abd95d0b27ce3dc9e601c"
+  }
+}

@@ -154,6 +154,10 @@ def windows(root):
 
 def family(name): return 'dungeon' if name == 'dungeon_engine' else name
 
+def evidence_suffix(fam):
+    # MAIN shares the base evidence files with its co-resident SLUS runtime.
+    return '' if fam == 'main' else '.' + fam
+
 def window_modules(mods, fam, fs, fe, G):
     # Same container family only: file offsets of different containers overlap numerically (r120 fix:
     # OVMOVIE's libpress at 0x0-0x1b88 was counted inside TOWN's town_scene window 0x0-0x52000).
@@ -390,8 +394,8 @@ def configure_identity(path):
     return 'AS_FLAGS:'+hashlib.sha256(json.dumps(list(table.items())).encode()).hexdigest()
 
 def noreturn(root, fam, offsets, splits, regions, G):
-    if fam=='ovmovie':
-        p=root/'config/noreturn_syms.ovmovie.txt'
+    if fam in {'main','ovmovie'}:
+        p=root/('config/noreturn_syms'+evidence_suffix(fam)+'.txt')
         return {'family_file':G.sha(p) if _exists(p) else None}
     if fam not in {'town','dungeon'}:return {}
     # Resolve frozen evidence at the authority; both module and row compiles
@@ -438,23 +442,33 @@ def required_windows(m, wins, G):
     if not out: raise ValueError('module has no production window')
     return out
 
+def eligibility(level, data):
+    """Eligibility inputs of one ledger/levels.jsonl record.
+
+    A seed record {"id": ..., "level": -1} (new rows, until a full gate computes
+    levels) has no pins/tail/residue fields. It is bound as an explicit unleveled
+    state that never passes the L2/L3 screen, instead of raising KeyError. Any
+    other incomplete record still raises (fail closed).
+    """
+    key = 'l2' if data else 'l3'
+    if level['level'] < 0:
+        return {key: False, 'pins': None, 'tail_jumps': None, 'residue': ['unleveled'], 'level': level['level']}
+    return {key: level['level'] >= (2 if data else 3),
+        'pins': level['pins_left'], 'tail_jumps': level['tail_jumps'],
+        'residue': sorted(set(level['l4_residue']) - {'not_in_module'})}
+
 def screening(m, levels, baseline, G):
     out = {}
     for a in G.all_members(m):
         level = levels[a['id']]
         data = a in m.get('data_members', [])
-        out[a['id']] = {('l2' if data else 'l3'): level['level'] >= (2 if data else 3),
-            'pins': level['pins_left'], 'tail_jumps': level['tail_jumps'],
-            'residue': sorted(set(level['l4_residue']) - {'not_in_module'})}
+        out[a['id']] = eligibility(level, data)
         if data: out[a['id']]['baseline_exact'] = baseline[a['id']].get('exact') is True
     return out
 
 def row_eligibility(row, level):
     if level is None: return None
-    data = row.get('row_kind') == 'data'
-    return {('l2' if data else 'l3'): level['level'] >= (2 if data else 3),
-        'pins': level['pins_left'], 'tail_jumps': level['tail_jumps'],
-        'residue': sorted(set(level['l4_residue']) - {'not_in_module'})}
+    return eligibility(level, row.get('row_kind') == 'data')
 
 
 def fingerprint(m, root, G, windows=True):
@@ -462,8 +476,11 @@ def fingerprint(m, root, G, windows=True):
     return memo(('fingerprint',str(root),json.dumps(m,sort_keys=True),bool(windows),G.__name__),lambda:_fingerprint(m,root,G,windows))
 
 def _fingerprint(m, root, G, windows):
-    if m.get('container') not in {'town','dungeon','ovmovie'}:
+    if m.get('container') not in {'main','town','dungeon','ovmovie'}:
         raise ValueError('scoped fingerprint does not model this container evidence')
+    if m.get('container') == 'main' and (m.get('owned_data') or m.get('data_members') or m.get('allocations')
+            or any(d.get('kind') != 'function' for d in m.get('imports', []))):
+        raise ValueError('MAIN scoped modules currently require text-only payload and function-only imports')
     reg,assign,splits,regions,owners,mods,physical,wins=validate(root,G)
     current=next((v for v in mods if v['key']==m['key']),None)
     if current!=m:raise ValueError('stale supplied manifest entry')
@@ -483,7 +500,7 @@ def _fingerprint(m, root, G, windows):
         'review_inputs':inputs,'closure':include_inputs(root,starts,G.module_compiler(m),'-G0',G),
         'screening':screening(m,levels,baseline,G) if m.get('membership_evidence') else {},
         'retail':{'module':retail(root,fam,span_start,span_end-span_start,G)},
-        'sibcall':G.sha(root/f'config/sibcall_syms.{fam}.txt') if _exists(root/f'config/sibcall_syms.{fam}.txt') else None,
+        'sibcall':G.sha(root/f'config/sibcall_syms{evidence_suffix(fam)}.txt') if _exists(root/f'config/sibcall_syms{evidence_suffix(fam)}.txt') else None,
         'environment_policy':ENV_POLICY,'noreturn':noreturn(root,fam,offsets,splits,regions,G),'tools':identities(root,{G.module_compiler(m)},G)}
     for d in m['imports']:
         if d['kind']=='data':
@@ -534,7 +551,7 @@ def _window_digest(root,wn,wins,splits,reg,physical,assign,regions,owners,mods,l
         for d in linklist.link_dir(root).iterdir():observe(d)
     for f in linklist.files(root):observe(f)
     off|=linklist.evidence_offsets(root,fam,off)  # placements compile with their home's bank evidence
-    for name in ['config/names.tsv','config/slus_006.14.symbols.txt','config/overlays/abs_syms.txt',cfg.get('options',{}).get('symbol_addrs_path'),f'config/overlays/{fam}.as_flags.jsonl',f'config/sibcall_syms.{fam}.txt']:
+    for name in ['config/names.tsv','config/slus_006.14.symbols.txt','config/overlays/abs_syms.txt',cfg.get('options',{}).get('symbol_addrs_path'),f'config/overlays/{fam}.as_flags.jsonl',f'config/sibcall_syms{evidence_suffix(fam)}.txt']:
         if name:symbol_inputs[name]=G.sha(root/name) if _exists(root/name) else None
     window={'config':cfg,'registry':wr,'splits':roster,'edges':edges,'modules':wm,'sources':sources,'symbols':symbol_inputs,
             'assignments':[r for r in assign if r['id'] in wid],
@@ -563,4 +580,9 @@ def _window_digest(root,wn,wins,splits,reg,physical,assign,regions,owners,mods,l
             else:h=retail(root,v['container'],d['foff'],d['view_bytes'],G)
             storage[v['key']][d['symbol']]=h
     window['module_storage']=storage
+    import overlay_module_placements as P
+    observe(root/P.MANIFEST)
+    placed=[p for p in P.load(root,mods) if p['container']==fam and P.intersects(p,fs,fe)]
+    if placed:
+        window['module_placements']=[dict(P.inputs(p,root),artifact=G.fingerprint(next(m for m in mods if m['key']==p['module']),root,windows=False)) for p in placed]
     return {'sha256':G.hashed(window)}

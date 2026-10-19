@@ -1,26 +1,40 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/region_12d724c_12dc06c",
- "container": "dungeon",
- "foff": "0x12d724c",
- "size": "0x4e20",
- "vma": "0x8015ea4c",
- "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_12d724c_8015ea4c",
- "entries": [
-  {
-   "row": "dungeon/func_812BA130",
-   "home": "dungeon/func_812A8130",
-   "tu": "src/dungeon/func_812A8130.c",
-   "foff": "0x12da130",
-   "vma": "0x80161930",
-   "size": 1188,
-   "bindings": {
-    "0x80171fa4": "0x8015ffa4",
-    "0x80175c68": "0x80163c68",
-    "0x80175c70": "0x80163c70",
-    "0x8017586c": "0x8016386c"
-   },
-   "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_812BA130"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/region_12d724c_12dc06c",
+  "container": "dungeon",
+  "foff": "0x12d724c",
+  "size": "0x4e20",
+  "vma": "0x8015ea4c",
+  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_12d724c_8015ea4c",
+  "entries": [
+    {
+      "row": "dungeon/func_812BA130",
+      "home": "dungeon/func_812A8130",
+      "tu": "src/dungeon/func_812A8130.c",
+      "foff": "0x12da130",
+      "vma": "0x80161930",
+      "size": 1188,
+      "bindings": {
+        "0x80171fa4": "0x8015ffa4",
+        "0x80175c68": "0x80163c68",
+        "0x80175c70": "0x80163c70",
+        "0x8017586c": "0x8016386c",
+        "0x8016D568": "0x8016D568"
+      },
+      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_812BA130"
+    },
+    {
+      "row": "dungeon/func_812BB0B0",
+      "tu": "src/dungeon/func_8097DD68.c",
+      "home": "dungeon/func_8097DD68",
+      "foff": "0x12DB0B0",
+      "vma": "0x801628B0",
+      "size": 32,
+      "bindings": {
+        "0x800AD058": "0x800AD058",
+        "0x8016D568": "0x801628B0"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    }
+  ]
 }

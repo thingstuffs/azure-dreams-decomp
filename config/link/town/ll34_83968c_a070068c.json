@@ -1,0 +1,24 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll34_83968c_a070068c",
+  "container": "town",
+  "foff": "0x83968C",
+  "size": "0x20",
+  "vma": "0xA070068C",
+  "evidence": "config/overlays/town.rowbase.jsonl:r121c3_83968C",
+  "entries": [
+    {
+      "row": "town/func_808B968C",
+      "tu": "src/town/func_80880070.c",
+      "home": "town/func_80880070",
+      "foff": "0x83968C",
+      "vma": "0xA070068C",
+      "size": 32,
+      "bindings": {
+        "0x80700F98": "0xA07005A4",
+        "0x80701070": "0xA070068C"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    }
+  ]
+}

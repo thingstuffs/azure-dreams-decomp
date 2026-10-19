@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_68d000_6000","n":24576,"o":6868992,"p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[15740,0,24,3216,2703,2893,0],"v":2147573760},"p":[{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"strongly_code"},{"census_label":"proven_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:matched_c_read"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_68d000_6000","n":24576,"o":6868992,"p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:2809a724d1a9b06fd15b7abcde5f8136ec2e82a22cba80cdf525f8cb4290319b"],"t":[15740,0,24,3216,2703,2893,0],"v":2147573760},"p":[{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"strongly_code"},{"census_label":"proven_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:matched_c_read"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 6868992	4	p	census:zero_fill>=16		0
 6868996	28	d	census:noncode:decode		1
@@ -45,30 +45,11 @@ o	n	k	r	h	x
 6872284	8	r	census:instance_partial		6
 6872292	6416	r	census:c_row		6
 6878708	132	r	census:instance_proven		6
-6878840	80	r	census:c_row		6
-6878920	8	r	census:instance_proven		6
-6878928	12	r	census:c_row		6
-6878940	8	r	census:instance_proven		6
-6878948	12	r	census:c_row		6
-6878960	8	r	census:instance_proven		6
-6878968	564	r	census:c_row		6
-6879532	1632	r	census:instance_proven		6
-6881164	360	r	census:c_row		6
-6881524	68	r	census:instance_proven		6
-6881592	36	r	census:c_row		6
-6881628	1828	r	census:instance_proven		6
-6883456	36	r	census:c_row		6
-6883492	708	r	census:instance_proven		6
-6884200	92	r	census:c_row		6
-6884292	392	r	census:instance_proven		6
-6884684	192	r	census:c_row		6
-6884876	1076	r	census:instance_proven		6
-6885952	12	r	census:c_row		6
-6885964	132	r	census:instance_proven		6
-6886096	12	r	census:c_row		6
-6886108	1552	r	census:instance_proven		6
-6887660	72	r	census:c_row		6
-6887732	292	r	census:instance_proven		6
+6878840	8260	r	census:c_row		6
+6887100	60	r	census:instance_proven		6
+6887160	60	r	census:c_row		6
+6887220	60	r	census:instance_proven		6
+6887280	744	r	census:c_row		6
 6888024	1412	d	census:noncode:decode		1
 6889436	16	a	census:format:ptrtab	60d7cbbc0d929be02927eff6f72db00ad23398f36de1f1551aef5ebfa59a6e13	2
 6889452	192	d	census:noncode:decode		1

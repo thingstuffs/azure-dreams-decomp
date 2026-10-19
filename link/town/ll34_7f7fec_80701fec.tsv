@@ -1,0 +1,15 @@
+#{"a":0,"d":{"c":"town","e":"config/overlays/town.rowbase.jsonl:town100_7F7FEC_run_true_0x80701FEC","i":"town/ll34_7f7fec_80701fec","n":"0x788","o":"0x7F7FEC","p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:2809a724d1a9b06fd15b7abcde5f8136ec2e82a22cba80cdf525f8cb4290319b"],"t":[1860,0,68,0,0,0,0],"v":"0x80701FEC"},"p":[{"census_label":"proven_code"},{},{"census_label":"strongly_code"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+8355820	292	r	census:c_row		0
+"0x7F8110"	112	c	census:registered_tu		["func_80878110",null,"0x80702110",1]
+"0x7F8180"	72	c	census:registered_tu		["func_80878180",null,"0x80702180",1]
+"0x7F81C8"	152	c	census:registered_tu		["func_808781C8",null,"0x807021C8",1]
+"0x7F8260"	92	c	census:registered_tu		["func_80878260",null,"0x80702260",1]
+"0x7F82BC"	88	c	census:registered_tu		["func_808782BC",null,"0x807022BC",1]
+8356628	488	r	census:c_row		0
+8357116	52	r	census:T1_twin		2
+8357168	16	r	census:T2_framed_ref:jtbl		2
+8357184	304	r	census:c_row		0
+"0x7F8670"	80	c	census:registered_tu		["func_80878670",null,"0x80702670",1]
+"0x7F86C0"	84	c	census:registered_tu		["func_808786C0",null,"0x807026C0",1]
+"0x7F8714"	96	c	census:registered_tu		["func_80878714",null,"0x80702714",1]

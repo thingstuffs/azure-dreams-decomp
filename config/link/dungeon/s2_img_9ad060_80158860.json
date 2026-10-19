@@ -1,59 +1,74 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/s2_img_9ad060_80158860",
- "container": "dungeon",
- "foff": "0x9ad060",
- "size": "0x3880",
- "vma": "0x80158860",
- "evidence": "docs/evidence/r121w_s2_receipts.json",
- "entries": [
-  {
-   "row": "dungeon/func_8098FE0C",
-   "home": "dungeon/func_80977E0C",
-   "tu": "src/dungeon/func_80977E0C.c",
-   "foff": "0x009AFE0C",
-   "vma": "0x8015B60C",
-   "size": 1184,
-   "bindings": {
-    "0x801740F8": "0x8015C0F8",
-    "0x80083160": "0x80083160",
-    "0x80047784": "0x80047784",
-    "0x80083460": "0x80083460",
-    "0x80174150": "0x8015C150",
-    "0x80174158": "0x8015C158",
-    "0x80042900": "0x80042900",
-    "0x800AA6B4": "0x800AA6B4",
-    "0x800AA79C": "0x800AA79C",
-    "0x800A2C34": "0x800A2C34",
-    "0x800AA258": "0x800AA258",
-    "0x800AA888": "0x800AA888",
-    "0x80173E00": "0x8015BE00",
-    "0x800814A8": "0x800814A8",
-    "0x8009A180": "0x8009A180",
-    "0x800A9A0C": "0x800A9A0C",
-    "0x800A9A04": "0x800A9A04",
-    "0x80082E80": "0x80082E80",
-    "0x8009FD40": "0x8009FD40",
-    "0x800A6D30": "0x800A6D30",
-    "0x80042B68": "0x80042B68",
-    "0x80174160": "0x8015C160",
-    "0x801740F0": "0x8015C0F0",
-    "0x801714D4": "0x801594D4",
-    "0x8017360C": "0x8015B60C"
-   },
-   "evidence": "LL3a attestation sha256:c36f62acc6197b6c6998df3211073553740cdcb4afddecd35e6a575c0ef8f763; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "dungeon/func_809908A8",
-   "tu": "src/dungeon/func_80AF4148.c",
-   "home": "dungeon/func_80AF4148",
-   "foff": "0x9b08a8",
-   "vma": "0x8015c0a8",
-   "size": 56,
-   "bindings": {
-    "0x801717F4": "0x801594D4"
-   },
-   "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_809908A8; B10 re-homed from dungeon/func_809788A8 (now an LL placement of dungeon/func_80AF4148): bindings translated through dungeon/func_809788A8's object-screen resolution"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/s2_img_9ad060_80158860",
+  "container": "dungeon",
+  "foff": "0x9ad060",
+  "size": "0x3880",
+  "vma": "0x80158860",
+  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "entries": [
+    {
+      "row": "dungeon/func_8098FD68",
+      "tu": "src/dungeon/func_8097DD68.c",
+      "home": "dungeon/func_8097DD68",
+      "foff": "0x9AFD68",
+      "vma": "0x8015B568",
+      "size": 32,
+      "bindings": {
+        "0x800AD058": "0x800AD058",
+        "0x8016D568": "0x8015B568"
+      },
+      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "dungeon/func_8098FE0C",
+      "home": "dungeon/func_80977E0C",
+      "tu": "src/dungeon/func_80977E0C.c",
+      "foff": "0x009AFE0C",
+      "vma": "0x8015B60C",
+      "size": 1184,
+      "bindings": {
+        "0x801740F8": "0x8015C0F8",
+        "0x80083160": "0x80083160",
+        "0x80047784": "0x80047784",
+        "0x80083460": "0x80083460",
+        "0x80174150": "0x8015C150",
+        "0x80174158": "0x8015C158",
+        "0x80042900": "0x80042900",
+        "0x800AA6B4": "0x800AA6B4",
+        "0x800AA79C": "0x800AA79C",
+        "0x800A2C34": "0x800A2C34",
+        "0x800AA258": "0x800AA258",
+        "0x800AA888": "0x800AA888",
+        "0x80173E00": "0x8015BE00",
+        "0x800814A8": "0x800814A8",
+        "0x8009A180": "0x8009A180",
+        "0x800A9A0C": "0x800A9A0C",
+        "0x800A9A04": "0x800A9A04",
+        "0x80082E80": "0x80082E80",
+        "0x8009FD40": "0x8009FD40",
+        "0x800A6D30": "0x800A6D30",
+        "0x80042B68": "0x80042B68",
+        "0x80174160": "0x8015C160",
+        "0x801740F0": "0x8015C0F0",
+        "0x801714D4": "0x801594D4",
+        "0x8017360C": "0x8015B60C",
+        "0x8016D568": "0x8016D568"
+      },
+      "evidence": "LL3a attestation sha256:c36f62acc6197b6c6998df3211073553740cdcb4afddecd35e6a575c0ef8f763; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "dungeon/func_809908A8",
+      "tu": "src/dungeon/func_80AF4148.c",
+      "home": "dungeon/func_80AF4148",
+      "foff": "0x9b08a8",
+      "vma": "0x8015c0a8",
+      "size": 56,
+      "bindings": {
+        "0x801717F4": "0x801594D4",
+        "0x8016D568": "0x8016D568"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_809908A8; B10 re-homed from dungeon/func_809788A8 (now an LL placement of dungeon/func_80AF4148): bindings translated through dungeon/func_809788A8's object-screen resolution"
+    }
+  ]
 }

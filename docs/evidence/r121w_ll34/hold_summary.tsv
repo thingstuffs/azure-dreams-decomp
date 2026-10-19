@@ -1,0 +1,15 @@
+reason	items	span_bytes	uncovered_instance_bytes	next
+ambiguous_existing_image	198	7488	1736	Review the overlapping image catalogue records at this file span; choose the evidenced physical owner before adding a home or placement.
+copy_is_existing_linklist_home	6	2520	0	Reconcile all dependent placements with a canonical donor before retiring this existing home.
+copy_is_physical_module_member	109	22580	0	Use whole-TU placement descriptors and reviewed member projection under LL5; do not convert a module member as an independent row.
+current_object_not_exact	17	5984	0	Inspect the per-row current-object difference; use a genuine independent donor or route C-owned residuals to the rebuild workflow.
+existing_row_overlap	10	11820	11740	Resolve ownership of the overlapping registered extents before replacing rows or adding a split.
+home_is_legacy_relink	5	3508	0	Recover the independent donor named by the full legacy header, screen its current TU, and repeat placement admission.
+home_or_copy_identity_disagrees_with_rowbase	5	408	408	Reconcile the legacy home split/symbol identity with the proven load delta, then rescreen and gate the complete dependency scope.
+home_or_copy_missing_load_evidence	16	2936	292	Establish an independently evidenced image for the home or destination; do not infer load authority from byte equality.
+missing_load_evidence	47	28720	28720	Recover the original load/linked-base witness or establish a new independent loader/pointer-table witness; record it before admission.
+native_object_shape	120	165524	132	Prove the complete native allocation/physical TU, including owned rodata or sibling functions; follow refs/LL5_PLAN.md.
+no_independent_home	81	2844	0	Recover an independent root donor with a matching adjacent module-context witness, then rerun the native screen.
+object_symbol_alias_collision	3	384	384	Implement alias-preserving destination linkage under LL5 or recover a reviewed equivalent donor; objcopy currently rejects the two-symbol alias.
+partial_instance_requires_C_work	306	160112	160104	Rebuild the independent home/current C or complete the missing relocation proof; retain partial classification until exact bytes and a scoped window pass.
+raw_retirement_changes_frozen_census	1	480	0	Preserve the original bank noreturn evidence through an evidenced projection before retiring this raw file.

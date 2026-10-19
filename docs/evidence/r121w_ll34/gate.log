@@ -1,0 +1,66 @@
+One scoped gate invocation; workers=4; scope=touched_windows.txt
+1916 active windows; computing inputs_sha for 0 with journal records, 4 workers
+planning: inputs_sha 0/0 windows 0s
+0 windows use current input-bound lane proofs
+1916 windows to gate (0 up to date), 4 workers
+50/1916 485s {'MATCH': 50}
+100/1916 1199s {'MATCH': 100}
+150/1916 1907s {'MATCH': 150}
+200/1916 2699s {'MATCH': 200}
+250/1916 3418s {'MATCH': 250}
+300/1916 4163s {'MATCH': 300}
+350/1916 5128s {'MATCH': 350}
+400/1916 5410s {'MATCH': 400}
+450/1916 5811s {'MATCH': 450}
+500/1916 6106s {'MATCH': 500}
+550/1916 6400s {'MATCH': 550}
+600/1916 6649s {'MATCH': 600}
+650/1916 6936s {'MATCH': 650}
+700/1916 7221s {'MATCH': 700}
+750/1916 7475s {'MATCH': 750}
+800/1916 7766s {'MATCH': 800}
+850/1916 8108s {'MATCH': 850}
+900/1916 8357s {'MATCH': 900}
+950/1916 8607s {'MATCH': 950}
+1000/1916 8973s {'MATCH': 1000}
+1050/1916 9182s {'MATCH': 1050}
+1100/1916 9367s {'MATCH': 1100}
+1150/1916 9811s {'MATCH': 1150}
+1200/1916 9956s {'MATCH': 1200}
+1250/1916 10187s {'MATCH': 1250}
+1300/1916 10338s {'MATCH': 1300}
+1350/1916 10494s {'MATCH': 1350}
+1400/1916 10646s {'MATCH': 1400}
+1450/1916 10803s {'MATCH': 1450}
+1500/1916 11012s {'MATCH': 1500}
+1550/1916 11550s {'MATCH': 1550}
+1600/1916 12008s {'MATCH': 1600}
+1650/1916 12165s {'MATCH': 1650}
+1700/1916 12319s {'MATCH': 1700}
+1750/1916 12513s {'MATCH': 1750}
+1800/1916 12684s {'MATCH': 1800}
+1850/1916 13065s {'MATCH': 1850}
+1900/1916 13256s {'MATCH': 1900}
+done 1916 (+0 serial retries) in 14103s: {'MATCH': 1916}
+final audit: inputs_sha 99/1916 windows 209s
+final audit: inputs_sha 195/1916 windows 320s
+final audit: inputs_sha 300/1916 windows 343s
+final audit: inputs_sha 396/1916 windows 430s
+final audit: inputs_sha 492/1916 windows 464s
+final audit: inputs_sha 588/1916 windows 479s
+final audit: inputs_sha 684/1916 windows 490s
+final audit: inputs_sha 780/1916 windows 508s
+final audit: inputs_sha 876/1916 windows 516s
+final audit: inputs_sha 972/1916 windows 530s
+final audit: inputs_sha 1068/1916 windows 539s
+final audit: inputs_sha 1164/1916 windows 553s
+final audit: inputs_sha 1260/1916 windows 566s
+final audit: inputs_sha 1356/1916 windows 580s
+final audit: inputs_sha 1452/1916 windows 596s
+final audit: inputs_sha 1548/1916 windows 619s
+final audit: inputs_sha 1644/1916 windows 630s
+final audit: inputs_sha 1740/1916 windows 639s
+final audit: inputs_sha 1836/1916 windows 664s
+final audit: inputs_sha 1916/1916 windows 741s
+gate returncode=0; elapsed_seconds=14847.4
+required per-row home check config/overlays/town_deep_t8b_64d298.overlay.yaml: {"window": "town_deep_t8b_64d298", "container": "town", "result": "MATCH", "bytes": 84, "detail": "MATCH: rebuilt overlay window byte-identical (84 bytes)", "secs": 101.0, "inputs_sha": "b192519b469b56fe2f1f34b40e2094b78456e07d709c23c967bdcffcc200b1e4", "at": "2026-10-18T17:14:45Z"}

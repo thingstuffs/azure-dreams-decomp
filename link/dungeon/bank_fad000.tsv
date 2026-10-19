@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F1BD800: img_fad270_8016aa70_rc5_FADE70_FAF240, img_fad270_8016aa70_rc5_FAF700_FB125C, r101_rc5_func_80F8D938, r101_rc5_func_80F8F240, sweep_0FAD000","i":"dungeon/bank_fad000","l":"bank_fa7000_family","n":"0x6000","o":"0xFAD000","p":["dde08fdec4e74b42ec85ba8da0e46ed78ac2718c666a806169b8f9240a06220e","d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c","LL6 B13 census replay and retained TU entries sha256:c4f636c2d2a33ac3216842e4d6a5cb37bfea12b5fd5fa80a01be0fc9109e7e55"],"t":[16972,0,0,208,7396,0,0],"v":"0x8016A800"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F1BD800: img_fad270_8016aa70_rc5_FADE70_FAF240, img_fad270_8016aa70_rc5_FAF700_FB125C, r101_rc5_func_80F8D938, r101_rc5_func_80F8F240, sweep_0FAD000","i":"dungeon/bank_fad000","l":"bank_fa7000_family","n":"0x6000","o":"0xFAD000","p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:2809a724d1a9b06fd15b7abcde5f8136ec2e82a22cba80cdf525f8cb4290319b"],"t":[16972,0,0,208,7396,0,0],"v":"0x8016A800"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 16437248	128	a	census:ledger:data_row	78d0a886751e401f89fb1d75d8015b7d1a41121bb250e1191d6face53ccec279	0
 16437376	4012	r	census:c_row		1
@@ -21,7 +21,7 @@ o	n	k	r	h	x
 "0xFB06D4"	56	c	census:registered_tu		["func_80F906D4","func_80F8A6D4","0x8016DED4",2]
 16451340	1916	r	census:c_row		1
 "0x00FB0E88"	980	c	census:registered_tu		["func_80F90E88",null,"0x8016E688",2]
-16454236	112	r	census:instance_proven		1
+16454236	112	r	census:c_row		1
 16454348	12	d	census:noncode:decode		3
 16454360	8	d	census:neighbour:noncode_typing_pending		3
 16454368	60	d	census:noncode:decode		3
