@@ -1,51 +1,51 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7EEFF800: img_1271060_80170860, img_1271544_80170d44, r101_rc3_func_812536C4, r121c3_12740F0, r121c3_12743E8, rc3_rest_1271784_12736C4 (+3 more); symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"dungeon/bank_1271000","l":"bank_1271000_family","n":"0x6000","o":"0x1271000","p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:d044018d7ead34ed5f6700dc1257ce1b84795f35f278432fbceec12c1c689dbd"],"t":[13812,0,0,1993,8767,4,0],"v":"0x80170800","y":{"0x800B2A60":"0x80171514","0x80171138":"0x80171514","0x801714D4":"0x80171514","0x8017237C":"0x80172328","0x80174148":"0x80173EEC"}},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:rodata_owner"},{"census_label":"proven_code"},{},{"bindings":{"0x8016D568":"0x8016D568"}},{"bindings":{"0x800AD058":"0x800AD058","0x8016D568":"0x80172E20"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7EEFF800: img_1271060_80170860, img_1271544_80170d44, r101_rc3_func_812536C4, r121c3_12740F0, r121c3_12743E8, rc3_rest_1271784_12736C4 (+3 more); symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"dungeon/bank_1271000","l":"bank_1271000_family","n":"0x6000","o":"0x1271000","p":["4300bd20872d33ad4a55298875c33a17dbe54594906ddb33750ae29ab7e4b5d7","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:b9029ae1ed8d97df47f35d2514ed800389ff76bbfae7a62ce96a9f31089c0773"],"t":[13812,0,0,1985,8767,12,0],"v":"0x80170800","y":{"0x800B2A60":"0x80171514","0x80171138":"0x80171514","0x801714D4":"0x80171514","0x8017237C":"0x80172328","0x80174148":"0x80173EEC"}},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"extractor":"container-slice-v1","symbols":{"D_8017085C":"0x8017085c"}},{"extractor":"container-slice-v1","symbols":{"D_8017087C":"0x8017087c"}},{"census_label":"proven_code"},{},{"bindings":{"0x8016D568":"0x8016D568"}},{"bindings":{"0x800AD058":"0x800AD058","0x8016D568":"0x80172E20"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 19337216	92	a	census:ledger:data_row	248c992b965c53c43b3ddfa4b470f7d02a948cf52c07c94947b3292670dec25e	0
-19337308	4	a	census:ledger:rodata_owner	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	1
+19337308	4	p	census:ledger:linklist_padding	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	1
 19337312	28	a	census:ledger:data_row	8a8e0006e7e79ab5a70f79fcf80be3d3909ff9285050dfbbbc7b8357d172c099	0
-19337340	4	a	census:ledger:rodata_owner	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	1
+19337340	4	p	census:ledger:linklist_padding	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	2
 19337344	24	a	census:ledger:data_row	501b39c2d4b848d4e6aa0f5c0e47aa7ed98c5b0049dafd893dfee9c656a3b8ec	0
-19337368	696	r	census:c_row		2
-"0x1271350"	500	c	census:registered_tu		["func_81251350",null,"0x80170B50",3]
-"0x1271544"	212	c	census:registered_tu		["func_81251544",null,"0x80170D44",3]
-"0x1271618"	364	c	census:registered_tu		["func_81251618",null,"0x80170E18",3]
-"0x1271784"	424	c	census:registered_tu		["func_81251784",null,"0x80170F84",3]
-"0x127192C"	1000	c	census:registered_tu		["func_8125192C",null,"0x8017112C",3]
-19340564	1196	r	census:c_row		2
-"0x12721C0"	544	c	census:registered_tu		["func_812521C0",null,"0x801719C0",3]
-"0x12723E0"	1864	c	census:registered_tu		["func_812523E0","func_80976434","0x80171BE0",4]
-"0x1272B28"	8	c	census:registered_tu		["func_81252B28",null,"0x80172328",3]
-"0x1272B30"	324	c	census:registered_tu		["func_81252B30","func_80976E28","0x80172330",4]
-"0x1272C74"	148	c	census:registered_tu		["func_81252C74",null,"0x80172474",3]
-"0x1272D08"	100	c	census:registered_tu		["func_81252D08","func_80F88C30","0x80172508",4]
-19344748	1504	r	census:c_row		2
-"0x127334C"	724	c	census:registered_tu		["func_8125334C","func_80977A94","0x80172B4C",4]
-"0x1273620"	32	c	census:registered_tu		["func_81253620","func_8097DD68","0x80172E20",5]
-"0x1273640"	44	c	census:registered_tu		["func_81253640","func_80977D88","0x80172E40",4]
-"0x127366C"	32	c	census:registered_tu		["func_8125366C","func_800AD92C","0x80172E6C",4]
-"0x127368C"	56	c	census:registered_tu		["func_8125368C","func_800AD94C","0x80172E8C",4]
-19347140	2136	r	census:c_row		2
-"0x1273F1C"	100	c	census:registered_tu		["func_81253F1C","func_80F8A600","0x8017371C",4]
-"0x1273F80"	56	c	census:registered_tu		["func_81253F80","func_800ADA84","0x80173780",4]
-"0x1273FB8"	56	c	census:registered_tu		["func_81253FB8","func_800ADABC","0x801737B8",4]
-19349488	256	r	census:c_row		2
-"0x12740F0"	8	c	census:registered_tu		["func_812540F0",null,"0x801738F0",3]
-19349752	712	r	census:c_row		2
-19350464	40	r	census:instance_partial		2
-19350504	388	r	census:c_row		2
-"0x127456C"	288	c	census:registered_tu		["func_8125456C",null,"0x80173D6C",3]
-19351180	104	d	census:noncode:decode		6
-19351284	24	a	census:format:ptrtab	1430046d2be3853ba6887e59dc6d7e9c7f9c34ea2ef021914c9fcbe76554d9c6	7
-19351308	16	d	census:noncode:decode		6
-19351324	28	a	census:format:ptrtab	c296d5295f352540837bea68bbcd9f711800ed626edc514f59f5ff08797618cc	7
-19351352	4	p	census:zero_gap<16		3
-19351356	20	a	census:format:ptrtab	79426ea2d402bb5156b7cfee0060f1978bd7fcbb5595041b73e1cc283d285002	7
-19351376	52	d	census:noncode:decode		6
-19351428	44	a	census:format:ptrtab	b27018a5ae7f80b791ca40c87bba7df45bbd3b796e1f66a3949e5810d469a5bf	7
-19351472	89	d	census:noncode:decode		6
-19351561	30	a	census:format:sjis	6b738ee31ad4f48e05cecbf673d274c52104e2fd7fb4dc0b2225557a83b7ff82	8
-19351591	10	d	census:noncode:decode		6
-19351601	1695	a	census:format:sjis	9f83c06211bacf71e881aeec20d3455cf3e7859a50df0d6dc9b61770b43c8da1	8
-19353296	112	d	census:noncode:decode		6
-19353408	8320	d	census:noncode:entropy:loaded		6
-19361728	64	d	census:noncode:decode		6
+19337368	696	r	census:c_row		3
+"0x1271350"	500	c	census:registered_tu		["func_81251350",null,"0x80170B50",4]
+"0x1271544"	212	c	census:registered_tu		["func_81251544",null,"0x80170D44",4]
+"0x1271618"	364	c	census:registered_tu		["func_81251618",null,"0x80170E18",4]
+"0x1271784"	424	c	census:registered_tu		["func_81251784",null,"0x80170F84",4]
+"0x127192C"	1000	c	census:registered_tu		["func_8125192C",null,"0x8017112C",4]
+19340564	1196	r	census:c_row		3
+"0x12721C0"	544	c	census:registered_tu		["func_812521C0",null,"0x801719C0",4]
+"0x12723E0"	1864	c	census:registered_tu		["func_812523E0","func_80976434","0x80171BE0",5]
+"0x1272B28"	8	c	census:registered_tu		["func_81252B28",null,"0x80172328",4]
+"0x1272B30"	324	c	census:registered_tu		["func_81252B30","func_80976E28","0x80172330",5]
+"0x1272C74"	148	c	census:registered_tu		["func_81252C74",null,"0x80172474",4]
+"0x1272D08"	100	c	census:registered_tu		["func_81252D08","func_80F88C30","0x80172508",5]
+19344748	1504	r	census:c_row		3
+"0x127334C"	724	c	census:registered_tu		["func_8125334C","func_80977A94","0x80172B4C",5]
+"0x1273620"	32	c	census:registered_tu		["func_81253620","func_8097DD68","0x80172E20",6]
+"0x1273640"	44	c	census:registered_tu		["func_81253640","func_80977D88","0x80172E40",5]
+"0x127366C"	32	c	census:registered_tu		["func_8125366C","func_800AD92C","0x80172E6C",5]
+"0x127368C"	56	c	census:registered_tu		["func_8125368C","func_800AD94C","0x80172E8C",5]
+19347140	2136	r	census:c_row		3
+"0x1273F1C"	100	c	census:registered_tu		["func_81253F1C","func_80F8A600","0x8017371C",5]
+"0x1273F80"	56	c	census:registered_tu		["func_81253F80","func_800ADA84","0x80173780",5]
+"0x1273FB8"	56	c	census:registered_tu		["func_81253FB8","func_800ADABC","0x801737B8",5]
+19349488	256	r	census:c_row		3
+"0x12740F0"	8	c	census:registered_tu		["func_812540F0",null,"0x801738F0",4]
+19349752	712	r	census:c_row		3
+19350464	40	r	census:instance_partial		3
+19350504	388	r	census:c_row		3
+"0x127456C"	288	c	census:registered_tu		["func_8125456C",null,"0x80173D6C",4]
+19351180	104	d	census:noncode:decode		7
+19351284	24	a	census:format:ptrtab	1430046d2be3853ba6887e59dc6d7e9c7f9c34ea2ef021914c9fcbe76554d9c6	8
+19351308	16	d	census:noncode:decode		7
+19351324	28	a	census:format:ptrtab	c296d5295f352540837bea68bbcd9f711800ed626edc514f59f5ff08797618cc	8
+19351352	4	p	census:zero_gap<16		4
+19351356	20	a	census:format:ptrtab	79426ea2d402bb5156b7cfee0060f1978bd7fcbb5595041b73e1cc283d285002	8
+19351376	52	d	census:noncode:decode		7
+19351428	44	a	census:format:ptrtab	b27018a5ae7f80b791ca40c87bba7df45bbd3b796e1f66a3949e5810d469a5bf	8
+19351472	89	d	census:noncode:decode		7
+19351561	30	a	census:format:sjis	6b738ee31ad4f48e05cecbf673d274c52104e2fd7fb4dc0b2225557a83b7ff82	9
+19351591	10	d	census:noncode:decode		7
+19351601	1695	a	census:format:sjis	9f83c06211bacf71e881aeec20d3455cf3e7859a50df0d6dc9b61770b43c8da1	9
+19353296	112	d	census:noncode:decode		7
+19353408	8320	d	census:noncode:entropy:loaded		7
+19361728	64	d	census:noncode:decode		7

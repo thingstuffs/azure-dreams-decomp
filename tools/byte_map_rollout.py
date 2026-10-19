@@ -237,7 +237,7 @@ def coalesce(entries, blob):
         e = dict(entry)
         if 'kind' in e:
             e['foff'] = L.num(e['foff'])
-        if out and e.get('kind') not in (None, 'image') and identity(out[-1]) == identity(e) and L.num(out[-1]['foff'])+L.num(out[-1]['size']) == L.num(e['foff']):
+        if out and not (e.get('kind') in ('data', 'padding') and e.get('extractor')) and e.get('kind') not in (None, 'image') and identity(out[-1]) == identity(e) and L.num(out[-1]['foff'])+L.num(out[-1]['size']) == L.num(e['foff']):
             out[-1]['size'] = L.num(out[-1]['size'])+L.num(e['size'])
         else:
             out.append(e)
@@ -293,6 +293,20 @@ def build(root, output, census_dir=None, bin_root=None, disc_path=None, link_out
             if r.get('result')=='MATCH' and not r.get('rerun') and not r.get('data_segment') and r.get('row_kind')!='data' and r.get('source_kind')!='platform_asm':
                 refine(c, r['foff'], r['size'], 'proven_code', 'c', 90,
                        f"ledger/splits/{c}.jsonl:{r['func_vram']} MATCH")
+    for image in baseline[0].values():
+        for e in image['entries']:
+            if e.get('kind') not in ('data', 'padding') or not e.get('extractor'):
+                continue
+            c, a, n = image['container'], e['foff'], e['size']
+            label = L.census_label(e)
+            if any(s['label'] != label for s in bounded(physical[c], a, a+n)):
+                raise ValueError('census contradicts linker-owned data at '+hex(a))
+            if digest(blobs[c][a:a+n]) != e['sha256']:
+                raise ValueError('linker-owned data SHA-256 differs at '+hex(a))
+            attrs = {k:v for k,v in e.items() if k in ('kind','type','sha256','extractor','symbols')}
+            candidates[c].append(dict(attrs, foff=a, size=n, label=label,
+                category='padding' if e['kind']=='padding' else 'data_asset',
+                priority=110, evidence=e['evidence']))
     for c, intervals in footprints.items():
         for a,b in intervals:
             for s in bounded(physical[c],a,b):
@@ -352,6 +366,13 @@ def build(root, output, census_dir=None, bin_root=None, disc_path=None, link_out
         def fill(start,end):
             out = []
             for s in bounded(physical[c],start,end):
+                if s.get('extractor') and s.get('kind') in ('data', 'padding'):
+                    # A view may not silently split a symbol-bearing extracted word.
+                    if s['size'] != 4:
+                        raise ValueError('load view cuts an emitted word')
+                    attrs = {k:v for k,v in s.items() if k in ('kind','type','sha256','extractor','symbols','evidence','size','foff')}
+                    out.append(attrs)
+                    continue
                 if s.get('kind')=='asset':
                     actual = digest(blobs[c][s['foff']:s['foff']+s['size']])
                     if actual != s['sha256']:

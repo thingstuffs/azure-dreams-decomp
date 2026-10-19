@@ -140,6 +140,16 @@ def ledger_layers(root):
         for r in rr:
             k = 'leftover_row' if str(r.get('rodata', '')).startswith(('stale_image', 'prior_image_tail')) else 'rodata_owner'
             L[c][k].append([num(r['foff']), num(r['foff']) + int(r['rodata_size'])])
+    # Decision 68c: linker-owned words replace C data rows. Load and validate the
+    # production catalogue; these witnesses carry no instruction or retail payload.
+    from importlib.util import spec_from_file_location, module_from_spec
+    spec = spec_from_file_location('census_linklist', root/'tools/gate/linklist.py')
+    linklist = module_from_spec(spec); spec.loader.exec_module(linklist)
+    for image in linklist.load(root)[0].values():
+        for entry in image['entries']:
+            if entry.get('kind') in ('data', 'padding') and entry.get('extractor'):
+                key = 'linklist_padding' if entry['kind'] == 'padding' else 'linklist_data'
+                L[image['container']][key].append(ext(entry))
     for k, v in slus.items():
         kk = {'c_text': 'c_row', 'psyq_text': 'psyq_text', 'c_data': 'slus_c_data', 'psyq_data': 'psyq_data',
               'exe_header': 'exe_header', 'asm_main': 'slus_asm_main', 'blob': 'slus_blob'}.get(k)
@@ -656,7 +666,7 @@ def characterise(args):
     return c, out
 
 # ---------------------------------------------------------------- assembly
-LEDGER_TYPED = ['matched_c_read', 'data_row', 'rodata_owner', 'exe_header', 'psyq_data', 'slus_c_data', 'slus_strings']   # C-owned / linker-placed data
+LEDGER_TYPED = ['linklist_data', 'matched_c_read', 'data_row', 'rodata_owner', 'exe_header', 'psyq_data', 'slus_c_data', 'slus_strings']   # C-owned / linker-placed data
 LEDGER_AUDIT = ['reg_data_excluded', 'split_data']   # split-audit data_segment flags: contested where code detectors fire
 FMT = ['tim', 'vab', 'seq', 'tmd', 'adpcm', 'ptrtab', 'offtab', 'sjis', 'ascii']
 TIERS = ['T1_twin', 'T2_framed_ref', 'T3_leaf_ref', 'T4_shape_noref', 'T5_shape_noeval']
@@ -749,6 +759,7 @@ def label(L, B, admitted, decision57=True):
         for k in ('c_row', 'instance_proven', 'instance_partial'): take('1 proven_code', k, Lc.get(k, []))
         for k in ('psyq_text', 'reg_sdk_asm', 'sdk_object'): take('2 library_code', k, Lc.get(k, []))
         for k in LEDGER_TYPED: take('4 proven_data', 'ledger:' + k, Lc.get(k, []))
+        take('5 padding_leftover', 'ledger:linklist_padding', Lc.get('linklist_padding', []))
         for k in FMT: take('4 proven_data', 'format:' + k, Bc['fmt'][k])
         # ledger-recorded stale / prior images (disc leftover per the ladder) before the code tiers: code-shaped, not shipped role
         take('5 padding_leftover', 'ledger:stale_or_prior_image_row', Lc.get('leftover_row', []))

@@ -296,3 +296,43 @@ image and home-image lists. A linked-base witness retains its stated scope: it
 does not establish that retail executes a documented devkit-linked image.
 Placement assembler flags resolve by the logical row key, retaining their identity
 when several no-region images share a true-name label.
+
+## Linker-owned overlay words (decision 68c)
+
+A one-word header, entry address or alignment pad is represented as `data` or
+`padding`, without a C translation unit or registered split row. These entries
+add three inseparable fields: `sha256`, `extractor: container-slice-v1`, and
+`symbols` (canonical address-name to address bindings). The extent must be one
+aligned four-byte word. Symbol identities must spell their own address, and a
+load image with a VMA must agree with that address. No value or fill pattern is
+stored in the catalogue. The 140 initial records live in complete four-byte
+`config/link/dungeon/word_<foff>.json` slice images; they make no claim about the
+bounds of their enclosing overlay.
+
+`tools/extract_assets.py` extracts these entries using the same verified,
+atomic publication path as assets. During a window build,
+`tools/gate/linklist_data.py` checks each word against the extracted container,
+publishes a private slice, and replaces only its exact raw gap. It rejects
+partial windows, duplicate ownership and overlaps with source, assembly or
+module payloads. The gate emits that verified slice in its own section. Merely
+labelling an interval `padding` never supplies bytes.
+
+Each window writes `link_data.json` and `link_data.symbols.txt`. The symbol file
+participates in every row mini-link and the final window link; undefined C
+references receive the retained canonical address definition. Alias lowering
+continues through `config/names.tsv`. Words have no synthetic function identity
+and do not enter the TU placement or rebinding indices. Window input hashes bind
+every intersecting emitting link-list file, even in a window with no C rows.
+
+`ledger/link_data_retired.jsonl` records append-only retirements, source and word
+hashes, old row identities and the replacement lists. Historical evidence stays
+historical; the current registry, splits, source layout, source index, physical
+build graph and rodata-owner table omit these TUs. `row_db.py check` rejects a
+word that still overlaps any active split row.
+
+Census replay consumes the same validated records. Header and entry words use
+`census:ledger:linklist_data`; pads use `census:ledger:linklist_padding`. These
+explicit padding witnesses precede format inference. Public maps preserve the
+exact extraction extent and symbol bindings in every overlapping view. The
+snapshot binds the loader and all 140 new word records, while retaining the
+existing accepted matched-read and strict-prefix source hashes.

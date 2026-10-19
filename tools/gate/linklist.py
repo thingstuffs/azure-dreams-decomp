@@ -75,17 +75,32 @@ def _metadata(raw):
              "asset": {"format", "sha256", "extractor", "census_label"}, "code_region": {"census_label"},
              "image": {"ref"}}
     kind = raw.get("kind")
-    if kind not in extra or not common | extra[kind] <= set(raw) or set(raw) - common - extra[kind] - {"vma"}:
+    optional = {"vma"} | ({"sha256", "extractor", "symbols"} if kind in ("data", "padding") else set())
+    if kind not in extra or not common | extra[kind] <= set(raw) or set(raw) - common - extra[kind] - optional:
         raise ValueError("link list metadata entry keys: " + str(kind))
     for k in (common | extra[kind]) - {"foff", "size"}:
         if not isinstance(raw[k], str) or not raw[k].strip():
             raise ValueError("metadata field must be nonempty text: " + k)
-    if kind == "asset":
-        if not re.fullmatch(r"[0-9a-f]{64}", raw["sha256"]):
+    emitted = kind in ("data", "padding") and bool(set(raw) & {"sha256", "extractor", "symbols"})
+    if emitted:
+        if not {"sha256", "extractor", "symbols"} <= set(raw):
+            raise ValueError("emitted data/padding needs sha256, extractor and symbols")
+        if num(raw['size']) != 4 or num(raw['foff']) % 4:
+            raise ValueError("emitted data/padding must be one aligned word")
+        symbols = raw["symbols"]
+        if (not isinstance(symbols, dict) or not symbols
+                or any(not isinstance(k, str) or not ADDR.fullmatch(k)
+                       or num(v) != int(k.split('_')[1], 16) for k, v in symbols.items())
+                or len({num(v) for v in symbols.values()}) != 1):
+            raise ValueError("emitted symbols must bind canonical address identities")
+    elif kind != "asset" and set(raw) & {"sha256", "extractor", "symbols"}:
+        raise ValueError("extraction fields require asset or emitted data/padding")
+    if kind == "asset" or emitted:
+        if not isinstance(raw["sha256"], str) or not re.fullmatch(r"[0-9a-f]{64}", raw["sha256"]):
             raise ValueError("invalid asset sha256")
         if raw["extractor"] != "container-slice-v1":
             raise ValueError("unknown asset extractor: " + raw["extractor"])
-        if raw["census_label"] not in ("proven_data", "noncode_typing_pending"):
+        if kind == "asset" and raw["census_label"] not in ("proven_data", "noncode_typing_pending"):
             raise ValueError("asset must retain a non-code census label")
     if kind == "code_region" and raw["census_label"] not in CENSUS_LABELS[:3]:
         raise ValueError("code_region must retain a code census label")
@@ -137,6 +152,10 @@ def validate_image(doc, path="<image>"):
         name = raw.get("row", raw.get("kind"))
         if e["size"] <= 0 or not img["foff"] <= e["foff"] < e["foff"] + e["size"] <= img["foff"] + img["size"]:
             raise ValueError("entry outside its image: " + str(name))
+        if raw.get('kind') in ('data', 'padding') and raw.get('extractor') and img['vma'] is not None:
+            expected = img['vma'] + e['foff'] - img['foff']
+            if any(num(v) != expected for v in raw['symbols'].values()):
+                raise ValueError('emitted symbol disagrees with image load address')
         if code or "vma" in raw:
             e["vma"] = num(raw["vma"])
             if img["vma"] is None or e["vma"] - img["vma"] != e["foff"] - img["foff"]:

@@ -46,7 +46,7 @@ def extract(root, disc, keys=None, output=None, catalogue=None):
         for e in images[key]["entries"]:
             if e.get("kind") == "image":
                 collect(e["ref"])
-            elif e.get("kind") == "asset":
+            elif e.get("extractor") == "container-slice-v1":
                 identity = (images[key]["container"], e["foff"], e["size"])
                 if identity in assets and assets[identity]["sha256"] != e["sha256"]:
                     raise ValueError("conflicting asset hashes for one physical extent")

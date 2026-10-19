@@ -129,6 +129,14 @@
    "kind": "ledger:exe_header",
    "label": "proven_data"
   },
+  "census:ledger:linklist_data": {
+   "kind": "ledger:linklist_data",
+   "label": "proven_data"
+  },
+  "census:ledger:linklist_padding": {
+   "kind": "ledger:linklist_padding",
+   "label": "padding_leftover"
+  },
   "census:ledger:matched_c_read": {
    "kind": "ledger:matched_c_read",
    "label": "proven_data"

@@ -1,0 +1,14 @@
+{
+  "result": "PASS",
+  "items": 140,
+  "bytes": 560,
+  "kinds": {
+    "overlay_data_pointer": 56,
+    "entry_point": 27,
+    "alignment_padding": 57
+  },
+  "retirement_events": 140,
+  "source_hashes_verified": true,
+  "removed_from_current_registry_splits_layout": true,
+  "accepted_read_source_hashes_unchanged": true
+}

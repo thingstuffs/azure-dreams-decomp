@@ -1,0 +1,14 @@
+{
+  "result": "PASS",
+  "images": 1775,
+  "physical_roots": [
+    "dungeon/dungeon_bin",
+    "main/main_bin",
+    "ovmovie/ovmovie_bin",
+    "slus/slus_bin",
+    "town/town_bin"
+  ],
+  "physical_bytes": 50952192,
+  "log_bytes": 544628,
+  "log_sha256": "3839d5cb8f28973e93ac01877a8dfebcdae5bb8901ac112518f2b6070d283cd0"
+}

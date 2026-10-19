@@ -1,25 +1,26 @@
-#{"a":0,"d":{"c":"dungeon","e":"ledger/instance_load_regions.jsonl: validated dungeon loader arithmetic (a1=0; selector 1..63); docs/evidence/dungeon_gap_183a800.json","i":"dungeon/load_1912800_6000","n":24576,"o":26290176,"p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:d044018d7ead34ed5f6700dc1257ce1b84795f35f278432fbceec12c1c689dbd"],"t":[3928,0,2508,76,18064,0,0],"v":2147631104},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{"census_label":"strongly_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"ledger/instance_load_regions.jsonl: validated dungeon loader arithmetic (a1=0; selector 1..63); docs/evidence/dungeon_gap_183a800.json","i":"dungeon/load_1912800_6000","n":24576,"o":26290176,"p":["4300bd20872d33ad4a55298875c33a17dbe54594906ddb33750ae29ab7e4b5d7","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:b9029ae1ed8d97df47f35d2514ed800389ff76bbfae7a62ce96a9f31089c0773"],"t":[3928,0,2508,76,18064,0,0],"v":2147631104},"p":[{"extractor":"container-slice-v1","symbols":{"D_80024000":"0x80024000"},"type":"PSX overlay entry address word"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{"census_label":"strongly_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
-26290176	76	a	census:ledger:data_row	49a7ebb216c39f7f6f712a49246023806724485774735c0fae224dffe113438c	0
-26290252	3928	r	census:c_row		1
-26294180	52	r	census:shape:T4_shape_noref		2
-26294232	132	r	census:T1_twin		2
-26294364	64	r	census:shape:T4_shape_noref		2
-26294428	56	r	census:T1_twin		2
-26294484	124	r	census:shape:T4_shape_noref		2
-26294608	48	r	census:T1_twin		2
-26294656	36	r	census:shape:T4_shape_noref		2
-26294692	100	r	census:T1_twin		2
-26294792	184	r	census:shape:T4_shape_noref		2
-26294976	128	r	census:T1_twin		2
-26295104	732	r	census:shape:T4_shape_noref		2
-26295836	48	r	census:T1_twin		2
-26295884	148	r	census:shape:T4_shape_noref		2
-26296032	96	r	census:T1_twin		2
-26296128	208	r	census:shape:T4_shape_noref		2
-26296336	48	r	census:T1_twin		2
-26296384	192	r	census:shape:T4_shape_noref		2
-26296576	72	r	census:T1_twin		2
-26296648	40	r	census:shape:T4_shape_noref		2
-26296688	80	d	census:noncode:decode		3
-26296768	17984	d	census:noncode:entropy:unplaced		3
+26290176	4	d	census:ledger:linklist_data	59766f2e1e780586de34b6edc34d4ad8c1094a0eec175a6b9ae4aa1d426983f9	0
+26290180	72	a	census:ledger:data_row	2f5f0fc083ef4d0aa3fc2e7e235e86bc29b0dc724116ea8ff9f7c7c630907d7b	1
+26290252	3928	r	census:c_row		2
+26294180	52	r	census:shape:T4_shape_noref		3
+26294232	132	r	census:T1_twin		3
+26294364	64	r	census:shape:T4_shape_noref		3
+26294428	56	r	census:T1_twin		3
+26294484	124	r	census:shape:T4_shape_noref		3
+26294608	48	r	census:T1_twin		3
+26294656	36	r	census:shape:T4_shape_noref		3
+26294692	100	r	census:T1_twin		3
+26294792	184	r	census:shape:T4_shape_noref		3
+26294976	128	r	census:T1_twin		3
+26295104	732	r	census:shape:T4_shape_noref		3
+26295836	48	r	census:T1_twin		3
+26295884	148	r	census:shape:T4_shape_noref		3
+26296032	96	r	census:T1_twin		3
+26296128	208	r	census:shape:T4_shape_noref		3
+26296336	48	r	census:T1_twin		3
+26296384	192	r	census:shape:T4_shape_noref		3
+26296576	72	r	census:T1_twin		3
+26296648	40	r	census:shape:T4_shape_noref		3
+26296688	80	d	census:noncode:decode		4
+26296768	17984	d	census:noncode:entropy:unplaced		4

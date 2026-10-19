@@ -1,0 +1,26 @@
+{
+  "schema": "azure-clean.linklist.v1",
+  "image": "dungeon/word_d49000",
+  "container": "dungeon",
+  "foff": "0xd49000",
+  "size": 4,
+  "vma": "0x80158800",
+  "evidence": "Decision 68c; ledger/link_data_retired.jsonl:dungeon/D_80D29000",
+  "entries": [
+    {
+      "kind": "data",
+      "foff": "0xd49000",
+      "size": 4,
+      "sha256": "83829c29da86c568a21d042ef6c173abb0ca5f4635a271fd144378f3d4295bae",
+      "extractor": "container-slice-v1",
+      "symbols": {
+        "D_80158800": "0x80158800"
+      },
+      "evidence": "census:ledger:linklist_data",
+      "type": "PSX overlay entry address word"
+    }
+  ],
+  "census": {
+    "proven_data": 4
+  }
+}

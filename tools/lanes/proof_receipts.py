@@ -353,6 +353,8 @@ def window_inputs(root, target):
     # Link lists (docs/LINK_LISTS.md): the image files that decide this window's placements. Empty (and
     # therefore no change to any digest) while the window holds no placement row.
     symbols.extend(linklist.window_files(root, ids))
+    from gate import linklist_data
+    symbols.extend(linklist_data.window_files(root, family, start, end))
     import overlay_module_placements as MP
     placed=[p for p in MP.load(root) if p['container']==family and MP.intersects(p,start,end)]
     if placed:

@@ -791,9 +791,10 @@ def write_raw_asm(segments: list[Segment], container: Path, out_s: Path) -> None
     for seg in segments:
         if seg.kind == "c" or seg.kind in ASM_SOURCE_KINDS:
             continue
-        if seg.kind == "rowbase":
-            # Pre-linked true-base bytes (rowbase lane); inject verbatim.
-            lines.append(f'.section {seg.section},"ax",@progbits')
+        if seg.kind in ("rowbase", "link_data"):
+            # Compiled rowbase bytes or a hash-checked extractor word.
+            flags = "a" if seg.kind == "link_data" else "ax"
+            lines.append(f'.section {seg.section},"{flags}",@progbits')
             lines.append(f"L_rowbase_{seg.index:04d}:")
             lines.append(f'.incbin "{rel(seg.bytes_path)}"')
             lines.append("")
@@ -1674,6 +1675,11 @@ def main(argv=None) -> int:
                     args.stage_game_asm, "game_asm")
     segments = build_segments(split_rows, matches, window_start, window_end, vram_delta)
 
+    import linklist_data
+    link_data_receipt = linklist_data.project_segments(
+        segments, container, build_dir, ROOT, cfg["name"].split("_")[0], window_start, window_end)
+    (build_dir / "link_data.json").write_text(json.dumps(link_data_receipt, indent=2) + "\n")
+
     from overlay_module_gate import project_segments
     module_receipts = project_segments(segments, build_dir, cfg["name"], ROOT)
     (build_dir / "modules.json").write_text(json.dumps(module_receipts, indent=2) + "\n")
@@ -1719,6 +1725,9 @@ def main(argv=None) -> int:
     asm_objects = compile_asm_segments(segments, build_dir / "obj")
     check_bare_text_empty(c_objects)
     symbol_files = [cfg_path("config/slus_006.14.symbols.txt")]
+    link_data_symbols = build_dir / "link_data.symbols.txt"
+    linklist_data.write_symbols(link_data_receipt, link_data_symbols)
+    symbol_files.append(link_data_symbols)
     if cfg["options"].get("symbol_addrs_path"):
         symbol_files.append(cfg_path(cfg["options"]["symbol_addrs_path"]))
     # absolute-address names the rows reference but no object defines (round 95 equate migration:

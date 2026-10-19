@@ -1,0 +1,57 @@
+{
+ "cached_detector_inputs": [],
+ "census_totals": {
+  "dungeon": {
+   "library_code": 0,
+   "noncode_typing_pending": 18193583,
+   "padding_leftover": 1586830,
+   "proven_code": 6834512,
+   "proven_data": 1128981,
+   "strongly_code": 62168,
+   "unknown": 7814
+  },
+  "main": {
+   "library_code": 492,
+   "noncode_typing_pending": 2254271,
+   "padding_leftover": 96943,
+   "proven_code": 66776,
+   "proven_data": 153083,
+   "strongly_code": 5832,
+   "unknown": 1035
+  },
+  "ovmovie": {
+   "library_code": 880,
+   "noncode_typing_pending": 2926291,
+   "padding_leftover": 195705,
+   "proven_code": 5516,
+   "proven_data": 15617,
+   "strongly_code": 0,
+   "unknown": 1719
+  },
+  "slus": {
+   "library_code": 43872,
+   "noncode_typing_pending": 245402,
+   "padding_leftover": 9211,
+   "proven_code": 180900,
+   "proven_data": 44483,
+   "strongly_code": 204,
+   "unknown": 216
+  },
+  "town": {
+   "library_code": 132,
+   "noncode_typing_pending": 7594483,
+   "padding_leftover": 6483590,
+   "proven_code": 820196,
+   "proven_data": 1971984,
+   "strongly_code": 15629,
+   "unknown": 3842
+  }
+ },
+ "command": "python3 tools/census/regenerate.py --disc DISC --output TEMP --check",
+ "committed_comparison": "diff empty",
+ "generated_bytes": 9049669,
+ "generated_files": 1783,
+ "ignored_input_dependencies": [],
+ "map_set_sha256": "10d258990ab2b7f35da42bbd9e97826441f77b1d9308405c96326195294c543e",
+ "result": "PASS"
+}

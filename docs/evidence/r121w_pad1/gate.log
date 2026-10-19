@@ -1,0 +1,14 @@
+Scoped production window gate; 80 windows; --all --workers 4; fresh journal.
+80 active windows; computing inputs_sha for 0 with journal records, 4 workers
+planning: inputs_sha 0/0 windows 0s
+0 windows use current input-bound lane proofs
+80 windows to gate (0 up to date), 4 workers
+50/80 668s {'MATCH': 50}
+done 80 (+0 serial retries) in 908s: {'MATCH': 80}
+final audit: inputs_sha 16/80 windows 30s
+final audit: inputs_sha 32/80 windows 30s
+final audit: inputs_sha 48/80 windows 32s
+final audit: inputs_sha 62/80 windows 38s
+final audit: inputs_sha 78/80 windows 43s
+final audit: inputs_sha 80/80 windows 51s
+fresh certification receipts: 2 windows

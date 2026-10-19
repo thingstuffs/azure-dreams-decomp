@@ -154,6 +154,18 @@ def cmd_check(a):
             r = reg.get(rid)
             if r and (ROOT / "src" / r["container"] / Path(r["c_path"]).name).exists():
                 print(f"{rid}: link-list placement still has a copy file src/{r['container']}/{Path(r['c_path']).name}"); bad += 1
+    import linklist_data
+    for family in ("main", "town", "dungeon", "ovmovie"):
+        try:
+            emitted = linklist_data.entries(ROOT, family)
+            split = read_jsonl(SPLITS / f"{family}.jsonl")
+            for entry in emitted:
+                if any(not r.get('rerun') and isinstance(r.get('foff'), int)
+                       and r['foff'] < entry['foff'] + entry['size']
+                       and entry['foff'] < r['foff'] + r['size'] for r in split):
+                    print(f"{family}: emitted word overlaps a split row at 0x{entry['foff']:X}"); bad += 1
+        except (OSError, ValueError) as exc:
+            print(f"{family}: {exc}"); bad += 1
     # Ratchet (LL2): no new `#define <ident> func_/D_<addr>` relocation lines or `Relink of matched` copy files
     # outside config/lint/relink_text.allow, and no stale allowlist entries (tools/relink_lint.py).
     if (ROOT / "config/lint/relink_text.allow").exists():

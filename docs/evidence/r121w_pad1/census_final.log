@@ -1,0 +1,58 @@
+Recomputing census detectors, precision, masked prefixes and neighbours.
+{
+  "result": "PASS",
+  "command": "python3 tools/census/regenerate.py --disc DISC --output TEMP --check",
+  "generated_files": 1783,
+  "generated_bytes": 9049669,
+  "map_set_sha256": "10d258990ab2b7f35da42bbd9e97826441f77b1d9308405c96326195294c543e",
+  "committed_comparison": "diff empty",
+  "ignored_input_dependencies": [],
+  "cached_detector_inputs": [],
+  "census_totals": {
+    "main": {
+      "proven_code": 66776,
+      "library_code": 492,
+      "strongly_code": 5832,
+      "proven_data": 153083,
+      "noncode_typing_pending": 2254271,
+      "padding_leftover": 96943,
+      "unknown": 1035
+    },
+    "town": {
+      "proven_code": 820196,
+      "library_code": 132,
+      "strongly_code": 15629,
+      "proven_data": 1971984,
+      "noncode_typing_pending": 7594483,
+      "padding_leftover": 6483590,
+      "unknown": 3842
+    },
+    "dungeon": {
+      "proven_code": 6834512,
+      "library_code": 0,
+      "strongly_code": 62168,
+      "proven_data": 1128981,
+      "noncode_typing_pending": 18193583,
+      "padding_leftover": 1586830,
+      "unknown": 7814
+    },
+    "ovmovie": {
+      "proven_code": 5516,
+      "library_code": 880,
+      "strongly_code": 0,
+      "proven_data": 15617,
+      "noncode_typing_pending": 2926291,
+      "padding_leftover": 195705,
+      "unknown": 1719
+    },
+    "slus": {
+      "proven_code": 180900,
+      "library_code": 43872,
+      "strongly_code": 204,
+      "proven_data": 44483,
+      "noncode_typing_pending": 245402,
+      "padding_leftover": 9211,
+      "unknown": 216
+    }
+  }
+}

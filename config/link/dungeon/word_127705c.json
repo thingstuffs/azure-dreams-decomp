@@ -1,0 +1,25 @@
+{
+  "schema": "azure-clean.linklist.v1",
+  "image": "dungeon/word_127705c",
+  "container": "dungeon",
+  "foff": "0x127705c",
+  "size": 4,
+  "vma": "0x8016a85c",
+  "evidence": "Decision 68c; ledger/link_data_retired.jsonl:dungeon/D_8125705C",
+  "entries": [
+    {
+      "kind": "padding",
+      "foff": "0x127705c",
+      "size": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "extractor": "container-slice-v1",
+      "symbols": {
+        "D_8016A85C": "0x8016a85c"
+      },
+      "evidence": "census:ledger:linklist_padding"
+    }
+  ],
+  "census": {
+    "padding_leftover": 4
+  }
+}

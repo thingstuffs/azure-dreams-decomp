@@ -1,40 +1,42 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F103800: r101_rc7_func_81029858, r101_rc7_func_8102B034, r101_rc7_func_8102C664, r121_followup_104B810, rc7_res_1049DF0_104B034, rc7_res_104B4E0_104C664 (+1 more); symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"dungeon/bank_1049000","l":"bank_1025000_family","n":"0x6000","o":"0x1049000","p":["0128da0a6113716f849146835347469ca575aebdda5284bdee66935dba3c0dd2","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:d044018d7ead34ed5f6700dc1257ce1b84795f35f278432fbceec12c1c689dbd"],"t":[16372,0,0,220,7984,0,0],"v":"0x8014C800","y":{"0x800B2A60":"0x8014D058","0x800D4494":"0x8014D058","0x801710EC":"0x8014D058","0x80171138":"0x8014D058","0x801714D4":"0x8014D058","0x80171C34":"0x8014D848","0x80173C74":"0x80150880","0x80173C7C":"0x80150888","0x80173C8C":"0x80150898","0x8017587C":"0x801508B8","0x80175E40":"0x80150880","0x80175EA0":"0x801508E0"}},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:rodata_owner"},{"census_label":"proven_code"},{"bindings":{"0x80170c0c":"0x8014cc0c","0x80170cb4":"0x8014ccb4","0x80170d20":"0x8014cd20","0x80170f8c":"0x8014cf8c","0x80171030":"0x8014d030","0x80171058":"0x8014d058","0x80174880":"0x80150880","0x80174900":"0x80150900"},"evidence":"docs/evidence/r121w_goto2_receipts.json: dungeon/func_81029278; complete SDK2 donor twin, authenticated header entry, ELF relocations, scoped gate"},{},{"bindings":{"0x80172CE0":"0x80172CE0","0x80173010":"0x80173010","0x80173A08":"0x80173A08"},"evidence":"; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"},{"bindings":{"0x8006CCD8":"0x8006CCD8","0x8006CCE8":"0x8006CCE8","0x80083460":"0x80083460","0x800A2B04":"0x800A2B04","0x800AAA54":"0x800AAA54","0x800AD4D0":"0x800AD4D0","0x80171058":"0x8014D058","0x80172CE0":"0x8014ECE0","0x801748C0":"0x801508C0"},"evidence":"LL3a attestation sha256:b69045863bad6febd276273026e73a0af682fb07d1ce65074697a9c06f234fbc; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x800AD058":"0x800AD058","0x80173010":"0x8014F010"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80047784":"0x80047784","0x800644B8":"0x800644B8","0x80082E80":"0x80082E80","0x80083160":"0x80083160","0x80083460":"0x80083460","0x800A0818":"0x800A0818","0x800A2B04":"0x800A2B04","0x800A4ACC":"0x800A4ACC","0x800A9A04":"0x800A9A04","0x800AD594":"0x800AD594","0x80171058":"0x8014D058","0x80173A08":"0x8014FA08","0x801748A0":"0x801508A0","0x801748A8":"0x801508A8","0x801748B0":"0x801508B0"},"evidence":"LL3a attestation sha256:208098edd00141d9e3713f608f6d197414a0da2e9391ef613b09999b94196fa3; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F103800: r101_rc7_func_81029858, r101_rc7_func_8102B034, r101_rc7_func_8102C664, r121_followup_104B810, rc7_res_1049DF0_104B034, rc7_res_104B4E0_104C664 (+1 more); symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"dungeon/bank_1049000","l":"bank_1025000_family","n":"0x6000","o":"0x1049000","p":["4300bd20872d33ad4a55298875c33a17dbe54594906ddb33750ae29ab7e4b5d7","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:b9029ae1ed8d97df47f35d2514ed800389ff76bbfae7a62ce96a9f31089c0773"],"t":[16372,0,0,216,7984,4,0],"v":"0x8014C800","y":{"0x800B2A60":"0x8014D058","0x800D4494":"0x8014D058","0x801710EC":"0x8014D058","0x80171138":"0x8014D058","0x801714D4":"0x8014D058","0x80171C34":"0x8014D848","0x80173C74":"0x80150880","0x80173C7C":"0x80150888","0x80173C8C":"0x80150898","0x8017587C":"0x801508B8","0x80175E40":"0x80150880","0x80175EA0":"0x801508E0"}},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"extractor":"container-slice-v1","symbols":{"D_8014C804":"0x8014c804"},"type":"PSX overlay data address word"},{"extractor":"container-slice-v1","symbols":{"D_8014C874":"0x8014c874"}},{"census_label":"proven_code"},{"bindings":{"0x80170c0c":"0x8014cc0c","0x80170cb4":"0x8014ccb4","0x80170d20":"0x8014cd20","0x80170f8c":"0x8014cf8c","0x80171030":"0x8014d030","0x80171058":"0x8014d058","0x80174880":"0x80150880","0x80174900":"0x80150900"},"evidence":"docs/evidence/r121w_goto2_receipts.json: dungeon/func_81029278; complete SDK2 donor twin, authenticated header entry, ELF relocations, scoped gate"},{},{"bindings":{"0x80172CE0":"0x80172CE0","0x80173010":"0x80173010","0x80173A08":"0x80173A08"},"evidence":"; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"},{"bindings":{"0x8006CCD8":"0x8006CCD8","0x8006CCE8":"0x8006CCE8","0x80083460":"0x80083460","0x800A2B04":"0x800A2B04","0x800AAA54":"0x800AAA54","0x800AD4D0":"0x800AD4D0","0x80171058":"0x8014D058","0x80172CE0":"0x8014ECE0","0x801748C0":"0x801508C0"},"evidence":"LL3a attestation sha256:b69045863bad6febd276273026e73a0af682fb07d1ce65074697a9c06f234fbc; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"bindings":{"0x800AD058":"0x800AD058","0x80173010":"0x8014F010"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"},{"bindings":{"0x80047784":"0x80047784","0x800644B8":"0x800644B8","0x80082E80":"0x80082E80","0x80083160":"0x80083160","0x80083460":"0x80083460","0x800A0818":"0x800A0818","0x800A2B04":"0x800A2B04","0x800A4ACC":"0x800A4ACC","0x800A9A04":"0x800A9A04","0x800AD594":"0x800AD594","0x80171058":"0x8014D058","0x80173A08":"0x8014FA08","0x801748A0":"0x801508A0","0x801748A8":"0x801508A8","0x801748B0":"0x801508B0"},"evidence":"LL3a attestation sha256:208098edd00141d9e3713f608f6d197414a0da2e9391ef613b09999b94196fa3; current-TU paired HI16/LO16 relocation screen; scoped window gate"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
-17076224	116	a	census:ledger:data_row	a3172ccd2716f0336ca9dacbfdafbba2a3bb2a370f13dca75a5d3490055e98f5	0
-17076340	4	a	census:ledger:rodata_owner	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	1
+17076224	4	a	census:ledger:data_row	2f30c56d289ef32e7dcd7c997ddb7e7868e792fd2317974b77ce249041bcfca2	0
+17076228	4	d	census:ledger:linklist_data	5f3ab0e7d93d8285316f3ff9941621efd79edc027ba414981921c3a4dbb0ef1f	1
+17076232	108	a	census:ledger:data_row	05e80cbaa6005c60665031a4c41601d93420e296df87c5069824c2fc38b7f8f1	0
+17076340	4	p	census:ledger:linklist_padding	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	2
 17076344	20	a	census:ledger:data_row	f096fb64707a883b7edb1f0dfbe70dec6da4c7739adb0542f463ceb675581f6e	0
-17076364	492	r	census:c_row		2
-"0x1049278"	1504	c	census:registered_tu		["func_81029278","func_81005278","0x8014ca78",3]
-"0x1049858"	1432	c	census:registered_tu		["func_81029858",null,"0x8014D058",4]
-"0x1049DF0"	600	c	census:registered_tu		["func_81029DF0","func_809C9B9C","0x8014D5F0",4]
-17080392	1864	r	census:c_row		2
-"0x104A790"	100	c	census:registered_tu		["func_8102A790","func_809CA53C","0x8014DF90",4]
-"0x104A7F4"	452	c	census:registered_tu		["func_8102A7F4","func_809CA5A0","0x8014DFF4",4]
-"0x104A9B8"	296	c	census:registered_tu		["func_8102A9B8","func_80A48C28","0x8014E1B8",4]
-"0x104AAE0"	308	c	census:registered_tu		["func_8102AAE0","func_81006AE0","0x8014E2E0",4]
-"0x104AC14"	324	c	census:registered_tu		["func_8102AC14","func_80976E28","0x8014E414",4]
-"0x104AD58"	148	c	census:registered_tu		["func_8102AD58","func_80976F6C","0x8014E558",4]
-"0x104ADEC"	100	c	census:registered_tu		["func_8102ADEC","func_800CEE70","0x8014E5EC",5]
-"0x104AE50"	484	c	census:registered_tu		["func_8102AE50","func_81006E50","0x8014E650",4]
-17084468	1196	r	census:c_row		2
-"0x0104B4E0"	816	c	census:registered_tu		["func_8102B4E0","func_810074E0","0x8014ECE0",6]
-"0x104B810"	32	c	census:registered_tu		["func_8102B810","func_81007810","0x8014F010",7]
-"0x104B830"	44	c	census:registered_tu		["func_8102B830","func_80E10550","0x8014F030",4]
-"0x104B85C"	32	c	census:registered_tu		["func_8102B85C","func_800AD92C","0x8014F05C",5]
-"0x104B87C"	56	c	census:registered_tu		["func_8102B87C","func_800AD94C","0x8014F07C",5]
-"0x104B8B4"	1068	c	census:registered_tu		["func_8102B8B4","func_810078B4","0x8014F0B4",4]
-"0x104BCE0"	852	c	census:registered_tu		["func_8102BCE0","func_81007CE0","0x8014F4E0",4]
-"0x104C034"	200	c	census:registered_tu		["func_8102C034","func_809A2D74","0x8014F834",4]
-"0x104C0FC"	100	c	census:registered_tu		["func_8102C0FC","func_80F8A600","0x8014F8FC",4]
-"0x104C160"	56	c	census:registered_tu		["func_8102C160","func_800ADA84","0x8014F960",5]
-"0x104C198"	56	c	census:registered_tu		["func_8102C198","func_800ADABC","0x8014F998",5]
-"0x104C1D0"	56	c	census:registered_tu		["func_8102C1D0","func_800ADAF4","0x8014F9D0",5]
-"0x0104C208"	1116	c	census:registered_tu		["func_8102C208","func_81008208","0x8014FA08",8]
-"0x104C664"	2476	c	census:registered_tu		["func_8102C664",null,"0x8014FE64",4]
-17092624	112	r	census:c_row		2
-17092736	128	d	census:noncode:decode		9
-17092864	24	a	census:format:ptrtab	ca1ff5fa670accf8704f20f041676106bea3868139e85c0831dba2a1663d8d49	10
-17092888	16	d	census:noncode:entropy:loaded		9
-17092904	56	a	census:format:ptrtab	1b3ad80f356bcfe4000f2d30ddfb0a586fb2af2819d7d2c238c9fb0641362155	10
-17092960	7776	d	census:noncode:entropy:loaded		9
-17100736	64	d	census:noncode:decode		9
+17076364	492	r	census:c_row		3
+"0x1049278"	1504	c	census:registered_tu		["func_81029278","func_81005278","0x8014ca78",4]
+"0x1049858"	1432	c	census:registered_tu		["func_81029858",null,"0x8014D058",5]
+"0x1049DF0"	600	c	census:registered_tu		["func_81029DF0","func_809C9B9C","0x8014D5F0",5]
+17080392	1864	r	census:c_row		3
+"0x104A790"	100	c	census:registered_tu		["func_8102A790","func_809CA53C","0x8014DF90",5]
+"0x104A7F4"	452	c	census:registered_tu		["func_8102A7F4","func_809CA5A0","0x8014DFF4",5]
+"0x104A9B8"	296	c	census:registered_tu		["func_8102A9B8","func_80A48C28","0x8014E1B8",5]
+"0x104AAE0"	308	c	census:registered_tu		["func_8102AAE0","func_81006AE0","0x8014E2E0",5]
+"0x104AC14"	324	c	census:registered_tu		["func_8102AC14","func_80976E28","0x8014E414",5]
+"0x104AD58"	148	c	census:registered_tu		["func_8102AD58","func_80976F6C","0x8014E558",5]
+"0x104ADEC"	100	c	census:registered_tu		["func_8102ADEC","func_800CEE70","0x8014E5EC",6]
+"0x104AE50"	484	c	census:registered_tu		["func_8102AE50","func_81006E50","0x8014E650",5]
+17084468	1196	r	census:c_row		3
+"0x0104B4E0"	816	c	census:registered_tu		["func_8102B4E0","func_810074E0","0x8014ECE0",7]
+"0x104B810"	32	c	census:registered_tu		["func_8102B810","func_81007810","0x8014F010",8]
+"0x104B830"	44	c	census:registered_tu		["func_8102B830","func_80E10550","0x8014F030",5]
+"0x104B85C"	32	c	census:registered_tu		["func_8102B85C","func_800AD92C","0x8014F05C",6]
+"0x104B87C"	56	c	census:registered_tu		["func_8102B87C","func_800AD94C","0x8014F07C",6]
+"0x104B8B4"	1068	c	census:registered_tu		["func_8102B8B4","func_810078B4","0x8014F0B4",5]
+"0x104BCE0"	852	c	census:registered_tu		["func_8102BCE0","func_81007CE0","0x8014F4E0",5]
+"0x104C034"	200	c	census:registered_tu		["func_8102C034","func_809A2D74","0x8014F834",5]
+"0x104C0FC"	100	c	census:registered_tu		["func_8102C0FC","func_80F8A600","0x8014F8FC",5]
+"0x104C160"	56	c	census:registered_tu		["func_8102C160","func_800ADA84","0x8014F960",6]
+"0x104C198"	56	c	census:registered_tu		["func_8102C198","func_800ADABC","0x8014F998",6]
+"0x104C1D0"	56	c	census:registered_tu		["func_8102C1D0","func_800ADAF4","0x8014F9D0",6]
+"0x0104C208"	1116	c	census:registered_tu		["func_8102C208","func_81008208","0x8014FA08",9]
+"0x104C664"	2476	c	census:registered_tu		["func_8102C664",null,"0x8014FE64",5]
+17092624	112	r	census:c_row		3
+17092736	128	d	census:noncode:decode		10
+17092864	24	a	census:format:ptrtab	ca1ff5fa670accf8704f20f041676106bea3868139e85c0831dba2a1663d8d49	11
+17092888	16	d	census:noncode:entropy:loaded		10
+17092904	56	a	census:format:ptrtab	1b3ad80f356bcfe4000f2d30ddfb0a586fb2af2819d7d2c238c9fb0641362155	11
+17092960	7776	d	census:noncode:entropy:loaded		10
+17100736	64	d	census:noncode:decode		10

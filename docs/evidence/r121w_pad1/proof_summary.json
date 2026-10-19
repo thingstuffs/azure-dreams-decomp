@@ -1,0 +1,77 @@
+{
+  "bytes": 560,
+  "census": {
+    "comparison": "diff empty",
+    "files": 1783,
+    "map_set_sha256": "10d258990ab2b7f35da42bbd9e97826441f77b1d9308405c96326195294c543e",
+    "result": "PASS"
+  },
+  "census_delta": {
+    "library_code": 0,
+    "noncode_typing_pending": 0,
+    "padding_leftover": 228,
+    "proven_code": 0,
+    "proven_data": -228,
+    "strongly_code": 0,
+    "unknown": 0
+  },
+  "census_tests": 13,
+  "extraction": {
+    "bytes": 560,
+    "verified": true,
+    "words": 140
+  },
+  "gate": {
+    "exit": 0,
+    "invocations": 1,
+    "results": {
+      "MATCH": 80
+    },
+    "serial_retries": 0,
+    "windows": 80,
+    "workers": 4
+  },
+  "holds": {},
+  "items": 140,
+  "kinds": {
+    "alignment_padding": 57,
+    "entry_point": 27,
+    "overlay_data_pointer": 56
+  },
+  "metadata_preflight": {
+    "unique_words": 140,
+    "windows": 80
+  },
+  "physical_map_check": {
+    "images": 1775,
+    "log_bytes": 544628,
+    "log_sha256": "3839d5cb8f28973e93ac01877a8dfebcdae5bb8901ac112518f2b6070d283cd0",
+    "physical_bytes": 50952192,
+    "physical_roots": [
+      "dungeon/dungeon_bin",
+      "main/main_bin",
+      "ovmovie/ovmovie_bin",
+      "slus/slus_bin",
+      "town/town_bin"
+    ],
+    "result": "PASS"
+  },
+  "relink_lint": "PASS",
+  "result": "PASS",
+  "retirement_check": {
+    "accepted_read_source_hashes_unchanged": true,
+    "bytes": 560,
+    "items": 140,
+    "kinds": {
+      "alignment_padding": 57,
+      "entry_point": 27,
+      "overlay_data_pointer": 56
+    },
+    "removed_from_current_registry_splits_layout": true,
+    "result": "PASS",
+    "retirement_events": 140,
+    "source_hashes_verified": true
+  },
+  "row_database": "PASS",
+  "targeted_tests": 93
+}
