@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -30,7 +31,6 @@ typedef struct S_800243E0_1 {
 extern M2C_UNK func_8003DB94();
 extern s32 func_8004491C();
 extern s32 D_80024374;
-extern M2C_UNK D_800DE870;
 
 /* Creates a type 0x212 object, initializes its appearance, and copies the supplied components. */
 void *create_type_212_effect_object(MovingPosition *source) {
@@ -46,7 +46,7 @@ void *create_type_212_effect_object(MovingPosition *source) {
         appearance->unk_0E = 0x80;
         appearance->unk_0D = 0x80;
         appearance->unk_0C = 0x80;
-        func_8003DB94(appearance, &D_800DE870, 0);
+        func_8003DB94(appearance, D_800DE870, 0);
         appearance->unk_1E = 0x2000;
         appearance->unk_1C = 0x2000;
         func_8004491C(object, func_80045340);

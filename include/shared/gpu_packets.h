@@ -51,4 +51,25 @@ typedef struct GpuContext {
     /* 0x8B4 */ unsigned char pad_8B4[0x1C];
     /* 0x8D0 */ unsigned char *packetCursor;
 } GpuContext;
+
+/* Exact access views shared across registered binary consumers. */
+/* Three signed words supplying packed GPU vertex colors; not a position vector. */
+typedef struct PacketColorWords {
+    int unk_00;
+    int unk_04;
+    int unk_08;
+} PacketColorWords;
+
+/* Three-word display template rooted at D_8002E5E8 and its copied instances. */
+typedef struct DisplayPositionWords {
+    int unk0;
+    int unk4;
+    int unk8;
+} DisplayPositionWords;
+
+/* Unsigned display coordinate read from the overlay drawing global. */
+typedef struct DisplayXHalfView {
+    unsigned short unk_00;
+} DisplayXHalfView;
+
 #endif

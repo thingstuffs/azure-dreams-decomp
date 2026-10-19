@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/vector.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))

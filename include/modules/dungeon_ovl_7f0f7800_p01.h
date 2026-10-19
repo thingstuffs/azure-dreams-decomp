@@ -4,6 +4,7 @@
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_trail_views.h"
 
 
 typedef void (*T_80170AA4_EntityCallback)(void *, void *, void *, void *);
@@ -32,15 +33,7 @@ typedef struct T_80170AA4_S_80170AA4_1 {
     u16 unk_88;
 } T_80170AA4_S_80170AA4_1;   /* entity in func_80170AA4 */
 
-typedef struct T_80170AA4_S_80170AA4_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} T_80170AA4_S_80170AA4_2;   /* arg1 in func_80170AA4 */
+   /* arg1 in func_80170AA4 */
 
 extern void func_80042984();
 extern void select_indirect_table_entry();
@@ -51,6 +44,6 @@ extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
 extern s32 sample_terrain_surface_height();
 extern T_80170AA4_EntityCallback D_80174018[];
-void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part);
+void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, void *part);
 extern void update_dungeon_actor_behavior();
 #endif

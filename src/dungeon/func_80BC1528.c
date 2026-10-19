@@ -4,7 +4,7 @@ void create_parent_return_effect(
     void *parent_obj, s16 effect_param, s32 initial_value, s16 duration,
     s16 offset_x, s16 offset_y, s16 offset_z)
 {
-    S_80BC1528_1 *parent = parent_obj;
+    ObjectPayloadView *parent = parent_obj;
     void *effect;
     S_80BC1528_2 *effect_data;
     s32 step_x;
@@ -17,11 +17,11 @@ void create_parent_return_effect(
     if (effect != 0) {
         ((S_80BC1528_0 *)effect)->unk_10 = advance_effect_toward_target;
 
-        ((S_80BC1528_3 *)(((S_80BC1528_0 *)effect)->unk_08))->unk_02 =
+        ((SignedPositionView *)(((S_80BC1528_0 *)effect)->unk_08))->unk_02 =
             ((MovingPosition *)(parent->unk_08))->unk_02 + offset_x;
-        ((S_80BC1528_3 *)(((S_80BC1528_0 *)effect)->unk_08))->unk_06 =
+        ((SignedPositionView *)(((S_80BC1528_0 *)effect)->unk_08))->unk_06 =
             ((MovingPosition *)(parent->unk_08))->unk_06 + offset_y;
-        ((S_80BC1528_3 *)(((S_80BC1528_0 *)effect)->unk_08))->unk_0A =
+        ((SignedPositionView *)(((S_80BC1528_0 *)effect)->unk_08))->unk_0A =
             ((MovingPosition *)(parent->unk_08))->unk_0A + offset_z - 100;
 
         effect_data = (u8 *)effect + 0x20;

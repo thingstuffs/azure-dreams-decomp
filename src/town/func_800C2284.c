@@ -1,7 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "records/Rec_func_8008F074_arg0.h"
-#include "shared/types3b_types.h"
+#include "shared/vector.h"
 
 typedef struct S_800BF9E4_0_pre {
     u8 * unk_00;

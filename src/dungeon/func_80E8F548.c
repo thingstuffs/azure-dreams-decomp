@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_800AD058_arg2.h"
+#include "shared/dungeon_projectile_views.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -27,12 +28,7 @@ extern u8 D_8006E240[9];
 extern u8 D_80174978[9];
 
 
-typedef struct S_80174D48_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80174D48_0;
+
 
 typedef struct S_80174D48_1 {
     s32 unk_00;
@@ -83,10 +79,10 @@ void create_and_initializes_display_source_position_appearance(void *source, Rec
     if (((((AppearanceFieldView_80E8F548 *)appearance)->field_49) != 0) &&
         (object = func_8003FC64(0x12), object != NULL)) {
         init_object = object;
-        transform = ((S_80174D48_0 *)object)->unk_08;
+        transform = ((ProjectileObject *)object)->unk_08;
         data_base_2 = source;
         coord_value = ((S_80174D48_1 *)data_base_2)->unk_00;
-        sprite = ((S_80174D48_0 *)object)->unk_0C;
+        sprite = ((ProjectileObject *)object)->unk_0C;
         transform->unk_00 = coord_value;
         transform->unk_04 = ((S_80174D48_1 *)data_base_2)->unk_04;
         coord_z = ((S_80174D48_1 *)data_base_2)->unk_08;
@@ -118,6 +114,6 @@ void create_and_initializes_display_source_position_appearance(void *source, Rec
         zero = 0;
         (*(unaligned_s32 *)((u8 *)object_data + 0x48)) = (*(unaligned_s32 *)((u8 *)appearance + 0x48));
         create_tracked_effect(active_object, zero, zero, zero);
-        ((S_80174D48_0 *)object)->unk_10 = D_80174978;
+        ((ProjectileObject *)object)->unk_10 = D_80174978;
     }
 }

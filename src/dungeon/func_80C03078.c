@@ -6,7 +6,7 @@ void *func_80158878(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
     s32 state_flags;
     s32 update_flags;
     S_80158878_3 *placement_data;
-    S_80158878_2 *config_data;
+    SignedHeightView *config_data;
     void *object;
     S_80158878_4 *extended_state;
     S_80158878_1 *state;

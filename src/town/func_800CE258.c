@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_D_80082D58.h"
-#include "shared/types3b_types.h"
+#include "shared/object_payload.h"
+#include "shared/vector.h"
 
 void func_80033D08(void *block_data);
 s32 func_800644B8();                             /* extern */

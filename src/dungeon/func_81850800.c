@@ -4,7 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_moving_views.h"
-#include "shared/types3c_types.h"
+#include "shared/sprite_frame_state.h"
 
 extern int abs(int);
 

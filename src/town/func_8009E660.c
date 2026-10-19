@@ -1,6 +1,6 @@
 #include "shared/position_query.h"
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/town_state.h"
 
 typedef struct Actor Actor;
 typedef struct Subject Subject;

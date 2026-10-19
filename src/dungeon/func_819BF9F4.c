@@ -1,6 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/dungeon_sprite_data.h"
 
 
 
@@ -108,7 +108,6 @@ typedef struct {
 
 extern s32 func_80069EF8(void);
 
-extern M2C_UNK D_800DE870;
 
 /* Spawns four textured particles with randomized positions, motion, and rotation. */
 void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y, s16 center_z)
@@ -259,7 +258,7 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             ((S_800251F4_2 *)transform)->unk_0E = brightness;
             ((S_800251F4_2 *)transform)->unk_0D = brightness;
             ((S_800251F4_2 *)transform)->unk_0C = brightness;
-            func_8003DB94(transform, &D_800DE870, 0);
+            func_8003DB94(transform, D_800DE870, 0);
         }
         tile_max = iteration + 1;
         iteration = tile_max;

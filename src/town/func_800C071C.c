@@ -1,7 +1,7 @@
 #include "modules/town_map_props.h"
 #include "common.h"
 #include "shared/dungeon_delay_views.h"
-#include "shared/types3b_types.h"
+#include "shared/town_pointees.h"
 
 typedef struct S_800BDE7C_0 {
     u8 pad_00[0x68];

@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-#include "shared/types3b_types.h"
+#include "shared/object_links.h"
 
 typedef struct S_800BC6CC_0 {
     s32 unk_00;

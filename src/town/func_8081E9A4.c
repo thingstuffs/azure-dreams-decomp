@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/town_handler_entries.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -54,9 +55,6 @@ extern s32 D_80024558[3];
 extern s32 D_80100E18[3];
 extern u8 D_800D0078[];
 extern u8 D_800D0080[];
-extern u8 D_800D00A0[];
-extern u8 D_800D00A8[];
-extern u8 D_800D00B8[];
 extern u8 D_80097D2C[];
 extern void draw_translucent_gradient_line_list(void);
 

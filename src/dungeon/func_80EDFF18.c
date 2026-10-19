@@ -1,13 +1,10 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_projectile_views.h"
+#include "shared/position_views.h"
 
-typedef struct S_80171718_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80171718_0;   /* object in create_overlay_effect_object */
+   /* object in create_overlay_effect_object */
 
 typedef struct S_80171718_1 {
     u8 pad_00[0x13];
@@ -17,10 +14,7 @@ typedef struct S_80171718_1 {
     s32 unk_1C;
 } S_80171718_1;   /* result in create_overlay_effect_object */
 
-typedef struct S_80171718_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80171718_2;   /* part0 in create_overlay_effect_object */
+   /* part0 in create_overlay_effect_object */
 
 typedef struct S_80171718_3 {
     u8 pad_00[0x24];
@@ -60,7 +54,7 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
     s32 flags1;
     void *result;
     void *object;
-    S_80171718_2 *part0;
+    SignedHeightView *part0;
     S_80171718_3 *part1;
     S_80171718_4 *result_copy;
 
@@ -69,17 +63,17 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
-        ((S_80171718_0 *)object)->unk_10 = D_801718E0;
+        ((ProjectileObject *)object)->unk_10 = D_801718E0;
         ((S_80171718_1 *)result)->unk_13 = 34;
         func_8004491C(object, func_80045340);
 
         {
             void *handler;
 
-            part0 = ((S_80171718_0 *)object)->unk_08;
+            part0 = ((ProjectileObject *)object)->unk_08;
             handler = D_80174EB8;
             part0->unk_0A = attr_c;
-            part1 = ((S_80171718_0 *)object)->unk_0C;
+            part1 = ((ProjectileObject *)object)->unk_0C;
             kind = spawn_flags & 3;
             part1->unk_25 = attr_b;
             result_copy = result;

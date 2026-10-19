@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80167A98_arg1.h"
@@ -16,7 +17,6 @@ typedef struct {
     s16 z;
     u8 pad[0x5A];
 } PositionTableEntry;
-extern u8 D_800DE870[16];
 extern s32 D_800DEDB0[3];
 extern M2C_UNK D_800DEE38;
 extern M2C_UNK D_80167A2C;
@@ -77,7 +77,7 @@ void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98
         render_state->unk_0D = 0x80;
         render_state->unk_0C = 0x80;
         if (source->unk_1C == 0) {
-            func_8003DB94(render_state, &D_800DE870, 0);
+            func_8003DB94(render_state, D_800DE870, 0);
         }
         if (source->unk_1C == 1) {
             func_8003DB94(render_state, &D_800DEE38, 0);

@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "modules/dungeon_ovl_18e8800.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
@@ -24,7 +25,6 @@
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_800DE870[9];
 extern u8 D_800DEC00[];
 extern u8 D_800E3D68;
 

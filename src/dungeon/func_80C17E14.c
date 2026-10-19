@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource17_slot0.h"
 
-void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, R17_80173614_S_func_80C17E14_1 *motion, R17_80173614_S_func_80C17E14_2 *sprite,
+void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, MotionDeltaView *motion, R17_80173614_S_func_80C17E14_2 *sprite,
     R17_80173614_S_func_80C17E14_3 *entity) {
     s32 direction_offset;
     s32 offset_x;

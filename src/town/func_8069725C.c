@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/town_lookup_data.h"
 #include "m2c_compat.h"
 
 s32 func_800179A0(void);
 s32 func_80017B24();         /* extern */
 s32 * func_80017BDC(void *, void *, s32, s32);
 s32 func_80018820();                                /* extern */
-extern M2C_UNK D_80018964;
 extern s32 D_80018AD0;
 extern M2C_UNK D_80019BD1;
 

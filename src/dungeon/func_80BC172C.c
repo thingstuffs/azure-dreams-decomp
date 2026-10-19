@@ -16,12 +16,12 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
     if (effect != NULL) {
         ((S_80BC172C_0 *)effect)->unk_10 = func_80170BFC;
         do {
-            parent_x = ((S_80BC172C_4 *)(((S_80BC172C_2 *)parent)->unk_08))->unk_02;
+            parent_x = ((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->unk_02;
             ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_02 = (s16) (parent_x + offset_x);
             ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_06 =
-                (s16) (((S_80BC172C_4 *)(((S_80BC172C_2 *)parent)->unk_08))->unk_06 + offset_y);
+                (s16) (((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->unk_06 + offset_y);
             ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_0A =
-                (s16) ((((S_80BC172C_4 *)(((S_80BC172C_2 *)parent)->unk_08))->unk_0A + offset_z) - 0x64);
+                (s16) ((((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->unk_0A + offset_z) - 0x64);
         } while (0);
         ((S_80BC172C_6 *)(((S_80BC172C_3 *)effect)->unk_0C))->unk_06 = 6;
         ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);

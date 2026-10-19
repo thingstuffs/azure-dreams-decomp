@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/town_handler_entries.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -120,9 +121,6 @@ typedef struct {
     u8 state[0x20];
 } TownPage;
 extern s32 D_80097D2C[3];
-extern M2C_UNK D_800D0120;
-extern M2C_UNK D_800D0128;
-extern M2C_UNK D_800D0138;
 extern s32 D_800F9B40;
 
 /* Run the ending cutscene's state machine: swing the camera, spawn the credits sprites and hand over to the next scene. */
@@ -302,7 +300,7 @@ loop_0:
                     ((S_80022F60_5 *)sprite)->unk_50 = 0x20;
                     ((S_80022F60_5 *)sprite)->unk_52 = 4;
                 }
-                apply_global_scene_value(&D_800D0120);
+                apply_global_scene_value(D_800D0120);
                 ((S_80022F60_0 *)state_obj)->unk_00.u++;
             }
         }
@@ -311,7 +309,7 @@ loop_0:
 
     case 4:
         if (D_80082E80.unk_014 & 0x6000) {
-            apply_global_scene_value(&D_800D0128);
+            apply_global_scene_value(D_800D0128);
             ((S_80022F60_0 *)state_obj)->unk_00.u++;
         }
         break;
@@ -323,7 +321,7 @@ loop_0:
         angle = (((S_80022F60_1 *)main_state)->unk_10.u + 0xE00) & 0xFFF;
         ((S_80022F60_1 *)main_state)->unk_10.u = angle;
         if (angle == 0xC00) {
-            apply_global_scene_value(&D_800D0138);
+            apply_global_scene_value(D_800D0138);
             ((S_80022F60_0 *)state_obj)->unk_00.u++;
         }
     }
@@ -332,7 +330,7 @@ loop_0:
     case 6:
         if (D_80082E80.unk_014 & 0x6000) {
             ((S_80022F60_0 *)state_obj)->unk_02.s = 1;
-            apply_global_scene_value(&D_800D0120);
+            apply_global_scene_value(D_800D0120);
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023994;
             ((S_80022F60_0 *)state_obj)->unk_00.u = 0x20;
         }
@@ -379,7 +377,7 @@ loop_0:
         }
         if (((S_80022F60_0 *)state_obj)->unk_06 & 1) {
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
-            apply_global_scene_value(&D_800D0138);
+            apply_global_scene_value(D_800D0138);
             D_800272CA = 0;
             D_800272C8 = 1;
             D_80083780.unk_0C = 0;

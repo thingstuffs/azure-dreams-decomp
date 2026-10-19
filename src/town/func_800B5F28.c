@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/gpu_packets.h"
 
 typedef struct {
     s32 unk0;

@@ -1,6 +1,6 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/resident_resources.h"
 
 struct S_8006CE80_ptr
 {

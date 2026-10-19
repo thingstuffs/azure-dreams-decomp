@@ -3,8 +3,8 @@
 void *func_80158854(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attribute_0a)
 {
     s32 kind;
-    void *obj;
-    S_80158854_2 *part_a;
+    ProjectileObject *obj;
+    SignedHeightView *part_a;
     S_80158854_3 *part_b;
     S_80158854_1 *work;
     S_80158854_4 *actor;
@@ -21,13 +21,13 @@ void *func_80158854(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attr
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80158854_0 *)obj)->unk_10 = D_80158A28;
+        obj->unk_10 = D_80158A28;
         work->unk_13 = 0x3;
         func_8004491C(obj, func_80045340);
 
-        part_a = ((S_80158854_0 *)obj)->unk_08;
+        part_a = obj->unk_08;
         part_a->unk_0A = saved_attribute_0a;
-        part_b = ((S_80158854_0 *)obj)->unk_0C;
+        part_b = obj->unk_0C;
         kind = mode_flags & 3;
         part_b->unk_25 = saved_attribute_25;
         actor = work;

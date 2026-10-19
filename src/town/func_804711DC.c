@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/town_event_buffer.h"
 
-extern s32 D_8001B218[];
 
 void func_80018198(void);
 void func_8001844C(s32 entry_code);

@@ -1,5 +1,6 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -33,7 +34,6 @@ extern M2C_UNK D_8009B8E8;
 extern M2C_UNK D_8009B9BC;
 extern M2C_UNK D_800CFCB4;
 extern void *D_800CFCC4;
-extern u8 D_800CFCEF[];
 extern s32 D_800FE518[];
 extern s32 *D_800FE5D8;
 
@@ -69,12 +69,12 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(position);
     ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, &D_800FE488);
     if ((ground_height - position->z.w.i) >= 4) {
-        if (D_800CFCEF[0] == 0) {
+        if (D_800CFCEF == 0) {
             initialize_action_callback_from_entry(actor, position, context);
             return;
         }
     } else {
-        if (D_800CFCEF[0] == 0) {
+        if (D_800CFCEF == 0) {
             compute_and_clamps_vector_based_adjustment_updates_town(position, ground_height, &D_800FE488);
         }
     }

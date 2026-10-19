@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3a_types.h"
+#include "shared/position_views.h"
 
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */

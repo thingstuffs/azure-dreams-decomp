@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/dungeon_effect_views.h"
 
 typedef struct S_800A9858_0 {
     s32 * unk_00;

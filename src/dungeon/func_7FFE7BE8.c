@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_effect_source.h"
 #include "shared/dungeon_moving_views.h"
 
 typedef struct S_7FFE7BE8_0 {
@@ -42,7 +43,6 @@ typedef struct S_7FFE7BE8_5 {
 extern void func_70040A18(void *, void *);
 extern void func_7003A7C4(void *, void *, s32);
 extern s32 D_8004136C;
-extern s32 D_800E2BB8;
 
 /* Initialize the object from its source and position, then configure its display state. */
 void initialize_source_position_object(S_7FFE7BE8_0 *object, S_7FFE7BE8_5 *source, MovingPosition *position)
@@ -69,5 +69,5 @@ void initialize_source_position_object(S_7FFE7BE8_0 *object, S_7FFE7BE8_5 *sourc
     display_state->unk_12 = 0x7DCF;
     display_state->unk_0C = source_value;
     display_state->unk_14 |= 0x100;
-    func_7003A7C4(display_state, &D_800E2BB8, 0);
+    func_7003A7C4(display_state, D_800E2BB8, 0);
 }

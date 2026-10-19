@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F6DF800: native_resource_07_slot_0","i":"dungeon/bank_a91000","l":"bank_a91000_family","n":"0x6000","o":"0xA91000","p":["4300bd20872d33ad4a55298875c33a17dbe54594906ddb33750ae29ab7e4b5d7","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:b9029ae1ed8d97df47f35d2514ed800389ff76bbfae7a62ce96a9f31089c0773"],"t":[14648,0,0,76,9852,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F6DF800: native_resource_07_slot_0","i":"dungeon/bank_a91000","l":"bank_a91000_family","n":"0x6000","o":"0xA91000","p":["95e05be8834848954fb72264c61dfaa4e15296a89b9fb262f1d26d415959a1af","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:acd06e631dd337c492c1377ecda2e603412f42b69132c7448e962f9c819589ee"],"t":[14648,0,0,76,9852,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 11079680	3440	r	census:c_row		0
 "0xA91D70"	580	c	census:registered_tu		["func_80A71D70",null,"0x80171570",1]
@@ -6,7 +6,8 @@ o	n	k	r	h	x
 "0xA926FC"	196	c	census:registered_tu		["func_80A726FC",null,"0x80171EFC",1]
 11085760	2188	r	census:c_row		0
 "0xA9304C"	1140	c	census:registered_tu		["func_80A7304C",null,"0x8017284C",1]
-11089088	2612	r	census:c_row		0
+"0xA934C0"	1400	c	census:registered_tu		["func_80A734C0",null,"0x80172CC0",1]
+11090488	1212	r	census:c_row		0
 "0xA93EF4"	1220	c	census:registered_tu		["func_80A73EF4",null,"0x801736F4",1]
 11092920	1408	r	census:c_row		0
 11094328	20	d	census:noncode:decode		2

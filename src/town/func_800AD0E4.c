@@ -1,5 +1,6 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -16,7 +17,6 @@ extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associate
 extern void compute_and_clamps_vector_based_adjustment_updates_town(Obj800AD0E4 *, s16, void *);
 extern void update_positions_from_origin(Obj800AD0E4 *);
 
-extern u8 D_800CFCEF[9];
 
 /* Update the object and dispatch actions based on its value, timer, and state flags. */
 void update_object_and_dispatch_actions(Obj800AD0E4 *timer_obj, Obj800AD0E4 *object, s32 action_arg) {
@@ -29,11 +29,11 @@ void update_object_and_dispatch_actions(Obj800AD0E4 *timer_obj, Obj800AD0E4 *obj
     next_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, ((u8 *)&D_800FE488));
 
     if ((next_value - (s16)object->field_A) >= 4) {
-        if (D_800CFCEF[0] == 0) {
+        if (D_800CFCEF == 0) {
             initialize_action_object(timer_obj, object, action_arg);
             return;
         }
-    } else if (D_800CFCEF[0] == 0) {
+    } else if (D_800CFCEF == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town(object, next_value, ((u8 *)&D_800FE488));
     }
 

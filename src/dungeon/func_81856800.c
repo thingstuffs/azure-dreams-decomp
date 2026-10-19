@@ -7,7 +7,7 @@
 
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
-#include "shared/types3c_types.h"
+#include "shared/dungeon_effect_views.h"
 
 typedef struct S_func_81856800_1 {
     void * unk_00;

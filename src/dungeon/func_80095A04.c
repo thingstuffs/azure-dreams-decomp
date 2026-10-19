@@ -37,11 +37,11 @@ s32 check_neighbor_tile_blocking(u32 direction_bits, Arg1 *state_in, Arg2 *posit
         next_y = position->y + ((u16 *)dir_step_y)[direction];
         if (map_height_short((((s32) (next_x << 0x10) >> 0xA) | 0x20) & 0xFFE0,
             (((s32) (next_y << 0x10) >> 0xA) | 0x20) & 0xFFE0, (s32) (state->unk8 + (state->unk14 * 2)) >> 0x10)
-            >= 0x200) {
-            goto return_zero;
+            < 0x200) {
+            return 1;
         }
+    } else {
+        return 1;
     }
-    return 1;
-return_zero:
     return 0;
 }

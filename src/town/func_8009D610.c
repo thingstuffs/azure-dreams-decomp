@@ -1,7 +1,7 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
-#include "shared/types3a_types.h"
+#include "shared/vector.h"
 
 
 typedef struct Position {

@@ -2,7 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
+#include "shared/vector.h"
 void func_80033CD8(void *block_data, s32 registration_id);           /* extern */
 struct Dst;
 struct Elem;

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/object_links.h"
 
    /* the 0x2 bytes before arg0 in animate_linked_value_threshold, addressed as arg0[-1] */
 

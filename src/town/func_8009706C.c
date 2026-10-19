@@ -1,12 +1,11 @@
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/town_handler_entries.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
 
 
 
 extern u8 D_80093458[];
-extern M2C_UNK D_800D00A0;
 
 
 typedef struct S_800947CC_1 {
@@ -21,7 +20,7 @@ void initialize_returned_item_action(Rec_func_80094268_arg0 *object, S_800947CC_
     u16 secondSetting;
     s32 *handler;
 
-    call_the_handler_selects_nonzero_entry((s32 *) &D_800D00A0, object, ptr2);
+    call_the_handler_selects_nonzero_entry((s32 *) D_800D00A0, object, ptr2);
     object->unk_30 = (u16) settings->unk_02;
     handler = (s32 *) D_80093458;
     secondSetting = settings->unk_06;

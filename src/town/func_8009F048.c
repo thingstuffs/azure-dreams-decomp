@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800CFCB4.h"
-#include "shared/types3a_types.h"
+#include "shared/dungeon_effect_views.h"
 
 void handle_insert_initialize_two_values_status_flags();        /* extern */
 void configure_the_set_mode_n_3();                         /* extern */

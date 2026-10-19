@@ -1,13 +1,10 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_projectile_views.h"
+#include "shared/position_views.h"
 
-typedef struct S_8017086C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8017086C_0;   /* obj in update_actor_action_controller */
+   /* obj in update_actor_action_controller */
 
 typedef struct S_8017086C_1 {
     u8 pad_00[0x13];
@@ -17,10 +14,7 @@ typedef struct S_8017086C_1 {
     s32 unk_1C;
 } S_8017086C_1;   /* work in update_actor_action_controller */
 
-typedef struct S_8017086C_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8017086C_2;   /* part_a in update_actor_action_controller */
+   /* part_a in update_actor_action_controller */
 
 typedef struct S_8017086C_3 {
     u8 pad_00[0x12];
@@ -106,7 +100,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     s8 saved_value_24;
     s8 saved_value_25;
     void *obj;
-    S_8017086C_2 *part_a;
+    SignedHeightView *part_a;
     S_8017086C_3 *part_b;
     S_8017086C_4 *actor;
     s32 left;
@@ -130,14 +124,14 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     obj = func_8003FD64(0x112, (saved_value_24 = value_24, ((u8 *)(&D_80083498))));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_8017086C_0 *)obj)->unk_10 = D_80170B64;
+        ((ProjectileObject *)obj)->unk_10 = D_80170B64;
         ((S_8017086C_1 *)work)->unk_13 = 0x21;
         func_8004491C(obj, func_80045340);
         actor = work;
 
-        part_a = ((S_8017086C_0 *)obj)->unk_08;
+        part_a = ((ProjectileObject *)obj)->unk_08;
         part_a->unk_0A = value_0A;
-        part_b = ((S_8017086C_0 *)obj)->unk_0C;
+        part_b = ((ProjectileObject *)obj)->unk_0C;
         kind = mode & 3;
         part_b->unk_2C = D_8017418C;
         part_b->unk_24 = saved_value_24;

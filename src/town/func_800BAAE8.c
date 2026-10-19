@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/resident_resources.h"
 
 
 extern s32 *initialize_shared_script_data();

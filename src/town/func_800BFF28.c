@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
+#include "shared/object_links.h"
 extern int abs(int);
 
 typedef struct S_800BD688_9 {

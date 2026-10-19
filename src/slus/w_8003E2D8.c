@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "shared/types3a_types.h"
+#include "shared/pad_state.h"
 
 /* D_80083160: shared state table (own view here). field_8 (cur reading) is
  * accessed directly on the base struct; a separate history view starting

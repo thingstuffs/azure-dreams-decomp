@@ -15,42 +15,36 @@ s32 process_selection(void)
 {
     s32 selection_state;
     s32 return_code;
-    s32 selection;
     s32 *selected_slot;
 
     selection_state = D_804094E8;
     return_code = 0;
-    if (selection_state == 0)
-        goto done;
-    if (selection_state != 1) {
-        if (selection_state == 3)
-            goto case_three;
-        goto fail;
+    if (selection_state != 0) {
+        switch (selection_state) {
+        case 1:
+            func_80401578();
+            if ((func_80408684(D_804094EC) != 0) &&
+                ((func_80408644(D_804094EC != 0) & 4) != 0)) {
+                D_80409500 = selection_state;
+                D_804094E8 = D_804094E8 + 1;
+                break;
+            }
+            D_804094E8 = 0;
+            return_code = 5;
+            break;
+        case 3:
+            selected_slot = (s32 *)D_800A0000 - 1820;
+            if (D_804094EC != 0) {
+                selected_slot++;
+            }
+            return_code = 3;
+            *selected_slot = 0;
+            D_804094E8 = 0;
+            break;
+        default:
+            return_code = 5;
+            break;
+        }
     }
-    func_80401578();
-    if ((func_80408684(D_804094EC) != 0) &&
-        ((func_80408644(D_804094EC != 0) & 4) != 0)) {
-        D_80409500 = selection_state;
-        D_804094E8 = D_804094E8 + 1;
-        goto done;
-    }
-    D_804094E8 = 0;
-    goto fail;
-
-case_three:
-    selection = D_804094EC;
-    selected_slot = (s32 *)D_800A0000;
-    selected_slot -= 1820;
-    if (selection != 0) {
-        selected_slot++;
-    }
-    return_code = 3;
-    *selected_slot = 0;
-    D_804094E8 = 0;
-    goto done;
-
-fail:
-    return_code = 5;
-done:
     return return_code;
 }

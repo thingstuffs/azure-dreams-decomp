@@ -112,50 +112,48 @@ s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 r
 
     if (roll < 0x30) {
         effect = func_8003FC64(2);
-        if (effect == NULL) {
-            goto return_object;
+        if (effect != NULL) {
+            init_effect = effect;
+            ((S_800CD004_1 *)effect)->unk_10 = &D_800CCDA0;
+            func_8004491C(init_effect, func_80045340);
+
+            map = ((S_800CD004_0_pre *)source)[-1].unk_00;
+            tile_x = map->unk_24;
+            quad = ((S_800CD004_1 *)effect)->unk_08;
+            quad->unk_02 = (tile_x << 6) + 0x20;
+            quad->unk_06 = (map->unk_25 << 6) + 0x20;
+            quad->unk_0A = ((S_800CD004_0 *)source)->unk_88 - 0x200;
+
+            sprite = ((S_800CD004_1 *)effect)->unk_0C;
+            sprite->unk_1E = 0x1000;
+            sprite->unk_1C = 0x1000;
+            color = 0x808080;
+            sprite->unk_0C = color;
+
+            variant = func_80069EF8();
+            if (variant & 3) {
+                texture = D_800DFD0C;
+            } else {
+                texture = D_800DFD30;
+            }
+            sprite->unk_08 = texture;
+            sprite->unk_10 = 0x20;
+
+            height_offset = D_800DDC40[((S_800CD004_0 *)source)->unk_13];
+            effect_state = (u8 *)effect + 0x20;
+            height_delta = ((S_800CD004_0 *)source)->unk_88 - height_offset;
+            effect_state->unk_0A = height_delta;
+            ((S_800CD004_1 *)effect)->unk_20 = source;
+            effect_state->unk_06 = 0xC;
+
+            g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) + 1;
+            play_sound_if_enabled(0x50D);
         }
-        init_effect = effect;
-        ((S_800CD004_1 *)effect)->unk_10 = &D_800CCDA0;
-        func_8004491C(init_effect, func_80045340);
-
-        map = ((S_800CD004_0_pre *)source)[-1].unk_00;
-        tile_x = map->unk_24;
-        quad = ((S_800CD004_1 *)effect)->unk_08;
-        quad->unk_02 = (tile_x << 6) + 0x20;
-        quad->unk_06 = (map->unk_25 << 6) + 0x20;
-        quad->unk_0A = ((S_800CD004_0 *)source)->unk_88 - 0x200;
-
-        sprite = ((S_800CD004_1 *)effect)->unk_0C;
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        color = 0x808080;
-        sprite->unk_0C = color;
-
-        variant = func_80069EF8();
-        if (variant & 3) {
-            texture = D_800DFD0C;
-        } else {
-            texture = D_800DFD30;
-        }
-        sprite->unk_08 = texture;
-        sprite->unk_10 = 0x20;
-
-        height_offset = D_800DDC40[((S_800CD004_0 *)source)->unk_13];
-        effect_state = (u8 *)effect + 0x20;
-        height_delta = ((S_800CD004_0 *)source)->unk_88 - height_offset;
-        effect_state->unk_0A = height_delta;
-        ((S_800CD004_1 *)effect)->unk_20 = source;
-        effect_state->unk_06 = 0xC;
-
-        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) + 1;
-        play_sound_if_enabled(0x50D);
     } else {
         if (((S_800CD004_0 *)source)->unk_13 == 0) {
             display_fixed_item_action_message();
         }
         return 1;
     }
-return_object:
     return effect != NULL;
 }

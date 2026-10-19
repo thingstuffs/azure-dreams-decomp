@@ -3,16 +3,13 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "shared/dungeon_projectile_views.h"
+#include "shared/position_views.h"
 
 
 typedef s32 M2C_UNK;
 
-typedef struct S_8016A854_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8016A854_0;   /* obj in func_8016A854 */
+   /* obj in func_8016A854 */
 
 typedef struct S_8016A854_1 {
     u8 pad_00[0x13];
@@ -22,10 +19,7 @@ typedef struct S_8016A854_1 {
     s32 unk_1C;
 } S_8016A854_1;   /* work in func_8016A854 */
 
-typedef struct S_8016A854_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8016A854_2;   /* part_a in func_8016A854 */
+   /* part_a in func_8016A854 */
 
 typedef struct S_8016A854_3 {
     u8 pad_00[0x24];

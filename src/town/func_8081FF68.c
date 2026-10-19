@@ -4,7 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
-#include "shared/types3b_types.h"
+#include "shared/vector.h"
 
 #ifndef NULL
 #define NULL 0

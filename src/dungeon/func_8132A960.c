@@ -1,6 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80174CD8.h"
 
@@ -62,7 +62,6 @@ typedef struct S_80172160_6 {
 void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 extern s32 func_8004491C();
 extern s32 rand();
-extern M2C_UNK D_800DE870;
 void update_rising_trail_emitter(void *record_data, S_801720D0_0 *state);
 extern Rec_D_80174CD8 *D_80174CD8;
 
@@ -111,6 +110,6 @@ void spawn_rising_trail_emitter(void)
         sprite->unk_0D = 0x80;
         sprite->unk_0C = 0x80;
         sprite->unk_14 |= 0x80;
-        func_8003DB94(sprite, &D_800DE870, 0);
+        func_8003DB94(sprite, D_800DE870, 0);
     }
 }

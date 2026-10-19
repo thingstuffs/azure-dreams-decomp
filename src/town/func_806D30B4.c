@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-#include "shared/types3b_types.h"
+#include "shared/town_pointees.h"
 
 
 typedef void (*ReportFunc)(void *, void *, u32);

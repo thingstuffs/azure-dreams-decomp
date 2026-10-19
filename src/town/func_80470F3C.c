@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/town_event_buffer.h"
 
 typedef struct {
     u8 bytes[4];
@@ -7,7 +8,6 @@ typedef struct {
 extern s32 check_selected_entry_8(void *position);
 extern s32 func_8001A510(s32 flag_id);
 extern u8 D_8001B1C0[];
-extern u8 D_8001B218[];
 
 /* Builds a terminated record list with an optional entry and flags checked records. */
 u8 *record_check_returned(void *unused)

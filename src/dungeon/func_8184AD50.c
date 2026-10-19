@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
@@ -50,7 +51,6 @@ extern s32 func_800644B8(s32);
 extern void func_8004491C(void *, void *);
 
 extern u8 D_800244A4[];
-extern u8 D_800DE870[];
 
 /* Spawn an effect at a random radial offset from the given position. */
 void mark_owner_on_target_completion(MovingPosition *origin)

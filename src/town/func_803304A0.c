@@ -4,7 +4,7 @@
 #include "shared/town_pointees.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
-#include "shared/types3b_types.h"
+#include "shared/object_payload.h"
 
 
    /* ((S_8001ACA0_3 *)(((Rec_D_80016000 *)D_80016000)->unk_24))->unk_68 in copy_current_record_components_3 */

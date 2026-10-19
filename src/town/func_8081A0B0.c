@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/sprite_frame_state.h"
 
    /* arg2 in toggle_gym_sprite_by_scene_phase */
 

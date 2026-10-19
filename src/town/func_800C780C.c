@@ -49,7 +49,7 @@ extern M2C_UNK D_800D50F8;
 extern M2C_UNK D_800D5120;
 extern M2C_UNK D_800D5124;
 #include "records/Rec_D_80100D98.h"
-#include "shared/types3b_types.h"
+#include "shared/vector.h"
 extern Rec_D_80100D98 D_80100D98;
 
 /* Initialize object resources and display state, then copy its position to shared state. */

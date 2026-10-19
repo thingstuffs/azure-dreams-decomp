@@ -1,6 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/dungeon_effect_views.h"
 
 #ifndef NULL
 #define NULL 0

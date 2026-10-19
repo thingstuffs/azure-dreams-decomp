@@ -2,6 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_trail_views.h"
 
 typedef struct S_80047784 S_80047784;
 
@@ -49,10 +50,7 @@ typedef struct S_80174234_2 {
 } S_80174234_2;
 
 /* the counter block at D_80083460 */
-typedef struct S_80174234_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80174234_3;
+
 
 extern void func_80047784(S_80047784 *object, s16 table_index, s16 entry_index);         /* extern */
 s32 get_unused_text_buffer();                                /* extern */

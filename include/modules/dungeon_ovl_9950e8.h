@@ -21,9 +21,7 @@ typedef struct S_809750E8_0 {
 
 /* Applies countdown-scaled intensity and sets completion flags when the countdown expires. */
 
-typedef struct S_80975170_0_pre {
-    u16 unk_00;
-} S_80975170_0_pre;   /* the 0x2 bytes before arg0 in func_80170970, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in func_80170970, addressed as arg0[-1] */
 
 typedef struct S_80975170_0 {
     u8 pad_00[0x96];
@@ -47,6 +45,7 @@ extern void func_800478B8(void *render_state);
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/object_links.h"
 
 typedef struct {
     s32 word0;

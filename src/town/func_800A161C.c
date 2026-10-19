@@ -2,7 +2,8 @@
 #include "shared/object_flags.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082D58.h"
-#include "shared/types3a_types.h"
+#include "shared/object_links.h"
+#include "shared/vector.h"
 
 typedef struct { s32 words[21]; } TownRecord;
 

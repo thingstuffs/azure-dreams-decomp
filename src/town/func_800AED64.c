@@ -2,7 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-#include "shared/types3a_types.h"
+#include "shared/dungeon_floor.h"
 
 extern void func_80046884(void *, void *, s32);
 extern s32 runtime_initialize_polygon_edges(s32, s32 *, u16 *);

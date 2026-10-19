@@ -6,7 +6,7 @@
 
    /* ((Rec_func_80094268_arg0 *)arg0)->unk_44 in reset_player_slot_state */
 #include "shared/entity.h"
-#include "shared/types3a_types.h"
+#include "shared/runtime_dispatch.h"
 void move_player_toward_target_with_timer(Rec_func_80094268_arg0 *motion, EntityRec *position, s32 context);
 
 

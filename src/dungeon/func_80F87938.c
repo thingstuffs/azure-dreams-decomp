@@ -6,7 +6,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "shared/types3b_types.h"
 
 typedef struct S_80171138_0 {
     u8 pad_00[0x8C];

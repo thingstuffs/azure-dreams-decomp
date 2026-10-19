@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "shared/types3a_types.h"
+#include "shared/vector.h"
 
 
 typedef struct {

@@ -1,5 +1,6 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/town_action_flag.h"
 
 typedef struct TownObject {
     u8 pad0[0xA];
@@ -19,7 +20,6 @@ extern void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(TownObjec
 extern void initialize_scene_action_record(void *context, TownObject *object, s32 update_arg);
 extern void add_hex_20000_s_signed_offset_hex_14(TownObject *arg);
 
-extern u8 D_800CFCEF;
 
 /* Updates a town object based on its table value, limit, and a global flag. */
 void update_threshold_bound_object(void *context, TownObject *object, s32 update_arg)

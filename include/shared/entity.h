@@ -105,5 +105,24 @@ typedef struct EntityRec {
     /* 0x128 */ int unk_128;                      
 } EntityRec;
 
+
+/* Exact access views shared across registered binary consumers. */
+/* Bank actor status with unsigned flags and signed facing/status fields.
+ * This exact 0x70-byte view does not widen to EntityRec. */
+typedef struct ActorUnsignedFlagsView {
+    unsigned char pad_00[0x1C];
+    unsigned int unk_1C;
+    unsigned char pad_20[5];
+    unsigned char unk_25;
+    unsigned char pad_26[4];
+    short unk_2A;
+    unsigned char pad_2C[0x1A];
+    unsigned short unk_46;
+    unsigned char pad_48[0x1C];
+    short unk_64;
+    unsigned char pad_66[7];
+    signed char unk_6D;
+} ActorUnsignedFlagsView;
+
 #endif
 

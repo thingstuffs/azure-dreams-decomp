@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/gpu_packets.h"
 
 /* S_8002E5E8: 3-field vector-like struct (x,y,z), source data copied into target entities' ->vec */
 

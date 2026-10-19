@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7E6E1800_H
 #define DUNGEON_OVL_7E6E1800_H
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -462,7 +463,6 @@ extern M2C_UNK D_800249FC;
 extern M2C_UNK D_80025B48;
 
 extern u8 D_80024C0C[16];
-extern u8 D_800DE870[16];
 extern u8 D_80025B38[9];
 void project_and_queue_shaded_quad(void *quad, void *position, void *render_state, s16 depth_bias);
 s32 draw_linked_shaded_quads(void *state, void *position, void *appearance);

@@ -25,4 +25,19 @@ typedef struct MinigameBody {
     int unk_5C;
 } MinigameBody;
 extern MinigameBody D_800834B8;
+
+/* Exact access views shared across registered binary consumers. */
+/* Minigame progress stage and elapsed time, retained as two signed halves. */
+typedef struct MinigameProgressPair16 {
+    short unk_00;
+    short unk_02;
+} MinigameProgressPair16;
+
+/* Score/collection total rooted at the rising-effect controller's first pointer.
+ * It shares an offset with sprite flags but is updated as a counter. */
+typedef struct TownScoreCounterView {
+    unsigned char pad_00[0x14];
+    unsigned short unk_14;
+} TownScoreCounterView;
+
 #endif

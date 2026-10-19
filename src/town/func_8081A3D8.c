@@ -3,7 +3,7 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
-#include "shared/types3b_types.h"
+#include "shared/vector.h"
 
 
 typedef struct State8081A3D8 {

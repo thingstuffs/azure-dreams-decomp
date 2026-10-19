@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/town_event_state.h"
 
 typedef struct S_80017EF0_0 {
     u8 pad_00[0x10];

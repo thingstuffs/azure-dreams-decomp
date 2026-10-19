@@ -5,4 +5,13 @@
  * Neither the index's game meaning nor the table extent is established. */
 typedef unsigned char EntityHeightOffset;
 extern EntityHeightOffset D_800DDC40[];
+
+/* Exact access views shared across registered binary consumers. */
+/* Three signed alternatives selected from the actor height-band value record. */
+typedef struct HeightBandValues {
+    int unk_00;
+    int unk_04;
+    int unk_08;
+} HeightBandValues;
+
 #endif

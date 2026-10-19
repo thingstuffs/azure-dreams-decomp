@@ -31,4 +31,30 @@ typedef struct SlotTransitionState {
 } RuntimeDispatchState;
 extern RuntimeDispatchState D_80082E60;
 
+
+/* Exact access views shared across registered binary consumers. */
+/* Event-script counter at +0x1C; distinct from entity flags. */
+typedef struct ScriptCounterView {
+    unsigned char pad_00[0x1C];
+    int unk_1C;
+} ScriptCounterView;
+
+/* Signed source word at +8 controlling a resident destination flag. */
+typedef struct RuntimeSourceValueView {
+    unsigned char pad_00[0x8];
+    int unk_08;
+} RuntimeSourceValueView;
+
+/* Signed word at +8 carrying a handler-table address; retained as an integer. */
+typedef struct HandlerAddressWordView {
+    unsigned char pad_00[0x8];
+    int unk_08;
+} HandlerAddressWordView;
+
+/* Signed word at +0x1C holding a handler-table address; pointer representation is unchanged. */
+typedef struct HandlerTableWordView {
+    unsigned char pad_00[0x1C];
+    int unk_08;
+} HandlerTableWordView;
+
 #endif

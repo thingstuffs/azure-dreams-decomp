@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
+#include "shared/object_links.h"
 
 typedef struct S_8081508C_0 {
     s32 unk_00;

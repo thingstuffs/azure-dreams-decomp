@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-#include "shared/types3b_types.h"
+#include "shared/position_views.h"
 
 typedef struct S_80F87000_0 {
     u8 pad_00[0x8];

@@ -1,7 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
+#include "shared/object_links.h"
 extern int abs(int);
 
    /* the 0x2 bytes before in0 in func_8080C650, addressed as in0[-1] */

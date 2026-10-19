@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
@@ -47,7 +48,6 @@ typedef struct {
 extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 s32 func_8004491C();
 
-extern u8 D_800DE870[16];
 extern s32 D_800DEDB0[3];
 extern M2C_UNK D_80170D60[3];
 

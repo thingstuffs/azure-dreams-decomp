@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
+#include "shared/object_links.h"
 
    /* the 0x2 bytes before arg0 in advance_effect_and_reduce_scale, addressed as arg0[-1] */
 

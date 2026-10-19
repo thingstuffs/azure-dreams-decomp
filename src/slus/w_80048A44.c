@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/animation_views.h"
 
 /* Frame element pointed to by S_80048A44_Obj.unk0; only the first field (a u16) is read here */
 

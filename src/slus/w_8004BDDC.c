@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/gpu_packets.h"
 
 typedef struct S_8004BDDC_0 {
     u8 pad_00[0x3];

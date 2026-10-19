@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/animation_views.h"
 
 /* Entry struct pointed to by S_80047784.unk00; only the leading u16 field is
  * accessed by this function. */

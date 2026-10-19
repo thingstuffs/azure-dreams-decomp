@@ -4,7 +4,7 @@
 void update_actor_with_periodic_effect(); /* extern */
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
-#include "shared/types3a_types.h"
+#include "shared/sprite_frame_state.h"
 void update_actor_with_periodic_effect(Rec_func_80094268_arg0 *actor, EntityRec *position, s32 context);
 extern u8 D_800D0158;
 

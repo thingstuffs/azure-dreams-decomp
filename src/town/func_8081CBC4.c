@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
+#include "shared/object_links.h"
 
    /* the 0x2 bytes before arg0 in submit_text_zero_state_entry, addressed as arg0[-1] */
 

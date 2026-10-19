@@ -15,7 +15,7 @@ typedef struct S_8009EC3C_2 {
     s16 unk_7C;
 } S_8009EC3C_2;   /* arg0 in clear_the_state_fields_initialize_handlers_mode; pointer addresses record offset 0x10 */
 #include "modules/town_town_windows.h"
-#include "shared/types3a_types.h"
+#include "shared/position_views.h"
 void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, s32 callback_data);
 typedef struct S_8009ECF0_0 S_8009ECF0_0;
 void run_both_updates_decrement_countdown_check_completion(S_8009ECF0_0 *state, s32 update_ctx, s32 update_data, s32 finish_ctx);

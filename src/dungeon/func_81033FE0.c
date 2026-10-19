@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -27,7 +28,6 @@ extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern s32 find_first_entry_matching_keys(void *, u16, u16, s16);
 extern void create_facing_offset_object(void *, void *, void *);
 
-extern u8 D_800DE870[16];
 extern u8 D_80170B48[];
 extern u8 D_801714B8;
 extern u8 D_8017609C[];
@@ -200,7 +200,7 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
                 ((S_801757E0_5 *)sprite)->unk_0C = 0x80;
                 ((S_801757E0_5 *)sprite)->unk_12 = 0x7DCF;
                 ((S_801757E0_5 *)sprite)->unk_14 |= 0x100;
-                func_8003DB94(sprite, &D_800DE870, 0);
+                func_8003DB94(sprite, D_800DE870, 0);
             }
         }
 

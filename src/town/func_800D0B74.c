@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/position_views.h"
 
 /* extern */
 

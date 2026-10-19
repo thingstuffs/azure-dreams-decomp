@@ -1,3 +1,4 @@
+#include "shared/town_action_flag.h"
 #include "shared/position_query.h"
 #include "shared/game_work.h"
 
@@ -32,7 +33,6 @@ extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_pr
 extern void spawn_directional_effects(void *actor, s32 value);
 extern void initialize_record_and_select_active_data(void *action_state, void *actor, s32 context);
 extern s32 D_800CFCB4;
-extern u8 D_800CFCEF;
 /* Updates the actor and dispatches town actions from input and interaction state. */
 void update_actor_input_and_interaction(void *action_state, void *actor, s32 context)
 {

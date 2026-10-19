@@ -149,9 +149,9 @@ void func_80171A98(void *move_data, void *context, void *position_data, void *ac
             }
 
             ((R17_80171A98_S_80171C34_1 *)actor_data)->unk_2A.s = trial_angle;
-            ((R17_80171A98_S_80171C34_8 *)((u8 *)actor_data + (((R17_80171A98_S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->unk_74 =
+            ((ActorStatusBytesView *)((u8 *)actor_data + (((R17_80171A98_S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->unk_74 =
                 ((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at00.v;
-            ((R17_80171A98_S_80171C34_8 *)((u8 *)actor_data + (((R17_80171A98_S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->unk_7C =
+            ((ActorStatusBytesView *)((u8 *)actor_data + (((R17_80171A98_S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->unk_7C =
                 ((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at01.v;
             ((R17_80171A98_S_80171C34_1 *)actor_data)->unk_71.u++;
 

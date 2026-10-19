@@ -77,48 +77,45 @@ void func_80024020(void *state, TrailMotion *motion, void *source_data) {
         header_raw = (u32)scan_monster_along_heading(actor, end_x, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
     }
     actor->unk_60 = (TrailActor *)header_raw;
-    if (((TrailActor *)header_raw) != 0) {
-        goto use_target;
-    }
-    distance_or_script = 0;
-    offset_y = 0;
-    offset_x = 0;
-    do {
+    if (((TrailActor *)header_raw) == 0) {
+        distance_or_script = 0;
+        offset_y = 0;
+        offset_x = 0;
+        do {
+            {
+                TrailSprite *tile_data = actor_data;
+                s32 tile_left;
+                s32 tile_left_2;
+                s32 tile_top;
+                tile_left_2 = (tile_data->unk_24 + offset_x) << 6;
+                coord_x = tile_left_2 + 0x20;
+                tile_top = (tile_data->unk_25 + offset_y) << 6;
+                coord_y = tile_top + 0x20;
+            }
+            effect = (TrailSpawnedObject *)(u32)(u16)coord_x;
+            if ((check_enabled_neighbor_height((u32)effect, (u16)coord_y, (s16)sample_terrain_surface_height((u32)effect, (u16)coord_y, -0x400),
+                (s16)actor->unk_2A, actor->unk_60) << 0x10) != 0) {
+                break;
+            }
+            distance_or_script += 1;
+            offset_y += step_y;
+            offset_x += step_x;
+        } while (distance_or_script < 2);
         {
             TrailSprite *tile_data = actor_data;
-            s32 tile_left;
-            s32 tile_left_2;
-            s32 tile_top;
-            tile_left_2 = (tile_data->unk_24 + offset_x) << 6;
-            coord_x = tile_left_2 + 0x20;
-            tile_top = (tile_data->unk_25 + offset_y) << 6;
-            coord_y = tile_top + 0x20;
+            actor->unk_72 = (u8) (tile_data->unk_24 + (step_x * distance_or_script));
+            actor->unk_73 = (u8) (tile_data->unk_25 + (step_y * distance_or_script));
         }
-        effect = (TrailSpawnedObject *)(u32)(u16)coord_x;
-        if ((check_enabled_neighbor_height((u32)effect, (u16)coord_y, (s16)sample_terrain_surface_height((u32)effect, (u16)coord_y, -0x400),
-            (s16)actor->unk_2A, actor->unk_60) << 0x10) != 0) {
-            break;
-        }
-        distance_or_script += 1;
-        offset_y += step_y;
-        offset_x += step_x;
-    } while (distance_or_script < 2);
-    {
-        TrailSprite *tile_data = actor_data;
-        actor->unk_72 = (u8) (tile_data->unk_24 + (step_x * distance_or_script));
-        actor->unk_73 = (u8) (tile_data->unk_25 + (step_y * distance_or_script));
-    }
-    goto start_motion;
-use_target:
-    target_data = ((TrailObject *) ((u8 *) ((TrailActor *)header_raw) - 0x20))->unk_0C;
-    actor->unk_72 = (u8) target_data->unk_24;
-    actor->unk_73 = (u8) target_data->unk_25;
-    if (target_data->unk_14 & 0x8000) {
-        if (source->unk_14 & 0x8000) {
-            goto start_hit;
+    } else {
+        target_data = ((TrailObject *) ((u8 *) ((TrailActor *)header_raw) - 0x20))->unk_0C;
+        actor->unk_72 = (u8) target_data->unk_24;
+        actor->unk_73 = (u8) target_data->unk_25;
+        if (target_data->unk_14 & 0x8000) {
+            if (source->unk_14 & 0x8000) {
+                goto start_hit;
+            }
         }
     }
-start_motion:
     {
         TrailSprite *tile_data;
 

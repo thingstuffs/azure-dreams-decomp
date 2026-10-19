@@ -2,7 +2,9 @@
 #include "shared/object_index_slots.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
-#include "shared/types3a_types.h"
+#include "shared/object_links.h"
+#include "shared/object_payload.h"
+#include "shared/position_views.h"
 
 #define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
 

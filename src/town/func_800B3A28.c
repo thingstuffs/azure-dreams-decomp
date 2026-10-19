@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800B0C68_arg0.h"
-#include "shared/types3a_types.h"
+#include "shared/widget_views.h"
 
 
 typedef struct S_800B1188_2 {

@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80174CD8.h"
 
@@ -50,7 +51,6 @@ typedef struct S_801722F0_5 {
 s32 func_8004491C();
 extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 s32 play_sound_if_enabled();
-extern u8 D_800DE870[16];
 extern void update_cascading_trail_emitter(void *record_data);
 extern Rec_D_80174CD8 *D_80174CD8;
 
@@ -85,7 +85,7 @@ void spawn_cascading_trail_emitter(void) {
         sprite->unk_0D = 0x80;
         sprite->unk_0C = 0x80;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0x80);
-        func_8003DB94(sprite, &D_800DE870, 0);
+        func_8003DB94(sprite, D_800DE870, 0);
         play_sound_if_enabled(0x703);
     }
 }

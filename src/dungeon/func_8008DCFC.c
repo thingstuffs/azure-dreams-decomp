@@ -1,5 +1,7 @@
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
+#include "shared/slus_cd_callback.h"
+#include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -34,7 +36,6 @@ s32 has_pending_dungeon_activity();                         /* extern */
 void func_800A31D0();                      /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
-extern M2C_UNK D_8003E140;
 extern s32 D_80081488;
 extern M2C_UNK D_8008149C;
 extern void *D_80082EB0[];
@@ -263,7 +264,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
             D_80081488 = begin_sprite_resource_load_with_completion_flag(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &D_8008149C);
             load_monster_resource_data(((S_8009345C_7 *)(*message_or_list.base))->unk_00, load_id, 0);
             (*(s8 *)&D_800E3E40) = 0;
-            Control_CD(0xFF, &D_8003E140, &D_800E3E40);
+            Control_CD(0xFF, set_byte_one, &D_800E3E40);
         }
         ((S_8009345C_0 *)actor)->unk_9B++;
         return;

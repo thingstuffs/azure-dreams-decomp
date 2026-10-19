@@ -6,27 +6,10 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/actor_action.h"
 
 /* Partial action view: timer loads keep their observed signedness. */
-typedef struct ActorActionView {
-    u8 pad_00[0x8C];
-    union { s32 code; void *record; u8 *frames; s32 *word; } nextAction;
-    Fixed1616 motionOffset;
-    u8 pad_94[2];
-    union { u16 unsignedTicks; s16 signedTicks; } timer;
-    u16 flags;
-    u8 behavior;
-    u8 phase;
-    u8 pad_9C[4];
-    s16 frameParameter;
-    u8 pad_A2[4];
-    u16 effectTicks;
-    union { s16 signedPhase; u16 phase; u16 startX; } effectState;
-    union { u16 facing; u16 startY; } saved;
-    u16 effectX;
-    u16 effectY;
-    u16 effectZ;
-} ActorActionView;
+
 
 typedef union TilePairView {
     struct { u8 x; u8 y; } tile;
@@ -56,10 +39,7 @@ typedef struct ActorActionSlotsView {
 } ActorActionSlotsView;
 
 /* Halfword view of the player's action counter at EntityRec + 0xA6. */
-typedef struct PlayerActionCountView {
-    u8 pad_00[0xA6];
-    u16 remaining;
-} PlayerActionCountView;
+
 
 extern int abs(int);
 
@@ -198,7 +178,7 @@ void advance_actor_action_variant_c(ActorActionView *action, EntityRec *motion, 
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
         g_dungeon_status.unk_0C = 0;
-        ((PlayerActionCountView *)D_800814A8)->remaining--;
+        ((PlayerRemainingActionsView *)D_800814A8)->remaining--;
         advance_status_timers(actor);
         actor->unk_6D--;
         action->nextAction.record = D_8015FCE8;

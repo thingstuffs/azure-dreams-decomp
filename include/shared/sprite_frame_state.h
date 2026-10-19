@@ -35,4 +35,29 @@ typedef struct SpriteAnimationTableView {
     unsigned char *unk_2C;
 } SpriteAnimationTableView;
 
+
+/* Exact access views shared across registered binary consumers. */
+/* Unsigned flags at +0x14 in the town action dispatcher argument, with 0x16 extent. */
+typedef struct SpriteFlagsView {
+    unsigned char pad_00[0x14];
+    unsigned short unk_14;
+} SpriteFlagsView;
+
+/* Sprite tile bytes and byte-addressed animation table, preserving pointer type. */
+typedef struct SpriteTableView {
+    unsigned char pad_00[0x24];
+    unsigned char unk_24;
+    unsigned char unk_25;
+    unsigned char pad_26[6];
+    unsigned char *unk_2C;
+} SpriteTableView;
+
+/* Sprite status flags and signed map index; sparse 0x28 view. */
+typedef struct SpriteStatusIndexView {
+    unsigned char pad_00[0x14];
+    unsigned short unk_14;
+    unsigned char pad_16[0x10];
+    signed char unk_26;
+} SpriteStatusIndexView;
+
 #endif

@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/slus_cd_callback.h"
+#include "shared/slus_callbacks.h"
+#include "shared/dungeon_effect_status.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -166,11 +169,9 @@ extern s32 find_or_retain_sprite_resource_slot();
 extern s32 find_entity_slot_by_field_ac();
 
 extern u8 D_80023000[];
-extern u8 D_8003E140[];
 extern u8 *D_80080A90;
 extern s32 D_80081488;
 extern u8 D_8008149C[];
-extern s8 D_800DCF5C;
 extern u8 D_800E3DF0[];
 extern u8 D_800E3E40[];
 extern u8 D_8014A000[];
@@ -236,7 +237,7 @@ s32 advance_staged_entity_load(s32 unused, u8 *entity)
         D_80081488 = load_result;
         load_monster_resource_data(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
         D_800E3E40[0] = 0;
-        Control_CD(0xFF, D_8003E140, D_800E3E40);
+        Control_CD(0xFF, set_byte_one, D_800E3E40);
         ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
         break;
 
@@ -342,7 +343,7 @@ case 2:
             D_80081488 = load_result;
             load_monster_resource_data(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
             D_800E3E40[0] = 0;
-            Control_CD(0xFF, D_8003E140, D_800E3E40);
+            Control_CD(0xFF, set_byte_one, D_800E3E40);
         }
         ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
         break;

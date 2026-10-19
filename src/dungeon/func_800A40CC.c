@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_cd_callback.h"
+#include "shared/slus_callbacks.h"
 
 extern void Control_CD(s32, void *, void *);
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
@@ -7,7 +9,6 @@ extern s32 func_800445E0(void);
 extern s32 resolve_spell_effect_resource_id(s16);
 extern s32 resolve_alternate_spell_id(s16);
 
-extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
 extern s8 D_800DCF4D;
 extern u8 D_800DCF59;
@@ -46,7 +47,7 @@ s32 load_spell_effect_code(s16 selection_id, s16 alternate_table) {
             message_data = D_800E58B0;
             pack_tagged_resource_descriptor(0xC, resource_data, message_data, message_offset);
             Control_CD(6, message_data, 0);
-            Control_CD(0xFF, D_8003E140, &D_800DCF59);
+            Control_CD(0xFF, set_byte_one, &D_800DCF59);
             D_800DCF4D = selection_id | (alternate_table << 6);
         }
 

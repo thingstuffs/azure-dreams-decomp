@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
-#include "shared/types3a_types.h"
+#include "shared/dungeon_effect_views.h"
 
 
 extern s32 D_80082A38[];

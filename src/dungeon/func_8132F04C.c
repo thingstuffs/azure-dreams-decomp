@@ -1,18 +1,14 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_particle_template.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
-
-typedef struct Packed12 {
-    u8 bytes[12];
-} Packed12;
 
 void func_8004491C(void *, void *);
 s32 rand(void);
 s32 func_80167088(s32);
 extern u8 D_80045C34[];
 extern M2C_UNK D_80165AB8;
-extern Packed12 D_80173B34;
 
 
 typedef struct S_8016604C_0 {

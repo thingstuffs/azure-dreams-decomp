@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800B683C_arg0.h"
-#include "shared/types3a_types.h"
+#include "shared/resident_resources.h"
 
 extern s32 Control_CD();
 extern s32 get_enabled_record_flag_priority();

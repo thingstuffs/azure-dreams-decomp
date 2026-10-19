@@ -20,58 +20,48 @@ s32 advance_processing_selected_slot_sets_completion_flag(void) {
 
     state = D_804094E8;
     status = 0;
-    if ((state != 0) && (state != 2)) {
-        if (state < 3U) {
-            if (state != 1) {
-                status = 5;
-                goto done;
+    if (state != 0) {
+        switch (state) {
+        case 1:
+            slot_flag = &D_8009E390[0];
+            if (D_804094EC != 0) {
+                slot_flag = &D_8009E390[1];
             }
-        } else {
-            if (state == 3) {
-                goto state_three;
+            if (*slot_flag != 0) {
+                D_804094E8 = 0;
+                status = 1;
+            } else if (((func_80408644(0) & 1) != 0) ||
+                       ((func_80408644(1) & 1) != 0)) {
+                invoke_callback_for_four_global_values();
+                while (func_80408674(D_804094EC) == 0) {
+                }
+                D_80409500 = 0;
+                D_804094E8 = 3;
             }
-            goto five_exit;
-        }
-        slot_flag = &D_8009E390[0];
-        if (D_804094EC != 0) {
-            slot_flag = &D_8009E390[1];
-        }
-        if (*slot_flag != 0) {
+            return status;
+        case 2:
+            break;
+        case 3:
+            selected_slot = D_804094EC;
+            completion_flag = (s32 *)D_800A0000;
+            completion_flag = (s32 *)((u8 *)completion_flag - 0x1C70);
+            if (selected_slot != 0) {
+                completion_flag++;
+                status = 2;
+            } else {
+                status = 2;
+            }
+            {
+                s16 flag_value;
+                flag_value = 1;
+                *completion_flag = flag_value;
+            }
             D_804094E8 = 0;
-            status = 1;
-        } else if (((func_80408644(0) & 1) != 0) ||
-                   ((func_80408644(1) & 1) != 0)) {
-            invoke_callback_for_four_global_values();
-            while (func_80408674(D_804094EC) == 0) {
-            }
-            D_80409500 = 0;
-            D_804094E8 = 3;
+            break;
+        default:
+            status = 5;
+            break;
         }
-        return status;
-
-state_three:
-        selected_slot = D_804094EC;
-        completion_flag = (s32 *)D_800A0000;
-        completion_flag = (s32 *)((u8 *)completion_flag - 0x1C70);
-        if (selected_slot != 0) {
-            completion_flag++;
-            status = 2;
-        } else {
-            status = 2;
-        }
-        {
-            s16 flag_value;
-            flag_value = 1;
-            *completion_flag = flag_value;
-        }
-        D_804094E8 = 0;
-        goto done;
-    } else {
-        return status;
     }
-
-five_exit:
-    status = 5;
-done:
     return status;
 }

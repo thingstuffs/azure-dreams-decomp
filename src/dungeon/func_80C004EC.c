@@ -1,7 +1,9 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/slus_cd_callback.h"
+#include "shared/slus_callbacks.h"
+#include "shared/dungeon_effect_status.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "records/Rec_func_801732A4_arg0.h"
@@ -60,10 +62,8 @@ s32 play_sound_if_enabled();
 s32 create_status_linked_render_effect();
 s32 select_nearby_target_and_initialize_slot();
 void func_80161904();
-extern s32 D_8003E140;
 extern s32 D_8006CD58;
 extern ColorChannels *D_800DCEEC[];
-extern s32 D_800DCF5C;
 extern s32 D_8014A000;
 extern s32 D_801616AC;
 extern s32 D_80161B94;
@@ -123,7 +123,7 @@ void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *pos
         sound_set_cd_cue_parameters(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         D_801622E5 = 0;
-        Control_CD(0xFF, &D_8003E140, &D_801622E5);
+        Control_CD(0xFF, set_byte_one, &D_801622E5);
         select_nearby_target_and_initialize_slot(model - 0x20, position, 8, 0x300);
         state->unk_96 = 0x10U;
         state->unk_9B = (u8) (state->unk_9B + 1);

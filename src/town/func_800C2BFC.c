@@ -106,7 +106,7 @@ extern u8 D_8006CCF8[];
 extern M2C_UNK D_80089960;
 extern u8 D_800CFCEE;
 #include "records/Rec_D_800FE490.h"
-#include "shared/types3b_types.h"
+#include "shared/minigame_body.h"
 extern Rec_D_800FE490 D_800FE490;
 extern Rec_D_80100D98 D_80100D98;
 

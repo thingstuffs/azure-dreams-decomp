@@ -7,6 +7,7 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/object_links.h"
 
 /* The action record shares its timer bytes between signed tests and unsigned updates. */
 typedef struct ActorActionView {
@@ -26,15 +27,9 @@ typedef struct ActorActionView {
 } ActorActionView;
 
 /* The sprite pointer is in the object header, 0x14 bytes before its entity record. */
-typedef struct ActorSpriteLink {
-    void *sprite;
-    u8 pad_04[0x10];
-} ActorSpriteLink;
 
-typedef struct PlayerActionCounterView {
-    u8 pad_00[0xA6];
-    u16 activeActions;
-} PlayerActionCounterView;
+
+
 
 /* Sprite state passed to the frame selector; the tile pair is also compared as one halfword. */
 typedef struct ActorSpriteView {
@@ -160,7 +155,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
             if (use_owner) {
                 owner = D_800814A8;
                 actor->target = owner;
-                target_sprite_or_effect = ((ActorSpriteLink *)owner)[-1].sprite;
+                target_sprite_or_effect = ((SpriteLinkPrefixView *)owner)[-1].unk_00;
                 actor->unk_72 = ((SpriteFrameState *)target_sprite_or_effect)->unk_24;
                 actor->unk_73 = ((SpriteFrameState *)target_sprite_or_effect)->unk_25;
             } else {
@@ -168,7 +163,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
                 if (D_8006DE24[direction_byte_offset].kind == 2) {
                     owner = actor->target;
                     if (owner != 0) {
-                        target_sprite_or_effect = ((ActorSpriteLink *)owner)[-1].sprite;
+                        target_sprite_or_effect = ((SpriteLinkPrefixView *)owner)[-1].unk_00;
                         actor->unk_72 = ((SpriteFrameState *)target_sprite_or_effect)->unk_24;
                         actor->unk_73 = ((SpriteFrameState *)target_sprite_or_effect)->unk_25;
                     }
@@ -230,7 +225,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
 
             owner = D_800814A8;
             g_dungeon_status.unk_0C = 0;
-            ((PlayerActionCounterView *)owner)->activeActions--;
+            ((PlayerRemainingActionsView *)owner)->remaining--;
         }
         advance_status_timers(actor);
         (*(u8 *)&actor->unk_6D)--;

@@ -2,7 +2,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-#include "shared/types3a_types.h"
+#include "shared/entity_height_offsets.h"
 
 extern s32 read_map_cell_at_world_position();
 extern void set_actor_motion_state(Rec_func_80094268_arg0 *, void *);

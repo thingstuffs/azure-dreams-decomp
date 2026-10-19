@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/item_menu.h"
 
 typedef struct { u8 r; u8 g; u8 b; u8 cd; } Color800497F4;
 typedef struct { s32 unk0; Color800497F4 *unk4; } Struct800497F4;

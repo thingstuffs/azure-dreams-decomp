@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/actor_status.h"
-#include "shared/types3b_types.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct S_80171670_0 {
     u8 pad_00[0x1C];

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/position_views.h"
 
 typedef struct TownMatrix {
     u8 bytes[0x20];

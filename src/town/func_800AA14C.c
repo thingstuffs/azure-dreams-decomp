@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/object_links.h"
 
    /* the 0x2 bytes before arg0 in run_record_handler_if_active, addressed as arg0[-1] */
 

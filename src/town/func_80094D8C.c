@@ -1,5 +1,6 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
 
@@ -22,7 +23,6 @@ extern void compute_and_clamps_vector_based_adjustment_updates_town(void *, s16,
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *);
 
 extern s32 D_800CFCB4;
-extern u8 D_800CFCEF;
 
 /* Update the entity and dispatch its handler according to state flags and checks. */
 void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg)

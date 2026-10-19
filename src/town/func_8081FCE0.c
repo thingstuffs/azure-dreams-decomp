@@ -1,6 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/vector.h"
 
 #ifndef NULL
 #define NULL 0

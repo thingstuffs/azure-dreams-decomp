@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/vector.h"
 
 typedef struct S_func_8080F4A4_1 {
     s32 unk_00;

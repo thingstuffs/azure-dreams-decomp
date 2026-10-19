@@ -30,12 +30,12 @@ s32 check_forward_collision_and_height(EntityRec *position, EntityRec *orientati
     probe_y = (position->y.w.i + (offset->unk_02 << 6)) & 0xFFFF;
     if ((check_left_tile_and_center_height(probe_x, probe_y, probe_height) << 0x10) == 0) {
         surface_height = sample_terrain_surface_height(probe_x, probe_y, probe_height);
-        if (surface_height < 0x200 &&
-            (position->z.w.i - 0x40) < surface_height) {
-            goto fail;
+        if (!(surface_height < 0x200 &&
+              (position->z.w.i - 0x40) < surface_height)) {
+            return 1;
         }
+    } else {
+        return 1;
     }
-    return 1;
-fail:
     return 0;
 }

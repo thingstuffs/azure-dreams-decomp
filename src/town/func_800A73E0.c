@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/entity_objects.h"
-#include "shared/types3a_types.h"
+#include "shared/vector.h"
 
 
 extern IntVector3 D_80100D98;

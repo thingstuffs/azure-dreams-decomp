@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f511800_p03.h"
 
 /* Updates directional movement, decelerates it, and recenters the actor on its tile. */
-void update_directional_motion_and_recenter_actor(T_8017314C_S_8017314C_1 *action, EntityRec *motion, Rec_D_80082E80 *actor, void *source)
+void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, EntityRec *motion, Rec_D_80082E80 *actor, void *source)
 {
     s16 timer;
     s32 direction;

@@ -1,7 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
+#include "shared/town_pointees.h"
 
 typedef struct S_808B3620_4 {
     u8 pad_00[0x64];

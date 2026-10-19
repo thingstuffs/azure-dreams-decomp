@@ -3,7 +3,7 @@
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
-#include "shared/types3b_types.h"
+#include "shared/object_links.h"
 
 #ifndef NULL
 #define NULL 0

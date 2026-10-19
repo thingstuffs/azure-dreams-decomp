@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
-#include "shared/types3a_types.h"
+#include "shared/object_links.h"
 
 typedef struct S_800A86BC_0 {
     s32 unk_00;

@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/runtime_dispatch.h"
 
    /* arg1 in runtime_set_destination_flag_from_source */
 

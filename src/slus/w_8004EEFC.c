@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/gpu_packets.h"
 
 /* Template struct copied wholesale (word-by-word) into a1's target. */
 typedef struct S_8002E5D8 {

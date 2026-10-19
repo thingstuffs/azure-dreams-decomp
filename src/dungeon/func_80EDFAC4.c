@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/vector.h"
 
 typedef struct S_801712C4_0 {
     union {
@@ -26,11 +27,7 @@ typedef struct S_801712C4_0 {
     s32 unk_48;
 } S_801712C4_0;   /* arg0 in initialize_shared_state_active_entries */
 
-typedef struct S_801712C4_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_801712C4_1;   /* arg1 in initialize_shared_state_active_entries */
+   /* arg1 in initialize_shared_state_active_entries */
 
 
 extern void steer_effect_toward_target(void *, void *, s32);
@@ -54,12 +51,12 @@ void initialize_shared_state_active_entries(void *effect, void *position, s32 up
         ((S_801712C4_0 *)effect)->unk_08 = ((S_801712C4_0 *)effect)->unk_00.at00.v;
         break;
     case 1:
-        ((S_801712C4_1 *)position)->unk_00 += ((S_801712C4_0 *)effect)->unk_40;
-        ((S_801712C4_1 *)position)->unk_04 += ((S_801712C4_0 *)effect)->unk_44;
-        ((S_801712C4_1 *)position)->unk_08 += ((S_801712C4_0 *)effect)->unk_48;
-        ((S_801712C4_1 *)position)->unk_00 += ((S_801712C4_0 *)effect)->unk_40;
-        ((S_801712C4_1 *)position)->unk_04 += ((S_801712C4_0 *)effect)->unk_44;
-        ((S_801712C4_1 *)position)->unk_08 += ((S_801712C4_0 *)effect)->unk_48;
+        ((IntVector3 *)position)->x += ((S_801712C4_0 *)effect)->unk_40;
+        ((IntVector3 *)position)->y += ((S_801712C4_0 *)effect)->unk_44;
+        ((IntVector3 *)position)->z += ((S_801712C4_0 *)effect)->unk_48;
+        ((IntVector3 *)position)->x += ((S_801712C4_0 *)effect)->unk_40;
+        ((IntVector3 *)position)->y += ((S_801712C4_0 *)effect)->unk_44;
+        ((IntVector3 *)position)->z += ((S_801712C4_0 *)effect)->unk_48;
 
         ((S_801712C4_0 *)effect)->unk_04.at00.v =
             (((S_801712C4_0 *)effect)->unk_00.at00u.v * ((S_801712C4_0 *)effect)->unk_32.s) /

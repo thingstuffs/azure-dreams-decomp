@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/object_links.h"
 
 typedef struct S_80035090_1 {
     u8 pad_00[0x4];

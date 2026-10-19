@@ -1,7 +1,7 @@
 #include "common.h"
 
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/resident_resources.h"
 
 
 extern ResidentBitmapEntry D_8006A94C[];

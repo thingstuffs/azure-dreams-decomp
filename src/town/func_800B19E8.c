@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "shared/types3a_types.h"
+#include "shared/object_links.h"
 
 
 typedef struct S_800AF148_0 {

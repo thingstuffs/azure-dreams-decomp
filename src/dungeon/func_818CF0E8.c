@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "modules/dungeon_ovl_18ee800.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 extern int abs(int);
@@ -35,7 +36,6 @@ extern int abs(int);
 
 extern B32_818CF0E8_Vec12 D_8002590C;
 extern B32_818CF0E8_Vec12 D_80025918;
-extern u8 D_800DE870[];
 extern u8 D_800DEC00[];
 extern u8 D_800E3D68[];
 

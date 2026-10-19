@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
-#include "shared/types3a_types.h"
+#include "shared/object_links.h"
 
 
 extern s32 func_80033D08(void *);

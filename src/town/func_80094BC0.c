@@ -1,5 +1,6 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -21,7 +22,6 @@ s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();   
 void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      /* extern */
 extern M2C_UNK D_800CFCB4;
-extern M2C_UNK D_800CFCEF;
 
 
 typedef struct S_80092320_1 {

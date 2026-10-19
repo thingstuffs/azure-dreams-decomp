@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
@@ -41,7 +42,6 @@ typedef struct {
     void *field10;
 } D8181A8C0Object;
 
-extern u8 D_800DE870[9];
 s32 func_8004491C(void *, void *);
 void func_8003DB94(void *, void *, s32);
 extern M2C_UNK D_8002404C;

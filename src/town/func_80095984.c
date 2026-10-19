@@ -1,7 +1,8 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/town_action_flag.h"
 #include "shared/game_work.h"
-#include "shared/types3a_types.h"
+#include "shared/position_views.h"
 
 void initialize_scene_action_record();     /* extern */
 void initialize_motion_action();     /* extern */
@@ -12,7 +13,6 @@ s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();   
 void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      /* extern */
 s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();                                /* extern */
-extern u8 D_800CFCEF;
 
 
    /* target in update_actor_interaction_actions */

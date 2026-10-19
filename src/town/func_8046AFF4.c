@@ -2,7 +2,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-#include "shared/types3b_types.h"
 
 
 typedef s32 (*Callback)(s32);

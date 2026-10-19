@@ -4,7 +4,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
-#include "shared/types3a_types.h"
+#include "shared/runtime_dispatch.h"
 
 
 extern s32 D_80099AC4;

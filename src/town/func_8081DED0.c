@@ -2,7 +2,7 @@
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "records/Rec_func_800206D0_arg1.h"
-#include "shared/types3b_types.h"
+#include "shared/town_state.h"
 
 
 

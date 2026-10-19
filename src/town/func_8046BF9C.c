@@ -2,7 +2,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
 
    /* ((arg1 * 0x10) + arg0->unk_10) in store_state_selected_entry_pointer */
 

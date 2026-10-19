@@ -4,7 +4,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
 {
     void *actor = actor_arg;
     void *motion = motion_arg;
-    void *sprite = sprite_arg;
+    SpriteStatusIndexView *sprite = sprite_arg;
     void *entity = entity_arg;
     DungeonGlobalStatus *global_state;
     u8 *anim_table;
@@ -15,7 +15,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
     state = ((R17_801738E0_S_801738E0_0 *)actor)->unk_9B;
     switch (state) {
     case 0:
-        if (((R17_801738E0_S_801738E0_1 *)sprite)->unk_14 & 0x8000) {
+        if (sprite->unk_14 & 0x8000) {
             ((R17_801738E0_S_801738E0_0 *)actor)->unk_90 = 0;
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744FC);
             func_80047784(
@@ -29,7 +29,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 |= 8;
         ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C &= 0xF7FFFFFF;
         ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C &= 0xFFFBFFFF;
-        if (!(((R17_801738E0_S_801738E0_1 *)sprite)->unk_14 & 0x6000)) {
+        if (!(sprite->unk_14 & 0x6000)) {
             return;
         }
         {
@@ -79,7 +79,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
                 0);
             entity_flags = ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C | 0x40000;
             ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C = entity_flags;
-            if (((R17_801738E0_S_801738E0_1 *)sprite)->unk_14 & 0x8000) {
+            if (sprite->unk_14 & 0x8000) {
                 clear_mask = ~0x200U;
                 break;
             }
@@ -138,7 +138,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         func_800A9A04(entity);
         if ((func_80042900(entity, 1) << 16) != 0) {
             TileObject *origin = &D_80082E80;
-            s8 coordinate = ((R17_801738E0_S_801738E0_1 *)sprite)->unk_26;
+            s8 coordinate = sprite->unk_26;
 
             if ((((coordinate == origin->unk_026) && (coordinate >= 0)) ||
                  (((s16)get_tile_chebyshev_distance(origin, sprite)) < 2)) &&
@@ -157,7 +157,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             0);
         entity_flags = ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C | 0x40000;
         ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C = entity_flags;
-        if (((R17_801738E0_S_801738E0_1 *)sprite)->unk_14 & 0x8000) {
+        if (sprite->unk_14 & 0x8000) {
             clear_mask = ~0x200U;
             break;
         }
@@ -169,7 +169,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         return;
 
     case 3:
-        if (!(((R17_801738E0_S_801738E0_1 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->unk_14 & 0xE000)) {
             return;
         } else {
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744EC);
@@ -184,7 +184,7 @@ advance_state:
         return;
 
     case 4:
-        if (!(((R17_801738E0_S_801738E0_1 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
         ((R17_801738E0_S_801738E0_3 *)motion)->unk_14 = 0xFFF80000;
@@ -201,7 +201,7 @@ advance_state:
         return;
 
     case 16:
-        if (!(((R17_801738E0_S_801738E0_1 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 &= 0xFFF7;

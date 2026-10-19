@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F661800: native_resource_10_slot_0","i":"dungeon/bank_b0f000","l":"bank_b0f000_family","n":"0x6000","o":"0xB0F000","p":["4300bd20872d33ad4a55298875c33a17dbe54594906ddb33750ae29ab7e4b5d7","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:b9029ae1ed8d97df47f35d2514ed800389ff76bbfae7a62ce96a9f31089c0773"],"t":[20864,0,0,3712,0,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F661800: native_resource_10_slot_0","i":"dungeon/bank_b0f000","l":"bank_b0f000_family","n":"0x6000","o":"0xB0F000","p":["95e05be8834848954fb72264c61dfaa4e15296a89b9fb262f1d26d415959a1af","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:acd06e631dd337c492c1377ecda2e603412f42b69132c7448e962f9c819589ee"],"t":[20864,0,0,3712,0,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 11595776	1852	r	census:c_row		0
 "0xB0F73C"	456	c	census:registered_tu		["func_80AEF73C",null,"0x80170F3C",1]
@@ -6,7 +6,7 @@ o	n	k	r	h	x
 "0xB0FFF4"	1416	c	census:registered_tu		["func_80AEFFF4",null,"0x801717F4",1]
 11601276	4868	r	census:c_row		0
 "0xB11880"	512	c	census:registered_tu		["func_80AF1880",null,"0x80173080",1]
-11606656	1420	r	census:c_row		0
+"0xB11A80"	1420	c	census:registered_tu		["func_80AF1A80",null,"0x80173280",1]
 "0xB1200C"	792	c	census:registered_tu		["func_80AF200C",null,"0x8017380C",1]
 11608868	3444	r	census:c_row		0
 "0xB13098"	844	c	census:registered_tu		["func_80AF3098",null,"0x80174898",1]

@@ -1,8 +1,8 @@
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/town_action_flag.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 
 s32 initialize_actor_movement_interaction_action();        
@@ -16,7 +16,6 @@ s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 void compute_and_clamps_vector_based_adjustment_updates_town();      
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      
 void spawn_person_radial_effects();                      
-extern u8 D_800CFCEF;
 
 void update_actor_movement_with_radial_effects(s32 object_id, EntityRec *object, s32 update_context) {
     s16 update_threshold;

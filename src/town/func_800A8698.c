@@ -1,9 +1,9 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/town_action_flag.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
-#include "m2c_compat.h"
 
 typedef struct S_800A5DF8_0 {
     u8 pad_00[0xA];
@@ -35,7 +35,6 @@ void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_ti
 s32 compute_height_based_offset();                          /* extern */
 void initialize_effect_and_adjust_value();                         /* extern */
 s32 check_masked_value_in_current_range();                             /* extern */
-extern u8 D_800CFCEF;
 extern u8 D_800A5FDC[];
 
 /* Updates the actor effect and eases scene values before advancing the state. */

@@ -23,4 +23,11 @@ typedef struct AnimPlayer {
     u16 flags; /* 0x4000 while clamped */
 } AnimPlayer;
 typedef struct AnimOwner { u8 pad_00[0xC]; s32 table; } AnimOwner;
+
+/* Exact access views shared across registered binary consumers. */
+/* Leading unsigned frame value divided by the animation rate divisor. */
+typedef struct AnimationFrameRate {
+    /* 0x00 */ unsigned short value;
+} AnimationFrameRate;
+
 #endif

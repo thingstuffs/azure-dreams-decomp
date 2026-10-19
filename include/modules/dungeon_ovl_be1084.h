@@ -45,6 +45,9 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/object_links.h"
+#include "shared/object_payload.h"
+#include "shared/position_views.h"
 
 typedef struct S_80BC1264_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -52,9 +55,7 @@ typedef struct S_80BC1264_0 {
     s32 unk_08;
 } S_80BC1264_0;   /* arg1 in func_80170A64 */
 
-typedef struct S_80BC1264_1_pre {
-    u16 unk_00;
-} S_80BC1264_1_pre;   /* the 0x2 bytes before arg0 in func_80170A64, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in func_80170A64, addressed as arg0[-1] */
 
 typedef struct S_80BC1264_1 {
     u8 unk_00;
@@ -107,10 +108,7 @@ typedef struct S_80BC1528_0 {
     s32 unk_20;
 } S_80BC1528_0;   /* obj in func_80170D28 */
 
-typedef struct S_80BC1528_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80BC1528_1;   /* saved_arg0 in func_80170D28 */
+   /* saved_arg0 in func_80170D28 */
 
 typedef struct S_80BC1528_2 {
     u8 pad_00[0x8];
@@ -132,14 +130,7 @@ typedef struct S_80BC1528_2 {
     s32 unk_54;
 } S_80BC1528_2;   /* tail in func_80170D28 */
 
-typedef struct S_80BC1528_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80BC1528_3;   /* ((S_80BC1528_0 *)obj)->unk_08 in func_80170D28 */
+   /* ((S_80BC1528_0 *)obj)->unk_08 in func_80170D28 */
 
    /* ((S_80BC1528_1 *)saved_arg0)->unk_08 in func_80170D28 */
 
@@ -149,10 +140,7 @@ extern void func_8004491C();
 
 /* Creates an offset effect and initializes its motion back toward the parent. */
 
-typedef struct S_80BC172C_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80BC172C_2;   /* held_arg0 in func_80170F2C */
+   /* held_arg0 in func_80170F2C */
 
 typedef struct S_80BC172C_3 {
     u8 pad_00[0x8];
@@ -160,14 +148,7 @@ typedef struct S_80BC172C_3 {
     void * unk_0C;
 } S_80BC172C_3;   /* temp_v0 in func_80170F2C */
 
-typedef struct S_80BC172C_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80BC172C_4;   /* ((S_80BC172C_2 *)held_arg0)->unk_08 in func_80170F2C */
+   /* ((S_80BC172C_2 *)held_arg0)->unk_08 in func_80170F2C */
 
 typedef struct S_80BC172C_5 {
     u8 pad_00[0x2];
@@ -223,9 +204,7 @@ typedef struct S_80BC1880_0 {
     u16 unk_1E;
 } S_80BC1880_0;   /* arg2 in func_80171080 */
 
-typedef struct S_80BC1880_1_pre {
-    u16 unk_00;
-} S_80BC1880_1_pre;   /* the 0x2 bytes before arg0 in func_80171080, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in func_80171080, addressed as arg0[-1] */
 
 typedef struct S_80BC1880_1 {
     u8 pad_00[0x2];
@@ -237,14 +216,7 @@ typedef struct S_80BC1880_1 {
     s16 unk_1C;
 } S_80BC1880_1;   /* arg0 in func_80171080 */
 
-typedef struct S_80BC1880_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80BC1880_2;   /* arg1 in func_80171080 */
+   /* arg1 in func_80171080 */
 
 
 
@@ -260,4 +232,16 @@ typedef struct StackWork {
 s32 build_projected_tile_packets(u8 *,u16 *);
 void advance_effect_toward_target(void *,void *);
 void func_80170BFC(FadeEffect *,EffectMotion *);
+/* Compatibility for registered relink copies pending LL4 removal. */
+typedef ObjectPayloadView S_80BC172C_2;
+
+/* Compatibility for registered relink copies pending LL4 removal. */
+typedef MovingPosition S_80BC172C_4;
+
+/* Compatibility for registered relink copies pending LL4 removal. */
+typedef ObjectRetirementFlags S_80BC1880_1_pre;
+
+/* Compatibility for registered relink copies pending LL4 removal. */
+typedef MovingPosition S_80BC1880_2;
+
 #endif

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "shared/types3a_types.h"
+#include "shared/dungeon_effect_views.h"
 void func_80033CD8(void *block_data, s32 registration_id);           /* extern */
 s32 lookup_item_category_mapped_value();                /* extern */
 void *create_town_effect_object(); /* extern */

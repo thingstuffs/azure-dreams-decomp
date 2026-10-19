@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
-#include "shared/types3a_types.h"
+#include "shared/object_links.h"
 void func_800649A0(void);                            /* extern */
 void func_80064A40(void);                            /* extern */
 void func_80064CF0(void *);                      /* extern */

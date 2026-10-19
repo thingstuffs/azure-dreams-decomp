@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/town_handler_entries.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -34,7 +35,6 @@ extern u16 D_800135C2[];
 extern s16 D_800272C8[];
 extern s16 D_800272CA[];
 extern TownTarget D_80083780[];
-extern u8 D_800D0138[];
 
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void SD_Call(s32);

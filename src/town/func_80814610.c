@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/object_links.h"
 
 typedef struct S_80814610_0 {
     u8 pad_00[0x8];

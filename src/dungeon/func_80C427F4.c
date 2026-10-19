@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f511800_p04.h"
 
 /* Advance state and decrement the record count, setting record and global flags at completion. */
-void advance_record_state_and_set_completion_flags(void *record_data, T_80173FF4_S_80173FF4_0 *state, s32 update_arg) {
+void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, s32 update_arg) {
     u16 remaining_count;
 
     state->unk_08 = (s32) (state->unk_08 + 0x10000);

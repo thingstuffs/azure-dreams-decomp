@@ -1,7 +1,7 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/town_action_flag.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 
 void initialize_actor_action_state();        /* extern */
@@ -11,7 +11,6 @@ void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
 void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      /* extern */
-extern M2C_UNK D_800CFCEF;
 
 
 typedef struct S_80091000_1 {

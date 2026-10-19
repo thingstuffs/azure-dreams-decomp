@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_effect_source.h"
 #include "shared/dungeon_moving_views.h"
 
 typedef s32 M2C_UNK;
@@ -58,7 +59,6 @@ M2C_UNK func_8003A7C4();
 void *func_8003CF18();
 void func_8010BB90(void);
 extern u16 D_80094422[5];
-extern M2C_UNK D_800E2BB8;
 
 /* Creates an effect at the source position with the supplied color. */
 void func_7FFE93E8(S_7FFE93E8_3 *source, s32 color) {
@@ -96,7 +96,7 @@ void func_7FFE93E8(S_7FFE93E8_3 *source, s32 color) {
         sprite->unk_12 = 0x7DCE;
         sprite->unk_14 =
             (u16)(sprite->unk_14 | 0x100);
-        func_8003A7C4(sprite, &D_800E2BB8, 0);
+        func_8003A7C4(sprite, D_800E2BB8, 0);
         D_80094422[0] += 1;
     }
 }

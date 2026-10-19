@@ -87,19 +87,15 @@ use_kind:
                     action->unk_73 = ((u8 *)state)[0x25];
                 }
             } else {
-                s32 x = (s32)scan_monster_along_heading(action, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25,
-                              action->facing, 0x10);
-                s32 y;
+                s8 x;
+                s8 y;
 
-                *(void * volatile *)((u8 *)action + 0x60) = (void *)x;
+                action->target = (void *)scan_monster_along_heading(action, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25,
+                              action->facing, 0x10);
                 x = action->unk_72;
                 y = action->unk_73;
-                if (x < 0) {
-                    x = -x;
-                }
-                if (y < 0) {
-                    y = -y;
-                }
+                x = abs(x);
+                y = abs(y);
                 action->unk_72 = x;
                 action->unk_73 = y;
             }

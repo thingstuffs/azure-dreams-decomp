@@ -1,5 +1,6 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
 
@@ -32,7 +33,6 @@ extern void initialize_record_and_select_active_data();
 extern s32 check_masked_value_in_current_range();
 
 extern s32 D_800CFCB4[];
-extern u8 D_800CFCEF[];
 
 
 typedef struct S_80091260_2 {
@@ -59,11 +59,11 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
 
     height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, ((u8 *)&D_800FE488));
     if ((height - position->z.w.i) >= 4) {
-        if (D_800CFCEF[0] == 0) {
+        if (D_800CFCEF == 0) {
             initialize_action_object(actor, position, context);
             return;
         }
-    } else if (D_800CFCEF[0] == 0) {
+    } else if (D_800CFCEF == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town(position, height, ((u8 *)&D_800FE488));
     }
 

@@ -17,4 +17,49 @@ typedef struct PointRecord { u8 pad_00[8]; u32 color; /* r/g/b/code word copied 
 typedef struct ScaledPointRecord { u8 pad_00[8]; u32 color; u8 pad_0C[0x26]; s16 scale; s16 scale_max; } ScaledPointRecord;
 typedef struct PointPacket { u32 tag; u8 r; u8 g; u8 b; u8 code; u32 data; } PointPacket;
 
+
+/* Exact access views shared across registered binary consumers. */
+/* Signed lifetime word at +8 of the fading resident effect. */
+typedef struct EffectCountdownView {
+    unsigned char pad_00[0x8];
+    int unk_08;
+} EffectCountdownView;
+
+/* Signed word at +8 containing a primitive resource or style selection. */
+typedef struct EffectPrimitiveValueView {
+    unsigned char pad_00[0x8];
+    int unk_08;
+} EffectPrimitiveValueView;
+
+/* Signed state/default word at +8 used by effect setup and callback contexts. */
+typedef struct EffectStateWordView {
+    unsigned char pad_00[0x8];
+    int unk_08;
+} EffectStateWordView;
+
+/* Three copied initialization words in the menu/effect allocation payload. */
+typedef struct EffectInitialState {
+    int unk_00;
+    int unk_04;
+    int unk_08;
+} EffectInitialState;
+
+/* Signed +A halfword in timed-scale setup; keeps its original 0xC view. */
+typedef struct ScaleStateHalfView {
+    unsigned char pad_00[0xA];
+    short unk_0A;
+} ScaleStateHalfView;
+
+/* Effect state number and timer; these two halves are not a coordinate pair. */
+typedef struct EffectPhaseTimer16 {
+    short state;
+    short timer;
+} EffectPhaseTimer16;
+
+/* Effect object payload pointer at +0x08; extent 0x0C. */
+typedef struct EffectObjectPayloadView {
+    unsigned char pad_00[0x8];
+    void * unk_08;
+} EffectObjectPayloadView;
+
 #endif

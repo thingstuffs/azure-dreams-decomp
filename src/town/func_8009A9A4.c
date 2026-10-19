@@ -1,7 +1,7 @@
 #include "common.h"
 
 #include "records/Rec_func_80094268_arg0.h"
-#include "shared/types3a_types.h"
+#include "shared/position_views.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 /* extern */

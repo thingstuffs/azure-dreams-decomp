@@ -84,26 +84,21 @@ copy_existing:
 
                     }
                 } else {
-                    s32 x;
-                    s32 y;
+                    s8 x;
+                    s8 y;
 
-                    x = (s32)scan_monster_along_heading(
+                    ((EntityRec *)actor)->target = (void *)scan_monster_along_heading(
                         actor,
                         ((Rec_D_80082E80 *)sprite)->unk_24,
                         ((Rec_D_80082E80 *)sprite)->unk_25,
-                        (*(s16 *)((u8 *)actor + 0x2A)),
+                        ((EntityRec *)actor)->facing,
                         0x10);
-                    (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)x;
-                    x = (*(s8 *)((u8 *)actor + 0x72));
-                    y = (*(s8 *)((u8 *)actor + 0x73));
-                    if (x < 0) {
-                        x = -x;
-                    }
-                    if (y < 0) {
-                        y = -y;
-                    }
-                    (*(s8 *)((u8 *)actor + 0x72)) = x;
-                    (*(s8 *)((u8 *)actor + 0x73)) = y;
+                    x = ((EntityRec *)actor)->unk_72;
+                    y = ((EntityRec *)actor)->unk_73;
+                    x = abs(x);
+                    y = abs(y);
+                    ((EntityRec *)actor)->unk_72 = x;
+                    ((EntityRec *)actor)->unk_73 = y;
                 }
             }
 

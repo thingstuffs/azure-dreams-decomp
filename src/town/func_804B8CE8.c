@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "shared/types3b_types.h"
+#include "shared/town_state.h"
 
 typedef void (*TownCallback)(s32);
 

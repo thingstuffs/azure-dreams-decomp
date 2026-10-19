@@ -1,5 +1,8 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/slus_cd_callback.h"
+#include "shared/slus_callbacks.h"
+#include "shared/dungeon_effect_status.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -11,10 +14,8 @@
 #endif
 
 
-extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
 extern u8 *D_800DCEEC[];
-extern u8 D_800DCF5C[];
 extern u8 D_8014A000[200000];
 extern u8 D_80173F68[];
 extern u8 D_801745D8[];
@@ -177,7 +178,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Rec
         sound_set_cd_cue_parameters(0, D_8006CD58[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), 0);
         D_80174E3D[0] = 0;
-        Control_CD(0xFF, D_8003E140, D_80174E3D);
+        Control_CD(0xFF, set_byte_one, D_80174E3D);
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
         ((S_80174704_0 *)action)->unk_96.u = 0x10;
         ((S_80174704_0 *)action)->unk_9B++;
@@ -279,7 +280,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Rec
         if (((S_80174704_0 *)action)->unk_9B != 6) {
             return;
         }
-        if (create_status_linked_render_effect(position, D_80174E40[0], D_80174E38[0], D_800DCF5C) == 0) {
+        if (create_status_linked_render_effect(position, D_80174E40[0], D_80174E38[0], &D_800DCF5C) == 0) {
             return;
         }
         ((S_80174704_0 *)action)->unk_96.u = 0x10;

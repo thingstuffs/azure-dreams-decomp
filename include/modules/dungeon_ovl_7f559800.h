@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "shared/position_views.h"
 
 
 extern u8 D_8016AA58[];
@@ -33,10 +34,7 @@ typedef struct S_8016A878_1 {
     s32 unk_1C;
 } S_8016A878_1;   /* var_s0 in func_8016A878 */
 
-typedef struct S_8016A878_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8016A878_2;   /* temp_s4 in func_8016A878 */
+   /* temp_s4 in func_8016A878 */
 
 typedef struct S_8016A878_3 {
     u8 pad_00[0x24];

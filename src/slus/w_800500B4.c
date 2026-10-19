@@ -3,7 +3,7 @@
 
 /* first_pass warm draft: compiles, best score 106 @ 2.7.2 */
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/widget_views.h"
 
 typedef struct S_800500B4_4 {
     u8 pad_00[0x20];

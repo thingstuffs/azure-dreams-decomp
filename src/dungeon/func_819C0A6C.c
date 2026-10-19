@@ -1,7 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 
 typedef struct S_8002626C_3 {
     u8 pad_00[0x8];
@@ -18,7 +18,6 @@ typedef struct S_8002626C_4 {
 } S_8002626C_4;
 
 
-extern M2C_UNK D_800DE870;
 
 typedef struct S_8002626C_0 {
     u8 pad_00[0x28];
@@ -63,7 +62,7 @@ void create_offset_colored_effect(
     void *effect;
 
     effect = func_8003FC64(0x212);
-    if (effect != NULL) {
+    if (effect != 0) {
         effect_state = effect + 0x20;
         effect_state->unk_28 = 0x14;
         ((S_8002626C_1 *)effect)->unk_10 = (void *)update_effect_motion_and_visual;
@@ -100,7 +99,7 @@ void create_offset_colored_effect(
         }
         sprite->unk_12 = 0x7DCF;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
-        func_8003DB94(sprite, &D_800DE870, 0);
+        func_8003DB94(sprite, D_800DE870, 0);
     }
 }
 /* MECHANISM: The ten-argument ABI and reused pointer local produce the retail

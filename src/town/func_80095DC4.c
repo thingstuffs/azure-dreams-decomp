@@ -1,5 +1,6 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/position_views.h"
+#include "shared/vector.h"
 
    /* arg0 in follow_linked_position_until_timeout */
 

@@ -17,4 +17,25 @@ typedef struct TownEventState {
 } TownEventState;
 extern TownEventState *D_8001E950;
 
+
+/* Exact access views shared across registered binary consumers. */
+/* Town event entries expose a signed result at +8; their callers supply stride. */
+typedef struct TownEventEntryValueView {
+    unsigned char pad_00[8];
+    int unk_08;
+} TownEventEntryValueView;
+
+/* Paired town-event arguments returned by select_event_data_table. */
+typedef struct TownEventArgumentPair16 {
+    short unk_00;
+    short unk_02;
+} TownEventArgumentPair16;
+
+/* Indexed value records rooted at D_80016470; the two tail words stay opaque. */
+typedef struct TownIndexedValueEntry {
+    int value;
+    int unk4;
+    int unk8;
+} TownIndexedValueEntry;
+
 #endif

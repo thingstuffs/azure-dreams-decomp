@@ -1,6 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/dungeon_particle_template.h"
 
 typedef struct S_80045C34 S_80045C34;
 
@@ -14,7 +14,6 @@ extern s32 rand();
 extern s32 func_80167088();
 s32 func_80045C34(u8 *first_data, s32 link_value, S_80045C34 *value_record);
 void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite);
-extern M2C_UNK D_80173B34[3];
 
 
 typedef struct S_80165F00_0 {
@@ -108,7 +107,7 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
         sprite->unk_1E = (s16)scale;
         sprite->unk_1C = (s16)scale;
         (*(Copy12 *)((u8 *)effect + 0x56)) =
-            (*(Copy12 *)((u8 *)D_80173B34 + 0));
+            (*(Copy12 *)((u8 *)&D_80173B34 + 0));
         sprite->unk_08 = (void *)(effect + 0x56);
     }
 }

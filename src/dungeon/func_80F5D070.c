@@ -4,8 +4,8 @@
 void *allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value)
 {
     s32 kind;
-    void *obj;
-    T_80170870_S_80170870_2 *part_a;
+    ProjectileObject *obj;
+    SignedHeightView *part_a;
     T_80170870_S_80170870_3 *part_b;
     T_80170870_S_80170870_1 *work;
     T_80170870_S_80170870_4 *actor;
@@ -22,13 +22,13 @@ void *allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value)
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((T_80170870_S_80170870_0 *)obj)->unk_10 = D_80170A3C;
+        obj->unk_10 = D_80170A3C;
         work->unk_13 = 0x25;
         func_8004491C(obj, func_80045340);
 
-        part_a = ((T_80170870_S_80170870_0 *)obj)->unk_08;
+        part_a = obj->unk_08;
         part_a->unk_0A = saved_value;
-        part_b = ((T_80170870_S_80170870_0 *)obj)->unk_0C;
+        part_b = obj->unk_0C;
         kind = kind_flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;

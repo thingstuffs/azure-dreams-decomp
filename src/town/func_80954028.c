@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
+#include "shared/object_links.h"
 
    /* the 0x2 bytes before arg0 in update_derived_value_and_flag, addressed as arg0[-1] */
 

@@ -1,6 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/widget_views.h"
 
 typedef struct S_800AECA4_2 {
     u8 pad_00[0xD8];

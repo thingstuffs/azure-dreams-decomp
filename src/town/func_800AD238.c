@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/town_handler_entries.h"
 #include "shared/town_handler.h"
-#include "shared/types3a_types.h"
+#include "shared/vector.h"
 
 
 extern u8 D_800AA5F8[];
-extern u8 D_800D0130[];
 extern void *D_800D0B14;
 extern s16 D_80100D18;
 extern s32 D_80100D1C;

@@ -1,16 +1,10 @@
 #ifndef DUNGEON_OVL_189A800_H
 #define DUNGEON_OVL_189A800_H
 #include "modules/dungeon_native_abi.h"
+#include "shared/position_views.h"
 
 /* Record views shared by the mesh renderer and linked-record walker. */
-typedef struct S_func_800241A8_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_func_800241A8_2;
+
 
 typedef struct S_func_800241A8_3 {
     u8 pad_00[0x8];
@@ -84,7 +78,7 @@ typedef struct S_func_800241A8_4 {
     } unk_6E;
 } S_func_800241A8_4;
 
-void transform_and_queue_mesh_primitives(S_func_800241A8_4 *, S_func_800241A8_2 *, S_func_800241A8_3 *, s32);
+void transform_and_queue_mesh_primitives(S_func_800241A8_4 *, SignedPositionView *, S_func_800241A8_3 *, s32);
 /* Bank callbacks whose definitions precede their users in the native TU. */
 void func_80024D40(void *object, s32 unused, void *target);
 void advance_fading_effect_animation(void *effect_data, s32 unused_arg, void *color_data);

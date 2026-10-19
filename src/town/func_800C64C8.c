@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/sprite_frame_state.h"
 
 void install_object_handler_and_clear_slot_flag(void *object);
 

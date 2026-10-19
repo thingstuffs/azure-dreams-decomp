@@ -1,7 +1,8 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
+#include "shared/object_payload.h"
+#include "shared/position_views.h"
 
 
 

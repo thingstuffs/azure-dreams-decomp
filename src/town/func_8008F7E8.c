@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/position_views.h"
 
 s16 find_min_qualifying_plane_height();          /* extern */
 

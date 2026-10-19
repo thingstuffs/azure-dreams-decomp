@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3a_types.h"
+#include "shared/dungeon_effect_views.h"
 
 typedef struct S_800A9734_0 {
     s32 * unk_00;

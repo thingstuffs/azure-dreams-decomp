@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/town_handler_entries.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
@@ -12,7 +13,6 @@ extern u16 D_80026F24[];
 extern s16 D_800272C8;
 extern s16 D_800272CA;
 extern u8 D_800D00C0[];
-extern u8 D_800D0128[];
 
 
 /* Updates the three-choice selection and the object's vertical motion. */

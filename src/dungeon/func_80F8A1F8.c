@@ -4,7 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
-#include "shared/types3b_types.h"
+#include "shared/position_views.h"
 
 
 extern s32 has_pending_actor_or_turn_action(void *);

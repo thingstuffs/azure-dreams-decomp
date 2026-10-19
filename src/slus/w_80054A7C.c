@@ -10,20 +10,20 @@ void func_80054A7C(s32 action) {
     action = action & 0xFF;
     if (action != 3) {
         if (action >= 4) {
-            if (action == 4) {
-                goto case4;
+            if (action != 4) {
+                return;
             }
+        } else {
+            if (action == 0) {
+                return;
+            }
+            set_cd_audio_mix_mode(action_value & 0xFFFF);
             return;
         }
-        if (action == 0) {
-            return;
-        }
-        set_cd_audio_mix_mode(action_value & 0xFFFF);
+    } else {
+        func_800540A8();
         return;
     }
-    func_800540A8();
-    return;
-case4:
     func_800541E8();
     return;
 }

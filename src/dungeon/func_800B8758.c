@@ -56,7 +56,6 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
     s32 special_case = 0;
     register s32 original_id;
     s32 message_handle;
-    s32 saved_id;
     s32 saved_id_2;
     u32 entity_id;
     s32 result;
@@ -85,7 +84,21 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
                 result = special_case;
             }
             if (result != 0) {
-                goto show_special;
+                result = get_unused_text_buffer();
+                {
+                    s32 text;
+                    u32 message_arg = result;
+                    text = message_arg;
+                    result = expand_text_control_codes(D_800E0FD7, message_arg);
+                    result = append_entity_display_text(entity, result);
+                    result = expand_text_control_codes(D_80089358, result);
+                    func_80099290(result);
+                    display_text_with_fullwidth_adjustment(text);
+                }
+
+                clear_slot_and_update_linked_state(action_id);
+                g_dungeon_status.unk_0A--;
+                return 1;
             }
 
             flag_mask = 0x80000;
@@ -122,18 +135,17 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
             g_dungeon_status.unk_0A--;
             return 1;
         }
-show_special:
         result = get_unused_text_buffer();
         {
-            u8 *message = D_800E0FD7;
+            s32 text;
             u32 message_arg = result;
-            saved_id = message_arg;
-            result = expand_text_control_codes(message, message_arg);
+            text = message_arg;
+            result = expand_text_control_codes(D_800E0FD7, message_arg);
+            result = append_entity_display_text(entity, result);
+            result = expand_text_control_codes(D_80089358, result);
+            func_80099290(result);
+            display_text_with_fullwidth_adjustment(text);
         }
-        result = append_entity_display_text(entity, result);
-        result = expand_text_control_codes(D_80089358, result);
-        func_80099290(result);
-        display_text_with_fullwidth_adjustment(saved_id);
 
         clear_slot_and_update_linked_state(action_id);
         g_dungeon_status.unk_0A--;

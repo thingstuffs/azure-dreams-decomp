@@ -1,7 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
+#include "shared/object_links.h"
+#include "shared/position_views.h"
 
    /* the 0x2 bytes before obj in update_object_state_and_size, addressed as obj[-1] */
 

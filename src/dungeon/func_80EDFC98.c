@@ -1,16 +1,14 @@
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/dungeon_projectile_views.h"
+#include "shared/dungeon_delay_views.h"
+#include "shared/position_views.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_80171498_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80171498_0;   /* effect in create_random_color_offset_effect */
+   /* effect in create_random_color_offset_effect */
 
 typedef struct S_80171498_1 {
     u8 pad_00[0x8];
@@ -18,10 +16,7 @@ typedef struct S_80171498_1 {
     void * unk_0C;
 } S_80171498_1;   /* arg0 in create_random_color_offset_effect */
 
-typedef struct S_80171498_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80171498_2;   /* source in create_random_color_offset_effect */
+   /* source in create_random_color_offset_effect */
 
 typedef struct S_80171498_3 {
     s32 unk_00;
@@ -43,14 +38,7 @@ typedef struct S_80171498_3 {
     s16 unk_62;
 } S_80171498_3;   /* base in create_random_color_offset_effect */
 
-typedef struct S_80171498_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80171498_4;   /* ((S_80171498_0 *)effect)->unk_08 in create_random_color_offset_effect */
+   /* ((S_80171498_0 *)effect)->unk_08 in create_random_color_offset_effect */
 
    /* ((S_80171498_1 *)arg0)->unk_08 in create_random_color_offset_effect */
 
@@ -82,20 +70,20 @@ void create_random_color_offset_effect(
 
     effect = func_8003FD64(0x211, parent);
     if (effect != NULL) {
-        ((S_80171498_0 *)effect)->unk_10 = D_801712C4;
+        ((ProjectileObject *)effect)->unk_10 = D_801712C4;
 
-        ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_02 =
+        ((SignedPositionView *)(((ProjectileObject *)effect)->unk_08))->unk_02 =
             ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_02 + held_offset_x;
-        ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_06 =
+        ((SignedPositionView *)(((ProjectileObject *)effect)->unk_08))->unk_06 =
             ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_06 + held_offset_y;
-        ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_0A =
+        ((SignedPositionView *)(((ProjectileObject *)effect)->unk_08))->unk_0A =
             ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_0A + held_offset_z;
 
         source_data = ((S_80171498_1 *)parent)->unk_0C;
-        if (resolve_record_orientation_or_fallback(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
-            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_02 += source_offset.x;
-            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_06 += source_offset.y;
-            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_0A += source_offset.z;
+        if (resolve_record_orientation_or_fallback(((DelayMotionZ *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
+            ((SignedPositionView *)(((ProjectileObject *)effect)->unk_08))->unk_02 += source_offset.x;
+            ((SignedPositionView *)(((ProjectileObject *)effect)->unk_08))->unk_06 += source_offset.y;
+            ((SignedPositionView *)(((ProjectileObject *)effect)->unk_08))->unk_0A += source_offset.z;
         }
 
         effect_data = (u8 *)effect + 0x20;
@@ -104,7 +92,7 @@ void create_random_color_offset_effect(
         ((S_80171498_3 *)effect_data)->unk_62 = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_0A;
 
         source_data = ((S_80171498_1 *)parent)->unk_0C;
-        if (resolve_record_orientation_or_fallback(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((DelayMotionZ *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
             (*(s16 *)((u8 *)effect_data + 0x5A)) += source_offset.x;
             (*(s16 *)((u8 *)effect_data + 0x5E)) += source_offset.y;
             ((S_80171498_3 *)effect_data)->unk_62 += source_offset.z;
@@ -116,7 +104,7 @@ void create_random_color_offset_effect(
 
         step = 0;
         do {
-            steer_effect_toward_target(effect_data, ((S_80171498_0 *)effect)->unk_08, ((S_80171498_0 *)effect)->unk_0C);
+            steer_effect_toward_target(effect_data, ((ProjectileObject *)effect)->unk_08, ((ProjectileObject *)effect)->unk_0C);
             step++;
         } while (step < 10);
 

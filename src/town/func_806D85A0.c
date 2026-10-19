@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "shared/town_root.h"
-#include "shared/types3b_types.h"
+#include "shared/vector.h"
 extern u8 D_80018FD0[];
 
 

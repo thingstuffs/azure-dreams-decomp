@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/dungeon_moving_views.h"
 
 
@@ -60,7 +61,6 @@ typedef struct S_80D65810_5 {
 M2C_UNK func_8003DB94();
 s32 func_8004491C();
 s32 rand();
-extern u8 D_800DE870[];
 extern void func_80045340(void);
 extern void update_effect_collision_and_lifetime(void);
 

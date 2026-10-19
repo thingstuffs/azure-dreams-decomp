@@ -1,6 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct RegistrationNode RegistrationNode;
@@ -39,7 +39,6 @@ typedef struct {
 
 void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 s32 func_8004491C(RegistrationNode *entry, s32 registration_id);
-extern M2C_UNK D_800DE870;
 void func_80170D60(void *destination, s32 unused, void *source);
 
 /* Creates and configures a node at a fixed offset from the given position. */
@@ -67,6 +66,6 @@ void create_offset_animation_sprite(void *unused, void *origin) {
         display_sub->field_0E = 0x80;
         display_sub->field_0D = 0x80;
         display_sub->field_0C = 0x80;
-        func_8003DB94(display_sub, &D_800DE870, 0);
+        func_8003DB94(display_sub, D_800DE870, 0);
     }
 }

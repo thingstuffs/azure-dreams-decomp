@@ -1,5 +1,6 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/town_action_flag.h"
 
 typedef struct {
     u8 pad0[0xA];
@@ -8,7 +9,6 @@ typedef struct {
     s32 field_14;
 } TownObject;
 
-extern u8 D_800CFCEF;
 
 extern void initialize_scene_action_record(void *, TownObject *, void *);
 extern void store_the_valid_shared_angle_in_offset_hex_10(void *);

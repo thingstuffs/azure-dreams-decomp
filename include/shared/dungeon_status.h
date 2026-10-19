@@ -27,4 +27,11 @@ typedef struct DungeonGlobalStatus {
 
 extern DungeonGlobalStatus g_dungeon_status;
 
+/* D_800814A8 remaining player-action count, also reached through the player owner.
+ * This is a sparse counter view, with the original 0xA8 extent. */
+typedef struct PlayerRemainingActionsView {
+    unsigned char pad_00[0xA6];
+    unsigned short remaining;
+} PlayerRemainingActionsView;
+
 #endif

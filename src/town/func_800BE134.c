@@ -2,7 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
-#include "shared/types3a_types.h"
+#include "shared/object_links.h"
 
 #ifndef NULL
 #define NULL 0

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/object_node.h"
-#include "shared/types3b_types.h"
+#include "shared/town_state.h"
 
 #ifndef NULL
 #define NULL 0

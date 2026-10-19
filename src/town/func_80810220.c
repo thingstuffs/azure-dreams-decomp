@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/town_pointees.h"
 
 typedef struct S_80810220_0 {
     s16 unk_00;

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/position_views.h"
 
 
 extern u8 D_800CFCEE[9];

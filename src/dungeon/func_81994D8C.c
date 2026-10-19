@@ -240,7 +240,30 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     particle_scratch->resource.extent.height = 0x40;
                 }
                 if (!(state->countdown & 1)) {
-                    goto spawn_depth_particle;
+                    particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
+                    if (particle != 0) {
+                        particle->payload.lifetime = 1;
+                        particle->header.unk_10 = (void *)fade_the_primitive_flag_effect_countdown_expires;
+                        func_8004491C(particle, (s32)func_80045340);
+                        render_part = (TransitionRenderPart *)particle->header.unk_0C;
+                        render_part->mode = PARTICLE_MODE_ADDITIVE;
+                        render_part->depth = -4;
+                        render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
+                        position = (TransitionPosition *)particle->header.unk_08;
+                        position->x.w.i = state->current_x;
+                        position->y.w.i = state->current_y;
+                        position->z.w.i = state->current_z;
+                        position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
+                        position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
+                        position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
+                        render_part->scale_y = PARTICLE_SCALE_BASE;
+                        render_part->scale_x = PARTICLE_SCALE_BASE;
+                        render_part->color.channel.blue = 0x80;
+                        render_part->color.channel.green = 0x80;
+                        render_part->color.channel.red = 0x80;
+                        particle->payload.resource.packed = D_80025360;
+                        render_part->resource = (void *)&particle->payload.resource;
+                    }
                 }
             } else {
                 particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
@@ -269,7 +292,6 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     particle_scratch->resource.extent.width = 0;
                     particle_scratch->resource.extent.height = 0;
                 }
-spawn_depth_particle:
                 particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
                 if (particle != 0) {
                     particle->payload.lifetime = 1;

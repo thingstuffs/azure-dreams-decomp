@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-#include "shared/types3a_types.h"
+#include "shared/vector.h"
 
 typedef struct S_800A71F0_0 {
     u8 pad_00[0x8];

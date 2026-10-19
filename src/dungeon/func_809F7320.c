@@ -1,5 +1,8 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/slus_cd_callback.h"
+#include "shared/slus_callbacks.h"
+#include "shared/dungeon_effect_status.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -137,10 +140,8 @@ s32 play_sound_if_enabled();                     /* extern */
 s32 create_status_linked_render_effect();     /* extern */
 s32 select_nearby_target_and_initialize_slot(); /* extern */
 void create_randomly_rotated_offset_effect(); /* extern */
-extern M2C_UNK D_8003E140;
 extern s32 D_8006CD58;
 extern void *D_800DCEEC[];
-extern M2C_UNK D_800DCF5C;
 extern u8 D_8014A000[];
 s32 update_actor_state_after_map_check(void *initial_payload, s32 entry_data, Entry *entry, s32 unused);
 void blend_effect_channels_to_gray(u8 *task, void *context, u8 *input);
@@ -203,7 +204,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
         sound_set_cd_cue_parameters(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         (*(s8 *)&D_8017521D) = 0;
-        Control_CD(0xFF, &D_8003E140, &D_8017521D);
+        Control_CD(0xFF, set_byte_one, &D_8017521D);
         select_nearby_target_and_initialize_slot(actor - 0x20, position, 8, 0x300);
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);

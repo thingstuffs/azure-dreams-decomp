@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "shared/types3b_types.h"
+#include "shared/object_links.h"
 
 
 extern void func_800672D8();

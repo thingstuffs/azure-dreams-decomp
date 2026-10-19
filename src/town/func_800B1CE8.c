@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3a_types.h"
+#include "shared/item_menu.h"
 
 typedef struct S_800AF448_0 {
     void * unk_00;

@@ -1,5 +1,6 @@
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
+#include "shared/town_handler_entries.h"
 
 typedef struct {
     void *callback0;
@@ -19,7 +20,6 @@ extern void call_the_handler_selects_nonzero_entry(void *entries, void *record, 
 extern Entity D_800834B8;
 extern s32 D_80097D2C[3];
 extern s32 D_8009A81C;
-extern u8 D_800D0090[];
 
 void initialize_entity_handlers_and_position(s32 entity_id, s32 x, s32 y) {
     Entity *entity = &D_800834B8;

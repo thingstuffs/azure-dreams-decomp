@@ -1,8 +1,10 @@
 #include "common.h"
+#include "shared/town_handler_entries.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
-#include "shared/types3b_types.h"
+#include "shared/object_payload.h"
+#include "shared/town_pointees.h"
 
 typedef struct S_8002191C_0 {
     u8 pad_00[0x4];
@@ -104,7 +106,6 @@ extern s16 D_800272B0[];
 extern s32 D_800834B8;
 extern u8 D_800930E4[];
 extern s32 D_80097D2C[3];
-extern u8 D_800D0128[];
 
 extern int abs(int);
 extern void create_scene_object_with_48_byte_payload(void *, TownDraw32 *);

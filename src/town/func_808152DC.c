@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/object_links.h"
 
    /* the 0x2 bytes before record in func_808152DC, addressed as record[-1] */
 

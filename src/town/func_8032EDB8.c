@@ -2,7 +2,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
+#include "shared/town_event_state.h"
 
 typedef struct S_800195B8_0 {
     s32 unk_00;

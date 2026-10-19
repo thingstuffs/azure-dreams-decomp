@@ -8,7 +8,7 @@ void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_
     s32 right;
     void *work;
     s16 saved_arg3;
-    void *obj;
+    ProjectileObject *obj;
     register s8 saved_arg2;
     s8 saved_arg1;
     void *part_a;
@@ -27,9 +27,9 @@ void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_
         ((S_80158854_0 *)work)->unk_13 = 0x1C;
         func_8004491C(obj, func_80045340);
 
-        part_a = ((S_80158854_1 *)obj)->unk_08;
-        ((S_80158854_2 *)part_a)->unk_0A = saved_arg3;
-        part_b = ((S_80158854_1 *)obj)->unk_0C;
+        part_a = obj->unk_08;
+        ((SignedHeightView *)part_a)->unk_0A = saved_arg3;
+        part_b = obj->unk_0C;
         part_b->unk_24 = saved_arg1;
         part_b->unk_25 = saved_arg2;
         actor = work;
@@ -68,7 +68,7 @@ void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_
                 }
             }
         }
-        ((S_80158854_1 *)obj)->unk_10 = func_80158A58;
+        obj->unk_10 = func_80158A58;
         initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)final_arg0);
         ((S_80158854_4 *)actor)->unk_9A = 0xFF;
         ((S_80158854_4 *)actor)->unk_9C = -1;

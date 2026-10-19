@@ -3,7 +3,7 @@
 #define ARG2_TYPE s16
 #define ARG3_TYPE s16
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/position_views.h"
 
 typedef struct Work { u8 pad_00[0x6C]; s16 field_6C; u8 pad_6E[0x28]; s8 field_96; } Work;
 typedef struct Node { u8 pad_00[8]; SignedPositionView *header; s32 aux; u8 pad_10[0x10]; Work work; } Node;

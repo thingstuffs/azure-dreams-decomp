@@ -5,6 +5,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/object_links.h"
+#include "shared/dungeon_moving_views.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -33,16 +35,9 @@ typedef struct S_801727C8_0 {
 } S_801727C8_0;   /* arg0 in update_actor_action_target_and_animation */
 
 
-typedef struct S_801727C8_2_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_801727C8_2_pre;   /* the 0x14 bytes before owner in update_actor_action_target_and_animation, addressed as owner[-1] */
+   /* the 0x14 bytes before owner in update_actor_action_target_and_animation, addressed as owner[-1] */
 
-typedef struct S_801727C8_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801727C8_3;
+
 
 
 typedef struct S_801727C8_5 {
@@ -145,18 +140,18 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
                     {
                         void *owner = target_owner;
 
-                        slot = (s32)(((S_801727C8_2_pre *)owner)[-1].unk_00);
-                        actor->unk_72 = (s8) ((S_801727C8_3 *)((void *)slot))->unk_24;
-                        actor->unk_73 = (s8) ((S_801727C8_3 *)((void *)slot))->unk_25;
+                        slot = (s32)(((SpriteLinkPrefixView *)owner)[-1].unk_00);
+                        actor->unk_72 = (s8) ((MovingTile *)((void *)slot))->unk_24;
+                        actor->unk_73 = (s8) ((MovingTile *)((void *)slot))->unk_25;
                     }
                 } else if (D_8006DE24[*entry].kind == 2) {
                     target_owner = actor->target;
                     if (target_owner != 0) {
                         void *owner = target_owner;
 
-                        slot = (s32)(((S_801727C8_2_pre *)owner)[-1].unk_00);
-                        actor->unk_72 = (s8) ((S_801727C8_3 *)((void *)slot))->unk_24;
-                        actor->unk_73 = (s8) ((S_801727C8_3 *)((void *)slot))->unk_25;
+                        slot = (s32)(((SpriteLinkPrefixView *)owner)[-1].unk_00);
+                        actor->unk_72 = (s8) ((MovingTile *)((void *)slot))->unk_24;
+                        actor->unk_73 = (s8) ((MovingTile *)((void *)slot))->unk_25;
                     }
                 } else {
                     void *spawned_owner;

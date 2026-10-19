@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_particle_template.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
@@ -19,7 +20,6 @@ s32 func_8004491C();           /* extern */
 s32 rand();                                /* extern */
 s32 func_80167088();                         /* extern */
 extern M2C_UNK D_80165AB8;
-extern M2C_UNK D_80173B34[3];
 
 
 typedef struct S_80165D0C_0 {
@@ -110,7 +110,7 @@ void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 s
         effect_state->unk_04 = scale;
         effect_state->unk_08 = scale;
         (*(Copy12 *)((u8 *)effect + 0x56)) =
-            (*(Copy12 *)((u8 *)D_80173B34 + 0));
+            (*(Copy12 *)((u8 *)&D_80173B34 + 0));
         sprite->unk_08 = (void *) (effect + 0x56);
     }
 }

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/vector.h"
 
 typedef struct S_8080C324_0 {
     u8 pad_00[0x8];

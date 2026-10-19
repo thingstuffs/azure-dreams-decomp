@@ -67,11 +67,12 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, void *scale, void
         (*(u16 *)((u8 *)animation + 0x98)) |= 8;
         if (D_80013714 & 2) {
             ((S_800AB538_0 *)animation)->unk_9B = 2;
-            return 0;
+            break;
         }
         ((S_800AB538_1 *)render)->unk_8A = 0x800 / ((S_800AB538_0 *)animation)->unk_96.s;
         next_state = ((S_800AB538_0 *)animation)->unk_9B + 1;
-        goto increment_state;
+        ((S_800AB538_0 *)animation)->unk_9B = next_state;
+        break;
     case 1:
         move_frames = ((S_800AB538_0 *)animation)->unk_96.s - 2;
         if (move_frames > 0) {
@@ -115,11 +116,10 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, void *scale, void
             ((S_800AB538_3 *)motion)->unk_0A.u = (u16)D_8008378A;
             ((S_800AB538_0 *)animation)->unk_92 = 0;
             next_state = ((S_800AB538_0 *)animation)->unk_9B + 1;
-increment_state:
             ((S_800AB538_0 *)animation)->unk_9B = next_state;
-            return 0;
+            break;
         }
-        return 0;
+        break;
     case 2:
         ((S_800AB538_4 *)scale)->unk_1E = 0;
         ((S_800AB538_4 *)scale)->unk_1C = 0;

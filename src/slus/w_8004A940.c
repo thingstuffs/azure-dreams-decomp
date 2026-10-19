@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/resident_resources.h"
 
 /* {category, index} pair table at raw address 0x80013564 (not referenced
    elsewhere in this TU via a %hi/%lo symbol, so materialized as a literal,

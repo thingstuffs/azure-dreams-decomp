@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_links.h"
 
 typedef struct GridPoint {
     union {
@@ -94,9 +95,7 @@ typedef struct S_func_80EF1000_4 {
     s16 unk_A4;
 } S_func_80EF1000_4;
 
-typedef struct S_func_80EF1000_5 {
-    u16 unk_00;
-} S_func_80EF1000_5;
+
 
 extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern s32 find_valid_floor_item_position(s8, s8, s16, s16 *, s16 *, s16 *);
@@ -216,7 +215,7 @@ update_travel:
             place_item_at_valid_floor_position(position->unk_0E, position->unk_12,
                           position->unk_16, sprite->unk_08, command);
             ((S_func_80EF1000_4 *)motion->unk_40)->unk_A4 = 0;
-            ((S_func_80EF1000_5 *)((u8 *)motion - 2))->unk_00 |= 0x8000;
+            ((ObjectRetirementFlags *)((u8 *)motion - 2))->unk_00 |= 0x8000;
             D_800814A0.value |= 0x8000;
             return;
         }
@@ -241,7 +240,7 @@ update_fall:
                 (s16)((u16)position->unk_08.half.unk_0A - 0x20));
             position->unk_08.half.unk_08 = 0;
             ((S_func_80EF1000_4 *)motion->unk_40)->unk_A4 = 0;
-            ((S_func_80EF1000_5 *)((u8 *)motion - 2))->unk_00 |= 0x8000;
+            ((ObjectRetirementFlags *)((u8 *)motion - 2))->unk_00 |= 0x8000;
             D_800814A0.value |= 0x8000;
             return;
         }

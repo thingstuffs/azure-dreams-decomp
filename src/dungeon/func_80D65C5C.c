@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -63,7 +64,6 @@ extern s32 rand(void);
 extern void func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
 
-extern M2C_UNK D_800DE870;
 extern s16 D_800E2468[];
 extern u8 D_80171384[];
 
@@ -121,7 +121,7 @@ void spawn_directional_random_velocity_effect(S_80D65C5C_1 *source, s32 angle)
             part->unk_0C = 0x80;
             part->unk_14 |= 0x100;
             part->unk_12 = 0x7DCF;
-            func_8003DB94(part, &D_800DE870, 0);
+            func_8003DB94(part, D_800DE870, 0);
         }
     }
 }

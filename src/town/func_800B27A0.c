@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/gpu_packets.h"
 
 typedef struct S_800AFF00_0 {
     s32 unk_00;

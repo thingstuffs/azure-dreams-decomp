@@ -3,15 +3,9 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/actor_action.h"
 
-typedef struct S_80173420_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80173420_0;   /* arg0 in update_directional_motion_settle_entity_grid_position */
+   /* arg0 in update_directional_motion_settle_entity_grid_position */
 
 
 extern void set_record_integer_tile_center();
@@ -22,7 +16,7 @@ extern u8 D_801710F4[];
 extern u8 D_80174F10[];
 
 /* Update directional motion, then settle the entity at its grid position. */
-void update_directional_motion_settle_entity_grid_position(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid_pos, EntityRec *entity)
+void update_directional_motion_settle_entity_grid_position(ActorActionTimerView *action, EntityRec *motion, Rec_D_80082E80 *grid_pos, EntityRec *entity)
 {
     s16 *direction_y;
     s32 velocity_y;
@@ -42,10 +36,10 @@ void update_directional_motion_settle_entity_grid_position(S_80173420_0 *action,
     s32 target_y;
     s32 current_y;
 
-    ticks_left = action->unk_96.s - 1;
+    ticks_left = action->unk_96.u - 1;
     direction = (entity->unk_6A >> 9) & 7;
     phase = action->unk_9B;
-    action->unk_96.s = ticks_left;
+    action->unk_96.u = ticks_left;
     switch (phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -65,7 +59,7 @@ void update_directional_motion_settle_entity_grid_position(S_80173420_0 *action,
             return;
         }
         if (grid_pos->unk_14.at00_u16.v & 0x8000) {
-            action->unk_96.s = 0;
+            action->unk_96.u = 0;
             action->unk_9B = 2;
             return;
         }
@@ -74,7 +68,7 @@ void update_directional_motion_settle_entity_grid_position(S_80173420_0 *action,
         if (entity->flags1C & 0x228) {
             duration = 8;
         }
-        action->unk_96.s = duration;
+        action->unk_96.u = duration;
 
         velocity_x = motion->unk_0C;
         biased_velocity_x = velocity_x;
@@ -94,7 +88,7 @@ void update_directional_motion_settle_entity_grid_position(S_80173420_0 *action,
             *(s16 *)((u8 *)directions_x + decel_offset) << 0xE;
         motion->unk_10 -= *direction_y << 0xE;
 
-        if (action->unk_96.u != 0) {
+        if (action->unk_96.s != 0) {
             return;
         }
         if (entity->unk_28 == 0) {
@@ -103,7 +97,7 @@ void update_directional_motion_settle_entity_grid_position(S_80173420_0 *action,
             motion->unk_0C = 0;
             begin_actor_display_action(action, motion, grid_pos, D_80174F10);
         } else {
-            action->unk_96.s = 6;
+            action->unk_96.u = 6;
             action->unk_9B++;
         }
         return;
@@ -116,7 +110,7 @@ void update_directional_motion_settle_entity_grid_position(S_80173420_0 *action,
             current_y = motion->y.w.i - 0x20;
             motion->unk_10 = (target_y - current_y) << 0x10 >> 1;
 
-            if (action->unk_96.u > 0) {
+            if (action->unk_96.s > 0) {
                 return;
             }
         }

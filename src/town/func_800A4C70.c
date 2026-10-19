@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3a_types.h"
+#include "shared/vector.h"
 
 typedef struct S_800A23D0_0 {
     s32 unk_00;

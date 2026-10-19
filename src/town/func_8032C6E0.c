@@ -12,11 +12,8 @@ s32 check_position_thresholds(void) {
         if (result[1] < 0x1127) {
             return 1;
         }
-        goto return_zero;
+    } else {
+        return 1;
     }
-
-    return 1;
-
-return_zero:
     return 0;
 }

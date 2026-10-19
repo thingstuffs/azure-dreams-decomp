@@ -1,6 +1,6 @@
 #include "modules/dungeon_native_abi.h"
 #include "shared/dungeon_moving_views.h"
-#include "shared/types3c_types.h"
+#include "shared/position_views.h"
 
 #ifndef NULL
 #define NULL 0

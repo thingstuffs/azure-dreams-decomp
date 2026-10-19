@@ -1,10 +1,9 @@
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/town_dispatch_data.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_80016B1C();              /* extern */
 extern s32 D_80018AE0;
-extern M2C_UNK D_80018AE8;
 
 /* Store the result of calling func_80016B1C on D_80018AE8. */
 void func_8069770C(void) {

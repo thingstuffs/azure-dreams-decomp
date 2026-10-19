@@ -1,5 +1,6 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 
 extern s32 func_80064584(s32 wave_input);
@@ -11,7 +12,6 @@ extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_pr
 extern void update_positions_from_origin(void *origin);
 extern void initialize_record_with_pointer_and_code(void *controller, void *object, s32 update_value);
 
-extern u8 D_800CFCEF;
 extern s32 D_800D0B14;
 extern s16 D_80100D18;
 extern s32 D_80100D1C;

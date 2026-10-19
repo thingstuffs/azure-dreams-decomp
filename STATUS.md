@@ -2,18 +2,18 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-19T08:24:51Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-19T09:05:09Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
 
 | | |
 |---|---|
-| **Matched** | 21,420 functions and data rows, 8,011,384 bytes, in 5 containers (`slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town` = TOWN overlays, `dungeon` = DUNGEON overlays, `ovmovie` = OVMOVIE overlay) |
-| **Byte-identical to retail** | 21,380 of 21,420 rows (99.8%), 8,001,848 bytes; 0 unverified |
-| **Code that is C** | 98.7% as C; 99.3% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
+| **Matched** | 21,432 functions and data rows, 8,028,304 bytes, in 5 containers (`slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town` = TOWN overlays, `dungeon` = DUNGEON overlays, `ovmovie` = OVMOVIE overlay) |
+| **Byte-identical to retail** | 21,392 of 21,432 rows (99.8%), 8,018,768 bytes; 0 unverified |
+| **Code that is C** | 99.0% as C; 99.5% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
-| **Readability** | L3 90.5%, L4 0.0%, L5 0.0% of bytes (levels below) |
+| **Readability** | L3 90.3%, L4 0.0%, L5 0.0% of bytes (levels below) |
 | **Module certificates** | 0 of 300 current, 197 stale, 103 not certified yet |
 
 **Current proof state.** 300 of 300 module certificates are not current; L4 and L5, which need the module certificate, read 0.0% and 0.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
@@ -28,9 +28,9 @@ Code bytes per binary: `slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town
 | `slus` (SLUS_006.14) | 225,000 | 180,900 | 80.4% | 0 | 0 | 43,872 | 228 | 0 | 228 |
 | `main` (MAIN.BIN) | 70,676 | 66,260 | 93.8% | 0 | 0 | 492 | 0 | 3,924 | 3,924 |
 | `town` (TOWN overlays) | 825,476 | 810,120 | 98.1% | 5,280 | 0 | 132 | 0 | 9,944 | 15,224 |
-| `dungeon` (DUNGEON overlays) | 6,715,820 | 6,642,568 | 98.9% | 38,132 | 0 | 0 | 0 | 35,120 | 73,252 |
+| `dungeon` (DUNGEON overlays) | 6,715,820 | 6,659,488 | 99.2% | 38,132 | 0 | 0 | 0 | 18,200 | 56,332 |
 | `ovmovie` (OVMOVIE overlay) | 6,396 | 5,516 | 86.2% | 0 | 0 | 880 | 0 | 0 | 0 |
-| **total** | 7,843,368 | 7,705,364 | 98.2% | 43,412 | 0 | 45,376 | 228 | 48,988 | 92,628 |
+| **total** | 7,843,368 | 7,722,284 | 98.5% | 43,412 | 0 | 45,376 | 228 | 32,068 | 75,708 |
 
 - **in C**: code whose C is compiled and compared byte for byte with retail.
 - **byte-identical copies of C**: a span proven identical to a C function elsewhere in the images; it becomes a link-list placement of that function's source, not new C.
@@ -48,9 +48,9 @@ Code bytes per binary: `slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town
 | slus | 884 | 473,788 | 884 | 473,788 | 0 |
 | main | 469 | 66,260 | 469 | 66,260 | 0 |
 | town | 5,935 | 813,136 | 5,899 | 809,616 | 0 |
-| dungeon | 14,104 | 6,652,684 | 14,100 | 6,646,668 | 0 |
+| dungeon | 14,116 | 6,669,604 | 14,112 | 6,663,588 | 0 |
 | ovmovie | 28 | 5,516 | 28 | 5,516 | 0 |
-| ALL | 21,420 | 8,011,384 | 21,380 | 8,001,848 | 0 |
+| ALL | 21,432 | 8,028,304 | 21,392 | 8,018,768 | 0 |
 
 Data rows: 363 (13,132 B); stale-image residue DATA: 1 (488 B).
 
@@ -64,18 +64,18 @@ Baseline NOT exact: 40 rows: town/func_80035C0C, town/func_8003705C, town/func_8
 
 | level | bytes | % |
 |---|---:|---:|
-| L0 | 8,001,848 | 99.9% |
-| L1 | 8,001,848 | 99.9% |
-| L2 | 8,001,848 | 99.9% |
-| L3 | 7,251,856 | 90.5% |
+| L0 | 8,018,768 | 99.9% |
+| L1 | 8,018,768 | 99.9% |
+| L2 | 8,018,768 | 99.9% |
+| L3 | 7,251,872 | 90.3% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 3623 rows, 2,305,216 bytes (28.8%); records used: 98.
+On shared record headers (T7, `include/records/`): 3623 rows, 2,305,216 bytes (28.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 21,380 rows (8,001,848 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 21,392 rows (8,018,768 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -84,15 +84,15 @@ Defects still present in the current tree (files = source files, bytes = image b
 | defect still in the clean tree | files | bytes | % of bytes |
 |---|---:|---:|---:|
 | m2c local names | 35 | 36,004 | 0.4% |
-| goto | 199 | 397,712 | 5.0% |
+| goto | 181 | 400,472 | 5.0% |
 | computed-goto jump table | 1 | 16 | 0.0% |
 | inline asm outside macros | 7 | 8,984 | 0.1% |
 | any fidelity site | 2 | 23,708 | 0.3% |
-| any live audit site, unnarrowed | 1,643 | 2,290,572 | 28.6% |
+| any live audit site, unnarrowed | 1,643 | 2,290,572 | 28.5% |
 | do{}while(0) scheduling barrier | 83 | 129,728 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 3,011 | 3,665,528 | 45.8% |
-| clean shape | 9,508 | 7,577,668 | 94.6% |
+| local address-named struct | 3,009 | 3,657,100 | 45.6% |
+| clean shape | 9,526 | 7,591,828 | 94.6% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
 
@@ -100,20 +100,20 @@ Defects still present in the current tree (files = source files, bytes = image b
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2331 | 510,576 | 6.4% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,449,308 | 18.1% | 0 | 0 | 0.0% |
-| m2c local names | 5181 | 2,162,116 | 27.0% | 35 | 36,004 | 0.4% |
-| ASM_ pins | 2135 | 1,456,292 | 18.2% | 0 | 0 | 0.0% |
-| goto | 1545 | 1,312,068 | 16.4% | 199 | 397,712 | 5.0% |
+| m2c local names | 5181 | 2,162,116 | 26.9% | 35 | 36,004 | 0.4% |
+| ASM_ pins | 2135 | 1,456,292 | 18.1% | 0 | 0 | 0.0% |
+| goto | 1545 | 1,312,068 | 16.3% | 181 | 400,472 | 5.0% |
 | computed-goto jump table | 317 | 436,504 | 5.4% | 1 | 16 | 0.0% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 3.0% | 7 | 8,984 | 0.1% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 8.4% | 0 | 0 | 0.0% |
 | any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 16.0% | 2 | 23,708 | 0.3% |
-| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 16.0% | 1643 | 2,290,572 | 28.6% |
+| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 16.0% | 1643 | 2,290,572 | 28.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 489,140 | 6.1% | 0 | 0 | 0.0% |
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.3% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 83 | 129,728 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.3% | 3011 | 3,665,528 | 45.8% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 9508 | 7,577,668 | 94.6% |
+| local address-named struct | 633 | 346,824 | 4.3% | 3009 | 3,657,100 | 45.6% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 9526 | 7,591,828 | 94.6% |
 
 </details>
 

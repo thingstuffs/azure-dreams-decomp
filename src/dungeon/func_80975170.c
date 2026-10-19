@@ -25,7 +25,7 @@ void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform
     func_800478B8(render_state);
 
     if (((S_80975170_0 *)effect)->unk_96.u <= 0) {
-        ((S_80975170_0_pre *)effect)[-1].unk_00 = (u16)(((S_80975170_0_pre *)effect)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)effect)[-1].unk_00 = (u16)(((ObjectRetirementFlags *)effect)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
     }
 }

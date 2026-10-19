@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
+#include "shared/sprite_frame_state.h"
 
 void set_resident_bitmap_bit();                     /* extern */
 void unlink_scene_list_node();                      /* extern */

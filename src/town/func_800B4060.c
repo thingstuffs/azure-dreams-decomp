@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3a_types.h"
+#include "shared/dungeon_effect_views.h"
 
 void position_shop_row_widgets();                      /* extern */
 

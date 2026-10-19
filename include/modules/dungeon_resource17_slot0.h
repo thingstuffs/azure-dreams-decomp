@@ -15,6 +15,9 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/def_table.h"
 #include "shared/object_flags.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/actor_status.h"
+#include "shared/position_views.h"
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 #define F8(p, o) (*(u8 *)((u8 *)(p) + (o)))
@@ -146,19 +149,8 @@ typedef struct R17_801718D0_S_801718D0_0 {
     u8 pad_72[0x18];
     union { s16 s; u16 u; } unk_8A;   
 } R17_801718D0_S_801718D0_0;
-typedef struct R17_801718D0_S_801718D0_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} R17_801718D0_S_801718D0_1;
-typedef struct R17_801718D0_S_801718D0_3 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} R17_801718D0_S_801718D0_3;
+
+
 typedef struct R17_80171A98_S_80171C34_1 {
     u8 pad_00[0x12];
     u8 unk_12;
@@ -206,24 +198,13 @@ typedef struct R17_80171A98_S_80171C34_7 {
     u8 unk_24;
     u8 unk_25;
 } R17_80171A98_S_80171C34_7;
-typedef struct R17_80171A98_S_80171C34_8 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} R17_80171A98_S_80171C34_8;
+
 typedef struct R17_80171A98_DungeonRecord {
     u8 pad0[0xC];
     u16 flags;
     u8 padE[6];
 } R17_80171A98_DungeonRecord;
-typedef struct R17_801721E0_S_80171DA0_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} R17_801721E0_S_80171DA0_1;
+
 typedef struct R17_801723A4_Ent R17_801723A4_Ent;
 typedef struct R17_801724C4_S_80172628_0 {
     u8 pad_00[0x46];
@@ -320,12 +301,7 @@ typedef struct R17_80173614_S_func_80C17E14_0 {
     u8 pad_9A[1];
     u8 unk_9B;
 } R17_80173614_S_func_80C17E14_0;
-typedef struct R17_80173614_S_func_80C17E14_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} R17_80173614_S_func_80C17E14_1;
+
 typedef struct R17_80173614_S_func_80C17E14_2 {
     u8 pad_00[0xC];
     u8 unk_0C;
@@ -358,12 +334,7 @@ typedef struct R17_801738E0_S_801738E0_0 {
     u8 pad_9C[0xC];
     s16 unk_A8;
 } R17_801738E0_S_801738E0_0;
-typedef struct R17_801738E0_S_801738E0_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-} R17_801738E0_S_801738E0_1;
+
 typedef struct R17_801738E0_S_801738E0_2 {
     u8 pad_00[0x1C];
     u32 unk_1C;
@@ -531,7 +502,7 @@ void func_8017269C(Resource17CallbackState *state, void *entity, void *position,
 void update_staged_movement_and_direction(void *action, void *motion, void *sprite, void *actor);
 void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80172C18_Actor *actor, R17_80172C18_Entity *ent);
 void func_80173244(void *action, void *motion, void *sprite, void *actor);
-void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, R17_80173614_S_func_80C17E14_1 *motion, R17_80173614_S_func_80C17E14_2 *sprite,
+void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, MotionDeltaView *motion, R17_80173614_S_func_80C17E14_2 *sprite,
     R17_80173614_S_func_80C17E14_3 *entity);
 void func_80173868(void *state, void *motion, void *position, void *actor);
 void func_80173888(void *state, void *motion, void *position, void *actor);

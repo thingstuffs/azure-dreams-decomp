@@ -3,8 +3,8 @@
 void *create_mode_configured_actor_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
 {
     s32 kind;
-    void *obj;
-    S_8016A854_2 *part_a;
+    ProjectileObject *obj;
+    SignedHeightView *part_a;
     S_8016A854_3 *part_b;
     S_8016A854_1 *work;
     S_8016A854_4 *actor;
@@ -21,13 +21,13 @@ void *create_mode_configured_actor_object(s16 kind_flags, s16 byte_24, s16 byte_
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_8016A854_0 *)obj)->unk_10 = D_8016AA28;
+        obj->unk_10 = D_8016AA28;
         work->unk_13 = 0x3;
         func_8004491C(obj, func_80045340);
 
-        part_a = ((S_8016A854_0 *)obj)->unk_08;
+        part_a = obj->unk_08;
         part_a->unk_0A = saved_value_0a;
-        part_b = ((S_8016A854_0 *)obj)->unk_0C;
+        part_b = obj->unk_0C;
         kind = kind_flags & 3;
         part_b->unk_25 = saved_byte_25;
         actor = work;

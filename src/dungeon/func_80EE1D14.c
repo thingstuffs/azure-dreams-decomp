@@ -3,6 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "shared/position_views.h"
 
 
 extern void func_80047784(void *, s32, s32);
@@ -25,12 +26,7 @@ typedef struct S_80173514_0 {
 } S_80173514_0;   /* arg0 in advance_timed_sprite_flashing_sequence */
 
 
-typedef struct S_80173514_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80173514_2;   /* arg1 in advance_timed_sprite_flashing_sequence */
+   /* arg1 in advance_timed_sprite_flashing_sequence */
 
 
 /* Advance a timed sprite flashing sequence and clean up the actor when it finishes. */
@@ -55,9 +51,9 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, void *sp
             resolve_attack_damage_and_effects(call_actor, call_sprite, call_actor->facing, 1);
             return;
         }
-        ((S_80173514_2 *)motion)->unk_14 = 0;
-        ((S_80173514_2 *)motion)->unk_10 = 0;
-        ((S_80173514_2 *)motion)->unk_0C = 0;
+        ((MotionDeltaView *)motion)->unk_14 = 0;
+        ((MotionDeltaView *)motion)->unk_10 = 0;
+        ((MotionDeltaView *)motion)->unk_0C = 0;
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_80174EE0;
         func_80047784(sprite,
             D_80174EE0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],

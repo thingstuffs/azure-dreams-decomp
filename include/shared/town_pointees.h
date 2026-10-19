@@ -49,4 +49,60 @@ typedef struct TownProgressState {
     /* 0x114 */ signed char unk_114;
     /* 0x115 */ unsigned char pad_115[3];
 } TownProgressState;
+
+/* Exact access views shared across registered binary consumers. */
+/* Item-panel callback's selected value, separate from motion and event entries. */
+typedef struct TownPanelSelectionView {
+    unsigned char pad_00[8];
+    int unk_08;
+} TownPanelSelectionView;
+
+/* Format callback's kind value, separate from coordinate Z. */
+typedef struct TownFormatKindView {
+    unsigned char pad_00[8];
+    int unk_08;
+} TownFormatKindView;
+
+/* Town resource group selector at +0xA, separate from signed motion height. */
+typedef struct TownResourceGroupView {
+    unsigned char pad_00[0xA];
+    short unk_0A;
+} TownResourceGroupView;
+
+/* Town search work reads the pointer and its signed high half in distinct paths.
+ * Preserve both live alternatives; this view cannot become ObjectPayloadView. */
+typedef struct TownSearchWorkView {
+    unsigned char pad_00[8];
+    union {
+        struct { void *v; } at00;
+        struct { unsigned char pad[2]; short v; } at02;
+    } unk_08;
+} TownSearchWorkView;
+
+/* Resource holder reached through TownResourceLinks, without allocator proof. */
+typedef struct TownNestedPayloadView {
+    unsigned char pad_00[8];
+    void *unk_08;
+} TownNestedPayloadView;
+
+/* Signed nested resource value; its +0xA offset alone does not establish height. */
+typedef struct TownNestedRecordValueView {
+    unsigned char pad_00[0xA];
+    short unk_0A;
+} TownNestedRecordValueView;
+
+/* Grid-output callback word selected from the controller's two source values.
+ * Its pointer is a callback output, not proven to be a delayed motion record. */
+typedef struct TownGridOutputView {
+    unsigned char pad_00[8];
+    int unk_08;
+} TownGridOutputView;
+
+/* Destination Y word rooted at the town context's +0x1C position state.
+ * Keep this separate from the delayed effect's Z coordinate. */
+typedef struct TownDestinationYView {
+    unsigned char pad_00[8];
+    int unk_08;
+} TownDestinationYView;
+
 #endif

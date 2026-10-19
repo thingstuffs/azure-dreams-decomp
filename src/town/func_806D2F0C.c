@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8001670C_0 {
     u8 pad_00[0x2];

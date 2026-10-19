@@ -40,4 +40,27 @@ typedef struct TownStateRecord {
     /* 0x3700 */ unsigned char headIndices[16];
 } TownStateRecord;
 
+
+/* Exact access views shared across registered binary consumers. */
+/* Signed output word at +8 of the town movement context. */
+typedef struct TownMovementOutput {
+    unsigned char pad_00[8];
+    int value;
+} TownMovementOutput;
+
+/* Town scene mode and its two independently adjusted counters. */
+typedef struct TownSceneModeState {
+    int mode;
+    int value4;
+    int value8;
+} TownSceneModeState;
+
+/* Three reward/choice values copied by value from town tables.
+ * The inherited x/y/z field names do not imply spatial coordinates. */
+typedef struct TownRewardValues {
+    int x;
+    int y;
+    int z;
+} TownRewardValues;
+
 #endif

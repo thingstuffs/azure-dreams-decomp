@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/resident_resources.h"
 
 
 extern int func_8004A6C0(int first_value, int second_value);

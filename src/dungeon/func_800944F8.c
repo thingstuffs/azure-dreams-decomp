@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 
@@ -14,7 +15,6 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 
 extern u8 D_80099B18[];
-extern u8 D_800DE870[];
 extern s32 D_800DEDB0[3];
 extern M2C_UNK D_800DEE38;
 

@@ -37,15 +37,9 @@ typedef struct T_80170F0C_S_func_80D1170C_1 {
     s32 unk_54;
 } T_80170F0C_S_func_80D1170C_1;
 
-typedef struct T_80170F0C_S_func_80D1170C_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} T_80170F0C_S_func_80D1170C_2;
 
-typedef struct T_80170F0C_S_func_80D1170C_3 {
-    u16 unk_00;
-} T_80170F0C_S_func_80D1170C_3;
+
+
 
 
 
@@ -115,20 +109,16 @@ typedef struct T_80171020_S_80171020_3 {
 
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "shared/vector.h"
+#include "shared/object_links.h"
+#include "shared/dungeon_projectile_views.h"
+#include "shared/position_views.h"
 
 
 
-typedef struct T_80171190_S_80171190_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} T_80171190_S_80171190_0;   /* obj in func_80171190 */
+   /* obj in func_80171190 */
 
-typedef struct T_80171190_S_80171190_1 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} T_80171190_S_80171190_1;   /* part_a in func_80171190 */
+   /* part_a in func_80171190 */
 
 typedef struct T_80171190_S_80171190_2 {
     u8 pad_00[0x24];
@@ -163,7 +153,7 @@ extern void try_move_actor_to_valid_position();
 extern u8 D_80171358[];
 extern u8 D_80174E88[];
 extern u8 D_80174EF0[];
-void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, T_80170F0C_S_func_80D1170C_2 *position);
+void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, IntVector3 *position);
 void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
     s16 y_offset, s16 z_offset);
 void * func_80171190(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);

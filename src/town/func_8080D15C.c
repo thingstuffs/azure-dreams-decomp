@@ -1,6 +1,7 @@
 #include "common.h"
-#include "shared/types3b_types.h"
 #include "shared/dungeon_trail_views.h"
+#include "shared/object_links.h"
+#include "shared/object_payload.h"
 
 s32 func_80052374();                             /* extern */
 void func_80058F88();        /* extern */

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
-#include "shared/types3a_types.h"
+#include "shared/dungeon_effect_views.h"
+#include "shared/object_payload.h"
 
 
 typedef struct S_800A3450_3 {

@@ -6,22 +6,12 @@
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "shared/actor_action.h"
+#include "shared/dungeon_projectile_views.h"
 
-typedef struct S_80172D1C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80172D1C_0;   /* arg0 in update_actor_movement_and_emit_particles */
+   /* arg0 in update_actor_movement_and_emit_particles */
 
-typedef struct S_80172D1C_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80172D1C_1;   /* obj in update_actor_movement_and_emit_particles */
+   /* obj in update_actor_movement_and_emit_particles */
 
 typedef struct S_80172D1C_2 {
     u8 pad_00[0x2];
@@ -107,7 +97,7 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
     s32 component_work_2;
     u8 *particle_work;
 
-    if (((S_80172D1C_0 *)actor)->unk_9B == 1) {
+    if (((ActorActionTimerView *)actor)->unk_9B == 1) {
         particle_or_dir_index = 6;
         particle_update = D_8017406C;
         do {
@@ -115,21 +105,21 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
             if (particle != 0) {
                 particle_work = (u8 *)particle + 0x20;
                 func_8004491C(particle, func_80045340);
-                particle_sprite = ((S_80172D1C_1 *)particle)->unk_0C;
-                ((S_80172D1C_1 *)particle)->unk_10 = particle_update;
+                particle_sprite = ((ProjectileObject *)particle)->unk_0C;
+                ((ProjectileObject *)particle)->unk_10 = particle_update;
 
-                ((S_80172D1C_8 *)(((S_80172D1C_1 *)particle)->unk_08))->unk_02 =
+                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->unk_08))->unk_02 =
                     ((S_80172D1C_2 *)motion)->unk_02.s + (rand() & 0xF) - 8;
-                ((S_80172D1C_8 *)(((S_80172D1C_1 *)particle)->unk_08))->unk_06 =
+                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->unk_08))->unk_06 =
                     ((S_80172D1C_2 *)motion)->unk_06.s + (rand() & 0xF) - 8;
-                ((S_80172D1C_8 *)(((S_80172D1C_1 *)particle)->unk_08))->unk_0A =
+                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->unk_08))->unk_0A =
                     ((S_80172D1C_2 *)motion)->unk_0A + (rand() & 0xF) - 8;
 
-                ((S_80172D1C_8 *)(((S_80172D1C_1 *)particle)->unk_08))->unk_0C =
+                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->unk_08))->unk_0C =
                     ((rand() & 0xFF) - 0x80) << 10;
-                ((S_80172D1C_8 *)(((S_80172D1C_1 *)particle)->unk_08))->unk_10 =
+                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->unk_08))->unk_10 =
                     ((rand() & 0xFF) - 0x80) << 10;
-                ((S_80172D1C_8 *)(((S_80172D1C_1 *)particle)->unk_08))->unk_14 = (-4 - (rand() & 3)) << 16;
+                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->unk_08))->unk_14 = (-4 - (rand() & 3)) << 16;
 
                 ((S_80172D1C_3 *)particle_work)->unk_48 = 10;
                 sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_28.at00_s32.v;
@@ -149,7 +139,7 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
     }
 
     particle_or_dir_index = (((EntityRec *)entity)->unk_6A >> 9) & 7;
-    state = ((S_80172D1C_0 *)actor)->unk_9B;
+    state = ((ActorActionTimerView *)actor)->unk_9B;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -161,19 +151,19 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
             break;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
-            ((S_80172D1C_0 *)actor)->unk_96.s = 0;
-            ((S_80172D1C_0 *)actor)->unk_9B = 2;
+            ((ActorActionTimerView *)actor)->unk_96.s = 0;
+            ((ActorActionTimerView *)actor)->unk_9B = 2;
             break;
         }
 
         ((S_80172D1C_2 *)motion)->unk_0C.s = dir_step_x[particle_or_dir_index] << 18;
         ((S_80172D1C_2 *)motion)->unk_10.s = dir_step_y[particle_or_dir_index] << 18;
-        ((S_80172D1C_0 *)actor)->unk_9B++;
+        ((ActorActionTimerView *)actor)->unk_9B++;
         state_timer = -1;
         if (((EntityRec *)entity)->flags1C & 0x228) {
             state_timer = 8;
         }
-        ((S_80172D1C_0 *)actor)->unk_96.s = state_timer;
+        ((ActorActionTimerView *)actor)->unk_96.s = state_timer;
         velocity_x = ((S_80172D1C_2 *)motion)->unk_0C.s;
         ((S_80172D1C_2 *)motion)->unk_0C.s = velocity_x - velocity_x / 4;
         velocity_y = ((S_80172D1C_2 *)motion)->unk_10.s;
@@ -183,31 +173,31 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
     case 1:
         ((S_80172D1C_2 *)motion)->unk_0C.s -= dir_step_x[particle_or_dir_index] << 14;
         ((S_80172D1C_2 *)motion)->unk_10.s -= dir_step_y[particle_or_dir_index] << 14;
-        timer = ((S_80172D1C_0 *)actor)->unk_96.s;
+        timer = ((ActorActionTimerView *)actor)->unk_96.s;
         if (timer > 0) {
-            ((S_80172D1C_0 *)actor)->unk_96.s = ((S_80172D1C_0 *)actor)->unk_96.u - 1;
+            ((ActorActionTimerView *)actor)->unk_96.s = ((ActorActionTimerView *)actor)->unk_96.u - 1;
         } else {
             if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
-                ((S_80172D1C_0 *)actor)->unk_96.s = 0;
+                ((ActorActionTimerView *)actor)->unk_96.s = 0;
             }
         }
-        if (((S_80172D1C_0 *)actor)->unk_96.s != 0) {
+        if (((ActorActionTimerView *)actor)->unk_96.s != 0) {
             break;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
-            ((S_80172D1C_0 *)actor)->unk_9B = 0;
+            ((ActorActionTimerView *)actor)->unk_9B = 0;
             ((S_80172D1C_2 *)motion)->unk_14 = 0;
             ((S_80172D1C_2 *)motion)->unk_10.s = 0;
             ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
             begin_actor_display_action(actor, motion, sprite, D_80174194);
             break;
         }
-        ((S_80172D1C_0 *)actor)->unk_96.s = 8;
-        ((S_80172D1C_0 *)actor)->unk_9B++;
+        ((ActorActionTimerView *)actor)->unk_96.s = 8;
+        ((ActorActionTimerView *)actor)->unk_9B++;
         break;
 
     case 2:
-        if (((S_80172D1C_0 *)actor)->unk_96.s != 0) {
+        if (((ActorActionTimerView *)actor)->unk_96.s != 0) {
             speed_work = ((Rec_D_80082E80 *)sprite)->unk_24;
             component_work = ((S_80172D1C_2 *)motion)->unk_02.u;
             speed_work <<= 6;
@@ -233,8 +223,8 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
             speed_work += component_work;
             ((S_80172D1C_2 *)motion)->unk_10.s = speed_work;
         }
-        next_timer = ((S_80172D1C_0 *)actor)->unk_96.u - 1;
-        ((S_80172D1C_0 *)actor)->unk_96.s = next_timer;
+        next_timer = ((ActorActionTimerView *)actor)->unk_96.u - 1;
+        ((ActorActionTimerView *)actor)->unk_96.s = next_timer;
         if ((next_timer << 16) <= 0) {
             ((S_80172D1C_2 *)motion)->unk_14 = 0;
             ((S_80172D1C_2 *)motion)->unk_10.s = 0;
@@ -247,7 +237,7 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
             if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)entity - 0x20)) {
                 *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
             }
-            ((S_80172D1C_0 *)actor)->unk_8C = D_801711A4;
+            ((ActorActionTimerView *)actor)->unk_8C = D_801711A4;
         }
     }
 }

@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f43f800_p02.h"
 
 /* Move and fade the effect, apply vertical acceleration, and flag it when its lifetime ends. */
-void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, T_80170F0C_S_func_80D1170C_2 *position)
+void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, IntVector3 *position)
 {
     s16 life_left;
     s32 red;
@@ -10,9 +10,9 @@ void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, T_801
     s32 color_product;
     s32 *flag_page;
 
-    position->unk_00 += effect->unk_40;
-    position->unk_04 += effect->unk_44;
-    position->unk_08 += effect->unk_48;
+    position->x += effect->unk_40;
+    position->y += effect->unk_44;
+    position->z += effect->unk_48;
 
     color_product = effect->unk_00 * effect->unk_32.unk_32;
     red = color_product / effect->unk_34;
@@ -31,7 +31,7 @@ void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, T_801
     effect->unk_08 = effect->unk_04.unk_04;
 
     if ((life_left << 16) <= 0) {
-        ((T_80170F0C_S_func_80D1170C_3 *)((u8 *)effect - 2))->unk_00 |= 0x8000;
+        ((ObjectRetirementFlags *)((u8 *)effect - 2))->unk_00 |= 0x8000;
         flag_page = (s32 *)0x80080000;
         flag_page[0x14A0 / sizeof(s32)] =
             flag_page[0x14A0 / sizeof(s32)] | 0x8000;

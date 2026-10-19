@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-#include "shared/types3b_types.h"
+#include "shared/object_payload.h"
 
    /* (u8 *)arg0 + count * 4 in create_eight_linked_scene_sprites */
 

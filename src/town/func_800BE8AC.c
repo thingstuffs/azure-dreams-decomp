@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
-#include "shared/types3a_types.h"
+#include "shared/position_views.h"
 
 typedef struct S_800BC00C_0 {
     u16 unk_00;

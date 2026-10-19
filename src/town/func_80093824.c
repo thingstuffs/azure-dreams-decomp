@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3a_types.h"
+#include "shared/sprite_frame_state.h"
 
 /* extern */
 void initialize_scene_action_record();      /* extern */

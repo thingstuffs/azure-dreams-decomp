@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f0f7800_p01.h"
 
 /* Updates entity callbacks, directional animation, movement, and ground contact. */
-void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part)
+void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, void *part)
 {
     void *entity = actor;
     s16 state_direction;
@@ -119,8 +119,8 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
         }
         ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.n = new_part_flags;
     }
-    motion->unk_00.at00.v += motion->unk_0C;
-    motion->unk_04.at00.v += motion->unk_10;
+    motion->unk_00.unk_00 += motion->unk_0C;
+    motion->unk_04.unk_04 += motion->unk_10;
 
     if ((*(u16 *)((u8 *)actor + 0x98)) & 8) {
         (*(s8 *)((u8 *)actor + 0x9D)) = 0;
@@ -131,8 +131,8 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
     (*(s32 *)((u8 *)actor + 0x90)) += motion->unk_14;
 
     if (!((*(u16 *)((u8 *)actor + 0x98)) & 4)) {
-        ground_height = sample_terrain_surface_height(motion->unk_00.at02.v,
-                               motion->unk_04.at02.v,
+        ground_height = sample_terrain_surface_height(motion->unk_00.unk_02.unk_02,
+                               motion->unk_04.unk_06.unk_06,
                                (s16)(((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - 0x20));
         if ((s16)ground_height < 0x200) {
             base_height = (s16)((T_80170AA4_S_80170AA4_1 *)entity)->unk_88;

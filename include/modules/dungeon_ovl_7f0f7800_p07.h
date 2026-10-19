@@ -17,12 +17,7 @@ typedef struct T_80173AD4_S_80173AD4_0 {
     u8 unk_71;
 } T_80173AD4_S_80173AD4_0;   /* actor in func_80173AD4 */
 
-typedef struct T_80173AD4_S_80173AD4_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} T_80173AD4_S_80173AD4_1;   /* state in func_80173AD4 */
+   /* state in func_80173AD4 */
 
 typedef struct T_80173AD4_S_80173AD4_2 {
     u8 pad_00[0x8C];

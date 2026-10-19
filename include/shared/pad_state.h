@@ -9,4 +9,13 @@ typedef struct PadState {
     /* 0x08 */ int pressed;
 } PadState;
 extern PadState D_801379A8;
+
+/* Exact access views shared across registered binary consumers. */
+/* Current, previous and newly pressed controller words rooted at GameWork.buttons. */
+typedef struct ControllerButtonHistory {
+    int cur;
+    int old;
+    int trg;
+} ControllerButtonHistory;
+
 #endif

@@ -1,0 +1,7 @@
+delivery	file	hunk	reason	action
+data1	tools/gate/overlay_scoped_fingerprint.py	level<0 ineligible-neighbor one-liner	B17 gate-tool release already handles level -1 seed records (eligibility() fail-closed seed state)	dropped
+data1	build_ovl/tools/overlay_scoped_fingerprint.py	exported copy of the same fix	build_ovl is generated (mk_ovl_root.sh)	dropped
+data1	include/modules/town_map_props.h	TownGridOutputView forward decl + update_record_output_grid	already in B17 0002-town_map_props-header.patch	dropped (identical); the second change (S_800BE214_2 -> TrailHeightView) was NOT in B17 and is applied, needed by town_scene
+data1	src/town/func_80697738.c	whole file	TU merged/removed by B17 (relink/hand copy or merged TU); copies are not edited	dropped
+data1	src/town/func_8072B00C.c	whole file	same	dropped
+data1	src/town/func_8072B4F0.c	whole file	same	dropped

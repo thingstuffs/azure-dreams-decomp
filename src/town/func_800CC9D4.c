@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
-#include "shared/types3b_types.h"
+#include "shared/position_views.h"
 
 void initialize_reaction_data_and_timer_13(void *);                            /* extern */
 

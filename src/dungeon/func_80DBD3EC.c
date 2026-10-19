@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -106,7 +107,6 @@ extern void play_sound_if_enabled(s32);
 extern void reduce_actor_food_meter(void *, s32);
 extern void toggle_attacker_target_status_pair(void *, void *);
 
-extern s32 D_800DE870;
 extern u8 D_80170854[];
 extern u8 D_80171040[];
 extern u8 D_8017142C[];
@@ -317,7 +317,7 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
                         ((S_80174BEC_5 *)render)->unk_0E = 0;
                         ((S_80174BEC_5 *)render)->unk_12 = 0x7DCF;
                         ((S_80174BEC_5 *)render)->unk_14 |= 0x100;
-                        func_8003DB94(render, &D_800DE870, 0);
+                        func_8003DB94(render, D_800DE870, 0);
                     }
                 }
             }

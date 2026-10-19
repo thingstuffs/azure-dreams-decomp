@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/object_links.h"
 
 
 
@@ -22,9 +23,7 @@ typedef struct S_801731FC_0 {
     u8 unk_9B;
 } S_801731FC_0;   /* arg0 in advance_entity_motion_fade_and_removal */
 
-typedef struct S_801731FC_1_pre {
-    u16 unk_00;
-} S_801731FC_1_pre;   /* the 0x2 bytes before arg3 in advance_entity_motion_fade_and_removal, addressed as arg3[-1] */
+   /* the 0x2 bytes before arg3 in advance_entity_motion_fade_and_removal, addressed as arg3[-1] */
 
 typedef struct S_801731FC_1 {
     u8 pad_00[0x14];
@@ -159,7 +158,7 @@ void advance_entity_motion_fade_and_removal(S_801731FC_0 *state, S_801731FC_2 *m
         }
         update_map_cell_flags_with_item_limit(sound_x, sound_y, sound_flags);
         unlink_entity_node(entity);
-        ((S_801731FC_1_pre *)entity)[-1].unk_00 |= 0x8000;
+        ((ObjectRetirementFlags *)entity)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
         return;
     }

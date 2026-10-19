@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3a_types.h"
+#include "shared/dungeon_effect_views.h"
 
 void set_shop_slot_colors();                 /* extern */
 

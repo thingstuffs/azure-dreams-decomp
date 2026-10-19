@@ -268,30 +268,30 @@ process_queue:
                     for (;;) {
                         sync_result = CdSync(1, sync_status);
                         retries--;
-                        if (sync_result == 0)
-                            goto wait_stream_seek;
-                        retries = 0x10;
-                        if (sync_result != disk_error)
-                            goto start_stream;
-    stream_error:
-                        func_8003E70C();
-                        return;
-    wait_stream_seek:
-                        if (retries != 0)
-                            continue;
-                        goto stream_error;
-    start_stream:
-                        for (;;) {
-                            if (CdRead2(0xC8) != 0)
+                        if (sync_result != 0) {
+                            retries = 0x10;
+                            if (sync_result != disk_error)
                                 break;
-                            if (--retries == 0)
-                                goto stream_error;
+                            func_8003E70C();
+                            return;
                         }
-                        D_80083958[0].unk4 = 0;
-                        D_800814D3[0] = 1;
-                        goto finish;
+                        if (retries == 0) {
+                            func_8003E70C();
+                            return;
+                        }
                     }
                 }
+                for (;;) {
+                    if (CdRead2(0xC8) != 0)
+                        break;
+                    if (--retries == 0) {
+                        func_8003E70C();
+                        return;
+                    }
+                }
+                D_80083958[0].unk4 = 0;
+                D_800814D3[0] = 1;
+                break;
 
             case 0xA:
                 D_800814D2[0] = 0;
@@ -300,8 +300,10 @@ process_queue:
                 for (;;) {
                     if (CdReset(0) != 0)
                         break;
-                    if (--retries == 0)
-                        goto stream_error;
+                    if (--retries == 0) {
+                        func_8003E70C();
+                        return;
+                    }
                 }
                 D_800814D3[0] = 0xFF;
                 D_800814D0 = D_800814D0 + 1;

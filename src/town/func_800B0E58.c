@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/item_menu.h"
 
 
 extern void animate_item_menu_cursor_transition(ItemMenuDelayState *);

@@ -1,9 +1,10 @@
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
+#include "shared/slus_cd_callback.h"
+#include "shared/slus_callbacks.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
 typedef struct S_80095A10_0 {
@@ -103,7 +104,6 @@ void process_unflagged_linked_entries_alt();
 void *(*load_monster_resource_data())(s32, s8, s8, s16);
 s32 find_or_retain_sprite_resource_slot();
 s32 play_sound_if_enabled();
-extern M2C_UNK D_8003E140;
 extern s32 D_80081488;
 extern u8 D_800DCFB0[];
 extern u8 D_800DD138[];
@@ -153,7 +153,7 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
         D_80081488 = func_80047DB8(((S_80095A10_3 *)resource_info)->unk_00);
         load_monster_resource_data(((S_80095A10_3 *)resource_info)->unk_00, load_resource, 0);
         (*(s8 *)&D_800E3E40) = 0;
-        Control_CD(0xFF, &D_8003E140, &D_800E3E40);
+        Control_CD(0xFF, set_byte_one, &D_800E3E40);
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;
         ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
         return;
@@ -174,7 +174,7 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
         object = load_monster_resource_data(((S_80095A10_3 *)resource_info)->unk_00, spawn_resource, 1)(6,
             ((S_80095A10_2 *)context)->unk_72, ((S_80095A10_2 *)context)->unk_73,
             (s16) (((S_80095A10_2 *)context)->unk_88 - 0x20));
-        if (object != NULL) {
+        if (object != 0) {
             ((S_80095A10_2 *)context)->unk_60 = object;
             D_800E3DF0[((S_80095A10_3 *)resource_info)->unk_03 & 0x1F] = object;
             object_scale = ((S_80095A10_5_pre *)object)[-1].unk_04;

@@ -1,6 +1,7 @@
 #include "shared/position_query.h"
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/town_action_flag.h"
+#include "shared/town_handler_entries.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
@@ -30,8 +31,6 @@ void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 conte
 void update_motion_toward_town_target(void *state, s32 context, void *motion, s32 next_arg);
 extern u8 D_8009B9BC[];
 extern s32 D_800CFCB4;
-extern u8 D_800CFCEF;
-extern M2C_UNK D_800D0128;
 extern s32 *D_800FE5D8;
 
 typedef struct S_80092A84_1 {
@@ -93,7 +92,7 @@ void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, Entity
     if ((get_status_active_entry_matching_direction(interaction_ctrl) == -1) && (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0)) {
         select_an_available_entry_matching_direction_returns_status(interaction_ctrl);
         store_the_valid_shared_angle_in_offset_hex_10(actor);
-        call_the_handler_selects_nonzero_entry(&D_800D0128, actor, context);
+        call_the_handler_selects_nonzero_entry(D_800D0128, actor, context);
         func_800988C8(actor, body, context);
 
         entity = actor->unk_2C;

@@ -5,8 +5,8 @@ void *func_80171190(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     T_80171190_Work *work;
-    void *obj;
-    T_80171190_S_80171190_1 *part_a;
+    ProjectileObject *obj;
+    SignedHeightView *part_a;
     T_80171190_S_80171190_2 *part_b;
     void *resource;
     T_80171190_Work *actor;
@@ -24,14 +24,14 @@ void *func_80171190(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (T_80171190_Work *)((u8 *)obj + 0x20);
-        ((T_80171190_S_80171190_0 *)obj)->unk_10 = D_80171358;
+        obj->unk_10 = D_80171358;
         work->byte13 = 0x17;
         func_8004491C(obj, func_80045340);
 
         resource = D_80174E88;
-        part_a = ((T_80171190_S_80171190_0 *)obj)->unk_08;
+        part_a = obj->unk_08;
         part_a->unk_0A = saved_spawn;
-        part_b = ((T_80171190_S_80171190_0 *)obj)->unk_0C;
+        part_b = obj->unk_0C;
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         actor = work;

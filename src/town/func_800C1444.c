@@ -2,7 +2,8 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
-#include "shared/types3b_types.h"
+#include "shared/dungeon_effect_views.h"
+#include "shared/vector.h"
 
 
 

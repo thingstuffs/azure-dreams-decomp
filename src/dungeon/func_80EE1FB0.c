@@ -5,6 +5,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/object_links.h"
+#include "shared/dungeon_moving_views.h"
 extern int abs(int);
 
 
@@ -21,16 +23,9 @@ typedef struct S_801737B0_0 {
 } S_801737B0_0;   /* arg0 in update_actor_targeted_action */
 
 
-typedef struct S_801737B0_2_pre {
-    u8 * unk_00;
-    u8 pad_04[0x10];
-} S_801737B0_2_pre;   /* the 0x14 bytes before ptr in update_actor_targeted_action, addressed as ptr[-1] */
+   /* the 0x14 bytes before ptr in update_actor_targeted_action, addressed as ptr[-1] */
 
-typedef struct S_801737B0_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801737B0_3;   /* desc in update_actor_targeted_action */
+   /* desc in update_actor_targeted_action */
 
 
 extern u8 D_80171CE8[];
@@ -124,10 +119,10 @@ void update_actor_targeted_action(void *action, EntityRec *motion, void *sprite,
                 {
                     u8 facing;
 
-                    action_kind = (s32)(((S_801737B0_2_pre *)((void *)direction))[-1].unk_00);
-                    facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_24;
+                    action_kind = (s32)(((ActorLinkPrefixView *)((void *)direction))[-1].unk_00);
+                    facing = ((MovingTile *)((u8 *)action_kind))->unk_24;
                     actor->unk_72 = facing;
-                    facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_25;
+                    facing = ((MovingTile *)((u8 *)action_kind))->unk_25;
                     actor->unk_73 = facing;
                 }
             } else if (D_8006DE24[*action_data].kind == 2) {
@@ -136,10 +131,10 @@ void update_actor_targeted_action(void *action, EntityRec *motion, void *sprite,
                     {
                         u8 facing;
 
-                        action_kind = (s32)(((S_801737B0_2_pre *)((void *)direction))[-1].unk_00);
-                        facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_24;
+                        action_kind = (s32)(((ActorLinkPrefixView *)((void *)direction))[-1].unk_00);
+                        facing = ((MovingTile *)((u8 *)action_kind))->unk_24;
                         actor->unk_72 = facing;
-                        facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_25;
+                        facing = ((MovingTile *)((u8 *)action_kind))->unk_25;
                         actor->unk_73 = facing;
                     }
                 }

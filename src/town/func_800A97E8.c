@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3a_types.h"
+#include "shared/object_payload.h"
+#include "shared/vector.h"
 
 
 typedef struct S_800A6F48_14 {

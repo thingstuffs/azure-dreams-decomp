@@ -1,8 +1,9 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 #include "shared/slus_callbacks.h"
-#include "shared/types3a_types.h"
 #include "shared/dungeon_trail_views.h"
+#include "shared/dungeon_effect_views.h"
+#include "shared/object_payload.h"
 
 #ifndef NULL
 #define NULL 0

@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -82,7 +83,6 @@ typedef struct S_800247C0_8 {
 
 s32 func_80069EF8();
 s32 set_or_clear_actor_status_slot();
-extern s32 D_800DE870;
 
 /* Shrink the effect, spawn inward-moving particles, and finish when its timer expires. */
 void shrink_effect_and_spawn_particles(void *effect, void *origin)
@@ -181,7 +181,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
             }
             ((S_800247C0_4 *)sprite)->unk_12 = 0x7DCF;
             ((S_800247C0_4 *)sprite)->unk_14 |= 0x100;
-            func_8003DB94(sprite, &D_800DE870, 0);
+            func_8003DB94(sprite, D_800DE870, 0);
         }
     }
     timer = ((S_800247C0_0 *)effect)->unk_28;

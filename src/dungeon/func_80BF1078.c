@@ -6,7 +6,7 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
     s32 flags_14;
     s32 flags_1c;
     S_8016A878_3 *placement;
-    S_8016A878_2 *object_data;
+    SignedHeightView *object_data;
     void *object;
     S_8016A878_4 *runtime;
     S_8016A878_1 *state;

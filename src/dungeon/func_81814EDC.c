@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -114,7 +115,6 @@ typedef struct S_81814EDC_12_pre {
 } S_81814EDC_12_pre;   /* the 0x18 bytes before ((S_81814EDC_0 *)arg0)->unk_30 in func_81814EDC, addressed as ((S_81814EDC_0 *)arg0)->unk_30[-1] */
 
 extern u8 D_800DE938[];
-extern u8 D_800DE870[9];
 M2C_UNK func_800245BC();
 s32 func_8004491C();
 s32 func_80069EF8();

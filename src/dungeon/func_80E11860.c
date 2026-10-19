@@ -1,8 +1,8 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/entity.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_80173DD4_arg0.h"
 
 typedef struct S_80175060_0 {
@@ -43,7 +43,6 @@ void func_8003DB94(void *, void *, s32);  /* extern */
 s32 func_8004491C();           /* extern */
 extern void func_800478B8(void *entity);                      /* extern */
 s32 rand();                                /* extern */
-extern M2C_UNK D_800DEA68;
 extern void update_radial_motion_or_complete(u16 *motion, s32 *position, u8 *object);
 
 /* Creates an object with randomized phase and rotation and copies its initial state. */
@@ -59,7 +58,7 @@ s32 create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec *in
     S_80175060_3 *state;
 
     object = func_8003FC64(0x212);
-    if (object != NULL) {
+    if (object != 0) {
         ((S_80175060_0 *)object)->unk_10 = &update_radial_motion_or_complete;
         biased_phase = rand();
         phase_rand = biased_phase;

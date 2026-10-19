@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/sound_state.h"
 
 /* extern decls for callees; sizes/types from asm inspection */
 extern void func_8005CA70(void);

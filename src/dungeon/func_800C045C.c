@@ -1,8 +1,8 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
-#include "m2c_compat.h"
 
 struct Dst;
 struct Elem;
@@ -12,7 +12,6 @@ extern s32 func_8004491C();
 s32 rand();                                /* extern */
 extern s32 play_sound_if_enabled();
 extern void damp_effect_motion_and_fade(void *effect, s32 *motion, void *primitive);
-extern M2C_UNK D_800DEA68;
 
 typedef struct S_800C5BBC_0 {
     u8 pad_00[0x8];
@@ -67,7 +66,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
     S_800C5BBC_3 *particle_state;
     void *first_particle;
 
-    first_particle = NULL;
+    first_particle = 0;
     if (play_sound != 0) {
         play_sound_if_enabled(0x608);
     }
@@ -80,7 +79,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
                 alloc_flags = 0x212;
             }
             particle = func_8003FC64(alloc_flags);
-            if (particle != NULL) {
+            if (particle != 0) {
                 ((S_800C5BBC_0 *)particle)->unk_10 = damp_effect_motion_and_fade;
                 func_8004491C(particle, func_80045340);
                 position = ((S_800C5BBC_0 *)particle)->unk_08;

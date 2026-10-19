@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/vector.h"
 
 /* Element of the D_80071A68 lookup table indexed by an object's "kind" field. */
 typedef struct S_80071A68 {

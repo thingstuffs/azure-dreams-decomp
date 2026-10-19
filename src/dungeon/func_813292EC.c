@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 
@@ -13,7 +14,6 @@ typedef struct Node {
 extern void func_8004491C(Node *, void *);
 extern void func_8003DB94(void *, void *, s32);
 
-extern u8 D_800DE870[9];
 extern u8 D_80170A54[9];
 
 /* Allocate and initialize an effect node with default parameters and data. */

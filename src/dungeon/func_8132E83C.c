@@ -1,7 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_particle_template.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
 /* Sparse views for fields not covered by the existing record types. */
@@ -18,7 +18,6 @@ typedef struct Copy12 {
 void func_8004491C(void *, void *);
 s32 rand(void);
 extern u8 D_801654F0[];
-extern M2C_UNK D_80173B34[3];
 
 
 typedef struct S_8016583C_0 {
@@ -75,7 +74,7 @@ void create_short_lived_colored_particle(S_8016583C_0 *source, s16 duration, s32
     s32 held_scale ;
 
     effect = func_8003FC64(0x212);
-    if (effect != NULL) {
+    if (effect != 0) {
         held_scale = scale;
         (((ObjectNodeHeader *)effect)->unk_10) = &D_801654F0;
         ((S_8016583C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_02 =
@@ -104,7 +103,7 @@ void create_short_lived_colored_particle(S_8016583C_0 *source, s16 duration, s32
         effect_state->unk_04 = held_scale;
         effect_state->unk_08 = held_scale;
         (*(Copy12 *)((u8 *)effect + 0x56)) =
-            (*(Copy12 *)((u8 *)D_80173B34 + 0));
+            (*(Copy12 *)((u8 *)&D_80173B34 + 0));
         sprite->unk_08 = (void *) (effect + 0x56);
     }
 }

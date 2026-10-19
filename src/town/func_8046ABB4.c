@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3b_types.h"
+#include "shared/town_event_state.h"
 
    /* ((arg1 * 0x10) + arg0->unk_10) in store_built_value_block_in_entry */
 

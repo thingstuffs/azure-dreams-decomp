@@ -3,7 +3,8 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-#include "shared/types3a_types.h"
+#include "shared/object_payload.h"
+#include "shared/vector.h"
 
 
 typedef struct S_800BC574_7 {

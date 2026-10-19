@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/object_links.h"
 
 /* The action record shares its timer bytes between signed tests and unsigned updates. */
 typedef struct ActorActionView {
@@ -25,10 +26,7 @@ typedef struct ActorActionView {
 } ActorActionView;
 
 /* The sprite pointer is in the object header, 0x14 bytes before its entity record. */
-typedef struct ActorSpriteLink {
-    void *sprite;
-    u8 pad_04[0x10];
-} ActorSpriteLink;
+
 
 /* Sprite state passed to the frame selector; the tile pair is also compared as one halfword. */
 typedef struct ActorSpriteView {
@@ -52,10 +50,7 @@ typedef struct ActorAbilityView {
     u8 slots[3][3];
 } ActorAbilityView;
 
-typedef struct PlayerActionCounterView {
-    u8 pad_00[0xA6];
-    u16 activeActions;
-} PlayerActionCounterView;
+
 extern int abs(int);
 
 extern void update_actor_dungeon_behavior(void *, void *, void *, void *);
@@ -151,7 +146,7 @@ void advance_targeted_actor_action(ActorActionView *action, EntityRec *motion, A
                 {
                     u8 tile_coord;
 
-                    target_sprite = ((ActorSpriteLink *)target)[-1].sprite;
+                    target_sprite = ((SpriteLinkPrefixView *)target)[-1].unk_00;
                     tile_coord = target_sprite->unk_24;
                     actor->unk_72 = tile_coord;
                     tile_coord = target_sprite->unk_25;
@@ -163,7 +158,7 @@ void advance_targeted_actor_action(ActorActionView *action, EntityRec *motion, A
                     {
                         u8 tile_coord;
 
-                        target_sprite = ((ActorSpriteLink *)target)[-1].sprite;
+                        target_sprite = ((SpriteLinkPrefixView *)target)[-1].unk_00;
                         tile_coord = target_sprite->unk_24;
                         actor->unk_72 = tile_coord;
                         tile_coord = target_sprite->unk_25;
@@ -195,7 +190,7 @@ void advance_targeted_actor_action(ActorActionView *action, EntityRec *motion, A
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         g_dungeon_status.unk_0C = 0;
-        ((PlayerActionCounterView *)D_800814A8)->activeActions--;
+        ((PlayerRemainingActionsView *)D_800814A8)->remaining--;
         advance_status_timers(actor);
         actor->unk_6D--;
         action->nextBehavior = update_actor_dungeon_behavior;

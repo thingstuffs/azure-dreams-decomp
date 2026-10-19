@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
-#include "shared/types3a_types.h"
+#include "shared/object_payload.h"
 
    /* arg0 in spawn_radial_effect_objects */
 

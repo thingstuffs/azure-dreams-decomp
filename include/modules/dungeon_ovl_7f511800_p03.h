@@ -7,20 +7,14 @@
 #include "records/Rec_D_80082E80.h"
 
 
-typedef struct T_8017314C_S_8017314C_1 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} T_8017314C_S_8017314C_1;   /* arg0 in func_8017314C */
+   /* arg0 in func_8017314C */
 
 
 
 
 
 #include "shared/object_flags.h"
+#include "shared/actor_action.h"
 
 typedef struct T_80173450_S_80173450_0 {
     u8 pad_00[0x96];
@@ -59,6 +53,6 @@ extern void play_sound_if_enabled(s32);
 extern void announce_familiar_defeat(void *);
 extern u8 D_80170E7C;
 extern u8 D_80174D5C;
-void update_directional_motion_and_recenter_actor(T_8017314C_S_8017314C_1 *action, EntityRec *motion, Rec_D_80082E80 *actor, void *source);
+void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, EntityRec *motion, Rec_D_80082E80 *actor, void *source);
 void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, void *entity);
 #endif

@@ -2,7 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80100B70.h"
-#include "shared/types3a_types.h"
+#include "shared/object_payload.h"
 
 #define SCALE255(value) ((u32)(value) / 255)
 

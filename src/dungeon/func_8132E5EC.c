@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct Sprite {
@@ -27,7 +28,6 @@ typedef struct Object {
 
 extern void func_8003DB94(Sprite *, void *, s16);
 extern void func_8004491C(Object *, void *);
-extern u8 D_800DE870[];
 extern u8 D_80165580;
 
 void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_offset, s32 z_offset) {

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "shared/types3a_types.h"
+#include "shared/position_views.h"
 
 s16 find_highest_surface_within_range();                   /* extern */
 

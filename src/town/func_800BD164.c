@@ -1,6 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_80082D58.h"
-#include "shared/types3a_types.h"
+#include "shared/object_links.h"
 
    /* the 0x2 bytes before arg0 in process_zero_status_record, addressed as arg0[-1] */
 

@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 
@@ -260,7 +261,6 @@ extern u8 D_80045C34[];
 extern u8 D_8006CCD8[];
 extern u8 D_8006CCE8[];
 extern s32 D_800814A0[3];
-extern u8 D_800DE870[];
 extern u8 D_800DE9D0[];
 
 /* Updates a projectile effect through travel, impact, particles, and cleanup. */

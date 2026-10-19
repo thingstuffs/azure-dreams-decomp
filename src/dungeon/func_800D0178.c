@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -67,7 +68,6 @@ s32 func_8004491C();           /* extern */
 void select_indirect_table_entry();              /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 extern s32 D_800D586C[];
-extern s32 D_800DE870[];
 
 /* Update sprite facing and animation, then spawn an effect when the countdown expires. */
 void update_facing_and_spawn_expired_effect(void *state, MovingPosition *position, void *sprite) {
@@ -116,7 +116,7 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
                 effect_pos->unk_06 = (u16) (effect_pos->unk_06 + delta.y);
                 effect_pos->unk_0A = (u16) (effect_pos->unk_0A + delta.z);
             }
-            func_8003DB94(((S_800D58D8_2 *)effect)->unk_0C, &D_800DE870, 0);
+            func_8003DB94(((S_800D58D8_2 *)effect)->unk_0C, D_800DE870, 0);
         }
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800D58D8_0_pre *)state)[-1].unk_12 | 0x8000);
         object_flag_block.flags |= 0x8000;

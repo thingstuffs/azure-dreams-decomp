@@ -24,4 +24,11 @@ typedef struct DungeonRoom {
 
 extern DungeonRoom D_800E2970[];
 
+
+/* Exact access views shared across registered binary consumers. */
+/* Unsigned map tile identifier and flag bits read with two-byte element stride. */
+typedef struct MapTileHalfView {
+    unsigned short unk_00;
+} MapTileHalfView;
+
 #endif

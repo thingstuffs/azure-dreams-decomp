@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 
 typedef struct S_80172F44_0 {
     u8 pad_00[0x16];
@@ -51,7 +52,6 @@ extern s32 rand(void);
 extern void func_8003DB94(void *ptr, void *ptr1, s32 value);
 extern void func_80045340(void);
 extern void update_accelerating_growing_particle(void);
-extern u8 D_800DE870[];
 
 /* Creates a visual effect at an offset position with randomized state. */
 void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_offset, s32 z_offset)

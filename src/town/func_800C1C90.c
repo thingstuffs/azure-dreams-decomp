@@ -1,8 +1,9 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
-#include "shared/types3b_types.h"
 #include "shared/dungeon_projectile_views.h"
+#include "shared/object_links.h"
+#include "shared/vector.h"
 
 #ifndef NULL
 #define NULL 0

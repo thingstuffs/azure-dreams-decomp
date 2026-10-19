@@ -10,4 +10,13 @@ extern SoundTask D_800848F8;
  * is observed. An unsized word declaration preserves absolute addressing;
  * no array/allocation extent is claimed. */
 extern int D_80084864[];
+
+/* Exact access views shared across registered binary consumers. */
+/* Three-word sound sequence list state rooted at D_80086CC0. */
+typedef struct SoundSequenceListState {
+    int unk0;
+    int unk4;
+    int unk8; /* Retains the original third word and twelve-byte extent. */
+} SoundSequenceListState;
+
 #endif

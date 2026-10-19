@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/resident_resources.h"
 
 
 /* Returns the index of the first matching value pair, or 20 if none matches. */

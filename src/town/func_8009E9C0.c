@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "records/Rec_func_8009B828_arg0.h"
-#include "shared/types3a_types.h"
+#include "shared/position_views.h"
 void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 context, EntityRec *motion, s32 transition_arg);
 
 typedef struct S_8009C120_0 {

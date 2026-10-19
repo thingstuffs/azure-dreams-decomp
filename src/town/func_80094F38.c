@@ -1,5 +1,6 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
@@ -20,7 +21,6 @@ extern void compute_and_clamps_vector_based_adjustment_updates_town();
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
 
 extern void *D_800CFCC4[3];
-extern u8 D_800CFCEF[9];
 
 typedef struct S_80092698_2 {
     u8 pad_00[0x14];
@@ -39,11 +39,11 @@ void update_actor_with_interaction_state(Rec_func_80094268_arg0 *controller, Ent
     samples = ((u8 *)&D_800FE488);
     sampled_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, samples);
     if ((sampled_value - entity->z.w.i) >= 4) {
-        if (D_800CFCEF[0] == 0) {
+        if (D_800CFCEF == 0) {
             initialize_action_object(controller, entity, context);
             return;
         }
-    } else if (D_800CFCEF[0] == 0) {
+    } else if (D_800CFCEF == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town(entity, sampled_value, samples);
     }
     countdown = controller->unk_0A.as_u16 - 1;

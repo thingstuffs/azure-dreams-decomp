@@ -3,7 +3,9 @@
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-#include "shared/types3a_types.h"
+#include "shared/gpu_packets.h"
+#include "shared/position_query.h"
+#include "shared/position_views.h"
 
    /* coord in draw_entry_overlays */
 

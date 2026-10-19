@@ -3,6 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800AD058_arg2.h"
+#include "shared/dungeon_trail_views.h"
 
 
 extern void func_80047784(void *, s32, s32);
@@ -25,10 +26,7 @@ typedef struct S_80174BF8_0 {
 } S_80174BF8_0;   /* arg0 in initialize_a_timed_action_restore_animation_clear_entity_flags */
 
 
-typedef struct S_80174BF8_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80174BF8_3;   /* counter in initialize_a_timed_action_restore_animation_clear_entity_flags */
+   /* counter in initialize_a_timed_action_restore_animation_clear_entity_flags */
 
 /* Initialize a timed action, then restore animation and clear the entity flags. */
 void initialize_a_timed_action_restore_animation_clear_entity_flags(S_80174BF8_0 *action, void *context, Rec_func_800AD058_arg2 *animation, EntityRec *entity)

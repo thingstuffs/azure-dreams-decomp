@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "shared/types3a_types.h"
+#include "shared/item_menu.h"
 
 
 extern void reset_item_menu_object_state(s32 object);

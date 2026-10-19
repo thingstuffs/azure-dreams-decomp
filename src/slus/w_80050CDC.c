@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/dungeon_effect_views.h"
 
 typedef struct S_80050CDC_0 {
     u8 pad_00[0x4];

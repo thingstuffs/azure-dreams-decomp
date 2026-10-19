@@ -24,4 +24,12 @@ typedef struct ObjectFlagBlock {
 
 extern ObjectFlagBlock object_flag_block;
 
+
+/* Exact access views shared across registered binary consumers. */
+/* Source/target identifiers passed to update_flag_test_target. */
+typedef struct FlagTestTargetPair16 {
+    short unk_00;
+    short unk_02;
+} FlagTestTargetPair16;
+
 #endif

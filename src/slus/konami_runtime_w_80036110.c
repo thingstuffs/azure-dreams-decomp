@@ -1,7 +1,7 @@
 #include "common.h"
 
 #include "common.h"
-#include "shared/types3a_types.h"
+#include "shared/position_views.h"
 
 typedef struct S_80036110_0 {
     void * unk_00;

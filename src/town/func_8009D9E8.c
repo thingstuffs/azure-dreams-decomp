@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082D58.h"
-#include "shared/types3a_types.h"
+#include "shared/object_links.h"
 
 
 void func_80033D08(void *block_data);

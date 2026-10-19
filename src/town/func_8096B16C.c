@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/types3c_types.h"
+#include "shared/object_payload.h"
 
 typedef struct S_80123604_0 {
     s32 unk_00;

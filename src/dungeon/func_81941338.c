@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -20,7 +21,6 @@ extern u16 D_8002571C[8];
 extern u8 D_800256EC[16];
 extern u8 D_800DED28[];
 extern u8 D_800DEB28[];
-extern u8 D_800DE870[];
 
 extern s32 create_an_copied_position_packed_data_initialize_rendering_state(void *, void *, void *, void *, s32, s32, s32, s32);
 extern s32 advance_object_spawning_displays_high(void *, void *, void *);

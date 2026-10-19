@@ -3,7 +3,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-#include "shared/types3c_types.h"
+#include "shared/position_views.h"
 
 
 

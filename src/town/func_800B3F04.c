@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_func_800B15B8_arg0.h"
-#include "shared/types3a_types.h"
+#include "shared/object_links.h"
 
    /* the 0x2 bytes before arg0 in decay_shop_state_and_cleanup, addressed as arg0[-1] */
 

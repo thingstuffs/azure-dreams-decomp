@@ -1,7 +1,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-#include "shared/types3b_types.h"
+#include "shared/town_event_state.h"
+#include "shared/town_pointees.h"
 
 
 typedef s32 (*TownCallback)(void *, void *, s32);

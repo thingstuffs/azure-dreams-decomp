@@ -1,6 +1,5 @@
 #include "shared/town_event_state.h"
 #include "common.h"
-#include "shared/types3b_types.h"
 
 typedef long long s64;
 typedef unsigned long long u64;

@@ -1,5 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/slus_cd_callback.h"
+#include "shared/dungeon_effect_status.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -83,7 +85,6 @@ typedef struct S_801749A8_7 {
 
 
 extern s32 D_8006CD58[];
-extern s32 D_8003E140[];
 struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
 extern u8 D_8014A000[];
@@ -106,7 +107,6 @@ s32 select_nearby_target_and_initialize_slot();
 void create_cylindrical_effect();
 s32 lookup_masked_byte_table(void *, ...);
 extern u8 *D_800DCEEC[];
-extern M2C_UNK D_800DCF5C;
 extern void func_8017487C(u8 *task, void *context, u8 *input);
 extern M2C_UNK D_80174FAC;
 extern M2C_UNK D_80174FB4;
@@ -158,7 +158,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, R
         sound_set_cd_cue_parameters(0, *D_8006CD58, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         D_80174FCD[0] = 0;
-        Control_CD(0xFF, (s32) D_8003E140, &D_80174FCD);
+        Control_CD(0xFF, (s32) set_byte_one, &D_80174FCD);
         select_nearby_target_and_initialize_slot(target - 0x20, position, 8, 0x300);
         ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
         ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);

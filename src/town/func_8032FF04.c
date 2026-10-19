@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_delay_views.h"
-#include "shared/types3b_types.h"
+#include "shared/town_pointees.h"
 
 
 extern u8 *D_80016000;

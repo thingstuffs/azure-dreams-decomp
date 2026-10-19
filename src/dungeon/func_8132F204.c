@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
@@ -64,7 +65,6 @@ typedef struct S_80166204_2 {
 M2C_UNK func_8003DB94();  /* extern */
 s32 func_8004491C();           /* extern */
 s32 rand();                                /* extern */
-extern M2C_UNK D_800DE870;
 extern M2C_UNK D_80165A0C;
 
 /* Creates an offset effect with randomized motion and initializes its display properties. */
@@ -109,7 +109,7 @@ void create_short_lived_red_spark(S_80166204_4 *source, s16 effect_value, s32 un
         sprite->unk_12 = 0x7DCF;
         sprite_flags |= 0x100;
         sprite->unk_14 = sprite_flags;
-        func_8003DB94(sprite, &D_800DE870, 0);
+        func_8003DB94(sprite, D_800DE870, 0);
     }
 }
 

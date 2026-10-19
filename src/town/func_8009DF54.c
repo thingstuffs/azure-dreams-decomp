@@ -2,7 +2,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "records/Rec_D_800CFCB4.h"
-#include "shared/types3a_types.h"
+#include "shared/object_links.h"
 
 typedef void (*Callback)(void *, void *, void *, s32);
 

@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_198a800.h"
 #include "common.h"
+#include "shared/dungeon_sprite_data.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 
@@ -11,7 +12,6 @@
 
 
 
-extern u8 D_800DE870[];
 
 /* Creates an effect with randomized position offsets and initializes its rendering state. */
 void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z) {
