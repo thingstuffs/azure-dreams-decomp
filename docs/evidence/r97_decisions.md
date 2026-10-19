@@ -460,3 +460,15 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     repository, after a fresh clone plus the disc builds MATCH; old objects may remain reachable on the host.
     (c) Initialised game data written as C (src D_*.c tables) is source and stays; "no retail data in git" covers
     binary dumps, assets (graphics, audio, video), object files and hex blobs in evidence or receipts.
+68. **(r121, OWNER rulings + delegated calls 2026-10-19) Final tree confirmation for LL7.** Owner: (a) LL7 runs now on
+    the tree_final lane output (tree.tsv); unmerged copies keep interim suffixes (dungeon `_slot_<a-g>` 424 TUs /
+    92 stems, town module-copy `_b/_c` 29 families) listed in review_low.tsv; later dedupe deletes copy files (they become
+    placements) without re-moving the tree. (b) town/scene keeps domain sub-bins where evidence exists (event, flags,
+    money, service, dialogue, resource, hooks, object, motion ...); the 721 without a behaviour word stay flat in
+    town/scene/ until script/event evidence sorts them (no module-number folders). (c) The 140 one-word padding /
+    overlay-header / entry-point data TUs become link-list entries (decision 60b) and leave src/. (d) leftovers/ only
+    receives code proven unreachable (call graph from entry points + dispatch tables), with the proof; town/devkit,
+    card_dev_* and empty hooks stay in place until then. Delegated (orchestrator): keyword sub-buckets with >= 5 files
+    stay (behaviour token evidence); entry_/runtime_ prefixes, numeric ids (opcode/script/callback ids) and long names
+    stay, marked low; engine folder clean-up and dungeon/floor -> dungeon/level accepted; Konami file names wait for a
+    complete TU; headers stay per collector until type consolidation (61f).

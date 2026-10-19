@@ -101,6 +101,7 @@ def apply(package, root, *, live=False, dry_run=False):
     if not live:
         raise ValueError("writing requires --live; inspect with --dry-run")
     undo = []
+    created_directories = set()
     try:
         for rec, dst, data, _ in prepared:
             undo.append((dst, dst.read_bytes() if dst.exists() else None,
@@ -108,6 +109,10 @@ def apply(package, root, *, live=False, dry_run=False):
             if data is None:
                 dst.unlink()
             else:
+                parent = dst.parent
+                while not parent.exists():
+                    created_directories.add(parent)
+                    parent = parent.parent
                 dst.parent.mkdir(parents=True, exist_ok=True)
                 with tempfile.NamedTemporaryFile(dir=dst.parent, prefix=".layout-", delete=False) as f:
                     tmp = Path(f.name)
@@ -132,6 +137,8 @@ def apply(package, root, *, live=False, dry_run=False):
             else:
                 dst.write_bytes(old)
                 dst.chmod(mode)
+        for directory in sorted(created_directories, key=lambda p: len(p.parts), reverse=True):
+            directory.rmdir()
         raise
     return {"status": "applied", "files": len(prepared), "dry_run": False}
 

@@ -10,6 +10,8 @@ docs/LINK_LISTS.md) has no file of its own: it resolves to its home row's source
 """
 from __future__ import annotations
 import argparse
+import hashlib
+import re
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -69,12 +71,16 @@ def flat_relative(row):
 
 
 @lru_cache(maxsize=16)
-def _load(path, stamp, rows_path, rows_stamp):
+def _load(path, stamp, rows_path, rows_stamp, inline_path, inline_stamp):
     if stamp is None:
         return {}
     reg = _registry(rows_path, rows_stamp)
     mapping = {}
-    paths = set()
+    paths = {}
+    inlined = {}
+    if inline_stamp is not None:
+        for record in map(json.loads, filter(str.strip, Path(inline_path).read_text().splitlines())):
+            inlined[record['member_id']] = record['tu_new']
     for line in Path(path).read_text().splitlines():
         if not line.strip():
             continue
@@ -88,12 +94,12 @@ def _load(path, stamp, rows_path, rows_stamp):
         if row.get("source_row"):
             raise ValueError("a link-list placement has no source path of its own: " + rid)
         value = _safe_path(record["path"], row["container"])
-        if value in paths:
+        if value in paths and not (inlined.get(rid) == value and inlined.get(paths[value]) == value):
             raise ValueError("two rows share a source path: " + value)
         mapping[rid] = value
-        paths.add(value)
+        paths[value] = rid
     # A sparse map must not collide with any row left at its default location.
-    effective = [mapping.get(rid, flat_relative(r)) for rid, r in reg.items()]
+    effective = [mapping.get(rid, flat_relative(r)) for rid, r in reg.items() if rid not in inlined]
     if len(effective) != len(set(effective)):
         raise ValueError("layout collides with a default row path")
     return mapping
@@ -102,7 +108,8 @@ def _load(path, stamp, rows_path, rows_stamp):
 def mapping(root=ROOT):
     root = Path(root).absolute()
     p, rp = root / "ledger/layout.jsonl", root / "ledger/rows.jsonl"
-    return _load(str(p), _stamp(p), str(rp), _stamp(rp))
+    ip = root / "ledger/layout_inline.jsonl"
+    return _load(str(p), _stamp(p), str(rp), _stamp(rp), str(ip), _stamp(ip))
 
 
 def row_relative(row_or_id, root=ROOT, *, layout=None):
@@ -181,12 +188,38 @@ def slus_source(source, root=ROOT):
 
 
 def validate(root=ROOT, *, require_files=True):
-    reg = registry(root)
-    mapping(root)
-    for row in reg.values():
-        p = row_path(row, root)
+    root = Path(root).absolute()
+    reg, current = registry(root), mapping(root)
+    inlined = inline_records(root)
+    wrappers = tu_moves(root)
+    relative = {rid: current.get(rid, _safe_path(flat_relative(row), row['container']))
+                for rid, row in reg.items() if not row.get('source_row')}
+    for rid, row in reg.items():
+        home = row.get('source_row')
+        if home and (home == rid or home not in relative):
+            raise ValueError('placement must reference an own-file home row: ' + rid)
+    owned = {}
+    for rid, rel in relative.items():
+        owned.setdefault(rel, set()).add(rid)
+    inline_owners = {}
+    for record in inlined:
+        inline_owners.setdefault(record['tu_new'], set()).add(record['member_id'])
+    source_root = (root / 'src').resolve()
+    aliases = {flat_relative(row) for row in reg.values() if not row.get('source_row')}
+    for old, new in wrappers.items():
+        if old in aliases or new in aliases or old in owned or (new in owned and owned[new] != inline_owners.get(new)):
+            raise ValueError('TU layout collides with row path: ' + new)
+        if not (root / new).resolve().is_relative_to(source_root):
+            raise ValueError('TU source symlink escapes src: ' + new)
+        if require_files and not (root / new).is_file():
+            raise ValueError('missing TU layout destination: ' + new)
+    source_root = (root / 'src').resolve()
+    for rel in owned:
+        p = root / rel
+        if not p.resolve().is_relative_to(source_root):
+            raise ValueError('source symlink escapes src: ' + rel)
         if require_files and not p.is_file():
-            raise ValueError("missing source for " + row["id"] + ": " + str(p))
+            raise ValueError('missing source for ' + ','.join(sorted(owned[rel])) + ': ' + rel)
     return len(reg)
 
 
@@ -204,14 +237,70 @@ def tu_moves(root=ROOT):
             raise ValueError("TU layout record requires old and new")
         old, new = record["old"], record["new"]
         for value in (old, new):
+            if not isinstance(value, str):
+                raise ValueError('unsafe TU layout path: ' + str(value))
             p = PurePosixPath(value)
             if (str(p) != value or p.is_absolute() or ".." in p.parts or len(p.parts) < 3
-                    or p.parts[0] != "src" or p.parts[1] not in SUBSYSTEMS or p.suffix != ".c"):
+                    or p.parts[0] != "src" or p.parts[1] not in SUBSYSTEMS or p.suffix != ".c" or "\\" in value):
                 raise ValueError("unsafe TU layout path: " + str(value))
         if old in result or new in result.values():
             raise ValueError("duplicate TU layout path")
         result[old] = new
     return result
+
+
+def inline_records(root=ROOT):
+    """Validate inlined member identity against the actual embedded source bytes.
+
+    Include spellings may change during relocation. Restore the original tokens
+    before rechecking source_sha256; all other bytes must match the reviewed
+    fragment. The old member file must be absent and its row must own the TU.
+    """
+    root = Path(root)
+    path = root / 'ledger/layout_inline.jsonl'
+    if not path.exists():
+        return []
+    records = [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+    seen, extents, orders = set(), {}, set()
+    reg = registry(root)
+    include = re.compile(r'(?m)^([ \t]*#[ \t]*include[ \t]*[<"])([^">\n]+)([>"])')
+    for r in records:
+        required = {'tu_old', 'tu_new', 'member', 'member_id', 'manifest_key', 'order',
+                    'offset', 'source_sha256', 'bytes', 'inlined_bytes', 'original_includes'}
+        if set(r) != required or r['member_id'] in seen:
+            raise ValueError('invalid or duplicate inline provenance')
+        seen.add(r['member_id'])
+        row = reg.get(r['member_id'])
+        if row is None or row.get('source_row'):
+            raise ValueError('inline member requires an own-file row')
+        target = _safe_path(r['tu_new'], row['container'])
+        member = _safe_path(r['member'], row['container'])
+        if (root / member).exists() or (root / member).is_symlink():
+            raise ValueError('retired inline member still exists: ' + member)
+        if row_relative(row, root) != target:
+            raise ValueError('inline row does not point to physical TU')
+        if any(type(r[k]) is not int or r[k] < 0 for k in ('offset', 'bytes', 'inlined_bytes', 'order')):
+            raise ValueError('invalid inline extent/order')
+        key = (target, r['order'])
+        if key in orders:
+            raise ValueError('duplicate inline order')
+        orders.add(key)
+        data = row_path(row, root).read_bytes()
+        start, end = r['offset'], r['offset'] + r['inlined_bytes']
+        if end > len(data) or any(start < b and a < end for a, b in extents.get(target, [])):
+            raise ValueError('invalid/overlapping inline extent')
+        extents.setdefault(target, []).append((start, end))
+        piece = data[start:end].decode('utf-8', 'surrogateescape')
+        tokens = r['original_includes']
+        hits = list(include.finditer(piece))
+        if not isinstance(tokens, list) or len(hits) != len(tokens) or any(not isinstance(t, str) for t in tokens):
+            raise ValueError('inline source_sha256 include mismatch')
+        originals = iter(tokens)
+        restored = include.sub(lambda m: m[1] + next(originals) + m[3], piece).encode('utf-8', 'surrogateescape')
+        if (restored[r['bytes']:] not in (b'', b'\n') or
+                hashlib.sha256(restored[:r['bytes']]).hexdigest() != r['source_sha256']):
+            raise ValueError('inline source_sha256 mismatch: ' + r['member_id'])
+    return records
 
 
 def projection_plan(root=ROOT, source_root=None):
@@ -301,7 +390,8 @@ def materialize_flat(destination, root=ROOT, source_root=None):
 
 def revision(root=ROOT):
     root = Path(root).absolute()
-    return (_stamp(root / "ledger/rows.jsonl"), _stamp(root / "ledger/layout.jsonl"))
+    return tuple(_stamp(root / ('ledger/' + name)) for name in
+                 ('rows.jsonl', 'layout.jsonl', 'tu_layout.jsonl', 'layout_inline.jsonl'))
 
 
 def row_ids_for_paths(paths, root=ROOT):

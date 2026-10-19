@@ -83,9 +83,14 @@ def source_path(source, root=ROOT):
 
 
 def input_paths(module, root=ROOT):
-    return ([source_path(module["source"], root)]
-            + [source_path(m["source"], root) for m in module["members"]]
-            + [Path(root) / header for header in module["headers"]])
+    from source_layout import inline_records
+    records = inline_records(root)
+    paths = ([source_path(module["source"], root)]
+             + [source_path(m["source"], root) for m in module["members"]]
+             + [Path(root) / header for header in module["headers"]])
+    if any(r['member_id'] in {m['id'] for m in module['members']} for r in records):
+        paths.append(Path(root) / 'ledger/layout_inline.jsonl')
+    return list(dict.fromkeys(paths))
 
 
 def _data_piece_code(owners):
@@ -155,17 +160,12 @@ def compilation_source(row, candidate, outdir, root=ROOT):
 
     text = include.sub(replace, text)
     if not seen and module["members"]:
-        # LL7 inlines the physical member fragments into the wrapper. The
-        # ledger keeps their source SHA and order for provenance. A later
-        # per-member candidate must edit the physical TU, not resurrect an
-        # include that no longer exists.
-        evidence = Path(root) / "ledger/layout_inline.jsonl"
-        records = [json.loads(line) for line in evidence.read_text().splitlines() if line.strip()] if evidence.exists() else []
-        recorded = [r["member_id"] for r in sorted(records, key=lambda r: r["order"])
-                    if r["tu_new"] == str(module_path.relative_to(root))]
-        if recorded == [m["id"] for m in module["members"]]:
-            expected = source_path(next(m["source"] for m in module["members"] if m["id"] == row["id"]), root)
-            if candidate != expected.resolve():
+        from source_layout import inline_records
+        records = [r for r in inline_records(root)
+                   if r['tu_new'] == module_path.relative_to(root).as_posix()]
+        recorded = [r['member_id'] for r in sorted(records, key=lambda r: r['order'])]
+        if recorded == [m['id'] for m in module['members']]:
+            if candidate != module_path.resolve():
                 raise ValueError(f"{module['name']}: edit the inlined physical TU")
             return module_path
     if seen != [m["id"] for m in module["members"]]:

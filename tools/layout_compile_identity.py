@@ -17,7 +17,8 @@ import subprocess
 import sys
 import tempfile
 
-from layout_apply import path, rows
+from layout_apply import path, rows, plan
+from layout_dependencies import consumer_paths, include_parents
 from layout_identity import canonical, digest, reassemble
 from source_layout import ROOT, registry, row_relative, slus_source
 
@@ -68,7 +69,8 @@ def recipes(root):
                             'flags': row['flags'].split(), 'asflags': (row.get('row_asflags') or '').split(),
                             'row_id': row['id']}
         member_paths.update(slus_source(x['source'], root).relative_to(root).as_posix()
-                            for x in module['members'])
+                            for x in module['members']
+                            if slus_source(x['source'], root).relative_to(root).as_posix() != source)
     for rid, row in reg.items():
         if row.get('source_row'):
             continue
@@ -133,19 +135,39 @@ def capture_one(root, rel, recipe):
             'canonical_object_sha256': clean_sha}
 
 
-def run(root, table, *, snapshot=None, compare=None):
+def run(root, table, *, snapshot=None, compare=None, headers=None, inline=None, results=None):
     root = Path(root).resolve()
     mapping = maps(table)
     physical, members = recipes(root)
     prior = {}
+    tables_sha256 = [digest(Path(p).read_bytes()) if p else None for p in (table, headers, inline)]
+    reviewed_sha = None
     if compare:
         for line in Path(compare).read_text().splitlines():
             record = json.loads(line)
             if record['old'] in prior:
                 raise ValueError('duplicate snapshot TU: ' + record['old'])
             prior[record['old']] = record
-        if set(prior) != set(mapping):
+        if not prior or any(record.get('move_map') != mapping or
+                            record.get('tables_sha256') != tables_sha256 for record in prior.values()):
             raise ValueError('snapshot map differs')
+        mapping = {old: record['new'] for old, record in prior.items()}
+    else:
+        requested = dict(mapping)
+        changes, report = plan(root, table, headers=headers, inline=inline)
+        reviewed_sha = report['plan_sha256']
+        mapping = {old: new for old, new in report['moves'].items() if old.startswith('src/')}
+        parents = include_parents(root)
+        affected = consumer_paths(root, set(changes), parents=parents)
+        for consumer in report['include_rewritten_consumers']:
+            if consumer.endswith('.c') and not (consumer_paths(root, {consumer}, parents=parents) & physical.keys()):
+                raise ValueError('no registered physical recipe for include-rewritten consumer: ' + consumer)
+        for rel in sorted(affected & physical.keys()):
+            mapping.setdefault(rel, rel)
+        # Refuse a requested native fragment rather than silently proving no TU.
+        for old in requested:
+            if old in members and old not in report['skipped_nonhome']:
+                raise ValueError('non-home native member in tree: ' + old)
     records = []
     for old, new in sorted(mapping.items()):
         rel = new if compare else old
@@ -157,7 +179,10 @@ def run(root, table, *, snapshot=None, compare=None):
         if recipe is None:
             raise ValueError('no registered physical recipe: ' + rel)
         current = capture_one(root, rel, recipe)
-        record = {'old': old, 'new': new, **current}
+        record = {'old': old, 'new': new, **current,
+                  'move_map': prior[old]['move_map'] if compare else requested,
+                  'tables_sha256': tables_sha256,
+                  'plan_sha256': prior[old]['plan_sha256'] if compare else reviewed_sha}
         if compare:
             before = prior[old]
             if before['new'] != new:
@@ -176,6 +201,8 @@ def run(root, table, *, snapshot=None, compare=None):
             raise ValueError('snapshot already exists: ' + str(dest))
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_text(''.join(json.dumps(x, separators=(',', ':')) + '\n' for x in records))
+    if results:
+        Path(results).write_text(''.join(json.dumps(x, separators=(',', ':')) + '\n' for x in records))
     return {'physical_tus': len(records), 'canonical_equal': sum(x.get('canonical_object_equal', False) for x in records),
             'raw_equal': sum(x.get('raw_equal', False) for x in records),
             'receipt_sha256': digest(Path(snapshot).read_bytes()) if snapshot else None}
@@ -188,8 +215,12 @@ def main():
     mode = ap.add_mutually_exclusive_group(required=True)
     mode.add_argument('--snapshot', type=Path)
     mode.add_argument('--compare', type=Path)
+    ap.add_argument('--headers', type=Path)
+    ap.add_argument('--inline', type=Path)
+    ap.add_argument('--results', type=Path, help='write detailed compare receipt')
     args = ap.parse_args()
-    print(json.dumps(run(args.root, args.tree, snapshot=args.snapshot, compare=args.compare), sort_keys=True))
+    print(json.dumps(run(args.root, args.tree, snapshot=args.snapshot, compare=args.compare,
+                         headers=args.headers, inline=args.inline, results=args.results), sort_keys=True))
 
 
 if __name__ == '__main__':

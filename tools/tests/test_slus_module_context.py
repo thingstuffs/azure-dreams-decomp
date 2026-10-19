@@ -71,22 +71,25 @@ class ModuleContextTests(unittest.TestCase):
 
     def test_inlined_wrapper_uses_recorded_physical_tu(self):
         from source_layout import slus_source
-        wrapper = self.root / 'src/slus/sample.c'
-        moved = self.root / 'src/engine/audio/sample.c'
-        moved.parent.mkdir(parents=True)
-        moved.write_text('#include "shared.h"\nint count = 4;\n'
-                         'int a(void) { return count + 1; }\n'
-                         'int b(void) { return a(); }\n')
-        wrapper.unlink()
+        import layout_apply as A
+        import guarded_package as P
         (self.root / 'ledger').mkdir()
-        (self.root / 'ledger/tu_layout.jsonl').write_text(
-            json.dumps({'old': 'src/slus/sample.c', 'new': 'src/engine/audio/sample.c'}) + '\n')
-        (self.root / 'ledger/layout_inline.jsonl').write_text(''.join(
-            json.dumps({'tu_new': 'src/engine/audio/sample.c', 'member_id': 'slus/' + name,
-                        'order': order}) + '\n'
+        (self.root / 'ledger/rows.jsonl').write_text(''.join(json.dumps({
+            'id': 'slus/' + name, 'container': 'slus', 'c_path': 'src/' + name + '.c'}) + '\n'
+            for name in ('a', 'b')))
+        tree = self.root / 'tree.tsv'
+        tree.write_text('current_path\tproposed_path\nsrc/slus/sample.c\tsrc/engine/audio/sample.c\n')
+        inline = self.root / 'inline.tsv'
+        inline.write_text('tu_current\tinclude_line\tinclude_token\tmember_source\tmember_id\tmanifest_key\tmember_order\tcondition_depth\thold\n' + ''.join(
+            'src/slus/sample.c\t%d\t%s.c\tsrc/slus/%s.c\tslus/%s\tsample\t%d\t0\t\n' % (order+2, name, name, name, order)
             for order, name in enumerate(('a', 'b'), 1)))
+        changes, report = A.plan(self.root, tree, inline=inline)
+        A.apply_reviewed(self.root, changes, report, report['plan_sha256'])
+        moved = self.root / 'src/engine/audio/sample.c'
+        self.assertFalse((self.root / 'src/slus/a.c').exists())
+        self.assertEqual(slus_source('src/a.c', self.root), moved)
         self.assertEqual(slus_source('src/sample.c', self.root), moved)
-        self.assertEqual(C.compilation_source(self.row, self.root / 'src/slus/a.c',
+        self.assertEqual(C.compilation_source(self.row, moved,
                                               self.root / 'scratch', self.root), moved)
         candidate = self.root / 'scratch/candidate.c'
         candidate.write_text('int a(void) { return 3; }\n')

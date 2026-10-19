@@ -56,8 +56,8 @@ class TreeApplyTest(unittest.TestCase):
         new = self.root / 'src/engine/audio/group.c'
         self.assertIn('int member(void) { return 1; }', new.read_text())
         self.assertIn('#include "engine/audio/shared.h"', new.read_text())
-        self.assertIn('#include "engine/audio/shared.h"',
-                      (self.root / 'src/slus/member.c').read_text())
+        self.assertFalse((self.root / 'src/slus/member.c').exists())
+        self.assertEqual(L.row_relative('slus/member', self.root), 'src/engine/audio/group.c')
         self.assertIn('#include "../engine/audio/group.c"',
                       (self.root / 'src/slus/consumer.c').read_text())
         self.assertEqual(L.validate(self.root), 1)
