@@ -10,14 +10,14 @@
     {
       "row": "dungeon/func_80C96640",
       "home": "dungeon/func_80C96640",
-      "tu": "src/dungeon/func_80C96640.c",
+      "tu": "src/dungeon/monster/block/block.c",
       "foff": "0xcb6640",
       "vma": "0x80173e40",
       "size": 1248
     },
     {
       "row": "dungeon/func_80C97A74",
-      "tu": "src/dungeon/func_80C97A74.c",
+      "tu": "src/dungeon/monster/block/block.c",
       "home": "dungeon/func_80C97A74",
       "foff": "0xcb7a74",
       "vma": "0x80175274",

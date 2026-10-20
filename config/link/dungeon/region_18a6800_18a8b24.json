@@ -1,19 +1,19 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/region_18a6800_18a8b24",
- "container": "dungeon",
- "foff": "0x18a6800",
- "size": "0x2324",
- "vma": "0x80024000",
- "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase native_18a6800_80024000",
- "entries": [
-  {
-   "row": "dungeon/func_81887B40",
-   "home": "dungeon/func_81887B40",
-   "tu": "src/dungeon/func_81887B40.c",
-   "foff": "0x18a7b40",
-   "vma": "0x80025340",
-   "size": 860
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/region_18a6800_18a8b24",
+  "container": "dungeon",
+  "foff": "0x18a6800",
+  "size": "0x2324",
+  "vma": "0x80024000",
+  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase native_18a6800_80024000",
+  "entries": [
+    {
+      "row": "dungeon/func_81887B40",
+      "home": "dungeon/func_81887B40",
+      "tu": "src/dungeon/effect/sprite/create_radial_effect_from_source.c",
+      "foff": "0x18a7b40",
+      "vma": "0x80025340",
+      "size": 860
+    }
+  ]
 }

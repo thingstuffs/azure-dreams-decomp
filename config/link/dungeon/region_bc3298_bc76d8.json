@@ -104,7 +104,7 @@
     },
     {
       "row": "dungeon/func_80BA61D0",
-      "tu": "src/dungeon/func_80BEDE04.c",
+      "tu": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
       "home": "dungeon/func_80BEDE04",
       "foff": "0xbc61d0",
       "vma": "0x801679d0",
@@ -118,7 +118,7 @@
     {
       "row": "dungeon/func_80BA634C",
       "home": "dungeon/func_80A4AB34",
-      "tu": "src/dungeon/func_80A4AB34.c",
+      "tu": "src/dungeon/monster/flame/flame_actions.c",
       "foff": "0xbc634c",
       "vma": "0x80167b4c",
       "size": 1384,

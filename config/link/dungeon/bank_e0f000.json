@@ -21,7 +21,7 @@
     },
     {
       "row": "dungeon/func_80DEF65C",
-      "tu": "src/dungeon/func_80DE365C.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE365C",
       "foff": "0xE0F65C",
       "vma": "0x80164E5C",
@@ -43,7 +43,7 @@
     },
     {
       "row": "dungeon/func_80DF0368",
-      "tu": "src/dungeon/func_80A71D70.c",
+      "tu": "src/dungeon/monster/grineut/spawn_mode_dependent_object.c",
       "home": "dungeon/func_80A71D70",
       "foff": "0xE10368",
       "vma": "0x80165B68",
@@ -54,7 +54,7 @@
     },
     {
       "row": "dungeon/func_80DF05AC",
-      "tu": "src/dungeon/func_809CA53C.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA53C",
       "foff": "0xE105AC",
       "vma": "0x80165DAC",
@@ -87,7 +87,7 @@
     },
     {
       "row": "dungeon/func_80DF08EC",
-      "tu": "src/dungeon/func_80DE48EC.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE48EC",
       "foff": "0xE108EC",
       "vma": "0x801660EC",
@@ -98,7 +98,7 @@
     },
     {
       "row": "dungeon/func_80DF0B6C",
-      "tu": "src/dungeon/func_80DE4B6C.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE4B6C",
       "foff": "0xE10B6C",
       "vma": "0x8016636C",
@@ -120,7 +120,7 @@
     },
     {
       "row": "dungeon/func_80DF0CE8",
-      "tu": "src/dungeon/func_80DE4CE8.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE4CE8",
       "foff": "0xe10ce8",
       "vma": "0x801664e8",
@@ -144,7 +144,7 @@
     },
     {
       "row": "dungeon/func_80DF1050",
-      "tu": "src/dungeon/func_80F88C30.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F88C30",
       "foff": "0xE11050",
       "vma": "0x80166850",
@@ -155,7 +155,7 @@
     },
     {
       "row": "dungeon/func_80DF10B4",
-      "tu": "src/dungeon/func_80DE50B4.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE50B4",
       "foff": "0xE110B4",
       "vma": "0x801668B4",
@@ -166,7 +166,7 @@
     },
     {
       "row": "dungeon/func_80DF1258",
-      "tu": "src/dungeon/func_80DE5258.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE5258",
       "foff": "0xe11258",
       "vma": "0x80166a58",
@@ -191,7 +191,7 @@
     },
     {
       "row": "dungeon/func_80DF16D0",
-      "tu": "src/dungeon/func_80DE56D0.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE56D0",
       "foff": "0xE116D0",
       "vma": "0x80166ED0",
@@ -249,7 +249,7 @@
     },
     {
       "row": "dungeon/func_80DF1A1C",
-      "tu": "src/dungeon/func_80F89D44.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F89D44",
       "foff": "0xE11A1C",
       "vma": "0x8016721C",
@@ -260,7 +260,7 @@
     },
     {
       "row": "dungeon/func_80DF1A54",
-      "tu": "src/dungeon/func_80DE5A54.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE5A54",
       "foff": "0xE11A54",
       "vma": "0x80167254",
@@ -271,7 +271,7 @@
     },
     {
       "row": "dungeon/func_80DF1D7C",
-      "tu": "src/dungeon/func_80DE5D7C.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE5D7C",
       "foff": "0xE11D7C",
       "vma": "0x8016757C",
@@ -293,7 +293,7 @@
     },
     {
       "row": "dungeon/func_80DF20A4",
-      "tu": "src/dungeon/func_80F8A600.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xE120A4",
       "vma": "0x801678A4",
@@ -364,7 +364,7 @@
     },
     {
       "row": "dungeon/func_80DF21E8",
-      "tu": "src/dungeon/func_80DE61E8.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE61E8",
       "foff": "0xe121e8",
       "vma": "0x801679e8",
@@ -388,7 +388,7 @@
     },
     {
       "row": "dungeon/func_80DF278C",
-      "tu": "src/dungeon/func_80DE678C.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE678C",
       "foff": "0xE1278C",
       "vma": "0x80167F8C",
@@ -399,7 +399,7 @@
     },
     {
       "row": "dungeon/func_80DF2884",
-      "tu": "src/dungeon/func_80DE6884.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE6884",
       "foff": "0xe12884",
       "vma": "0x80168084",
@@ -420,7 +420,7 @@
     },
     {
       "row": "dungeon/func_80DF2A54",
-      "tu": "src/dungeon/func_80DE6A54.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE6A54",
       "foff": "0xE12A54",
       "vma": "0x80168254",
@@ -431,7 +431,7 @@
     },
     {
       "row": "dungeon/func_80DF2AAC",
-      "tu": "src/dungeon/func_80DE6AAC.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE6AAC",
       "foff": "0xE12AAC",
       "vma": "0x801682AC",

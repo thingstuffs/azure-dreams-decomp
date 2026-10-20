@@ -23,7 +23,7 @@ from layout_identity import canonical, digest, reassemble
 from source_layout import ROOT, registry, row_relative, slus_source
 
 
-def maps(table):
+def maps(table, inline=False):
     data = rows(table)
     if not data:
         raise ValueError('empty tree')
@@ -37,7 +37,8 @@ def maps(table):
     result = {}
     for row in data:
         old, new = row.get(old_key, ''), row.get(new_key, '')
-        if not old or not new or old == new:
+        # An in-place inline (layout_apply --inline) names its TU with an identity row.
+        if not old or not new or (old == new and not inline):
             continue
         path(old, 'src'); path(new, 'src')
         if old in result and result[old] != new:
@@ -59,7 +60,8 @@ def recipes(root):
         cell, flags = G.module_recipe(module)
         physical[module['source']] = {'kind': 'overlay_module', 'container': module['container'],
                                       'cell': cell, 'flags': list(flags), 'asflags': []}
-        member_paths.update(x['source'] for x in G.all_members(module))
+        # An inlined member's source is the physical TU itself, not a separate native fragment.
+        member_paths.update(x['source'] for x in G.all_members(module) if x['source'] != module['source'])
     for module in slus_modules(root):
         if not module['members']:
             continue
@@ -137,7 +139,7 @@ def capture_one(root, rel, recipe):
 
 def run(root, table, *, snapshot=None, compare=None, headers=None, inline=None, results=None):
     root = Path(root).resolve()
-    mapping = maps(table)
+    mapping = maps(table, inline=bool(inline))
     physical, members = recipes(root)
     prior = {}
     tables_sha256 = [digest(Path(p).read_bytes()) if p else None for p in (table, headers, inline)]

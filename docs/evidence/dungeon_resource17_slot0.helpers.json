@@ -8,7 +8,7 @@
       "size": 1864,
       "raw_source": "raw/dungeon/func_80C16298.c",
       "raw_sha256": "f2c54bd92c089cfcc24f0613b8541b60cf4cbf77725da2c1b5fb688060497c42",
-      "source": "src/dungeon/func_80C16298.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "42da7d652720a38fc17e0afa0bbde3a4f194a7bacce4a977a8e4ba8238f63250",
       "baseline": {
         "distance": 0,
@@ -53,7 +53,7 @@
       "size": 452,
       "raw_source": "raw/dungeon/func_80C169E0.c",
       "raw_sha256": "9f766eca9248b82119e6c00cc52455367848aca2ab8079c12450e32aad2ecab2",
-      "source": "src/dungeon/func_80C169E0.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "8ea97f456a73d58267b229c5f8e432851b7173e3d0b954d4fe423734ccaa1328",
       "baseline": {
         "distance": 0,
@@ -98,7 +98,7 @@
       "size": 288,
       "raw_source": "raw/dungeon/func_80C16BA4.c",
       "raw_sha256": "2ccf2eb16bfb5c69031079b3a9512a01f488a5f6a14bf49ef36174a3c26c81fc",
-      "source": "src/dungeon/func_80C16BA4.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "26d3fe78e250ec662f6d85f994631f559e42abb6490655596324e47456593157",
       "baseline": {
         "distance": 0,
@@ -143,7 +143,7 @@
       "size": 324,
       "raw_source": "raw/dungeon/func_80C16CC4.c",
       "raw_sha256": "046ce1591c54ef5b30440a970305ac3a73673861ca1fd15c3f0d4cd4db38497d",
-      "source": "src/dungeon/func_80C16CC4.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "fbca6b69948f379a1333b5aa710d2e171e546dc4c104163dcfad45d36c6649e3",
       "baseline": {
         "distance": 0,
@@ -188,7 +188,7 @@
       "size": 148,
       "raw_source": "raw/dungeon/func_80C16E08.c",
       "raw_sha256": "a532b0325e6b5c16351c270c39d95cb7e32f61892d7b2923f02a72828172070b",
-      "source": "src/dungeon/func_80C16E08.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "11698442ffc629dd2712e8bc06de139de5918cfdc7782a6c3a19b840326f3e1d",
       "baseline": {
         "distance": 0,
@@ -233,7 +233,7 @@
       "size": 100,
       "raw_source": "raw/dungeon/func_80C16E9C.c",
       "raw_sha256": "293dd9ce85e35ae3f2c661d26b1bc59fbfe0283d8cbfe984eafd18e28a10fc19",
-      "source": "src/dungeon/func_80C16E9C.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "3555348bcee0a9a8c6db7307424b3092276bec1bec173840beb0ba4b4a217253",
       "baseline": {
         "distance": 0,
@@ -278,7 +278,7 @@
       "size": 976,
       "raw_source": "raw/dungeon/func_80C17A44.c",
       "raw_sha256": "c1cc51f8232fd209a6751d2efc88d77785680c57ae4ad767263f267c29d5e85f",
-      "source": "src/dungeon/func_80C17A44.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "528e0aec1c85d42ad5256c41e168868d561045d92f59a13dc4716f7403d88aec",
       "baseline": {
         "distance": 0,
@@ -323,7 +323,7 @@
       "size": 32,
       "raw_source": "raw/dungeon/func_80C18068.c",
       "raw_sha256": "bee14ec18d68e58843d5a9ae6a3cdea83239881b3c6a7727c7a0212933253359",
-      "source": "src/dungeon/func_80C18068.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "b8b3e522c49793d5296c723db5405f589da2e875ba77f5857b4d3b11724934af",
       "baseline": {
         "distance": 0,
@@ -368,7 +368,7 @@
       "size": 32,
       "raw_source": "raw/dungeon/func_80C18088.c",
       "raw_sha256": "f05f1ff8c73427b16c3c6e591c976729a4573ede0ab43e1d186a048bbcfb140f",
-      "source": "src/dungeon/func_80C18088.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "c9f9bd4c6342087502f9db3e1eb799303292b0aa1b9a6c8689bf9514f0b85f6d",
       "baseline": {
         "distance": 0,
@@ -413,7 +413,7 @@
       "size": 56,
       "raw_source": "raw/dungeon/func_80C180A8.c",
       "raw_sha256": "a0c766d576e4d7be42559f6a97738a8b23bb2adad9ddc596df472611e367562d",
-      "source": "src/dungeon/func_80C180A8.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "9fd1b02ea807f9c6468497ccf15d2c7f0aebd0d76e828112d6e30c2e1b606ef1",
       "baseline": {
         "distance": 0,
@@ -458,7 +458,7 @@
       "size": 832,
       "raw_source": "raw/dungeon/func_80C18710.c",
       "raw_sha256": "e5691cc3b50350a678b1154f0d5995840ce51ea2e0124d5ea67dd664743702c0",
-      "source": "src/dungeon/func_80C18710.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "cdd161d0bd3c2279b273b73e191f1422faa72eb9bbebd9fd916589c788118839",
       "baseline": {
         "distance": 0,
@@ -503,7 +503,7 @@
       "size": 200,
       "raw_source": "raw/dungeon/func_80C18A50.c",
       "raw_sha256": "abb0c914b92dacdfeb7385e5ed9a8f43d2c9ba6d0e79a50ca2380ae9319159cf",
-      "source": "src/dungeon/func_80C18A50.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "7a58e5b4c1b9cb77391f46e32135c8eadfccba0eee08ea4b3504122afd817c0a",
       "baseline": {
         "distance": 0,
@@ -548,7 +548,7 @@
       "size": 100,
       "raw_source": "raw/dungeon/func_80C18B18.c",
       "raw_sha256": "f362e62a184a7d9c0ca3da6fbca5f258b2b0fad3da9ff605ed0558e312b4156f",
-      "source": "src/dungeon/func_80C18B18.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "10fc47458c2db5e15a2e96145d150502ad05e10ac04b9f66348284920c4b1319",
       "baseline": {
         "distance": 0,
@@ -593,7 +593,7 @@
       "size": 56,
       "raw_source": "raw/dungeon/func_80C18B7C.c",
       "raw_sha256": "eb52ab4853aad8c36653ee40bb4e2798d4f1811505cf1e53aa277b92fb5319aa",
-      "source": "src/dungeon/func_80C18B7C.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "4daafdfaca99d6b3293f0cba4e0f8e7be96bcf3015f022118d9b7e693da35cfe",
       "baseline": {
         "distance": 0,
@@ -638,7 +638,7 @@
       "size": 56,
       "raw_source": "raw/dungeon/func_80C18BB4.c",
       "raw_sha256": "040ba972378d5e8bc58f303365ff748c309081b700ee019660b8ff7d22d827ad",
-      "source": "src/dungeon/func_80C18BB4.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "7f38cede3ef6c79150a411fc12bc500b03ba2b5887d897295e95e3f46006e3a1",
       "baseline": {
         "distance": 0,
@@ -683,7 +683,7 @@
       "size": 56,
       "raw_source": "raw/dungeon/func_80C18BEC.c",
       "raw_sha256": "98d030ec1d4ac7ec1a40474e9c258dc1afbae131c57ead453506b99174927a9d",
-      "source": "src/dungeon/func_80C18BEC.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "4d6291ddafb260e080e1deae52433f1889b2389e0c111352c4c7ae9b68e0e780",
       "baseline": {
         "distance": 0,
@@ -728,7 +728,7 @@
       "size": 56,
       "raw_source": "raw/dungeon/func_80C18C24.c",
       "raw_sha256": "ff04e166730ac725228565d60f25ac98904d735221180878a1a3a1f5338f662e",
-      "source": "src/dungeon/func_80C18C24.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "cbd80db50980ac00debd96bc2f4aa78d6023d15f37f9dd913cc510fa3fc68240",
       "baseline": {
         "distance": 0,
@@ -773,7 +773,7 @@
       "size": 56,
       "raw_source": "raw/dungeon/func_80C18C5C.c",
       "raw_sha256": "b5ec68354f0dd611288b1de25154319ac097eee73dffec173e6054f3905a159e",
-      "source": "src/dungeon/func_80C18C5C.c",
+      "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "source_sha256": "41a14d0034c2cc46aa0327e9bae742fa3ed82505895f42817ddc3dff12ac9973",
       "baseline": {
         "distance": 0,

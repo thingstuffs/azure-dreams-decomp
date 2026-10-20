@@ -10,7 +10,7 @@
   "entries": [
     {
       "row": "dungeon/func_80AB3250",
-      "tu": "src/dungeon/func_809C9228.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9228",
       "foff": "0xAD3250",
       "vma": "0x80158A50",
@@ -18,7 +18,7 @@
     },
     {
       "row": "dungeon/func_80AB3DB4",
-      "tu": "src/dungeon/func_80A71D70.c",
+      "tu": "src/dungeon/monster/grineut/spawn_mode_dependent_object.c",
       "home": "dungeon/func_80A71D70",
       "foff": "0xAD3DB4",
       "vma": "0x801595B4",
@@ -26,7 +26,7 @@
     },
     {
       "row": "dungeon/func_80AB3FF8",
-      "tu": "src/dungeon/func_80A9BFF8.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9BFF8",
       "foff": "0xad3ff8",
       "vma": "0x801597f8",
@@ -60,7 +60,7 @@
     },
     {
       "row": "dungeon/func_80AB4740",
-      "tu": "src/dungeon/func_809CA53C.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA53C",
       "foff": "0xAD4740",
       "vma": "0x80159F40",
@@ -68,7 +68,7 @@
     },
     {
       "row": "dungeon/func_80AB47A4",
-      "tu": "src/dungeon/func_809CA5A0.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA5A0",
       "foff": "0xAD47A4",
       "vma": "0x80159FA4",
@@ -76,7 +76,7 @@
     },
     {
       "row": "dungeon/func_80AB4968",
-      "tu": "src/dungeon/func_809CA764.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA764",
       "foff": "0xAD4968",
       "vma": "0x8015A168",
@@ -104,7 +104,7 @@
     },
     {
       "row": "dungeon/func_80AB4C5C",
-      "tu": "src/dungeon/func_80A9CC5C.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9CC5C",
       "foff": "0xad4c5c",
       "vma": "0x8015a45c",
@@ -141,7 +141,7 @@
     },
     {
       "row": "dungeon/func_80AB5030",
-      "tu": "src/dungeon/func_80A9D030.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9D030",
       "foff": "0xAD5030",
       "vma": "0x8015A830",
@@ -149,7 +149,7 @@
     },
     {
       "row": "dungeon/func_80AB54E8",
-      "tu": "src/dungeon/func_80A9D4E8.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9D4E8",
       "foff": "0xAD54E8",
       "vma": "0x8015ACE8",
@@ -181,7 +181,7 @@
     },
     {
       "row": "dungeon/func_80AB5EE8",
-      "tu": "src/dungeon/func_80F89D44.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F89D44",
       "foff": "0xAD5EE8",
       "vma": "0x8015B6E8",
@@ -189,7 +189,7 @@
     },
     {
       "row": "dungeon/func_80AB63E4",
-      "tu": "src/dungeon/func_809CBEF4.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CBEF4",
       "foff": "0xAD63E4",
       "vma": "0x8015BBE4",
@@ -205,7 +205,7 @@
     },
     {
       "row": "dungeon/func_80AB67E8",
-      "tu": "src/dungeon/func_80F8A600.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xAD67E8",
       "vma": "0x8015BFE8",
@@ -257,7 +257,7 @@
     },
     {
       "row": "dungeon/func_80AB6980",
-      "tu": "src/dungeon/func_80A9E980.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9E980",
       "foff": "0xAD6980",
       "vma": "0x8015C180",
@@ -265,7 +265,7 @@
     },
     {
       "row": "dungeon/func_80AB6B18",
-      "tu": "src/dungeon/func_80A9EB18.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9EB18",
       "foff": "0xAD6B18",
       "vma": "0x8015C318",
@@ -273,7 +273,7 @@
     },
     {
       "row": "dungeon/func_80AB6BBC",
-      "tu": "src/dungeon/func_80A9EBBC.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9EBBC",
       "foff": "0xAD6BBC",
       "vma": "0x8015C3BC",

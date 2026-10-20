@@ -1,10 +1,10 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7E77D800: native_18a6800_80024000, native_18a6800_assets","i":"dungeon/bank_18a6800","n":"0x6000","o":"0x18A6800","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:bc1203251b8190ab42b943a2820d64e4a2cb44615bc59384456551af8a3e59cd"],"t":[8996,0,0,0,14546,1034,0],"v":"0x80024000"},"p":[{"census_label":"proven_code"},{},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7E77D800: native_18a6800_80024000, native_18a6800_assets","i":"dungeon/bank_18a6800","n":"0x6000","o":"0x18A6800","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[8996,0,0,0,14546,1034,0],"v":"0x80024000"},"p":[{"census_label":"proven_code"},{"tu":"src/dungeon/effect/sprite/create_radial_effect_from_source.c"},{"type":"typing pending"},{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 25847808	6508	r	census:c_row		0
 "0x18A816C"	236	c	census:registered_tu		["func_8188816C",null,"0x8002596C",1]
 25854552	2252	r	census:c_row		0
 25856804	332	d	census:noncode:decode		2
-25857136	1034	p	census:zero_fill>=16		1
+25857136	1034	p	census:zero_fill>=16		3
 25858170	134	d	census:noncode:decode		2
 25858304	14016	d	census:noncode:entropy:unplaced		2
 25872320	64	d	census:noncode:decode		2

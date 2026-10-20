@@ -136,9 +136,12 @@ def inline_body(root, old, new, body, sites, moves):
         if expected is None or expected[1] != token:
             raise ValueError('inline include changed: ' + old + ':' + str(line))
         member = path(site['member_source'], 'src')
+        # Decision 70: a module copy may supersede the row's own file (`row_source`); the row then
+        # points at the inlined copy and its superseded file is retired in the same transaction.
+        own = path(site['row_source'], 'src') if site.get('row_source') else member
         row = registry(root).get(site['member_id'])
-        if row is None or row.get('source_row') or row_relative(row, root) != member:
-            raise ValueError('inline row identity differs: ' + member)
+        if row is None or row.get('source_row') or row_relative(row, root) != own:
+            raise ValueError('inline row identity differs: ' + own)
         if resolve(root, old, token) != member:
             raise ValueError('inline member identity differs: ' + member)
         data = safe(root, member).read_bytes()
@@ -183,6 +186,16 @@ def plan(root, tree, *, headers=None, inline=None):
     if headers:
         moves.update(table_moves(headers, 'current_path', 'proposed_path', 'include',
                                  disposition='move proposed'))
+    if inline:
+        # In-place inline: a TU already at its final path stays there (identity move). No TU-layout
+        # history record is written for it below; every other check is the moved-TU path. Once all
+        # of a TU's members are retired the inline has been applied and nothing is planned again.
+        pending = {}
+        for site in rows(inline):
+            pending.setdefault(path(site['tu_current'], 'src'), []).append(site['member_source'])
+        for old, members in pending.items():
+            if any(safe(root, m).exists() for m in members):
+                moves.setdefault(old, old)
     if len(set(moves.values())) != len(moves):
         raise ValueError('two files target the same path')
     active, already, skipped = {}, {}, {}
@@ -225,10 +238,13 @@ def plan(root, tree, *, headers=None, inline=None):
         for old in sites:
             sites[old].sort(key=lambda r: int(r['member_order']))
     inline_members = [site['member_source'] for group in sites.values() for site in group]
-    if len(inline_members) != len(set(inline_members)) or set(inline_members) & (set(active) | set(active.values())):
+    superseded = {site['row_source']: old for old, group in sites.items() for site in group
+                  if site.get('row_source') and site['row_source'] != site['member_source']}
+    retired = inline_members + sorted(superseded)
+    if len(retired) != len(set(retired)) or set(retired) & (set(active) | set(active.values())):
         raise ValueError('inline member has multiple physical owners')
     parents = include_parents(root) if inline_members else {}
-    for member in inline_members:
+    for member in retired:
         users = consumer_paths(root, {member}, transitive=False, parents=parents) - {member}
         if users - set(sites):
             raise ValueError('inline member has other consumers: ' + member)
@@ -245,13 +261,13 @@ def plan(root, tree, *, headers=None, inline=None):
         staged_destinations[new] = result.encode('utf-8', 'surrogateescape')
     changes.update({old: None for old in active if old not in staged_destinations})
     changes.update(staged_destinations)
-    changes.update({member: None for member in inline_members})
+    changes.update({member: None for member in retired})
     rewritten = []
     # External consumers of moved headers or source includes must follow the
     # same resolved identity. Paths under work/raw are intentionally excluded.
     for p in scan_files(root, ('src', 'include'), {'.c', '.h'}):
         rel = p.relative_to(root).as_posix()
-        if rel in active or rel in inline_members or rel in nonhome:
+        if rel in active or rel in retired or rel in nonhome:
             continue
         raw = p.read_bytes()
         body = raw.decode('utf-8', 'surrogateescape')
@@ -280,7 +296,7 @@ def plan(root, tree, *, headers=None, inline=None):
         changes['ledger/layout.jsonl'] = ''.join(json.dumps(x, separators=(',', ':')) + '\n' for x in entries).encode()
     tu_history = {old: active.get(new, new) for old, new in tu_moves(root).items()}
     for old, new in active.items():
-        if old.startswith('src/') and old not in row_map:
+        if old.startswith('src/') and old not in row_map and old != new:
             tu_history[old] = new
     if tu_history:
         changes['ledger/tu_layout.jsonl'] = ''.join(json.dumps({'old': a, 'new': b}, separators=(',', ':')) + '\n'
@@ -308,6 +324,7 @@ def plan(root, tree, *, headers=None, inline=None):
                   *structured_evidence_paths(root))
     reference_moves = {**already, **active}
     reference_moves.update({r['member']: r['tu_new'] for r in provenance})
+    reference_moves.update({row_file: active[old] for row_file, old in superseded.items()})
     for p in scan_files(root, references, {'.json', '.jsonl', '.tsv', '.yaml', '.ninja'}):
         rel = p.relative_to(root).as_posix()
         if rel in changes:

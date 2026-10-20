@@ -1673,7 +1673,7 @@
     "verified_pointer_cells": 23,
     "dispatch": {
       "id": "dungeon/func_80A71228",
-      "source": "src/dungeon/func_80A71228.c",
+      "source": "src/dungeon/monster/grineut/spawn_mode_dependent_object.c",
       "source_sha256": "2d3faf3e534fef6c9556b5f7c0d070ac8d99b7bb65054543f34092c69de8cdf0",
       "expression": "((R07_80170A28_EntityCallback *)D_80174198)[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, part, entity);",
       "retail_slices": [

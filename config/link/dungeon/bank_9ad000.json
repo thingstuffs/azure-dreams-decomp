@@ -10,7 +10,7 @@
   "entries": [
     {
       "row": "dungeon/func_8098D170",
-      "tu": "src/dungeon/func_80975170.c",
+      "tu": "src/dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.c",
       "home": "dungeon/func_80975170",
       "foff": "0x9AD170",
       "vma": "0x80158970",
@@ -18,7 +18,7 @@
     },
     {
       "row": "dungeon/func_8098D244",
-      "tu": "src/dungeon/func_80975244.c",
+      "tu": "src/dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.c",
       "home": "dungeon/func_80975244",
       "foff": "0x9AD244",
       "vma": "0x80158A44",
@@ -162,7 +162,7 @@
     },
     {
       "row": "dungeon/func_80990764",
-      "tu": "src/dungeon/func_80F8A600.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0x9B0764",
       "vma": "0x8015BF64",

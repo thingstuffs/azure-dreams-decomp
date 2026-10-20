@@ -277,7 +277,7 @@
       "vma": 2148020560,
       "view_bytes": 20,
       "owner": "resident_runtime:slus",
-      "declaration": "src/dungeon/func_807B0B3C.c",
+      "declaration": "src/dungeon/item/create_positioned_view_marker.c",
       "kind": "runtime_data",
       "evidence": "docs/evidence/dungeon_ovl_7ce800.imports.json"
     },
@@ -295,7 +295,7 @@
       "vma": 2148020744,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "src/dungeon/func_807AEC3C.c",
+      "declaration": "src/dungeon/item/create_positioned_view_marker.c",
       "kind": "runtime_data",
       "evidence": "docs/evidence/dungeon_ovl_7ce800.imports.json"
     },
@@ -304,7 +304,7 @@
       "vma": 2148021052,
       "view_bytes": 24,
       "owner": "resident_runtime:slus",
-      "declaration": "src/dungeon/func_807AEF8C.c",
+      "declaration": "src/dungeon/item/create_positioned_view_marker.c",
       "kind": "runtime_data",
       "evidence": "docs/evidence/dungeon_ovl_7ce800.imports.json"
     },

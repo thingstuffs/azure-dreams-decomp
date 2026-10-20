@@ -17,7 +17,7 @@
     },
     {
       "row": "main/func_80011298",
-      "tu": "src/main/func_80011298.c",
+      "tu": "src/frontend/card/card_slot_refresh.c",
       "home": "main/func_80011298",
       "foff": "0x261298",
       "vma": "0x80024298",

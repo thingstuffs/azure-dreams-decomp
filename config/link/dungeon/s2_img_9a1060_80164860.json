@@ -59,7 +59,7 @@
     },
     {
       "row": "dungeon/func_809848A8",
-      "tu": "src/dungeon/func_80AF4148.c",
+      "tu": "src/dungeon/monster/snowman/move_and_shrink_fading_effect.c",
       "home": "dungeon/func_80AF4148",
       "foff": "0x9a48a8",
       "vma": "0x801680a8",

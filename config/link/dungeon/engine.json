@@ -65,7 +65,7 @@
     },
     {
       "row": "dungeon/func_800C138C",
-      "tu": "src/dungeon/func_800C138C.c",
+      "tu": "src/dungeon/effect/dispatch.c",
       "home": "dungeon/func_800C138C",
       "foff": "0xE138C",
       "vma": "0x800C6AEC",

@@ -1,19 +1,19 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/heur_b13470",
- "container": "dungeon",
- "foff": "0xb13470",
- "size": "0x2b4",
- "vma": "0x80174c70",
- "evidence": "work/native_lane/r121_heur/evidence/placements.json",
- "entries": [
-  {
-   "row": "dungeon/func_80AF3470",
-   "tu": "src/dungeon/func_80AF3470.c",
-   "home": "dungeon/func_80AF3470",
-   "foff": "0xb13470",
-   "vma": "0x80174c70",
-   "size": 692
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/heur_b13470",
+  "container": "dungeon",
+  "foff": "0xb13470",
+  "size": "0x2b4",
+  "vma": "0x80174c70",
+  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "entries": [
+    {
+      "row": "dungeon/func_80AF3470",
+      "tu": "src/dungeon/monster/snowman/move_and_shrink_fading_effect.c",
+      "home": "dungeon/func_80AF3470",
+      "foff": "0xb13470",
+      "vma": "0x80174c70",
+      "size": 692
+    }
+  ]
 }

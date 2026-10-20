@@ -171,7 +171,7 @@
     },
     {
       "row": "dungeon/func_80D64B3C",
-      "tu": "src/dungeon/func_80DE61E8.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE61E8",
       "foff": "0xd84b3c",
       "vma": "0x8015233c",

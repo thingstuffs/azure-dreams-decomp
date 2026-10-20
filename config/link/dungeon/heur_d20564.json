@@ -1,37 +1,37 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/heur_d20564",
- "container": "dungeon",
- "foff": "0xd20564",
- "size": "0x350",
- "vma": "0x80159d64",
- "evidence": "work/native_lane/r121_heur/evidence/placements2.json",
- "entries": [
-  {
-   "row": "dungeon/func_80D20564",
-   "tu": "src/dungeon/func_80CE8564.c",
-   "home": "dungeon/func_80CE8564",
-   "foff": "0xd20564",
-   "vma": "0x80159d64",
-   "size": 848,
-   "bindings": {
-    "0x801720b4": "0x8015a0b4",
-    "0x80175e24": "0x8015de24",
-    "0x80175e54": "0x8015de54",
-    "0x80175e5c": "0x8015de5c",
-    "0x80175e64": "0x8015de64",
-    "0x801724bc": "0x8015a4bc",
-    "0x80175e2c": "0x8015de2c",
-    "0x80175e34": "0x8015de34",
-    "0x80171f9c": "0x80159f9c",
-    "0x80171f98": "0x80159f98",
-    "0x80171ecc": "0x80159ecc",
-    "0x80171fa0": "0x80159fa0",
-    "0x80171f8c": "0x80159f8c",
-    "0x80172084": "0x8015a084",
-    "0x80172048": "0x8015a048"
-   },
-   "evidence": "work/native_lane/r121_heur/evidence/placements2.json: complete donor, strict base promotion, native ELF relocation replay and final scoped production gate"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/heur_d20564",
+  "container": "dungeon",
+  "foff": "0xd20564",
+  "size": "0x350",
+  "vma": "0x80159d64",
+  "evidence": "work/native_lane/r121_heur/evidence/placements2.json",
+  "entries": [
+    {
+      "row": "dungeon/func_80D20564",
+      "tu": "src/dungeon/monster/troll/troll_flash_effects.c",
+      "home": "dungeon/func_80CE8564",
+      "foff": "0xd20564",
+      "vma": "0x80159d64",
+      "size": 848,
+      "bindings": {
+        "0x801720b4": "0x8015a0b4",
+        "0x80175e24": "0x8015de24",
+        "0x80175e54": "0x8015de54",
+        "0x80175e5c": "0x8015de5c",
+        "0x80175e64": "0x8015de64",
+        "0x801724bc": "0x8015a4bc",
+        "0x80175e2c": "0x8015de2c",
+        "0x80175e34": "0x8015de34",
+        "0x80171f9c": "0x80159f9c",
+        "0x80171f98": "0x80159f98",
+        "0x80171ecc": "0x80159ecc",
+        "0x80171fa0": "0x80159fa0",
+        "0x80171f8c": "0x80159f8c",
+        "0x80172084": "0x8015a084",
+        "0x80172048": "0x8015a048"
+      },
+      "evidence": "work/native_lane/r121_heur/evidence/placements2.json: complete donor, strict base promotion, native ELF relocation replay and final scoped production gate"
+    }
+  ]
 }

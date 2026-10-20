@@ -1,26 +1,26 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/heur_d2f444",
- "container": "dungeon",
- "foff": "0xd2f444",
- "size": "0x374",
- "vma": "0x80150c44",
- "evidence": "work/native_lane/r121_heur/evidence/placements.json",
- "entries": [
-  {
-   "row": "dungeon/func_80D2F444",
-   "tu": "src/dungeon/func_80CEB444.c",
-   "home": "dungeon/func_80CEB444",
-   "foff": "0xd2f444",
-   "vma": "0x80150c44",
-   "size": 884,
-   "bindings": {
-    "0x801724BC": "0x8014E4BC",
-    "0x80175E3C": "0x80151E3C",
-    "0x80175E44": "0x80151E44",
-    "0x80175E4C": "0x80151E4C"
-   },
-   "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; B10 re-homed from dungeon/func_80CF1444 (now an LL placement of dungeon/func_80CEB444): bindings translated through dungeon/func_80CF1444's object-screen resolution"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/heur_d2f444",
+  "container": "dungeon",
+  "foff": "0xd2f444",
+  "size": "0x374",
+  "vma": "0x80150c44",
+  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "entries": [
+    {
+      "row": "dungeon/func_80D2F444",
+      "tu": "src/dungeon/monster/troll/advance_actor_timed_tile_motion.c",
+      "home": "dungeon/func_80CEB444",
+      "foff": "0xd2f444",
+      "vma": "0x80150c44",
+      "size": 884,
+      "bindings": {
+        "0x801724BC": "0x8014E4BC",
+        "0x80175E3C": "0x80151E3C",
+        "0x80175E44": "0x80151E44",
+        "0x80175E4C": "0x80151E4C"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; B10 re-homed from dungeon/func_80CF1444 (now an LL placement of dungeon/func_80CEB444): bindings translated through dungeon/func_80CF1444's object-screen resolution"
+    }
+  ]
 }

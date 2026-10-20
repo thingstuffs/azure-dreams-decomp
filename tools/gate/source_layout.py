@@ -303,6 +303,65 @@ def inline_records(root=ROOT):
     return records
 
 
+_PROJECTION_DIRECTIVE = re.compile(rb'^[ \t]*#[ \t]*([A-Za-z_]*)')
+
+
+def member_projection(row_id, root=ROOT):
+    """Span-aware compile unit for an inlined member, or None for an own-file row.
+
+    A link-list placement compiles its home row's text (docs/LINK_LISTS.md). After its home
+    fragment is inlined, row_path() names the whole owner TU, whose siblings must not enter the
+    placement object. The unit is the owner's leading depth-0 #include lines (the bytes before its
+    first inline extent; other prefix text such as entry tables is not this member's) followed by
+    the member's own extent. Every check fails closed; nothing falls back to the whole owner.
+    """
+    root = Path(root).absolute()
+    path = root / 'ledger/layout_inline.jsonl'
+    if not path.exists():
+        return None
+    records = [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+    mine = [r for r in records if r['member_id'] == row_id]
+    if not mine:
+        return None
+    if len(mine) != 1:
+        raise ValueError('duplicate inline provenance: ' + row_id)
+    rec = mine[0]
+    row = registry(root).get(row_id)
+    if row is None or row.get('source_row') or row_relative(row, root) != rec['tu_new']:
+        raise ValueError('inline member does not own its physical TU: ' + row_id)
+    owner = _safe_path(rec['tu_new'], row['container'])
+    data = row_path(row, root).read_bytes()
+    start, end = rec['offset'], rec['offset'] + rec['inlined_bytes']
+    if not 0 <= start < end <= len(data) or (start and data[start - 1:start] != b'\n'):
+        raise ValueError('inline extent is not a line span of its TU: ' + row_id)
+    piece = data[start:end]
+    include = re.compile(r'(?m)^([ \t]*#[ \t]*include[ \t]*[<"])([^">\n]+)([>"])')
+    text = piece.decode('utf-8', 'surrogateescape')
+    tokens = rec['original_includes']
+    if not isinstance(tokens, list) or len(include.findall(text)) != len(tokens):
+        raise ValueError('inline source_sha256 include mismatch: ' + row_id)
+    originals = iter(tokens)
+    restored = include.sub(lambda m: m[1] + next(originals) + m[3], text).encode('utf-8', 'surrogateescape')
+    if (restored[rec['bytes']:] not in (b'', b'\n')
+            or hashlib.sha256(restored[:rec['bytes']]).hexdigest() != rec['source_sha256']):
+        raise ValueError('inline source_sha256 mismatch: ' + row_id)
+    first = min(r['offset'] for r in records if r['tu_new'] == rec['tu_new'])
+    context = []
+    for line in data[:first].splitlines(keepends=True):
+        hit = _PROJECTION_DIRECTIVE.match(line)
+        if hit is None:
+            continue
+        if hit[1] != b'include' or include.match(line.decode('utf-8', 'surrogateescape')) is None:
+            raise ValueError('owner prefix directive needs review before projection: ' + owner)
+        context.append(line if line.endswith(b'\n') else line + b'\n')
+    unit = b''.join(context) + piece
+    for hit in include.finditer(unit.decode('utf-8', 'surrogateescape')):
+        token = hit[2]
+        if token.endswith('.c') or (hit[1].endswith('"') and (root / owner).parent.joinpath(token).exists()):
+            raise ValueError('owner-relative include in projected member: ' + owner + ': ' + token)
+    return unit
+
+
 def projection_plan(root=ROOT, source_root=None):
     """{"<container>/<entry name>": target} of the managed flat projection over source_root."""
     root = Path(root).absolute()

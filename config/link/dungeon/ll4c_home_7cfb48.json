@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_807AFB48",
-      "tu": "src/dungeon/func_807AFB48.c",
+      "tu": "src/dungeon/item/create_positioned_view_marker.c",
       "home": "dungeon/func_807AFB48",
       "foff": "0x7cfb48",
       "vma": "0x807afb48",

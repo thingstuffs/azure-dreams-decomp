@@ -2325,7 +2325,7 @@
     "verified_pointer_cells": 23,
     "dispatch": {
       "id": "dungeon/func_80A473B8",
-      "source": "src/dungeon/func_80A473B8.c",
+      "source": "src/dungeon/monster/flame/flame_actions.c",
       "source_sha256": "ac1ccfd60111a15a34d0f893e5503b2698e1d25d0a9090551acad722c1fa970d",
       "expression": "((R06_80170BB8_Callback *)D_8017589C)[(*(u8 *)((u8 *)actor + 0x9A))](actor, motion, entity, actor);",
       "retail_slices": [

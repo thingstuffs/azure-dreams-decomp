@@ -2027,7 +2027,7 @@
     "verified_pointer_cells": 23,
     "dispatch": {
       "id": "dungeon/func_80BEB258",
-      "source": "src/dungeon/func_80BEB258.c",
+      "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
       "source_sha256": "8eb719b6a5812829a04f5cc1e6520e8d6e3554adbe5948c8fc72d52f78f6ecc7",
       "expression": "((R16_80170A58_Callback *)D_8017426C)[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);",
       "retail_slices": [

@@ -1,21 +1,21 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/region_d1f6f4_d1f794",
- "container": "dungeon",
- "foff": "0xd1f6f4",
- "size": "0xa0",
- "vma": "0x80158ef4",
- "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase r121w_s1_dungeon_d1f000",
- "entries": [
-  {
-   "row": "dungeon/func_80CFF6F4",
-   "home": "dungeon/func_80CE76F4",
-   "tu": "src/dungeon/func_80CE76F4.c",
-   "foff": "0xd1f6f4",
-   "vma": "0x80158ef4",
-   "size": 160,
-   "bindings": {},
-   "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CFF6F4"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/region_d1f6f4_d1f794",
+  "container": "dungeon",
+  "foff": "0xd1f6f4",
+  "size": "0xa0",
+  "vma": "0x80158ef4",
+  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase r121w_s1_dungeon_d1f000",
+  "entries": [
+    {
+      "row": "dungeon/func_80CFF6F4",
+      "home": "dungeon/func_80CE76F4",
+      "tu": "src/dungeon/monster/troll/troll_flash_effects.c",
+      "foff": "0xd1f6f4",
+      "vma": "0x80158ef4",
+      "size": 160,
+      "bindings": {},
+      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CFF6F4"
+    }
+  ]
 }

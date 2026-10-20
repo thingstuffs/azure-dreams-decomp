@@ -1439,7 +1439,7 @@
       "vma": 2149359168,
       "view_bytes": 28,
       "owner": "resident_runtime:slus",
-      "declaration": "src/dungeon/func_818F94D4.c",
+      "declaration": "src/dungeon/effect/mesh/wave.c",
       "kind": "runtime_data",
       "evidence": "docs/evidence/dungeon_dungeon_setup.imports.json"
     },

@@ -323,7 +323,7 @@
       ],
       "dispatch_proof": {
         "id": "dungeon/func_80AEF904",
-        "source": "src/dungeon/func_80AEF904.c",
+        "source": "src/dungeon/monster/snowman/move_and_shrink_fading_effect.c",
         "source_sha256": "5fd71fb4d1f6f001c8b00793dcf262cf5e7dc287ecf5580063d141c05267e6ea",
         "expression": "((R10_80171104_ActorCallback *)D_80175A1C)[(*(u8 *)((u8 *)actor + 0x9A))](actor, motion, object, actor);",
         "retail_slices": [

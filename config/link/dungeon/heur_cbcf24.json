@@ -1,19 +1,19 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/heur_cbcf24",
- "container": "dungeon",
- "foff": "0xcbcf24",
- "size": "0x418",
- "vma": "0x8016e724",
- "evidence": "work/native_lane/r121_heur/evidence/placements.json",
- "entries": [
-  {
-   "row": "dungeon/func_80C9CF24",
-   "tu": "src/dungeon/func_80C9CF24.c",
-   "home": "dungeon/func_80C9CF24",
-   "foff": "0xcbcf24",
-   "vma": "0x8016e724",
-   "size": 1048
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/heur_cbcf24",
+  "container": "dungeon",
+  "foff": "0xcbcf24",
+  "size": "0x418",
+  "vma": "0x8016e724",
+  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "entries": [
+    {
+      "row": "dungeon/func_80C9CF24",
+      "tu": "src/dungeon/modules/ovl_cb9000.c",
+      "home": "dungeon/func_80C9CF24",
+      "foff": "0xcbcf24",
+      "vma": "0x8016e724",
+      "size": 1048
+    }
+  ]
 }

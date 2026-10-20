@@ -21,7 +21,7 @@
     },
     {
       "row": "dungeon/func_80EAF4C8",
-      "tu": "src/dungeon/func_809C9228.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9228",
       "foff": "0xECF4C8",
       "vma": "0x8014CCC8",
@@ -40,7 +40,7 @@
     },
     {
       "row": "dungeon/func_80EAFE84",
-      "tu": "src/dungeon/func_809C9B9C.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9B9C",
       "foff": "0xECFE84",
       "vma": "0x8014D684",
@@ -51,7 +51,7 @@
     },
     {
       "row": "dungeon/func_80EB00DC",
-      "tu": "src/dungeon/func_80CB8010.c",
+      "tu": "src/dungeon/modules/ovl_cd7000.c",
       "home": "dungeon/func_80CB8010",
       "foff": "0xed00dc",
       "vma": "0x8014d8dc",
@@ -85,7 +85,7 @@
     },
     {
       "row": "dungeon/func_80EB0824",
-      "tu": "src/dungeon/func_809CA53C.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA53C",
       "foff": "0xED0824",
       "vma": "0x8014E024",
@@ -96,7 +96,7 @@
     },
     {
       "row": "dungeon/func_80EB0888",
-      "tu": "src/dungeon/func_809CA5A0.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA5A0",
       "foff": "0xED0888",
       "vma": "0x8014E088",
@@ -107,7 +107,7 @@
     },
     {
       "row": "dungeon/func_80EB0A4C",
-      "tu": "src/dungeon/func_809CA764.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA764",
       "foff": "0xED0A4C",
       "vma": "0x8014E24C",
@@ -269,7 +269,7 @@
     },
     {
       "row": "dungeon/func_80EB2524",
-      "tu": "src/dungeon/func_809CBEF4.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CBEF4",
       "foff": "0xED2524",
       "vma": "0x8014FD24",
@@ -291,7 +291,7 @@
     },
     {
       "row": "dungeon/func_80EB2928",
-      "tu": "src/dungeon/func_80F8A600.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xED2928",
       "vma": "0x80150128",

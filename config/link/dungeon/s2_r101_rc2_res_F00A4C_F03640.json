@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80EE0C90",
-      "tu": "src/dungeon/func_80CB8010.c",
+      "tu": "src/dungeon/modules/ovl_cd7000.c",
       "home": "dungeon/func_80CB8010",
       "foff": "0xf00c90",
       "vma": "0x80172490",

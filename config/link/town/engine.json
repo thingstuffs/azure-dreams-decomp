@@ -25,7 +25,7 @@
     },
     {
       "row": "town/func_800A0C74",
-      "tu": "src/town/func_800A0C74.c",
+      "tu": "src/town/menu/window.c",
       "home": "town/func_800A0C74",
       "foff": "0x20C74",
       "vma": "0x8009E3D4",
@@ -249,7 +249,7 @@
     },
     {
       "row": "town/func_800240A4",
-      "tu": "src/town/func_800A0C74.c",
+      "tu": "src/town/menu/window.c",
       "home": "town/func_800A0C74",
       "foff": "0x440A4",
       "vma": "0x800C1804",

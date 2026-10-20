@@ -351,7 +351,7 @@
     },
     {
       "row": "dungeon/func_80D8DBE4",
-      "tu": "src/dungeon/func_80F8A600.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xDADBE4",
       "vma": "0x801513E4",

@@ -285,7 +285,7 @@
       ],
       "dispatch_proof": {
         "id": "dungeon/func_809C9228",
-        "source": "src/dungeon/func_809C9228.c",
+        "source": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
         "source_sha256": "a89daf1f42f1490b8624c1194bf6709f9e020f0b1ec45eb84746576ba51f5a81",
         "expression": "((R03_80170A28_EntityCallback *)D_80173CEC)[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, part, entity);",
         "retail_slices": [

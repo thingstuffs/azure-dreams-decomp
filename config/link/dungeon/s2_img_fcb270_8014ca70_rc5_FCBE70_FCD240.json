@@ -1,26 +1,26 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/s2_img_fcb270_8014ca70_rc5_FCBE70_FCD240",
- "container": "dungeon",
- "foff": "0xfcbe70",
- "size": "0x13d0",
- "vma": "0x8014d670",
- "evidence": "docs/evidence/r121w_s2_receipts.json",
- "entries": [
-  {
-   "row": "dungeon/func_80FACC94",
-   "tu": "src/dungeon/func_80F88C94.c",
-   "home": "dungeon/func_80F88C94",
-   "foff": "0xfccc94",
-   "vma": "0x8014e494",
-   "size": 1452,
-   "bindings": {
-    "0x80174ad4": "0x80150ad4",
-    "0x80174ae4": "0x80150ae4",
-    "0x80171138": "0x8014d138",
-    "0x80173f0c": "0x8014ff0c"
-   },
-   "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80FACC94"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/s2_img_fcb270_8014ca70_rc5_FCBE70_FCD240",
+  "container": "dungeon",
+  "foff": "0xfcbe70",
+  "size": "0x13d0",
+  "vma": "0x8014d670",
+  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "entries": [
+    {
+      "row": "dungeon/func_80FACC94",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "home": "dungeon/func_80F88C94",
+      "foff": "0xfccc94",
+      "vma": "0x8014e494",
+      "size": 1452,
+      "bindings": {
+        "0x80174ad4": "0x80150ad4",
+        "0x80174ae4": "0x80150ae4",
+        "0x80171138": "0x8014d138",
+        "0x80173f0c": "0x8014ff0c"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80FACC94"
+    }
+  ]
 }

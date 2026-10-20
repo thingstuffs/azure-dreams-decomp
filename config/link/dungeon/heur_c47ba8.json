@@ -1,37 +1,37 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/heur_c47ba8",
- "container": "dungeon",
- "foff": "0xc47ba8",
- "size": "0x528",
- "vma": "0x8015f3a8",
- "evidence": "work/native_lane/r121_heur/evidence/placements.json",
- "entries": [
-  {
-   "row": "dungeon/func_80C47BA8",
-   "tu": "src/dungeon/func_80C15BA8.c",
-   "home": "dungeon/func_80C15BA8",
-   "foff": "0xc47ba8",
-   "vma": "0x8015f3a8",
-   "size": 1320,
-   "bindings": {
-    "0x801718d0": "0x8015f8d0",
-    "0x801718b0": "0x8015f8b0",
-    "0x801744fc": "0x801624fc",
-    "0x801744ec": "0x801624ec",
-    "0x80174494": "0x80162494",
-    "0x8017449c": "0x8016249c",
-    "0x801744a4": "0x801624a4",
-    "0x80174250": "0x80162250",
-    "0x801724c4": "0x801604c4",
-    "0x80170808": "0x8015e808",
-    "0x801721e0": "0x801601e0",
-    "0x801723a4": "0x801603a4",
-    "0x801713a8": "0x8015f3a8",
-    "0x801744d4": "0x801624d4",
-    "0x80171a98": "0x8015fa98"
-   },
-   "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/heur_c47ba8",
+  "container": "dungeon",
+  "foff": "0xc47ba8",
+  "size": "0x528",
+  "vma": "0x8015f3a8",
+  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "entries": [
+    {
+      "row": "dungeon/func_80C47BA8",
+      "tu": "src/dungeon/monster/univern/create_anchored_directional_object.c",
+      "home": "dungeon/func_80C15BA8",
+      "foff": "0xc47ba8",
+      "vma": "0x8015f3a8",
+      "size": 1320,
+      "bindings": {
+        "0x801718d0": "0x8015f8d0",
+        "0x801718b0": "0x8015f8b0",
+        "0x801744fc": "0x801624fc",
+        "0x801744ec": "0x801624ec",
+        "0x80174494": "0x80162494",
+        "0x8017449c": "0x8016249c",
+        "0x801744a4": "0x801624a4",
+        "0x80174250": "0x80162250",
+        "0x801724c4": "0x801604c4",
+        "0x80170808": "0x8015e808",
+        "0x801721e0": "0x801601e0",
+        "0x801723a4": "0x801603a4",
+        "0x801713a8": "0x8015f3a8",
+        "0x801744d4": "0x801624d4",
+        "0x80171a98": "0x8015fa98"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
+    }
+  ]
 }

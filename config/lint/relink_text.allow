@@ -1,4 +1,5 @@
 # relink_lint ratchet (tools/relink_lint.py): files still carrying relink text. Only ever shrinks.
+src/dungeon/effect/sprite/create_radial_effect_from_source.c	define
 src/dungeon/func_8002DC48.c	relink
 src/dungeon/func_8002DE10.c	relink
 src/dungeon/func_8002DEDC.c	relink
@@ -118,7 +119,6 @@ src/dungeon/func_8132E580.c	relink
 src/dungeon/func_81330A2C.c	relink
 src/dungeon/func_8184A800.c	define
 src/dungeon/func_8184AB74.c	relink
-src/dungeon/func_81887960.c	define
 src/town/func_80013D48.c	relink
 src/town/func_800156DC.c	relink
 src/town/func_80015890.c	relink

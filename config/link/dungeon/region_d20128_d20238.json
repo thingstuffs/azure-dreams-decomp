@@ -1,24 +1,24 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/region_d20128_d20238",
- "container": "dungeon",
- "foff": "0xd20128",
- "size": "0x110",
- "vma": "0x80159928",
- "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase r121w_s1_dungeon_d1f000",
- "entries": [
-  {
-   "row": "dungeon/func_80D00128",
-   "home": "dungeon/func_80CE8128",
-   "tu": "src/dungeon/func_80CE8128.c",
-   "foff": "0xd20128",
-   "vma": "0x80159928",
-   "size": 272,
-   "bindings": {
-    "0x80175edc": "0x8015dedc",
-    "0x80170ef4": "0x80158ef4"
-   },
-   "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80D00128"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/region_d20128_d20238",
+  "container": "dungeon",
+  "foff": "0xd20128",
+  "size": "0x110",
+  "vma": "0x80159928",
+  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase r121w_s1_dungeon_d1f000",
+  "entries": [
+    {
+      "row": "dungeon/func_80D00128",
+      "home": "dungeon/func_80CE8128",
+      "tu": "src/dungeon/monster/troll/troll_flash_effects.c",
+      "foff": "0xd20128",
+      "vma": "0x80159928",
+      "size": 272,
+      "bindings": {
+        "0x80175edc": "0x8015dedc",
+        "0x80170ef4": "0x80158ef4"
+      },
+      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80D00128"
+    }
+  ]
 }

@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80BF1258",
-      "tu": "src/dungeon/func_80BEB258.c",
+      "tu": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
       "home": "dungeon/func_80BEB258",
       "foff": "0xc11258",
       "vma": "0x8016aa58",
@@ -33,7 +33,7 @@
     },
     {
       "row": "dungeon/func_80BF1814",
-      "tu": "src/dungeon/func_80BEB814.c",
+      "tu": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
       "home": "dungeon/func_80BEB814",
       "foff": "0xc11814",
       "vma": "0x8016b014",

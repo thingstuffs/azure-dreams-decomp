@@ -118,7 +118,7 @@
     {
       "row": "dungeon/func_812CDDA0",
       "home": "dungeon/func_809A32D4",
-      "tu": "src/dungeon/func_809A32D4.c",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
       "foff": "0x12edda0",
       "vma": "0x801515a0",
       "size": 716,
@@ -136,7 +136,7 @@
     },
     {
       "row": "dungeon/func_812CE164",
-      "tu": "src/dungeon/func_809A38E4.c",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
       "home": "dungeon/func_809A38E4",
       "foff": "0x12ee164",
       "vma": "0x80151964",
@@ -152,7 +152,7 @@
     },
     {
       "row": "dungeon/func_812CE3F8",
-      "tu": "src/dungeon/func_80DE61E8.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE61E8",
       "foff": "0x12ee3f8",
       "vma": "0x80151bf8",

@@ -10,7 +10,7 @@
   "entries": [
     {
       "row": "dungeon/func_8106B2A4",
-      "tu": "src/dungeon/func_810592A4.c",
+      "tu": "src/dungeon/monster/tyrant/update_entity_callbacks_directional_animation_movement_ground_contact.c",
       "home": "dungeon/func_810592A4",
       "foff": "0x108B2A4",
       "vma": "0x8015EAA4",
@@ -22,7 +22,7 @@
     },
     {
       "row": "dungeon/func_8106BD10",
-      "tu": "src/dungeon/func_809C9B9C.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9B9C",
       "foff": "0x108BD10",
       "vma": "0x8015F510",
@@ -34,7 +34,7 @@
     },
     {
       "row": "dungeon/func_8106BF68",
-      "tu": "src/dungeon/func_81059F68.c",
+      "tu": "src/dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.c",
       "home": "dungeon/func_81059F68",
       "foff": "0x108BF68",
       "vma": "0x8015F768",
@@ -46,7 +46,7 @@
     },
     {
       "row": "dungeon/func_8106C6C0",
-      "tu": "src/dungeon/func_809CA53C.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA53C",
       "foff": "0x108C6C0",
       "vma": "0x8015FEC0",
@@ -58,7 +58,7 @@
     },
     {
       "row": "dungeon/func_8106C724",
-      "tu": "src/dungeon/func_8105A724.c",
+      "tu": "src/dungeon/monster/tyrant/check_action_eligibility_updates_actor_state_directional_animation_success.c",
       "home": "dungeon/func_8105A724",
       "foff": "0x108C724",
       "vma": "0x8015FF24",
@@ -70,7 +70,7 @@
     },
     {
       "row": "dungeon/func_8106C910",
-      "tu": "src/dungeon/func_809CA764.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA764",
       "foff": "0x108C910",
       "vma": "0x80160110",
@@ -144,7 +144,7 @@
     },
     {
       "row": "dungeon/func_8106CFCC",
-      "tu": "src/dungeon/func_8105AFCC.c",
+      "tu": "src/dungeon/monster/tyrant/advance_a_timed_actor_animation_applies_completion_effects.c",
       "home": "dungeon/func_8105AFCC",
       "foff": "0x108CFCC",
       "vma": "0x801607CC",
@@ -222,7 +222,7 @@
     },
     {
       "row": "dungeon/func_8106DA28",
-      "tu": "src/dungeon/func_809CBB58.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CBB58",
       "foff": "0x108DA28",
       "vma": "0x80161228",
@@ -234,7 +234,7 @@
     },
     {
       "row": "dungeon/func_8106DDC4",
-      "tu": "src/dungeon/func_809CBEF4.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CBEF4",
       "foff": "0x108DDC4",
       "vma": "0x801615C4",
@@ -258,7 +258,7 @@
     },
     {
       "row": "dungeon/func_8106E1C8",
-      "tu": "src/dungeon/func_80F8A600.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0x108E1C8",
       "vma": "0x801619C8",
@@ -309,7 +309,7 @@
     },
     {
       "row": "dungeon/func_8106E2D4",
-      "tu": "src/dungeon/func_8105C2D4.c",
+      "tu": "src/dungeon/monster/tyrant/handle_kill_actor_clear_flags_fire_burst_tile_post_death_message.c",
       "home": "dungeon/func_8105C2D4",
       "foff": "0x108E2D4",
       "vma": "0x80161AD4",
@@ -334,7 +334,7 @@
     },
     {
       "row": "dungeon/func_8106E778",
-      "tu": "src/dungeon/func_80C18C5C.c",
+      "tu": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "home": "dungeon/func_80C18C5C",
       "foff": "0x108e778",
       "vma": "0x80161f78",

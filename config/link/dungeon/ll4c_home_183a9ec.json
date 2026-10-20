@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_8181A9EC",
-      "tu": "src/dungeon/func_8181A9EC.c",
+      "tu": "src/dungeon/effect/particle/render_textured_effect_parts.c",
       "home": "dungeon/func_8181A9EC",
       "foff": "0x183a9ec",
       "vma": "0x800241ec",

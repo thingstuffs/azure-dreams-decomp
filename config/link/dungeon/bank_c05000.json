@@ -10,7 +10,7 @@
   "entries": [
     {
       "row": "dungeon/func_80BE5264",
-      "tu": "src/dungeon/func_80BC1264.c",
+      "tu": "src/dungeon/monster/death/build_projected_tile_packets.c",
       "home": "dungeon/func_80BC1264",
       "foff": "0xC05264",
       "vma": "0x8014CA64",
@@ -36,7 +36,7 @@
     },
     {
       "row": "dungeon/func_80BE5528",
-      "tu": "src/dungeon/func_80BC1528.c",
+      "tu": "src/dungeon/monster/death/build_projected_tile_packets.c",
       "home": "dungeon/func_80BC1528",
       "foff": "0xC05528",
       "vma": "0x8014CD28",
@@ -47,7 +47,7 @@
     },
     {
       "row": "dungeon/func_80BE572C",
-      "tu": "src/dungeon/func_80BC172C.c",
+      "tu": "src/dungeon/monster/death/build_projected_tile_packets.c",
       "home": "dungeon/func_80BC172C",
       "foff": "0xc0572c",
       "vma": "0x8014cf2c",
@@ -62,7 +62,7 @@
     },
     {
       "row": "dungeon/func_80BE5880",
-      "tu": "src/dungeon/func_80BC1880.c",
+      "tu": "src/dungeon/monster/death/build_projected_tile_packets.c",
       "home": "dungeon/func_80BC1880",
       "foff": "0xc05880",
       "vma": "0x8014d080",
@@ -323,7 +323,7 @@
     },
     {
       "row": "dungeon/func_80BE8CB8",
-      "tu": "src/dungeon/func_80F8A600.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xC08CB8",
       "vma": "0x801504B8",
@@ -394,7 +394,7 @@
     },
     {
       "row": "dungeon/func_80BE8DFC",
-      "tu": "src/dungeon/func_80BEDE04.c",
+      "tu": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
       "home": "dungeon/func_80BEDE04",
       "foff": "0xc08dfc",
       "vma": "0x801505fc",

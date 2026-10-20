@@ -1,40 +1,40 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/s2_native_slot_e09000_8016a800",
- "container": "dungeon",
- "foff": "0xe09000",
- "size": "0x6000",
- "vma": "0x8016a800",
- "evidence": "docs/evidence/r121w_s2_receipts.json",
- "entries": [
-  {
-   "row": "dungeon/func_80DEC220",
-   "tu": "src/dungeon/func_80DE6220.c",
-   "home": "dungeon/func_80DE6220",
-   "foff": "0xe0c220",
-   "vma": "0x8016da20",
-   "size": 704,
-   "bindings": {
-    "0x80170e5c": "0x8016ae5c",
-    "0x80174084": "0x8016e084",
-    "0x801742ac": "0x8016e2ac",
-    "0x80174460": "0x8016e460"
-   },
-   "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80DEC220"
-  },
-  {
-   "row": "dungeon/func_80DEC4E0",
-   "tu": "src/dungeon/func_80DE64E0.c",
-   "home": "dungeon/func_80DE64E0",
-   "foff": "0xe0c4e0",
-   "vma": "0x8016dce0",
-   "size": 360,
-   "bindings": {
-    "0x80170e5c": "0x8016ae5c",
-    "0x80174084": "0x8016e084",
-    "0x801744b8": "0x8016e4b8"
-   },
-   "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80DEC4E0"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/s2_native_slot_e09000_8016a800",
+  "container": "dungeon",
+  "foff": "0xe09000",
+  "size": "0x6000",
+  "vma": "0x8016a800",
+  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "entries": [
+    {
+      "row": "dungeon/func_80DEC220",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
+      "home": "dungeon/func_80DE6220",
+      "foff": "0xe0c220",
+      "vma": "0x8016da20",
+      "size": 704,
+      "bindings": {
+        "0x80170e5c": "0x8016ae5c",
+        "0x80174084": "0x8016e084",
+        "0x801742ac": "0x8016e2ac",
+        "0x80174460": "0x8016e460"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80DEC220"
+    },
+    {
+      "row": "dungeon/func_80DEC4E0",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
+      "home": "dungeon/func_80DE64E0",
+      "foff": "0xe0c4e0",
+      "vma": "0x8016dce0",
+      "size": 360,
+      "bindings": {
+        "0x80170e5c": "0x8016ae5c",
+        "0x80174084": "0x8016e084",
+        "0x801744b8": "0x8016e4b8"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80DEC4E0"
+    }
+  ]
 }

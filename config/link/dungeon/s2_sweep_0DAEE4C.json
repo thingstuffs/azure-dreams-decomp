@@ -17,7 +17,7 @@
     },
     {
       "row": "dungeon/func_80D8FDCC",
-      "tu": "src/dungeon/func_80CB8010.c",
+      "tu": "src/dungeon/modules/ovl_cd7000.c",
       "home": "dungeon/func_80CB8010",
       "foff": "0xdafdcc",
       "vma": "0x801715cc",

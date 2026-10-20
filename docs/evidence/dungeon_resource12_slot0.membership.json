@@ -329,7 +329,7 @@
       ],
       "dispatch_proof": {
         "id": "dungeon/func_80B43244",
-        "source": "src/dungeon/func_80B43244.c",
+        "source": "src/dungeon/monster/arachne/arachne.c",
         "source_sha256": "8c9f090758d839ad140dc6ca6e5f0f3999526cd0896cee7cedd5a0a80c506e75",
         "expression": "((R12_80170A44_EntityCallback *)D_80175AAC)[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, part, entity);",
         "retail_slices": [

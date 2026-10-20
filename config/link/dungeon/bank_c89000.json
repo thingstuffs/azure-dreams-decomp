@@ -27,7 +27,7 @@
     {
       "row": "dungeon/func_80C69528",
       "home": "dungeon/func_80BC1528",
-      "tu": "src/dungeon/func_80BC1528.c",
+      "tu": "src/dungeon/monster/death/build_projected_tile_packets.c",
       "foff": "0x00C89528",
       "vma": "0x80170D28",
       "size": 516,
@@ -44,7 +44,7 @@
     {
       "row": "dungeon/func_80C6972C",
       "home": "dungeon/func_80BC172C",
-      "tu": "src/dungeon/func_80BC172C.c",
+      "tu": "src/dungeon/monster/death/build_projected_tile_packets.c",
       "foff": "0x00C8972C",
       "vma": "0x80170F2C",
       "size": 340,
@@ -96,7 +96,7 @@
     },
     {
       "row": "dungeon/func_80C6A398",
-      "tu": "src/dungeon/func_80A71D70.c",
+      "tu": "src/dungeon/monster/grineut/spawn_mode_dependent_object.c",
       "home": "dungeon/func_80A71D70",
       "foff": "0xC8A398",
       "vma": "0x80171B98",
@@ -109,7 +109,7 @@
     },
     {
       "row": "dungeon/func_80C6A5DC",
-      "tu": "src/dungeon/func_80C94010.c",
+      "tu": "src/dungeon/monster/block/block.c",
       "home": "dungeon/func_80C94010",
       "foff": "0xc8a5dc",
       "vma": "0x80171ddc",
@@ -143,7 +143,7 @@
     },
     {
       "row": "dungeon/func_80C6AD24",
-      "tu": "src/dungeon/func_809CA53C.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA53C",
       "foff": "0xC8AD24",
       "vma": "0x80172524",
@@ -156,7 +156,7 @@
     },
     {
       "row": "dungeon/func_80C6AD88",
-      "tu": "src/dungeon/func_809CA5A0.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA5A0",
       "foff": "0xC8AD88",
       "vma": "0x80172588",
@@ -169,7 +169,7 @@
     },
     {
       "row": "dungeon/func_80C6AF4C",
-      "tu": "src/dungeon/func_809CA764.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA764",
       "foff": "0xC8AF4C",
       "vma": "0x8017274C",
@@ -216,7 +216,7 @@
     },
     {
       "row": "dungeon/func_80C6B5A0",
-      "tu": "src/dungeon/func_80F88C30.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F88C30",
       "foff": "0xC8B5A0",
       "vma": "0x80172DA0",
@@ -357,7 +357,7 @@
     },
     {
       "row": "dungeon/func_80C6C944",
-      "tu": "src/dungeon/func_80F8A600.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xC8C944",
       "vma": "0x80174144",
@@ -430,7 +430,7 @@
     },
     {
       "row": "dungeon/func_80C6CA88",
-      "tu": "src/dungeon/func_80C97A74.c",
+      "tu": "src/dungeon/monster/block/block.c",
       "home": "dungeon/func_80C97A74",
       "foff": "0xc8ca88",
       "vma": "0x80174288",

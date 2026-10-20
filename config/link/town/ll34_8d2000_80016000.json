@@ -90,7 +90,7 @@
     },
     {
       "row": "town/func_809525F0",
-      "tu": "src/town/func_806D2DE4.c",
+      "tu": "src/town/system/flag_test_conditions.c",
       "home": "town/func_806D2DE4",
       "foff": "0x8D25F0",
       "vma": "0x800165F0",
@@ -105,7 +105,7 @@
     },
     {
       "row": "town/func_80952660",
-      "tu": "src/town/func_806D2E54.c",
+      "tu": "src/town/system/flag_test_conditions.c",
       "home": "town/func_806D2E54",
       "foff": "0x8D2660",
       "vma": "0x80016660",
@@ -118,7 +118,7 @@
     },
     {
       "row": "town/func_809526BC",
-      "tu": "src/town/func_806D2F0C.c",
+      "tu": "src/town/system/flag_test_pair_actions.c",
       "home": "town/func_806D2F0C",
       "foff": "0x8D26BC",
       "vma": "0x800166BC",
@@ -134,7 +134,7 @@
     },
     {
       "row": "town/func_80952764",
-      "tu": "src/town/func_806D2FB4.c",
+      "tu": "src/town/system/flag_test_pair_actions.c",
       "home": "town/func_806D2FB4",
       "foff": "0x8D2764",
       "vma": "0x80016764",

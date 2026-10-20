@@ -27,7 +27,7 @@
     },
     {
       "row": "dungeon/func_80A6E694",
-      "tu": "src/dungeon/func_8181A9EC.c",
+      "tu": "src/dungeon/effect/particle/render_textured_effect_parts.c",
       "home": "dungeon/func_8181A9EC",
       "foff": "0xa8e694",
       "vma": "0x8014fe94",
@@ -42,7 +42,7 @@
     },
     {
       "row": "dungeon/func_80A6E8E4",
-      "tu": "src/dungeon/func_80A4A8E4.c",
+      "tu": "src/dungeon/monster/flame/flame_actions.c",
       "home": "dungeon/func_80A4A8E4",
       "foff": "0xa8e8e4",
       "vma": "0x801500e4",
@@ -56,7 +56,7 @@
     },
     {
       "row": "dungeon/func_80A6EA14",
-      "tu": "src/dungeon/func_80A4AA14.c",
+      "tu": "src/dungeon/monster/flame/flame_actions.c",
       "home": "dungeon/func_80A4AA14",
       "foff": "0xa8ea14",
       "vma": "0x80150214",
@@ -72,7 +72,7 @@
     {
       "row": "dungeon/func_80A6EB34",
       "home": "dungeon/func_80A4AB34",
-      "tu": "src/dungeon/func_80A4AB34.c",
+      "tu": "src/dungeon/monster/flame/flame_actions.c",
       "foff": "0xa8eb34",
       "vma": "0x80150334",
       "size": 1384,
@@ -83,7 +83,7 @@
     },
     {
       "row": "dungeon/func_80A6F134",
-      "tu": "src/dungeon/func_80A4B134.c",
+      "tu": "src/dungeon/monster/flame/flame_actions.c",
       "home": "dungeon/func_80A4B134",
       "foff": "0xa8f134",
       "vma": "0x80150934",
@@ -102,7 +102,7 @@
     },
     {
       "row": "dungeon/func_80A6F678",
-      "tu": "src/dungeon/func_80A4B678.c",
+      "tu": "src/dungeon/monster/flame/flame_actions.c",
       "home": "dungeon/func_80A4B678",
       "foff": "0xa8f678",
       "vma": "0x80150e78",
@@ -119,7 +119,7 @@
     },
     {
       "row": "dungeon/func_80A6FA70",
-      "tu": "src/dungeon/func_80A4BA70.c",
+      "tu": "src/dungeon/monster/flame/flame_actions.c",
       "home": "dungeon/func_80A4BA70",
       "foff": "0xa8fa70",
       "vma": "0x80151270",

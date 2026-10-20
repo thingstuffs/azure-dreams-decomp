@@ -353,6 +353,11 @@ def window_inputs(root, target):
     # Link lists (docs/LINK_LISTS.md): the image files that decide this window's placements. Empty (and
     # therefore no change to any digest) while the window holds no placement row.
     symbols.extend(linklist.window_files(root, ids))
+    # A placement whose home fragment is inlined compiles source_layout.member_projection, a span cut
+    # by ledger/layout_inline.jsonl: bind that ledger for such windows only (no other digest changes).
+    inlined = {r['member_id'] for r in records(root/'ledger/layout_inline.jsonl')}
+    if any(r.get('source_row') in inlined for r in registry):
+        symbols.append('ledger/layout_inline.jsonl')
     from gate import linklist_data
     symbols.extend(linklist_data.window_files(root, family, start, end))
     import overlay_module_placements as MP

@@ -3,14 +3,14 @@
   "review": "pending",
   "caller": {
     "id": "dungeon/func_80A47C0C",
-    "source": "src/dungeon/func_80A47C0C.c",
+    "source": "src/dungeon/monster/flame/flame_actions.c",
     "original_source_sha256": "60e7f10a0cce7570b3481450e27e43c2ef170a6f21be88065b6974c81eac2808",
     "native_source_sha256": "9ea2775925efde0a975d317e75da6bc44963e671e40d8f17dda074a80b1dd20e",
     "retained_expression": "func_80171964(actor, actor_context);"
   },
   "callee": {
     "id": "dungeon/func_80A48164",
-    "source": "src/dungeon/func_80A48164.c",
+    "source": "src/dungeon/monster/flame/flame_actions.c",
     "native_source_sha256": "14b1c4e89c186574f7c32dbf2d8eb4ff8070c458cc60dae4545994a34882a5de",
     "definition": "void func_80171964(void *motion, void *unused, void *actor, void *path_state)",
     "consumed_incoming_registers": [

@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80E672FC",
-      "tu": "src/dungeon/func_80D112D0.c",
+      "tu": "src/dungeon/monster/noise/update_effect_visuals_and_lifetime.c",
       "home": "dungeon/func_80D112D0",
       "foff": "0xe872fc",
       "vma": "0x8016aafc",
@@ -51,7 +51,7 @@
     },
     {
       "row": "dungeon/func_80E686EC",
-      "tu": "src/dungeon/func_80CB8010.c",
+      "tu": "src/dungeon/modules/ovl_cd7000.c",
       "home": "dungeon/func_80CB8010",
       "foff": "0xe886ec",
       "vma": "0x8016beec",

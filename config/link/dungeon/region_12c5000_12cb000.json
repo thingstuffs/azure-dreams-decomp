@@ -18,7 +18,7 @@
     {
       "row": "dungeon/func_812A9DA0",
       "home": "dungeon/func_809A32D4",
-      "tu": "src/dungeon/func_809A32D4.c",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
       "foff": "0x12c9da0",
       "vma": "0x801755a0",
       "size": 716,

@@ -32,7 +32,7 @@
     },
     {
       "row": "dungeon/func_80B9F13C",
-      "tu": "src/dungeon/func_80DE5258.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE5258",
       "foff": "0xbbf13c",
       "vma": "0x8016c93c",

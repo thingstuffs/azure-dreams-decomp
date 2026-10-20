@@ -926,6 +926,18 @@ def compile_c_segments(
                                         row=family_for(overlay) + "/" + Path(seg.match.source).stem)
             if _place is not None and _place["home"] == _place["row"]:
                 _place = None
+        compile_source = seg.match.source
+        if _place is not None:
+            # T1 adapter: a placement whose home fragment was inlined compiles only that member's
+            # span (source_layout.member_projection), never the whole owner TU and its siblings.
+            import source_layout
+            unit = source_layout.member_projection(_place["home"], ROOT)
+            if unit is not None:
+                unit_dir = obj_dir / (segment_obj_key(seg, dup_funcs) + ".member")
+                unit_dir.mkdir(exist_ok=True)
+                compile_source = unit_dir / (_place["home"].split("/", 1)[1] + ".c")
+                compile_source.write_bytes(unit)
+                source_text = unit.decode("utf-8", "replace")
         if family_for(overlay) in {"town", "dungeon"}:
             ev_dir = obj_dir / (segment_obj_key(seg, dup_funcs) + ".evidence")
             ev_dir.mkdir(exist_ok=True)
@@ -947,7 +959,7 @@ def compile_c_segments(
         run(
             [
                 str(ROOT / "tools/cc.sh"),
-                str(seg.match.source),
+                str(compile_source),
                 str(out_o),
                 gcc_ver,
                 gcc_flags,

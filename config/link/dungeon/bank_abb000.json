@@ -10,7 +10,7 @@
   "entries": [
     {
       "row": "dungeon/func_80A9BFF8",
-      "tu": "src/dungeon/func_80A9BFF8.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9BFF8",
       "foff": "0xABBFF8",
       "vma": "0x801717F8",
@@ -18,7 +18,7 @@
     },
     {
       "row": "dungeon/func_80A9D030",
-      "tu": "src/dungeon/func_80A9D030.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9D030",
       "foff": "0xABD030",
       "vma": "0x80172830",
@@ -26,7 +26,7 @@
     },
     {
       "row": "dungeon/func_80A9D4E8",
-      "tu": "src/dungeon/func_80A9D4E8.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9D4E8",
       "foff": "0xABD4E8",
       "vma": "0x80172CE8",
@@ -34,7 +34,7 @@
     },
     {
       "row": "dungeon/func_80A9E980",
-      "tu": "src/dungeon/func_80A9E980.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9E980",
       "foff": "0xABE980",
       "vma": "0x80174180",
@@ -42,7 +42,7 @@
     },
     {
       "row": "dungeon/func_80A9EB18",
-      "tu": "src/dungeon/func_80A9EB18.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9EB18",
       "foff": "0xABEB18",
       "vma": "0x80174318",
@@ -50,7 +50,7 @@
     },
     {
       "row": "dungeon/func_80A9EBBC",
-      "tu": "src/dungeon/func_80A9EBBC.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9EBBC",
       "foff": "0xABEBBC",
       "vma": "0x801743BC",
@@ -58,7 +58,7 @@
     },
     {
       "row": "dungeon/func_80A9F3F4",
-      "tu": "src/dungeon/func_80A9F3F4.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9F3F4",
       "foff": "0xabf3f4",
       "vma": "0x80174bf4",

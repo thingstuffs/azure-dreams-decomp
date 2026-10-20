@@ -99,7 +99,7 @@
     {
       "row": "dungeon/func_812C7DA0",
       "home": "dungeon/func_809A32D4",
-      "tu": "src/dungeon/func_809A32D4.c",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
       "foff": "0x12e7da0",
       "vma": "0x801575a0",
       "size": 716,
@@ -117,7 +117,7 @@
     {
       "row": "dungeon/func_812C8164",
       "home": "dungeon/func_809A38E4",
-      "tu": "src/dungeon/func_809A38E4.c",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
       "foff": "0x012E8164",
       "vma": "0x80157964",
       "size": 660,

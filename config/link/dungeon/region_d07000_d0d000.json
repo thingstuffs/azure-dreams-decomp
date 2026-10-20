@@ -1,23 +1,23 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/region_d07000_d0d000",
- "container": "dungeon",
- "foff": "0xd07000",
- "size": "0x6000",
- "vma": "0x80170800",
- "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase native_slot_d07000_80170800",
- "entries": [
-  {
-   "row": "dungeon/func_80CE74EC",
-   "home": "dungeon/func_800C138C",
-   "tu": "src/dungeon/func_800C138C.c",
-   "foff": "0xd074ec",
-   "vma": "0x80170cec",
-   "size": 84,
-   "bindings": {
-    "0x800c6b40": "0x8017086c"
-   },
-   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80CE74EC"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/region_d07000_d0d000",
+  "container": "dungeon",
+  "foff": "0xd07000",
+  "size": "0x6000",
+  "vma": "0x80170800",
+  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase native_slot_d07000_80170800",
+  "entries": [
+    {
+      "row": "dungeon/func_80CE74EC",
+      "home": "dungeon/func_800C138C",
+      "tu": "src/dungeon/effect/dispatch.c",
+      "foff": "0xd074ec",
+      "vma": "0x80170cec",
+      "size": 84,
+      "bindings": {
+        "0x800c6b40": "0x8017086c"
+      },
+      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80CE74EC"
+    }
+  ]
 }

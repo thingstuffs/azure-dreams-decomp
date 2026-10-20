@@ -1,6 +1,5 @@
 #include "dungeon/effect/particle/draw_linked_effect_chain.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/effect/particle/draw_linked_effect_chain.h"
 
 void func_8002408C(void *quad, void *position, void *render_state, s16 depth_bias)
 {
@@ -122,7 +121,6 @@ void func_8002408C(void *quad, void *position, void *render_state, s16 depth_bia
 
     func_80064A40();
 }
-#include "dungeon/effect/particle/draw_linked_effect_chain.h"
 
 s32 draw_linked_effect_chain(void *state, void *position, void *appearance) {
     Row_819A0D64_GapNode *node;
@@ -136,7 +134,6 @@ s32 draw_linked_effect_chain(void *state, void *position, void *appearance) {
     }
     return 0;
 }
-#include "dungeon/effect/particle/draw_linked_effect_chain.h"
 
 void update_effect_countdown_fields(void *object_data)
 {
@@ -198,8 +195,9 @@ void update_effect_countdown_fields(void *object_data)
         }
     }
 }
-#include "../../modules/ovl_19c088c_data.c"
-#include "dungeon/effect/particle/draw_linked_effect_chain.h"
+/* Eight direction pairs; scale-one motion and scale-five spawn offsets. */
+const Row_819A1450_LocalTable D_80024034 = {{{1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, 65535}, {0, 65535}, {1, 65535}}};
+const Row_819A1654_PointTable D_80024054[1] = {{{{5, 0}, {5, 5}, {0, 5}, {-5, 5}, {-5, 0}, {-5, 65531}, {0, 65531}, {5, 65531}}}};
 
 void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteFrameState *primitive)
 {
@@ -230,7 +228,6 @@ void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteF
         ((Row_819A0EF0_S_800246F0_3 *)((u8 *)(&object_flag_block)))->unk_00 |= 0x8000;
     }
 }
-#include "dungeon/effect/particle/draw_linked_effect_chain.h"
 
 void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState, void *unused, Row_819A0FC0_S_func_819A0FC0_1 *primitive)
 {
@@ -251,7 +248,6 @@ void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/particle/draw_linked_effect_chain.h"
 
 void func_80024834(void *fade_data)
 {
@@ -280,7 +276,6 @@ void func_80024834(void *fade_data)
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/particle/draw_linked_effect_chain.h"
 
 void advance_object_motion_and_animation(void *effect) {
     s32 blend_ticks;
@@ -327,7 +322,6 @@ void advance_object_motion_and_animation(void *effect) {
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/particle/draw_linked_effect_chain.h"
 
 void choose_random_sign(void *effect, s32 unused, void *primitive)
 {
@@ -349,7 +343,6 @@ void choose_random_sign(void *effect, s32 unused, void *primitive)
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/particle/draw_linked_effect_chain.h"
 
 void func_80024BD0(Row_819A13D0_Work *work, s32 unused, Row_819A13D0_Obj *obj) {
     s32 scaled_count;
@@ -371,7 +364,6 @@ void func_80024BD0(Row_819A13D0_Work *work, s32 unused, Row_819A13D0_Obj *obj) {
     *(u16 *)((u8 *)work - 2) |= 0x8000;
     object_flag_block.flags |= 0x8000;
 }
-#include "dungeon/effect/particle/draw_linked_effect_chain.h"
 
 void func_80024C50(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z)
@@ -422,7 +414,6 @@ void func_80024C50(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2
         func_8003DB94(part, D_800DEC00, 0);
     }
 }
-#include "dungeon/effect/particle/draw_linked_effect_chain.h"
 
 void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_context, void *saved_data) {
     Row_819A1654_PointTable points;

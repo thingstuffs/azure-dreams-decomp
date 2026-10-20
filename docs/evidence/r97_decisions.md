@@ -485,3 +485,14 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     `SpriteFrameState` (same field layout over 582 functions). Every rewrite is proven by complete-TU object identity;
     a site whose bytes change keeps its old spelling and is ledgered in `ledger/fields.jsonl` with the mechanism
     (gcc 2.x MEM_IN_STRUCT_P scheduling). Design, rules and census: lane types_design (RULES.md, PLAN.md).
+
+70. **(r121, OWNER 2026-10-20) Two texts of one function: the whole-module text is canonical.** Where a function has a
+    standalone row file and a module-TU copy that are both byte-exact (src/dungeon/native_candidates/1960800 and
+    183a800: 21 functions of two native overlay modules), the module copy is the source: a module is loaded and relocated
+    as one unit, so its original was one .c file with shared declarations, and only the module copies agree with each
+    other (callback prototypes take the 3 arguments their callers pass; row copies declare 1). The module text is inlined
+    into its wrapper (advance_object_spawning_displays_high.c, render_textured_effect_parts.c), rows point at their spans
+    with the per-row compile proof used for T1, the 21 row files and native_candidates/ are deleted, and the residue
+    (empty comment stubs, unused M2C_FIELD, duplicate prototypes, M2C_UNK) is cleaned with object identity. The two data
+    includes (ovl_19c088c_data.c, ovmovie_libpress_storage.c) are inlined in place: their position sets the table
+    addresses. libpress stays one SDK file under movie/playback.

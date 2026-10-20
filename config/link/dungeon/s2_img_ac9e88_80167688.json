@@ -23,7 +23,7 @@
     },
     {
       "row": "dungeon/func_80AA9F20",
-      "tu": "src/dungeon/func_80A73EF4.c",
+      "tu": "src/dungeon/monster/grineut/spawn_mode_dependent_object.c",
       "home": "dungeon/func_80A73EF4",
       "foff": "0xAC9F20",
       "vma": "0x80167720",
@@ -57,7 +57,7 @@
     },
     {
       "row": "dungeon/func_80AAA9D0",
-      "tu": "src/dungeon/func_80A9E9D0.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9E9D0",
       "foff": "0xaca9d0",
       "vma": "0x801681d0",
@@ -73,7 +73,7 @@
     },
     {
       "row": "dungeon/func_80AAAE48",
-      "tu": "src/dungeon/func_80A9EE48.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9EE48",
       "foff": "0xacae48",
       "vma": "0x80168648",

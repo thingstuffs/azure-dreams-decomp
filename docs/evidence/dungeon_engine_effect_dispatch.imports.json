@@ -326,7 +326,7 @@
       "view_bytes": 2,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_engine_effect_dispatch.imports.json",
-      "declaration": "src/dungeon/func_800C23D8.c"
+      "declaration": "src/dungeon/effect/dispatch.c"
     },
     "D_80082E6B": {
       "symbol": "D_80082E6B",
@@ -335,7 +335,7 @@
       "view_bytes": 1,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_engine_effect_dispatch.imports.json",
-      "declaration": "src/dungeon/func_800C0848.c"
+      "declaration": "src/dungeon/effect/dispatch.c"
     },
     "D_80083460": {
       "symbol": "D_80083460",

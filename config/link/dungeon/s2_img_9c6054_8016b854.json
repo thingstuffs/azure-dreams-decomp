@@ -1,36 +1,36 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/s2_img_9c6054_8016b854",
- "container": "dungeon",
- "foff": "0x9c6054",
- "size": "0x4528",
- "vma": "0x8016b854",
- "evidence": "docs/evidence/r121w_s2_receipts.json",
- "entries": [
-  {
-   "row": "dungeon/func_809A8F10",
-   "tu": "src/dungeon/func_80AF4148.c",
-   "home": "dungeon/func_80AF4148",
-   "foff": "0x9c8f10",
-   "vma": "0x8016e710",
-   "size": 56,
-   "bindings": {
-    "0x801717F4": "0x8016B0EC"
-   },
-   "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_809A8F10; B10 re-homed from dungeon/func_809A2F10 (now an LL placement of dungeon/func_80AF4148): bindings translated through dungeon/func_809A2F10's object-screen resolution"
-  },
-  {
-   "row": "dungeon/func_809A97C0",
-   "tu": "src/dungeon/func_809A37C0.c",
-   "home": "dungeon/func_809A37C0",
-   "foff": "0x9c97c0",
-   "vma": "0x8016efc0",
-   "size": 292,
-   "bindings": {
-    "0x80175f9c": "0x8016ff9c",
-    "0x80174e98": "0x8016ee98"
-   },
-   "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_809A97C0"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/s2_img_9c6054_8016b854",
+  "container": "dungeon",
+  "foff": "0x9c6054",
+  "size": "0x4528",
+  "vma": "0x8016b854",
+  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "entries": [
+    {
+      "row": "dungeon/func_809A8F10",
+      "tu": "src/dungeon/monster/snowman/move_and_shrink_fading_effect.c",
+      "home": "dungeon/func_80AF4148",
+      "foff": "0x9c8f10",
+      "vma": "0x8016e710",
+      "size": 56,
+      "bindings": {
+        "0x801717F4": "0x8016B0EC"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_809A8F10; B10 re-homed from dungeon/func_809A2F10 (now an LL placement of dungeon/func_80AF4148): bindings translated through dungeon/func_809A2F10's object-screen resolution"
+    },
+    {
+      "row": "dungeon/func_809A97C0",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+      "home": "dungeon/func_809A37C0",
+      "foff": "0x9c97c0",
+      "vma": "0x8016efc0",
+      "size": 292,
+      "bindings": {
+        "0x80175f9c": "0x8016ff9c",
+        "0x80174e98": "0x8016ee98"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_809A97C0"
+    }
+  ]
 }

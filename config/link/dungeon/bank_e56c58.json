@@ -25,7 +25,7 @@
     },
     {
       "row": "dungeon/func_80E37C60",
-      "tu": "src/dungeon/func_80A71D70.c",
+      "tu": "src/dungeon/monster/grineut/spawn_mode_dependent_object.c",
       "home": "dungeon/func_80A71D70",
       "foff": "0xE57C60",
       "vma": "0x80171460",
@@ -49,7 +49,7 @@
     },
     {
       "row": "dungeon/func_80E38638",
-      "tu": "src/dungeon/func_809CA5A0.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA5A0",
       "foff": "0xE58638",
       "vma": "0x80171E38",
@@ -57,7 +57,7 @@
     },
     {
       "row": "dungeon/func_80E387FC",
-      "tu": "src/dungeon/func_809CA764.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA764",
       "foff": "0xE587FC",
       "vma": "0x80171FFC",
@@ -81,7 +81,7 @@
     },
     {
       "row": "dungeon/func_80E38E40",
-      "tu": "src/dungeon/func_80F88C30.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F88C30",
       "foff": "0xE58E40",
       "vma": "0x80172640",
@@ -145,7 +145,7 @@
     },
     {
       "row": "dungeon/func_80E3A080",
-      "tu": "src/dungeon/func_80F8A600.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xE5A080",
       "vma": "0x80173880",
@@ -169,7 +169,7 @@
     },
     {
       "row": "dungeon/func_80E3A154",
-      "tu": "src/dungeon/func_80DE61E8.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE61E8",
       "foff": "0xE5A154",
       "vma": "0x80173954",
@@ -217,7 +217,7 @@
     },
     {
       "row": "dungeon/func_80E3AD80",
-      "tu": "src/dungeon/func_80F8A6D4.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8A6D4",
       "foff": "0xE5AD80",
       "vma": "0x80174580",
@@ -273,7 +273,7 @@
     },
     {
       "row": "dungeon/func_80E3BD40",
-      "tu": "src/dungeon/func_800C138C.c",
+      "tu": "src/dungeon/effect/dispatch.c",
       "home": "dungeon/func_800C138C",
       "foff": "0xE5BD40",
       "vma": "0x80175540",

@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80A23E24",
-      "tu": "src/dungeon/func_809C9DF4.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9DF4",
       "foff": "0xa43e24",
       "vma": "0x8016b624",

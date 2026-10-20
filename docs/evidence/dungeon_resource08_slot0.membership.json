@@ -343,7 +343,7 @@
       ],
       "dispatch_proof": {
         "id": "dungeon/func_80A9B250",
-        "source": "src/dungeon/func_80A9B250.c",
+        "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
         "source_sha256": "9c3fd70d9e8b75f48e0f0d970d47df886e7191a9b110ecf9da6a2b6df177237b",
         "expression": "((R08_80170A50_EntityCallback *)D_80174C94)[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, part, entity);",
         "retail_slices": [

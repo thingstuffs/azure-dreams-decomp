@@ -251,7 +251,7 @@
       ],
       "dispatch_proof": {
         "id": "dungeon/func_80C153B8",
-        "source": "src/dungeon/func_80C153B8.c",
+        "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
         "source_sha256": "b28b539db0b6797bb3cbf9cbb78502706192fa6ab5df7310b86d8569e298d9b7",
         "expression": "((R17_80170BB8_EntityCallback *)D_80174504)[(*(u8 *)((u8 *)actor + (0x9A)))](actor, motion, object, actor);",
         "retail_slices": [

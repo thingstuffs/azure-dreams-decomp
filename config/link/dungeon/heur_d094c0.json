@@ -1,19 +1,19 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/heur_d094c0",
- "container": "dungeon",
- "foff": "0xd094c0",
- "size": "0x298",
- "vma": "0x80172cc0",
- "evidence": "work/native_lane/r121_heur/evidence/placements.json",
- "entries": [
-  {
-   "row": "dungeon/func_80CE94C0",
-   "tu": "src/dungeon/func_80CE94C0.c",
-   "home": "dungeon/func_80CE94C0",
-   "foff": "0xd094c0",
-   "vma": "0x80172cc0",
-   "size": 664
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/heur_d094c0",
+  "container": "dungeon",
+  "foff": "0xd094c0",
+  "size": "0x298",
+  "vma": "0x80172cc0",
+  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "entries": [
+    {
+      "row": "dungeon/func_80CE94C0",
+      "tu": "src/dungeon/monster/troll/advance_actor_stored_path.c",
+      "home": "dungeon/func_80CE94C0",
+      "foff": "0xd094c0",
+      "vma": "0x80172cc0",
+      "size": 664
+    }
+  ]
 }

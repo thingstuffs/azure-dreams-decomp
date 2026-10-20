@@ -27,7 +27,7 @@
     },
     {
       "row": "dungeon/func_80DD2DC8",
-      "tu": "src/dungeon/func_80CB8010.c",
+      "tu": "src/dungeon/modules/ovl_cd7000.c",
       "home": "dungeon/func_80CB8010",
       "foff": "0xdf2dc8",
       "vma": "0x8015a5c8",
@@ -167,7 +167,7 @@
     },
     {
       "row": "dungeon/func_80DD5B7C",
-      "tu": "src/dungeon/func_80DE61E8.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE61E8",
       "foff": "0xdf5b7c",
       "vma": "0x8015d37c",

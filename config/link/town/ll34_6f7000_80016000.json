@@ -21,7 +21,7 @@
     },
     {
       "row": "town/func_807770D0",
-      "tu": "src/town/func_807748D0.c",
+      "tu": "src/town/scene/dispatch_town_callback_fallback.c",
       "home": "town/func_807748D0",
       "foff": "0x6F70D0",
       "vma": "0x800160D0",

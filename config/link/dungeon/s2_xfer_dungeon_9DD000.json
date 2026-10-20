@@ -138,7 +138,7 @@
     },
     {
       "row": "dungeon/func_809C0F10",
-      "tu": "src/dungeon/func_80AF4148.c",
+      "tu": "src/dungeon/monster/snowman/move_and_shrink_fading_effect.c",
       "home": "dungeon/func_80AF4148",
       "foff": "0x9e0f10",
       "vma": "0x80156710",
@@ -154,7 +154,7 @@
     },
     {
       "row": "dungeon/func_809C12D4",
-      "tu": "src/dungeon/func_809A32D4.c",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
       "home": "dungeon/func_809A32D4",
       "foff": "0x9e12d4",
       "vma": "0x80156ad4",
@@ -174,7 +174,7 @@
     },
     {
       "row": "dungeon/func_809C17C0",
-      "tu": "src/dungeon/func_809A37C0.c",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
       "home": "dungeon/func_809A37C0",
       "foff": "0x9e17c0",
       "vma": "0x80156fc0",
@@ -198,7 +198,7 @@
     },
     {
       "row": "dungeon/func_809C18E4",
-      "tu": "src/dungeon/func_809A38E4.c",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
       "home": "dungeon/func_809A38E4",
       "foff": "0x9e18e4",
       "vma": "0x801570e4",
@@ -214,7 +214,7 @@
     },
     {
       "row": "dungeon/func_809C1B78",
-      "tu": "src/dungeon/func_807AF648.c",
+      "tu": "src/dungeon/item/create_positioned_view_marker.c",
       "home": "dungeon/func_807AF648",
       "foff": "0x9e1b78",
       "vma": "0x80157378",
@@ -232,7 +232,7 @@
     },
     {
       "row": "dungeon/func_809C1ED4",
-      "tu": "src/dungeon/func_807AF9A4.c",
+      "tu": "src/dungeon/item/create_positioned_view_marker.c",
       "home": "dungeon/func_807AF9A4",
       "foff": "0x9e1ed4",
       "vma": "0x801576d4",
@@ -246,7 +246,7 @@
     },
     {
       "row": "dungeon/func_809C2078",
-      "tu": "src/dungeon/func_807AFB48.c",
+      "tu": "src/dungeon/item/create_positioned_view_marker.c",
       "home": "dungeon/func_807AFB48",
       "foff": "0x9e2078",
       "vma": "0x80157878",
@@ -258,7 +258,7 @@
     },
     {
       "row": "dungeon/func_809C21CC",
-      "tu": "src/dungeon/func_807AFC9C.c",
+      "tu": "src/dungeon/item/create_positioned_view_marker.c",
       "home": "dungeon/func_807AFC9C",
       "foff": "0x9e21cc",
       "vma": "0x801579cc",

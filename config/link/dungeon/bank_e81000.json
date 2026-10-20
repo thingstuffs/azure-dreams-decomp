@@ -11,7 +11,7 @@
     {
       "row": "dungeon/func_80E612FC",
       "home": "dungeon/func_80D112D0",
-      "tu": "src/dungeon/func_80D112D0.c",
+      "tu": "src/dungeon/monster/noise/update_effect_visuals_and_lifetime.c",
       "foff": 15209212,
       "vma": 2148993788,
       "size": 604,
@@ -53,7 +53,7 @@
     },
     {
       "row": "dungeon/func_80E624A8",
-      "tu": "src/dungeon/func_80A71D70.c",
+      "tu": "src/dungeon/monster/grineut/spawn_mode_dependent_object.c",
       "home": "dungeon/func_80A71D70",
       "foff": "0xE824A8",
       "vma": "0x80171CA8",
@@ -69,7 +69,7 @@
     },
     {
       "row": "dungeon/func_80E62EB0",
-      "tu": "src/dungeon/func_809CA5A0.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA5A0",
       "foff": "0xE82EB0",
       "vma": "0x801726B0",
@@ -77,7 +77,7 @@
     },
     {
       "row": "dungeon/func_80E63074",
-      "tu": "src/dungeon/func_809CA764.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA764",
       "foff": "0xE83074",
       "vma": "0x80172874",
@@ -101,7 +101,7 @@
     },
     {
       "row": "dungeon/func_80E63730",
-      "tu": "src/dungeon/func_80F88C30.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F88C30",
       "foff": "0xE83730",
       "vma": "0x80172F30",
@@ -182,7 +182,7 @@
     },
     {
       "row": "dungeon/func_80E64BD4",
-      "tu": "src/dungeon/func_80F8A600.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xE84BD4",
       "vma": "0x801743D4",
@@ -223,7 +223,7 @@
     },
     {
       "row": "dungeon/func_80E64CE0",
-      "tu": "src/dungeon/func_807AF528.c",
+      "tu": "src/dungeon/item/create_positioned_view_marker.c",
       "home": "dungeon/func_807AF528",
       "foff": "0xE84CE0",
       "vma": "0x801744E0",
@@ -269,7 +269,7 @@
     },
     {
       "row": "dungeon/func_80E65D14",
-      "tu": "src/dungeon/func_80DE61E8.c",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE61E8",
       "foff": "0xe85d14",
       "vma": "0x80175514",

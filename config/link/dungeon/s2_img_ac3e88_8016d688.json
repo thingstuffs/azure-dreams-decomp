@@ -23,7 +23,7 @@
     },
     {
       "row": "dungeon/func_80AA49D0",
-      "tu": "src/dungeon/func_80A9E9D0.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9E9D0",
       "foff": "0xac49d0",
       "vma": "0x8016e1d0",
@@ -39,7 +39,7 @@
     },
     {
       "row": "dungeon/func_80AA4E48",
-      "tu": "src/dungeon/func_80A9EE48.c",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9EE48",
       "foff": "0xac4e48",
       "vma": "0x8016e648",

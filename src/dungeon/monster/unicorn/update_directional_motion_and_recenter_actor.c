@@ -1,3 +1,185 @@
 #include "dungeon/monster/unicorn/update_directional_motion_and_recenter_actor.h"
-#include "../../func_80C4194C.c"
-#include "../../func_80C41C50.c"
+#include "shared/sprite_frame_state.h"
+
+/* Updates directional movement, decelerates it, and recenters the actor on its tile. */
+void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, EntityRec *motion, SpriteFrameState *actor, void *source)
+{
+    s16 timer;
+    s32 direction;
+    s32 tracked_entity;
+
+    direction = (((EntityRec *)source)->unk_6A >> 9) & 7;
+    switch (action->unk_9B) {
+    case 0:
+        apply_clamped_actor_value_delta(source);
+        motion->unk_0C =
+            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 19;
+        motion->unk_10 =
+            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 19;
+        action->unk_9B++;
+
+        if (((EntityRec *)source)->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            begin_actor_display_action(action, motion, actor, &D_80174D5C);
+            return;
+        }
+        if (actor->flags & 0x8000) {
+            action->unk_96.s = 0;
+            action->unk_9B = 2;
+            return;
+        }
+        if (((EntityRec *)source)->flags1C & 0x228) {
+            timer = 8;
+        } else {
+            timer = -1;
+        }
+        action->unk_96.s = timer;
+        motion->unk_0C -= motion->unk_0C / 4;
+        motion->unk_10 -= motion->unk_10 / 4;
+                        /* fall through */
+
+    case 1:
+        motion->unk_0C -=
+            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 14;
+        motion->unk_10 -=
+            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
+        if (action->unk_96.s > 0) {
+            action->unk_96.s = action->unk_96.u - 1;
+        } else if (actor->flags & 0x6000) {
+            action->unk_96.s = 0;
+        }
+        if (action->unk_96.s != 0) {
+            return;
+        }
+        if (((EntityRec *)source)->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            begin_actor_display_action(action, motion, actor, &D_80174D5C);
+            return;
+        }
+        action->unk_96.s = 8;
+        action->unk_9B++;
+        return;
+
+    case 2:
+        if (action->unk_96.s != 0) {
+            {
+                s32 tile_x;
+                s32 current_x;
+
+                tile_x = actor->unk_24 << 6;
+                current_x = motion->x.w.i - 0x20;
+                motion->unk_0C =
+                    ((tile_x - current_x) << 15) >> 1;
+            }
+            {
+                s32 tile_y;
+                s32 current_y;
+
+                tile_y = actor->unk_25 << 6;
+                current_y = motion->y.w.i - 0x20;
+                motion->unk_10 =
+                    ((tile_y - current_y) << 15) >> 1;
+            }
+        }
+        timer = action->unk_96.u - 1;
+        action->unk_96.s = timer;
+        if ((s32)(timer << 16) > 0) {
+            return;
+        }
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+
+        tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
+        if (tracked_entity == (s32)((u8 *)source - 0x20)) {
+            g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
+        }
+        action->unk_8C = &D_80170E7C;
+        return;
+
+    default:
+        return;
+    }
+}
+
+/* Fade the entity sprite, then remove the entity and update its tile flags. */
+void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, void *entity)
+{
+    s32 state;
+    s32 entity_flags;
+    u16 fade_delay;
+    s32 tracked_entity;
+    s32 tile_x;
+    s32 tile_y;
+    s32 tile_mask;
+
+    state = ((T_80173450_S_80173450_0 *)action)->unk_9B;
+    switch (state) {
+    case 0:
+        if (*(s16 *)((u8 *)&g_dungeon_status.activity_counts.parts.pending_action_count) != 0) {
+            return;
+        }
+        ((T_80173450_S_80173450_0 *)action)->unk_9B = 1;
+                        /* fallthrough */
+    case 1:
+        entity_flags = ((Rec_D_80082E80 *)entity)->unk_14.at00_s32.v;
+        if (entity_flags & 0x4000) {
+            if (!(entity_flags & 0x20000000)) {
+                announce_familiar_defeat(entity);
+            }
+        }
+        play_sound_if_enabled(0x805);
+        ((T_80173450_S_80173450_0 *)action)->unk_96 = 4;
+        ((T_80173450_S_80173450_0 *)action)->unk_9B++;
+        ((T_80173450_S_80173450_2 *)sprite)->unk_12 -= 0x80;
+                        /* fallthrough */
+    case 2:
+        break;
+    default:
+        return;
+    }
+
+    ((Rec_D_80082E80 *)entity)->unk_1C.at00_s32.v |= 0x10000000;
+    fade_delay = ((T_80173450_S_80173450_0 *)action)->unk_96 - 1;
+    ((T_80173450_S_80173450_0 *)action)->unk_96 = fade_delay;
+    if ((s16)fade_delay <= 0) {
+        if (((T_80173450_S_80173450_2 *)sprite)->unk_0C.u8 >= 0x10) {
+            ((T_80173450_S_80173450_2 *)sprite)->unk_0C.s32 += 0xFFEFEFF0;
+        }
+        ((T_80173450_S_80173450_2 *)sprite)->unk_10 = 0x20;
+        ((T_80173450_S_80173450_2 *)sprite)->unk_14 |= 0xC;
+    } else {
+        ((T_80173450_S_80173450_2 *)sprite)->unk_0C.s32 = 0x808080;
+    }
+
+    if (!(((T_80173450_S_80173450_2 *)sprite)->unk_14 & 0x8000)) {
+        if (((T_80173450_S_80173450_2 *)sprite)->unk_0C.u8 >= 0x10) {
+            return;
+        }
+    }
+
+    tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
+    if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
+        g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
+    }
+    distribute_experience_and_report_gains(entity);
+    detach_record_and_update_slot_state(entity);
+
+    tile_x = ((T_80173450_S_80173450_2 *)sprite)->unk_24;
+    tile_y = ((T_80173450_S_80173450_2 *)sprite)->unk_25;
+    tile_mask = 0x3000;
+    if (((Rec_D_80082E80 *)entity)->unk_1C.at00_s32.v & 0x2000) {
+        tile_mask = 0x300;
+    }
+    update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
+    unlink_entity_node(entity);
+    (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
+    object_flag_block.flags |= 0x8000;
+
+    return;
+}

@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_804FEA5C",
       "home": "dungeon/func_8028325C",
-      "tu": "src/dungeon/func_8028325C.c",
+      "tu": "src/dungeon/level/setup.c",
       "foff": "0x0051EA5C",
       "vma": "0x8001625C",
       "size": 408,
@@ -48,7 +48,7 @@
     {
       "row": "dungeon/func_804FEBF4",
       "home": "dungeon/func_802833F4",
-      "tu": "src/dungeon/func_802833F4.c",
+      "tu": "src/dungeon/level/setup.c",
       "foff": "0x51ebf4",
       "vma": "0x800163f4",
       "size": 452,
@@ -57,7 +57,7 @@
     },
     {
       "row": "dungeon/func_804FFAA0",
-      "tu": "src/dungeon/func_802842A0.c",
+      "tu": "src/dungeon/level/setup.c",
       "home": "dungeon/func_802842A0",
       "foff": "0x51faa0",
       "vma": "0x800172a0",
@@ -75,7 +75,7 @@
     {
       "row": "dungeon/func_805022F8",
       "home": "dungeon/func_80286AF8",
-      "tu": "src/dungeon/func_80286AF8.c",
+      "tu": "src/dungeon/level/generate.c",
       "foff": "0x5222f8",
       "vma": "0x80019af8",
       "size": 3096,
@@ -85,7 +85,7 @@
     {
       "row": "dungeon/func_80502F68",
       "home": "dungeon/func_80287768",
-      "tu": "src/dungeon/func_80287768.c",
+      "tu": "src/dungeon/level/generate.c",
       "foff": "0x00522F68",
       "vma": "0x8001A768",
       "size": 1120,
@@ -107,7 +107,7 @@
     {
       "row": "dungeon/func_805033C8",
       "home": "dungeon/func_80287BC8",
-      "tu": "src/dungeon/func_80287BC8.c",
+      "tu": "src/dungeon/level/generate.c",
       "foff": "0x005233C8",
       "vma": "0x8001ABC8",
       "size": 132,
@@ -121,7 +121,7 @@
     {
       "row": "dungeon/func_8050486C",
       "home": "dungeon/func_8028906C",
-      "tu": "src/dungeon/func_8028906C.c",
+      "tu": "src/dungeon/level/generate.c",
       "foff": "0x0052486C",
       "vma": "0x8001C06C",
       "size": 1400,
@@ -139,7 +139,7 @@
     {
       "row": "dungeon/func_80504DE4",
       "home": "dungeon/func_802895E4",
-      "tu": "src/dungeon/func_802895E4.c",
+      "tu": "src/dungeon/level/generate.c",
       "foff": "0x00524DE4",
       "vma": "0x8001C5E4",
       "size": 1520,

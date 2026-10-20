@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80CB2010",
-      "tu": "src/dungeon/func_80CAC010.c",
+      "tu": "src/dungeon/modules/ovl_ccb000.c",
       "home": "dungeon/func_80CAC010",
       "foff": "0xcd2010",
       "vma": "0x80153810",
@@ -43,7 +43,7 @@
     },
     {
       "row": "dungeon/func_80CB2C58",
-      "tu": "src/dungeon/func_80CACC58.c",
+      "tu": "src/dungeon/modules/ovl_ccb000.c",
       "home": "dungeon/func_80CACC58",
       "foff": "0xcd2c58",
       "vma": "0x80154458",
@@ -126,7 +126,7 @@
     },
     {
       "row": "dungeon/func_80CB44FC",
-      "tu": "src/dungeon/func_80CAE4FC.c",
+      "tu": "src/dungeon/modules/ovl_ccb000.c",
       "home": "dungeon/func_80CAE4FC",
       "foff": "0xcd44fc",
       "vma": "0x80155cfc",
@@ -143,7 +143,7 @@
     {
       "row": "dungeon/func_80CB4640",
       "home": "dungeon/func_80C96640",
-      "tu": "src/dungeon/func_80C96640.c",
+      "tu": "src/dungeon/monster/block/block.c",
       "foff": "0xcd4640",
       "vma": "0x80155e40",
       "size": 1248,
@@ -158,7 +158,7 @@
     },
     {
       "row": "dungeon/func_80CB5514",
-      "tu": "src/dungeon/func_80CAF514.c",
+      "tu": "src/dungeon/modules/ovl_ccb000.c",
       "home": "dungeon/func_80CAF514",
       "foff": "0xcd5514",
       "vma": "0x80156d14",

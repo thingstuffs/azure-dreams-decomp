@@ -1,13 +1,818 @@
 #include "dungeon/level/spawn.h"
-#include "../func_8028B110.c"
-#include "../func_8028B18C.c"
-#include "../func_8028B660.c"
-#include "../func_8028B824.c"
-#include "../func_8028B96C.c"
-#include "../func_8028B994.c"
-#include "../func_8028BAA4.c"
-#include "../func_8028BC54.c"
-#include "../func_8028BF0C.c"
-#include "../func_8028C32C.c"
-#include "../func_8028C354.c"
-#include "../func_8028C450.c"
+#include "shared/sprite_frame_state.h"
+
+s32 is_floor_item_tile_occupied(s32 excluded_slot, s16 x, s16 y)
+{
+    s32 slot;
+
+    for (slot = 0; slot < 64; slot++) {
+        if ((excluded_slot != slot) &&
+            (D_800E3548[slot].kind != 0) &&
+            (((floor_spawns_isolated_8028B110_DungeonPosition *)D_800E36C8)[slot].x == x) &&
+            (((floor_spawns_isolated_8028B110_DungeonPosition *)D_800E36C8)[slot].y == y)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void populate_floor_item_records(void)
+{
+    u8 tile_x;
+    u8 tile_y;
+    u8 item_category;
+    u8 item_subtype;
+    s32 count;
+    s32 found_status;
+    s32 crystal_pending;
+    s16 category18_pending;
+    s32 slot_limit;
+    s32 spawn_index;
+    s32 special_flag;
+    s32 spawn_check;
+    floor_spawns_isolated_8028B18C_DungeonGroup *item_category_table;
+    floor_spawns_isolated_8028B18C_DungeonRecord *item_record;
+    DungeonItemEntry *item_state;
+    floor_spawns_isolated_8028B18C_DungeonRecord *saved_record;
+    floor_spawns_isolated_8028B18C_DungeonRecord *spawn_records;
+    u8 *setup_globals;
+    if (D_800E3D6C[0] & 2) {
+        count = 0;
+        saved_record = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)D_800E36C8);
+        item_state = (DungeonItemEntry *)((u8 *)D_800E3548);
+        do {
+            if (item_state->unk_00 != 0) {
+                cycle_map_cell_flags(saved_record->x, saved_record->y, 0x800);
+            }
+            saved_record++;
+            count++;
+            item_state++;
+        } while (count < 0x40);
+        return;
+    }
+
+    setup_globals = (u8 *)0x80010000;
+    *(u16 *)(setup_globals + 0x3626) = *(u16 *)(setup_globals + 0x3624);
+    *(u16 *)(setup_globals + 0x209E) = *(u16 *)(setup_globals + 0x209C);
+    ((s8 *)D_8001F6F0)[0] = 0;
+    *(u16 *)(setup_globals + 0x3626) += (generate_random_value() & 3) + 0x33;
+    *(u16 *)(setup_globals + 0x209E) += (generate_random_value() & 3) + 0x33;
+
+    if (D_80081468[3] == 1) {
+        s32 limit_roll;
+
+        crystal_pending = 0;
+        limit_roll = generate_random_value() & 7;
+        slot_limit = limit_roll + 8;
+    } else {
+        s32 limit_roll;
+        s32 base_limit;
+
+        crystal_pending = 0;
+        limit_roll = generate_random_value() & 3;
+        base_limit = (s16)D_80081468[3] / 2;
+        slot_limit = base_limit + limit_roll;
+    }
+
+    if ((generate_random_value() & 3) == 0) {
+        crystal_pending = *(s16 *)0x8001209E >= 0x101;
+    }
+    category18_pending = 0;
+    if ((generate_random_value() & 3) == 0) {
+        category18_pending = *(s16 *)0x80013626 >= 0x101;
+    }
+
+    if (*(s32 *)0x80012090 == 0) {
+        spawn_check = count_matching_packed_entity_keys(6, 3);
+        if ((s16)spawn_check < 2) {
+            if ((generate_random_value() & 3) == 0) {
+                spawn_index = (s16)find_first_empty_floor_item_slot();
+                if (spawn_index >= 0) {
+                    do {
+                        do {
+                        } while ((s16)select_dungeon_spawn_tile(&tile_x, &tile_y) < 0);
+                    } while (is_floor_item_tile_occupied(spawn_index, tile_x, tile_y) != 0);
+
+                    {
+                        s32 *spawn_table = (s32 *)((u8 *)D_800E3548);
+                        spawn_table[spawn_index] = 0x603;
+                    }
+                    spawn_records = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)D_800E36C8);
+                    spawn_records[spawn_index].x = tile_x;
+                    spawn_records[spawn_index].y = tile_y;
+                    cycle_map_cell_flags(spawn_records[spawn_index].x,
+                                  spawn_records[spawn_index].y, 0x800);
+                }
+            }
+        }
+    }
+
+    count = 0;
+    spawn_check = (s32)((u8 *)0x80010000);
+    item_category_table = ((floor_spawns_isolated_8028B18C_DungeonGroup *)D_80073414);
+    item_state = (DungeonItemEntry *)((u8 *)D_800E3548);
+    item_record = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)D_800E36C8);
+main_loop:
+    if (item_state->kind == 0) {
+        if (count >= slot_limit) {
+            goto cleanup;
+        }
+
+        found_status = (s16)select_floor_item_with_special_overrides(&item_category, &item_subtype, 0, 0);
+        if (found_status != 0 || item_category != 0) {
+            if (found_status == 0) {
+                special_flag = crystal_pending;
+                if (special_flag != 0) {
+                    s32 page_value;
+
+                    page_value = ((generate_random_value() & 0xF) == 0) ? 2 : 1;
+                    item_subtype = page_value;
+                    crystal_pending = 0;
+                    page_value = *(u16 *)(((u8 *)spawn_check) + 0x209E);
+                    item_category = 2;
+                    page_value &= 0xF;
+                    *(u16 *)(((u8 *)spawn_check) + 0x209E) = page_value;
+                } else {
+                    special_flag = category18_pending;
+                    if (special_flag != 0) {
+                        u32 item_flags;
+
+                        item_category = 0x12;
+                        item_subtype = D_800DDC9C[generate_random_value() & 0x1F];
+                        item_flags = item_category_table[18].entries[item_subtype].flags;
+                        if ((item_flags & 0x10) != 0 &&
+                            (item_category_table[19].entries[item_subtype].flags & 0x80) != 0 &&
+                            item_subtype >= 2) {
+                            item_subtype++;
+                        }
+                        category18_pending = 0;
+                        *(u16 *)(((u8 *)spawn_check) + 0x3626) &= 0x3F;
+                    }
+                }
+            }
+
+            item_state->kind = item_category;
+            item_state->unk_00 = item_subtype;
+            init_random_floor_item_parameters(item_state);
+
+            do {
+            } while ((s16)select_dungeon_spawn_tile(&tile_x, &tile_y) < 0);
+
+            if (is_floor_item_tile_occupied(count, tile_x, tile_y) != 0) {
+                item_state->kind = 0;
+            } else {
+                item_record->x = tile_x;
+                item_record->y = tile_y;
+                item_record->field4 = get_surface_height_at_coordinates((tile_x << 6) | 0x20,
+                                                    (tile_y << 6) | 0x20);
+                item_record->field7 = 0;
+                cycle_map_cell_flags(tile_x, tile_y, 0x800);
+                item_record->field8 = get_item_category_value(item_state);
+            }
+        }
+    } else {
+        tile_x = item_record->x;
+        tile_y = item_record->y;
+        init_random_floor_item_parameters(item_state);
+        item_record->field4 = get_surface_height_at_coordinates((tile_x << 6) | 0x20,
+                                            (tile_y << 6) | 0x20);
+        item_record->field7 = 0;
+        cycle_map_cell_flags(tile_x, tile_y, 0x800);
+        item_record->field8 = get_item_category_value(item_state);
+    }
+
+    item_state++;
+    count++;
+    item_record++;
+    if (count < 0x40) {
+        goto main_loop;
+    }
+
+cleanup:
+    if (count < 0x40) {
+        DungeonItemEntry *cleanup_base;
+        DungeonItemEntry *cleanup_state;
+
+        cleanup_base = (DungeonItemEntry *)((u8 *)D_800E3548);
+        cleanup_state = cleanup_base + count;
+cleanup_loop:
+            cleanup_state->kind = 0;
+            (cleanup_state++)->unk_00 = 0;
+            count++;
+        if (count < 0x40) {
+            goto cleanup_loop;
+        }
+    }
+    generate_random_dungeon_item_drops();
+
+    return;
+}
+
+s32 select_floor_item_with_special_overrides(s8 *out_group, s8 *out_index, s32 unused, s32 skip_special) {
+    u8 special_selected;
+    special_selected = ((u8 *)D_8001F6F0)[0];
+
+    if ((special_selected == 0) && (skip_special == 0) && (*(s32 *)0x80012090 == 0)) {
+        if (((s16 *)D_8008146C)[0] == 12) {
+            if (((floor_spawns_isolated_8028B660_S_8001E660_0 *)(D_800E3D7C))->unk_FB == 0) {
+                *out_group = 12;
+                *out_index = 4;
+                ((u8 *)D_8001F6F0)[0] = 1;
+                return 1;
+            }
+        } else if (((s16 *)D_8008146C)[0] == 15) {
+            if ((test_resident_bit(0x145E) != 0) && (test_resident_bit(0x1460) == 0)
+                && ((has_recorded_value_pair(0xD, 1) << 0x10) == 0)) {
+                *out_group = 0xD;
+                *out_index = 1;
+                ((u8 *)D_8001F6F0)[0] = 1;
+                return 1;
+            }
+        } else if (((s16 *)D_8008146C)[0] == 28) {
+            if ((test_resident_bit(0xFC3) != 0) && (test_resident_bit(0xFAD) == 0) && ((has_recorded_value_pair(1, 8) << 0x10) == 0)) {
+                *out_group = 1;
+                *out_index = 8;
+                ((u8 *)D_8001F6F0)[0] = 1;
+                return 1;
+            }
+        } else if (((s16 *)D_8008146C)[0] == 20) {
+            if ((test_resident_bit(0xAC) != 0) && (test_resident_bit(0x12C6) == 0) && ((has_recorded_value_pair(0xD, 6) << 0x10) == 0)) {
+                *out_group = 0xD;
+                *out_index = 6;
+                ((u8 *)D_8001F6F0)[0] = 1;
+                return 1;
+            }
+        }
+        select_weighted_floor_item(out_group, out_index);
+        return 0;
+    } else {
+        select_weighted_floor_item(out_group, out_index);
+        return 0;
+    }
+}
+
+void init_random_floor_item_parameters(void *entity_data) {
+    u8 *entity = entity_data;
+    s16 output_flags;
+    s16 combined_flags;
+    s16 output_value;
+    s32 minus_128;
+    s32 adjusted_value;
+    u8 case_value;
+
+    output_flags = 0;
+    case_value = ((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_01;
+    output_value = output_flags;
+    switch (case_value) {
+    case 4:
+        output_value = 1;
+        if (((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_00 != 0x11) {
+            output_value = (generate_random_value() & 7) | 4;
+        }
+        output_flags = -0x80;
+        break;
+    case 15:
+        if (((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_00 == 9) {
+            output_flags |= 0x40;
+        }
+    case 17:
+        if (!(generate_random_value() & 3)) {
+            adjusted_value = (generate_random_value() & 3) - 1;
+            output_value = adjusted_value;
+            if (adjusted_value < 0) {
+                output_flags |= 0x40;
+            }
+        }
+    case 16:
+        minus_128 = -0x80;
+        combined_flags = output_flags | minus_128;
+        output_flags = combined_flags;
+        if (generate_random_value() & 7) {
+            break;
+        }
+        output_value = -1;
+        output_flags = combined_flags | 0x40;
+        break;
+    case 18:
+        output_value = ((u32)(generate_random_value() & 0xFFFF) % 40U) + 0x3C;
+        break;
+    case 1:
+    default:
+        break;
+    }
+    ((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_02 = output_value;
+    ((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_03 = output_flags;
+}
+
+void clear_dungeon_cell_entries(void) {
+    s32 entry_index;
+
+    for (entry_index = 0x3F; entry_index >= 0; entry_index--) {
+        ((int *)D_800E3548)[entry_index] = 0;
+    }
+}
+
+void build_cumulative_item_weights(void)
+{
+    s32 total_weight;
+    s32 category_index;
+    s32 item_index;
+    s32 item_flags;
+    s32 item_weight;
+    s32 weight_bits;
+    s32 weight_kind;
+
+    total_weight = 0;
+    for (category_index = 1; category_index < 0x13; category_index++) {
+        for (item_index = 1; item_index < ((floor_spawns_isolated_8028B994_DungeonGroup *)D_80073414)[category_index].count; item_index++) {
+            item_flags = ((floor_spawns_isolated_8028B994_DungeonGroup *)D_80073414)[category_index].entries[item_index].flags;
+            if (item_flags & 0x10) {
+                continue;
+            }
+            if ((item_flags & 0x40) && *(s32 *)0x80012090 != 2) {
+                continue;
+            }
+            weight_bits = ((floor_spawns_isolated_8028B994_DungeonGroup *)((u8 *)((floor_spawns_isolated_8028B994_DungeonGroup *)D_80073414) + (((category_index << 3) + (category_index << 1)) << 1)))->entries[item_index].flags & 0x3000;
+            weight_kind = (weight_bits / 0x1000) & 3;
+            item_weight = 0x80;
+            if (weight_kind != 0) {
+                item_weight = 0x55;
+                if (weight_kind != 1) {
+                    item_weight = 1;
+                    if (weight_kind == 2) {
+                        item_weight = 0x20;
+                    }
+                }
+            }
+            total_weight += item_weight;
+        }
+        D_8001F6F8[category_index] = total_weight;
+    }
+    D_8001F6F8[category_index] = total_weight;
+}
+
+s32 select_weighted_floor_item(s8 *category_out, s8 *item_out) {
+    s32 category_index;
+    s32 selected_category;
+    s32 rarity;
+    s32 category_scale_or_weight;
+    u8 *table_cursor_or_item_offset;
+    s32 item_index;
+    s32 scan_value;
+    u16 *category_threshold;
+    u16 *thresholds;
+    u16 *entry;
+    u16 item_flags;
+    s32 cumulative_weight;
+    u32 rng_result;
+    u16 random_weight;
+    unsigned long table_base_or_mode;
+    u8 *item_category_table;
+    u8 *category_entry;
+    u8 *item_offset;
+
+    rng_result = generate_random_value();
+    thresholds = (u16 *)D_8001F6F8;
+    random_weight = thresholds[19];
+    random_weight = (rng_result & 0xFFFF) % random_weight;
+    category_index = 1;
+    item_offset = (u8 *)thresholds;
+    category_threshold = (u16 *)(item_offset + 2);
+    category_scale_or_weight = random_weight & 0xFFFF;
+    while (1) {
+        if (!(*category_threshold < (u32)category_scale_or_weight)) {
+            item_index = 1;
+            break;
+        }
+        category_index += 1;
+        category_threshold += 1;
+        if (category_index >= 0x13) {
+            item_index = 1;
+            break;
+        }
+    }
+    category_scale_or_weight = category_index * 4;
+    entry = &((u16 *)item_offset)[category_index];
+    table_base_or_mode = (unsigned long)((u8 *)D_80073414);
+    scan_value = category_scale_or_weight + category_index;
+    scan_value *= 4;
+    table_cursor_or_item_offset = (u8 *)(scan_value + table_base_or_mode);
+    entry--;
+    cumulative_weight = *entry;
+    if (item_index < table_cursor_or_item_offset[2]) {
+        scan_value = category_index << 16;
+        item_category_table = (u8 *)table_base_or_mode;
+        table_base_or_mode = 2;
+        category_entry = table_cursor_or_item_offset;
+        selected_category = scan_value >> 16;
+        item_offset = (u8 *)0x14;
+loop_6:
+        item_flags = *(u16 *)(item_offset + ((floor_spawns_isolated_8028BAA4_ItemCategoryRow *)(item_category_table
+            + ((category_scale_or_weight + category_index) * 4)))->item_table);
+        if (!(item_flags & 0x10)) {
+            if ((item_flags & 0x40) && (*(s32 *)0x80012090) != (s32)table_base_or_mode) {
+                category_scale_or_weight = category_index * 4;
+                scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
+            } else {
+                scan_value = *(u16 *)(item_offset + ((floor_spawns_isolated_8028BAA4_ItemCategoryRow *)category_entry)->item_table) & 0x3000;
+                if (scan_value < 0) {
+                    scan_value += 0xFFF;
+                    rarity = (scan_value >> 0xC) & 3;
+                    category_scale_or_weight = 0x80;
+                    if (rarity != 0) {
+                        category_scale_or_weight = 0x55;
+                        if (rarity != 1) {
+                            category_scale_or_weight = 1;
+                            if (rarity == (s32)table_base_or_mode) {
+                                category_scale_or_weight = 0x20;
+                            }
+                        }
+                    }
+                    cumulative_weight += category_scale_or_weight;
+                    if (random_weight < (u32)(cumulative_weight & 0xFFFF)) {
+                        *category_out = (s8)category_index;
+                        *item_out = (s8)item_index;
+                        return selected_category;
+                    }
+                } else {
+                    rarity = (scan_value >> 0xC) & 3;
+                    category_scale_or_weight = 0x80;
+                    if (rarity != 0) {
+                        category_scale_or_weight = 0x55;
+                        if (rarity != 1) {
+                            category_scale_or_weight = 1;
+                            if (rarity == (s32)table_base_or_mode) {
+                                category_scale_or_weight = 0x20;
+                            }
+                        }
+                    }
+                    cumulative_weight += category_scale_or_weight;
+                    if (random_weight < (u32)(cumulative_weight & 0xFFFF)) {
+                        *category_out = (s8)category_index;
+                        *item_out = (s8)item_index;
+                        return selected_category;
+                    }
+                }
+                category_scale_or_weight = category_index * 4;
+                scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
+            }
+        } else {
+            category_scale_or_weight = category_index * 4;
+            scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
+        }
+        item_index += 1;
+        item_offset += 0x14;
+        if (item_index < scan_value) {
+            goto loop_6;
+        }
+    }
+    *category_out = 0;
+    *item_out = 0;
+    return 0;
+}
+
+void generate_random_dungeon_item_drops(void)
+{
+    u8 x;
+    u8 y;
+    register s32 budget;
+    s32 index;
+    s32 decrement;
+    s32 amount;
+    s32 flag;
+    s32 type;
+    s32 cell_index;
+    s32 scan_x;
+    s32 scan_y;
+    s32 scaled;
+    u8 *mode_page;
+    s32 entry_state;
+    DungeonItemEntry *entry;
+    floor_spawns_isolated_8028BC54_DungeonCell *cell;
+    DungeonItemEntry *entry_scan;
+    floor_spawns_isolated_8028BC54_DungeonCell *cell_scan;
+    DungeonItemEntry *entry_base;
+    u8 *cell_page;
+    floor_spawns_isolated_8028BC54_DungeonCell *cell_base = 0;
+
+    mode_page = D_80010000;
+    if (*(s32 *)(mode_page + 0x2090) == 2) {
+        mode_page = (u8 *)(*(s16 *)D_8008146C);
+        scaled = ((s32)mode_page) * 25;
+        budget = scaled << 3;
+    } else {
+        budget = 75;
+        if ((*(s16 *)D_8008146C) >= 12) {
+            budget = 700;
+            if ((*(s16 *)D_8008146C) < 22) {
+                budget = 200;
+            }
+        }
+    }
+
+    if (generate_random_value() & 1) {
+        budget += (u16)random_dungeon_range_16(0, (budget / 2) & 0xFFFF);
+    } else {
+        budget -= (u16)random_dungeon_range_16(0, (budget / 2) & 0xFFFF);
+    }
+
+    if (budget >= 0) {
+        entry_base = (DungeonItemEntry *)((u8 *)D_800E3548);
+        cell_page = (u8 *)0x800E0000;
+        do {
+        cell_index = (s16)find_first_empty_floor_item_slot();
+        if (cell_index < 0) {
+            return;
+        }
+
+        if (budget >= 301) {
+            decrement = (u16)random_dungeon_range_16(160, 240);
+            flag = 1;
+            type = 3;
+            amount = (decrement / 10 + (decrement >> 31)) & 0x3FFFFFFF;
+        } else if (budget >= 151) {
+            decrement = (u16)random_dungeon_range_16(80, 120);
+            amount = decrement;
+            flag = 0;
+            type = 2;
+        } else {
+            decrement = (u16)random_dungeon_range_16(16, 24);
+            amount = decrement;
+            flag = 0;
+            type = 1;
+        }
+
+        do {
+        } while ((select_dungeon_spawn_tile(&x, &y) << 16) < 0);
+
+        scan_x = x;
+        scan_y = y;
+        for (index = 0, cell_scan = (floor_spawns_isolated_8028BC54_DungeonCell *)((u8 *)D_800E36C8), entry_scan = entry_base;
+             index < 64;
+             cell_scan++, index++, entry_scan++) {
+            if (!(entry_scan->kind == 0 || cell_scan->x != scan_x || cell_scan->y != scan_y)) {
+                break;
+            }
+        }
+
+        if (index == 64) {
+            entry = (DungeonItemEntry *)((cell_index << 2) + (unsigned long)entry_base);
+            cell_base = (floor_spawns_isolated_8028BC54_DungeonCell *)(cell_page + 0x36C8);
+            entry->unk_00 = type;
+            entry->kind = 14;
+            entry->unk_03 = flag;
+            entry->unk_02 = amount;
+            cell = (floor_spawns_isolated_8028BC54_DungeonCell *)((cell_index * 12) +
+                                            (unsigned long)cell_base);
+            cell->x = x;
+            cell->y = y;
+            ((floor_spawns_isolated_8028BC54_DungeonCell *)cell)->height = get_surface_height_at_coordinates((x << 6) | 32, (y << 6) | 32);
+            cell->flag7 = 0;
+            cycle_map_cell_flags(x, y, 0x800);
+            cell->object = get_item_category_value((void *)entry);
+        }
+
+        budget -= decrement;
+        } while (budget >= 0);
+    }
+    return;
+}
+
+void restore_spawns_and_place_floor_traps(void) {
+    u8 x;
+    u8 y;
+    u8 *floor_config;
+    floor_spawns_isolated_8028BF0C_SpawnPosition *position;
+    floor_spawns_isolated_8028BF0C_SpawnMeta *meta;
+    s32 *limits;
+    u32 *initial;
+    s32 slot;
+    s32 spawn_limit;
+    s32 trap_budget;
+    s32 trap_cost;
+    s32 value;
+    s32 availability;
+    s32 trap_state;
+    s16 floor_height;
+    u32 initial_value;
+    s32 flag_bits;
+    u32 shifted_flag_bits;
+    u16 flags;
+    u8 trap_type;
+    u8 existing_type;
+    s16 store_type;
+    u8 spawn_variant;
+    u8 spawn_marker;
+    s32 spawn_height;
+    floor_spawns_isolated_8028BF0C_S_8001EF0C_0 *object;
+
+    slot = 0;
+    initial = D_800835E4->initial;
+    limits = (s32 *)(initial + 1);
+    meta = ((floor_spawns_isolated_8028BF0C_SpawnMeta *)D_800E3648);
+    position = D_800E39C8;
+    do {
+        if (meta[slot].state == 0x13) {
+            existing_type = meta[slot].type;
+            availability = find_or_retain_sprite_resource_slot(existing_type, 1);
+            if (availability != 0) {
+                object = load_monster_resource_data(existing_type, availability, 1)
+                (0, position[slot].x, position[slot].y, -0x400);
+                if (object != 0) {
+                    retain_spawn_resource(existing_type, 1);
+                    func_80042640(object, existing_type);
+                    object->unk_43.s = 0xFF;
+                    object->unk_12 = 0;
+                    initial_value = initial[(s8)meta[slot].unk2];
+                    object->unk_18 = initial_value;
+                    if (initial_value >= (u32)limits[object->unk_11]) {
+                        s32 *loop_limits;
+                        loop_limits = D_800835E8;
+                        do {
+                            raise_entity_level(object, 0);
+                        } while ((u32)loop_limits[object->unk_11] <=
+                                 object->unk_18);
+                    }
+                    object->unk_43.u = generate_random_value();
+                }
+            }
+            *(s32 *)&meta[slot] = 0;
+        }
+        slot++;
+    } while (slot < 0x20);
+
+    floor_config = (u8 *)D_80081468;
+    if (((floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *)floor_config)->unk_06 == 1) {
+        spawn_limit = (generate_random_value() & 3) + 4;
+    } else {
+        spawn_limit = ((floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *)floor_config)->unk_06 / 2 + (generate_random_value() & 3);
+    }
+    if (spawn_limit >= 0x21) {
+        spawn_limit = 0x20;
+    }
+
+    value = generate_random_value();
+    slot = 0;
+    trap_state = 0x15;
+    position = D_800E39C8;
+    trap_budget = ((s16 *)D_8008146C)[0] / 2 + (value & 0x3F);
+    meta = ((floor_spawns_isolated_8028BF0C_SpawnMeta *)D_800E3648);
+
+    for (; slot < 0x20; slot++) {
+        if (meta[slot].state == trap_state) {
+            x = position[slot].x;
+            y = position[slot].y;
+            trap_type = meta[slot].type;
+            spawn_variant = meta[slot].unk2;
+            spawn_marker = meta[slot].unk3;
+            spawn_height = -0x400;
+        } else {
+            if ((D_800E3D6C[0] & 8) || slot >= spawn_limit) continue;
+            meta[slot].state = 0;
+            meta[slot].type = 0;
+            trap_budget += generate_random_value() & 0xF;
+            store_type = random_dungeon_range_16(1, 0x13);
+            trap_type = store_type;
+            flags = *(u16 *)(D_800735C4[0] + (trap_type * 0xC));
+            flag_bits = flags & 0x3000;
+            shifted_flag_bits = flag_bits << 16;
+            if (flag_bits == 0x3000) continue;
+            trap_cost = (shifted_flag_bits >> 26) + 4;
+            if (trap_budget < trap_cost) continue;
+            trap_budget -= trap_cost;
+            if (!((D_800E296C & 0x20000000) || ((u8)(trap_type - 0xF) >= 2))) continue;
+            meta[slot].state = trap_state;
+            meta[slot].type = store_type;
+            do {
+            } while ((s16)select_dungeon_spawn_tile(&x, &y) < 0);
+            position[slot].x = x;
+            position[slot].y = y;
+            spawn_variant = (generate_random_value() & 7) | 4;
+            spawn_marker = 0x80;
+            spawn_height = -0x400;
+        }
+        meta[slot].unk2 = spawn_variant;
+        meta[slot].unk3 = spawn_marker;
+        floor_height = sample_terrain_surface_height((x << 6) | 0x20,
+                               (y << 6) | 0x20,
+                               spawn_height);
+        position[slot].unk12 = floor_height;
+        position[slot].unk10 = floor_height;
+        position[slot].flags = 0;
+        cycle_map_cell_flags(x, y, 0x20);
+        {
+            u8 *lookup_base = 0;
+            s32 table_index;
+
+            table_index = trap_type;
+            lookup_base = D_800DF258;
+            value = *(s32 *)(lookup_base + (table_index << 2));
+        }
+        if (value < 0) {
+            func_8003DB94(&position[slot], value, 0);
+            flags = position[slot].flags;
+            position[slot].flags = flags | 0x840;
+            if (value & 0x20000000) {
+                position[slot].flags = flags | 0x940;
+            }
+        } else {
+            if (value != 0) {
+                position[slot].value = value | 0x80000000;
+            }
+            position[slot].flags |= 0x800;
+        }
+        position[slot].zero = 0;
+    }
+}
+
+void clear_dungeon_object_entries(void) {
+    s32 entry_index;
+
+    for (entry_index = 0x1F; entry_index >= 0; entry_index--) {
+        ((int *)D_800E3648)[entry_index] = 0;
+    }
+}
+
+void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param)
+{
+    u16 flags;
+    SpriteFrameState *render_state;
+    void *object;
+    s16 *position;
+    s16 *object_data;
+
+    object = func_8003FC64(2);
+    if (object != NULL) {
+        ((floor_spawns_isolated_8028C354_S_8001F354_0 *)object)->unk_10 = (s32)D_800A5AF0;
+        register_node(object, D_80044BB0);
+        position = (s16 *)((floor_spawns_isolated_8028C354_S_8001F354_0 *)object)->unk_08;
+        position[1] = x + 0x280;
+        position[3] = y;
+        position[5] = 1;
+        render_state = ((floor_spawns_isolated_8028C354_S_8001F354_0 *)object)->unk_0C;
+        render_state->scale_x = 0x2000;
+        render_state->scale_y = 0x1000;
+        render_state->source = render_param;
+        if (tinted != 0) {
+            render_state->color.word = 0x202080;
+        } else {
+            render_state->color.word = 0x808080;
+        }
+        flags = render_state->flags;
+        render_state->tpage_abr = 0x20;
+        object_data = (s16 *)(object + 0x20);
+        render_state->flags = flags | 0xC;
+        object_data[3] = 0x18;
+        object_data[4] = x;
+    }
+}
+
+void draw_dungeon_value_and_label(void)
+{
+    u8 digits[2];
+    u8 *digit_ptr;
+    void *special_label;
+    s32 draw_mode;
+    s16 draw_x;
+    s32 draw_y_fixed;
+    s32 blank_code;
+    u8 digit;
+    special_label = 0;
+    if (*(s32 *)0x80012090 != 2) {
+        if ((*(s16 *)D_8008146C) == 0x28) {
+            special_label = D_80077E00;
+        }
+        draw_mode = 0;
+    } else {
+        draw_mode = 1;
+    }
+
+    if (special_label != 0) {
+        create_tinted_dungeon_object(0xAA, 0x78, 0, special_label);
+        return;
+    }
+
+    create_tinted_dungeon_object(0xAA, 0x78, draw_mode, D_80077DE8);
+    do {
+        digit_ptr = digits;
+    } while (0);
+    func_8004E634((*(s16 *)D_8008146C), digit_ptr);
+
+    draw_x = 0xC8;
+    if (digits[1] == 0) {
+        draw_x = 0xDA;
+    }
+
+    if (digits[0] != 0) {
+        blank_code = 0x20;
+        draw_y_fixed = 0x780000;
+        do {
+            digit = *digit_ptr;
+            if (digit != blank_code) {
+                create_tinted_dungeon_object(draw_x, draw_y_fixed >> 16, draw_mode, D_8001F5B4[digit]);
+            }
+            digit_ptr++;
+            draw_x += 0x12;
+        } while (*digit_ptr != 0);
+    }
+}

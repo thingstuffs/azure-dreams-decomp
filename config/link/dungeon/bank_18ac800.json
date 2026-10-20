@@ -1,40 +1,40 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/bank_18ac800",
- "container": "dungeon",
- "foff": "0x18AC800",
- "size": "0x6000",
- "vma": "0x80024000",
- "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7E777800: bank21_assets_18aec70, img_18ad004_80024804, img_18ae1dc_800259dc, img_18ae3a0_80025ba0, img_18aec04_80026404, native_18ac800_80024000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
- "entries": [
-  {
-   "row": "dungeon/func_8188D0E4",
-   "tu": "src/dungeon/func_81881DDC.c",
-   "home": "dungeon/func_81881DDC",
-   "foff": "0x18AD0E4",
-   "vma": "0x800248E4",
-   "size": 120
-  },
-  {
-   "row": "dungeon/func_8188D15C",
-   "tu": "src/dungeon/func_81881E54.c",
-   "home": "dungeon/func_81881E54",
-   "foff": "0x18AD15C",
-   "vma": "0x8002495C",
-   "size": 268
-  },
-  {
-   "row": "dungeon/func_8188DCFC",
-   "tu": "src/dungeon/func_8188816C.c",
-   "home": "dungeon/func_8188816C",
-   "foff": "0x18ADCFC",
-   "vma": "0x800254FC",
-   "size": 236
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_18ac800",
+  "container": "dungeon",
+  "foff": "0x18AC800",
+  "size": "0x6000",
+  "vma": "0x80024000",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7E777800: bank21_assets_18aec70, img_18ad004_80024804, img_18ae1dc_800259dc, img_18ae3a0_80025ba0, img_18aec04_80026404, native_18ac800_80024000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "entries": [
+    {
+      "row": "dungeon/func_8188D0E4",
+      "tu": "src/dungeon/effect/travel/tint_and_advance_effect.c",
+      "home": "dungeon/func_81881DDC",
+      "foff": "0x18AD0E4",
+      "vma": "0x800248E4",
+      "size": 120
+    },
+    {
+      "row": "dungeon/func_8188D15C",
+      "tu": "src/dungeon/effect/travel/tint_and_advance_effect.c",
+      "home": "dungeon/func_81881E54",
+      "foff": "0x18AD15C",
+      "vma": "0x8002495C",
+      "size": 268
+    },
+    {
+      "row": "dungeon/func_8188DCFC",
+      "tu": "src/dungeon/effect/sprite/create_radial_effect_from_source.c",
+      "home": "dungeon/func_8188816C",
+      "foff": "0x18ADCFC",
+      "vma": "0x800254FC",
+      "size": 236
+    }
+  ],
+  "symbols": {
+    "0x800257CE": "0x80026472",
+    "0x80025868": "0x800253F8",
+    "0x800263F8": "0x80026544"
   }
- ],
- "symbols": {
-  "0x800257CE": "0x80026472",
-  "0x80025868": "0x800253F8",
-  "0x800263F8": "0x80026544"
- }
 }

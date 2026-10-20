@@ -1194,7 +1194,7 @@
       "vma": 2148021052,
       "view_bytes": 24,
       "owner": "resident_runtime:slus",
-      "declaration": "src/dungeon/func_807AEF8C.c",
+      "declaration": "src/dungeon/item/create_positioned_view_marker.c",
       "kind": "runtime_data",
       "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
     },

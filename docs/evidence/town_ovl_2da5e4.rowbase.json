@@ -29141,7 +29141,7 @@
     },
     {
       "container": "town",
-      "source": "src/town/func_8009FE60.c",
+      "source": "src/town/menu/window.c",
       "source_sha256": "b511eb621d602fb4e7a7ff527499f891fb82d6366bcae166b3d387337d5fae0d",
       "vma": 2148128192,
       "foff": 130656,

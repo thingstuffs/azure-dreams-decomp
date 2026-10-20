@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7FFE5760: xfer_dungeon_A3000","i":"dungeon/engine","n":"0x5D8A0","o":"0xA3000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:bc1203251b8190ab42b943a2820d64e4a2cb44615bc59384456551af8a3e59cd"],"t":[342464,0,0,16496,11497,12679,0],"v":"0x80088760"},"p":[{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_code"},{"tu":"src/dungeon/effect/state/forward_actor_effect_state.c"},{"tu":"src/dungeon/effect/advance_actor_removal_callback.c"},{"tu":"src/dungeon/effect/advance_actor_hop_and_dispatch.c"},{"tu":"src/dungeon/effect/advance_thrown_actor_travel_and_dispatch.c"},{"tu":"src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c"},{"tu":"src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c"},{"tu":"src/dungeon/effect/advance_actor_fade_in_and_dispatch.c"},{"tu":"src/dungeon/actor/state/process_actor_state_chain.c"},{"tu":"src/dungeon/actor/install_actor_action_handler.c"},{"tu":"src/dungeon/actor/set_actor_data_pointer.c"},{"tu":"src/dungeon/effect/shade/advance_damped_effect_and_expire.c"},{"tu":"src/dungeon/effect/shade/draw_linked_depth_sliced_quads.c"},{"tu":"src/dungeon/actor/update_actor_target_after_check.c"},{"tu":"src/dungeon/actor/update_actor_defeat_removal_callback.c"},{"tu":"src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: sliver_between_noncode"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7FFE5760: xfer_dungeon_A3000","i":"dungeon/engine","n":"0x5D8A0","o":"0xA3000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[342464,0,0,16496,11497,12679,0],"v":"0x80088760"},"p":[{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_code"},{"tu":"src/dungeon/effect/state/forward_actor_effect_state.c"},{"tu":"src/dungeon/effect/advance_actor_removal_callback.c"},{"tu":"src/dungeon/effect/advance_actor_hop_and_dispatch.c"},{"tu":"src/dungeon/effect/advance_thrown_actor_travel_and_dispatch.c"},{"tu":"src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c"},{"tu":"src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c"},{"tu":"src/dungeon/effect/advance_actor_fade_in_and_dispatch.c"},{"tu":"src/dungeon/effect/dispatch.c"},{"tu":"src/dungeon/actor/state/process_actor_state_chain.c"},{"tu":"src/dungeon/actor/install_actor_action_handler.c"},{"tu":"src/dungeon/actor/set_actor_data_pointer.c"},{"tu":"src/dungeon/effect/shade/advance_damped_effect_and_expire.c"},{"tu":"src/dungeon/effect/shade/draw_linked_depth_sliced_quads.c"},{"tu":"src/dungeon/actor/update_actor_target_after_check.c"},{"tu":"src/dungeon/actor/update_actor_defeat_removal_callback.c"},{"tu":"src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: sliver_between_noncode"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 667648	176	d	census:noncode:decode		0
 667824	52	a	census:format:ptrtab	c852992f032d0d4973249ae1c57614c5340f30d460b721f173713afb2b055b5c	1
@@ -56,23 +56,23 @@ o	n	k	r	h	x
 "0xCDABC"	56	c	census:registered_tu		["func_800ADABC",null,"0x800B321C",11]
 "0xCDAF4"	56	c	census:registered_tu		["func_800ADAF4",null,"0x800B3254",12]
 842540	79968	r	census:c_row		5
-"0xE138C"	84	c	census:registered_tu		["func_800C138C",null,"0x800C6AEC",2]
+"0xE138C"	84	c	census:registered_tu		["func_800C138C",null,"0x800C6AEC",13]
 922592	52112	r	census:c_row		5
-"0xEDF70"	104	c	census:registered_tu		["func_800CDF70",null,"0x800D36D0",13]
+"0xEDF70"	104	c	census:registered_tu		["func_800CDF70",null,"0x800D36D0",14]
 974808	3736	r	census:c_row		5
-"0xEEE70"	100	c	census:registered_tu		["func_800CEE70",null,"0x800D45D0",14]
+"0xEEE70"	100	c	census:registered_tu		["func_800CEE70",null,"0x800D45D0",15]
 978644	744	r	census:c_row		5
-"0xEF1BC"	56	c	census:registered_tu		["func_800CF1BC",null,"0x800D491C",15]
+"0xEF1BC"	56	c	census:registered_tu		["func_800CF1BC",null,"0x800D491C",16]
 979444	4940	r	census:c_row		5
-"0xF0540"	300	c	census:registered_tu		["func_800D0540",null,"0x800D5CA0",16]
+"0xF0540"	300	c	census:registered_tu		["func_800D0540",null,"0x800D5CA0",17]
 984684	2532	r	census:c_row		5
-"0xF1050"	84	c	census:registered_tu		["func_800D1050",null,"0x800D67B0",17]
+"0xF1050"	84	c	census:registered_tu		["func_800D1050",null,"0x800D67B0",18]
 987300	12416	r	census:c_row		5
-"0xF4124"	152	c	census:registered_tu		["func_800D4124",null,"0x800D9884",18]
+"0xF4124"	152	c	census:registered_tu		["func_800D4124",null,"0x800D9884",19]
 999868	1632	r	census:c_row		5
-"0xF481C"	32	c	census:registered_tu		["func_800D481C",null,"0x800D9F7C",19]
+"0xF481C"	32	c	census:registered_tu		["func_800D481C",null,"0x800D9F7C",20]
 1001532	1732	r	census:c_row		5
-"0xF4F00"	100	c	census:registered_tu		["func_800D4F00",null,"0x800DA660",20]
+"0xF4F00"	100	c	census:registered_tu		["func_800D4F00",null,"0x800DA660",21]
 1003364	10140	r	census:c_row		5
 1013504	140	a	census:audit+noncode_confirmed	f5c01aa1d65937e246b56ce11c7416d8630e67fe98be3039be25a571b86296d2	4
 1013644	16	a	census:format:ptrtab	8c114f8a49ffb22e0eface09c5ad8a027817fe061224feb676492224970b90b9	1
@@ -91,20 +91,20 @@ o	n	k	r	h	x
 1014516	32	a	census:audit+noncode_confirmed	acf798ac89c5d99f657ef1bb137b6878a207e4015908aa228bb1dfd4b28241aa	4
 1014548	64	a	census:format:ptrtab	a586aec1c1486b534709c20153b22e6962c0ddf12f880299107b6cf5ed16a84f	1
 1014612	156	a	census:audit+noncode_confirmed	384a614050f84035f074ac8ef7450dc360640f291a867cfa75f8b934129fc206	4
-1014768	12	a	census:neighbour:proven_data	ab254dffbe815dc8b3ff490f09f75a43360cd316617f4a0bf8d70d63a98fe50e	21
+1014768	12	a	census:neighbour:proven_data	ab254dffbe815dc8b3ff490f09f75a43360cd316617f4a0bf8d70d63a98fe50e	22
 1014780	860	a	census:audit+noncode_confirmed	225cbbdbc48171ac6d97d25dbb6edb7e93bb032dc509b78fc9fe0bbe235d46b4	4
 1015640	76	a	census:format:ptrtab	1c2840fe9aa5771d996164959ab45e62af33bc67c96d8418201e0fc859f223d1	1
 1015716	16	a	census:audit+noncode_confirmed	2227c567899d97a8c8083ae7650f4beaf1a53dee14b5e6898a74b424798c1f6b	4
-1015732	8	a	census:neighbour:proven_data	bb05085f3da2fe3c6186f837a22f57b770276abd3862ca51636c381eedf53723	21
+1015732	8	a	census:neighbour:proven_data	bb05085f3da2fe3c6186f837a22f57b770276abd3862ca51636c381eedf53723	22
 1015740	16	a	census:format:ptrtab	23a2e9d9c4415de060c21f1c4c203c4563ba8e462f137c904be2bbb890ba8b49	1
 1015756	92	a	census:audit+noncode_confirmed	62b14867e4e79d50673d2f7474335229f54c478f56d2a910235e1953c6d29206	4
 1015848	40	a	census:format:ptrtab	3eb20e186e2cc1039d25043aa0d219eb7c489cffe1b3778b4aa144d83605dbb9	1
 1015888	12	a	census:audit+noncode_confirmed	15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b	4
 1015900	20	a	census:format:ptrtab	f5f387e3abb9f93bb5d1d59863f97e130b662e7f4c4d32b671059fd870041004	1
 1015920	188	a	census:audit+noncode_confirmed	a283642cd9362937ee62d62025319592ba35885551fafb887087b4a4e98a2ad9	4
-1016108	8	a	census:neighbour:proven_data	ceb09ce894decf2287a5f53714ea53443a51ac9c89e825420ca10254c99a83de	21
+1016108	8	a	census:neighbour:proven_data	ceb09ce894decf2287a5f53714ea53443a51ac9c89e825420ca10254c99a83de	22
 1016116	8	a	census:audit+noncode_confirmed	dba85bea91652d0be245a46291564d22bab1db191607c7b382b3d08e7d0c3ee9	4
-1016124	8	a	census:neighbour:proven_data	76416eb41974450ae1b9dce11c2737718ec7dc59f6c36903e0160db31efaccd2	21
+1016124	8	a	census:neighbour:proven_data	76416eb41974450ae1b9dce11c2737718ec7dc59f6c36903e0160db31efaccd2	22
 1016132	5964	a	census:audit+noncode_confirmed	17f6756575ad589262d4b48282535fd0ae0008f6ffb474777f24e65cac494154	4
 1022096	120	a	census:format:ptrtab	bd9d93c4f68f366d1408e12d7a2991de08a4d115da8c08ef1746f6941ca2452c	1
 1022216	14	a	census:audit+noncode_confirmed	e6db0fec0ffbcbf60c7f00879ce37e6a74a9ab0f450470caa9107284a61f24dc	4
@@ -118,7 +118,7 @@ o	n	k	r	h	x
 1022624	168	a	census:audit+noncode_confirmed	e34c5ab415122fe53c502a28939048b18c00cb1d2714d0db8f966eec7fd596d5	4
 1022792	80	a	census:format:ptrtab	c7027ff6bfb20b3c70c5c9c333e1d6e379fec3adde2d858c203d3cd44bfb20c4	1
 1022872	680	a	census:audit+noncode_confirmed	5cd767114cb72a7d772d364c87e1db427f5909989b43d66bfb8b4f91f732fbdf	4
-1023552	8	a	census:neighbour:proven_data	01234566814cd2a2b3cd7c19c907964b4a4f018a19ec224788d9edb74d7376df	21
+1023552	8	a	census:neighbour:proven_data	01234566814cd2a2b3cd7c19c907964b4a4f018a19ec224788d9edb74d7376df	22
 1023560	3116	a	census:audit+noncode_confirmed	1e6f6d1eea9cb6c89c1b5de4fe9894565d91ee01cf3ce9228e997932cc6db334	4
 1026676	348	d	census:noncode:decode		0
 1027024	36	a	census:format:ptrtab	160d317e99b5121e00191e330e0953b5f3f65edc6d0564618fb7d3214b2a1cdc	1

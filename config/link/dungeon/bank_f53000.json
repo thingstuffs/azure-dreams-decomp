@@ -10,7 +10,7 @@
   "entries": [
     {
       "row": "dungeon/func_80F33268",
-      "tu": "src/dungeon/func_809C9228.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9228",
       "foff": "0xF53268",
       "vma": "0x80170A68",
@@ -26,7 +26,7 @@
     },
     {
       "row": "dungeon/func_80F33BF8",
-      "tu": "src/dungeon/func_80A71D70.c",
+      "tu": "src/dungeon/monster/grineut/spawn_mode_dependent_object.c",
       "home": "dungeon/func_80A71D70",
       "foff": "0xF53BF8",
       "vma": "0x801713F8",
@@ -42,7 +42,7 @@
     },
     {
       "row": "dungeon/func_80F34598",
-      "tu": "src/dungeon/func_809CA53C.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA53C",
       "foff": "0xF54598",
       "vma": "0x80171D98",
@@ -50,7 +50,7 @@
     },
     {
       "row": "dungeon/func_80F345FC",
-      "tu": "src/dungeon/func_809CA5A0.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA5A0",
       "foff": "0xF545FC",
       "vma": "0x80171DFC",
@@ -58,7 +58,7 @@
     },
     {
       "row": "dungeon/func_80F347C0",
-      "tu": "src/dungeon/func_809CA764.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA764",
       "foff": "0xF547C0",
       "vma": "0x80171FC0",
@@ -170,7 +170,7 @@
     },
     {
       "row": "dungeon/func_80F363A0",
-      "tu": "src/dungeon/func_809CBB58.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CBB58",
       "foff": "0xF563A0",
       "vma": "0x80173BA0",
@@ -178,7 +178,7 @@
     },
     {
       "row": "dungeon/func_80F3673C",
-      "tu": "src/dungeon/func_809CBEF4.c",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CBEF4",
       "foff": "0xF5673C",
       "vma": "0x80173F3C",

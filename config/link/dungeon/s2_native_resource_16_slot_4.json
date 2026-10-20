@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80C03258",
-      "tu": "src/dungeon/func_80BEB258.c",
+      "tu": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
       "home": "dungeon/func_80BEB258",
       "foff": "0xc23258",
       "vma": "0x80158a58",

@@ -10,7 +10,7 @@
   "entries": [
     {
       "row": "dungeon/func_809810E8",
-      "tu": "src/dungeon/func_809750E8.c",
+      "tu": "src/dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.c",
       "home": "dungeon/func_809750E8",
       "foff": "0x9A10E8",
       "vma": "0x801648E8",
@@ -18,7 +18,7 @@
     },
     {
       "row": "dungeon/func_80981170",
-      "tu": "src/dungeon/func_80975170.c",
+      "tu": "src/dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.c",
       "home": "dungeon/func_80975170",
       "foff": "0x9A1170",
       "vma": "0x80164970",
@@ -26,7 +26,7 @@
     },
     {
       "row": "dungeon/func_80981244",
-      "tu": "src/dungeon/func_80975244.c",
+      "tu": "src/dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.c",
       "home": "dungeon/func_80975244",
       "foff": "0x9A1244",
       "vma": "0x80164A44",
@@ -170,7 +170,7 @@
     },
     {
       "row": "dungeon/func_80984764",
-      "tu": "src/dungeon/func_80F8A600.c",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0x9A4764",
       "vma": "0x80167F64",
