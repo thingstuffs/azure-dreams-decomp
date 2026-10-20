@@ -10,19 +10,21 @@ disc to build or verify anything. See [NOTICE](NOTICE) and [Legal](#legal).
 ## Status
 
 Numbers are from [STATUS.md](STATUS.md) (see its "At a glance" section), which is generated from the
-ledger (snapshot of 2026-10-17; rerun `python3 tools/status.py` for today's).
+ledger (snapshot of 2026-10-20; rerun `python3 tools/status.py` for today's).
 
-- **Byte-exact coverage.** 17,474 functions and data rows, 6,271,564 bytes, in five containers
-  (`slus` main executable, `main`, `town`, `dungeon`, `ovmovie` overlays), all verified
-  byte-identical to retail.
+- **Byte-exact coverage.** 21,432 functions and data rows, 8,028,304 bytes, in five containers
+  (`slus` main executable, `main`, `town`, `dungeon`, `ovmovie` overlays). Every overlay window and
+  the whole executable rebuild byte-identical to retail; 21,392 rows (8,018,768 bytes) also carry a
+  per-row byte-identical record, and the remaining 40 are proven by the window rebuild.
   Rows are built by the stock compiler cells (gcc 2.7.2-era builds); the few rows that need a
   non-default compiler flag are tracked in STATUS.md.
-- **Share of the code in C.** 76.1% of the overlay code is C; 95.0% counting byte-identical copies
+- **Share of the code in C.** 99.0% of the overlay code is C; 99.5% counting byte-identical copies
   of C that are proven elsewhere on the disc (they become C by reference as the tree is
   de-duplicated). The main executable is accounted separately in STATUS.md.
+- **Readability.** L3 90.4%, L4 9.2%, L5 8.9% of bytes (levels below); 227 of 300 module
+  certificates current.
 - **Pins: 0.** A "pin" is an `ASM_*` marker, fence or other scaffolding that was needed to coax
-  the compiler into the retail bytes. All 25,918 original sites have been removed, and no raw inline-asm
-  statements or hand-written asm in function bodies remain.
+  the compiler into the retail bytes. All 25,918 original sites have been removed.
 
 The aim is not just matching bytes but making the C human: typed structs instead of raw offsets,
 named locals and functions, no compiler-driven contortions.
