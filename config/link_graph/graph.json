@@ -1,0 +1,121 @@
+{
+  "base": "27ecdc47fe1fe15406e148c16605efea8f17cb80",
+  "build": {
+    "extensions": [
+      {
+        "file": "ovmovie",
+        "view": "ovmovie/ovmovie_bin",
+        "window": "ovmovie"
+      }
+    ],
+    "slice": [
+      {
+        "view": "main/main_bin",
+        "window": "main_boot"
+      },
+      {
+        "view": "town/image_3ef000",
+        "window": "town_cohort_3ef1c8"
+      },
+      {
+        "view": "town/image_437800",
+        "window": "town_ll34_439000_truebase_80017800"
+      },
+      {
+        "view": "town/image_49e800",
+        "window": "town_ll34_49ffe4_truebase_800177e4"
+      },
+      {
+        "view": "dungeon/bank_9b9000",
+        "window": "dungeon_deep_9b9060_truebase_8014c860"
+      },
+      {
+        "view": "dungeon/bank_9e3000",
+        "window": "dungeon_deep_9e3294_truebase_8014ca94"
+      },
+      {
+        "view": "dungeon/bank_a0d000",
+        "window": "dungeon_deep_a0d054_truebase_8014c854"
+      }
+    ],
+    "slus": {
+      "binary": "build_slus/build/slus_006.14",
+      "elf": "build_slus/build/slus_006.14.elf",
+      "file": "slus",
+      "image": "slus/slus_bin",
+      "ninja": "build_slus/build.ninja",
+      "recipe": "build_slus/build/slus_006.14_ordered.ld",
+      "sections": [
+        ".header",
+        "._800"
+      ]
+    }
+  },
+  "inputs": {
+    "config/overlays/modules.json": "64049db0b677a72c813efe09d1c2980e5fb1133343724053ee3e8edbcb6d7e40",
+    "ledger/containers.jsonl": "cf4aad759e95ab9ad808ccfbb5dad565d8affd85ae14e991695c049aeb195cb5",
+    "ledger/instance_load_regions.jsonl": "6d4fe82e8049f9e6b2b3ba19319bfe801a2ecc9e7692d76d3c8748948e1e20c2",
+    "ledger/layout.jsonl": "6fb5fb6e0c9328bba547435935dc469619b8b4fc235c73d48d282693299efe62",
+    "ledger/layout_inline.jsonl": "54ae7824a8a651e02356cc7c50a7dcb60b2a5d13d9ae6ffd1de972b7c4565c57",
+    "ledger/rows.jsonl": "8d00b152f599ef22046751a13997c614dafe5049022bb2b294bb84ecc65cf832",
+    "ledger/splits/slus.jsonl": "dfcc391535160c13637ce7c875fadc5f0f3d37e29b4dfefbbc5588dd0a6a6a18"
+  },
+  "schema": "azure-clean.link-graph.v1",
+  "tables": {
+    "entries": [
+      {
+        "path": "entries.000.jsonl",
+        "records": 6916,
+        "sha256": "4102d2fa3eb27c66e0e804ff5163b249eadeacb940c6f9bab50c250c05cdf680"
+      },
+      {
+        "path": "entries.001.jsonl",
+        "records": 6058,
+        "sha256": "d0644815c3dcefd6a3dc229bde54ef2f414f519adc263237ec03cdc7d357f5d7"
+      },
+      {
+        "path": "entries.002.jsonl",
+        "records": 1562,
+        "sha256": "d126491dd3b2915cbc3542818c9c36e97827b127e847f424726ba0b3387e00c2"
+      }
+    ],
+    "files": [
+      {
+        "path": "files.000.jsonl",
+        "records": 5,
+        "sha256": "83e4e30717257e9962458f4c91fbdcdd7162fe4b4b01dae4ebfec491a80880e4"
+      }
+    ],
+    "owners": [
+      {
+        "path": "owners.000.jsonl",
+        "records": 5507,
+        "sha256": "e432b80fbef32719b3ece893894f6662d62e272ed4c6550067515ec87d1b55b2"
+      }
+    ],
+    "tus": [
+      {
+        "path": "tus.000.jsonl",
+        "records": 6501,
+        "sha256": "6082aadeb44bf958112adc3cd25751f25ac3ff4b51069992fbb21e73eb3e8116"
+      },
+      {
+        "path": "tus.001.jsonl",
+        "records": 3485,
+        "sha256": "7ca96c3585997efd7a9dccd3df35264d23fcc932baacf225a8bc279bc764fb28"
+      }
+    ],
+    "views": [
+      {
+        "path": "views.000.jsonl",
+        "records": 1143,
+        "sha256": "f9b53f7d1f2419f80fd63ddfc209b54478e3535baf36c3a238a1955a4210591e"
+      },
+      {
+        "path": "views.001.jsonl",
+        "records": 148,
+        "sha256": "5066bba9c37ebe76088f749ddabcc6da0bb6540cfd4ab55c5ebf8b099cfe3fce"
+      }
+    ]
+  }
+}

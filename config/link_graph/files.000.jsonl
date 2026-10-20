@@ -1,0 +1,5 @@
+{"disc_path":"MAIN/MAIN.BIN","evidence":"ledger/containers.jsonl","id":"main","sha1":"69f63236b7ab2260e2e9aa2048ce7aa540bdbe6d","size":2578432}
+{"disc_path":"TOWN/TOWN.BIN","evidence":"ledger/containers.jsonl","id":"town","sha1":"b946a57aa5fc8cec29db3ecabad6e6b76df418b7","size":16889856}
+{"disc_path":"DUNGEON/DUNGEON.BIN","evidence":"ledger/containers.jsonl","id":"dungeon","sha1":"27f9fcc384a570a991e349b920881e7070c0e13c","size":27813888}
+{"disc_path":"OVMOVIE.BIN","evidence":"ledger/containers.jsonl","id":"ovmovie","sha1":"4f6f2cb2b4a74a601137b7dc0ed5168493b2c7bb","size":3145728}
+{"disc_path":"SLUS_006.14","evidence":"config/slus_006.14.sha1","id":"slus","sha1":"e6bfbb95ff6676899e077481221d73ddd4d3bf52","size":524288}
