@@ -224,7 +224,7 @@ void update_action_movement_landing_and_recovery(ActorActionView *action, Entity
             void *owner;
 
             owner = D_800814A8;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             ((PlayerRemainingActionsView *)owner)->remaining--;
         }
         advance_status_timers(actor);
@@ -298,7 +298,7 @@ void update_action_movement_landing_and_recovery(ActorActionView *action, Entity
             effect = D_8016EF00;
             sprite->frameTable = effect;
             select_sprite_entry((struct S_80047784 *)(sprite),
-                effect[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                effect[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             action->flags &= 0xFFF7;
             action->phase++;
@@ -321,7 +321,7 @@ void update_action_movement_landing_and_recovery(ActorActionView *action, Entity
         }
         sprite->frameTable = D_8016EEF8;
         select_sprite_entry((struct S_80047784 *)(sprite),
-            D_8016EEF8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_8016EEF8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->timer.raw = 10;
         action->phase = action->phase + 1;
@@ -376,13 +376,13 @@ void update_action_movement_landing_and_recovery(ActorActionView *action, Entity
         if (sprite->frameTable != D_8016EF00) {
             sprite->frameTable = D_8016EF00;
             select_sprite_entry((struct S_80047784 *)(sprite),
-                D_8016EF00[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_8016EF00[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         sprite->flags &= 0xF7FF;
         action->nextBehavior = update_action_behavior_facing_and_animation;
         advance_status_timers(actor);

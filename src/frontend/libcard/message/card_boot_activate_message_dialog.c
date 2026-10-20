@@ -14,7 +14,7 @@ typedef struct S_80022CD8_0 {
 
 
 extern void card_boot_build_message_window_packets(void *buffer, void *layout);
-extern void card_boot_layout_five_entry_list(void *context);
+#include "frontend/libcard/interfaces.h"
 extern void card_boot_update_message_choice_highlight(void *object);
 extern u8 D_80022524[];
 extern u8 D_800226A8[];

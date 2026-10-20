@@ -304,7 +304,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     world_object = (u8 *)world_state + 0x18;
     if (initial_flags & 4) {
         record_or_page = (s32 *)0x80080000;
-        if ((D_800E3CD0 == 0) && (((s32)world_state->unk_010) != 0)) {
+        if ((D_800E3CD0 == 0) && (((s32)world_state->pressed_buttons) != 0)) {
             D_800E3CD0 = 1;
             func_80040AA0(3);
             return;
@@ -336,7 +336,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
         set_camera_targets(0, (s16 *)((u8 *)&D_800DCF4F - 0xEF), 2);
     }
     (*(s16 *)((u8 *)linked_actor + 0x9E)) = (s16) (((u16) world_object->unk_B0 >> 9) & 7);
-    status_base = &g_dungeon_status.unk_00;
+    status_base = &g_dungeon_status.turn_scale;
     status_base->unk_02 = (u16) (status_base->unk_02 & 0xFFCF);
     previous_input = &D_800E4948;
     if ((status_base->unk_08 == D_800E4948) && (status_base->unk_0C == ((S_80089AA0_4 *)previous_input)->unk_04)
@@ -349,7 +349,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     } else {
         D_800DD160 = 0;
     }
-    input_snapshot = ((u8 *)(&g_dungeon_status.unk_08));
+    input_snapshot = ((u8 *)(&g_dungeon_status.activity_counts.parts.pending_movement_count));
     copy_words_forward(&D_800E4948, input_snapshot, 4);
     input_status = (u8 *)input_snapshot - 8;
     if ((((S_80089AA0_5 *)input_status)->unk_0C == 0) && (((S_80089AA0_5 *)input_status)->unk_10 == 0)) {
@@ -377,7 +377,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                     ((S_80089AA0_7_pre *)input_snapshot)[-1].unk_00 = (s16) state_or_address;
                 }
                 if (!(D_80013714 & 8)) {
-                    g_dungeon_status.unk_1E = (u16) (g_dungeon_status.unk_1E + 1);
+                    g_dungeon_status.turn_counter = (u16) (g_dungeon_status.turn_counter + 1);
                     actor_fraction = ((S_80089AA0_9 *)(&D_800E3D70))->unk_00 + (*(u8 *)((u8 *)actor + 0x29));
                     D_800E3D70 = (s32)actor_fraction;
                     turn_sign = (*(u8 *)((u8 *)actor + 0x28));
@@ -475,11 +475,11 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
             {
                 DungeonGlobalStatus *reset_base;
                 reset_base = &g_dungeon_status;
-                reset_base->unk_08 = 0;
-                reset_base->unk_0A = 0;
-                reset_base->unk_14 = 0;
-                reset_base->unk_0C = 0;
-                reset_base->unk_10 = 0;
+                reset_base->activity_counts.parts.pending_movement_count = 0;
+                reset_base->activity_counts.parts.pending_action_count = 0;
+                reset_base->trap_counts.parts.pending_trap_count = 0;
+                reset_base->active_actor = 0;
+                reset_base->pending_display_owner = 0;
                 reset_base->flags = 0U;
             }
         }
@@ -509,7 +509,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
         update_callback(linked_actor, in_motion, sprite_or_root, actor);
     }
     D_800DD168[(*(u8 *)((u8 *)linked_actor + 0x9A))](linked_actor, in_motion, sprite_or_root, actor);
-    facing = ((s32) (g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+    facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
     if ((*(s16 *)((u8 *)linked_actor + 0x94)) != facing) {
         if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
             func_8003DB94(sprite_or_root, ((void **)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing],
@@ -648,7 +648,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
             linked_actor = ((S_80089AA0_19 *)linked_actor)->unk_5C.i + 0x20;
         } while (linked_actor != sprite_or_root);
     }
-    early_status = &g_dungeon_status.unk_00;
+    early_status = &g_dungeon_status.turn_scale;
     if (((S_80089AA0_21 *)early_status)->unk_02 & 0x800) {
         if ((has_pending_actor_or_turn_action(0) << 0x10) == 0) {
             if ((s16) ((S_80089AA0_21 *)early_status)->unk_08 == 0) {
@@ -731,8 +731,8 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     }
     tail_status = &g_dungeon_status;
     companion_index = 0;
-    if (((s32)tail_status->unk_10) > 0) {
-        tail_status->unk_10 = 0;
+    if (((s32)tail_status->pending_display_owner) > 0) {
+        tail_status->pending_display_owner = 0;
     }
     repeat_pass = 0;
     next_flags = tail_status->flags | 1;

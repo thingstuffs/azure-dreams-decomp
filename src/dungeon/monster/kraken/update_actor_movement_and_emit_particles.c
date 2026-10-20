@@ -225,10 +225,10 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             ((SpriteFrameState *)sprite)->frameTable = D_8017418C;
             select_sprite_entry(sprite,
-                          D_8017418C[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                          D_8017418C[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                           0);
-            if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)entity - 0x20)) {
-                *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
+            if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
+                *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
             }
             ((ActorActionTimerView *)actor)->unk_8C = D_801711A4;
         }

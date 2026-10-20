@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/interfaces.h"
 #include "m2c_compat.h"
 
 typedef struct S_8002546C_0 {

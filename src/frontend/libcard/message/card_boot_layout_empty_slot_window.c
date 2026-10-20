@@ -3,7 +3,7 @@
 extern void *D_800282A4[3];
 extern void *D_800791A4;
 
-extern s32 card_boot_get_remaining_block_summary(void);
+#include "modules/main_server_ship_interfaces.h"
 extern void *decode_note_text(void *, void *, s32);
 
 /* Initializes resources and screen positions for three display entries. */

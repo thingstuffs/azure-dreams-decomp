@@ -57,7 +57,7 @@ void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 
         }
 
         if ((linked_state[0x13] != 0x1E) && (linked_state[0x28] == 0)) {
-            (((u16)g_dungeon_status.unk_0A))++;
+            (((u16)g_dungeon_status.activity_counts.parts.pending_action_count))++;
         }
 
         *(s32 *)(dest_state + 0x14) = 0;
@@ -107,8 +107,8 @@ void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 
         return;
     }
 
-    if (g_dungeon_status.unk_0C == linked_state) {
-        g_dungeon_status.unk_0C = 0;
+    if (g_dungeon_status.active_actor == linked_state) {
+        g_dungeon_status.active_actor = 0;
     }
     begin_actor_flagged_action(linked_state, *(s32 *)(linked_state - 0x18),
                   *(s32 *)(linked_state - 0x14), linked_state);

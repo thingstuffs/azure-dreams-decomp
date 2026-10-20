@@ -112,7 +112,7 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
     case 1:
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23B8;
         select_sprite_entry(entity,
-            D_800E23B8[((g_game_work.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+            D_800E23B8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80175594_0 *)motion)->unk_96 = 0;
         ((S_80175594_0 *)motion)->unk_9B++;
@@ -124,7 +124,7 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
         }
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23C0;
         select_sprite_entry(entity,
-            D_800E23C0[((g_game_work.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+            D_800E23C0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80175594_0 *)motion)->unk_96 = 0;
         ((S_80175594_0 *)motion)->unk_9B++;
@@ -217,8 +217,8 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
                 tile_result = select_dungeon_spawn_tile((u8 *)entity + 0x24, (u8 *)entity + 0x25);
             } while (tile_result < 0);
 
-            dx = abs(D_80082E80.tileX - ((Rec_func_800D6DC0_arg2 *)entity)->unk_24);
-            dy = abs(D_80082E80.tileY - ((Rec_func_800D6DC0_arg2 *)entity)->unk_25);
+            dx = abs(D_80082E80.tile_position.parts.tile_x - ((Rec_func_800D6DC0_arg2 *)entity)->unk_24);
+            dy = abs(D_80082E80.tile_position.parts.tile_y - ((Rec_func_800D6DC0_arg2 *)entity)->unk_25);
             if (dx + dy >= 0x21) {
                 break;
             }
@@ -250,7 +250,7 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
         refresh_actor_proximity_state(object);
         reduce_actor_food_meter(object, 0x1000);
         ((S_80175594_0 *)motion)->unk_8C = &D_80171F1C;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((S_80175594_1 *)position)->unk_14 = 0;
         ((S_80175594_1 *)position)->unk_10 = 0;
         ((S_80175594_1 *)position)->unk_0C = 0;
@@ -262,7 +262,7 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
         if (((Rec_func_800D6DC0_arg2 *)entity)->unk_2C != animations) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = animations;
             select_sprite_entry(entity,
-                animations[((g_game_work.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+                animations[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_800D6DC0_arg2 *)entity)->unk_05 = 1;
             ((S_80175594_0 *)motion)->unk_A0.at02.v = 0;

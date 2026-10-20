@@ -59,6 +59,6 @@ s32 use_item_to_increase_defense(void *entity, s32 update_value, s16 update_mode
     }
     create_colored_effect_with_sound((u8 *)entity - 0x20, 0x20F020, 0x616);
     clear_slot_and_update_linked_state(update_value);
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

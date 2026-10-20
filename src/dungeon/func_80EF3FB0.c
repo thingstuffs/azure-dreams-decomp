@@ -177,7 +177,7 @@ void advance_actor_action_variant_c(ActorActionView *action, EntityRec *motion, 
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((PlayerRemainingActionsView *)D_800814A8)->remaining--;
         advance_status_timers(actor);
         actor->unk_6D--;
@@ -253,7 +253,7 @@ void advance_actor_action_variant_c(ActorActionView *action, EntityRec *motion, 
 
         /* fall through */
     case 4:
-        if (((s32)g_dungeon_status.unk_0C) == 0) {
+        if (((s32)g_dungeon_status.active_actor) == 0) {
             action->timer.unsignedTicks = 0;
         }
         timer = action->timer.unsignedTicks - 1;
@@ -273,14 +273,14 @@ void advance_actor_action_variant_c(ActorActionView *action, EntityRec *motion, 
 
         if (sprite->directionFrames != D_80162EB8) {
             sprite->directionFrames = D_80162EB8;
-            selection = ((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
+            selection = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, D_80162EB8[selection], 0);
         }
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
 
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         action->nextAction.record = D_8015FCE8;
         advance_status_timers(actor);
         actor->unk_73 = 0;

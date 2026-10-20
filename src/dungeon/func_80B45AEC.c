@@ -45,7 +45,7 @@ void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, 
         entity->table = ((u8 *)D_80175AA4);
         effect->timer = 0x80;
         effect->countdown = 0;
-        direction_index = ((g_game_work.view.viewAngle + object->angle + 0x100) >> 9) & 7;
+        direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + object->angle + 0x100) >> 9) & 7;
         select_sprite_entry(entity,(u8)(entity->table[direction_index]), 0);
         effect->state++;
         return;
@@ -68,12 +68,12 @@ void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, 
             effect->countdown = (u16)((s32)(timer << 16) >> 24);
         }
         if ((entity->type == 2) && (entity->flags & 0x1000)) {
-            direction_index = ((g_game_work.view.viewAngle + object->angle + 0x100) >> 9) & 7;
+            direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + object->angle + 0x100) >> 9) & 7;
             select_sprite_entry(entity,(u8)(entity->table[direction_index]), 0);
         }
         if ((u8)entity->value < 0x11) {
-            if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)object - 0x20)) {
-                *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
+            if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)object - 0x20)) {
+                *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
             }
             distribute_experience_and_report_gains(object);
             detach_record_and_update_slot_state(object);

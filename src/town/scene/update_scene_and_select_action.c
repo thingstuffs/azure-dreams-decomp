@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 typedef struct {
@@ -23,9 +24,9 @@ s32 update_scene_and_select_action(UnkStruct *object) {
     }
 
     if (status != 0) {
-        func_80018ADC(0x5BC);
+        func_80018ADC(F_sbs11_pad25);
     } else {
-        func_80018A64(0x5BC);
+        func_80018A64(F_sbs11_pad25);
     }
     return status;
 }

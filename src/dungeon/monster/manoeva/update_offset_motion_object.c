@@ -60,7 +60,7 @@ void update_offset_motion_object(void *object, void *motion_data, void *rotation
     {
         u16 facing_test;
 
-        facing = ((((s32)(g_game_work.view.viewAngle + *((S_80175C60_1 *)object)->unk_00 + 0x100) >> 9) & 7) + 2) << 9;
+        facing = ((((s32)(g_game_work.view.camera_rotation.parts.viewAngle + *((S_80175C60_1 *)object)->unk_00 + 0x100) >> 9) & 7) + 2) << 9;
         facing_test = facing;
         ((S_80175C60_2 *)rotation)->unk_18 = facing;
         if ((facing_test == 0x400) || (facing_test == 0xC00)) {

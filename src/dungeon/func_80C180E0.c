@@ -20,9 +20,9 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744FC);
             select_sprite_entry(
                 sprite,(u8)(((u8 *)D_801744FC)[
-                    ((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
+                    ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
                 0);
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((R17_801738E0_S_801738E0_0 *)actor)->unk_9B = 2;
             return;
         }
@@ -39,7 +39,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
         select_sprite_entry(
-            sprite,(u8)(*(u8 *)((((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7)
+            sprite,(u8)(*(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7)
                     + (u32)anim_table)),
             0);
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_9B++;
@@ -57,7 +57,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744FC);
         select_sprite_entry(
             sprite,(u8)(((u8 *)D_801744FC)[
-                ((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
+                ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
             0);
         update_actor_status_and_food(entity);
 
@@ -75,7 +75,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744F4);
             select_sprite_entry(
                 sprite,(u8)(((u8 *)D_801744F4)[
-                    ((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
+                    ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
                 0);
             entity_flags = ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C | 0x40000;
             ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C = entity_flags;
@@ -140,7 +140,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             TileObject *origin = &D_80082E80;
             s8 coordinate = sprite->unk_26;
 
-            if ((((coordinate == origin->unk_026) && (coordinate >= 0)) ||
+            if ((((coordinate == origin->room_index) && (coordinate >= 0)) ||
                  (((s16)get_tile_chebyshev_distance(origin, sprite)) < 2)) &&
                 ((generate_random_value() & 7) == 0)) {
                 clear_slots_of_type(entity, 1);
@@ -153,7 +153,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744F4);
         select_sprite_entry(
             sprite,(u8)(((u8 *)D_801744F4)[
-                ((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
+                ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
             0);
         entity_flags = ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C | 0x40000;
         ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C = entity_flags;
@@ -176,7 +176,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         }
 
         select_sprite_entry(
-            sprite,(u8)(((u8 *)D_801744EC)[((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
+            sprite,(u8)(((u8 *)D_801744EC)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
             0);
 
 advance_state:
@@ -193,7 +193,7 @@ advance_state:
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_8017449C);
         select_sprite_entry(
             sprite,(u8)(((u8 *)D_8017449C)[
-                ((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
+                ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
             0);
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 |= 8;
         ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C &= 0xF7FFFFFF;

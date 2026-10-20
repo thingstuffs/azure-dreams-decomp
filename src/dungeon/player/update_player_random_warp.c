@@ -95,7 +95,7 @@ void update_player_random_warp(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *t
         cycle_map_cell_flags(tile->field24, tile->field25,
                       (actor->field1C & 0x2000) ? 0x300 : 0x3000);
         flags_mask = 0xFFFEFFFF;
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         actor_flags = actor->field1C & flags_mask;
         actor->field2A = actor->field6A;
         actor->field1C = actor_flags;

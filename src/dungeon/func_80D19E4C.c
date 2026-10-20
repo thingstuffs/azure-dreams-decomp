@@ -163,7 +163,7 @@ void func_8016D64C(void *action, EntityRec *motion, void *sprite, EntityRec *act
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             ((PlayerActionCountView *)D_800814A8)->remainingActions = (u16) (((PlayerActionCountView *)D_800814A8)->remainingActions - 1);
             advance_status_timers(actor);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
@@ -203,7 +203,7 @@ void func_8016D64C(void *action, EntityRec *motion, void *sprite, EntityRec *act
         } while (next_effect < 0xA);
         return;
     case 3:
-        if (((s32)g_dungeon_status.unk_0C) == 0) {
+        if (((s32)g_dungeon_status.active_actor) == 0) {
             ((AbilityActionState *)action)->timer = 0U;
         }
         finish_ticks = ((AbilityActionState *)action)->timer - 1;
@@ -222,14 +222,14 @@ void func_8016D64C(void *action, EntityRec *motion, void *sprite, EntityRec *act
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         if ((*(M2C_UNK * *)&((SpriteFrameState *)sprite)->frameTable) != D_8016EE88) {
             ((SpriteFrameState *)sprite)->frameTable = D_8016EE88;
-            select_sprite_entry(sprite, D_8016EE88[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(sprite, D_8016EE88[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             ((SpriteFrameState *)sprite)->flags =
                 (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
         }
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((AbilityActionState *)action)->nextBehavior = &D_8016B760;
         advance_status_timers(actor);
         actor->unk_73 = 0;

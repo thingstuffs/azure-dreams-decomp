@@ -72,10 +72,10 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
                       transform_work, 2);
         {
             u8 *arena;
-            arena = arena_ptr->unk_000;
+            arena = arena_ptr->draw_buffer;
             line_packet = ((S_8002222C_0 *)arena)->unk_8D0;
             ((S_8002222C_0 *)arena)->unk_8D0 = line_packet + 0x14;
-            arena = arena_ptr->unk_000;
+            arena = arena_ptr->draw_buffer;
             mode_packet = ((S_8002222C_0 *)arena)->unk_8D0;
             ((S_8002222C_0 *)arena)->unk_8D0 = mode_packet + 0xC;
             texture_page = func_80066460(0, 0, 0, 0);
@@ -99,10 +99,10 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
             }
             bucket_addr = min_depth * 4;
         }
-        ((OtTag *)line_packet)->addr = ((S_8002222C_0 *)(bucket_addr + (u32)arena_ptr->unk_000))->ot[0].addr;
-        ((S_8002222C_0 *)(bucket_addr + (u32)arena_ptr->unk_000))->ot[0].addr = (u32)line_packet;
-        ((OtTag *)mode_packet)->addr = ((S_8002222C_0 *)(bucket_addr + (u32)arena_ptr->unk_000))->ot[0].addr;
-        bucket_addr += (u32)arena_ptr->unk_000;
+        ((OtTag *)line_packet)->addr = ((S_8002222C_0 *)(bucket_addr + (u32)arena_ptr->draw_buffer))->ot[0].addr;
+        ((S_8002222C_0 *)(bucket_addr + (u32)arena_ptr->draw_buffer))->ot[0].addr = (u32)line_packet;
+        ((OtTag *)mode_packet)->addr = ((S_8002222C_0 *)(bucket_addr + (u32)arena_ptr->draw_buffer))->ot[0].addr;
+        bucket_addr += (u32)arena_ptr->draw_buffer;
         ((S_8002222C_0 *)bucket_addr)->ot[0].addr = (u32)mode_packet;
         next = ((S_8002222C_1_pre *)entry)[-1].unk_00;
         if (next == 0) {

@@ -6,7 +6,7 @@ typedef struct S_80025B60_0 {
 } S_80025B60_0;   /* arg0 in card_boot_enter_slot_selection_input; pointer addresses record offset 0x10 */
 
 
-void card_boot_recheck_selected_channel(void);                            /* extern */
+#include "modules/main_server_ship_interfaces.h"
 void card_boot_refresh_five_slot_selection(void *);                            /* extern */
 extern M2C_UNK D_8002593C;
 

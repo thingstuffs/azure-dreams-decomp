@@ -59,7 +59,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
         spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(2) + 2);
     }
 
-    direction = (((u16)input->view.viewAngle) + 0x800) & 0xFFF;
+    direction = (((u16)input->view.camera_rotation.parts.viewAngle) + 0x800) & 0xFFF;
     *(u16 *)((u8 *)state + 0x10) = direction;
 
     if (((u32)input->buttons) & 0x20) {
@@ -106,7 +106,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     }
 
     if (speed == 0) {
-        input->view.viewAngle = (((u16)input->view.viewAngle) + 8) & 0xFFF0;
+        input->view.camera_rotation.parts.viewAngle = (((u16)input->view.camera_rotation.parts.viewAngle) + 8) & 0xFFF0;
     } else {
         if ((((u32)input->buttons) & 0x30) == 0x10) {
             speed = (D_80100E20 * 3) / 2;
@@ -126,10 +126,10 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     if ((*(u32 *)((u8 *)input + 8)) & 0x2000) {
         {
             s32 angle;
-            angle = ((u16)input->view.viewAngle);
+            angle = ((u16)input->view.camera_rotation.parts.viewAngle);
             angle = angle - 0x10;
             angle = angle - speed;
-            input->view.viewAngle = angle;
+            input->view.camera_rotation.parts.viewAngle = angle;
         }
         spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(1));
     }
@@ -137,22 +137,22 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     if ((*(u32 *)((u8 *)input + 8)) & 0x8000) {
         {
             s32 angle;
-            angle = ((u16)input->view.viewAngle);
+            angle = ((u16)input->view.camera_rotation.parts.viewAngle);
             angle = angle + 0x10;
             angle = angle + speed;
-            input->view.viewAngle = angle;
+            input->view.camera_rotation.parts.viewAngle = angle;
         }
         spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(1));
     }
 
-    if ((((u32)input->unk_010) & 0x10) && (D_800CFCEE == 0)) {
+    if ((((u32)input->pressed_buttons) & 0x10) && (D_800CFCEE == 0)) {
         state->callback = &D_800A5DF8;
         state->timer = 8;
         state->mode = 1;
         return;
     }
 
-    if (((u32)input->unk_010) & 0x100) {
+    if (((u32)input->pressed_buttons) & 0x100) {
         state->callback = &D_800A5DF8;
         state->timer = 8;
         state->mode = 0;

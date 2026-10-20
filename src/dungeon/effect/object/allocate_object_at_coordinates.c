@@ -50,7 +50,7 @@ void *allocate_object_at_coordinates(void *source, s32 *init_value) {
         coord_z = src_coords->unk_0A;
         dst_coords->unk_0A = coord_z;
         spawn_directed_and_scattered_particles((s16) dst_coords->unk_02, (s16) dst_coords->unk_06, (s16) coord_z);
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
     return object;
 }

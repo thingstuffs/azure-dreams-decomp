@@ -36,8 +36,8 @@ void relocate_multi_form_actor(s32 offset_index)
 
     origin = &D_80082E80;
     step = (u8 *)&delta[offset_index * 2];
-    entity[0x24] = origin->tileX + step[0];
-    entity[0x25] = origin->tileY + step[2];
+    entity[0x24] = origin->tile_position.parts.tile_x + step[0];
+    entity[0x25] = origin->tile_position.parts.tile_y + step[2];
 
     set_record_integer_tile_center(motion, entity[0x24], entity[0x25]);
 

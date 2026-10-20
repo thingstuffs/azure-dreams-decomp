@@ -248,14 +248,14 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *
         scratch->unk_0BA = coord_end - 0x78;
         scratch->unk_0F0 -= 0xA0;
         scratch->unk_0F2 -= 0x78;
-        camera_rot_x = render_state->view.unk_0AC;
-        camera_rot_z = render_state->view.unk_0AE;
-        camera_rot_y = render_state->view.viewAngle;
+        camera_rot_x = render_state->view.camera_rotation.parts.camera_rotation_x;
+        camera_rot_z = render_state->view.camera_rotation.parts.camera_rotation_y;
+        camera_rot_y = render_state->view.camera_rotation.parts.viewAngle;
         scratch->unk_030 = camera_rot_x;
         scratch->unk_034 = camera_rot_z;
         scratch->unk_038 = camera_rot_y;
         scratch->unk_100 = (u16) ((S_800CEFB8_1 *)sprite)->unk_16;
-        rotation_z = (((S_800CEFB8_1 *)sprite)->unk_1A - camera_rot_z) + render_state->view.unk_0A0;
+        rotation_z = (((S_800CEFB8_1 *)sprite)->unk_1A - camera_rot_z) + render_state->view.view_rotation_offset.parts.view_rotation_offset_z;
         if (orient_mode == 0) {
             segment_angle = scratch->unk_10E;
             rotation_z += (s16)segment_angle;
@@ -510,5 +510,5 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *
         }
         func_80064A40();
     }
-    ((S_800CEFB8_9 *)(render_state->unk_000))->unk_8D0 = packet_next;
+    ((S_800CEFB8_9 *)(render_state->draw_buffer))->unk_8D0 = packet_next;
 }

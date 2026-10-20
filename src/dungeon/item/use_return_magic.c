@@ -45,7 +45,7 @@ s32 use_return_magic(Entity *entity, s32 item, s16 action_type) {
                 DungeonGlobalStatus *counter;
                 display_formatted_context_message(D_800E15FE);
                 counter = &g_dungeon_status;
-                (*(u16 *)&counter->unk_0A)--;
+                (*(u16 *)&counter->activity_counts.parts.pending_action_count)--;
                 clear_slot_and_update_linked_state(item);
                 return 1;
             }
@@ -53,7 +53,7 @@ s32 use_return_magic(Entity *entity, s32 item, s16 action_type) {
                 DungeonGlobalStatus *counter;
                 clear_slot_and_update_linked_state(item);
                 counter = &g_dungeon_status;
-                (*(u16 *)&counter->unk_0A)--;
+                (*(u16 *)&counter->activity_counts.parts.pending_action_count)--;
                 return 1;
             }
             return 0;
@@ -75,7 +75,7 @@ s32 use_return_magic(Entity *entity, s32 item, s16 action_type) {
     if ((u32)(entity->unk_13 - 3) < 0x2B) {
         if (create_return_magic_effect(entity) != 0) {
             DungeonGlobalStatus *counter = &g_dungeon_status;
-            (*(u16 *)&counter->unk_0A)--;
+            (*(u16 *)&counter->activity_counts.parts.pending_action_count)--;
             return 1;
         }
         return 0;
@@ -83,7 +83,7 @@ s32 use_return_magic(Entity *entity, s32 item, s16 action_type) {
     display_item_status_message(entity, item, action_type);
     {
         DungeonGlobalStatus *counter = &g_dungeon_status;
-        (*(u16 *)&counter->unk_0A)--;
+        (*(u16 *)&counter->activity_counts.parts.pending_action_count)--;
     }
     return 1;
 }

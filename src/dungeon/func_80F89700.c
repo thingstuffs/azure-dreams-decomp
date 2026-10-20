@@ -149,12 +149,12 @@ void restore_bank_actor_tile(void *action, EntityRec *motion, void *sprite, Enti
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174AD4;
         select_sprite_entry(
             sprite,
-            D_80174AD4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_80174AD4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
 
-        tracked_entity = ((s32)g_dungeon_status.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
         ((S_80172F00_0 *)action)->unk_8C = update_bank_actor_state;
         break;

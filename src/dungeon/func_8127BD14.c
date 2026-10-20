@@ -118,7 +118,7 @@ void update_object_animation_dispatches_action_adjusts_facing(ActorActionWork *a
             sprite->directionFrames = D_80172E8C;
             func_80047320(
                 sprite,
-                D_80172E8C[((D_80084818.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80172E8C[((D_80084818.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             sprite->animationEnabled = 1;
             action->pendingAmount.signedValue = 0;
@@ -162,7 +162,7 @@ void update_object_animation_dispatches_action_adjusts_facing(ActorActionWork *a
             return;
         }
 
-        if (sprite->position.packed == *(u16 *)(&D_80081490.tileX)) {
+        if (sprite->position.packed == *(u16 *)(&D_80081490.tile_position.parts.tile_x)) {
             update_actor_movement_direction(action, context, sprite, actor);
             return;
         }
@@ -244,10 +244,10 @@ void update_object_animation_dispatches_action_adjusts_facing(ActorActionWork *a
         if ((state_flags & 0x430) == 0) {
             if ((s16)func_8009EB6C(
                     sprite->position.tile.x, sprite->position.tile.y,
-                    D_80081490.tileX, D_80081490.tileY) != 0) {
+                    D_80081490.tile_position.parts.tile_x, D_80081490.tile_position.parts.tile_y) != 0) {
                 roomOrDirection = func_8009F608(
                     sprite->position.tile.x, sprite->position.tile.y,
-                    D_80081490.tileX, D_80081490.tileY, &distance);
+                    D_80081490.tile_position.parts.tile_x, D_80081490.tile_position.parts.tile_y, &distance);
                 actor->facing = roomOrDirection;
             }
         }

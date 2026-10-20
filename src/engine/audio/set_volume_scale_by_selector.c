@@ -1,8 +1,6 @@
 #include "common.h"
 #include "shared/sound_volume.h"
 
-extern void func_80054D64(void);
-extern void func_800552C8(void);
 
 /* Sets volume scale [0] / [1] / [2] for selector 2 / 1 / 4; [1] and [2] are re-applied at once. */
 void set_volume_scale_by_selector(s16 value, s32 stat_index) {

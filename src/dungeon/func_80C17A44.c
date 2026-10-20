@@ -119,14 +119,14 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
         ((EntityRec *)actor)->flags1C |= 0x08000000;
         ((EntityRec *)actor)->flags1C |= 0x00040000;
         ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_8017449C);
-        select_sprite_entry(sprite,(u8)(((u8 *)D_8017449C)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7]),
+        select_sprite_entry(sprite,(u8)(((u8 *)D_8017449C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7]),
             0);
 
         {
             DungeonGlobalStatus *global_state = &g_dungeon_status;
 
-            if (((s32)global_state->unk_10) == (u8 *)actor - 0x20) {
-                (*(u32 *)&global_state->unk_10) &= 0x7FFFFFFF;
+            if (((s32)global_state->pending_display_owner) == (u8 *)actor - 0x20) {
+                (*(u32 *)&global_state->pending_display_owner) &= 0x7FFFFFFF;
             }
         }
         ((R17_80173244_S_80173354_1 *)action)->unk_8C = ((u8 *)update_entity_movement_and_ground_height);

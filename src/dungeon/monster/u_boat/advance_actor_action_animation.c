@@ -49,11 +49,11 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
         }
         {
 
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2428;
         select_sprite_entry(sprite,
-                      D_800E2428[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                      D_800E2428[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
         ((S_80174788_0 *)action)->unk_9B++;
         return;
@@ -100,10 +100,10 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2430;
         select_sprite_entry(sprite,
-                      D_800E2430[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                      D_800E2430[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
         actor->flags1C |= 0x40000;
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
 
         ((S_80174788_0 *)action)->unk_9B++;
         return;
@@ -114,7 +114,7 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
         }
         {
 
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         actor->flags1C &= ~8;
         ((S_80174788_0 *)action)->unk_8C = D_80171A80;

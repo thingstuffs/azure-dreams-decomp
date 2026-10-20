@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 typedef struct {
@@ -24,15 +25,15 @@ s32 initialize_scene_action_state(UnkStruct *object) {
     }
 
     if (status != 0) {
-        func_80018ADC(0x5BC);
+        func_80018ADC(F_sbs11_pad25);
     } else {
-        if (func_80018B5C(0x1068) != 0) {
+        if (func_80018B5C(Frg_vivian_fine) != 0) {
             func_800160D4();
             return 1;
         }
-        func_80018A64(0x5BC);
-        func_80018A64(0x5BE);
-        func_80018A64(0x5C5);
+        func_80018A64(F_sbs11_pad25);
+        func_80018A64(F_sbs11_pad27);
+        func_80018A64(F_sbs11_pad34);
     }
     return status;
 }

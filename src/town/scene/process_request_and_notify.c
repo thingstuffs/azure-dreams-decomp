@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -10,7 +11,7 @@ s32 process_request_and_notify(void *context, s32 request) {
 
     result = apply_selected_entry_values(context, request);
     if (result != 0) {
-        write_script_flag_range(0xD6E, 3, 2);
+        write_script_flag_range(Ftt_pad61, 3, 2);
     }
     return result;
 }

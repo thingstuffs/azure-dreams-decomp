@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -15,7 +16,7 @@ s32 set_town_pointer_town_callback(void) {
     TownCallback callback;
 
     func_80016CC4();
-    if (func_8001A64C(0x939) != 0) {
+    if (func_8001A64C(F_sbs32_pad15) != 0) {
         return 1;
     }
 

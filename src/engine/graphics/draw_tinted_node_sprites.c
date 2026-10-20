@@ -42,7 +42,7 @@ void draw_tinted_node_sprites(u8 *parent, u8 *node)
     sprite_matrix = work_buf + 0x7C;
     addr_mask = 0xFFFFFF;
     render_state = (u8 **)((void * *)(&g_game_work));
-    render_ctx = (u8 *)g_game_work.unk_000;
+    render_ctx = (u8 *)g_game_work.draw_buffer;
     size_mask = 0xFF000000;
     work = work_buf;
     packet = *(u8 **)(render_ctx + 0x8D0);

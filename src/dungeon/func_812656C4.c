@@ -66,12 +66,12 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
             entryFrames = D_80161E94;
 
             entity->frameTable = entryFrames;
-            direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+            direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
             direction &= 7;
             directionFrame = direction + entryFrames;
             select_sprite_entry(entity, *directionFrame, 0);
             dungeon_state = &g_dungeon_status;
-            dungeon_state->unk_0A--;
+            dungeon_state->activity_counts.parts.pending_action_count--;
             next_state = action->phase + 1;
             action->phase = next_state;
             return;
@@ -88,7 +88,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         waitFrames = D_80161EBC;
 
         entity->frameTable = waitFrames;
-        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + waitFrames;
         select_sprite_entry(entity, *directionFrame, 0);
@@ -108,7 +108,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         startFrames = D_80161EC4;
 
         entity->frameTable = startFrames;
-        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + startFrames;
         select_sprite_entry(entity, *directionFrame, 0);
@@ -188,7 +188,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
                 TileObject *room_base = &D_80082E80;
                 s8 room_id = *(s8 *)&entity->unk_26;
 
-                if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)get_tile_chebyshev_distance(room_base, entity) < 2) {
+                if ((room_id == room_base->room_index && room_id >= 0) || (s16)get_tile_chebyshev_distance(room_base, entity) < 2) {
                     if ((generate_random_value() & 7) == 0) {
                         clear_slots_of_type(actor, 1);
                     }
@@ -202,7 +202,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         finishFrames = D_80161ECC;
 
         entity->frameTable = finishFrames;
-        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + finishFrames;
         select_sprite_entry(entity, *directionFrame, 0);
@@ -212,7 +212,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         action->phase++;
         {
             DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
-            dungeon_state->unk_0A++;
+            dungeon_state->activity_counts.parts.pending_action_count++;
         }
         return;
 
@@ -234,7 +234,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
         entity->frameTable = restoreFrames;
-        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + restoreFrames;
         select_sprite_entry(entity, *directionFrame, 0);
@@ -254,13 +254,13 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         idleFrames = D_80161E94;
 
         entity->frameTable = idleFrames;
-        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + idleFrames;
         select_sprite_entry(entity, *directionFrame, 0);
         {
             DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
-            dungeon_state->unk_0A--;
+            dungeon_state->activity_counts.parts.pending_action_count--;
         }
         break;
 

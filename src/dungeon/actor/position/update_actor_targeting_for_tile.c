@@ -111,7 +111,7 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
             tile->unk_24.at01.v += dir_step_y[direction_index];
             break;
         }
-        if (scan_result == 0 && *(u16 *)(&map_state->tileX) != tile->unk_24.at00u.v) {
+        if (scan_result == 0 && *(u16 *)(&map_state->tile_position.parts.tile_x) != tile->unk_24.at00u.v) {
             if ((check_entity_relation(actor, ((S_800CA444_4 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
                 return;
             }
@@ -127,7 +127,7 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
     ((S_800CA444_1 *)actor)->unk_46 = (u16) (((S_800CA444_1 *)actor)->unk_46 & 0x7FFF);
     ((S_800CA444_2 *)motion)->unk_9C = (s8) (u8) tile->unk_26;
     ((S_800CA444_1 *)actor)->unk_6D.u = (u8) (((S_800CA444_1 *)actor)->unk_6D.u - 1);
-    g_dungeon_status.unk_08 = (u16) (((u16)g_dungeon_status.unk_08) + 1);
+    g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
     if (((S_800CA444_1 *)actor)->unk_6D.s == 0) {
         ((S_800CA444_1 *)actor)->unk_71 = (u8) (((S_800CA444_1 *)actor)->unk_71 & 0x7F);
         return;

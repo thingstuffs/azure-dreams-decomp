@@ -24,6 +24,6 @@ extern s32 D_8016B778;
 void complete_actor_motion_and_clear_action(S_func_813259CC_0 *object, void *unused_1, void *unused_2, S_func_813259CC_1 *target) {
 
     object->unk_8C = &D_8016B778;
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     target->unk_46 = (u16)(target->unk_46 & 0x7FFF);
 }

@@ -4,5 +4,5 @@ void func_80159F58(CL_CCB000_80171F58_S_80171F58_0 *state, void *unused_position
     state->action = 0x10;
     state->action_tick = 0;
     render_state->unk_2C = D_8015D2C4;
-    select_sprite_entry(render_state, *((((s32) (g_game_work.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7) + D_8015D2C4), 0);
+    select_sprite_entry(render_state, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100) >> 9) & 7) + D_8015D2C4), 0);
 }

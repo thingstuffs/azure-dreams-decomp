@@ -15,8 +15,7 @@ typedef struct S_80027584_0 {
 } S_80027584_0;   /* arg0 in card_boot_format_card_with_retry */
 
 
-extern void card_boot_recheck_selected_channel(void);
-extern s32 card_boot_format_card_and_wait(s32 card_slot);
+#include "modules/main_server_ship_interfaces.h"
 extern void card_boot_show_no_memory_card_notice(void *context);
 extern void card_boot_show_format_failure_notice(void *value);
 extern void card_boot_show_format_success_notice(void *input_value);

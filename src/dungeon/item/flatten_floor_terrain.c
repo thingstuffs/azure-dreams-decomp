@@ -114,7 +114,7 @@ s32 flatten_floor_terrain(void *target, s32 effect_arg, s16 effect_id, s32 conte
     } else {
         display_formatted_context_message(&D_800E1863, context, effect_code);
     }
-    g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+    g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     clear_slot_and_update_linked_state(effect_arg);
     return 1;
 }

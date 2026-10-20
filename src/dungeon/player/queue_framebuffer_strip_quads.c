@@ -49,16 +49,16 @@ void queue_framebuffer_strip_quads(void) {
     void *packet;
     u32 context_slot;
 
-    alternate_buffer = (s32) g_game_work.unk_000 != (s32) D_801C9E40;
-    packet = ((Rec_D_80083160 *)g_game_work.unk_000)->unk_8D0;
-    func_80067E2C(packet, g_game_work.unk_000);
-    func_8006658C((u8 *)g_game_work.unk_000 + 0x7B0, packet);
+    alternate_buffer = (s32) g_game_work.draw_buffer != (s32) D_801C9E40;
+    packet = ((Rec_D_80083160 *)g_game_work.draw_buffer)->unk_8D0;
+    func_80067E2C(packet, g_game_work.draw_buffer);
+    func_8006658C((u8 *)g_game_work.draw_buffer + 0x7B0, packet);
     packet += 0xC;
-    func_80067E2C(packet, g_game_work.unk_000);
-    func_8006658C((u8 *)g_game_work.unk_000 + 0x830, packet);
+    func_80067E2C(packet, g_game_work.draw_buffer);
+    func_8006658C((u8 *)g_game_work.draw_buffer + 0x830, packet);
     packet += 0xC;
     func_80067EF4(packet, 0, 0);
-    func_8006658C((u8 *)g_game_work.unk_000 + 0x830, packet);
+    func_8006658C((u8 *)g_game_work.draw_buffer + 0x830, packet);
     packet += 0xC;
     {
         s32 cmd_value;
@@ -71,7 +71,7 @@ void queue_framebuffer_strip_quads(void) {
         (*(s16 *)((u8 *)packet + 0x14)) = cmd_value;
         (*(s16 *)((u8 *)packet + 0xC)) = cmd_value;
     }
-    context_slot = (u32) &g_game_work.unk_000;
+    context_slot = (u32) &g_game_work.draw_buffer;
     saved_alternate = alternate_buffer != 0;
     {
         register s32 strip_top;

@@ -36,6 +36,6 @@ s32 apply_sleep_item(EntityRec *entity, s32 item, s16 use_type) {
         play_sound_if_enabled(0x520);
     }
     clear_slot_and_update_linked_state(item);
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

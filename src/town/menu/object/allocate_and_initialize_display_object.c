@@ -46,9 +46,9 @@ void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, 
     display->clut = 0;
     display->flags = 0;
     display->tpage_abr = 0;
-    display->color.c.r = g_game_work.view.unk_090;
-    display->color.c.g = g_game_work.view.unk_091;
-    display->color.c.b = g_game_work.view.unk_092;
+    display->color.c.r = g_game_work.view.tint.parts.tint_r;
+    display->color.c.g = g_game_work.view.tint.parts.tint_g;
+    display->color.c.b = g_game_work.view.tint.parts.tint_b;
     display->flags = 0;
     return obj;
 }

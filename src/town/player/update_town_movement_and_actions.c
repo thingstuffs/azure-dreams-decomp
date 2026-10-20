@@ -65,7 +65,7 @@ void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_
     if (input_flags & 0xF000) {
         store_the_valid_shared_angle_in_offset_hex_10(state);
         direction = input_angle_with_offset(globals->buttons,
-                                  globals->view.viewAngle);
+                                  globals->view.camera_rotation.parts.viewAngle);
         if (direction != -1) {
             add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, D_80100E20[0], table);
         }
@@ -104,27 +104,27 @@ void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_
     }
 
     if (speed == 0) {
-        globals->view.viewAngle =
-            (((u16)globals->view.viewAngle) + 8) & 0xFFF0;
+        globals->view.camera_rotation.parts.viewAngle =
+            (((u16)globals->view.camera_rotation.parts.viewAngle) + 8) & 0xFFF0;
     }
 
     speed /= 0x10000;
     if (globals->buttons & 4) {
-        turn_angle = ((u16)globals->view.viewAngle) + 0x10;
-        globals->view.viewAngle = turn_angle + speed;
+        turn_angle = ((u16)globals->view.camera_rotation.parts.viewAngle) + 0x10;
+        globals->view.camera_rotation.parts.viewAngle = turn_angle + speed;
     }
     if (globals->buttons & 8) {
-        turn_angle = ((u16)globals->view.viewAngle) - 0x10;
-        globals->view.viewAngle = turn_angle - speed;
+        turn_angle = ((u16)globals->view.camera_rotation.parts.viewAngle) - 0x10;
+        globals->view.camera_rotation.parts.viewAngle = turn_angle - speed;
     }
 
-    if ((((s32)globals->unk_010) & 0x10) &&
+    if ((((s32)globals->pressed_buttons) & 0x10) &&
         (D_800CFCEE[0] == 0)) {
         initialize_effect_and_adjust_value(state, table, (s32)(context));
         return;
     }
 
-    if (((s32)globals->unk_010) & 0x100) {
+    if (((s32)globals->pressed_buttons) & 0x100) {
         ((S_800A5FDC_0 *)state)->unk_00 = (s32)&D_800A58CC;
         ((S_800A5FDC_0 *)state)->unk_0A.u = 8;
     }

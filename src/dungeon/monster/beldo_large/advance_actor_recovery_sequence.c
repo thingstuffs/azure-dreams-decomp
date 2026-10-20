@@ -96,7 +96,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
         }
         actor->unk_2A = get_rounded_facing_and_rounding_flag(
             sprite->unk_24, sprite->unk_25,
-            D_80082E80.tileX, D_80082E80.tileY, &target_distance);
+            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &target_distance);
         action->unk_94 = 1;
         return;
 
@@ -151,7 +151,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             select_sprite_entry(
                 sprite,
-                anim_table[((g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 1:
@@ -163,7 +163,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             select_sprite_entry(
                 sprite,
-                anim_table[((g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 2:
@@ -175,7 +175,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             select_sprite_entry(
                 sprite,
-                anim_table[((g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 3:
@@ -186,7 +186,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             select_sprite_entry(
                 sprite,
-                anim_table[((g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         default:
@@ -247,8 +247,8 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         world_state = &g_dungeon_status;
-        if (((u8 *)world_state->unk_10) == (u8 *)actor - 0x20) {
-            (*(u32 *)&world_state->unk_10) &= 0x7FFFFFFF;
+        if (((u8 *)world_state->pending_display_owner) == (u8 *)actor - 0x20) {
+            (*(u32 *)&world_state->pending_display_owner) &= 0x7FFFFFFF;
         }
         action->unk_8C = D_8016A36C;
         return;

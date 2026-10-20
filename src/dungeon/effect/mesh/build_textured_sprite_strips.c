@@ -164,15 +164,15 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
     addr_mask = 0xFFFFFF;
     length_mask = 0xFF000000;
     view_matrix = (S_func_81904990_8 *)D_8006CD10;
-    view_matrix->unk_1C = (s32) state_page->view.unk_088;
+    view_matrix->unk_1C = (s32) state_page->view.projection_distance;
     func_800649A0((s32) setup_arg, matrix_arg);
     {
         s32 view_x;
         s32 view_y;
         s32 view_z;
-        view_x = state_page->view.unk_0AC;
-        view_y = state_page->view.unk_0AE;
-        view_z = state_page->view.viewAngle;
+        view_x = state_page->view.camera_rotation.parts.camera_rotation_x;
+        view_y = state_page->view.camera_rotation.parts.camera_rotation_y;
+        view_z = state_page->view.camera_rotation.parts.viewAngle;
         scratch->unk_30 = view_x;
         scratch->unk_34 = view_y;
         scratch->unk_38 = view_z;
@@ -500,7 +500,7 @@ void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, vo
     void *call_order_table;
     s32 call_param;
 
-    draw_page = g_game_work.unk_000;
+    draw_page = g_game_work.draw_buffer;
     pos_or_ot = screen_pos;
     clip_packet = draw_page->packetCursor;
     offset_y = (void *)draw_page != (void *)D_801C9E40;
@@ -508,7 +508,7 @@ void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, vo
     saved_param = draw_param;
     clear_enabled = clear_rect;
     page_ptr = &g_game_work;
-    func_80067E2C(clip_packet, g_game_work.unk_000);
+    func_80067E2C(clip_packet, g_game_work.draw_buffer);
     tag_mask = 0xFF000000U;
 
     *(u32 *)clip_packet = (*(u32 *)clip_packet & tag_mask) |
@@ -532,7 +532,7 @@ void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, vo
     if (clear_enabled != 0) {
         FillPacket *fill_packet;
 
-        packet_page = g_game_work.unk_000;
+        packet_page = g_game_work.draw_buffer;
         fill_packet = (FillPacket *)packet_page->packetCursor;
         packet_page->packetCursor = (u8 *)fill_packet + 0x10;
         fill_packet->command = 0x60000000;
@@ -550,7 +550,7 @@ void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, vo
                             ((u32)fill_packet & 0x00FFFFFFU);
     }
 
-    packet_page = page_ptr->unk_000;
+    packet_page = page_ptr->draw_buffer;
     clip_packet = packet_page->packetCursor;
     packet_page->packetCursor = clip_packet + 0xC;
     func_80067E2C(clip_packet, clip_rect);
@@ -570,7 +570,7 @@ s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, EntityRec *fir
     EntityRec *position = first_position;
     GameWork *render_state = &g_game_work;
     u32 addr_mask = 0x00FFFFFF;
-    GpuContext *render_ctx = g_game_work.unk_000;
+    GpuContext *render_ctx = g_game_work.draw_buffer;
     u8 *packet_start;
     u32 tag_mask = 0xFF000000;
     Scratch80024D64 *scratch =
@@ -640,7 +640,7 @@ s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, EntityRec *fir
         break;
     }
 
-    final_render_ctx = render_state->unk_000;
+    final_render_ctx = render_state->draw_buffer;
     final_render_ctx->packetCursor = scratch->cursor;
     return 0;
 }
@@ -1563,7 +1563,7 @@ update_coords:
 
             effect->unk_82.u16 = previous_timer;
             if (active_flag == 0) {
-                g_dungeon_status.unk_0C = 0;
+                g_dungeon_status.active_actor = 0;
                 *(u16 *)((u8 *)effect - 2) |= 0x8000;
                 object_flag_block.flags |= 0x8000;
             } else {

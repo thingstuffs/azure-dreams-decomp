@@ -33,7 +33,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
     if (current_table != direction_table) {
         ((SpriteFrameState *)actor)->frameTable = direction_table;
         direction_addr =
-            ((g_game_work.view.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
+            ((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
         direction_addr += (unsigned long)direction_table;
         select_sprite_entry(actor, *(u8 *)direction_addr, 0);
     }
@@ -44,7 +44,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
     if (current_table != direction_table) {
         ((SpriteFrameState *)actor)->frameTable = direction_table;
         direction_addr =
-            ((g_game_work.view.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
+            ((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
         direction_addr += (unsigned long)direction_table;
         select_sprite_entry(actor, *(u8 *)direction_addr, 0);
     }
@@ -55,7 +55,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
     if (current_table != direction_table) {
         ((SpriteFrameState *)actor)->frameTable = direction_table;
         direction_addr =
-            ((g_game_work.view.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
+            ((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
         direction_addr += (unsigned long)direction_table;
         select_sprite_entry(actor, *(u8 *)direction_addr, 0);
     }

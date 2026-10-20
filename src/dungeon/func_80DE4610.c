@@ -39,7 +39,7 @@ s32 begin_actor_directional_attack(void *action_state, void *action_ctx, void *s
         actor->unk_85 = 0;
         direction_table = &D_80174540;
         (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
-        select_sprite_entry(sprite, direction_table[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, direction_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
         prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         return 1;

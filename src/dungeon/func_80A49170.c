@@ -103,7 +103,7 @@ void start_selected_move_and_reset_action(void *action, EntityRec *position, voi
         position->unk_10 = 0;
         position->unk_0C = 0;
         set_record_integer_tile_center(position, ((R06_80172970_S_80172970_4 *)sprite)->unk_24, ((R06_80172970_S_80172970_4 *)sprite)->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->unk_6D)--;
@@ -141,15 +141,15 @@ void start_selected_move_and_reset_action(void *action, EntityRec *position, voi
             (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_8017586C);
             select_sprite_entry(
                 sprite,
-                ((u8 *)D_8017586C)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                ((u8 *)D_8017586C)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
         {
 
-            if (((s32)g_dungeon_status.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         ((R06_80172970_S_80172970_4 *)sprite)->unk_14 &= 0xF7FF;
         ((R06_80172970_S_80172970_0 *)action)->unk_8C = ((u8 *)initialize_destination_state);

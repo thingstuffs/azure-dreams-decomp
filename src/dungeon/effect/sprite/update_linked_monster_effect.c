@@ -186,8 +186,8 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
                 ((S_80025C80_0 *)effect_in)->unk_3A = (u16) ((u16)source_data_2->unk_88);
                 ((S_80025C80_0 *)effect_in)->unk_40.u = (u16) (((u16) ((u16)source_data_2->facing) >> 9) & 7);
                 resident_sprite = &D_80082E80;
-                ((S_80025C80_0 *)effect_in)->unk_3C = resident_sprite->tileX;
-                start_tile_y = resident_sprite->tileY;
+                ((S_80025C80_0 *)effect_in)->unk_3C = resident_sprite->tile_position.parts.tile_x;
+                start_tile_y = resident_sprite->tile_position.parts.tile_y;
                 ((S_80025C80_0 *)effect_in)->unk_42 = end_frame;
                 ((S_80025C80_0 *)effect_in)->unk_30.n = 3;
                 ((S_80025C80_0 *)effect_in)->unk_2C = (s16) ((u16) ((S_80025C80_0 *)effect_in)->unk_2C + 1);
@@ -201,7 +201,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             ((S_80025C80_0 *)effect_in)->unk_30.n = follow_ticks;
             if ((follow_ticks << 0x10) <= 0 || transform_result == 0
                 || (((S_80025C80_1 *)sprite)->unk_14 & 0x8000) != 0) {
-                if (D_80082E80.unk_014 & 0x8000) {
+                if (D_80082E80.sprite_flags & 0x8000) {
                     ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v = ((u16)D_80083780.x.w.i);
                     ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v = ((u16)D_80083780.y.w.i);
                     ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = ((u16)D_80083780.z.w.i) - 0x10;

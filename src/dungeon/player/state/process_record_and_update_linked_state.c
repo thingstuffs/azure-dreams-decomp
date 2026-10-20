@@ -29,7 +29,7 @@ s32 process_record_and_update_linked_state(s32 request, void *record_data) {
     s32 record_id;
     S_80098864_1 *linked_record;
 
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     record_id = ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_00;
     copy_item_category_damage(record_data, request);
     prepare_directional_attack(record_data, record_id, ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_3E, 0, 0);

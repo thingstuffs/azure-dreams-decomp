@@ -60,7 +60,7 @@ void move_toward_sprite_tile_and_complete(void *action, void *motion, void *spri
         ((SpriteFrameState *)sprite)->frameTable = D_80162E0C;
         select_sprite_entry(
             sprite,
-            D_80162E0C[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80162E0C[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80160BAC_0 *)action)->unk_98 |= 8;
         ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
@@ -113,7 +113,7 @@ void move_toward_sprite_tile_and_complete(void *action, void *motion, void *spri
             ((SpriteFrameState *)sprite)->frameTable = D_80162E14;
             select_sprite_entry(
                 sprite,
-                D_80162E14[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_80162E14[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80160BAC_0 *)action)->unk_9B++;
         }
@@ -126,7 +126,7 @@ void move_toward_sprite_tile_and_complete(void *action, void *motion, void *spri
         ((SpriteFrameState *)sprite)->frameTable = D_80162DEC;
         select_sprite_entry(
             sprite,
-            D_80162DEC[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80162DEC[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         break;
     }
@@ -144,8 +144,8 @@ void move_toward_sprite_tile_and_complete(void *action, void *motion, void *spri
     advance_status_timers(actor);
 
     action_globals = &g_dungeon_status;
-    if (action_globals->unk_08 != 0) {
-        (*(u16 *)&action_globals->unk_08)--;
+    if (action_globals->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&action_globals->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = ((EntityRec *)actor)->flags1C;
@@ -158,8 +158,8 @@ void move_toward_sprite_tile_and_complete(void *action, void *motion, void *spri
             ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
                 ((SpriteFrameState *)sprite)->unk_24,
                 ((SpriteFrameState *)sprite)->unk_25,
-                D_80082E80.tileX,
-                D_80082E80.tileY,
+                D_80082E80.tile_position.parts.tile_x,
+                D_80082E80.tile_position.parts.tile_y,
                 &direction_aux);
         }
     }

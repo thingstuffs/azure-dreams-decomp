@@ -65,6 +65,6 @@ void initialize_actor_motion_transition(S_8017346C_0 *actor, EntityRec *motion, 
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, action->unk_24, action->unk_25);
         actor->unk_8C = &func_80170E94;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
     }
 }

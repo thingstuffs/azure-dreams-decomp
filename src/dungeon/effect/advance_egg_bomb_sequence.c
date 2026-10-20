@@ -124,7 +124,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
     case 0:
         if ((find_valid_nearby_position(0, (u16) coord_arg->x >> 6, (u16) coord_arg->y >> 6, &spawn_x, &spawn_y) << 0x10) == 0) {
             {
-                g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+                g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             }
             display_formatted_context_message(&D_800E0A42);
             (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
@@ -191,7 +191,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
         remaining_frames = ((S_800B7774_0 *)egg_bomb)->unk_0C - 1;
         ((S_800B7774_0 *)egg_bomb)->unk_0C = remaining_frames;
         if (((remaining_frames << 0x10) > 0) && !(((S_800B7774_4 *)effect)->unk_14 & 0x8000)
-            && (((s32)state_base->unk_010) == 0)) {
+            && (((s32)state_base->pressed_buttons) == 0)) {
             break;
         }
         ((S_800B7774_0 *)egg_bomb)->unk_0A.u = (u16) (((S_800B7774_0 *)egg_bomb)->unk_0A.u + 1);
@@ -216,7 +216,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
         ((EntityRec *)((u8 *)D_800E3D7C))->unk_110 = 0;
         (*(s32 *)((u8 *)monster + (0x1C))) = (s32) (((S_800B7774_2 *)monster)->unk_1C | 0x400000);
         {
-            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         }
         (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
         object_flag_block.flags = object_flag_block.flags | 0x8000;

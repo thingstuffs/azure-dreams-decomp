@@ -30,7 +30,7 @@ void begin_player_pickup_animation(u8 *actor, s32 effect_arg, u8 *target, u8 *so
 
     *(u8 **)(target + 0x2C) = &D_800DD0B8[0];
 
-    direction = ((g_game_work.view.viewAngle + *(s16 *)(source + 0x2A) + 0x100) >> 9) & 7;
+    direction = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)(source + 0x2A) + 0x100) >> 9) & 7;
     set_sprite_animation_frame(target, D_800DD0B8[direction], 0, 1);
 
     effect = create_item_render_object(actor - 0x20, *(void **)(actor + 0xBC), 0, 0, 0);

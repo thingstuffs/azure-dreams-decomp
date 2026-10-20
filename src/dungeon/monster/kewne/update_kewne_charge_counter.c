@@ -62,15 +62,15 @@ void update_kewne_charge_counter(S_func_809A0B58_0 *actor_state, void *unused, S
         actor_state->unk_B2 = counter_value;
         if ((u32)(counter_value & 0xFFFF) >= 0x3D) {
             actor_state->unk_B2 = 0x3C;
-            g_dungeon_status.unk_0A =
-                (u16)(((u16)g_dungeon_status.unk_0A) + 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count =
+                (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
             actor_state->unk_9A = 0x19;
             actor_state->unk_8C = 0;
             actor_state->unk_9B = 0;
             direction_frames = D_80175EA8;
             *(u8 **)((u8 *)sprite + 0x2C) = direction_frames;
             select_sprite_entry(sprite,
-                          direction_frames[((s32)(g_game_work.view.viewAngle + entity->unk_2A.unk_00_s + 0x100) >> 9) & 7],
+                          direction_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A.unk_00_s + 0x100) >> 9) & 7],
                           0);
             actor_state->unk_B0 = (u16)entity->unk_2A.unk_00;
             entity->unk_1C = (s32)(entity->unk_1C & 0xFFFBFFFF);

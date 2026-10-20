@@ -219,7 +219,7 @@ next_target:
                 }
             }
         }
-        if (!(D_80082E80.unk_014 & 0x8000)) {
+        if (!(D_80082E80.sprite_flags & 0x8000)) {
             if ((s16) effect->unk_50 >= 0) {
                 return;
             }
@@ -228,8 +228,8 @@ next_target:
             effect->unk_52.unk_52 = (u16) (effect->unk_52.unk_52 & 0x7FFF);
             return;
         }
-        g_dungeon_status.unk_0C = 0;
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.active_actor = 0;
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00 = (u16) (((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00
             | 0x8000);
         object_flag_block.flags |= 0x8000;
@@ -349,7 +349,7 @@ s32 draw_linked_sprite_effect_quads(SpriteEffect *first_item) {
             u32 addr_mask = 0;
             u32 color_or_tag_mask = 0;
 
-            packet_pool = render_state->unk_000;
+            packet_pool = render_state->draw_buffer;
             packet = (SpriteQuad *)packet_pool->packetCursor;
             packet_pool->packetCursor = (u8 *)packet + 0x34;
             packet->color = 0xA0A0A0;
@@ -390,8 +390,8 @@ s32 draw_linked_sprite_effect_quads(SpriteEffect *first_item) {
 
             packet->tag =
                 (packet->tag & color_or_tag_mask) |
-                (*(u32 *)((u8 *)(depth_offset + (u32)render_state->unk_000) + 0xB0) & addr_mask);
-            ot_slot = depth_offset + (u32)render_state->unk_000;
+                (*(u32 *)((u8 *)(depth_offset + (u32)render_state->draw_buffer) + 0xB0) & addr_mask);
+            ot_slot = depth_offset + (u32)render_state->draw_buffer;
             *(u32 *)((u8 *)ot_slot + 0xB0) =
                 (*(u32 *)((u8 *)ot_slot + 0xB0) & color_or_tag_mask) |
                 ((u32)packet & addr_mask);
@@ -510,7 +510,7 @@ void update_animated_target_effect(void *effect)
     case 1:
         last_particle = 0xE;
         approach_target = &D_80082E80;
-        if (resolve_record_orientation_or_fallback(((void *)approach_target->unk_008), approach_target, target_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((void *)approach_target->sprite_source), approach_target, target_pos, 0) != 0) {
             ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
                 ((target_pos[0] + D_80083780.x.w.i) -
                  ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 14;
@@ -536,7 +536,7 @@ void update_animated_target_effect(void *effect)
         }
         ((S_8002466C_0 *)effect)->unk_4E += 2;
         follow_target = &D_80082E80;
-        if (resolve_record_orientation_or_fallback(((void *)follow_target->unk_008), follow_target, target_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((void *)follow_target->sprite_source), follow_target, target_pos, 0) != 0) {
             ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
                 ((target_pos[0] + D_80083780.x.w.i) -
                  ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 15;
@@ -856,7 +856,7 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
 
                             {
                                 u8 *packet_pool;
-                                packet_pool = (u8 *)gw->unk_000;
+                                packet_pool = (u8 *)gw->draw_buffer;
                                 quad = *(Quad **)(packet_pool + 0x8d0);
                                 *(Quad **)(packet_pool + 0x8d0) = quad + 1;
                             }
@@ -879,8 +879,8 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
                                 column_limit = last_vertex - first_cell;
                             }
 
-                            ((P_TAG *)quad)->addr = ((P_TAG *)((u8 *)gw->unk_000 + 0xb0))->addr;
-                            ((P_TAG *)((u8 *)gw->unk_000 + 0xb0))->addr = (u32)quad;
+                            ((P_TAG *)quad)->addr = ((P_TAG *)((u8 *)gw->draw_buffer + 0xb0))->addr;
+                            ((P_TAG *)((u8 *)gw->draw_buffer + 0xb0))->addr = (u32)quad;
                         } while (column < column_limit);
                     }
                     row++;
@@ -894,15 +894,15 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
 
             {
                 u8 *packet_pool;
-                packet_pool = (u8 *)gw->unk_000;
+                packet_pool = (u8 *)gw->draw_buffer;
                 draw_mode = *(u8 **)(packet_pool + 0x8d0);
                 *(u8 **)(packet_pool + 0x8d0) = draw_mode + 12;
             }
             texture_page = func_80066460(0, 2, 0, 0);
             func_80067F20(draw_mode, 0, 0, texture_page & 0xffff, 0);
 
-            ((P_TAG *)draw_mode)->addr = ((P_TAG *)((u8 *)gw->unk_000 + 0xb0))->addr;
-            ((P_TAG *)((u8 *)gw->unk_000 + 0xb0))->addr = (u32)draw_mode;
+            ((P_TAG *)draw_mode)->addr = ((P_TAG *)((u8 *)gw->draw_buffer + 0xb0))->addr;
+            ((P_TAG *)((u8 *)gw->draw_buffer + 0xb0))->addr = (u32)draw_mode;
         }
 
         next_effect = *(u8 **)((u8 *)effect_data - 8);

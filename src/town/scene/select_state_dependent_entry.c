@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 get_script_flag_mask(s32 flagIndex);
@@ -15,15 +16,15 @@ void *select_state_dependent_entry(s32 table_index, s32 unused, s32 entry_id) {
     void *result;
 
     if (entry_id == 0x1E) {
-        if (get_script_flag_mask(0x145E) != 0) {
-            if (get_script_flag_mask(0x145F) != 0) {
+        if (get_script_flag_mask(Ftt_fkoya_isaku_scene00_first) != 0) {
+            if (get_script_flag_mask(Ftt_fkoya_isaku_scene00_ok) != 0) {
                 result = D_8001E42A;
             } else {
                 result = D_8001E16A;
             }
         } else {
             result = D_8001DCD4;
-            set_script_flag_bit(0x145E);
+            set_script_flag_bit(Ftt_fkoya_isaku_scene00_first);
         }
     } else {
         result = apply_entry_position(D_8001BE24, D_8001C354, table_index, entry_id);

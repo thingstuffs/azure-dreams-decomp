@@ -410,7 +410,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
             effect->unk_52.as_u16 &= 0x7FFF;
             return;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((u16 *) ((u8 *) effect - 2))[0] = (u16) (((u16 *) ((u8 *) effect - 2))[0]
             | 0x8000);
         object_flag_block.flags |= 0x8000;

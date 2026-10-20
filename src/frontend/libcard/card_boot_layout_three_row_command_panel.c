@@ -69,8 +69,7 @@ typedef struct S_80023600_12 {
 } S_80023600_12;
 
 
-void card_boot_bind_command_panel_resources(void *);                      /* extern */
-void card_boot_reset_three_row_highlight(void *);       /* extern */
+#include "frontend/libcard/interfaces.h"
 void card_boot_format_command_panel_labels(void *);                            /* extern */
 s32 card_boot_set_centered_rectangle(s32, s32, s32);    /* extern */
 

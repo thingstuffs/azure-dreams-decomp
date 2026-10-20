@@ -96,7 +96,7 @@ void settle_entity_after_directional_motion(void *action, void *motion, void *sp
             ((SpriteFrameState *)sprite)->frameTable = D_80156150;
             select_sprite_entry(
                 sprite,
-                D_80156150[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                D_80156150[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80155238_1 *)action)->unk_9B++;
             return;
@@ -112,7 +112,7 @@ void settle_entity_after_directional_motion(void *action, void *motion, void *sp
         ((SpriteFrameState *)sprite)->frameTable = D_80156150;
         select_sprite_entry(
             sprite,
-            D_80156150[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            D_80156150[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80155238_1 *)action)->unk_96.s = 8;
         ((S_80155238_1 *)action)->unk_9B++;
@@ -147,9 +147,9 @@ void settle_entity_after_directional_motion(void *action, void *motion, void *sp
         ((S_80155238_2 *)motion)->unk_04.at00.v = ((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 16;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
-        tracked_addr = ((s32)g_dungeon_status.unk_10);
+        tracked_addr = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_addr == (s32)((u8 *)entity - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_addr & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_addr & 0x7FFFFFFF;
         }
         ((S_80155238_1 *)action)->unk_8C = &D_80152E54;
 

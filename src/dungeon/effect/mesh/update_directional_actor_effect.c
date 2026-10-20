@@ -95,7 +95,7 @@ void update_directional_actor_effect(void *state_data)
             }
             U32_AT(child, 0x0C) = tint;
         }
-        if ((U16_AT(((u16 *)(&D_80082E80.unk_014)), 0) & 0x8000) == 0) {
+        if ((U16_AT(((u16 *)(&D_80082E80.sprite_flags)), 0) & 0x8000) == 0) {
             U16_AT(state, 0x18)--;
             if ((s16)U16_AT(state, 0x18) >= 0) {
                 break;
@@ -353,7 +353,7 @@ loop_top:
         target[1] = target_node->unk_04;
         target[2] = (((S_8199AAD4_0 *)self)->unk_38 - 0x50) << 16;
 
-        entry_offset = (g_game_work.view.viewAngle + D_800814A8->facing + 0x100) >> 7;
+        entry_offset = (g_game_work.view.camera_rotation.parts.viewAngle + D_800814A8->facing + 0x100) >> 7;
         delta_out = delta;
         entry_base = D_800E3D18;
         entry_offset &= 0x1C;

@@ -20,7 +20,7 @@ void finish_actor_action_animation(void *action, void *motion, void *anim, void 
         ((R16_801723F0_S_801723F0_3 *)motion)->unk_10 = 0;
         ((R16_801723F0_S_801723F0_3 *)motion)->unk_0C = 0;
         ((SpriteFrameState *)anim)->frameTable = ((u8 *)D_8017423C);
-        select_sprite_entry(anim,(u8)(((u8 *)D_8017423C)[((s32)(g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7]),
+        select_sprite_entry(anim,(u8)(((u8 *)D_8017423C)[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7]),
             0);
         ((R16_801723F0_S_801723F0_0 *)action)->unk_96 = 0;
         ((R16_801723F0_S_801723F0_0 *)action)->unk_9B++;
@@ -36,7 +36,7 @@ void finish_actor_action_animation(void *action, void *motion, void *anim, void 
         if (((SpriteFrameState *)anim)->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x100);
             ((R16_801723F0_S_801723F0_0 *)action)->unk_8C = ((u8 *)update_actor_state_and_dispatch_transition);
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
             advance_status_timers(actor);
         }

@@ -34,7 +34,7 @@ void update_action_and_directional_frame(void *action_state, s32 update_arg, voi
         }
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_8017386C;
         select_sprite_entry(sprite,
-                      D_8017386C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                      D_8017386C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
         actor->unk_6D--;
 

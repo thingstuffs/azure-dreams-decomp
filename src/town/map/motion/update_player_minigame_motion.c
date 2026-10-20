@@ -134,7 +134,7 @@ void update_player_minigame_motion(void *actor, S_800C035C_1 *motion, SpriteFram
     MinigameProgressPair16 *progress;
     S_800C035C_2 *course;
 
-    controls = ((s32 *)&g_game_work.unk_000);
+    controls = ((s32 *)&g_game_work.draw_buffer);
     course = ((S_800C035C_0 *)actor)->unk_54;
     progress = (s8 *)actor + 0x50;
     apply_the_enabled_movement_offsets_adding_z_offset_only_positive((struct IntVector3 *)(motion));

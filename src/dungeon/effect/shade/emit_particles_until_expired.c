@@ -110,6 +110,6 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
     if ((life_left << 0x10) <= 0) {
         ((S_800D4DE8_0_pre *)emitter)[-1].unk_00 = ((S_800D4DE8_0_pre *)emitter)[-1].unk_00 | 0x8000;
         object_flag_block.flags |= 0x8000;
-        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+        g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     }
 }

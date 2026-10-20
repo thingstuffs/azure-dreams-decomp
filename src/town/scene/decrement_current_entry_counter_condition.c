@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -17,7 +18,7 @@ void decrement_current_entry_counter_condition(void) {
     u8 counter;
     S_800169F8_1 *entry;
 
-    if (func_8001894C(0x514) != 0) {
+    if (func_8001894C(F_sbs07_pad29) != 0) {
         entry = (D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40);
         counter = entry->unk_02;
         if (counter != 0) {

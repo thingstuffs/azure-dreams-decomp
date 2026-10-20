@@ -80,12 +80,12 @@ void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80
     state = ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8;
     switch (state) {
     case 0:
-        if ((((g_game_work.view.viewAngle +
+        if ((((g_game_work.view.camera_rotation.parts.viewAngle +
                transform->facing + 0x100) >> 9) & 7) == 2) {
             animation_actor = actor;
             animation_table = D_800DD100;
             animation_actor->unk_2C = animation_table;
-            animation_entry = (u8 *)((s32)(((g_game_work.view.viewAngle +
+            animation_entry = (u8 *)((s32)(((g_game_work.view.camera_rotation.parts.viewAngle +
                                     transform->facing + 0x100) >> 9) &
                                   7) +
                            (s32)animation_table);

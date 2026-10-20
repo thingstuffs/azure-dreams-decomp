@@ -57,11 +57,11 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, v
         ((SpriteFrameState *)sprite)->frameTable = D_80175188;
         actor = (EntityRec *)((u8 *)actor + 0x2A);
         select_sprite_entry(sprite,
-            D_80175188[((g_game_work.view.viewAngle + *(s16 *)actor + 0x100) >> 9) & 7],
+            D_80175188[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)actor + 0x100) >> 9) & 7],
             0);
         {
 
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         ((S_80173A2C_0 *)controller_in)->unk_9B++;
         return;
@@ -70,7 +70,7 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, v
         if ((get_entity_effect_value(actor, 1) << 16) == 0) {
             ((SpriteFrameState *)sprite)->frameTable = D_80175190;
             select_sprite_entry(sprite,
-                D_80175190[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80175190[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             actor_flags = actor->flags1C | 0x40000;
             actor->flags1C = actor_flags;
@@ -127,7 +127,7 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, v
                 TileObject *origin = &D_80082E80;
                 s8 tile = *(s8 *)&((SpriteFrameState *)sprite)->unk_26;
 
-                if (((tile == origin->unk_026) && (tile >= 0)) ||
+                if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
                     if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(actor, 1);
@@ -139,7 +139,7 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, v
             }
             ((SpriteFrameState *)sprite)->frameTable = D_80175190;
             select_sprite_entry(sprite,
-                D_80175190[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80175190[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             actor_flags = actor->flags1C | 0x40000;
             actor->flags1C = actor_flags;
@@ -154,7 +154,7 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, v
         ((S_80173A2C_0 *)controller_in)->unk_98 &= 0xBFFF;
         {
 
-            g_dungeon_status.unk_0A++;
+            g_dungeon_status.activity_counts.parts.pending_action_count++;
         }
         ((S_80173A2C_0 *)controller_in)->unk_9B++;
         return;
@@ -173,11 +173,11 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, v
         ((S_80173A2C_0 *)controller_in)->unk_A8 = 0;
         ((SpriteFrameState *)sprite)->frameTable = D_80175140;
         select_sprite_entry(sprite,
-            D_80175140[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80175140[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
 
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         actor->flags1C &= ~0x200;
 

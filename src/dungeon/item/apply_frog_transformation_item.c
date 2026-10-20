@@ -97,7 +97,7 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
                 }
 
                 clear_slot_and_update_linked_state(action_id);
-                g_dungeon_status.unk_0A--;
+                g_dungeon_status.activity_counts.parts.pending_action_count--;
                 return 1;
             }
 
@@ -132,7 +132,7 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
         result = special_case;
         if (result == 0) {
             clear_slot_and_update_linked_state(action_id);
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             return 1;
         }
         result = get_unused_text_buffer();
@@ -148,7 +148,7 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
         }
 
         clear_slot_and_update_linked_state(action_id);
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         return 1;
     }
     return 0;

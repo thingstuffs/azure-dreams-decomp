@@ -61,13 +61,13 @@ void advance_actor_queued_path(void *action, s32 action_id, void *actor, void *m
 
             (*(void * *)((u8 *)actor + (0x2C))) = D_800E260C;
             anim_slot = D_800E260C +
-                (((g_game_work.view.viewAngle + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C);
+                (((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C);
             func_8003DB94(actor, *(void **)anim_slot, 0);
         } else if (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x6000) {
             func_8003DB94(
                 actor,
                 *(void **)(D_800E260C +
-                    (((g_game_work.view.viewAngle + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C)),
+                    (((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C)),
                 0);
         }
 

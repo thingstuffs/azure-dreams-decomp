@@ -123,7 +123,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteF
         }
         if (((S_8017558C_0 *)action)->unk_92.s == 0) {
             sprite->frameTable = D_800E2438;
-            select_sprite_entry(sprite, D_800E2438[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(sprite, D_800E2438[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             play_sound_if_enabled(0x800);
             ((S_8017558C_0 *)action)->unk_96 = 2U;
             ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
@@ -170,7 +170,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteF
             }
         }
         sprite->frameTable = D_800E2440;
-        select_sprite_entry(sprite, D_800E2440[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, D_800E2440[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_8017558C_0 *)action)->unk_96 = 3U;
         ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
         ((S_8017558C_0 *)action)->unk_B6 = (u16) ((u16)position->x.w.i);
@@ -208,7 +208,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteF
                 actor->unk_88 = (u16) ((S_8017558C_0 *)action)->unk_BA;
                 saved_angle = ((S_8017558C_0 *)action)->unk_A6;
                 actor->facing = (s16) saved_angle;
-                view_dir = ((s32) (g_game_work.view.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
+                view_dir = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
                 select_indirect_table_entry(sprite, (*(u8 * *)&sprite->frameTable)[view_dir], sprite->unk_04);
                 ((S_8017558C_0 *)action)->unk_94 = view_dir;
             }
@@ -228,7 +228,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteF
             ((S_8017558C_0 *)action)->unk_96 = 0U;
             ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
             sprite->frameTable = D_800E2448;
-            select_sprite_entry(sprite, D_800E2448[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(sprite, D_800E2448[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             sprite->flags = (u16) (sprite->flags & 0x9F7F);
             play_sound_if_enabled(0x801);
             return;
@@ -246,7 +246,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteF
                 return;
             }
             sprite->frameTable = D_800E23E0;
-            select_sprite_entry(sprite, D_800E23E0[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(sprite, D_800E23E0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             ((S_8017558C_0 *)action)->unk_96 = 5U;
             ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
             if (((S_8017558C_0 *)action)->unk_B0 != 0) {
@@ -265,7 +265,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteF
         sprite->unk_06 = 0;
         reduce_actor_food_meter(actor, 0x1000);
         ((S_8017558C_0 *)action)->unk_8C = D_80171A80;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
         return;
     }

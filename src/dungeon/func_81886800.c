@@ -585,7 +585,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
     if (((S_func_81886800_17 *)(&D_80026326))->unk_00.s16 != 0) {
         break;
     }
-    ((S_func_81886800_18 *)(((u8 *)(&g_dungeon_status.unk_0C))))->unk_00 = 0;
+    ((S_func_81886800_18 *)(((u8 *)(&g_dungeon_status.active_actor))))->unk_00 = 0;
     ((S_func_81886800_12 *)((u8 *)effect - 2))->unk_00 |= 0x8000;
     ((S_func_81886800_19 *)(((u8 *)(&object_flag_block))))->unk_00 |= 0x8000;
 

@@ -103,7 +103,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     s32 wave_index;
     Scratchpad *scratch;
     screen_link = screen_pos;
-    globals = (u8 *) (&g_game_work.unk_000);
+    globals = (u8 *) (&g_game_work.draw_buffer);
     sprite = *((void **) (((s8 *) context) + (-0x14)));
     part = *((void **) (((s8 *) sprite) + 8));
     callback_arg = *((s32 *) (((s8 *) context) + (-0x18)));
@@ -113,7 +113,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     *((u16 *) (((u8 *) scratch) + 0x84)) = 0;
     *((u16 *) (((u8 *) scratch) + 0x7C)) = 0;
     *((u16 *) (((u8 *) scratch) + 0x74)) = 0;
-    packet = *((s32 **) (((s8 *) g_game_work.unk_000) + 0x8D0));
+    packet = *((s32 **) (((s8 *) g_game_work.draw_buffer) + 0x8D0));
     *((s32 *) (((u8 *) scratch) + 0x20)) = (s32) ordering_table;
     *((s32 *) (((u8 *) scratch) + 0xC0)) = 0;
     *((u16 *) (((u8 *) scratch) + 0xB8)) = (u16) ((*((u16 *) (((s8 *) screen_link) + 0))) - 0xA0);

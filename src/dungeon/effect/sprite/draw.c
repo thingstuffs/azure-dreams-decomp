@@ -485,7 +485,7 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
         break;
     }
 
-    final_render_ctx = render_state->unk_000;
+    final_render_ctx = render_state->draw_buffer;
     ((GpuContext *)final_render_ctx)->packetCursor = scratch->cursor;
     return 0;
 }

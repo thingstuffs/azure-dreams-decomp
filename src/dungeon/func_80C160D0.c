@@ -21,7 +21,7 @@ void advance_entity_along_path_2(void *motion, s32 unused, void *entity, void *p
         (*(u8 * *)((u8 *)entity + 0x2C)) = ((u8 *)D_8017449C);
         select_sprite_entry(
             entity,
-            ((u8 *)D_8017449C)[((g_game_work.view.viewAngle + ((R17_801718D0_S_801718D0_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)D_8017449C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801718D0_S_801718D0_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800A9E70_arg0 *)motion)->unk_A8 = 0;
     }

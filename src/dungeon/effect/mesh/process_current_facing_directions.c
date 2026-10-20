@@ -40,7 +40,7 @@ void process_current_facing_directions(void) {
     state = &g_game_work;
     direction_work = (u8 *)state + 0x18;
     if (runtime_update_saved_vectors() != 0) {
-        facing = 2 - ((s32) (state->view.viewAngle + 0x100) >> 9);
+        facing = 2 - ((s32) (state->view.camera_rotation.parts.viewAngle + 0x100) >> 9);
         clear_listed_tile_flags();
         coord_x = (u16) ((S_800D13B8_1 *)direction_work)->unk_A4 >> 6;
         coord_y = (u16) ((S_800D13B8_1 *)direction_work)->unk_A6 >> 6;

@@ -16,10 +16,10 @@ void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in
             direction_anims = ((u8 *)D_80175A9C);
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
             select_sprite_entry(sprite,
-                direction_anims[((g_game_work.view.viewAngle + ((R12_8017368C_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_8017368C_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             system_base = &g_dungeon_status;
-            (*(u16 *)&system_base->unk_0A)--;
+            (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
             ((R12_8017368C_S_80173358_0 *)in_controller)->unk_9B++;
         }
         return;
@@ -83,7 +83,7 @@ void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in
 
                 origin = &D_80082E80;
                 coordinate = ((R12_8017368C_S_80173358_1 *)sprite)->unk_26;
-                if ((((coordinate == origin->unk_026) &&
+                if ((((coordinate == origin->room_index) &&
                     (coordinate >= 0)) ||
                     (((s16)get_tile_chebyshev_distance(origin, sprite)) < 2)) &&
                     ((generate_random_value() & 7) == 0)) {
@@ -102,7 +102,7 @@ void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in
             direction_anims = ((u8 *)D_80175AA4);
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
             select_sprite_entry(sprite,
-                direction_anims[((g_game_work.view.viewAngle + ((R12_8017368C_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_8017368C_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -110,7 +110,7 @@ void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in
         if (!(*(u16 *)sprite & 0x8000)) {
             DungeonGlobalStatus *system_base = &g_dungeon_status;
 
-            (*(u16 *)&system_base->unk_0A)++;
+            (*(u16 *)&system_base->activity_counts.parts.pending_action_count)++;
             ((R12_8017368C_S_80173358_0 *)in_controller)->unk_9B++;
             return;
         }
@@ -122,7 +122,7 @@ void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in
         }
         {
             DungeonGlobalStatus *system_base = &g_dungeon_status;
-            (*(u16 *)&system_base->unk_0A)--;
+            (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
         }
 
         break;

@@ -11,7 +11,7 @@ void create_radial_effect_controller(s32 objectPayload) {
 
     newObject = allocate_list_node(2, ((s32 *)(&D_80083498)));
     if (newObject != 0) {
-        g_dungeon_status.unk_0A += 1;
+        g_dungeon_status.activity_counts.parts.pending_action_count += 1;
         *(void **)((u8 *)newObject + 0x10) = D_800D7A78;
         *(s32 *)((u8 *)newObject + 0x2C) = objectPayload;
     }

@@ -12,6 +12,6 @@ void initialize_actor_direction_table(void *object, void *unusedContext, void *t
     *((u8 *)object + 0x9A) = 0x10;
     *((u8 *)object + 0x9B) = 0;
     ((SpriteFrameState *)tableTarget)->frameTable = D_800E260C;
-    tableByteOffset = ((g_game_work.view.viewAngle + *(s16 *)((u8 *)headingSource + 0x2A) + 0x100) >> 7) & 0x1C;
+    tableByteOffset = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)headingSource + 0x2A) + 0x100) >> 7) & 0x1C;
     func_8003DB94(tableTarget, *(s32 *)(D_800E260C + tableByteOffset), 0);
 }

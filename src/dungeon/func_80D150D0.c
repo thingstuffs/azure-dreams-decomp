@@ -106,7 +106,7 @@ void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, 
                 mesh_flags = ((T_801748D0_S_801748D0_9 *)anchor_pos)->unk_0A;
                 frame.pos[2] = mesh_flags;
                 anchor_height = func_80065420(frame.pos, frame.out0, &frame.out1, &frame.out2);
-                lookup_value = D_800DCECC[((g_game_work.view.viewAngle + (s16)((T_801748D0_S_801748D0_3 *)effect_body)->unk_94 + 0x100)
+                lookup_value = D_800DCECC[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)((T_801748D0_S_801748D0_3 *)effect_body)->unk_94 + 0x100)
                     >> 9) & 7];
                 effect_mesh->unk_06 = first_height - anchor_height - (lookup_value << 1);
                 continue;
@@ -123,7 +123,7 @@ void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, 
             if (((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C != D_80174E88) {
                 ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C = D_80174E88;
                 ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_14 &= 0xF7FF;
-                select_sprite_entry(source_mesh, ((u8 *)((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C)[((g_game_work.view.viewAngle
+                select_sprite_entry(source_mesh, ((u8 *)((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C)[((g_game_work.view.camera_rotation.parts.viewAngle
                     + actor->facing + 0x100) >> 9) & 7], 0);
             }
         }
@@ -141,7 +141,7 @@ void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, 
         if (((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C != D_80174E88) {
             ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C = D_80174E88;
             ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_14 &= 0xF7FF;
-            select_sprite_entry(source_mesh, ((u8 *)((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C)[((g_game_work.view.viewAngle
+            select_sprite_entry(source_mesh, ((u8 *)((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C)[((g_game_work.view.camera_rotation.parts.viewAngle
                 + actor->facing + 0x100) >> 9) & 7], 0);
         }
         ((T_801748D0_S_801748D0_0 *)effect_state)->unk_9B++;
@@ -153,7 +153,7 @@ void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, 
         }
         reduce_actor_food_meter(actor, 0x400);
         ((T_801748D0_S_801748D0_0 *)effect_state)->unk_8C = update_actor_behavior_and_direction;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         actor->unk_46 &= 0x7FFF;
 
         return;

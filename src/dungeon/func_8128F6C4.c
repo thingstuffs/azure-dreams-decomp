@@ -72,12 +72,12 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, S
             entryFrames = D_80160E94;
 
             entity->frameTable = entryFrames;
-            direction = (D_80084818.view.viewAngle + actor->facing + 0x100) >> 9;
+            direction = (D_80084818.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
             direction &= 7;
             directionFrame = direction + entryFrames;
             func_80047320(entity, *directionFrame, 0);
             dungeon_state = &D_80085990;
-            dungeon_state->unk_0A--;
+            dungeon_state->activity_counts.parts.pending_action_count--;
             next_state = action->phase + 1;
             action->phase = next_state;
             return;
@@ -94,7 +94,7 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, S
         waitFrames = D_80160EBC;
 
         entity->frameTable = waitFrames;
-        direction = (D_80084818.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (D_80084818.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + waitFrames;
         func_80047320(entity, *directionFrame, 0);
@@ -114,7 +114,7 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, S
         startFrames = D_80160EC4;
 
         entity->frameTable = startFrames;
-        direction = (D_80084818.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (D_80084818.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + startFrames;
         func_80047320(entity, *directionFrame, 0);
@@ -194,7 +194,7 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, S
                 TileObject *room_base = &D_80081490;
                 s8 room_id = *(s8 *)&entity->unk_26;
 
-                if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)func_8009EB30(room_base, entity) < 2) {
+                if ((room_id == room_base->room_index && room_id >= 0) || (s16)func_8009EB30(room_base, entity) < 2) {
                     if ((func_800A59E8() & 7) == 0) {
                         func_8004272C(actor, 1);
                     }
@@ -208,7 +208,7 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, S
         finishFrames = D_80160ECC;
 
         entity->frameTable = finishFrames;
-        direction = (D_80084818.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (D_80084818.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + finishFrames;
         func_80047320(entity, *directionFrame, 0);
@@ -218,7 +218,7 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, S
         action->phase++;
         {
             DungeonGlobalStatus *dungeon_state = &D_80085990;
-            dungeon_state->unk_0A++;
+            dungeon_state->activity_counts.parts.pending_action_count++;
         }
         return;
 
@@ -240,7 +240,7 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, S
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
         entity->frameTable = restoreFrames;
-        direction = (D_80084818.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (D_80084818.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + restoreFrames;
         func_80047320(entity, *directionFrame, 0);
@@ -260,13 +260,13 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, S
         idleFrames = D_80160E94;
 
         entity->frameTable = idleFrames;
-        direction = (D_80084818.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (D_80084818.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + idleFrames;
         func_80047320(entity, *directionFrame, 0);
         {
             DungeonGlobalStatus *dungeon_state = &D_80085990;
-            dungeon_state->unk_0A--;
+            dungeon_state->activity_counts.parts.pending_action_count--;
         }
         break;
 

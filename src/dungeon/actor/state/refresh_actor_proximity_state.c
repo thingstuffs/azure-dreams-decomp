@@ -10,13 +10,13 @@ void refresh_actor_proximity_state(u8 *context) {
     if ((context == 0) || (context[0x13] == 0)) {
         TileObject *state = &D_80082E80;
 
-        state->unk_026 = find_active_rect_containing_point(state->tileX, state->tileY);
+        state->room_index = find_active_rect_containing_point(state->tile_position.parts.tile_x, state->tile_position.parts.tile_y);
         update_all_actor_proximity_flags(3, 6);
         return;
     } else {
         TileObject *state = *(TileObject **)(context - 0x14);
 
-        state->unk_026 = find_active_rect_containing_point(state->tileX, state->tileY);
+        state->room_index = find_active_rect_containing_point(state->tile_position.parts.tile_x, state->tile_position.parts.tile_y);
         update_actor_proximity_flag(state, context, 3, 6, context + 0x9C);
     }
 }

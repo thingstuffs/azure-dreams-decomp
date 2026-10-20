@@ -555,7 +555,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
 
             state->unk_84.u16 = old_timer;
             if (active_flag == 0) {
-                g_dungeon_status.unk_0C = 0;
+                g_dungeon_status.active_actor = 0;
                 ((B31_818C8FD0_S_func_818C8FD0_10 *)((u8 *)state - 2))->unk_00 |= 0x8000;
                 object_flag_block.flags |= 0x8000;
                 return;

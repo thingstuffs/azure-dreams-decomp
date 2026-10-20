@@ -119,7 +119,7 @@ s32 use_random_healing_item(DungeonObject *obj, u8 *payload, s16 effect_arg) {
         DungeonGlobalStatus *counter_base;
 
         counter_base = &g_dungeon_status;
-        counter_base->unk_0A = ((u16)counter_base->unk_0A) - 1;
+        counter_base->activity_counts.parts.pending_action_count = ((u16)counter_base->activity_counts.parts.pending_action_count) - 1;
     }
     return 1;
 }

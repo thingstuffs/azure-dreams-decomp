@@ -63,7 +63,7 @@ void update_actor_timed_tile_motion(void *action, void *motion, void *sprite, vo
 
             ((SpriteFrameState *)sprite)->frameTable = anim_table;
             select_sprite_entry(sprite,
-                anim_table[((g_game_work.view.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 1);
         }
         ((S_801730C4_0 *)action)->unk_98 |= 8;
@@ -122,7 +122,7 @@ void update_actor_timed_tile_motion(void *action, void *motion, void *sprite, vo
 
                 ((SpriteFrameState *)sprite)->frameTable = anim_table;
                 select_sprite_entry(sprite,
-                    anim_table[((g_game_work.view.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                    anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                     0);
             }
             ((S_801730C4_0 *)action)->unk_9B++;
@@ -135,7 +135,7 @@ void update_actor_timed_tile_motion(void *action, void *motion, void *sprite, vo
         if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != anim_table) {
             ((SpriteFrameState *)sprite)->frameTable = anim_table;
             select_sprite_entry(sprite,
-                anim_table[((g_game_work.view.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             if (((S_801730C4_0 *)action)->unk_B0 == 0) {
                 create_owner_linked_directional_object(action, motion, sprite);
@@ -163,8 +163,8 @@ void update_actor_timed_tile_motion(void *action, void *motion, void *sprite, vo
     advance_status_timers(actor);
     {
 
-        if (g_dungeon_status.unk_08 != 0) {
-            g_dungeon_status.unk_08 = (u16)g_dungeon_status.unk_08 - 1;
+        if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
+            g_dungeon_status.activity_counts.parts.pending_movement_count = (u16)g_dungeon_status.activity_counts.parts.pending_movement_count - 1;
         }
     }
     {
@@ -178,7 +178,7 @@ void update_actor_timed_tile_motion(void *action, void *motion, void *sprite, vo
             if (actor_flags & 0x20000) {
                 ((S_801730C4_2 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
                     ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
-                    D_80082E80.tileX, D_80082E80.tileY, &target_distance);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &target_distance);
             }
         }
     }

@@ -73,7 +73,7 @@ void advance_flashing_sprite_sequence(ActorActionView *action, EntityRec *motion
         motion->unk_0C = 0;
         (sprite->frameTable) = D_8016EEE0;
         select_sprite_entry(sprite,
-            D_8016EEE0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_8016EEE0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->timer.raw = 0;
         action->phase++;
@@ -124,7 +124,7 @@ void advance_flashing_sprite_sequence(ActorActionView *action, EntityRec *motion
         if (sprite->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x100);
             action->nextBehavior = &update_actor_dungeon_behavior;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->unk_46 &= 0x7FFF;
         }

@@ -75,7 +75,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174E44;
         select_sprite_entry(sprite,
-            D_80174E44[((g_game_work.view.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
+            D_80174E44[((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -109,7 +109,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
                 if (((S_80171728_2 *)sprite)->unk_2C != anim_table) {
                     (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
                     select_sprite_entry(sprite,
-                        anim_table[((g_game_work.view.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
+                        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9E.as_s16 = 0;
@@ -130,7 +130,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
             update_timed_effect_size_and_position(actor_in, context_in, sprite, creature_in);
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174DEC;
             select_sprite_entry(sprite,
-                D_80174DEC[((g_game_work.view.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
+                D_80174DEC[((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_800A9E70_arg0 *)actor_in)->unk_90.at00_s32.v = 0;
             return;
@@ -149,7 +149,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
             update_actor_status_and_food(creature_in);
             return;
         }
-        if (((S_80171728_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (((S_80171728_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_80171F40(actor_in, context_in, sprite, creature_in);
             return;
         }
@@ -193,7 +193,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
 
                 heading = get_rounded_facing_and_rounding_flag(
                     ((S_80171728_2 *)sprite)->unk_24.at00.v, ((S_80171728_2 *)sprite)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY,
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                     &distance);
                 player = D_800814A8;
                 creature_in->facing = heading;
@@ -229,10 +229,10 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
 
                 if ((compare_monster_neighbor_values(
                     ((S_80171728_2 *)sprite)->unk_24.at00.v, ((S_80171728_2 *)sprite)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
                     creature_in->facing = get_rounded_facing_and_rounding_flag(
                         ((S_80171728_2 *)sprite)->unk_24.at00.v, ((S_80171728_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &distance);
                 }
             }
@@ -251,6 +251,6 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
     select_sprite_entry(sprite,
-        *(u8 *)(((((g_game_work.view.viewAngle + creature_in->facing + 0x100) >> 9) & 7)) + (u32)anim_table),
+        *(u8 *)(((((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7)) + (u32)anim_table),
         0);
 }

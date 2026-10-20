@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "town/scene/hooks/invoke_callback_and_set_shared_pointer.h"
 
 
@@ -13,8 +14,8 @@ void invoke_callback_and_set_shared_pointer(void) {
     if (field_value < 20) {
         *(s16 *)((u8 *)field_base + 0x35BC) = 20;
     }
-    func_80017350(0x552, field_base);
-    func_80017350(0x553);
+    func_80017350(F_sbs09_pad05, field_base);
+    func_80017350(F_sbs09_pad06);
 }
 
 /* MECHANISM: The retail frame is 24 bytes with only ra saved.

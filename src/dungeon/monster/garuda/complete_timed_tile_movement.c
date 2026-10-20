@@ -60,7 +60,7 @@ void complete_timed_tile_movement(void *action, EntityRec *motion, void *sprite,
             break;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748A0;
-        facing_index = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
+        facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_801748A0[facing_index & 7], 0);
         ((S_80173A08_0 *)action)->unk_98 |= 8;
         entity->flags1C &= 0xF7FFFFFF;
@@ -74,7 +74,7 @@ void complete_timed_tile_movement(void *action, EntityRec *motion, void *sprite,
             break;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748A8;
-        facing_index = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
+        facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_801748A8[facing_index & 7], 0);
         ((S_80173A08_0 *)action)->unk_98 |= 8;
         entity->flags1C &= 0xF7FFFFFF;
@@ -117,7 +117,7 @@ void complete_timed_tile_movement(void *action, EntityRec *motion, void *sprite,
             ((S_80173A08_0 *)action)->unk_98 &= 0xFFF7;
             entity->flags1C |= entity_mask;
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748B0;
-            facing_index = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
+            facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
             select_sprite_entry(sprite, D_801748B0[facing_index & 7], 0);
             ((S_80173A08_0 *)action)->unk_9B++;
         }
@@ -132,7 +132,7 @@ void complete_timed_tile_movement(void *action, EntityRec *motion, void *sprite,
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748B0;
-        facing_index = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
+        facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_801748B0[facing_index & 7], 0);
         ((S_80173A08_0 *)action)->unk_9B++;
 
@@ -155,8 +155,8 @@ void complete_timed_tile_movement(void *action, EntityRec *motion, void *sprite,
     advance_status_timers(entity);
 
     global_base = &g_dungeon_status;
-    if (global_base->unk_08 != 0) {
-        (*(u16 *)&global_base->unk_08)--;
+    if (global_base->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&global_base->activity_counts.parts.pending_movement_count)--;
     }
 
     entity_flags = entity->flags1C;
@@ -168,7 +168,7 @@ void complete_timed_tile_movement(void *action, EntityRec *motion, void *sprite,
         if (entity_flags & 0x20000) {
             entity->facing = get_rounded_facing_and_rounding_flag(
                 ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-                D_80082E80.tileX, D_80082E80.tileY, direction_work);
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, direction_work);
         }
     }
     ((S_80173A08_0 *)action)->unk_8C = D_80171058;

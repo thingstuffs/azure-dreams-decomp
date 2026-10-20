@@ -49,11 +49,11 @@ void dispatch_actor_behavior_state(Rec_func_800C9F34_arg0 *actor_state, s32 cont
             return;
         }
         if ((can_entity_gain_level(entity) << 0x10) != 0) {
-            if ((g_dungeon_status.unk_0C == entity) &&
-                (g_dungeon_status.unk_0A == 0) &&
+            if ((g_dungeon_status.active_actor == entity) &&
+                (g_dungeon_status.activity_counts.parts.pending_action_count == 0) &&
                 !(g_dungeon_status.flags & 8)) {
                 entity->unk_18 = 0;
-                g_dungeon_status.unk_0C = 0;
+                g_dungeon_status.active_actor = 0;
             }
             return;
         }

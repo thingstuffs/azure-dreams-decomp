@@ -2,7 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "town/minigame/initialize_source_and_initial_data.h"
 
-void initialize_source_and_initial_data(void *source_data, void *initial_data)
+void initialize_source_and_initial_data(minigame_pickup_source *source_data, minigame_pickup_initial *initial_data)
 {
     Object *object;
     Object *allocated;

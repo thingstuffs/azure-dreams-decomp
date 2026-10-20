@@ -28,6 +28,6 @@ s32 update_linked_actor_motion(void *state, void *transform, void *config, void 
     set_record_integer_tile_center(transform, *((u8 *)config + 0x24), *((u8 *)config + 0x25));
     *(u16 *)((u8 *)state + 0x98) &= 0xFFF7;
     *(s32 *)((u8 *)object + 0x1C) |= 0x40000000;
-    g_dungeon_status.unk_0A -= 1;
+    g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
     return 1;
 }

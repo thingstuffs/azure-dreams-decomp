@@ -66,10 +66,10 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s3
     }
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero((struct EntityRec *)(actor));
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero((struct EntityRec *)(actor));
-    angle = step_angle_12_toward(scene_state->view.viewAngle, 0, 0x80);
-    scene_state->view.viewAngle = angle;
+    angle = step_angle_12_toward(scene_state->view.camera_rotation.parts.viewAngle, 0, 0x80);
+    scene_state->view.camera_rotation.parts.viewAngle = angle;
     if ((angle & 0xFFF) < 0x80) {
-        scene_state->view.viewAngle = 0;
+        scene_state->view.camera_rotation.parts.viewAngle = 0;
     }
     ticks_left = state->unk_0A.s - 1;
     state->unk_0A.s = ticks_left;
@@ -83,13 +83,13 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s3
             state->unk_0A.u = 0;
         }
         next_offset = ticks > 0
-            ? (offset_step -= scene_state->view.unk_0AC, offset_step /= ticks,
-               ((u16)scene_state->view.unk_0AC) + offset_step)
+            ? (offset_step -= scene_state->view.camera_rotation.parts.camera_rotation_x, offset_step /= ticks,
+               ((u16)scene_state->view.camera_rotation.parts.camera_rotation_x) + offset_step)
         : -0x280;
-        scene_state->view.unk_0AC = next_offset;
+        scene_state->view.camera_rotation.parts.camera_rotation_x = next_offset;
     }
     if ((state->unk_0A.u == 0) &&
-        (scene_state->view.viewAngle == 0)) {
+        (scene_state->view.camera_rotation.parts.viewAngle == 0)) {
         if (state->unk_08 != 0) {
             initialize_effect_and_adjust_value(state, (struct EntityRec *)(actor), context);
         } else {

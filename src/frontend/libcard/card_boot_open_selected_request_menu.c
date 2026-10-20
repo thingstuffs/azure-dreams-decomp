@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 void *card_boot_create_slot_selection_menu();                /* extern */
-void * card_boot_create_save_slot_menu(s32, s32);                    /* extern */
+#include "frontend/libcard/interfaces.h"
 void card_boot_destroy_card_chooser();
 typedef struct S_80027528_0 {
     s32 unk_00;

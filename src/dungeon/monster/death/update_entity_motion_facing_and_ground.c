@@ -104,7 +104,7 @@ void update_entity_motion_facing_and_ground(void *entity, EntityRec *motion, voi
     initial_flags = ((SpriteFrameState *)sprite)->flags;
 
     if (!(initial_flags & 0x8000)) {
-        direction = ((g_game_work.view.viewAngle + ((S_8015F3A8_2 *)entity_base)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8015F3A8_2 *)entity_base)->unk_2A + 0x100) >> 9) & 7;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction) {
             select_indirect_table_entry(sprite,
                 *(u8 *)(*(u8 * *)&((SpriteFrameState *)sprite)->frameTable + direction),

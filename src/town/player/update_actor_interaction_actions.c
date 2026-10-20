@@ -63,7 +63,7 @@ void update_actor_interaction_actions(void *self_arg, SignedHeightView *target_a
                 initialize_motion_action(self, target_arg, context);
                 return;
             }
-            if (((s32)state->unk_010) & 0x10) {
+            if (((s32)state->pressed_buttons) & 0x10) {
                 initialize_actor_action_state(self, target_arg, context);
                 return;
             }

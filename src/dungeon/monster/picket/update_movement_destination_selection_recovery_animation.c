@@ -97,7 +97,7 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
             (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
         (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174EF8;
         select_sprite_entry(actor,
-            D_80174EF8[((g_game_work.view.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
+            D_80174EF8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
         ((S_80174428_3 *)motion)->unk_0C = (x_step << 19) + (x_step << 18);
         ((S_80174428_3 *)motion)->unk_10 = (y_step << 19) + (y_step << 18);
         ((S_80174428_1 *)state)->unk_96.s = 4;
@@ -130,7 +130,7 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
         ((S_80174428_3 *)motion)->unk_0C = 0;
         (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F00;
         select_sprite_entry(actor,
-            D_80174F00[((g_game_work.view.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
+            D_80174F00[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
         if (((S_80174428_0 *)object)->unk_1C & 0x2000) {
             ((S_80174428_1 *)state)->unk_96.s = 7;
             ((S_80174428_1 *)state)->unk_9B = 5;
@@ -180,7 +180,7 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
             if (direction_offset < 0) {
                 continue;
             }
-            if (direction_offset == (s8)((u8)world->unk_026) &&
+            if (direction_offset == (s8)((u8)world->room_index) &&
                 *(s16 *)((u8 *)level + 6) >= 2) {
                 continue;
             }
@@ -207,7 +207,7 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
                     return;
                 }
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             refresh_actor_proximity_state(object);
             height = sample_terrain_surface_height((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
                 (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
@@ -216,7 +216,7 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
             ((S_80174428_2 *)actor)->unk_2C = D_80174F00;
             reduce_actor_food_meter(object, 0x200);
             select_sprite_entry(actor,
-                ((S_80174428_2 *)actor)->unk_2C[((g_game_work.view.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100)
+                ((S_80174428_2 *)actor)->unk_2C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100)
                     >> 9) & 7], 0);
             cycle_map_cell_flags(((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25,
                 (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);

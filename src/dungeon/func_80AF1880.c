@@ -29,7 +29,7 @@ void advance_timed_attack_animation_and_damage(void *action, void *motion, void 
 
             ((SpriteFrameState *)sprite)->frameTable = direction_table;
             select_sprite_entry(sprite,
-                          direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                          direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                           0);
             ((R10_80173080_S_80173080_0 *)action)->unk_96.u = 0;
             ((R10_80173080_S_80173080_0 *)action)->unk_9B++;
@@ -53,7 +53,7 @@ void advance_timed_attack_animation_and_damage(void *action, void *motion, void 
         if (((SpriteFrameState *)sprite)->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x100);
             ((R10_80173080_S_80173080_0 *)action)->unk_8C = ((u8 *)func_801717F4);
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->unk_46 &= 0x7FFF;
         }

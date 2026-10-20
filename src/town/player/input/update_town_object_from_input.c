@@ -32,7 +32,7 @@ void update_town_object_from_input(void *context, TownObject *object, void *acti
         add_hex_20000_s_signed_offset_hex_14(object);
     }
 
-    if (((u32)input->unk_010) & 0x40) {
+    if (((u32)input->pressed_buttons) & 0x40) {
         func_80094714(context, object, action_data);
         return;
     }

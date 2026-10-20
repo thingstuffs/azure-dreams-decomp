@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern char D_8001B14C[];
@@ -14,7 +15,7 @@ char *select_string_performs_any_associated(s32 unused_0, s32 unused_1, s32 sele
 
     switch (selector - 12) {
     case 7:
-        func_8001A554(0x932);
+        func_8001A554(F_sbs32_pad08);
         return D_8001BA48;
     case 6:
         return D_800213D4;

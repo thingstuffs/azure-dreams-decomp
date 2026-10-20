@@ -158,7 +158,7 @@ initialize_position:
         (*(void * *)((u8 *)state + 0x2C)) = D_800DD274;
         func_8003DB94(state,
             *(void **)((u8 *)D_800DD274 +
-                (((g_game_work.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
+                (((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
             0);
     } else {
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, 0xB0, 0, 1);
@@ -168,7 +168,7 @@ initialize_position:
     bind_angle = obj + 0x2A;
     (*(s16 *)((u8 *)obj + 0x94)) = -1;
     (*(s16 *)((u8 *)obj + 0x118)) = 0;
-    ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)g_game_work.view.viewAngle + 0x100) & 0xE00);
+    ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)g_game_work.view.camera_rotation.parts.viewAngle + 0x100) & 0xE00);
     create_tracked_effect((u8 *)&D_80083498, bind_count, state + 0x2C, bind_angle);
     {
         s32 clear_flag_mask;
@@ -213,11 +213,11 @@ initialize_position:
         tile_y = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_25;
         display_setting = *(u16 *)((u8 *)display_table + (s16)display_index * 2);
         bind_state = (u8 *)&g_dungeon_status;
-        table_base->view.unk_0AC = display_setting;
+        table_base->view.camera_rotation.parts.camera_rotation_x = display_setting;
         height_index = *(u16 *)((u8 *)entry_index + 0x20A0);
         *(u16 *)D_800DCE60 = display_setting;
         lift_height = *(u16 *)((u8 *)D_800DD26C + (s16)height_index * 2);
-        display_value = ((u16)table_base->view.unk_0AE);
+        display_value = ((u16)table_base->view.camera_rotation.parts.camera_rotation_y);
         display_state = D_800DCE60;
         ((dungeon_setup_802835B8_S_800165B8_8 *)display_state)->unk_04 = 0;
         (*(u16 *)((u8 *)display_state + 2)) = display_value;

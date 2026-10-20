@@ -38,7 +38,7 @@ void update_actor_state_after_map_check(Actor *actor, s32 action, Entity *entity
                !(map_object->unk_1C & 0x208)) {
         entity->unk_2C = D_80175E40;
         select_sprite_entry(entity,
-                      D_80175E40[((g_game_work.view.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7],
+                      D_80175E40[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7],
                       0);
     }
 }

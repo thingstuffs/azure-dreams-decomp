@@ -47,7 +47,7 @@ void handle_catalog_detail_input(TownState *state)
     u8 side_choice;
     u16 toggle_timer;
 
-    if (((u32)g_game_work.unk_010) & 0x20) {
+    if (((u32)g_game_work.pressed_buttons) & 0x20) {
         SD_Call(0x702);
         reset_catalog_scroll_indicators(state);
         state->state = 9;

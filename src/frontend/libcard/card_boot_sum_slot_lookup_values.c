@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/interfaces.h"
 
 extern u8 D_80028020[];
 

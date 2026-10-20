@@ -18,9 +18,9 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Enti
             direction_anims = D_80174538;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
             select_sprite_entry(sprite,
-                direction_anims[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((E_80173254_S_80173254_0 *)action)->unk_9B++;
         }
         return;
@@ -81,7 +81,7 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Enti
 
                 origin = &D_80082E80;
                 coordinate = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
-                if ((((coordinate == origin->unk_026) &&
+                if ((((coordinate == origin->room_index) &&
                             (coordinate >= 0)) ||
                      (get_tile_chebyshev_distance(origin, sprite) < 2)) &&
                     ((generate_random_value() & 7) == 0)) {
@@ -100,7 +100,7 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Enti
             direction_anims = D_80174520;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
             select_sprite_entry(sprite,
-                direction_anims[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             entity->flags1C &= ~0x200;
             ((E_80173254_S_80173254_0 *)action)->unk_8C = update_actor_behavior_facing_and_animation_2;

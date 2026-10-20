@@ -16,7 +16,7 @@ s32 func_800244E4(PointRecord *first_point, EntityRec *first_position)
     PointRecord *point = first_point;
     EntityRec *position = first_position;
     GameWork *render_state = &g_game_work;
-    GpuContext *render_ctx = (GpuContext *)render_state->unk_000;
+    GpuContext *render_ctx = (GpuContext *)render_state->draw_buffer;
     u8 *packet_start;
     Scratch800244E4 *scratch =
         (Scratch800244E4 *)0x1F800000;
@@ -82,6 +82,6 @@ s32 func_800244E4(PointRecord *first_point, EntityRec *first_position)
         break;
     }
 
-    ((GpuContext *)render_state->unk_000)->packetCursor = scratch->cursor;
+    ((GpuContext *)render_state->draw_buffer)->packetCursor = scratch->cursor;
     return 0;
 }

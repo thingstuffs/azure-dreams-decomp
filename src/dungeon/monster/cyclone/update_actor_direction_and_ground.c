@@ -123,7 +123,7 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
 
     entity_flags = input_entity->flags14;
     if (!(entity_flags & 0x8000)) {
-        direction = ((g_game_work.view.viewAngle + input_actor->angle + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + input_actor->angle + 0x100) >> 9) & 7;
         direction_index = direction;
 
         if (input_actor->direction94 != direction) {

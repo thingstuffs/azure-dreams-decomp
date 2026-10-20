@@ -149,9 +149,9 @@ void update_actor_knockback(S_80172D04_0 *script, EntityRec *motion, SpriteFrame
             tile->unk_25);
         {
 
-            value = ((s32)g_dungeon_status.unk_10);
+            value = ((s32)g_dungeon_status.pending_display_owner);
             if (value == (s32)((u8 *)actor - 0x20)) {
-                g_dungeon_status.unk_10 = value & 0x7FFFFFFF;
+                g_dungeon_status.pending_display_owner = value & 0x7FFFFFFF;
             }
         }
         script->unk_8C = D_80170EE4;

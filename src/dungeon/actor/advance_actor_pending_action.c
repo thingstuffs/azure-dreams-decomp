@@ -23,14 +23,14 @@ s32 advance_actor_pending_action(void *actor_state, s32 action, void *status, vo
         return 1;
     }
     if (!(*(s32 *)((u8 *)actor + 0x1C) & 8)) {
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
     }
     *(s8 *)((u8 *)actor_state + 0x9A) = 5;
     *(s8 *)((u8 *)actor_state + 0x9B) = 0;
     *(s32 *)((u8 *)actor_state + 0x8C) = 0;
     *(u16 *)((u8 *)actor_state + 0x98) &= 0xFFF7;
     *(s16 *)((u8 *)actor + 0x24) = 0;
-    g_dungeon_status.unk_0A++;
+    g_dungeon_status.activity_counts.parts.pending_action_count++;
     *(s32 *)((u8 *)actor + 0x1C) =
         (*(s32 *)((u8 *)actor + 0x1C) | 8) & 0xFFFBFFFF;
     *(u16 *)((u8 *)status + 0x14) |= 0x6000;

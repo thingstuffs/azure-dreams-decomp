@@ -87,7 +87,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
                 particle_state->unk_0C = particle_index;
                 if (particle_index == 0) {
                     first_particle = particle;
-                    g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
+                    g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
                 }
             }
             remaining -= 1;

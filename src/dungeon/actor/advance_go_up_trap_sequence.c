@@ -159,10 +159,10 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
                 removal_flags = ((S_800CB9DC_1_pre *)actor)[-1].unk_16;
                 ((S_800CB9DC_1_pre *)actor)[-1].unk_16 = removal_flags | 0x8000;
                 global_flags = ((S_800CB9DC_7 *)status_page)->unk_14A0 | 0x8000;
-                actor_count = ((u16)actor_counts->unk_0A);
+                actor_count = ((u16)actor_counts->activity_counts.parts.pending_action_count);
                 actor_count--;
                 ((S_800CB9DC_7 *)status_page)->unk_14A0 = global_flags;
-                actor_counts->unk_0A = actor_count;
+                actor_counts->activity_counts.parts.pending_action_count = actor_count;
             }
         }
         {

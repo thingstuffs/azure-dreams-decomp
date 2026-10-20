@@ -10,7 +10,7 @@
  * counter at 0x4, s16 pair at 0x8/0xA, state at 0xC, then the s16 fields
  * this function ramps (0x10 current value, 0x12 clamp target, 0x14 step). */
 typedef struct S_80054538 {
-    /* 0x00 */ void (*field0)(void);
+    /* 0x00 */ sound_task_callback_fn field0;
     /* 0x04 */ s32 field4;
     /* 0x08 */ s16 field8;
     /* 0x0A */ s16 fieldA;
@@ -26,7 +26,7 @@ typedef struct S_80054538 {
 void update_audio_ramp(S_80054538 *ramp) {
     s16 next_value;
     s16 target;
-    void (*callback)(void);
+    sound_task_callback_fn callback;
 
     switch (ramp->state) {
     case 1:

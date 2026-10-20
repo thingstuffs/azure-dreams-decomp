@@ -87,13 +87,13 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
     area_origin = 0x01800340;
     draw_data.field18 = area_origin;
     draw_data.field1C = 0x00400040;
-    render_state_slot = &g_game_work.unk_000;
-    render_state = g_game_work.unk_000;
+    render_state_slot = &g_game_work.draw_buffer;
+    render_state = g_game_work.draw_buffer;
     prim = (Primitive *)render_state->nextPrim;
     render_state->nextPrim = (u8 *)prim + 0xC;
     buffer_diff = (u32)render_state ^ (u32)D_801C9E40;
     prim_list = (u8 *)render_state + 0x8B0;
-    call_state = g_game_work.unk_000;
+    call_state = g_game_work.draw_buffer;
     use_alt_buffer = buffer_diff != 0;
     func_80067E2C(prim, call_state, render_state);
     func_8006658C(prim_list, prim);
@@ -155,10 +155,10 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
                     begin_deferred_player_item_effect(obj->handle, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
                     D_800E3D7C->unk_9B = 0x11;
                     dungeon_state = D_800E3D7C;
-                    D_80082E80.unk_02C = (s32)D_800DD0F8;
+                    D_80082E80.frame_table = (s32)D_800DD0F8;
                     set_sprite_animation_frame(
                         ((u8 *)(&D_80082E80)),
-                        D_800DD0F8[((s32)(g_game_work.view.viewAngle + dungeon_state->facing) + 0x100 >> 9) & 7],
+                        D_800DD0F8[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + dungeon_state->facing) + 0x100 >> 9) & 7],
                         1,
                         1);
                 }

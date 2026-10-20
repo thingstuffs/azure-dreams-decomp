@@ -256,7 +256,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
     GameWork *game_work;
 
     game_work = &g_game_work;
-    scratch->unk_24 = (u8 *)game_work->unk_000 + 0xB0;
+    scratch->unk_24 = (u8 *)game_work->draw_buffer + 0xB0;
     scratch->unk_88 = transform->unk_02;
     scratch->unk_8C = transform->unk_06;
     scratch->unk_90 = transform->unk_0A;
@@ -289,7 +289,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
             s32 texture_adjust;
             S_func_800241A8_5 *render_state;
 
-            render_state = game_work->unk_000;
+            render_state = game_work->draw_buffer;
             packet = render_state->unk_8D0;
             render_state->unk_8D0 = (u8 *)packet + 0x28;
 
@@ -412,7 +412,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
             S_func_800241A8_5 *render_state;
             S_func_800241A8_5 *tpage_state;
 
-            render_state = game_work->unk_000;
+            render_state = game_work->draw_buffer;
             line = render_state->unk_8D0;
             render_state->unk_8D0 = (u8 *)line + 0x10;
 
@@ -471,7 +471,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
             setaddr(line, getaddr((u32 *)scratch->unk_24 + scratch->unk_100));
             setaddr((u32 *)scratch->unk_24 + scratch->unk_100, line);
 
-            tpage_state = game_work->unk_000;
+            tpage_state = game_work->draw_buffer;
             tpage = tpage_state->unk_8D0;
             tpage_state->unk_8D0 = (u8 *)tpage + 0x0C;
             func_80067F20(tpage, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);

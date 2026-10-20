@@ -288,7 +288,7 @@ L_zero:
                     }
                     update_map_cell_flags_with_item_limit(ea, eb, mode);
                     if ((*(u32 *)(o + 20) & 0x20000000) && *(u8 *)(o + 19) == 30) {
-                        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) + 1;
+                        g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
                     }
                     detach_record_and_update_slot_state(o);
                     unlink_entity_node(o);
@@ -370,7 +370,7 @@ L_zero:
         }
         if (*(s16 *)(w + 18) == 0) {
             *(s16 *)w = 0;
-            g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+            g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
             return;
         }
         ctx->view.slot[0].callback = 0;

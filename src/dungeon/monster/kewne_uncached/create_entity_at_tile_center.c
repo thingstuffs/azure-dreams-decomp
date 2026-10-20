@@ -162,7 +162,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
             ((S_812A524C_4 *)entity)->unk_71 = (u8) (((S_812A524C_4 *)entity)->unk_71 & 0x7F);
         }
     }
-    if ((u32) (*(u16 *)(&D_80082E80.tileX) - 0x2536) < 2U) {
+    if ((u32) (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) - 0x2536) < 2U) {
         ((S_812A524C_3 *)actor_in)->unk_B0 = (s32) (((S_812A524C_3 *)actor_in)->unk_B0 | 0x20000);
     }
     if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x20000)) {
@@ -307,7 +307,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                 }
                                             }
                                             if ((((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A
-                                                 != 0x19) && (((s32)flag_base->unk_010) & 0x20)) {
+                                                 != 0x19) && (((s32)flag_base->pressed_buttons) & 0x20)) {
                                                 func_800353F4(&D_8006F47A);
                                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                 ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -445,12 +445,12 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                 }
                                                                 if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                                     if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x800)
-                                                                        && ((*(u16 *)(&D_80082E80.tileX) == 0x31E)
-                                                                            || (*(u16 *)(&D_80082E80.tileX) == 0x41E)
-                                                                            || (*(u16 *)(&D_80082E80.tileX) == 0x51E)
-                                                                            || (*(u16 *)(&D_80082E80.tileX) == 0x61E)
-                                                                            || (*(u16 *)(&D_80082E80.tileX) == 0x71E)
-                                                                            || (*(u16 *)(&D_80082E80.tileX) == 0x81E))
+                                                                        && ((*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == 0x31E)
+                                                                            || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == 0x41E)
+                                                                            || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == 0x51E)
+                                                                            || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == 0x61E)
+                                                                            || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == 0x71E)
+                                                                            || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == 0x81E))
                                                                         && (event_9 = (u8 *)((u8 *)(&D_80082E80)),
                                                                             position_9 = (u8 *)((u8 *)(&D_80083780)),
                                                                             (((((S_812A524C_27 *)event_9)->unk_24 << 6)
@@ -467,13 +467,13 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                     }
                                                                     if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                                         if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x1000)) {
-                                                                            if (((u32) (*(u16 *)(&D_80082E80.tileX)
+                                                                            if (((u32) (*(u16 *)(&D_80082E80.tile_position.parts.tile_x)
                                                                                 - 0x2C1E) < 3U)
-                                                                                || (*(u16 *)(&D_80082E80.tileX)
+                                                                                || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x)
                                                                                     == 0x2D1E)
-                                                                                || (*(u16 *)(&D_80082E80.tileX)
+                                                                                || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x)
                                                                                     == 0x2D1F)
-                                                                                || (*(u16 *)(&D_80082E80.tileX)
+                                                                                || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x)
                                                                                     == 0x2D20)) {
                                                                                 event_10 = (u8 *)((u8 *)(&D_80082E80));
                                                                                 if ((((((S_812A524C_29 *)event_10)->unk_24
@@ -531,13 +531,13 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                                         nearby_tile =
                                                                                             ((S_812A524C_40 *)(((S_812A524C_5 *)(&D_800FBE54))->unk_00))->unk_0C;
                                                                                         nearby_event = &D_80082E80;
-                                                                                        event_x = nearby_event->tileX;
+                                                                                        event_x = nearby_event->tile_position.parts.tile_x;
                                                                                         distance_x =
                                                                                             event_x - nearby_tile->unk_24;
                                                                                         distance_x = abs(distance_x);
                                                                                         if (distance_x < 4) {
                                                                                             event_y =
-                                                                                                nearby_event->tileY;
+                                                                                                nearby_event->tile_position.parts.tile_y;
                                                                                             distance_y =
                                                                                                 event_y - nearby_tile->unk_25;
                                                                                             distance_y =
@@ -621,7 +621,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
         }
         ((S_812A524C_3 *)actor_in)->unk_90.at00.v = (s32) (((S_812A524C_3 *)actor_in)->unk_90.at00.v
             + ((S_812A524C_37 *)motion_in)->unk_14);
-        facing = ((s32) (g_game_work.view.viewAngle + ((S_812A524C_4 *)entity)->unk_2A + 0x100) >> 9) & 7;
+        facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_812A524C_4 *)entity)->unk_2A + 0x100) >> 9) & 7;
         sprite_facing = facing;
         if (((S_812A524C_3 *)actor_in)->unk_94 != sprite_facing) {
             select_indirect_table_entry(sprite, ((S_812A524C_38 *)sprite)->unk_2C.p[sprite_facing],

@@ -143,7 +143,7 @@ void func_81976850(void *effect, void *motion, void *visual)
         ((S_81976850_2 *)motion)->unk_14 =
             (scene->unk_88 - 0x50) << 16;
 
-        table_entry = ((g_game_work.view.viewAngle + scene->facing + 0x100) >> 7) & 0x1C;
+        table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + scene->facing + 0x100) >> 7) & 0x1C;
         table_entry += (s32)D_800E3D18;
         if (resolve_record_orientation_or_fallback(
                 ((S_81976850_7 *)((void *)table_entry))->unk_00,

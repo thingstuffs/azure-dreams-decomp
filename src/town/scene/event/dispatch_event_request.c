@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/town_event_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -32,7 +33,7 @@ void *dispatch_event_request(s32 request, void *data, s32 mode) {
     TownEventState *state;
 
     if (mode == 0) {
-        func_8001E5F0(0x402);
+        func_8001E5F0(F_sbs01_pad13);
         context = D_8001E950;
         status = check_event_value_in_list(((S_8001B828_0 *)context)->unk_04);
         if (status == 0) {

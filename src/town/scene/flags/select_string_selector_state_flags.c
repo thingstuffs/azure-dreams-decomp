@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern char D_8001B14C[];
@@ -26,11 +27,11 @@ char *select_string_selector_state_flags(s32 unused_0, s32 unused_1, s32 string_
     case 42:
         return award_next_unearned_milestone(selector);
     case 0:
-        func_8001A554(0x943);
-        if (func_8001A64C(0x935) != 0) {
+        func_8001A554(F_sbs32_pad25);
+        if (func_8001A64C(F_sbs32_pad11) != 0) {
             return D_8001C8AF;
         }
-        if (func_8001A64C(0x936) != 0) {
+        if (func_8001A64C(F_sbs32_pad12) != 0) {
             return D_8001C8DC;
         }
         return D_8001C6D0;

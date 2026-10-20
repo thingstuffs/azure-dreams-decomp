@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -5,5 +6,5 @@ s32 func_80018B5C();                         /* extern */
 
 /* Returns whether func_80018B5C reports a nonzero value for 0x5BD. */
 s32 is_script_flag_5bd_set(void) {
-    return func_80018B5C(0x5BD) != 0;
+    return func_80018B5C(F_sbs11_pad26) != 0;
 }

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 func_8001A934(void);
@@ -59,7 +60,7 @@ s32 award_next_unearned_milestone(s32 counter_id)
                     *slot = result;
                 } else {
                     result = 5;
-                    if (func_8001A64C(0x1391) != 0) {
+                    if (func_8001A64C(F_veld_kill) != 0) {
                         *slot = 5;
                     } else {
                         *slot = 4;

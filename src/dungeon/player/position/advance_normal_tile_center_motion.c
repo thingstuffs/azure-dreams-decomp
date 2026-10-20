@@ -32,10 +32,10 @@ void advance_normal_tile_center_motion(void *entity, EntityRec *motion, void *sp
     u16 flags;
 
     if (g_dungeon_status.flags & 0x80) {
-        g_dungeon_status.unk_04 = 0;
+        g_dungeon_status.movement_frames_left = 0;
     }
 
-    timer = g_dungeon_status.unk_04;
+    timer = g_dungeon_status.movement_frames_left;
     if (timer != 0) {
         x_velocity =
             ((((((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20) << 16) -
@@ -43,7 +43,7 @@ void advance_normal_tile_center_motion(void *entity, EntityRec *motion, void *sp
             timer;
         y_position = motion->y.v;
         motion->unk_0C = x_velocity;
-        move_frames = g_dungeon_status.unk_04;
+        move_frames = g_dungeon_status.movement_frames_left;
         motion->unk_10 =
             ((((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 16) -
              y_position) /
@@ -51,7 +51,7 @@ void advance_normal_tile_center_motion(void *entity, EntityRec *motion, void *sp
     }
 
     if (((Rec_func_8008ACDC_arg0 *)entity)->unk_A2 & 0x100) {
-        frames_left = g_dungeon_status.unk_04;
+        frames_left = g_dungeon_status.movement_frames_left;
         if (((*(u16 *)0x80013714 & 8) && frames_left == 3) ||
             (!(*(u16 *)0x80013714 & 8) && frames_left == 6)) {
             begin_wake_nearby_monsters(entity, motion, sprite, facing);
@@ -67,13 +67,13 @@ continue_update:
             ((SpriteFrameState *)sprite)->frameTable = D_800DD050;
             set_sprite_animation_frame(
                 sprite,
-                D_800DD050[((g_game_work.view.viewAngle + facing->facing + 0x100) >> 9) & 7],
+                D_800DD050[((g_game_work.view.camera_rotation.parts.viewAngle + facing->facing + 0x100) >> 9) & 7],
                 0,
                 1);
         }
     }
 
-    status_page = (u32)&g_dungeon_status.unk_00;
+    status_page = (u32)&g_dungeon_status.turn_scale;
     late_status = (void *)status_page;
     timer = ((S_8008DBE8_5 *)late_status)->unk_04 - 1;
     ((S_8008DBE8_5 *)late_status)->unk_04 = timer;

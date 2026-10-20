@@ -283,11 +283,11 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
         if ((ovl_18b8824_81898EBC_U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
             void *direction_node = D_800814A8;
 
-            state->x = D_80082E80.tileX + dir_step_x[(ovl_18b8824_81898EBC_U16_AT(direction_node, 0x2A) >> 9) & 7];
-            state->y = D_80082E80.tileY + dir_step_y[(ovl_18b8824_81898EBC_U16_AT(direction_node, 0x2A) >> 9) & 7];
+            state->x = D_80082E80.tile_position.parts.tile_x + dir_step_x[(ovl_18b8824_81898EBC_U16_AT(direction_node, 0x2A) >> 9) & 7];
+            state->y = D_80082E80.tile_position.parts.tile_y + dir_step_y[(ovl_18b8824_81898EBC_U16_AT(direction_node, 0x2A) >> 9) & 7];
         } else {
-            state->x = D_80082E80.tileX + dir_step_x[state->direction];
-            state->y = D_80082E80.tileY + dir_step_y[state->direction];
+            state->x = D_80082E80.tile_position.parts.tile_x + dir_step_x[state->direction];
+            state->y = D_80082E80.tile_position.parts.tile_y + dir_step_y[state->direction];
         }
 
         {
@@ -467,7 +467,7 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
         if (state->field_14 != 0) {
             break;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ovl_18b8824_81898EBC_U16_AT(state, -2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
         break;

@@ -111,9 +111,9 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, EntityRec *motion, S
         set_record_integer_tile_center(motion, tile->unk_24,
                       tile->unk_25);
 
-        tracked_entity = ((s32)g_dungeon_status.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
         action->unk_8C = &D_80170E94;
         return;

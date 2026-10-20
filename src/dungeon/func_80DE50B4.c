@@ -42,7 +42,7 @@ void resolve_actor_attack_damage(void *obj, EntityRec *record, void *entity, voi
         }
         reduce_actor_food_meter(actor, 0x100);
         ((E_801728B4_S_801728B4_0 *)obj)->unk_8C = update_actor_behavior_facing_and_animation_2;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((E_801728B4_S_801728B4_2 *)actor)->unk_46 =
             (u16)((*(u16 *)((u8 *)actor + 0x46)) & 0x7FFF);
         advance_status_timers(actor);

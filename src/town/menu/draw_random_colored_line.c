@@ -47,7 +47,7 @@ void draw_random_colored_line(s32 end_point, s32 start_point)
     s32 texture_depth;
     s32 texture_y;
 
-    draw_ctx = (u8 *)g_game_work.unk_000;
+    draw_ctx = (u8 *)g_game_work.draw_buffer;
     scratch->ot = (u32 *)(draw_ctx + 0xB0);
     line = *(u32 **)(draw_ctx + 0x8D0);
     *(u8 **)(draw_ctx + 0x8D0) = (u8 *)line + 0x14;
@@ -86,7 +86,7 @@ void draw_random_colored_line(s32 end_point, s32 start_point)
         scratch->depth = 0;
     }
 
-    draw_ctx = (u8 *)g_game_work.unk_000;
+    draw_ctx = (u8 *)g_game_work.draw_buffer;
     draw_mode = *(u32 **)(draw_ctx + 0x8D0);
     *(u8 **)(draw_ctx + 0x8D0) = (u8 *)draw_mode + 0xC;
     depth_or_tpage = func_80066460(0, 0, 0x140, 0);
@@ -120,7 +120,7 @@ void draw_random_colored_line(s32 end_point, s32 start_point)
             (ot_tag & length_mask) | ((u32)line & low_mask);
     }
 
-    draw_ctx = (u8 *)g_game_work.unk_000;
+    draw_ctx = (u8 *)g_game_work.draw_buffer;
     draw_mode = *(u32 **)(draw_ctx + 0x8D0);
     *(u8 **)(draw_ctx + 0x8D0) = (u8 *)draw_mode + 0xC;
     depth_or_tpage = func_80066460(texture_depth, 1, 0x140, texture_y);

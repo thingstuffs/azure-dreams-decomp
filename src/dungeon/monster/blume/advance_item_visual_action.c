@@ -179,7 +179,7 @@ void advance_item_visual_action(void *controller, EntityRec *motion, void *actor
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(object);
         (*(u8 *)((u8 *)object + 0x6D))--;
@@ -284,7 +284,7 @@ void advance_item_visual_action(void *controller, EntityRec *motion, void *actor
         {
             s16 timer;
 
-            if (((s32)g_dungeon_status.unk_0C) == 0) {
+            if (((s32)g_dungeon_status.active_actor) == 0) {
                 ((S_801737C8_0 *)controller)->unk_96 = 0;
             }
             timer = ((S_801737C8_0 *)controller)->unk_96 - 1;
@@ -306,14 +306,14 @@ void advance_item_visual_action(void *controller, EntityRec *motion, void *actor
 
                 facing_frames = D_801753BC;
                 ((SpriteFrameState *)actor)->frameTable = facing_frames;
-                facing_index = ((g_game_work.view.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7;
+                facing_index = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7;
                 select_sprite_entry(actor, facing_frames[facing_index], 0);
                 ((SpriteFrameState *)actor)->flags &= 0xF7FF;
             }
-            if (((s32)g_dungeon_status.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((S_801737C8_0 *)controller)->unk_8C = D_80171E20;
             advance_status_timers(object);
             (*(u8 *)((u8 *)object + 0x73)) = 0;

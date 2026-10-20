@@ -64,9 +64,9 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
             angle_short = (s16) saved_angle;
             data_ptr->z = position_z;
             ((S_800BC574_7 *)(((ObjectPayloadView *)effect)->unk_08))->unk_0C =
-                (s32) (func_80064584(angle_short + world_state->view.viewAngle) * 0x30);
+                (s32) (func_80064584(angle_short + world_state->view.camera_rotation.parts.viewAngle) * 0x30);
             ((S_800BC574_7 *)(((ObjectPayloadView *)effect)->unk_08))->unk_10 =
-                (s32) (func_800644B8(angle_short + world_state->view.viewAngle) * 0x30);
+                (s32) (func_800644B8(angle_short + world_state->view.camera_rotation.parts.viewAngle) * 0x30);
         }
         {
             s32 init_value;

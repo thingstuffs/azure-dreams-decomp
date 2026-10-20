@@ -212,7 +212,7 @@ start_hit:
         state_obj->unk_52 = (s16) ((u16) state_obj->unk_52 & 0x7FFF);
         return;
     }
-    g_dungeon_status.unk_0C = 0;
+    g_dungeon_status.active_actor = 0;
     *(u16 *)((u8 *)state_obj - 2) = (u16) (*(u16 *)((u8 *)state_obj - 2) | 0x8000);
     object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     return;
@@ -388,12 +388,12 @@ s32 func_80024A1C(void *first_item)
         item_data = list_item;
         point_index = 3;
         do {
-            draw_mode = render_context->unk_000 + 0x8D0;
+            draw_mode = render_context->draw_buffer + 0x8D0;
             draw_mode = *(u8 **)draw_mode;
-            *(u8 **)(render_context->unk_000 + 0x8D0) = draw_mode + 0xC;
+            *(u8 **)(render_context->draw_buffer + 0x8D0) = draw_mode + 0xC;
 
-            triangle = *(u8 **)(render_context->unk_000 + 0x8D0);
-            *(u8 **)(render_context->unk_000 + 0x8D0) = triangle + 0x14;
+            triangle = *(u8 **)(render_context->draw_buffer + 0x8D0);
+            *(u8 **)(render_context->draw_buffer + 0x8D0) = triangle + 0x14;
 
             ((TrailTriangle *)triangle)->unk_04 = ((TrailRenderItem *)item_data)->unk_48;
             func_80066690(triangle);
@@ -422,17 +422,17 @@ s32 func_80024A1C(void *first_item)
                 u32 length_mask = 0xFF000000;
 
                 byte_offset = depth_index * 4;
-                ((GpuLinkTag *)triangle)->addr = ((GpuLinkTag *)&((u32 *)(render_context->unk_000 + 0xB0))[depth_index])->addr;
-                ot_entry_base = (u32 *)(byte_offset + (s32) render_context->unk_000);
+                ((GpuLinkTag *)triangle)->addr = ((GpuLinkTag *)&((u32 *)(render_context->draw_buffer + 0xB0))[depth_index])->addr;
+                ot_entry_base = (u32 *)(byte_offset + (s32) render_context->draw_buffer);
                 ot_tag = ((TrailOrderEntry *)ot_entry_base)->unk_B0;
                 (*(u32 *)((u8 *)ot_entry_base + 0xB0)) = (ot_tag & length_mask) |
                     ((u32)triangle & addr_mask);
 
                 (*(u32 *)((u8 *)draw_mode + 0)) =
                     (((TrailDrawMode *)draw_mode)->unk_00 & length_mask) |
-                    (((u32 *)(render_context->unk_000 + 0xB0))[depth_index] & addr_mask);
-                ((u32 *)(render_context->unk_000 + 0xB0))[depth_index] =
-                    (((u32 *)(render_context->unk_000 + 0xB0))[depth_index] & length_mask) |
+                    (((u32 *)(render_context->draw_buffer + 0xB0))[depth_index] & addr_mask);
+                ((u32 *)(render_context->draw_buffer + 0xB0))[depth_index] =
+                    (((u32 *)(render_context->draw_buffer + 0xB0))[depth_index] & length_mask) |
                     ((u32)draw_mode & addr_mask);
             }
             point_index--;

@@ -92,7 +92,7 @@ void update_dungeon_actor_animation(void *actor, void *actor_aux, void *sprite, 
         anim_table = D_80169CA0;
         (((S_80165FA4_2 *)sprite)->unk_2C) = anim_table;
         select_sprite_entry(sprite,
-            ((u8 *)anim_table)[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+            ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -131,7 +131,7 @@ void update_dungeon_actor_animation(void *actor, void *actor_aux, void *sprite, 
                 if (current_anim == D_80169CA8) {
                     (((S_80165FA4_2 *)sprite)->unk_2C) = D_80169C30;
                     select_sprite_entry(sprite,
-                        D_80169C30[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+                        D_80169C30[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
                         0);
                 } else {
                     anim_table = D_80169C30;
@@ -140,7 +140,7 @@ void update_dungeon_actor_animation(void *actor, void *actor_aux, void *sprite, 
                     }
                     (((S_80165FA4_2 *)sprite)->unk_2C) = anim_table;
                     select_sprite_entry(sprite,
-                        *(u8 *)((((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7) + (u32)anim_table),
+                        *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7) + (u32)anim_table),
                         0);
                 }
                 ((S_80165FA4_2 *)sprite)->unk_05 = 1;
@@ -184,7 +184,7 @@ state_done:
             update_actor_status_and_food(actor_data);
             return;
         }
-        if (((S_80165FA4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (((S_80165FA4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_801666C8(actor, actor_aux, sprite, actor_data);
             return;
         }
@@ -225,7 +225,7 @@ state_done:
 
             facing = get_rounded_facing_and_rounding_flag(
                 ((S_80165FA4_2 *)sprite)->unk_24.at00.v, ((S_80165FA4_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                 &distance);
             player = D_800814A8;
             actor_data->facing = facing;
@@ -261,10 +261,10 @@ state_done:
 
                 if ((compare_monster_neighbor_values(
                         ((S_80165FA4_2 *)sprite)->unk_24.at00.v, ((S_80165FA4_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
                     actor_data->facing = get_rounded_facing_and_rounding_flag(
                         ((S_80165FA4_2 *)sprite)->unk_24.at00.v, ((S_80165FA4_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &distance);
                 }
             }

@@ -64,7 +64,7 @@ static __inline__ void set_direction_table(DungeonObject *object, DungeonInput *
     u32 direction_index;
 
     object->unk_2C = table;
-    direction_index = ((s32)(g_game_work.view.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
+    direction_index = ((s32)(g_game_work.view.camera_rotation.parts.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
     select_sprite_entry(object, *((u8 *)((u32)direction_index + (u32)table)), 0);
 }
 
@@ -194,7 +194,7 @@ case0:
         input->unk_73 = 0;
         input->unk_72 = 0;
         state->unk_8C = D_8016A36C;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         input->unk_46 = input->unk_46 & 0x7FFF;
 
         return;

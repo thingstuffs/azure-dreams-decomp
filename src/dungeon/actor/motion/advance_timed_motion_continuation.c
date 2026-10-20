@@ -82,7 +82,7 @@ void advance_timed_motion_continuation(S_80097AF8_0 *actor, S_80097AF8_1 *motion
         if ((status->unk_14 & 0x6000) == 0) {
             return;
         }
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
         owner_flags = owner->unk_1C;

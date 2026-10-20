@@ -75,8 +75,8 @@ void reduce_actor_food_meter(S_800AD594_0 *entity, s32 base_reduction) {
                 clear_player_linked_action_flags();
             }
             if (initial_level != 0) {
-                g_dungeon_status.unk_0A =
-                    ((u16)g_dungeon_status.unk_0A) + 1;
+                g_dungeon_status.activity_counts.parts.pending_action_count =
+                    ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
             }
         }
     }

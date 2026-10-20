@@ -56,8 +56,8 @@ s32 draw_gradient_line_chain(u8 *node)
 
     town = &g_game_work;
     do {
-        line = (LineG2 *)((GpuContext *)town->unk_000)->packetCursor;
-        ((GpuContext *)town->unk_000)->packetCursor = (u8 *)line + 0x14;
+        line = (LineG2 *)((GpuContext *)town->draw_buffer)->packetCursor;
+        ((GpuContext *)town->draw_buffer)->packetCursor = (u8 *)line + 0x14;
         init_line_colors(line, 0x202020, 0);
         func_800667D0(line);
         func_80066640(line, 1);
@@ -69,12 +69,12 @@ s32 draw_gradient_line_chain(u8 *node)
         zero = 0;
         if ((u16)mean_depth < 0x1E0U) {
             ot_offset = (s16)mean_depth * 4;
-            addPrim((u8 *)(ot_offset + (s32)((GpuContext *)town->unk_000)) + 0xB0, line);
-            render = ((GpuContext *)town->unk_000);
+            addPrim((u8 *)(ot_offset + (s32)((GpuContext *)town->draw_buffer)) + 0xB0, line);
+            render = ((GpuContext *)town->draw_buffer);
             draw_mode = render->packetCursor;
             render->packetCursor = draw_mode + 0xC;
             func_80067F20(draw_mode, 0, 0, func_80066460(zero, 1, zero, zero) & 0xFFFF, 0);
-            addPrim((u8 *)(ot_offset + (s32)((GpuContext *)town->unk_000)) + 0xB0, draw_mode);
+            addPrim((u8 *)(ot_offset + (s32)((GpuContext *)town->draw_buffer)) + 0xB0, draw_mode);
         }
         next_node = ((S_80024740_0_pre *)node)[-1].unk_00;
         if (next_node != 0) {

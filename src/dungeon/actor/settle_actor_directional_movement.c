@@ -108,9 +108,9 @@ void settle_actor_directional_movement(S_800D9C7C_1 *controller, EntityRec *moti
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, entity->unk_24, entity->unk_25);
 
-        tracked_entity = ((s32)g_dungeon_status.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)source - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
         controller->unk_8C = D_800D8C64;
         return;

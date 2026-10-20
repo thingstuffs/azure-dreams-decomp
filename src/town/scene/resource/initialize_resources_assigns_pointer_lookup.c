@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -20,13 +21,13 @@ void initialize_resources_assigns_pointer_lookup(void) {
     resource_id = func_800198A4(0xD, 6);
     if (resource_id != -1) {
         func_80018F8C(resource_id);
-        func_8001A554(0x92C);
-        func_8001A554(0x92D);
-        func_8001A554(0x92E);
-        func_8001A554(0x92F);
-        func_8001A554(0x930);
-        func_8001A554(0x12C6);
-        func_8001A5CC(0x943);
+        func_8001A554(F_sbs32_pad02);
+        func_8001A554(F_sbs32_pad03);
+        func_8001A554(F_sbs32_pad04);
+        func_8001A554(F_sbs32_pad05);
+        func_8001A554(F_sbs32_pad06);
+        func_8001A554(F_okami_give_cape);
+        func_8001A5CC(F_sbs32_pad25);
         ((TownPositionState *)D_80016000->unk_1C)->unk_40 = &D_8002116C;
     }
 }

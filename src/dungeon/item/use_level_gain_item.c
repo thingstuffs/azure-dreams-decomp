@@ -38,6 +38,6 @@ s32 use_level_gain_item(void *entity, s32 item, s16 action_id) {
     }
     create_colored_effect_with_sound(entity - 0x20, 0x20F0F0, 0x616);
     clear_slot_and_update_linked_state(item);
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

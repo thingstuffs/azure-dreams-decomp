@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -12,12 +13,12 @@ extern s8 D_8001F092;
 /* Initializes the active data pointer and refreshes two status flags. */
 void initialize_active_event_data(void) {
     D_8001C370 = &D_8001B314;
-    clear_script_flag_bit(0xD52);
-    clear_script_flag_bit(0xD76);
-    clear_script_flag_bit(0xD77);
-    if (get_script_flag_mask(0xD32) == 0) {
+    clear_script_flag_bit(Ftt_pad33);
+    clear_script_flag_bit(Ftt_pad69);
+    clear_script_flag_bit(Ftt_pad70);
+    if (get_script_flag_mask(Ftt_pad01) == 0) {
         select_status_code_from_callback();
     }
-    D_8001ED72 = get_script_flag_mask(0x1463) == 0;
-    D_8001F092 = get_script_flag_mask(0x9B) != 0;
+    D_8001ED72 = get_script_flag_mask(F_s24_door_open) == 0;
+    D_8001F092 = get_script_flag_mask(F_sakaba_close) != 0;
 }

@@ -23,7 +23,7 @@ void initialize_destination_state(void *actor, void *actor_context, void *sprite
         animation_table = ((u8 *)D_8017588C);
         ((SpriteFrameState *)sprite)->frameTable = animation_table;
         select_sprite_entry(sprite,
-            animation_table[((g_game_work.view.viewAngle + ((R06_8017140C_S_8017140C_1 *)creature)->unk_2A + 0x100) >> 9) & 7],
+            animation_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((R06_8017140C_S_8017140C_1 *)creature)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -59,7 +59,7 @@ void initialize_destination_state(void *actor, void *actor_context, void *sprite
         if (current_animation != animation_table) {
             ((SpriteFrameState *)sprite)->frameTable = animation_table;
             select_sprite_entry(sprite,
-                animation_table[((g_game_work.view.viewAngle + ((R06_8017140C_S_8017140C_1 *)creature)->unk_2A + 0x100) >> 9) & 7],
+                animation_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((R06_8017140C_S_8017140C_1 *)creature)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((SpriteFrameState *)sprite)->unk_05 = 1;
             ((R06_8017140C_S_8017140C_0 *)actor)->unk_B6.s = 0;
@@ -102,7 +102,7 @@ void initialize_destination_state(void *actor, void *actor_context, void *sprite
             update_actor_status_and_food(creature);
             return;
         }
-        if (*(u16 *)&((SpriteFrameState *)sprite)->unk_24 == *(u16 *)(&D_80082E80.tileX)) {
+        if (*(u16 *)&((SpriteFrameState *)sprite)->unk_24 == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_80171B1C(actor, actor_context, sprite, creature);
             return;
         }
@@ -143,7 +143,7 @@ void initialize_destination_state(void *actor, void *actor_context, void *sprite
                 EntityRec *player;
                 s16 facing_angle;
 
-                facing_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite)->unk_24,(s16)((SpriteFrameState *)sprite)->unk_25,(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                facing_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite)->unk_24,(s16)((SpriteFrameState *)sprite)->unk_25,(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
                     &distance));
                 player = D_800814A8;
                 ((R06_8017140C_S_8017140C_1 *)creature)->unk_2A = facing_angle;
@@ -179,8 +179,8 @@ void initialize_destination_state(void *actor, void *actor_context, void *sprite
 
                 if ((compare_monster_neighbor_values(
                         ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
-                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                    ((R06_8017140C_S_8017140C_1 *)creature)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite)->unk_24,(s16)((SpriteFrameState *)sprite)->unk_25,(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
+                    ((R06_8017140C_S_8017140C_1 *)creature)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite)->unk_24,(s16)((SpriteFrameState *)sprite)->unk_25,(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
                         &distance));
                 }
             }

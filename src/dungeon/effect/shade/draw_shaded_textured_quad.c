@@ -114,7 +114,7 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
     s32 blend_mode;
     s32 page_x;
 
-    angle = g_game_work.view.viewAngle;
+    angle = g_game_work.view.camera_rotation.parts.viewAngle;
     ((S_818C29D4_2 *)scratch)->unk_18.p = ((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8 + 0xB0;
     axis_offset = ((func_80064584(angle) >> 4) * 36) >> 8;
     vertex_coord = position->unk_02 - axis_offset;

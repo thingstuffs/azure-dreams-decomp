@@ -56,7 +56,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
             return;
         }
         part_b->frameTable = &D_80173FD8;
-        select_sprite_entry(part_b, (&D_80173FD8)[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(part_b, (&D_80173FD8)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         work->unk_98 = (u16) (work->unk_98 | 8);
         part_a->flags14 = 0xFFF00000;
         actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
@@ -96,7 +96,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
         part_a->unk_0C = 0;
         set_record_integer_tile_center(part_a, part_b->unk_24, part_b->unk_25);
         part_b->frameTable = &D_80173FE0;
-        select_sprite_entry(part_b, ((u8 *) ((u32) ((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+        select_sprite_entry(part_b, ((u8 *) ((u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
             + (u32) &D_80173FE0)))[0], 0);
         work->unk_9B++;
         return;
@@ -105,7 +105,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
             return;
         }
         part_b->frameTable = D_80173FD0;
-        select_sprite_entry(part_b, D_80173FD0[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(part_b, D_80173FD0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         work->unk_9B++;
         return;
     case 7:
@@ -113,8 +113,8 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
             return;
         }
         part_b->frameTable = D_80173FB8;
-        select_sprite_entry(part_b, D_80173FB8[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        select_sprite_entry(part_b, D_80173FB8[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         advance_status_timers(actor);
         actor->unk_6D = 0;
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);

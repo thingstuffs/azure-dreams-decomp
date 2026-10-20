@@ -10,6 +10,6 @@ s32 get_script_actor_heading_to_player(void) {
     u8 *state;
 
     state = *(u8 **)(D_80175D50 + 0xC);
-    return (get_rounded_facing_and_rounding_flag(state[0x24], state[0x25], D_80082E80.tileX,
-                          D_80082E80.tileY, &value) << 0x10) >> 0x19;
+    return (get_rounded_facing_and_rounding_flag(state[0x24], state[0x25], D_80082E80.tile_position.parts.tile_x,
+                          D_80082E80.tile_position.parts.tile_y, &value) << 0x10) >> 0x19;
 }

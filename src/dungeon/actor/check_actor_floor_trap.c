@@ -36,7 +36,7 @@ s32 check_actor_floor_trap(Rec_D_80082E80 *actor, EntityRec *target)
         return 1;
     }
     player = &D_80082E80;
-    if (player->unk_026 != *(s8 *)&((SpriteFrameState *)actor)->unk_26 && get_tile_chebyshev_distance(player, actor) >= 7) {
+    if (player->room_index != *(s8 *)&((SpriteFrameState *)actor)->unk_26 && get_tile_chebyshev_distance(player, actor) >= 7) {
         return 1;
     }
     if (target->tileY == 0) {
@@ -58,9 +58,9 @@ s32 check_actor_floor_trap(Rec_D_80082E80 *actor, EntityRec *target)
             adjustment = ((s8)target->unk_71);
             if (adjustment > 0) {
                 cost = adjustment - (u16)target->unk_8A;
-                entry_index = (u16)dungeon_state->unk_08;
+                entry_index = (u16)dungeon_state->activity_counts.parts.pending_movement_count;
                 entry_index -= cost;
-                dungeon_state->unk_08 = entry_index;
+                dungeon_state->activity_counts.parts.pending_movement_count = entry_index;
                 target->unk_71 = 0;
             }
         }

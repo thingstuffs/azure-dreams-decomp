@@ -91,9 +91,9 @@ void advance_action_delay_and_handler(S_80173A14_0 *action, EntityRec *motion, S
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, action_info->unk_24, action_info->unk_25);
 
-        tracked_actor = ((s32)g_dungeon_status.unk_10);
+        tracked_actor = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_actor == (s32)((u8 *)actor_data - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_actor & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_actor & 0x7FFFFFFF;
         }
         action->unk_8C = &D_801719DC;
         return;

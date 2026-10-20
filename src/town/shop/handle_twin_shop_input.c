@@ -27,19 +27,19 @@ void handle_twin_shop_input(s32 *menu) {
         return;
     }
 
-    if (((s32)pad_state->unk_010) & 0x10) {
+    if (((s32)pad_state->pressed_buttons) & 0x10) {
         SD_Call(0x514);
         store_record_check_result(menu);
         close_twin_shop((s8 *)menu - 0x20);
         return;
     }
-    if (((s32)pad_state->unk_010) & 0x20) {
+    if (((s32)pad_state->pressed_buttons) & 0x20) {
         SD_Call(0x515);
         D_80082AB8 = 0;
         close_twin_shop((s8 *)menu - 0x20);
         return;
     }
-    if (((s32)pad_state->unk_010) & 0x40) {
+    if (((s32)pad_state->pressed_buttons) & 0x40) {
         handle_selected_entry(menu);
         return;
     }
@@ -47,15 +47,15 @@ void handle_twin_shop_input(s32 *menu) {
         return;
     }
 
-    if (((s32)pad_state->unk_010) & 0xF000) {
+    if (((s32)pad_state->pressed_buttons) & 0xF000) {
         menu[5] = 0;
-        if (((s32)pad_state->unk_010) & 0x8000)
+        if (((s32)pad_state->pressed_buttons) & 0x8000)
             selection_step = -5;
-        else if (((s32)pad_state->unk_010) & 0x2000)
+        else if (((s32)pad_state->pressed_buttons) & 0x2000)
             selection_step = 5;
-        else if (((s32)pad_state->unk_010) & 0x1000)
+        else if (((s32)pad_state->pressed_buttons) & 0x1000)
             selection_step = -1;
-        else if (((s32)pad_state->unk_010) & 0x4000)
+        else if (((s32)pad_state->pressed_buttons) & 0x4000)
             selection_step = 1;
     } else {
         if (menu[5] >= 9) {

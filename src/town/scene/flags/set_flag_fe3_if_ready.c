@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern void func_80018C74(s32);
@@ -7,16 +8,16 @@ extern s32 func_80018D6C(s32);
 /* Checks event prerequisites and updates the corresponding event flags. */
 s32 func_80016B5C(void)
 {
-    if ((func_80018D6C(0x7D1) != 0) &&
-        (func_80018D6C(0x7D2) == 0) &&
-        (func_80018D6C(0xFB2) != 0) &&
-        ((func_80018D6C(0x679) == 0) ||
-         (func_80018D6C(0xFE4) != 0))) {
-        func_80018C74(0xFE3);
+    if ((func_80018D6C(F_sbs24_top) != 0) &&
+        (func_80018D6C(F_sbs24_pad00) == 0) &&
+        (func_80018D6C(Fr_hospital_scene07_2) != 0) &&
+        ((func_80018D6C(F_sbs16_top) == 0) ||
+         (func_80018D6C(Ft_tai) != 0))) {
+        func_80018C74(F_taiin);
         return 1;
     }
 
-    func_80018CEC(0xFCB);
-    func_80018CEC(0xFCD);
+    func_80018CEC(F_cheriru_first_cheriru);
+    func_80018CEC(F_cheriru_first_nadia);
     return 0;
 }

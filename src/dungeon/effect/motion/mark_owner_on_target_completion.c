@@ -70,7 +70,7 @@ void mark_owner_on_target_completion(MovingPosition *origin)
         render_data->flags |= 0xC;
         render_data->angle_z =
             (s32)(0 - ((func_80064584(effect_state->unk_08 -
-                                      scene_state->view.viewAngle) >> 4) << 8)) >> 8;
+                                      scene_state->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8;
         register_node(effect, project_sprite_chain);
         position = ((S_80024550_0 *)effect)->unk_08;
         position->unk_02 = origin->unk_02 +

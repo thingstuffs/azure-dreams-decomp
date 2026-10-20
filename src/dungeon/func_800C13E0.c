@@ -180,9 +180,9 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
         func_800649A0();
         *(u16 *)(scratch + 0x0B8) = (u16)(*(u16 *)(scratch + 0x0B8) - 0xA0);
         *(u16 *)(scratch + 0x0BA) = (u16)(*(u16 *)(scratch + 0x0BA) - 0x78);
-        *(u32 *)(scratch + 0x030) = render_globals->view.unk_0AC;
-        *(u32 *)(scratch + 0x034) = render_globals->view.unk_0AE;
-        *(u32 *)(scratch + 0x038) = render_globals->view.viewAngle;
+        *(u32 *)(scratch + 0x030) = render_globals->view.camera_rotation.parts.camera_rotation_x;
+        *(u32 *)(scratch + 0x034) = render_globals->view.camera_rotation.parts.camera_rotation_y;
+        *(u32 *)(scratch + 0x038) = render_globals->view.camera_rotation.parts.viewAngle;
         ((RotationWork *)(scratch + 0x100))->x = (u16)(*(u16 *)((u8 *)sprite + 0x16));
         ((RotationWork *)(scratch + 0x100))->z = (s16)(((S_800C6B40_0 *)sprite)->unk_1A - (u16)*(u32 *)(scratch + 0x034));
         ((RotationWork *)(scratch + 0x100))->y = (s16)((((u16)*(u32 *)(scratch + 0x038) + 0x100) & 0x1FF)

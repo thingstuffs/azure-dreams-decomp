@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/town_event_state.h"
 #include "common.h"
 
@@ -15,23 +16,23 @@ s32 select_next_event_state(void) {
     s32 result;
     void *state;
 
-    if ((func_8001E670(0x145D) != 0) && (func_8001E670(0x1455) == 0)) {
-        func_8001E578(0x1455);
-        func_8001E5F0(0x11FA);
+    if ((func_8001E670(F_sero_end) != 0) && (func_8001E670(F_niko_selro_asa) == 0)) {
+        func_8001E578(F_niko_selro_asa);
+        func_8001E5F0(Fp_niko_kenkatyu);
         *((u8 *)D_8001E950 + 5) = 9;
         return;
     }
-    if ((func_8001E670(0x1452) != 0) && (func_8001E670(0x407) == 0)) {
-        func_8001E578(0x407);
+    if ((func_8001E670(F_s04_niko_step) != 0) && (func_8001E670(F_sbs01_pad18) == 0)) {
+        func_8001E578(F_sbs01_pad18);
         *((u8 *)D_8001E950 + 5) = 10;
         return;
     }
-    if (func_8001E670(0xA2) == 0) {
-        if ((func_8001E670(0x1389) != 0) && (func_8001E670(0x405) == 0)) {
-            func_8001E578(0x405);
+    if (func_8001E670(F_end_ending) == 0) {
+        if ((func_8001E670(F_veldil_dungeon_deatta) != 0) && (func_8001E670(F_sbs01_pad16) == 0)) {
+            func_8001E578(F_sbs01_pad16);
             *((u8 *)D_8001E950 + 3) = find_first_enabled_entry_id();
         }
-        if ((func_8001E670(0x3FE) != 0) && (func_8001E670(0x3E8) == 0)) {
+        if ((func_8001E670(F_sbs01_pad09) != 0) && (func_8001E670(sn_return_successful) == 0)) {
             state = D_8001E950;
             value = *((u8 *)state + 3);
             if (value != 0) {
@@ -42,7 +43,7 @@ s32 select_next_event_state(void) {
             }
             return;
         }
-        if (func_8001E670(0x3FE) != 0) {
+        if (func_8001E670(F_sbs01_pad09) != 0) {
             state = D_8001E950;
             value = *((u8 *)state + 3);
             if (value != 0) {
@@ -53,8 +54,8 @@ s32 select_next_event_state(void) {
             }
             return;
         }
-        if ((func_8001E670(0x1389) != 0) && (func_8001E670(0x3FE) == 0)) {
-            func_8001E578(0x3FE);
+        if ((func_8001E670(F_veldil_dungeon_deatta) != 0) && (func_8001E670(F_sbs01_pad09) == 0)) {
+            func_8001E578(F_sbs01_pad09);
             state = D_8001E950;
             value = *((u8 *)state + 3);
             if (value != 0) {
@@ -75,7 +76,7 @@ s32 select_next_event_state(void) {
         *((u8 *)D_8001E950 + 5) = 2;
         return;
     }
-    if ((func_8001E670(0x145B) == 0) || (func_8001E670(0x146E) != 0)) {
+    if ((func_8001E670(F_selfy_get_tamago) == 0) || (func_8001E670(Ft_niko_love) != 0)) {
         *((s8 *)D_8001E950 + 5) = 0;
         return;
     }

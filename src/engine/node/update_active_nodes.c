@@ -26,7 +26,7 @@ void update_active_nodes(void)
     GameWork *state = ((GameWork *)&g_game_work);
     s32 mode;
     if ((D_80080A86 == 0) && (state->map.cells != 0)) {
-        build_screen_outline(&state->view, &state->view.unk_008, 0);
+        build_screen_outline(&state->view, &state->view.outline_0_x, 0);
         func_8003BFE4();
     }
     run_active_node_callbacks();

@@ -289,7 +289,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
             apply_conditional_target_effect(((MovingActor *)owner)->unk_60.p2, ((MovingEffectState *)self)->unk_09,
                 owner);
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((MovingEffectState_pre *)self)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
         break;
@@ -316,7 +316,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         if (D_80026472.value.s != 0) {
             break;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((MovingEffectState_pre *)self)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }

@@ -95,7 +95,7 @@ void update_actor_facing_and_floor_contact(void *entity, S_801712A8_2 *motion, v
         s32 angle_sector;
 
         angle_sector =
-            (g_game_work.view.viewAngle + ((S_801712A8_0 *)actor)->unk_2A + 0x100) >> 9;
+            (g_game_work.view.camera_rotation.parts.viewAngle + ((S_801712A8_0 *)actor)->unk_2A + 0x100) >> 9;
         direction = angle_sector & 7;
         direction_index = direction;
         direction_copy = direction;

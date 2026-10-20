@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 test_resident_bitmap_bit(s32);
@@ -7,7 +8,7 @@ extern s32 create_item_menu_object(s32);
 
 /* Runs the action sequence for the context unless flag 0xA5 is set. */
 s32 run_the_action_sequence_context_unless_flag_hex_a_5_set(s32 context) {
-    if (test_resident_bitmap_bit(0xA5) != 0) {
+    if (test_resident_bitmap_bit(F_minigame_tyu) != 0) {
         return 0;
     }
     SD_Call(0x514);

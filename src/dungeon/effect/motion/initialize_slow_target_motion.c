@@ -79,10 +79,10 @@ void initialize_slow_target_motion(StateObj *motion_state, Motion *motion, Param
             motion->unk14 = 0;
             motion->dy = 0;
             motion->dx = 0;
-            if (((s32)shared_state->unk_10) == (s32)((u8 *)entity - 0x20)) {
-                *(s32 *)&shared_state->unk_10 &= 0x7fffffff;
+            if (((s32)shared_state->pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
+                *(s32 *)&shared_state->pending_display_owner &= 0x7fffffff;
             }
-            shared_state->unk_0A++;
+            shared_state->activity_counts.parts.pending_action_count++;
             unlink_entity_node(entity);
             ((u16 *)motion_state)[-1] |= 0x8000;
             object_flag_block.flags |= 0x8000;
@@ -120,10 +120,10 @@ void initialize_slow_target_motion(StateObj *motion_state, Motion *motion, Param
             motion->unk14 = 0;
             motion->dy = 0;
             motion->dx = 0;
-            if (((s32)shared_state->unk_10) == (s32)((u8 *)entity - 0x20)) {
-                *(s32 *)&shared_state->unk_10 &= 0x7fffffff;
+            if (((s32)shared_state->pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
+                *(s32 *)&shared_state->pending_display_owner &= 0x7fffffff;
             }
-            shared_state->unk_0A++;
+            shared_state->activity_counts.parts.pending_action_count++;
             unlink_entity_node(entity);
             ((u16 *)motion_state)[-1] |= 0x8000;
             object_flag_block.flags |= 0x8000;
@@ -161,8 +161,8 @@ void initialize_slow_target_motion(StateObj *motion_state, Motion *motion, Param
         motion->dx = 0;
         set_record_integer_tile_center(motion, params->x, params->y);
         {
-            if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)entity - 0x20)) {
-                *(s32 *)&g_dungeon_status.unk_10 &= 0x7fffffff;
+            if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
+                *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7fffffff;
             }
             motion_state->next = D_800B2A60;
         }

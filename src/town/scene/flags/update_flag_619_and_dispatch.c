@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -7,10 +8,10 @@ extern void *D_800190C0[];
 
 /* Conditionally updates flag 0x619, then dispatches D_800190C0 to the callback. */
 void func_8059E728(void) {
-    if (func_80018964(0x11FE) != 0) {
-        func_800188E4(0x619);
+    if (func_80018964(Fp_bibian_pool) != 0) {
+        func_800188E4(F_sbs13_pad32);
     }
-    ((void (*)(void *))(*(void ***)((s8 *)D_80016000 + 0x20))[0x86])(D_800190C0);
+    ((void (*)(void *))(*(void ***)((s8 *)D_80016000 + 0x20))[FNO_change_map])(D_800190C0);
 }
 
 /* MECHANISM: The call-shaped body naturally gives the 0x18 frame with only ra saved.

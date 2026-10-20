@@ -17,7 +17,7 @@ void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, Mo
         *(s32 *)((u8 *)motion + 0xC) = offset_x << 16;
         *(s32 *)((u8 *)motion + 0x10) = offset_y << 16;
         *(s32 *)((u8 *)motion + 0x14) = 0x8000;
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
         action->unk_9B = action->unk_9B + 1;
@@ -79,8 +79,8 @@ void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, Mo
             return;
         }
 
-        if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)entity - 0x20)) {
-            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
+        if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
+            *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         distribute_experience_and_report_gains(entity);
         detach_record_and_update_slot_state(entity);

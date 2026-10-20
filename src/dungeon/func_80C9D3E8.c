@@ -15,12 +15,12 @@ void func_8016EBE8(u8 *task, void *context, u8 *input)
             return;
         }
     } else {
-        fade_state->view.unk_090 = (u8)(fade_state->view.unk_090 +
-            ((s32)(0x80 - fade_state->view.unk_090) / *(s16 *)(task + 0x96)));
-        fade_state->view.unk_091 = (u8)(fade_state->view.unk_091 +
-            ((s32)(0x80 - fade_state->view.unk_091) / *(s16 *)(task + 0x96)));
-        fade_state->view.unk_092 = (u8)(fade_state->view.unk_092 +
-            ((s32)(0x80 - fade_state->view.unk_092) / *(s16 *)(task + 0x96)));
+        fade_state->view.tint.parts.tint_r = (u8)(fade_state->view.tint.parts.tint_r +
+            ((s32)(0x80 - fade_state->view.tint.parts.tint_r) / *(s16 *)(task + 0x96)));
+        fade_state->view.tint.parts.tint_g = (u8)(fade_state->view.tint.parts.tint_g +
+            ((s32)(0x80 - fade_state->view.tint.parts.tint_g) / *(s16 *)(task + 0x96)));
+        fade_state->view.tint.parts.tint_b = (u8)(fade_state->view.tint.parts.tint_b +
+            ((s32)(0x80 - fade_state->view.tint.parts.tint_b) / *(s16 *)(task + 0x96)));
 
         frames_left = *(u16 *)(task + 0x96) - 1;
         *(s16 *)(task + 0x96) = frames_left;

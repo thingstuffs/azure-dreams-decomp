@@ -63,7 +63,7 @@ void func_8016B69C(void *motion, s32 unused, void *actor, void *path_state)
         (*(u8 * *)((u8 *)actor + 0x2C)) = D_8016FE40;
         func_80047784(
             actor,
-            D_8016FE40[((g_game_work.view.viewAngle + ((S_8017169C_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            D_8016FE40[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017169C_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

@@ -185,7 +185,7 @@ void update_actor_motion_variant(void *owner, void *motion, SpriteAnimationTable
         ((MotionResetView *)motion)->velocityY = 0;
         ((MotionResetView *)motion)->velocityX = 0;
         set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((PlayerActionCountView *)D_800814A8)->remainingActions--;
         advance_status_timers(object);
         ((ActionActorView *)object)->remainingActions--;
@@ -225,16 +225,16 @@ void update_actor_motion_variant(void *owner, void *motion, SpriteAnimationTable
                 actor->unk_2C = direction_table;
                 select_sprite_entry(
                     actor,
-                    direction_table[((g_game_work.view.viewAngle + ((ActionActorView *)object)->facing + 0x100) >> 9) & 7],
+                    direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActionActorView *)object)->facing + 0x100) >> 9) & 7],
                     0);
             }
         }
 
         {
-            if (((s32)g_dungeon_status.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         ((ObjectActionState *)owner)->nextBehavior = D_8015F014;
         advance_status_timers(object);

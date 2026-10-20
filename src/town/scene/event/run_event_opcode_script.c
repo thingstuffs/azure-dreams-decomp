@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -28,29 +29,29 @@ void run_event_opcode_script(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32
     EventOpcodeHandler *opcode_handlers;
 
     process_history_entries_by_mode();
-    if (func_8001E670(0xA3) != 0) {
-        if (func_8001E670(0xAB) == 0) {
-            func_8001E578(0x409);
+    if (func_8001E670(F_end_ending_step0) != 0) {
+        if (func_8001E670(F_guy_sword_pickup) == 0) {
+            func_8001E578(F_sbs01_pad20);
         } else {
-            func_8001E5F0(0x409);
+            func_8001E5F0(F_sbs01_pad20);
         }
-        if (func_8001E670(0xAD) == 0) {
+        if (func_8001E670(F_ultima_egg_pickup) == 0) {
             if (((TownPairCallback *)((u8 *)((S_80019560_0 *)(*(void **)((s8 *)(&D_80016000))))->unk_20 + 0x350))[0](1,
                 0x12) != 0) {
-                func_8001E578(0xAD);
-                func_8001E5F0(0x40A);
+                func_8001E578(F_ultima_egg_pickup);
+                func_8001E5F0(F_sbs01_pad21);
                 state_page_addr = 0x80020000;
             } else {
-                func_8001E578(0x40A);
+                func_8001E578(F_sbs01_pad21);
                 state_page_addr = 0x80020000;
             }
         } else {
-            func_8001E5F0(0x40A);
+            func_8001E5F0(F_sbs01_pad21);
             state_page_addr = 0x80020000;
         }
     } else {
-        func_8001E5F0(0x409);
-        func_8001E5F0(0x40A);
+        func_8001E5F0(F_sbs01_pad20);
+        func_8001E5F0(F_sbs01_pad21);
         state_page_addr = 0x80020000;
     }
     state_page = (u8 *)state_page_addr;

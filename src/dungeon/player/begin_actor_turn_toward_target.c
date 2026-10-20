@@ -43,12 +43,12 @@ void begin_actor_turn_toward_target(void *action, void *unused, void *actor, voi
     ((Rec_func_8008ACDC_arg0 *)action)->unk_9A.as_s8 = 0x2A;
     ((Rec_func_8008ACDC_arg0 *)action)->unk_9B.as_s8 = 0;
     (*(s32 *)((u8 *)action + (0x8C))) = 0;
-    g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
+    g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     ((Rec_func_8008ACDC_arg0 *)action)->unk_96.as_s16 = 0x10;
     (*(u8 **)((u8 *)actor + (0x2C))) = D_800DD030;
-    set_sprite_animation_frame(actor, D_800DD030[((s32) (g_game_work.view.viewAngle + ((S_80091B5C_1 *)motion)->unk_2A + 0x100)
+    set_sprite_animation_frame(actor, D_800DD030[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80091B5C_1 *)motion)->unk_2A + 0x100)
         >> 9) & 7], 0, 1);
-    target = ((SpriteLinkPrefixView *)(g_dungeon_status.unk_0C))[-1].unk_00;
+    target = ((SpriteLinkPrefixView *)(g_dungeon_status.active_actor))[-1].unk_00;
     ((Rec_func_8008ACDC_arg0 *)action)->unk_11A = (u16) ((S_80091B5C_1 *)motion)->unk_2A;
     ((S_80091B5C_1 *)motion)->unk_2A = get_rounded_facing_and_rounding_flag(((Rec_D_80082E80 *)actor)->unk_24,
         ((Rec_D_80082E80 *)actor)->unk_25, ((MovingTile *)target)->unk_24, ((MovingTile *)target)->unk_25,

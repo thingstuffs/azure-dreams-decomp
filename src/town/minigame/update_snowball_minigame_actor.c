@@ -248,7 +248,7 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
         (*(s32 *)((u8 *)motion + 4)) = target->y.v;
         (*(s32 *)((u8 *)motion + 8)) =
             target->z.v + D_800D0428 - 0x80000;
-        if (((s32)world->unk_010) & 0x40) {
+        if (((s32)world->pressed_buttons) & 0x40) {
             if (target->z.w.i == 0) {
                 if (((S_80020DF0_0 *)object)->unk_68.s == 9) {
                     ((S_80020DF0_1 *)actor)->unk_00 = 0x100000;

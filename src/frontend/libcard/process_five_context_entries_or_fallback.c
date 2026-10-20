@@ -2,13 +2,12 @@
 
 
 
-extern void card_boot_recheck_selected_channel(void);
+#include "modules/main_server_ship_interfaces.h"
 extern s32 card_boot_write_save_via_temporary_path(s32, s32);
 extern s32 card_boot_load_save_and_clear_marker(s32, s32, s32);
-extern void card_boot_refresh_directory_summary(void);
 extern void card_boot_show_copy_failure_notice(void *);
 extern void card_boot_refresh_slot_window(s32);
-extern void card_boot_resume_menu_after_slot_refresh(void *);
+#include "frontend/libcard/interfaces.h"
 extern void no_op_card_hook(s32);
 extern void initialize_save_description(s32, s32);
 

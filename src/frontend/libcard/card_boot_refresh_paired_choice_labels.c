@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/interfaces.h"
 
 extern void func_8004CBFC(void *, s32, s32 *);
 extern u8 D_80028068[];

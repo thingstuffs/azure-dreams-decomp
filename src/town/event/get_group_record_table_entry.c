@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 #define FIELD_U8(p, off) (*(u8 *)((u8 *)(p) + (off)))
@@ -24,7 +25,7 @@ s32 get_group_record_table_entry(s32 group_id, void *record) {
     if ((table_index != -1) && (filter_entry_by_kind(group_id, record) != 0)) {
         if ((FIELD_U8(record, 1) == 13) && (group_id == 9)) {
             if (FIELD_U8(record, 0) == 3) {
-                if (test_resident_bitmap_bit(0x12CB) != 0) {
+                if (test_resident_bitmap_bit(F_takoyaki_morau) != 0) {
                     u8 *special_result;
 
                     special_result = (u8 *)&D_8006BC7A;

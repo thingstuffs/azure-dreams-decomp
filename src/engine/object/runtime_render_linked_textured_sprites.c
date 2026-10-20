@@ -73,7 +73,7 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *rend
     GpuContext *render_pool;
     u8 *next_prim;
     scratch = (u8 *) 0x1F800000;
-    render_pool = g_game_work.unk_000;
+    render_pool = g_game_work.draw_buffer;
     next_prim = render_pool->packetCursor;
     (((SpS32 *) (scratch + 0x24))->v) = (s32) (((u8 *) render_pool) + 0xB0);
     (((SpS32 *) (scratch + 0xE4))->v) = 0;

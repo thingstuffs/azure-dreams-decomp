@@ -23,7 +23,7 @@ s32 render_rotated_grid_surface(void *node) {
     source_points = frame.space;
     rotated_points = frame.space + 128;
     grid = frame.space + 256;
-    render_context = &g_game_work.unk_000;
+    render_context = &g_game_work.draw_buffer;
     grid_origin = -720;
     for (;;) {
         object = node;

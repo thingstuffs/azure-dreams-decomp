@@ -184,7 +184,7 @@ print_message:
 
             set_sprite_animation_frame(
                 message,
-                sound_table[((g_game_work.view.viewAngle + ((S_80098CF8_4 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+                sound_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80098CF8_4 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                 0,
                 1);
             play_sound_if_enabled(0x511);

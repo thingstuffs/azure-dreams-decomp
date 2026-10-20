@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "modules/town_ovl_3ef1c8.h"
 
 void select_scene_choice_by_mode(void)
@@ -8,7 +9,7 @@ void select_scene_choice_by_mode(void)
     invoke_alternate_handler_with_code_780();
     invoke_handler_with_code_79_e();
     if (func_8001A510(D_8001A91E) == 0) {
-        func_8001A490(0x7A3);
+        func_8001A490(F_sbs22_pad39);
     }
     D_8001B320 = choices[*(s32 *)((s8 *)town + 0xB0)];
 }

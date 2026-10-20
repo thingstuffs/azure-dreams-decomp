@@ -36,14 +36,14 @@ void update_object_or_select_directional_data(void *object_arg, void *context, v
             return;
         }
         *(void **)((u8 *)source + 0x2C) = D_801762C8;
-        select_sprite_entry(source, D_801762C8[((g_game_work.view.viewAngle + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9) & 7],
+        select_sprite_entry(source, D_801762C8[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9) & 7],
             0);
     } else if (state_table == D_80176360) {
         if (*(s32 *)((u8 *)target + 0x1C) & 0x208) {
             return;
         }
         *(void **)((u8 *)source + 0x2C) = D_80176328;
-        select_sprite_entry(source, D_80176328[((g_game_work.view.viewAngle + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9) & 7],
+        select_sprite_entry(source, D_80176328[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9) & 7],
             0);
     } else {
         return;

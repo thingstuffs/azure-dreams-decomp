@@ -23,7 +23,7 @@ void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *s
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)sprite + 0x2c) = selected_table;
-            direction_index = (g_game_work.view.viewAngle + entity->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->value2a + 0x100) >> 9;
             select_sprite_entry(sprite, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -37,7 +37,7 @@ void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *s
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)sprite + 0x2c) = selected_table;
-            direction_index = (g_game_work.view.viewAngle + entity->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->value2a + 0x100) >> 9;
             select_sprite_entry(sprite, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -51,7 +51,7 @@ void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *s
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)sprite + 0x2c) = selected_table;
-            direction_index = (g_game_work.view.viewAngle + entity->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->value2a + 0x100) >> 9;
             select_sprite_entry(sprite, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -72,7 +72,7 @@ void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *s
             return;
         }
         *(u32 *)((u8 *)sprite + 0x2c) = (u32)&D_80169DC4;
-        direction_index = (g_game_work.view.viewAngle + entity->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->value2a + 0x100) >> 9;
         select_sprite_entry(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DC4), 0);
         return;
     case 14:
@@ -81,7 +81,7 @@ void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *s
             return;
         }
         *(u32 *)((u8 *)sprite + 0x2c) = (u32)&D_80169DCC;
-        direction_index = (g_game_work.view.viewAngle + entity->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->value2a + 0x100) >> 9;
         select_sprite_entry(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DCC), 0);
         return;
     case 15:
@@ -90,7 +90,7 @@ void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *s
             return;
         }
         *(u32 *)((u8 *)sprite + 0x2c) = (u32)&D_80169DD4;
-        direction_index = (g_game_work.view.viewAngle + entity->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->value2a + 0x100) >> 9;
         select_sprite_entry(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DD4), 0);
         return;
     default:

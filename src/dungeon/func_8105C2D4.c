@@ -27,7 +27,7 @@ void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work
             ((T_80173AD4_S_80173AD4_2 *)work)->unk_A6 = (u16) ((T_80173AD4_S_80173AD4_3 *)part_b)->unk_12;
             ((T_80173AD4_S_80173AD4_2 *)work)->unk_AA = (s16) (((T_80173AD4_S_80173AD4_0 *)actor)->unk_14 & 7);
         }
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         ((T_80173AD4_S_80173AD4_0 *)actor)->unk_6D = (u8) (((T_80173AD4_S_80173AD4_0 *)actor)->unk_6D - 1);
         call_flags = ((T_80173AD4_S_80173AD4_0 *)actor)->unk_1C & 0x2000;
         call_a0 = ((T_80173AD4_S_80173AD4_3 *)part_b)->unk_24;
@@ -40,7 +40,7 @@ void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work
         ((T_80173AD4_S_80173AD4_0 *)actor)->unk_1C = (s32) (((T_80173AD4_S_80173AD4_0 *)actor)->unk_1C & ~0x2000);
         cycle_map_cell_flags(((T_80173AD4_S_80173AD4_3 *)part_b)->unk_24, ((T_80173AD4_S_80173AD4_3 *)part_b)->unk_25, 0x3000);
         (*(u8 **)((u8 *)part_b + 0x2C)) = D_80173FD0;
-        select_sprite_entry(part_b, D_80173FD0[((g_game_work.view.viewAngle + ((T_80173AD4_S_80173AD4_0 *)actor)->unk_2A + 0x100)
+        select_sprite_entry(part_b, D_80173FD0[((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80173AD4_S_80173AD4_0 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0);
         msg = get_unused_text_buffer();
         msg_actor = actor;

@@ -11,7 +11,7 @@ typedef struct {
 extern s32 D_800280B4[3];
 
 void card_boot_measure_dialog_choice_word(u8 *, s32, s32 *, s32 *, s32 *);
-void card_boot_position_dialog_selection_marker(void *, s32, s32, s32, s32);
+#include "frontend/libcard/interfaces.h"
 
 /* Processes the last word of an enabled table entry for the supplied object. */
 void card_boot_update_message_choice_highlight(void *object) {

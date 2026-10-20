@@ -41,10 +41,10 @@ void update_menu_choice_timed(Object *object) {
         object->child->unk27 = object->child->unk26;
         object->unk68 = runtime_mark_state_when_flag_51_set;
     } else {
-        if ((((u32)state->unk_010)) & 0x20) {
+        if ((((u32)state->pressed_buttons)) & 0x20) {
             object->unk4d = object->child->unk26 - 1;
             confirm_timed_menu_choice(object);
-        } else if ((((u32)state->unk_010)) & 0x40) {
+        } else if ((((u32)state->pressed_buttons)) & 0x40) {
             object->unk4d = 0;
             confirm_timed_menu_choice(object);
         }

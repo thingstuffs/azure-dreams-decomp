@@ -98,9 +98,9 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, EntityRec *m
             motion->unk_0C = 0;
             set_record_integer_tile_center(motion, tile_state->unk_24, tile_state->unk_25);
 
-            tracked_entity = ((s32)g_dungeon_status.unk_10);
+            tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
             if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-                g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
+                g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
             }
             action->unk_8C = update_actor_behavior_facing_and_animation_2;
             return;

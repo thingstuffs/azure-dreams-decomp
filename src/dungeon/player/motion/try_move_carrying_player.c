@@ -70,12 +70,12 @@ void try_move_carrying_player(void *controller, s32 actor_id, SpriteFrameState *
         if ((g_dungeon_status.flags & 0x80) || (move_result == 1)) {
             if (actor->frameTable != D_800DCFD8) {
                 actor->frameTable = D_800DCFD8;
-                direction_index = ((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7;
+                direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7;
                 set_sprite_animation_frame(actor, D_800DCFD8[direction_index], 0, 1);
             }
             process_unflagged_linked_entries_alt(actor_data->unk_5C);
             process_unflagged_linked_entries(actor_data->unk_5C);
-            g_dungeon_status.unk_04 = 8;
+            g_dungeon_status.movement_frames_left = 8;
             ((S_8008C13C_2 *)controller)->unk_9A = 0x1D;
         } else {
             ((S_8008C13C_2 *)controller)->unk_98 |= 0xC;
@@ -84,7 +84,7 @@ void try_move_carrying_player(void *controller, s32 actor_id, SpriteFrameState *
             if (move_result == 2) {
                 ((S_8008C13C_2 *)controller)->unk_9B = 8;
             }
-            g_dungeon_status.unk_04 = 8;
+            g_dungeon_status.movement_frames_left = 8;
             ((S_8008C13C_2 *)controller)->unk_9A = 0x1E;
             actor_data->flags1C |= 0x40000000;
             append_packed_action_record(actor_data, 8, 0, 0);
@@ -94,7 +94,7 @@ void try_move_carrying_player(void *controller, s32 actor_id, SpriteFrameState *
         append_packed_action_record(actor_data, 8, 0, 0);
     } else {
         actor->frameTable = D_800DD0B8;
-        direction_index = ((dungeon_state->view.viewAngle + actor_data->facing + 0x100) >> 9) & 7;
+        direction_index = ((dungeon_state->view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7;
         set_sprite_animation_frame(actor, D_800DD0B8[direction_index], 0, 1);
         ((S_8008C13C_2 *)controller)->unk_8C.u = D_8008EAC8;
         return;

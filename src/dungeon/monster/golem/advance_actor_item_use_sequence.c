@@ -149,7 +149,7 @@ void advance_actor_item_use_sequence(void *action_ctx, EntityRec *scene_object, 
             scene_object->unk_0C = 0;
             set_record_integer_tile_center(scene_object, ((SpriteAnimationTableView *)entity)->unk_24, ((SpriteAnimationTableView *)entity)->unk_25);
             active_object = D_800814A8;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)active_object + 0xA6))--;
             advance_status_timers(actor);
             (*(u8 *)((u8 *)actor + 0x6D))--;
@@ -202,11 +202,11 @@ void advance_actor_item_use_sequence(void *action_ctx, EntityRec *scene_object, 
         if (((SpriteAnimationTableView *)entity)->unk_2C != D_80175F10) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = D_80175F10;
             select_sprite_entry(entity,
-                D_80175F10[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+                D_80175F10[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
                 0);
         }
 
-        action_status = (u8 *)&g_dungeon_status.unk_00;
+        action_status = (u8 *)&g_dungeon_status.turn_scale;
         if (((S_801738B4_4 *)action_status)->unk_0C != 0) {
             break;
         }

@@ -77,7 +77,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
                     (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
                     func_8003DB94(sprite,
                         *(void **)((u8 *)anim_table +
-                            (((g_game_work.view.viewAngle + status->facing + 0x100) >> 7) & 0x1C)),
+                            (((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 7) & 0x1C)),
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = next_state;
@@ -125,11 +125,11 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
                 if (!(((u32)status->flags1C) & 0x430)) {
 
                     if ((s16)compare_monster_neighbor_values(((Rec_func_800AA258_arg2 *)sprite)->unk_24,
-                            ((Rec_func_800AA258_arg2 *)sprite)->unk_25, D_80082E80.tileX,
-                            D_80082E80.tileY) != 0) {
+                            ((Rec_func_800AA258_arg2 *)sprite)->unk_25, D_80082E80.tile_position.parts.tile_x,
+                            D_80082E80.tile_position.parts.tile_y) != 0) {
                         status->facing = get_rounded_facing_and_rounding_flag(
                             ((Rec_func_800AA258_arg2 *)sprite)->unk_24, ((Rec_func_800AA258_arg2 *)sprite)->unk_25,
-                            D_80082E80.tileX, D_80082E80.tileY,
+                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                             &direction_aux);
                     }
                 }
@@ -152,7 +152,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
     }
     (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
     func_8003DB94(sprite,
-        *(void **)((((g_game_work.view.viewAngle + status->facing + 0x100) >> 7) & 0x1C) +
+        *(void **)((((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 7) & 0x1C) +
             (u32)anim_table),
         0);
 }

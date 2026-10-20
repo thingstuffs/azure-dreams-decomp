@@ -110,7 +110,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
             ((S_800927E4_1 *)anim_sprite)->unk_2C = anim_table;
             set_sprite_animation_frame(
                 anim_sprite,
-                anim_table[((g_game_work.view.viewAngle +
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle +
                         actor->facing + 0x100) >> 9) & 7],
                 0,
                 1);
@@ -120,7 +120,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
 
                    /* Pin: removal changes a delay-slot fill. */
         {
-            s32 base_angle = g_game_work.view.viewAngle;
+            s32 base_angle = g_game_work.view.camera_rotation.parts.viewAngle;
             s32 signed_angle = actor->facing;
             s32 angle_or_sprite;
             s32 next_angle;
@@ -135,7 +135,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
                     ((S_800927E4_5 *)((void *)angle_or_sprite))->unk_2C = anim_table;
                     set_sprite_animation_frame(
                         (void *)angle_or_sprite,
-                        anim_table[((g_game_work.view.viewAngle +
+                        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle +
                                 actor->facing + 0x100) >> 9) & 7],
                         0,
                         1);

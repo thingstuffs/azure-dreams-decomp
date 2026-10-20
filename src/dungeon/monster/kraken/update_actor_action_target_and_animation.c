@@ -164,7 +164,7 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
             anim_table = &D_801741B4;
             ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 & 0x7FFF);
             (((EffectSpriteFieldView_80EB6FC8 *)effect_sprite)->field_2C) = anim_table;
-            select_sprite_entry(effect_sprite, *((u8 *) ((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+            select_sprite_entry(effect_sprite, *((u8 *) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + (s32) anim_table)), 0);
             if (create_actor_spell_effect(actor, entry, is_special, action + 0x98) == 0) {
                 return;
@@ -185,7 +185,7 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_80EB6FC8 *)D_800814A8)->field_A6) - 1);
         advance_status_timers(actor);
         actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
@@ -216,7 +216,7 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
             return;
         }
         ((SpriteFrameState *)sprite)->frameTable = &D_801741BC;
-        select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + &D_801741BC), 0);
+        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + &D_801741BC), 0);
         current_state = ((S_801727C8_0 *)action)->unk_9B;
         ((S_801727C8_0 *)action)->unk_9B = (u8) (current_state + 1);
         return;
@@ -234,14 +234,14 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
                 ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 | 0x8000);
                 ((S_801727C8_0 *)action)->unk_A8 = 0;
                 ((SpriteFrameState *)sprite)->frameTable = &D_8017418C;
-                select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+                select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                     + &D_8017418C), 0);
             }
         }
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
         ((S_801727C8_0 *)action)->unk_8C = &update_actor_animation_and_dispatch;
         advance_status_timers(actor);

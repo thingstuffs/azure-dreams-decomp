@@ -48,7 +48,7 @@ s32 build_menu_line_tile_packets(S_80053A88_Node *first_node)
     tag_mask = 0xFF000000;
     do {
         {
-            draw_base = ((GpuContext *)work->unk_000);
+            draw_base = ((GpuContext *)work->draw_buffer);
             tile = (S_80053A88_TILE *)draw_base->packetCursor;
             draw_base->packetCursor = (void *)(((u8 *)tile) + 0x10);
             tile->x0 = node->unkC;
@@ -61,19 +61,19 @@ s32 build_menu_line_tile_packets(S_80053A88_Node *first_node)
                 SetSemiTrans(tile, 1);
             }
             if (!(node->unk16 & 2)) {
-                tile->tag = (tile->tag & tag_mask) | (((GpuContext *)work->unk_000)->orderTag074 & addr_mask);
-                next_link = work->unk_000;
+                tile->tag = (tile->tag & tag_mask) | (((GpuContext *)work->draw_buffer)->orderTag074 & addr_mask);
+                next_link = work->draw_buffer;
                 ((GpuContext *)next_link)->orderTag074 = (((GpuContext *)next_link)->orderTag074 & tag_mask)
                 | (((u32)tile) & addr_mask);
             }
-            draw_base = ((GpuContext *)work->unk_000);
+            draw_base = ((GpuContext *)work->draw_buffer);
             draw_mode = (S_80053A88_DRTPAGE *)draw_base->packetCursor;
             draw_base->packetCursor = (void *)(((u8 *)draw_mode) + 0xC);
             tpage = GetTPage(0, node->unk14, 0, 0);
             SetDrawMode(draw_mode, 0, 0, tpage & 0xFFFF, 0);
             if (!(node->unk16 & 2)) {
-                draw_mode->tag = (draw_mode->tag & tag_mask) | (((GpuContext *)work->unk_000)->orderTag074 & addr_mask);
-                next_link = work->unk_000;
+                draw_mode->tag = (draw_mode->tag & tag_mask) | (((GpuContext *)work->draw_buffer)->orderTag074 & addr_mask);
+                next_link = work->draw_buffer;
                 ((GpuContext *)next_link)->orderTag074 = (((GpuContext *)next_link)->orderTag074 & tag_mask)
                 | (((u32)draw_mode) & addr_mask);
             }

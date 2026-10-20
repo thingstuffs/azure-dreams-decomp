@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -65,14 +66,14 @@ s32 clear_flagged_status_and_dispatch_action(S_800167E4_0 *entity, s32 action_ar
         func_80019458(flag_id);
     }
 
-    if (check_are_nonzero() != 0 && func_800194D8(0x637) != 0) {
+    if (check_are_nonzero() != 0 && func_800194D8(F_sbs14_pad19) != 0) {
         if (func_800194D8(D_80019676) == 0 && D_80019AFC == 0) {
-            func_80019458(0x637);
+            func_80019458(F_sbs14_pad19);
             func_80018308(entity, action_arg);
             return 1;
         }
     } else {
-        func_800193E0(0x637);
+        func_800193E0(F_sbs14_pad19);
     }
 
     func_80017E1C();

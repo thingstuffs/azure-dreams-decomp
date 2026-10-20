@@ -115,7 +115,7 @@ void draw_nearby_map_markers(s32 draw_param) {
                 object.value = *(u8 **)(entry - 0x14);
                 if (!(D_800E296C & 4)) {
                     if (*(s8 *)(object.value + 0x26) < 0 ||
-                        *(s8 *)(object.value + 0x26) != D_80082E80.unk_026) {
+                        *(s8 *)(object.value + 0x26) != D_80082E80.room_index) {
                         distance = get_tile_chebyshev_distance(object.value,
                                                  (u8 *)&D_80082E80);
                         if ((s16)distance >= 4) {

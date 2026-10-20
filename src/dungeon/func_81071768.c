@@ -75,7 +75,7 @@ void update_a_dungeon_actor_s_behavior_facing_animation_state(Rec_func_800A9E70_
             inactive_anims = D_8015BFF8;
             sprite->directionFrames = inactive_anims;
             select_sprite_entry(sprite,
-                inactive_anims[((g_game_work.view.viewAngle + actor->facing + 0x100)
+                inactive_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 9) & 7],
                 0);
         }
@@ -110,7 +110,7 @@ void update_a_dungeon_actor_s_behavior_facing_animation_state(Rec_func_800A9E70_
             if (sprite->directionFrames != anim_table) {
                 sprite->directionFrames = anim_table;
                 select_sprite_entry(sprite,
-                    anim_table[((g_game_work.view.viewAngle + actor->facing + 0x100)
+                    anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                         >> 9) & 7],
                     0);
             }
@@ -144,7 +144,7 @@ void update_a_dungeon_actor_s_behavior_facing_animation_state(Rec_func_800A9E70_
             update_actor_status_and_food(actor);
             return;
         }
-        if (sprite->position.packed == *(u16 *)(&D_80082E80.tileX)) {
+        if (sprite->position.packed == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_80159768(action, context, sprite, actor);
             return;
         }
@@ -184,7 +184,7 @@ void update_a_dungeon_actor_s_behavior_facing_animation_state(Rec_func_800A9E70_
 
                 direction = get_rounded_facing_and_rounding_flag(
                     sprite->position.tile.x, sprite->position.tile.y,
-                    D_80082E80.tileX, D_80082E80.tileY,
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                     &distance);
                 player = D_800814A8;
                 actor->facing = direction;
@@ -213,12 +213,12 @@ void update_a_dungeon_actor_s_behavior_facing_animation_state(Rec_func_800A9E70_
             if (!(actor->flags1C & 0x430)) {
 
                 if ((s16)compare_monster_neighbor_values(sprite->position.tile.x,
-                        sprite->position.tile.y, D_80082E80.tileX,
-                        D_80082E80.tileY) != 0) {
+                        sprite->position.tile.y, D_80082E80.tile_position.parts.tile_x,
+                        D_80082E80.tile_position.parts.tile_y) != 0) {
                     actor->facing = get_rounded_facing_and_rounding_flag(
                         sprite->position.tile.x,
                             sprite->position.tile.y,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &distance);
                 }
             }
@@ -237,6 +237,6 @@ void update_a_dungeon_actor_s_behavior_facing_animation_state(Rec_func_800A9E70_
     }
     sprite->directionFrames = anim_table;
     select_sprite_entry(sprite,
-        ((((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + anim_table)[0],
+        ((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + anim_table)[0],
         0);
 }

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
@@ -21,7 +22,7 @@ void advance_reaction_state_and_cleanup(Rec_func_80094268_arg0 *object, S_800CA4
     remainingTicks = object->unk_6C.as_u16 - 1;
     object->unk_6C.as_u16 = remainingTicks;
     if ((remainingTicks << 0x10) <= 0) {
-        set_resident_bitmap_bit(0x49);
+        set_resident_bitmap_bit(F_act_niko);
         unlink_scene_list_node(object);
         clear_object_slot_and_mark_removed(object);
     }

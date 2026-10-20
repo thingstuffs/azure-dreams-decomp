@@ -247,8 +247,8 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
             break;
         }
         effect_list = &g_dungeon_status;
-        if (effect_list->unk_10 == (u8 *)entity - 0x20) {
-            (*(u32 *)&effect_list->unk_10) &= 0x7FFFFFFF;
+        if (effect_list->pending_display_owner == (u8 *)entity - 0x20) {
+            (*(u32 *)&effect_list->pending_display_owner) &= 0x7FFFFFFF;
         }
         distribute_experience_and_report_gains(entity);
         detach_record_and_update_slot_state(entity);

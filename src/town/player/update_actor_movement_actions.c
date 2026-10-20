@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/position_query.h"
 #include "common.h"
 #include "shared/town_action_flag.h"
@@ -53,7 +54,7 @@ void update_actor_movement_actions(Rec_func_80094268_arg0 *action, EntityRec *ac
     } else if (((S_80092320_1 *)(&D_800CFCEF))->unk_00 == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), reference_value, (struct TownVec * *)(&D_800FE488));
     }
-    if (((s32)state->unk_010) & 0x10) {
+    if (((s32)state->pressed_buttons) & 0x10) {
         initialize_actor_action_state(action, (struct S_800942B0_0 *)(actor), context);
         return;
     }
@@ -63,7 +64,7 @@ void update_actor_movement_actions(Rec_func_80094268_arg0 *action, EntityRec *ac
         initialize_action_object_and_play_sound((s32 * *)(action), (s32)(actor), context);
         return;
     }
-    if (((s32)state->unk_010) & 0x40) {
+    if (((s32)state->pressed_buttons) & 0x40) {
         action_result = select_an_eligible_source_entry_stores_pointer_in_destination(action, &D_800CFCB4);
         if (action_result != 0) {
             if (action_result == 2) {
@@ -73,7 +74,7 @@ void update_actor_movement_actions(Rec_func_80094268_arg0 *action, EntityRec *ac
             initialize_action_object_with_counter(action, actor, context);
             return;
         }
-        if (test_resident_bitmap_bit(0xA4) != 0) {
+        if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
             func_80094088(action, actor, context);
             return;
         }

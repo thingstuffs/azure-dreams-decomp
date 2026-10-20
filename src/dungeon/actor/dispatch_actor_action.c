@@ -27,7 +27,7 @@ void dispatch_actor_action_2(s32 actor, s32 action_arg, s32 action_data, u8 *sta
             *(u8 *)(state + 0x28) -= 1;
         }
         if (*(u8 *)(state + 0x28) == 0) {
-            g_dungeon_status.unk_10 = state - 0x20;
+            g_dungeon_status.pending_display_owner = state - 0x20;
             begin_actor_display_action(actor, action_arg, action_data, 0);
             return;
         }

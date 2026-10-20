@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 card_boot_load_slot_metadata(s32 slot);
+#include "modules/main_server_ship_interfaces.h"
 extern s32 card_boot_create_slot_window(void *parent_object, s32 object_index);
 extern void card_boot_show_load_failure_notice(void *value);
 extern void card_boot_return_from_slot_menu(void);

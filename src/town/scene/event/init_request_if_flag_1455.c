@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -8,6 +9,6 @@ extern void func_800177CC(Town654Request *, s32);
 
 void init_request_if_flag_1455(Town654Request *request, s32 parameter)
 {
-    if (func_8001868C(0x1455) != 0) initialize_state_two_entries_pointer(request->flag_18);
+    if (func_8001868C(F_niko_selro_asa) != 0) initialize_state_two_entries_pointer(request->flag_18);
     func_800177CC(request, parameter);
 }

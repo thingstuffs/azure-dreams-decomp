@@ -48,7 +48,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
         ((SpriteFrameState *)sprite)->frameTable = D_801739E0;
         select_sprite_entry(
             sprite,
-            D_801739E0[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_801739E0[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172258_0 *)jump)->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFEE0000;
@@ -94,7 +94,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
             ((SpriteFrameState *)sprite)->frameTable = D_801739E8;
             select_sprite_entry(
                 sprite,
-                D_801739E8[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_801739E8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172258_0 *)jump)->unk_9B++;
         }
@@ -113,8 +113,8 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
         advance_status_timers(actor);
         {
 
-            if (g_dungeon_status.unk_08 != 0) {
-                g_dungeon_status.unk_08--;
+            if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
+                g_dungeon_status.activity_counts.parts.pending_movement_count--;
             }
         }
 
@@ -128,7 +128,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
 
                 ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
                     ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
-                    D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &facing_aux);
             }
         }
 

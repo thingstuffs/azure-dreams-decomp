@@ -46,10 +46,10 @@ void advance_actor_walk_animation(void *owner, void *unused, void *part, EntityR
         (*(u8 * *)((u8 *)part + 0x2C)) = table;
         select_sprite_entry(
             part,
-            table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
-        g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) + 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         adjusted_value = append_entity_display_text(actor, current_value = get_unused_text_buffer());
         original_value = current_value;
         current_value = adjusted_value;

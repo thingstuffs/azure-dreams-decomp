@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern void func_800193E0(s32);
@@ -14,7 +15,7 @@ void *select_state_result_with_lookup_overrides(s32 unused_0, s32 unused_1, s32 
     void *result = 0;
 
     if (request_type == 8) {
-        func_800193E0(0x1479);
+        func_800193E0(Ft_paty_new);
         result = check_inputs_after_threshold_two(D_80019688[D_8001967C[0]]);
     } else if (request_type == 6) {
         result = D_8001A730;

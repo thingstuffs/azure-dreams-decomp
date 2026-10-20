@@ -87,7 +87,7 @@ void spawn_randomized_timed_objects(void *source)
                 ((S_800BFB8C_1 *)object)->unk_10 = (s32 *)kind;
                 register_node(object, callback);
                 random_value = rand();
-                coord_term = town->view.unk_0A4;
+                coord_term = town->view.camera_position.parts.camera_position_x;
                 random_coord = coord_term + random_value % 1024 - 512;
                 ((S_800BFB8C_3 *)coords)->unk_0C = random_coord;
                 ((S_800BFB8C_3 *)coords)->unk_1E = random_coord;

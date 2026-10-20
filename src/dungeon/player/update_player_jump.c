@@ -45,7 +45,7 @@ void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
                 *(u8 **)(sprite + 0x2C) = D_800DD048;
             }
             anim_sprite = sprite;
-            direction = ((g_game_work.view.viewAngle + *(s16 *)(entity + 0x2A) + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)(entity + 0x2A) + 0x100) >> 9) & 7;
             set_sprite_animation_frame(anim_sprite, (*(u8 **)(anim_sprite + 0x2C))[direction], 0, 1);
             action[0x9B]++;
         }
@@ -65,7 +65,7 @@ void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
                 anim_sprite = sprite;
                 animations = D_800DD060;
                 *(u8 **)(anim_sprite + 0x2C) = animations;
-                update_direction = ((g_game_work.view.viewAngle + *(s16 *)(entity + 0x2A) + 0x100) >> 9) & 7;
+                update_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)(entity + 0x2A) + 0x100) >> 9) & 7;
                 set_sprite_animation_frame(anim_sprite, animations[update_direction], 0, 1);
             }
             action[0x9B]++;
@@ -92,9 +92,9 @@ void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
                         ((S_8008E700_0 *)entity)->unk_1C &= 0xFFEFFFFF;
                         saved_state = D_80081484;
                         D_80081484 = 0;
-                        g_dungeon_status.unk_0A++;
+                        g_dungeon_status.activity_counts.parts.pending_action_count++;
                         *(u8 **)(sprite + 0x2C) = D_800DCFD0;
-                        angle = g_game_work.view.viewAngle;
+                        angle = g_game_work.view.camera_rotation.parts.viewAngle;
                         heading = *(s16 *)(entity + 0x2A);
                         D_800E3540[0] = saved_state;
                         set_sprite_animation_frame(sprite, D_800DCFD0[((angle + heading + 0x100) >> 9) & 7], 5, 1);
@@ -108,7 +108,7 @@ void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
     case 2:
         anim_sprite = sprite;
         if ((*(u16 *)(anim_sprite + 0x14) & 0x6000) &&
-            (g_dungeon_status.unk_0A == 0)) {
+            (g_dungeon_status.activity_counts.parts.pending_action_count == 0)) {
             entity_flags = *(s32 *)(entity + 0x1C);
             if (entity_flags & 0x200000) {
                 *(s32 *)(entity + 0x1C) = entity_flags & 0xFFDFFFFF;

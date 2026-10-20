@@ -20,6 +20,6 @@ void finish_player_action_animation(void *target, void *unused, void *flag_data,
 
     *(void **)((u8 *)target + 0x8C) = table;
     if ((can_entity_gain_level(source) << 16) == 0) {
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
     }
 }

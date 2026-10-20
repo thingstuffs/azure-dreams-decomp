@@ -95,8 +95,8 @@ void advance_jump_to_target_tile(S_80172374_0 *motion, EntityRec *position, Spri
         reduce_actor_food_meter(entity, 5);
         advance_status_timers(entity);
 
-        if (g_dungeon_status.unk_08 != 0) {
-            g_dungeon_status.unk_08 = (u16)g_dungeon_status.unk_08 - 1;
+        if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
+            g_dungeon_status.activity_counts.parts.pending_movement_count = (u16)g_dungeon_status.activity_counts.parts.pending_movement_count - 1;
         }
 
         entity_flags = entity->flags1C;
@@ -109,7 +109,7 @@ void advance_jump_to_target_tile(S_80172374_0 *motion, EntityRec *position, Spri
 
                 entity->facing = get_rounded_facing_and_rounding_flag(
                     target_tile->unk_24, target_tile->unk_25,
-                    D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
             }
         }
 

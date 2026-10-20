@@ -63,8 +63,8 @@ void *reset_actor_animation_state(void *entity)
 
     entity_arg = entity;
     parent = entity - 0x20;
-    if ((u8 *)((s32)g_dungeon_status.unk_10) == parent) {
-        g_dungeon_status.unk_10 = (s32)parent & 0x7FFFFFFF;
+    if ((u8 *)((s32)g_dungeon_status.pending_display_owner) == parent) {
+        g_dungeon_status.pending_display_owner = (s32)parent & 0x7FFFFFFF;
     }
 
     child = ((S_800D8590_0 *)parent)->unk_0C;
@@ -99,7 +99,7 @@ void *reset_actor_animation_state(void *entity)
         ((S_800D8590_2 *)object)->unk_8C = D_800D8C64;
         (*(void ** *)((u8 *)child + 0x2C)) = D_800E262C;
 
-        frame_index = (g_game_work.view.viewAngle + ((S_800D8590_1 *)entity)->unk_2A + 0x100) >> 7;
+        frame_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D8590_1 *)entity)->unk_2A + 0x100) >> 7;
         func_8003DB94(child,
                       *(void **)((u8 *)D_800E262C + (frame_index & 0x1C)), 0);
         ((S_800D8590_2 *)object)->unk_A0 = 0x14;

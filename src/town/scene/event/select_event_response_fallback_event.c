@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern void *D_8001B16C[];
@@ -32,7 +33,7 @@ void *select_event_response_fallback_event(s32 handler_arg_a, s32 handler_arg_b,
         if (result != 0) {
             return result;
         }
-        func_8001A554(0x943);
+        func_8001A554(F_sbs32_pad25);
         return D_80020934;
     case 40:
     case 41:

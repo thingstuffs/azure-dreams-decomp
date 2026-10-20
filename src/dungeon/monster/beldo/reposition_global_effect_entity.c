@@ -36,8 +36,8 @@ void reposition_global_effect_entity(s32 offset_index)
 
     origin = &D_80082E80;
     offset_bytes = (u8 *)&offsets[offset_index * 2];
-    entity[0x24] = origin->tileX + offset_bytes[0];
-    entity[0x25] = origin->tileY + offset_bytes[2];
+    entity[0x24] = origin->tile_position.parts.tile_x + offset_bytes[0];
+    entity[0x25] = origin->tile_position.parts.tile_y + offset_bytes[2];
 
     set_record_integer_tile_center(motion, entity[0x24], entity[0x25]);
 

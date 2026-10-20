@@ -65,7 +65,7 @@ void update_actor_spell_action(void *arg0, E_80172A58_S_80172A58_6 *arg1, E_8017
         arg1->unk_10 = 0;
         arg1->unk_0C = 0;
         set_record_integer_tile_center(arg1, arg2->unk_24, arg2->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((E_80172A58_S_80172A58_7 *)D_800814A8)->unk_A6 = (u16) (((E_80172A58_S_80172A58_7 *)D_800814A8)->unk_A6 - 1);
         advance_status_timers(arg3);
         ((E_80172A58_S_80172A58_1 *)arg3)->unk_6D = (u8) (((E_80172A58_S_80172A58_1 *)arg3)->unk_6D - 1);
@@ -100,10 +100,10 @@ void update_actor_spell_action(void *arg0, E_80172A58_S_80172A58_6 *arg1, E_8017
             set_record_integer_tile_center(arg1, arg2->unk_24, arg2->unk_25);
             if (arg2->unk_2C != D_80174520) {
                 arg2->unk_2C = D_80174520;
-                select_sprite_entry(arg2, *((((s32) (g_game_work.view.viewAngle + ((E_80172A58_S_80172A58_1 *)arg3)->unk_2A + 0x100) >> 9) & 7) + D_80174520), 0);
+                select_sprite_entry(arg2, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((E_80172A58_S_80172A58_1 *)arg3)->unk_2A + 0x100) >> 9) & 7) + D_80174520), 0);
             }
-            if (g_dungeon_status.unk_0C == 0) {
-                g_dungeon_status.unk_0A = (u16) (g_dungeon_status.unk_0A - 1);
+            if (g_dungeon_status.active_actor == 0) {
+                g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (g_dungeon_status.activity_counts.parts.pending_action_count - 1);
                 ((E_80172A58_S_80172A58_0 *)arg0)->unk_8C = update_actor_behavior_facing_and_animation_2;
                 advance_status_timers(arg3);
                 ((E_80172A58_S_80172A58_1 *)arg3)->unk_73 = 0;

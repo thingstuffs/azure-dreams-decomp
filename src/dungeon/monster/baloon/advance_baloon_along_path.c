@@ -38,7 +38,7 @@ void advance_baloon_along_path(void *motion, s32 actor_index, void *actor, Entit
             (*(u8 * *)((u8 *)actor + 0x2C)) = D_800E2348;
             select_sprite_entry(
                 actor,
-                D_800E2348[((g_game_work.view.viewAngle + move_data->facing + 0x100) >> 9) & 7],
+                D_800E2348[((g_game_work.view.camera_rotation.parts.viewAngle + move_data->facing + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_801724B0_arg0 *)motion)->unk_9E = 0;
         }

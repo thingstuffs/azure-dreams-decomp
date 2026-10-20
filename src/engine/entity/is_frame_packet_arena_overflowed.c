@@ -91,7 +91,7 @@ s32 is_frame_packet_arena_overflowed(u32 limit)
     u32 *values = &D_80081478[0];
     u32 *selected_value = values;
 
-    if (g_game_work.unk_000 != (void *)D_801C9E40) {
+    if (g_game_work.draw_buffer != (void *)D_801C9E40) {
         selected_value = values + 1;
     }
     return *selected_value < limit;

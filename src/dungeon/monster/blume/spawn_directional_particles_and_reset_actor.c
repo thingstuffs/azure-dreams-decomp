@@ -329,7 +329,7 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
             if (*(u8 * *)&((SpriteFrameState *)source_render)->frameTable != D_801753BC) {
                 ((SpriteFrameState *)source_render)->frameTable = D_801753BC;
                 ((SpriteFrameState *)source_render)->flags &= 0xF7FF;
-                direction_index = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+                direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
                 select_sprite_entry(source_render, (*(u8 * *)&((SpriteFrameState *)source_render)->frameTable)[direction_index & 7], 0);
                 ((S_80174BEC_0 *)state)->unk_96.s = 0x14;
                 ((S_80174BEC_0 *)state)->unk_9B++;
@@ -346,7 +346,7 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
             if ((s16)timer <= 0 || (((SpriteFrameState *)source_render)->flags & 0xE000)) {
                 reduce_actor_food_meter(actor, 0x1000);
                 ((S_80174BEC_0 *)state)->unk_8C = D_80171E20;
-                g_dungeon_status.unk_0C = 0;
+                g_dungeon_status.active_actor = 0;
                 (actor->unk_46) &= 0x7FFF;
             }
         }

@@ -25,7 +25,7 @@ void advance_a_timed_actor_animation_applies_completion_effects(T_801727CC_Obj0 
             ticks_left = 4;
         }
         action->field96 = ticks_left;
-        select_sprite_entry(sprite, sprite->field2C[(((s32) (g_game_work.view.viewAngle + actor->field2A + 0x100) >> 9) & 7)],
+        select_sprite_entry(sprite, sprite->field2C[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->field2A + 0x100) >> 9) & 7)],
             0);
         action->field9B++;
         return;
@@ -45,7 +45,7 @@ void advance_a_timed_actor_animation_applies_completion_effects(T_801727CC_Obj0 
             volume = 0x800;
         reduce_actor_food_meter(actor, volume);
         action->field8C = &update_dungeon_actor_behavior;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->field6D == 0) {
             actor->field46 &= 0x7FFF;

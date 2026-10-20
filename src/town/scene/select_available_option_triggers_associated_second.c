@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -26,19 +27,19 @@ s32 select_available_option_triggers_associated(void)
     available[2] = 0;
     available[3] = 0;
 
-    if (func_80018640(0x1472) != 0) {
+    if (func_80018640(Ft_selfy_love) != 0) {
         choice = 1;
         available[0] = 1;
     }
-    if (func_80018640(0x1470) != 0) {
+    if (func_80018640(Ft_far_love) != 0) {
         choice += 1;
         available[1] = 1;
     }
-    if (func_80018640(0x1474) != 0) {
+    if (func_80018640(Ft_mia_love) != 0) {
         choice += 1;
         available[2] = 1;
     }
-    if (func_80018640(0x146E) != 0) {
+    if (func_80018640(Ft_niko_love) != 0) {
         choice += 1;
         available[3] = 1;
     }

@@ -27,7 +27,7 @@ void func_80171D7C(void *movement, void *motion, SpriteFrameState *entity, void 
         entity->frameTable = ((u8 *)D_80175980);
         select_sprite_entry(
             entity,
-            ((u8 *)D_80175980)[((g_game_work.view.viewAngle + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)D_80175980)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

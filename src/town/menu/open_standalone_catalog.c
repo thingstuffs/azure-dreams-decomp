@@ -45,7 +45,7 @@ void open_standalone_catalog(void) {
             initialize_catalog_state(obj_data);
             register_node(obj, &draw_tinted_node_sprites_scratch);
             ((S_801267B8_0 *)obj)->unk_10 = &D_80126704;
-            g_game_work.view.unk_088 = 0x200;
+            g_game_work.view.projection_distance = 0x200;
             func_80064F20(0x200);
             func_80064F00(0xA0, 0x78);
             SD_Call(0x701);

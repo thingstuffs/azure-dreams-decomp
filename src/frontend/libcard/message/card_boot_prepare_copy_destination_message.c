@@ -18,7 +18,7 @@ typedef struct TableEntry {
     u8 pad[0x7C];
 } TableEntry;
 
-extern s32 card_boot_get_remaining_block_summary(void);
+#include "modules/main_server_ship_interfaces.h"
 extern void card_boot_show_insufficient_space_card_advice(void *value);
 extern void card_boot_show_overwrite_protected_notice(void *value);
 extern void card_boot_enter_copying_progress(void *object_data);

@@ -43,7 +43,7 @@ void update_input_motion_and_action(void *controller, void *object, s32 update_a
         compute_and_clamps_vector_based_adjustment_updates_town(object, angle, ((u8 *)&D_800FE488));
     }
 
-    if ((((s32)buttons->unk_010) & 0x40) && D_80100D1C >= 0x800) {
+    if ((((s32)buttons->pressed_buttons) & 0x40) && D_80100D1C >= 0x800) {
         initialize_record_with_pointer_and_code(controller, object, saved_arg);
         D_800D0B14 = 0;
         return;

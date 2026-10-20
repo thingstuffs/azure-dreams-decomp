@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern u8 D_800189CC[16];
@@ -27,8 +28,8 @@ void *lookup_entry_with_selector_overrides(s32 entry_id, s32 unused_arg, s32 sel
         return entry_data;
     }
     if (selector == 0x1C) {
-        if (func_8001868C(0x992) == 0) {
-            initialize_state_two_entries_pointer(0x992);
+        if (func_8001868C(F_sbs34_pad18) == 0) {
+            initialize_state_two_entries_pointer(F_sbs34_pad18);
             return D_8001A495;
         }
     }

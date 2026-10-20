@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/town_root.h"
 #include "shared/town_event_state.h"
 #include "common.h"
@@ -33,8 +34,8 @@ s32 handle_event_or_fallback(s32 fallback_first, s32 fallback_second) {
 
     second_or_base = fallback_second;
     indexed_values = D_80019164;
-    if (func_8001E670(0xA3) != 0) {
-        if (func_8001E670(0x408) == 0) {
+    if (func_8001E670(F_end_ending_step0) != 0) {
+        if (func_8001E670(F_sbs01_pad19) == 0) {
             D_8001E950->dispatchState = 1;
         } else {
             D_8001E950->dispatchState = 2;

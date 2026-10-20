@@ -78,14 +78,14 @@ void create_scripted_encounter_object(void) {
         ((S_80173140_2 *)object_attrs)->unk_0A =
             (u16) ((S_80173140_5 *)((*(void * *)&((EntityRec *)(((s32 *)&D_80083498.next)))->z)))->unk_0A;
         sprite = ((S_80173140_0 *)object)->unk_0C;
-        origin_x = D_80082E80.tileX;
+        origin_x = D_80082E80.tile_position.parts.tile_x;
         sprite->unk_24 = (u8) (origin_x - 1);
-        origin_y = D_80082E80.tileY;
+        origin_y = D_80082E80.tile_position.parts.tile_y;
         sprite->frameTable = &D_80173DA4;
         sprite->unk_25 = (u8) (origin_y + 7);
         initialize_actor_sprite_and_animation(object, object_attrs, sprite, 0);
         (*(s16 *)((u8 *)st + 0x2A)) = 0xC00;
-        select_sprite_entry(sprite, ((u8 *) sprite->frameTable)[((s32) (g_game_work.view.viewAngle + 0xD00)
+        select_sprite_entry(sprite, ((u8 *) sprite->frameTable)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + 0xD00)
             >> 9) & 7], 0);
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;

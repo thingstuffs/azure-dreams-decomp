@@ -70,7 +70,7 @@ void update_creature_action_behavior_variant(void *controller, void *context, vo
         }
         ((ActorSpriteView *)sprite)->animationTable = D_80150E44;
         select_sprite_entry(sprite,
-            D_80150E44[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
+            D_80150E44[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -104,7 +104,7 @@ void update_creature_action_behavior_variant(void *controller, void *context, vo
                 if (((ActorSpriteView *)sprite)->animationTable != anim_table) {
                     ((ActorSpriteView *)sprite)->animationTable = anim_table;
                     select_sprite_entry(sprite,
-                        anim_table[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
+                        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)controller)->unk_9E.as_s16 = 0;
@@ -125,7 +125,7 @@ void update_creature_action_behavior_variant(void *controller, void *context, vo
             func_801503E8(controller, context, sprite, creature);
             ((ActorSpriteView *)sprite)->animationTable = D_80150DEC;
             select_sprite_entry(sprite,
-                D_80150DEC[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
+                D_80150DEC[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_800A9E70_arg0 *)controller)->unk_90.at00_s32.v = 0;
             return;
@@ -144,7 +144,7 @@ void update_creature_action_behavior_variant(void *controller, void *context, vo
             update_actor_status_and_food(creature);
             return;
         }
-        if (((ActorSpriteView *)sprite)->tile.packed == *(u16 *)(&D_80082E80.tileX)) {
+        if (((ActorSpriteView *)sprite)->tile.packed == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_8014DF40(controller, context, sprite, creature);
             return;
         }
@@ -188,7 +188,7 @@ void update_creature_action_behavior_variant(void *controller, void *context, vo
 
                 heading = get_rounded_facing_and_rounding_flag(
                     ((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y,
-                    D_80082E80.tileX, D_80082E80.tileY,
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                     &direction_flags);
                 player = D_800814A8;
                 creature->facing = heading;
@@ -224,10 +224,10 @@ void update_creature_action_behavior_variant(void *controller, void *context, vo
 
                 if ((compare_monster_neighbor_values(
                     ((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y,
-                    D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
                     creature->facing = get_rounded_facing_and_rounding_flag(
                         ((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &direction_flags);
                 }
             }
@@ -246,6 +246,6 @@ void update_creature_action_behavior_variant(void *controller, void *context, vo
     }
     ((ActorSpriteView *)sprite)->animationTable = anim_table;
     select_sprite_entry(sprite,
-        anim_table[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
+        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
         0);
 }

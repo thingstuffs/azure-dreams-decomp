@@ -46,9 +46,9 @@ void initialize_object_data_transform_color(u8 *object, u8 *render_data, FuncDat
     state->unk0 = 0;
     state->unk4 = 0;
     state->unk5 = 0;
-    state->unkC = g_game_work.view.unk_090;
-    state->unkD = g_game_work.view.unk_091;
-    blue = g_game_work.view.unk_092;
+    state->unkC = g_game_work.view.tint.parts.tint_r;
+    state->unkD = g_game_work.view.tint.parts.tint_g;
+    blue = g_game_work.view.tint.parts.tint_b;
     state->unk8 = 0x1F;
     state->unkE = blue;
     *(s32 *)(render_data + 8) = 0xFF600000;

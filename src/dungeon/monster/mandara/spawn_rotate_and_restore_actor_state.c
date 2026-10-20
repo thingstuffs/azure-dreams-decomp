@@ -185,7 +185,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         direction_table = D_80175258;
         sprite->unk_2C = direction_table;
         select_sprite_entry(sprite,
-            direction_table[((g_game_work.view.viewAngle + ((S_80174668_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174668_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         if (sprite->unk_14 & 0x8000) {
             effect->unk_9B = 2;
@@ -306,7 +306,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
             void *actor_to_reset;
             actor_to_reset = actor;
             effect->unk_8C = D_80170F6C;
-            ((S_80174668_10 *)((u8 *)(&g_dungeon_status.unk_0C)))->unk_00 = 0;
+            ((S_80174668_10 *)((u8 *)(&g_dungeon_status.active_actor)))->unk_00 = 0;
             advance_status_timers(actor_to_reset);
         }
         if (((S_80174668_2 *)actor)->unk_6D == 0) {

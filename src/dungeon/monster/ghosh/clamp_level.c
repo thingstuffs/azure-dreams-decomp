@@ -232,10 +232,10 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
         }
     }
     if (((S_8016B0E8_0 *)entity)->unk_B4 != 0) {
-        if ((((s32)g_dungeon_status.unk_0C) != 0) || (g_dungeon_status.unk_0A != 1)) {
+        if ((((s32)g_dungeon_status.active_actor) != 0) || (g_dungeon_status.activity_counts.parts.pending_action_count != 1)) {
             return;
         }
-        if (((S_8016B0E8_0 *)entity)->unk_B4 == g_dungeon_status.unk_0A) {
+        if (((S_8016B0E8_0 *)entity)->unk_B4 == g_dungeon_status.activity_counts.parts.pending_action_count) {
             message = D_800F927E;
 
 
@@ -283,7 +283,7 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
         if (!(countdown & 0xFF)) {
             ((S_8016B0E8_2 *)actor)->unk_14 = (s32) (((S_8016B0E8_2 *)actor)->unk_14 & 0xFFEFFFFF);
             ((S_8016B0E8_0 *)entity)->unk_B0.v = 0U;
-            g_dungeon_status.unk_0A = (s16) ((u16) g_dungeon_status.unk_0A - 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (s16) ((u16) g_dungeon_status.activity_counts.parts.pending_action_count - 1);
             status_record = ((S_8016B0E8_0 *)entity)->unk_A4;
             ((S_8016B0E8_12 *)status_record)->unk_1E = (u16) (((S_8016B0E8_12 *)status_record)->unk_1E | 0x8000);
             object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
@@ -311,7 +311,7 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
         sprite_flags = ((S_8016B0E8_14 *)sprite)->unk_14;
         mode_bits = sprite_flags & 0x8000;
         if (!mode_bits) {
-            view_direction = ((s32) (g_game_work.view.viewAngle + ((S_8016B0E8_2 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            view_direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016B0E8_2 *)actor)->unk_2A + 0x100) >> 9) & 7;
             prior_direction = ((S_8016B0E8_0 *)entity)->unk_94;
             direction_index = view_direction;
             if (prior_direction != direction_index) {

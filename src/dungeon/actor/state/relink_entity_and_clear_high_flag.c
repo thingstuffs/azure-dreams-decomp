@@ -26,7 +26,7 @@ s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entit
     s16 result = select_creature_action_and_target(context, position, entity, near_range, far_range, state_out_addr);
 
     if (result && (result != 2) && (result != 3) &&
-        ((g_dungeon_status.unk_08 != 0) ||
+        ((g_dungeon_status.activity_counts.parts.pending_movement_count != 0) ||
          ((g_dungeon_status.flags & 0x2808) != 0)) &&
         ((s16)check_entity_relation(entity,
                             (u8 *)D_800814A8->unk_58 + 0x20) != 0)) {

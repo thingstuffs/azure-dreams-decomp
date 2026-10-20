@@ -108,8 +108,8 @@ void decay_motion_and_align_actor(void *action, void *motion, void *actor, void 
         FIELD_S32(motion, 0x10) = 0;
         FIELD_S32(motion, 0xC) = 0;
         set_record_integer_tile_center(motion, FIELD_U8(actor, 0x24), FIELD_U8(actor, 0x25));
-        if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)source - 0x20)) {
-            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
+        if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)source - 0x20)) {
+            *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         FIELD_PTR(action, 0x8C) = D_801710EC;
         return;

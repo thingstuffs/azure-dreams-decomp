@@ -134,7 +134,7 @@ void update_actor_callbacks_and_terrain(void *actor_arg, void *motion_arg, void 
             + ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14);
         object_flags = ((SpriteAnimationTableView *)object_arg)->unk_14;
         if (!(object_flags & 0x8000)) {
-            facing = ((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
+            facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
             state_or_facing = (s16) facing;
             if (((S_80170BF8_0 *)actor_arg)->unk_94 != state_or_facing) {
                 select_indirect_table_entry(object_arg, *(((SpriteAnimationTableView *)object_arg)->unk_2C + state_or_facing),
@@ -169,25 +169,25 @@ void update_actor_callbacks_and_terrain(void *actor_arg, void *motion_arg, void 
                         anim_table = ((SpriteAnimationTableView *)object_arg)->unk_2C;
                         if (anim_table == D_80175148) {
                             ((SpriteAnimationTableView *)object_arg)->unk_2C = D_80175140;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175140;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (anim_table == D_80175140) {
                             ((SpriteAnimationTableView *)object_arg)->unk_2C = D_80175148;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175148;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (anim_table == D_80175170) {
                             ((SpriteAnimationTableView *)object_arg)->unk_2C = D_80175178;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175178;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (anim_table == D_80175178) {
                             ((SpriteAnimationTableView *)object_arg)->unk_2C = D_80175170;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175170;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
@@ -266,25 +266,25 @@ void update_actor_callbacks_and_terrain(void *actor_arg, void *motion_arg, void 
                         hidden_anim_table = ((SpriteAnimationTableView *)object_arg)->unk_2C;
                         if (hidden_anim_table == D_80175148) {
                             ((SpriteAnimationTableView *)object_arg)->unk_2C = D_80175140;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175140;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (hidden_anim_table == D_80175140) {
                             ((SpriteAnimationTableView *)object_arg)->unk_2C = D_80175148;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175148;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (hidden_anim_table == D_80175170) {
                             ((SpriteAnimationTableView *)object_arg)->unk_2C = D_80175178;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175178;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (hidden_anim_table == D_80175178) {
                             ((SpriteAnimationTableView *)object_arg)->unk_2C = D_80175170;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175170;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);

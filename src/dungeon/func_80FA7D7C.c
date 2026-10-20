@@ -58,9 +58,9 @@ void func_8015557C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80156AFC;
         func_80047784(sprite,
-            D_80156AFC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80156AFC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A
+        ((S_8017357C_3 *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A = ((S_8017357C_3 *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A
         - 1;
         ((S_8017357C_0 *)controller)->unk_9B++;
         return;
@@ -68,7 +68,7 @@ void func_8015557C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         if ((func_80042900(actor, 1) << 16) == 0) {
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80156B04;
             func_80047784(sprite,
-                D_80156B04[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80156B04[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             actor_flags = actor->flags1C | 0x40000;
             actor->flags1C = actor_flags;
@@ -78,8 +78,8 @@ void func_8015557C(void *controller, EntityRec *motion, void *sprite, EntityRec 
             } else {
                 ((S_8017357C_0 *)controller)->unk_96.s = 3;
 
-                ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A =
-                    ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A + 1;
+                ((S_8017357C_3 *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A =
+                    ((S_8017357C_3 *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A + 1;
                 ((S_8017357C_0 *)controller)->unk_9B++;
             }
             return;
@@ -130,7 +130,7 @@ void func_8015557C(void *controller, EntityRec *motion, void *sprite, EntityRec 
             TileObject *origin = &D_80082E80;
             s8 tile = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
 
-            if (((tile == origin->unk_026) && (tile >= 0)) ||
+            if (((tile == origin->room_index) && (tile >= 0)) ||
                 ((s16)func_8009FD40(origin, sprite) < 2)) {
                 if (!(generate_random_value() & 7)) {
                     func_80042B68(actor, 1);
@@ -142,7 +142,7 @@ void func_8015557C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80156B04;
         func_80047784(sprite,
-            D_80156B04[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80156B04[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         actor_flags = actor->flags1C | 0x40000;
         actor->flags1C = actor_flags;
@@ -152,8 +152,8 @@ void func_8015557C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         } else {
             ((S_8017357C_0 *)controller)->unk_96.s = 3;
 
-            ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A =
-                ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A + 1;
+            ((S_8017357C_3 *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A =
+                ((S_8017357C_3 *)(u8 *)&g_dungeon_status.turn_scale)->unk_0A + 1;
             ((S_8017357C_0 *)controller)->unk_9B++;
         }
         return;
@@ -169,11 +169,11 @@ void func_8015557C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         ((S_8017357C_0 *)controller)->unk_A0 = 0;
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80156AD4;
         func_80047784(sprite,
-            D_80156AD4[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80156AD4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
 
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         actor->flags1C &= ~0x200;
         ((S_8017357C_0 *)controller)->unk_8C = func_80153138;

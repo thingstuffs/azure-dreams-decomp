@@ -62,7 +62,7 @@ void advance_actor_action_phase_2(ActorActionView *action, EntityRec *motion, Ac
         motion->unk_0C = 0;
         sprite->directionFrames = D_8015CEE0;
         select_sprite_entry(sprite,
-            D_8015CEE0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_8015CEE0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->timer.unsignedTicks = 0;
         action->phase++;
@@ -113,7 +113,7 @@ void advance_actor_action_phase_2(ActorActionView *action, EntityRec *motion, Ac
         if (sprite->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x100);
             action->nextAction.word = &D_80159CE8;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->unk_46 &= 0x7FFF;
         }

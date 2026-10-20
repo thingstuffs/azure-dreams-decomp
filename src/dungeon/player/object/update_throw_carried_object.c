@@ -113,7 +113,7 @@ void update_throw_carried_object(u8 *actor, u8 *motion, u8 *animation, u8 *entit
             s32 init_entry;
             u8 init_frame;
 
-            init_entry = ((g_game_work.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+            init_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
             init_entry += (u32)D_800DD0C8;
             {
                 init_frame = *(u8 *)init_entry;
@@ -175,7 +175,7 @@ void update_throw_carried_object(u8 *actor, u8 *motion, u8 *animation, u8 *entit
             countdown++;
             ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_0A = countdown;
             ((S_8008FA7C_8 *)active_anim)->unk_2C = active_table;
-            active_entry = g_game_work.view.viewAngle;
+            active_entry = g_game_work.view.camera_rotation.parts.viewAngle;
             entity_angle = ((S_8008FA7C_2 *)entity)->unk_2A;
             D_800E3540[0] = saved_value;
             active_entry += entity_angle;
@@ -205,7 +205,7 @@ void update_throw_carried_object(u8 *actor, u8 *motion, u8 *animation, u8 *entit
             {
                 s32 next_entry;
 
-                next_entry = ((g_game_work.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+                next_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
                 next_entry += (u32)D_800DD060;
                 set_sprite_animation_frame(next_anim, *(u8 *)next_entry, 0, 1);
                 actor[0x9B]++;
@@ -214,7 +214,7 @@ void update_throw_carried_object(u8 *actor, u8 *motion, u8 *animation, u8 *entit
         }
 
     case 3:
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
         g_dungeon_status.flags |= 0x412;
@@ -227,7 +227,7 @@ void update_throw_carried_object(u8 *actor, u8 *motion, u8 *animation, u8 *entit
             ((S_8008FA7C_3 *)actor)->unk_8C.p2 = handle_player_input;
             (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DCFB0;
         }
-        direction = ((g_game_work.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
         set_sprite_animation_frame(animation, (*(u8 * *)((u8 *)animation + (0x2C)))[direction], 0, 1);
         actor[0x9B]++;
     }

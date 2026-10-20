@@ -1,8 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void card_boot_refresh_directory_summary(void);                            /* extern */
-void card_boot_erase_temporary_file(void);                            /* extern */
+#include "modules/main_server_ship_interfaces.h"
 s32 card_boot_create_three_row_command_panel();                          /* extern */
 s32 render_rotated_grid_surface();            /* extern */
 void card_boot_initialize_slot_menu_request(void *, s32);                 /* extern */

@@ -114,7 +114,7 @@ void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, v
             update_actor_status_and_food(actor_in);
             return;
         }
-        if (g_dungeon_status.unk_0C == actor_in) {
+        if (g_dungeon_status.active_actor == actor_in) {
             ((S_801716A4_1 *)actor_in)->unk_46 = 0xC008;
         }
         return;
@@ -163,9 +163,9 @@ void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, v
                     s32 direction = ((u16)D_800814A8->facing);
                     s32 table_index =
                         ((((S_801716A4_1 *)actor_in)->unk_45 + ((s16)direction >> 9)) & 7) << 1;
-                    target_x = origin->tileX +
+                    target_x = origin->tile_position.parts.tile_x +
                         *(u16 *)((u8 *)((s8 *)dir_step_x) + table_index);
-                    target_y = origin->tileY +
+                    target_y = origin->tile_position.parts.tile_y +
                         *(u16 *)((u8 *)((s8 *)dir_step_y) + table_index);
                 }
 
@@ -183,11 +183,11 @@ void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, v
                 if (check_movement_clearance_and_height(target_angle, tile_in, actor_in, 0x20) <= 0) {
                     ((S_801716A4_1 *)actor_in)->unk_2A.s = get_rounded_facing_and_rounding_flag(
                         ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY, turn_data);
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, turn_data);
                 }
                 if (compare_monster_neighbor_values(
                         ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY) != 0) {
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
                     stop_on_wide_turn = 1;
                 }
             } else {
@@ -220,10 +220,10 @@ void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, v
                 TileObject *origin = &D_80082E80;
                 ((S_801716A4_1 *)actor_in)->unk_2A.s = get_rounded_facing_and_rounding_flag(
                     ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                    origin->tileX, origin->tileY, (u8 *)move_data_in + 0x98);
+                    origin->tile_position.parts.tile_x, origin->tile_position.parts.tile_y, (u8 *)move_data_in + 0x98);
                 if (compare_monster_neighbor_values(
                         ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                        origin->tileX, origin->tileY) != 0) {
+                        origin->tile_position.parts.tile_x, origin->tile_position.parts.tile_y) != 0) {
                     if (check_diagonal_side_height(
                             ((s16)((S_801716A4_1 *)actor_in)->unk_2A.u >> 9) & 0xFFFF,
                             ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
@@ -287,7 +287,7 @@ void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, v
         }
 
         if (turn_or_height == 0 &&
-            *(u16 *)(&D_80082E80.tileX) != ((S_801716A4_2 *)tile_in)->unk_24.at00u.v) {
+            *(u16 *)(&D_80082E80.tile_position.parts.tile_x) != ((S_801716A4_2 *)tile_in)->unk_24.at00u.v) {
             if (check_entity_relation(actor_in,
                     (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                 return;
@@ -307,7 +307,7 @@ void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, v
         ((S_801716A4_1 *)actor_in)->unk_46 &= 0x7FFF;
         ((S_801716A4_5 *)move_data_in)->unk_9C.u = ((S_801716A4_2 *)tile_in)->unk_26.u;
         ((S_801716A4_1 *)actor_in)->unk_6D.u--;
-        g_dungeon_status.unk_08++;
+        g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
     if (((S_801716A4_1 *)actor_in)->unk_6D.s == 0) {
         ((S_801716A4_1 *)actor_in)->unk_71.u &= 0x7F;

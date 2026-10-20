@@ -91,7 +91,7 @@ void advance_actor_transition_state(void *owner_data, s32 unused, void *entry_da
             store_recalled_familiar(((u8 *)D_800E3D7C), primary_table, secondary_table, ((u8 *)D_800E3D7C));
             (*(u8 * *)((u8 *)((u8 *)D_800E3D7C) + (0x60))) = saved_actor;
             ((EntityRec *)((u8 *)D_800E3D7C))->unk_8A = saved_index;
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
 
         ((u8 *)owner_data)[0x9B]++;

@@ -78,8 +78,8 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
                     s32 target_y;
                     direction += base_angle >> 9;
                     direction_offset = (direction & 7) * 2;
-                    target_x = (D_80082E80.tileX) + (*((u16 *) (((u8 *) (((s8 *)dir_step_x))) + direction_offset)));
-                    target_y = (D_80082E80.tileY) + (*((u16 *) (((u8 *) (((s8 *)dir_step_y))) + direction_offset)));
+                    target_x = (D_80082E80.tile_position.parts.tile_x) + (*((u16 *) (((u8 *) (((s8 *)dir_step_x))) + direction_offset)));
+                    target_y = (D_80082E80.tile_position.parts.tile_y) + (*((u16 *) (((u8 *) (((s8 *)dir_step_y))) + direction_offset)));
                     if (((*(u8 *)(tile + 0x24)) == ((u16) target_x)) && ((*(u8 *)(tile + 0x25)) == ((u16) target_y))) {
                         *(u8 *)(actor + 0x71) &= 0x7F;
                         return;
@@ -89,14 +89,14 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
                             (s16) target_y, object + 0x98);
                         *(u16 *)(actor + 0x2A) = next_angle;
                         if ((check_movement_clearance_and_height((s16) next_angle, tile, actor, 0x20) << 16) <= 0) {
-                            u8 *retry_goal = ((u8 *) (((s8 *)&D_80082E80.tileX))) - 0x24;
+                            u8 *retry_goal = ((u8 *) (((s8 *)&D_80082E80.tile_position.parts.tile_x))) - 0x24;
                             *(u16 *)(actor + 0x2A) = get_rounded_facing_and_rounding_flag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25),
                                 *(u8 *)(retry_goal + 0x24), *(u8 *)(retry_goal + 0x25), object + 0x98);
                         }
                     }
                 }
                 {
-                    u8 *check_goal = ((u8 *) (((s8 *)&D_80082E80.tileX))) - 0x24;
+                    u8 *check_goal = ((u8 *) (((s8 *)&D_80082E80.tile_position.parts.tile_x))) - 0x24;
                     if ((compare_monster_neighbor_values(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(check_goal + 0x24),
                         *(u8 *)(check_goal + 0x25)) << 16) != 0) {
                         limit_turn = 1;
@@ -133,8 +133,8 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
                 else {
                     u8 *angle_flags = object + 0x98;
                     *(u16 *)(actor + 0x2A) = get_rounded_facing_and_rounding_flag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25),
-                        D_80082E80.tileX, D_80082E80.tileY, angle_flags);
-                    if ((compare_monster_neighbor_values(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), D_80082E80.tileX, D_80082E80.tileY)
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, angle_flags);
+                    if ((compare_monster_neighbor_values(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y)
                          << 16) != 0) {
                         if ((s16)get_actor_height_difference(D_800814A8, actor) < 0x81) {
                             if ((check_diagonal_side_height(((*(s16 *)(actor + 0x2A)) >> 9) & 0xFFFF, *(u8 *)(tile + 0x24),
@@ -188,7 +188,7 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
                 break;
             }
             if (turn_index == 0) {
-                if ((*((u16 *) (((u8 *) (((s8 *)&D_80082E80.tileX))) + 0))) != (*(u16 *)(tile + 0x24))) {
+                if ((*((u16 *) (((u8 *) (((s8 *)&D_80082E80.tile_position.parts.tile_x))) + 0))) != (*(u16 *)(tile + 0x24))) {
                     if ((check_entity_relation(actor, (*((s32 *) (((u8 *) D_800814A8) + 0x58))) + 0x20) << 16) != 0) {
                         return;
                     }
@@ -210,7 +210,7 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
     (*(u8 *)(actor + 0x6D))--;
     {
         DungeonGlobalStatus *move_state = &g_dungeon_status;
-        (((u16)move_state->unk_08))++;
+        (((u16)move_state->activity_counts.parts.pending_movement_count))++;
     }
     if ((*(s8 *)(actor + 0x6D)) == 0) {
         *(u8 *)(actor + 0x71) &= 0x7F;

@@ -16,9 +16,9 @@ typedef struct ViewSlot {
     /* 0x018 */ int unk_18;          /* lw 3, sw 4 (4 rows, slot 0) */
     /* 0x01C */ int unk_1C;          /* sw 4 (4 rows, slot 0) */
     /* 0x020 */ unsigned char pad_20[0x4];
-    /* 0x024 */ void * unk_24;       /* lw 1, sw 2 (1 rows, slot 0) */
-    /* 0x028 */ short unk_28;        /* lh 1, sh 4 (4 rows, slot 0) */
-    /* 0x02A */ short unk_2A;        /* sh 4 (4 rows, slot 0) */
+    /* 0x024 */ void * position_source;       /* lw 1, sw 2 (1 rows, slot 0) */
+    /* 0x028 */ short transition_frames_left;        /* lh 1, sh 4 (4 rows, slot 0) */
+    /* 0x02A */ short target_view_offset_z;        /* sh 4 (4 rows, slot 0) */
     /* 0x02C */ int unk_2C;          /* sw 3 (3 rows, slot 0) */
     /* 0x030 */ unsigned char pad_30[0x8];
     /* 0x038 */ int unk_38;          /* sw 1 (1 rows, slot 0) */
@@ -39,77 +39,102 @@ typedef struct ViewSlot {
  *   0x090..0x092: three bytes read as an r, g, b triple into primitives and faded in/out by +-2/4 (unnamed).
  * gcc 2.7.2 has no anonymous structs, so every field here is spelled gameWork.view.<field>. */
 typedef struct GameView {
-    /* 0x000 */ short unk_000;           /* sh 3 (3 rows) */
-    /* 0x002 */ short unk_002;           /* sh 3 (3 rows) */
-    /* 0x004 */ short unk_004;           /* sh 3 (3 rows) */
-    /* 0x006 */ short unk_006;           /* sh 4 (4 rows) */
-    /* 0x008 */ short unk_008;           /* lh 1, lhu 3, sh 2 (2 rows) */
-    /* 0x00A */ short unk_00A;           /* lh 1, lhu 3, sh 2 (2 rows) */
-    /* 0x00C */ short unk_00C;           /* lh 1, lhu 3, sh 2 (2 rows) */
+    /* 0x000 */ short clip_x;           /* sh 3 (3 rows) */
+    /* 0x002 */ short clip_y;           /* sh 3 (3 rows) */
+    /* 0x004 */ short clip_width;           /* sh 3 (3 rows) */
+    /* 0x006 */ short clip_height;           /* sh 4 (4 rows) */
+    /* 0x008 */ short outline_0_x;           /* lh 1, lhu 3, sh 2 (2 rows) */
+    /* 0x00A */ short outline_0_y;           /* lh 1, lhu 3, sh 2 (2 rows) */
+    /* 0x00C */ short outline_0_z;           /* lh 1, lhu 3, sh 2 (2 rows) */
     /* 0x00E */ unsigned char pad_00E[0x2];
-    /* 0x010 */ short unk_010;           /* lh 1, lhu 2, sh 2 (1 rows) */
-    /* 0x012 */ short unk_012;           /* lh 1, lhu 2, sh 2 (1 rows) */
-    /* 0x014 */ short unk_014;           /* lh 1, lhu 2, sh 2 (1 rows) */
+    /* 0x010 */ short outline_1_x;           /* lh 1, lhu 2, sh 2 (1 rows) */
+    /* 0x012 */ short outline_1_y;           /* lh 1, lhu 2, sh 2 (1 rows) */
+    /* 0x014 */ short outline_1_z;           /* lh 1, lhu 2, sh 2 (1 rows) */
     /* 0x016 */ unsigned char pad_016[0x2];
-    /* 0x018 */ short unk_018;           /* lh 1, lhu 2, sh 2 (1 rows) */
-    /* 0x01A */ short unk_01A;           /* lh 1, lhu 2, sh 2 (1 rows) */
-    /* 0x01C */ short unk_01C;           /* lh 1, lhu 2, sh 2 (1 rows) */
+    /* 0x018 */ short outline_2_x;           /* lh 1, lhu 2, sh 2 (1 rows) */
+    /* 0x01A */ short outline_2_y;           /* lh 1, lhu 2, sh 2 (1 rows) */
+    /* 0x01C */ short outline_2_z;           /* lh 1, lhu 2, sh 2 (1 rows) */
     /* 0x01E */ unsigned char pad_01E[0x2];
-    /* 0x020 */ short unk_020;           /* lh 1, lhu 2, sh 2 (1 rows) */
-    /* 0x022 */ short unk_022;           /* lh 1, lhu 2, sh 2 (1 rows) */
-    /* 0x024 */ short unk_024;           /* lh 1, lhu 2, sh 2 (1 rows) */
+    /* 0x020 */ short outline_3_x;           /* lh 1, lhu 2, sh 2 (1 rows) */
+    /* 0x022 */ short outline_3_y;           /* lh 1, lhu 2, sh 2 (1 rows) */
+    /* 0x024 */ short outline_3_z;           /* lh 1, lhu 2, sh 2 (1 rows) */
     /* 0x026 */ unsigned char pad_026[0x2];
-    /* 0x028 */ short unk_028;           /* sh 2 (1 rows) */
-    /* 0x02A */ short unk_02A;           /* sh 1 (1 rows) */
-    /* 0x02C */ short unk_02C;           /* sh 2 (1 rows) */
+    /* 0x028 */ short outline_4_x;           /* sh 2 (1 rows) */
+    /* 0x02A */ short outline_4_y;           /* sh 1 (1 rows) */
+    /* 0x02C */ short outline_4_z;           /* sh 2 (1 rows) */
     /* 0x02E */ unsigned char pad_02E[0xA];
-    /* 0x038 */ short unk_038;           /* sh 3 (3 rows) */
-    /* 0x03A */ short unk_03A;           /* sh 3 (3 rows) */
-    /* 0x03C */ short unk_03C;           /* sh 3 (3 rows) */
-    /* 0x03E */ short unk_03E;           /* sh 3 (3 rows) */
-    /* 0x040 */ short unk_040;           /* sh 3 (3 rows) */
-    /* 0x042 */ short unk_042;           /* sh 3 (3 rows) */
-    /* 0x044 */ short unk_044;           /* sh 3 (3 rows) */
-    /* 0x046 */ short unk_046;           /* sh 3 (3 rows) */
-    /* 0x048 */ short unk_048;           /* sh 3 (3 rows) */
+    /* 0x038 */ short light_matrix_00;           /* sh 3 (3 rows) */
+    /* 0x03A */ short light_matrix_01;           /* sh 3 (3 rows) */
+    /* 0x03C */ short light_matrix_02;           /* sh 3 (3 rows) */
+    /* 0x03E */ short light_matrix_10;           /* sh 3 (3 rows) */
+    /* 0x040 */ short light_matrix_11;           /* sh 3 (3 rows) */
+    /* 0x042 */ short light_matrix_12;           /* sh 3 (3 rows) */
+    /* 0x044 */ short light_matrix_20;           /* sh 3 (3 rows) */
+    /* 0x046 */ short light_matrix_21;           /* sh 3 (3 rows) */
+    /* 0x048 */ short light_matrix_22;           /* sh 3 (3 rows) */
     /* 0x04A */ unsigned char pad_04A[0xE];
-    /* 0x058 */ short unk_058;           /* sh 4 (3 rows) */
-    /* 0x05A */ short unk_05A;           /* sh 3 (3 rows) */
-    /* 0x05C */ short unk_05C;           /* sh 3 (3 rows) */
-    /* 0x05E */ short unk_05E;           /* sh 4 (3 rows) */
-    /* 0x060 */ short unk_060;           /* sh 3 (3 rows) */
-    /* 0x062 */ short unk_062;           /* sh 3 (3 rows) */
-    /* 0x064 */ short unk_064;           /* sh 4 (3 rows) */
-    /* 0x066 */ short unk_066;           /* sh 3 (3 rows) */
-    /* 0x068 */ short unk_068;           /* sh 3 (3 rows) */
+    /* 0x058 */ short color_matrix_00;           /* sh 4 (3 rows) */
+    /* 0x05A */ short color_matrix_01;           /* sh 3 (3 rows) */
+    /* 0x05C */ short color_matrix_02;           /* sh 3 (3 rows) */
+    /* 0x05E */ short color_matrix_10;           /* sh 4 (3 rows) */
+    /* 0x060 */ short color_matrix_11;           /* sh 3 (3 rows) */
+    /* 0x062 */ short color_matrix_12;           /* sh 3 (3 rows) */
+    /* 0x064 */ short color_matrix_20;           /* sh 4 (3 rows) */
+    /* 0x066 */ short color_matrix_21;           /* sh 3 (3 rows) */
+    /* 0x068 */ short color_matrix_22;           /* sh 3 (3 rows) */
     /* 0x06A */ unsigned char pad_06A[0xE];
     /* 0x078 */ int unk_078;             /* sw 3 (3 rows) */
     /* 0x07C */ int unk_07C;             /* sw 3 (3 rows) */
     /* 0x080 */ int unk_080;             /* sw 3 (3 rows) */
-    /* 0x084 */ int unk_084;             /* lw 1, sw 3 (4 rows) */
-    /* 0x088 */ int unk_088;             /* lw 8, sw 5 (10 rows) */
+    /* 0x084 */ int fog_far;             /* lw 1, sw 3 (4 rows) */
+    /* 0x088 */ int projection_distance;             /* lw 8, sw 5 (10 rows) */
     /* 0x08C */ short unk_08C;           /* sh 1 (1 rows) */
     /* 0x08E */ unsigned char pad_08E[0x2];
-    /* 0x090 */ unsigned char unk_090;   /* lbu 32, lw 4, sb 31, sw 2 (32 rows) */
-    /* 0x091 */ unsigned char unk_091;   /* lbu 31, sb 30 (26 rows) */
-    /* 0x092 */ unsigned char unk_092;   /* lbu 31, sb 30 (26 rows) */
-    /* 0x093 */ unsigned char pad_093[0x1];
-    /* 0x094 */ short unk_094;           /* lh 3, lhu 9, lw 1, sh 7, sw 1 (11 rows) */
-    /* 0x096 */ short unk_096;           /* lh 2, lhu 8, sh 5 (9 rows) */
-    /* 0x098 */ short unk_098;           /* lh 6, lhu 6, sh 9, sw 1 (11 rows) */
-    /* 0x09A */ unsigned char pad_09A[0x2];
-    /* 0x09C */ short unk_09C;           /* lh 1, lhu 1, sh 2 (2 rows) */
-    /* 0x09E */ short unk_09E;           /* lh 1, lhu 1, sh 2 (2 rows) */
-    /* 0x0A0 */ short unk_0A0;           /* lh 3, lhu 11, sh 4 (10 rows) */
-    /* 0x0A2 */ unsigned char pad_0A2[0x2];
-    /* 0x0A4 */ short unk_0A4;           /* lh 6, lhu 10, sh 10 (16 rows) */
-    /* 0x0A6 */ short unk_0A6;           /* lh 5, lhu 10, sh 10 (15 rows) */
-    /* 0x0A8 */ short unk_0A8;           /* lh 8, lhu 7, sh 7 (11 rows) */
-    /* 0x0AA */ unsigned char pad_0AA[0x2];
-    /* 0x0AC */ short unk_0AC;           /* lh 13, lhu 9, sh 9, sw 1 (21 rows) */
-    /* 0x0AE */ short unk_0AE;           /* lh 9, lhu 6, sh 3 (15 rows) */
-    /* 0x0B0 */ short viewAngle;         /* lh 1134, lhu 36, sh 35, sw 1 (634 rows) */
-    /* 0x0B2 */ unsigned char pad_0B2[0x2];
+    /* 0x090 */ union {
+        unsigned int word;
+        struct {
+            unsigned char tint_r;   /* lbu 32, lw 4, sb 31, sw 2 (32 rows) */
+            unsigned char tint_g;   /* lbu 31, sb 30 (26 rows) */
+            unsigned char tint_b;   /* lbu 31, sb 30 (26 rows) */
+            unsigned char unk_93;
+        } parts;
+    } tint;
+    /* 0x094 */ union {
+        unsigned int words[2];
+        struct {
+            short view_offset_x;           /* lh 3, lhu 9, lw 1, sh 7, sw 1 (11 rows) */
+            short view_offset_y;           /* lh 2, lhu 8, sh 5 (9 rows) */
+            short view_offset_z;           /* lh 6, lhu 6, sh 9, sw 1 (11 rows) */
+            unsigned char pad_09A[0x2];
+        } parts;
+    } view_offset;
+    /* 0x09C */ union {
+        unsigned int words[2];
+        struct {
+            short view_rotation_offset_x;           /* lh 1, lhu 1, sh 2 (2 rows) */
+            short view_rotation_offset_y;           /* lh 1, lhu 1, sh 2 (2 rows) */
+            short view_rotation_offset_z;           /* lh 3, lhu 11, sh 4 (10 rows) */
+            unsigned char pad_0A2[0x2];
+        } parts;
+    } view_rotation_offset;
+    /* 0x0A4 */ union {
+        unsigned int words[2];
+        struct {
+            short camera_position_x;           /* lh 6, lhu 10, sh 10 (16 rows) */
+            short camera_position_y;           /* lh 5, lhu 10, sh 10 (15 rows) */
+            short camera_position_z;           /* lh 8, lhu 7, sh 7 (11 rows) */
+            unsigned char pad_0AA[0x2];
+        } parts;
+    } camera_position;
+    /* 0x0AC */ union {
+        unsigned int words[2];
+        struct {
+            short camera_rotation_x;           /* lh 13, lhu 9, sh 9, sw 1 (21 rows) */
+            short camera_rotation_y;           /* lh 9, lhu 6, sh 3 (15 rows) */
+            short viewAngle;         /* lh 1134, lhu 36, sh 35, sw 1 (634 rows) */
+            unsigned char pad_0B2[0x2];
+        } parts;
+    } camera_rotation;
     /* 0x0B4 */ ViewSlot slot[4];
 } GameView;
 
@@ -122,9 +147,9 @@ typedef struct GameView {
  * coordinates are 64 units per cell (EntityRec: tile * 64 + 32), so span is the map size in world units. */
 typedef struct MapGrid {
     /* 0x00 */ void * cells;         /* the cell array (6-byte cells, row length 1 << shiftX); lw 48 */
-    /* 0x04 */ void * unk_04;        /* read as a primitive-pointer table by func_800BCB04; lw 13 */
-    /* 0x08 */ void * unk_08;        /* read as a vertex array by func_800BCB04; lw 13 */
-    /* 0x0C */ void * unk_0C;        /* read as a second vertex array (normals) by func_800BCB04; lw 12 */
+    /* 0x04 */ void * cell_faces;        /* read as a primitive-pointer table by func_800BCB04; lw 13 */
+    /* 0x08 */ void * vertices;        /* read as a vertex array by func_800BCB04; lw 13 */
+    /* 0x0C */ void * surface_planes;        /* read as a second vertex array (normals) by func_800BCB04; lw 12 */
     /* 0x10 */ int unk_10;           /* lw 1, sw 1 */
     /* 0x14 */ short shiftX;         /* log2 of the map width in cells (row stride); lh 175 */
     /* 0x16 */ short shiftY;         /* log2 of the map height in cells */
@@ -145,7 +170,7 @@ typedef struct MapGrid {
  *   0x008 (1 lhu), view.0x090 (lw/sw over the three bytes), view.0x094/0x098/0x0AC/0x0B0 (a word copy).
  * Size: at least 0x200 (last access 0x1FC); never small data at any -G. */
 typedef struct GameWork {
-    /* 0x000 */ void * unk_000;          /* lw 523, sw 7 (171 rows) */
+    /* 0x000 */ void * draw_buffer;          /* lw 523, sw 7 (171 rows) */
     /* 0x004 */ unsigned short unk_004;  /* lbu 2, lhu 15 (14 rows) */
     /* 0x006 */ unsigned char pad_006[0x2];
     /* 0x008 */ int buttons;             /* the controller button bits, PS1 pad layout (r78 phase 10): rows test 0x1000 / 0x2000 /
@@ -153,8 +178,8 @@ typedef struct GameWork {
                                           * 0x40 / 0x80 (triangle / circle / cross / square), 0x100 select, 0x800 start, 1 / 2 / 4 / 8
                                           * (shoulder buttons); held vs newly pressed not established.  103 reads cast it to s32
                                           * (it was declared void *); lw 118, lhu 1 (a view), sw 2 (77 rows) */
-    /* 0x00C */ int unk_00C;             /* lw 1, sw 1 (1 rows) */
-    /* 0x010 */ void * unk_010;          /* lw 102, sw 1 (66 rows) */
+    /* 0x00C */ int previous_buttons;             /* lw 1, sw 1 (1 rows) */
+    /* 0x010 */ void * pressed_buttons;          /* lw 102, sw 1 (66 rows) */
     /* 0x014 */ unsigned char pad_014[0x4];
     /* 0x018 */ GameView view;
     /* 0x1DC */ MapGrid map;

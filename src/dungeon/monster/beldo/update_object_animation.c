@@ -117,7 +117,7 @@ void update_object_animation(void *obj, void *motion, void *part, void *state)
             (*(u8 * *)((u8 *)part + (0x2C))) = D_80173E8C;
             select_sprite_entry(
                 part,
-                D_80173E8C[((g_game_work.view.viewAngle + ((S_80171514_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+                D_80173E8C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171514_0 *)state)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80171514_1 *)part)->unk_05 = 1;
             (*(s16 *)((u8 *)obj + (0xA2))) = 0;
@@ -161,7 +161,7 @@ void update_object_animation(void *obj, void *motion, void *part, void *state)
             return;
         }
 
-        if (((S_80171514_1 *)part)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (((S_80171514_1 *)part)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_80171BE0(obj, motion, part, state);
             return;
         }
@@ -243,10 +243,10 @@ void update_object_animation(void *obj, void *motion, void *part, void *state)
         if ((state_flags & 0x430) == 0) {
             if ((s16)compare_monster_neighbor_values(
                     ((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY) != 0) {
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
                 query_result = get_rounded_facing_and_rounding_flag(
                     ((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY, &distance);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
                 ((S_80171514_0 *)state)->unk_2A = query_result;
             }
         }

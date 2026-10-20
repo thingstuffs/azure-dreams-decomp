@@ -17,10 +17,10 @@ void func_8014F72C(void *actor_in, s32 actor_index, void *target, void *entity_i
         DungeonGlobalStatus *shared_counter;
 
         shared_counter = &g_dungeon_status;
-        shared_counter->unk_0A--;
+        shared_counter->activity_counts.parts.pending_action_count--;
     }
     (*(void * *)((u8 *)target + 0x2C)) = D_801512FC;
-    direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
+    direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
     select_sprite_entry(target, D_801512FC[direction & 7], 0);
     ((CL_CD7000_8017372C_S_801740DC_0 *)actor_in)->unk_9B++;
     return;
@@ -30,10 +30,10 @@ void func_8014F72C(void *actor_in, s32 actor_index, void *target, void *entity_i
         DungeonGlobalStatus *shared_counter;
 
         (*(void * *)((u8 *)target + 0x2C)) = D_80151304;
-        direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(target, D_80151304[direction & 7], 0);
         shared_counter = &g_dungeon_status;
-        shared_counter->unk_0A++;
+        shared_counter->activity_counts.parts.pending_action_count++;
         ((CL_CD7000_8017372C_S_801740DC_0 *)actor_in)->unk_9B++;
         return;
     } else {
@@ -76,9 +76,9 @@ void func_8014F72C(void *actor_in, s32 actor_index, void *target, void *entity_i
             return;
         }
         (*(void * *)((u8 *)target + 0x2C)) = D_80151304;
-        direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(target, D_80151304[direction & 7], 0);
-        shared_state->unk_0A++;
+        shared_state->activity_counts.parts.pending_action_count++;
     }
     ((CL_CD7000_8017372C_S_801740DC_0 *)actor_in)->unk_9B++;
     return;
@@ -91,7 +91,7 @@ void func_8014F72C(void *actor_in, s32 actor_index, void *target, void *entity_i
         DungeonGlobalStatus *shared_counter;
 
         shared_counter = &g_dungeon_status;
-        shared_counter->unk_0A--;
+        shared_counter->activity_counts.parts.pending_action_count--;
     }
     ((CL_CD7000_8017372C_S_801740DC_0 *)actor_in)->unk_8C = func_8014D02C;
 

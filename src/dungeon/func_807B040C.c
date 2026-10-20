@@ -90,12 +90,12 @@ s32 update_special_actor_transition(void) {
 
             room_page = (u8 *)0x80080000;
             nearby_room = &D_80082E80;
-            dx = nearby_room->tileX;
+            dx = nearby_room->tile_position.parts.tile_x;
             target_coord = ((SpriteFrameState *)target)->unk_24;
             dx -= target_coord;
             dx = abs(dx);
             if (dx < 3) {
-                room_distance_y = nearby_room->tileY;
+                room_distance_y = nearby_room->tile_position.parts.tile_y;
                 target_coord = ((SpriteFrameState *)target)->unk_25;
                 room_distance_y -= target_coord;
                 room_distance_y = abs(room_distance_y);
@@ -122,12 +122,12 @@ s32 update_special_actor_transition(void) {
         collision = &D_80083780;
 
         while (1) {
-            get_offset_map_cell_value_and_flags(room->tileX, room->tileY,
+            get_offset_map_cell_value_and_flags(room->tile_position.parts.tile_x, room->tile_position.parts.tile_y,
                           (s16)direction, &collision_flags);
             if (!(collision_flags & 0xB400)) {
                 direction_offset = (s16 *)&offsets + direction * 2;
-                ((S_807B040C_1 *)entity)->unk_AA.s16 = room->tileX + (u16)direction_offset[0];
-                ((S_807B040C_1 *)entity)->unk_AE.s16 = room->tileY + (u16)direction_offset[1];
+                ((S_807B040C_1 *)entity)->unk_AA.s16 = room->tile_position.parts.tile_x + (u16)direction_offset[0];
+                ((S_807B040C_1 *)entity)->unk_AE.s16 = room->tile_position.parts.tile_y + (u16)direction_offset[1];
                 if ((s16)check_left_tile_and_center_height(
                         ((((S_807B040C_1 *)entity)->unk_AA.s16 << 6) + 0x20) & 0xFFE0,
                         ((((S_807B040C_1 *)entity)->unk_AE.s16 << 6) + 0x20) & 0xFFE0,

@@ -36,7 +36,7 @@ s32 use_item_to_draw_full_recovery_circle(void *target, s32 action_id, s16 actio
             apply_item_effect_at_entity_position(target, action_id);
             return 1;
         }
-        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+        g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     } else {
         target_data = *(void **)((u8 *)target - 0x14);
         if (create_five_point_effect(*(u8 *)((u8 *)target_data + 0x24), *(u8 *)((u8 *)target_data + 0x25),

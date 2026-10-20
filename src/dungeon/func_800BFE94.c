@@ -186,7 +186,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_d
     func_80064D80(scratch + 0xD0);
     func_80064CF0(scratch + 0xD0);
 
-    render_state = ((u8 *)global_base->unk_000);
+    render_state = ((u8 *)global_base->draw_buffer);
     ((S_800C55F4_1 *)scratch)->unk_20 = render_state + 0xB0;
     prim = ((GpuContext *)render_state)->packetCursor;
     packet_code = prim + 7;
@@ -335,5 +335,5 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_d
         break;
     }
     func_80064A40();
-    ((GpuContext *)(((u8 *)global_base->unk_000)))->packetCursor = prim;
+    ((GpuContext *)(((u8 *)global_base->draw_buffer)))->packetCursor = prim;
 }

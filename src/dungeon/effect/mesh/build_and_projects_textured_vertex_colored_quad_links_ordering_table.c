@@ -58,7 +58,7 @@ s32 build_and_projects_textured_vertex_colored_quad_links_ordering_table(s32 col
 
     vertex0 = (void *)0;
     vertex1 = (void *)3;
-    u_right = g_game_work.unk_000;
+    u_right = g_game_work.draw_buffer;
     vertex2 = (void *)0x300;
     scratch = (Scratch *)0x1F800000;
     scratch->ordering_table = (u8 *)u_right + 0xB0;

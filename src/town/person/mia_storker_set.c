@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #define ARG0_TYPE s16
 #define ARG1_TYPE s16
 #define ARG2_TYPE s16
@@ -24,7 +25,7 @@ void mia_storker_set(ARG0_TYPE work_value, ARG1_TYPE work_byte, ARG2_TYPE header
     SignedPositionView *header;
     Work *work;
     s32 node_aux;
-    if (test_resident_bitmap_bit(1) == 0)
+    if (test_resident_bitmap_bit(snf_truth) == 0)
         return;
     node = create_town_effect_object(D_80083498, 0, D_800C8E9C, D_800C8F80);
     if (node == 0)

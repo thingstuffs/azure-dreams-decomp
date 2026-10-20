@@ -26,7 +26,7 @@ void update_staged_movement_and_return_to_tile(void *action, EntityRec *motion, 
         motion->flags14 = 0;
         ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80174C34);
         select_sprite_entry(sprite,
-            ((u8 *)D_80174C34)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80174C34)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
             s32 next_state;
@@ -46,7 +46,7 @@ void update_staged_movement_and_return_to_tile(void *action, EntityRec *motion, 
         }
         ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80174C64);
         select_sprite_entry(sprite,
-            ((u8 *)D_80174C64)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80174C64)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
             s32 next_state;
@@ -65,7 +65,7 @@ void update_staged_movement_and_return_to_tile(void *action, EntityRec *motion, 
         play_sound_if_enabled(0x808);
         ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80174C6C);
         select_sprite_entry(sprite,
-            ((u8 *)D_80174C6C)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80174C6C)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((R08_80172830_S_80172830_0 *)action)->unk_96 = 0x14;
         motion->flags14 = 0;
@@ -141,7 +141,7 @@ void update_staged_movement_and_return_to_tile(void *action, EntityRec *motion, 
         set_record_integer_tile_center(motion,(u8)((SpriteFrameState *)sprite)->unk_24,(u8)((SpriteFrameState *)sprite)->unk_25);
         reduce_actor_food_meter(actor, 0x100);
         (*(u8 * *)((u8 *)action + 0x8C)) = ((void *)update_actor_behavior_and_effect);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
         advance_status_timers(actor);
         if (actor->unk_6D == 0) {

@@ -8,6 +8,6 @@ void set_state_value_when_asset_matches(void) {
     GameWork *state = &g_game_work;
 
     if (D_8006ADD4[0] == 0x3E000C) {
-        state->view.unk_0AC = -0x240;
+        state->view.camera_rotation.parts.camera_rotation_x = -0x240;
     }
 }

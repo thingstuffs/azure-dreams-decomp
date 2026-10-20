@@ -65,13 +65,13 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, void *obj
         if (!(((S_8016D0FC_1 *)object_arg)->unk_14 & 0xE000)) {
             return;
         }
-        current_table = ((u16)g_dungeon_status.unk_0A);
+        current_table = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         current_table--;
-        g_dungeon_status.unk_0A = current_table;
+        g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
         kind = ((S_8016D0FC_0 *)context)->unk_AC;
         if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
             (*(u8 * *)((u8 *)object_arg + 0x2C)) = D_80173AC8;
-            direction_index = (g_game_work.view.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9;
             select_sprite_entry(object_arg, D_80173AC8[direction_index & 7], 0);
         }
         ((S_8016D0FC_0 *)context)->unk_9B++;
@@ -83,7 +83,7 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, void *obj
             expected_table = D_80173AC8;
             if (current_table != expected_table) {
                 (*(u8 * *)((u8 *)object_arg + 0x2C)) = expected_table;
-                direction_index = (g_game_work.view.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9;
+                direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9;
                 select_sprite_entry(object_arg, expected_table[direction_index & 7], 0);
             }
         }
@@ -93,10 +93,10 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, void *obj
             if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
                 (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AD0;
                 select_sprite_entry(object,
-                    D_80173AD0[((g_game_work.view.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9) & 7], 0);
+                    D_80173AD0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9) & 7], 0);
             }
-            current_table = (u8 *)(((u16)g_dungeon_status.unk_0A) + 1);
-            g_dungeon_status.unk_0A = current_table;
+            current_table = (u8 *)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
             ((S_8016D0FC_0 *)context)->unk_9B++;
             return;
         }
@@ -138,18 +138,18 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, void *obj
         if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
             (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AD0;
             select_sprite_entry(object,
-                D_80173AD0[((g_game_work.view.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9) & 7], 0);
+                D_80173AD0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9) & 7], 0);
         }
-        current_table = (u8 *)(((u16)g_dungeon_status.unk_0A) + 1);
-        g_dungeon_status.unk_0A = current_table;
+        current_table = (u8 *)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
         ((S_8016D0FC_0 *)context)->unk_9B++;
         return;
     case 2:
         object = object_arg;
         if (((S_8016D0FC_1 *)object)->unk_14 & 0xE000) {
-            current_table = ((u16)g_dungeon_status.unk_0A);
+            current_table = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
             current_table--;
-            g_dungeon_status.unk_0A = current_table;
+            g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
             ((S_8016D0FC_0 *)context)->unk_8C = D_8016A36C;
         }
         return;

@@ -53,7 +53,7 @@ void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *a
             ((SpriteFrameState *)sprite)->frameTable = D_801762D8;
             select_sprite_entry(
                 sprite,
-                D_801762D8[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
+                D_801762D8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
                             9) &
                            7],
                 0);
@@ -109,7 +109,7 @@ void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *a
             ((SpriteFrameState *)sprite)->frameTable = D_801762E0;
             select_sprite_entry(
                 sprite,
-                D_801762E0[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
+                D_801762E0[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
                             9) &
                            7],
                 0);
@@ -128,8 +128,8 @@ void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *a
                       ((SpriteFrameState *)sprite)->unk_25);
         reduce_actor_food_meter(actor, 4);
         advance_status_timers(actor);
-        if (g_dungeon_status.unk_08 != 0) {
-            g_dungeon_status.unk_08 = (u16)g_dungeon_status.unk_08 - 1;
+        if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
+            g_dungeon_status.activity_counts.parts.pending_movement_count = (u16)g_dungeon_status.activity_counts.parts.pending_movement_count - 1;
         }
         actor_flags = ((EntityRec *)actor)->flags1C;
         if (actor_flags & 0x2000) {
@@ -143,7 +143,7 @@ void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *a
             if (actor_flags & 0x20000) {
                 ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
                     ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
-                    D_80082E80.tileX, D_80082E80.tileY, &target_distance);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &target_distance);
             }
         }
         apply_capped_damage_and_hit_effect(actor, motion);

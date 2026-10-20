@@ -22,7 +22,7 @@ void append_adjusted_type_two_entry(s32 x, s32 y, s32 *entryValue, s32 submissio
 {
     s32 maskedY = y & 0xFFFF;
     s32 adjustedY = maskedY + 0xC0;
-    State *state = g_game_work.unk_000;
+    State *state = g_game_work.draw_buffer;
     Inner *entry = state->next;
     s32 adjustedX = x + 0x300;
 

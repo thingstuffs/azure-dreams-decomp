@@ -59,7 +59,7 @@ s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_pa
                 clear_player_linked_action_flags();
                 counter_page = (void *)0x80080000;
             }
-            counter_page = &g_dungeon_status.unk_00;
+            counter_page = &g_dungeon_status.turn_scale;
             ((S_800C3900_1 *)counter_page)->unk_0A = (u16) (((S_800C3900_1 *)counter_page)->unk_0A + 1);
         }
         play_sound_if_enabled(0x51E);
@@ -75,6 +75,6 @@ s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_pa
         display_formatted_context_message(&D_800E180E);
     }
     counter_base = &g_dungeon_status;
-    counter_base->unk_0A = (u16) (((u16)counter_base->unk_0A) - 1);
+    counter_base->activity_counts.parts.pending_action_count = (u16) (((u16)counter_base->activity_counts.parts.pending_action_count) - 1);
     return 1;
 }

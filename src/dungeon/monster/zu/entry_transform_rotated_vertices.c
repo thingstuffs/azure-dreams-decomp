@@ -146,7 +146,7 @@ loop_0:
     endpoint--;
     if (side >= 0) goto loop_0;
     transform = &transform_rec;
-    view_angle = gw->view.viewAngle;
+    view_angle = gw->view.camera_rotation.parts.viewAngle;
     transform_rec.rot_y = 0;
     transform_rec.rot_x = 0;
     transform_rec.input = (s32 *) points;
@@ -204,8 +204,8 @@ loop_1:
         bottom_y = max_xy >> 0x10;
         ot_offset = depth * 4;
         do {
-            quad = ((S_80F90E88_7 *)gw->unk_000)->unk_8D0;
-            ((S_80F90E88_7 *)gw->unk_000)->unk_8D0 = (s32 *) ((s8 *) quad + 0x24);
+            quad = ((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0;
+            ((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0 = (s32 *) ((s8 *) quad + 0x24);
             if (side != 0) {
                 color = ((S_80F90E88_0 *)((u8 *)model - 0x8))->unk_60;
                 ((S_80F90E88_1 *)quad)->unk_1C = 0;
@@ -235,7 +235,7 @@ loop_1:
             ((S_80F90E88_1 *)quad)->unk_0A = 0;
             ((S_80F90E88_1 *)quad)->unk_22 = bottom_y;
             ((S_80F90E88_1 *)quad)->unk_12 = bottom_y;
-            coord_bits = (u32)gw->unk_000;
+            coord_bits = (u32)gw->draw_buffer;
             color = ((S_80F90E88_1 *)quad)->unk_00;
             link = ot_offset + coord_bits;
             link = ((S_80F90E88_2 *)link)->unk_B0;
@@ -244,7 +244,7 @@ loop_1:
             color |= link;
             ((S_80F90E88_1 *)quad)->unk_00 = color;
             side--;
-            next_object = (s32)gw->unk_000;
+            next_object = (s32)gw->draw_buffer;
             ot_entry_address = ot_offset + next_object;
             color = ((S_80F90E88_2 *)ot_entry_address)->unk_B0;
             color &= 0xFF000000;
@@ -253,13 +253,13 @@ loop_1:
             color |= link;
             ((S_80F90E88_2 *)ot_entry_address)->unk_B0 = color;
         } while (side >= 0);
-        draw_mode = ((S_80F90E88_7 *)gw->unk_000)->unk_8D0;
-        ((S_80F90E88_7 *)gw->unk_000)->unk_8D0 = (s32 *) ((s8 *) draw_mode + 0xC);
+        draw_mode = ((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0;
+        ((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0 = (s32 *) ((s8 *) draw_mode + 0xC);
         func_80067F20(draw_mode, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
         mode_ot_offset = depth * 4;
-        link = getaddr(((S_80F90E88_2 *)(mode_ot_offset + (s32)gw->unk_000))->unk_B0);
+        link = getaddr(((S_80F90E88_2 *)(mode_ot_offset + (s32)gw->draw_buffer))->unk_B0);
         setaddr(*draw_mode, link);
-        ot_entry_address = mode_ot_offset + (s32)gw->unk_000;
+        ot_entry_address = mode_ot_offset + (s32)gw->draw_buffer;
         setaddr(((S_80F90E88_2 *)ot_entry_address)->unk_B0, (s32) draw_mode);
     }
     next_object = ((S_80F90E88_0 *)((u8 *)object - 0x8))->unk_00;

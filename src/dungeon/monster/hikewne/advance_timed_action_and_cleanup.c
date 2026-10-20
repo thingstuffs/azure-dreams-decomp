@@ -65,7 +65,7 @@ void advance_timed_action_and_cleanup(void *action_data, void *unused, SpriteFra
         sprite->frameTable = D_80174108;
         select_sprite_entry(
             sprite,
-            D_80174108[((g_game_work.view.viewAngle + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80174108[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         state = ((S_80172864_0 *)action)->unk_9B.n;
         ((S_80172864_0 *)action)->unk_96.u = 0;
@@ -98,7 +98,7 @@ void advance_timed_action_and_cleanup(void *action_data, void *unused, SpriteFra
         }
         reduce_actor_food_meter(actor, 0x100);
         ((S_80172864_0 *)action)->unk_8C = D_801714D4;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         ((S_80172864_2 *)actor)->unk_46 &= 0x7FFF;
 

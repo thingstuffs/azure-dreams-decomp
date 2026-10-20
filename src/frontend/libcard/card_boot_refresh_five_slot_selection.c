@@ -9,7 +9,7 @@
  */
 #include "common.h"
 
-extern void card_boot_begin_selected_value_transition(s32, s32);
+#include "frontend/libcard/interfaces.h"
 extern void card_boot_set_slot_selection_marker(s32, s32);
 extern void card_boot_clear_slot_selection_marker(s32);
 extern void card_boot_set_slot_details_selection(s32, s32, s32);

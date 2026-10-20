@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
 void check_ready_or_run_followup(s32);                     /* extern */
@@ -10,9 +11,9 @@ extern s32 *D_80017B6C;
 void func_80761DA4(void) {
     D_80017B6C = &D_80017AB8;
     if (get_indexed_table_entry(7) != 0) {
-        check_ready_or_run_followup(0x9DE);
+        check_ready_or_run_followup(F_sbs36_pad08);
     }
     if (func_80017990(7) != 0) {
-        check_ready_or_run_followup(0x9DD);
+        check_ready_or_run_followup(F_sbs36_pad07);
     }
 }

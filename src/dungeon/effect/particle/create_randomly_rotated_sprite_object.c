@@ -518,8 +518,8 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
 
             U16_AT(owner, 0x2A) = get_rounded_facing_and_rounding_flag(
                 node[0x24], node[0x25],
-                origin->tileX + U16_AT((u8 *)dir_step_x + offset, 0),
-                origin->tileY + U16_AT((u8 *)dir_step_y + offset, 0), &result);
+                origin->tile_position.parts.tile_x + U16_AT((u8 *)dir_step_x + offset, 0),
+                origin->tile_position.parts.tile_y + U16_AT((u8 *)dir_step_y + offset, 0), &result);
         }
         state->timer = 0;
         state->state++;
@@ -559,18 +559,18 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             {
                 u8 *x_table = (u8 *)dir_step_x;
                 direction_bits = U16_AT(direction_node, 0x2A);
-                state->x = position_base->tileX +
+                state->x = position_base->tile_position.parts.tile_x +
                     ((s16 *)(x_table + (((u32)direction_bits >> 8) & 0xE)))[0];
             }
             {
                 u8 *y_table = (u8 *)dir_step_y;
                 direction_bits = U16_AT(direction_node, 0x2A);
-                state->y = position_base->tileY +
+                state->y = position_base->tile_position.parts.tile_y +
                     ((s16 *)(y_table + (((u32)direction_bits >> 8) & 0xE)))[0];
             }
         } else {
-            state->x = D_80082E80.tileX + dir_step_x[state->direction];
-            state->y = D_80082E80.tileY + dir_step_y[state->direction];
+            state->x = D_80082E80.tile_position.parts.tile_x + dir_step_x[state->direction];
+            state->y = D_80082E80.tile_position.parts.tile_y + dir_step_y[state->direction];
         }
         {
             EntityRec *height_node;
@@ -694,7 +694,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
         if (state->field_14 != 0) {
             break;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         U16_AT(state, -2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
         break;

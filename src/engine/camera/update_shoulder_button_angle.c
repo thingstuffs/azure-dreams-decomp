@@ -13,7 +13,7 @@ int update_shoulder_button_angle(void)
     if (D_80082E60.flags0F & 0x80) {
         return 0;
     }
-    trigger_flags = ((int)input_state->unk_010);
+    trigger_flags = ((int)input_state->pressed_buttons);
     if (trigger_flags & 0x100) {
         if (!(input_state->buttons & 0x800)) {
             D_80080ABE = 1;

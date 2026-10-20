@@ -65,7 +65,7 @@ void advance_path_motion(void *motion, void *unused, void *entity, void *path_st
         > ((S_801716D8_0 *)state)->unk_8A)) {
         if (((Rec_D_80082E80 *)entity)->unk_2C.as_pv != D_80176460) {
             (((Rec_D_80082E80 *)entity)->unk_2C.as_pv) = D_80176460;
-            select_sprite_entry(entity, D_80176460[((g_game_work.view.viewAngle + ((S_801716D8_0 *)state)->unk_2A + 0x100)
+            select_sprite_entry(entity, D_80176460[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801716D8_0 *)state)->unk_2A + 0x100)
                 >> 9) & 7], 0);
         }
         old_x = ((Rec_D_80082E80 *)entity)->unk_24;

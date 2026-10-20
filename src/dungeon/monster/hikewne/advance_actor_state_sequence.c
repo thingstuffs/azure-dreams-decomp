@@ -65,12 +65,12 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
             local_table_0 = D_801740F8;
 
             ((SpriteFrameState *)entity)->frameTable = local_table_0;
-            effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+            effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
             effect_entry &= 7;
             effect_entry += (s32)local_table_0;
             select_sprite_entry(entity, *(u8 *)effect_entry, 0);
             dungeon_state = &g_dungeon_status;
-            (*(u16 *)&dungeon_state->unk_0A)--;
+            (*(u16 *)&dungeon_state->activity_counts.parts.pending_action_count)--;
             next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
             ((S_8017360C_0 *)action)->unk_9B = next_state;
             return;
@@ -87,7 +87,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
         local_table_1 = D_80174150;
 
         ((SpriteFrameState *)entity)->frameTable = local_table_1;
-        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_1;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
@@ -107,7 +107,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
         local_table_2 = D_80174158;
 
         ((SpriteFrameState *)entity)->frameTable = local_table_2;
-        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_2;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
@@ -187,7 +187,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
                 TileObject *room_base = &D_80082E80;
                 s8 room_id = *(s8 *)&((SpriteFrameState *)entity)->unk_26;
 
-                if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)get_tile_chebyshev_distance(room_base, entity) < 2) {
+                if ((room_id == room_base->room_index && room_id >= 0) || (s16)get_tile_chebyshev_distance(room_base, entity) < 2) {
                     if ((generate_random_value() & 7) == 0) {
                         clear_slots_of_type(actor, 1);
                     }
@@ -201,7 +201,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
         local_table_3 = D_80174160;
 
         ((SpriteFrameState *)entity)->frameTable = local_table_3;
-        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_3;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
@@ -211,7 +211,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
         ((S_8017360C_0 *)action)->unk_9B++;
         {
             DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
-            (*(u16 *)&dungeon_state->unk_0A)++;
+            (*(u16 *)&dungeon_state->activity_counts.parts.pending_action_count)++;
         }
         return;
 
@@ -233,7 +233,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
         ((SpriteFrameState *)entity)->frameTable = local_table_4;
-        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_4;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
@@ -253,13 +253,13 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
         local_table_5 = D_801740F0;
 
         ((SpriteFrameState *)entity)->frameTable = local_table_5;
-        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_5;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
         {
             DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
-            (*(u16 *)&dungeon_state->unk_0A)--;
+            (*(u16 *)&dungeon_state->activity_counts.parts.pending_action_count)--;
         }
         break;
 

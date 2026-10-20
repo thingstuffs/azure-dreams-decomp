@@ -726,7 +726,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         effect_active = D_800266BC;
         self->timer = ticks;
         if (effect_active == 0) {
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)self + -2)) |= 0x8000;
             object_flag_block.flags |= 0x8000;
             return;

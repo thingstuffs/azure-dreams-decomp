@@ -90,7 +90,7 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, void
         s32 direction_sector;
 
         direction_sector =
-            (g_game_work.view.viewAngle + ((S_80170AD0_0 *)actor)->unk_2A + 0x100) >> 9;
+            (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170AD0_0 *)actor)->unk_2A + 0x100) >> 9;
         direction = direction_sector & 7;
         direction_index = direction;
 

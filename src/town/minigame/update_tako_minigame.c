@@ -49,7 +49,7 @@ void update_tako_minigame(TownState *state)
     s32 particle_x;
 
     scene_data = &g_game_work;
-    if (((u32)scene_data->unk_010) & 0x40) {
+    if (((u32)scene_data->pressed_buttons) & 0x40) {
         state->counter = 0;
     }
     state->counter++;
@@ -70,13 +70,13 @@ void update_tako_minigame(TownState *state)
             TownObject *first_object;
             u16 round_delay;
 
-            scene_data->view.unk_094 +=
-                (-0x80 - scene_data->view.unk_094) >> 1;
+            scene_data->view.view_offset.parts.view_offset_x +=
+                (-0x80 - scene_data->view.view_offset.parts.view_offset_x) >> 1;
             first_object = *(TownObject **)init_state;
             if (first_object->state != 1) {
                 break;
             }
-            scene_data->view.unk_094 = -0x80;
+            scene_data->view.view_offset.parts.view_offset_x = -0x80;
             init_state->counter = 0;
             round_delay = *(u16 *)(D_80026F80 +
                             init_state->table_x * 40 + init_state->table_y * 400);
@@ -157,15 +157,15 @@ case 3:
 
 case 4:
     if (state->timer < 15) {
-        scene_data->view.unk_094 >>= 1;
+        scene_data->view.view_offset.parts.view_offset_x >>= 1;
     }
     state->timer--;
     if (state->timer >= 0) {
 
         loop_index = 7;
-        D_80082E80.unk_00E += (0x90 - D_80082E80.unk_00E) >> 1;
-        D_80082E80.unk_00D = D_80082E80.unk_00E;
-        D_80082E80.unk_00C = D_80082E80.unk_00E;
+        D_80082E80.primitive_color.parts.color_b += (0x90 - D_80082E80.primitive_color.parts.color_b) >> 1;
+        D_80082E80.primitive_color.parts.color_g = D_80082E80.primitive_color.parts.color_b;
+        D_80082E80.primitive_color.parts.color_r = D_80082E80.primitive_color.parts.color_b;
         do {
             particle_x = D_80083780.x.v +
                 (((rand() & 0x3F) - 0x20) << 16);
@@ -182,7 +182,7 @@ case 4:
     if (state->timer > 0) {
         break;
     }
-    scene_data->view.unk_094 = 0;
+    scene_data->view.view_offset.parts.view_offset_x = 0;
     state->state = 5;
     state->flags |= 8;
     break;
@@ -208,7 +208,7 @@ case 5:
             clear_resident_bit(0xAE4);
         }
         clear_alternate_texture_regions(2);
-        *(u32 *)(&D_80082E80.unk_00C) = 0x00808080;
+        *(u32 *)(&D_80082E80.primitive_color.parts.color_r) = 0x00808080;
         *(u16 *)((u8 *)state - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
         break;

@@ -38,6 +38,6 @@ void run_saved_actor_action(void *object, s32 unused, void *animation, void *act
     }
     table = D_800DD294;
     ((SpriteFrameState *)saved2)->frameTable = table;
-    func_8003DB94(saved2, (*(s32 *)((u8 *)table + (((s32) (g_game_work.view.viewAngle + ((S_80097898_1 *)saved)->unk_2A
+    func_8003DB94(saved2, (*(s32 *)((u8 *)table + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80097898_1 *)saved)->unk_2A
         + 0x100) >> 7) & 0x1C))), 0);
 }

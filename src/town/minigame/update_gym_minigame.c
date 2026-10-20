@@ -295,7 +295,7 @@ loop_0:
         break;
 
     case 4:
-        if (D_80082E80.unk_014 & 0x6000) {
+        if (D_80082E80.sprite_flags & 0x6000) {
             apply_global_scene_value(D_800D0128);
             ((S_80022F60_0 *)state_obj)->unk_00.u++;
         }
@@ -315,7 +315,7 @@ loop_0:
         break;
 
     case 6:
-        if (D_80082E80.unk_014 & 0x6000) {
+        if (D_80082E80.sprite_flags & 0x6000) {
             ((S_80022F60_0 *)state_obj)->unk_02.s = 1;
             apply_global_scene_value(D_800D0120);
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023994;

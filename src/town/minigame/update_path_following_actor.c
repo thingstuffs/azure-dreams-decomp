@@ -157,13 +157,13 @@ void update_path_following_actor(void *actor, void *motion, void *sprite) {
         directions = D_800D2388;
         ((SpriteFrameState *)sprite)->frameTable = directions;
         ((SpriteFrameState *)sprite)->unk_28 = sprite_config;
-        select_sprite_entry(sprite, D_800D2388[((g_game_work.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        select_sprite_entry(sprite, D_800D2388[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80023260_0 *)actor)->unk_18.p = (u16) (((S_80023260_0 *)actor)->unk_18.p + 1);
         break;
     case 3:
         ((SpriteFrameState *)sprite)->frameTable = D_800D2388 - 8;
-        select_sprite_entry(sprite, (D_800D2388 - 8)[((g_game_work.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100)
+        select_sprite_entry(sprite, (D_800D2388 - 8)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0);
         ((S_80023260_0 *)actor)->unk_18.p = idle_state;
         break;

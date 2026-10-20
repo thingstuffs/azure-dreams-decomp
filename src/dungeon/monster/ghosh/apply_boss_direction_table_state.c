@@ -33,8 +33,8 @@ void apply_boss_direction_table_state(void *record_data) {
 
     if (state_data->unk_004 == 2) {
         u8 direction_entry;
-        direction_entry = ((u8 *)state_data->unk_02C)[
-                 (((s32) (g_game_work.view.viewAngle +
+        direction_entry = ((u8 *)state_data->frame_table)[
+                 (((s32) (g_game_work.view.camera_rotation.parts.viewAngle +
                           active_object->unk_2A +
                           0x100) >> 9) & 7)];
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state_data, direction_entry,

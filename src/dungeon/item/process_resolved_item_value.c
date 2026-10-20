@@ -205,7 +205,7 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
             (((ObjectNodeHeader *)spawned)->unk_10) = ((u32)D_80024E5C);
             register_node(spawned, ((u32)D_80045340));
             spawn_sprite->frameTable = ((u32)D_80025B40);
-            select_sprite_entry(spawn_sprite, D_80025B40[(((s32) (g_game_work.view.viewAngle + (s16) (((ResolvedActor *)owner)->facing) + 0x100) >> 9) & 7)], 0);
+            select_sprite_entry(spawn_sprite, D_80025B40[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) (((ResolvedActor *)owner)->facing) + 0x100) >> 9) & 7)], 0);
             spawn_motion = (((ObjectNodeHeader *)spawned)->unk_08);
             (((ResolvedMotion *)spawn_motion)->axes[0].fixed) = (s32) (((ResolvedMotion *)motion)->axes[0].fixed);
             (((ResolvedMotion *)spawn_motion)->axes[1].fixed) = (s32) (((ResolvedMotion *)motion)->axes[1].fixed);
@@ -255,7 +255,7 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
             done_flag = D_80025B60;
             (((ResolvedEffect *)effect_state)->frame) = frame;
             if (done_flag == 0) {
-                g_dungeon_status.unk_0C = 0;
+                g_dungeon_status.active_actor = 0;
                 (((ObjectNodeHeader *)(effect_state))[-1].flags) = (u16) ((((ObjectNodeHeader *)(effect_state))[-1].flags) | 0x8000);
                 object_flag_block.flags |= 0x8000;
                 return;

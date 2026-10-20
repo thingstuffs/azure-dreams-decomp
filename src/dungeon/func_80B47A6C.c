@@ -16,6 +16,6 @@ void func_8017526C(void *entity_data, s32 unused_1, s32 unused_2, void *other_da
         entity[0x9A] = kind;
         entity[0x9B] = 0;
         (*(s16 *)D_800DCF5E) = 0;
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 }

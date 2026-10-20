@@ -37,7 +37,7 @@ s32 select_an_available_entry_matching_direction_returns_status(void *record)
     s32 direction_index;
     S_8009567C_3 *entry;
 
-    angle = input_angle_with_offset(g_game_work.buttons, g_game_work.view.viewAngle);
+    angle = input_angle_with_offset(g_game_work.buttons, g_game_work.view.camera_rotation.parts.viewAngle);
     if (angle != -1) {
         direction_index = 0;
         direction = ((angle + 0x100) / 0x200) & 7;

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -29,18 +30,18 @@ void check_inputs_after_threshold_five(void)
     D_800179D8 = &D_80017908;
     callback(zero);
 
-    if (func_800176F4(0x942) != 0) {
+    if (func_800176F4(F_sbs32_pad24) != 0) {
         if (contains_value_in_table(0xB) != 0) {
-            func_800175FC(0xB0F);
-            if (func_800176F4(0xB10) == 0) {
-                func_800175FC(0xB0E);
+            func_800175FC(F_sbs43_pad12);
+            if (func_800176F4(F_sbs43_pad13) == 0) {
+                func_800175FC(F_sbs43_pad11);
                 return;
             }
         } else {
-            func_80017674(0xB0F);
-            func_800175FC(0xB0E);
+            func_80017674(F_sbs43_pad12);
+            func_800175FC(F_sbs43_pad11);
             return;
         }
     }
-    func_80017674(0xB0E);
+    func_80017674(F_sbs43_pad11);
 }

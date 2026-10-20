@@ -83,7 +83,7 @@ s32 initialize_directional_object(void *action_state, s32 action_param, void *sp
         anim_table = &D_800E2378;
         ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = anim_table;
         select_sprite_entry(sprite,
-                      anim_table[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                      anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                       0);
         ((EntityRec *)actor)->unk_6D--;
         prepare_directional_attack(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern char D_8001B14C[];
@@ -20,7 +21,7 @@ char *select_response_string_triggers_event(s32 unused, s32 passthru_1, s32 sele
     case 7:
         return D_8001BCB4;
     case 6:
-        func_8001A554(0x933);
+        func_8001A554(F_sbs32_pad09);
         return D_80021484;
     case 40:
     case 41:

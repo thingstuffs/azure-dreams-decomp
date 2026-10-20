@@ -98,12 +98,12 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_801741CC;
         select_sprite_entry(sprite,
-            D_801741CC[((g_game_work.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_801741CC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         state_zero_counter_base = &g_dungeon_status;
         ((S_8017352C_0 *)entity)->unk_96 = 0;
-        count = ((u16)state_zero_counter_base->unk_0A) - 1;
-        state_zero_counter_base->unk_0A = count;
+        count = ((u16)state_zero_counter_base->activity_counts.parts.pending_action_count) - 1;
+        state_zero_counter_base->activity_counts.parts.pending_action_count = count;
         ((S_8017352C_0 *)entity)->unk_9B++;
         return;
     case 1:
@@ -166,7 +166,7 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
                 TileObject *origin = &D_80082E80;
                 s8 tile = ((SpriteStatusIndexView *)sprite)->unk_26;
 
-                if (((tile == origin->unk_026) && (tile >= 0)) ||
+                if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
                     if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(actor, 1);
@@ -178,7 +178,7 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
             }
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174184;
             select_sprite_entry(sprite,
-                D_80174184[((g_game_work.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_80174184[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
             ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
@@ -186,7 +186,7 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
                 animate_counter_base = (u8 *)3;
                 ((S_8017352C_0 *)entity)->unk_96 = (s32)animate_counter_base;
                 ((S_8017352C_0 *)entity)->unk_98 &= 0xBFFF;
-                animate_counter_base = (u8 *)&g_dungeon_status.unk_00;
+                animate_counter_base = (u8 *)&g_dungeon_status.turn_scale;
                 count = ((TrailHeightView *)animate_counter_base)->unk_0A + 1;
                 ((TrailHeightView *)animate_counter_base)->unk_0A = count;
                 ((S_8017352C_0 *)entity)->unk_9B++;
@@ -196,7 +196,7 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
         } else {
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174184;
             select_sprite_entry(sprite,
-                D_80174184[((g_game_work.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_80174184[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
             ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
@@ -204,7 +204,7 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
                 animate_counter_base = (u8 *)3;
                 ((S_8017352C_0 *)entity)->unk_96 = (s32)animate_counter_base;
                 ((S_8017352C_0 *)entity)->unk_98 &= 0xBFFF;
-                animate_counter_base = (u8 *)&g_dungeon_status.unk_00;
+                animate_counter_base = (u8 *)&g_dungeon_status.turn_scale;
                 count = ((TrailHeightView *)animate_counter_base)->unk_0A + 1;
                 ((TrailHeightView *)animate_counter_base)->unk_0A = count;
                 ((S_8017352C_0 *)entity)->unk_9B++;
@@ -222,7 +222,7 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
         if (!(((SpriteStatusIndexView *)sprite)->unk_14 & 0xE000)) {
             return;
         }
-        state_two_counter_base = (u8 *)&g_dungeon_status.unk_00;
+        state_two_counter_base = (u8 *)&g_dungeon_status.turn_scale;
         ((S_8017352C_9 *)motion)->unk_14 = 0;
         ((S_8017352C_0 *)entity)->unk_A8 = 0;
         ((TrailHeightView *)state_two_counter_base)->unk_0A--;

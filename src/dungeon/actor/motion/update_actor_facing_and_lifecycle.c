@@ -100,7 +100,7 @@ void update_actor_facing_and_lifecycle(void *state, void *motion, void *part)
     part_flags = ((S_800C9AAC_0 *)part)->unk_14;
     adjusted_flags = part_flags & 0x8000;
     if (!adjusted_flags) {
-        direction = ((g_game_work.view.viewAngle + ((S_800C9AAC_2 *)secondary)->unk_2A + 0x100) >> 9);
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800C9AAC_2 *)secondary)->unk_2A + 0x100) >> 9);
         direction &= 7;
         direction_index = direction;
         if ((*(s16 *)((u8 *)state + (0x94))) != direction_index) {

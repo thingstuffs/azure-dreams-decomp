@@ -146,7 +146,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         }
         if (current_frames != frame_table) {
             (sprite->frameTable) = frame_table;
-            direction_index = ((g_game_work.view.viewAngle + result->facing + 0x100) >> 9) & 7;
+            direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + result->facing + 0x100) >> 9) & 7;
             select_sprite_entry(sprite,
                 *(u8 *)((u32)direction_index + (u32)frame_table),
                 0);

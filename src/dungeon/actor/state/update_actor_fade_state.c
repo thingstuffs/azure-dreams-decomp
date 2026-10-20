@@ -66,7 +66,7 @@ void update_actor_fade_state(void *state, void *unused, void *data, void *entity
     stateId = ((S_800D34CC_0 *)state)->unk_9B;
     switch (stateId) {
     case 0:
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             break;
         }
         ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C | 0x10000000);
@@ -92,9 +92,9 @@ void update_actor_fade_state(void *state, void *unused, void *data, void *entity
         countdownNext = (u16) ((S_800D34CC_0 *)state)->unk_96 - 1;
         ((S_800D34CC_0 *)state)->unk_96 = countdownNext;
         if (((countdownNext << 0x10) <= 0) || ((((S_800D34CC_2 *)data)->unk_14 & 0x8000) != 0)) {
-            statusValue = ((s32)g_dungeon_status.unk_10);
+            statusValue = ((s32)g_dungeon_status.pending_display_owner);
             if (statusValue == (entity - 0x20)) {
-                g_dungeon_status.unk_10 = (s32) (statusValue & 0x7FFFFFFF);
+                g_dungeon_status.pending_display_owner = (s32) (statusValue & 0x7FFFFFFF);
             }
             detach_record_and_update_slot_state(entity);
             if ((get_entity_effect_value(entity, 0x1B) << 0x10) == 0) {

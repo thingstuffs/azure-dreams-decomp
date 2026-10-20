@@ -44,7 +44,7 @@ void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_
     vertex_data = (u8 *)((s16)start_segment);
     angle = (s32)vertex_data << 7;
     radii.inner_x = radius_a_x;
-    graphics_ptr = &g_game_work.unk_000;
+    graphics_ptr = &g_game_work.draw_buffer;
     graphics = *graphics_ptr;
     graphics = (ovl_9c32d4_809A38E4_GraphicsState *)((u8 *)graphics + 0x8D0);
     prim = *(u8 **)graphics;

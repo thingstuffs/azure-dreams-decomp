@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern void func_80017320(s32);
@@ -11,8 +12,8 @@ void check_record_value_threshold(void) {
         D_800175B4 = 9;
     }
     if (D_800175B4 == 8 || D_800175B4 == 20) {
-        func_80017320(0x5DB);
+        func_80017320(F_sbs12_pad13);
     } else {
-        func_80017398(0x5DB);
+        func_80017398(F_sbs12_pad13);
     }
 }

@@ -30,8 +30,8 @@ void update_flagged_target_tile(void *unused_0, void *unused_1, void *source, vo
     u8 tile_y;
 
     if (((S_800B2FAC_0 *)source)->unk_14 & 0xE000) {
-        if (((s32)g_dungeon_status.unk_10) == (target - 0x20)) {
-            g_dungeon_status.unk_10 = ((s32)g_dungeon_status.unk_10) & 0x7FFFFFFF;
+        if (((s32)g_dungeon_status.pending_display_owner) == (target - 0x20)) {
+            g_dungeon_status.pending_display_owner = ((s32)g_dungeon_status.pending_display_owner) & 0x7FFFFFFF;
         }
         distribute_experience_awards(target);
         detach_record_and_update_slot_state(target);

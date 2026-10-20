@@ -52,7 +52,7 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
     case 0:
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, motion, 8, 0x300);
         ((SpriteFrameState *)sprite)->frameTable = D_800DD294;
-        func_8003DB94(sprite, *(s32 *)((u8 *)D_800DD294 + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
+        func_8003DB94(sprite, *(s32 *)((u8 *)D_800DD294 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         dir_offset = ((u16) actor->facing >> 8) & 0xE;
         motion->unk_0C = (s32) (*(s16 *)((u8 *)dir_step_x + dir_offset) << 0x11);
@@ -85,7 +85,7 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
         if ((s16) ((S_800974DC_0 *)action)->unk_96.s <= 0) {
             if (((SpriteFrameState *)sprite)->flags & 0xE000) {
                 ((SpriteFrameState *)sprite)->frameTable = D_800DD274;
-                func_8003DB94(sprite, *(s32 *)((u8 *)D_800DD274 + (((s32) (g_game_work.view.viewAngle + actor->facing
+                func_8003DB94(sprite, *(s32 *)((u8 *)D_800DD274 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing
                     + 0x100) >> 7) & 0x1C)), 0);
                 ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
             }
@@ -101,7 +101,7 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
             return;
         }
         ((SpriteFrameState *)sprite)->frameTable = D_800DD274;
-        func_8003DB94(sprite, *(s32 *)((u8 *)D_800DD274 + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
+        func_8003DB94(sprite, *(s32 *)((u8 *)D_800DD274 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         ((S_800974DC_0 *)action)->unk_9B = 3U;
         return;
@@ -137,7 +137,7 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
         process_unflagged_linked_entries(actor->unk_5C);
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x412);
         ((S_800974DC_0 *)action)->unk_8C = &handle_actor_commands_and_facing;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((S_800974DC_0 *)action)->unk_96.s = 0U;
         return;
     }

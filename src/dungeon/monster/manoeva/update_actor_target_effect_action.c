@@ -178,8 +178,8 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
 
             update_actor_status_and_food(actor);
             ((Rec_func_80173D78_arg0 *)action)->unk_8C = &func_80170EE4;
-            g_dungeon_status.unk_0A =
-                ((u16)g_dungeon_status.unk_0A) - 1;
+            g_dungeon_status.activity_counts.parts.pending_action_count =
+                ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
             actor->unk_1C &= 0xEFFFFFFF;
             return;
         }
@@ -258,8 +258,8 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
             ((Rec_func_80173D78_arg0 *)action)->unk_9A = 0x18;
             ((Rec_func_80173D78_arg0 *)action)->unk_9B = 0;
             ((Rec_func_80173D78_arg0 *)action)->unk_8C = &transfer_linked_object_state;
-            g_dungeon_status.unk_0A =
-                ((u16)g_dungeon_status.unk_0A) - 1;
+            g_dungeon_status.activity_counts.parts.pending_action_count =
+                ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
             actor->unk_6D = 0;
             actor->unk_1C &= 0xEFFFFFFF;
             actor->unk_46 &= 0x7FFF;

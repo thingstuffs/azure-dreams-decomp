@@ -25,5 +25,5 @@ void begin_player_sleep_action(void *record, s32 unused, void *object, EntityRec
     data = &D_800DD0E8;
     entity->flags1C = (s32) (entity->flags1C & mask);
     (*(s32 **)((u8 *)object + 0x2C)) = data;
-    set_sprite_animation_frame(object, *((((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + data), 0, 1);
+    set_sprite_animation_frame(object, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7) + data), 0, 1);
 }

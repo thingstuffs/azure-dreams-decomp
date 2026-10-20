@@ -161,7 +161,7 @@ void run_selected_actor_action(ActionState *action_state, EntityRec *motion, Spr
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((PlayerActionCounter *)D_800814A8)->pendingActions--;
         advance_status_timers(actor);
         (*(u8 *)&actor->unk_6D)--;
@@ -197,15 +197,15 @@ void run_selected_actor_action(ActionState *action_state, EntityRec *motion, Spr
             sprite->unk_2C = D_8015C888;
             select_sprite_entry(
                 sprite,
-                D_8015C888[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_8015C888[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
         {
 
-            if (((s32)g_dungeon_status.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         sprite->unk_14 &= 0xF7FF;
         action_state->handler = D_80159058;

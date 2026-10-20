@@ -7,15 +7,15 @@ void reset_dungeon_runtime_state(void) {
 
     bzero(((s32 *)D_800E3548), 0x100);
     bzero(&D_800E36C8, 0x300);
-    g_dungeon_status.unk_08 = 0;
-    g_dungeon_status.unk_0A = 0;
-    g_dungeon_status.unk_14 = 0;
-    g_dungeon_status.unk_0C = 0;
-    g_dungeon_status.unk_10 = 0;
-    ((Rec_D_80083460 *)(&g_dungeon_status.unk_00))->unk_00 = 0x100;
+    g_dungeon_status.activity_counts.parts.pending_movement_count = 0;
+    g_dungeon_status.activity_counts.parts.pending_action_count = 0;
+    g_dungeon_status.trap_counts.parts.pending_trap_count = 0;
+    g_dungeon_status.active_actor = 0;
+    g_dungeon_status.pending_display_owner = 0;
+    ((Rec_D_80083460 *)(&g_dungeon_status.turn_scale))->unk_00 = 0x100;
     g_dungeon_status.flags = 0;
-    g_dungeon_status.unk_1C = 0;
-    g_dungeon_status.unk_04 = 0;
+    g_dungeon_status.monster_count = 0;
+    g_dungeon_status.movement_frames_left = 0;
     D_800DCE68 = 0;
     D_800E3E40 = 0;
     D_800E296C = 0;

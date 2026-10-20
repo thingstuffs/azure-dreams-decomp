@@ -62,7 +62,7 @@ void advance_entity_along_stored_path(void *movement, void *motion, void *entity
         (*(u8 * *)((u8 *)entity + (0x2C))) = D_80174DE4;
         select_sprite_entry(
             entity,
-            D_80174DE4[((g_game_work.view.viewAngle + ((S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            D_80174DE4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

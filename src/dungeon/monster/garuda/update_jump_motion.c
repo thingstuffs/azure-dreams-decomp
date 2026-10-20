@@ -142,7 +142,7 @@ void update_jump_motion_2(void *action_state, EntityRec *motion, void *sprite, E
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->unk_6D)--;
@@ -178,15 +178,15 @@ void update_jump_motion_2(void *action_state, EntityRec *motion, void *sprite, E
             ((SpriteFrameState *)sprite)->frameTable = D_80174888;
             select_sprite_entry(
                 sprite,
-                D_80174888[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80174888[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
         {
 
-            if (((s32)g_dungeon_status.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         ((S_80172834_0 *)action_state)->unk_8C = D_80171058;

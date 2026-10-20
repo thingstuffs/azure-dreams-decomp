@@ -146,7 +146,7 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
                     s32 view_angle;
 
                     view_angle =
-                        g_game_work.view.viewAngle + ((R06_80170BB8_S_80170BB8_1 *)subject)->unk_2A + 0x100;
+                        g_game_work.view.camera_rotation.parts.viewAngle + ((R06_80170BB8_S_80170BB8_1 *)subject)->unk_2A + 0x100;
                     state_index = (view_angle >> 9) & 7;
                 }
                 {

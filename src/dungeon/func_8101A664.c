@@ -262,7 +262,7 @@ void update_paired_actor_movement_tile_placement_animations_restored_flags(PairA
         partner->flags = (s32) (partner->flags & 0xFFFBFFFF);
         partner_actor->flags = (u16) (partner_actor->flags | 0xC);
         anim_table0 = D_801628F0;
-        angle_or_count = &g_game_work.view.viewAngle;
+        angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
         sprite->directionFrames = anim_table0;
         launch_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         launch_anim = launch_anim + (u32) anim_table0;
@@ -292,7 +292,7 @@ void update_paired_actor_movement_tile_placement_animations_restored_flags(PairA
             anim_table1 = D_801628F8;
             actor->ticks = fall_anim;
         }
-        angle_or_count = &g_game_work.view.viewAngle;
+        angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
         sprite->directionFrames = anim_table1;
         fall_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         fall_anim = fall_anim + (u32) anim_table1;
@@ -329,7 +329,7 @@ void update_paired_actor_movement_tile_placement_animations_restored_flags(PairA
             if (tile_type < 0) {
                 continue;
             }
-            if (tile_type == D_80082E80.unk_026) {
+            if (tile_type == D_80082E80.room_index) {
                 angle_or_count = &D_8008146E;
                 if (*angle_or_count >= 2) {
                     continue;
@@ -374,7 +374,7 @@ commit_tile_positions:
         motion->dz = (s32) ((s32) ((((CreatureState *)entity)->groundHeight << 0x10)
             - motion->z.word) / (s16) actor->ticks);
         anim_table2 = D_801628F8;
-        angle_or_count = &g_game_work.view.viewAngle;
+        angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
         *(u8 **)((u8 *)sprite + (u32)&((ActorSprite *)0)->directionFrames) = anim_table2;
         rise_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         rise_anim = rise_anim + (u32) anim_table2;
@@ -447,10 +447,10 @@ commit_tile_positions:
         reduce_actor_food_meter(reset_entity, 0x100);
         next_handler = &D_8015F058;
         actor->handler = next_handler;
-        active_count = ((u16)g_dungeon_status.unk_0A);
+        active_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         finish_entity = entity;
         active_count -= 1;
-        g_dungeon_status.unk_0A = active_count;
+        g_dungeon_status.activity_counts.parts.pending_action_count = active_count;
         advance_status_timers(finish_entity);
         actor->flags = (u16) (actor->flags & 0xFFF3);
 
@@ -489,7 +489,7 @@ commit_tile_positions:
             cycle_map_cell_flags(restore_x, restore_y, restore_partner_mask);
         }
         anim_table3 = D_80162888;
-        angle_or_count = &g_game_work.view.viewAngle;
+        angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
         sprite->directionFrames = anim_table3;
         idle_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         idle_anim = idle_anim + (u32) anim_table3;

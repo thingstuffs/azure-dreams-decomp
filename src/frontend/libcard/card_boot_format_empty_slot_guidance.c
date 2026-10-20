@@ -8,8 +8,7 @@ typedef struct Node {
     s16 fieldA;
 } Node;
 
-extern s32 card_boot_get_remaining_block_summary(void);
-extern s32 card_boot_count_cached_slots(void);
+#include "modules/main_server_ship_interfaces.h"
 extern void func_8003AD08(s32 value, void *out);
 extern void decode_note_text(void *entries, void *text, s32 initial_octave);
 extern void strcat(void *dest, void *src);

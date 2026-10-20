@@ -10,7 +10,7 @@ void initialize_opposite_facing_effect(void *effect, s32 *position, SpriteFrameS
     *((s8 *)effect + 0x9A) = 0x10;
     *((s8 *)effect + 0x9B) = 0;
     sprite->frameTable = ((u8 *)D_80174158);
-    select_sprite_entry(sprite,(s16)(((u8 *)D_80174158)[((g_game_work.view.viewAngle +
+    select_sprite_entry(sprite,(s16)(((u8 *)D_80174158)[((g_game_work.view.camera_rotation.parts.viewAngle +
                                *(s16 *)((s8 *)source + 0x2A) + 0x100) >> 9) & 7]),(s16)(0));
     direction_x = dir_step_x;
     direction *= 2;

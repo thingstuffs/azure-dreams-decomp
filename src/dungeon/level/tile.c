@@ -22,7 +22,7 @@ typedef struct {
 /* Apply scaled velocity and reset the entity motion state. */
 void apply_scaled_entity_velocity(Entity94744 *entity) {
     entity->field_71 = 0x80;
-    entity->value_6C += ((s32)(entity->velocity_6E * g_dungeon_status.unk_00)) >> 8;
+    entity->value_6C += ((s32)(entity->velocity_6E * g_dungeon_status.turn_scale)) >> 8;
     entity->field_42 = 0;
     entity->field_41 = 0;
     entity->flags_1C &= 0x7FFFFFFF;
@@ -783,7 +783,7 @@ s32 classify_adjacent_tile_height(u32 direction_bits, Func95440Input *position, 
             if (object->flags1c & 0x2000) {
                 if (!(object->flags1c & 0x628)) {
                     if (!(object->mask14 & 0x40000000)) {
-                        if (object->value6c + ((object->value6e * g_dungeon_status.unk_00) >> 8) < 0x100) {
+                        if (object->value6c + ((object->value6e * g_dungeon_status.turn_scale) >> 8) < 0x100) {
                             return -1;
                         }
                     } else {
@@ -1459,7 +1459,7 @@ s32 find_valid_nearby_position(u8 *entry, s16 target_x, s16 target_y, s16 *out_x
 
     attempts = 0;
     near_x = (s16)target_x;
-    search_seed = g_dungeon_status.unk_1E;
+    search_seed = g_dungeon_status.turn_counter;
     far_x = (s16)target_y;
     slot = search_seed & 7;
     do {
@@ -1489,7 +1489,7 @@ s32 find_valid_nearby_position(u8 *entry, s16 target_x, s16 target_y, s16 *out_x
 
     attempts = 0;
     far_x = (s16)target_x;
-    search_seed = g_dungeon_status.unk_1E;
+    search_seed = g_dungeon_status.turn_counter;
     far_y = (s16)target_y;
     near_dy = search_seed & 15;
     slot = near_dy;

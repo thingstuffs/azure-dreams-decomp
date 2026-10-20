@@ -68,14 +68,14 @@ void advance_actor_action_and_direction(void *action, void *context, void *sprit
         }
         (*(void * *)((u8 *)sprite_in + 0x2C)) = D_80174E4C;
         select_sprite_entry(sprite_in,
-            D_80174E4C[((g_game_work.view.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            D_80174E4C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         {
             DungeonGlobalStatus *counter_base;
 
             counter_base = &g_dungeon_status;
-            counter_base->unk_0A =
-                ((u16)counter_base->unk_0A) - 1;
+            counter_base->activity_counts.parts.pending_action_count =
+                ((u16)counter_base->activity_counts.parts.pending_action_count) - 1;
         }
         ((S_80173D4C_0 *)action)->unk_9B++;
         return;
@@ -127,7 +127,7 @@ void advance_actor_action_and_direction(void *action, void *context, void *sprit
                 TileObject *origin = &D_80082E80;
                 s32 probe_result;
 
-                if ((coordinate != origin->unk_026) || (coordinate < 0)) {
+                if ((coordinate != origin->room_index) || (coordinate < 0)) {
                     probe_result = get_tile_chebyshev_distance(origin, sprite_in);
                     actor_to_check = actor_in;
                     if (probe_result < 2) {
@@ -151,26 +151,26 @@ void advance_actor_action_and_direction(void *action, void *context, void *sprit
 
             (*(void * *)((u8 *)sprite_in + 0x2C)) = D_80174E54;
             select_sprite_entry(sprite_in,
-                D_80174E54[((g_game_work.view.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                D_80174E54[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                 0);
             if (((S_80173D4C_1 *)sprite_in)->unk_14 & 0x8000) {
                 ((S_80173D4C_0 *)action)->unk_8C = &D_80171728;
                 return;
             }
-            g_dungeon_status.unk_0A++;
+            g_dungeon_status.activity_counts.parts.pending_action_count++;
 
             ((S_80173D4C_0 *)action)->unk_9B++;
             return;
         }
         (*(void * *)((u8 *)sprite_in + 0x2C)) = D_80174E54;
         select_sprite_entry(sprite_in,
-            D_80174E54[((g_game_work.view.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            D_80174E54[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         if (((S_80173D4C_1 *)sprite_in)->unk_14 & 0x8000) {
             ((S_80173D4C_0 *)action)->unk_8C = &D_80171728;
             return;
         }
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
 
         ((S_80173D4C_0 *)action)->unk_9B++;
         return;
@@ -179,7 +179,7 @@ void advance_actor_action_and_direction(void *action, void *context, void *sprit
         if (!(((S_80173D4C_1 *)sprite_in)->unk_14 & 0xE000)) {
             return;
         }
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
 
         ((S_80173D4C_0 *)action)->unk_8C = &D_80171728;
 

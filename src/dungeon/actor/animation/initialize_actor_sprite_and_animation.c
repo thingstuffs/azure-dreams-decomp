@@ -64,7 +64,7 @@ void initialize_actor_sprite_and_animation(void *entity, void *position, void *s
 
     select_sprite_entry(sprite,
                   (*(u8 **)((u8 *)sprite + 0x2C))[
-                      ((g_game_work.view.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7],
+                      ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7],
                   0);
 
     clear_entry_flag_and_link_owner(entity);
@@ -81,7 +81,7 @@ void initialize_actor_sprite_and_animation(void *entity, void *position, void *s
     create_tracked_effect(entity, 0, (u8 *)sprite + 0x2C, entity_data + 0x2A);
 
     if (dir_sprite_flag[
-            ((g_game_work.view.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7] != 0) {
+            ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7] != 0) {
         *(u16 *)((u8 *)sprite + 0x14) |= 1;
         return;
     }

@@ -111,7 +111,7 @@ void func_8014D514(ActorActionWork *action, void *context, ActorSpriteView *spri
             sprite->directionFrames = D_8014FE8C;
             select_sprite_entry(
                 sprite,
-                D_8014FE8C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_8014FE8C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             sprite->animationEnabled = 1;
             action->pendingAmount.signedValue = 0;
@@ -155,7 +155,7 @@ void func_8014D514(ActorActionWork *action, void *context, ActorSpriteView *spri
             return;
         }
 
-        if (sprite->position.packed == *(u16 *)(&D_80082E80.tileX)) {
+        if (sprite->position.packed == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_8014DBE0(action, context, sprite, actor);
             return;
         }
@@ -237,10 +237,10 @@ void func_8014D514(ActorActionWork *action, void *context, ActorSpriteView *spri
         if ((state_flags & 0x430) == 0) {
             if ((s16)compare_monster_neighbor_values(
                     sprite->position.tile.x, sprite->position.tile.y,
-                    D_80082E80.tileX, D_80082E80.tileY) != 0) {
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
                 roomOrDirection = get_rounded_facing_and_rounding_flag(
                     sprite->position.tile.x, sprite->position.tile.y,
-                    D_80082E80.tileX, D_80082E80.tileY, &distance);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
                 actor->facing = roomOrDirection;
             }
         }

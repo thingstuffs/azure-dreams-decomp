@@ -191,7 +191,7 @@ void update_actor_item_use_animation(void *action, void *item, void *sprite, voi
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176648;
         select_sprite_entry(sprite,
-            *(u8 *)((uptr)(((g_game_work.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
+            *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
                     (uptr)D_80176648),
             0);
         ((S_801728E4_0 *)action)->unk_9B++;
@@ -212,7 +212,7 @@ void update_actor_item_use_animation(void *action, void *item, void *sprite, voi
 
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176668;
         select_sprite_entry(sprite,
-            *(u8 *)((uptr)(((g_game_work.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
+            *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
                     (uptr)D_80176668),
             0);
         ((S_801728E4_0 *)action)->unk_9B++;
@@ -222,7 +222,7 @@ void update_actor_item_use_animation(void *action, void *item, void *sprite, voi
         if (((S_801728E4_4 *)sprite)->unk_14 & 0xE000) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765D8;
             select_sprite_entry(sprite,
-                D_801765D8[((g_game_work.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
+                D_801765D8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         ((EntityRec *)item)->flags14 = 0;

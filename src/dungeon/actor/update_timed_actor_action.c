@@ -60,7 +60,7 @@ void update_timed_actor_action(Object *object, s32 unused1, s32 unused2, Resourc
             }
             if ((get_entity_effect_value(callResource, 1) << 16) == 0) {
                 object->callback = 0;
-                g_dungeon_status.unk_0A += 1;
+                g_dungeon_status.activity_counts.parts.pending_action_count += 1;
                 object->state += 1;
             } else {
                 process_unflagged_linked_entries_alt(resource->value);
@@ -75,7 +75,7 @@ void update_timed_actor_action(Object *object, s32 unused1, s32 unused2, Resourc
         process_unflagged_linked_entries(resource->value);
         g_dungeon_status.flags |= 0x812;
         object->callback = D_80096384;
-        g_dungeon_status.unk_0A -= 1;
+        g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
         break;
     }
     object->counter += 1;

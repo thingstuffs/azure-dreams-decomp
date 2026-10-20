@@ -92,8 +92,8 @@ void complete_actor_arc_movement(S_80172290_0 *animation, EntityRec *motion, Rec
         {
             DungeonGlobalStatus *global_state = &g_dungeon_status;
 
-            if (global_state->unk_08 != 0) {
-                (*(u16 *)&global_state->unk_08)--;
+            if (global_state->activity_counts.parts.pending_movement_count != 0) {
+                (*(u16 *)&global_state->activity_counts.parts.pending_movement_count)--;
             }
         }
 
@@ -107,7 +107,7 @@ void complete_actor_arc_movement(S_80172290_0 *animation, EntityRec *motion, Rec
 
                 entity->facing = get_rounded_facing_and_rounding_flag(
                     ((SpriteFrameState *)destination)->unk_24, ((SpriteFrameState *)destination)->unk_25,
-                    D_80082E80.tileX, D_80082E80.tileY, &query_output);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &query_output);
             }
         }
 

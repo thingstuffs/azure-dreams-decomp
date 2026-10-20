@@ -26,5 +26,5 @@ void mark_special_actors_and_set_player_tile(void) {
         }
         entity = entity->unk_5C + 0x20;
     } while (entity != first_entity);
-    D_80082E80.tileX = 0x1F;
+    D_80082E80.tile_position.parts.tile_x = 0x1F;
 }

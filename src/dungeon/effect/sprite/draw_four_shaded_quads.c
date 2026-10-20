@@ -150,7 +150,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
 
     render_state = &g_game_work;
     scratch = (S_func_818BC9CC_2 *)0x1F800000;
-    angle = render_state->view.viewAngle;
+    angle = render_state->view.camera_rotation.parts.viewAngle;
     scratch->unk_18 = (u8 *)((S_func_818BC9CC_6 *)((u8 *)(&g_game_work)))->unk_00 + 0xB0;
     x_extent = (u32)((func_80064584(angle) >> 4) * effect->unk_08.as_s16) >> 8;
     y_extent = (u32)((func_800644B8(angle) >> 4) * effect->unk_08.as_s16) >> 8;
@@ -159,7 +159,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
     quad_index = 0;
 
     do {
-        render_ctx = render_state->unk_000;
+        render_ctx = render_state->draw_buffer;
         packet = render_ctx->unk_8D0;
         render_ctx->unk_8D0 = (u8 *)packet + 0x34;
 
@@ -301,7 +301,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
         if (scratch->unk_B4 < 0x1E0U) {
             full_window[1] = 0;
             full_window[0] = 0;
-            full_ctx = render_state->unk_000;
+            full_ctx = render_state->draw_buffer;
             full_window[3] = 0xFF;
             full_window[2] = 0xFF;
             draw_mode = full_ctx->unk_8D0;
@@ -339,7 +339,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
 
             tile_window[0] = 0;
             tile_window[1] = 0x80;
-            tile_ctx = render_state->unk_000;
+            tile_ctx = render_state->draw_buffer;
             tile_window[3] = 0x40;
             tile_window[2] = 0x40;
             draw_mode_2 = tile_ctx->unk_8D0;

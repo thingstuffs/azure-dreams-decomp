@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/object_node.h"
 #include "common.h"
 
@@ -72,7 +73,7 @@ void create_cd_cue_effect(void)
             slots->fC = slot0;
             slots->count++;
         }
-        if (test_resident_bitmap_bit(0x1392) == 0) {
+        if (test_resident_bitmap_bit(F_qyun_misuteta) == 0) {
             slot1 = allocate_list_node(0x212, node);
             if (slot1 != 0) {
                 scene_initialize_orbit_motion_sprite(slot1, slots);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/interfaces.h"
 
 typedef struct MainPosition {
     u8 pad0[8];

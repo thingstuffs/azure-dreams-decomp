@@ -32,10 +32,10 @@ s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *directio
     if (direction_frames != 0) {
         *(u8 **)((u8 *)sprite + 0x2C) = direction_frames;
         select_sprite_entry(sprite,
-            direction_frames[((g_game_work.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
+            direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);
     }
-    g_dungeon_status.unk_0A++;
+    g_dungeon_status.activity_counts.parts.pending_action_count++;
     *(s32 *)((u8 *)actor + 0x1C) &= ~0x40000;
     return 1;
 }

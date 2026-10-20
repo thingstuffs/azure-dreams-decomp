@@ -60,7 +60,7 @@ void start_actor_reaction_step(S_801721A4_1 *owner, void *unused, S_801721A4_2 *
 
         part->unk_14 |= 0xC;
         part->unk_12 -= 0x80;
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
         (*(u8 *)&actor->unk_6D)--;
         part->unk_2C = D_80173D88;
         part->unk_0C = 0xFFFFFF;
@@ -68,7 +68,7 @@ void start_actor_reaction_step(S_801721A4_1 *owner, void *unused, S_801721A4_2 *
         play_sound_if_enabled(0x811);
         select_sprite_entry(part,
             part->unk_2C[
-                ((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
     }
 }

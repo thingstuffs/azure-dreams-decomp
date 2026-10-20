@@ -165,7 +165,7 @@ void advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4(A
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((ActorCounterView *)D_800814A8)->pendingCount--;
         advance_status_timers(actor);
         actor->unk_6D--;
@@ -206,11 +206,11 @@ void advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4(A
                 sprite->directionFrames = D_8015BFB8;
                 select_sprite_entry(
                     (struct S_80047784 *)(sprite),
-                    D_8015BFB8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    D_8015BFB8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
-            if (((s32)g_dungeon_status.unk_0C) == 0) {
-                g_dungeon_status.unk_0A--;
+            if (((s32)g_dungeon_status.active_actor) == 0) {
+                g_dungeon_status.activity_counts.parts.pending_action_count--;
                 sprite->animationFlags &= 0xF7FF;
                 action->handler = &D_80158F68;
                 advance_status_timers(actor);

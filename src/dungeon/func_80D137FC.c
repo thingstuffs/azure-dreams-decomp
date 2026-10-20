@@ -55,7 +55,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
         return;
     }
     (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80174EB8;
-    select_sprite_entry(sprite, D_80174EB8[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+    select_sprite_entry(sprite, D_80174EB8[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
 
     ((T_80172FFC_S_80172FFC_0 *)action)->unk_96 = 0U;
     ((T_80172FFC_S_80172FFC_0 *)action)->unk_9B = (u8) (((T_80172FFC_S_80172FFC_0 *)action)->unk_9B + 1);
@@ -73,7 +73,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
     }
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80174E90;
-        select_sprite_entry(sprite, D_80174E90[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, D_80174E90[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     }
     spawn_tick = ((T_80172FFC_S_80172FFC_0 *)action)->unk_96;
     if ((u32) (spawn_tick - 9) < 5U) {
@@ -148,7 +148,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
                 position[2] = ((T_80172FFC_S_80172FFC_3 *)motion)->unk_0A;
                 effect_sprite->unk_06 = (s16) ((effect_depth - func_80065420(position_ptr,
                     screen_pos, &projection_aux, &projection_flags))
-                    - (D_800DCECC[((s32) (g_game_work.view.viewAngle + (s16) ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_94
+                    - (D_800DCECC[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_94
                     + 0x100) >> 9) & 7] * 2));
             }
             next_count = spawn_count + 1;
@@ -161,7 +161,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         reduce_actor_food_meter(actor, 0x100);
         ((T_80172FFC_S_80172FFC_0 *)action)->unk_8C = &update_actor_behavior_and_direction;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
     }

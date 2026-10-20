@@ -73,14 +73,14 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
     coords = first_coords;
     render_state = &g_game_work;
     scratch = (u8 *)0x1F800000;
-    ((S_800BB218_0 *)scratch)->unk_10 = render_state->unk_000 + 0xB0;
+    ((S_800BB218_0 *)scratch)->unk_10 = render_state->draw_buffer + 0xB0;
     addr_mask = 0x00FFFFFF;
     tag_mask = 0xFF000000;
 
     while (1) {
         point_index = 0;
         do {
-            arena = render_state->unk_000;
+            arena = render_state->draw_buffer;
             packet = ((GpuContext *)arena)->packetCursor;
             ((GpuContext *)arena)->packetCursor = packet + 0xC;
             packet[3] = 2;

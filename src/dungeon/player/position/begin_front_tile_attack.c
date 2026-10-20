@@ -95,7 +95,7 @@ s32 begin_front_tile_attack(void *actor_state_arg, void *unused, void *position_
     ((S_8008C8BC_4 *)actor_state_arg)->unk_9A = 0x11;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_9B = 0;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_8C = 0;
-    g_dungeon_status.unk_0C = entity;
+    g_dungeon_status.active_actor = entity;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_A6 = 0;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_98 = (u16) ((((S_8008C8BC_4 *)actor_state_arg)->unk_98 | 0x2000) & 0xEFFF);
     g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x400);

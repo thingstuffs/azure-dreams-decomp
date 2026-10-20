@@ -110,9 +110,9 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
             return NULL;
         }
         clear_entry_flag_and_link_owner(object);
-        object_count = ((u16)g_dungeon_status.unk_0A);
+        object_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         object_count = (u16) (object_count + 1);
-        g_dungeon_status.unk_0A = object_count;
+        g_dungeon_status.activity_counts.parts.pending_action_count = object_count;
     }
     return object;
 }

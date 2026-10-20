@@ -173,7 +173,7 @@ void advance_item_action_sequence(void *action, EntityRec *motion, void *sprite,
             ((S_80172D74_5 *)owner_flags)->unk_04 &= 0x7FFF;
             (*(u8 * *)((u8 *)owner_sprite + 0x2C)) = D_80175168;
             select_sprite_entry(owner_sprite,
-                D_80175168[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80175168[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             if (!create_actor_spell_effect(actor, item_slot, special_item, (u8 *)action + 0x98)) {
                 return;
@@ -193,7 +193,7 @@ void advance_item_action_sequence(void *action, EntityRec *motion, void *sprite,
         {
             void *entity = D_800814A8;
 
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)entity + 0xA6))--;
         }
         advance_status_timers(actor);
@@ -277,17 +277,17 @@ void advance_item_action_sequence(void *action, EntityRec *motion, void *sprite,
                     }
                     (*(u8 * *)((u8 *)sprite + 0x2C)) = next_animation;
                     select_sprite_entry(sprite,
-                        next_animation[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                        next_animation[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                         0);
                 }
             }
         }
         {
 
-            if (((s32)g_dungeon_status.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         ((S_80172D74_4 *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172D74_1 *)action)->unk_8C = D_80171400;

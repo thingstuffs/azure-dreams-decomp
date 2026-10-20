@@ -22,7 +22,7 @@ void clear_actor_flag_and_apply_effect(void *action_state, s32 effect_arg, void 
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
             (*(s32 * *)((u8 *)anim_state + 0x2C)) = &D_80174E3C;
             select_sprite_entry(anim_state,
-                          *((((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+                          *((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                             + (u8 *)&D_80174E3C),
                           0);
             advance_status_timers(actor);

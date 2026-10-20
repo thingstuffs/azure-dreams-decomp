@@ -57,7 +57,7 @@ void fade_reshape_and_remove_entity(void *fade_state, void *position, void *spri
     fade_phase = ((S_80173A3C_0 *)fade_state)->unk_9B;
     switch (fade_phase) {
     case 0:
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
 
@@ -94,8 +94,8 @@ void fade_reshape_and_remove_entity(void *fade_state, void *position, void *spri
 
     if ((((u32)((EntityRec *)entity)->flags14) & 0x20000000) == 0) {
         DungeonGlobalStatus *entity_tracker = &g_dungeon_status;
-        if (entity_tracker->unk_10 == (u8 *)entity - 0x20) {
-            (*(u32 *)&entity_tracker->unk_10) &= 0x7FFFFFFF;
+        if (entity_tracker->pending_display_owner == (u8 *)entity - 0x20) {
+            (*(u32 *)&entity_tracker->pending_display_owner) &= 0x7FFFFFFF;
         }
     }
 

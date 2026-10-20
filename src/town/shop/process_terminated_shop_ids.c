@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern void clear_resident_bitmap_bit(s32 flag_id);
@@ -23,5 +24,5 @@ void process_terminated_shop_ids(void)
         range_index++;
     } while (range_index < 54);
 
-    clear_resident_bitmap_bit(0xD31);
+    clear_resident_bitmap_bit(Ftt_top);
 }

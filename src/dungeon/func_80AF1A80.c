@@ -186,7 +186,7 @@ case 3:
         u8 *frame_table = ((u8 *)D_80175988);
         (*(u8 * *)((u8 *)tile_arg + 0x2C)) = frame_table;
         select_sprite_entry(tile_arg,
-            frame_table[((g_game_work.view.viewAngle + action->facing + 0x100) >> 9) & 7],
+            frame_table[((g_game_work.view.camera_rotation.parts.viewAngle + action->facing + 0x100) >> 9) & 7],
             0);
         ((R10_80173280_S_80173280_3 *)tile_arg)->unk_14 &= 0xF7FF;
     }

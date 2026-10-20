@@ -107,7 +107,7 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
     texture_window[3] = window_size;
 
     {
-        u8 *state = g_game_work.unk_000;
+        u8 *state = g_game_work.draw_buffer;
 
         textured_quad = ((GpuContext *)state)->packetCursor;
         quad_packet = textured_quad;
@@ -219,7 +219,7 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
     ((S_800A17CC_1 *)textured_quad)->unk_20 = SCRATCH(u16, 0xF4);
     (*(u16 *)((u8 *)textured_quad + 0x22)) = SCRATCH(u16, 0xF6);
 
-    render_state = g_game_work.unk_000;
+    render_state = g_game_work.draw_buffer;
     overlay_quad = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = overlay_quad + 0x18;
     ((S_800A17CC_3 *)overlay_quad)->unk_04 = ((S_800A17CC_2 *)sprite)->unk_12;
@@ -236,7 +236,7 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
     ((S_800A17CC_3 *)overlay_quad)->unk_14 = SCRATCH(u16, 0xF4);
     (*(u16 *)((u8 *)overlay_quad + 0x16)) = SCRATCH(u16, 0xF6);
 
-    render_state = g_game_work.unk_000;
+    render_state = g_game_work.draw_buffer;
     SCRATCH(u32, 0x24) = (s32)(render_state + 0xB0);
     draw_mode = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
@@ -244,7 +244,7 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), overlay_quad);
 
-    render_state = g_game_work.unk_000;
+    render_state = g_game_work.draw_buffer;
     draw_mode = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
     func_80067F20(draw_mode, 1, 0,
@@ -252,7 +252,7 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), textured_quad);
 
-    render_state = g_game_work.unk_000;
+    render_state = g_game_work.draw_buffer;
     draw_mode = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
     func_80067F20(draw_mode, 1, 0, texture_page & 0xFFFF, texture_window);

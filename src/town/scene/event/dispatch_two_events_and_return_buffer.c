@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -6,7 +7,7 @@ extern M2C_UNK D_8001DCD4;
 
 /* Passes two fixed IDs to set_script_flag_bit and returns the address of D_8001DCD4. */
 s32 *dispatch_two_events_and_return_buffer(void) {
-    set_script_flag_bit(0xDAC);
-    set_script_flag_bit(0xD77);
+    set_script_flag_bit(Ftt_pad124);
+    set_script_flag_bit(Ftt_pad70);
     return &D_8001DCD4;
 }

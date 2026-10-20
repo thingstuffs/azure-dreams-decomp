@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 get_script_flag_mask(s16 flagIndex);
@@ -14,7 +15,7 @@ void *select_event_data_and_fallback(void *object, s32 unused, s32 eventCode) {
             return D_8001F4E2;
         }
         set_current_entry_script_flag();
-        set_script_flag_bit(0x145D);
+        set_script_flag_bit(F_sero_end);
         return D_8001E6F8;
     }
     if (eventCode == 0x44) {

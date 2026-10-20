@@ -1,7 +1,8 @@
 #include "common.h"
+#include "frontend/libcard/interfaces.h"
 #include "m2c_compat.h"
 
-void card_boot_init_server(void);                            /* extern */
+#include "modules/main_server_ship_interfaces.h"
 void close_timer_2_update_event(void);                            /* extern */
 extern s8 D_80080A84;
 

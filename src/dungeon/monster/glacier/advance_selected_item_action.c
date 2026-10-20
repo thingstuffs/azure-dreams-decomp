@@ -246,7 +246,7 @@ void advance_selected_item_action_2(void *action, EntityRec *position, void *spr
             void *active;
 
             active = D_800814A8;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             (((ActiveFieldView_810318E4 *)active)->field_A6)--;
         }
         advance_status_timers(actor);
@@ -332,7 +332,7 @@ void advance_selected_item_action_2(void *action, EntityRec *position, void *spr
         {
             u16 timer;
 
-            if (((s32)g_dungeon_status.unk_0C) == 0) {
+            if (((s32)g_dungeon_status.active_actor) == 0) {
                 ((S_801730E4_0 *)action)->unk_96 = 0;
             }
             timer = ((S_801730E4_0 *)action)->unk_96 - 1;
@@ -353,14 +353,14 @@ void advance_selected_item_action_2(void *action, EntityRec *position, void *spr
                 s32 direction_index;
 
                 ((SpriteFrameState *)sprite)->frameTable = D_8017609C;
-                direction_index = ((g_game_work.view.viewAngle + (((ActorFieldView_810318E4 *)actor)->field_2A.s16) + 0x100) >> 9) & 7;
+                direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + (((ActorFieldView_810318E4 *)actor)->field_2A.s16) + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, D_8017609C[direction_index], 0);
                 ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
             }
-            if (((s32)g_dungeon_status.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         ((S_801730E4_0 *)action)->unk_8C = &D_801714B8;
         advance_status_timers(actor);

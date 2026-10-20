@@ -127,7 +127,7 @@ void update_viper_item_grab(Entity *entity, Motion *motion, Effect *effect, Obje
         motion->velocity_x = (dir_step_x[direction] << 16) + (dir_step_x[direction] << 15);
         motion->velocity_y = (dir_step_y[direction] << 16) + (dir_step_y[direction] << 15);
         effect->callback = (void (*)(void))D_80174AE4;
-        select_sprite_entry(effect, D_80174AE4[((g_game_work.view.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(effect, D_80174AE4[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
         play_sound_if_enabled(0x51E);
         entity->timer = 2000;
         entity->state++;
@@ -144,7 +144,7 @@ void update_viper_item_grab(Entity *entity, Motion *motion, Effect *effect, Obje
             break;
         }
         effect->callback = (void (*)(void))D_80174AEC;
-        select_sprite_entry(effect, D_80174AEC[((g_game_work.view.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(effect, D_80174AEC[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
         entity->timer = 2000;
         entity->state++;
         break;
@@ -161,7 +161,7 @@ void update_viper_item_grab(Entity *entity, Motion *motion, Effect *effect, Obje
         motion->velocity_x = -dir_step_x[index] << 16;
         motion->velocity_y = -dir_step_y[index] << 16;
         effect->callback = (void (*)(void))D_80174A74;
-        select_sprite_entry(effect, D_80174A74[((g_game_work.view.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(effect, D_80174A74[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
         direction = abs(entity->saved_y - motion->y.w.i);
         distance = abs(entity->saved_x - motion->x.w.i);
         if (distance < direction) {
@@ -182,7 +182,7 @@ void update_viper_item_grab(Entity *entity, Motion *motion, Effect *effect, Obje
         motion->velocity_x = 0;
         reduce_actor_food_meter(object, 0x100);
         entity->callback = update_dungeon_actor_actions;
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         advance_status_timers(object);
         if (object->flag6D == 0) {
             object->flags &= 0x7FFF;

@@ -98,10 +98,10 @@ void build_screen_outline(
     }
 
     if (use_fallback != 0) {
-        angle = view_geometry->view.viewAngle + 0x600;
-        screen_point.x = ((u16)view_geometry->view.unk_094);
-        screen_point.y = ((u16)view_geometry->view.unk_096);
-        screen_point.z = ((u16)view_geometry->view.unk_098);
+        angle = view_geometry->view.camera_rotation.parts.viewAngle + 0x600;
+        screen_point.x = ((u16)view_geometry->view.view_offset.parts.view_offset_x);
+        screen_point.y = ((u16)view_geometry->view.view_offset.parts.view_offset_y);
+        screen_point.z = ((u16)view_geometry->view.view_offset.parts.view_offset_z);
         world_to_local_position(&screen_point, &center);
 
         for (corner_index = 3; corner_index >= 0; corner_index--) {

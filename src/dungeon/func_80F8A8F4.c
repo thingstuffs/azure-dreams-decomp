@@ -52,10 +52,10 @@ void start_bank_actor_hit_reaction(void *work, void *part_a, void *part_b, Entit
         table_base = D_80174B0C;
         actor->target = field_60;
         ((SpriteFrameState *)part_b)->frameTable = table_base;
-        select_sprite_entry(part_b, table_base[((s32)(g_game_work.view.viewAngle + (s16)((u16)actor->facing) + 0x100)
+        select_sprite_entry(part_b, table_base[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + (s16)((u16)actor->facing) + 0x100)
             >> 9) & 7], 0);
         actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
-        g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) + 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         raw_result = get_unused_text_buffer();
         call_arg = actor;
         pass_result = raw_result;

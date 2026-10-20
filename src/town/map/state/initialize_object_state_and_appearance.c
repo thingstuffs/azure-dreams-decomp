@@ -42,9 +42,9 @@ void initialize_object_state_and_appearance(s32 object_id, void *object, FuncDat
     state->unk1C = 0x1000;
     state->unk1E = 0x1000;
     state->unk20 = 0x1000;
-    state->unkC = g_game_work.view.unk_090;
-    state->unkD = g_game_work.view.unk_091;
-    state->unkE = g_game_work.view.unk_092;
+    state->unkC = g_game_work.view.tint.parts.tint_r;
+    state->unkD = g_game_work.view.tint.parts.tint_g;
+    state->unkE = g_game_work.view.tint.parts.tint_b;
     *(s32 *)((u8 *)object + 8) += 0x200000;
 
     configure_the_set_mode_n_3(object_id, object, D_800D1BDC);

@@ -390,7 +390,7 @@ void func_818154FC(void *effect, S_818154FC_5 *position, SpriteFrameState *sprit
 
                 ((S_818154FC_0 *)effect)->unk_84.s = old_counter;
                 if (global_state == 0) {
-                    g_dungeon_status.unk_0C = 0;
+                    g_dungeon_status.active_actor = 0;
                     ((S_818154FC_0_pre *)effect)[-1].unk_00 |= 0x8000;
                     object_flag_block.flags |= 0x8000;
                 } else {

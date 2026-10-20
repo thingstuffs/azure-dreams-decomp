@@ -107,7 +107,7 @@ void dispatch_creature_action(ActionState *actor, void *context, ActorSprite *sp
         }
         anim_table = D_8016E8D8;
         sprite_arg->directionFrames = anim_table;
-        select_sprite_entry(sprite_arg, ((u8 *) anim_table)[(((g_game_work.view.viewAngle + (creature->facing)) + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite_arg, ((u8 *) anim_table)[(((g_game_work.view.camera_rotation.parts.viewAngle + (creature->facing)) + 0x100) >> 9) & 7], 0);
         return;
     }
     sprite = sprite_arg;
@@ -139,7 +139,7 @@ void dispatch_creature_action(ActionState *actor, void *context, ActorSprite *sp
             anim_table = D_8016E880;
             if (current_anim != anim_table) {
                 sprite->directionFrames = anim_table;
-                select_sprite_entry(sprite, ((u8 *) anim_table)[(((g_game_work.view.viewAngle + (creature->facing)) + 0x100) >> 9) & 7], 0);
+                select_sprite_entry(sprite, ((u8 *) anim_table)[(((g_game_work.view.camera_rotation.parts.viewAngle + (creature->facing)) + 0x100) >> 9) & 7], 0);
                 sprite->frameTick = 1;
                 actor->motionOffset.signedValue = 0;
                 actor->motionTicks = 0;
@@ -173,7 +173,7 @@ void dispatch_creature_action(ActionState *actor, void *context, ActorSprite *sp
             update_actor_status_and_food(creature);
             return;
         }
-        if ((sprite->position.packed) == *(u16 *)&D_80082E80.tileX) {
+        if ((sprite->position.packed) == *(u16 *)&D_80082E80.tile_position.parts.tile_x) {
             func_8016B848(actor, context, sprite, creature);
             return;
         }
@@ -232,7 +232,7 @@ void dispatch_creature_action(ActionState *actor, void *context, ActorSprite *sp
             void *player;
             s16 facing_angle;
             facing_angle = get_rounded_facing_and_rounding_flag(sprite->position.tile.x, sprite->position.tile.y,
-                player_pos->tileX, player_pos->tileY, &direction_aux);
+                player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y, &direction_aux);
             player = D_800814A8;
             creature->facing = facing_angle;
             if ((((EntityRec *)player)->unk_9A) == 0x11) {
@@ -262,10 +262,10 @@ void dispatch_creature_action(ActionState *actor, void *context, ActorSprite *sp
             if (!((creature->flags) & 0x430)) {
                 TileObject *player_pos = &D_80082E80;
                 if ((compare_monster_neighbor_values(sprite->position.tile.x, sprite->position.tile.y,
-                    player_pos->tileX, player_pos->tileY) << 16) != 0) {
+                    player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y) << 16) != 0) {
                     creature->facing = get_rounded_facing_and_rounding_flag(sprite->position.tile.x,
-                        sprite->position.tile.y, player_pos->tileX,
-                        player_pos->tileY, &direction_aux);
+                        sprite->position.tile.y, player_pos->tile_position.parts.tile_x,
+                        player_pos->tile_position.parts.tile_y, &direction_aux);
                 }
             }
         }

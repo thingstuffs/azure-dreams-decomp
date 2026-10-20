@@ -47,7 +47,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
     case 0:
         heading = transform->unk_2A & 0xFFF;
         transform->unk_2A = heading;
-        if (((0x400 - ((((u16)scene_state->view.viewAngle) + 0x100) & 0xE00)) & 0xE00) != heading) {
+        if (((0x400 - ((((u16)scene_state->view.camera_rotation.parts.viewAngle) + 0x100) & 0xE00)) & 0xE00) != heading) {
             transform->unk_2A = heading + 0x200;
             return;
         }
@@ -60,7 +60,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
                 u8 *animation_table = D_80175EC8;
                 animation->frameTable = animation_table;
                 {
-                    unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
+                    unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                         + (s16) transform->unk_2A + 0x100) >> 9) & 7);
                     animation_entry += (unsigned long)animation_table;
                     select_sprite_entry(animation, *(u8 *)animation_entry, 0);
@@ -77,7 +77,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
             u8 *animation_table = D_80175EC8;
             animation->frameTable = animation_table;
             {
-                unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
+                unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                     + (s16) transform->unk_2A + 0x100) >> 9) & 7);
                 animation_entry += (unsigned long)animation_table;
                 select_sprite_entry(animation, *(u8 *)animation_entry, 0);
@@ -93,7 +93,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
                 animation_table = (u8 *)D_80175ED0;
                 animation->frameTable = animation_table;
                 {
-                    unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
+                    unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                         + (s16) transform->unk_2A + 0x100) >> 9) & 7);
                     animation_entry += (unsigned long)animation_table;
                     select_sprite_entry(animation, *(u8 *)animation_entry, 0);
@@ -112,7 +112,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
                 u8 *animation_table = D_80175EC8;
                 animation->frameTable = animation_table;
                 {
-                    unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
+                    unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                         + (s16) transform->unk_2A + 0x100) >> 9) & 7);
                     animation_entry += (unsigned long)animation_table;
                     select_sprite_entry(animation, *(u8 *)animation_entry, 0);
@@ -127,7 +127,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
                 u8 *animation_table = D_80175EC8;
                 animation->frameTable = animation_table;
                 {
-                    unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
+                    unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                         + (s16) transform->unk_2A + 0x100) >> 9) & 7);
                     animation_entry += (unsigned long)animation_table;
                     select_sprite_entry(animation, *(u8 *)animation_entry, 0);
@@ -148,13 +148,13 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
             {
                 u8 *animation_table = D_80175EB8;
                 animation->frameTable = animation_table;
-                select_sprite_entry(animation, animation_table[((s32) (g_game_work.view.viewAngle + (s16) transform->unk_2A
+                select_sprite_entry(animation, animation_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) transform->unk_2A
                     + 0x100) >> 9) & 7], 0);
             }
             actor->unk_8C = D_801710EC;
             transform->unk_2A = (u16) actor->unk_B0;
             actor->unk_B2 = 0;
-            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         }
         return;
     default:

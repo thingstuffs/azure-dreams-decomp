@@ -54,7 +54,7 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(v
     }
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_80173FB8;
     select_sprite_entry(sprite,
-        D_80173FB8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+        D_80173FB8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
     actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
     prepare_directional_attack(actor, sprite, actor->facing, 1, 0);

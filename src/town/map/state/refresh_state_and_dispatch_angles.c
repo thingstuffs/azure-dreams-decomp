@@ -12,9 +12,9 @@ void refresh_state_and_dispatch_angles(void) {
     u32 controlAngle;
 
     clear_flagged_cells_and_reset_list();
-    firstScaledAngle = ((u16)state->unk_0A4) >> 6;
-    secondScaledAngle = ((u16)state->unk_0A6) >> 6;
-    controlAngle = ((u16)state->viewAngle);
+    firstScaledAngle = ((u16)state->camera_position.parts.camera_position_x) >> 6;
+    secondScaledAngle = ((u16)state->camera_position.parts.camera_position_y) >> 6;
+    controlAngle = ((u16)state->camera_rotation.parts.viewAngle);
     if (controlAngle & 0x3FF) {
         count_flagged_tiles_along_direction(
             ((s32)(((0x400 - controlAngle) & 0xFFF) - 0x400) < 0x801U) * 4,

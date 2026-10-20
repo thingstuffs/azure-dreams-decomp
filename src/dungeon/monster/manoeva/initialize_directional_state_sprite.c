@@ -29,5 +29,5 @@ void initialize_directional_state_sprite(State *state, s32 unused, Context *cont
     state->unk9B = 0;
     state->unk9E = 3;
     context->unk2C = D_801765E8;
-    select_sprite_entry(context, D_801765E8[((g_game_work.view.viewAngle + indexSource->unk2A + 0x100) >> 9) & 7], 0);
+    select_sprite_entry(context, D_801765E8[((g_game_work.view.camera_rotation.parts.viewAngle + indexSource->unk2A + 0x100) >> 9) & 7], 0);
 }

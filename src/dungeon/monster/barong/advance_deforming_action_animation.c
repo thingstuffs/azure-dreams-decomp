@@ -78,7 +78,7 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
         ((S_801750F8_0 *)action_in)->unk_9B++;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755BC;
         select_sprite_entry(sprite,
-            D_801755BC[((g_game_work.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_801755BC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x51E);
         return;
@@ -92,7 +92,7 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
         ((S_801750F8_0 *)action_in)->unk_9B++;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755CC;
         select_sprite_entry(sprite,
-            D_801755CC[((g_game_work.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_801755CC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801750F8_2 *)sprite)->unk_14 |= 0x0800;
         return;
@@ -162,7 +162,7 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
         ((S_801750F8_2 *)sprite)->unk_1C = 0x1000;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755C4;
         select_sprite_entry(sprite,
-            D_801755C4[((g_game_work.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_801755C4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x509);
         create_randomized_item_object(action_in, direction_data, sprite, actor);
@@ -185,14 +185,14 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
     case 5:
     {
 
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8017555C;
         select_sprite_entry(sprite,
-            D_8017555C[((g_game_work.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8017555C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         reduce_actor_food_meter(actor, 0x1000);
         ((S_801750F8_0 *)action_in)->unk_8C = D_801716F4;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((S_801750F8_1 *)actor)->unk_46 &= 0x7FFF;
     }
     }

@@ -18,8 +18,6 @@
 extern s32 D_80084850[];
 
 extern void func_80055990(void *a0);
-extern void func_800552C8(void);
-extern void func_80054D64(void);
 
 /* Resets global status and initializes two task objects with callbacks and defaults. */
 void reset_audio_status(void) {

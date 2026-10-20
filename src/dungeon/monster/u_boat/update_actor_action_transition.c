@@ -26,7 +26,7 @@ void update_actor_action_transition(void *state, s32 update_mode, void *sprite, 
         *(void **)((u8 *)sprite + 0x2C) = direction_frames;
         select_sprite_entry(
             sprite,
-            direction_frames[((g_game_work.view.viewAngle + *(s16 *)((u8 *)entity + 0x2A) + 0x100) >> 9) & 7],
+            direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)entity + 0x2A) + 0x100) >> 9) & 7],
             0);
         if (*(u8 *)((u8 *)state + 0xB0) == 0) {
             create_owner_linked_directional_object(state, update_mode, sprite);

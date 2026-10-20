@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -29,9 +30,9 @@ typedef struct S_func_80016BE8_3 {
 
 /* Conditionally updates the town state pointer and invokes the town callback. */
 s32 check_query_0x5c0_zero(void) {
-    func_80018BD0(0xFB7);
-    func_80018BD0(0xFB8);
-    if (func_80018C50(0xFE8) == 0) {
+    func_80018BD0(F_hos_first_cheriru);
+    func_80018BD0(F_hos_first_hush);
+    if (func_80018C50(F_cheril_orei) == 0) {
         ((S_func_80016BE8_2 *)
             ((S_func_80016BE8_1 *)
              ((S_func_80016BE8_0 *)((s8 *)(&D_80016000)))->unk_00)->unk_1C)->unk_40 = &D_8001C9F4;

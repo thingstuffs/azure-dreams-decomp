@@ -102,9 +102,9 @@ void func_801729D8(R16_801729D8_S_80173294_0 *motion_state, EntityRec *motion, S
         set_record_integer_tile_center(motion,(u8)tile_state->unk_24,(u8)tile_state->unk_25);
         {
 
-            x_speed_or_entity = ((s32)g_dungeon_status.unk_10);
+            x_speed_or_entity = ((s32)g_dungeon_status.pending_display_owner);
             if (x_speed_or_entity == (s32)((u8 *)entity - 0x20)) {
-                g_dungeon_status.unk_10 = x_speed_or_entity & 0x7FFFFFFF;
+                g_dungeon_status.pending_display_owner = x_speed_or_entity & 0x7FFFFFFF;
             }
         }
         motion_state->unk_8C = ((void *)update_actor_state_and_dispatch_transition);

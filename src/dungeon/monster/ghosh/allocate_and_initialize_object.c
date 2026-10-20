@@ -58,6 +58,6 @@ void allocate_and_initialize_object(void) {
 
         (*(Packed12 *)((u8 *)object + 0x4C)) = D_80077818;
         primitive->unk_08 = (u8 *)object + 0x4C;
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 }

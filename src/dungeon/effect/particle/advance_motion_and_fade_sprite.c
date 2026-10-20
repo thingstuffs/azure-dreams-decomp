@@ -625,7 +625,7 @@ case2_spawn_loop:
             action->unk_52.u16_52 &= 0x7FFF;
             return;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((u16 *)((u8 *)action - 2))[0] |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }

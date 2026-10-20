@@ -140,7 +140,7 @@ void advance_timed_actor_effect_sequence(u8 *sequence, u8 *transform, u8 *sprite
         }
         if (current_anim_table != anim_table) {
             ((SpriteFieldView_81336BB4 *)sprite)->field_2C = anim_table;
-            direction = ((s32)(g_game_work.view.viewAngle + ((ActorFieldView_81336BB4 *)actor)->field_2A + 0x100) >> 9) & 7;
+            direction = ((s32)(g_game_work.view.camera_rotation.parts.viewAngle + ((ActorFieldView_81336BB4 *)actor)->field_2A + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, *(u8 *)((u32)direction + (u32)anim_table), 0);
         }
         goto advance;
@@ -162,7 +162,7 @@ advance:
         actor[0x73] = 0;
         actor[0x72] = 0;
         ((SequenceFieldView_81336BB4 *)sequence)->field_8C = D_8016A36C;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((ActorFieldView_81336BB4 *)actor)->field_46 &= 0x7FFF;
 
         return;

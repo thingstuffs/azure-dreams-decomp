@@ -21,7 +21,7 @@ void initialize_actor_object_action(void *object_state, void *unused_context, Re
     properties->unk_14.at00_u16.v = (u16)(properties->unk_14.at00_u16.v & 0xF7FF);
     ((Rec_func_800A9E70_arg0 *)object_state)->unk_96.as_s16 = 0;
     object = object_state - 0x20;
-    g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) + 1);
+    g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     unlink_node(object);
     register_node(object, &D_800C6AEC);
     properties->unk_0C.at03_s8.v = 0;

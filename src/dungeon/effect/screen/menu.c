@@ -39,7 +39,7 @@ extern void draw_textured_ellipse_segments(struct DungeonPosition *position, str
 void draw_textured_ellipse(s32 draw_value, DungeonInput *rect, u16 fill_rect, u16 draw_mode) {
     GpuContext *initial_state;
     GpuContext *active_state;
-    GpuContext **state_slot = &g_game_work.unk_000;
+    GpuContext **state_slot = &g_game_work.draw_buffer;
     u8 *draw_list;
     u8 *command_cursor;
     DungeonPacket *fill_packet;
@@ -48,12 +48,12 @@ void draw_textured_ellipse(s32 draw_value, DungeonInput *rect, u16 fill_rect, u1
     s32 packet_y;
     s16 offset_y;
 
-    initial_state = g_game_work.unk_000;
+    initial_state = g_game_work.draw_buffer;
     offset_y = initial_state != (GpuContext *)D_801C9E40 ? 1 : 0;
     command_cursor = initial_state->packetCursor;
     draw_list = (u8 *)initial_state + 0x8B0;
     initial_state->packetCursor = command_cursor + 0xC;
-    func_80067E2C(command_cursor, g_game_work.unk_000);
+    func_80067E2C(command_cursor, g_game_work.draw_buffer);
     func_8006658C(draw_list, command_cursor);
 
     center[0] = rect->x + ((s32)(rect->data.half.z << 0x10) >> 0x11);
@@ -65,7 +65,7 @@ void draw_textured_ellipse(s32 draw_value, DungeonInput *rect, u16 fill_rect, u1
     draw_textured_ellipse_segments(center, draw_value, draw_list, draw_mode & 0xFFFF);
 
     if ((fill_rect & 0xFFFF) != 0) {
-        active_state = g_game_work.unk_000;
+        active_state = g_game_work.draw_buffer;
         fill_packet = (DungeonPacket *)active_state->packetCursor;
         active_state->packetCursor = (u8 *)fill_packet + 0x10;
         fill_packet->command = 0x60000000;
@@ -450,7 +450,7 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
         target_pos[1] = ((S_800B8830_5 *)pos_record)->unk_04;
         target_pos[2] = (((S_800B8830_0 *)motion)->unk_32 - 0x50) << 16;
 
-        entry_addr = ((g_game_work.view.viewAngle +
+        entry_addr = ((g_game_work.view.camera_rotation.parts.viewAngle +
                   D_800814A8->facing + 0x100) >> 7) & 0x1C;
         entry_addr += (s32)D_800E3D18;
         entry = ((S_800B8830_8 *)((void *)entry_addr))->unk_00;
@@ -856,13 +856,13 @@ void draw_transformed_sprite_with_clip_rect(s32 sprite, Position *clip_rect, Pos
     s16 shift_y;
     s32 y;
 
-    context = (DrawContext *)g_game_work.unk_000;
+    context = (DrawContext *)g_game_work.draw_buffer;
     saved_clear_bg = clear_bg;
     shift_y = context != (DrawContext *)D_801C9E40;
     area_packet = context->next_packet;
     ordering_table = context->ordering_table;
     context->next_packet = (Packet *)((u8 *)area_packet + 0xC);
-    draw_context = g_game_work.unk_000;
+    draw_context = g_game_work.draw_buffer;
     func_80067E2C(area_packet, draw_context);
     func_8006658C(ordering_table, area_packet);
 
@@ -874,7 +874,7 @@ void draw_transformed_sprite_with_clip_rect(s32 sprite, Position *clip_rect, Pos
         if (shift_y) {
             y -= 0xE0;
         }
-        context_slot = (DrawContext **)&g_game_work.unk_000;
+        context_slot = (DrawContext **)&g_game_work.draw_buffer;
         draw_pos.y = y;
         draw_transformed_sprite_parts(&draw_pos, sprite, ordering_table, draw_flags);
 
@@ -965,7 +965,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
     u8 *sprite = P32(context, -0x14);
     s32 callback_arg = S32(context, -0x18);
     s16 saved_mode = draw_mode;
-    GpuContext *root = g_game_work.unk_000;
+    GpuContext *root = g_game_work.draw_buffer;
     Record *part = P32(sprite, 8);
     GpuContext **global_slot = ((GpuContext * *)(&g_game_work));
     u8 *scratch_base;
@@ -1363,7 +1363,7 @@ void update_familiar_selection_marker(void *state, void *position_arg, void *mar
                     F(((void *)(position_arg)), u16, 0xA) = F(target, u16, 0x88);
                 } else {
                     F(state, u16, -2) = F(state, u16, -2) | 0x8000;
-                    g_dungeon_status.unk_0C = 0;
+                    g_dungeon_status.active_actor = 0;
                     object_flag_block.flags = object_flag_block.flags | 0x8000;
                 }
             }
@@ -1458,7 +1458,7 @@ void *create_familiar_selection_marker(EntityHdr **entity_ref) {
             *(s16 *)(owner_data + 0xE) = 4;
             object->owner = entity_ref;
 
-            g_dungeon_status.unk_0C = object;
+            g_dungeon_status.active_actor = object;
             select_nearby_target_and_initialize_slot(object, transform, 8, D_800DCE66[0]);
         }
     }
@@ -1622,7 +1622,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
 
     if (work->state == 0) {
         if (work->timer == 0) {
-            if ((((u32)controls->unk_010) & 2) != 0) {
+            if ((((u32)controls->pressed_buttons) & 2) != 0) {
                 u8 *status_page;
                 s32 new_timer;
                 GlobalObj *object;
@@ -1641,7 +1641,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                     }
                 }
             }
-            if ((((u32)controls->unk_010) & 1) != 0) {
+            if ((((u32)controls->pressed_buttons) & 1) != 0) {
                 u8 *status_page;
                 s32 new_timer;
                 GlobalObj *object;
@@ -1662,10 +1662,10 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
             }
         }
 
-        input = ((u32)controls->unk_010);
+        input = ((u32)controls->pressed_buttons);
         if (input & 0x20) {
             if (work->mode == 0) {
-                (g_dungeon_status.unk_0A)--;
+                (g_dungeon_status.activity_counts.parts.pending_action_count)--;
             }
             {
                 u8 *flags_page;
@@ -1718,7 +1718,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
             if ((s16)result < 0) {
                 return;
             }
-            (g_dungeon_status.unk_0A)--;
+            (g_dungeon_status.activity_counts.parts.pending_action_count)--;
         }
         {
             u8 *flags_page;
@@ -1749,9 +1749,9 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
     if (render->primitive != 0) {
         func_800478B8(render);
     }
-    trig_value = func_80064584(controls->view.viewAngle);
+    trig_value = func_80064584(controls->view.camera_rotation.parts.viewAngle);
     *(s16 *)((u8 *)out + 2) = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_x + 2);
-    trig_value = func_800644B8(controls->view.viewAngle);
+    trig_value = func_800644B8(controls->view.camera_rotation.parts.viewAngle);
     out->y = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_y + 2);
     out->z = work->x + work->y.whole + (work->bias << 15);
     return;
@@ -1947,7 +1947,7 @@ void *create_item_target_selector(u8 *selection_data) {
     } while (part_index < 3);
 
     {
-        g_dungeon_status.unk_0A += 1;
+        g_dungeon_status.activity_counts.parts.pending_action_count += 1;
     }
     build_floating_number_widget(0, 0x27, 0x40, 0x209, 0, 0);
     build_owned_floating_number_widget(selection_data, 0x4C, 0x50, 0x200, 0, 2);
@@ -2575,7 +2575,7 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
 
     object->count = 0;
     scratch = (Scratch_800B5448 *)0x1F800000;
-    scratch->base = ((u8 *)root_slot->unk_000) + 0xB0;
+    scratch->base = ((u8 *)root_slot->draw_buffer) + 0xB0;
     scratch->values[0] = position[1];
     scratch_94 = (u8 *)scratch;
     scratch->values[1] = position[3];
@@ -2654,7 +2654,7 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
             }
         }
     } while ((particle = particle + 1) < 32);
-    ((S_800BABA8_1 *)(root_slot->unk_000))->unk_8D0 = packet_cursor;
+    ((S_800BABA8_1 *)(root_slot->draw_buffer))->unk_8D0 = packet_cursor;
     {
         s32 result = 0;
         return result;
@@ -3219,7 +3219,7 @@ void update_five_point_effect(void *effect, S_800BB55C_2 *position, s32 restore_
             fade_ticks = ((S_800BB55C_0 *)effect)->unk_64 - 1;
             ((S_800BB55C_0 *)effect)->unk_64 = fade_ticks;
             if ((fade_ticks << 0x10) <= 0) {
-                g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+                g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 ((S_800BB55C_0_pre *)effect)[-1].unk_12 = (u16) (((S_800BB55C_0_pre *)effect)[-1].unk_12 | 0x8000);
                 object_flag_block.flags = object_flag_block.flags | 0x8000;
             }

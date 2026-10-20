@@ -106,7 +106,7 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, void
         (*(u8 * *)((u8 *)map_object + (0x2C))) = D_80176678;
         select_sprite_entry(
             map_object,
-            D_80176678[((g_game_work.view.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
+            D_80176678[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -137,7 +137,7 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, void
                     (*(u8 * *)((u8 *)map_object + (0x2C))) = D_801765D8;
                     select_sprite_entry(
                         map_object,
-                        D_801765D8[((g_game_work.view.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
+                        D_801765D8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
                         0);
                 }
                 ((S_80170EE4_0 *)actor_state_in)->unk_9A = default_state;
@@ -172,7 +172,7 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, void
             update_actor_status_and_food(actor_data);
             return;
         }
-        if (((S_80170EE4_2 *)map_object)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (((S_80170EE4_2 *)map_object)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             advance_actor_turn_path(actor_state_in, update_context_in, map_object, actor_data);
             return;
         }
@@ -216,7 +216,7 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, void
         case 7:
             facing_angle = get_rounded_facing_and_rounding_flag(
                 ((S_80170EE4_2 *)map_object)->unk_24.at00.v, ((S_80170EE4_2 *)map_object)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY, &distance);
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
             target_actor = D_800814A8;
             ((S_80170EE4_1 *)actor_data)->unk_2A = facing_angle;
             if (target_actor->unk_9A == 0x11) {
@@ -248,10 +248,10 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, void
             if (!(status_flags & 0x430)) {
                 if ((s16)compare_monster_neighbor_values(
                         ((S_80170EE4_2 *)map_object)->unk_24.at00.v, ((S_80170EE4_2 *)map_object)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY) != 0) {
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
                     ((S_80170EE4_1 *)actor_data)->unk_2A = get_rounded_facing_and_rounding_flag(
                         ((S_80170EE4_2 *)map_object)->unk_24.at00.v, ((S_80170EE4_2 *)map_object)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY, &distance);
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
                 }
             }
         }
@@ -270,7 +270,7 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, void
     (*(u8 * *)((u8 *)map_object + (0x2C))) = animation_table;
     select_sprite_entry(
         map_object,
-        *(u8 *)((((g_game_work.view.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7)
+        *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7)
                 + (u32)animation_table),
         0);
 }

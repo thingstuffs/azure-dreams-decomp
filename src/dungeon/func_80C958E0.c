@@ -66,8 +66,8 @@ void func_801730E0(CB_801730E0_S_801730E0_0 *state, EntityRec *motion, Rec_D_800
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)action)->unk_24, ((SpriteFrameState *)action)->unk_25);
-        if (((s32)g_dungeon_status.unk_10) == ((u8 *)entity - 0x20)) {
-            g_dungeon_status.unk_10 = ((s32)g_dungeon_status.unk_10) & 0x7FFFFFFF;
+        if (((s32)g_dungeon_status.pending_display_owner) == ((u8 *)entity - 0x20)) {
+            g_dungeon_status.pending_display_owner = ((s32)g_dungeon_status.pending_display_owner) & 0x7FFFFFFF;
         }
         next_script = func_8017102C;
         state->unk_8C = next_script;

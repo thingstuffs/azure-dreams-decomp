@@ -10,8 +10,8 @@ extern void func_8004D4AC(void);
 /* Copies rotation angles from D_80083780 into D_80083178 (g_game_work.view's position vector) and builds matrices. */
 void copy_camera_rotation(void)
 {
-    D_80083178.unk_0A4 = D_80083780.x.w.i;
-    D_80083178.unk_0A6 = D_80083780.y.w.i;
-    D_80083178.unk_0A8 = D_80083780.z.w.i;
+    D_80083178.camera_position.parts.camera_position_x = D_80083780.x.w.i;
+    D_80083178.camera_position.parts.camera_position_y = D_80083780.y.w.i;
+    D_80083178.camera_position.parts.camera_position_z = D_80083780.z.w.i;
     func_8004D4AC();
 }

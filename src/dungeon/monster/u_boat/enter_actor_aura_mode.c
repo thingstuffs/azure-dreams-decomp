@@ -149,7 +149,7 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
         if (((S_80175BA8_0 *)actor_state)->unk_92.s == 0) {
             (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2438;
             select_sprite_entry(sprite,
-                          D_800E2438[((g_game_work.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
+                          D_800E2438[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
                               >> 9) & 7],
                           0);
             ((S_80175BA8_0 *)actor_state)->unk_96 = 2;
@@ -168,7 +168,7 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
         if (((first_delay << 0x10) <= 0) || (((S_80175BA8_3 *)sprite)->unk_14 & 0xE000)) {
             (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2440;
             select_sprite_entry(sprite,
-                          D_800E2440[((g_game_work.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
+                          D_800E2440[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
                               >> 9) & 7],
                           0);
             ((S_80175BA8_0 *)actor_state)->unk_96 = 3;
@@ -191,7 +191,7 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
             ((S_80175BA8_0 *)actor_state)->unk_98 &= 0xFFF7;
             ((S_80175BA8_3 *)sprite)->unk_06 = 0;
             ((S_80175BA8_0 *)actor_state)->unk_8C = D_80171A80;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)actor_info + 0x46)) &= 0x7FFF;
         }
         return;

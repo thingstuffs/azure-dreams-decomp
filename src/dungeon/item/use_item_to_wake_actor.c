@@ -50,6 +50,6 @@ s32 use_item_to_wake_actor(void *entity, s32 event, s16 event_type)
     }
     clear_slots_of_type(entity, 1);
     clear_slot_and_update_linked_state(event);
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

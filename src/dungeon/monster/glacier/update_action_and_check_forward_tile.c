@@ -271,7 +271,7 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
             ((S_801757E0_1 *)animation)->unk_14 &= 0xF7FF;
             select_sprite_entry(animation,
                 ((S_801757E0_1 *)animation)->unk_2C.p2
-                    [((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                    [((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
         }
         ((S_801757E0_0 *)actor)->unk_96.u = 0;
@@ -315,7 +315,7 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
         ((S_801757E0_0 *)actor)->unk_9B++;
         (*(void * *)((u8 *)animation + 0x2C)) = D_801760A4;
         select_sprite_entry(animation,
-            D_801760A4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_801760A4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         return;
 
@@ -323,7 +323,7 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
         if (((S_801757E0_1 *)animation)->unk_14 & 0xE000) {
             (*(void * *)((u8 *)animation + 0x2C)) = D_8017609C;
             select_sprite_entry(animation,
-                D_8017609C[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                D_8017609C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801757E0_0 *)actor)->unk_96.u = 0;
             ((S_801757E0_0 *)actor)->unk_9B++;
@@ -374,7 +374,7 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
     case 9:
         reduce_actor_food_meter(entity, 0x800);
         ((S_801757E0_0 *)actor)->unk_8C = &D_801714B8;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (entity->unk_46) &= 0x7FFF;
 
     case 16:

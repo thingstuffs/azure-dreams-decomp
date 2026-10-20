@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -15,12 +16,12 @@ typedef void (*Callback)(s32, s32);
 s32 dispatch_state_entry_event_8(void) {
     Rec_D_80016000 *callback_owner;
 
-    func_80018BD0(0xFB7);
-    func_80018BD0(0xFB8);
+    func_80018BD0(F_hos_first_cheriru);
+    func_80018BD0(F_hos_first_hush);
 
-    if (func_80018C50(0x679) != 0) {
-        if (func_80018C50(0x67A) == 0) {
-            func_80018B58(0x67E);
+    if (func_80018C50(F_sbs16_top) != 0) {
+        if (func_80018C50(F_sbs16_pad00) == 0) {
+            func_80018B58(F_sbs16_pad04);
             return 1;
         }
     }

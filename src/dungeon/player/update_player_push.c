@@ -85,7 +85,7 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
         if (((SpriteFrameState *)sprite)->flags & 0xE000) {
             if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_800DD028) {
                 ((SpriteFrameState *)sprite)->frameTable = D_800DD028;
-                set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100)
+                set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100)
                     >> 9) & 7) + D_800DD028), 0, 1);
                 return;
             }
@@ -114,7 +114,7 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
             return;
         }
         ((SpriteFrameState *)sprite)->frameTable = D_800DD018;
-        set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7)
+        set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7)
             + D_800DD018), 0, 1);
         attachment = ((S_80092018_0 *)actor)->unk_124;
         ((S_80092018_4 *)attachment)->unk_1C = (s32) (((S_80092018_4 *)attachment)->unk_1C | 0x100);
@@ -125,12 +125,12 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
     case 17:
         if (((SpriteFrameState *)sprite)->flags & 0xE000) {
             ((SpriteFrameState *)sprite)->frameTable = D_800DD020;
-            set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100)
+            set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100)
                 >> 9) & 7) + D_800DD020), 0, 1);
             ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);
         }
     case 18:
-        move_state = &g_dungeon_status.unk_00;
+        move_state = &g_dungeon_status.turn_scale;
         if (((S_80092018_5 *)move_state)->unk_04 != 0) {
             heading_or_coord = ((S_80092018_3 *)motion)->unk_02;
             {
@@ -172,7 +172,7 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
         ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
         ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
         ((SpriteFrameState *)sprite)->frameTable = D_800DD028;
-        set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7)
+        set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7)
             + D_800DD028), 0, 1);
         ((S_80092018_0 *)actor)->unk_96.s = 2U;
         ((S_80092018_0 *)actor)->unk_9B = 0x13U;

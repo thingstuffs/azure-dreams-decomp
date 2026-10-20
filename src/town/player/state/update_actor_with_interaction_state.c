@@ -58,7 +58,7 @@ void update_actor_with_interaction_state(Rec_func_80094268_arg0 *controller, Ent
         initialize_actor_movement_interaction_action(controller, entity, context);
         return;
     }
-    if (((s32)state->unk_010) & 0x10) {
+    if (((s32)state->pressed_buttons) & 0x10) {
         initialize_actor_action_state(controller, entity, context);
     }
 }

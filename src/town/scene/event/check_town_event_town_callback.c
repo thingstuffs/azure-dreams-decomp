@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -14,12 +15,12 @@ s32 check_town_event_town_callback(void) {
 
     func_80016CC4();
     if (func_8001A8EC(0xB) != 0) {
-        func_8001A554(0x93B);
+        func_8001A554(F_sbs32_pad17);
     }
 
-    if ((func_8001A64C(0x94A) == 0) ||
-        ((func_8001A64C(0x948) != 0) && (func_8001A64C(0x93B) != 0))) {
-        func_8001A554(0x947);
+    if ((func_8001A64C(F_sbs32_pad32) == 0) ||
+        ((func_8001A64C(F_sbs32_pad30) != 0) && (func_8001A64C(F_sbs32_pad17) != 0))) {
+        func_8001A554(F_sbs32_pad29);
         return 1;
     }
 

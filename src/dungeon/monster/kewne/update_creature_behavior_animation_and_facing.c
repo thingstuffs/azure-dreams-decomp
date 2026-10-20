@@ -94,7 +94,7 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
         anim_table = D_8016FEB0;
         (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
         select_sprite_entry(sprite,
-            anim_table[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
+            anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -134,7 +134,7 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
 
                     (*(void * *)((u8 *)sprite + 0x2C)) = reset_anims;
                     select_sprite_entry(sprite,
-                        reset_anims[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
+                        reset_anims[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
                         0);
                     ((S_8016B0EC_2 *)sprite)->unk_05 = 1;
                     ((S_8016B0EC_0 *)actor)->unk_A2.s = 0;
@@ -145,7 +145,7 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
                 if (current_anims != anim_table) {
                     (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
                     select_sprite_entry(sprite,
-                        anim_table[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
+                        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
                         0);
                     ((S_8016B0EC_2 *)sprite)->unk_05 = 1;
                     ((S_8016B0EC_0 *)actor)->unk_A2.s = 0;
@@ -188,7 +188,7 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
             update_actor_status_and_food(creature);
             return;
         }
-        if (((S_8016B0EC_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (((S_8016B0EC_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_8016B854(actor, context, sprite, creature);
             return;
         }
@@ -231,7 +231,7 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
 
                 facing_angle = get_rounded_facing_and_rounding_flag(
                     ((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY,
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                     &distance);
                 player = D_800814A8;
                 creature->facing = facing_angle;
@@ -271,10 +271,10 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
 
                 if ((compare_monster_neighbor_values(
                         ((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
                     creature->facing = get_rounded_facing_and_rounding_flag(
                         ((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &distance);
                     return;
                 }

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern char D_8001B14C[];
@@ -28,46 +29,46 @@ char *select_response_selector_status_flags(s32 unused, s32 value, s32 selection
         return D_80022694;
     case 0:
         if (func_8001A8EC(6) != 0) {
-            func_8001A554(0x93A);
+            func_8001A554(F_sbs32_pad16);
         }
         if (func_8001A8EC(0xB) != 0) {
-            func_8001A554(0x93B);
+            func_8001A554(F_sbs32_pad17);
         }
-        if (func_8001A64C(0x93A) == 0) {
-            if (func_8001A64C(0x93B) == 0) {
-                if (func_8001A64C(0x948) == 0) {
-                    func_8001A554(0x948);
+        if (func_8001A64C(F_sbs32_pad16) == 0) {
+            if (func_8001A64C(F_sbs32_pad17) == 0) {
+                if (func_8001A64C(F_sbs32_pad30) == 0) {
+                    func_8001A554(F_sbs32_pad30);
                     return D_8001D000;
                 }
                 {
-                    s32 flag_94a_set = func_8001A64C(0x94A);
+                    s32 flag_94a_set = func_8001A64C(F_sbs32_pad32);
                     if (flag_94a_set == 0) {
-                        func_8001A554(0x94A);
-                        func_8001A554(0x12C7);
+                        func_8001A554(F_sbs32_pad32);
+                        func_8001A554(F_casino_build);
                         return D_8001D3CC;
                     }
                 }
-                func_8001A554(0x948);
+                func_8001A554(F_sbs32_pad30);
                 return D_8001D000;
             }
         }
-        if (func_8001A64C(0x93A) != 0) {
-            if (func_8001A64C(0x93B) == 0) {
-                func_8001A554(0x94A);
-                func_8001A554(0x12C7);
+        if (func_8001A64C(F_sbs32_pad16) != 0) {
+            if (func_8001A64C(F_sbs32_pad17) == 0) {
+                func_8001A554(F_sbs32_pad32);
+                func_8001A554(F_casino_build);
                 return D_8001D3CC;
             }
         }
-        if (func_8001A64C(0x93A) == 0) {
-            if (func_8001A64C(0x93B) != 0) {
-                func_8001A554(0x948);
+        if (func_8001A64C(F_sbs32_pad16) == 0) {
+            if (func_8001A64C(F_sbs32_pad17) != 0) {
+                func_8001A554(F_sbs32_pad30);
                 return D_8001D000;
             }
         }
-        if (func_8001A64C(0x93A) != 0) {
-            if (func_8001A64C(0x93B) != 0) {
-                func_8001A554(0x94A);
-                func_8001A554(0x12C7);
+        if (func_8001A64C(F_sbs32_pad16) != 0) {
+            if (func_8001A64C(F_sbs32_pad17) != 0) {
+                func_8001A554(F_sbs32_pad32);
+                func_8001A554(F_casino_build);
                 return D_8001D3CC;
             }
         }

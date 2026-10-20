@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -32,12 +33,12 @@ s32 advance_floor_event_counter(s32 fallback_arg_a, s32 fallback_arg_b) {
     s32 next_count;
     s32 capped_count;
 
-    if (get_script_flag_mask(0x1462) != 0) {
+    if (get_script_flag_mask(Ft_s07_mia_bikou_end) != 0) {
         set_indexed_entry_flag(fallback_arg_a, fallback_arg_b);
         return 1;
     }
 
-    count = read_script_flag_range(0xD84, 3);
+    count = read_script_flag_range(Ftt_pad83, 3);
     if ((CURRENT_FLOOR() == 7) && (count >= 5)) {
         return 1;
     }
@@ -47,7 +48,7 @@ s32 advance_floor_event_counter(s32 fallback_arg_a, s32 fallback_arg_b) {
     if (next_count < 6) {
         capped_count = next_count;
     }
-    write_script_flag_range(0xD84, capped_count, 3);
+    write_script_flag_range(Ftt_pad83, capped_count, 3);
     func_8001DCD4(CURRENT_FLOOR());
     return 0;
 }

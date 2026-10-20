@@ -24,7 +24,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
         }
         (*(void * *)((u8 *)sprite_in + 0x2C)) = D_80174530;
         select_sprite_entry(sprite_in,
-            D_80174530[((g_game_work.view.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
+            D_80174530[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -60,7 +60,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
                 if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_2C != anim_table) {
                     (*(void * *)((u8 *)sprite_in + 0x2C)) = anim_table;
                     select_sprite_entry(sprite_in,
-                        anim_table[((g_game_work.view.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
+                        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                 }
                 ((E_80170E5C_S_80170E5C_0 *)actor_in)->unk_9A = next_state;
@@ -93,7 +93,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
             update_actor_status_and_food(status);
             return;
         }
-        if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             update_actor_targeting_and_movement(actor_in, context_in, sprite_in, status);
             return;
         }
@@ -147,7 +147,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
 
             direction = get_rounded_facing_and_rounding_flag(
                 ((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_24.at00.v, ((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                 &direction_aux);
             active_actor = D_800814A8;
             ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s = direction;
@@ -180,11 +180,11 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
             if (!(((E_80170E5C_S_80170E5C_1 *)status)->unk_1C & 0x430)) {
 
                 if ((s16)compare_monster_neighbor_values(((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_24.at00.v,
-                        ((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_24.at01.v, D_80082E80.tileX,
-                        D_80082E80.tileY) != 0) {
+                        ((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_24.at01.v, D_80082E80.tile_position.parts.tile_x,
+                        D_80082E80.tile_position.parts.tile_y) != 0) {
                     ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s = get_rounded_facing_and_rounding_flag(
                         ((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_24.at00.v, ((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &direction_aux);
                 }
             }
@@ -205,7 +205,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
 update_table:
     (*(void * *)((u8 *)sprite_in + 0x2C)) = anim_table;
     select_sprite_entry(sprite_in,
-        *(u8 *)((u32)(((g_game_work.view.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7) +
+        *(u8 *)((u32)(((g_game_work.view.camera_rotation.parts.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7) +
                 (u32)anim_table),
         0);
 }

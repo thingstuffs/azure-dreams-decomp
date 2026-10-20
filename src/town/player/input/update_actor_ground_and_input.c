@@ -42,7 +42,7 @@ void update_actor_ground_and_input(s32 controller, EntityRec *actor, s32 context
             compute_and_clamps_vector_based_adjustment_updates_town(actor, ground_height, &D_800FE488);
         }
     }
-    if (((s32)input_state->unk_010) & 0x10) {
+    if (((s32)input_state->pressed_buttons) & 0x10) {
         initialize_actor_action_state(controller, actor, context);
         return;
     }

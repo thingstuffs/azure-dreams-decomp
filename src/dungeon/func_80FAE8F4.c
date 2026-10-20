@@ -60,10 +60,10 @@ void func_801500F4(void *work, void *part_a, void *part_b, EntityRec *actor) {
         table_base = D_80150B0C;
         actor->target = field_60;
         (*(u8 **)((u8 *)part_b + 0x2C)) = table_base;
-        func_80047784(part_b, table_base[((s32)(g_game_work.view.viewAngle + (s16)((u16)actor->facing) + 0x100)
+        func_80047784(part_b, table_base[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + (s16)((u16)actor->facing) + 0x100)
             >> 9) & 7], 0);
         actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
-        g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) + 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         raw_result = get_unused_text_buffer();
         call_arg = actor;
         pass_result = raw_result;

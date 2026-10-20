@@ -264,7 +264,7 @@ s32 initialize_keima_interface(void) {
         AT(s16, AT(u8 *, obj, 8), 0xA) = template_page;
         AT(s16, sprite, 0x1E) = 0x1000;
         AT(s16, sprite, 0x1C) = 0x1000;
-        AT(s32, sprite, 0x28) = D_80082E80.unk_028;
+        AT(s32, sprite, 0x28) = D_80082E80.render_attributes;
         AT(s16, child_data, 0x2A) = 0x800;
         func_8003DB94(sprite, D_800F15E4, 0);
         AT(s32, sprite, 0xC) = 0x808080;

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 copy_indexed_entry_value();
@@ -16,7 +17,7 @@ s32 fill_shop_slot_and_redraw(void *owner, s32 slot_index)
     s32 value;
 
     D_80019BB0 = 3;
-    if (func_800198D0(0x1389) == 0) {
+    if (func_800198D0(F_veldil_dungeon_deatta) == 0) {
         return 1;
     }
 

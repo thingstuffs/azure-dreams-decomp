@@ -53,7 +53,7 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, void *sp
         ((MotionDeltaView *)motion)->unk_0C = 0;
         ((SpriteFrameState *)sprite)->frameTable = D_80174EE0;
         select_sprite_entry(sprite,
-            D_80174EE0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80174EE0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80173514_0 *)action)->unk_96.u = 0;
         ((S_80173514_0 *)action)->unk_9B++;
@@ -104,7 +104,7 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, void *sp
         if (((SpriteFrameState *)sprite)->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x100);
             ((S_80173514_0 *)action)->unk_8C = &D_80171CE8;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->unk_46 &= 0x7FFF;
         }

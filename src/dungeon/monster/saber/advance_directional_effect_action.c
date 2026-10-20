@@ -140,7 +140,7 @@ void advance_directional_effect_action(void *action, void *motion, void *sprite,
                 ((S_80174A28_2 *)sprite)->unk_2C = D_80174DEC;
                 ((S_80174A28_2 *)sprite)->unk_14 &= 0xF7FF;
                 select_sprite_entry(sprite,
-                    ((S_80174A28_2 *)sprite)->unk_2C[((g_game_work.view.viewAngle +
+                    ((S_80174A28_2 *)sprite)->unk_2C[((g_game_work.view.camera_rotation.parts.viewAngle +
                         ((S_80174A28_3 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
                 ((S_80174A28_0 *)action)->unk_9B++;
@@ -151,7 +151,7 @@ void advance_directional_effect_action(void *action, void *motion, void *sprite,
     case 3:
         reduce_actor_food_meter(actor, 0x400);
         ((S_80174A28_0 *)action)->unk_8C = &D_80171728;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)actor + (0x46))) &= 0x7FFF;
         break;
     }

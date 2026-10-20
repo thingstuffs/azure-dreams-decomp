@@ -212,7 +212,7 @@ s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, 
         }
     }
 
-    dir = g_dungeon_status.unk_1E & 7;
+    dir = g_dungeon_status.turn_counter & 7;
     for (i = 0; i < 8; i++, dir = (dir + 1) & 7) {
         if (get_offset_map_cell_value_and_flags(x, y, dir, &tile_flags) != 0 && !(tile_flags & 0x8820)) {
             distance = sample_terrain_surface_height((((x + dir_step_x[dir]) << 6) + 0x20) & 0xFFE0,
@@ -226,7 +226,7 @@ s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, 
         }
     }
 
-    dir = g_dungeon_status.unk_1E & 0xF;
+    dir = g_dungeon_status.turn_counter & 0xF;
     for (i = 0; i < 0x10; i++, dir = (dir + 1) & 0xF) {
         if (get_offset_map_cell_value_and_flags(x + D_800DCE6C[dir] - 1, y + D_800DCE8C[dir], 0, &tile_flags) != 0 && !(tile_flags & 0x8820)) {
             distance = sample_terrain_surface_height((((x + (s16)D_800DCE6C[dir]) << 6) + 0x20) & 0xFFE0,
@@ -443,7 +443,7 @@ void update_floor_object_motion(FuncObj *obj, FuncVec *pos, FuncVec *target) {
             cycle_map_cell_flags(obj->fieldAA, obj->fieldAC, 0x800);
             select_position_data_and_update_owner(&D_80082E80.unk_000, ((s32)D_800E3D7C));
         }
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
                 /* the u16 two bytes BEFORE the object: a negative offset, which the field-typing
            pass (tools/xform/t4_fields.py) refuses to fold into a struct; a `_pre` struct
            spelling was tried here and costs 9 words (const-remat), so it stays an explicit cast */
@@ -515,7 +515,7 @@ s32 func_800A794C(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
     ((S_800A794C_2 *)fields)->unk_AC = (s16)field_ac;
     ((S_800A794C_2 *)fields)->unk_98 = payload;
     ((S_800A794C_2 *)fields)->unk_AE = (s16)field_ae;
-    g_dungeon_status.unk_0A++;
+    g_dungeon_status.activity_counts.parts.pending_action_count++;
     return (s32)object;
 }
 #include "common.h"
@@ -1346,14 +1346,14 @@ check_completion:
                 ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
                 object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
                 unlink_entity_node(object_data);
-                g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+                g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 return;
             }
             if (dispatch_dungeon_category_action(hit_object, ((S_800A871C_1 *)object)->unk_9C, 0xD, object_data) != 0) {
                 ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
                 object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
                 unlink_entity_node(object_data);
-                g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+                g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 return;
             }
         }
@@ -1383,7 +1383,7 @@ check_completion:
         ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
         unlink_entity_node(object_data);
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     default:
         break;
     }

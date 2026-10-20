@@ -29,7 +29,7 @@ void dispatch_map_exit_callback(s32 unused0, s32 unused1, s32 unused2, s32 unuse
     if (*(u8 **)(linked + 0x2C) != D_80174684) {
         *(u8 **)(linked + 0x2C) = D_80174684;
         select_sprite_entry(linked,
-            D_80174684[((g_game_work.view.viewAngle + *(s16 *)(base + 0x2A) + 0x100) >> 9) & 7],
+            D_80174684[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)(base + 0x2A) + 0x100) >> 9) & 7],
             0);
     }
 

@@ -36,12 +36,12 @@ void initialize_object_and_clear_state(void *action, void *unused, void *animati
         ((S_80173C40_2 *)action)->unk_8C = 0;
         *(u8 **)((u8 *)animation + 0x2C) = D_80176670;
 
-        direction = ((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         select_sprite_entry(animation, D_80176670[direction], 0);
 
         ((S_80173C40_2 *)action)->unk_96 = 0;
         entity->flags1C |= 0x10000000;
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
         entity->unk_46 &= 0x7FFF;
     }
 }

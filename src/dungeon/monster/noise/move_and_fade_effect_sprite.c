@@ -93,7 +93,7 @@ void move_and_fade_effect_sprite(void *effect, void *motion, void *sprite)
     projection.xyz[2] = origin->unk_0A;
     ((S_80D23000_1 *)sprite)->unk_06 = depth -
         func_80065420(projection.xyz, &projection.out18, &projection.out20, &projection.out24) -
-        D_800DCECC[((g_game_work.view.viewAngle + ((S_80D23000_2 *)effect)->unk_94 + 0x100) >> 9) & 7] * 2;
+        D_800DCECC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80D23000_2 *)effect)->unk_94 + 0x100) >> 9) & 7] * 2;
 
     life = ((S_80D23000_2 *)effect)->unk_96.s;
     if (life < 10) {

@@ -42,9 +42,9 @@ void init_dungeon_view(void)
     D_801DA714[0x1B] = 0;
     func_80064F00(0xA0, 0x78);
 
-    render_data->view.unk_000 = -0xBC;
-    render_data->view.unk_002 = -0x88;
-    render_data->view.unk_004 = 0x172;
-    render_data->view.unk_006 = 0x19A;
-    g_dungeon_status.unk_18 = D_800DDC7C;
+    render_data->view.clip_x = -0xBC;
+    render_data->view.clip_y = -0x88;
+    render_data->view.clip_width = 0x172;
+    render_data->view.clip_height = 0x19A;
+    g_dungeon_status.monster_spawn_table = D_800DDC7C;
 }

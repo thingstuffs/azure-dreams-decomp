@@ -158,7 +158,7 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Enti
         if (((S_80090C10_1 *)(&D_800E4938))->unk_00.s != &D_8004F5F4) {
             if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
                 ((SpriteFrameState *)sprite)->frameTable = &D_800DD274;
-                func_8003DB94(sprite, *(s32 *)(D_800DD274 + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
+                func_8003DB94(sprite, *(s32 *)(D_800DD274 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 7) & 0x1C)), 0);
             } else {
                 if (actor->flags1C & 0x100000) {
@@ -167,7 +167,7 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Enti
                     anim_table = D_800DCFB0;
                 }
                 ((SpriteFrameState *)sprite)->frameTable = anim_table;
-                set_sprite_animation_frame(sprite, *(anim_table + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)),
+                set_sprite_animation_frame(sprite, *(anim_table + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                     0, 1);
             }
         }

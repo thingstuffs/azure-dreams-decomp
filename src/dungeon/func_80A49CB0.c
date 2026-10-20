@@ -16,15 +16,15 @@ void update_actor_state_by_flags(void *in_actor, void *in_context, void *in_spri
             return;
         }
         (*(void * *)((u8 *)in_sprite + 0x2C)) = ((u8 *)D_80175894);
-        select_sprite_entry(in_sprite,(u8)(((u8 *)D_80175894)[((g_game_work.view.viewAngle + ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7]),
+        select_sprite_entry(in_sprite,(u8)(((u8 *)D_80175894)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7]),
             0);
         ((R06_801734B0_S_801734B0_0 *)in_actor)->unk_96 = 0;
         {
             u16 counter_value;
 
-            counter_value = ((u16)g_dungeon_status.unk_0A);
+            counter_value = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
             counter_value--;
-            g_dungeon_status.unk_0A = counter_value;
+            g_dungeon_status.activity_counts.parts.pending_action_count = counter_value;
         }
         ((R06_801734B0_S_801734B0_0 *)in_actor)->unk_9B++;
         return;
@@ -32,14 +32,14 @@ void update_actor_state_by_flags(void *in_actor, void *in_context, void *in_spri
     case 1:
         if ((get_entity_effect_value(in_entity, 1) << 16) == 0) {
             (*(void * *)((u8 *)in_sprite + 0x2C)) = ((u8 *)D_80175894);
-            select_sprite_entry(in_sprite,(u8)(((u8 *)D_80175894)[((g_game_work.view.viewAngle + ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7]),
+            select_sprite_entry(in_sprite,(u8)(((u8 *)D_80175894)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7]),
                 0);
             ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_1C.s |= 0x40000;
             if (!(((R06_801734B0_S_801734B0_1 *)in_sprite)->unk_14 & 0x8000)) {
 
-                state = ((u16)g_dungeon_status.unk_0A);
+                state = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
                 state++;
-                g_dungeon_status.unk_0A = state;
+                g_dungeon_status.activity_counts.parts.pending_action_count = state;
                 ((R06_801734B0_S_801734B0_0 *)in_actor)->unk_9B++;
                 return;
             }
@@ -101,7 +101,7 @@ void update_actor_state_by_flags(void *in_actor, void *in_context, void *in_spri
                 TileObject *origin = &D_80082E80;
                 s8 tile = ((R06_801734B0_S_801734B0_1 *)in_sprite)->unk_26;
 
-                if (((tile == origin->unk_026) && (tile >= 0)) ||
+                if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, in_sprite) < 2)) {
                     if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(in_entity, 1);
@@ -113,7 +113,7 @@ void update_actor_state_by_flags(void *in_actor, void *in_context, void *in_spri
             }
         }
         (*(void * *)((u8 *)in_sprite + 0x2C)) = ((u8 *)D_80175894);
-        select_sprite_entry(in_sprite,(u8)(((u8 *)D_80175894)[((g_game_work.view.viewAngle + ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7]),
+        select_sprite_entry(in_sprite,(u8)(((u8 *)D_80175894)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7]),
             0);
         {
             u32 updated_flags;
@@ -130,9 +130,9 @@ void update_actor_state_by_flags(void *in_actor, void *in_context, void *in_spri
 
         {
 
-            state = ((u16)g_dungeon_status.unk_0A);
+            state = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
             state++;
-            g_dungeon_status.unk_0A = state;
+            g_dungeon_status.activity_counts.parts.pending_action_count = state;
         }
 
         ((R06_801734B0_S_801734B0_0 *)in_actor)->unk_9B++;
@@ -144,7 +144,7 @@ void update_actor_state_by_flags(void *in_actor, void *in_context, void *in_spri
         }
         {
 
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
 
         ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_1C.u &= ~0x200;

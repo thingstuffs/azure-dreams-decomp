@@ -12,7 +12,7 @@ extern s32 rsin(s32);
 
 /* Projects input x into the xy plane using the global angle and doubles input y into z. */
 void project_vector_by_view_angle(Vec3s *input, Vec3s *output) {
-    output->x = (rcos(g_game_work.view.viewAngle) * input->x) >> 12;
-    output->y = (-(rsin(g_game_work.view.viewAngle) * input->x)) >> 12;
+    output->x = (rcos(g_game_work.view.camera_rotation.parts.viewAngle) * input->x) >> 12;
+    output->y = (-(rsin(g_game_work.view.camera_rotation.parts.viewAngle) * input->x)) >> 12;
     output->z = input->y * 2;
 }

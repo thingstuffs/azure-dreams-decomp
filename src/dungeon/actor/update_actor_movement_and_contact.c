@@ -135,7 +135,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
 
     model_flags = monster->unk_14;
     if (!(model_flags & 0x8000)) {
-        direction_sector = (g_game_work.view.viewAngle + entity->unk_2A + 0x100) >> 9;
+        direction_sector = (g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100) >> 9;
         state_direction = direction_sector & 7;
         lookup_direction = state_direction;
         compare_direction = state_direction;
@@ -181,7 +181,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
             s32 hop_direction_offset;
             entity->unk_98 |= 1;
             *(u8 **)((u8 *)monster + 0x2C) = D_800E260C;
-            hop_direction_offset = ((g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 7) & 0x1C;
+            hop_direction_offset = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 7) & 0x1C;
             func_8003DB94(monster, *(void **)(D_800E260C + hop_direction_offset), 0);
         }
 

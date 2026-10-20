@@ -562,7 +562,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     }
     ((S_8009C12C_3 *)target)->unk_60 = attacker_in;
     ((S_8009C12C_0 *)attacker_in)->unk_60 = target;
-    g_dungeon_status.unk_10 = target - 0x20;
+    g_dungeon_status.pending_display_owner = target - 0x20;
     if (((S_8009C12C_0 *)attacker_in)->unk_1C & 0x01000000) {
         opposite_x_ptr = (s16 *)(4);
         play_sound_if_enabled(0x700);
@@ -1021,7 +1021,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
             clear_player_linked_action_flags();
         }
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_74 = source_flags;
-        g_dungeon_status.unk_10 = target - 0x20;
+        g_dungeon_status.pending_display_owner = target - 0x20;
         if (!(((SpriteFrameState *)((S_8009CE1C_3_pre *)target)[-1].unk_00)->flags & 0x8000)) {
             func_800419EC(8, 0x10);
         }
@@ -1153,8 +1153,8 @@ void update_packed_map_levels(void) {
     gw = &g_game_work;
     grid = &gw->map;
     obj = &D_80082E80;
-    if (obj->unk_026 >= 0) {
-        room = &D_800E2970[obj->unk_026];
+    if (obj->room_index >= 0) {
+        room = &D_800E2970[obj->room_index];
         y = room->y - 1;
         n = room->x + room->w + 1;
         y_end = room->h + y + 2;
@@ -1182,8 +1182,8 @@ void update_packed_map_levels(void) {
         }
     } else {
         for (n = 7; n >= 0; n--) {
-            x = D_80082E80.tileX + dir_step_x[n];
-            y = D_80082E80.tileY + dir_step_y[n];
+            x = D_80082E80.tile_position.parts.tile_x + dir_step_x[n];
+            y = D_80082E80.tile_position.parts.tile_y + dir_step_y[n];
             index = (y << grid->shiftX) + x;
             tile = &D_800EA000[index];
             if (tile->type != 0 && tile->type != 3) {

@@ -157,7 +157,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
         s32 direction;
         u16 angle;
 
-        direction = ((g_game_work.view.viewAngle + ((S_80174704_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174704_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         angle = ((S_80174704_1 *)actor)->unk_2A.u;
         if (((S_80174704_2 *)D_80174E3C)->unk_00 == 0 || direction != 2) {
             if (direction == 2) {
@@ -300,7 +300,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
             u8 *direction_frames;
 
             object = ((S_80174704_8_pre *)replacement_actor)[-1].unk_00;
-            direction = ((g_game_work.view.viewAngle + ((S_80174704_8 *)replacement_actor)->unk_2A + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174704_8 *)replacement_actor)->unk_2A + 0x100) >> 9) & 7;
             direction_frames = ((S_80174704_3 *)object)->unk_2C;
             select_indirect_table_entry(object, direction_frames[direction], ((S_80174704_3 *)object)->unk_04);
         }
@@ -320,7 +320,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
             ((S_80174704_11 *)(((S_80174704_1 *)actor)->unk_60))->unk_2A = ((S_80174704_1 *)actor)->unk_8A;
             ((S_80174704_0_pre *)action)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= 0x8000;
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((S_80174704_1 *)actor)->unk_6D = 0;
         }
 

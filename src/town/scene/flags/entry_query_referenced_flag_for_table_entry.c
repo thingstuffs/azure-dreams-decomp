@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 void query_referenced_flag_for_table_entry(s32, s32);
@@ -8,8 +9,8 @@ s32 func_80018B5C();
 s32 func_8051EDA4(s32 target, s32 value) {
     s32 result;
 
-    func_80018ADC(0x5BC);
-    if (func_80018B5C(0x9A) == 0) {
+    func_80018ADC(F_sbs11_pad25);
+    if (func_80018B5C(F_viv_engei_ok) == 0) {
         result = 0;
     } else {
         query_referenced_flag_for_table_entry(target, value);

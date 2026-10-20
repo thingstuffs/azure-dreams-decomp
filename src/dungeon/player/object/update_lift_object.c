@@ -113,7 +113,7 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
             ((S_8008F428_0 *)effect_state)->unk_8C = D_8008EAC8;
             (*(u8 * *)((u8 *)effect_target + (0x2C))) = D_800DD0B8;
             set_sprite_animation_frame(effect_target,
-                D_800DD0B8[((g_game_work.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+                D_800DD0B8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
                 0, 1);
             return;
         }
@@ -162,7 +162,7 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
         ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)handle_player_input;
         (*(u8 * *)((u8 *)target + (0x2C))) = D_800DCFB0;
         set_sprite_animation_frame(target,
-            D_800DCFB0[((g_game_work.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+            D_800DCFB0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
             0, 1);
         return;
     }
@@ -199,7 +199,7 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
         ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)handle_player_input;
         (*(u8 * *)((u8 *)target + (0x2C))) = D_800DCFB0;
         set_sprite_animation_frame(target,
-            D_800DCFB0[((g_game_work.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+            D_800DCFB0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
             0, 1);
     }
 }

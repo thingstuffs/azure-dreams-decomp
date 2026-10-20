@@ -357,7 +357,7 @@ loop_0:
         if ((show_message << 0x10) != 0) {
             if (!(D_80013714 & 1)) {
                 D_800DCF4F[0] = 1;
-                g_dungeon_status.unk_0A++;
+                g_dungeon_status.activity_counts.parts.pending_action_count++;
             }
             stat_gain_m = 0x8003;
             if ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x2000) != 0) {
@@ -693,7 +693,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
     {
         if (!(*(u16 *)0x80013714 & 1)) {
             D_800DCF4F[0] = 1;
-            g_dungeon_status.unk_0A++;
+            g_dungeon_status.activity_counts.parts.pending_action_count++;
         }
         create_actor_value_popup(0x8003, entity, -3, 1);
         play_sound_if_enabled(0x615);
@@ -738,7 +738,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
 void clear_monster_event_and_decrement_count(void) {
 
     D_800DCF4F[0] = 0;
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
 }
 #include "modules/dungeon_engine_experience_fragment_bc5ec.h"
 #include "common.h"
@@ -772,22 +772,22 @@ extern s32 is_dungeon_action_enabled(void);
 
 /* Sets or reuses the requested value and calls is_dungeon_action_enabled when state permits. */
 s16 try_claim_dungeon_action_slot(s32 requested_value) {
-    s32 current_value = ((s32)g_dungeon_status.unk_0C);
+    s32 current_value = ((s32)g_dungeon_status.active_actor);
 
     if (current_value != requested_value) {
         if (current_value != 0) {
             return 1;
         }
-        if (((s32)g_dungeon_status.unk_10) != 0) {
+        if (((s32)g_dungeon_status.pending_display_owner) != 0) {
             return 1;
         }
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return 1;
         }
         if (g_dungeon_status.flags & 8) {
             return 1;
         }
-        g_dungeon_status.unk_0C = requested_value;
+        g_dungeon_status.active_actor = requested_value;
     }
     return is_dungeon_action_enabled();
 }
@@ -796,9 +796,9 @@ s16 try_claim_dungeon_action_slot(s32 requested_value) {
 
 /* Return whether any checked global state value or flag is set. */
 s32 has_pending_dungeon_activity(void) {
-    if (g_dungeon_status.unk_0C != 0 ||
-        g_dungeon_status.unk_10 != 0 ||
-        *(s32 *)&g_dungeon_status.unk_08 != 0 ||
+    if (g_dungeon_status.active_actor != 0 ||
+        g_dungeon_status.pending_display_owner != 0 ||
+        *(s32 *)&g_dungeon_status.activity_counts.parts.pending_movement_count != 0 ||
         (g_dungeon_status.flags & 0x2008) != 0) {
         return 1;
     }
@@ -811,7 +811,7 @@ s32 has_pending_dungeon_activity(void) {
 /* Returns whether any of the state fields at offsets 0x0A, 0x0C, and 0x10 is nonzero. */
 s32 has_pending_actor_or_turn_action(void) {
 
-    if (((u32)g_dungeon_status.unk_0C) != 0 || ((u32)g_dungeon_status.unk_10) != 0 || g_dungeon_status.unk_0A != 0) {
+    if (((u32)g_dungeon_status.active_actor) != 0 || ((u32)g_dungeon_status.pending_display_owner) != 0 || g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
         return 1;
     }
     return 0;
@@ -831,7 +831,7 @@ s32 has_pending_action_or_turn_count(void) {
     s32 has_value;
 
     has_value = 0;
-    if ((((s32)g_dungeon_status.unk_0C) != 0) || (g_dungeon_status.unk_0A != 0)) {
+    if ((((s32)g_dungeon_status.active_actor) != 0) || (g_dungeon_status.activity_counts.parts.pending_action_count != 0)) {
         has_value = 1;
     }
     return has_value;
@@ -1196,8 +1196,8 @@ void func_800A31D0(Entity *owner_entity) {
                     do {
                         if ((node->kind == 0x1E) &&
                             (node->owner == (void *)((u8 *)owner_entity - 0x20))) {
-                            incremented_count = (u16)g_dungeon_status.unk_0A + 1;
-                            g_dungeon_status.unk_0A = incremented_count;
+                            incremented_count = (u16)g_dungeon_status.activity_counts.parts.pending_action_count + 1;
+                            g_dungeon_status.activity_counts.parts.pending_action_count = incremented_count;
                             marked_count = D_800DCE68[0];
                             node_status = node->status;
                             node->field6E = 0;
@@ -1348,15 +1348,15 @@ scan_slots:
             status_page = (u8 *)(state_flags & 0x2000);
             if (status_page) {
                 counter_base = &g_dungeon_status;
-                if (counter_base->unk_1C != 0) {
-                    counter_base->unk_1C = (s16)(((u16)counter_base->unk_1C) - 1);
+                if (counter_base->monster_count != 0) {
+                    counter_base->monster_count = (s16)(((u16)counter_base->monster_count) - 1);
                 }
                 update_mode = 2;
             } else {
                 DungeonGlobalStatus *counter_base;
                 counter_base = &g_dungeon_status;
-                if (counter_base->unk_1C != 0) {
-                    counter_base->unk_1C = (s16)(((u16)counter_base->unk_1C) - 1);
+                if (counter_base->monster_count != 0) {
+                    counter_base->monster_count = (s16)(((u16)counter_base->monster_count) - 1);
                 }
                 update_mode = 1;
             }

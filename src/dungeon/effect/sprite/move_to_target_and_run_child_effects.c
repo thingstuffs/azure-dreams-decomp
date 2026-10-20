@@ -344,7 +344,7 @@ loop_3:
 
     case 5:
         if (ctrl->active == 0) {
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             *(u16 *)((u8 *)ctrl - 2) |= 0x8000;
             object_flag_block.flags |= 0x8000;
         }

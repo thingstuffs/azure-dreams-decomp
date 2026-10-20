@@ -29,7 +29,7 @@ void begin_familiar_deployment_change(void *obj, s32 unused, void *display, s32 
     saved_mode = mode;
     set_sprite_animation_frame(
         display,
-        direction_table[((g_game_work.view.viewAngle + ((Rec_func_8008ACDC_arg0 *)obj)->unk_2A + 0x100) >> 9) & 7],
+        direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((Rec_func_8008ACDC_arg0 *)obj)->unk_2A + 0x100) >> 9) & 7],
         0,
         1);
 
@@ -42,8 +42,8 @@ void begin_familiar_deployment_change(void *obj, s32 unused, void *display, s32 
         s32 field_value;
         register s32 action_arg;
 
-        if (D_80082E80.unk_030 != 0) {
-            lookup_result = get_special_table_data_index(D_80082E80.unk_030);
+        if (D_80082E80.selected_item != 0) {
+            lookup_result = get_special_table_data_index(D_80082E80.selected_item);
             action_obj = obj;
             action_kind = 0x68;
             field_value = ((Rec_func_8008ACDC_arg0 *)obj)->unk_8A;

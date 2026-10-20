@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/sprite_frame_state.h"
@@ -18,7 +19,7 @@ void advance_reaction_accumulators(void *context, S_800CA020_0 *accumulators, Sp
     accumulators->unk_00 = (s32) (accumulators->unk_00 + 0x40000);
     accumulators->unk_04 = (s32) (accumulators->unk_04 + 0x15555);
     if (flagState->unk_14 & 0x8000) {
-        set_resident_bitmap_bit(0x49);
+        set_resident_bitmap_bit(F_act_niko);
         unlink_scene_list_node(context);
         clear_object_slot_and_mark_removed(context);
     }

@@ -199,7 +199,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                     ((S_8008ACDC_4 *)stats)->unk_8A = 2;
                     D_800E4940 = 2;
                     begin_player_menu_action(actor, motion, sprite, &D_8004F5F4);
-                    D_80082E80.unk_030 = 0;
+                    D_80082E80.selected_item = 0;
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_C8 = 0;
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_104 = 0;
                     return;
@@ -489,13 +489,13 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
             if (turn_flags & 1) {
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (turn_flags & 0xFFFE);
                 (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD058;
-                set_sprite_animation_frame(sprite, D_800DD058[((s32) (g_game_work.view.viewAngle
+                set_sprite_animation_frame(sprite, D_800DD058[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                     + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
             }
         }
         if (((S_8008ACDC_1 *)sprite)->unk_14 & 0xE000) {
             (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DCFB0;
-            set_sprite_animation_frame(sprite, D_800DCFB0[((s32) (g_game_work.view.viewAngle
+            set_sprite_animation_frame(sprite, D_800DCFB0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                 + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
         }
     }

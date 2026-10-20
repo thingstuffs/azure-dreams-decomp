@@ -35,6 +35,6 @@ s32 feed_egg_to_monster(void *target, s32 item) {
         display_formatted_context_message(D_800E1035);
     }
 
-    g_dungeon_status.unk_0A -= 1;
+    g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
     return 1;
 }

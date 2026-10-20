@@ -82,7 +82,7 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         *(Copy48 *)copy_dst = *(Copy48 *)copy_src;
         register_node(effect_object, project_sprite_chain);
         ((SpriteFrameState *)sprite)->frameTable = D_80174C74;
-        select_sprite_entry(sprite, D_80174C74[((s32) (g_game_work.view.viewAngle
+        select_sprite_entry(sprite, D_80174C74[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
             + (s16) ((S_80172B00_2 *)parent_data)->unk_2A.s + 0x100) >> 9) & 7], 0);
         effect_pos = ((S_80172B00_1 *)effect_object)->unk_08;
         effect_pos->unk_02 = (u16) source_pos->unk_02;
@@ -94,7 +94,7 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         ((SpriteFrameState *)sprite)->color.c.b = 0x80;
         ((SpriteFrameState *)sprite)->color.c.g = 0x80;
         ((SpriteFrameState *)sprite)->color.c.r = 0x80;
-        direction_index = g_game_work.view.viewAngle;
+        direction_index = g_game_work.view.camera_rotation.parts.viewAngle;
         parent_angle = ((S_80172B00_2 *)parent_data)->unk_2A.u;
         setup_mode = 0;
         direction_index += parent_angle;

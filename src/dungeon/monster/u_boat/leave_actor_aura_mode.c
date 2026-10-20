@@ -55,7 +55,7 @@ void leave_actor_aura_mode(void *state, EntityRec *motion, void *sprite, EntityR
                 } while (0);
                 ((S_80176084_0 *)state)->unk_96 = 4U;
                 ((SpriteFrameState *)sprite)->frameTable = (u8 *)D_800E2448;
-                select_sprite_entry(sprite, D_800E2448[((s32)(g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                select_sprite_entry(sprite, D_800E2448[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
                 if (!((((SpriteFrameState *)sprite)->flags & 0x8000)
                       || (play_sound_if_enabled(0x801), ((((SpriteFrameState *)sprite)->flags & 0x8000) != 0)))) {
@@ -73,7 +73,7 @@ void leave_actor_aura_mode(void *state, EntityRec *motion, void *sprite, EntityR
                 ((S_80176084_0 *)state)->unk_B5 = 0;
                 ((S_80176084_0 *)state)->unk_98 |= 8;
                 ((SpriteFrameState *)sprite)->frameTable = (u8 *)D_800E23E0;
-                select_sprite_entry(sprite, D_800E23E0[((s32)(g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                select_sprite_entry(sprite, D_800E23E0[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
                 ((S_80176084_0 *)state)->unk_96 = 5U;
                 ((S_80176084_0 *)state)->unk_9B++;
@@ -94,8 +94,8 @@ void leave_actor_aura_mode(void *state, EntityRec *motion, void *sprite, EntityR
         ((S_80176084_0 *)state)->unk_8C = (u8 *)D_80171A80;
         clear_slots_of_type(entity, 0x1B);
         if (((S_80176084_0 *)state)->unk_B4 == 0) {
-            g_dungeon_status.unk_0C = 0;
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.active_actor = 0;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->unk_46 &= 0x7FFF;
         }
         try_move_actor_to_valid_position(state, motion, sprite, entity);

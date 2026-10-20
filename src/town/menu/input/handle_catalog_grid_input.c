@@ -45,7 +45,7 @@ void handle_catalog_grid_input(Object *object)
     s32 entry_index;
     s32 **reset_entries;
 
-    input_flags = ((u32)input_state->unk_010);
+    input_flags = ((u32)input_state->pressed_buttons);
     if (input_flags & 0x40) {
         s32 slot_index;
 
@@ -102,7 +102,7 @@ void handle_catalog_grid_input(Object *object)
         }
     }
 
-    input_flags = ((u32)input_state->unk_010);
+    input_flags = ((u32)input_state->pressed_buttons);
     if (input_flags & 0x8000) {
         u8 selection_group;
         s32 group;

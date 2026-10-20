@@ -47,7 +47,7 @@ typedef struct S_800270E0_8 {
 } S_800270E0_8;   /* ((S_800270E0_4 *)(((Rec_func_80027018_arg0 *)arg0)->unk_F8.as_pv))->unk_04 in card_boot_initialize_save_heading_layout */
 
 
-void card_boot_bind_save_heading_display_data();                      /* extern */
+#include "frontend/libcard/interfaces.h"
 void format_save_heading_text(void *);                            /* extern */
 void func_80027080(void *, s32, s32);       /* extern */
 

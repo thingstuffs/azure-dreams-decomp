@@ -44,7 +44,7 @@ s32 use_item_to_reveal_items(EntityRec *target, s32 value, s16 mode, s32 context
         D_800E296C |= 0x200;
     }
 
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     clear_slot_and_update_linked_state(value);
     return 1;
 }

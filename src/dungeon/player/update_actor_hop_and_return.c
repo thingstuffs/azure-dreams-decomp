@@ -65,7 +65,7 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, void *entity
             return;
         }
         ((SpriteFrameState *)entity)->frameTable = D_800DD038;
-        set_sprite_animation_frame(entity, D_800DD038[((s32) (g_game_work.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
+        set_sprite_animation_frame(entity, D_800DD038[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
         ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 | 0xC);
         ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
@@ -84,17 +84,17 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, void *entity
             return;
         }
         ((SpriteFrameState *)entity)->frameTable = D_800DD058;
-        set_sprite_animation_frame(entity, D_800DD058[((s32) (g_game_work.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
+        set_sprite_animation_frame(entity, D_800DD058[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
         ((S_80091C64_0 *)motion)->unk_92 = 0;
         ((S_80091C64_0 *)motion)->unk_9B++;
         return;
     case 2:
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
         ((SpriteFrameState *)entity)->frameTable = D_800DD038;
-        set_sprite_animation_frame(entity, D_800DD038[((s32) (g_game_work.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
+        set_sprite_animation_frame(entity, D_800DD038[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
         return_duration = 8U;
         ((S_80091C64_0 *)motion)->unk_96.s = return_duration;
@@ -129,11 +129,11 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, void *entity
         ((S_80091C64_0 *)motion)->unk_92 = 0;
         ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
         ((SpriteFrameState *)entity)->frameTable = D_800DD058;
-        set_sprite_animation_frame(entity, D_800DD058[((s32) (g_game_work.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
+        set_sprite_animation_frame(entity, D_800DD058[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
         return;
     case 4:
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((S_80091C64_1 *)actor)->unk_2A = (s16) ((S_80091C64_0 *)motion)->unk_11A;
         if (((S_80091C64_1 *)actor)->unk_1C & 0x100000) {
             next_behavior = &handle_carrying_player_input;

@@ -96,7 +96,7 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
     case 0x10:
         if (((S_8016EF10_0 *)entity)->unk_2C != D_8017467C) {
             ((S_8016EF10_0 *)entity)->unk_2C = D_8017467C;
-            direction_index = ((g_game_work.view.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
             select_sprite_entry(entity, D_8017467C[direction_index], 0);
         }
         break;
@@ -104,7 +104,7 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
     case 0xF8:
         if (((S_8016EF10_0 *)entity)->unk_2C != D_801746FC) {
             ((S_8016EF10_0 *)entity)->unk_2C = D_801746FC;
-            direction_index = ((g_game_work.view.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
             select_sprite_entry(entity, D_801746FC[direction_index], 0);
         }
         break;
@@ -114,7 +114,7 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
             ((S_8016EF10_1 *)actor)->unk_2A = func_8016A928(action_context) << 9;
             if (((S_8016EF10_0 *)entity)->unk_2C != D_80174694) {
                 ((S_8016EF10_0 *)entity)->unk_2C = D_80174694;
-                direction_index = ((g_game_work.view.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+                direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
                 select_sprite_entry(entity, D_80174694[direction_index], 0);
             }
             if (create_five_point_effect(((S_8016EF10_0 *)entity)->unk_24,
@@ -127,7 +127,7 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
             ((S_8016EF10_1 *)actor)->unk_96 = 0;
             ((S_8016EF10_1 *)actor)->unk_9B++;
             {
-                g_dungeon_status.unk_0A += 2;
+                g_dungeon_status.activity_counts.parts.pending_action_count += 2;
             }
         }
         break;

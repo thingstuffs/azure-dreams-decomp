@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -28,8 +29,8 @@ void func_8050E100(void)
     if (current_town_value < 40) {
         town->unk_35BE = 40;
     }
-    func_800173F8(0xAE3, town);
-    func_800173F8(0xAE4);
+    func_800173F8(F_sbs42_pad11, town);
+    func_800173F8(F_sbs42_pad12);
     D_80017614 = 0;
-    func_800173F8(0xAE6);
+    func_800173F8(F_sbs42_pad14);
 }

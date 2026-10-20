@@ -233,7 +233,7 @@ void advance_actor_targeted_action(void *action, EntityRec *transform, void *spr
             if (current_anim != anim_table) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
                 select_sprite_entry(sprite,
-                    *(u8 *)((((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
+                    *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }
 
             control = (u8 *)&D_80083460;
@@ -244,7 +244,7 @@ void advance_actor_targeted_action(void *action, EntityRec *transform, void *spr
             if (current_anim != anim_table) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
                 select_sprite_entry(sprite,
-                    *(u8 *)((((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
+                    *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }
 
             control = (u8 *)&D_80083460;
@@ -255,7 +255,7 @@ void advance_actor_targeted_action(void *action, EntityRec *transform, void *spr
             if (current_anim != anim_table) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
                 select_sprite_entry(sprite,
-                    *(u8 *)((((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
+                    *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }
 
             control = (u8 *)&D_80083460;

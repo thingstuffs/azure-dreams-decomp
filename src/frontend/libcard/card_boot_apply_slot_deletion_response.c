@@ -21,8 +21,7 @@ typedef struct S_80025788_1 {
 } S_80025788_1;   /* cursor in card_boot_apply_slot_deletion_response */
 
 
-extern void card_boot_recheck_selected_channel(void);
-extern s32 card_boot_erase_slot_file(s32 file_index);
+#include "modules/main_server_ship_interfaces.h"
 extern void card_boot_show_delete_failure_notice(void *command_arg);
 extern void card_boot_refresh_slot_window(s32 object_addr);
 extern u8 D_80024F7C[];

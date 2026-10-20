@@ -20,7 +20,7 @@ void initialize_the_visual_effect_advances_action_state(Rec_func_800AD058_arg0 *
     one = 1;
     switch (phase) {
     case 0:
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
         action->unk_9B = (u8)one;

@@ -24,7 +24,7 @@ void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, EntityR
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         sprite->frameTable = direction_frames;
-        select_sprite_entry(sprite,(u8)(direction_frames[((s32) (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+        select_sprite_entry(sprite,(u8)(direction_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7]), 0);
         action->unk_96 = 9;
         action->unk_9B++;
@@ -44,7 +44,7 @@ void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, EntityR
             set_record_integer_tile_center(motion,(u8)sprite->unk_24,(u8)sprite->unk_25);
             reduce_actor_food_meter(actor, 0x100);
             action->unk_8C = ((u8 *)initialize_destination_state);
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (((EntityRec *)actor)->unk_6D == 0) {
                 ((EntityRec *)actor)->unk_46 = (u16) (((EntityRec *)actor)->unk_46 & 0x7FFF);

@@ -68,7 +68,7 @@ s32 use_item_to_revive_selected_actor(EntityRec *entity, s32 action, s16 action_
         clear_slot_and_update_linked_state(action);
         {
 
-            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         }
         return 1;
     }
@@ -96,7 +96,7 @@ s32 use_item_to_revive_selected_actor(EntityRec *entity, s32 action, s16 action_
     clear_slot_and_update_linked_state(action);
     {
 
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     }
     return 1;
 }

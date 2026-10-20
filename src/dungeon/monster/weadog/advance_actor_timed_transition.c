@@ -81,8 +81,8 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, EntityRec 
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
 
-        if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)entity_data - 0x20)) {
-            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
+        if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity_data - 0x20)) {
+            *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         controller->unk_8C = &D_80171CE8;
 

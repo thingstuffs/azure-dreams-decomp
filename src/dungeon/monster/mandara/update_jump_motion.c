@@ -51,7 +51,7 @@ void update_jump_motion_2(void *action, EntityRec *motion, void *unit, EntityRec
         (*(u8 * *)((u8 *)unit + 0x2C)) = D_80175278;
         select_sprite_entry(
             unit,
-            D_80175278[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80175278[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172834_0 *)action)->unk_98 |= 8;
         motion->flags14 = 0xFFEE0000;
@@ -97,7 +97,7 @@ void update_jump_motion_2(void *action, EntityRec *motion, void *unit, EntityRec
             (*(u8 * *)((u8 *)unit + 0x2C)) = D_80175280;
             select_sprite_entry(
                 unit,
-                D_80175280[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80175280[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172834_0 *)action)->unk_9B++;
         }
@@ -116,8 +116,8 @@ void update_jump_motion_2(void *action, EntityRec *motion, void *unit, EntityRec
         advance_status_timers(actor);
         {
 
-            if (g_dungeon_status.unk_08 != 0) {
-                g_dungeon_status.unk_08--;
+            if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
+                g_dungeon_status.activity_counts.parts.pending_movement_count--;
             }
         }
 
@@ -131,7 +131,7 @@ void update_jump_motion_2(void *action, EntityRec *motion, void *unit, EntityRec
 
                 actor->facing = get_rounded_facing_and_rounding_flag(
                     ((Rec_D_80082E80 *)unit)->unk_24, ((Rec_D_80082E80 *)unit)->unk_25,
-                    D_80082E80.tileX, D_80082E80.tileY, &distance);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
             }
         }
 

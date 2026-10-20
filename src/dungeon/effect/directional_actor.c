@@ -199,7 +199,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
         if (((s16)effect_arg->unk_50) > 0) {
             return;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((Row_818E0800_S_818E0800_0_pre *)effect_arg)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
         return;

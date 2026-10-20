@@ -59,7 +59,7 @@ void update_item_hop_animation(void *action, void *motion, void *sprite, void *a
         select_sprite_entry(
             sprite,
             *(&D_801760BC +
-              (((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
+              (((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
             0);
         ((S_80172AD8_0 *)action)->unk_98 |= 8;
         ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
@@ -114,7 +114,7 @@ void update_item_hop_animation(void *action, void *motion, void *sprite, void *a
             select_sprite_entry(
                 sprite,
                 *(&D_801760C4 +
-                  (((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
+                  (((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
                 0);
             ((S_80172AD8_0 *)action)->unk_9B++;
         }
@@ -141,8 +141,8 @@ void update_item_hop_animation(void *action, void *motion, void *sprite, void *a
     advance_status_timers(actor);
 
     global_base = &g_dungeon_status;
-    if (global_base->unk_08 != 0) {
-        (*(u16 *)&global_base->unk_08)--;
+    if (global_base->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&global_base->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = ((EntityRec *)actor)->flags1C;
@@ -154,7 +154,7 @@ void update_item_hop_animation(void *action, void *motion, void *sprite, void *a
         if (actor_flags & 0x20000) {
             ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
                 ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
-                D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
         }
     }
 

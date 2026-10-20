@@ -81,7 +81,7 @@ s32 update_thrown_actor_travel(void *move_state, EntityRec *motion, SpriteFrameS
                 }
                 cycle_map_cell_flags(contact_x, contact_y, contact_tile_mask);
                 actor->flags1C = (s32) (actor->flags1C & 0xFFDFFFFF);
-                g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+                g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
                 actor->unk_71 = 0;
                 return 1;
@@ -106,7 +106,7 @@ s32 update_thrown_actor_travel(void *move_state, EntityRec *motion, SpriteFrameS
                 ((Rec_func_800A9E70_arg0 *)move_state)->unk_90.at02_s16.v = 0;
                 actor->unk_88 = ground_height;
             }
-            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
             actor->flags1C = (s32) ((actor->flags1C | 0x40000000) & 0xFFDFFFFF);
             if ((find_valid_nearby_position(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) == 0) {

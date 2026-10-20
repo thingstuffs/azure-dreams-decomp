@@ -68,7 +68,7 @@ void update_actor_behavior_and_idle_delay(void *controller, void *context, void 
         if (((ActorSpriteView *)sprite)->animationTable != D_8016EEF0) {
             ((ActorSpriteView *)sprite)->animationTable = D_8016EEE8;
             select_sprite_entry(sprite,
-                D_8016EEE8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_8016EEE8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             return;
         }
@@ -105,7 +105,7 @@ void update_actor_behavior_and_idle_delay(void *controller, void *context, void 
                 if (((ActorSpriteView *)sprite)->animationTable != anim_table) {
                     ((ActorSpriteView *)sprite)->animationTable = anim_table;
                     select_sprite_entry(sprite,
-                        anim_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)controller)->unk_9E.as_s16 = 0;
@@ -142,7 +142,7 @@ void update_actor_behavior_and_idle_delay(void *controller, void *context, void 
             update_actor_status_and_food(actor);
             return;
         }
-        if (!(((ActorSpriteView *)sprite)->tile.packed == *(u16 *)(&D_80082E80.tileX))) {
+        if (!(((ActorSpriteView *)sprite)->tile.packed == *(u16 *)(&D_80082E80.tile_position.parts.tile_x))) {
             if (!(actor->unk_46 & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(actor,
@@ -180,7 +180,7 @@ void update_actor_behavior_and_idle_delay(void *controller, void *context, void 
 
                     facing_angle = get_rounded_facing_and_rounding_flag(
                         ((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &direction_flags);
                     player = D_800814A8;
                     actor->facing = facing_angle;
@@ -217,10 +217,10 @@ void update_actor_behavior_and_idle_delay(void *controller, void *context, void 
 
                 if ((compare_monster_neighbor_values(
                         ((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y,
-                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
                     actor->facing = get_rounded_facing_and_rounding_flag(
                         ((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &direction_flags);
                 }
             }
@@ -239,6 +239,6 @@ void update_actor_behavior_and_idle_delay(void *controller, void *context, void 
     }
     ((ActorSpriteView *)sprite)->animationTable = anim_table;
     select_sprite_entry(sprite,
-        anim_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
 }

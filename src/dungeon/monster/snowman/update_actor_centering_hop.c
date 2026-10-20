@@ -60,7 +60,7 @@ void update_actor_centering_hop(void *action, void *motion, void *sprite, void *
         ((SpriteFrameState *)sprite)->frameTable = D_801519A8;
         select_sprite_entry(
             sprite,
-            D_801519A8[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            D_801519A8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         ((S_8014EC54_0 *)action)->unk_98 |= 8;
         ((EntityRec *)entity)->flags1C &= 0xF7FFFFFF;
@@ -113,7 +113,7 @@ void update_actor_centering_hop(void *action, void *motion, void *sprite, void *
             ((SpriteFrameState *)sprite)->frameTable = D_801519B8;
             select_sprite_entry(
                 sprite,
-                D_801519B8[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                D_801519B8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_8014EC54_0 *)action)->unk_9B++;
         }
@@ -123,7 +123,7 @@ void update_actor_centering_hop(void *action, void *motion, void *sprite, void *
             ((SpriteFrameState *)sprite)->frameTable = D_80151988;
             select_sprite_entry(
                 sprite,
-                D_80151988[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                D_80151988[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;
@@ -143,8 +143,8 @@ void update_actor_centering_hop(void *action, void *motion, void *sprite, void *
     advance_status_timers(entity);
 
     global_base = &g_dungeon_status;
-    if (global_base->unk_08 != 0) {
-        (*(u16 *)&global_base->unk_08)--;
+    if (global_base->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&global_base->activity_counts.parts.pending_movement_count)--;
     }
 
     entity_flags = ((EntityRec *)entity)->flags1C;
@@ -158,8 +158,8 @@ void update_actor_centering_hop(void *action, void *motion, void *sprite, void *
                 ((EntityRec *)entity)->facing = get_rounded_facing_and_rounding_flag(
                     ((SpriteFrameState *)sprite)->unk_24,
                     ((SpriteFrameState *)sprite)->unk_25,
-                    D_80082E80.tileX,
-                    D_80082E80.tileY,
+                    D_80082E80.tile_position.parts.tile_x,
+                    D_80082E80.tile_position.parts.tile_y,
                     &direction_aux);
             }
         }

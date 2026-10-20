@@ -9,7 +9,7 @@ void func_8016C180(CL_CB9000_80172180_S_80172180_1 *state, s32 position, CL_CB90
             state->handler = 0;
             state->action_tick = 0;
             render_state->unk_2C = D_8016F2B4;
-            select_sprite_entry(render_state, *((((s32) (g_game_work.view.viewAngle + ((CL_CB9000_80172180_S_80172180_0 *)entity)->unk_2A + 0x100) >> 9) & 7) + D_8016F2B4), 0);
+            select_sprite_entry(render_state, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((CL_CB9000_80172180_S_80172180_0 *)entity)->unk_2A + 0x100) >> 9) & 7) + D_8016F2B4), 0);
             ((CL_CB9000_80172180_S_80172180_0 *)entity)->unk_6D = (u8) (((CL_CB9000_80172180_S_80172180_0 *)entity)->unk_6D - 1);
             prepare_directional_attack(entity, render_state, ((CL_CB9000_80172180_S_80172180_0 *)entity)->unk_2A, 1, 0);
             ((CL_CB9000_80172180_S_80172180_0 *)entity)->unk_84 = 0x7C;

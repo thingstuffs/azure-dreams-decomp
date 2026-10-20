@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/town_pointees.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -13,6 +14,6 @@ void advance_town_countdown_and_invoke_handler(void) {
     countdown = countdown_record->counter - 1;
     countdown_record->counter = countdown;
     if (!(countdown & 0xFF)) {
-        func_8001886C(0x5FF);
+        func_8001886C(F_sbs13_pad06);
     }
 }

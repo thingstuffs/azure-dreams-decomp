@@ -50,7 +50,7 @@ void spawn_floor_monster_from_table(s32 spawn_mode) {
     if (D_800E296C & 0x10000000) {
         return;
     }
-    if (g_dungeon_status.unk_1C >= 0x20) {
+    if (g_dungeon_status.monster_count >= 0x20) {
         return;
     }
 
@@ -66,8 +66,8 @@ void spawn_floor_monster_from_table(s32 spawn_mode) {
         }
 
         if (mode == 0) {
-            dx = abs(reference_object->tileX - tile_x);
-            dy = abs(reference_object->tileY - tile_y);
+            dx = abs(reference_object->tile_position.parts.tile_x - tile_x);
+            dy = abs(reference_object->tile_position.parts.tile_y - tile_y);
             distance = dx + dy;
         }
         if ((s16)distance < 0x21) {
@@ -81,7 +81,7 @@ void spawn_floor_monster_from_table(s32 spawn_mode) {
             entry_offset = (mode < 2) ?
                              ((generate_random_value() & 0xF) * 2) : fixed_entry_offset;
             {
-                u8 **spawn_table_addr = (u8 **)((u8 *)(&g_dungeon_status.unk_18));
+                u8 **spawn_table_addr = (u8 **)((u8 *)(&g_dungeon_status.monster_spawn_table));
                 s32 signed_entry_offset = entry_offset;
                 u8 *spawn_table = *spawn_table_addr;
                 spawn_entry = (u8 *)(signed_entry_offset + (s32)spawn_table);

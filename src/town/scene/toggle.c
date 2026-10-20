@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -35,5 +36,5 @@ void func_8077DC0C(void) {
     event = 0x7E;
     *toggle = (*toggle + 1) & 1;
     func_80017670(event);
-    func_80017670(0x7F);
+    func_80017670(F_act_sun);
 }

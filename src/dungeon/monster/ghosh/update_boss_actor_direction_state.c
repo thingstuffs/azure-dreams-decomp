@@ -125,11 +125,11 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
     new_angle_bits = ((S_80172610_2 *)base)->unk_2A.u;
     if (old_angle != new_angle) {
         (*(u16 *)((u8 *)actor + 0x2A)) = new_angle_bits;
-        facing_index = ((g_game_work.view.viewAngle + new_angle + 0x100) >> 9) & 7;
+        facing_index = ((g_game_work.view.camera_rotation.parts.viewAngle + new_angle + 0x100) >> 9) & 7;
         select_sprite_entry(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + facing_index)), 0);
     }
 
-    direction_index = ((g_game_work.view.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
+    direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
     direction_short = direction_index;
     if (((S_80172610_0 *)actor)->unk_94.s != direction_short) {
         select_sprite_entry(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + direction_short)), 0);
@@ -141,7 +141,7 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
     output->unk_06 = source->unk_06;
     output->unk_0A = source->unk_0A;
 
-    effect_index = ((g_game_work.view.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
+    effect_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
     effect = D_800DCECC[effect_index];
     ((S_80172610_4 *)context)->unk_06 = effect << 2;
     ((S_80172610_4 *)context)->unk_1C = ((S_80172610_3 *)linked)->unk_1C;

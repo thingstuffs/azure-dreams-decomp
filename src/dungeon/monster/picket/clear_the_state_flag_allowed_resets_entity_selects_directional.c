@@ -39,9 +39,9 @@ void clear_the_state_flag_allowed_resets_entity_selects_directional(Entity *enti
         entity->unk9B = 0;
         object->unk2C = D_80174F08;
         select_sprite_entry(object,
-                      D_80174F08[((g_game_work.view.viewAngle + state->unk2A + 0x100) >> 9) & 7],
+                      D_80174F08[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk2A + 0x100) >> 9) & 7],
                       0);
         state->unk6D--;
-        flags->unk_0A++;
+        flags->activity_counts.parts.pending_action_count++;
     }
 }

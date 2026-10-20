@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 extern u8 D_8001D7A0[];
@@ -15,24 +16,24 @@ extern s32 func_8001A64C(s32);
 s32 advance_town_scene_finish_early(s32 kind, void *param)
 {
     func_80016CC4();
-    if (func_8001A64C(0x1068) != 0) {
-        func_8001A554(0x94F);
-        func_8001A554(0x93E);
+    if (func_8001A64C(Frg_vivian_fine) != 0) {
+        func_8001A554(F_sbs32_pad37);
+        func_8001A554(F_sbs32_pad20);
         return 1;
     }
 
-    if (func_8001A64C(0x949) == 0) {
-        if (func_8001A64C(0x94A) != 0) {
+    if (func_8001A64C(F_sbs32_pad31) == 0) {
+        if (func_8001A64C(F_sbs32_pad32) != 0) {
             void *ptr;
 
-            func_8001A554(0x949);
+            func_8001A554(F_sbs32_pad31);
             ptr = *(void **)((u8 *)(&D_80016000));
             ptr = *(void **)((s8 *)ptr + 0x1C);
             *(void **)((s8 *)ptr + 0x40) = (s8 *)D_8001D6B0;
         } else {
             void *ptr;
 
-            func_8001A554(0x949);
+            func_8001A554(F_sbs32_pad31);
             ptr = *(void **)((u8 *)(&D_80016000));
             ptr = *(void **)((s8 *)ptr + 0x1C);
             *(void **)((s8 *)ptr + 0x40) = (s8 *)D_8001D7A0;

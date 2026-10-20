@@ -29,5 +29,5 @@ void initialize_eight_way_action_state(State *state, s32 unused, Context *contex
     state->unk9B = 0;
     state->unk9E = 8;
     context->unk2C = D_8017387C;
-    select_sprite_entry(context, D_8017387C[((g_game_work.view.viewAngle + directionSource->unk2A + 0x100) >> 9) & 7], 0);
+    select_sprite_entry(context, D_8017387C[((g_game_work.view.camera_rotation.parts.viewAngle + directionSource->unk2A + 0x100) >> 9) & 7], 0);
 }

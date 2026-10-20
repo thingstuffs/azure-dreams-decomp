@@ -54,8 +54,14 @@ typedef struct SoundPlaybackState {
  * +00 callback is installed by sound init, then called by the update routine.
  * +08 is scaled by volumeScale before playback; its other role differs by
  * instance, so no universal volume/note name is asserted. */
+typedef void (*sound_task_callback_fn)(void);
+
+/* Installed SoundTask completion functions; both take no arguments. */
+void func_800552C8(void);
+void func_80054D64(void);
+
 typedef struct SoundTask {
-    /* 0x00 */ void (*callback)(void);
+    /* 0x00 */ sound_task_callback_fn callback;
     /* 0x04 */ int unk_04;
     /* 0x08 */ short unk_08;
     /* 0x0A */ short unk_0A;

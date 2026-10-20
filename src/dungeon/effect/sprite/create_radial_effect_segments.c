@@ -142,7 +142,7 @@ void create_radial_effect_segments(void *unused, Rec_func_800D6DC0_arg1 *origin,
             effect_state->unk_4E = (s16) end_y;
             position->unk_16 = 0;
             render_data->frameTable = direction_table;
-            select_sprite_entry(render_data, *((u8 *) (((((s32) (g_game_work.view.viewAngle + orientation->unk_2A + 0x100)
+            select_sprite_entry(render_data, *((u8 *) (((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + orientation->unk_2A + 0x100)
                 >> 9) & 7) + (s32) direction_table))), 0);
         }
         segment += 1;

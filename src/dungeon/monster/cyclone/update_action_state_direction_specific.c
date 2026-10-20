@@ -26,7 +26,7 @@ void update_action_state_direction_specific(void *action_state, s32 action_param
             *((s8 *)action_state + 0x9B) = 0;
             frame_table = &D_8014A000[D_801764A0_OFF];
             *(void **)((u8 *)sprite + 0x2C) = frame_table;
-            direction = ((g_game_work.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, frame_table[direction], 0);
             advance_status_timers(actor);
             *((u8 *)actor + 0x6D) = (u8)(*((u8 *)actor + 0x6D) - 1);

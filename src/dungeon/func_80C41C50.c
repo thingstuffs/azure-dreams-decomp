@@ -14,7 +14,7 @@ void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, voi
     state = ((T_80173450_S_80173450_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (*(s16 *)((u8 *)&g_dungeon_status.unk_0A) != 0) {
+        if (*(s16 *)((u8 *)&g_dungeon_status.activity_counts.parts.pending_action_count) != 0) {
             return;
         }
         ((T_80173450_S_80173450_0 *)action)->unk_9B = 1;
@@ -56,9 +56,9 @@ void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, voi
         }
     }
 
-    tracked_entity = ((s32)g_dungeon_status.unk_10);
+    tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
     if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-        g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
+        g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
     }
     distribute_experience_and_report_gains(entity);
     detach_record_and_update_slot_state(entity);

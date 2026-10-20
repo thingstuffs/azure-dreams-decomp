@@ -1,6 +1,6 @@
 #include "common.h"
 
-void card_boot_layout_three_row_command_panel(void *);                         /* extern */
+#include "frontend/libcard/interfaces.h"
 void func_80023730(s32, s32, s32);               /* extern */
 void card_dev_store_word();                            /* extern */
 

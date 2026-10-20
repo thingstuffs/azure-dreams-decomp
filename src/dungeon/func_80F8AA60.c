@@ -125,7 +125,7 @@ void update_bank_timed_effect(void *state_input, void *motion_input, void *anima
 
         PTR_AT(animation_input, 0x2C) = D_80174B14;
         select_sprite_entry(animation_input,
-            D_80174B14[((g_game_work.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
+            D_80174B14[((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
             0);
         next_state = U8_AT(state_input, 0x9B);
         U8_AT(state_input, 0x9B) = next_state + 1;
@@ -138,9 +138,9 @@ void update_bank_timed_effect(void *state_input, void *motion_input, void *anima
             reduce_actor_food_meter(actor_input, 0x800);
             PTR_AT(animation_input, 0x2C) = D_80174ACC;
             select_sprite_entry(animation_input,
-                D_80174ACC[((g_game_work.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
+                D_80174ACC[((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
                 0);
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             advance_status_timers(actor_input);
             U8_AT(actor_input, 0x6D) = 0;
             U16_AT(actor_input, 0x46) &= 0x7FFF;

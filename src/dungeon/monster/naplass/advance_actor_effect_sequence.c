@@ -85,9 +85,9 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000))
             return;
         ((SpriteFrameState *)sprite)->frameTable = D_801741DC;
-        select_sprite_entry(sprite, D_801741DC[((g_game_work.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+        select_sprite_entry(sprite, D_801741DC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
-        g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
         return;
     case 1:
@@ -106,12 +106,12 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
             return;
         if ((get_entity_effect_value(actor_state, 1) << 0x10) == 0) {
             ((SpriteFrameState *)sprite)->frameTable = D_801741E4;
-            select_sprite_entry(sprite, D_801741E4[((g_game_work.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+            select_sprite_entry(sprite, D_801741E4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
                 >> 9) & 7], 0);
             if (((SpriteFrameState *)sprite)->flags & 0x8000) {
                 if (((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000) {
-                    count = ((u16)g_dungeon_status.unk_0A) + 1;
-                    g_dungeon_status.unk_0A = count;
+                    count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
+                    g_dungeon_status.activity_counts.parts.pending_action_count = count;
                     ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
                     return;
                 }
@@ -119,7 +119,7 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
                 ((Rec_func_801732A4_arg0 *)actor)->unk_8C = D_80170E68;
                 return;
             }
-            g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) + 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
             ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
             return;
         }
@@ -166,7 +166,7 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         if ((get_entity_effect_value(actor_state, 1) << 0x10) != 0) {
             player_sprite = &D_80082E80;
             region_id = *(s8 *)&((SpriteFrameState *)sprite)->unk_26;
-            if (region_id == player_sprite->unk_026 && region_id >= 0) {
+            if (region_id == player_sprite->room_index && region_id >= 0) {
                 if (!(generate_random_value() & 7)) {
                     clear_slots_of_type(actor_state, 1);
                 }
@@ -182,7 +182,7 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         if ((get_entity_effect_value(actor_state, 1) << 0x10) != 0)
             return;
         ((SpriteFrameState *)sprite)->frameTable = D_801741E4;
-        select_sprite_entry(sprite, D_801741E4[((g_game_work.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+        select_sprite_entry(sprite, D_801741E4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             if (!(((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000)) {
@@ -191,15 +191,15 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
                 return;
             }
             {
-                actor_flags = ((u16)g_dungeon_status.unk_0A) + 1;
-                g_dungeon_status.unk_0A = actor_flags;
+                actor_flags = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
+                g_dungeon_status.activity_counts.parts.pending_action_count = actor_flags;
             }
             ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
             return;
         }
         {
-            actor_flags = ((u16)g_dungeon_status.unk_0A);
-            g_dungeon_status.unk_0A = (u16)(actor_flags + 1);
+            actor_flags = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(actor_flags + 1);
         }
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
         return;
@@ -207,7 +207,7 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000))
             return;
         ((SpriteFrameState *)sprite)->frameTable = D_801741EC;
-        select_sprite_entry(sprite, D_801741EC[((g_game_work.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+        select_sprite_entry(sprite, D_801741EC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
         return;
@@ -215,7 +215,7 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000))
             return;
         ((SpriteFrameState *)sprite)->frameTable = D_801741F4;
-        select_sprite_entry(sprite, D_801741F4[((g_game_work.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+        select_sprite_entry(sprite, D_801741F4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
         new_effect = allocate_list_node(0x112, ((void *)&D_80083498.next));
@@ -238,7 +238,7 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         effect_sprite->clut = (u16)((SpriteFrameState *)sprite)->clut;
         effect_sprite->color.word = (s32)((SpriteFrameState *)sprite)->color.word;
         effect_sprite->frameTable = D_801741FC;
-        select_sprite_entry(effect_sprite, D_801741FC[((g_game_work.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A
+        select_sprite_entry(effect_sprite, D_801741FC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A
             + 0x100) >> 9) & 7], 0);
         return;
     case 4:
@@ -249,7 +249,7 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
             ((S_801732A4_8 *)active_effect)->unk_BB = 0xFF;
             ((Rec_func_801732A4_arg0 *)actor)->unk_A0 = NULL;
         }
-        g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~0x200);
         effect_flags = ((Rec_func_801732A4_arg0 *)actor)->unk_98;
         if (effect_flags & 0x8000) {

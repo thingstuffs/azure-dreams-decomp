@@ -22,23 +22,11 @@ typedef struct {
     s16 phase2;
 } TownEffect;
 
-typedef struct {
-    s16 kind;
-    s16 unused;
-    void *owner;
-    u8 pad08[0x4C];
-    s16 x;
-    s16 y;
-} EffectMessage;
+#include "town/minigame/pickup_data.h"
 
-typedef struct {
-    s32 a;
-    s32 b;
-    s32 c;
-    s32 d;
-    s32 e;
-    s32 f;
-} EffectScratch;
+typedef minigame_pickup_source EffectMessage;
+
+typedef minigame_pickup_initial EffectScratch;
 
 typedef struct {
     EffectMessage message;
@@ -58,7 +46,6 @@ extern u8 D_800D0080[];
 extern u8 D_80097D2C[];
 extern void draw_translucent_gradient_line_list(void);
 
-extern void initialize_source_and_initial_data(void *, void *);
 extern s32 service_script_controller(void);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -271,13 +258,13 @@ void update_betting_effect(TownEffect *input)
         } else {
             effect->timer = 5;
         }
-        if (((((s32)controls->unk_010) & 0x1000) != 0 || ((controls->buttons & 0x1000) != 0 && effect->timer <= 0))
+        if (((((s32)controls->pressed_buttons) & 0x1000) != 0 || ((controls->buttons & 0x1000) != 0 && effect->timer <= 0))
             && effect->amount < 10000 && (u32)D_80012D5C[0] >= 100) {
             SD_Call(0x502);
             D_80012D5C[0] -= 100;
             effect->amount = effect->amount + 100;
         } else {
-            if ((((s32)controls->unk_010) & 0x4000) != 0 || ((controls->buttons & 0x4000) != 0 && effect->timer <= 0)) {
+            if ((((s32)controls->pressed_buttons) & 0x4000) != 0 || ((controls->buttons & 0x4000) != 0 && effect->timer <= 0)) {
                 if (effect->amount >= 100) {
                     SD_Call(0x502);
                     D_80012D5C[0] += 100;
@@ -287,9 +274,9 @@ void update_betting_effect(TownEffect *input)
         }
         effect->ticks = effect->amount / 100;
         if (effect->ticks != 0) {
-            pressed_buttons = ((s32)controls->unk_010);
+            pressed_buttons = ((s32)controls->pressed_buttons);
         } else {
-            pressed_buttons = ((s32)controls->unk_010);
+            pressed_buttons = ((s32)controls->pressed_buttons);
         }
         if ((pressed_buttons & 0x40) != 0) {
             if (effect->amount > 0) {
@@ -377,7 +364,7 @@ void update_betting_effect(TownEffect *input)
     case 4:
     {
         EntityRec *motion;
-        if ((((s32)controls->unk_010) & 0x40) == 0 ||
+        if ((((s32)controls->pressed_buttons) & 0x40) == 0 ||
             ((S_800211A4_6 *)child)->unk_70 != 2) {
             break;
         }

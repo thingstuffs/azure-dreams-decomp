@@ -73,7 +73,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
         if (((S_80171760_2 *)map_entity)->unk_2C != D_80174EF0) {
             (*(void * *)((u8 *)map_entity + (0x2C))) = D_80174EE8;
             select_sprite_entry(map_entity,
-                *(u8 *)((((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)D_80174EE8),
+                *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)D_80174EE8),
                 0);
             return;
         }
@@ -110,7 +110,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
                 if (((S_80171760_2 *)map_entity)->unk_2C != anim_table) {
                     (*(void * *)((u8 *)map_entity + (0x2C))) = anim_table;
                     select_sprite_entry(map_entity,
-                        anim_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)motion)->unk_9E.as_s16 = 0;
@@ -147,7 +147,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
             update_actor_status_and_food(actor);
             return;
         }
-        if (!(((S_80171760_2 *)map_entity)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX))) {
+        if (!(((S_80171760_2 *)map_entity)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x))) {
             if (!(actor->unk_46 & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(actor,
@@ -185,7 +185,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
 
                     facing_angle = get_rounded_facing_and_rounding_flag(
                         ((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &direction_flags);
                     player = D_800814A8;
                     actor->facing = facing_angle;
@@ -222,10 +222,10 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
 
                 if ((compare_monster_neighbor_values(
                         ((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
                     actor->facing = get_rounded_facing_and_rounding_flag(
                         ((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &direction_flags);
                 }
             }
@@ -244,6 +244,6 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
     }
     (*(void * *)((u8 *)map_entity + (0x2C))) = anim_table;
     select_sprite_entry(map_entity,
-        *(u8 *)((((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table),
+        *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
 }

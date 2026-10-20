@@ -80,12 +80,12 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
             sprite->frameTable = dir_table;
             select_sprite_entry(
                 sprite,
-                dir_table[((g_game_work.view.viewAngle +
+                dir_table[((g_game_work.view.camera_rotation.parts.viewAngle +
                             entity->facing + 0x100) >> 9) & 7],
                 0);
         }
         counter_base = &g_dungeon_status;
-        counter_base->unk_0A--;
+        counter_base->activity_counts.parts.pending_action_count--;
         actor->unk_9B++;
         return;
     case 1:
@@ -102,9 +102,9 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
                 }
             } else if (entity->unk_64 != 0) {
                 reference_base = &g_dungeon_status;
-                if (((s32)reference_base->unk_10) ==
+                if (((s32)reference_base->pending_display_owner) ==
                     (u32)((u8 *)entity - 0x20)) {
-                    (*(s32 *)&reference_base->unk_10) &= 0x7FFFFFFF;
+                    (*(s32 *)&reference_base->pending_display_owner) &= 0x7FFFFFFF;
                 }
             }
             if ((has_pending_actor_or_turn_action(entity) << 0x10) != 0) {
@@ -138,7 +138,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
             if ((get_entity_effect_value(entity, 1) << 0x10) != 0) {
                 reference_pos = &D_80082E80;
                 room_id = *(s8 *)&sprite->unk_26;
-                if (((room_id == reference_pos->unk_026 && room_id >= 0) ||
+                if (((room_id == reference_pos->room_index && room_id >= 0) ||
                      get_tile_chebyshev_distance(reference_pos, sprite) < 2) &&
                     (generate_random_value() & 7) == 0) {
                     clear_slots_of_type(entity, 1);
@@ -153,7 +153,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
             sprite->frameTable = dir_table;
             select_sprite_entry(
                 sprite,
-                dir_table[((g_game_work.view.viewAngle +
+                dir_table[((g_game_work.view.camera_rotation.parts.viewAngle +
                             entity->facing + 0x100) >> 9) & 7],
                 0);
         }
@@ -163,7 +163,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
         }
         {
             DungeonGlobalStatus *counter_update = &g_dungeon_status;
-            counter_update->unk_0A++;
+            counter_update->activity_counts.parts.pending_action_count++;
         }
         actor->unk_9B++;
         return;
@@ -173,7 +173,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
         }
         {
             DungeonGlobalStatus *counter_update = &g_dungeon_status;
-            counter_update->unk_0A--;
+            counter_update->activity_counts.parts.pending_action_count--;
         }
         actor->unk_8C = D_8016B778;
         break;

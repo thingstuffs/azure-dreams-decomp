@@ -92,7 +92,7 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
 
         {
             s32 angle_index;
-            angle_index = (g_game_work.view.viewAngle + D_800814A8->facing + 0x100) >> 7;
+            angle_index = (g_game_work.view.camera_rotation.parts.viewAngle + D_800814A8->facing + 0x100) >> 7;
             if (resolve_record_orientation_or_fallback(*(void **)((angle_index & 0x1C) + (s32)(*(s32 * *)D_800E3D18)),
                               ((u8 *)(&D_80082E80)), offset, 0) != 0) {
                 ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C += ((s16 *)offset)[0] << 16;
@@ -483,7 +483,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
         shifted_height = ((actor_value->unk_88) - 0x50) << 0x10;
         effect_data = offset;
         (*(s32 *)((u8 *)position + 8)) = shifted_height;
-        view_heading = g_game_work.view.viewAngle;
+        view_heading = g_game_work.view.camera_rotation.parts.viewAngle;
         state_or_heading = actor_value->facing;
         offset_mode = 0;
         view_heading += state_or_heading;
@@ -498,16 +498,16 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
             (*(s32 *)((u8 *)position + 8)) = (s32)((*(s32 *)((u8 *)position + 8)) + (offset[2] << 0x10));
         }
         actor_or_frame = D_800814A8;
-        target = scan_monster_along_heading(actor_or_frame, tile_or_y_steps->tileX,
-            tile_or_y_steps->tileY, (s16)((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A, 8);
+        target = scan_monster_along_heading(actor_or_frame, tile_or_y_steps->tile_position.parts.tile_x,
+            tile_or_y_steps->tile_position.parts.tile_y, (s16)((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A, 8);
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14 = target;
         if (target != NULL) {
             target_pos = ((Row_8194D354_S_80024B54_6_pre *)target)[-1].unk_00;
         } else {
             target_pos = fallback_pos;
             step_count = 0;
-            ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u = (u16)((tile_or_y_steps->tileX << 6) + 0x20);
-            tile_y = tile_or_y_steps->tileY;
+            ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u = (u16)((tile_or_y_steps->tile_position.parts.tile_x << 6) + 0x20);
+            tile_y = tile_or_y_steps->tile_position.parts.tile_y;
             ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u = (u16)((tile_y << 6) + 0x20);
             do {
                 actor_or_frame = D_800814A8;

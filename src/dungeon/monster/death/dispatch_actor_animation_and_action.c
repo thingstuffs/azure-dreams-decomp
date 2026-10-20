@@ -112,7 +112,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
         anim_table = D_8017467C;
         (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
         select_sprite_entry(entity_in,
-            ((u8 *)anim_table)[((g_game_work.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -152,7 +152,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
                 if (current_anim != anim_table) {
                     (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
                     select_sprite_entry(entity_in,
-                        ((u8 *)anim_table)[((g_game_work.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100)
+                        ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100)
                             >> 9) & 7],
                         1);
                     ((S_801719DC_2 *)entity_in)->unk_05 = 1;
@@ -208,7 +208,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
             update_actor_status_and_food(actor_in);
             return;
         }
-        if (((S_801719DC_2 *)entity_in)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (((S_801719DC_2 *)entity_in)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_801721D8(motion_in, context_in, entity_in, actor_in);
             return;
         }
@@ -250,7 +250,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
 
             heading = get_rounded_facing_and_rounding_flag(
                 ((S_801719DC_2 *)entity_in)->unk_24.at00.v, ((S_801719DC_2 *)entity_in)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                 &direction_aux);
             player = D_800814A8;
             ((S_801719DC_1 *)actor_in)->unk_2A = heading;
@@ -288,10 +288,10 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
 
                 if ((compare_monster_neighbor_values(
                         ((S_801719DC_2 *)entity_in)->unk_24.at00.v, ((S_801719DC_2 *)entity_in)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
                     ((S_801719DC_1 *)actor_in)->unk_2A = get_rounded_facing_and_rounding_flag(
                         ((S_801719DC_2 *)entity_in)->unk_24.at00.v, ((S_801719DC_2 *)entity_in)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &direction_aux);
                 }
             }
@@ -311,7 +311,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
         if (((S_801719DC_2 *)entity_in)->unk_2C != anim_table) {
             (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
             select_sprite_entry(entity_in,
-                ((u8 *)anim_table)[((g_game_work.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                 1);
             ((S_801719DC_2 *)entity_in)->unk_05 = 1;
             motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;

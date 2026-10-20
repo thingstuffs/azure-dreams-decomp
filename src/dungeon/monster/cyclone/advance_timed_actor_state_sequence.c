@@ -100,14 +100,14 @@ void advance_timed_actor_state_sequence(D0 *action, void *context, D2 *sprite, D
         reduce_actor_food_meter(actor, 0x400);
         set_record_integer_tile_center(context, sprite->value_24, sprite->value_25);
         action->field_8C = D_80171094;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         actor->value_46 &= 0x7FFF;
         break;
     }
 
     if (sprite->flags & 0xE000) {
         sprite->field_2C = D_80176460;
-        select_sprite_entry(sprite, D_80176460[(((g_game_work.view.viewAngle + actor->value_2A + 0x100) >> 9) & 7)], 0);
+        select_sprite_entry(sprite, D_80176460[(((g_game_work.view.camera_rotation.parts.viewAngle + actor->value_2A + 0x100) >> 9) & 7)], 0);
         action->field_98 &= 0xFFF7;
     }
 

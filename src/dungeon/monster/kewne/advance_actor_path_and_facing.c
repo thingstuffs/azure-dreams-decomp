@@ -61,7 +61,7 @@ void advance_actor_path_and_facing(void *motion, s32 unused, void *actor, void *
         (*(u8 * *)((u8 *)actor + 0x2C)) = D_80175E40;
         select_sprite_entry(
             actor,
-            D_80175E40[((g_game_work.view.viewAngle + ((S_8017169C_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            D_80175E40[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017169C_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

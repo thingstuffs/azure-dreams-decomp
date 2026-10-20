@@ -75,7 +75,7 @@ s32 attempt_actor_transition(void *state, s32 action_id, void *sprite, EntityRec
 
     ((SpriteFrameState *)sprite)->frameTable = D_8017386C;
     select_sprite_entry(sprite,
-                  D_8017386C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                  D_8017386C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
     actor->unk_6D--;
     if (((Rec_func_800A9E70_arg0 *)state)->unk_9A.as_u8 != 0x11) {

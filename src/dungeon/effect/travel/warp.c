@@ -116,15 +116,15 @@ void func_80024020(EventState *event) {
     {
         s16 fade_ticks;
 
-        colors->view.unk_090 += (u8)((0x80 - colors->view.unk_090) / event->timer1A);
-        colors->view.unk_092 += (u8)((0x80 - colors->view.unk_092) / event->timer1A);
+        colors->view.tint.parts.tint_r += (u8)((0x80 - colors->view.tint.parts.tint_r) / event->timer1A);
+        colors->view.tint.parts.tint_b += (u8)((0x80 - colors->view.tint.parts.tint_b) / event->timer1A);
         fade_ticks = (s16)(event->timer1A - 1);
         event->timer1A = fade_ticks;
         if (fade_ticks > 0) {
             break;
         }
-        colors->view.unk_092 = 0x80;
-        colors->view.unk_090 = 0x80;
+        colors->view.tint.parts.tint_b = 0x80;
+        colors->view.tint.parts.tint_r = 0x80;
     }
         event->state++;
         break;
@@ -132,8 +132,8 @@ void func_80024020(EventState *event) {
     case 5:
         if (*(s16 *)D_80027452 == 0) {
             {
-                g_dungeon_status.unk_0C = 0;
-                g_dungeon_status.unk_0A--;
+                g_dungeon_status.active_actor = 0;
+                g_dungeon_status.activity_counts.parts.pending_action_count--;
             }
             *(u16 *)((u8 *)event - 2) |= 0x8000;
             object_flag_block.flags |= 0x8000;
@@ -142,8 +142,8 @@ void func_80024020(EventState *event) {
     if (event->mode20 < 0) {
         s16 fade_ticks;
 
-        colors->view.unk_090 += (u8)((0x20 - colors->view.unk_090) / event->timer22);
-        colors->view.unk_092 += (u8)((0x20 - colors->view.unk_092) / event->timer22);
+        colors->view.tint.parts.tint_r += (u8)((0x20 - colors->view.tint.parts.tint_r) / event->timer22);
+        colors->view.tint.parts.tint_b += (u8)((0x20 - colors->view.tint.parts.tint_b) / event->timer22);
         fade_ticks = (s16)(event->timer22 - 1);
         event->timer22 = fade_ticks;
         if (fade_ticks <= 0) {
@@ -390,7 +390,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
         entity = D_800E3D7C;
         base.z = ((u16)entity->unk_88) - 0x50;
         index =
-            ((g_game_work.view.viewAngle + entity->facing + 0x100) >> 7) & 0x1C;
+            ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 7) & 0x1C;
 
         resolve_record_orientation_or_fallback(
             *(void **)(index + (s32)D_800E3D18),
@@ -459,7 +459,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
 
     case 3:
         source = &D_80082E80;
-        if (resolve_record_orientation_or_fallback(((void *)source->unk_008), source, &base, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((void *)source->sprite_source), source, &base, 0) != 0) {
             update_object_movement_proximity_reactions(
                 D_80083780.x.w.i + base.x,
                 D_80083780.y.w.i + base.y,
@@ -1253,10 +1253,10 @@ void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
         ((S_800255B8_3 *)effect_state)->unk_34 = heading;
         ((S_800255B8_3 *)effect_state)->unk_48 = piece_index;
         ((S_800255B8_3 *)effect_state)->unk_46 = 8;
-        color_first = color_table->tileX;
+        color_first = color_table->tile_position.parts.tile_x;
         ((S_800255B8_3 *)effect_state)->unk_3C = color_first;
         ((S_800255B8_3 *)effect_state)->unk_40 = color_first;
-        color_second = color_table->tileY;
+        color_second = color_table->tile_position.parts.tile_y;
         ((S_800255B8_3 *)effect_state)->unk_3E = color_second;
         ((S_800255B8_3 *)effect_state)->unk_42 = color_second;
         piece_index++;

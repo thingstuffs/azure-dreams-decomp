@@ -33,7 +33,7 @@ void advance_actor_state_when_allowed(void *state_ctx, s32 entity_id, void *acti
             reduce_actor_food_meter(entity, 0x400);
             set_record_integer_tile_center(entity_id, ((E_80173CE0_S_80173CE0_1 *)action)->unk_24, ((E_80173CE0_S_80173CE0_1 *)action)->unk_25);
             ((E_80173CE0_S_80173CE0_0 *)state_ctx)->unk_8C = update_actor_behavior_facing_and_animation_2;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)entity + 0x46)) &= 0x7FFF;
         }
 

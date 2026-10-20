@@ -27,7 +27,7 @@ void update_actor_status_and_motion(void *action_state, s32 action_context, void
                 (u16) (((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0xFFF7);
             entity->flags1C = (s32) (entity->flags1C & 0xFFFBFFFF);
             (*(u8 **)((u8 *)sprite + 0x2C)) = &D_800E2378;
-            select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
+            select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                 + &D_800E2378), 0);
             prepare_directional_attack(entity, sprite, entity->facing, 1, 0);
             entity->unk_84 = 0x7C;

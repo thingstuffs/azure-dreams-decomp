@@ -168,8 +168,8 @@ s32 setup_dungeon_floor_encounters(void)
                         } while (i < 4);
                     }
                 } else {
-                    *(floor_generate_isolated_80285E80_Packed16_80285E80 *)g_dungeon_status.unk_18 =
-                        *(floor_generate_isolated_80285E80_Packed16_80285E80 *)(g_dungeon_status.unk_18 + 0x10);
+                    *(floor_generate_isolated_80285E80_Packed16_80285E80 *)g_dungeon_status.monster_spawn_table =
+                        *(floor_generate_isolated_80285E80_Packed16_80285E80 *)(g_dungeon_status.monster_spawn_table + 0x10);
                     *(floor_generate_isolated_80285E80_Packed16_80285E80 *)((u8 (*)[8])D_800DDC9C)[0] =
                         *(floor_generate_isolated_80285E80_Packed16_80285E80 *)((u8 (*)[8])D_800DDC9C)[2];
                 }

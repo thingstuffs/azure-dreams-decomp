@@ -495,7 +495,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
         if ((s16)timer > 0) {
             return;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)owner - 2)) |= 0x8000;
         object_flag_block.flags |= 0x8000;
     default:

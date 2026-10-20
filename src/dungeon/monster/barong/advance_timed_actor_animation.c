@@ -59,7 +59,7 @@ void advance_timed_actor_animation(void *action, void *motion, void *sprite, Ent
             (((SpriteFrameState *)sprite)->flags & 0x8000)) {
             ((SpriteFrameState *)sprite)->frameTable = D_80175584;
             select_sprite_entry(sprite,
-                D_80175584[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80175584[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((SpriteFrameState *)sprite)->flags |= 0x0800;
         }
@@ -89,7 +89,7 @@ void advance_timed_actor_animation(void *action, void *motion, void *sprite, Ent
         if (((SpriteFrameState *)sprite)->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x100);
             ((S_80172F94_0 *)action)->unk_8C = D_801716F4;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->unk_46 &= 0x7FFF;
         }

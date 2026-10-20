@@ -61,7 +61,7 @@ extern M2C_UNK D_80176370;
 
 static __inline__ void set_map(void *sprite, void *creature, u8 *direction_map) {
     (((S_80173B98_2 *)sprite)->unk_2C) = (void *)direction_map;
-    select_sprite_entry(sprite, direction_map[((s32) (g_game_work.view.viewAngle + ((S_set_map_0 *)creature)->unk_2A + 0x100)
+    select_sprite_entry(sprite, direction_map[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_set_map_0 *)creature)->unk_2A + 0x100)
         >> 9) & 7], 0);
 }
 
@@ -130,7 +130,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
             update_actor_status_and_food(creature);
             return;
         }
-        if (((S_80173B98_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (((S_80173B98_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             choose_heading_and_advance_actor(actor, context, sprite, creature);
             return;
         }
@@ -180,9 +180,9 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
         if (tile_index >= 0 && (D_800E2970[tile_index].flags & 2)) {
         } else if (!(status_flags & 0x430)) {
             if ((compare_monster_neighbor_values(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY) << 0x10) != 0) {
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 0x10) != 0) {
                 creature->facing = get_rounded_facing_and_rounding_flag(((S_80173B98_2 *)sprite)->unk_24.at00.v,
-                    ((S_80173B98_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+                    ((S_80173B98_2 *)sprite)->unk_24.at01.v, D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
             }
         }
     }

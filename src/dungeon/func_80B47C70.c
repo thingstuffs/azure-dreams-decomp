@@ -34,7 +34,7 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
         return;
 
     case 2:
-        direction = ((g_game_work.view.viewAngle + ((R12_80175470_S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80175470_S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         if ((*(u8 *)D_80175B24) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
@@ -69,12 +69,12 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
         }
         color_index = lookup_masked_byte_table(actor);
         target_color = ((u8 * *)D_800DCEEC)[color_index];
-        scene_color->view.unk_090 += ((s32)target_color[0]
-            - scene_color->view.unk_090) / ((R12_80175470_S_80175470_0 *)sequence)->unk_96.s;
-        scene_color->view.unk_091 += ((s32)target_color[1]
-            - scene_color->view.unk_091) / ((R12_80175470_S_80175470_0 *)sequence)->unk_96.s;
-        scene_color->view.unk_092 += ((s32)target_color[2]
-            - scene_color->view.unk_092) / ((R12_80175470_S_80175470_0 *)sequence)->unk_96.s;
+        scene_color->view.tint.parts.tint_r += ((s32)target_color[0]
+            - scene_color->view.tint.parts.tint_r) / ((R12_80175470_S_80175470_0 *)sequence)->unk_96.s;
+        scene_color->view.tint.parts.tint_g += ((s32)target_color[1]
+            - scene_color->view.tint.parts.tint_g) / ((R12_80175470_S_80175470_0 *)sequence)->unk_96.s;
+        scene_color->view.tint.parts.tint_b += ((s32)target_color[2]
+            - scene_color->view.tint.parts.tint_b) / ((R12_80175470_S_80175470_0 *)sequence)->unk_96.s;
         return;
 
     case 4:
@@ -147,7 +147,7 @@ store_next_state:
         model = ((R12_80175470_S_80175470_5_pre *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))[-1].unk_00;
         node = ((R12_80175470_S_80175470_1 *)actor)->unk_60;
         select_indirect_table_entry(model, ((u8 *)model->frameTable)[
-                      ((g_game_work.view.viewAngle + node->unk_2A + 0x100) >> 9) & 7],
+                      ((g_game_work.view.camera_rotation.parts.viewAngle + node->unk_2A + 0x100) >> 9) & 7],
                       model->unk_04);
         model->flags &= 0xFFFE;
 
@@ -160,7 +160,7 @@ store_next_state:
         ((R12_80175470_S_80175470_5 *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))->unk_2A = ((R12_80175470_S_80175470_1 *)actor)->unk_8A;
         ((R12_80175470_S_80175470_0_pre *)sequence)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((R12_80175470_S_80175470_1 *)actor)->unk_6D = 0;
     default:
         return;

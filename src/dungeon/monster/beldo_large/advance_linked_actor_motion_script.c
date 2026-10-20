@@ -309,7 +309,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
         break;
     case 6:
         ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DAC;
-        select_sprite_entry(sprite_in, D_80173DAC[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00
+        select_sprite_entry(sprite_in, D_80173DAC[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
             + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 3);
         ((S_80171D74_1 *)state_in)->unk_96 = 0U;
         ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
@@ -366,7 +366,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
             owner_state->unk_2A.n = angle_input_m;
             ((S_80171D74_1 *)state_in)->unk_94 = 1;
             ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DB4;
-            select_sprite_entry(sprite_in, D_80173DB4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00
+            select_sprite_entry(sprite_in, D_80173DB4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             direction_base = (u8 *)&direction_table;
             ((S_80171D74_3 *)motion_in)->unk_0C = (s32) (0 - (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x10));
@@ -423,7 +423,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             ((S_80171D74_10 *)(D_80175DB8[0]))->unk_32 = 3;
             ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DA4;
-            select_sprite_entry(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00
+            select_sprite_entry(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             angle_input_m = owner_state->unk_2A.n;
             angle_tmp = angle_input_m + 0x200;
@@ -585,7 +585,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DA4;
             ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 & 0xF7FF);
-            select_sprite_entry(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00
+            select_sprite_entry(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             direction_base = (u8 *)&direction_table;
             ((S_80171D74_3 *)motion_in)->unk_0C = (s32) (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x14);
@@ -666,7 +666,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
         if (turn_value == 0x1A) {
             ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DA4;
             ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 & 0xF7FF);
-            select_sprite_entry(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00
+            select_sprite_entry(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
         }
         if ((s16) ((S_80171D74_1 *)state_in)->unk_96 >= 0x1E) {
@@ -699,7 +699,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
             }
             owner_state->unk_2A.n = (u16) facing_angle;
             select_sprite_entry(sprite_in, *(((S_80171D74_5 *)sprite_in)->unk_2C.p2
-                + (((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00 + facing_angle + 0x100)
+                + (((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00 + facing_angle + 0x100)
                     >> 9) & 7)), 0);
         }
         break;
@@ -750,7 +750,7 @@ shared_tail:
         if ((is_special_floor_entry_absent(phase, target_state) << 0x10) != 0) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         }
         break;
     case 41:
@@ -765,7 +765,7 @@ shared_tail:
         if ((is_special_floor_entry_absent(phase, target_state) << 0x10) != 0) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         }
         apply_script_direction_record(state_in, motion_in, sprite_in);
         update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
@@ -804,7 +804,7 @@ shared_tail:
             break;
     }
     if (D_80175D54[0] != 0) {
-        sprite_dir = ((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00
+        sprite_dir = ((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
             + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7;
         if (((S_80171D74_1 *)state_in)->unk_94 != sprite_dir) {
             select_indirect_table_entry(sprite_in, *(((S_80171D74_5 *)sprite_in)->unk_2C.p2 + sprite_dir),

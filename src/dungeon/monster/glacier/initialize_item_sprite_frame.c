@@ -13,6 +13,6 @@ void initialize_item_sprite_frame(void *object, void *unused, void *sprite, void
     *(u8 **)((u8 *)sprite + 0x2C) = &D_801760B4;
     select_sprite_entry(
         sprite,
-        *(&D_801760B4 + (((g_game_work.view.viewAngle + *(s16 *)((u8 *)orientationSource + 0x2A) + 0x100) >> 9) & 7)),
+        *(&D_801760B4 + (((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)orientationSource + 0x2A) + 0x100) >> 9) & 7)),
         0);
 }

@@ -53,7 +53,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
     s16 distance;
     u16 status_flags;
 
-    dungeon_status = (u16 *)&g_dungeon_status.unk_00;
+    dungeon_status = (u16 *)&g_dungeon_status.turn_scale;
     if (dungeon_status[1] & 0x1000) {
         actor->unk_9A.as_u8 = 14;
         func_80171388(actor);
@@ -79,7 +79,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                     *(u8 **)((u8 *)sprite + 0x2C) = D_8017386C;
                     select_sprite_entry(
                         sprite,
-                        D_8017386C[((g_game_work.view.viewAngle + state->facing + 0x100) >> 9) & 7],
+                        D_8017386C[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 actor->unk_9A.as_u8 = 14;
@@ -113,7 +113,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 return;
             }
 
-            if (*(u16 *)((u8 *)sprite + 0x24) == *(u16 *)(&D_80082E80.tileX)) {
+            if (*(u16 *)((u8 *)sprite + 0x24) == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
                 func_801715CC(actor, context, sprite, state);
                 return;
             }
@@ -156,7 +156,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
             case 7:
                 result = get_rounded_facing_and_rounding_flag(
                     *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
-                    D_80082E80.tileX, D_80082E80.tileY, (s16 *)&distance);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, (s16 *)&distance);
                 player = D_800814A8;
                 state->facing = result;
                 if (player->unk_9A == 0x11) {
@@ -195,10 +195,10 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 if ((flags & 0x430) == 0) {
                     if ((s16)compare_monster_neighbor_values(
                             *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
-                            D_80082E80.tileX, D_80082E80.tileY) != 0) {
+                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
                         result = get_rounded_facing_and_rounding_flag(
                             *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
-                            D_80082E80.tileX, D_80082E80.tileY, (s16 *)&distance);
+                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, (s16 *)&distance);
                         state->facing = result;
                     }
                 }
@@ -216,7 +216,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
         *(u8 **)((u8 *)sprite + 0x2C) = D_8017386C;
         select_sprite_entry(
             sprite,
-            D_8017386C[((g_game_work.view.viewAngle + state->facing + 0x100) >> 9) & 7],
+            D_8017386C[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
             0);
     }
 }

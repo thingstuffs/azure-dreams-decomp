@@ -11,10 +11,10 @@ extern u8 D_80082E6B;
 
 extern void card_boot_select_channel_mode(s32 mode_enabled);
 extern StatePair *card_boot_debounce_card_presence(void);
-extern void no_op_card_stub(void);
+#include "modules/main_server_ship_interfaces.h"
 extern void card_boot_set_paired_choice_selection(s32 object_addr, s32 value);
 extern void card_boot_update_paired_choice_animations(s32 base_addr, StatePair *display_state, s32 *changed_flags);
-extern void card_boot_close_events_and_resume_timer(void);
+#include "frontend/libcard/interfaces.h"
 extern void card_boot_destroy_card_chooser(void *entry);
 extern void func_80040AA0(s32 requested_state);
 extern void create_deferred_resource_transition_task(s32 mode, s32 lookup_id, s32 payload_word_0, s32 payload_word_4);
@@ -42,7 +42,7 @@ void card_boot_update_card_chooser_input(void *menu)
     buttons = g_game_work.buttons;
     selection_changed = 0;
     if (buttons != 0) {
-        button_flags = ((s32)g_game_work.unk_010);
+        button_flags = ((s32)g_game_work.pressed_buttons);
         if (button_flags & 0x20) {
             s32 *object;
 

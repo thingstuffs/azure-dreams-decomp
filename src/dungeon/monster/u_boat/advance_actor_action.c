@@ -56,12 +56,12 @@ void advance_actor_action(void *action, void *context, void *sprite, EntityRec *
         }
         ((SpriteFrameState *)sprite)->frameTable = D_800E2428;
         select_sprite_entry(sprite,
-            D_800E2428[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_800E2428[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         {
             DungeonGlobalStatus *counter_base = &g_dungeon_status;
 
-            (*(u16 *)&counter_base->unk_0A)--;
+            (*(u16 *)&counter_base->activity_counts.parts.pending_action_count)--;
         }
         ((S_801743DC_0 *)action)->unk_9B++;
         return;
@@ -117,7 +117,7 @@ void advance_actor_action(void *action, void *context, void *sprite, EntityRec *
             TileObject *origin = &D_80082E80;
             s8 tile = *(s8 *)&((SpriteFrameState *)sprite)->unk_26;
 
-            if (((tile == origin->unk_026) && (tile >= 0)) ||
+            if (((tile == origin->room_index) && (tile >= 0)) ||
                 ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
                 if (!(generate_random_value() & 7)) {
                     clear_slots_of_type(entity, 1);
@@ -129,7 +129,7 @@ void advance_actor_action(void *action, void *context, void *sprite, EntityRec *
         }
         ((SpriteFrameState *)sprite)->frameTable = D_800E2430;
         select_sprite_entry(sprite,
-            D_800E2430[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_800E2430[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&entity->flags1C) |= 0x40000;
         if (((SpriteFrameState *)sprite)->flags & 0x8000) {
@@ -140,14 +140,14 @@ void advance_actor_action(void *action, void *context, void *sprite, EntityRec *
             DungeonGlobalStatus *counter_base = &g_dungeon_status;
 
             ((S_801743DC_0 *)action)->unk_9B++;
-            (*(u16 *)&counter_base->unk_0A)++;
+            (*(u16 *)&counter_base->activity_counts.parts.pending_action_count)++;
         }
         return;
     case 2:
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((S_801743DC_0 *)action)->unk_8C = D_80171A80;
         return;
     default:

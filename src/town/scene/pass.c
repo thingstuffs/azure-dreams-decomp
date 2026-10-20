@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -19,9 +20,9 @@ void pass_2(s32 dispatch_context, s32 unused, s32 dispatch_arg)
         callback_table = *(s8 **)((s8 *)(&D_80016000));
         callback_table = *(s8 **)(callback_table + 0x20);
         (*(void (**)(s32))(callback_table + 0x78))(0);
-        func_80018B58(0x681);
+        func_80018B58(F_sbs16_pad07);
     } else {
-        if (func_80018C50(0x681) == 0) {
+        if (func_80018C50(F_sbs16_pad07) == 0) {
             func_800181C8(&D_80018EAC, &D_8001925C, dispatch_context, dispatch_arg);
             return;
         }

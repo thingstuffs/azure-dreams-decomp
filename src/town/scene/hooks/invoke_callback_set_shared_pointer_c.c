@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -33,13 +34,13 @@ void invoke_callback_and_set_shared_pointer(void) {
         slot += 1;
     } while (slot < 4);
     if (D_80016000->unk_20->callback_334(0) != 5) {
-        func_80017684(0xBE0);
+        func_80017684(F_sbs48_pad06);
     } else {
-        func_800176FC(0xBE0);
+        func_800176FC(F_sbs48_pad06);
     }
-    if ((func_80017918() < 5) || ((func_80017918() >= 5) && (func_8001777C(0x1460) != 0))) {
-        func_80017684(0xBE1);
+    if ((func_80017918() < 5) || ((func_80017918() >= 5) && (func_8001777C(Ftt_fkoya_isaku_scene01_ok) != 0))) {
+        func_80017684(F_sbs48_pad07);
     } else {
-        func_800176FC(0xBE1);
+        func_800176FC(F_sbs48_pad07);
     }
 }

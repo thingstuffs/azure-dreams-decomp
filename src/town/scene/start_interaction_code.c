@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "modules/town_ovl_3ef1c8.h"
 
 s32 start_interaction_on_code_0x479(S_800178B4_0 *menu, s32 index) {
@@ -5,8 +6,8 @@ s32 start_interaction_on_code_0x479(S_800178B4_0 *menu, s32 index) {
     s32 offset2;
     S_800178B4_2 *slot;
 
-    if ((func_8001A510(0x479) == 0) && (check_interaction_13_type_3() != 0)) {
-        func_8001A418(0x479);
+    if ((func_8001A510(F_sbs04_pad03) == 0) && (check_interaction_13_type_3() != 0)) {
+        func_8001A418(F_sbs04_pad03);
         offset = index * 0x10;
         {
             SceneHandler3 handler;
@@ -21,7 +22,7 @@ s32 start_interaction_on_code_0x479(S_800178B4_0 *menu, s32 index) {
         mark_progress_state_ready();
         return 0;
     }
-    if (func_8001A510(0x479) != 0) {
+    if (func_8001A510(F_sbs04_pad03) != 0) {
         offset2 = index * 0x10;
         ((S_800178B4_3 *)((offset2 + menu->unk_10)))->handler = lookup_entry_with_fallback_e;
         ((S_800178B4_3 *)((offset2 + menu->unk_10)))->unk_08 = &D_8001B81C;

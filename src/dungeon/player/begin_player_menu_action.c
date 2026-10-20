@@ -14,7 +14,7 @@ extern void play_sound_if_enabled(u32);
 void begin_player_menu_action(void *actor, s32 unused_1, s32 unused_2, s32 action_value) {
     if (!(D_80013714 & 1)) {
         if (D_800E296C & 0x200000) {
-            if (((s32)g_game_work.unk_010) & 0x80) {
+            if (((s32)g_game_work.pressed_buttons) & 0x80) {
                 play_sound_if_enabled(0x506);
                 return;
             }

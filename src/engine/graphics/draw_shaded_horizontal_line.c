@@ -40,8 +40,8 @@ void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
         red_green = 0x100 - shade_step * 8;
     }
 
-    center_line = (LineF2 *)((GpuContext *)render_state->unk_000)->packetCursor;
-    ((GpuContext *)render_state->unk_000)->packetCursor = (u8 *)center_line + 0x10;
+    center_line = (LineF2 *)((GpuContext *)render_state->draw_buffer)->packetCursor;
+    ((GpuContext *)render_state->draw_buffer)->packetCursor = (u8 *)center_line + 0x10;
     center_line->len = 3;
     center_line->code = 0x40;
     center_line->r0 = red_green;
@@ -58,8 +58,8 @@ void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
         center_line->x1 = x + width - 1;
         center_line->y1 = y;
     }
-    *(u32 *)center_line = (*(u32 *)center_line & 0xFF000000) | (((GpuContext *)render_state->unk_000)->orderTag230 & 0xFFFFFF);
-    ((GpuContext *)render_state->unk_000)->orderTag230 = (((GpuContext *)render_state->unk_000)->orderTag230 & 0xFF000000)
+    *(u32 *)center_line = (*(u32 *)center_line & 0xFF000000) | (((GpuContext *)render_state->draw_buffer)->orderTag230 & 0xFFFFFF);
+    ((GpuContext *)render_state->draw_buffer)->orderTag230 = (((GpuContext *)render_state->draw_buffer)->orderTag230 & 0xFF000000)
     | ((u32)center_line & 0xFFFFFF);
 
     blue = blue / 3;
@@ -67,8 +67,8 @@ void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
     red_green = red_green / 3;
     red_green = red_green * 2;
 
-    upper_line = (LineF2 *)((GpuContext *)render_state->unk_000)->packetCursor;
-    ((GpuContext *)render_state->unk_000)->packetCursor = (u8 *)upper_line + 0x10;
+    upper_line = (LineF2 *)((GpuContext *)render_state->draw_buffer)->packetCursor;
+    ((GpuContext *)render_state->draw_buffer)->packetCursor = (u8 *)upper_line + 0x10;
     upper_line->len = 3;
     upper_line->code = 0x42;
     upper_line->r0 = red_green;
@@ -85,12 +85,12 @@ void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
         upper_line->x1 = x + width - 1;
         upper_line->y1 = y - 1;
     }
-    *(u32 *)upper_line = (*(u32 *)upper_line & 0xFF000000) | (((GpuContext *)render_state->unk_000)->orderTag230 & 0xFFFFFF);
-    ((GpuContext *)render_state->unk_000)->orderTag230 = (((GpuContext *)render_state->unk_000)->orderTag230 & 0xFF000000)
+    *(u32 *)upper_line = (*(u32 *)upper_line & 0xFF000000) | (((GpuContext *)render_state->draw_buffer)->orderTag230 & 0xFFFFFF);
+    ((GpuContext *)render_state->draw_buffer)->orderTag230 = (((GpuContext *)render_state->draw_buffer)->orderTag230 & 0xFF000000)
     | ((u32)upper_line & 0xFFFFFF);
 
-    lower_line = (LineF2 *)((GpuContext *)render_state->unk_000)->packetCursor;
-    ((GpuContext *)render_state->unk_000)->packetCursor = (u8 *)lower_line + 0x10;
+    lower_line = (LineF2 *)((GpuContext *)render_state->draw_buffer)->packetCursor;
+    ((GpuContext *)render_state->draw_buffer)->packetCursor = (u8 *)lower_line + 0x10;
     lower_line->len = 3;
     lower_line->code = 0x42;
     lower_line->r0 = red_green;
@@ -107,7 +107,7 @@ void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
         lower_line->x1 = x + width - 1;
         lower_line->y1 = y + 1;
     }
-    *(u32 *)lower_line = (*(u32 *)lower_line & 0xFF000000) | (((GpuContext *)render_state->unk_000)->orderTag230 & 0xFFFFFF);
-    ((GpuContext *)render_state->unk_000)->orderTag230 = (((GpuContext *)render_state->unk_000)->orderTag230 & 0xFF000000)
+    *(u32 *)lower_line = (*(u32 *)lower_line & 0xFF000000) | (((GpuContext *)render_state->draw_buffer)->orderTag230 & 0xFFFFFF);
+    ((GpuContext *)render_state->draw_buffer)->orderTag230 = (((GpuContext *)render_state->draw_buffer)->orderTag230 & 0xFF000000)
     | ((u32)lower_line & 0xFFFFFF);
 }

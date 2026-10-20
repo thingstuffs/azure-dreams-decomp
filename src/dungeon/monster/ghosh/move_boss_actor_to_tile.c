@@ -104,7 +104,7 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, EntityRec *motion, Rec_D_8008
     case 3:
         if (tile->unk_2C.as_pu8 != D_80174A2C) {
             tile->unk_2C.as_pu8 = D_80174A2C;
-            select_sprite_entry(tile, D_80174A2C[((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(tile, D_80174A2C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
         }
         break;
     }
@@ -116,8 +116,8 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, EntityRec *motion, Rec_D_8008
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
         advance_status_timers(entity);
-        if (g_dungeon_status.unk_08 != 0) {
-            g_dungeon_status.unk_08 = (u16) g_dungeon_status.unk_08 - 1;
+        if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
+            g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) g_dungeon_status.activity_counts.parts.pending_movement_count - 1;
         }
         entity_flags = entity->flags1C;
         if (entity_flags & 0x2000) {
@@ -128,7 +128,7 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, EntityRec *motion, Rec_D_8008
         } else {
             if (!(entity_flags & 0x410)) {
                 if (entity_flags & 0x20000) {
-                    entity->facing = get_rounded_facing_and_rounding_flag(tile->unk_24, tile->unk_25, D_80082E80.tileX, D_80082E80.tileY,
+                    entity->facing = get_rounded_facing_and_rounding_flag(tile->unk_24, tile->unk_25, D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &facing_aux);
                 }
             }

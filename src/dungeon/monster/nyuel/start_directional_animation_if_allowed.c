@@ -28,7 +28,7 @@ void start_directional_animation_if_allowed(void *action_state, void *action_con
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((S_80171FC4_1 *)action_state)->unk_9B = 0;
             (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80174F28;
-            select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+            select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &D_80174F28), 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;

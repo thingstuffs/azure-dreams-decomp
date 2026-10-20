@@ -245,7 +245,7 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
 
     scratch = (S_func_800CDFD8_1 *)0x1F800000;
     render_state = &g_game_work;
-    render_root = g_game_work.unk_000;
+    render_root = g_game_work.draw_buffer;
     scratch->unk_EC = 0;
     scratch->unk_8C = 0;
     scratch->unk_84 = 0;
@@ -269,16 +269,16 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
         angles = (void *)0x1F800100;
         scratch->unk_B8 -= 0xA0;
         scratch->unk_BA -= 0x78;
-        camera_rot_x = render_state->view.unk_0AC;
-        camera_rot_y = render_state->view.unk_0AE;
-        camera_rot_z = render_state->view.viewAngle;
+        camera_rot_x = render_state->view.camera_rotation.parts.camera_rotation_x;
+        camera_rot_y = render_state->view.camera_rotation.parts.camera_rotation_y;
+        camera_rot_z = render_state->view.camera_rotation.parts.viewAngle;
         scratch->unk_30 = (u32) camera_rot_x;
         scratch->unk_34.unk_34_u32 = (u32) camera_rot_y;
         scratch->unk_38 = (u32) camera_rot_z;
         camera_y = scratch->unk_34.unk_34_u16;
         scratch->unk_100 = (u16) sprite->unk_16;
         rotation_delta = sprite->unk_1A;
-        rotation_z = ((u16)render_state->view.unk_0A0);
+        rotation_z = ((u16)render_state->view.view_rotation_offset.parts.view_rotation_offset_z);
         rotation_delta -= camera_y;
         rotation_z += rotation_delta;
         scratch->unk_104 = (s16) rotation_z;
@@ -483,5 +483,5 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
         }
         func_80064A40();
     }
-    ((S_func_800CDFD8_3 *)render_state->unk_000)->unk_8D0 = packet;
+    ((S_func_800CDFD8_3 *)render_state->draw_buffer)->unk_8D0 = packet;
 }

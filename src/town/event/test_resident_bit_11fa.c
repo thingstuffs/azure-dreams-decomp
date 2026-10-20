@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -6,5 +7,5 @@
 
 /* Passes 0x11FA to test_resident_bitmap_bit. */
 void test_resident_bit_11fa(void) {
-    test_resident_bitmap_bit(0x11FA);
+    test_resident_bitmap_bit(Fp_niko_kenkatyu);
 }

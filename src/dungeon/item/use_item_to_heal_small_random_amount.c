@@ -86,6 +86,6 @@ s32 use_item_to_heal_small_random_amount(void *target, s32 source, s16 effect_mo
 
     create_timed_paired_particle_emitter(((S_800C4490_0_pre *)target)[-1].unk_00, 0x20E020, target);
     clear_slot_and_update_linked_state(source);
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

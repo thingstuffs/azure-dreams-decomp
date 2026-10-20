@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/town_event_buffer.h"
 
@@ -26,12 +27,12 @@ void process_flagged_type_0x18_entries(void) {
                 clear_state_history_and_head_indices();
             } else {
                 if (entry_code == 0x1C) {
-                    func_8001A418(0xD);
+                    func_8001A418(F_get_bike);
                 } else if (entry_code == 0x1D) {
-                    func_8001A418(0xE);
+                    func_8001A418(F_get_bike_b);
                 }
-                func_8001A418(entry[0] + 0x1497);
-                func_8001A418(0x14C9);
+                func_8001A418(entry[0] + GOODS_SAVE_FLG_00);
+                func_8001A418(F_sb22_goods_first);
                 func_8001844C(entry[0]);
             }
         }

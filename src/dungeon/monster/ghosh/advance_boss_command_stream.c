@@ -123,7 +123,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
         if (old_anim != anim) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
             select_sprite_entry(entity,
-                *(u8 *)((((g_game_work.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
+                *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
                 0);
         }
         break;
@@ -133,7 +133,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
         if (old_anim != anim) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
             select_sprite_entry(entity,
-                *(u8 *)((((g_game_work.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
+                *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
                 0);
         }
         break;
@@ -143,7 +143,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
         if (old_anim != anim) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
             select_sprite_entry(entity,
-                *(u8 *)((((g_game_work.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
+                *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
                 0);
         }
         break;
@@ -153,7 +153,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
         if (old_anim != anim) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
             select_sprite_entry(entity,
-                anim[((g_game_work.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
+                anim[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
             create_linked_facing_sprite(((S_80174320_0 *)entity)->unk_24, ((S_80174320_0 *)entity)->unk_25,
                 ((S_80174320_2 *)context_arg)->unk_0A);
@@ -166,7 +166,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
         if (old_anim != anim) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
             select_sprite_entry(entity,
-                anim[((g_game_work.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
+                anim[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80174320_0 *)entity)->unk_14 |= 0x800;
         }
@@ -183,7 +183,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
         if (((S_80174320_0 *)entity)->unk_2C.u != anim) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
             select_sprite_entry(entity,
-                anim[((g_game_work.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
+                anim[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
             create_boss_offset_effect();
             audio_x = ((S_80174320_0 *)entity)->unk_24;

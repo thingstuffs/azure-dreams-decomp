@@ -176,7 +176,7 @@ void draw_lit_mesh(void *unused, u8 *position, RenderObject *object, s16 depth_b
     SetRotMatrix((void *)0x1F8000D0);
 
     depth_offset = depth_bias;
-    render_state = g_game_work.unk_000;
+    render_state = g_game_work.draw_buffer;
     ((RenderScratch *)scratch)->ordering_table = render_state + 0xB0;
     prim = *(u8 **)(render_state + 0x8D0);
     object->flags |= 0x8000;

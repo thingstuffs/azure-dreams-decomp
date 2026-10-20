@@ -28,7 +28,7 @@ s32 find_valid_monster_neighbor(void *entity, u16 x, u16 y) {
     x_offsets = dir_step_x;
     y_offsets = dir_step_y;
     entity_data = *(void **)((s8 *)entity - 0x14);
-    direction = g_dungeon_status.unk_1E & 7;
+    direction = g_dungeon_status.turn_counter & 7;
     for (attempt = 0; attempt < 8; attempt++, direction = (direction + 1) & 7) {
         result = find_eligible_actor_at_tile_and_height(entity, (base_x + x_offsets[direction]) & 0xFFFF,
             (base_y + y_offsets[direction]) & 0xFFFF, *(s16 *)((s8 *)entity + 0x88));

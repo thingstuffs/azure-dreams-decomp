@@ -29,12 +29,12 @@ void advance_timed_directional_reset(void *state, s32 unused, void *sprite, Enti
         u8 *direction_table = &D_80175F20;
 
         ((S_80172334_0 *)state)->unk_A6 = 0x3CU;
-        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) + 1;
+        g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
         ((S_80172334_0 *)state)->unk_8C = 0;
         ((S_80172334_0 *)state)->unk_9A = 0x17;
         ((S_80172334_0 *)state)->unk_9B = 0;
         (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
-        select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + orientation->facing + 0x100) >> 9) & 7)
+        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + orientation->facing + 0x100) >> 9) & 7)
             + direction_table), 0);
     }
 }

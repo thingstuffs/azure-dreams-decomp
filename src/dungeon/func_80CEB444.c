@@ -109,8 +109,8 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Entity
         transform->unk_10 = 0;
         transform->unk_0C = 0;
         set_record_integer_tile_center(transform, entity->unk_24, entity->unk_25);
-        if (((s32)g_dungeon_status.unk_10) == (s32)actor - 0x20) {
-            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
+        if (((s32)g_dungeon_status.pending_display_owner) == (s32)actor - 0x20) {
+            *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         controller->unk_8C = update_actor_behavior;
         break;

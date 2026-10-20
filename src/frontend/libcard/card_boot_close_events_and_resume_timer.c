@@ -1,11 +1,12 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
+#include "frontend/libcard/interfaces.h"
 
 extern s8 D_80080A84[];
 extern s8 D_80080A88[];
 
 
-extern void card_boot_close_events(void);
+#include "modules/main_server_ship_interfaces.h"
 extern void open_timer_2_update_event(void);
 extern void SD_Call(s32 flags);
 

@@ -55,7 +55,7 @@ void advance_action_sequence_variant_d(void *sequence, void *motion, void *sprit
             (((SpriteFrameState *)sprite)->flags & 0x8000)) {
             ((SpriteFrameState *)sprite)->frameTable = D_80150E1C;
             select_sprite_entry(sprite,
-                D_80150E1C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80150E1C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((AnimationSequenceState *)sequence)->timer.unsignedTicks = 0;
             ((AnimationSequenceState *)sequence)->phase++;
@@ -93,7 +93,7 @@ void advance_action_sequence_variant_d(void *sequence, void *motion, void *sprit
         if (((SpriteFrameState *)sprite)->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x100);
             ((AnimationSequenceState *)sequence)->nextBehavior = &D_8014D728;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->unk_46 &= 0x7FFF;
         }

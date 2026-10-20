@@ -55,7 +55,7 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
         ((SpriteFrameState *)sprite)->frameTable = &D_80174F30;
         select_sprite_entry(sprite,
             *(&D_80174F30 +
-              (((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
+              (((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
             0);
         ((S_80172908_1 *)action)->unk_9B++;
         return;
@@ -114,7 +114,7 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         reduce_actor_food_meter(actor, 0x100);
         ((S_80172908_1 *)action)->unk_8C = D_801710F4;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (((EntityRec *)actor)->unk_6D == 0) {
             ((EntityRec *)actor)->unk_46 &= 0x7FFF;

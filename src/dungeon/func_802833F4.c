@@ -11,7 +11,7 @@ void initialize_dungeon_floor_state(void) {
     clear_dungeon_state_bytes();
     bzero(D_800E3E48, 0xAF0);
     D_80082E80.unk_038 = 0;
-    g_dungeon_status.unk_1E = 0;
+    g_dungeon_status.turn_counter = 0;
     D_80080A88 = 0;
     if ((D_80013714 & 3) == 0) {
         D_8008146C = 1;

@@ -9,7 +9,7 @@ void load_floor_spawn_tables(s16 resource_index)
     pack_tagged_resource_descriptor(1, resource_data, &load_result, resource_index + 0x3F5E);
     Control_CD(6, &load_result, 0);
     drain_cd_command_queue();
-    *(floor_generate_isolated_802864C4_Copy32 *)g_dungeon_status.unk_18 = D_8014A000;
+    *(floor_generate_isolated_802864C4_Copy32 *)g_dungeon_status.monster_spawn_table = D_8014A000;
     (*(floor_generate_isolated_802864C4_Copy32 *)D_800DDC9C) = *(floor_generate_isolated_802864C4_Copy32 *)(resource_data + 0x20);
     D_8001F584 = resource_data[0x40];
 }

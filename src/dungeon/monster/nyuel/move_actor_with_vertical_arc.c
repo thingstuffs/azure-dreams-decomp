@@ -99,7 +99,7 @@ void move_actor_with_vertical_arc(void *action, EntityRec *motion, void *sprite,
             ((SpriteFrameState *)sprite)->frameTable = D_80174EE0;
             select_sprite_entry(
                 sprite,
-                D_80174EE0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80174EE0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172158_0 *)action)->unk_9B++;
         }
@@ -119,8 +119,8 @@ void move_actor_with_vertical_arc(void *action, EntityRec *motion, void *sprite,
         advance_status_timers(actor);
 
         counter_base = &g_dungeon_status;
-        if (counter_base->unk_08 != 0) {
-            (*(u16 *)&counter_base->unk_08)--;
+        if (counter_base->activity_counts.parts.pending_movement_count != 0) {
+            (*(u16 *)&counter_base->activity_counts.parts.pending_movement_count)--;
         }
 
         actor_flags = actor->flags1C;
@@ -132,7 +132,7 @@ void move_actor_with_vertical_arc(void *action, EntityRec *motion, void *sprite,
             if (actor_flags & 0x20000) {
                 actor->facing = get_rounded_facing_and_rounding_flag(
                     ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
-                    D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &facing_aux);
             }
         }
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {

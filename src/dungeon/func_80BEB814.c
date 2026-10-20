@@ -21,7 +21,7 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
         animation_table = ((u8 *)D_80174254);
         (*(void * *)((u8 *)map_object + (0x2C))) = animation_table;
         select_sprite_entry(map_object,
-            ((u8 *)animation_table)[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
+            ((u8 *)animation_table)[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -59,7 +59,7 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
             if (current_animation != animation_table) {
                 (*(void * *)((u8 *)map_object + (0x2C))) = animation_table;
                 select_sprite_entry(map_object,
-                    ((u8 *)animation_table)[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
+                    ((u8 *)animation_table)[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
                     0);
                 ((R16_80171014_S_80171014_2 *)map_object)->unk_05 = 1;
                 ((R16_80171014_S_80171014_0 *)actor)->unk_A2.s = 0;
@@ -104,7 +104,7 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
             update_actor_status_and_food(creature);
             return;
         }
-        if (((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00u.v != *(u16 *)(&D_80082E80.tileX)) {
+        if (((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00u.v != *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             if (!(creature->unk_46 & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(creature,
@@ -138,7 +138,7 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
                         EntityRec *player;
                         s16 facing_angle;
 
-                        facing_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00.v),(s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                        facing_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00.v),(s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at01.v),(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
                             &distance));
                         player = D_800814A8;
                         creature->facing = facing_angle;
@@ -179,8 +179,8 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
 
                 if ((compare_monster_neighbor_values(
                     ((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00.v, ((R16_80171014_S_80171014_2 *)map_object)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                    creature->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00.v),(s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
+                    creature->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00.v),(s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at01.v),(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
                         &distance));
                 }
             }

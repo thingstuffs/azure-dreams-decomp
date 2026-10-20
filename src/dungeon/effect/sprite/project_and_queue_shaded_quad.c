@@ -37,19 +37,19 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
     texture = (*(u8 * *)((u8 *)render_state + 8));
     ((Row_81922998_S_80024198_0 *)scratch)->unk_28 = ((Row_81922998_S_80024198_2 *)render_state)->unk_14;
 
-    packet = ((Row_81922998_S_80024198_3 *)(g_game_work.unk_000))->unk_8D0;
-    ((Row_81922998_S_80024198_3 *)(g_game_work.unk_000))->unk_8D0 = packet + 0xC;
+    packet = ((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_8D0;
+    ((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_8D0 = packet + 0xC;
     func_80067F20(packet, 0, 1, func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
     (*(u32 *)((u8 *)packet + 0)) = (((Row_81922998_S_80024198_4 *)packet)->unk_00.at00.v & 0xFF000000) |
-        (((Row_81922998_S_80024198_3 *)(g_game_work.unk_000))->unk_B0 & 0x00FFFFFF);
-    (*(u32 *)((u8 *)(g_game_work.unk_000) + 0xB0)) =
-        (((Row_81922998_S_80024198_3 *)(g_game_work.unk_000))->unk_B0 & 0xFF000000) |
+        (((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_B0 & 0x00FFFFFF);
+    (*(u32 *)((u8 *)(g_game_work.draw_buffer) + 0xB0)) =
+        (((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_B0 & 0xFF000000) |
         ((u32)packet & 0x00FFFFFF);
 
     {
         u8 *render_context;
 
-        render_context = g_game_work.unk_000;
+        render_context = g_game_work.draw_buffer;
         packet = ((Row_81922998_S_80024198_5 *)render_context)->unk_8D0;
         ((Row_81922998_S_80024198_5 *)render_context)->unk_8D0 = packet + 0x24;
     }

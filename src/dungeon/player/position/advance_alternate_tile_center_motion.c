@@ -19,15 +19,15 @@ void advance_alternate_tile_center_motion(void *actor, EntityRec *motion, void *
     u16 ticks_left;
 
     if (g_dungeon_status.flags & 0x80) {
-        g_dungeon_status.unk_04 = 0;
+        g_dungeon_status.movement_frames_left = 0;
     }
-    if (g_dungeon_status.unk_04 != 0) {
+    if (g_dungeon_status.movement_frames_left != 0) {
         motion->unk_0C = (s32) ((s32) ((((((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20) << 0x10)
-            - motion->x.v) / g_dungeon_status.unk_04);
+            - motion->x.v) / g_dungeon_status.movement_frames_left);
         motion->unk_10 = (s32) ((s32) ((((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 0x10)
-            - motion->y.v) / g_dungeon_status.unk_04);
+            - motion->y.v) / g_dungeon_status.movement_frames_left);
     }
-    if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x100) && (g_dungeon_status.unk_04 == 6)) {
+    if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x100) && (g_dungeon_status.movement_frames_left == 6)) {
         begin_wake_nearby_monsters(actor, motion, sprite, facing);
         return;
     }
@@ -36,14 +36,14 @@ void advance_alternate_tile_center_motion(void *actor, EntityRec *motion, void *
         u8 *anim_table = D_800DD0E0;
         if (old_anim_table != anim_table) {
             ((SpriteFrameState *)sprite)->frameTable = anim_table;
-            set_sprite_animation_frame(sprite, anim_table[((s32) (g_game_work.view.viewAngle + facing->facing + 0x100) >> 9) & 7], 0,
+            set_sprite_animation_frame(sprite, anim_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing->facing + 0x100) >> 9) & 7], 0,
                 1);
         }
     }
-    ticks_left = g_dungeon_status.unk_04 - 1;
-    g_dungeon_status.unk_04 = ticks_left;
+    ticks_left = g_dungeon_status.movement_frames_left - 1;
+    g_dungeon_status.movement_frames_left = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        g_dungeon_status.unk_04 = 0U;
+        g_dungeon_status.movement_frames_left = 0U;
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;

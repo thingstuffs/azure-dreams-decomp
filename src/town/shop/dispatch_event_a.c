@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 typedef struct {
@@ -25,7 +26,7 @@ u8 * dispatch_event_d_8_a(u8 *entries) {
         entry = entries + index * 4;
         entry[1] = marker;
         entry[0] = index;
-        if (initialize_state_two_entries_pointer(index + 0x1497) != 0) {
+        if (initialize_state_two_entries_pointer(index + GOODS_SAVE_FLG_00) != 0) {
             entry[3] |= 0x80;
         }
         index++;

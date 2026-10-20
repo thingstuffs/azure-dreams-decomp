@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/interfaces.h"
 
 extern void card_boot_build_slot_marker_packet(void *unused, void *packet, s32 slot_index);
 extern void card_boot_highlight_dialog_text_range(s32 entry_base, s32 start_index, s32 entry_count);

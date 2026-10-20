@@ -76,7 +76,7 @@ void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_
         motion_value = direction_y << 16;
         (*(s32 *)((u8 *)motion_data + 0x10)) = motion_value;
         (*(s32 *)((u8 *)motion_data + 0x14)) = state;
-        if (g_dungeon_status.unk_0A != 0)
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0)
             return;
         ((S_80173294_2 *)effect_data)->unk_9B++;
                         /* fall through */
@@ -141,9 +141,9 @@ void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_
         ((S_80173294_2 *)effect_data)->unk_96.u16 = fade_level;
         if ((s16)fade_level >= 0x10)
             return;
-        linked_object = ((s32)g_dungeon_status.unk_10);
+        linked_object = ((s32)g_dungeon_status.pending_display_owner);
         if (linked_object == (s32)(object_data - 0x20))
-            g_dungeon_status.unk_10 = linked_object & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = linked_object & 0x7FFFFFFF;
         distribute_experience_and_report_gains(object_data);
         detach_record_and_update_slot_state(object_data);
         flags = ((S_80173294_0 *)object_data)->unk_1C;

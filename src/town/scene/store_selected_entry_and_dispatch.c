@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/town_event_state.h"
 #include "common.h"
 
@@ -14,7 +15,7 @@ s32 store_selected_entry_and_dispatch_402(void *entryOwner, s32 entryIndex) {
         entryValue = prepare_selected_entry_buffer(D_8001E950->unk_04);
         entriesBase = *(s32 *)((u8 *)entryOwner + 0x10);
         *(s32 *)((entryIndex << 4) + entriesBase + 8) = entryValue;
-        func_8001E578(0x402, entriesBase);
+        func_8001E578(F_sbs01_pad13, entriesBase);
         return 0;
     }
     return 1;

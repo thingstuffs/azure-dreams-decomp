@@ -121,7 +121,7 @@ s32 func_80024044(void *object_data, void *position_data)
         position = *(u8 **)((u8 *)next_object + 8);
     } while (1);
 
-    (((DungeonState818D4800 *)state_slot->unk_000))->next = scratch->next;
+    (((DungeonState818D4800 *)state_slot->draw_buffer))->next = scratch->next;
     return 0;
 }
 
@@ -732,7 +732,7 @@ state1_cleanup:
                 active_flag = D_80025118[0];
                 actor->timer82 = old_timer;
                 if (active_flag == 0) {
-                    g_dungeon_status.unk_0C = 0;
+                    g_dungeon_status.active_actor = 0;
                     *(u16 *)((u8 *)actor - 2) |= 0x8000;
                     object_flag_block.flags |= 0x8000;
                     return;

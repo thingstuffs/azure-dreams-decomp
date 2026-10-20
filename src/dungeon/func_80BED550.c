@@ -16,9 +16,9 @@ void func_80172D50(void *actor, void *context, void *render_record, EntityRec *a
             return;
         }
         ((Rec_D_80082E80 *)render_record)->unk_2C.as_pv = ((u8 *)D_8017425C);
-        select_sprite_entry(render_record,(u8)(((u8 *)D_8017425C)[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
+        select_sprite_entry(render_record,(u8)(((u8 *)D_8017425C)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
             0);
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         do {
             ((R16_80172D50_S_80173E50_0 *)actor)->unk_9B++;
         } while (0);
@@ -77,7 +77,7 @@ void func_80172D50(void *actor, void *context, void *render_record, EntityRec *a
                 TileObject *origin = &D_80082E80;
                 s8 tile = ((Rec_D_80082E80 *)render_record)->unk_26.as_s8;
 
-                if (((tile == origin->unk_026) && (tile >= 0)) ||
+                if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, render_record) < 2)) {
                     if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(actor_state, 1);
@@ -89,7 +89,7 @@ void func_80172D50(void *actor, void *context, void *render_record, EntityRec *a
             }
         }
         ((Rec_D_80082E80 *)render_record)->unk_2C.as_pv = ((u8 *)D_80174264);
-        select_sprite_entry(render_record,(u8)(((u8 *)D_80174264)[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
+        select_sprite_entry(render_record,(u8)(((u8 *)D_80174264)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
             0);
         (*(u32 *)&actor_state->flags1C) |= 0x40000;
         if (((Rec_D_80082E80 *)render_record)->unk_14.at00_u16.v & 0x8000) {
@@ -97,14 +97,14 @@ void func_80172D50(void *actor, void *context, void *render_record, EntityRec *a
             return;
         }
         ((R16_80172D50_S_80173E50_0 *)actor)->unk_9B++;
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
         return;
 
     case 2:
         if (!(((Rec_D_80082E80 *)render_record)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
 
         ((R16_80172D50_S_80173E50_0 *)actor)->unk_8C = ((u8 *)update_actor_state_and_dispatch_transition);
         return;

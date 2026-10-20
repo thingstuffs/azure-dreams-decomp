@@ -86,7 +86,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
                 return 1;
             }
             clear_slot_and_update_linked_state(target);
-            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             return 1;
 
         }
@@ -143,7 +143,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
         display_text_with_fullwidth_adjustment(script);
     }
     {
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     }
     return 1;
 }

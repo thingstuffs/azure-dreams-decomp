@@ -69,7 +69,7 @@ void update_weadog_timed_move(void *action, void *motion, void *sprite, void *ac
         ((SpriteFrameState *)sprite)->frameTable = D_8015CED0;
         select_sprite_entry(
             sprite,
-            D_8015CED0[((g_game_work.view.viewAngle + ((S_80EF98E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8015CED0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80EF98E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80EF98E0_0 *)action)->unk_98 |= 8;
         ((S_80EF98E0_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
@@ -117,7 +117,7 @@ void update_weadog_timed_move(void *action, void *motion, void *sprite, void *ac
             ((SpriteFrameState *)sprite)->frameTable = D_8015CED8;
             select_sprite_entry(
                 sprite,
-                D_8015CED8[((g_game_work.view.viewAngle + ((S_80EF98E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_8015CED8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80EF98E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80EF98E0_0 *)action)->unk_9B++;
         }
@@ -129,7 +129,7 @@ void update_weadog_timed_move(void *action, void *motion, void *sprite, void *ac
             ((SpriteFrameState *)sprite)->frameTable = anim_table;
             select_sprite_entry(
                 sprite,
-                anim_table[((g_game_work.view.viewAngle + ((S_80EF98E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80EF98E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -150,8 +150,8 @@ void update_weadog_timed_move(void *action, void *motion, void *sprite, void *ac
     reduce_actor_food_meter(actor, 4);
     advance_status_timers(actor);
 
-    if (g_dungeon_status.unk_08 != 0) {
-        g_dungeon_status.unk_08--;
+    if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
+        g_dungeon_status.activity_counts.parts.pending_movement_count--;
     }
 
     actor_flags = ((S_80EF98E0_1 *)actor)->unk_1C.u;
@@ -163,7 +163,7 @@ void update_weadog_timed_move(void *action, void *motion, void *sprite, void *ac
         if (actor_flags & 0x20000) {
             ((S_80EF98E0_1 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
                 ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
-                D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
         }
     }
 

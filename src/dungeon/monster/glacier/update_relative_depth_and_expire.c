@@ -45,7 +45,7 @@ void update_relative_depth_and_expire(void *state, MovingPosition *position, Spr
     coords[1] = reference_pos->unk_06;
     coords[2] = reference_pos->unk_0A;
     reference_depth = func_80065420(coords, &transform_result, &transform_aux, &transform_flags);
-    direction_offset = &D_800DCECC[((s32) (g_game_work.view.viewAngle + ((S_8102F0D4_1 *)state)->unk_94 + 0x100)
+    direction_offset = &D_800DCECC[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8102F0D4_1 *)state)->unk_94 + 0x100)
         >> 9) & 7];
     entity->unk_06 = (s16) ((position_depth - reference_depth) - (*direction_offset * 2));
     func_800478B8(entity);

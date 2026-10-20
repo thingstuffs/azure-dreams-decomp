@@ -64,7 +64,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
             animation_ids = D_800E23E0;
             ((SpriteFrameState *)record)->frameTable = animation_ids;
             select_sprite_entry(record,
-                animation_ids[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                animation_ids[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             if (((S_80173510_0 *)action)->unk_B0 != 0) {
                 return;
@@ -126,7 +126,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
             animation_ids = D_800E2400;
             ((SpriteFrameState *)record)->frameTable = animation_ids;
             select_sprite_entry(record,
-                animation_ids[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                animation_ids[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 1);
 
             direction_x = (s16 *)((s8 *)dir_step_x);
@@ -187,7 +187,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
             animation_ids = D_800E23E0;
             ((SpriteFrameState *)record)->frameTable = animation_ids;
             select_sprite_entry(record,
-                animation_ids[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                animation_ids[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80173510_0 *)action)->unk_92 = -0x20;
             if (((S_80173510_0 *)action)->unk_B0 == 0) {
@@ -248,7 +248,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
 
         reduce_actor_food_meter(actor, 0x100);
         ((S_80173510_0 *)action)->unk_8C = D_80171A80;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         ((S_80173510_3 *)motion)->unk_0C = 0;
         ((S_80173510_3 *)motion)->unk_10 = 0;

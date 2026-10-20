@@ -62,11 +62,11 @@ void advance_entity_directional_events(void *entity, void *context, void *sprite
             return;
         }
 
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         direction_table = D_801748E0;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
         select_sprite_entry(sprite,
-            direction_table[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_801734E0_0 *)entity)->unk_9B++;
         return;
@@ -80,10 +80,10 @@ void advance_entity_directional_events(void *entity, void *context, void *sprite
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_801748E8;
             select_sprite_entry(sprite,
-                D_801748E8[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_801748E8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((EntityRec *)actor)->flags1C |= 0x40000;
-            g_dungeon_status.unk_0A++;
+            g_dungeon_status.activity_counts.parts.pending_action_count++;
             ((S_801734E0_0 *)entity)->unk_9B++;
             return;
         }
@@ -140,10 +140,10 @@ void advance_entity_directional_events(void *entity, void *context, void *sprite
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_801748E8;
         select_sprite_entry(sprite,
-            D_801748E8[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_801748E8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((EntityRec *)actor)->flags1C |= 0x40000;
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 
         ((S_801734E0_0 *)entity)->unk_9B++;
@@ -151,7 +151,7 @@ void advance_entity_directional_events(void *entity, void *context, void *sprite
     case 2:
         if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000) {
 
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((EntityRec *)actor)->flags1C &= ~0x208;
             ((S_801734E0_0 *)entity)->unk_8C = &D_80171058;
         }

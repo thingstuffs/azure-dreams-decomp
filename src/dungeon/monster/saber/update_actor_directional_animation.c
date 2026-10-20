@@ -45,10 +45,10 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
         DungeonGlobalStatus *shared_counter;
 
         shared_counter = &g_dungeon_status;
-        shared_counter->unk_0A--;
+        shared_counter->activity_counts.parts.pending_action_count--;
     }
     ((SpriteFrameState *)target)->frameTable = D_80174E4C;
-    direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
+    direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
     select_sprite_entry(target, D_80174E4C[direction & 7], 0);
     ((S_801740DC_0 *)actor_in)->unk_9B++;
     return;
@@ -58,10 +58,10 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
         DungeonGlobalStatus *shared_counter;
 
         ((SpriteFrameState *)target)->frameTable = D_80174E54;
-        direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(target, D_80174E54[direction & 7], 0);
         shared_counter = &g_dungeon_status;
-        shared_counter->unk_0A++;
+        shared_counter->activity_counts.parts.pending_action_count++;
         ((S_801740DC_0 *)actor_in)->unk_9B++;
         return;
     } else {
@@ -104,9 +104,9 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
             return;
         }
         ((SpriteFrameState *)target)->frameTable = D_80174E54;
-        direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(target, D_80174E54[direction & 7], 0);
-        shared_state->unk_0A++;
+        shared_state->activity_counts.parts.pending_action_count++;
     }
     ((S_801740DC_0 *)actor_in)->unk_9B++;
     return;
@@ -119,7 +119,7 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
         DungeonGlobalStatus *shared_counter;
 
         shared_counter = &g_dungeon_status;
-        shared_counter->unk_0A--;
+        shared_counter->activity_counts.parts.pending_action_count--;
     }
     ((S_801740DC_0 *)actor_in)->unk_8C = &D_80171728;
 

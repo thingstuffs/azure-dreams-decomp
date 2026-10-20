@@ -121,8 +121,8 @@ void advance_actor_traversable_heading(void *move_state, void *context, S_800D92
                         
                         target_direction = (((S_800D92C0_0 *)actor)->unk_45
                             + ((s32) (((S_800D92C0_1 *)(((int)D_800814A8)))->unk_2A << 0x10) >> 0x19)) & 7;
-                        target_x = D_80082E80_initial.tileX + ((u16 *)dir_step_x)[target_direction];
-                        target_y = D_80082E80_initial.tileY + ((u16 *)dir_step_y)[target_direction];
+                        target_x = D_80082E80_initial.tile_position.parts.tile_x + ((u16 *)dir_step_x)[target_direction];
+                        target_y = D_80082E80_initial.tile_position.parts.tile_y + ((u16 *)dir_step_y)[target_direction];
                     }
                     if ((position->unk_24.at00.v != (target_x & 0xFFFF))
                         || (position->unk_24.at01.v != (target_y & 0xFFFF))) {
@@ -132,12 +132,12 @@ void advance_actor_traversable_heading(void *move_state, void *context, S_800D92
                         ((S_800D92C0_0 *)actor)->unk_2A.u = (u16) target_heading;
                         if ((check_movement_clearance_and_height(target_heading, position, actor, 0x20) << 0x10) <= 0) {
                                                         ((S_800D92C0_0 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(position->unk_24.at00.v,
-                                position->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, turn_flags);
+                                position->unk_24.at01.v, D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, turn_flags);
                         }
                         {
                                                         s32 distance_result;
                             distance_result = compare_monster_neighbor_values(position->unk_24.at00.v, position->unk_24.at01.v,
-                                D_80082E80.tileX, D_80082E80.tileY);
+                                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y);
                             if ((distance_result << 0x10) != 0) {
                                 limit_turn = 1;
                             }
@@ -205,7 +205,7 @@ try_heading:
                 }
             }
             if (turn_index == 0) {
-                if (*(u16 *)(&D_80082E80.tileX) == position->unk_24.at00u.v) {
+                if (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == position->unk_24.at00u.v) {
                     if (++turn_index < 8) {
                         goto try_heading;
                     }
@@ -234,7 +234,7 @@ post_loop:
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8 = (s8) (u8) position->unk_26;
             ((S_800D92C0_0 *)actor)->unk_6D.u = (u8) (((S_800D92C0_0 *)actor)->unk_6D.u - 1);
             {
-                g_dungeon_status.unk_08 = (u16)(((u16)g_dungeon_status.unk_08) + 1);
+                g_dungeon_status.activity_counts.parts.pending_movement_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
             }
             if (((S_800D92C0_0 *)actor)->unk_6D.s == 0) {
 mask_and_return:

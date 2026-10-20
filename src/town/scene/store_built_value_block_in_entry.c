@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/town_event_state.h"
 
@@ -15,6 +16,6 @@ typedef struct S_8001BBB4_0 {
 /* Store the data block in the indexed entry and invoke func_8001E5F0 for 0x402. */
 s32 store_built_value_block_in_entry(S_8001BBB4_0 *entry_owner, s32 entry_index) {
     ((TownEventEntryValueView *)(((entry_index * 0x10) + entry_owner->unk_10)))->unk_08 = build_two_record_value_block();
-    func_8001E5F0(0x402);
+    func_8001E5F0(F_sbs01_pad13);
     return 0;
 }

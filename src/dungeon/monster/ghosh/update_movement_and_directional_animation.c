@@ -110,7 +110,7 @@ void update_movement_and_directional_animation(void *state, void *motion_arg, vo
             anims = (u8 *)&D_8017467C;
             if (current_anims != anims) {
                 (*(u8 **)((u8 *)actor + 0x2C)) = anims;
-                select_sprite_entry(actor, *(u8 *)((((s32) (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100)
+                select_sprite_entry(actor, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100)
                     >> 9) & 7) + (u32)anims), 0);
             }
         } else {
@@ -118,7 +118,7 @@ void update_movement_and_directional_animation(void *state, void *motion_arg, vo
             anims = D_80174684;
             if (current_anims != anims) {
                 (*(u8 **)((u8 *)actor + 0x2C)) = anims;
-                select_sprite_entry(actor, *(u8 *)((((s32) (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100)
+                select_sprite_entry(actor, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100)
                     >> 9) & 7) + (u32)anims), 0);
             }
         }
@@ -133,8 +133,8 @@ void update_movement_and_directional_animation(void *state, void *motion_arg, vo
         ((EntityRec *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, ((S_8016CB80_2 *)actor)->unk_24, ((S_8016CB80_2 *)actor)->unk_25);
         advance_status_timers(entity);
-        if (g_dungeon_status.unk_08 != 0) {
-            g_dungeon_status.unk_08 = (s16) ((u16) g_dungeon_status.unk_08 - 1);
+        if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
+            g_dungeon_status.activity_counts.parts.pending_movement_count = (s16) ((u16) g_dungeon_status.activity_counts.parts.pending_movement_count - 1);
         }
         entity_flags = ((EntityRec *)entity)->flags1C;
         if (entity_flags & 0x2000) {
@@ -146,7 +146,7 @@ void update_movement_and_directional_animation(void *state, void *motion_arg, vo
             if (!(entity_flags & 0x410)) {
                 if (entity_flags & 0x20000) {
                     ((EntityRec *)entity)->facing = get_rounded_facing_and_rounding_flag(((S_8016CB80_2 *)actor)->unk_24,
-                        ((S_8016CB80_2 *)actor)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &direction_info);
+                        ((S_8016CB80_2 *)actor)->unk_25, D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_info);
                 }
             }
         }

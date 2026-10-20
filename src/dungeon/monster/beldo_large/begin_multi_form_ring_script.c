@@ -72,7 +72,7 @@ void begin_multi_form_ring_script(void) {
     (((Page8001FieldView_81337E8C *)page_8001)->field_371A) = 0;
     (((Page8001FieldView_81337E8C *)page_8001)->field_3718) = 0;
     (((Page8001FieldView_81337E8C *)page_8001)->field_3716) = 0;
-    g_dungeon_status.unk_0C = 0;
+    g_dungeon_status.active_actor = 0;
     D_80175DC8 = 0;
     ((S_8016EE8C_1 *)page_800e)->unk_296C = (s32) (((S_8016EE8C_1 *)page_800e)->unk_296C | 0x08000000);
     ((S_8016EE8C_2 *)page_8001)->unk_3714 = (u16) ((((S_8016EE8C_2 *)page_8001)->unk_3714 | 9) & 0xFFEF);

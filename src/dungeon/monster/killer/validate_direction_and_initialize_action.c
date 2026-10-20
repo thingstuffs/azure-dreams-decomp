@@ -115,7 +115,7 @@ s32 validate_direction_and_initialize_action(Arg0 *action_state, s32 action_id, 
 
     direction_frames = D_80174038;
     sprite->field_2c = direction_frames;
-    select_sprite_entry(sprite, direction_frames[(((s32)g_game_work.view.viewAngle + actor->field_2a + 0x100) >> 9) & 7], 0);
+    select_sprite_entry(sprite, direction_frames[(((s32)g_game_work.view.camera_rotation.parts.viewAngle + actor->field_2a + 0x100) >> 9) & 7], 0);
     actor->field_6d--;
     prepare_directional_attack(actor, sprite, actor->field_2a, 1, 0);
     if ((action_state->field_98 & 0x8000) == 0) {

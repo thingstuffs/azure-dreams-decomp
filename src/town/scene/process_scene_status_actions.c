@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern void store_supplied_values(void *, s32);
@@ -10,14 +11,14 @@ s32 process_scene_status_actions(void *object, s32 value)
 {
     store_supplied_values(object, value);
     if (func_8001894C(*(s16 *)((u8 *)object + 0x18)) != 0) {
-        func_800188CC(0x513);
-        call_helper_with_fixed_id_0x118a(0x512);
-        call_helper_with_fixed_id_0x118a(0x50E);
+        func_800188CC(F_sbs07_pad28);
+        call_helper_with_fixed_id_0x118a(F_sbs07_pad27);
+        call_helper_with_fixed_id_0x118a(F_sbs07_pad23);
     } else {
         func_800176B4();
-        call_helper_with_fixed_id_0x118a(0x513);
-        func_800188CC(0x512);
-        func_800188CC(0x50E);
+        call_helper_with_fixed_id_0x118a(F_sbs07_pad28);
+        func_800188CC(F_sbs07_pad27);
+        func_800188CC(F_sbs07_pad23);
     }
     return 0;
 }

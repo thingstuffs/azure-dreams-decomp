@@ -17,7 +17,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
         ((SpriteFrameState *)map_entity)->frameTable = ((u8 *)D_80173C94);
         select_sprite_entry(
             map_entity,
-            ((u8 *)D_80173C94)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80173C94)[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((R03_80172258_S_80172258_0 *)jump)->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFF20000;
@@ -63,7 +63,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
             ((SpriteFrameState *)map_entity)->frameTable = ((u8 *)D_80173C9C);
             select_sprite_entry(
                 map_entity,
-                ((u8 *)D_80173C9C)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                ((u8 *)D_80173C9C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((R03_80172258_S_80172258_0 *)jump)->unk_9B++;
         }
@@ -84,11 +84,11 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
             u32 count_unsigned;
             s32 count_signed;
 
-            count_signed = g_dungeon_status.unk_08;
-            count_unsigned = ((u16)g_dungeon_status.unk_08);
+            count_signed = g_dungeon_status.activity_counts.parts.pending_movement_count;
+            count_unsigned = ((u16)g_dungeon_status.activity_counts.parts.pending_movement_count);
 
             if (count_signed != 0) {
-                g_dungeon_status.unk_08 = count_unsigned - 1;
+                g_dungeon_status.activity_counts.parts.pending_movement_count = count_unsigned - 1;
             }
         }
 
@@ -102,7 +102,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
 
                 ((EntityRec *)actor)->facing = ((s16)get_rounded_facing_and_rounding_flag(
                     ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25,
-                    D_80082E80.tileX, D_80082E80.tileY, &facing_distance));
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &facing_distance));
             }
         }
 

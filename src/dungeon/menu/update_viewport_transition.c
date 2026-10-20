@@ -233,9 +233,9 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
                 - center->unk_02) / (s16) transition->unk_1C));
             center->unk_06 = (s16) ((u16) center->unk_06 + ((s32) (transition->unk_16
                 - center->unk_06) / (s16) transition->unk_1C));
-            render->unk_20.u16 = (u16) (((s32) (D_80082E80.tileX - render->unk_20.u16) / (s16) transition->unk_1C)
+            render->unk_20.u16 = (u16) (((s32) (D_80082E80.tile_position.parts.tile_x - render->unk_20.u16) / (s16) transition->unk_1C)
                 + render->unk_20.u16);
-            render->unk_22.u16 = (u16) (((s32) (D_80082E80.tileY - render->unk_22.u16) / (s16) transition->unk_1C)
+            render->unk_22.u16 = (u16) (((s32) (D_80082E80.tile_position.parts.tile_y - render->unk_22.u16) / (s16) transition->unk_1C)
                 + render->unk_22.u16);
             left_step = (s32) (transition->unk_0C - transition->unk_04) / (s16) transition->unk_1C;
             transition->unk_04 = (s16) ((u16) transition->unk_04 + left_step);
@@ -253,8 +253,8 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
                 target_scale = (u16) transition->unk_1E;
                 render->unk_1E = target_scale;
                 render->unk_1C = target_scale;
-                render->unk_20.s16 = (s16) D_80082E80.tileX;
-                render->unk_22.s16 = (s16) D_80082E80.tileY;
+                render->unk_20.s16 = (s16) D_80082E80.tile_position.parts.tile_x;
+                render->unk_22.s16 = (s16) D_80082E80.tile_position.parts.tile_y;
                 target_left = (u16) transition->unk_0C;
                 viewport_page = (S_func_8009E038_8 *)0x80010000;
                 transition->unk_04 = (s16) target_left;
@@ -270,11 +270,11 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
                 viewport_page->unk_3636 = target_height;
             }
         } else {
-            render->unk_20.s16 = (s16) D_80082E80.tileX;
-            render->unk_22.s16 = (s16) D_80082E80.tileY;
+            render->unk_20.s16 = (s16) D_80082E80.tile_position.parts.tile_x;
+            render->unk_22.s16 = (s16) D_80082E80.tile_position.parts.tile_y;
         }
         if (input->buttons & 0x10) {
-            if (((s32)input->unk_010) & 8) {
+            if (((s32)input->pressed_buttons) & 8) {
                 current_scale = transition->unk_1E;
                 if (current_scale < 0x5000) {
                     next_scale = (u16) transition->unk_1E + 0x1000;

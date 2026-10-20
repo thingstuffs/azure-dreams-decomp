@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -10,7 +11,7 @@ s32 run_event_fe5_attach_data(void) {
     void *ptr;
     s32 *value;
 
-    func_800177BC(0xFE5);
+    func_800177BC(F_gosh0000);
     ptr = D_80016000;
     do {
         value = &D_80017D64;

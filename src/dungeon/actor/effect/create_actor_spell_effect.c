@@ -166,15 +166,15 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
         } else {
             map_state = &D_80082E80;
             if (!(actor_state->unk_14 & 0x8000)) {
-                if (!(map_state->unk_014 & 0x8000)) {
+                if (!(map_state->sprite_flags & 0x8000)) {
                     process_nearby_object_midpoint(map_state, actor_state, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88,
                         ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
                     goto set_effect_scale;
                 }
             }
             direction_offset = ((u16) ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_2A >> 8) & 0xE;
-            setup_object_within_planar_range(actor - 0x20, (map_state->tileX << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset)
-                << 0x10) >> 0x11) + 0x20, (map_state->tileY << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC
+            setup_object_within_planar_range(actor - 0x20, (map_state->tile_position.parts.tile_x << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset)
+                << 0x10) >> 0x11) + 0x20, (map_state->tile_position.parts.tile_y << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC
                 + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, 8, 0x300);
         }
 set_effect_scale:

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -14,8 +15,8 @@ extern s32 func_8001A64C();
 s32 advance_town_scene_raise_hand(s32 kind, s32 value) {
     func_80016CC4();
     initialize_resources_assigns_pointer_lookup();
-    func_8001A554(0x94B);
-    if (func_8001A64C(0x943) == 0) {
+    func_8001A554(F_sbs32_pad33);
+    if (func_8001A64C(F_sbs32_pad25) == 0) {
         D_80016000->unk_20->callback_2F8(0xE, 0x200);
         return 0;
     }
@@ -24,6 +25,6 @@ s32 advance_town_scene_raise_hand(s32 kind, s32 value) {
         D_80016000->unk_20->callback_2F8(0xE, 0x200);
         return 0;
     }
-    func_8001A5CC(0x943);
+    func_8001A5CC(F_sbs32_pad25);
     return 1;
 }

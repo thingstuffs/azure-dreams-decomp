@@ -77,9 +77,9 @@ void advance_actor_death_transition(S_8008E0C4_0 *context, void *unused, S_8008E
     case 0x10:
         if (input->unk_14 & 0xE000) {
             entity->unk_28 = entity->unk_29;
-            entity->facing = 0x400 - ((((u16)work->view.viewAngle) + 0x100) & 0xE00);
+            entity->facing = 0x400 - ((((u16)work->view.camera_rotation.parts.viewAngle) + 0x100) & 0xE00);
             context->unk_8C =handle_player_input;
-            g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+            g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
         }
         break;
     }

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -13,12 +14,12 @@ s32 dispatch_town_callback_if_fails(void) {
 
     func_80016CC4();
 
-    if (func_8001A64C(0x1068) == 0) {
+    if (func_8001A64C(Frg_vivian_fine) == 0) {
         (*(TownCallback *)((s8 *)*(void **)((s8 *)*(void **)((s8 *)(&D_80016000)) + 0x20) + 0x2F8))(0xE, 0x200);
         checkPassed = 0;
     } else {
-        func_8001A554(0x94F);
-        func_8001A554(0x93E);
+        func_8001A554(F_sbs32_pad37);
+        func_8001A554(F_sbs32_pad20);
         checkPassed = 1;
     }
     return checkPassed;

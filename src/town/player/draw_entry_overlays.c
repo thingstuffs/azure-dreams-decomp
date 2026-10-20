@@ -124,7 +124,7 @@ extern u8 D_801C9E40[];
 
 
 #define CUR_CTX (*page_state)
-#define CUR_PAGE (g_game_work.unk_000)
+#define CUR_PAGE (g_game_work.draw_buffer)
 
 /* Draws the entry and its height-dependent textured and solid overlays. */
 s32 draw_entry_overlays(void) {
@@ -166,12 +166,12 @@ s32 draw_entry_overlays(void) {
     u32 rect_height;
     u32 fill_height;
 
-    page_state = &g_game_work.unk_000;
+    page_state = &g_game_work.draw_buffer;
     entry = &D_80082E80;
     alternate_page = CUR_PAGE != (void *)D_801C9E40;
     rotation = entry->unk_006;
     page_index = (u16) alternate_page;
-    if (!(entry->unk_014 & 0x80)) {
+    if (!(entry->sprite_flags & 0x80)) {
         coord = D_80083780;
 #define D_80083780 (*coord)
         D_800D0460[0] = 0;

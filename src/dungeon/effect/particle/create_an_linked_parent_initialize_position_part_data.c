@@ -774,9 +774,9 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)target)[-1].unk_0C;
                 tint_part->color.rgb = TINT_NEUTRAL;
             }
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             D_80082E80.phase = 0;
-            g_dungeon_status.unk_0A = (u16) (g_dungeon_status.unk_0A - 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (g_dungeon_status.activity_counts.parts.pending_action_count - 1);
             tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)D_800814A8)[-1].unk_0C;
             D_800814A8->unk_98 = D_800814A8->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
             tint_part->color.rgb = TINT_NEUTRAL;

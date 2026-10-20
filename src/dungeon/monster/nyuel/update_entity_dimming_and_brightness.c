@@ -70,11 +70,11 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
         sprite->unk_0C = 0x40;
         select_sprite_entry(sprite,
             sprite->unk_2C.u[
-                ((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         {
 
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         {
             u8 next_state = controller->unk_9B + 1;
@@ -142,7 +142,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
                 TileObject *origin = &D_80082E80;
                 s8 tile = sprite->unk_26;
 
-                if (((tile == origin->unk_026) && (tile >= 0)) ||
+                if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
                     if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(entity, 1);
@@ -167,7 +167,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
         }
         {
 
-            g_dungeon_status.unk_0A++;
+            g_dungeon_status.activity_counts.parts.pending_action_count++;
         }
         controller->unk_96 = 6;
         {
@@ -192,7 +192,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
         }
         {
 
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         sprite->unk_0E = 0x80;
         sprite->unk_0D = 0x80;

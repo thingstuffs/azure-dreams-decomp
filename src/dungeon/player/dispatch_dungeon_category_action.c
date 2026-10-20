@@ -52,7 +52,7 @@ s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mod
         call_slot_handler_and_update_status(D_800E3648[result * 4], actor, result, 1);
         return;
     }
-    g_dungeon_status.unk_0A += 1;
+    g_dungeon_status.activity_counts.parts.pending_action_count += 1;
     handler_entry = D_800DD6B8[type_index][action_index];
     handler_tag = handler_entry >> 0x18;
     handler = (void (*)(void *, void *, s16, s32))((handler_entry & 0xFFFFFF) | 0x80000000);
@@ -60,7 +60,7 @@ s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mod
         func_800BCFBC(handler_tag - 1, handler_tag, action_index);
     }
     if ((s16)dispatch_mode != 0x15) {
-        if (D_80082E80.unk_034 == 0) {
+        if (D_80082E80.secondary_item == 0) {
             result = get_special_table_data_index(action);
             if (result != 0x15) {
                 if (result == 0x16) {

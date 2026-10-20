@@ -38,11 +38,11 @@ void init_frame_buffers(void)
     } while (0);
     runtime_reset_object_pool(saved_state);
     reset_scene_frame_callback_list();
-    g_game_work.unk_000 = (s32)&D_801C9E40;
+    g_game_work.draw_buffer = (s32)&D_801C9E40;
     ClearOTagR((OT_TYPE *)(D_801C9E40.raw + 0x70), 0x218);
     ClearOTagR(D_801DA784.ot, 0x218);
     {
-        u8 *frame_data = (u8 *)((s32)g_game_work.unk_000);
+        u8 *frame_data = (u8 *)((s32)g_game_work.draw_buffer);
         *(void **)(frame_data + 0x8D0) = frame_data + 0x8D4;
     }
     SetDispMask(1);

@@ -74,7 +74,7 @@ void advance_actor_animation_and_fall(void *action, void *motion, void *sprite, 
     case 1:
         ((SpriteFrameState *)sprite)->frameTable = D_800E2380;
         select_sprite_entry(sprite,
-            D_800E2380[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_800E2380[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801737F8_0 *)action)->unk_96.u = 0;
         ((S_801737F8_0 *)action)->unk_9B++;
@@ -111,7 +111,7 @@ void advance_actor_animation_and_fall(void *action, void *motion, void *sprite, 
             ((S_801737F8_0 *)action)->unk_98 |= 8;
             ((SpriteFrameState *)sprite)->frameTable = D_800E2388;
             select_sprite_entry(sprite,
-                D_800E2388[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_800E2388[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             return;
         }
@@ -127,7 +127,7 @@ void advance_actor_animation_and_fall(void *action, void *motion, void *sprite, 
         }
         reduce_actor_food_meter(actor, 0x100);
         ((S_801737F8_0 *)action)->unk_8C = &D_80171F1C;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         actor->unk_46 &= 0x7FFF;
         actor->flags1C |= 0x40000;

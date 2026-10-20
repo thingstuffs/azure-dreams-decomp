@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
@@ -21,7 +22,7 @@ void adjust_two_state_values(Rec_func_80094268_arg0 *object, S_800C56A8_0 *state
     ticks_left = object->unk_6C.as_u16 - 1;
     object->unk_6C.as_u16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        set_resident_bitmap_bit(0x54);
+        set_resident_bitmap_bit(F_act_yoda);
         unlink_scene_list_node(object);
         clear_object_slot_and_mark_removed(object);
     }

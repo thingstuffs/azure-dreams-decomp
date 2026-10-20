@@ -124,8 +124,8 @@ void slide_actor_along_facing_third(CcaState_800D4634 *state, CcaMotion_800D4634
         motion->dy = 0;
         motion->dx = 0;
         set_record_integer_tile_center(motion, info->x, info->y);
-        if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)anim - 0x20)) {
-            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
+        if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)anim - 0x20)) {
+            *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         state->next = dispatch_actor_action_2;
         state->kind = 0xE;

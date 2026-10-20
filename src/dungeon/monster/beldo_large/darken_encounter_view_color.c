@@ -7,10 +7,10 @@
 void darken_encounter_view_color(u16 *entry)
 {
 
-    if (g_game_work.view.unk_090 >= 0x3D) {
-        g_game_work.view.unk_090 -= 2;
-        g_game_work.view.unk_091 -= 2;
-        g_game_work.view.unk_092 -= 2;
+    if (g_game_work.view.tint.parts.tint_r >= 0x3D) {
+        g_game_work.view.tint.parts.tint_r -= 2;
+        g_game_work.view.tint.parts.tint_g -= 2;
+        g_game_work.view.tint.parts.tint_b -= 2;
         return;
     }
 

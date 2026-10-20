@@ -12,7 +12,6 @@ extern s16 copy_sound_slot_info(s16 idx, u8 *dst);
 extern void set_playback_note(s32);
 extern s16 func_8005AE08(void *, s32);
 extern int func_8005B3D8(s16, s16);
-extern void func_800552C8(void);
 extern void sound_activate_loaded_sequence_slot(s16, u8, s16);
 
 /* Starts playback of the pending selection when available and initializes its mode. */

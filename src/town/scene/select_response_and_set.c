@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 typedef struct Copy4 {
@@ -14,9 +15,9 @@ extern s32 D_8001EBCA;
 
 /* Select the response and set flag 0xD80 when its prerequisite passes. */
 s32 *select_response_and_set_d_80(void) {
-    if (get_script_flag_mask(0xD80) == 0) {
+    if (get_script_flag_mask(Ftt_pad79) == 0) {
         if (get_free_shop_slot_count() != 0) {
-            set_script_flag_bit(0xD80);
+            set_script_flag_bit(Ftt_pad79);
             append_shop_entry(&D_8001BE5C);
             return &D_8001EACC;
         }

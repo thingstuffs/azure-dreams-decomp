@@ -347,7 +347,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
         ((S_8017405C_0 *)movement)->unk_46 &= 0x7FFF;
         ((Rec_func_800A9E70_arg0 *)context)->unk_9C.as_s8 = actor->unk_26.u;
         ((S_8017405C_0 *)movement)->unk_6D.u = ((S_8017405C_0 *)movement)->unk_6D.u - 1;
-        g_dungeon_status.unk_08 = ((u16)g_dungeon_status.unk_08) + 1;
+        g_dungeon_status.activity_counts.parts.pending_movement_count = ((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1;
     }
     if (((S_8017405C_0 *)movement)->unk_6D.s == 0) {
         ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;

@@ -50,9 +50,9 @@ s32 traverse_nodes_and_render_unflagged(void *start_node) {
     u16 *scratch = (u16 *)0x1F800000;
     void *previous;
 
-    scratch[0x80] = -((u16)state->view.unk_0AC);
-    scratch[0x81] = -((u16)state->view.unk_0AE);
-    scratch[0x82] = ((u16)state->view.unk_0A0);
+    scratch[0x80] = -((u16)state->view.camera_rotation.parts.camera_rotation_x);
+    scratch[0x81] = -((u16)state->view.camera_rotation.parts.camera_rotation_y);
+    scratch[0x82] = ((u16)state->view.view_rotation_offset.parts.view_rotation_offset_z);
 
     for (;;) {
         S_800BC3E4_1 *object = ((S_800BC3E4_0 *)node)->unk_00;
@@ -62,7 +62,7 @@ s32 traverse_nodes_and_render_unflagged(void *start_node) {
             S_800BC3E4_3 *coord = object->unk_08;
             s16 depth = sample_terrain_surface_height(coord->unk_02, coord->unk_06, coord->unk_0A);
             render_projected_sprite_with_depth_bias(coord, primitive, depth, 0);
-            if (is_frame_packet_arena_overflowed(((S_800BC3E4_5 *)(state->unk_000))->unk_8D0) != 0) {
+            if (is_frame_packet_arena_overflowed(((S_800BC3E4_5 *)(state->draw_buffer))->unk_8D0) != 0) {
                 break;
             }
         }

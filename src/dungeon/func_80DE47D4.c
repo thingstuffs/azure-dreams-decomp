@@ -9,7 +9,7 @@ void begin_actor_attack_after_status_check(void *action_state, void *action_cont
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((E_80171FD4_S_80171FC4_1 *)action_state)->unk_9B = 0;
             (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80174540;
-            select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+            select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &D_80174540), 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;

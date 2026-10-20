@@ -405,7 +405,7 @@ case 2:
             func_80042560(replacement);
             angle = ((S_800A504C_1 *)entity)->unk_2A;
             (*(u16 *)((u8 *)replacement + 0x2A)) = angle;
-            offset = ((g_game_work.view.viewAngle + (s16)angle + 0x100) >> 9) & 7;
+            offset = ((g_game_work.view.camera_rotation.parts.viewAngle + (s16)angle + 0x100) >> 9) & 7;
             select_indirect_table_entry(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
                           ((S_800A504C_2 *)entity_data)->unk_04);
             data_flags = ((S_800A504C_2 *)entity_data)->unk_14;

@@ -6,7 +6,6 @@
 /* Canonical "task/timer object" struct (see src/w_800552C8.c). */
 
 
-extern void func_800552C8(void);
 extern void sound_reset_sequence_slot_to_idle(s16 a0);
 extern void sound_free_sequence_slot(s16 a0);
 extern void start_pending_selection(void);

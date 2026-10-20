@@ -91,7 +91,7 @@ void advance_actor_state_with_child(void *actor, void *context, void *entity, vo
         set_record_integer_tile_center(context, ((Rec_D_80082E80 *)entity)->unk_24,
                       ((Rec_D_80082E80 *)entity)->unk_25);
         ((Rec_func_80173204_arg0 *)actor)->unk_8C.as_pv = update_actor_behavior_facing_and_animation_2;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)creature + 0x46)) &= 0x7FFF;
         return;
     }

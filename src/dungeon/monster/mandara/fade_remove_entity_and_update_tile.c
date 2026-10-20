@@ -50,7 +50,7 @@ void fade_remove_entity_and_update_tile(void *fade_state, void *unused, void *vi
     state = ((S_801735B8_0 *)fade_state)->unk_9B;
     switch (state) {
     case 0:
-        if (((Rec_D_80083460 *)(&g_dungeon_status.unk_00))->unk_0A != 0) {
+        if (((Rec_D_80083460 *)(&g_dungeon_status.turn_scale))->unk_0A != 0) {
             return;
         }
         ((S_801735B8_0 *)fade_state)->unk_9B = 1;
@@ -90,9 +90,9 @@ void fade_remove_entity_and_update_tile(void *fade_state, void *unused, void *vi
             }
         }
 
-        tracked_entity = ((s32)g_dungeon_status.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            g_dungeon_status.unk_10 =
+            g_dungeon_status.pending_display_owner =
                 tracked_entity & 0x7FFFFFFF;
         }
         distribute_experience_and_report_gains(entity);

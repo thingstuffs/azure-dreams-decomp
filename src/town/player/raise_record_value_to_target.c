@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -21,7 +22,7 @@ void raise_record_value_to_target(s32 context_id, EntityRec *record, s32 context
                record->x.w.i = lowered_value,
                lowered_value < 0x4C3)) {
         record->x.w.i = 0x4C2;
-        set_resident_bitmap_bit(0x12);
+        set_resident_bitmap_bit(sn_open_sekkyo_ready);
         initialize_record_with_handler_table((Struct8009B1C8 *)(context_id), (s32)(record), context);
     }
 }

@@ -25,7 +25,7 @@ void to_camera_zero_00(void *actor, void *context, void *animation, void *transf
         if (*(u16 *)((u8 *)animation + 0x14) & 0xE000) {
             *(u8 **)((u8 *)animation + 0x2C) = D_800DD008;
             set_sprite_animation_frame(animation,
-                D_800DD008[((camera->view.viewAngle +
+                D_800DD008[((camera->view.camera_rotation.parts.viewAngle +
                     *(s16 *)((u8 *)transform + 0x2A) + 0x100) >> 9) & 7], 0, 1);
             *(u8 *)((u8 *)actor + 0x9B) += 1;
         }
@@ -34,13 +34,13 @@ void to_camera_zero_00(void *actor, void *context, void *animation, void *transf
         if (*(u16 *)(&camera->buttons) != 0) {
             *(u8 **)((u8 *)animation + 0x2C) = D_800DD010;
             set_sprite_animation_frame(animation,
-                D_800DD010[((camera->view.viewAngle +
+                D_800DD010[((camera->view.camera_rotation.parts.viewAngle +
                     *(s16 *)((u8 *)transform + 0x2A) + 0x100) >> 9) & 7], 0, 1);
             *(u8 *)((u8 *)actor + 0x9B) += 1;
 
             g_dungeon_status.flags &= 0xFEFF;
             if ((s16)has_action_input_without_modifier() != 0) {
-                if (g_dungeon_status.unk_0A != 0) {
+                if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
                     g_dungeon_status.flags |= 4;
                 }
                 handle_player_input(actor, context, animation, transform);
@@ -52,7 +52,7 @@ void to_camera_zero_00(void *actor, void *context, void *animation, void *transf
         break;
     case 2:
         if ((s16)has_action_input_without_modifier() != 0) {
-            if (g_dungeon_status.unk_0A != 0) {
+            if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
                 g_dungeon_status.flags |= 4;
             }
             handle_player_input(actor, context, animation, transform);

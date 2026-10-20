@@ -96,7 +96,7 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
         }
     }
 
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     clear_slot_and_update_linked_state((s32)item);
     return 1;
 }

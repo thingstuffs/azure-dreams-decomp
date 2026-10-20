@@ -81,7 +81,7 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
         sprite->flags = (u16) (sprite->flags | 0xC);
         register_node(effect, project_sprite_chain);
         sprite->frameTable = &D_80173EB4;
-        select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
+        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + D_80173EB4), 0);
         transform = ((S_80170E18_1 *)effect)->unk_08;
         transform->unk_02 = (u16) source_transform->unk_02;

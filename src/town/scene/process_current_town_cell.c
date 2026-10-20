@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -26,7 +27,7 @@ s32 process_current_town_cell(s32 input_value, s32 input) {
     field_value = ((S_805D2FC4_2 *)(((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40))))->unk_04.s;
     ((S_805D2FC4_1 *)(&D_80019AFC))->unk_00 = (s32) field_value;
     result = 0;
-    if ((field_value != 2) && (func_800194D8(0x639) != 0)) {
+    if ((field_value != 2) && (func_800194D8(F_sbs14_pad21) != 0)) {
         result = func_80018504(input_value, input);
     }
     if (result != 0) {

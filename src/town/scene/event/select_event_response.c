@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 get_special_data_for_low_value_id(s32);
@@ -32,20 +33,20 @@ s32 select_event_11_response(s32 context, s32 unused, s32 event_id)
 
     event_table = D_80018A0C;
     result = func_80017960(event_table, D_80018B94, context, event_id);
-    state_index = func_80018868(0x990, 2);
+    state_index = func_80018868(F_sbs34_pad16, 2);
 
     if (event_id != 0xB) {
         return result;
     }
 
-    initialize_state_two_entries_pointer(0x998);
+    initialize_state_two_entries_pointer(F_sbs34_pad24);
     if (func_80017904(event_table, context, 0xB) == 0) {
-        if (func_8001868C(0x997) == 0) {
+        if (func_8001868C(F_sbs34_pad23) == 0) {
             state_index++;
             if (state_index == 4) {
                 state_index = 0;
             }
-            func_800188E8(0x990, state_index, 2);
+            func_800188E8(F_sbs34_pad16, state_index, 2);
         }
     }
 

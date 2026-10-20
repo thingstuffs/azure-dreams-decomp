@@ -103,7 +103,7 @@ s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 c
         }
     }
 
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     clear_slot_and_update_linked_state(action);
     return 1;
 }

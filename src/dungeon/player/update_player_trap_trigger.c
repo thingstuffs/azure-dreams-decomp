@@ -50,8 +50,8 @@ void update_player_trap_trigger(Actor *actor, s32 context_a, s32 context_b, s32 
         entry = &tab[actor->h100 * 4];
         if (entry[0] == 0) {
             restore_player_control_callback(actor, target);
-            g_dungeon_status.unk_0C = 0;
-            g_dungeon_status.unk_14--;
+            g_dungeon_status.active_actor = 0;
+            g_dungeon_status.trap_counts.parts.pending_trap_count--;
             g_dungeon_status.flags &= 0xFFF7;
             return;
         }
@@ -77,15 +77,15 @@ void update_player_trap_trigger(Actor *actor, s32 context_a, s32 context_b, s32 
     }
     if (D_800E3648[actor->h100 * 4] == 0) {
         restore_player_control_callback(actor, target);
-        g_dungeon_status.unk_0C = 0;
-        g_dungeon_status.unk_14--;
+        g_dungeon_status.active_actor = 0;
+        g_dungeon_status.trap_counts.parts.pending_trap_count--;
         g_dungeon_status.flags &= 0xFFF7;
         return;
     } else {
         s16 result = (s16) call_slot_handler_and_update_status(D_800E3648[actor->h100 * 4], target, actor->h100, 0);
         if (result != 0) {
-            g_dungeon_status.unk_0C = 0;
-            g_dungeon_status.unk_14--;
+            g_dungeon_status.active_actor = 0;
+            g_dungeon_status.trap_counts.parts.pending_trap_count--;
             g_dungeon_status.flags &= 0xFFF7;
             if (result > 0) {
                 restore_player_control_callback(actor, target);

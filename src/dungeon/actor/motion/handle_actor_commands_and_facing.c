@@ -74,7 +74,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
         sprite->frameTable = D_800DD274;
         func_8003DB94(sprite,
             *(void **)((u8 *)D_800DD274 +
-                ((((s32)(input->view.viewAngle +
+                ((((s32)(input->view.camera_rotation.parts.viewAngle +
                     actor_data->facing + 0x100)) >> 7) & 0x1C)),
             0);
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 = idle_state;
@@ -223,7 +223,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
                 actor_data->unk_8A = 2;
                 D_800E4940[0] = 2;
                 begin_player_menu_action(actor, actor_id, sprite, D_8004F5F4);
-                D_80082E80.unk_030 = 0;
+                D_80082E80.selected_item = 0;
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_C8 = 0;
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_104 = 0;
                 return;
@@ -291,7 +291,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
         sprite->frameTable = D_800DD274;
         func_8003DB94(sprite,
             *(void **)((u8 *)D_800DD274 +
-                ((((s32)(g_game_work.view.viewAngle + actor_data->facing +
+                ((((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing +
                     0x100)) >> 7) & 0x1C)),
             0);
     }

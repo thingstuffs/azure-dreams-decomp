@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 D_80018DFC;
@@ -10,9 +11,9 @@ extern s32 func_80018D6C(s32);
 /* Run func_80018C74, then forward the inputs if either queried condition is nonzero. */
 s32 run_event_prerequisite_forwarder(s32 primary_input, s32 unused, s32 secondary_input)
 {
-    func_80018C74(0x1463);
-    if ((func_80018D6C(0xFDA) == 0) &&
-        (func_80018D6C(0xFDB) == 0)) {
+    func_80018C74(F_s24_door_open);
+    if ((func_80018D6C(Ft_name_to_cheril) == 0) &&
+        (func_80018D6C(F_cheriru_first_nadia2) == 0)) {
         return 0;
     }
     return func_800182E4(&D_80018DFC, &D_800190B4, primary_input, secondary_input);

@@ -29,7 +29,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
 
     case 2:
         angle = ((R06_80175270_S_80175270_1 *)actor)->unk_2A.u;
-        raw_direction = (g_game_work.view.viewAngle + ((R06_80175270_S_80175270_1 *)actor)->unk_2A.s + 0x100) >> 9;
+        raw_direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((R06_80175270_S_80175270_1 *)actor)->unk_2A.s + 0x100) >> 9;
         direction = raw_direction & 7;
         if ((((u8 *)((void * *)D_80175924))[-4] == 0) || (direction != 2)) {
             if (direction == 2) {
@@ -162,7 +162,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
             ((R06_80175270_S_80175270_9 *)(((R06_80175270_S_80175270_1 *)actor)->unk_60))->unk_2A = ((R06_80175270_S_80175270_1 *)actor)->unk_2A.u;
             child = ((R06_80175270_S_80175270_1 *)actor)->unk_60;
             child_obj = ((R06_80175270_S_80175270_6_pre *)child)[-1].unk_00;
-            direction = (g_game_work.view.viewAngle + ((R06_80175270_S_80175270_6 *)child)->unk_2A + 0x100) >> 9;
+            direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((R06_80175270_S_80175270_6 *)child)->unk_2A + 0x100) >> 9;
             direction &= 7;
             select_indirect_table_entry(child_obj, ((R06_80175270_S_80175270_10 *)(child_obj->unk_2C + direction))->unk_00, child_obj->unk_04);
             child_obj->unk_14 &= 0xFFFE;
@@ -178,7 +178,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
             ((R06_80175270_S_80175270_9 *)(((R06_80175270_S_80175270_1 *)actor)->unk_60))->unk_2A = ((R06_80175270_S_80175270_1 *)actor)->unk_8A;
             ((R06_80175270_S_80175270_0_pre *)action)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= 0x8000;
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((R06_80175270_S_80175270_1 *)actor)->unk_6D = 0;
         }
         }

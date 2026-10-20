@@ -191,7 +191,7 @@ void update_following_color_blend_effect(AnimState *state, void *pos, void *tint
                     color.y = U16(base, 6);
                     color.z = U16(((u8 *)D_800E3D7C), 0x88) - 0x50;
                     tableAddress =
-                        ((g_game_work.view.viewAngle + S16(((u8 *)D_800E3D7C), 0x2A) + 0x100) >> 7) & 0x1C;
+                        ((g_game_work.view.camera_rotation.parts.viewAngle + S16(((u8 *)D_800E3D7C), 0x2A) + 0x100) >> 7) & 0x1C;
                     tableAddress += (s32)D_800E3D18;
                     resolve_record_orientation_or_fallback(
                         *(s32 *)tableAddress,

@@ -98,7 +98,7 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
             effect_state->unk_10 = size;
             effect_state->unk_0C = effect_index;
             if (effect_index == 0) {
-                counter->unk_0A = (u16) (((u16)counter->unk_0A) + 1);
+                counter->activity_counts.parts.pending_action_count = (u16) (((u16)counter->activity_counts.parts.pending_action_count) + 1);
             }
         }
         effect_offset += 0x8000;

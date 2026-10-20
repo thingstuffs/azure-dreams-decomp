@@ -126,7 +126,7 @@ void update_monster_staged_motion(void *state, void *motion, void *monster, void
 
         facing_angle = 0;
         do {
-            if (((g_game_work.view.viewAngle + facing_angle + 0x100) >> 9 & 7) == 2) {
+            if (((g_game_work.view.camera_rotation.parts.viewAngle + facing_angle + 0x100) >> 9 & 7) == 2) {
                 ((S_8017450C_3 *)actor)->unk_2A = facing_angle;
             }
             facing_angle += 0x200;
@@ -135,7 +135,7 @@ void update_monster_staged_motion(void *state, void *motion, void *monster, void
         {
             u8 *animation_table = D_800E2368;
             (*(u8 * *)((u8 *)monster + (0x2C))) = animation_table;
-            direction_index = (g_game_work.view.viewAngle + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
             select_sprite_entry(monster, animation_table[direction_index], 0);
             ((S_8017450C_0 *)state)->unk_98 |= 8;
             ((S_8017450C_3 *)actor)->unk_1C &= 0xFFFBFFFF;
@@ -330,9 +330,9 @@ void update_monster_staged_motion(void *state, void *motion, void *monster, void
         u32 tracked_actor;
         s32 tile_flags;
 
-        tracked_actor = ((u32)g_dungeon_status.unk_10);
+        tracked_actor = ((u32)g_dungeon_status.pending_display_owner);
         if (tracked_actor == actor - 0x20) {
-            g_dungeon_status.unk_10 = tracked_actor & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_actor & 0x7FFFFFFF;
         }
         distribute_experience_and_report_gains((void *)actor);
         detach_record_and_update_slot_state((void *)actor);

@@ -68,7 +68,7 @@ void advance_actor_animation_sequence(S_func_81006E50_0 *action, S_func_81006E50
         motion->unk_0C = 0;
         *(void **)((u8 *)animation + 0x2C) = D_801748B8;
         select_sprite_entry(animation,
-            D_801748B8[((g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+            D_801748B8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
             0);
         action->unk_9B++;
         action->unk_96 = 0;
@@ -90,7 +90,7 @@ void advance_actor_animation_sequence(S_func_81006E50_0 *action, S_func_81006E50
         set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
         reduce_actor_food_meter(actor, 0x100);
         action->unk_8C = D_80171058;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 &= 0x7FFF;

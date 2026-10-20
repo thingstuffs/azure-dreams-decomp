@@ -17,7 +17,7 @@ void func_800F7BC0(void) {
 
     entity = (Entity *)((u8 *)D_800FBE1C + 0x20);
     entity->state = 3;
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     D_80013714 &= 0xFFF7;
     entity->flags &= 0x7F;
 }

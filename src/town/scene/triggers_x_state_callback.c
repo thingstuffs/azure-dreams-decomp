@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -8,8 +9,8 @@ extern void func_80018570(s32);
 s32 triggers_x_6_state_callback(void)
 {
     if ((*(s32 (**)(s32))(*(void **)((u8 *)D_80016000 + 0x20) + 0x2D4))(0) == 0) {
-        if (func_80018668(0xA6) == 0) {
-            func_80018570(0xA6);
+        if (func_80018668(F_10kinko_talk) == 0) {
+            func_80018570(F_10kinko_talk);
             return 1;
         }
     }

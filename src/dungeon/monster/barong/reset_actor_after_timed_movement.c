@@ -155,12 +155,12 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
         if (((S_801738B8_2 *)actor)->unk_2C == D_80175564) {
             (*(void * *)((u8 *)actor + 0x2C)) = D_80175554;
             select_sprite_entry(actor,
-                D_80175554[((g_game_work.view.viewAngle + ((S_801738B8_1 *)room)->unk_2A + 0x100)
+                D_80175554[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801738B8_1 *)room)->unk_2A + 0x100)
                     >> 9) & 7], 0);
         }
-        room_ref = ((s32)g_dungeon_status.unk_10);
+        room_ref = ((s32)g_dungeon_status.pending_display_owner);
         if (room_ref == (s32)((u8 *)room - 0x20)) {
-            g_dungeon_status.unk_10 = room_ref & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = room_ref & 0x7FFFFFFF;
         }
         ((S_801738B8_0 *)object)->unk_8C = D_801716F4;
         ((S_801738B8_0 *)object)->unk_9A = 0xE;

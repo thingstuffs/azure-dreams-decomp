@@ -11,7 +11,7 @@ void select_actor_target_and_advance_status(void *action_state, s32 effect_arg, 
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
             anim_state->frameTable = ((s32 *)D_801759D8);
             select_sprite_entry(anim_state,
-                          *((((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+                          *((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                             + (u8 *)((s32 *)D_801759D8)),
                           0);
             advance_status_timers(actor);

@@ -295,7 +295,7 @@ void update_effect_position_and_scale_transition(void *transition, S_800A5AF0_1 
             ((S_800A5AF0_0 *)transition)->unk_04.u = ((S_800A5AF0_0 *)transition)->unk_04.u + 1;
         }
     } else if (state == 1) {
-        if (((s32)g_game_work.unk_010) != 0) {
+        if (((s32)g_game_work.pressed_buttons) != 0) {
             ((S_800A5AF0_0 *)transition)->unk_06 = 0;
         }
 
@@ -390,9 +390,9 @@ s32 check_action_available_without_nearby_actor(void) {
             s32 abs_axis_distance_2;
 
             entry_coords = ((S_800A5C70_0_pre *)entry)[-1].unk_00;
-            abs_axis_distance = abs((origin_coords->tileX) - (entry_coords->unk_24));
+            abs_axis_distance = abs((origin_coords->tile_position.parts.tile_x) - (entry_coords->unk_24));
             if (abs_axis_distance < 5) {
-                abs_axis_distance_2 = abs((origin_coords->tileY) - (entry_coords->unk_25));
+                abs_axis_distance_2 = abs((origin_coords->tile_position.parts.tile_y) - (entry_coords->unk_25));
                 if (abs_axis_distance_2 < 5) {
                     return 0;
                 }
@@ -409,7 +409,7 @@ s32 check_action_available_without_nearby_actor(void) {
 
 /* Copy g_dungeon_status.unk_1E into the 32-bit value D_8001362C. */
 void save_current_monster_direction(void) {
-    *(s32 *)0x8001362C = (s32) g_dungeon_status.unk_1E;
+    *(s32 *)0x8001362C = (s32) g_dungeon_status.turn_counter;
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
 #include "common.h"
@@ -429,7 +429,7 @@ void advance_timed_object_and_retire(void *counter) {
     tick_count = *(u16 *)counter + 1;
     *(u16 *)counter = tick_count;
     if ((s16)tick_count >= 0x10) {
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         *(u16 *)((u8 *)counter - 2) |= 0x8000;
         object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
@@ -446,7 +446,7 @@ extern s32 D_800A5D5C;
 void create_timed_status_object(void) {
 
     ((s32 **)func_8003FC64(0))[4] = &D_800A5D5C;
-    g_dungeon_status.unk_0A += 1;
+    g_dungeon_status.activity_counts.parts.pending_action_count += 1;
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
 #include "common.h"
@@ -521,7 +521,7 @@ void apply_item_effect_at_entity_position(void *object_context, void *target) {
                   lookup_item_category_mapped_value(*((u8 *)target + 1), *(u8 *)target), target);
     play_sound_if_enabled(0x50C);
     clear_slot_and_update_linked_state(target);
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
 #include "common.h"
@@ -578,7 +578,7 @@ s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
     S_800A5FC0_0 *render_ctx;
     void **render_ctx_ref;
 
-    render_ctx = g_game_work.unk_000;
+    render_ctx = g_game_work.draw_buffer;
     draw_mode = render_ctx->unk_8D0;
     render_ctx->unk_8D0 = (void *) (draw_mode + 0xC);
     quad = ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(((void * *)(&g_game_work))))->unk_00.as_pv))->unk_8D0;
@@ -728,10 +728,10 @@ s32 draw_fullscreen_grayscale_quad(Input *input) {
     Work *quad;
     s16 color;
 
-    arena = (GpuContext *)g_game_work.unk_000;
+    arena = (GpuContext *)g_game_work.draw_buffer;
     draw_mode = arena->packetCursor;
     arena->packetCursor = draw_mode + 0xC;
-    arena = (GpuContext *)g_game_work.unk_000;
+    arena = (GpuContext *)g_game_work.draw_buffer;
     quad = (Work *)arena->packetCursor;
     arena->packetCursor = (u8 *)quad + 0x18;
 
@@ -747,8 +747,8 @@ s32 draw_fullscreen_grayscale_quad(Input *input) {
     quad->start = 0xE00000;
     quad->end = 0xE00140;
 
-    func_8006658C((u8 *)g_game_work.unk_000 + ((input->index * 4) + 0xB0), quad);
-    func_8006658C((u8 *)g_game_work.unk_000 + ((input->index * 4) + 0xB0), draw_mode);
+    func_8006658C((u8 *)g_game_work.draw_buffer + ((input->index * 4) + 0xB0), quad);
+    func_8006658C((u8 *)g_game_work.draw_buffer + ((input->index * 4) + 0xB0), draw_mode);
     return 0;
 }
 #include "shared/object_node.h"
@@ -1029,7 +1029,7 @@ void clear_pending_item_action_state(void) {
     if (!(D_800E296C & 0x200000) && !(D_80013714 & 8)) {
         if (D_800DCF4F[0] != 0) {
             D_800DCF4F[0] = 0;
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         call_script(&D_800E045C[0]);
         runtime_clear_state_and_entry_range();

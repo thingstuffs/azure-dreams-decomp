@@ -114,7 +114,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
         finish_timer = (u16)(controller->unk_02.u16_value - 1);
         controller->unk_02.u16_value = finish_timer;
         if ((finish_timer << 0x10) <= 0) {
-            g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) - 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             ((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 =
                 (u16)(((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 | 0x8000);
             ((S_func_800D7FB8_6 *)((s32 *)(&object_flag_block)))->unk_00 =

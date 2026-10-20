@@ -94,7 +94,7 @@ s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *
 
     scratch = (Scratch *)0x1F800000;
     global_base = &g_game_work;
-    town = g_game_work.unk_000;
+    town = g_game_work.draw_buffer;
     output = ((S_800A3B80_0 *)town)->unk_8D0;
     scratch->data20 = (u8 *)town + 0x8B0;
     origin_y = D_80100D88;
@@ -105,7 +105,7 @@ s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *
     context_view->unk_0F = context_data->unk_01;
 
     angle_or_coord = object->unk_06;
-    view_angle = ((u16)g_game_work.view.viewAngle);
+    view_angle = ((u16)g_game_work.view.camera_rotation.parts.viewAngle);
     angle_or_coord += 0xC00;
     view_angle = (view_angle + 0x80) & 0xF00;
     angle_or_coord -= view_angle;
@@ -324,7 +324,7 @@ reverse_segment:
             goto reverse_segment;
         }
     }
-    end_town = global_base->unk_000;
+    end_town = global_base->draw_buffer;
     end_town->unk_8D0 = output;
     return 0;
 }

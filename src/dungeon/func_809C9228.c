@@ -58,7 +58,7 @@ void update_entity_facing_motion_and_ground(void *entity, R03_80170A28_S_80170A2
 
     part_flags = ((SpriteAnimationTableView *)part)->unk_14;
     if (!(part_flags & 0x8000)) {
-        rounded_angle = g_game_work.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        rounded_angle = g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         state_or_direction = (rounded_angle >> 9) & 7;
         direction_index = state_or_direction;
         direction_copy = state_or_direction;

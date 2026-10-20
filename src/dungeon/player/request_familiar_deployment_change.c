@@ -90,7 +90,7 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
                 goto finish;
             } else {
                 clear_player_linked_action_flags();
-                D_80082E80.unk_030 = 0;
+                D_80082E80.selected_item = 0;
                 begin_familiar_deployment_change(actor, param_a, param_b, 0, 0);
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_60 = 0;
             }
@@ -127,7 +127,7 @@ finish:
                 return 1;
             }
             ((Rec_func_8008ACDC_arg0 *)hdr3)->unk_C8 = 0;
-            D_80082E80.unk_030 = (s32) item;
+            D_80082E80.selected_item = (s32) item;
             begin_familiar_deployment_change(actor, param_a, param_b, out_a, (s32) out_b);
             clear_player_linked_action_flags();
         }

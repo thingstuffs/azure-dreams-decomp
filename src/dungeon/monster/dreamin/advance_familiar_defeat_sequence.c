@@ -48,7 +48,7 @@ void advance_familiar_defeat_sequence(void *work, void *part_a, void *part_b, vo
         PTR(actor, 0x60) = object;
         PTR(part_b, 0x2C) = D_801738A4;
         select_sprite_entry(part_b,
-            D_801738A4[((g_game_work.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
+            D_801738A4[((g_game_work.view.camera_rotation.parts.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x812);
         U8(work, 0x9B) = U8(work, 0x9B) + 1;
@@ -62,7 +62,7 @@ void advance_familiar_defeat_sequence(void *work, void *part_a, void *part_b, vo
         }
         reduce_actor_food_meter(actor, 0xC00);
         PTR(work, 0x8C) = &D_80170E68;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (S8(actor, 0x6D) == 0) {
             U16(actor, 0x46) &= 0x7FFF;

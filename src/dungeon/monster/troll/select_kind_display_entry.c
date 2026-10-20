@@ -59,7 +59,7 @@ void select_kind_display_entry(Obj0 *owner, void *context, Obj2 *display_arg, Ob
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)display + 0x2c) = selected_table;
-            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
             select_sprite_entry(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -73,7 +73,7 @@ void select_kind_display_entry(Obj0 *owner, void *context, Obj2 *display_arg, Ob
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)display + 0x2c) = selected_table;
-            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
             select_sprite_entry(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -87,7 +87,7 @@ void select_kind_display_entry(Obj0 *owner, void *context, Obj2 *display_arg, Ob
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)display + 0x2c) = selected_table;
-            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
             select_sprite_entry(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -110,7 +110,7 @@ void select_kind_display_entry(Obj0 *owner, void *context, Obj2 *display_arg, Ob
             return;
         }
         *(u32 *)((u8 *)display + 0x2c) = (u32)&D_8015DDC4;
-        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
         select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_8015DDC4), 0);
         return;
     case 14:
@@ -119,7 +119,7 @@ void select_kind_display_entry(Obj0 *owner, void *context, Obj2 *display_arg, Ob
             return;
         }
         *(u32 *)((u8 *)display + 0x2c) = (u32)&D_8015DDCC;
-        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
         select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_8015DDCC), 0);
         return;
     case 15:
@@ -128,7 +128,7 @@ void select_kind_display_entry(Obj0 *owner, void *context, Obj2 *display_arg, Ob
             return;
         }
         *(u32 *)((u8 *)display + 0x2c) = (u32)&D_8015DDD4;
-        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
         select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_8015DDD4), 0);
         return;
     default:

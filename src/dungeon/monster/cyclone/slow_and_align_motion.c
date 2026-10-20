@@ -123,9 +123,9 @@ void slow_and_align_motion(S_80173770_0 *motion_state, EntityRec *motion, Sprite
             tile->unk_25);
         {
 
-            velocity_or_entity = ((s32)g_dungeon_status.unk_10);
+            velocity_or_entity = ((s32)g_dungeon_status.pending_display_owner);
             if (velocity_or_entity == (s32)((u8 *)entity - 0x20)) {
-                g_dungeon_status.unk_10 = velocity_or_entity & 0x7FFFFFFF;
+                g_dungeon_status.pending_display_owner = velocity_or_entity & 0x7FFFFFFF;
             }
         }
         motion_state->unk_8C = &D_80171094;

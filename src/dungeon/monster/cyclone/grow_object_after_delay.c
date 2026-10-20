@@ -23,7 +23,7 @@ void grow_object_after_delay(S_8017573C_0 *animation, s32 unused, SpriteFrameSta
     animation->unk_02.s = animation->unk_02.s + 1;
     func_800478B8(object);
     if (object->flags & 0x6000) {
-        direction_index = g_game_work.view.viewAngle;
+        direction_index = g_game_work.view.camera_rotation.parts.viewAngle;
         direction_index += animation->unk_04;
         direction_index += 0x100;
         direction_index >>= 9;

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -20,11 +21,11 @@ void handle_conditional_event_callback(s32 context, s32 unused, s32 event_code) 
 
     if ((event_code == 0x1E) && (check_callback_record_bytes(0xD, 1) != 0)) {
         D_80016000->unk_20->callback_078(0);
-        set_script_flag_bit(0x1460);
+        set_script_flag_bit(Ftt_fkoya_isaku_scene01_ok);
         set_current_entry_script_flag();
     }
 
-    if (get_script_flag_mask(0x1460) != 0) {
+    if (get_script_flag_mask(Ftt_fkoya_isaku_scene01_ok) != 0) {
         selected_data = &D_8001BE2C;
     } else {
         selected_data = &D_8001BE44;

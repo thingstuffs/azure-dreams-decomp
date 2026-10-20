@@ -215,7 +215,7 @@ void update_staged_actor_movement(void *action, void *motion, void *tile, void *
         if (flags & 0xE000) {
             move_frames = D_80175160;
             (*(void * *)((u8 *)tile + 0x2C)) = move_frames;
-            move_angle = g_game_work.view.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
+            move_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
             move_direction = ((move_angle + 0x100) >> 9) & 7;
             select_sprite_entry(tile, move_frames[move_direction], 0);
             ((S_80172790_4 *)motion)->unk_0C = (-x_step) << 0x12;
@@ -304,7 +304,7 @@ void update_staged_actor_movement(void *action, void *motion, void *tile, void *
         set_record_integer_tile_center(motion, ((S_80172790_6 *)tile)->unk_24, ((S_80172790_6 *)tile)->unk_25);
         reduce_actor_food_meter(actor, 0x100);
         ((S_80172790_1 *)action)->unk_8C = D_80171400;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         ((S_80172790_4 *)motion)->unk_14 = 0;
         ((S_80172790_1 *)action)->unk_98 &= 0xFFF7;
@@ -312,7 +312,7 @@ void update_staged_actor_movement(void *action, void *motion, void *tile, void *
         ((S_80172790_1 *)action)->unk_A8 = 7;
         idle_frames = D_80175148;
         (*(void * *)((u8 *)tile + 0x2C)) = idle_frames;
-        idle_angle = g_game_work.view.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
+        idle_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
         idle_direction = ((idle_angle + 0x100) >> 9) & 7;
         select_sprite_entry(tile, idle_frames[idle_direction], 2);
         if (((S_80172790_0 *)actor)->unk_6D == 0) {

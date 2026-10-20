@@ -34,11 +34,11 @@ void advance_actor_action_count(void *controller, s32 context, void *sprite, voi
         if (!(U16_AT(sprite, 0x14) & 0xE000)) {
             return;
         }
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         PTR_AT(sprite, 0x2C) = D_800E262C;
         func_8003DB94(sprite,
             *(void **)((u8 *)D_800E262C +
-                (((g_game_work.view.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
+                (((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
             0);
         U8_AT(controller, 0x9B)++;
         return;
@@ -81,17 +81,17 @@ void advance_actor_action_count(void *controller, s32 context, void *sprite, voi
         PTR_AT(sprite, 0x2C) = D_800E262C;
         func_8003DB94(sprite,
             *(void **)((u8 *)D_800E262C +
-                (((g_game_work.view.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
+                (((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
             0);
         S32_AT(actor, 0x1C) |= 0x40000;
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
         U8_AT(controller, 0x9B)++;
         return;
     case 2:
         if (!(U16_AT(sprite, 0x14) & 0xE000)) {
             return;
         }
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         S32_AT(actor, 0x1C) &= ~0x208;
         PTR_AT(controller, 0x8C) = D_800D8C64;
         return;

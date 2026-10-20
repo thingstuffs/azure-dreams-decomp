@@ -22,7 +22,7 @@ void advance_actor_path_step_and_update_counters(void *motion_state, s32 unused,
     if (((R16_80171574_S_80171FC8_1 *)entity)->unk_2C != ((u8 *)D_8017420C)) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = ((u8 *)D_8017420C);
         select_sprite_entry(entity,
-                      ((u8 *)D_8017420C)[((g_game_work.view.viewAngle + ((R16_80171574_S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+                      ((u8 *)D_8017420C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R16_80171574_S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
                       0);
     }
 

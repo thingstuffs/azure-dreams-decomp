@@ -58,7 +58,7 @@ s32 fade_actor_to_removal(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visua
     phase = state->unk_9B;
     switch (phase) {
     case 0:
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return 0;
         }
         visual->unk_10 = 0x20;
@@ -85,9 +85,9 @@ s32 fade_actor_to_removal(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visua
     frames_left = (u16) state->unk_96 - 1;
     state->unk_96 = frames_left;
     if (!(((frames_left << 0x10) > 0) && ((visual->unk_14 & 0x8000) == 0))) {
-        entity_ref = ((s32)g_dungeon_status.unk_10);
+        entity_ref = ((s32)g_dungeon_status.pending_display_owner);
         if (entity_ref == (entity - 0x20)) {
-            g_dungeon_status.unk_10 = (s32) (entity_ref & 0x7FFFFFFF);
+            g_dungeon_status.pending_display_owner = (s32) (entity_ref & 0x7FFFFFFF);
         }
         detach_record_and_update_slot_state(entity);
         if ((get_entity_effect_value(entity, 0x1B) << 0x10) == 0) {

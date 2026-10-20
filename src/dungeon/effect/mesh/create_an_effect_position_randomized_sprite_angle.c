@@ -596,8 +596,8 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
 
     effect_state = ((ovl_1930844_81911A8C_S_81911A8C_0 *)effect)->unk_00;
     ((ovl_1930844_81911A8C_S_81911A8C_1 *)effect_state)->unk_14 = (u16) (((ovl_1930844_81911A8C_S_81911A8C_1 *)effect_state)->unk_14 + 1);
-    overlay = ((ovl_1930844_81911A8C_S_81911A8C_5 *)(((ovl_1930844_81911A8C_S_81911A8C_2 *)(((s32 *)&g_game_work.unk_000)))->unk_00.s))->unk_8D0;
-    ((ovl_1930844_81911A8C_S_81911A8C_5 *)(((ovl_1930844_81911A8C_S_81911A8C_2 *)(((s32 *)&g_game_work.unk_000)))->unk_00.s))->unk_8D0 =
+    overlay = ((ovl_1930844_81911A8C_S_81911A8C_5 *)(((ovl_1930844_81911A8C_S_81911A8C_2 *)(((s32 *)&g_game_work.draw_buffer)))->unk_00.s))->unk_8D0;
+    ((ovl_1930844_81911A8C_S_81911A8C_5 *)(((ovl_1930844_81911A8C_S_81911A8C_2 *)(((s32 *)&g_game_work.draw_buffer)))->unk_00.s))->unk_8D0 =
         (void *) (overlay + 0x10);
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_0C = 0x140;
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_0E = 0xE0;
@@ -609,7 +609,7 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_05 = green_blue;
     func_800667A8(overlay);
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_07 = (u8) (((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_07 | 2);
-    func_8006658C(((ovl_1930844_81911A8C_S_81911A8C_2 *)(((s32 *)&g_game_work.unk_000)))->unk_00.u + 0xB0, overlay);
+    func_8006658C(((ovl_1930844_81911A8C_S_81911A8C_2 *)(((s32 *)&g_game_work.draw_buffer)))->unk_00.u + 0xB0, overlay);
     frames_left = (u8) ((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 - 1;
     ((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {
@@ -1036,7 +1036,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
         break;
     case 5:
         if (((Rec_func_80024170_arg0 *)state)->unk_14 == 0) {
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | 0x8000);
             (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
         }

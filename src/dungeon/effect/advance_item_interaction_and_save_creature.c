@@ -255,16 +255,16 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
     void *save_data;
     S_func_800B1364_5 *hidden_creature;
     void *release_value;
-    S_func_800B1364_7 *global_state = (S_func_800B1364_7 *)((s32 *)&g_game_work.unk_000);
+    S_func_800B1364_7 *global_state = (S_func_800B1364_7 *)((s32 *)&g_game_work.draw_buffer);
 
     state = action->unk_9B;
     switch ((u32)(state)) {
     case 0:
     {
         view_base = &g_game_work;
-        if ((((s32) (view_base->view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7) == 2) {
+        if ((((s32) (view_base->view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7) == 2) {
             sprite->unk_2C = D_800DD108;
-            set_sprite_animation_frame(sprite, D_800DD108[((s32) (view_base->view.viewAngle + actor->unk_2A
+            set_sprite_animation_frame(sprite, D_800DD108[((s32) (view_base->view.camera_rotation.parts.viewAngle + actor->unk_2A
                 + 0x100) >> 9) & 7], 0, 1);
             next_state = action->unk_9B;
             action->unk_96 = 0x12U;
@@ -284,7 +284,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             return;
         }
         *(u8 **)((u8 *)sprite + 0x2C) = D_800DD110;
-        set_sprite_animation_frame(sprite, D_800DD110[((s32) (g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+        set_sprite_animation_frame(sprite, D_800DD110[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         action->unk_9B = (u8) (action->unk_9B + 1);
         if (!(((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1)) {
             build_floating_number_widget(0x22, 0xF2, 0xBA, 0x105, 0, 8);
@@ -327,7 +327,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             if (command != 0x60) {
                 read_monster_script_entry();
                 *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
-                set_sprite_animation_frame(sprite, D_800DD118[((s32) (g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                set_sprite_animation_frame(sprite, D_800DD118[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                     0, 1);
                 sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
                 action->unk_8C = NULL;
@@ -351,7 +351,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             if ((s8) worn_item->unk_02 <= 0) {
                 worn_item->unk_02 = 0U;
                 *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
-                set_sprite_animation_frame(sprite, D_800DD118[((s32) (g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                set_sprite_animation_frame(sprite, D_800DD118[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                     0, 1);
                 sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
                 action->unk_9B = 5U;
@@ -373,7 +373,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         }
         append_packed_action_record(actor, 0xA8, 0, 0);
         *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
-        set_sprite_animation_frame(sprite, D_800DD118[((s32) (g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+        set_sprite_animation_frame(sprite, D_800DD118[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
         play_sound_if_enabled(0x515);
         action->unk_8C = NULL;
@@ -383,7 +383,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
-        global_state = (S_func_800B1364_7 *)&g_dungeon_status.unk_00;
+        global_state = (S_func_800B1364_7 *)&g_dungeon_status.turn_scale;
         if (!(global_state->unk_02 & 2)) {
             process_unflagged_linked_entries_alt(actor->unk_5C);
             process_unflagged_linked_entries(actor->unk_5C);
@@ -476,8 +476,8 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             DungeonGlobalStatus *summon_control;
             D_800DCF4F = 1;
             summon_control = &g_dungeon_status;
-            summon_count = ((u16)summon_control->unk_0A);
-            summon_control->unk_0A = (u16) (summon_count + 1);
+            summon_count = ((u16)summon_control->activity_counts.parts.pending_action_count);
+            summon_control->activity_counts.parts.pending_action_count = (u16) (summon_count + 1);
         }
         message_start = get_unused_text_buffer();
         message_end = expand_text_control_codes(&D_800E0A33, append_entity_display_text(creature, expand_text_control_codes(&D_800E0A2A,
@@ -492,20 +492,20 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         action->unk_9B = (u8) (action->unk_9B + 1);
         if (!((*(u16 *)(&D_80013714)) & 1)) {
             summon_state = &g_dungeon_status;
-            if ((s16) ((u16)summon_state->unk_0A) < 2) {
+            if ((s16) ((u16)summon_state->activity_counts.parts.pending_action_count) < 2) {
                 return;
             }
-            summon_state->unk_0A = (u16) (((u16)summon_state->unk_0A) - 1);
+            summon_state->activity_counts.parts.pending_action_count = (u16) (((u16)summon_state->activity_counts.parts.pending_action_count) - 1);
             return;
         }
         summon_state = &g_dungeon_status;
-        if (summon_state->unk_0A <= 0) {
+        if (summon_state->activity_counts.parts.pending_action_count <= 0) {
             return;
         }
-        summon_state->unk_0A = (s16) ((u16) summon_state->unk_0A - 1);
+        summon_state->activity_counts.parts.pending_action_count = (s16) ((u16) summon_state->activity_counts.parts.pending_action_count - 1);
         return;
     case 8:
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
         wait_timer = action->unk_96 - 1;
@@ -518,7 +518,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             }
         }
         *(u8 **)((u8 *)sprite + 0x2C) = D_800DD130;
-        direction_anim = D_800DD130 + (((s32) (g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
+        direction_anim = D_800DD130 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
         set_sprite_animation_frame(sprite, *direction_anim, 0, 1);
         action->unk_9B = (u8) (action->unk_9B + 1);
         return;
@@ -527,7 +527,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             return;
         }
         *(u8 **)((u8 *)sprite + 0x2C) = D_800DD138;
-        set_sprite_animation_frame(sprite, D_800DD138[((s32) (g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+        set_sprite_animation_frame(sprite, D_800DD138[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         sprite->unk_14 = (u16) (sprite->unk_14 | 0x200);
         create_familiar_deployment_effect_with_owner_state(action, position, sprite);
         create_familiar_deployment_overlay(action, position, sprite);
@@ -561,7 +561,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             (u16) (((S_func_800B1364_19 *)((u8 *)release_value - 2))->unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
         sprite->unk_2C = D_800DD140;
-        direction_anim = D_800DD140 + (((s32) (g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
+        direction_anim = D_800DD140 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
         set_sprite_animation_frame(sprite, *direction_anim, 0, 1);
 read_next_state:
         action->unk_9B = (u8) (action->unk_9B + 1);

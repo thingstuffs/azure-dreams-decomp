@@ -48,6 +48,6 @@ s32 use_item_to_increase_magic_drain(void *target, s32 item, s16 message_kind)
         display_formatted_context_message(D_800E10F2);
     }
     clear_slot_and_update_linked_state(item);
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

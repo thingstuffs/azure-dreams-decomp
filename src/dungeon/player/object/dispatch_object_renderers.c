@@ -134,7 +134,7 @@ loop_third:
                 if (!(entry_m->flags & 0x800)) {
                     callback(entry_m->data, entry_m->value1, entry_m->value2);
                     stop_dispatch = is_frame_packet_arena_overflowed(
-                        *(s32 *)((u8 *)g_game_work.unk_000 + 0x8D0));
+                        *(s32 *)((u8 *)g_game_work.draw_buffer + 0x8D0));
                     if (stop_dispatch != 0) {
                         return;
                     }

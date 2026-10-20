@@ -82,7 +82,7 @@ s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 
         }
     }
 
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     clear_slot_and_update_linked_state(item);
     return 1;
 }

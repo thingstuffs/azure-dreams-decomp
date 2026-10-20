@@ -15,7 +15,7 @@ void func_8014D02C(CL_CD7000_8017102C_S_8017102C_0 *state, void *motion, CL_CD70
   advance_actor_pending_action(state,motion,sprite,actor);
   if(sprite->unk_2C==D_801512FC) return;
   sprite->unk_2C=D_801512F4;
-  select_sprite_entry(sprite,D_801512F4[((g_game_work.view.viewAngle+actor->unk_2A+0x100)>>9)&7],0);
+  select_sprite_entry(sprite,D_801512F4[((g_game_work.view.camera_rotation.parts.viewAngle+actor->unk_2A+0x100)>>9)&7],0);
   return;
  }
  {
@@ -37,7 +37,7 @@ void func_8014D02C(CL_CD7000_8017102C_S_8017102C_0 *state, void *motion, CL_CD70
    if(state->unk_9A!=14) {
     if(sprite->unk_2C!=D_801512B4) {
      sprite->unk_2C=D_801512B4;
-     select_sprite_entry(sprite,D_801512B4[((g_game_work.view.viewAngle+actor->unk_2A+0x100)>>9)&7],0);
+     select_sprite_entry(sprite,D_801512B4[((g_game_work.view.camera_rotation.parts.viewAngle+actor->unk_2A+0x100)>>9)&7],0);
     }
     state->unk_9A=14;
    }
@@ -79,7 +79,7 @@ void func_8014D02C(CL_CD7000_8017102C_S_8017102C_0 *state, void *motion, CL_CD70
      func_8014E180(state,motion,sprite,actor);
     return;
    case 5: case 6: case 7:
-    actor->unk_2A=get_rounded_facing_and_rounding_flag(sprite->tile.bytes.x,sprite->tile.bytes.y,D_80082E80.tileX,D_80082E80.tileY,&terrain_flags);
+    actor->unk_2A=get_rounded_facing_and_rounding_flag(sprite->tile.bytes.x,sprite->tile.bytes.y,D_80082E80.tile_position.parts.tile_x,D_80082E80.tile_position.parts.tile_y,&terrain_flags);
     if(((CL_CD7000_8017102C_S_8017102C_3 *)D_800814A8)->unk_9A==17) {
      begin_actor_spell_action(state,motion,sprite,D_801512EC,func_8014D02C);
      return;
@@ -98,13 +98,13 @@ void func_8014D02C(CL_CD7000_8017102C_S_8017102C_0 *state, void *motion, CL_CD70
   }
   actor_flags=actor->unk_1C;
   if(!(actor_flags & 0x2000) && ((s8)room<0 || !(((CL_CD7000_8017102C_S_8017102C_5 *)((u8 *)D_800E2970+(s8)room*20))->unk_0C & 2)) && !(actor_flags & 0x430)) {
-   if((compare_monster_neighbor_values(sprite->tile.bytes.x,sprite->tile.bytes.y,D_80082E80.tileX,D_80082E80.tileY)<<16)!=0)
-    actor->unk_2A=get_rounded_facing_and_rounding_flag(sprite->tile.bytes.x,sprite->tile.bytes.y,D_80082E80.tileX,D_80082E80.tileY,&terrain_flags);
+   if((compare_monster_neighbor_values(sprite->tile.bytes.x,sprite->tile.bytes.y,D_80082E80.tile_position.parts.tile_x,D_80082E80.tile_position.parts.tile_y)<<16)!=0)
+    actor->unk_2A=get_rounded_facing_and_rounding_flag(sprite->tile.bytes.x,sprite->tile.bytes.y,D_80082E80.tile_position.parts.tile_x,D_80082E80.tile_position.parts.tile_y,&terrain_flags);
   }
   if((g_dungeon_status.flags & 0x2000) || (sprite->unk_14 & 0x40)) return;
   frames=D_801512B4;
   if(sprite->unk_2C==frames) return;
  }
  sprite->unk_2C=frames;
- select_sprite_entry(sprite,*((((g_game_work.view.viewAngle+actor->unk_2A+0x100)>>9)&7)+frames),0);
+ select_sprite_entry(sprite,*((((g_game_work.view.camera_rotation.parts.viewAngle+actor->unk_2A+0x100)>>9)&7)+frames),0);
 }

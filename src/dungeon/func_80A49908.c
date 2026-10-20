@@ -11,7 +11,7 @@ void fade_sprites_and_remove_entity(void *actor, s32 unused, void *sprite, void 
     sprite_group = 0;
     switch (state) {
     case 0:
-        if (S16(&g_dungeon_status.unk_00, 0xA) != 0) {
+        if (S16(&g_dungeon_status.turn_scale, 0xA) != 0) {
             break;
         }
         U8(actor, 0x9B) = 1;
@@ -84,7 +84,7 @@ void fade_sprites_and_remove_entity(void *actor, s32 unused, void *sprite, void 
         }
         if (U16(sprite_group, 0x1C) & 0x6000) {
             PTR(sprite, 0x2C) = ((u8 *)D_8017588C);
-            select_sprite_entry(sprite,(u8)(((u8 *)D_8017588C)[((g_game_work.view.viewAngle + S16(entity, 0x2A) + 0x100) >> 9) & 7]),
+            select_sprite_entry(sprite,(u8)(((u8 *)D_8017588C)[((g_game_work.view.camera_rotation.parts.viewAngle + S16(entity, 0x2A) + 0x100) >> 9) & 7]),
                 0);
             U16(actor, 0x96) = 0x80;
             U8(actor, 0x9B) = U8(actor, 0x9B) + 1;

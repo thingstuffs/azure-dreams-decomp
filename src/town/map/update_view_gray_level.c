@@ -20,23 +20,23 @@ void update_view_gray_level(void)
     change_mode = D_80100D94[0];
     switch (change_mode) {
     case 0:
-        channels->view.unk_090 = 0x80;
-        channels->view.unk_091 = 0x80;
-        channels->view.unk_092 = 0x80;
+        channels->view.tint.parts.tint_r = 0x80;
+        channels->view.tint.parts.tint_g = 0x80;
+        channels->view.tint.parts.tint_b = 0x80;
         D_80100D94[0] = 0;
         return;
 
     case 1:
-        channels->view.unk_090 = 0;
-        channels->view.unk_091 = 0;
-        channels->view.unk_092 = 0;
+        channels->view.tint.parts.tint_r = 0;
+        channels->view.tint.parts.tint_g = 0;
+        channels->view.tint.parts.tint_b = 0;
         D_80100D94[0] = 0;
         return;
 
     case 2:
-        channels->view.unk_090 = 0x40;
-        channels->view.unk_091 = 0x40;
-        channels->view.unk_092 = 0x40;
+        channels->view.tint.parts.tint_r = 0x40;
+        channels->view.tint.parts.tint_g = 0x40;
+        channels->view.tint.parts.tint_b = 0x40;
         D_80100D94[0] = 0;
         return;
 
@@ -57,10 +57,10 @@ void update_view_gray_level(void)
     }
 
     target_level &= 0xFF;
-    level = step_angle_12_toward(channels->view.unk_090, target_level, 8);
-    channels->view.unk_090 = level;
-    channels->view.unk_091 = level;
-    channels->view.unk_092 = level;
+    level = step_angle_12_toward(channels->view.tint.parts.tint_r, target_level, 8);
+    channels->view.tint.parts.tint_r = level;
+    channels->view.tint.parts.tint_g = level;
+    channels->view.tint.parts.tint_b = level;
     if ((level & 0xFF) == target_level) {
         D_80100D94[0] = 0;
     }

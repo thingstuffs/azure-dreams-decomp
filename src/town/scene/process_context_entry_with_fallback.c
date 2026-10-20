@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 has_matching_entry_result(s32, s32);
@@ -13,7 +14,7 @@ s32 process_context_entry_with_fallback(s32 entryContext, s32 entryIndex)
     }
 
     if (apply_selected_entry_values(entryContext, entryIndex) == 0) {
-        clear_script_flag_bit(0xD7F);
+        clear_script_flag_bit(Ftt_pad78);
         return 0;
     }
 

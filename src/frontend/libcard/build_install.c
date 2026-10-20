@@ -10,8 +10,7 @@ extern void set_record_pair_to_one(void *);
 extern void card_boot_dispatch_selected_menu_action(void *);
 extern s32 advance_index_with_single_wrap(s32, s32, s32);
 extern void card_boot_refresh_five_slot_selection(void *);
-extern s32 card_boot_debounce_card_status_events(void);
-extern void no_op_card_stub(void);
+#include "modules/main_server_ship_interfaces.h"
 
 /* Handle menu selection, directional repeat, and closing from controller input and update status. */
 void build_install(u8 *object)
@@ -28,7 +27,7 @@ void build_install(u8 *object)
     selection_step = 0;
     needs_refresh = selection_step;
     if (held_buttons != 0) {
-        pressed_buttons = ((s32)g_game_work.unk_010);
+        pressed_buttons = ((s32)g_game_work.pressed_buttons);
         if (pressed_buttons & 0x20) {
             SD_Call(0x515);
             card_boot_destroy_slot_selection_menu(object - 0x20);
@@ -46,7 +45,7 @@ void build_install(u8 *object)
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
                 ((Rec_func_80025030_arg0 *)object)->unk_30 = 0;
-                pressed_buttons = ((s32)g_game_work.unk_010);
+                pressed_buttons = ((s32)g_game_work.pressed_buttons);
                 if (pressed_buttons & 0x1000) {
                     selection_step = -1;
                 } else if (pressed_buttons & 0x4000) {

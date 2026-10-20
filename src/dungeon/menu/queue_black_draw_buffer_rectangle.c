@@ -19,17 +19,17 @@ void queue_black_draw_buffer_rectangle(s32 draw_param) {
 
     draw_rect[0] = 0xC00300;
     draw_rect[1] = 0x400040;
-    draw_buffer = g_game_work.unk_000;
+    draw_buffer = g_game_work.draw_buffer;
     adjust_y = draw_buffer != D_801C9E40;
     ordering_table = draw_buffer + 0x8B0;
     area_packet = *(u8 **)(draw_buffer + 0x8D0);
     *(u8 **)(draw_buffer + 0x8D0) = area_packet + 0xC;
-    func_80067E2C(area_packet, *(u8 * *)&g_game_work.unk_000);
+    func_80067E2C(area_packet, *(u8 * *)&g_game_work.draw_buffer);
     func_8006658C(ordering_table, area_packet);
     draw_nearby_map_markers(ordering_table, draw_param);
 
-    rect_packet = *(u8 **)(g_game_work.unk_000 + 0x8D0);
-    *(u8 **)(g_game_work.unk_000 + 0x8D0) = rect_packet + 0x10;
+    rect_packet = *(u8 **)(g_game_work.draw_buffer + 0x8D0);
+    *(u8 **)(g_game_work.draw_buffer + 0x8D0) = rect_packet + 0x10;
     *(s32 *)(rect_packet + 4) = 0x60000000;
     *(s8 *)(rect_packet + 3) = 3;
     *(s32 *)(rect_packet + 8) = draw_rect[0];
@@ -41,8 +41,8 @@ void queue_black_draw_buffer_rectangle(s32 draw_param) {
     *(s32 *)(rect_packet + 0xC) = draw_rect[1];
     func_8006658C(ordering_table, rect_packet);
 
-    area_packet = *(u8 **)(g_game_work.unk_000 + 0x8D0);
-    *(u8 **)(g_game_work.unk_000 + 0x8D0) = area_packet + 0xC;
+    area_packet = *(u8 **)(g_game_work.draw_buffer + 0x8D0);
+    *(u8 **)(g_game_work.draw_buffer + 0x8D0) = area_packet + 0xC;
     func_80067E2C(area_packet, &draw_rect[0]);
     func_8006658C(ordering_table, area_packet);
 }

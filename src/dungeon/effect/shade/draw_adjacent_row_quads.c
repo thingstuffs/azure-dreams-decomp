@@ -50,7 +50,7 @@ s32 draw_adjacent_row_quads(void)
 {
     s32 quad_index = 0;
     Scratch *scratch = (Scratch *)0x1F800000;
-    u8 *state = g_game_work.unk_000;
+    u8 *state = g_game_work.draw_buffer;
     u8 *packet_start = *(u8 **)(state + 0x8D0);
     u32 *vertices;
     u8 *vertex_record;
@@ -60,7 +60,7 @@ s32 draw_adjacent_row_quads(void)
 
             /* This address is needed only by the loop's terminal writeback. */
     {
-        u8 **state_slot = &g_game_work.unk_000;
+        u8 **state_slot = &g_game_work.draw_buffer;
 
         if (D_80026476 > 0) {
             vertices = D_800265C8;

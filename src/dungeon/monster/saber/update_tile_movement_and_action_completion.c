@@ -58,7 +58,7 @@ void update_tile_movement_and_action_completion(void *action, void *motion, void
         ((SpriteFrameState *)sprite)->frameTable = D_8016EE0C;
         select_sprite_entry(
             sprite,
-            D_8016EE0C[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_8016EE0C[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_8016CBAC_0 *)action)->unk_98 |= 8;
         ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
@@ -113,7 +113,7 @@ void update_tile_movement_and_action_completion(void *action, void *motion, void
             ((SpriteFrameState *)sprite)->frameTable = D_8016EE14;
             select_sprite_entry(
                 sprite,
-                D_8016EE14[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_8016EE14[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_8016CBAC_0 *)action)->unk_9B++;
         }
@@ -124,7 +124,7 @@ void update_tile_movement_and_action_completion(void *action, void *motion, void
             ((SpriteFrameState *)sprite)->frameTable = D_8016EDEC;
             select_sprite_entry(
                 sprite,
-                D_8016EDEC[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_8016EDEC[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;
@@ -148,8 +148,8 @@ decrement_timer:
     advance_status_timers(actor);
 
     global_state = &g_dungeon_status;
-    if (global_state->unk_08 != 0) {
-        (*(u16 *)&global_state->unk_08)--;
+    if (global_state->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&global_state->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = ((EntityRec *)actor)->flags1C;
@@ -162,8 +162,8 @@ decrement_timer:
             ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
                 ((SpriteFrameState *)sprite)->unk_24,
                 ((SpriteFrameState *)sprite)->unk_25,
-                D_80082E80.tileX,
-                D_80082E80.tileY,
+                D_80082E80.tile_position.parts.tile_x,
+                D_80082E80.tile_position.parts.tile_y,
                 &facing_aux);
         }
     }

@@ -43,12 +43,12 @@ void animate_timed_fade_effect(void *effect) {
 
     switch (state) {
     case 0:
-        if (fade_colors->view.unk_090 >= 0x65) {
-            fade_colors->view.unk_090 -= 4;
-            fade_green = fade_colors->view.unk_091 - 4;
-            fade_blue = fade_colors->view.unk_092 - 4;
-            fade_colors->view.unk_091 = fade_green;
-            fade_colors->view.unk_092 = fade_blue;
+        if (fade_colors->view.tint.parts.tint_r >= 0x65) {
+            fade_colors->view.tint.parts.tint_r -= 4;
+            fade_green = fade_colors->view.tint.parts.tint_g - 4;
+            fade_blue = fade_colors->view.tint.parts.tint_b - 4;
+            fade_colors->view.tint.parts.tint_g = fade_green;
+            fade_colors->view.tint.parts.tint_b = fade_blue;
             return;
         }
         ((S_8016A9FC_0 *)effect)->unk_12.u = state_arg + 1;
@@ -77,19 +77,19 @@ void animate_timed_fade_effect(void *effect) {
         return;
 
     case 2:
-        cur = fade_colors->view.unk_090;
+        cur = fade_colors->view.tint.parts.tint_r;
         if (cur < 0x80) {
-            fade_colors->view.unk_090 = cur + 4;
-            fade_green = fade_colors->view.unk_091 + 4;
-            fade_blue = fade_colors->view.unk_092 + 4;
-            fade_colors->view.unk_091 = fade_green;
-            fade_colors->view.unk_092 = fade_blue;
+            fade_colors->view.tint.parts.tint_r = cur + 4;
+            fade_green = fade_colors->view.tint.parts.tint_g + 4;
+            fade_blue = fade_colors->view.tint.parts.tint_b + 4;
+            fade_colors->view.tint.parts.tint_g = fade_green;
+            fade_colors->view.tint.parts.tint_b = fade_blue;
             return;
         }
-        fade_colors->view.unk_092 = 0x80;
-        fade_colors->view.unk_091 = 0x80;
-        fade_colors->view.unk_090 = 0x80;
-        g_dungeon_status.unk_0A--;
+        fade_colors->view.tint.parts.tint_b = 0x80;
+        fade_colors->view.tint.parts.tint_g = 0x80;
+        fade_colors->view.tint.parts.tint_r = 0x80;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
         object_flag_block.flags |= 0x8000;
         return;

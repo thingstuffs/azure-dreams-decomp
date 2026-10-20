@@ -124,8 +124,8 @@ void apply_entity_action_flags(void *object, s32 action) {
         }
         restore_player_control_callback(object, object);
         update_state = &D_80082E80;
-        (((s32 *)update_state->unk_02C)) = D_800DD274;
-        func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (g_game_work.view.viewAngle + (((EntityRec *)object)->facing) + 0x100) >> 7) & 0x1C))), 0);
+        (((s32 *)update_state->frame_table)) = D_800DD274;
+        func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (((EntityRec *)object)->facing) + 0x100) >> 7) & 0x1C))), 0);
         reset_index = 3;
         reset_slot = D_80083110;
         reset_slot += 3;

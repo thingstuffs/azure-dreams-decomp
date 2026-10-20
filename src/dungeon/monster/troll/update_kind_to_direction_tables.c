@@ -23,7 +23,7 @@ void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *dis
         }
         if (current_table != selected_table) {
             display->table2c = (u8 *)selected_table;
-            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
             select_sprite_entry(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -38,7 +38,7 @@ void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *dis
         }
         if (current_table != selected_table) {
             display->table2c = (u8 *)selected_table;
-            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
             select_sprite_entry(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -53,7 +53,7 @@ void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *dis
         }
         if (current_table != selected_table) {
             display->table2c = (u8 *)selected_table;
-            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
             select_sprite_entry(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -77,7 +77,7 @@ void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *dis
             return;
         }
         display->table2c = (u8 *)&D_80163DC4;
-        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
         select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_80163DC4), 0);
         return;
     case 14:
@@ -86,7 +86,7 @@ void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *dis
             return;
         }
         display->table2c = (u8 *)&D_80163DCC;
-        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
         select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_80163DCC), 0);
         return;
     case 15:
@@ -95,7 +95,7 @@ void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *dis
             return;
         }
         display->table2c = (u8 *)&D_80163DD4;
-        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
         select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_80163DD4), 0);
         return;
     default:

@@ -31,7 +31,7 @@ void func_80036350(CursorState *cursor, s32 action_arg1, s32 action_arg2)
     u32 flags_or_count;
 
     runtime = &g_game_work;
-    flags_or_count = ((u32)runtime->unk_010);
+    flags_or_count = ((u32)runtime->pressed_buttons);
     if (flags_or_count & 0x4000) {
         SD_Call(0x502);
         next_cursor = cursor->cursor_4D + 1;
@@ -54,7 +54,7 @@ void func_80036350(CursorState *cursor, s32 action_arg1, s32 action_arg2)
         flags_or_count = next_cursor % flags_or_count;
         cursor->cursor_4D = flags_or_count;
     }
-    if (((u32)runtime->unk_010) & 0x40) {
+    if (((u32)runtime->pressed_buttons) & 0x40) {
         confirm_menu_choice(cursor, action_arg1, action_arg2);
     }
 }

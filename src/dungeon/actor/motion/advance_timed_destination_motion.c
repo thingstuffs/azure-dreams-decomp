@@ -47,23 +47,23 @@ void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, EntityRec 
     case 1:
     case 9:
     case 11:
-        if (g_dungeon_status.unk_04 != 0) {
+        if (g_dungeon_status.movement_frames_left != 0) {
             s32 target_x, current_x, current_y;
             target_x = destination->unk_24 << 6;
             current_x = motion->x.w.i - 0x20;
-            motion->unk_0C = ((target_x - current_x) << 16) / g_dungeon_status.unk_04;
+            motion->unk_0C = ((target_x - current_x) << 16) / g_dungeon_status.movement_frames_left;
             current_y = motion->y.w.i - 0x20;
-            motion->unk_10 = (((destination->unk_25 << 6) - current_y) << 16) / g_dungeon_status.unk_04;
+            motion->unk_10 = (((destination->unk_25 << 6) - current_y) << 16) / g_dungeon_status.movement_frames_left;
         }
-        g_dungeon_status.unk_04--;
-        if (g_dungeon_status.unk_04 > 0)
+        g_dungeon_status.movement_frames_left--;
+        if (g_dungeon_status.movement_frames_left > 0)
             return;
-        g_dungeon_status.unk_04 = 0;
+        g_dungeon_status.movement_frames_left = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, destination->unk_24, destination->unk_25);
         if (action->unk_9B.as_u8 >= 10) {
-            g_dungeon_status.unk_04 = 1;
+            g_dungeon_status.movement_frames_left = 1;
             action->unk_9B.as_u8++;
             return;
         }
@@ -75,7 +75,7 @@ void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, EntityRec 
         return;
     case 12:
         if (destination->flags & 0x6000) {
-            g_dungeon_status.unk_04 = 0;
+            g_dungeon_status.movement_frames_left = 0;
             if (action->unk_100 >= 0) {
                 begin_player_trap_trigger(action, motion, destination, actor);
                 return;

@@ -140,9 +140,9 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, EntityRec *motion, Spr
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
 
-        tracked_entity = ((s32)g_dungeon_status.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
         if (state->unk_A7 != 0) {
             state->unk_8C = D_80173B98;

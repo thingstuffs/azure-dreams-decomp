@@ -44,7 +44,7 @@ s32 apply_monster_location_reveal_item(EntityRec *target, s32 item, s16 action_t
         D_800E296C |= 0x400;
     }
 
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     clear_slot_and_update_linked_state(item);
     return 1;
 }

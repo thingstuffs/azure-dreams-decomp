@@ -62,7 +62,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
             effect_part->flags = source_part->flags & 0x97FF;
             colors = source_part->frameTable;
             effect_part->frameTable = colors;
-            color_index = ((g_game_work.view.viewAngle + (*((s16 *) (((u8 *) owner_work) + 0x2A)))) + 0x100) >> 9;
+            color_index = ((g_game_work.view.camera_rotation.parts.viewAngle + (*((s16 *) (((u8 *) owner_work) + 0x2A)))) + 0x100) >> 9;
             colors += color_index & 7;
             select_sprite_entry(effect_part, *colors, 0);
             effect_part->scale_y = ONE;
@@ -117,7 +117,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
         (*((u16 *) (((u8 *) action) + 0xA)))++;
         return;
     case 3:
-        if (((D_80082E80.unk_014 & 0x8000) == 0) && (((s32) (timer << 16)) >= 0)) {
+        if (((D_80082E80.sprite_flags & 0x8000) == 0) && (((s32) (timer << 16)) >= 0)) {
             return;
         }
 

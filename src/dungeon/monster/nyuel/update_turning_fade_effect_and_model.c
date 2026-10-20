@@ -140,7 +140,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
         ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
         ((Rec_D_80082E80 *)target)->unk_8A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
     case 2:
-        direction = ((s32) (g_game_work.view.viewAngle + (s16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x100)
+        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x100)
             >> 9) & 7;
         if (D_80174FCC[0] == 0 || direction != 2) {
             if (direction == 2) {
@@ -240,7 +240,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
             (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
         model = ((Rec_D_80082E80 *)target)->unk_60.as_pv;
         sprite = ((S_801749A8_6_pre *)model)[-1].unk_00;
-        select_indirect_table_entry(sprite, *(sprite->unk_2C + (((s32) (g_game_work.view.viewAngle
+        select_indirect_table_entry(sprite, *(sprite->unk_2C + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
             + (s16) ((S_801749A8_6 *)model)->unk_2A + 0x100) >> 9) & 7)), sprite->unk_04);
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
     case 8:
@@ -253,7 +253,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
             (u16) ((Rec_D_80082E80 *)target)->unk_8A;
         ((S_801749A8_0_pre *)sequence)[-1].unk_00 = (u16) (((S_801749A8_0_pre *)sequence)[-1].unk_00 | 0x8000);
         object_flag_block.flags = object_flag_block.flags | 0x8000;
-        g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((Rec_D_80082E80 *)target)->unk_6D = 0;
         return;
     }

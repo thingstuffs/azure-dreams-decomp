@@ -10,7 +10,7 @@ void start_actor_directional_animation(void *actor_state, s32 action_param, void
             ((E_8017236C_S_8017236C_1 *)actor_state)->unk_9B = 0;
             (*(s32 * *)((u8 *)sprite + 0x2C)) = &D_80174558;
             select_sprite_entry(sprite,
-                          *((((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+                          *((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                             + (u8 *)&D_80174558),
                           0);
             advance_status_timers(actor);

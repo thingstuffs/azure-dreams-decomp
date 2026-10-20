@@ -30,7 +30,7 @@ void attempt_actor_directional_action(S_8017294C_1 *action_state, s32 action_ctx
             action_state->unk_8C = 0;
             action_state->unk_9B = 0;
             ((SpriteFrameState *)sprite)->frameTable = D_801764A0;
-            select_sprite_entry(sprite, D_801764A0[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(sprite, D_801764A0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             advance_status_timers(actor);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
             action_state->unk_98 = (u16) (action_state->unk_98 | 8);

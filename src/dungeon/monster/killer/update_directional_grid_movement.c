@@ -117,9 +117,9 @@ void update_directional_grid_movement(S_80172FE4_0 *action, EntityRec *motion, S
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, entity->unk_24, entity->unk_25);
 
-        tracked_addr = ((s32)g_dungeon_status.unk_10);
+        tracked_addr = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_addr == (s32)((u8 *)source - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_addr & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_addr & 0x7FFFFFFF;
         }
         action->unk_8C = &D_80170EA8;
         return;

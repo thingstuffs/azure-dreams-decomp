@@ -136,12 +136,12 @@ void decelerate_and_center_actor_on_tile(void *action, EntityRec *motion, void *
 
         ((SpriteFrameState *)sprite)->frameTable = D_80173D0C;
         select_sprite_entry(sprite,
-            D_80173D0C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80173D0C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
-        actor_ref = ((s32)g_dungeon_status.unk_10);
+        actor_ref = ((s32)g_dungeon_status.pending_display_owner);
         if (actor_ref == (s32)((u8 *)actor - 0x20)) {
-            g_dungeon_status.unk_10 = actor_ref & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = actor_ref & 0x7FFFFFFF;
         }
         ((S_80172EF4_1 *)action)->unk_8C = D_80170E5C;
         return;

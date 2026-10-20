@@ -1,5 +1,6 @@
+#include "script_symbols.h"
 #include "modules/town_ovl_3ef1c8.h"
 
 void invoke_handler_with_code_11_fb(void) {
-    func_8001A418(0x11FB);
+    func_8001A418(Fp_far_kenkatyu);
 }

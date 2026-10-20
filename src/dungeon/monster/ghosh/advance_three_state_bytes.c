@@ -5,12 +5,12 @@
 /* Increments three state bytes while the first is below 0x80, otherwise sets flag bits. */
 s32 advance_three_state_bytes(u16 *words)
 {
-    u8 state_value = g_game_work.view.unk_090;
+    u8 state_value = g_game_work.view.tint.parts.tint_r;
 
     if (state_value < 0x80U) {
-        g_game_work.view.unk_090 = state_value + 4;
-        g_game_work.view.unk_091 += 4;
-        g_game_work.view.unk_092 += 4;
+        g_game_work.view.tint.parts.tint_r = state_value + 4;
+        g_game_work.view.tint.parts.tint_g += 4;
+        g_game_work.view.tint.parts.tint_b += 4;
         return;
     }
 

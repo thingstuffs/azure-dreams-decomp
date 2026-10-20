@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -22,16 +23,16 @@ void dispatch_state_dependent_actions_two(void)
     void *callback_arg;
     TownRoot *town_root;
 
-    if (func_80018964(0x601) != 0) {
-        func_800188E4(0x601);
+    if (func_80018964(F_sbs13_pad08) != 0) {
+        func_800188E4(F_sbs13_pad08);
     } else {
-        func_8001886C(0x601);
+        func_8001886C(F_sbs13_pad08);
     }
 
-    if (func_80018964(0x1202) != 0) {
-        func_800188E4(0x1202);
+    if (func_80018964(F_player_mizugi) != 0) {
+        func_800188E4(F_player_mizugi);
     } else {
-        func_8001886C(0x1202);
+        func_8001886C(F_player_mizugi);
     }
 
     callback_arg = &D_800190D4;

@@ -44,7 +44,7 @@ void func_8016AC24(void *entity, CL_CB9000_80170C24_S_80170C24_2 *motion, void *
 
     monster_flags = ((CL_CB9000_80170C24_S_80170C24_0 *)monster)->unk_14;
     if (!(monster_flags & 0x8000)) {
-        direction_value = g_game_work.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        direction_value = g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (direction_value >> 9) & 7;
         direction_index = direction;
         direction_copy = direction;

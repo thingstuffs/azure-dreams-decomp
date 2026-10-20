@@ -57,7 +57,7 @@ void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *spr
         ((SpriteFrameState *)sprite)->frameTable = D_801765F0;
         select_sprite_entry(
             sprite,
-            D_801765F0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_801765F0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801722BC_0 *)action)->unk_98 |= 8;
         actor->flags1C &= 0xF7FFFFFF;
@@ -109,7 +109,7 @@ void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *spr
             ((SpriteFrameState *)sprite)->frameTable = D_801765F8;
             select_sprite_entry(
                 sprite,
-                D_801765F8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_801765F8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801722BC_0 *)action)->unk_9B++;
         }
@@ -128,8 +128,8 @@ void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *spr
         advance_status_timers(actor);
 
         action_counter = &g_dungeon_status;
-        if (action_counter->unk_08 != 0) {
-            (*(u16 *)&action_counter->unk_08)--;
+        if (action_counter->activity_counts.parts.pending_movement_count != 0) {
+            (*(u16 *)&action_counter->activity_counts.parts.pending_movement_count)--;
         }
 
         actor_flags = actor->flags1C;
@@ -142,7 +142,7 @@ void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *spr
                 actor->facing =
                     get_rounded_facing_and_rounding_flag(((SpriteFrameState *)sprite)->unk_24,
                                   ((SpriteFrameState *)sprite)->unk_25,
-                                  D_80082E80.tileX, D_80082E80.tileY, &target_distance);
+                                  D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &target_distance);
             }
         }
 

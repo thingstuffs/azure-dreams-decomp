@@ -93,7 +93,7 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
         }
         ((SpriteFrameState *)sprite)->frameTable = D_80175C48;
         select_sprite_entry(sprite,
-            D_80175C48[((g_game_work.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            D_80175C48[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         func_801753DC((u8 *)jump - 0x20, (u8 *)actor + 0x2A);
         state = ((S_80173408_0 *)jump)->unk_9B.v;
@@ -131,7 +131,7 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
         }
         ((SpriteFrameState *)sprite)->frameTable = D_80175C50;
         select_sprite_entry(sprite,
-            D_80175C50[((g_game_work.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            D_80175C50[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x808);
         state = ((S_80173408_0 *)jump)->unk_9B.n;
@@ -174,7 +174,7 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
             }
             ((SpriteFrameState *)sprite)->frameTable = D_80175C58;
             select_sprite_entry(sprite,
-                D_80175C58[((g_game_work.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+                D_80175C58[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
 
             velocity_x = -*(s16 *)((u8 *)x_table +
@@ -211,7 +211,7 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         reduce_actor_food_meter(actor, 0x100);
         ((S_80173408_0 *)jump)->unk_8C = &D_80171FA4;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         ((S_80173408_4 *)actor)->unk_46 &= 0x7FFF;
     }

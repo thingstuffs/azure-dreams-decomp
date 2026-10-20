@@ -28,7 +28,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
         /* fallthrough */
 
     case 2:
-        direction = ((g_game_work.view.viewAngle + ((R08_80174648_S_80174648_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((R08_80174648_S_80174648_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         mode = ((u8 *)((void * *)D_80174D1C))[-4];
         angle = ((R08_80174648_S_80174648_1 *)actor)->unk_2A.u;
         if ((mode == 0) || (direction != 2)) {
@@ -158,7 +158,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             child_or_angle = ((R08_80174648_S_80174648_1 *)actor)->unk_60.i;
             child_sprite = ((R08_80174648_S_80174648_6_pre *)((void *)child_or_angle))[-1].unk_00;
             child_or_angle = ((R08_80174648_S_80174648_6 *)((void *)child_or_angle))->unk_2A;
-            direction = (g_game_work.view.viewAngle + child_or_angle + 0x100) >> 9;
+            direction = (g_game_work.view.camera_rotation.parts.viewAngle + child_or_angle + 0x100) >> 9;
             direction &= 7;
             select_indirect_table_entry(child_sprite, ((R08_80174648_S_80174648_11 *)(child_sprite->unk_2C + direction))->unk_00,
                 child_sprite->unk_04);
@@ -175,7 +175,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             ((R08_80174648_S_80174648_10 *)(((R08_80174648_S_80174648_1 *)actor)->unk_60.p))->unk_2A = ((R08_80174648_S_80174648_1 *)actor)->unk_8A;
             ((R08_80174648_S_80174648_0_pre *)effect_state)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= 0x8000;
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((R08_80174648_S_80174648_1 *)actor)->unk_6D = 0;
         }
         }

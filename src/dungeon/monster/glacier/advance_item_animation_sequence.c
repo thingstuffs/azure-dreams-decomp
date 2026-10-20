@@ -76,7 +76,7 @@ void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion,
         action->unk_96 = timer;
         if (((s16)timer == 4) || (animation->flags & 0x8000)) {
             animation->frameTable = D_801760CC;
-            work = g_game_work.view.viewAngle + ((S_80172F04_2 *)actor)->unk_2A + 0x100;
+            work = g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172F04_2 *)actor)->unk_2A + 0x100;
             work = ((s32)work >> 9) & 7;
             work += (u32)D_801760CC;
             select_sprite_entry(animation,

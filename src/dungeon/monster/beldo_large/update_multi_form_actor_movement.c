@@ -63,7 +63,7 @@ void update_multi_form_actor_movement(DungeonObject *object, s32 update_param, D
     }
     if (current_table != mode_table) {
         state->field_2C = mode_table;
-        select_sprite_entry(state, *(u8 *)((((s32) (g_game_work.view.viewAngle + input->field_2A + 0x100) >> 9) & 7)
+        select_sprite_entry(state, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + input->field_2A + 0x100) >> 9) & 7)
             + (u32) mode_table), 0);
     }
 

@@ -45,14 +45,14 @@ void blend_entity_toward_target_state(void *entity_data) {
             s16 half_ticks;
             s16 *table = D_800DD264;
             entity->unk10 -= entity->unk10 >> 2;
-            blend->unk_098 = entity->unk26 + (u16)entity->unk10;
-            blend->unk_0AC = (u16)blend->unk_0AC + (table[D_800120A2] - blend->unk_0AC) / entity->unk24;
-            blend->viewAngle = (u16)blend->viewAngle + (0 - blend->viewAngle) / entity->unk24;
-            blend->unk_0A4 = (u16)blend->unk_0A4 + (((Sub *)entity->unkC)->f2 - blend->unk_0A4) / entity->unk24;
-            blend->unk_0A6 = (u16)blend->unk_0A6 + (((Sub *)entity->unkC)->f6 - blend->unk_0A6) / entity->unk24;
+            blend->view_offset.parts.view_offset_z = entity->unk26 + (u16)entity->unk10;
+            blend->camera_rotation.parts.camera_rotation_x = (u16)blend->camera_rotation.parts.camera_rotation_x + (table[D_800120A2] - blend->camera_rotation.parts.camera_rotation_x) / entity->unk24;
+            blend->camera_rotation.parts.viewAngle = (u16)blend->camera_rotation.parts.viewAngle + (0 - blend->camera_rotation.parts.viewAngle) / entity->unk24;
+            blend->camera_position.parts.camera_position_x = (u16)blend->camera_position.parts.camera_position_x + (((Sub *)entity->unkC)->f2 - blend->camera_position.parts.camera_position_x) / entity->unk24;
+            blend->camera_position.parts.camera_position_y = (u16)blend->camera_position.parts.camera_position_y + (((Sub *)entity->unkC)->f6 - blend->camera_position.parts.camera_position_y) / entity->unk24;
             half_ticks = (s16)(u16)entity->unk24 / 2;
             if (half_ticks != 0) {
-                blend->unk_0A8 = (u16)blend->unk_0A8 + (((Sub *)entity->unkC)->fA - blend->unk_0A8) / half_ticks;
+                blend->camera_position.parts.camera_position_z = (u16)blend->camera_position.parts.camera_position_z + (((Sub *)entity->unkC)->fA - blend->camera_position.parts.camera_position_z) / half_ticks;
             }
             {
                 s16 ticks_left = (u16)entity->unk24 - 1;
@@ -64,14 +64,14 @@ void blend_entity_toward_target_state(void *entity_data) {
         }
         {
             s16 *table = D_800DD264;
-            blend->unk_0AC = (u16)table[D_800120A2];
+            blend->camera_rotation.parts.camera_rotation_x = (u16)table[D_800120A2];
         }
-        blend->viewAngle = 0;
-        blend->unk_098 = entity->unk26;
+        blend->camera_rotation.parts.viewAngle = 0;
+        blend->view_offset.parts.view_offset_z = entity->unk26;
         entity->unk18 += 1;
         return;
     case 1:
         select_nearby_target_and_initialize_slot((void *)(((s32)D_800E3D7C) - 0x20), ((u8 *)(&D_80083780)), 8, D_800DCE66[0]);
-        g_dungeon_status.unk_0A = g_dungeon_status.unk_0A - 1;
+        g_dungeon_status.activity_counts.parts.pending_action_count = g_dungeon_status.activity_counts.parts.pending_action_count - 1;
     }
 }

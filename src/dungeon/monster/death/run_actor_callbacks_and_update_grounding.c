@@ -104,7 +104,7 @@ void run_actor_callbacks_and_update_grounding(void *self, EntityRec *motion, voi
     initial_sprite_flags = ((SpriteFrameState *)sprite)->flags;
 
     if (!(initial_sprite_flags & 0x8000)) {
-        direction = ((g_game_work.view.viewAngle + ((S_8016B3A8_2 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016B3A8_2 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
         if ((*(s16 *)((u8 *)self + 0x94)) != direction) {
             select_indirect_table_entry(sprite,
                 *(u8 *)(*(u8 * *)&((SpriteFrameState *)sprite)->frameTable + direction),

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 D_80019BB0[3];
@@ -10,8 +11,8 @@ extern s32 func_80019A8C(void);
 s32 get_current_state_result(void) {
     D_80019BB0[0] = 0;
 
-    if ((func_800198D0(0x145B) != 0) &&
-        (func_800198D0(0x146E) == 0)) {
+    if ((func_800198D0(F_selfy_get_tamago) != 0) &&
+        (func_800198D0(Ft_niko_love) == 0)) {
         return 1;
     }
 

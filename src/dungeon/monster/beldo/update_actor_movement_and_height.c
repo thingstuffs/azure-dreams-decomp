@@ -113,7 +113,7 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, void *
     void *node;
     void *record;
 
-    if (((S_8017112C_0 *)actor)->unk_BB == 0 && g_dungeon_status.unk_0A == 0) {
+    if (((S_8017112C_0 *)actor)->unk_BB == 0 && g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
         ((S_8017112C_0 *)actor)->unk_BB = 1;
         func_800353F4(D_80173FC8);
         ((S_8017112C_0 *)actor)->unk_6D.n = 0;
@@ -170,7 +170,7 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, void *
     ((S_8017112C_4 *)motion_arg)->unk_00 += ((S_8017112C_4 *)motion_arg)->unk_0C;
     (*(s32 *)((u8 *)motion_arg + (4))) += ((S_8017112C_4 *)motion_arg)->unk_10;
 
-    view_angle = g_game_work.view.viewAngle + ((S_8017112C_0 *)actor)->unk_2A + 0x100;
+    view_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017112C_0 *)actor)->unk_2A + 0x100;
     state_direction = (view_angle >> 9) & 7;
     if ((*(s16 *)((u8 *)entity_arg + (0x94))) != state_direction) {
         select_indirect_table_entry(monster_arg,

@@ -69,8 +69,8 @@ typedef struct {
     u8 pad08[2];
     s16 field0A;
 } ovl_9c32d4_809A32D4_Output;
-#define DUNGEON_INITIAL (g_game_work.unk_000)
-#define DUNGEON_FROM_PAGE (g_game_work.unk_000)
+#define DUNGEON_INITIAL (g_game_work.draw_buffer)
+#define DUNGEON_FROM_PAGE (g_game_work.draw_buffer)
 typedef struct ovl_9c32d4_809A35A0_S_80174DA0_0 {
     u8 pad_00[0x8];
     void * unk_08;

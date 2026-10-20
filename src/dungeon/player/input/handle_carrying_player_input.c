@@ -161,7 +161,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
             u8 *table = (u8 *) &D_800DCFB0;
             ((Rec_func_8008ACDC_arg0 *)object)->unk_8C.as_pv = callback;
             call_arg->frameTable = table;
-            set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.viewAngle + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u
+            set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u
                 + 0x100) >> 9) & 7) + (u32) table), 0, 1);
         }
         return;
@@ -174,7 +174,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                     ((S_8008EAC8_1 *)entity)->unk_8A = 2;
                     D_800E4940 = 2;
                     begin_player_menu_action(object, aux_entity, sprite, &create_animated_selection_menu_owner);
-                    D_80082E80.unk_030 = 0;
+                    D_80082E80.selected_item = 0;
                     ((Rec_func_8008ACDC_arg0 *)object)->unk_C8 = 0;
                     ((Rec_func_8008ACDC_arg0 *)object)->unk_104 = 0;
                     return;
@@ -243,7 +243,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                         read_monster_script_entry(target_facing);
                         call_arg = sprite;
                         call_arg->frameTable = D_800DD0B8;
-                        set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.viewAngle
+                        set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                             + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
                         return;
                     }
@@ -401,14 +401,14 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                     }
                     call_arg = sprite;
                     call_arg->frameTable = D_800DD0B8;
-                    set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.viewAngle
+                    set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                         + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
                 }
             }
         } else {
             call_arg = sprite;
             call_arg->frameTable = D_800DD0B8;
-            set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.viewAngle + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u
+            set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u
                 + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
         }
     }

@@ -64,7 +64,7 @@ void func_8016B670(void *motion, s32 unused, void *entity, void *path_state)
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_8016EAD4;
         func_80047784(
             entity,
-            D_8016EAD4[((g_game_work.view.viewAngle + ((S_80171670_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            D_8016EAD4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171670_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80171670_2 *)motion)->unk_A0 = 0;
     }

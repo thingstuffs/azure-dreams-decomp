@@ -43,7 +43,7 @@ void advance_pulsing_effect_animation(State *state, Position *position, Motion *
         if ((has_pending_action_or_turn_count(object) << 16) != 0) {
             return;
         }
-        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) + 1;
+        g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
         state->value_b2 = 4;
         state->value_96 = 0;
         state->state_9b = state->state_9b + 1;
@@ -72,7 +72,7 @@ void advance_pulsing_effect_animation(State *state, Position *position, Motion *
         motion->pad_0d = shade;
         motion->pad_0c = shade;
         if ((s16)motion->value_1c <= 0) {
-            g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+            g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
             detach_record_and_update_slot_state(object);
             unlink_entity_node(object);
             ((u16 *)object)[-1] = ((u16 *)object)[-1] | 0x8000;

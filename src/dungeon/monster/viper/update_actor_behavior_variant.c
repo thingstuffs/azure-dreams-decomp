@@ -157,7 +157,7 @@ void update_actor_behavior_variant(ActorActionView *action, EntityRec *motion, A
         motion->unk_0C = (s32) ((s16) dir_step_x[direction_index] * 0x30000);
         motion->unk_10 = (s32) ((s16) dir_step_y[direction_index] * 0x30000);
         animation->directionFrames = &D_80162A8C;
-        select_sprite_entry(animation, (&D_80162A8C)[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(animation, (&D_80162A8C)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         previous_state = action->phase;
         action->phase = (u8) (previous_state + 1);
         return;
@@ -166,7 +166,7 @@ void update_actor_behavior_variant(ActorActionView *action, EntityRec *motion, A
             return;
         }
         animation->directionFrames = &D_80162A94;
-        select_sprite_entry(animation, (&D_80162A94)[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(animation, (&D_80162A94)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action->motionOffset.v = 0;
         action->flags = (u16) (action->flags | 8);
         motion->flags14 = 0xFFF40000;
@@ -183,7 +183,7 @@ void update_actor_behavior_variant(ActorActionView *action, EntityRec *motion, A
         motion->unk_0C = (s32) ((s32) (0 - motion->unk_0C) >> 1);
         motion->unk_10 = (s32) ((s32) (0 - motion->unk_10) >> 1);
         animation->directionFrames = D_80162AA4;
-        select_sprite_entry(animation, D_80162AA4[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(animation, D_80162AA4[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action->timer.unsignedTicks = 7;
         action->phase = (u8) (action->phase + 1);
         return;
@@ -254,7 +254,7 @@ void update_actor_behavior_variant(ActorActionView *action, EntityRec *motion, A
             return;
         }
         animation->directionFrames = D_80162AAC;
-        select_sprite_entry(animation, D_80162AAC[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(animation, D_80162AAC[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action->flags = (u16) (action->flags & 0xFFF7);
         action->phase = (u8) (action->phase + 1);
         return;
@@ -263,7 +263,7 @@ void update_actor_behavior_variant(ActorActionView *action, EntityRec *motion, A
             return;
         }
         animation->directionFrames = D_80162AAC;
-        select_sprite_entry(animation, D_80162AAC[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(animation, D_80162AAC[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         if (animation->flags & 0x8000) {
             set_record_integer_tile_center(motion, animation->position.tile.x, animation->position.tile.y);
         }
@@ -301,7 +301,7 @@ void update_actor_behavior_variant(ActorActionView *action, EntityRec *motion, A
         set_record_integer_tile_center(motion, animation->position.tile.x, animation->position.tile.y);
         reduce_actor_food_meter(actor, 0x100);
         action->nextAction.frames = D_8015EE94;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);

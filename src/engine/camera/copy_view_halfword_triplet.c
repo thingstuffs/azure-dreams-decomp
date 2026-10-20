@@ -26,7 +26,7 @@ void copy_view_halfword_triplet(InStruct *object)
 {
     SrcStruct *source = object->unk20;
 
-    g_game_work.view.unk_0A4 = source->unk2;
-    g_game_work.view.unk_0A6 = source->unk6;
-    g_game_work.view.unk_0A8 = source->unkA;
+    g_game_work.view.camera_position.parts.camera_position_x = source->unk2;
+    g_game_work.view.camera_position.parts.camera_position_y = source->unk6;
+    g_game_work.view.camera_position.parts.camera_position_z = source->unkA;
 }

@@ -15,7 +15,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
         {
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174190);
             select_sprite_entry(
-                sprite,(u8)(((u8 *)D_80174190)[((g_game_work.view.viewAngle
+                sprite,(u8)(((u8 *)D_80174190)[((g_game_work.view.camera_rotation.parts.viewAngle
                              + actor->facing + 0x100)
                             >> 9) & 7]),
                 0);
@@ -23,7 +23,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
         {
             DungeonGlobalStatus *dungeon_counters;
             dungeon_counters = &g_dungeon_status;
-            (*(u16 *)&dungeon_counters->unk_0A)--;
+            (*(u16 *)&dungeon_counters->activity_counts.parts.pending_action_count)--;
         }
         ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
         return;
@@ -39,7 +39,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
             }
             select_sprite_entry(
                 sprite,(u8)(((u8 *)((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv)
-                    [((g_game_work.view.viewAngle
+                    [((g_game_work.view.camera_rotation.parts.viewAngle
                        + actor->facing + 0x100)
                       >> 9) & 7]),
                 0);
@@ -48,7 +48,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
         if ((get_entity_effect_value(actor, 1) << 16) == 0) {
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174188);
             select_sprite_entry(
-                sprite,(u8)(((u8 *)D_80174188)[((g_game_work.view.viewAngle + actor->facing + 0x100)
+                sprite,(u8)(((u8 *)D_80174188)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                             >> 9) & 7]),
                 0);
             if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000) {
@@ -58,7 +58,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
             }
             {
                 DungeonGlobalStatus *dungeon_counters = &g_dungeon_status;
-                (*(u16 *)&dungeon_counters->unk_0A)++;
+                (*(u16 *)&dungeon_counters->activity_counts.parts.pending_action_count)++;
             }
             ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
             return;
@@ -110,7 +110,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
                     s32 room_id;
                     room_base = &D_80082E80;
                     room_id = ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_s8;
-                    if (((room_id == room_base->unk_026)
+                    if (((room_id == room_base->room_index)
                          && (room_id >= 0))
                         || (((s16)get_tile_chebyshev_distance(room_base, sprite)) < 2)) {
                         if (!(generate_random_value() & 7)) {
@@ -124,7 +124,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
 
                 (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174188);
                 select_sprite_entry(
-                    sprite,(u8)(((u8 *)D_80174188)[((g_game_work.view.viewAngle + actor->facing + 0x100)
+                    sprite,(u8)(((u8 *)D_80174188)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                                 >> 9) & 7]),
                     0);
                 if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000) {
@@ -134,7 +134,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
                 }
                 {
                     DungeonGlobalStatus *dungeon_counters = &g_dungeon_status;
-                    (*(u16 *)&dungeon_counters->unk_0A)++;
+                    (*(u16 *)&dungeon_counters->activity_counts.parts.pending_action_count)++;
                 }
                 ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
                 return;
@@ -149,12 +149,12 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
         {
             DungeonGlobalStatus *dungeon_counters;
             dungeon_counters = &g_dungeon_status;
-            (*(u16 *)&dungeon_counters->unk_0A)--;
+            (*(u16 *)&dungeon_counters->activity_counts.parts.pending_action_count)--;
         }
         actor->flags1C &= ~0x200;
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174188);
         select_sprite_entry(
-            sprite,(u8)(((u8 *)D_80174188)[((g_game_work.view.viewAngle + actor->facing + 0x100)
+            sprite,(u8)(((u8 *)D_80174188)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                         >> 9) & 7]),
             0);
         ((Rec_func_801736F4_arg0 *)controller)->unk_8C = ((void *)func_80170E54);

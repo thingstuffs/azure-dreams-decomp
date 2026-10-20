@@ -1,7 +1,7 @@
 #include "common.h"
 #include "records/Rec_func_80026CF0_arg0.h"
 void func_80026C00(void *, void *, void *);         /* extern */
-void card_boot_initialize_paired_choice_layout();                       /* extern */
+#include "frontend/libcard/interfaces.h"
 
 
 /* Store the initial value, link embedded data, and update the record. */

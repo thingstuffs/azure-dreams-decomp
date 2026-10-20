@@ -113,7 +113,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
         ((R12_80174618_P_TAG *)line_packet)->addr = ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr;
         ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr = (u32)line_packet;
 
-        draw_context = work_base->unk_000;
+        draw_context = work_base->draw_buffer;
         draw_packet = ((GpuContext *)draw_context)->packetCursor;
         ((GpuContext *)draw_context)->packetCursor = draw_packet + 0xC;
         func_80067F20(draw_packet, 0, 0, (u16)func_80066460(0, 1, 0, 0), 0);

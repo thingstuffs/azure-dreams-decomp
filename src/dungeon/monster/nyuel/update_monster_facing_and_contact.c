@@ -76,7 +76,7 @@ void update_monster_facing_and_contact(void *entity, S_80170A98_2 *motion, void 
 
     monster_flags = ((SpriteAnimationTableView *)monster)->unk_14;
     if (!(monster_flags & 0x8000)) {
-        facing_angle = g_game_work.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        facing_angle = g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (facing_angle >> 9) & 7;
         direction_index = direction;
         direction_copy = direction;

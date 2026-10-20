@@ -1082,7 +1082,7 @@ advance_phase:
         if (((B28_818B7F38_S_80025738_0 *)state)->unk_14 != 0) {
             break;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | 0x8000);
         (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
         break;

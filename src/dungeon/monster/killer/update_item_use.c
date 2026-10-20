@@ -269,7 +269,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
                 effect_sprite = actor->unk_A8;
                 effect_sprite = ((S_func_80FDD1A0_4 *)effect_sprite)->unk_0C;
                 animations = effect_sprite->unk_2C;
-                direction = ((g_game_work.view.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7;
+                direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7;
                 select_sprite_entry(effect_sprite, animations[direction], 0);
             }
             if (create_actor_spell_effect(actor_data, item_slot, use_player,
@@ -287,7 +287,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
         motion->dy = 0;
         motion->dx = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(actor_data);
         actor_data->unk_6D.u--;
@@ -327,16 +327,16 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
         *(void **)((u8 *)sprite + 0x2C) = D_80174038;
         select_sprite_entry(
             sprite,
-            D_80174038[((g_game_work.view.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7],
+            D_80174038[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7],
             0);
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         sprite->unk_14 &= 0xF7FF;
         actor->unk_8C = &D_80170EA8;
         advance_status_timers(actor_data);

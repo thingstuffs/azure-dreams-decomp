@@ -91,7 +91,7 @@ void func_8015ABCC(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CCB000_80172BC
             set_record_integer_tile_center(position, entity->unk_24,
                           entity->unk_25);
             active_actor = D_800814A8;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)active_actor + 0xA6))--;
             advance_status_timers(actor);
             actor->unk_6D--;
@@ -148,7 +148,7 @@ void func_8015ABCC(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CCB000_80172BC
         break;
 
     case 3:
-        part = (CL_CCB000_80172BCC_S_func_80C953CC_9 *)((u8 *)((s32 *)&g_dungeon_status.unk_0C) - 0x0C);
+        part = (CL_CCB000_80172BCC_S_func_80C953CC_9 *)((u8 *)((s32 *)&g_dungeon_status.active_actor) - 0x0C);
         if (part->unk_0C == 0) {
             work->unk_96 = 0;
         }
@@ -165,7 +165,7 @@ void func_8015ABCC(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CCB000_80172BC
             s32 direction;
 
             (*(void **)((u8 *)entity + 0x2C)) = D_8015D2B4;
-            direction = (g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9;
+            direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9;
             select_sprite_entry(entity, D_8015D2B4[direction & 7], 0);
         }
         if (part->unk_0C != 0) {

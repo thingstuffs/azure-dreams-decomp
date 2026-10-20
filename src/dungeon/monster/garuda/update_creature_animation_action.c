@@ -68,7 +68,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
         }
         anim_table = D_801748D8;
         *((void **) (((u8 *) sprite_arg) + 0x2C)) = anim_table;
-        select_sprite_entry(sprite_arg, ((u8 *) anim_table)[(((g_game_work.view.viewAngle + (*((s16 *) (((u8 *) creature)
+        select_sprite_entry(sprite_arg, ((u8 *) anim_table)[(((g_game_work.view.camera_rotation.parts.viewAngle + (*((s16 *) (((u8 *) creature)
             + 0x2A)))) + 0x100) >> 9) & 7], 0);
         return;
     }
@@ -107,7 +107,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
             anim_table = D_80174880;
             if (current_anim != anim_table) {
                 *((void **) (((u8 *) sprite) + 0x2C)) = anim_table;
-                select_sprite_entry(sprite, ((u8 *) anim_table)[(((g_game_work.view.viewAngle + (*((s16 *) (((u8 *) creature)
+                select_sprite_entry(sprite, ((u8 *) anim_table)[(((g_game_work.view.camera_rotation.parts.viewAngle + (*((s16 *) (((u8 *) creature)
                     + 0x2A)))) + 0x100) >> 9) & 7], 0);
                 *((u8 *) (((u8 *) sprite) + 5)) = 1;
                 *((s16 *) (((u8 *) actor) + 0xA6)) = 0;
@@ -142,7 +142,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
             update_actor_status_and_food(creature);
             return;
         }
-        if ((*((u16 *) (((u8 *) sprite) + 0x24))) == (*((u16 *) (((s8 *)&D_80082E80.tileX))))) {
+        if ((*((u16 *) (((u8 *) sprite) + 0x24))) == (*((u16 *) (((s8 *)&D_80082E80.tile_position.parts.tile_x))))) {
             func_80171848(actor, context, sprite, creature);
             return;
         }

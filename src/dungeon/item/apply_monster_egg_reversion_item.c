@@ -120,10 +120,10 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
             position->unk_0A,
             spawn_data);
 
-        spawn_type = (s32)g_dungeon_status.unk_10;
+        spawn_type = (s32)g_dungeon_status.pending_display_owner;
         if (spawn_type == (s32)((u8 *)entity - 0x20)) {
             cleared_selection = spawn_type & 0x7FFFFFFF;
-            g_dungeon_status.unk_10 = (void *)cleared_selection;
+            g_dungeon_status.pending_display_owner = (void *)cleared_selection;
         }
 
         linked_entity = detach_record_and_update_slot_state(entity);
@@ -156,7 +156,7 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
         return 1;
     }
     clear_slot_and_update_linked_state(source);
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }
 

@@ -45,9 +45,9 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
         }
 
         initial_effects = D_80174F00;
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((SpriteFrameState *)sprite)->frameTable = initial_effects;
-        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, initial_effects[direction & 7], 0);
         ((S_80173564_0 *)controller)->unk_9B++;
         return;
@@ -100,7 +100,7 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
 
         effect_table = D_80174EE0;
         ((SpriteFrameState *)sprite)->frameTable = effect_table;
-        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, effect_table[direction & 7], 0);
         actor->flags1C &= ~0x200;
         ((S_80173564_0 *)controller)->unk_8C = D_80170E9C;

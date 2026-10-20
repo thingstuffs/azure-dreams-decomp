@@ -128,7 +128,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
             update_actor_status_and_food((struct EntityRec *)(actor));
             return;
         }
-        if (dungeon_state->unk_0C != actor) {
+        if (dungeon_state->active_actor != actor) {
             return;
         }
         ((S_8016B230_1 *)actor)->unk_46 = 0xC008;
@@ -184,9 +184,9 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                 target = &D_80082E80;
                 direction = (((S_8016B230_1 *)actor)->unk_45 +
                              ((s32)(((u16)D_800814A8->facing) << 16) >> 25)) & 7;
-                target_x = target->tileX +
+                target_x = target->tile_position.parts.tile_x +
                            ((u16 *)((s8 *)dir_step_x))[direction];
-                target_y = target->tileY +
+                target_y = target->tile_position.parts.tile_y +
                            ((u16 *)((s8 *)dir_step_y))[direction];
                 if ((((S_8016B230_2 *)position)->unk_24.at00.v == (u16)target_x) &&
                     (((S_8016B230_2 *)position)->unk_24.at01.v == (u16)target_y)) {
@@ -202,7 +202,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
 
                     ((S_8016B230_1 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(
                         ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                        retry_target->tileX, retry_target->tileY,
+                        retry_target->tile_position.parts.tile_x, retry_target->tile_position.parts.tile_y,
                         movement_in + 0x98);
                 }
                 {
@@ -210,8 +210,8 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
 
                     if ((compare_monster_neighbor_values(((S_8016B230_2 *)position)->unk_24.at00.v,
                         ((S_8016B230_2 *)position)->unk_24.at01.v,
-                                       check_target->tileX,
-                                       check_target->tileY) << 16) != 0) {
+                                       check_target->tile_position.parts.tile_x,
+                                       check_target->tile_position.parts.tile_y) << 16) != 0) {
                         near_target = 1;
                     }
                 }
@@ -241,9 +241,9 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                 TileObject *target = &D_80082E80;
                 ((S_8016B230_1 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(
                     ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                    target->tileX, target->tileY, movement_in + 0x98);
+                    target->tile_position.parts.tile_x, target->tile_position.parts.tile_y, movement_in + 0x98);
                 if ((compare_monster_neighbor_values(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                                   target->tileX, target->tileY) << 16) != 0) {
+                                   target->tile_position.parts.tile_x, target->tile_position.parts.tile_y) << 16) != 0) {
                     if (get_actor_height_difference(D_800814A8, (struct EntityRec *)(actor)) < 0x81) {
                         path_result = check_diagonal_side_height(
                             ((s32)(((S_8016B230_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
@@ -309,7 +309,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
             break;
         }
         if (attempt == 0) {
-            if ((((S_8016B230_11 *)(((s8 *)&D_80082E80.tileX)))->unk_00 != ((S_8016B230_2 *)position)->unk_24.at00u.v)
+            if ((((S_8016B230_11 *)(((s8 *)&D_80082E80.tile_position.parts.tile_x)))->unk_00 != ((S_8016B230_2 *)position)->unk_24.at00u.v)
                 &&
                 ((s16)check_entity_relation((struct EntityRec *)(actor), (struct EntityRec *)(((s32)D_800814A8->unk_58) + 0x20)) != 0)) {
                 return;
@@ -328,7 +328,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
     ((S_8016B230_1 *)actor)->unk_46 &= 0x7FFF;
     ((S_8016B230_5 *)movement_in)->unk_9C.u = ((S_8016B230_2 *)position)->unk_26.u;
     ((S_8016B230_1 *)actor)->unk_6D.u--;
-    turn_state->unk_08++;
+    turn_state->activity_counts.parts.pending_movement_count++;
     if (((S_8016B230_1 *)actor)->unk_6D.s == 0) {
         ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
         return;

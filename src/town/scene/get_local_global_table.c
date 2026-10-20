@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 typedef struct {
@@ -17,7 +18,7 @@ s32 get_local_global_table(void) {
     ValueTable table;
 
     table = D_80016028;
-    return ((s32 *)&table)[func_80018868(0x990, 2)];
+    return ((s32 *)&table)[func_80018868(F_sbs34_pad16, 2)];
 }
 
 /* MECHANISM: A whole 16-byte aggregate with a volatile final word splits into

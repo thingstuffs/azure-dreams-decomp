@@ -55,8 +55,8 @@ void move_boss_effect_to_offset(s32 offset_index) {
     origin = &D_80082E80;
     offset_pair = &offset_pair[offset_index];
     offset_bytes = (u8 *)offset_pair;
-    entity->unk_24 = (u8) (origin->tileX + offset_bytes[0]);
-    entity->unk_25 = (u8) (origin->tileY + offset_bytes[1]);
+    entity->unk_24 = (u8) (origin->tile_position.parts.tile_x + offset_bytes[0]);
+    entity->unk_25 = (u8) (origin->tile_position.parts.tile_y + offset_bytes[1]);
     set_record_integer_tile_center(entity_id, entity->unk_24, entity->unk_25);
     new_x = entity->unk_24;
     new_y = entity->unk_25;

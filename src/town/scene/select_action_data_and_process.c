@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern void set_current_entry_script_flag(void);
@@ -11,7 +12,7 @@ void *select_action_data_and_process(s32 unused_1, s32 unused_2, s32 action) {
     void *result;
 
     if (action == 1) {
-        set_script_flag_bit(0xD7A);
+        set_script_flag_bit(Ftt_pad73);
         result = D_8001DCD4;
     } else if (action != 3) {
         result = D_8001DD86;

@@ -39,7 +39,7 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
         sprite->flags = (u16) (sprite->flags | 0xC);
         register_node(effect, project_sprite_chain);
         sprite->frameTable = &D_80174128;
-        select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
+        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + D_80174128), 0);
         effect_pos = ((S_80975244_1 *)effect)->unk_08;
         effect_pos->unk_02 = (u16) source_pos->unk_02;

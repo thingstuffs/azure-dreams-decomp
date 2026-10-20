@@ -227,12 +227,12 @@ loop:
             }
         }
 
-        if ((D_80082E80.unk_014 & 0x8000) || ((S_81988800_0 *)state_data)->unk_50.s < 0) {
+        if ((D_80082E80.sprite_flags & 0x8000) || ((S_81988800_0 *)state_data)->unk_50.s < 0) {
             if (((S_81988800_0 *)state_data)->unk_52.s & 0x8000) {
                 ((S_81988800_0 *)state_data)->unk_52.u &= 0x7FFF;
             } else {
-                g_dungeon_status.unk_0C = 0;
-                g_dungeon_status.unk_0A--;
+                g_dungeon_status.active_actor = 0;
+                g_dungeon_status.activity_counts.parts.pending_action_count--;
                 (*(u16 *)((u8 *)state_data + -2)) |= 0x8000;
                 object_flag_block.flags |= 0x8000;
             }
@@ -542,7 +542,7 @@ void update_effect_and_spawn_fragments(MainObject *obj)
         obj->state++;
     case 1:
         state_count = 14;
-        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.unk_008), &D_80082E80, hit, 0)) {
+        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.sprite_source), &D_80082E80, hit, 0)) {
             obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 14;
             obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 14;
             obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 14;
@@ -559,7 +559,7 @@ void update_effect_and_spawn_fragments(MainObject *obj)
             state_count = 4;
         }
         obj->angle += 2;
-        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.unk_008), &D_80082E80, hit, 0)) {
+        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.sprite_source), &D_80082E80, hit, 0)) {
             obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 15;
             obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 15;
             obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 15;

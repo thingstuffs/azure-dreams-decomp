@@ -46,7 +46,7 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_fu
             return;
         }
 
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         if (actor->unk_A7 != 0) {
             sprite->unk_2C.as_pv = D_80176360;
         } else {
@@ -55,7 +55,7 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_fu
         select_sprite_entry(
             sprite,
             ((u8 *)sprite->unk_2C.as_pv)[
-                ((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         goto increment_state;
     }
@@ -121,11 +121,11 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_fu
         select_sprite_entry(
             sprite,
             ((u8 *)sprite->unk_2C.as_pv)[
-                ((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         {
 
-            g_dungeon_status.unk_0A++;
+            g_dungeon_status.activity_counts.parts.pending_action_count++;
         }
 
 increment_state:
@@ -139,7 +139,7 @@ increment_state:
             return;
         }
 
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         entity->flags1C &= ~0x200;
         if (actor->unk_A7 != 0) {
             actor->unk_8C = D_80173B98;

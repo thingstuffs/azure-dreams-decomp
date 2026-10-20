@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/town_event_buffer.h"
 
@@ -33,7 +34,7 @@ u8 *record_check_returned(void *unused)
     seed_record = D_8001B1C0;
     *(Copy4 *)records = *(Copy4 *)seed_record;
     record_count = 1;
-    if (func_8001A510(0x7A0) != 0) {
+    if (func_8001A510(F_sbs22_pad36) != 0) {
         record_count = 2;
         optional_record = records + 4;
         optional_record[1] = 0xD;

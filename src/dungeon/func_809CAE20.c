@@ -25,14 +25,14 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
             (*(s32 *)((u8 *)action + 0xA4)) = 0;
             select_sprite_entry(sprite,
                 (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable)
-                    [((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    [((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((R03_80172620_S_80172620_0 *)action)->unk_9B = 3;
             return;
         }
         ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80173CA4);
         select_sprite_entry(sprite,
-            ((u8 *)D_80173CA4)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80173CA4)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((R03_80172620_S_80172620_0 *)action)->unk_9B++;
         return;
@@ -65,7 +65,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
                 effect_sprite->frameTable = ((u8 *)D_80173CB4);
                 effect_sprite->color.word = sprite_data;
                 select_sprite_entry(effect_sprite,
-                    ((u8 *)D_80173CB4)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    ((u8 *)D_80173CB4)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
         }
@@ -75,7 +75,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
         }
         ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80173CAC);
         select_sprite_entry(sprite,
-            ((u8 *)D_80173CAC)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80173CAC)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((R03_80172620_S_80172620_0 *)action)->unk_9B++;
         return;
@@ -86,7 +86,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
 
             ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80173CBC);
             select_sprite_entry(sprite,
-                ((u8 *)D_80173CBC)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                ((u8 *)D_80173CBC)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             active_effect = ((R03_80172620_S_80172620_0 *)action)->unk_A4.s;
             if (active_effect != 0) {
@@ -113,7 +113,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
         set_record_integer_tile_center(transform,(u8)((SpriteFrameState *)sprite)->unk_24,(u8)((SpriteFrameState *)sprite)->unk_25);
         reduce_actor_food_meter(actor, 0x180);
         ((R03_80172620_S_80172620_0 *)action)->unk_8C = ((void *)func_80170E54);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 &= 0x7FFF;

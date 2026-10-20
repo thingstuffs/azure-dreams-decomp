@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/town_event_state.h"
 #include "common.h"
 
@@ -17,7 +18,7 @@ s32 get_player_entry_value(void) {
     u8 player_index = player[4];
 
     if (D_8001791C[player_index].value == 0) {
-        func_8001E578(0x401);
+        func_8001E578(F_sbs01_pad12);
     }
 
     {

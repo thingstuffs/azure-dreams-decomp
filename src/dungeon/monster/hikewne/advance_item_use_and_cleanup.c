@@ -173,7 +173,7 @@ void advance_item_use_and_cleanup(void *action, EntityRec *motion, void *actor, 
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(item);
         (*(u8 *)((u8 *)item + 0x6D))--;
@@ -226,7 +226,7 @@ void advance_item_use_and_cleanup(void *action, EntityRec *motion, void *actor, 
         play_sound_if_enabled(0x703);
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174110;
         select_sprite_entry(actor,
-            *((u8 *)((((g_game_work.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174110)),
+            *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174110)),
             0);
         return;
 
@@ -288,7 +288,7 @@ void advance_item_use_and_cleanup(void *action, EntityRec *motion, void *actor, 
 
             (*(void * *)((u8 *)actor + 0x2C)) = model;
             select_sprite_entry(actor,
-                model[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7],
+                model[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7],
                 0);
         }
         ((S_80172A48_0 *)action)->unk_9E = 0;
@@ -298,10 +298,10 @@ void advance_item_use_and_cleanup(void *action, EntityRec *motion, void *actor, 
     case 8:
     {
 
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((S_80172A48_0 *)action)->unk_8C = D_801714D4;
         advance_status_timers(item);
         (*(u8 *)((u8 *)item + 0x73)) = 0;
@@ -354,7 +354,7 @@ void advance_item_use_and_cleanup(void *action, EntityRec *motion, void *actor, 
                     /* MATCH: the preceding eight-byte model table uses a distinct address expression in this arm. */
         (*(void * *)((u8 *)actor + 0x2C)) = (u8 *)((u32)D_80174118 - 8);
         select_sprite_entry(actor,
-            *((u8 *)((((g_game_work.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
+            *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
                 + (u32)(u8 *)((u32)D_80174118 - 8))),
             0);
         return;
@@ -408,7 +408,7 @@ void advance_item_use_and_cleanup(void *action, EntityRec *motion, void *actor, 
 
             (*(void * *)((u8 *)actor + 0x2C)) = D_80174118;
             select_sprite_entry(actor,
-                *((u8 *)((((g_game_work.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
+                *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
                     + (u32)D_80174118)),
                 0);
         }

@@ -66,7 +66,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         }
         ((SpriteFrameState *)object)->frameTable = D_80175F40;
         select_sprite_entry(object,
-            D_80175F40[((g_game_work.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80175F40[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         entity->flags14 = 0;
         entity->unk_10 = 0;
@@ -102,7 +102,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         }
         ((SpriteFrameState *)object)->frameTable = D_80175F68;
         select_sprite_entry(object,
-            D_80175F68[((g_game_work.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80175F68[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((SpriteFrameState *)object)->flags |= 0x0800;
         ((S_801735BC_0 *)state_work)->unk_9B++;
@@ -113,7 +113,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         if (flags3 & 0x8000) {
             ((SpriteFrameState *)object)->frameTable = D_80175F68;
             select_sprite_entry(object,
-                D_80175F68[((g_game_work.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_80175F68[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((SpriteFrameState *)object)->flags |= 0x0800;
             return;
@@ -123,7 +123,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         }
         ((SpriteFrameState *)object)->frameTable = D_80175F10;
         select_sprite_entry(object,
-            D_80175F10[((g_game_work.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80175F10[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801735BC_0 *)state_work)->unk_AE = 0;
         ((S_801735BC_1 *)actor)->unk_14 &= ~0x40000000;
@@ -134,7 +134,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         reduce_actor_food_meter(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
         (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &D_80170E94;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         break;
 
     case 4:
@@ -143,7 +143,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         }
         ((SpriteFrameState *)object)->frameTable = D_80175F10;
         select_sprite_entry(object,
-            D_80175F10[((g_game_work.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80175F10[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801735BC_0 *)state_work)->unk_AE = 0;
         ((S_801735BC_1 *)actor)->unk_14 &= ~0x40000000;
@@ -154,7 +154,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         reduce_actor_food_meter(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
         (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &D_80170E94;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         break;
     default:
         return;

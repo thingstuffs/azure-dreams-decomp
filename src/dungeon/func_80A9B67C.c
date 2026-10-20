@@ -21,7 +21,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
         }
         object->frameTable = ((u8 *)D_80174C84);
         select_sprite_entry(object,
-            ((u8 *)D_80174C84)[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80174C84)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -55,7 +55,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
                 if (object->frameTable != anim_table) {
                     object->frameTable = anim_table;
                     select_sprite_entry(object,
-                        anim_table[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+                        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = idle_state;
@@ -75,7 +75,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
             func_80173F20(actor, position, object, actor_data);
             object->frameTable = ((u8 *)D_80174C34);
             select_sprite_entry(object,
-                ((u8 *)D_80174C34)[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+                ((u8 *)D_80174C34)[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
                 0);
             return;
         }
@@ -95,7 +95,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
             update_actor_status_and_food(actor_data);
             return;
         }
-        if (*(u16 *)&object->unk_24 == *(u16 *)(&D_80082E80.tileX)) {
+        if (*(u16 *)&object->unk_24 == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_801717F8(actor, position, object, actor_data);
             return;
         }
@@ -137,7 +137,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
                 EntityRec *player;
                 s16 facing;
 
-                facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
                     &distance));
                 player = D_800814A8;
                 actor_data->facing = facing;
@@ -172,8 +172,8 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
 
                 if ((compare_monster_neighbor_values(
                         object->unk_24, object->unk_25,
-                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                    actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
+                    actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
                         &distance));
                 }
             }
@@ -192,7 +192,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
         (object->frameTable != ((u8 *)D_80174C34))) {
         object->frameTable = anim_table;
         select_sprite_entry(object,
-            anim_table[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+            anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800A9E70_arg0 *)actor)->unk_AA = 1;
     } else if (object->flags & 0x6000) {
@@ -209,7 +209,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
         }
         select_sprite_entry(object,
             ((u8 *)object->frameTable)[
-                ((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+                ((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
     }
 

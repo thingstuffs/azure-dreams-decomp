@@ -74,7 +74,7 @@ void advance_timed_directional_movement(void *action, void *motion, void *sprite
 
         ((SpriteFrameState *)sprite)->frameTable = D_80173874;
         select_sprite_entry(sprite,
-            D_80173874[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            D_80173874[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
 
         direction_x_table = (s16 *)((s8 *)dir_step_x);
@@ -154,9 +154,9 @@ void advance_timed_directional_movement(void *action, void *motion, void *sprite
         ((EntityRec *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
-        tracked_entity = ((s32)g_dungeon_status.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
         ((S_80172D24_1 *)action)->unk_8C = &D_80170E68;
         break;

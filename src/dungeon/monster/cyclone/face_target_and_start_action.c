@@ -72,7 +72,7 @@ void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context,
                 sprite->unk_2C = direction_frames;
                 select_sprite_entry(
                     sprite,
-                    direction_frames[((s32)(g_game_work.view.viewAngle +
+                    direction_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle +
                                     actor->facing + 0x100) >> 9) &
                              7],
                     0);

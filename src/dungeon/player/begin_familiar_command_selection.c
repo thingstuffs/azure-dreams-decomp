@@ -65,7 +65,7 @@ s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, s32 context,
                     direction_frames = D_800DCFB0;
                 }
                 display->frameTable = direction_frames;
-                set_sprite_animation_frame(display, direction_frames[((s32)(g_game_work.view.viewAngle
+                set_sprite_animation_frame(display, direction_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle
                     + ((Arg0 *)actor_heading)->field_2A + 0x100) >> 9) & 7], 0, 1);
                 actor->unk_120 = saved_mode;
                 return 1;

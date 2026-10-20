@@ -327,7 +327,7 @@ void update_directional_actor_effect(void *input, void *output)
                     void *position;
                     step *= 2;
                     step += result;
-                    result = burst_origin->tileX;
+                    result = burst_origin->tile_position.parts.tile_x;
                     step = *(s16 *)step;
                     grid_coord = result + step;
                     position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
@@ -345,7 +345,7 @@ void update_directional_actor_effect(void *input, void *output)
                     void *position;
                     step *= 2;
                     step += result;
-                    result = burst_origin->tileY;
+                    result = burst_origin->tile_position.parts.tile_y;
                     step = *(s16 *)step;
                     grid_coord = result + step;
                     position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
@@ -402,7 +402,7 @@ void update_directional_actor_effect(void *input, void *output)
                     void *position;
                     step *= 2;
                     step += result;
-                    result = debris_origin->tileX;
+                    result = debris_origin->tile_position.parts.tile_x;
                     step = *(s16 *)step;
                     grid_coord = result + step;
                     position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
@@ -420,7 +420,7 @@ void update_directional_actor_effect(void *input, void *output)
                     void *position;
                     step *= 2;
                     step += result;
-                    result = debris_origin->tileY;
+                    result = debris_origin->tile_position.parts.tile_y;
                     step = *(s16 *)step;
                     grid_coord = result + step;
                     position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
@@ -472,7 +472,7 @@ store_state:
     return;
 
     case 4:
-    if (!(D_80082E80.unk_014 & 0x8000) && ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u >= 0) {
+    if (!(D_80082E80.sprite_flags & 0x8000) && ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u >= 0) {
         return;
     }
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_52.s & 0x8000) {
@@ -482,8 +482,8 @@ store_state:
     apply_attack_power_and_element_effects(((EntityRec *)(D_800814A8))->target, 8,
                   ((S_FUNC_8197C800_BODY_0 *)input)->unk_09, 10,
                   ((EntityRec *)owner_data)->facing, owner_data, 2);
-    g_dungeon_status.unk_0C = 0;
-    g_dungeon_status.unk_0A -= 1;
+    g_dungeon_status.active_actor = 0;
+    g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
     ((S_FUNC_8197C800_BODY_0_pre *)input)[-1].unk_00 |= 0x8000;
     object_flag_block.flags |= 0x8000;
     }
@@ -579,7 +579,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
             sprite->bottom = sprite->bottom + 0x78;
             sprite->top = sprite->bottom;
         }
-        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.unk_008), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.sprite_source), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
             target->x.word += ((((s16)entry_pos[0] + D_80083780.x.w.i) - (s16)target->x.half.coord) << 14);
             target->y.word += ((((s16)entry_pos[1] + D_80083780.y.w.i) - (s16)target->y.half.coord) << 14);
             target->z.word += ((((s16)entry_pos[2] + D_80083780.z.w.i) - (s16)target->z.half.coord) << 14);
@@ -591,7 +591,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
         }
         break;
     case 1:
-        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.unk_008), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.sprite_source), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
             target->x.word += ((((s16)entry_pos[0] + D_80083780.x.w.i) - (s16)target->x.half.coord) << 15);
             target->y.word += ((((s16)entry_pos[1] + D_80083780.y.w.i) - (s16)target->y.half.coord) << 15);
             target->z.word += ((((s16)entry_pos[2] + D_80083780.z.w.i) - (s16)target->z.half.coord) << 15);

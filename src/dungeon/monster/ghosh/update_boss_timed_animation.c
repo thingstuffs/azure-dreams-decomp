@@ -56,7 +56,7 @@ void update_boss_timed_animation(void *actor, EntityRec *transform, void *animat
             (*(u8 * *)((u8 *)animation + (0x2C))) = anim_table;
             select_sprite_entry(
                 animation,
-                *(u8 *)(((((g_game_work.view.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7))
+                *(u8 *)(((((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7))
                         + (u32)anim_table),
                 0);
         }
@@ -97,7 +97,7 @@ void update_boss_timed_animation(void *actor, EntityRec *transform, void *animat
             (*(u8 * *)((u8 *)animation + (0x2C))) = D_80174A7C - 0x50;
             select_sprite_entry(
                 animation,
-                (D_80174A7C - 0x50)[((g_game_work.view.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7],
+                (D_80174A7C - 0x50)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
     }

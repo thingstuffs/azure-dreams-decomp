@@ -34,7 +34,7 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
         ((R12_80172654_S_80172654_4 *)motion)->unk_10 = (-dir_y) << 17;
         ((R12_80172654_S_80172654_4 *)motion)->unk_14 = 0;
         ((SpriteFrameState *)entity)->frameTable = ((u8 *)D_80175A4C);
-        select_sprite_entry(entity,(u8)(((u8 *)D_80175A4C)[((g_game_work.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        select_sprite_entry(entity,(u8)(((u8 *)D_80175A4C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
         next_state = ((R12_80172654_S_80172654_0 *)action)->unk_9B.u;
         timer = 8;
@@ -49,7 +49,7 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
         ((R12_80172654_S_80172654_4 *)motion)->unk_10 = 0;
         ((R12_80172654_S_80172654_4 *)motion)->unk_0C = 0;
         ((SpriteFrameState *)entity)->frameTable = ((u8 *)D_80175A8C);
-        select_sprite_entry(entity,(u8)(((u8 *)D_80175A8C)[((g_game_work.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        select_sprite_entry(entity,(u8)(((u8 *)D_80175A8C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
         next_state = ((R12_80172654_S_80172654_0 *)action)->unk_9B.u;
         next_state += 1;
@@ -105,7 +105,7 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
         if ((timer << 16) > 0)
             return;
         ((SpriteFrameState *)entity)->frameTable = ((u8 *)D_80175A4C);
-        select_sprite_entry(entity,(u8)(((u8 *)D_80175A4C)[((g_game_work.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        select_sprite_entry(entity,(u8)(((u8 *)D_80175A4C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
         ((R12_80172654_S_80172654_0 *)action)->unk_96.s = state;
         ((R12_80172654_S_80172654_0 *)action)->unk_9B.s = 0xFF;
@@ -125,7 +125,7 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
             set_record_integer_tile_center(motion,(u8)((SpriteFrameState *)entity)->unk_24,(u8)((SpriteFrameState *)entity)->unk_25);
             reduce_actor_food_meter(actor, 0x100);
             ((R12_80172654_S_80172654_0 *)action)->unk_8C = ((void *)update_actor_state_and_select_target);
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (((R12_80172654_S_80172654_1 *)actor)->unk_6D == 0) {
                 ((R12_80172654_S_80172654_1 *)actor)->unk_46 &= 0x7FFF;

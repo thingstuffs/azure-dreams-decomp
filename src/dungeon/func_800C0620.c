@@ -40,7 +40,7 @@ void advance_effect_motion_and_fade(void *effect_data, S_800C5D80_0 *motion, Spr
     if ((ticks_left << 0x10) <= 0) {
         if (((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_0E == 0) {
 
-            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         }
         ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_800C5D80_2 *)((u8 *)effect_data
             - 0x2))->unk_00 | 0x8000);

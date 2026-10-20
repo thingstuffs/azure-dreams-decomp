@@ -66,7 +66,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
         }
         sprite->frameTable = D_80174AF4;
         select_sprite_entry(sprite,
-            D_80174AF4[((g_game_work.view.viewAngle + stats->unk_2A + 0x100) >> 9) & 7],
+            D_80174AF4[((g_game_work.view.camera_rotation.parts.viewAngle + stats->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -98,7 +98,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
             ((S_80171138_0 *)actor)->unk_A0 = 0;
             sprite->frameTable = D_80174AD4;
             select_sprite_entry(sprite,
-                D_80174AD4[((g_game_work.view.viewAngle + stats->unk_2A + 0x100) >> 9) & 7],
+                D_80174AD4[((g_game_work.view.camera_rotation.parts.viewAngle + stats->unk_2A + 0x100) >> 9) & 7],
                 ((S_80171138_0 *)actor)->unk_A0);
         }
 
@@ -131,7 +131,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
             update_actor_status_and_food(stats);
             return;
         }
-        if (!(*(u16 *)&sprite->unk_24 == *(u16 *)(&D_80082E80.tileX))) {
+        if (!(*(u16 *)&sprite->unk_24 == *(u16 *)(&D_80082E80.tile_position.parts.tile_x))) {
             action_state = stats->unk_46;
             if (!(action_state & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
@@ -173,7 +173,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
 
                     facing_angle = (s16)get_rounded_facing_and_rounding_flag(
                         sprite->unk_24, sprite->unk_25,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &angle_aux);
                     player = D_800814A8;
                     stats->unk_2A = facing_angle;
@@ -218,10 +218,10 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
 
         if ((compare_monster_neighbor_values(
                 sprite->unk_24, sprite->unk_25,
-                D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
             stats->unk_2A = (s16)get_rounded_facing_and_rounding_flag(
                 sprite->unk_24, sprite->unk_25,
-                D_80082E80.tileX, D_80082E80.tileY, &angle_aux);
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &angle_aux);
         }
     }
     return;

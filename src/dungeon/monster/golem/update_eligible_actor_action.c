@@ -23,7 +23,7 @@ void update_eligible_actor_action(void *action_state, s32 action_context, void *
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
             (*(u8 **)((u8 *)sprite + 0x2C)) = &D_80175F48;
-            select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+            select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &D_80175F48), 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 4;

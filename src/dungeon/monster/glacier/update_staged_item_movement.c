@@ -123,9 +123,9 @@ void update_staged_item_movement(void *action, EntityRec *motion, void *target, 
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)target)->unk_24,
             ((SpriteFrameState *)target)->unk_25);
-        entity_addr = ((s32)g_dungeon_status.unk_10);
+        entity_addr = ((s32)g_dungeon_status.pending_display_owner);
         if (entity_addr == (s32)((u8 *)actor - 0x20)) {
-            g_dungeon_status.unk_10 = entity_addr & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = entity_addr & 0x7FFFFFFF;
         }
         ((S_80173730_0 *)action)->unk_8C = &D_801714B8;
     }

@@ -101,7 +101,7 @@ void advance_fading_directional_entity(void *anim_state, void *motion, void *spr
     }
     case 1:
         (((S_80173724_2 *)motion)->unk_14) += 0x1C000;
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
         ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
@@ -135,8 +135,8 @@ void advance_fading_directional_entity(void *anim_state, void *motion, void *spr
         if ((s16)next_brightness >= 0x18) {
             return;
         }
-        if (((s32)g_dungeon_status.unk_10) == (entity - 0x20)) {
-            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
+        if (((s32)g_dungeon_status.pending_display_owner) == (entity - 0x20)) {
+            *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         distribute_experience_and_report_gains(entity);
         detach_record_and_update_slot_state(entity);

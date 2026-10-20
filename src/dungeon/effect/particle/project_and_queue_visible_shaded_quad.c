@@ -171,19 +171,19 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
     texture = object->unk_08;
     scratch->unk_28 = object->unk_14;
 
-    packet = (S_func_81970800_5 *)((S_func_81970800_6 *)g_game_work.unk_000)->unk_8D0;
-    ((S_func_81970800_6 *)g_game_work.unk_000)->unk_8D0 = (u8 *)packet + 0xC;
+    packet = (S_func_81970800_5 *)((S_func_81970800_6 *)g_game_work.draw_buffer)->unk_8D0;
+    ((S_func_81970800_6 *)g_game_work.draw_buffer)->unk_8D0 = (u8 *)packet + 0xC;
     func_80067F20(packet, 0, 0, func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
     (*(u32 *)((u8 *)packet + 0)) = (packet->unk_00.unk_00 & 0xFF000000) |
-        (((S_func_81970800_6 *)g_game_work.unk_000)->unk_B0 & 0x00FFFFFF);
-    (*(u32 *)((u8 *)g_game_work.unk_000 + 0xB0)) =
-        (((S_func_81970800_6 *)g_game_work.unk_000)->unk_B0 & 0xFF000000) |
+        (((S_func_81970800_6 *)g_game_work.draw_buffer)->unk_B0 & 0x00FFFFFF);
+    (*(u32 *)((u8 *)g_game_work.draw_buffer + 0xB0)) =
+        (((S_func_81970800_6 *)g_game_work.draw_buffer)->unk_B0 & 0xFF000000) |
         ((u32)packet & 0x00FFFFFF);
 
     {
         S_func_81970800_6 *render_context;
 
-        render_context = (S_func_81970800_6 *)g_game_work.unk_000;
+        render_context = (S_func_81970800_6 *)g_game_work.draw_buffer;
         packet = (S_func_81970800_5 *)render_context->unk_8D0;
         render_context->unk_8D0 = (u8 *)packet + 0x24;
     }
@@ -1565,10 +1565,10 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
     {
         u16 cleanup_count;
         if (D_80025FF4 == 0) {
-            cleanup_count = ((u16)g_dungeon_status.unk_0A);
-            g_dungeon_status.unk_0C = 0;
+            cleanup_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
+            g_dungeon_status.active_actor = 0;
             D_80082E80.unk_006 = 0;
-            g_dungeon_status.unk_0A = cleanup_count - 1;
+            g_dungeon_status.activity_counts.parts.pending_action_count = cleanup_count - 1;
             ((S_8197192C_0_pre *)effect)[-1].unk_00 = ((S_8197192C_0_pre *)effect)[-1].unk_00 | 0x8000;
             object_flag_block.flags = object_flag_block.flags | 0x8000;
             return;

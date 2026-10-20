@@ -26,7 +26,7 @@ void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, Sp
     clear_player_linked_action_flags();
     if (get_entity_effect_value(actor, 0xA) == 0) {
         entity->frameTable = D_800DCFB0;
-        set_sprite_animation_frame(entity, D_800DCFB0[((s32)(g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
+        set_sprite_animation_frame(entity, D_800DCFB0[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
     }
     tile_type = lookup_definition_pair_value(entity->unk_24, entity->unk_25);
     if (tile_type == 3) {

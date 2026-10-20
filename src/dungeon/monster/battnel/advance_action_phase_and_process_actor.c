@@ -23,7 +23,7 @@ void advance_action_phase_and_process_actor(u8 *action, s32 unused, u8 *tile, u8
     phase = action[0x9B];
     switch (phase) {
     case 0:
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
         status_flags = *(s32 *)(actor + 0x14);
@@ -38,8 +38,8 @@ void advance_action_phase_and_process_actor(u8 *action, s32 unused, u8 *tile, u8
         /* fall through */
     case 1:
         if (*(u16 *)(tile + 0x14) & 0xE000) {
-            if (((s32)g_dungeon_status.unk_10) == (s32)(actor - 0x20)) {
-                *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
+            if (((s32)g_dungeon_status.pending_display_owner) == (s32)(actor - 0x20)) {
+                *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
             }
 
             distribute_experience_and_report_gains(actor);

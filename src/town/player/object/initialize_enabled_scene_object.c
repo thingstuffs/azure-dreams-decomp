@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/object_node.h"
 
@@ -41,8 +42,8 @@ void initialize_enabled_scene_object(void) {
     s32 default_z;
     s32 position_y;
 
-    if (test_resident_bitmap_bit(0xD) != 0) {
-        if (test_resident_bitmap_bit(0xE) != 0) {
+    if (test_resident_bitmap_bit(F_get_bike) != 0) {
+        if (test_resident_bitmap_bit(F_get_bike_b) != 0) {
             D_80100E24 = D_800D0D0C;
             D_80100E28 = D_800D0D30;
             D_80100E20 = 0x260000;

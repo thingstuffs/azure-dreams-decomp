@@ -22,10 +22,10 @@ void begin_wake_nearby_monsters(u8 *state_ptr, s32 value, u8 *target_ptr, u8 *an
     *(u16 *)(state_ptr + 0xA2) = flags & 0xFEFF;
     clear_player_linked_action_flags();
 
-    g_dungeon_status.unk_04 = g_dungeon_status.unk_04 * 2;
+    g_dungeon_status.movement_frames_left = g_dungeon_status.movement_frames_left * 2;
     table = &D_800DCFF0[0];
     *(u8 **)(target_ptr + 0x2C) = table;
 
-    index = ((g_game_work.view.viewAngle + *(s16 *)(angle_ptr + 0x2A) + 0x100) >> 9) & 7;
+    index = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)(angle_ptr + 0x2A) + 0x100) >> 9) & 7;
     set_sprite_animation_frame(target_ptr, table[index], 0, 1);
 }

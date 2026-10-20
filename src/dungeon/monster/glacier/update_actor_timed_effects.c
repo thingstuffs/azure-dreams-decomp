@@ -155,7 +155,7 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
 
             (((S_801714B8_2 *)sprite)->unk_2C) = state_table;
             select_sprite_entry(sprite,
-                state_table[((g_game_work.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                state_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
             return;
         }
@@ -189,7 +189,7 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
             if (((S_801714B8_2 *)sprite)->unk_2C != state_table) {
                 (((S_801714B8_2 *)sprite)->unk_2C) = state_table;
                 select_sprite_entry(sprite,
-                    state_table[((g_game_work.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    state_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
             }
             ((S_801714B8_0 *)actor)->unk_9E.s = 0;
@@ -220,7 +220,7 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
 
     if (((S_801714B8_1 *)stats)->unk_6D > 0) {
         if (!(((S_801714B8_1 *)stats)->unk_1C & 0x20)) {
-            if (((S_801714B8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+            if (((S_801714B8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
                 func_80171E80(actor, context, sprite, stats);
                 return;
             }
@@ -262,7 +262,7 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
 
                 heading = get_rounded_facing_and_rounding_flag(
                     ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY,
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                     &distance);
                 player = D_800814A8;
                 ((S_801714B8_1 *)stats)->unk_2A.s = heading;
@@ -301,10 +301,10 @@ ordinary_cleanup:
 
                 if ((s16)compare_monster_neighbor_values(
                         ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY) != 0) {
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
                     ((S_801714B8_1 *)stats)->unk_2A.s = get_rounded_facing_and_rounding_flag(
                         ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &distance);
                 }
             }
@@ -328,7 +328,7 @@ ordinary_cleanup:
             if (((S_801714B8_2 *)sprite)->unk_2C != D_801760A4) {
                 (((S_801714B8_2 *)sprite)->unk_2C) = main_table;
                 select_sprite_entry(sprite,
-                    main_table[((g_game_work.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    main_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
                 ((S_801714B8_0 *)actor)->unk_9E.s = 0;
                 ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;
@@ -347,7 +347,7 @@ ordinary_cleanup:
 
                 (((S_801714B8_2 *)sprite)->unk_2C) = alt_table;
                 select_sprite_entry(sprite,
-                    alt_table[((g_game_work.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    alt_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
                 func_800478B8(sprite);
 
@@ -389,7 +389,7 @@ ordinary_cleanup:
 
         (((S_801714B8_2 *)sprite)->unk_2C) = state_table;
         select_sprite_entry(sprite,
-            state_table[((g_game_work.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+            state_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         ((S_801714B8_0 *)actor)->unk_9E.s = 0;
         ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;

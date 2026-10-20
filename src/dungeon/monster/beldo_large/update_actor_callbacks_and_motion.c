@@ -86,7 +86,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
     s32 height_offset;
 
     if ((*(u8 *)((u8 *)owner_arg + (0xB1))) == 0 &&
-        !(D_80013714 & 1) && g_dungeon_status.unk_0A == 0) {
+        !(D_80013714 & 1) && g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
         (*(u8 *)((u8 *)owner_arg + (0xB1))) = 1;
         func_800353F4(D_80173DDC);
         (*(u8 *)((u8 *)owner_arg + (0x6D))) = 0;
@@ -148,7 +148,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
     if (!(status & 0x8000)) {
         u16 frame_status;
         u16 cleared_status;
-        state_bits = (u32)(g_game_work.view.viewAngle + ((S_80169EC0_3 *)actor)->unk_2A + 0x100);
+        state_bits = (u32)(g_game_work.view.camera_rotation.parts.viewAngle + ((S_80169EC0_3 *)actor)->unk_2A + 0x100);
         state_bits = (s32)state_bits >> 9;
         direction = state_bits & 7;
         if ((*(s16 *)((u8 *)owner_arg + (0x94))) != direction) {

@@ -26,7 +26,7 @@ void update_directional_sprite_state_and_signals(s32 controller, s32 update_arg,
             select_sprite_entry(
                 sprite,
                 D_801740E8[
-                    ((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
     } else if (direction_table == D_801740E8) {
@@ -35,7 +35,7 @@ void update_directional_sprite_state_and_signals(s32 controller, s32 update_arg,
             select_sprite_entry(
                 sprite,
                 D_801740E0[
-                    ((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
     }
@@ -49,7 +49,7 @@ void update_directional_sprite_state_and_signals(s32 controller, s32 update_arg,
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801740E0;
         select_sprite_entry(
             sprite,
-            D_801740E0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_801740E0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
     }
 }

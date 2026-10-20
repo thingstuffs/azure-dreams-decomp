@@ -61,6 +61,6 @@ s32 use_item_to_restore_eyesight(void *entity_arg, s32 amount_arg, s16 effect_ar
     }
     clear_slots_of_type(entity_arg, 3);
     clear_slot_and_update_linked_state(amount);
-    g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+    g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     return 1;
 }

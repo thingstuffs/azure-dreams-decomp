@@ -92,7 +92,7 @@ void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *d
                 (((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_A6 == 0)) {
                 ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_98.u16 |= 0x1000;
                 ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_A6++;
-                g_dungeon_status.unk_0A++;
+                g_dungeon_status.activity_counts.parts.pending_action_count++;
             } else {
                 advance_status_timers(object);
                 ((S_800AAF00_0 *)object)->unk_6D--;
@@ -153,11 +153,11 @@ void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *d
             (*(u8 * *)((u8 *)target + 0x2C)) = direction_table;
             select_sprite_entry(
                 target,
-                direction_table[((g_game_work.view.viewAngle + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
         }
         ((S_800AAF00_4 *)target)->unk_14 |= 0x800;
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 
 }

@@ -315,7 +315,7 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
     held_buttons = input->buttons;
     if (held_buttons == 0)
         return;
-    pressed_buttons = ((s32)input->unk_010);
+    pressed_buttons = ((s32)input->pressed_buttons);
     if (pressed_buttons & 0x20) {
         SD_Call(0x515, input);
         reset_menu_object_state_2(menu);
@@ -344,7 +344,7 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
     if (held_buttons & 0xF000) {
         if (pressed_buttons & 0xF000) {
             menu->unkC = 0;
-            pressed_buttons = ((s32)input->unk_010);
+            pressed_buttons = ((s32)input->pressed_buttons);
             if (pressed_buttons & 0x8000) {
                 index_step = -1;
             } else if (pressed_buttons & 0x2000) {
@@ -411,7 +411,7 @@ void handle_menu_button_input(void *menu) {
         return;
     }
 
-    buttons = ((s32)input->unk_010);
+    buttons = ((s32)input->pressed_buttons);
     if (buttons & 0x20) {
         SD_Call(0x515);
         ((ovl_1831cd8_818127A8_S_800277A8_1_pre *)menu)[-1].unk_00 = (void *)tick_menu_countdown;
@@ -442,7 +442,7 @@ void handle_menu_button_input(void *menu) {
     if (held_buttons & 0x5000) {
         if (buttons & 0x5000) {
             ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_0C = 0;
-            buttons = ((s32)input->unk_010);
+            buttons = ((s32)input->pressed_buttons);
             if (buttons & 0x1000) {
                 cursor_step = -9;
             } else if (buttons & 0x4000) {

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 typedef struct Func806D835CRoot {
@@ -18,14 +19,14 @@ s32 select_entry_event_flags(void)
     s32 selected_id;
     u8 *entry_data;
     match_count = 2;
-    func_800185C0(0x9AF);
-    func_800185C0(0x9B0);
-    func_800185C0(0x9B1);
-    func_800185C0(0x9B2);
-    func_800185C0(0x9B3);
-    func_800185C0(0x9B4);
-    func_800185C0(0x9B5);
-    func_800185C0(0x9B6);
+    func_800185C0(F_sbs35_pad04);
+    func_800185C0(F_sbs35_pad05);
+    func_800185C0(F_sbs35_pad06);
+    func_800185C0(F_sbs35_pad07);
+    func_800185C0(F_sbs35_pad08);
+    func_800185C0(F_sbs35_pad09);
+    func_800185C0(F_sbs35_pad10);
+    func_800185C0(F_sbs35_pad11);
 
     entry_index = 1;
     do {

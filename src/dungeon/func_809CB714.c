@@ -137,9 +137,9 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, En
         set_record_integer_tile_center(motion, entity->unk_24,
                       entity->unk_25);
 
-        tracked_object = ((s32)g_dungeon_status.unk_10);
+        tracked_object = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_object == (s32)((u8 *)source - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_object & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_object & 0x7FFFFFFF;
         }
         controller->unk_8C = ((void *)func_80170E54);
         return;

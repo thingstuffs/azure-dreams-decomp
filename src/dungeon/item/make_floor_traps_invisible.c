@@ -55,7 +55,7 @@ s32 make_floor_traps_invisible(EntityRec *entity, s32 event, s16 event_type, s32
         message_buf = get_unused_text_buffer();
 
         message_arg = message_buf;
-        if (D_80082E80.unk_026 >= 0) {
+        if (D_80082E80.room_index >= 0) {
             for (slot_index = 0; slot_index < 0x20; slot_index++) {
                 slot = &D_800E3648[slot_index * 4];
                 if (slot[1] != 0 && slot[0] != 0) {
@@ -72,7 +72,7 @@ s32 make_floor_traps_invisible(EntityRec *entity, s32 event, s16 event_type, s32
         }
         display_text_with_fullwidth_adjustment(message_buf);
     }
-    event_state = (u8 *)&g_dungeon_status.unk_00;
+    event_state = (u8 *)&g_dungeon_status.turn_scale;
     pending_count = (u16 *)(event_state + 0xA);
     *pending_count = *pending_count - 1;
     clear_slot_and_update_linked_state(event);

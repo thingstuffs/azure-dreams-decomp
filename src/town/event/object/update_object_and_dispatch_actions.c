@@ -49,7 +49,7 @@ void update_object_and_dispatch_actions(Obj800AD0E4 *timer_obj, Obj800AD0E4 *obj
         return;
     }
 
-    if (((u32)state->unk_010) & 0x10) {
+    if (((u32)state->pressed_buttons) & 0x10) {
         initialize_actor_action_state(timer_obj, object, action_arg);
         return;
     }

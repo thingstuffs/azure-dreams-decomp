@@ -160,7 +160,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
                 u32 post_index;
 
                 sprite->directionFrames = next_frames;
-                post_index = ((g_game_work.view.viewAngle +
+                post_index = ((g_game_work.view.camera_rotation.parts.viewAngle +
                     entity->facing.s + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite,
                     *(u8 *)((unsigned long)post_index +
@@ -198,7 +198,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
                 if (sprite->directionFrames != D_8015D258) {
                     sprite->directionFrames = D_8015D258;
                     select_sprite_entry(sprite,
-                        D_8015D258[((g_game_work.view.viewAngle + entity->facing.s + 0x100) >> 9) & 7],
+                        D_8015D258[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing.s + 0x100) >> 9) & 7],
                         0);
                 }
                 action_state->action = state;
@@ -209,7 +209,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
             switch (action_state->specialPhase.s) {
             case 0:
                 if (sprite->directionFrames != D_8015D2A0) {
-                    g_dungeon_status.unk_0A++;
+                    g_dungeon_status.activity_counts.parts.pending_action_count++;
                     action_state->savedFacing = entity->facing.u;
                     entity->facing.s =
                         (entity->moveAngle + 0x800) & 0xFFF;
@@ -226,7 +226,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
                 action_state->ticks = timer;
                 if (((s32)timer << 16) <= 0 ||
                     entity->reaction != 0) {
-                    g_dungeon_status.unk_0A--;
+                    g_dungeon_status.activity_counts.parts.pending_action_count--;
                     motion->dy = 0;
                     motion->dx = 0;
                     set_record_integer_tile_center(motion,
@@ -239,7 +239,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
                     action_state->specialPhase.u++;
                     sprite->directionFrames = D_8015D2A0;
                     select_sprite_entry(sprite,
-                        D_8015D2A0[((g_game_work.view.viewAngle + entity->facing.s + 0x100) >> 9) & 7],
+                        D_8015D2A0[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing.s + 0x100) >> 9) & 7],
                         0);
                     action_state->ticks = 0;
                     return;
@@ -347,7 +347,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
                 timer = action_state->ticks - 1;
                 action_state->ticks = timer;
                 if (((s32)timer << 16) <= 0) {
-                    g_dungeon_status.unk_0A--;
+                    g_dungeon_status.activity_counts.parts.pending_action_count--;
                     motion->dy = 0;
                     motion->dx = 0;
                     set_record_integer_tile_center(motion,
@@ -356,7 +356,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
                     entity->facing.s = action_state->savedFacing;
                     sprite->directionFrames = D_8015D258;
                     select_sprite_entry(sprite,
-                        D_8015D258[((g_game_work.view.viewAngle + entity->facing.s + 0x100) >> 9) & 7],
+                        D_8015D258[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing.s + 0x100) >> 9) & 7],
                         0);
                     action_state->specialPhase.u = 0;
                     return;
@@ -392,7 +392,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
             update_actor_status_and_food(entity);
             return;
         }
-        if (sprite->position.packed == *(u16 *)(&D_80082E80.tileX)) {
+        if (sprite->position.packed == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_80159B68(action_state, motion, sprite, entity);
             return;
         }
@@ -439,7 +439,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
 
             next_facing = get_rounded_facing_and_rounding_flag(
                 sprite->position.tile.x, sprite->position.tile.y,
-                D_80082E80.tileX, D_80082E80.tileY,
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                 &direction_aux);
             status_object = D_800814A8[0];
             entity->facing.s = next_facing;
@@ -478,10 +478,10 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
 
                     if ((compare_monster_neighbor_values(
                             sprite->position.tile.x, sprite->position.tile.y,
-                            D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
                         entity->facing.s = get_rounded_facing_and_rounding_flag(
                             sprite->position.tile.x, sprite->position.tile.y,
-                            D_80082E80.tileX, D_80082E80.tileY,
+                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                             &direction_aux);
                     }
                 }
@@ -498,7 +498,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
             u32 post_index;
 
             sprite->directionFrames = next_frames;
-            post_index = ((g_game_work.view.viewAngle +
+            post_index = ((g_game_work.view.camera_rotation.parts.viewAngle +
                 entity->facing.s + 0x100) >> 9) & 7;
             select_sprite_entry(sprite,
                 *(u8 *)((unsigned long)post_index +

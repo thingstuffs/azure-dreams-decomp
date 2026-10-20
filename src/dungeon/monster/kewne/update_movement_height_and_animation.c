@@ -93,7 +93,7 @@ void update_movement_height_and_animation(void *action, EntityRec *motion, void 
         }
         ((SpriteFrameState *)sprite)->frameTable = D_80175E58;
         select_sprite_entry(sprite,
-            D_80175E58[((g_game_work.view.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            D_80175E58[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         create_three_linked_palette_objects((u8 *)action - 0x20, (u8 *)actor + 0x2A);
         state = ((S_801728A8_0 *)action)->unk_9B.n;
@@ -122,7 +122,7 @@ void update_movement_height_and_animation(void *action, EntityRec *motion, void 
         }
         ((SpriteFrameState *)sprite)->frameTable = D_80175E60;
         select_sprite_entry(sprite,
-            D_80175E60[((g_game_work.view.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            D_80175E60[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x808);
         state = ((S_801728A8_0 *)action)->unk_9B.n;
@@ -164,7 +164,7 @@ void update_movement_height_and_animation(void *action, EntityRec *motion, void 
             }
             ((SpriteFrameState *)sprite)->frameTable = D_80175E68;
             select_sprite_entry(sprite,
-                D_80175E68[((g_game_work.view.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+                D_80175E68[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
 
             velocity_x = -*(s16 *)((u8 *)directions_x +
@@ -201,7 +201,7 @@ void update_movement_height_and_animation(void *action, EntityRec *motion, void 
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         reduce_actor_food_meter(actor, 0x100);
         ((S_801728A8_0 *)action)->unk_8C = &D_801710EC;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)actor + (0x46))) &= 0x7FFF;
         ((S_801728A8_0 *)action)->unk_98 &= 0xFFF7;
         advance_status_timers(actor);

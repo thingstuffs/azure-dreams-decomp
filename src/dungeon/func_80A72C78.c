@@ -25,7 +25,7 @@ void advance_target_hop(void *action, void *motion, void *sprite, void *actor)
         ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80174160);
         select_sprite_entry(
             sprite,
-            ((u8 *)D_80174160)[((g_game_work.view.viewAngle + ((R07_80172478_S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)D_80174160)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R07_80172478_S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((R07_80172478_S_80172478_0 *)action)->unk_98 |= 8;
         ((R07_80172478_S_80172478_2 *)actor)->unk_1C.s &= 0xF7FFFFFF;
@@ -80,7 +80,7 @@ void advance_target_hop(void *action, void *motion, void *sprite, void *actor)
             ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80174168);
             select_sprite_entry(
                 sprite,
-                ((u8 *)D_80174168)[((g_game_work.view.viewAngle + ((R07_80172478_S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                ((u8 *)D_80174168)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R07_80172478_S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
 
             ((R07_80172478_S_80172478_0 *)action)->unk_9B++;
@@ -101,8 +101,8 @@ void advance_target_hop(void *action, void *motion, void *sprite, void *actor)
     advance_status_timers(actor);
 
     global_base = &g_dungeon_status;
-    if (global_base->unk_08 != 0) {
-        (*(u16 *)&global_base->unk_08)--;
+    if (global_base->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&global_base->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = ((R07_80172478_S_80172478_2 *)actor)->unk_1C.u;
@@ -112,7 +112,7 @@ void advance_target_hop(void *action, void *motion, void *sprite, void *actor)
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            ((R07_80172478_S_80172478_2 *)actor)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite)->unk_24,(s16)((SpriteFrameState *)sprite)->unk_25,(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+            ((R07_80172478_S_80172478_2 *)actor)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite)->unk_24,(s16)((SpriteFrameState *)sprite)->unk_25,(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
                 &direction_aux));
         }
     }

@@ -184,7 +184,7 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
             }
 
             spawn_kind = 4;
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             used_page = 0x80080000;
             removal_flags = *(u16 *)((u8 *)motion - 2);
             flags = ((S_80174CCC_0 *)motion)->unk_38.s;
@@ -242,7 +242,7 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
                 owner->unk_12 = ((S_80174CCC_0 *)motion)->unk_3A;
                 select_sprite_entry(owner,
                     owner->unk_2C.u
-                        [((g_game_work.view.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
+                        [((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
                     0);
                 retain_spawn_resource(0x1E, 1);
             }

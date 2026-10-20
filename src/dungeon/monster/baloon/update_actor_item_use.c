@@ -162,7 +162,7 @@ void update_actor_item_use(void *action, EntityRec *motion, void *sprite, void *
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
             advance_status_timers(actor);
             (*(u8 *)((u8 *)actor + 0x6D))--;
@@ -215,7 +215,7 @@ void update_actor_item_use(void *action, EntityRec *motion, void *sprite, void *
         stage++;
         ((S_80173B08_0 *)action)->unk_9B = stage;
         ((SpriteFrameState *)sprite)->frameTable = D_800E2398;
-        select_sprite_entry(sprite, D_800E2398[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, D_800E2398[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
         return;
 
     case 4:
@@ -241,7 +241,7 @@ void update_actor_item_use(void *action, EntityRec *motion, void *sprite, void *
         return;
 
     case 5:
-        if (((s32)g_dungeon_status.unk_0C) == 0) {
+        if (((s32)g_dungeon_status.active_actor) == 0) {
             ((S_80173B08_0 *)action)->unk_96.u = 0;
         }
         if (((S_80173B08_0 *)action)->unk_96.s >= 10) {
@@ -283,7 +283,7 @@ void update_actor_item_use(void *action, EntityRec *motion, void *sprite, void *
         ((S_80173B08_0 *)action)->unk_9B = stage;
         ((S_80173B08_0 *)action)->unk_98 = state;
         ((SpriteFrameState *)sprite)->frameTable = D_800E2388;
-        select_sprite_entry(sprite, D_800E2388[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, D_800E2388[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
         return;
 
     case 6:
@@ -305,7 +305,7 @@ void update_actor_item_use(void *action, EntityRec *motion, void *sprite, void *
             ((SpriteFrameState *)sprite)->frameTable = D_800E2348;
             select_sprite_entry(
                 sprite,
-                D_800E2348[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+                D_800E2348[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
                 0);
             ((S_80173B08_0 *)action)->unk_9E = 0;
             ((S_80173B08_0 *)action)->unk_98 |= 8;
@@ -315,10 +315,10 @@ void update_actor_item_use(void *action, EntityRec *motion, void *sprite, void *
         }
         {
 
-            if (((s32)g_dungeon_status.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((S_80173B08_0 *)action)->unk_8C = &D_80171F1C;
             advance_status_timers(actor);
         }

@@ -211,26 +211,26 @@ void render_map_cell_mesh(void) {
     view = &scene->view;
     map = &scene->map;
     cells = map->cells;
-    vertices = map->unk_08;
-    normals = map->unk_0C;
+    vertices = map->vertices;
+    normals = map->surface_planes;
     if (!(render_flags & 2)) {
         s32 column_mask;
         s32 row_mask;
         s32 max_height;
 
-        coord = sample_terrain_surface_height((u16)view->unk_0A4, (u16)view->unk_0A6,
-            (s16) (view->unk_0A8 - 0x20));
+        coord = sample_terrain_surface_height((u16)view->camera_position.parts.camera_position_x, (u16)view->camera_position.parts.camera_position_y,
+            (s16) (view->camera_position.parts.camera_position_z - 0x20));
         if (coord < 0x201) {
             view_scratch->view_height = coord;
         } else {
             view_scratch->view_height = 0;
         }
-        func_80064D50(&view->unk_058);
-        func_80064624(view->unk_084, view->unk_088);
-        func_80064D20(&view->unk_038);
+        func_80064D50(&view->color_matrix_00);
+        func_80064624(view->fog_far, view->projection_distance);
+        func_80064D20(&view->light_matrix_00);
         scratch = view_scratch;
         view_depth = scratch->view_height;
-        scene->view.unk_006 = 0x1BA;
+        scene->view.clip_height = 0x1BA;
         build_screen_outline(view, (void *)view_corners, view_depth);
         packet = (u8 *)view;
         reset_page = (u8 *)0x800E0000;
@@ -238,30 +238,30 @@ void render_map_cell_mesh(void) {
             corner_0_x = view_corners[0];
             corner_0_y = view_corners[1];
             corner_0_z = view_corners[2];
-            corner_1_x = (u16)view->unk_010;
-            corner_1_y = (u16)view->unk_012;
-            corner_1_z = (u16)view->unk_014;
-            corner_2_x = (u16)view->unk_018;
-            corner_2_y = (u16)view->unk_01A;
-            corner_2_z = (u16)view->unk_01C;
-            corner_3_x = (u16)view->unk_020;
-            corner_3_y = (u16)view->unk_022;
-            corner_3_z = (u16)view->unk_024;
+            corner_1_x = (u16)view->outline_1_x;
+            corner_1_y = (u16)view->outline_1_y;
+            corner_1_z = (u16)view->outline_1_z;
+            corner_2_x = (u16)view->outline_2_x;
+            corner_2_y = (u16)view->outline_2_y;
+            corner_2_z = (u16)view->outline_2_z;
+            corner_3_x = (u16)view->outline_3_x;
+            corner_3_y = (u16)view->outline_3_y;
+            corner_3_z = (u16)view->outline_3_z;
             reset_page[-0x30A8] = 0;
-            view->unk_008 = corner_0_x;
-            view->unk_028 = corner_0_x;
-            view->unk_00A = corner_0_y;
-            view->unk_00C = corner_0_z;
-            view->unk_02C = corner_0_z;
-            view->unk_010 = corner_1_x;
-            view->unk_012 = corner_1_y;
-            view->unk_014 = corner_1_z;
-            view->unk_018 = corner_2_x;
-            view->unk_01A = corner_2_y;
-            view->unk_01C = corner_2_z;
-            view->unk_020 = corner_3_x;
-            view->unk_022 = corner_3_y;
-            view->unk_024 = corner_3_z;
+            view->outline_0_x = corner_0_x;
+            view->outline_4_x = corner_0_x;
+            view->outline_0_y = corner_0_y;
+            view->outline_0_z = corner_0_z;
+            view->outline_4_z = corner_0_z;
+            view->outline_1_x = corner_1_x;
+            view->outline_1_y = corner_1_y;
+            view->outline_1_z = corner_1_z;
+            view->outline_2_x = corner_2_x;
+            view->outline_2_y = corner_2_y;
+            view->outline_2_z = corner_2_z;
+            view->outline_3_x = corner_3_x;
+            view->outline_3_y = corner_3_y;
+            view->outline_3_z = corner_3_z;
         } else {
             {
                 s32 blended_coord;
@@ -270,95 +270,95 @@ void render_map_cell_mesh(void) {
                 s32 old_coord;
 
                 coord_delta = (s16)view_corners[0];
-                blended_coord = view->unk_008;
+                blended_coord = view->outline_0_x;
                 next_delta = (s16)view_corners[1];
-                old_coord = view->unk_00A;
+                old_coord = view->outline_0_y;
                 coord_delta -= blended_coord;
                 coord_delta >>= 1;
                 next_delta -= old_coord;
                 next_delta >>= 1;
-                blended_coord = (u16)view->unk_008;
-                old_coord = view->unk_00C;
+                blended_coord = (u16)view->outline_0_x;
+                old_coord = view->outline_0_z;
                 blended_coord += coord_delta;
-                view->unk_008 = blended_coord;
-                blended_coord = (u16)view->unk_00A;
+                view->outline_0_x = blended_coord;
+                blended_coord = (u16)view->outline_0_y;
                 coord_delta = (s16)view_corners[2];
                 blended_coord += next_delta;
                 coord_delta -= old_coord;
                 coord_delta >>= 1;
-                view->unk_00A = blended_coord;
-                blended_coord = (u16)view->unk_00C;
+                view->outline_0_y = blended_coord;
+                blended_coord = (u16)view->outline_0_z;
                 next_delta = (s16)view_corners[4];
-                old_coord = view->unk_010;
+                old_coord = view->outline_1_x;
                 blended_coord += coord_delta;
                 next_delta -= old_coord;
                 next_delta >>= 1;
-                view->unk_00C = blended_coord;
-                blended_coord = (u16)view->unk_010;
+                view->outline_0_z = blended_coord;
+                blended_coord = (u16)view->outline_1_x;
                 coord_delta = (s16)view_corners[5];
-                old_coord = view->unk_012;
+                old_coord = view->outline_1_y;
                 blended_coord += next_delta;
                 coord_delta -= old_coord;
                 coord_delta >>= 1;
-                view->unk_010 = blended_coord;
-                blended_coord = (u16)view->unk_012;
+                view->outline_1_x = blended_coord;
+                blended_coord = (u16)view->outline_1_y;
                 next_delta = (s16)view_corners[6];
-                old_coord = view->unk_014;
+                old_coord = view->outline_1_z;
                 blended_coord += coord_delta;
                 next_delta -= old_coord;
                 next_delta >>= 1;
-                view->unk_012 = blended_coord;
-                blended_coord = (u16)view->unk_014;
+                view->outline_1_y = blended_coord;
+                blended_coord = (u16)view->outline_1_z;
                 coord_delta = (s16)view_corners[8];
-                old_coord = view->unk_018;
+                old_coord = view->outline_2_x;
                 blended_coord += next_delta;
                 coord_delta -= old_coord;
                 coord_delta >>= 1;
-                view->unk_014 = blended_coord;
-                blended_coord = (u16)view->unk_018;
+                view->outline_1_z = blended_coord;
+                blended_coord = (u16)view->outline_2_x;
                 next_delta = (s16)view_corners[9];
                 blended_coord += coord_delta;
-                old_coord = view->unk_01A;
+                old_coord = view->outline_2_y;
                 next_delta -= old_coord;
                 next_delta >>= 1;
-                view->unk_018 = blended_coord;
-                blended_coord = (u16)view->unk_01A;
+                view->outline_2_x = blended_coord;
+                blended_coord = (u16)view->outline_2_y;
                 coord_delta = (s16)view_corners[10];
                 blended_coord += next_delta;
-                view->unk_01A = blended_coord;
-                old_coord = view->unk_01C;
+                view->outline_2_y = blended_coord;
+                old_coord = view->outline_2_z;
                 coord_delta -= old_coord;
-                blended_coord = (u16)view->unk_01C;
+                blended_coord = (u16)view->outline_2_z;
                 coord_delta >>= 1;
                 blended_coord += coord_delta;
-                view->unk_01C = blended_coord;
+                view->outline_2_z = blended_coord;
                 coord_delta = (s16)view_corners[12];
-                blended_coord = view->unk_020;
+                blended_coord = view->outline_3_x;
                 next_delta = (s16)view_corners[13];
-                old_coord = view->unk_022;
-                loop_tmp = (u16)view->unk_00C;
+                old_coord = view->outline_3_y;
+                loop_tmp = (u16)view->outline_0_z;
                 coord_delta -= blended_coord;
                 coord_delta >>= 1;
                 next_delta -= old_coord;
-                blended_coord = (u16)view->unk_020;
-                old_coord = view->unk_024;
+                blended_coord = (u16)view->outline_3_x;
+                old_coord = view->outline_3_z;
                 blended_coord += coord_delta;
-                view->unk_020 = blended_coord;
-                blended_coord = (u16)view->unk_022;
+                view->outline_3_x = blended_coord;
+                blended_coord = (u16)view->outline_3_y;
                 coord_delta = (s16)view_corners[14];
                 next_delta >>= 1;
-                view->unk_02C = loop_tmp;
+                view->outline_4_z = loop_tmp;
                 blended_coord += next_delta;
                 coord_delta -= old_coord;
                 coord_delta >>= 1;
-                view->unk_022 = blended_coord;
-                blended_coord = (u16)view->unk_024;
-                next_delta = (u16)view->unk_008;
-                old_coord = (u16)view->unk_00A;
+                view->outline_3_y = blended_coord;
+                blended_coord = (u16)view->outline_3_z;
+                next_delta = (u16)view->outline_0_x;
+                old_coord = (u16)view->outline_0_y;
                 blended_coord += coord_delta;
-                view->unk_024 = blended_coord;
-                view->unk_028 = next_delta;
-                view->unk_02A = old_coord;
+                view->outline_3_z = blended_coord;
+                view->outline_4_x = next_delta;
+                view->outline_4_y = old_coord;
             }
         }
         {
@@ -378,10 +378,10 @@ void render_map_cell_mesh(void) {
 
             render_input = packet + 8;
             coord_offset = (void *)((u32)scratch | 0x01C);
-            base_color = *(s32 *)&((GameView *)packet)->unk_090;
+            base_color = *(s32 *)&((GameView *)packet)->tint.parts.tint_r;
             edge_count = (void *)((u32)scratch | 0x174);
             scratch->color = base_color;
-            ordering_table = scene->unk_000;
+            ordering_table = scene->draw_buffer;
             width_shift = map->shiftX;
             height_shift = map->shiftY;
             max_column = map->maskX;
@@ -405,7 +405,7 @@ void render_map_cell_mesh(void) {
             scratch->row_mask = max_row;
             scratch->overlay_color = flat_color;
             scratch->draw_mode = draw_mode;
-            render_buffer = scene->unk_000;
+            render_buffer = scene->draw_buffer;
             scratch->map_height = map_height;
             packet = ((GpuContext *)render_buffer)->packetCursor;
             render_buffer += 0xAF3A;
@@ -512,7 +512,7 @@ next_edge_step:
                         packet_code = packet + 7;
                         if (cell->index != 0) {
                             scratch->cell_height.word = cell->offset;
-                            face = ((CellFace **)map->unk_04)[cells[scratch->cell_index].index];
+                            face = ((CellFace **)map->cell_faces)[cells[scratch->cell_index].index];
 next_face:
                             {
                                 s32 vertex_value;
@@ -832,7 +832,7 @@ next_face:
                             }
 check_packet_end:
                             if ((u32) scratch->packet_end < (u32) packet) {
-                                ((GpuContext *)scene->unk_000)->packetCursor = packet;
+                                ((GpuContext *)scene->draw_buffer)->packetCursor = packet;
                                 return;
                             }
                         }
@@ -859,6 +859,6 @@ check_packet_end:
             }
             } while (scratch->active_edges != 0);
         }
-        ((GpuContext *)scene->unk_000)->packetCursor = packet;
+        ((GpuContext *)scene->draw_buffer)->packetCursor = packet;
     }
 }

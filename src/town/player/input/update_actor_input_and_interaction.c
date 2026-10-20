@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/town_action_flag.h"
 #include "shared/position_query.h"
 #include "shared/game_work.h"
@@ -80,7 +81,7 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
             initialize_action_object_with_counter(action_state, actor, context);
             return;
         }
-        if (test_resident_bitmap_bit(0xA4) != 0) {
+        if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
             func_80094088(action_state, actor, context);
             return;
         }

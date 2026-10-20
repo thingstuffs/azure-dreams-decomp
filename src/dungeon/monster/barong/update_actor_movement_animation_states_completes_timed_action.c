@@ -64,7 +64,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
         state_anims = D_80157574;
         ((SpriteFrameState *)sprite)->frameTable = state_anims;
         select_sprite_entry(sprite,
-            state_anims[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            state_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((SpriteFrameState *)sprite)->scale_y = 0x1000;
         ((S_80154B4C_0 *)action)->unk_98 |= 8;
@@ -121,7 +121,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
             state_anims = D_8015757C;
             ((SpriteFrameState *)sprite)->frameTable = state_anims;
             select_sprite_entry(sprite,
-                state_anims[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                state_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((SpriteFrameState *)sprite)->scale_y = 0xC00;
             ((S_80154B4C_0 *)action)->unk_9B++;
@@ -133,7 +133,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
         if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != idle_anims) {
             ((SpriteFrameState *)sprite)->frameTable = idle_anims;
             select_sprite_entry(sprite,
-                idle_anims[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                idle_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((SpriteFrameState *)sprite)->scale_y = 0x1000;
         }
@@ -157,8 +157,8 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
     advance_status_timers(actor);
 
     dungeon_state = &g_dungeon_status;
-    if (dungeon_state->unk_08 != 0) {
-        (*(u16 *)&dungeon_state->unk_08)--;
+    if (dungeon_state->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&dungeon_state->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = actor->flags1C;
@@ -171,8 +171,8 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
             actor->facing = get_rounded_facing_and_rounding_flag(
                 ((SpriteFrameState *)sprite)->unk_24,
                 ((SpriteFrameState *)sprite)->unk_25,
-                D_80082E80.tileX,
-                D_80082E80.tileY,
+                D_80082E80.tile_position.parts.tile_x,
+                D_80082E80.tile_position.parts.tile_y,
                 &facing_aux);
         }
     }

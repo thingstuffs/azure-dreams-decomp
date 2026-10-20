@@ -14,7 +14,7 @@ void initialize_angle_indexed_target(void *state, s32 unused, SpriteFrameState *
     ((Rec_func_801724B0_arg0 *)state)->unk_9A = 0x10;
     ((Rec_func_801724B0_arg0 *)state)->unk_9B = 0;
     target->frameTable = &D_800E2360;
-    select_sprite_entry(target, *((((s32) (g_game_work.view.viewAngle + angleSource->facing + 0x100) >> 9) & 7) + &D_800E2360),
+    select_sprite_entry(target, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + angleSource->facing + 0x100) >> 9) & 7) + &D_800E2360),
         0);
     ((Rec_func_801724B0_arg0 *)state)->unk_AA = 0;
 }

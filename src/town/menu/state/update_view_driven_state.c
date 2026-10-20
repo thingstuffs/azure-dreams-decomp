@@ -25,11 +25,11 @@ extern void allocate_randomized_effect_object(State *);
 /* Updates state from global values and triggers a refresh every 15 calls. */
 void update_view_driven_state(State *state) {
 
-    state->field_8 = (func_80064584(g_game_work.view.viewAngle) + 0x1000) / 2;
-    state->field_0 = -func_80064584(g_game_work.view.viewAngle) / 24;
+    state->field_8 = (func_80064584(g_game_work.view.camera_rotation.parts.viewAngle) + 0x1000) / 2;
+    state->field_0 = -func_80064584(g_game_work.view.camera_rotation.parts.viewAngle) / 24;
     state->field_2 = func_80065F90(state->field_0, 160);
-    state->field_4 = ((u16)g_game_work.view.unk_0A4);
-    state->field_6 = ((u16)g_game_work.view.unk_0A6);
+    state->field_4 = ((u16)g_game_work.view.camera_position.parts.camera_position_x);
+    state->field_6 = ((u16)g_game_work.view.camera_position.parts.camera_position_y);
 
     if (--state->field_C <= 0) {
         state->field_C = 15;

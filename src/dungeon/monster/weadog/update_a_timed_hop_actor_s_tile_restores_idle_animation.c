@@ -69,7 +69,7 @@ void update_a_timed_hop_actor_s_tile_restores_idle_animation(void *action, void 
         ((SpriteFrameState *)sprite)->frameTable = D_80150ED0;
         select_sprite_entry(
             sprite,
-            D_80150ED0[((g_game_work.view.viewAngle + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80150ED0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_8014F0E0_0 *)action)->unk_98 |= 8;
         ((S_8014F0E0_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
@@ -117,7 +117,7 @@ void update_a_timed_hop_actor_s_tile_restores_idle_animation(void *action, void 
             ((SpriteFrameState *)sprite)->frameTable = D_80150ED8;
             select_sprite_entry(
                 sprite,
-                D_80150ED8[((g_game_work.view.viewAngle + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_80150ED8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_8014F0E0_0 *)action)->unk_9B++;
         }
@@ -129,7 +129,7 @@ void update_a_timed_hop_actor_s_tile_restores_idle_animation(void *action, void 
             ((SpriteFrameState *)sprite)->frameTable = idle_anims;
             select_sprite_entry(
                 sprite,
-                idle_anims[((g_game_work.view.viewAngle + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                idle_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -150,8 +150,8 @@ void update_a_timed_hop_actor_s_tile_restores_idle_animation(void *action, void 
     reduce_actor_food_meter(actor, 4);
     advance_status_timers(actor);
 
-    if (g_dungeon_status.unk_08 != 0) {
-        g_dungeon_status.unk_08--;
+    if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
+        g_dungeon_status.activity_counts.parts.pending_movement_count--;
     }
 
     actor_flags = ((S_8014F0E0_1 *)actor)->unk_1C.u;
@@ -163,7 +163,7 @@ void update_a_timed_hop_actor_s_tile_restores_idle_animation(void *action, void 
         if (actor_flags & 0x20000) {
             ((S_8014F0E0_1 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
                 ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
-                D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &facing_aux);
         }
     }
 

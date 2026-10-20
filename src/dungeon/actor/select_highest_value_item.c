@@ -27,7 +27,7 @@ s16 select_highest_value_item(s32 records_addr, s32 item_kind)
     best_score = -4;
     best_value = 0;
     count = 0;
-    tripled_index = g_dungeon_status.unk_1E;
+    tripled_index = g_dungeon_status.turn_counter;
     table_or_result = (s32)D_8006DE24;
     index = tripled_index & 3;
     do {

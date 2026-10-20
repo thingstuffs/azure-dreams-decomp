@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -12,7 +13,7 @@ void select_event_table_entry(s32 forwarded_first, s32 unused, s32 forwarded_las
 {
     s32 entry_index;
 
-    if (func_80018D6C(0xFCB) != 0) {
+    if (func_80018D6C(F_cheriru_first_cheriru) != 0) {
         entry_index = 8;
     } else {
         entry_index = ((*(s32 (**)(s32))((s8 *)*(void **)((s8 *)*(void **)((s8 *)(&D_80016000)) + 0x20)

@@ -171,7 +171,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
             S_8002520C_6 *cell;
             input_angle = resolve_player_input_facing(((u16) appearance->unk_1A >> 9) & 7,
                 ((EntityRec *)(((u8 *)(&D_800E3D7C))))->x.v + 0xA2, 0) & 0xFFFF;
-            if ((input_angle != 0xFFF) && (((s32)state_base->unk_010) & 0xF000)) {
+            if ((input_angle != 0xFFF) && (((s32)state_base->pressed_buttons) & 0xF000)) {
                 s32 step_or_cell;
                 s32 side_index;
                 u16 *x_step_ptr;
@@ -258,7 +258,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
                     cell->unk_25 = (u8) target_y;
                 }
             }
-            if (((s32)state_base->unk_010) & 0x40) {
+            if (((s32)state_base->pressed_buttons) & 0x40) {
                 s16 direction;
 
                 play_sound_if_enabled(0x503);
@@ -327,10 +327,10 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
                 ((S_8002520C_25 *)(((S_8002520C_24 *)(((((S_8002520C_0 *)menu)->unk_26 * 4)
                     + menu)))->unk_0C))->unk_B6 = 1;
             }
-            if (((s32)state_base->unk_010) & 8) {
+            if (((s32)state_base->pressed_buttons) & 8) {
                 ((S_8002520C_0 *)menu)->unk_20 = (u16) (((S_8002520C_0 *)menu)->unk_20 - 0x200);
             }
-            if (((s32)state_base->unk_010) & 4) {
+            if (((s32)state_base->pressed_buttons) & 4) {
                 ((S_8002520C_0 *)menu)->unk_20 = (u16) (((S_8002520C_0 *)menu)->unk_20 + 0x200);
             }
         }
@@ -472,8 +472,8 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
         ((S_80025A14_2 *)obj_arg)->unk_0E = 0;
         ((S_80025A14_2 *)obj_arg)->unk_0D = 0;
         ((S_80025A14_2 *)obj_arg)->unk_0C = 0;
-        ((S_80025A14_2 *)obj_arg)->unk_28 = D_80082E80.unk_028;
-        ((S_80025A14_2 *)obj_arg)->unk_14 = D_80082E80.unk_014 & 0xFFFC;
+        ((S_80025A14_2 *)obj_arg)->unk_28 = D_80082E80.render_attributes;
+        ((S_80025A14_2 *)obj_arg)->unk_14 = D_80082E80.sprite_flags & 0xFFFC;
         ((S_80025A14_2 *)obj_arg)->unk_2C = D_800DD008;
         ((S_80025A14_2 *)obj_arg)->unk_14 |= 0x200;
         ((S_80025A14_0 *)state)->unk_73.s = 8;
@@ -665,8 +665,8 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
     }
     motion->unk_9D = 0;
     appearance = ((S_80025C94_7_pre *)(object->unk_58))[-1].unk_00;
-    saved_render_value = ((u16)render_context->view.viewAngle);
-    render_context->view.viewAngle = (u16) appearance->unk_1A;
+    saved_render_value = ((u16)render_context->view.camera_rotation.parts.viewAngle);
+    render_context->view.camera_rotation.parts.viewAngle = (u16) appearance->unk_1A;
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFBF);
     position->unk_00.at02.v = (u16) (position->unk_00.at02.v + 0x100);
     position->unk_04.at02.v = (u16) (position->unk_04.at02.v + 0x100);
@@ -679,7 +679,7 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
     object->unk_5C(motion, position, sprite, motion);
     position->unk_00.at02.v = (u16) (position->unk_00.at02.v - 0x100);
     position->unk_04.at02.v = (u16) (position->unk_04.at02.v - 0x100);
-    render_context->view.viewAngle = saved_render_value;
+    render_context->view.camera_rotation.parts.viewAngle = saved_render_value;
     object->unk_88 = 0;
     red = appearance->unk_0C;
     if (object->unk_6A != ((S_80025C94_7 *)(object->unk_58))->unk_26) {
@@ -1318,8 +1318,8 @@ void set_negated_coordinate_scratch(s32 call_value, s32 call_option, s16 call_mo
     GameWork *g = &g_game_work;
 
     scratch[0x104 / 2] = 0;
-    scratch[0x100 / 2] = -((u16)g->view.unk_0AC);
-    scratch[0x102 / 2] = -((u16)g->view.unk_0AE);
+    scratch[0x100 / 2] = -((u16)g->view.camera_rotation.parts.camera_rotation_x);
+    scratch[0x102 / 2] = -((u16)g->view.camera_rotation.parts.camera_rotation_y);
     render_projected_sprite_with_depth_bias(call_value, call_option, call_mode, call_extra);
 }
 

@@ -69,9 +69,9 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
     work->limit = min_height;
     work->index = cell_x;
     tables = &g_game_work.map;
-    vertices = ((Vertex *)tables->unk_08);
+    vertices = ((Vertex *)tables->vertices);
     cells = ((Cell *)tables->cells);
-    normals = ((Vertex *)tables->unk_0C);
+    normals = ((Vertex *)tables->surface_planes);
     if (cell_x < 0) {
         work->index = 0;
         cell_y = y & 0xFFFF;
@@ -97,7 +97,7 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
 
         if (cell->first != 0) {
             work->offset = -cell->value;
-            primitive = ((Primitive **)tables->unk_04)[
+            primitive = ((Primitive **)tables->cell_faces)[
                 cells[(s16)*(u16 *)&work->index].first];
             while (normals[primitive->next].z < -2047) {
                 if (!(primitive->flags & 1)) {

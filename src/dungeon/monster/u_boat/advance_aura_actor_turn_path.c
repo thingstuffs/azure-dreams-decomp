@@ -82,7 +82,7 @@ void advance_aura_actor_turn_path(void *actor, s32 actor_slot, void *entity_arg,
             (((S_80172144_2 *)entity)->unk_2C != D_800E23E0)) {
             ((S_80172144_2 *)entity)->unk_2C = D_800E23E0;
             select_sprite_entry(entity,
-                D_800E23E0[((g_game_work.view.viewAngle + ((S_80172144_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+                D_800E23E0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172144_0 *)state)->unk_2A + 0x100) >> 9) & 7],
                 0);
             if (((S_80172144_1 *)actor)->unk_B0 == 0) {
                 create_owner_linked_directional_object(actor, actor_slot, entity);

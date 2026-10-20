@@ -55,7 +55,7 @@ s32 func_80165F74(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, Sprite
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         sprite->frameTable = D_80168AD4;
-        func_80047784(sprite, (D_80168AD4)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, (D_80168AD4)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->unk_6D--;
         func_8009C93C(actor, sprite, actor->facing, 1, 0);
         return 1;

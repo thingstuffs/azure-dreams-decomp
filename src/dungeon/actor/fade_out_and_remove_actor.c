@@ -75,8 +75,8 @@ void fade_out_and_remove_actor(void *actor_data, s32 unused, void *visual, void 
         return;
     }
 
-    if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)actor - 0x20)) {
-        *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
+    if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)actor - 0x20)) {
+        *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
     }
     detach_record_and_update_slot_state(actor);
     actor_status = ((S_800ACBE4_2 *)actor)->unk_1C;

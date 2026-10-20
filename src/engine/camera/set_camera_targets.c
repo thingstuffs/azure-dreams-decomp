@@ -14,7 +14,7 @@ void set_camera_targets(void *target_position, void *target_rotation, s32 transi
     s32 angle_delta;
     s32 within_half_turn;
     if (target_position != 0) {
-        func_8004D1EC(&state->slot[0].unk_04, target_position, transition_param, &state->unk_0A4);
+        func_8004D1EC(&state->slot[0].unk_04, target_position, transition_param, &state->camera_position.parts.camera_position_x);
     }
     if (target_rotation != 0) {
         s32 current_angle_wide_m;
@@ -26,14 +26,14 @@ void set_camera_targets(void *target_position, void *target_rotation, s32 transi
             target_angle = angle_bits & 0x7FF;
         }
         *((s16 *) (((u8 *) target_rotation) + 0)) = target_angle;
-        angle_bits = *((u16 *) (&state->unk_0AC));
+        angle_bits = *((u16 *) (&state->camera_rotation.parts.camera_rotation_x));
         if (angle_bits & 0x800) {
             current_angle = angle_bits | 0xF800;
         }
         else {
             current_angle = angle_bits & 0x7FF;
         }
-        state->unk_0AC = current_angle;
+        state->camera_rotation.parts.camera_rotation_x = current_angle;
         {
             current_angle_wide_m = (u32)current_angle << 16;
             current_angle_wide_m >>= 16;
@@ -56,14 +56,14 @@ void set_camera_targets(void *target_position, void *target_rotation, s32 transi
             target_angle = angle_bits & 0x7FF;
         }
         *((s16 *) (((u8 *) target_rotation) + 2)) = target_angle;
-        angle_bits = *((u16 *) (&state->unk_0AE));
+        angle_bits = *((u16 *) (&state->camera_rotation.parts.camera_rotation_y));
         if (angle_bits & 0x800) {
             current_angle = angle_bits | 0xF800;
         }
         else {
             current_angle = angle_bits & 0x7FF;
         }
-        state->unk_0AE = current_angle;
+        state->camera_rotation.parts.camera_rotation_y = current_angle;
         {
             current_angle_wide_m = (u32)current_angle << 16;
             current_angle_wide_m >>= 16;
@@ -86,14 +86,14 @@ void set_camera_targets(void *target_position, void *target_rotation, s32 transi
             target_angle = angle_bits & 0x7FF;
         }
         *((s16 *) (((u8 *) target_rotation) + 4)) = target_angle;
-        angle_bits = *((u16 *) (&state->viewAngle));
+        angle_bits = *((u16 *) (&state->camera_rotation.parts.viewAngle));
         if (angle_bits & 0x800) {
             current_angle = angle_bits | 0xF800;
         }
         else {
             current_angle = angle_bits & 0x7FF;
         }
-        state->viewAngle = current_angle;
+        state->camera_rotation.parts.viewAngle = current_angle;
         {
             current_angle_wide_m = (u32)current_angle << 16;
             current_angle_wide_m >>= 16;
@@ -108,6 +108,6 @@ void set_camera_targets(void *target_position, void *target_rotation, s32 transi
         if (!within_half_turn) {
             *((s16 *) (((u8 *) target_rotation) + 4)) = (current_angle & 0xF000) | (angle_bits & 0xFFF);
         }
-        func_8004D1EC(&state->slot[2].unk_04, target_rotation, transition_param, &state->unk_0AC);
+        func_8004D1EC(&state->slot[2].unk_04, target_rotation, transition_param, &state->camera_rotation.parts.camera_rotation_x);
     }
 }

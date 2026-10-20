@@ -41,7 +41,7 @@ s32 build_settings_sprite_tiles(void *node_data, void *scroll_state)
     void *next_node;
     GpuContext *ctx;
 
-    ctx_ptr = (CtxHolder *)&g_game_work.unk_000;
+    ctx_ptr = (CtxHolder *)&g_game_work.draw_buffer;
 
     do {
         layer_offset = 2;

@@ -86,9 +86,9 @@ void update_directional_actor_effect(void *object)
         map_data = (u8 *)D_800E3D7C;
         direction_offset = (((u16)map_data->facing) >> 8) & 0xE;
         flag_nearby_seven_by_seven_tiles(
-            (s16)(D_80082E80.tileX +
+            (s16)(D_80082E80.tile_position.parts.tile_x +
                   (dir_step_x[direction_offset >> 1] * 4)),
-            (s16)(D_80082E80.tileY +
+            (s16)(D_80082E80.tile_position.parts.tile_y +
                   (dir_step_y[direction_offset >> 1] * 4)));
         ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
                         /* fallthrough */
@@ -125,8 +125,8 @@ void update_directional_actor_effect(void *object)
 
     case 4:
         if ((s16)D_80027330 == 0) {
-            g_dungeon_status.unk_0C = 0;
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.active_actor = 0;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
             object_flag_block.flags |= 0x8000;
         }
@@ -1275,12 +1275,12 @@ void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
     cell_index += ((u16)world_y >> 6) << map_data->shiftX;
     (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
     map_entry = (u8 *)((long)cell_index * 6 + (unsigned long)*(u8 **)((u8 *)(&g_game_work.map)));
-    vertices = ((u8 *)map_data->unk_08);
-    planes = ((u8 *)map_data->unk_0C);
+    vertices = ((u8 *)map_data->vertices);
+    planes = ((u8 *)map_data->surface_planes);
     best_polygon = 0;
     if (((S_81960530_2 *)map_entry)->unk_00 != 0) {
         ((S_81960530_0 *)scratch)->unk_152.s = -((S_81960530_2 *)map_entry)->unk_02;
-        best_polygon = (*(u8 * *)((u8 *)(((u8 **)map_data->unk_04)) + ((S_81960530_2 *)map_entry)->unk_00 * 4));
+        best_polygon = (*(u8 * *)((u8 *)(((u8 **)map_data->cell_faces)) + ((S_81960530_2 *)map_entry)->unk_00 * 4));
         polygon = best_polygon;
         if (((S_81960530_8 *)(planes + ((S_81960530_3 *)best_polygon)->unk_10 * 8))->unk_04 < -0x7FF) {
             do {
@@ -1364,13 +1364,13 @@ void func_80026064(void *draw_data, s32 draw_mode)
     void *draw_context;
     void *end_context;
 
-    draw_context = g_game_work.unk_000;
+    draw_context = g_game_work.draw_buffer;
     draw_contexts = ((void * *)(&g_game_work));
     buffer_shift = draw_context != (void *)D_801C9E40;
     start_packet = *(s32 *)((u8 *)draw_context + 0x8D0);
     ordering_table = (u8 *)draw_context + 0x8B0;
     *(s32 *)((u8 *)draw_context + 0x8D0) = start_packet + 0xC;
-    func_80067E2C(start_packet, g_game_work.unk_000, draw_context);
+    func_80067E2C(start_packet, g_game_work.draw_buffer, draw_context);
     {
         void *packet_table;
         s32 packet_addr;
@@ -1431,7 +1431,7 @@ static __inline__ u16 translate_x(s32 x, u16 offset) { x -= 0xA0; return offset 
 
 /* Builds and submits a shaded textured quad at the requested screen position. */
 void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth) {
-    Root *root = g_game_work.unk_000;
+    Root *root = g_game_work.draw_buffer;
     Record *record;
     Record *quad_packet;
     Input *quad_input = quad_data;
@@ -1451,7 +1451,7 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
     globals = &g_game_work;
     scratch = (Bank56_8196096C_Scratch *)0x1F800000;
     scratch->value = draw_depth;
-    vertex_table = ((struct TableEntry *)globals->map.unk_08);
+    vertex_table = ((struct TableEntry *)globals->map.vertices);
     func_800649A0();
     rotation = (void *)0x1F800028;
     matrix = (void *)0x1F800050;
@@ -1539,7 +1539,7 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
     func_8006658C(scratch->value, record);
     func_80064A40();
     record = (Record *)((u8 *)record + 0x28);
-    ((Root *)globals->unk_000)->record = record;
+    ((Root *)globals->draw_buffer)->record = record;
 }
 #include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
@@ -1924,7 +1924,7 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
         position.x = ((u16)D_80083780.x.w.i);
         position.y = ((u16)D_80083780.y.w.i);
         position.z = ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_88.u16_value - 0x50;
-        transform_offset = ((g_game_work.view.viewAngle + ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
+        transform_offset = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
         resolve_record_orientation_or_fallback(((S_func_819615E4_3 *)((s32)transform_offset + (s32)D_800E3D18))->unk_00, ((u8 *)(&D_80082E80)),
                       &position_offset, 0);
         position.x += position_offset.x;
@@ -2017,7 +2017,7 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
         TileObject *table;
 
         table = &D_80082E80;
-        resolve_record_orientation_or_fallback(((void *)table->unk_008), table, &position, 0);
+        resolve_record_orientation_or_fallback(((void *)table->sprite_source), table, &position, 0);
         phase_value = state->phase - 1;
         state->phase = phase_value;
         if ((s16)phase_value > 0) {
@@ -2025,9 +2025,9 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
         }
         direction_offset = ((((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.u16_value >> 8) & 0xE);
         func_80025334(
-            (s16)(((table->tileX +
+            (s16)(((table->tile_position.parts.tile_x +
                     (((S_func_819615E4_5 *)((u8 *)((s8 *)dir_step_x) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
-            (s16)(((table->tileY +
+            (s16)(((table->tile_position.parts.tile_y +
                     (((S_func_819615E4_6 *)((u8 *)((s8 *)dir_step_y) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
             ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_88.s16_value);
         *(u16 *)((u8 *)state - 2) |= 0x8000;

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -34,7 +35,7 @@ s32 run_three_teardown_passes(s32 kind, s32 value)
         ->unk_2F8(0xE, 0x200);
         result = 0;
     } else {
-        func_8001A554(0x931);
+        func_8001A554(F_sbs32_pad07);
         result = 1;
     }
 

@@ -29,7 +29,7 @@ void select_state_16_directional_animation(void *entity, void *unused, void *ani
         if (current_page != page) {
             entity = animation;
             (*(u8 * *)((u8 *)entity + 0x2C)) = page;
-            set_sprite_animation_frame(entity, *(u8 *)((((g_game_work.view.viewAngle + state->facing + 0x100) >> 9) & 7) + (u32)page),
+            set_sprite_animation_frame(entity, *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7) + (u32)page),
                 0, 1);
         }
     }

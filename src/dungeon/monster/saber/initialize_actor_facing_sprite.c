@@ -19,7 +19,7 @@ void initialize_actor_facing_sprite(void *actor_state, void *action_state, Sprit
     ((Rec_func_80171CD4_arg0 *)actor_state)->unk_9A.as_s8 = 0x10;
     ((Rec_func_80171CD4_arg0 *)actor_state)->unk_9B = 0;
     sprite->frameTable = &D_80174E04;
-    select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + ((S_80172688_1 *)orientation)->unk_2A + 0x100)
+    select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172688_1 *)orientation)->unk_2A + 0x100)
         >> 9) & 7) + &D_80174E04), 0);
     ((Rec_func_80171CD4_arg0 *)actor_state)->unk_90 = 0;
     ((Rec_func_80171CD4_arg1 *)action_state)->unk_14 = 0;

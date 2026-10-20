@@ -37,9 +37,9 @@ s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, Entit
 
     eligible = 0;
     if (D_800E296C & 0x100000) {
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
-            if (((s32)g_dungeon_status.unk_0C) == record) {
-                if (g_dungeon_status.unk_0A == 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
+            if (((s32)g_dungeon_status.active_actor) == record) {
+                if (g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
                     if (!(g_dungeon_status.flags & 8)) {
                         select_nearby_target_and_initialize_slot((void *)(buffer_addr - 0x20), source, 8, 0x300);
                         raise_entity_level(record, 1);
@@ -59,7 +59,7 @@ s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, Entit
                         if ((can_entity_gain_level(record) << 0x10) != 0) {
                             return 0;
                         }
-                        ((Rec_D_80083460 *)(&g_dungeon_status.unk_00))->unk_0C = 0;
+                        ((Rec_D_80083460 *)(&g_dungeon_status.turn_scale))->unk_0C = 0;
                     } else {
                         return 0;
                     }

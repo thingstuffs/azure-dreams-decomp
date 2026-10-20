@@ -84,7 +84,7 @@ void advance_directional_lift_effect(void *action_record, void *motion_data, voi
             break;
         }
         ((SpriteFrameState *)status_record)->frameTable = D_80174090;
-        index = (g_game_work.view.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
+        index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
         select_sprite_entry(status_record, D_80174090[index & 7], 0);
         ((S_80173C20_0 *)action_record)->unk_90 = 0;
         ((S_80173C20_0 *)action_record)->unk_98 |= 8;
@@ -99,7 +99,7 @@ void advance_directional_lift_effect(void *action_record, void *motion_data, voi
             break;
         }
         ((SpriteFrameState *)status_record)->frameTable = D_80174098;
-        index = (g_game_work.view.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
+        index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
         select_sprite_entry(status_record, D_80174098[index & 7], 0);
         ((S_80173C20_0 *)action_record)->unk_96 = 8;
         ((S_80173C20_0 *)action_record)->unk_98 &= 0xFFF7;
@@ -115,7 +115,7 @@ void advance_directional_lift_effect(void *action_record, void *motion_data, voi
             break;
         }
         ((SpriteFrameState *)status_record)->frameTable = D_801740A0;
-        index = (g_game_work.view.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
+        index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
         select_sprite_entry(status_record, D_801740A0[index & 7], 0);
 
         ((S_80173C20_0 *)action_record)->unk_9B++;
@@ -126,7 +126,7 @@ void advance_directional_lift_effect(void *action_record, void *motion_data, voi
             ((S_80173C20_3 *)motion_data)->unk_0C = 0;
             reduce_actor_food_meter(entity_data, 0x1000);
             ((S_80173C20_0 *)action_record)->unk_8C = &D_80170EA8;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(entity_data);
 
             if (((S_80173C20_0 *)action_record)->unk_98 & 0x4000) {

@@ -105,7 +105,7 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
             break;
         }
         if (((S_807AE960_3 *)global)->unk_2090 == 1) {
-            g_dungeon_status.unk_0A = 1;
+            g_dungeon_status.activity_counts.parts.pending_action_count = 1;
         }
         if (((S_807AE960_1 *)state)->unk_04.s > 0) {
             break;
@@ -117,7 +117,7 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
                 break;
             }
             if (((S_807AE960_3 *)global)->unk_2090 == cd_mode) {
-                g_dungeon_status.unk_0A = 0;
+                g_dungeon_status.activity_counts.parts.pending_action_count = 0;
             }
         }
         ((S_807AE960_2 *)target)->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
@@ -156,7 +156,7 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
     if (((S_807AE960_1 *)state)->unk_00.u != 0) {
         return;
     }
-    if ((u8) D_80082E80.tileY >= 0x3DU) {
+    if ((u8) D_80082E80.tile_position.parts.tile_y >= 0x3DU) {
         return;
     }
     if (((S_807AE960_1 *)state)->unk_0A == (s16) ((S_807AE960_1 *)state)->unk_02) {

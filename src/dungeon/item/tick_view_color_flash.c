@@ -21,14 +21,14 @@ void tick_view_color_flash(void *fade)
 
     color_state = &g_game_work.view;
     if (((S_800C4C00_0 *)fade)->unk_04.s == 0) {
-        color_state->unk_090 +=
-            (((S_800C4C00_0 *)fade)->unk_00 - color_state->unk_090) /
+        color_state->tint.parts.tint_r +=
+            (((S_800C4C00_0 *)fade)->unk_00 - color_state->tint.parts.tint_r) /
             ((S_800C4C00_0 *)fade)->unk_06.s;
-        color_state->unk_091 +=
-            (((S_800C4C00_0 *)fade)->unk_01 - color_state->unk_091) /
+        color_state->tint.parts.tint_g +=
+            (((S_800C4C00_0 *)fade)->unk_01 - color_state->tint.parts.tint_g) /
             ((S_800C4C00_0 *)fade)->unk_06.s;
-        color_state->unk_092 +=
-            (((S_800C4C00_0 *)fade)->unk_02 - color_state->unk_092) /
+        color_state->tint.parts.tint_b +=
+            (((S_800C4C00_0 *)fade)->unk_02 - color_state->tint.parts.tint_b) /
             ((S_800C4C00_0 *)fade)->unk_06.s;
         frames_left = ((S_800C4C00_0 *)fade)->unk_06.u - 1;
         ((S_800C4C00_0 *)fade)->unk_06.u = frames_left;
@@ -37,22 +37,22 @@ void tick_view_color_flash(void *fade)
             ((S_800C4C00_0 *)fade)->unk_04.u++;
         }
     } else {
-        color_state->unk_090 +=
-            (0x80 - color_state->unk_090) /
+        color_state->tint.parts.tint_r +=
+            (0x80 - color_state->tint.parts.tint_r) /
             ((S_800C4C00_0 *)fade)->unk_06.s;
-        color_state->unk_091 +=
-            (0x80 - color_state->unk_091) /
+        color_state->tint.parts.tint_g +=
+            (0x80 - color_state->tint.parts.tint_g) /
             ((S_800C4C00_0 *)fade)->unk_06.s;
-        color_state->unk_092 +=
-            (0x80 - color_state->unk_092) /
+        color_state->tint.parts.tint_b +=
+            (0x80 - color_state->tint.parts.tint_b) /
             ((S_800C4C00_0 *)fade)->unk_06.s;
         frames_left = ((S_800C4C00_0 *)fade)->unk_06.u - 1;
         ((S_800C4C00_0 *)fade)->unk_06.u = frames_left;
         if ((s16)frames_left <= 0) {
-            color_state->unk_090 = 0x80;
-            color_state->unk_091 = 0x80;
-            color_state->unk_092 = 0x80;
-            g_dungeon_status.unk_0A--;
+            color_state->tint.parts.tint_r = 0x80;
+            color_state->tint.parts.tint_g = 0x80;
+            color_state->tint.parts.tint_b = 0x80;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
             object_flag_block.flags |= 0x8000;
         }

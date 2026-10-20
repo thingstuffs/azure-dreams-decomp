@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern void *func_80018044(void *, void *, void *, s32);
@@ -14,7 +15,7 @@ void *get_scene_result_or_fallback(void *entry, s32 unused, s32 result_arg) {
         return func_80018044(D_80018B10, &D_80018E38, entry, result_arg);
     }
 
-    if (func_8001894C(0x50F) != 0) {
+    if (func_8001894C(F_sbs07_pad24) != 0) {
         return D_8001BE29;
     }
 

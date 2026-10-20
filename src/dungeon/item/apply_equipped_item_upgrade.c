@@ -62,7 +62,7 @@ s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 
             apply_item_effect_at_entity_position(target_addr, item);
             return 1;
         }
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         clear_slot_and_update_linked_state(item);
         return 1;
     }
@@ -113,7 +113,7 @@ s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 
     } else {
         display_formatted_context_message(D_800E11D7, effect_value, effect_type);
     }
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     clear_slot_and_update_linked_state(item);
     return 1;
 }

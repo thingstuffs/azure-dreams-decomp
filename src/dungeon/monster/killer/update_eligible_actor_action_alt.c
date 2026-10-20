@@ -38,7 +38,7 @@ void update_eligible_actor_action_alt(void *action_state, s32 context, void *spr
             ((EntityRec *)actor)->unk_85 = 8;
         }
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_80174038;
-        select_sprite_entry(sprite, D_80174038[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        select_sprite_entry(sprite, D_80174038[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
         prepare_directional_attack(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);

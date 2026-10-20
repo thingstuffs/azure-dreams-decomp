@@ -74,13 +74,13 @@ void create_boss_directional_animation(void) {
         model = ((S_80173F6C_1 *)object)->unk_08;
         model->unk_0A = (u16) ((S_80173F6C_5 *)((*(void * *)&((EntityRec *)((u8 *)(&D_80083498)))->z)))->unk_0A;
         sprite = ((S_80173F6C_1 *)object)->unk_0C;
-        sprite->unk_24 = (u8) (D_80082E80.tileX + 9);
-        sprite->unk_25 = (u8) (D_80082E80.tileY - 9);
+        sprite->unk_24 = (u8) (D_80082E80.tile_position.parts.tile_x + 9);
+        sprite->unk_25 = (u8) (D_80082E80.tile_position.parts.tile_y - 9);
         sprite->frameTable = D_80174C84;
         initialize_actor_sprite_and_animation(object, model, sprite, 0);
         object_state->unk_B6 = 1;
         object_state->unk_2A = 0x800;
-        select_sprite_entry(sprite, (*(u8 * *)&sprite->frameTable)[((s32) (g_game_work.view.viewAngle + 0x900) >> 9) & 7], 0);
+        select_sprite_entry(sprite, (*(u8 * *)&sprite->frameTable)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + 0x900) >> 9) & 7], 0);
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         update_map_cell_flags_with_item_limit(sprite->unk_24, sprite->unk_25,

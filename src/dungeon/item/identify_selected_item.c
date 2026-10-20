@@ -58,7 +58,7 @@ s32 identify_selected_item(EntityRec *entity, s32 action_id, s16 action_type, s3
         }
     } else {
         message_pos = get_unused_text_buffer();
-        entity_state = ((s32 *)(&D_80082E80.unk_030));
+        entity_state = ((s32 *)(&D_80082E80.selected_item));
         saved_message_pos = message_pos;
         message_pos = expand_text_control_codes(D_800E11F5, append_typed_formatted_value(((S_800BF074_1 *)entity_state)->unk_04, message_pos));
         ((S_800BF074_2 *)(((S_800BF074_1 *)entity_state)->unk_04))->unk_03 &= 0x7F;
@@ -67,7 +67,7 @@ s32 identify_selected_item(EntityRec *entity, s32 action_id, s16 action_type, s3
         display_text_with_fullwidth_adjustment(saved_message_pos);
     }
 
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     clear_slot_and_update_linked_state(action_id);
     return 1;
 }

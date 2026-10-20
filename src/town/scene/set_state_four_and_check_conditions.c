@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 func_800198D0();
@@ -15,8 +16,8 @@ s32 set_state_four_and_check_conditions(void) {
     s32 ret;
 
     D_80019BB0.value = 4;
-    if (func_800198D0(0x3FE) != 0) {
-        result = func_800198D0(0x3FF);
+    if (func_800198D0(F_sbs01_pad09) != 0) {
+        result = func_800198D0(F_sbs01_pad10);
         ret = 0;
         if (result == 0) {
             return ret;

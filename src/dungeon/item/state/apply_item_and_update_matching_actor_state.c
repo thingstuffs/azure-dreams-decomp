@@ -87,7 +87,7 @@ s32 apply_item_and_update_matching_actor_state(void *entity, s32 action_id, s16 
         display_formatted_context_message(D_800E0F85);
         play_sound_if_enabled(0x506);
     }
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }
 

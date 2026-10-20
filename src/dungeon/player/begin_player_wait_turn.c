@@ -53,7 +53,7 @@ void begin_player_wait_turn(void *state, s32 mode, void *sprite, EntityRec *enti
         {
             u8 *direction_entry;
 
-            initial_state = ((s32)(g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+            initial_state = ((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
             direction_entry = direction_table + initial_state;
             set_sprite_animation_frame(sprite, *direction_entry, 0, 1);
         }

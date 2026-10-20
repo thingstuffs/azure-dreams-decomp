@@ -64,7 +64,7 @@ void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *a
         phase_anims = D_80175574;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = phase_anims;
         select_sprite_entry(sprite,
-            phase_anims[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            phase_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
         ((S_80172B4C_0 *)action)->unk_98 |= 8;
@@ -121,7 +121,7 @@ void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *a
             phase_anims = D_8017557C;
             (*(u8 * *)((u8 *)sprite + 0x2C)) = phase_anims;
             select_sprite_entry(sprite,
-                phase_anims[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                phase_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0xC00;
             ((S_80172B4C_0 *)action)->unk_9B++;
@@ -133,7 +133,7 @@ void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *a
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != idle_anims) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = idle_anims;
             select_sprite_entry(sprite,
-                idle_anims[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                idle_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
         }
@@ -155,8 +155,8 @@ void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *a
     advance_status_timers(actor);
 
     action_globals = &g_dungeon_status;
-    if (action_globals->unk_08 != 0) {
-        (*(u16 *)&action_globals->unk_08)--;
+    if (action_globals->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&action_globals->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = ((EntityRec *)actor)->flags1C;
@@ -170,8 +170,8 @@ void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *a
                 ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
                     ((Rec_D_80082E80 *)sprite)->unk_24,
                     ((Rec_D_80082E80 *)sprite)->unk_25,
-                    D_80082E80.tileX,
-                    D_80082E80.tileY,
+                    D_80082E80.tile_position.parts.tile_x,
+                    D_80082E80.tile_position.parts.tile_y,
                     &facing_aux);
             }
         }

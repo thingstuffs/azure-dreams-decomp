@@ -22,7 +22,7 @@ void draw_shaded_quad_ring(s32 shape, s32 source)
     angle_sum = 0;
     scratch = (u32 *)0x1F800000;
     D_80100E30 = D_800D0E48[find_target_byte_index_in_list()];
-    scratch[0x24 / 4] = (s32)g_game_work.unk_000 + 0xB0;
+    scratch[0x24 / 4] = (s32)g_game_work.draw_buffer + 0xB0;
     update_projected_effect_points(scratch, 0, source, shape);
     saved_color = scratch[0x118 / 4] = scratch[0x114 / 4];
     saved_inner_xy = scratch[0xF0 / 4] = scratch[0xE8 / 4];

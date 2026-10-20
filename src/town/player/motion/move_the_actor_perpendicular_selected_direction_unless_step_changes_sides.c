@@ -35,7 +35,7 @@ void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(A
     IntVector3 *position_ptr;
     IntVector3 *call_result;
 
-    direction_index = input_angle_with_offset(g_game_work.buttons, g_game_work.view.viewAngle);
+    direction_index = input_angle_with_offset(g_game_work.buttons, g_game_work.view.camera_rotation.parts.viewAngle);
     if (direction_index == -1) {
         return;
     }

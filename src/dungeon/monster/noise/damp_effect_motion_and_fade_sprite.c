@@ -93,7 +93,7 @@ void damp_effect_motion_and_fade_sprite(void *effect, void *motion, void *sprite
     projection.xyz[2] = anchor_pos->unk_0A;
     ((S_80D29000_1 *)sprite)->unk_06 = motion_depth -
         func_80065420(projection.xyz, &projection.out18, &projection.out20, &projection.out24) -
-        D_800DCECC[((g_game_work.view.viewAngle + ((S_80D29000_2 *)effect)->unk_94 + 0x100) >> 9) & 7] * 2;
+        D_800DCECC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80D29000_2 *)effect)->unk_94 + 0x100) >> 9) & 7] * 2;
 
     life = ((S_80D29000_2 *)effect)->unk_96.s;
     if (life < 10) {

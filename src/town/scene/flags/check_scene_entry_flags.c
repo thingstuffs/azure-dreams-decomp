@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 func_80017D80();
@@ -8,10 +9,10 @@ extern s32 func_80018B5C();
 s32 check_scene_entry_flags(void *entry, s32 handler_arg) {
     s32 result;
 
-    if (func_80018B5C(0x5C5) != 0) {
-        func_80018ADC(0x5C5);
-        func_80018ADC(0x5BF);
-        func_80018ADC(0x5C0);
+    if (func_80018B5C(F_sbs11_pad34) != 0) {
+        func_80018ADC(F_sbs11_pad34);
+        func_80018ADC(F_sbs11_pad28);
+        func_80018ADC(F_sbs11_pad29);
         func_80017D80(entry, handler_arg);
         return 1;
     }

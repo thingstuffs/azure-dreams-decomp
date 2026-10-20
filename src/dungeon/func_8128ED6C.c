@@ -192,7 +192,7 @@ void advance_actor_action_and_completion(ActorActionWork *action, EntityRec *mot
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         func_800A17D4(motion, sprite->position.tile.x, sprite->position.tile.y);
-        D_80085990.unk_0C = 0;
+        D_80085990.active_actor = 0;
         ((ActorCounterView *)D_800803DC)->pendingCount--;
         func_800A3784(actor);
         actor->unk_6D--;
@@ -239,7 +239,7 @@ void advance_actor_action_and_completion(ActorActionWork *action, EntityRec *mot
         sprite->directionFrames = D_80160EDC;
         func_80047320(
             sprite,
-            D_80160EDC[((D_80084818.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80160EDC[((D_80084818.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         return;
 
@@ -290,7 +290,7 @@ void advance_actor_action_and_completion(ActorActionWork *action, EntityRec *mot
         sprite->directionFrames = D_80160E8C;
         func_80047320(
             sprite,
-            D_80160E8C[((D_80084818.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80160E8C[((D_80084818.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->adjustment = 0;
         action->remainingAmount.signedValue = -0x20;
@@ -299,10 +299,10 @@ void advance_actor_action_and_completion(ActorActionWork *action, EntityRec *mot
     case 8:
         {
 
-            if (((s32)D_80085990.unk_0C) != 0) {
+            if (((s32)D_80085990.active_actor) != 0) {
                 return;
             }
-            D_80085990.unk_0A--;
+            D_80085990.activity_counts.parts.pending_action_count--;
             action->handler = &D_8015E514;
             func_800A3784(actor);
             actor->unk_6D--;

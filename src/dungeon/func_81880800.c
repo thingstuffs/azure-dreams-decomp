@@ -315,7 +315,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
 
     case 17:
         if (*(s16 *)D_800257CE == 0) {
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             F(self, u16, -2) |= 0x8000;
             object_flag_block.flags |= 0x8000;
         }

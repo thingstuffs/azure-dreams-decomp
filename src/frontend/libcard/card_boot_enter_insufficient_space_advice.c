@@ -8,7 +8,7 @@ typedef struct S_80026494_0 {
 } S_80026494_0;   /* arg0 in card_boot_enter_insufficient_space_advice; pointer addresses record offset 0x10 */
 
 
-void card_boot_show_insufficient_space_overwrite_advice();                         /* extern */
+#include "frontend/libcard/interfaces.h"
 extern M2C_UNK D_800261F0;
 extern M2C_UNK D_800265B8;
 

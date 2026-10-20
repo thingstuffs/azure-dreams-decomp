@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 s32 func_800176B8(s32, s32, s32, s32);                                /* extern */
@@ -10,8 +11,8 @@ s32 run_followup_handlers_after_dispatch(s32 input_a, s32 input_b, s32 input_c, 
 
     handler_result = func_800176B8(input_a, input_b, input_c, input_d);
     if (handler_result != 0) {
-        initialize_state_two_entries_pointer(0x146E);
-        func_800188E8(0x990, 3, 2);
+        initialize_state_two_entries_pointer(Ft_niko_love);
+        func_800188E8(F_sbs34_pad16, 3, 2);
     }
     return handler_result;
 }

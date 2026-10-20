@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -44,7 +45,7 @@ void process_enabled_entries(void) {
     Control_CD(6, &D_800D1BF4, 0);
     slot_index = 0;
     drain_cd_command_queue();
-    clear_resident_bitmap_bit(0x12C3);
+    clear_resident_bitmap_bit(F_funsui_sound);
     entry_table = D_800D2644;
     slot_data = D_800D2EA4;
     state_base = (S_800B98B4_3 *)0x80010000;
@@ -58,7 +59,7 @@ void process_enabled_entries(void) {
             reloaded_entry = (void *)((u32)(((S_800B98B4_3 *)((u8 *)state_base + (slot_index * 2)))->unk_33A4 << 5)
                 + (u32)entry_table);
             if (reloaded_entry->unk_00 == 1) {
-                set_resident_bitmap_bit(0x12C3);
+                set_resident_bitmap_bit(F_funsui_sound);
             }
         }
         slot_data += 8;

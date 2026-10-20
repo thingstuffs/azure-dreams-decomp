@@ -32,7 +32,7 @@ void func_800366F4(Object *menu, void *confirm_arg1, void *confirm_arg2) {
 
     input_state = &g_game_work;
     cursor = menu->unk4D;
-    buttons = ((u32)input_state->unk_010);
+    buttons = ((u32)input_state->pressed_buttons);
     if ((buttons & 0x2000) ? 1 : (buttons & 0x8000) != 0) {
         next_cursor = cursor + 1;
         if (cursor & 1) {
@@ -40,7 +40,7 @@ void func_800366F4(Object *menu, void *confirm_arg1, void *confirm_arg2) {
         } else if (next_cursor < menu->child->unk26) {
             cursor = next_cursor;
         }
-        buttons = ((u32)input_state->unk_010);
+        buttons = ((u32)input_state->pressed_buttons);
     }
 
     if (buttons & 0x4000) {
@@ -72,7 +72,7 @@ void func_800366F4(Object *menu, void *confirm_arg1, void *confirm_arg2) {
         SD_Call(0x502);
         menu->unk4D = cursor;
     }
-    if (((u32)input_state->unk_010) & 0x40) {
+    if (((u32)input_state->pressed_buttons) & 0x40) {
         confirm_list_menu_choice(menu, confirm_arg1, confirm_arg2);
     }
 }

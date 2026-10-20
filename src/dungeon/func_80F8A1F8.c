@@ -55,9 +55,9 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
         }
 
         activity_counts = &g_dungeon_status;
-        (*(u16 *)&activity_counts->unk_0A)--;
+        (*(u16 *)&activity_counts->activity_counts.parts.pending_action_count)--;
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AFC;
-        direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_80174AFC[direction & 7], 0);
         ((S_801739F8_0 *)controller)->unk_9B++;
         return;
@@ -68,16 +68,16 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
             register DungeonGlobalStatus *activity_counts;
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
-            direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+            direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
             select_sprite_entry(sprite, D_80174AF4[direction & 7], 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
             activity_counts = &g_dungeon_status;
-            (*(u16 *)&activity_counts->unk_0A)++;
+            (*(u16 *)&activity_counts->activity_counts.parts.pending_action_count)++;
             ((S_801739F8_0 *)controller)->unk_9B++;
             return;
         }
 
-        dungeon_state = &g_dungeon_status.unk_00;
+        dungeon_state = &g_dungeon_status.turn_scale;
         if (((UnsignedPositionXZView *)dungeon_state)->unk_02 & 0x1000) {
             return;
         }
@@ -123,7 +123,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
         }
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
-        direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_80174AF4[direction & 7], 0);
         ((EntityRec *)entity)->flags1C |= 0x40000;
         ((UnsignedPositionXZView *)dungeon_state)->unk_0A++;
@@ -140,7 +140,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
         }
 
         activity_counts = &g_dungeon_status;
-        (*(u16 *)&activity_counts->unk_0A)--;
+        (*(u16 *)&activity_counts->activity_counts.parts.pending_action_count)--;
         ((EntityRec *)entity)->flags1C &= ~0x208;
         ((S_801739F8_0 *)controller)->unk_8C = update_bank_actor_state;
         return;

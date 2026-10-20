@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -10,19 +11,19 @@ extern s32 func_8001A8EC(s32 value);
 s32 update_event_flags_prerequisites_are(void) {
     func_80016CC4();
     if (func_8001A8EC(6) != 0) {
-        func_8001A554(0x93A);
+        func_8001A554(F_sbs32_pad16);
     }
     if (func_8001A8EC(0xB) != 0) {
-        func_8001A554(0x93B);
+        func_8001A554(F_sbs32_pad17);
     }
-    if (func_8001A64C(0x93A) != 0 && func_8001A64C(0x94A) != 0) {
-        func_8001A554(0x93C);
+    if (func_8001A64C(F_sbs32_pad16) != 0 && func_8001A64C(F_sbs32_pad32) != 0) {
+        func_8001A554(F_sbs32_pad18);
         return 1;
     }
-    if (func_8001A64C(0x93B) != 0 && func_8001A64C(0x948) != 0) {
-        func_8001A554(0x93C);
-        func_8001A554(0x946);
-        func_8001A554(0x947);
+    if (func_8001A64C(F_sbs32_pad17) != 0 && func_8001A64C(F_sbs32_pad30) != 0) {
+        func_8001A554(F_sbs32_pad18);
+        func_8001A554(F_sbs32_pad28);
+        func_8001A554(F_sbs32_pad29);
         return 1;
     }
     {

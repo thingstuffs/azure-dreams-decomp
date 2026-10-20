@@ -77,7 +77,7 @@ s32 validate_transition_and_update_action(void *state, s32 transition_id, void *
 
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80175258;
     select_sprite_entry(sprite,
-                  D_80175258[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                  D_80175258[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
     actor->unk_6D--;
     prepare_directional_attack(actor, sprite, actor->facing, 1, 0);

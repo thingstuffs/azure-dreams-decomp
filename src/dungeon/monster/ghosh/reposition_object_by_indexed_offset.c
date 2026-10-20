@@ -49,8 +49,8 @@ void reposition_object_by_indexed_offset(s32 offset_index) {
     origin = &D_80082E80;
     offset_pos = offset_index << 1;
     xy_offset = (s16 *)(offset_bytes + offset_pos);
-    object[0x24] = origin->tileX + ((u8 *)xy_offset)[0];
-    object[0x25] = origin->tileY + ((u8 *)xy_offset)[1];
+    object[0x24] = origin->tile_position.parts.tile_x + ((u8 *)xy_offset)[0];
+    object[0x25] = origin->tile_position.parts.tile_y + ((u8 *)xy_offset)[1];
     set_record_integer_tile_center(object_handle, object[0x24], object[0x25]);
     status_flags = *(s32 *)&status->flags;
     x = object[0x24];

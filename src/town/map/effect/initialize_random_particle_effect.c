@@ -113,9 +113,9 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
             particle_prim->scale_x = 0x1000;
             particle_prim->scale_y = 0x1000;
             particle_prim->unk_20 = 0xAAA;
-            particle_prim->color.c.r = g_game_work.view.unk_090;
-            particle_prim->color.c.g = g_game_work.view.unk_091;
-            particle_blue = g_game_work.view.unk_092;
+            particle_prim->color.c.r = g_game_work.view.tint.parts.tint_r;
+            particle_prim->color.c.g = g_game_work.view.tint.parts.tint_g;
+            particle_blue = g_game_work.view.tint.parts.tint_b;
             particle_prim->source = child_index + 0xA;
             particle_prim->color.c.b = particle_blue;
             child_pos = child_obj->position;
@@ -199,9 +199,9 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
         particle_prim->scale_y = 0x1000;
         particle_prim->unk_20 = 0x1000;
         particle_prim->angle_z = parent_core->angle;
-        particle_prim->color.c.r = g_game_work.view.unk_090;
-        particle_prim->color.c.g = g_game_work.view.unk_091;
-        particle_prim->color.c.b = g_game_work.view.unk_092;
+        particle_prim->color.c.r = g_game_work.view.tint.parts.tint_r;
+        particle_prim->color.c.g = g_game_work.view.tint.parts.tint_g;
+        particle_prim->color.c.b = g_game_work.view.tint.parts.tint_b;
         child_pos = child_obj->position;
         particle_prim->source = 9;
         child_pos->x = origin->x;

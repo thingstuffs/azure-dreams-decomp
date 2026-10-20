@@ -114,10 +114,10 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
         (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pu8) = direction_table;
         select_sprite_entry(
             sprite,
-            direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         effect = allocate_list_node(0x10, ((u8 *)(&D_80083498)));
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
@@ -204,7 +204,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
             (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pu8) = direction_table;
             select_sprite_entry(
                 sprite,
-                direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
 
             effect = allocate_list_node(0x10, ((u8 *)(&D_80083498)));
@@ -223,7 +223,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
             }
 
             ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12 + 0x40;
-            g_dungeon_status.unk_0A++;
+            g_dungeon_status.activity_counts.parts.pending_action_count++;
 
             ((S_8017382C_0 *)action)->unk_9B++;
             return;
@@ -306,7 +306,7 @@ second_call:
         (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pu8) = exit_table;
         select_sprite_entry(
             sprite,
-            exit_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            exit_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
         effect = allocate_list_node(0x10, ((u8 *)(&D_80083498)));
@@ -324,7 +324,7 @@ second_call:
             ((S_8017382C_7 *)effect_state)->unk_96 = 0;
             ((S_8017382C_7 *)effect_state)->unk_9E = 1;
         }
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
         ((S_8017382C_0 *)action)->unk_9B++;
         ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12 + 0x40;
         return;
@@ -359,7 +359,7 @@ second_call:
             }
         }
 
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         actor->flags1C &= ~0x200;
         ((S_8017382C_0 *)action)->unk_8C = D_80170F6C;
         ((Rec_func_800AA258_arg2 *)sprite)->unk_12 = ((S_8017382C_0 *)action)->unk_AE;

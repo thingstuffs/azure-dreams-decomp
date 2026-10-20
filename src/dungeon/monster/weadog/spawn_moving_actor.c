@@ -59,7 +59,7 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
         animations = D_80174F18;
         PTR_AT(sprite, 0x2C) = animations;
         select_sprite_entry(sprite,
-            animations[((g_game_work.view.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+            animations[((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         U16_AT(action_work, 0x96) = 0x14;
         U8_AT(action_work, 0x9B) = U8_AT(action_work, 0x9B) + 1;
     case 1:
@@ -144,7 +144,7 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
         }
         PTR_AT(sprite, 0x2C) = D_80174EB8;
         U16_AT(sprite, 0x14) &= 0xF7FF;
-        direction_index = ((g_game_work.view.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7;
+        direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7;
         select_sprite_entry(sprite, U8_AT(PTR_AT(sprite, 0x2C), direction_index), 0);
         U8_AT(action_work, 0x9B) = U8_AT(action_work, 0x9B) + 1;
         return;
@@ -152,7 +152,7 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
         if (S16_AT(action_work, 0xA4) != 0x4D) {
             reduce_actor_food_meter(actor, 0x2000);
             PTR_AT(action_work, 0x8C) = &D_80171CE8;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             U16_AT(actor, 0x46) &= 0x7FFF;
         }
     }

@@ -22,8 +22,8 @@ void flag_inactive_object_or_run_callback(TownObject *object, s32 unused, u8 *ou
         }
     }
 
-    output[0xC] = g_game_work.view.unk_090;
-    output[0xD] = g_game_work.view.unk_091;
-    output[0xE] = g_game_work.view.unk_092;
+    output[0xC] = g_game_work.view.tint.parts.tint_r;
+    output[0xD] = g_game_work.view.tint.parts.tint_g;
+    output[0xE] = g_game_work.view.tint.parts.tint_b;
     object->callback();
 }

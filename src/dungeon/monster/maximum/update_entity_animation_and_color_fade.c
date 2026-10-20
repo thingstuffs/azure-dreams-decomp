@@ -71,11 +71,11 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         sprite->unk_2C = D_80173C9C;
         select_sprite_entry(
             sprite,
-            D_80173C9C[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_80173C9C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         counter_base = &g_dungeon_status;
-        counter_base->unk_0A =
-            ((u16)counter_base->unk_0A) - 1;
+        counter_base->activity_counts.parts.pending_action_count =
+            ((u16)counter_base->activity_counts.parts.pending_action_count) - 1;
         controller->unk_9B++;
         return;
 
@@ -84,7 +84,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
             sprite->unk_2C = D_80173CA4;
             select_sprite_entry(
                 sprite,
-                D_80173CA4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                D_80173CA4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             if (sprite->unk_14 & 0x8000) {
                 entity->flags1C &= ~0x200;
@@ -93,7 +93,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
                 controller->unk_8C.as_pu8 = &D_80170E54;
                 return;
             }
-            g_dungeon_status.unk_0A++;
+            g_dungeon_status.activity_counts.parts.pending_action_count++;
             controller->unk_9B++;
             return;
         }
@@ -142,7 +142,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         if ((get_entity_effect_value(entity, 1) << 16) != 0) {
             floor_base = &D_80082E80;
             floor = sprite->unk_26;
-            if (((floor == floor_base->unk_026) && (floor >= 0)) ||
+            if (((floor == floor_base->room_index) && (floor >= 0)) ||
                 get_tile_chebyshev_distance(floor_base, sprite) < 2) {
                 if ((generate_random_value() & 7) == 0) {
                     clear_slots_of_type(entity, 1);
@@ -156,7 +156,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         sprite->unk_2C = D_80173CA4;
         select_sprite_entry(
             sprite,
-            D_80173CA4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_80173CA4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         if (sprite->unk_14 & 0x8000) {
             entity->flags1C &= ~0x200;

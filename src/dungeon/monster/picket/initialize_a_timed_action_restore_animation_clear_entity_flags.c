@@ -59,11 +59,11 @@ void initialize_a_timed_action_restore_animation_clear_entity_flags(S_80174BF8_0
     }
 
     entity_arg = entity;
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     animation->unk_2C = D_80174F00;
     reduce_actor_food_meter(entity_arg, 0x200);
     select_sprite_entry(animation,
-        animation->unk_2C[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+        animation->unk_2C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
     action->unk_8C = D_801710F4;
     advance_status_timers(entity);

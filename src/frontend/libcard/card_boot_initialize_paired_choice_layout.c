@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void card_boot_refresh_paired_choice_labels(u8 *);                         /* extern */
+#include "frontend/libcard/interfaces.h"
 struct Object13B18; void card_boot_set_paired_choice_animations(struct Object13B18 *, s32 *, s32 *);   /* extern */
 void card_boot_layout_left_right_labels(s32);                            /* extern */
 void set_entry_destination_and_value(void *);                         /* extern */

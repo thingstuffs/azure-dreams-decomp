@@ -25,7 +25,7 @@ void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position,
         direction_table = D_800E23F0;
         ((SpriteFrameState *)sprite)->frameTable = direction_table;
         select_sprite_entry(sprite,
-            direction_table[((g_game_work.view.viewAngle +
+            direction_table[((g_game_work.view.camera_rotation.parts.viewAngle +
                 ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7], 0);
 
         position = ((S_80D3B0B8_1 *)object)->unk_08;
@@ -45,7 +45,7 @@ void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position,
             ((SpriteFrameState *)sprite)->scale_y = sprite_field_1e;
         }
         ((SpriteFrameState *)sprite)->unk_06 =
-            D_800DCECC[((g_game_work.view.viewAngle +
+            D_800DCECC[((g_game_work.view.camera_rotation.parts.viewAngle +
                 ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7] * 4;
         ((S_80D3B0B8_2 *)owner_data)->unk_B0++;
         create_tracked_effect(object, 0, sprite + 0x2C, object_data + 0x2A);

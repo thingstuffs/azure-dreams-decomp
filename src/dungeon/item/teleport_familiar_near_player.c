@@ -65,7 +65,7 @@ void *teleport_familiar_near_player(void *object, s16 action_arg) {
         object_index = get_entity_class(object);
         create_orbiting_teleport_effect(object, D_800DCED4[object_index], action_arg, 3);
         tile_mask = 0x3000;
-        g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) + 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         position = *(u8 **)((u8 *)object - 0x14);
         task_data = (u8 *)task + 0x20;
         old_x = position[0x24];
@@ -74,7 +74,7 @@ void *teleport_familiar_near_player(void *object, s16 action_arg) {
             tile_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
-        if ((find_valid_nearby_position(0, D_80082E80.tileX, D_80082E80.tileY, &tile_x, &tile_y) << 16) == 0) {
+        if ((find_valid_nearby_position(0, D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &tile_x, &tile_y) << 16) == 0) {
             tile_x = ((Coord *)position)->coord0;
             source_height = ((ArgObj *)object)->value;
             source_y = ((Coord *)position)->coord1;

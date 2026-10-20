@@ -52,7 +52,7 @@ void handle_object_input(void *object)
     s32 direction;
 
     if (g_game_work.buttons != 0) {
-        action_flags = ((s32)g_game_work.unk_010);
+        action_flags = ((s32)g_game_work.pressed_buttons);
         if (action_flags & 0x20) {
             SD_Call(0x515);
             func_80050DA8((char *)obj - 0x20);

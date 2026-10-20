@@ -119,7 +119,7 @@ void create_knockback_travel_object(u8 *owner_data, Position *position_arg, Sour
         }
     }
 
-    if (g_dungeon_status.unk_1C >= 32) {
+    if (g_dungeon_status.monster_count >= 32) {
         return;
     }
     if (!find_or_retain_sprite_resource_slot(context_arg->f13, 1) && !find_or_retain_sprite_resource_slot(context_arg->f13, 3)) {
@@ -163,9 +163,9 @@ void create_knockback_travel_object(u8 *owner_data, Position *position_arg, Sour
     display->unk_28 = source_arg->f28;
     display->clut = source_arg->f12;
 
-    offset_x_index = ((g_game_work.view.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
+    offset_x_index = ((g_game_work.view.camera_rotation.parts.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
     local_offset.x = D_801766F0[offset_x_index];
-    offset_y_index = ((g_game_work.view.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
+    offset_y_index = ((g_game_work.view.camera_rotation.parts.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
     local_offset.y = D_801766F0[offset_y_index + 1];
     local_offset.z = 0;
     project_vector_by_view_angle(&local_offset, &world_offset);
@@ -188,7 +188,7 @@ void create_knockback_travel_object(u8 *owner_data, Position *position_arg, Sour
     work->context = context_arg;
     work->owner_byte = owner_byte;
 
-    g_dungeon_status.unk_0A++;
+    g_dungeon_status.activity_counts.parts.pending_action_count++;
 
     return;
 }

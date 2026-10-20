@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 check_callback_record_bytes(s32, s32);
@@ -11,7 +12,7 @@ extern u8 D_8001E1AB[];
 
 /* Selects a byte array based on the current state and condition checks. */
 u8 *select_town_byte_array(void) {
-    if (get_script_flag_mask(0xD8A) != 0) {
+    if (get_script_flag_mask(Ftt_pad89) != 0) {
         return D_8001E1AB;
     }
     if (D_8001C360 != 0) {

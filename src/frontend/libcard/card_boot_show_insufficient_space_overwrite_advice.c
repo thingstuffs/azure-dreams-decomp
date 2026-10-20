@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/interfaces.h"
 #include "m2c_compat.h"
 
 #include "frontend/libcard/card_boot_create_or_reset_message_dialog_api.h"   /* extern */

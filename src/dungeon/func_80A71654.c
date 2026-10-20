@@ -28,7 +28,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
         }
         (*(void * *)((u8 *)object + 0x2C)) = high_table;
         select_sprite_entry(object,
-            *((u8 *)(((g_game_work.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7) + (u32)high_table),
+            *((u8 *)(((g_game_work.view.camera_rotation.parts.viewAngle + other_entity->facing + 0x100) >> 9) & 7) + (u32)high_table),
             0);
         return;
     }
@@ -57,7 +57,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
             if (((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p != table) {
                 (*(void * *)((u8 *)object + 0x2C)) = table;
                 select_sprite_entry(object,
-                    table[((g_game_work.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7],
+                    table[((g_game_work.view.camera_rotation.parts.viewAngle + other_entity->facing + 0x100) >> 9) & 7],
                     0);
             }
             ((Rec_func_800A9E70_arg0 *)record)->unk_9A.as_u8 = 0xE;
@@ -75,7 +75,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
             func_80173EF4(record, entity, object, other_entity);
             (*(void * *)((u8 *)object + 0x2C)) = ((u8 *)D_80174140);
             select_sprite_entry(object,
-                *((u8 *)(((g_game_work.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7) + (u32)((u8 *)D_80174140)),
+                *((u8 *)(((g_game_work.view.camera_rotation.parts.viewAngle + other_entity->facing + 0x100) >> 9) & 7) + (u32)((u8 *)D_80174140)),
                 0);
             return;
         }
@@ -93,7 +93,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
             update_actor_status_and_food(other_entity);
             return;
         }
-        if (((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_801717B4(record, entity, object, other_entity);
             return;
         }
@@ -132,7 +132,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
             EntityRec *player;
             s16 coordinate;
 
-            coordinate = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00.v),(s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+            coordinate = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00.v),(s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at01.v),(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
                 &scratch));
             player = D_800814A8;
             other_entity->facing = coordinate;
@@ -167,8 +167,8 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
 
                 if ((compare_monster_neighbor_values(
                         ((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00.v, ((R07_80170E54_S_80170E54_2 *)object)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                    other_entity->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00.v),(s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
+                    other_entity->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00.v),(s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at01.v),(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
                         &scratch));
                 }
             }
@@ -187,7 +187,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
         (((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p != ((u8 *)D_80174140))) {
         (*(void * *)((u8 *)object + 0x2C)) = table;
         select_sprite_entry(object,
-            table[((g_game_work.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7],
+            table[((g_game_work.view.camera_rotation.parts.viewAngle + other_entity->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800A9E70_arg0 *)record)->unk_AA = 1;
     } else if (((R07_80170E54_S_80170E54_2 *)object)->unk_14 & 0x6000) {
@@ -204,7 +204,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
         }
         select_sprite_entry(object,
             ((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p2[
-                ((g_game_work.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7],
+                ((g_game_work.view.camera_rotation.parts.viewAngle + other_entity->facing + 0x100) >> 9) & 7],
             0);
     }
 

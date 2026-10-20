@@ -37,7 +37,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
         ((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v =
             (s32) (((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v & 0xFFFBFFFF);
     case 2:
-        direction = ((s32) (g_game_work.view.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100)
+        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100)
             >> 9) & 7;
         if ((*(u8 *)((s32 *)D_801742E4)) == 0 || direction != 2) {
             if (direction == 2) {
@@ -69,12 +69,12 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
             return;
         }
         target_color = (*(void **)((u8 *)(((s32 *)D_800DCEEC)) + lookup_masked_byte_table(model) * 4));
-        scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (target_color->unk_00
-            - scene_color->view.unk_090) / (s16) state->unk_96));
-        scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (target_color->unk_01
-            - scene_color->view.unk_091) / (s16) state->unk_96));
-        scene_color->view.unk_092 = (u8) (scene_color->view.unk_092 + ((s32) (target_color->unk_02
-            - scene_color->view.unk_092) / (s16) state->unk_96));
+        scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (target_color->unk_00
+            - scene_color->view.tint.parts.tint_r) / (s16) state->unk_96));
+        scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (target_color->unk_01
+            - scene_color->view.tint.parts.tint_g) / (s16) state->unk_96));
+        scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (target_color->unk_02
+            - scene_color->view.tint.parts.tint_b) / (s16) state->unk_96));
         return;
     case 4:
         effect = func_8003FC64(0x12);

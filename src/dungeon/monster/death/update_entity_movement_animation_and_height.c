@@ -104,7 +104,7 @@ void update_entity_movement_animation_and_height(void *entity, EntityRec *motion
     initial_sprite_flags = ((SpriteFrameState *)sprite)->flags;
 
     if (!(initial_sprite_flags & 0x8000)) {
-        direction = ((g_game_work.view.viewAngle + ((S_801593A8_2 *)entity_base)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801593A8_2 *)entity_base)->unk_2A + 0x100) >> 9) & 7;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction) {
             select_indirect_table_entry(sprite,
                 *(u8 *)(*(u8 * *)&((SpriteFrameState *)sprite)->frameTable + direction),

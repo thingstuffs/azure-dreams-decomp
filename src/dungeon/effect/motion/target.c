@@ -196,7 +196,7 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
                         u32 primitive_color;
 
                         {
-                            void *context = global_base->unk_000;
+                            void *context = global_base->draw_buffer;
                             primitive = ((Row_818E747C_S_80024C7C_2 *)context)->unk_8D0;
                             ((Row_818E747C_S_80024C7C_2 *)context)->unk_8D0 =
                                 (void *)((u8 *)primitive + 0x34);
@@ -246,7 +246,7 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
                         ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_1D = (s8)tex_coord;
 
                         {
-                            void *context = global_base->unk_000;
+                            void *context = global_base->draw_buffer;
                             ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_00.s = (s32)(
                                 (((Row_818E747C_S_80024C7C_3 *)primitive)->unk_00.u & 0xFF000000) |
                                 (((Row_818E747C_S_80024C7C_5 *)((u8 *)(ot_offset + (u32)context)))->unk_B0 &
@@ -254,7 +254,7 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
                         }
                         segment_start--;
                         {
-                            void *context = global_base->unk_000;
+                            void *context = global_base->draw_buffer;
                             ((Row_818E747C_S_80024C7C_5 *)((u8 *)(ot_offset + (u32)context)))->unk_B0 = (u32)(
                                 (((Row_818E747C_S_80024C7C_5 *)((u8 *)(ot_offset + (u32)context)))->unk_B0 &
                                  0xFF000000) |

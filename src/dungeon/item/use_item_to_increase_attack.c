@@ -60,6 +60,6 @@ s32 use_item_to_increase_attack(void *entity, s32 action_id, s16 action_param)
     }
     create_colored_effect_with_sound((u8 *)entity - 0x20, 0x2020F0, 0x616);
     clear_slot_and_update_linked_state(action_id);
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

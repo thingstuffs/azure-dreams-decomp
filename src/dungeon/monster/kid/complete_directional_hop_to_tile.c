@@ -146,14 +146,14 @@ void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, 
         ((EntityRec *)actor)->flags1C |= 0x00040000;
         ((SpriteFrameState *)sprite)->frameTable = D_80175148;
         select_sprite_entry(sprite,
-            D_80175148[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80175148[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         {
             DungeonGlobalStatus *global_state = &g_dungeon_status;
 
-            if (((s32)global_state->unk_10) == (u8 *)actor - 0x20) {
-                (*(u32 *)&global_state->unk_10) &= 0x7FFFFFFF;
+            if (((s32)global_state->pending_display_owner) == (u8 *)actor - 0x20) {
+                (*(u32 *)&global_state->pending_display_owner) &= 0x7FFFFFFF;
             }
         }
         ((S_80173354_1 *)action)->unk_8C = D_80171400;

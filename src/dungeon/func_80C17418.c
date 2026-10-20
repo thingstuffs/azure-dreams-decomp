@@ -103,7 +103,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
             actor_base->f2C = (void (*)(void))((u8 *)D_801744E4);
             select_sprite_entry(
                 actor_base,
-                ((u8 *)D_801744E4)[((g_game_work.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
+                ((u8 *)D_801744E4)[((g_game_work.view.camera_rotation.parts.viewAngle + ent->f2A + 0x100) >> 9) & 7],
                 0);
             if (!create_actor_spell_effect(ent, item_slot, use_main_link, &state->flags98)) {
                 return;
@@ -126,7 +126,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
             R17_80172C18_MainObj *main_obj;
 
             main_obj = ((R17_80172C18_MainObj *)D_800814A8);
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             main_obj->fA6--;
         }
         advance_status_timers(ent);
@@ -144,7 +144,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
             actor->f2C = (void (*)(void))((u8 *)D_801744DC);
             select_sprite_entry(
                 actor,
-                ((u8 *)D_801744DC)[((g_game_work.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
+                ((u8 *)D_801744DC)[((g_game_work.view.camera_rotation.parts.viewAngle + ent->f2A + 0x100) >> 9) & 7],
                 0);
             state->f96 = state_index;
             state->state9B++;
@@ -191,18 +191,18 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
             actor->f2C = (void (*)(void))((u8 *)D_80174494);
             select_sprite_entry(
                 actor,
-                ((u8 *)D_80174494)[((g_game_work.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
+                ((u8 *)D_80174494)[((g_game_work.view.camera_rotation.parts.viewAngle + ent->f2A + 0x100) >> 9) & 7],
                 state->fA8);
         }
         {
 
-            if (((u32)g_dungeon_status.unk_0C) != 0) {
+            if (((u32)g_dungeon_status.active_actor) != 0) {
                 return;
             }
             if (!(state->flags98 & 0x4000)) {
                 return;
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         actor->flags14 &= 0xF7FF;
         state->f8C = (void (*)(void))((u8 *)update_entity_movement_and_ground_height);

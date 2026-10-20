@@ -86,7 +86,7 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *posi
                 if (mode == 1) {
                     target_kind = ((S_8008C5C4_3 *)target_result)->unk_13;
                     if ((target_kind == 0x39) || (target_kind == 2)) {
-                        if (((s32)g_game_work.unk_010) & 0x40) {
+                        if (((s32)g_game_work.pressed_buttons) & 0x40) {
                             play_sound_if_enabled(0x506);
                             adjust_source_value_and_finalize(action->unk_124, &D_800E0495);
                             tail_result = 0;
@@ -113,7 +113,7 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *posi
             position->unk_2C = D_800DCFC8;
             set_sprite_animation_frame(
                 position,
-                D_800DCFC8[((s32)(g_game_work.view.viewAngle +
+                D_800DCFC8[((s32)(g_game_work.view.camera_rotation.parts.viewAngle +
                                   (s16)((u16)actor->facing) + 0x100) >> 9) & 7],
                 0, 1);
             tail_result = 1;

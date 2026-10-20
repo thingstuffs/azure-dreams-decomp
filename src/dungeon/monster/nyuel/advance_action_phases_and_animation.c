@@ -59,7 +59,7 @@ void advance_action_phases_and_animation(void *action, EntityRec *motion, void *
             return;
         }
         ((SpriteFrameState *)sprite)->frameTable = (u8 *)&D_80174F30;
-        select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+        select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7) + (u32)&D_80174F30), 0);
         ((S_80172524_0 *)action)->unk_9B.n++;
         return;
@@ -71,7 +71,7 @@ void advance_action_phases_and_animation(void *action, EntityRec *motion, void *
         }
         play_sound_if_enabled(0x808);
         ((SpriteFrameState *)sprite)->frameTable = (u8 *)&D_80174F38;
-        select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+        select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7) + (u32)&D_80174F38), 0);
         ((S_80172524_0 *)action)->unk_9B.n++;
         return;
@@ -91,7 +91,7 @@ void advance_action_phases_and_animation(void *action, EntityRec *motion, void *
             return;
         }
         ((SpriteFrameState *)sprite)->frameTable = &D_80174F40;
-        select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)
+        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)
             + &D_80174F40), 0);
         resolve_attack_damage_and_effects(actor, sprite, ((EntityRec *)actor)->facing, 1);
         ((S_80172524_0 *)action)->unk_9B.n = 5U;
@@ -120,7 +120,7 @@ void advance_action_phases_and_animation(void *action, EntityRec *motion, void *
             return;
         }
         ((SpriteFrameState *)sprite)->frameTable = (u8 *)&D_80174F40;
-        select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+        select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7) + (u32)&D_80174F40), 0);
         ((S_80172524_0 *)action)->unk_9B.n++;
         return;
@@ -153,7 +153,7 @@ void advance_action_phases_and_animation(void *action, EntityRec *motion, void *
         ((S_80172524_0 *)action)->unk_98 = (u16) (((S_80172524_0 *)action)->unk_98 & 0xFFF7);
         reduce_actor_food_meter(actor, 0x100);
         ((S_80172524_0 *)action)->unk_8C = &update_entity_actions_facing_and_animation;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((EntityRec *)actor)->unk_46 = (u16) ((*(u16 *)((u8 *)actor + (0x46))) & 0x7FFF);
         advance_status_timers(actor);
         return;

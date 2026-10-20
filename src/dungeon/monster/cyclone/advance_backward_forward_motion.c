@@ -73,7 +73,7 @@ void advance_backward_forward_motion(void *action, EntityRec *motion, void *anim
             ((SpriteFrameState *)animation)->frameTable = direction_anims;
             select_sprite_entry(
                 animation,
-                direction_anims[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172C98_0 *)action)->unk_AE.s = 6;
             motion->unk_0C =
@@ -115,7 +115,7 @@ void advance_backward_forward_motion(void *action, EntityRec *motion, void *anim
                 motion->unk_10 =
                     motion->flags14 = 0;
             ((S_80172C98_0 *)action)->unk_8C = D_80171094;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             (actor->unk_46) &= 0x7FFF;
             advance_status_timers(actor);
         }

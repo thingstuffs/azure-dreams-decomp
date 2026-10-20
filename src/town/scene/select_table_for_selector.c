@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 check_inputs_after_threshold_two(u32);
@@ -13,7 +14,7 @@ s32 select_table_for_selector(s32 unused_a, s32 unused_b, s32 selector) {
     s32 result = 0;
 
     if (selector == 8) {
-        func_800193E0(0x147A);
+        func_800193E0(Ft_paty_love);
         result = check_inputs_after_threshold_two(D_80019770[D_8001967C[0]]);
     } else if (selector == 1) {
         if (D_8001967C[0] != 3) {

@@ -105,15 +105,15 @@ void update_noise_knockback(void *action, EntityRec *motion, void *entity, Entit
             direction_table = ((u8 *)D_80156E88);
             (*(void * *)((u8 *)entity + 0x2C)) = direction_table;
             select_sprite_entry(entity,
-                direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
         {
             s32 entity_ref;
 
-            entity_ref = ((s32)g_dungeon_status.unk_10);
+            entity_ref = ((s32)g_dungeon_status.pending_display_owner);
             if (entity_ref == (s32)((u8 *)actor - 0x20)) {
-                g_dungeon_status.unk_10 = entity_ref & 0x7FFFFFFF;
+                g_dungeon_status.pending_display_owner = entity_ref & 0x7FFFFFFF;
             }
         }
         ((R10_8017380C_S_8017380C_0 *)action)->unk_8C = ((void *)func_80153760);

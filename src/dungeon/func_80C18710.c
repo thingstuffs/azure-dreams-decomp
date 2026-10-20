@@ -25,10 +25,10 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
             return;
         }
 
-        counter_state = (u8 *)&g_dungeon_status.unk_00;
+        counter_state = (u8 *)&g_dungeon_status.turn_scale;
         ((R17_80173F10_S_80173ED8_2 *)counter_state)->unk_0A--;
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744F4);
-        direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite,(u8)(((u8 *)D_801744F4)[direction & 7]), 0);
         ((R17_80173F10_S_80173ED8_0 *)action)->unk_9B++;
         return;
@@ -39,16 +39,16 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
             register u8 *counter_state;
 
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744EC);
-            direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+            direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
             select_sprite_entry(sprite,(u8)(((u8 *)D_801744EC)[direction & 7]), 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
-            counter_state = (u8 *)&g_dungeon_status.unk_00;
+            counter_state = (u8 *)&g_dungeon_status.turn_scale;
             ((R17_80173F10_S_80173ED8_2 *)counter_state)->unk_0A++;
             ((R17_80173F10_S_80173ED8_0 *)action)->unk_9B++;
             return;
         }
 
-        dungeon_state = &g_dungeon_status.unk_00;
+        dungeon_state = &g_dungeon_status.turn_scale;
         if (((R17_80173F10_S_80173ED8_4 *)dungeon_state)->unk_02 & 0x1000) {
             return;
         }
@@ -94,7 +94,7 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
         }
 
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744EC);
-        direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite,(u8)(((u8 *)D_801744EC)[direction & 7]), 0);
         ((EntityRec *)entity)->flags1C |= 0x40000;
         ((R17_80173F10_S_80173ED8_4 *)dungeon_state)->unk_0A++;
@@ -110,7 +110,7 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
             return;
         }
 
-        counter_state = (u8 *)&g_dungeon_status.unk_00;
+        counter_state = (u8 *)&g_dungeon_status.turn_scale;
         ((R17_80173F10_S_80173ED8_2 *)counter_state)->unk_0A--;
         ((EntityRec *)entity)->flags1C &= ~0x208;
         ((R17_80173F10_S_80173ED8_0 *)action)->unk_8C = ((u8 *)update_entity_movement_and_ground_height);

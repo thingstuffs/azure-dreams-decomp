@@ -55,8 +55,8 @@ extern s32 check_global_or_linked_flag_20000();
         u16 facing = ((*(u16 *)&((EntityRec *)creature)->facing) >> 9) & 7;                                  \
         direction = facing;                                                                 \
         neighbor_result = find_eligible_actor_at_tile_and_height(creature,                                           \
-            (u16)(((TileObject *)position)->tileX + *(u16 *)((facing * 2) + (u8 *)dir_step_x)),              \
-            (u16)(((TileObject *)position)->tileY + *(u16 *)((facing * 2) + (u8 *)dir_step_y)),              \
+            (u16)(((TileObject *)position)->tile_position.parts.tile_x + *(u16 *)((facing * 2) + (u8 *)dir_step_x)),              \
+            (u16)(((TileObject *)position)->tile_position.parts.tile_y + *(u16 *)((facing * 2) + (u8 *)dir_step_y)),              \
             ((EntityRec *)creature)->unk_88);                                                     \
     }
 
@@ -128,7 +128,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                 if ((has_pending_actor_or_turn_action(creature) << 16) != 0) {
                     return -1;
                 }
-                if (tile_x == ((TileObject *)position)->tileX && tile_y == ((TileObject *)position)->tileY) {
+                if (tile_x == ((TileObject *)position)->tile_position.parts.tile_x && tile_y == ((TileObject *)position)->tile_position.parts.tile_y) {
                     s16 entry_index = find_floor_item_at_world_position(tile_x, tile_y, ((EntityRec *)creature)->unk_88);
                     if (entry_index >= 0) {
                         s32 hp = *(u16 *)(creature + 0x24);
@@ -151,7 +151,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                     return 0;
                 }
                 (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-                    ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
+                    ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                     tile_x, tile_y, &slot_or_distance);
                 ((EntityRec *)creature)->unk_46 = 0x800B;
                 return 2;
@@ -192,8 +192,8 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                                 register EntityRec *player_target;
                                 ((EntityRec *)creature)->unk_46 = (*(u16 *)&slot_or_distance + 1) | 0x8000;
                                 (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-                                    ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
-                                    idle_player_pos->tileX, idle_player_pos->tileY, &slot_or_distance);
+                                    ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
+                                    idle_player_pos->tile_position.parts.tile_x, idle_player_pos->tile_position.parts.tile_y, &slot_or_distance);
                                 player_target = D_800814A8;
                                 result = 4;
                                 ((EntityRec *)creature)->target = player_target;
@@ -202,7 +202,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                         }
                     }
                     scan_index = 0;
-                    ally_index = g_dungeon_status.unk_1E & 1;
+                    ally_index = g_dungeon_status.turn_counter & 1;
                     do {
                         ally_offset = ally_index * 4;
                         ally = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
@@ -226,7 +226,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                                         }
                                         if (creature != *(u8 **)(ally_slot_base + 0xAC)) {
                                             (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-                                                ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
+                                                ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                                                 target_pos[0x24], target_pos[0x25], &slot_or_distance);
                                         }
                                         ((EntityRec *)creature)->target = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
@@ -280,8 +280,8 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                                 register s32 target_direction;
                                 ((EntityRec *)creature)->unk_46 = (*(u16 *)&slot_or_distance + 1) | 0x8000;
                                 target_direction = get_rounded_facing_and_rounding_flag(
-                                    ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
-                                    follow_player_pos->tileX, follow_player_pos->tileY, &slot_or_distance);
+                                    ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
+                                    follow_player_pos->tile_position.parts.tile_x, follow_player_pos->tile_position.parts.tile_y, &slot_or_distance);
                                 player_target = D_800814A8;
                                 (*(u16 *)&((EntityRec *)creature)->facing) = target_direction;
                                 ((EntityRec *)creature)->target = player_target;
@@ -290,7 +290,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                         }
                     }
                     scan_index = 0;
-                    ally_index = g_dungeon_status.unk_1E & 1;
+                    ally_index = g_dungeon_status.turn_counter & 1;
                     do {
                         ally_offset = ally_index * 4;
                         ally = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
@@ -312,7 +312,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                                         }
                                         if (creature != *(u8 **)(ally_slot_base + 0xAC)) {
                                             (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-                                                ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
+                                                ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                                                 target_pos[0x24], target_pos[0x25], &slot_or_distance);
                                         }
                                         ((EntityRec *)creature)->target = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
@@ -367,8 +367,8 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                                     register s32 target_direction;
                                     ((EntityRec *)creature)->unk_46 = (*(u16 *)&slot_or_distance + 1) | 0x8000;
                                     target_direction = get_rounded_facing_and_rounding_flag(
-                                        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
-                                        assist_player_pos->tileX, assist_player_pos->tileY, &slot_or_distance);
+                                        ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
+                                        assist_player_pos->tile_position.parts.tile_x, assist_player_pos->tile_position.parts.tile_y, &slot_or_distance);
                                     player_target = D_800814A8;
                                     (*(u16 *)&((EntityRec *)creature)->facing) = target_direction;
                                     ((EntityRec *)creature)->target = player_target;
@@ -378,7 +378,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                         }
                     }
                     scan_index = 0;
-                    ally_index = g_dungeon_status.unk_1E & 1;
+                    ally_index = g_dungeon_status.turn_counter & 1;
                     do {
                         ally_offset = ally_index * 4;
                         ally = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
@@ -402,7 +402,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                                     }
                                     if (creature != *(u8 **)(ally_slot_base + 0xAC)) {
                                         (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-                                            ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
+                                            ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                                             target_pos[0x24], target_pos[0x25], &slot_or_distance);
                                     }
                                     ((EntityRec *)creature)->target = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
@@ -430,8 +430,8 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                                             action_code = checked_action | 0x8000;
                                             ((EntityRec *)creature)->unk_46 = action_code;
                                             (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-                                                ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
-                                                D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
+                                                ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
+                                                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &action_or_flags);
                                             return 3;
                                         }
                                     }
@@ -450,7 +450,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
             if ((has_pending_actor_or_turn_action(creature) << 16) != 0) {
                 return -1;
             }
-            move_target = find_monster_neighbor_candidate(creature, ((TileObject *)position)->tileX, ((TileObject *)position)->tileY);
+            move_target = find_monster_neighbor_candidate(creature, ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y);
             default_action = 0;
             ((EntityRec *)creature)->target = move_target;
             if (move_target != NULL) {
@@ -483,7 +483,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         return (u32)delta_or_result >> 16;
     }
     {
-        s8 room_index = ((TileObject *)position)->unk_026;
+        s8 room_index = ((TileObject *)position)->room_index;
         if (room_index >= 0) {
             if (D_800E2970[room_index].flags & 2) {
                 delta_or_result = default_action << 16;
@@ -541,8 +541,8 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     }
     ((EntityRec *)creature)->unk_46 = 0x8008;
     (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
-        near_player_pos->tileX, near_player_pos->tileY, &action_or_flags);
+        ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
+        near_player_pos->tile_position.parts.tile_x, near_player_pos->tile_position.parts.tile_y, &action_or_flags);
     return 1;
 
     case 44:
@@ -568,7 +568,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
             break;
         }
     }
-    target = scan_monster_along_heading(creature, ((TileObject *)position)->tileX, ((TileObject *)position)->tileY, ((EntityRec *)creature)->facing, (s16)ranged_distance);
+    target = scan_monster_along_heading(creature, ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, ((EntityRec *)creature)->facing, (s16)ranged_distance);
     if ((check_entity_interaction_compatibility(creature, target) << 16) == 0) {
         break;
     }
@@ -580,8 +580,8 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     }
     ((EntityRec *)creature)->unk_46 = 0x8009;
     (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
-        ranged_player_pos->tileX, ranged_player_pos->tileY, &action_or_flags);
+        ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
+        ranged_player_pos->tile_position.parts.tile_x, ranged_player_pos->tile_position.parts.tile_y, &action_or_flags);
     return 5;
 
     case 43:
@@ -600,8 +600,8 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     }
     ((EntityRec *)creature)->unk_46 = 0x8009;
     (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
-        D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
+        ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
+        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &action_or_flags);
     return 5;
 
     case 34:
@@ -622,8 +622,8 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
             if ((func_800A2CAC(ally) << 16) != 0) {
                 ((EntityRec *)creature)->unk_46 = 0x8009;
                 (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-                    ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
-                    D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
+                    ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &action_or_flags);
                 return 5;
             }
         }
@@ -650,7 +650,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                             ((EntityRec *)creature)->unk_46 = 0x8009;
                             *(void **)(creature + 0xA8) = target;
                             (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-                                ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
+                                ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                                 target_pos[0x24], target_pos[0x25], &action_or_flags);
                             return 5;
                         }
@@ -786,8 +786,8 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         flee_player_pos = &D_80082E80;
         if ((s16)get_tile_chebyshev_distance(position, flee_player_pos) == 1) {
             (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-                ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
-                flee_player_pos->tileX, flee_player_pos->tileY, creature + 0x98) + 0x800;
+                ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
+                flee_player_pos->tile_position.parts.tile_x, flee_player_pos->tile_position.parts.tile_y, creature + 0x98) + 0x800;
         }
     }
     ((EntityRec *)creature)->unk_46 = 0x800B;
@@ -804,7 +804,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if ((find_nearest_floor_item_in_room(position, 0x12, &tile_x, &tile_y) << 16) == 0) {
         break;
     }
-    action_result = get_rounded_facing_and_rounding_flag(((TileObject *)position)->tileX, ((TileObject *)position)->tileY, tile_x, tile_y, creature + 0x98);
+    action_result = get_rounded_facing_and_rounding_flag(((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, tile_x, tile_y, creature + 0x98);
     {
         s32 target_x = *(u16 *)&tile_x;
         s32 target_y = *(u16 *)&tile_y;
@@ -819,13 +819,13 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         target_y <<= 16;
         target_y >>= 16;
         ((EntityRec *)creature)->unk_98 = ability_flags;
-        x_delta = ((TileObject *)position)->tileX;
+        x_delta = ((TileObject *)position)->tile_position.parts.tile_x;
         x_delta -= target_x;
         x_delta = abs(x_delta);
         tile_x = x_delta;
         idle_ally_range = x_delta;
         x_delta <<= 16;
-        y_delta = ((TileObject *)position)->tileY - target_y;
+        y_delta = ((TileObject *)position)->tile_position.parts.tile_y - target_y;
         y_distance = y_delta;
         y_distance = abs(y_distance);
         tile_y = y_distance;
@@ -861,7 +861,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if (creature[0xB5] == 0) {
         break;
     }
-    neighbor = find_eligible_actor_at_tile_and_height(creature, ((TileObject *)position)->tileX, ((TileObject *)position)->tileY, ((EntityRec *)creature)->unk_88);
+    neighbor = find_eligible_actor_at_tile_and_height(creature, ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, ((EntityRec *)creature)->unk_88);
     if (neighbor == NULL) {
         break;
     }
@@ -870,8 +870,8 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         return 2;
     }
     (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
-        D_80082E80.tileX, D_80082E80.tileY, creature + 0x98);
+        ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
+        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, creature + 0x98);
     goto return_wait;
 
     case 42:
@@ -894,9 +894,9 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         }
         height = *(u16 *)(creature + 0x88);
         scan_index = 0;
-        direction = ((u32)get_rounded_facing_and_rounding_flag(((TileObject *)position)->tileX, ((TileObject *)position)->tileY, player_pos->tileX, player_pos->tileY, &action_or_flags) >> 9) & 7;
-        tile_x = ((TileObject *)position)->tileX;
-        tile_y = ((TileObject *)position)->tileY;
+        direction = ((u32)get_rounded_facing_and_rounding_flag(((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y, &action_or_flags) >> 9) & 7;
+        tile_x = ((TileObject *)position)->tile_position.parts.tile_x;
+        tile_y = ((TileObject *)position)->tile_position.parts.tile_y;
         if ((distance << 16) > 0) {
             u16 *x_steps = dir_step_x;
             u16 *y_steps = dir_step_y;
@@ -960,7 +960,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                         target_pos = *(void **)(target - 0x14);
                         if ((s16)get_tile_chebyshev_distance(target_pos, position) == 1) {
                             ((EntityRec *)creature)->unk_46 = 0x8009;
-                            (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag( ((TileObject *)position)->tileX, ((TileObject *)position)->tileY, target_pos[0x24], target_pos[0x25], &action_or_flags);
+                            (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag( ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, target_pos[0x24], target_pos[0x25], &action_or_flags);
                             return 5;
                         }
                     }
@@ -973,7 +973,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
 
     case 9:
     case 10:
-    target = find_valid_monster_neighbor(creature, ((TileObject *)position)->tileX, ((TileObject *)position)->tileY);
+    target = find_valid_monster_neighbor(creature, ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y);
     if (target == NULL) {
         break;
     }
@@ -983,7 +983,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     ((EntityRec *)creature)->unk_46 = 0x8009;
     target_pos = *(void **)(target - 0x14);
     (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
+        ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
         target_pos[0x24], target_pos[0x25], &action_or_flags);
     return 5;
 
@@ -1018,9 +1018,9 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         s16 *tile_flags_out = &action_or_flags;
         TileObject *player_pos = &D_80082E80;
         u16 player_direction;
-        player_direction = ((u32)get_rounded_facing_and_rounding_flag(((TileObject *)position)->tileX, ((TileObject *)position)->tileY, player_pos->tileX, player_pos->tileY, tile_flags_out) >> 9) & 7;
+        player_direction = ((u32)get_rounded_facing_and_rounding_flag(((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y, tile_flags_out) >> 9) & 7;
         direction = player_direction;
-        if ((get_offset_map_cell_value_and_flags(((TileObject *)position)->tileX, ((TileObject *)position)->tileY, player_direction, tile_flags_out) << 16) == 0) {
+        if ((get_offset_map_cell_value_and_flags(((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, player_direction, tile_flags_out) << 16) == 0) {
             break;
         }
         if (action_or_flags & 0xB712) {
@@ -1076,8 +1076,8 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                 if (target == ((u8 *)D_800E3D7C)) {
                     ((EntityRec *)creature)->unk_46 = 0x8009;
                     (*(u16 *)&((EntityRec *)creature)->facing) = get_rounded_facing_and_rounding_flag(
-                        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
-                        D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
+                        ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &action_or_flags);
                     return 5;
                 }
             }
@@ -1123,8 +1123,8 @@ check_forward_target:
         {
             u16 facing = ((*(u16 *)&((EntityRec *)creature)->facing) >> 9) & 7;
             direction = facing;
-            tile_x = ((TileObject *)position)->tileX + *(u16 *)((facing * 2) + (u8 *)dir_step_x);
-            tile_y = ((TileObject *)position)->tileY + *(u16 *)((facing * 2) + (u8 *)dir_step_y);
+            tile_x = ((TileObject *)position)->tile_position.parts.tile_x + *(u16 *)((facing * 2) + (u8 *)dir_step_x);
+            tile_y = ((TileObject *)position)->tile_position.parts.tile_y + *(u16 *)((facing * 2) + (u8 *)dir_step_y);
         }
         target = NULL;
         if (creature[0xAC] == 0) {

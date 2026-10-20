@@ -9,7 +9,7 @@ extern s16 input_angle_with_offset(s32 a0, s16 a1);
 
 /* Stores the valid shared angle in the record at offset 0x10. */
 void store_the_valid_shared_angle_in_offset_hex_10(void *record) {
-    s16 angle = input_angle_with_offset(g_game_work.buttons, g_game_work.view.viewAngle);
+    s16 angle = input_angle_with_offset(g_game_work.buttons, g_game_work.view.camera_rotation.parts.viewAngle);
 
     if (angle != -1) {
         *(s16 *)((u8 *)record + 0x10) = angle;

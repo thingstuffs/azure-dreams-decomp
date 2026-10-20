@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -21,13 +22,13 @@ s32 *select_request_conditionally_three_state(s32 entry_id, s32 unused, s32 requ
         return result;
     }
     result = func_80017960(&D_800189BC, &D_80018B94, entry_id, request_id);
-    cursor = func_80018868(0x990, 2);
-    if (func_8001868C(0x997) == 0) {
+    cursor = func_80018868(F_sbs34_pad16, 2);
+    if (func_8001868C(F_sbs34_pad23) == 0) {
         cursor++;
         if (cursor == 3) {
             cursor = 0;
         }
-        func_800188E8(0x990, cursor, 2);
+        func_800188E8(F_sbs34_pad16, cursor, 2);
     }
     if ((request_id == 0xB) && (func_800178A8(&D_800189BC, entry_id, 0xB) != 0)) {
         result = &D_8001A04A;

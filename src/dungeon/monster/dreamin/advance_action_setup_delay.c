@@ -42,7 +42,7 @@ void advance_action_setup_delay(void *action, void *motion, void *sprite, void *
         S32(motion, 0x0C) = 0;
         PTR(sprite, 0x2C) = D_80173894;
         select_sprite_entry(sprite,
-            D_80173894[((g_game_work.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
+            D_80173894[((g_game_work.view.camera_rotation.parts.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
             0);
         loaded_phase = U8(action, 0x9B);
         U16(action, 0x96) = 0;
@@ -69,7 +69,7 @@ void advance_action_setup_delay(void *action, void *motion, void *sprite, void *
         set_record_integer_tile_center(motion, U8(sprite, 0x24), U8(sprite, 0x25));
         reduce_actor_food_meter(actor, 0x100);
         PTR(action, 0x8C) = &D_80170E68;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (S8(actor, 0x6D) == 0) {
             U16(actor, 0x46) &= 0x7FFF;

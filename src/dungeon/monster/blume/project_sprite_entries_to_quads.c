@@ -46,7 +46,7 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
     register T_80170874_S_80DB9000_4 *scratch_page;
     scratch_page = (T_80170874_S_80DB9000_4 *)0x1F800000;
 
-    state = (T_80170874_S_80DB9000_6 *)g_game_work.unk_000;
+    state = (T_80170874_S_80DB9000_6 *)g_game_work.draw_buffer;
     scratch_page->unk_90 = 0;
     scratch_page->unk_CC = 0;
     scratch_page->unk_C4 = 0;
@@ -73,9 +73,9 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
         screen_offset_2 -= 0xA0;
         scratch_page->unk_F8 = screen_offset_2;
         screen_offset = scratch_page->unk_FA;
-        view_rot_x = render_state->view.unk_0AC;
-        view_rot_y = render_state->view.unk_0AE;
-        view_rot_z = render_state->view.viewAngle;
+        view_rot_x = render_state->view.camera_rotation.parts.camera_rotation_x;
+        view_rot_y = render_state->view.camera_rotation.parts.camera_rotation_y;
+        view_rot_z = render_state->view.camera_rotation.parts.viewAngle;
         screen_offset -= 0x78;
         scratch_page->unk_FA = screen_offset;
         scratch_page->unk_34 = view_rot_x;
@@ -85,7 +85,7 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
         view_y_angle = scratch_page->unk_38.u16;
         scratch_page->unk_A4 = field_value;
         coord_offset = sprite->unk_1A;
-        coord_value = ((u16)render_state->view.unk_0A0);
+        coord_value = ((u16)render_state->view.view_rotation_offset.parts.view_rotation_offset_z);
         coord_offset -= view_y_angle;
         coord_value += coord_offset;
         scratch_page->unk_A8 = coord_value;
@@ -271,5 +271,5 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
         }
         func_80064A40();
     }
-    ((T_80170874_S_80DB9000_6 *)render_state->unk_000)->unk_8D0 = packet;
+    ((T_80170874_S_80DB9000_6 *)render_state->draw_buffer)->unk_8D0 = packet;
 }

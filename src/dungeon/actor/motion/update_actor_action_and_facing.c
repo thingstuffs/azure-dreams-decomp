@@ -29,12 +29,12 @@ void update_actor_action_and_facing_2(Rec_func_8008ACDC_arg0 *state, EntityRec *
         func_8003DB94(
             sprite,
             D_800DD274[
-                ((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
-        tracked_addr = ((s32)g_dungeon_status.unk_10);
+        tracked_addr = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_addr == (u32)((u8 *)actor - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_addr & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_addr & 0x7FFFFFFF;
         }
 
         if (actor->unk_28 == 0) {

@@ -117,7 +117,7 @@ void update_actor_visual_motion(void *object_arg, void *motion_arg, void *part_a
     if (!(part_flags & 0x8000)) {
         u16 facing_flags;
 
-        direction = ((g_game_work.view.viewAngle + ((S_801711B0_2 *)base)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801711B0_2 *)base)->unk_2A + 0x100) >> 9) & 7;
         state_or_dir = direction;
         if ((*(s16 *)((u8 *)object_arg + (0x94))) != state_or_dir) {
             select_indirect_table_entry(part_arg,

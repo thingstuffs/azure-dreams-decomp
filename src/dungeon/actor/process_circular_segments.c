@@ -52,13 +52,13 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
     s32 offset_x;
     s32 offset_y;
 
-    state = ((State_80083160 *)gw->unk_000);
+    state = ((State_80083160 *)gw->draw_buffer);
     last_result = state->value;
     ((ScratchHeader_800AFBFC *)scratch)->state_data = (u8 *)state + 0x8b0;
     segment_data = segment->temp;
     ((ScratchHeader_800AFBFC *)scratch)->segment_data = segment_data;
-    offset_x = ((u16)gw->view.unk_094);
-    offset_y = ((u16)gw->view.unk_096);
+    offset_x = ((u16)gw->view.view_offset.parts.view_offset_x);
+    offset_y = ((u16)gw->view.view_offset.parts.view_offset_y);
     segment_byte = ((u8 *)segment_data)[1];
     flags = segment->flags;
     segment->byte = segment_byte;
@@ -71,7 +71,7 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
     }
 
     angle = shape->value;
-    rotation = ((u16)gw->view.viewAngle);
+    rotation = ((u16)gw->view.camera_rotation.parts.viewAngle);
     angle += 0xc00;
     angle -= (rotation + 0x80) & 0xf00;
     angle_step = angle;
@@ -200,7 +200,7 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
     }
     {
         State_80083160 *final_state;
-        final_state = ((State_80083160 *)gw->unk_000);
+        final_state = ((State_80083160 *)gw->draw_buffer);
         result = 0;
         final_state->value = last_result;
     }

@@ -12,7 +12,7 @@ extern void add_a_directional_step_vector_scale_down_exceeds_length_limit(s16 an
 /* Passes the valid shared angle, fixed value 0x120000, and context to add_a_directional_step_vector_scale_down_exceeds_length_limit. */
 void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(s32 context)
 {
-    s16 angle = input_angle_with_offset(g_game_work.buttons, g_game_work.view.viewAngle);
+    s16 angle = input_angle_with_offset(g_game_work.buttons, g_game_work.view.camera_rotation.parts.viewAngle);
 
     if (angle != -1) {
         add_a_directional_step_vector_scale_down_exceeds_length_limit(angle, 0x120000, context);

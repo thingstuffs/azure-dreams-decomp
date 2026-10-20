@@ -61,7 +61,7 @@ void advance_actor_staged_animation(void *action_data, S_801735E8_3 *motion, Spr
             return;
         }
         animation->frameTable = &D_801753E4;
-        select_sprite_entry(animation, D_801753E4[(((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
+        select_sprite_entry(animation, D_801753E4[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
         play_sound_if_enabled(0x808);
         phase_value = action->unk_9B;
         action->unk_96 = 0U;
@@ -84,7 +84,7 @@ void advance_actor_staged_animation(void *action_data, S_801735E8_3 *motion, Spr
         if (animation->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x100);
             action->unk_8C = D_80171E20;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
         }

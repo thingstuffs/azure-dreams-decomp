@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -25,32 +26,32 @@ char *select_dialogue_event_state_flags(s32 unused_0, s32 unused_1, s32 dialogue
 
     switch (dialogue_selector - 12) {
     case 7:
-        if (func_8001A64C(0x938) == 0) {
+        if (func_8001A64C(F_sbs32_pad14) == 0) {
             return D_8001BFF8;
         }
         return D_800225F5;
     case 6:
-        if (func_8001A64C(0x938) == 0) {
-            func_8001A554(0x937);
-            func_8001A554(0x938);
-            func_8001A554(0x94D);
-            func_8001A5CC(0x94C);
+        if (func_8001A64C(F_sbs32_pad14) == 0) {
+            func_8001A554(F_sbs32_pad13);
+            func_8001A554(F_sbs32_pad14);
+            func_8001A554(F_sbs32_pad35);
+            func_8001A5CC(F_sbs32_pad34);
             return D_80021F90;
         }
         return D_800225DB;
     case 0:
-        if (func_8001A64C(0x938) == 0) {
-            if (func_8001A64C(0x935) != 0) {
+        if (func_8001A64C(F_sbs32_pad14) == 0) {
+            if (func_8001A64C(F_sbs32_pad11) != 0) {
                 return D_8001C8AF;
             }
-            if (func_8001A64C(0x936) != 0) {
+            if (func_8001A64C(F_sbs32_pad12) != 0) {
                 return D_8001C8DC;
             }
             return D_8001C6D0;
         }
-        if (func_8001A64C(0x94D) != 0) {
-            func_8001A5CC(0x94D);
-            func_8001A554(0x94C);
+        if (func_8001A64C(F_sbs32_pad35) != 0) {
+            func_8001A5CC(F_sbs32_pad35);
+            func_8001A554(F_sbs32_pad34);
             {
                 u8 *globals_base = (u8 *)0x80010000;
                 (*(void (**)(s32))((u8 *)*(void **)((u8 *)*(void **)(globals_base + 0x6000) + 0x20) + 0x258))(1);

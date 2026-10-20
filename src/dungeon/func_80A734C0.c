@@ -120,7 +120,7 @@ copy_existing:
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         {
             u8 *active_entity = (u8 *)D_800814A8;
             (*(u16 *)((u8 *)active_entity + 0xA6))--;
@@ -149,7 +149,7 @@ copy_existing:
         ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80174180);
         select_sprite_entry(
             sprite,
-            ((u8 *)D_80174180)[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+            ((u8 *)D_80174180)[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
             0);
         ((Rec_func_80172CC0_arg0 *)action)->unk_A8 = 0x10;
         ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
@@ -194,15 +194,15 @@ copy_existing:
             ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80174148);
             select_sprite_entry(
                 sprite,
-                ((u8 *)D_80174148)[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+                ((u8 *)D_80174148)[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
                 0);
         }
 
         {
-            if (((s32)g_dungeon_status.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         ((Rec_func_80172CC0_arg0 *)action)->unk_8C.as_pv = ((void *)func_80170E54);

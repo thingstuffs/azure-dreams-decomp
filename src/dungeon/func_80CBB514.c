@@ -27,7 +27,7 @@ void func_80150D14(void *state, EntityRec *position, SpriteFrameState *entity, v
         ((CL_CD7000_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CL_CD7000_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
         ((Rec_D_80082E80 *)actor)->unk_8A = (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
     case 2:
-        direction = ((s32) (g_game_work.view.viewAngle + (s16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x100)
+        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x100)
             >> 9) & 7;
         if ((*(u8 *)&D_801513A8) == 0 || direction != 2) {
             if (direction == 2) {
@@ -61,12 +61,12 @@ void func_80150D14(void *state, EntityRec *position, SpriteFrameState *entity, v
             return;
         }
         effect_data = ((void **)&D_800DCEEC)[lookup_masked_byte_table(actor)];
-        scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (effect_data->unk_00
-            - scene_color->view.unk_090) / (s16) ((CL_CD7000_80174D14_S_80C97514_0 *)state)->unk_96));
-        scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (effect_data->unk_01
-            - scene_color->view.unk_091) / (s16) ((CL_CD7000_80174D14_S_80C97514_0 *)state)->unk_96));
-        scene_color->view.unk_092 = (u8) (scene_color->view.unk_092 + ((s32) (effect_data->unk_02
-            - scene_color->view.unk_092) / (s16) ((CL_CD7000_80174D14_S_80C97514_0 *)state)->unk_96));
+        scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (effect_data->unk_00
+            - scene_color->view.tint.parts.tint_r) / (s16) ((CL_CD7000_80174D14_S_80C97514_0 *)state)->unk_96));
+        scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (effect_data->unk_01
+            - scene_color->view.tint.parts.tint_g) / (s16) ((CL_CD7000_80174D14_S_80C97514_0 *)state)->unk_96));
+        scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (effect_data->unk_02
+            - scene_color->view.tint.parts.tint_b) / (s16) ((CL_CD7000_80174D14_S_80C97514_0 *)state)->unk_96));
         return;
     case 4:
     {
@@ -133,7 +133,7 @@ void func_80150D14(void *state, EntityRec *position, SpriteFrameState *entity, v
             (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
         model = ((Rec_D_80082E80 *)actor)->unk_60.as_pv;
         render_obj = ((CL_CD7000_80174D14_S_80C97514_9_pre *)model)[-1].unk_00;
-        select_indirect_table_entry(render_obj, render_obj->unk_2C[((s32) (g_game_work.view.viewAngle
+        select_indirect_table_entry(render_obj, render_obj->unk_2C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
             + (s16) ((CL_CD7000_80174D14_S_80C97514_9 *)model)->unk_2A + 0x100) >> 9) & 7], render_obj->unk_04);
         render_obj->unk_14 = (u16) (render_obj->unk_14 & 0xFFFE);
     case 8:
@@ -145,7 +145,7 @@ void func_80150D14(void *state, EntityRec *position, SpriteFrameState *entity, v
         ((CL_CD7000_80174D14_S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)actor)->unk_8A;
         ((CL_CD7000_80174D14_S_80C97514_0_pre *)state)[-1].unk_00 = (u16) (((CL_CD7000_80174D14_S_80C97514_0_pre *)state)[-1].unk_00 | 0x8000);
         (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((Rec_D_80082E80 *)actor)->unk_6D = 0;
         return;
     }

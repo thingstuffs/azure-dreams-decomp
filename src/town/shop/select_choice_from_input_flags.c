@@ -17,7 +17,7 @@ s32 select_choice_from_input_flags(s32 *choice_values)
 
     choice = -1;
     if (g_game_work.buttons != 0) {
-        town_flags = ((s32)g_game_work.unk_010);
+        town_flags = ((s32)g_game_work.pressed_buttons);
         if (town_flags & 0x40) {
             choice = 2;
         } else if (town_flags & 0x10) {

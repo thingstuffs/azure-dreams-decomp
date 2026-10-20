@@ -1,13 +1,13 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "frontend/libcard/interfaces.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
 extern s32 card_boot_initialize_save_menu_request(void *a0, s32 a1);
-extern void card_boot_erase_temporary_file(void);
-extern void card_boot_refresh_directory_summary(void);
+#include "modules/main_server_ship_interfaces.h"
 extern s32 create_or_reset_seven_entry_menu_backdrop(void *a0, s32 a1);
 extern s32 render_rotated_grid_surface(void *a0, s32 a1, s32 a2);
 extern s32 create_save_heading(void *a0);

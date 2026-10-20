@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern void func_80018C74(s32);
@@ -7,12 +8,12 @@ extern s32 func_80018D6C(s32);
 /* Clear flags 0xFCB and 0xFCD; if 0x7D1 and 0xFD5 are set and 0x7D2 is clear, set flag 0x7D6 and return 1. */
 s32 func_80016DDC(void)
 {
-    func_80018CEC(0xFCB);
-    func_80018CEC(0xFCD);
-    if ((func_80018D6C(0x7D1) != 0) &&
-        (func_80018D6C(0x7D2) == 0) &&
-        (func_80018D6C(0xFD5) != 0)) {
-        func_80018C74(0x7D6);
+    func_80018CEC(F_cheriru_first_cheriru);
+    func_80018CEC(F_cheriru_first_nadia);
+    if ((func_80018D6C(F_sbs24_top) != 0) &&
+        (func_80018D6C(F_sbs24_pad00) == 0) &&
+        (func_80018D6C(Fr_cheriru_pad28) != 0)) {
+        func_80018C74(F_sbs24_pad04);
         return 1;
     }
     return 0;

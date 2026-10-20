@@ -53,17 +53,12 @@ extern void close(s32 file);
 
 /* Complete member contracts, one prototype per line. */
 void card_boot_select_channel_mode(s32 mode_enabled, s32 *unused_repeat_counts);
-void card_boot_recheck_selected_channel(void);
-void card_boot_toggle_channel(void);
 void card_boot_reset_operation_and_drain_events(void);
 s32 card_boot_latch_hardware_status_one(void);
 s32 card_boot_latch_hardware_status_two(void);
 s32 card_boot_latch_hardware_status_three(void);
 s32 card_boot_latch_hardware_status_four(void);
 void card_boot_open_events(void);
-void card_boot_init_server(void);
-void card_boot_close_events(void);
-s32 card_boot_get_operation_state(void);
 s32 card_advance_selected_operation(void);
 s32 card_boot_poll_state_two_transition(void);
 s32 card_poll_selected_operation_state(void);
@@ -76,28 +71,19 @@ void card_boot_drain_software_events(void);
 s32 card_boot_take_hardware_status(void);
 void card_boot_drain_hardware_events(void);
 s32 card_boot_dispatch_event_callbacks(void);
-s32 card_boot_debounce_card_status_events(void);
 s32 *card_boot_debounce_card_presence(void);
-void no_op_card_stub(void);
 void func_80021904(void);
-s32 card_boot_has_selected_channel(void);
 s32 count_entries_matching_search_path(void);
 s32 card_boot_calc_remaining_8k_blocks(s32 entry_count);
 s32 card_boot_has_directory_name_prefix(s32 count, u8 *text);
-s32 card_boot_format_card_and_wait(s32 card_slot);
 void card_boot_build_slot_path(s32 dest, s32 suffix_index);
 s32 card_boot_read_file_units_128(s32 path, s32 buffer, s32 read_size, s32 block_offset);
 s32 card_boot_write_file_units_128(s32 path, s32 buffer, s32 unit_count, s32 unit_offset, s32 skip_create);
 s32 card_boot_get_slot_marker(s32 entry_index);
-s32 card_boot_load_slot_metadata(s32 slot);
 void card_boot_cache_save_header(s32 entry_index, void *source);
 void card_boot_store_save_xor_checksum(void *buffer);
 s32 card_boot_verify_save_xor_checksum(void *save_data);
 s32 card_boot_write_save_via_temporary_path(s32 slot, void *data);
 void card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 update_entry);
-void card_boot_refresh_directory_summary(void);
-s32 card_boot_get_remaining_block_summary(void);
-s32 card_boot_count_cached_slots(void);
-s32 card_boot_erase_slot_file(s32 file_index);
-void card_boot_erase_temporary_file(void);
+#include "modules/main_server_ship_interfaces.h"
 #endif

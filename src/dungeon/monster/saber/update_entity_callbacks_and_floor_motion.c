@@ -82,7 +82,7 @@ void update_entity_callbacks_and_floor_motion(void *entity, S_80171320_2 *motion
 
     monster_flags = ((SpriteAnimationTableView *)monster)->unk_14;
     if (!(monster_flags & 0x8000)) {
-        direction_value = g_game_work.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        direction_value = g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (direction_value >> 9) & 7;
         direction_index = direction;
         direction_copy = direction;

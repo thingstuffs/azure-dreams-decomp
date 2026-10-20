@@ -104,7 +104,7 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
 
             ((SpriteFrameState *)object_data)->frameTable = direction_table;
             select_sprite_entry(object_data,
-                direction_table[((g_game_work.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 

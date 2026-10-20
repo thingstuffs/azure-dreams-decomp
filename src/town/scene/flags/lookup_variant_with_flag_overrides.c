@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 func_80017B0C(void *, void *, s32, s32);
@@ -18,7 +19,7 @@ s32 lookup_variant_with_flag_overrides(s32 entry_id, s32 unused, s32 variant_id)
     default_result = func_80017B0C(D_800189D8, D_80019104, entry_id, variant_id);
 
     if (variant_id == 45 && func_80017A54(D_800189D8, entry_id, 45)) {
-        func_800185C0(0x9AE);
+        func_800185C0(F_sbs35_pad03);
         return (s32)D_8001A212;
     }
     if (variant_id == 46 && func_80017A54(D_800189D8, entry_id, 46)) {

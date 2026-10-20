@@ -36,14 +36,14 @@ void update_actor_state_or_directional_sprite(void *state_arg, void *context, vo
             return;
         }
         *(void **)((u8 *)sprite + 0x2C) = D_801642C8;
-        select_sprite_entry(sprite, D_801642C8[((g_game_work.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
+        select_sprite_entry(sprite, D_801642C8[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);
     } else if (current_table == D_80164360) {
         if (*(s32 *)((u8 *)actor + 0x1C) & 0x208) {
             return;
         }
         *(void **)((u8 *)sprite + 0x2C) = D_80164328;
-        select_sprite_entry(sprite, D_80164328[((g_game_work.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
+        select_sprite_entry(sprite, D_80164328[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);
     } else {
         return;

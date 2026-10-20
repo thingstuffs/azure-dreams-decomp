@@ -27,7 +27,7 @@ void dispatch_registered_draw_callbacks(void)
             if (entry != 0) {
                 if (!(entry->flags & 0x800)) {
                     callback(entry->data, entry->callback_arg1, entry->callback_arg2);
-                    if (is_frame_packet_arena_overflowed(*(s32 *)((u8 *)g_game_work.unk_000 + 0x8D0))) {
+                    if (is_frame_packet_arena_overflowed(*(s32 *)((u8 *)g_game_work.draw_buffer + 0x8D0))) {
                         break;
                     }
                 }

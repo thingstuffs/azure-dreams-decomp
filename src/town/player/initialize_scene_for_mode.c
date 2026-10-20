@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "town/player/initialize_scene_for_mode.h"
 
 
@@ -24,7 +25,7 @@ void initialize_scene_for_mode(void)
     zero_words(scene, 6);
     render = &D_80082E80;
     zero_words(render, 0xC);
-    render->unk_028 = D_80080A80;
+    render->render_attributes = D_80080A80;
     initialize_circular_list_head();
 
     shared_data = D_800D0420;
@@ -60,13 +61,13 @@ void initialize_scene_for_mode(void)
         object->callback = rebuild_menu_node_list;
         register_node(object, D_800970FC);
         neutral_color = 0x808080;
-        render->unk_01E = 0x1000;
-        render->unk_01C = 0x1000;
+        render->scale_y = 0x1000;
+        render->scale_x = 0x1000;
 
         coords = state->coords;
         x_offset = state->x_offset;
         x_coord = coords[0];
-        *(s32 *)(&render->unk_00C) = neutral_color;
+        *(s32 *)(&render->primitive_color.parts.color_r) = neutral_color;
         scene->x.w.i = x_offset + x_coord;
         y_offset = state->y_offset;
         y_coord = coords[1];
@@ -81,15 +82,15 @@ void initialize_scene_for_mode(void)
         frame = state->frame;
         work->frame0 = frame;
         work->frame1 = frame;
-        clear_resident_bitmap_bit(0xA4);
+        clear_resident_bitmap_bit(F_t_attack_enable);
 
-        if (test_resident_bitmap_bit(0x1202) == 0) {
+        if (test_resident_bitmap_bit(F_player_mizugi) == 0) {
             work->active = 0;
         } else {
             work->active = 1;
         }
 
-        render->unk_028 = D_80080A80;
+        render->render_attributes = D_80080A80;
         if ((D_8006ADD4[0] != 0xC) && (find_item_by_kind_and_type(2, 0x13) != 0)) {
             create_person_object();
         }
@@ -107,28 +108,28 @@ void synchronize_mode_and_pending_callback(void) {
     void (*callback)();
 
     if (((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_00 != D_8008FFC0) {
-        if (test_resident_bitmap_bit(0x1202) == 0) {
+        if (test_resident_bitmap_bit(F_player_mizugi) == 0) {
             ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 0;
-            disabled_flag = test_resident_bitmap_bit(0x1202);
-            if (disabled_flag != test_resident_bitmap_bit(0x9D)) {
+            disabled_flag = test_resident_bitmap_bit(F_player_mizugi);
+            if (disabled_flag != test_resident_bitmap_bit(F_player_mizugi_old)) {
                 mode_result = func_80048D20();
                 D_80080A80 = mode_result;
-                update_state->unk_028 = mode_result;
+                update_state->render_attributes = mode_result;
             }
         } else {
             ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 1;
-            enabled_flag = test_resident_bitmap_bit(0x1202);
-            if (enabled_flag != test_resident_bitmap_bit(0x9D)) {
+            enabled_flag = test_resident_bitmap_bit(F_player_mizugi);
+            if (enabled_flag != test_resident_bitmap_bit(F_player_mizugi_old)) {
                 s32 mode_result;
                 mode_result = func_80048D40();
                 D_80080A80 = mode_result;
-                update_state->unk_028 = mode_result;
+                update_state->render_attributes = mode_result;
             }
         }
-        if (test_resident_bitmap_bit(0x1202) != 0) {
-            set_resident_bitmap_bit(0x9D);
+        if (test_resident_bitmap_bit(F_player_mizugi) != 0) {
+            set_resident_bitmap_bit(F_player_mizugi_old);
         } else {
-            clear_resident_bitmap_bit(0x9D);
+            clear_resident_bitmap_bit(F_player_mizugi_old);
         }
         call_the_handler_selects_nonzero_entry(D_800D0078, handler_state, update_state);
         initialize_player_object(handler_state);
@@ -249,8 +250,8 @@ void process_scene_record_update(void *context, void *input, void *record) {
     clear_motion_along_blocked_directions_update_affected_axes(input);
 
     if (D_80100DB0[0] == 0) {
-        if (((u16)work->view.viewAngle) >= 0x800) {
-            work->view.viewAngle |= 0xF000;
+        if (((u16)work->view.camera_rotation.parts.viewAngle) >= 0x800) {
+            work->view.camera_rotation.parts.viewAngle |= 0xF000;
         }
 
         callback = *(void **)context;
@@ -265,14 +266,14 @@ void process_scene_record_update(void *context, void *input, void *record) {
         } else if (D_8006ADD4[0] == 12) {
             initial_flags = work->buttons;
             if (initial_flags & 8) {
-                work->view.viewAngle -= 0x20;
-                if (work->view.viewAngle < -0x1E0) {
-                    work->view.viewAngle = -0x1E0;
+                work->view.camera_rotation.parts.viewAngle -= 0x20;
+                if (work->view.camera_rotation.parts.viewAngle < -0x1E0) {
+                    work->view.camera_rotation.parts.viewAngle = -0x1E0;
                 }
             } else if (initial_flags & 4) {
-                work->view.viewAngle += 0x20;
-                if (work->view.viewAngle > 0x1E0) {
-                    work->view.viewAngle = 0x1E0;
+                work->view.camera_rotation.parts.viewAngle += 0x20;
+                if (work->view.camera_rotation.parts.viewAngle > 0x1E0) {
+                    work->view.camera_rotation.parts.viewAngle = 0x1E0;
                 }
             } else {
                 func_800909A0();
@@ -283,16 +284,16 @@ void process_scene_record_update(void *context, void *input, void *record) {
             movement = runtime_estimate_vector_length(*(s32 *)((u8 *)input + 0xC),
                                      *(s32 *)((u8 *)input + 0x10));
             if (movement == 0) {
-                work->view.viewAngle =
-                    (((u16)work->view.viewAngle) + 8) & 0xFFF0;
+                work->view.camera_rotation.parts.viewAngle =
+                    (((u16)work->view.camera_rotation.parts.viewAngle) + 8) & 0xFFF0;
             }
             movement /= 0x10000;
             flags = work->buttons;
             if (flags & 8) {
-                work->view.viewAngle -= 0x10 + movement;
+                work->view.camera_rotation.parts.viewAngle -= 0x10 + movement;
             }
             if (flags & 4) {
-                work->view.viewAngle += 0x10 + movement;
+                work->view.camera_rotation.parts.viewAngle += 0x10 + movement;
             }
         }
     }
@@ -346,26 +347,26 @@ void process_scene_record_update(void *context, void *input, void *record) {
 /* func_800909A0: Moves the camera offset toward zero in steps of 16. */
 s32 func_800909A0() {
     GameWork *camera_state = &g_game_work;
-    s16 camera_offset = camera_state->view.viewAngle;
-    u16 next_offset = ((u16)camera_state->view.viewAngle);
+    s16 camera_offset = camera_state->view.camera_rotation.parts.viewAngle;
+    u16 next_offset = ((u16)camera_state->view.camera_rotation.parts.viewAngle);
 
     if (camera_offset != 0) {
         if (camera_offset > 0) {
             next_offset -= 0x10;
-            camera_state->view.viewAngle = next_offset;
+            camera_state->view.camera_rotation.parts.viewAngle = next_offset;
             if ((s16)next_offset < 0) {
-                camera_state->view.viewAngle = 0;
+                camera_state->view.camera_rotation.parts.viewAngle = 0;
             }
         } else if (camera_offset < 0) {
             next_offset += 0x10;
-            camera_state->view.viewAngle = next_offset;
+            camera_state->view.camera_rotation.parts.viewAngle = next_offset;
             if ((s16)next_offset > 0) {
-                camera_state->view.viewAngle = 0;
+                camera_state->view.camera_rotation.parts.viewAngle = 0;
             }
         }
     }
 
-    return camera_state->view.viewAngle;
+    return camera_state->view.camera_rotation.parts.viewAngle;
 }
 
 /* Clear the state field or invoke updates according to the record value. */
@@ -374,7 +375,7 @@ void clear_record_state_or_update(void *record) {
     GameWork *state = &g_game_work;
 
     if (threshold_value < 0x200) {
-        state->view.viewAngle = 0;
+        state->view.camera_rotation.parts.viewAngle = 0;
         return;
     }
     if (threshold_value < 0x300) {

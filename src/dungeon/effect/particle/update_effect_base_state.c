@@ -287,7 +287,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
             ((S_81844800_0 *)effect)->unk_52.s = effect_count;
             return;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((S_81844800_0_pre *)effect)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }
@@ -356,7 +356,7 @@ void update_effect_base_state(s32 effect_or_count) {
 
 #define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
-#define OTP(d) ((u32 *)((u8 *)render_state->unk_000 + 0xB0) + (d))
+#define OTP(d) ((u32 *)((u8 *)render_state->draw_buffer + 0xB0) + (d))
 
 #define LOAD_PTR(p) (*(u8 **)(p))
 #define LOAD_U32(p) (*(u32 *)(p))
@@ -467,7 +467,7 @@ s32 func_80024868(u8 *first_node)
                 u32 ot_tag;
                 tag_mask = 0xFF000000;
                 setaddr(prim, getaddr(OTP(depth_bucket)));
-                ot_entry += (u32)render_state->unk_000;
+                ot_entry += (u32)render_state->draw_buffer;
                 ot_tag = LOAD_U32(ot_entry + 0xB0);
                 ot_tag &= tag_mask;
                 STORE_U32(ot_entry + 0xB0, ot_tag | ((u32)prim & 0xFFFFFF));
@@ -521,7 +521,7 @@ s32 func_80024868(u8 *first_node)
             u32 ot_tag;
             tag_mask = 0xFF000000;
             setaddr(prim, getaddr(OTP(depth_bucket)));
-            ot_entry += (u32)render_state->unk_000;
+            ot_entry += (u32)render_state->draw_buffer;
             ot_tag = LOAD_U32(ot_entry + 0xB0);
             ot_tag &= tag_mask;
             STORE_U32(ot_entry + 0xB0, ot_tag | ((u32)prim & 0xFFFFFF));

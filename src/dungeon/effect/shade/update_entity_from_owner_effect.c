@@ -65,7 +65,7 @@ void update_entity_from_owner_effect(void *owner_data, void *position_data, u8 *
         U16(((u8 *)(owner_data)), 0x2A) = facing_check;
         select_sprite_entry(
             entity,
-            PTR(entity, 0x2C)[(g_game_work.view.viewAngle + effect_angle + 0x100) >> 9 & 7],
+            PTR(entity, 0x2C)[(g_game_work.view.camera_rotation.parts.viewAngle + effect_angle + 0x100) >> 9 & 7],
             0);
     }
 

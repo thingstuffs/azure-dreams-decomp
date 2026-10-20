@@ -77,7 +77,7 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
     state = actor->unk_9B;
     switch (state) {
     case 0:
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
         actor->unk_9B = 1;

@@ -462,7 +462,7 @@ spawn_trail:
             ((EntityRec *)effect)->unk_0C = effect_flags & 0xFFFF7FFF;
             return;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((S_8182C800_0_pre *)effect)[-1].unk_00 = (u16) (((S_8182C800_0_pre *)effect)[-1].unk_00 | 0x8000);
         ((S_8182C800_22 *)((s32 *)(&object_flag_block)))->unk_00 =
             (s32) (((S_8182C800_22 *)((s32 *)(&object_flag_block)))->unk_00 | 0x8000);

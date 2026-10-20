@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/town_pointees.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -44,8 +45,8 @@ void advance_town_events_and_dispatch_entry(void)
         } while (checked_count < 7);
 
         if (event_state->eventIndex != 5) {
-            func_8001886C(0x60E);
+            func_8001886C(F_sbs13_pad21);
         }
-        func_8001886C(0x606);
+        func_8001886C(F_sbs13_pad13);
     }
 }

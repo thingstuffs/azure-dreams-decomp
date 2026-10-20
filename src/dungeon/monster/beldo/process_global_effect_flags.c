@@ -17,7 +17,7 @@ typedef struct S_81254060_1 {
 
 /* Runs the global handler and clears both record flags when bit 21 is set. */
 void process_global_effect_flags(S_81254060_1 *primary_record, s32 unused_1, s32 unused_2, S_81254060_0 *secondary_record) {
-    if (((s32)g_game_work.unk_010) & 0x200000) {
+    if (((s32)g_game_work.pressed_buttons) & 0x200000) {
         func_800353F4(&D_80173FC8);
         secondary_record->unk_6D = 0;
         primary_record->unk_9B = 0;

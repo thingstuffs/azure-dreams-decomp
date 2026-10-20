@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -27,8 +28,8 @@ s32 run_global_interface_setup_sequence(void) {
     D_80018FB4 = ((S_func_80016D74_2 *)
         ((S_func_80016D74_1 *)
          ((S_func_80016D74_0 *)((s8 *)(&D_80016000)))->unk_00)->unk_20)->unk_54(3);
-    func_80018BD0(0xFB7);
-    func_80018BD0(0xFB8);
+    func_80018BD0(F_hos_first_cheriru);
+    func_80018BD0(F_hos_first_hush);
     ((S_func_80016D74_2 *)
         ((S_func_80016D74_1 *)
          ((S_func_80016D74_0 *)((s8 *)(&D_80016000)))->unk_00)->unk_20)->unk_2F8(0x10, 0x200);

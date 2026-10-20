@@ -65,7 +65,7 @@ void copy_view_halfword_triplet(void);
 /* Registers the state pointer and the default callback copy_view_halfword_triplet. */
 void func_8004D0C8(void *state)
 {
-    D_80083178.slot[0].unk_24 = state;
+    D_80083178.slot[0].position_source = state;
     D_80083178.slot[0].callback = copy_view_halfword_triplet;
 }
 

@@ -29,8 +29,8 @@ s32 resolve_actor_floor_trap_once(void *action, s32 unused, void *source, void *
 
         result = trigger_actor_floor_trap(source, target);
         if ((result << 16) != 0) {
-            g_dungeon_status.unk_0C = 0;
-            g_dungeon_status.unk_14 -= 1;
+            g_dungeon_status.active_actor = 0;
+            g_dungeon_status.trap_counts.parts.pending_trap_count -= 1;
             *((u8 *)action + 0x9B) = 1;
         }
     } else {

@@ -102,12 +102,12 @@ void update_multi_form_actor_control(void *actor, void *context, void *sprite, E
             return;
         }
         ((Rec_func_800A9E70_arg0 *)actor)->unk_AD = (u8) (((Rec_func_800A9E70_arg0 *)actor)->unk_AD + 1);
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         return;
     }
     if (((Rec_func_800A9E70_arg0 *)actor)->unk_B0 == 1) {
         if (((Rec_func_800A9E70_arg0 *)actor)->unk_AD != 0) {
-            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - ((Rec_func_800A9E70_arg0 *)actor)->unk_AD);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - ((Rec_func_800A9E70_arg0 *)actor)->unk_AD);
             ((Rec_func_800A9E70_arg0 *)actor)->unk_AD = 0U;
         }
     }
@@ -120,7 +120,7 @@ void update_multi_form_actor_control(void *actor, void *context, void *sprite, E
                 return;
             }
             (((S_8016A36C_3 *)sprite)->unk_2C.p) = (s32 *)((u8 *)&D_80173A58 + 0x68);
-            table_index = ((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+            table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
             table_index += (unsigned long)(s32 *)((u8 *)&D_80173A58 + 0x68);
             select_sprite_entry(sprite, *(u8 *)table_index, 0);
             return;
@@ -129,7 +129,7 @@ void update_multi_form_actor_control(void *actor, void *context, void *sprite, E
                 return;
             }
             (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_80173AC0;
-            table_index = ((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+            table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
             table_index += (unsigned long)&D_80173AC0;
             select_sprite_entry(sprite, *(u8 *)table_index, 0);
             return;
@@ -138,7 +138,7 @@ void update_multi_form_actor_control(void *actor, void *context, void *sprite, E
                 return;
             }
             (((S_8016A36C_3 *)sprite)->unk_2C.p) = (s32 *)((u8 *)&D_80173A00 + 0xC0);
-            table_index = ((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+            table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
             table_index += (unsigned long)(s32 *)((u8 *)&D_80173A00 + 0xC0);
             select_sprite_entry(sprite, *(u8 *)table_index, 0);
             return;
@@ -196,28 +196,28 @@ block_37:
                 case 0:
                     if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739A0) {
                         (((S_8016A36C_3 *)sprite)->unk_2C.p2) = &D_801739A0;
-                        select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
+                        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                             + &D_801739A0), 0);
                     }
                     break;
                 case 1:
                     if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739A8) {
                         (((S_8016A36C_3 *)sprite)->unk_2C.p2) = &D_801739A8;
-                        select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
+                        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                             + &D_801739A8), 0);
                     }
                     break;
                 case 2:
                     if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739B0) {
                         (((S_8016A36C_3 *)sprite)->unk_2C.p2) = &D_801739B0;
-                        select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
+                        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                             + &D_801739B0), 0);
                     }
                     break;
                 case 3:
                     if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739B8) {
                         (((S_8016A36C_3 *)sprite)->unk_2C.p2) = &D_801739B8;
-                        select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
+                        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                             + &D_801739B8), 0);
                     }
                     break;
@@ -259,20 +259,20 @@ block_37:
             return;
         }
         if ((can_entity_gain_level(entity) << 0x10) != 0) {
-            if (((s32)g_dungeon_status.unk_0C) != entity) {
+            if (((s32)g_dungeon_status.active_actor) != entity) {
                 return;
             }
-            if (((s32)g_dungeon_status.unk_10) != 0) {
+            if (((s32)g_dungeon_status.pending_display_owner) != 0) {
                 return;
             }
-            if ((s16) ((u16)g_dungeon_status.unk_0A) >= 2) {
+            if ((s16) ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) >= 2) {
                 return;
             }
             if (g_dungeon_status.flags & 8) {
                 return;
             }
             entity->unk_18 = 0;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
         }
     }
     room_id = find_active_rect_containing_point(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v);
@@ -282,7 +282,7 @@ block_37:
             update_actor_status_and_food(entity);
             return;
         }
-        if (((S_8016A36C_3 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (((S_8016A36C_3 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             advance_actor_movement_step(actor, context, sprite, (u8 *)(entity));
             return;
         }
@@ -331,7 +331,7 @@ block_37:
         case 7:
         {
             s32 angle = get_rounded_facing_and_rounding_flag(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY, &distance);
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
             EntityRec *owner = D_800814A8;
             entity->facing = (s16)angle;
             if (owner->unk_9A != 0x11) {
@@ -370,9 +370,9 @@ block_37:
             if (room_id < 0 || !(D_800E2970[room_id].flags & 2)) {
                 if (!(entity_flags & 0x430)) {
                     if ((compare_monster_neighbor_values(((S_8016A36C_3 *)sprite)->unk_24.at00.v,
-                        ((S_8016A36C_3 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10) != 0) {
+                        ((S_8016A36C_3 *)sprite)->unk_24.at01.v, D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 0x10) != 0) {
                         entity->facing = get_rounded_facing_and_rounding_flag(((S_8016A36C_3 *)sprite)->unk_24.at00.v,
-                            ((S_8016A36C_3 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &distance);
+                            ((S_8016A36C_3 *)sprite)->unk_24.at01.v, D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
                     }
                 }
             }
@@ -399,7 +399,7 @@ block_37:
             return;
         }
         (((S_8016A36C_3 *)sprite)->unk_2C.p) = next_table;
-        table_index = ((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+        table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         table_index += (unsigned long)next_table;
         select_sprite_entry(sprite, *(u8 *)table_index, 0);
         return;
@@ -410,7 +410,7 @@ block_37:
             return;
         }
         (((S_8016A36C_3 *)sprite)->unk_2C.p) = next_table;
-        table_index = ((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+        table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         table_index += (unsigned long)next_table;
         select_sprite_entry(sprite, *(u8 *)table_index, 0);
         return;
@@ -418,7 +418,7 @@ block_37:
         pose2_table = ((S_8016A36C_3 *)sprite)->unk_2C.p;
         if (pose2_table != &D_801739B0 && pose2_table != &D_80173A50) {
             (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_801739B0;
-            select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
+            select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                 + &D_801739B0), 0);
             ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
             ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
@@ -428,7 +428,7 @@ block_37:
             ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = (u16) (pose2_idle_ticks + 1);
             if ((s16) pose2_idle_ticks >= ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v) {
                 (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_80173A50;
-                select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
+                select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                     + &D_80173A50), 0);
                 func_800478B8(sprite);
                 ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
@@ -443,7 +443,7 @@ block_37:
             return;
         }
         (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_801739B0;
-        table_index = ((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+        table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         table_index += (unsigned long)&D_801739B0;
         select_sprite_entry(sprite, *(u8 *)table_index, 0);
         ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
@@ -454,7 +454,7 @@ block_37:
         idle_table = &D_801739B8;
         if (pose3_table != idle_table && pose3_table != &D_80173A58) {
             (((S_8016A36C_3 *)sprite)->unk_2C.p) = idle_table;
-            select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
+            select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                 + idle_table), 0);
             ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
             ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
@@ -464,7 +464,7 @@ block_37:
             ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = (u16) (pose3_idle_ticks + 1);
             if ((s16) pose3_idle_ticks >= ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v) {
                 (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_80173A58;
-                select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
+                select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                     + &D_80173A58), 0);
                 func_800478B8(sprite);
                 ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
@@ -479,7 +479,7 @@ block_37:
             return;
         }
         (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_801739B8;
-        table_index = ((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+        table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         table_index += (unsigned long)&D_801739B8;
         select_sprite_entry(sprite, *(u8 *)table_index, 0);
         ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;

@@ -23,7 +23,7 @@ void dim_and_clear_flagged_effect(void *effect, s32 unused, void *primitive, voi
             unlink_node(effect_object);
             retire_tracked_effect_by_id(effect_object);
             reduce_actor_food_meter(owner, 0x800);
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             *(u32 *)((u8 *)primitive + 0xC) = 0;
             *(u8 *)((u8 *)owner + 0x6D) = 0;
             *(u16 *)((u8 *)owner + 0x46) &= 0x7FFF;

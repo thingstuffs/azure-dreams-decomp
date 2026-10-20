@@ -75,7 +75,7 @@ void advance_actor_movement_sequence_and_resets(void *action, EntityRec *motion,
         ((SpriteFrameState *)sprite)->frameTable = D_80173D34;
         select_sprite_entry(
             sprite,
-            D_80173D34[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80173D34[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
         if (actor->target != 0) {
@@ -154,12 +154,12 @@ void advance_actor_movement_sequence_and_resets(void *action, EntityRec *motion,
         ((SpriteFrameState *)sprite)->frameTable = D_80173D04;
         select_sprite_entry(
             sprite,
-            D_80173D04[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80173D04[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         reduce_actor_food_meter(actor, 0x100);
         ((S_801725D0_1 *)action)->unk_8C = &D_80170E5C;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 &= 0x7FFF;

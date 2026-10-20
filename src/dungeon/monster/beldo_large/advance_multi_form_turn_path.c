@@ -59,7 +59,7 @@ void advance_multi_form_turn_path(void *actor, s32 unused, void *sprite, EntityR
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_801739C0) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801739C0;
             select_sprite_entry(sprite,
-                D_801739C0[((g_game_work.view.viewAngle + movement->facing + 0x100) >> 9) & 7],
+                D_801739C0[((g_game_work.view.camera_rotation.parts.viewAngle + movement->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;
@@ -67,7 +67,7 @@ void advance_multi_form_turn_path(void *actor, s32 unused, void *sprite, EntityR
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_801739C8) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801739C8;
             select_sprite_entry(sprite,
-                D_801739C8[((g_game_work.view.viewAngle + movement->facing + 0x100) >> 9) & 7],
+                D_801739C8[((g_game_work.view.camera_rotation.parts.viewAngle + movement->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;
@@ -75,7 +75,7 @@ void advance_multi_form_turn_path(void *actor, s32 unused, void *sprite, EntityR
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_801739D0) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801739D0;
             select_sprite_entry(sprite,
-                D_801739D0[((g_game_work.view.viewAngle + movement->facing + 0x100) >> 9) & 7],
+                D_801739D0[((g_game_work.view.camera_rotation.parts.viewAngle + movement->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;
@@ -83,7 +83,7 @@ void advance_multi_form_turn_path(void *actor, s32 unused, void *sprite, EntityR
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_801739D8) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801739D8;
             select_sprite_entry(sprite,
-                D_801739D8[((g_game_work.view.viewAngle + movement->facing + 0x100) >> 9) & 7],
+                D_801739D8[((g_game_work.view.camera_rotation.parts.viewAngle + movement->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;

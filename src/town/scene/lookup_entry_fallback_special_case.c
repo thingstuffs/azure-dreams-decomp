@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern void *get_special_data_for_low_value_id(s32 id);
@@ -17,7 +18,7 @@ void *lookup_entry_fallback_special_case(s32 lookup_key, s32 unused, s32 entry_i
     if (entry != 0) {
         return entry;
     }
-    initialize_state_two_entries_pointer(0x1451);
+    initialize_state_two_entries_pointer(F_sb34_00);
     entry = func_80017960(&D_800189AC, &D_80018B94, lookup_key, entry_id);
     if ((entry_id == 0x1C) && (func_800178A8(&D_800189AC, lookup_key, 0x1C) != 0)) {
         entry = &D_80018FFC;

@@ -33,14 +33,14 @@ void handle_town_map_input(u8 *object, void *transform, void *context) {
             s32 buttons;
 
             *(u16 *)(object + 0x64) = 0;
-            if (((s32)input->unk_010) & 0x10000000) {
+            if (((s32)input->pressed_buttons) & 0x10000000) {
                 *(u16 *)((u8 *)transform + 0xA) += 0x10;
             }
-            if (((s32)input->unk_010) & 0x40000000) {
+            if (((s32)input->pressed_buttons) & 0x40000000) {
                 *(u16 *)((u8 *)transform + 0xA) -= 0x10;
             }
 
-            buttons = ((s32)input->unk_010);
+            buttons = ((s32)input->pressed_buttons);
             if (buttons & 0x40) {
                 D_800FC418 = 1;
                 call_script((s32)(D_80072214));
@@ -65,7 +65,7 @@ void handle_town_map_input(u8 *object, void *transform, void *context) {
         u8 *positions;
 
         func_800478B8(context);
-        buttons = ((s32)input->unk_010);
+        buttons = ((s32)input->pressed_buttons);
         if (buttons & 0x6000) {
             if (++*(s32 *)(object + 0x74) >= *(s32 *)(object + 0x78)) {
                 *(s32 *)(object + 0x74) = 0;

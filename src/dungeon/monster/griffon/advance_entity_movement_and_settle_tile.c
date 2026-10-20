@@ -90,7 +90,7 @@ void advance_entity_movement_and_settle_tile(void *action, EntityRec *motion, vo
         ((SpriteFrameState *)sprite)->frameTable = D_80162C44;
         select_sprite_entry(
             sprite,
-            D_80162C44[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_80162C44[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_80161234_0 *)action)->unk_9B++;
         return;
@@ -107,7 +107,7 @@ void advance_entity_movement_and_settle_tile(void *action, EntityRec *motion, vo
         ((SpriteFrameState *)sprite)->frameTable = D_80162C44;
         select_sprite_entry(
             sprite,
-            D_80162C44[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_80162C44[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_80161234_0 *)action)->unk_96.s = 8;
         ((S_80161234_0 *)action)->unk_9B++;
@@ -142,9 +142,9 @@ void advance_entity_movement_and_settle_tile(void *action, EntityRec *motion, vo
         motion->y.v = ((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 16;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
-        entity_ref = ((s32)g_dungeon_status.unk_10);
+        entity_ref = ((s32)g_dungeon_status.pending_display_owner);
         if (entity_ref == (s32)((u8 *)entity - 0x20)) {
-            g_dungeon_status.unk_10 = entity_ref & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = entity_ref & 0x7FFFFFFF;
         }
         ((S_80161234_0 *)action)->unk_8C = &D_8015EE7C;
     }

@@ -1,5 +1,5 @@
 #include "dungeon/level/generate.h"
 
 void set_first_table_entry_active(void) {
-    g_dungeon_status.unk_0C = 1;
+    g_dungeon_status.active_actor = 1;
 }

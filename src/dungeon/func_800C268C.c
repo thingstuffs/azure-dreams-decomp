@@ -85,7 +85,7 @@ s32 prepare_quarter_damage_return(Object *object, Other *source) {
             }
         }
         *(u16 *)&object->value64 = adjustment;
-        g_dungeon_status.unk_10 = (u8 *)object - 0x20;
+        g_dungeon_status.pending_display_owner = (u8 *)object - 0x20;
         object->value60 = 0;
         create_textured_ellipse_effect(*(void **)((u8 *)object - 0x18), object);
         play_sound_if_enabled(0x60F);

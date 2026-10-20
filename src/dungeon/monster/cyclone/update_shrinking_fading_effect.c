@@ -208,7 +208,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprit
         ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
         set_record_integer_tile_center(transform_arg, ((S_80172FC0_4 *)sprite)->unk_24, ((S_80172FC0_4 *)sprite)->unk_25);
         main_actor = D_800814A8;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)main_actor + 0xA6))--;
         advance_status_timers(actor);
         actor->unk_6D--;
@@ -253,7 +253,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprit
                 s32 view_angle;
                 s32 actor_angle;
 
-                view_angle = g_game_work.view.viewAngle;
+                view_angle = g_game_work.view.camera_rotation.parts.viewAngle;
                 actor_angle = actor->facing;
                 model_root = ((S_80172FC0_4 *)sprite)->unk_28;
                 model_direction =
@@ -291,7 +291,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprit
             ((S_80172FC0_0 *)anim)->unk_98 |= 8;
             actor->flags1C &= 0xBFFFFFFF;
             ((S_80172FC0_4 *)sprite)->unk_2C = D_80176490;
-            direction = ((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
             frame = D_80176490[direction];
             select_sprite_entry(sprite, frame, 0);
             ((S_80172FC0_4 *)sprite)->unk_1E = 0x800;
@@ -412,15 +412,15 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprit
             s32 direction;
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80176460;
-            direction = ((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, D_80176460[direction], 0);
         }
         {
 
-            if (((s32)g_dungeon_status.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         ((S_80172FC0_0 *)anim)->unk_8C = D_80171094;
         ((S_80172FC0_4 *)sprite)->unk_1E = 0x1000;

@@ -140,7 +140,7 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
 
     monster_flags = ((S_8017103C_0 *)monster)->unk_14;
     if (!(monster_flags & 0x8000)) {
-        facing_angle = g_game_work.view.viewAngle + (((EntityArgFieldView_8102F83C *)entity_arg)->field_2A) + 0x100;
+        facing_angle = g_game_work.view.camera_rotation.parts.viewAngle + (((EntityArgFieldView_8102F83C *)entity_arg)->field_2A) + 0x100;
         direction = (facing_angle >> 9) & 7;
         direction_copy = direction;
         direction_index = direction;

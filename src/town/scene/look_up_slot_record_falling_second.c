@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -13,13 +14,13 @@ extern s32 func_80018C50();
 /* Updates event state and checks completion conditions, invoking a callback if unmet. */
 s32 look_up_slot_record_falling(void)
 {
-    func_80018BD0(0xFB7);
-    func_80018BD0(0xFB8);
+    func_80018BD0(F_hos_first_cheriru);
+    func_80018BD0(F_hos_first_hush);
 
-    if (func_80018C50(0x679) != 0 &&
-        func_80018C50(0x67A) == 0 &&
-        func_80018C50(0xFAF) != 0) {
-        func_80018B58(0x67D);
+    if (func_80018C50(F_sbs16_top) != 0 &&
+        func_80018C50(F_sbs16_pad00) == 0 &&
+        func_80018C50(Fr_hospital_scene06) != 0) {
+        func_80018B58(F_sbs16_pad03);
         return 1;
     }
 

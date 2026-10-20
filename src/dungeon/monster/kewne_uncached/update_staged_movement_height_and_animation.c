@@ -71,7 +71,7 @@ void update_staged_movement_height_and_animation(void *motion, EntityRec *veloci
             ((SpriteFrameState *)sprite)->frameTable = D_80175C68;
             select_sprite_entry(
                 sprite,
-                D_80175C68[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80175C68[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80173930_0 *)motion)->unk_9B++;
         }
@@ -135,7 +135,7 @@ void update_staged_movement_height_and_animation(void *motion, EntityRec *veloci
         ((SpriteFrameState *)sprite)->frameTable = D_80175C70;
         select_sprite_entry(
             sprite,
-            D_80175C70[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80175C70[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
         velocity->unk_0C =
@@ -173,7 +173,7 @@ void update_staged_movement_height_and_animation(void *motion, EntityRec *veloci
         set_record_integer_tile_center(velocity, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         reduce_actor_food_meter(actor, 0x100);
         ((S_80173930_0 *)motion)->unk_8C = D_80171FA4;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         actor->unk_46 &= 0x7FFF;
         break;

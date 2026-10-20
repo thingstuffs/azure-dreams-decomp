@@ -231,7 +231,7 @@ void func_80024020(u8 *self, u8 *motion)
         }
         if (timer > 0)
             return;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         F(self, u16, -2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
 

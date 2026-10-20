@@ -111,9 +111,9 @@ void return_actor_to_tile_center(S_80172CE0_0 *action, EntityRec *motion, Sprite
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, entity->unk_24, entity->unk_25);
 
-        tracked_actor = ((s32)g_dungeon_status.unk_10);
+        tracked_actor = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_actor == (s32)((u8 *)actor - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_actor & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_actor & 0x7FFFFFFF;
         }
         action->unk_8C = &D_80171058;
         return;

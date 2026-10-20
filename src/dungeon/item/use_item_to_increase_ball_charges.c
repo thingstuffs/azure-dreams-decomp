@@ -62,7 +62,7 @@ s32 use_item_to_increase_ball_charges(EntityRec *target, s32 action, s16 action_
         }
     } else {
         message = get_unused_text_buffer();
-        item_state = ((s32 *)(&D_80082E80.unk_030));
+        item_state = ((s32 *)(&D_80082E80.selected_item));
         if (((S_800C1B1C_2 *)(((S_800C1B1C_1 *)item_state)->unk_04))->unk_01 == 4) {
             message_end = expand_text_control_codes(
                 D_800E14EB,
@@ -80,7 +80,7 @@ s32 use_item_to_increase_ball_charges(EntityRec *target, s32 action, s16 action_
         display_text_with_fullwidth_adjustment(message);
     }
 
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     clear_slot_and_update_linked_state(action);
     return 1;
 }

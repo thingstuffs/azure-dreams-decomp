@@ -105,7 +105,7 @@ void func_8015F138(ActorActionView *action_input, EntityRec *motion_input, Actor
         }
         sprite->directionFrames = D_80162AF4;
         select_sprite_entry(sprite,
-            D_80162AF4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_80162AF4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -137,7 +137,7 @@ void func_8015F138(ActorActionView *action_input, EntityRec *motion_input, Actor
             action->frameParameter = 0;
             sprite->directionFrames = D_80162AD4;
             select_sprite_entry(sprite,
-                D_80162AD4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                D_80162AD4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 action->frameParameter);
         }
 
@@ -170,7 +170,7 @@ void func_8015F138(ActorActionView *action_input, EntityRec *motion_input, Actor
             update_actor_status_and_food(entity);
             return;
         }
-        if (!(sprite->position.packed == ((TilePairView *)&D_80082E80.tileX)->packed)) {
+        if (!(sprite->position.packed == ((TilePairView *)&D_80082E80.tile_position.parts.tile_x)->packed)) {
             action_state = entity->unk_46;
             if (!(action_state & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
@@ -212,7 +212,7 @@ void func_8015F138(ActorActionView *action_input, EntityRec *motion_input, Actor
 
                     facing_angle = get_rounded_facing_and_rounding_flag(
                         sprite->position.tile.x, sprite->position.tile.y,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &facing_aux);
                     player = D_800814A8;
                     entity->facing = facing_angle;
@@ -257,10 +257,10 @@ void func_8015F138(ActorActionView *action_input, EntityRec *motion_input, Actor
 
         if ((s16)compare_monster_neighbor_values(
                 sprite->position.tile.x, sprite->position.tile.y,
-                D_80082E80.tileX, D_80082E80.tileY) != 0) {
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
             entity->facing = get_rounded_facing_and_rounding_flag(
                 sprite->position.tile.x, sprite->position.tile.y,
-                D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &facing_aux);
         }
     }
     return;

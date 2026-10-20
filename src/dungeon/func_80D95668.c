@@ -104,7 +104,7 @@ void update_action_facing_animation(ActorActionView *action, void *context, Acto
                     sprite->frameTable = D_8016D86C;
                     select_sprite_entry(
                         sprite,
-                        D_8016D86C[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                        D_8016D86C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 action->behavior = 14;
@@ -138,7 +138,7 @@ void update_action_facing_animation(ActorActionView *action, void *context, Acto
                 return;
             }
 
-            if (sprite->tile.packed == *(u16 *)(&D_80082E80.tileX)) {
+            if (sprite->tile.packed == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
                 func_8016B5CC(action, context, sprite, entity);
                 return;
             }
@@ -181,7 +181,7 @@ void update_action_facing_animation(ActorActionView *action, void *context, Acto
             case 7:
                 room_or_facing = get_rounded_facing_and_rounding_flag(
                     sprite->tile.bytes.x, sprite->tile.bytes.y,
-                    D_80082E80.tileX, D_80082E80.tileY, (s16 *)&distance);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, (s16 *)&distance);
                 player = D_800814A8;
                 entity->facing = room_or_facing;
                 if (player->unk_9A == 0x11) {
@@ -220,10 +220,10 @@ void update_action_facing_animation(ActorActionView *action, void *context, Acto
                 if ((flags & 0x430) == 0) {
                     if ((s16)compare_monster_neighbor_values(
                             sprite->tile.bytes.x, sprite->tile.bytes.y,
-                            D_80082E80.tileX, D_80082E80.tileY) != 0) {
+                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
                         room_or_facing = get_rounded_facing_and_rounding_flag(
                             sprite->tile.bytes.x, sprite->tile.bytes.y,
-                            D_80082E80.tileX, D_80082E80.tileY, (s16 *)&distance);
+                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, (s16 *)&distance);
                         entity->facing = room_or_facing;
                     }
                 }
@@ -241,7 +241,7 @@ void update_action_facing_animation(ActorActionView *action, void *context, Acto
         sprite->frameTable = D_8016D86C;
         select_sprite_entry(
             sprite,
-            D_8016D86C[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_8016D86C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
     }
 }

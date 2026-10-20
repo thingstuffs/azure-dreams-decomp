@@ -67,7 +67,7 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
         }
         ((SpriteFrameState *)sprite)->frameTable = D_8017464C;
         select_sprite_entry(sprite,
-            D_8017464C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_8017464C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172DB0_0 *)action)->unk_96.u = 8;
         ((S_80172DB0_0 *)action)->unk_9B++;
@@ -84,7 +84,7 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
     }
         ((SpriteFrameState *)sprite)->frameTable = D_80174654;
         select_sprite_entry(sprite,
-            D_80174654[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80174654[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x707);
         ((S_80172DB0_0 *)action)->unk_96.u = 6;
@@ -127,7 +127,7 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
         }
         ((SpriteFrameState *)sprite)->frameTable = D_8017465C;
         select_sprite_entry(sprite,
-            D_8017465C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_8017465C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172DB0_0 *)action)->unk_9B++;
         ((S_80172DB0_3 *)motion)->unk_10 = 0;
@@ -141,7 +141,7 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
         }
         ((SpriteFrameState *)sprite)->frameTable = D_80174664;
         select_sprite_entry(sprite,
-            D_80174664[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80174664[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172DB0_0 *)action)->unk_96.u = 4;
         ((S_80172DB0_0 *)action)->unk_A4 = 0;
@@ -188,7 +188,7 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
         }
         reduce_actor_food_meter(actor, 0x100);
         ((S_80172DB0_0 *)action)->unk_8C = &D_801719DC;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         ((S_80172DB0_3 *)motion)->unk_10 = 0;
         ((S_80172DB0_3 *)motion)->unk_0C = 0;

@@ -22,7 +22,7 @@ void func_801715B4(void *action, s32 action_id, SpriteFrameState *entity, void *
     if (*(u8 * *)&entity->frameTable != ((u8 *)D_80174C2C)) {
         entity->frameTable = ((u8 *)D_80174C2C);
         select_sprite_entry(
-            entity,(s16)(((u8 *)D_80174C2C)[((g_game_work.view.viewAngle + ((R08_801715B4_S_80171570_0 *)state)->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
+            entity,(s16)(((u8 *)D_80174C2C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R08_801715B4_S_80171570_0 *)state)->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
     }
 
     x = entity->unk_24;

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 get_referenced_object_active_flag(void);
@@ -15,7 +16,7 @@ void *dispatch_or_select_state_data(s32 lookupValue, s32 unused, s32 lookupOptio
 
     lookupResult = apply_entry_position(&D_8001BB3C, &D_8001C354, lookupValue, lookupOption);
     if (get_referenced_object_active_flag() != 0) {
-        if (get_script_flag_mask(0xD53) == 0) {
+        if (get_script_flag_mask(Ftt_pad34) == 0) {
             return &D_8001E3B0;
         }
         return &D_8001E59B;

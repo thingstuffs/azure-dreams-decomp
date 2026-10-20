@@ -91,7 +91,7 @@ void advance_entity_along_path(void *actor, void *action, void *entity, void *pa
         (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8) = D_80174674;
         select_sprite_entry(
             entity,
-            D_80174674[((g_game_work.view.viewAngle + ((S_8016BD14_0 *)path)->unk_2A + 0x100) >> 9) & 7],
+            D_80174674[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BD14_0 *)path)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

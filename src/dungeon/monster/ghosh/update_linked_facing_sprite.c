@@ -31,7 +31,7 @@ void update_linked_facing_sprite(S_801714B0_1 *state, void *unused, SpriteFrameS
     func_800478B8(record);
     if (D_80174CDC[0] != 0) {
         calculated_direction =
-            ((g_game_work.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7;
+            ((g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100) >> 9) & 7;
         direction = calculated_direction;
 
         if (state->unk_94 != direction) {

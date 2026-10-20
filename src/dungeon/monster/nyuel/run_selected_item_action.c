@@ -163,7 +163,7 @@ void run_selected_item_action(void *action, EntityRec *motion, void *sprite, voi
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)((u8 *)actor + 0x6D))--;
@@ -212,11 +212,11 @@ void run_selected_item_action(void *action, EntityRec *motion, void *sprite, voi
 
             direction_frames = D_80174EE0;
             ((SpriteFrameState *)sprite)->frameTable = direction_frames;
-            direction = ((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, direction_frames[direction], 0);
         }
         {
-            scratch_pointer = (u8 *)&g_dungeon_status.unk_00;
+            scratch_pointer = (u8 *)&g_dungeon_status.turn_scale;
             if (((S_8017293C_5 *)scratch_pointer)->unk_0C != 0) {
                 return;
             }

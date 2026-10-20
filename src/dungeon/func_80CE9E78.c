@@ -19,7 +19,7 @@ void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused
         }
         display->frameTable = direction_table;
         select_sprite_entry(display,
-                      direction_table[((g_game_work.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
+                      direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
                       0);
         return;
     case 0xE:
@@ -30,7 +30,7 @@ void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused
         }
         display->frameTable = direction_table;
         select_sprite_entry(display,
-                      direction_table[((g_game_work.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
+                      direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
                       0);
         return;
     case 0xF:
@@ -41,7 +41,7 @@ void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused
         }
         display->frameTable = direction_table;
         select_sprite_entry(display,
-                      direction_table[((g_game_work.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
+                      direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
                       0);
     }
 }

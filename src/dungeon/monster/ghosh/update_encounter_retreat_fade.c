@@ -91,7 +91,7 @@ void update_encounter_retreat_fade(void) {
             sprite->tpage_abr = 0x20;
             sprite->frameTable = D_80174B30;
             sprite->flags |= 0xC;
-            select_sprite_entry(sprite, D_80174B30[((g_game_work.view.viewAngle + direction_data->field_2A + 0x100) >> 9) & 7],
+            select_sprite_entry(sprite, D_80174B30[((g_game_work.view.camera_rotation.parts.viewAngle + direction_data->field_2A + 0x100) >> 9) & 7],
                 0);
         }
         break;

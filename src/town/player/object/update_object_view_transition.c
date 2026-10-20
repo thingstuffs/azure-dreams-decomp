@@ -71,11 +71,11 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, void *object) {
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero((void *) object_ref);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero((void *) object_ref);
     target_yaw = (state_arg->unk_10 - 0x800) & 0xFFF;
-    yaw = step_angle_12_toward(town->view.viewAngle, target_yaw, 0x80);
-    town->view.viewAngle = yaw;
+    yaw = step_angle_12_toward(town->view.camera_rotation.parts.viewAngle, target_yaw, 0x80);
+    town->view.camera_rotation.parts.viewAngle = yaw;
     yaw_delta = abs((yaw & 0xFFF) - target_yaw);
     if (yaw_delta < 0x80) {
-        town->view.viewAngle = target_yaw;
+        town->view.camera_rotation.parts.viewAngle = target_yaw;
     }
     ticks = state_arg->unk_0A.s - 1;
     state_arg->unk_0A.s = ticks;
@@ -89,12 +89,12 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, void *object) {
             state_arg->unk_0A.u = 0;
         }
         pitch = ticks_left > 0
-            ? (pitch_step -= town->view.unk_0AC, pitch_step /= ticks_left,
-               ((u16)town->view.unk_0AC) + pitch_step)
+            ? (pitch_step -= town->view.camera_rotation.parts.camera_rotation_x, pitch_step /= ticks_left,
+               ((u16)town->view.camera_rotation.parts.camera_rotation_x) + pitch_step)
         : -0x2B0;
-        town->view.unk_0AC = pitch;
+        town->view.camera_rotation.parts.camera_rotation_x = pitch;
     }
-    if ((state_arg->unk_0A.u == 0) && (town->view.viewAngle == target_yaw)) {
+    if ((state_arg->unk_0A.u == 0) && (town->view.camera_rotation.parts.viewAngle == target_yaw)) {
         state_arg->unk_0A.u = 0;
         state_arg->unk_00 = &D_800A5A98;
     }

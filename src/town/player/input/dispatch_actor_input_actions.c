@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/position_query.h"
 #include "common.h"
 #include "shared/town_action_flag.h"
@@ -67,7 +68,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(position), height, (struct TownVec * *)(((u8 *)&D_800FE488)));
     }
 
-    input_flags = ((s32)input_state->unk_010);
+    input_flags = ((s32)input_state->pressed_buttons);
     if (input_flags & 0x10) {
         initialize_actor_action_state((struct Rec_func_80094268_arg0 *)(actor), (struct S_800942B0_0 *)(position), context);
         return;
@@ -83,7 +84,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
                 initialize_action_object_with_counter((struct Rec_func_80094268_arg0 *)(actor), (s32)(position), context);
                 return;
             }
-        } else if (test_resident_bitmap_bit(0xA4) != 0) {
+        } else if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
             func_80094088((struct Rec_func_80094268_arg0 *)(actor), position, (void *)(context));
             return;
         }

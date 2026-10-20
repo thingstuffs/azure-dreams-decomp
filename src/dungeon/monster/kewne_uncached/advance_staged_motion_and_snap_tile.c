@@ -70,8 +70,8 @@ void advance_staged_motion_and_snap_tile(S_A *motion_state, S_B *motion, S_C *ta
             motion->dy10 = 0;
             motion->dxC = 0;
             set_record_integer_tile_center(motion, target->x24, target->y25);
-            if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)actor - 0x20)) {
-                *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
+            if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)actor - 0x20)) {
+                *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
                 motion_state->field8c = D_80171FA4;
             } else {
                 motion_state->field8c = D_80171FA4;

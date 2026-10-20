@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -13,6 +14,6 @@ extern s32 call_helper_with_fixed_id_0x118a();
 
 /* Invoke operation 0x514 and set the current entry counter to two. */
 void run_scene_operation_514(void) {
-    call_helper_with_fixed_id_0x118a(0x514);
+    call_helper_with_fixed_id_0x118a(F_sbs07_pad29);
     ((S_80017308_1 *)(((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40))))->unk_02 = 2;
 }

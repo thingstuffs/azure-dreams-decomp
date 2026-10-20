@@ -72,10 +72,10 @@ void advance_entity_animation_actions(void *action, void *context, void *sprite,
             return;
         }
 
-        counter_state = (u8 *)&g_dungeon_status.unk_00;
+        counter_state = (u8 *)&g_dungeon_status.turn_scale;
         ((S_80173ED8_2 *)counter_state)->unk_0A--;
         ((SpriteFrameState *)sprite)->frameTable = D_80175188;
-        direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_80175188[direction & 7], 0);
         ((S_80173ED8_0 *)action)->unk_9B++;
         return;
@@ -86,16 +86,16 @@ void advance_entity_animation_actions(void *action, void *context, void *sprite,
             register u8 *counter_state;
 
             ((SpriteFrameState *)sprite)->frameTable = D_80175180;
-            direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+            direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
             select_sprite_entry(sprite, D_80175180[direction & 7], 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
-            counter_state = (u8 *)&g_dungeon_status.unk_00;
+            counter_state = (u8 *)&g_dungeon_status.turn_scale;
             ((S_80173ED8_2 *)counter_state)->unk_0A++;
             ((S_80173ED8_0 *)action)->unk_9B++;
             return;
         }
 
-        dungeon_state = &g_dungeon_status.unk_00;
+        dungeon_state = &g_dungeon_status.turn_scale;
         if (((S_80173ED8_4 *)dungeon_state)->unk_02 & 0x1000) {
             return;
         }
@@ -141,7 +141,7 @@ void advance_entity_animation_actions(void *action, void *context, void *sprite,
         }
 
         ((SpriteFrameState *)sprite)->frameTable = D_80175180;
-        direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_80175180[direction & 7], 0);
         ((EntityRec *)entity)->flags1C |= 0x40000;
         ((S_80173ED8_4 *)dungeon_state)->unk_0A++;
@@ -157,7 +157,7 @@ void advance_entity_animation_actions(void *action, void *context, void *sprite,
             return;
         }
 
-        counter_state = (u8 *)&g_dungeon_status.unk_00;
+        counter_state = (u8 *)&g_dungeon_status.turn_scale;
         ((S_80173ED8_2 *)counter_state)->unk_0A--;
         ((EntityRec *)entity)->flags1C &= ~0x208;
         ((S_80173ED8_0 *)action)->unk_8C = D_80171400;

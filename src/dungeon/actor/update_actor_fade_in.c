@@ -53,9 +53,9 @@ s32 update_actor_fade_in(StructArg0 *object_arg, s32 unused, StructArg2 *effect_
         ((SpriteFrameState *)effect)->clut += 0x80;
         ((SpriteFrameState *)effect)->flags &= 0xFFF3;
         register_node(owner, project_sprite_chain);
-        effect_count = ((u16)g_dungeon_status.unk_0A);
+        effect_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         effect_count--;
-        g_dungeon_status.unk_0A = effect_count;
+        g_dungeon_status.activity_counts.parts.pending_action_count = effect_count;
         return 1;
     default:
         return 0;

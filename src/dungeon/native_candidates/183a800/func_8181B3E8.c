@@ -551,7 +551,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             active = D_80025914;
             ((S_80024BE8_0 *)effect)->unk_82 = elapsed;
             if (active == 0) {
-                g_dungeon_status.unk_0C = 0;
+                g_dungeon_status.active_actor = 0;
                 ((S_80024BE8_0_pre *)effect)[-1].unk_00 |= 0x8000;
                 D_800814A0[0] |= 0x8000;
             } else {

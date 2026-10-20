@@ -24,11 +24,11 @@ void resume_multi_form_actor_control(void *controller, void *unused_1, void *unu
     state = &g_dungeon_status;
 
     state_flags = *(u16 *)(flags_page + 0x3714);
-    update_count = ((u16)state->unk_0A);
+    update_count = ((u16)state->activity_counts.parts.pending_action_count);
     *(u16 *)(flags_page + 0x3714) = state_flags | 8;
-    state->unk_0A = update_count + 1;
-    if (((u32)state->unk_10) == (u32)(active_object - 0x20)) {
-        *(u32 *)&state->unk_10 &= 0x7FFFFFFF;
+    state->activity_counts.parts.pending_action_count = update_count + 1;
+    if (((u32)state->pending_display_owner) == (u32)(active_object - 0x20)) {
+        *(u32 *)&state->pending_display_owner &= 0x7FFFFFFF;
     }
 
     func_800353F4(D_80175392);

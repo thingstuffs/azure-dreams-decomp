@@ -125,7 +125,7 @@ void update_random_particle_field(void *self, void *output)
         target = (void *)D_800814A8;
         if (target != NULL) {
             void *lookup_origin = target;
-            while ((target = find_eligible_nearby_entry(D_80082E80.tileX, D_80082E80.tileY, lookup_origin, target)) != NULL) {
+            while ((target = find_eligible_nearby_entry(D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, lookup_origin, target)) != NULL) {
                 if ((((S_81934928_4 *)target)->unk_1C & 0x2000) == 0) {
                     copy_src = (Copy24 *)(u32)((S_81934928_0 *)self)->unk_09;
                     apply_attack_power_and_element_effects(target, 0x20, (s32)copy_src, 0xA,
@@ -161,7 +161,7 @@ void update_random_particle_field(void *self, void *output)
             return;
         }
     }
-    g_dungeon_status.unk_0C = 0;
+    g_dungeon_status.active_actor = 0;
     (*(u16 *)((u8 *)self + -2)) |= 0x8000;
     object_flag_block.flags |= 0x8000;
 

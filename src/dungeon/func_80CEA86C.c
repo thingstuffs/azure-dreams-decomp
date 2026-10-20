@@ -90,8 +90,8 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
     advance_status_timers(actor);
 
     global_base = &g_dungeon_status;
-    if (global_base->unk_08 != 0) {
-        (*(u16 *)&global_base->unk_08)--;
+    if (global_base->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&global_base->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = actor->flags1C;
@@ -104,8 +104,8 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
             actor->facing = get_rounded_facing_and_rounding_flag(
                 tile->unk_24,
                 tile->unk_25,
-                D_80082E80.tileX,
-                D_80082E80.tileY,
+                D_80082E80.tile_position.parts.tile_x,
+                D_80082E80.tile_position.parts.tile_y,
                 &coord_result);
         }
     }

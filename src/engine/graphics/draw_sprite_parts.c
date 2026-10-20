@@ -38,7 +38,7 @@ void draw_sprite_parts(void *unused, u8 *sprite, s32 ot_depth)
     s32 page_or_flags;
 
     (void)unused;
-    context = g_game_work.unk_000;
+    context = g_game_work.draw_buffer;
     scratch = (u8 *)0x1F800000;
     depth = ot_depth;
     contexts = (u8 **)((void * *)(&g_game_work));

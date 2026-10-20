@@ -91,9 +91,9 @@ void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, Entit
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, tile_state->unk_24, tile_state->unk_25);
 
-        tracked_entity = ((s32)g_dungeon_status.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
         action->unk_8C = ((u8 *)initialize_destination_state);
         return;

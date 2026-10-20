@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/interfaces.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80027018_arg0.h"
 

@@ -157,7 +157,7 @@ void update_item_slot_action(ActionState *action_state, EntityRec *transform, Sp
         transform->unk_10 = 0;
         transform->unk_0C = 0;
         set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((PlayerActionCounter *)D_800814A8)->pendingActions = ((PlayerActionCounter *)D_800814A8)->pendingActions - 1;
         advance_status_timers(actor);
         actor->unk_6D = ((u8)actor->unk_6D) - 1;
@@ -202,14 +202,14 @@ void update_item_slot_action(ActionState *action_state, EntityRec *transform, Sp
             if (sprite->unk_2C != direction_table) {
                 sprite->unk_2C = direction_table;
                 select_sprite_entry(sprite,
-                    direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
         }
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
-        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+        g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
         sprite->unk_14 &= 0xF7FF;
         action_state->handler = D_80158F6C;
         advance_status_timers(actor);

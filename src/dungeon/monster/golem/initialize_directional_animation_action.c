@@ -25,7 +25,7 @@ s32 initialize_directional_animation_action(void *state_ptr, s32 action_arg, voi
                     state[0x9B] = 0;
                     *(s32 *)(state + 0x8C) = 0;
                     *(u8 **)(sprite + 0x2C) = D_80175F30;
-                    select_sprite_entry(sprite, D_80175F30[((g_game_work.view.viewAngle + *(s16 *)(entity + 0x2A) + 0x100)
+                    select_sprite_entry(sprite, D_80175F30[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)(entity + 0x2A) + 0x100)
                         >> 9) & 7], 0);
                     advance_status_timers(entity);
                     entity[0x6D]--;

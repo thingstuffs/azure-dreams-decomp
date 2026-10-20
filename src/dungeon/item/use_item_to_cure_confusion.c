@@ -76,6 +76,6 @@ s32 use_item_to_cure_confusion(void *entity, s32 update_value, s16 mode) {
     }
     clear_slots_of_type(entity, 2);
     clear_slot_and_update_linked_state(update_value);
-    g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+    g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     return 1;
 }

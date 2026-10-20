@@ -32,7 +32,7 @@ void initialize_directional_action_target(First *state, s32 unused, Obj *object,
     state->field9E = 2;
     object->field2C = D_8017556C;
     select_sprite_entry(object,
-                  D_8017556C[((g_game_work.view.viewAngle + angle_source->field2A + 0x100) >> 9) & 7],
+                  D_8017556C[((g_game_work.view.camera_rotation.parts.viewAngle + angle_source->field2A + 0x100) >> 9) & 7],
                   0);
     object->field1E = 0xC00;
 }

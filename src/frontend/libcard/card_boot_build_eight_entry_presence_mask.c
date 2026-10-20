@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/interfaces.h"
 
 #include "engine/object/test_resident_bitmap_bit_api.h"                             /* extern */
 extern s16 D_80028010[8];

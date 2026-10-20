@@ -91,7 +91,7 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
         anim_table = D_80175180;
         (*(void * *)((u8 *)sprite_in + 0x2C)) = anim_table;
         select_sprite_entry(sprite_in,
-            anim_table[((g_game_work.view.viewAngle + ((S_80171400_1 *)entity)->unk_2A + 0x100) >> 9) & 7],
+            anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171400_1 *)entity)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -126,7 +126,7 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
             ((Rec_func_800A9E70_arg0 *)actor)->unk_A8 = 0;
             (*(void * *)((u8 *)sprite_in + 0x2C)) = anim_table;
             select_sprite_entry(sprite_in,
-                anim_table[((g_game_work.view.viewAngle + ((S_80171400_1 *)entity)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171400_1 *)entity)->unk_2A + 0x100) >> 9) & 7],
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_A8);
         }
 
@@ -161,7 +161,7 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
             update_actor_status_and_food(entity);
             return;
         }
-        if (((S_80171400_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (((S_80171400_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_80171B28(actor, context, sprite_in, entity);
             return;
         }
@@ -205,7 +205,7 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
 
             direction = get_rounded_facing_and_rounding_flag(
                 ((S_80171400_2 *)sprite_in)->unk_24.at00.v, ((S_80171400_2 *)sprite_in)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
             player = D_800814A8;
             ((S_80171400_1 *)entity)->unk_2A = direction;
             if (player->unk_9A != 0x11) {
@@ -243,10 +243,10 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
 
                 if ((compare_monster_neighbor_values(
                         ((S_80171400_2 *)sprite_in)->unk_24.at00.v, ((S_80171400_2 *)sprite_in)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
                     ((S_80171400_1 *)entity)->unk_2A = get_rounded_facing_and_rounding_flag(
                         ((S_80171400_2 *)sprite_in)->unk_24.at00.v, ((S_80171400_2 *)sprite_in)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
                 }
             }
         }

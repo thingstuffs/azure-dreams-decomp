@@ -153,6 +153,6 @@ s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
             }
         }
     }
-    ((DungeonRoot *)root_slot->unk_000)->cursor = packet_cursor;
+    ((DungeonRoot *)root_slot->draw_buffer)->cursor = packet_cursor;
     return 0;
 }

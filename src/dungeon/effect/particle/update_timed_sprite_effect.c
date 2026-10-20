@@ -272,7 +272,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
         if (effect->unk_50.s > 0) {
             return;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((ObjectStatusPrefix *)((u8 *)effect - 0x20))->unk_1E |= 0x8000;
         object_flag_block.flags |= 0x8000;
         return;
@@ -320,8 +320,8 @@ next_record:
         s32 tex_v;
         s32 ot_offset;
 
-        poly = (POLY_FT4 *)((RenderContext *)render_state->unk_000)->next_prim;
-        ((RenderContext *)render_state->unk_000)->next_prim = (u8 *)poly + sizeof(POLY_FT4);
+        poly = (POLY_FT4 *)((RenderContext *)render_state->draw_buffer)->next_prim;
+        ((RenderContext *)render_state->draw_buffer)->next_prim = (u8 *)poly + sizeof(POLY_FT4);
         *(u32 *)&poly->r0 = 0x00808080;
         func_800666F4(poly);
         func_80066640(poly, 1);
@@ -344,10 +344,10 @@ next_record:
         poly->v1 = poly->v3 = tex_v - 97;
 
         poly->tag = (poly->tag & 0xFF000000) |
-                    (*(u32 *)((u8 *)((RenderContext *)render_state->unk_000) + 0xB0 + ot_offset) &
+                    (*(u32 *)((u8 *)((RenderContext *)render_state->draw_buffer) + 0xB0 + ot_offset) &
                      0x00FFFFFF);
-        *(u32 *)((u8 *)((RenderContext *)render_state->unk_000) + 0xB0 + ot_offset) =
-            (*(u32 *)((u8 *)((RenderContext *)render_state->unk_000) + 0xB0 + ot_offset) & 0xFF000000) |
+        *(u32 *)((u8 *)((RenderContext *)render_state->draw_buffer) + 0xB0 + ot_offset) =
+            (*(u32 *)((u8 *)((RenderContext *)render_state->draw_buffer) + 0xB0 + ot_offset) & 0xFF000000) |
             ((u32)poly & 0x00FFFFFF);
     }
 

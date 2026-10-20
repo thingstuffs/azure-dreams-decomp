@@ -55,10 +55,10 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
         }
         ((SpriteFrameState *)object)->frameTable = D_80176470;
         select_sprite_entry(object,
-            D_80176470[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80176470[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
-            u8 *counter_base = (u8 *)&g_dungeon_status.unk_00;
+            u8 *counter_base = (u8 *)&g_dungeon_status.turn_scale;
 
             ((S_80173DD4_3 *)counter_base)->unk_0A--;
         }
@@ -68,7 +68,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
         if ((get_entity_effect_value(actor, 1) << 16) == 0) {
         ((SpriteFrameState *)object)->frameTable = D_80176478;
         select_sprite_entry(object,
-            D_80176478[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80176478[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&actor->flags1C) |= 0x40000;
         if (((SpriteFrameState *)object)->flags & 0x8000) {
@@ -76,7 +76,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
             break;
         }
         {
-            u8 *counter_base = (u8 *)&g_dungeon_status.unk_00;
+            u8 *counter_base = (u8 *)&g_dungeon_status.turn_scale;
 
             ((Rec_func_80173DD4_arg0 *)controller)->unk_9B++;
             ((S_80173DD4_3 *)counter_base)->unk_0A++;
@@ -134,7 +134,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
                 TileObject *origin = &D_80082E80;
                 s8 tile = *(s8 *)&((SpriteFrameState *)object)->unk_26;
 
-                if (((tile == origin->unk_026) && (tile >= 0)) ||
+                if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, object) < 2)) {
                     if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(actor, 1);
@@ -147,7 +147,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
         }
         ((SpriteFrameState *)object)->frameTable = D_80176478;
         select_sprite_entry(object,
-            D_80176478[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80176478[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&actor->flags1C) |= 0x40000;
         if (((SpriteFrameState *)object)->flags & 0x8000) {
@@ -155,7 +155,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
             break;
         }
         {
-            u8 *counter_base = (u8 *)&g_dungeon_status.unk_00;
+            u8 *counter_base = (u8 *)&g_dungeon_status.turn_scale;
 
             ((Rec_func_80173DD4_arg0 *)controller)->unk_9B++;
             ((S_80173DD4_3 *)counter_base)->unk_0A++;
@@ -165,7 +165,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
         if (((SpriteFrameState *)object)->flags & 0xE000) {
             u8 *counter_base;
 
-            counter_base = (u8 *)&g_dungeon_status.unk_00;
+            counter_base = (u8 *)&g_dungeon_status.turn_scale;
             ((S_80173DD4_3 *)counter_base)->unk_0A--;
             ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
         } else {

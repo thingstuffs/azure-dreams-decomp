@@ -169,7 +169,7 @@ extern void func_80065820(void *, void *);
 /* Projects a textured quad and queues it for drawing, or invokes its texture callback. */
 void project_textured_quad_or_callback(void *quad, void *position, SpriteFrameState *material, s16 depth_bias)
 {
-    u8 *render_state = g_game_work.unk_000;
+    u8 *render_state = g_game_work.draw_buffer;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     u32 tex_attr;
@@ -414,7 +414,7 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
     u8 texture_flags;
     u8 draw_flags;
 
-    page_ptr = &g_game_work.unk_000;
+    page_ptr = &g_game_work.draw_buffer;
     initial_page = *page_ptr;
     *(u8 **)(scratch + 0x24) = initial_page + 0xB0;
     *(s32 *)(scratch + 0x88) = *(s16 *)((u8 *)position + 2);
@@ -1782,7 +1782,7 @@ L1_calc:
             seen = ((s16 *)&D_80026664)[0];
             ((S_800259D8_0 *)effect)->unk_84.u = old_count;
             if (seen == 0) {
-                g_dungeon_status.unk_0C = 0;
+                g_dungeon_status.active_actor = 0;
                 ((S_800259D8_0_pre *)effect)[-1].unk_00 |= 0x8000;
                 object_flag_block.flags |= 0x8000;
                 return;

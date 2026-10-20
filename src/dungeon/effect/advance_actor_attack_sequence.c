@@ -103,7 +103,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
     case 1:
         if (((S_800B348C_0 *)action_state)->unk_A6 != 0) {
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD030;
-            set_sprite_animation_frame(animation, D_800DD030[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
+            set_sprite_animation_frame(animation, D_800DD030[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             ((S_800B348C_0 *)action_state)->unk_CC = 0;
             if ((u16) ((S_800B348C_0 *)action_state)->unk_A6 >= 2U) {
@@ -118,7 +118,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
         if (((S_800B348C_0 *)action_state)->unk_A6 == 0) {
             select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, motion, 8, 0x300);
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD068;
-            set_sprite_animation_frame(animation, D_800DD068[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
+            set_sprite_animation_frame(animation, D_800DD068[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             ((S_800B348C_0 *)action_state)->unk_CC = 0;
             ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
@@ -132,7 +132,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
             ((EntityRec *)motion)->unk_10 = (s32) (*(s16 *)((u8 *)((s8 *)dir_step_y) + launch_direction_offset) << 0x11);
             ((EntityRec *)motion)->flags14 = 0xFFEBC000;
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD070;
-            set_sprite_animation_frame(animation, D_800DD070[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
+            set_sprite_animation_frame(animation, D_800DD070[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             {
                 u8 *next_animations;
@@ -153,7 +153,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             windup_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = windup_animations;
-            set_sprite_animation_frame(animation, *(windup_animations + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
+            set_sprite_animation_frame(animation, *(windup_animations + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                 >> 9) & 7)), 0, 1);
             {
                 u8 *next_v1;
@@ -192,7 +192,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
             play_sound_if_enabled(sound_id);
             attack_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = attack_animations;
-            set_sprite_animation_frame(animation, *(attack_animations + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
+            set_sprite_animation_frame(animation, *(attack_animations + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                 >> 9) & 7)), 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = D_800DD088;
             ((S_800B348C_0 *)action_state)->unk_96.u = 2U;
@@ -224,7 +224,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
             allocate_payload_object(action_state - 0x20, ((S_800B348C_0 *)action_state)->unk_F4, 0x40);
             mix_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = mix_animations;
-            set_sprite_animation_frame(animation, *(mix_animations + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
+            set_sprite_animation_frame(animation, *(mix_animations + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                 >> 9) & 7)), 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = D_800DD088;
             apply_effect_bonuses(((S_800B348C_0 *)action_state)->unk_A8, actor->target, actor);
@@ -265,7 +265,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
         if (((s16) ((S_800B348C_0 *)action_state)->unk_96.u <= 0)
             && (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000)) {
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD088;
-            set_sprite_animation_frame(animation, D_800DD088[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
+            set_sprite_animation_frame(animation, D_800DD088[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             ((S_800B348C_0 *)action_state)->unk_CC = D_800DD090;
             ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
@@ -281,7 +281,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
             }
             if ((s16) ((S_800B348C_0 *)action_state)->unk_96.u <= 0) {
                 (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD090;
-                set_sprite_animation_frame(animation, D_800DD090[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
+                set_sprite_animation_frame(animation, D_800DD090[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 9) & 7], 0, 1);
                 ((S_800B348C_0 *)action_state)->unk_CC = D_800DD098;
                 ((S_800B348C_0 *)action_state)->unk_9B = 9U;
@@ -297,7 +297,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             ((EntityRec *)motion)->flags14 = 0;
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD098;
-            set_sprite_animation_frame(animation, D_800DD098[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
+            set_sprite_animation_frame(animation, D_800DD098[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             ((S_800B348C_0 *)action_state)->unk_96.u = 2U;
             delta_x = ((Rec_D_80082E80 *)animation)->unk_24 << 6;
@@ -331,11 +331,11 @@ bump_state_9b:
                 void *case10_animation;
                 case10_animation = animation;
                 (*(u8 **)((u8 *)case10_animation + 0x2C)) = D_800DD0A0;
-                set_sprite_animation_frame(case10_animation, D_800DD0A0[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
+                set_sprite_animation_frame(case10_animation, D_800DD0A0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 9) & 7], 0, 1);
             }
             process_unflagged_linked_entries(actor->unk_5C);
-            end_base = (s32 *)((u32)&g_dungeon_status.unk_00);
+            end_base = (s32 *)((u32)&g_dungeon_status.turn_scale);
             end_mask = -8;
             ((S_800B348C_6 *)end_base)->unk_02 = (u16) (((S_800B348C_6 *)end_base)->unk_02 | 0x412);
             ((S_800B348C_0 *)action_state)->unk_8C = handle_player_input;

@@ -114,7 +114,7 @@ void update_put_down_carried_object(S_8008F878_0 *action, void *unused, S_8008F8
                 ((S_8008F878_8 *)(((S_8008F878_2 *)(&D_800DD25C))->unk_00.p))->unk_6D = 0;
             }
             action->unk_8C = handle_player_input;
-            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         }
     }
 }

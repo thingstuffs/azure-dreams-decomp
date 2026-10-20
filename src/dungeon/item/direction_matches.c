@@ -91,7 +91,7 @@ s32 rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *o
         if ((actor_held[0x24] == b72) && (actor_held[0x25] == b73)) {
             s1 = get_conditional_monster_entry(*(s8 *)(actor_held + 0x26));
             if (s1 != 0) {
-                s0 = g_dungeon_status.unk_1E;
+                s0 = g_dungeon_status.turn_counter;
                 if (c3 = D_800E2970[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], c3 > 0) {
                     i = 0;
                     do {

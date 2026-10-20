@@ -170,7 +170,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
                 model_colors->unk_0C.at02.v = 0x20U;
             }
         }
-        if (!(D_80082E80.unk_014 & 0x8000)) {
+        if (!(D_80082E80.sprite_flags & 0x8000)) {
             fade_left = (u16) ((S_8195281C_0 *)effect)->unk_18 - 1;
             ((S_8195281C_0 *)effect)->unk_18 = fade_left;
             if ((fade_left << 0x10) >= 0) {
@@ -190,8 +190,8 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         if ((s16)D_800249A6[0] != 0) {
             break;
         }
-        g_dungeon_status.unk_0C = 0;
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.active_actor = 0;
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((S_8195281C_0_pre *)effect)[-1].unk_00 = (u16) (((S_8195281C_0_pre *)effect)[-1].unk_00 | 0x8000);
         ((S_8195281C_9 *)((s32 *)(&object_flag_block)))->unk_00 =
             (s32) (((S_8195281C_9 *)((s32 *)(&object_flag_block)))->unk_00 | 0x8000);
@@ -428,10 +428,10 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
     if (target == 0) {
         origin = &D_80082E80;
         offset = ((u32)angle >> 9) & 7;
-        coordinate = ((origin->tileX + dir_step_x[offset]) << 6) + 0x20;
+        coordinate = ((origin->tile_position.parts.tile_x + dir_step_x[offset]) << 6) + 0x20;
         position->x = coordinate;
         state->x = coordinate;
-        coordinate_y = ((origin->tileY + dir_step_y[offset]) << 6) + 0x20;
+        coordinate_y = ((origin->tile_position.parts.tile_y + dir_step_y[offset]) << 6) + 0x20;
         position->y = coordinate_y;
         state->y = coordinate_y;
         state->z = position->z.bits = (u16)D_800814A8->unk_88;

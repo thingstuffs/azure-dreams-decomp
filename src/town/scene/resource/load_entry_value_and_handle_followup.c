@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -26,7 +27,7 @@ s32 load_entry_value_and_handle_followup(void) {
         clear_record->entries[(clear_record->index * 8) + 4] = 0;
         D_80019AFC = 0;
     }
-    if (func_800194D8(0x638) == 0) {
+    if (func_800194D8(F_sbs14_pad20) == 0) {
         func_80017E1C();
     }
     return 0;

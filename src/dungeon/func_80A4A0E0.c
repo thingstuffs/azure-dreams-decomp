@@ -15,12 +15,12 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
             return;
         }
 
-        scene_state = &g_dungeon_status.unk_00;
+        scene_state = &g_dungeon_status.turn_scale;
         ((R06_801738E0_S_801738E0_2 *)scene_state)->unk_0A--;
         direction_anims = ((u8 *)D_80175894);
         (*(void * *)((u8 *)anim + 0x2C)) = direction_anims;
         select_sprite_entry(anim,
-            direction_anims[((g_game_work.view.viewAngle + ((R06_801738E0_S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((R06_801738E0_S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((R06_801738E0_S_801738E0_0 *)entity)->unk_9B++;
         return;
@@ -35,16 +35,16 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
 
             (*(void * *)((u8 *)anim + 0x2C)) = ((u8 *)D_8017588C);
             select_sprite_entry(anim,
-                ((u8 *)D_8017588C)[((g_game_work.view.viewAngle + ((R06_801738E0_S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                ((u8 *)D_8017588C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R06_801738E0_S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((R06_801738E0_S_801738E0_3 *)actor)->unk_1C |= 0x40000;
-            scene_state = &g_dungeon_status.unk_00;
+            scene_state = &g_dungeon_status.turn_scale;
             ((R06_801738E0_S_801738E0_2 *)scene_state)->unk_0A++;
             ((R06_801738E0_S_801738E0_0 *)entity)->unk_9B++;
             return;
         }
 
-        scene_state = (u8 *)&g_dungeon_status.unk_00;
+        scene_state = (u8 *)&g_dungeon_status.turn_scale;
         if (((R06_801738E0_S_801738E0_4 *)scene_state)->unk_02 & 0x1000) {
             return;
         }
@@ -97,7 +97,7 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
 
         (*(void * *)((u8 *)anim + 0x2C)) = ((u8 *)D_8017588C);
         select_sprite_entry(anim,
-            ((u8 *)D_8017588C)[((g_game_work.view.viewAngle + ((R06_801738E0_S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)D_8017588C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R06_801738E0_S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((R06_801738E0_S_801738E0_3 *)actor)->unk_1C |= 0x40000;
         ((R06_801738E0_S_801738E0_4 *)scene_state)->unk_0A++;
@@ -108,7 +108,7 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
         if (((R06_801738E0_S_801738E0_1 *)anim)->unk_14 & 0xE000) {
             s32 *scene_state;
 
-            scene_state = &g_dungeon_status.unk_00;
+            scene_state = &g_dungeon_status.turn_scale;
             ((R06_801738E0_S_801738E0_2 *)scene_state)->unk_0A--;
             ((R06_801738E0_S_801738E0_3 *)actor)->unk_1C &= ~0x208;
             ((R06_801738E0_S_801738E0_0 *)entity)->unk_8C = ((void *)initialize_destination_state);

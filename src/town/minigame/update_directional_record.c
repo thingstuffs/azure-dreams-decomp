@@ -31,7 +31,7 @@ void update_directional_record(S_800211C4_0 *orientation, void *state_ptr, Sprit
 
     angle = (orientation->unk_2A + 0x2000) & 0xFFF;
     orientation->unk_2A = angle;
-    angle_sector = (s32)(g_game_work.view.viewAngle + angle + 0x100) >> 9;
+    angle_sector = (s32)(g_game_work.view.camera_rotation.parts.viewAngle + angle + 0x100) >> 9;
     direction = angle_sector & 7;
     if (record->flags & 0x6000) {
         select_sprite_entry(record, *((u8 *)*(s32 *)&record->frameTable + direction), 0);

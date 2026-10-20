@@ -89,7 +89,7 @@ s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity
 
     switch (((Rec_func_800AD058_arg0 *)state)->unk_9B) {
     case 0:
-        if ((active_count = g_dungeon_status.unk_0A) != 0) {
+        if ((active_count = g_dungeon_status.activity_counts.parts.pending_action_count) != 0) {
             return 0;
         }
         ((Rec_func_800AD058_arg0 *)state)->unk_9B = 1U;
@@ -121,8 +121,8 @@ s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity
         if (((fade_ticks << 0x10) <= 0) || (finished = 0, ((((S_800AD058_1 *)sprite)->unk_14 & 0x8000) != 0))) {
             if (!(((S_800AD058_2 *)entity)->unk_14 & 0x20000000)) {
                 DungeonGlobalStatus *shared_state = &g_dungeon_status;
-                if (((s32)shared_state->unk_10) == (s32) (entity - 0x20)) {
-                    shared_state->unk_10 = (s32) (((s32)shared_state->unk_10) & 0x7FFFFFFF);
+                if (((s32)shared_state->pending_display_owner) == (s32) (entity - 0x20)) {
+                    shared_state->pending_display_owner = (s32) (((s32)shared_state->pending_display_owner) & 0x7FFFFFFF);
                 }
             }
             entity_flags = ((S_800AD058_2 *)entity)->unk_14;
@@ -188,9 +188,9 @@ s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity
         if ((spiral_ticks << 0x10) <= 0) {
             DungeonGlobalStatus *shared_state = &g_dungeon_status;
 
-            active_count = ((u16)shared_state->unk_0A);
+            active_count = ((u16)shared_state->activity_counts.parts.pending_action_count);
             active_count--;
-            shared_state->unk_0A = active_count;
+            shared_state->activity_counts.parts.pending_action_count = active_count;
             distribute_experience_and_report_gains(entity);
             detach_record_and_update_slot_state(entity);
         } else {

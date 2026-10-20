@@ -195,7 +195,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
             return;
         }
         (*(void **)((u8 *)entity + (0x2C))) = D_800DD138;
-        set_sprite_animation_frame(entity, D_800DD138[((s32) (g_game_work.view.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100)
+        set_sprite_animation_frame(entity, D_800DD138[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
         create_familiar_deployment_effect_with_owner_state(actor, map, entity);
         create_familiar_deployment_overlay(actor, map, entity);
@@ -334,7 +334,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
             return;
         }
         (*(void **)((u8 *)entity + (0x2C))) = D_800DD140;
-        set_sprite_animation_frame(entity, D_800DD140[((s32) (g_game_work.view.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100)
+        set_sprite_animation_frame(entity, D_800DD140[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
         ((S_8009345C_0 *)actor)->unk_9B++;
         return;

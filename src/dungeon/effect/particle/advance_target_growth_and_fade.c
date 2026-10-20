@@ -364,7 +364,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
         effect_state->unk_52.as_u16 &= 0x7FFF;
     } else {
         if (effect_state->unk_50.as_s16 <= 0) {
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             ((S_func_818DA800_11 *)((u8 *)effect_state - 4))->unk_02 |= 0x8000;
             object_flag_block.flags |= 0x8000;
             break;

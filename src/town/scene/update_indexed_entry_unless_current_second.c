@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -15,16 +16,16 @@ s32 update_indexed_entry_unless_current(void) {
 
     func_80016CC4();
     if (func_8001A8EC(0xB) != 0) {
-        func_8001A554(0x93B);
+        func_8001A554(F_sbs32_pad17);
     }
 
-    if (func_8001A64C(0x94A) == 0) {
-        func_8001A554(0x946);
+    if (func_8001A64C(F_sbs32_pad32) == 0) {
+        func_8001A554(F_sbs32_pad28);
         return 1;
     }
 
-    if (func_8001A64C(0x946) == 0) {
-        func_8001A554(0x942);
+    if (func_8001A64C(F_sbs32_pad28) == 0) {
+        func_8001A554(F_sbs32_pad24);
         callback_owner = *(s8 **)(*(s8 **)((s8 *)(&D_80016000)) + 0x20);
         (*(TownCallback *)(callback_owner + 0x2F8))(0xE, 0x200);
         status = 0;

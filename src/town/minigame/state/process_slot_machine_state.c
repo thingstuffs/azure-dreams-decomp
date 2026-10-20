@@ -176,7 +176,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             state->timer.u = 5;
         }
 
-        if ((((u32)input->unk_010) & 0x1000) != 0 ||
+        if ((((u32)input->pressed_buttons) & 0x1000) != 0 ||
             ((((u32)input->buttons) & 0x1000) != 0 &&
              (s16)state->timer.s <= 0)) {
             if (state->count < 3) {
@@ -190,7 +190,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             }
         }
 
-        if ((((u32)input->unk_010) & 0x4000) != 0 ||
+        if ((((u32)input->pressed_buttons) & 0x4000) != 0 ||
             ((((u32)input->buttons) & 0x4000) != 0 &&
              (s16)state->timer.s <= 0)) {
             if (state->count >= 2) {
@@ -201,13 +201,13 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             }
         }
 
-        if ((((u32)input->unk_010) & 0x20) != 0) {
+        if ((((u32)input->pressed_buttons) & 0x20) != 0) {
             state->timer.u = 10;
             state->mode.s = 3;
             return;
         }
 
-        if ((((u32)input->unk_010) & 0x40) == 0 ||
+        if ((((u32)input->pressed_buttons) & 0x40) == 0 ||
             state->count == 0) {
             return;
         }
@@ -270,7 +270,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             if ((s16)timer <= 0)
                 state->timer2.u = 0;
         }
-        if ((((u32)input->unk_010) & 0x40) != 0 &&
+        if ((((u32)input->pressed_buttons) & 0x40) != 0 &&
             state->timer2.s == 0) {
             void *reel;
             SD_Call(0x522);

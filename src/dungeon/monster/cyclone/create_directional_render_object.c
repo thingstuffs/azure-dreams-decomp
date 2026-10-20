@@ -76,7 +76,7 @@ void *create_directional_render_object(void *direction_src, Copy24 *initial_data
         select_sprite_entry(
             render_data,
             D_80176498[
-                ((g_game_work.view.viewAngle + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
+                ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
                 7],
             0);
         data_dst = ((S_80175858_0 *)object)->unk_08;

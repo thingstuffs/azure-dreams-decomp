@@ -37,7 +37,7 @@ void draw_sprite_list(void)
     s32 height;
 
     transform_flag = (u8 *)0x1F800094;
-    context = (u8 *)g_game_work.unk_000;
+    context = (u8 *)g_game_work.draw_buffer;
     scratch = (u8 *)0x1F800000;
     prim = *(u8 **)(context + 0x8D0);
     contexts = (u8 **)((void * *)(&g_game_work));

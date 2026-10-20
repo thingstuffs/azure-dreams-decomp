@@ -46,6 +46,6 @@ s32 use_item_to_restore_defense(void *entity, s32 item, s16 use_type) {
         adjust_source_value_and_finalize(entity, D_800E0F07);
     }
     clear_slot_and_update_linked_state(item);
-    g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) - 1);
+    g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     return 1;
 }

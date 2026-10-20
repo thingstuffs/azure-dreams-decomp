@@ -37,7 +37,7 @@ void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *pr
     if ((remaining << 16) <= 0) {
         if ((((S_800C5A64_1 *)effect)->unk_0C == 0) &&
             (((S_800C5A64_1 *)effect)->unk_1C == 0)) {
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         object_flag_block.flags |= 0x8000;

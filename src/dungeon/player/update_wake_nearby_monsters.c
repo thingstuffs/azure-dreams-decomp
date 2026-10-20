@@ -78,7 +78,7 @@ void update_wake_nearby_monsters(void *controller, EntityRec *motion, void *acto
     void *count_state;
     void *node;
 
-    move_frames = g_dungeon_status.unk_04;
+    move_frames = g_dungeon_status.movement_frames_left;
     if (move_frames != 0) {
         target_pos = ((S_80092E90_1 *)actor)->unk_24 << 6;
         tile_origin = motion->x.w.i - 0x20;
@@ -88,7 +88,7 @@ void update_wake_nearby_monsters(void *controller, EntityRec *motion, void *acto
         tile_origin -= 0x20;
         target_pos = ((S_80092E90_1 *)actor)->unk_25 << 6;
         motion->unk_10 =
-            ((target_pos - tile_origin) << 16) / g_dungeon_status.unk_04;
+            ((target_pos - tile_origin) << 16) / g_dungeon_status.movement_frames_left;
     } else {
         motion->unk_0C = 0;
         motion->unk_10 = 0;
@@ -110,7 +110,7 @@ void update_wake_nearby_monsters(void *controller, EntityRec *motion, void *acto
         (*(void * *)((u8 *)actor + (0x2C))) = D_800DCFF8;
         set_sprite_animation_frame(
             actor,
-            D_800DCFF8[((g_game_work.view.viewAngle + ((S_80092E90_5 *)entry)->unk_2A + 0x100) >> 9) & 7],
+            D_800DCFF8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80092E90_5 *)entry)->unk_2A + 0x100) >> 9) & 7],
             0,
             1);
         ((S_80092E90_4 *)controller)->unk_9B++;
@@ -125,7 +125,7 @@ void update_wake_nearby_monsters(void *controller, EntityRec *motion, void *acto
         if (!((*(u16 *)0x80013714) & 8)) {
             node = (u8 *)((S_80092E90_5 *)entry)->unk_5C + 0x20;
             do {
-                if ((D_80082E80.unk_026 ==
+                if ((D_80082E80.room_index ==
                      ((S_80092E90_9 *)(((S_80092E90_7_pre *)node)[-1].unk_00))->unk_26) &&
                     ((get_entity_effect_value(node, 1) << 16) != 0)) {
                     clear_slots_of_type(node, 1);
@@ -151,7 +151,7 @@ void update_wake_nearby_monsters(void *controller, EntityRec *motion, void *acto
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
         ((S_80092E90_4 *)controller)->unk_8C = handle_player_input;
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
     default:
         return;
     }

@@ -45,7 +45,7 @@ void choose_unicorn_action_slot_b(void *entity, void *context, void *sprite, voi
             u8 *effects = ((u8 *)D_80156DAC);
             (*(void * *)((u8 *)sprite + (0x2C))) = effects;
             select_sprite_entry(
-                sprite,(u8)(effects[((g_game_work.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
+                sprite,(u8)(effects[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
                 0);
         }
         return;
@@ -78,7 +78,7 @@ void choose_unicorn_action_slot_b(void *entity, void *context, void *sprite, voi
             if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_2C != effect) {
                 (*(void * *)((u8 *)sprite + (0x2C))) = effect;
                 select_sprite_entry(
-                    sprite,(u8)(effect[((g_game_work.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
+                    sprite,(u8)(effect[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
                     0);
             }
             ((R12_80170E70_S_80170E70_0 *)entity)->unk_9A = next_state;
@@ -112,7 +112,7 @@ void choose_unicorn_action_slot_b(void *entity, void *context, void *sprite, voi
             update_actor_status_and_food(actor);
             return;
         }
-        if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_80153638(entity, context, sprite, actor);
             return;
         }
@@ -151,7 +151,7 @@ void choose_unicorn_action_slot_b(void *entity, void *context, void *sprite, voi
         case 6:
             target_angle = ((s16)get_rounded_facing_and_rounding_flag(
                 ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v, ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY, &path_distance));
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &path_distance));
             owner = D_800814A8;
             ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A = target_angle;
             if (owner->unk_9A == 0x11) {
@@ -180,10 +180,10 @@ void choose_unicorn_action_slot_b(void *entity, void *context, void *sprite, voi
         if ((tile_id < 0) ||
             ((D_800E2970[tile_id].flags & 2) == 0)) {
             if ((actor_flags & 0x430) == 0) {
-                if ((s16)compare_monster_neighbor_values((u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v),(u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v),(u8)(D_80082E80.tileX),(u8)(D_80082E80.tileY)) != 0) {
+                if ((s16)compare_monster_neighbor_values((u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v),(u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v),(u8)(D_80082E80.tile_position.parts.tile_x),(u8)(D_80082E80.tile_position.parts.tile_y)) != 0) {
                     ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag(
                         ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v, ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY, &path_distance));
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &path_distance));
                 }
             }
         }
@@ -203,7 +203,7 @@ void choose_unicorn_action_slot_b(void *entity, void *context, void *sprite, voi
         u8 *effects = effect_table;
         (*(void * *)((u8 *)sprite + (0x2C))) = effects;
         select_sprite_entry(
-            sprite,(u8)(effects[((g_game_work.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
+            sprite,(u8)(effects[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
             0);
     }
 }

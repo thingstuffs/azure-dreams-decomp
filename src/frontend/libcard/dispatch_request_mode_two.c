@@ -2,7 +2,7 @@
 
 typedef struct Node8002BB08 Node8002BB08;
 Node8002BB08 *init_card_boot_request_object();                /* extern */
-void card_boot_stop_timer_and_init_server(void);                            /* extern */
+#include "frontend/libcard/interfaces.h"
 void save_and_clear_entity_flag_ten(void);                            /* extern */
 
 /* Run the extra setup callback and dispatch the request in mode 2. */

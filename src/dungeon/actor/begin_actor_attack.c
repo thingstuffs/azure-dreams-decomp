@@ -45,7 +45,7 @@ s32 begin_actor_attack(Entity *entity, s32 unused, s32 action_param, Actor *acto
     entity->field9A = 0x37;
     entity->field9B = 0;
     entity->field8C = 0;
-    g_dungeon_status.unk_0C = actor;
+    g_dungeon_status.active_actor = actor;
     entity->fieldA6 = 0;
     process_unflagged_linked_entries_alt(actor->field5C);
     append_packed_action_record(actor, 0x18, 0, 0);

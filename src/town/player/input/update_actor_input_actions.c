@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/position_query.h"
 #include "common.h"
 #include "shared/town_action_flag.h"
@@ -45,7 +46,7 @@ void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg
         compute_and_clamps_vector_based_adjustment_updates_town(entity, reference_value, ((u8 *)&D_800FE488));
     }
 
-    state_flags = ((s32)state->unk_010);
+    state_flags = ((s32)state->pressed_buttons);
     if (state_flags & 0x10) {
         initialize_actor_action_state(context, entity, update_arg);
         return;
@@ -60,7 +61,7 @@ void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg
             initialize_action_object_with_counter(context, entity, update_arg);
             return;
         }
-        if (test_resident_bitmap_bit(0xA4) != 0) {
+        if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
             func_80094088(context, entity, update_arg);
             return;
         }

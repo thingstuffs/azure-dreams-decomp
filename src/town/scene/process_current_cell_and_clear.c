@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -47,9 +48,9 @@ s32 process_current_cell_and_clear(void) {
     result = func_80018504();
 
     if (result != 0) {
-        if (func_800194D8(0x632) == 0) {
-            func_80019458(0x62C);
-            func_80019458(0x62D);
+        if (func_800194D8(F_sbs14_pad14) == 0) {
+            func_80019458(F_sbs14_pad08);
+            func_80019458(F_sbs14_pad09);
         }
 
         ((S_80016B0C_2 *)((u8 *)((S_80016B0C_1 *)(*(void **)((s8 *)(&D_80016000))))->unk_40

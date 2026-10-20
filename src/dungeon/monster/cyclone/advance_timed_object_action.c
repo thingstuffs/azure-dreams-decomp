@@ -112,13 +112,13 @@ void advance_timed_object_action(Obj0 *controller, void *context, Obj2 *object, 
         reduce_actor_food_meter(actor, 0x400);
         set_record_integer_tile_center(context, object->field24, object->field25);
         controller->field8c = D_80171094;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         actor->field46 &= 0x7FFF;
     }
 
     if (object->field14 & 0xE000) {
         object->field2c = D_80176460;
-        select_sprite_entry(object, D_80176460[((g_game_work.view.viewAngle + actor->field2a + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(object, D_80176460[((g_game_work.view.camera_rotation.parts.viewAngle + actor->field2a + 0x100) >> 9) & 7], 0);
         controller->field98 &= 0xFFF7;
     }
 

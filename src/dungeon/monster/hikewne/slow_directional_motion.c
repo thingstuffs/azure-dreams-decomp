@@ -124,9 +124,9 @@ void slow_directional_motion(S_80173294_0 *motion_state, EntityRec *motion, Rec_
             ((SpriteFrameState *)tile_state)->unk_25);
         {
 
-            x_speed_or_entity = ((s32)g_dungeon_status.unk_10);
+            x_speed_or_entity = ((s32)g_dungeon_status.pending_display_owner);
             if (x_speed_or_entity == (s32)((u8 *)entity - 0x20)) {
-                g_dungeon_status.unk_10 = x_speed_or_entity & 0x7FFFFFFF;
+                g_dungeon_status.pending_display_owner = x_speed_or_entity & 0x7FFFFFFF;
             }
         }
         motion_state->unk_8C = &D_801714D4;

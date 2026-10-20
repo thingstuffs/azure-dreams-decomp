@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern char D_8001B14C[];
@@ -23,8 +24,8 @@ char *select_text_id_setting_event(s32 unused, s32 passthru_1, s32 selector_id, 
     case 6:
         return D_800227FB;
     case 0:
-        if (func_8001A64C(0x948) == 0) {
-            func_8001A554(0x948);
+        if (func_8001A64C(F_sbs32_pad30) == 0) {
+            func_8001A554(F_sbs32_pad30);
         }
         return D_8001D000;
     case 40:

@@ -107,24 +107,24 @@ void update_owner_linked_pulsing_effect(void *effect, S_800CB600_2 *position, S_
         }
 
         ((S_800CB600_0 *)effect)->unk_96.u = 0;
-        if (g_dungeon_status.unk_0C != 0) {
+        if (g_dungeon_status.active_actor != 0) {
             return;
         }
-        if (g_dungeon_status.unk_10 != 0) {
+        if (g_dungeon_status.pending_display_owner != 0) {
             return;
         }
         if (g_dungeon_status.flags & 8) {
             return;
         }
 
-        g_dungeon_status.unk_0C = effect;
+        g_dungeon_status.active_actor = effect;
         ((S_800CB600_0 *)effect)->unk_98 |= 0x80;
         ((S_800CB600_0 *)effect)->unk_9A++;
         return;
     }
 
     if (phase == 1) {
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
 
@@ -149,7 +149,7 @@ void update_owner_linked_pulsing_effect(void *effect, S_800CB600_2 *position, S_
         return;
     }
 
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     ((S_800CB600_0_pre *)effect)[-1].unk_00 |= 0x8000;
     object_flag_block.flags |= 0x8000;
 }

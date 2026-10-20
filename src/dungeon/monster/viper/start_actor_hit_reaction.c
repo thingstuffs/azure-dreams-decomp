@@ -38,9 +38,9 @@ void start_actor_hit_reaction(void *work, void *part_a, void *part_b, EntityRec 
             }
         }
         ((S_801720D8_1 *)work)->unk_96 = 0;
-        g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) + 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
         (*(void * *)((u8 *)part_b + 0x2C)) = D_80174AE4;
-        select_sprite_entry(part_b, D_80174AE4[((g_game_work.view.viewAngle + (s16)((u16)actor->facing) + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(part_b, D_80174AE4[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)((u16)actor->facing) + 0x100) >> 9) & 7], 0);
     }
 }

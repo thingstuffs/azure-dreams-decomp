@@ -154,12 +154,12 @@ void func_8014EF00(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80150AD4;
         func_80047784(
             sprite,
-            D_80150AD4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_80150AD4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
 
-        tracked_entity = ((s32)g_dungeon_status.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
         ((S_80172F00_0 *)action)->unk_8C = func_8014D138;
         break;

@@ -214,11 +214,11 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
 
         turn_scene = &g_game_work;
         old_angle = ((S_800253C0_1 *)owner)->unk_2A.u;
-        index = ((turn_scene->view.viewAngle +
+        index = ((turn_scene->view.camera_rotation.parts.viewAngle +
             ((S_800253C0_1 *)owner)->unk_2A.s + 0x100) >> 9) & 7;
         if (index == 2) {
             ((S_800253C0_3 *)actor)->unk_2C = D_800DD148;
-            anim_entry = D_800DD148 + ((((turn_scene->view.viewAngle +
+            anim_entry = D_800DD148 + ((((turn_scene->view.camera_rotation.parts.viewAngle +
                 ((S_800253C0_1 *)owner)->unk_2A.s) + 0x100) >> 9) & 7);
             set_sprite_animation_frame(actor, *anim_entry, 0, 1);
             ((S_800253C0_0 *)sequence)->unk_9B.n = ((S_800253C0_0 *)sequence)->unk_9B.n + 1;
@@ -250,7 +250,7 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
         return;
 
     case 3:
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
         {
@@ -274,7 +274,7 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
         ((S_800253C0_0 *)sequence)->unk_9B.n++;
         ((S_800253C0_0 *)sequence)->unk_96.v = 32;
 case 4:
-        brightness = scene->view.unk_090;
+        brightness = scene->view.tint.parts.tint_r;
         timer = ((S_800253C0_0 *)sequence)->unk_96.n;
         delta = (32 - brightness) / timer;
         brightness = brightness + delta;
@@ -284,7 +284,7 @@ case 4:
         move_scene = &g_game_work;
         table_x = (s16 *)((s8 *)dir_step_x);
         table_y = (s16 *)((s8 *)dir_step_y);
-        scene->view.unk_090 = brightness;
+        scene->view.tint.parts.tint_r = brightness;
         ((u8 *)message_text)[1] = brightness;
         ((u8 *)message_text)[2] = brightness;
         do {
@@ -295,7 +295,7 @@ case 4:
             s32 old_x;
             s32 old_y;
 
-            table_index_m = (object_index_m << 11) - move_scene->view.viewAngle;
+            table_index_m = (object_index_m << 11) - move_scene->view.camera_rotation.parts.viewAngle;
             object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
             table_index_m += 0x100;
             table_index_m >>= 8;
@@ -324,7 +324,7 @@ case 4:
             }
 
             {
-                s32 angle = move_scene->view.viewAngle + ((S_800253C0_5 *)object_m)->unk_2A.n2;
+                s32 angle = move_scene->view.camera_rotation.parts.viewAngle + ((S_800253C0_5 *)object_m)->unk_2A.n2;
                 u16 old_angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
                 if ((((angle + 0x100) >> 9) & 7) != 2) {
                     ((S_800253C0_5 *)object_m)->unk_2A.n = old_angle + 0x200;
@@ -351,7 +351,7 @@ case 4:
             snap_y = (s16 *)((s8 *)dir_step_y);
             final_slot = sequence;
             do {
-                s32 table_index = (object_index_m << 11) - snap_scene->view.viewAngle;
+                s32 table_index = (object_index_m << 11) - snap_scene->view.camera_rotation.parts.viewAngle;
                 s32 x;
                 s32 y;
                 table_index += 0x100;
@@ -628,7 +628,7 @@ loop_7:
                     ((S_800253C0_17 *)child)->unk_10 = 0;
                     ((S_800253C0_17 *)child)->unk_12.u &= 0x3F;
                     ((S_800253C0_17 *)child)->unk_14.u &= 0xFFF3;
-                    index = (((-restore_scene->view.viewAngle + 0x500) >> 8) & 0xE);
+                    index = (((-restore_scene->view.camera_rotation.parts.viewAngle + 0x500) >> 8) & 0xE);
                     x = ((S_800253C0_8 *)actor)->unk_24 + table_x[index >> 1];
                     ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
                     effect_size = 16;
@@ -685,12 +685,12 @@ loop_7:
         u32 saved_angle;
         register u32 clear_flags;
 
-        step = (128 - scene->view.unk_090) / ((S_800253C0_0 *)sequence)->unk_96.n;
+        step = (128 - scene->view.tint.parts.tint_r) / ((S_800253C0_0 *)sequence)->unk_96.n;
         page_cursor = (s32)((u8 *)scene + 0xA8);
         object_index_m = 0;
         object_slot = sequence;
-        brightness = scene->view.unk_090 + step;
-        scene->view.unk_090 = brightness;
+        brightness = scene->view.tint.parts.tint_r + step;
+        scene->view.tint.parts.tint_r = brightness;
         ((u8 *)page_cursor)[2] = brightness;
         ((u8 *)page_cursor)[1] = brightness;
         do {
@@ -781,7 +781,7 @@ loop_7:
         {
             u16 value;
             value = g_dungeon_status.flags;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             g_dungeon_status.flags = value | 0x812;
         }
         ((S_800253C0_0 *)sequence)->unk_8C =handle_player_input;

@@ -33,7 +33,7 @@ void finish_multi_form_actor_sequence(void)
     S_8016ED98_1 *object;
 
     object = (void *)(D_80175D50 + 0x20);
-    g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+    g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     object->unk_46 &= 0x7FFF;
     D_80013714[0] &= 0xFFF6;
     set_monster_data_pointer();

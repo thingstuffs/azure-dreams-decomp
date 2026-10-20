@@ -19,7 +19,7 @@ void *create_return_magic_effect(s32 value) {
     if (object != 0) {
         object->field10 = D_800C2824;
         object->field20 = value;
-        g_dungeon_status.unk_0A += 1;
+        g_dungeon_status.activity_counts.parts.pending_action_count += 1;
     }
     return object;
 }

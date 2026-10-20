@@ -54,7 +54,7 @@ void begin_multi_form_directional_script(void)
     sys_work->f371A = 0;
     sys_work->f3718 = 0;
     sys_work->f3716 = 0;
-    g_dungeon_status.unk_0A -= 1;
+    g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
     active_object = D_80175D50;
     sys_work->flags = (sys_work->flags | 9) & 0xFFEF;
     handler_index = D_800834E2 >> 7;
@@ -64,7 +64,7 @@ void begin_multi_form_directional_script(void)
     D_800E296C |= 0x200000;
     object_state = active_object + 0x20;
     direction = get_rounded_facing_and_rounding_flag(position_data[0x24], position_data[0x25],
-                              D_80082E80.tileX, D_80082E80.tileY, &unused_result);
+                              D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &unused_result);
     *(u16 *)(object_state + 0x2A) = direction;
     direction >>= 7;
     D_80175DC8 = 0;

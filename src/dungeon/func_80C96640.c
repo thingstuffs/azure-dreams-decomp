@@ -34,18 +34,18 @@ void project_visible_effect_quad(void *quad, void *position, void *render_info, 
 
     texture = (*(u8 * *)((u8 *)render_info + 8));
     ((CB_80173E40_S_80173E40_0 *)scratch)->unk_28 = ((CB_80173E40_S_80173E40_2 *)render_info)->unk_14;
-    packet = ((CB_80173E40_S_80173E40_3 *)(g_game_work.unk_000))->unk_8D0;
-    ((CB_80173E40_S_80173E40_3 *)(g_game_work.unk_000))->unk_8D0 = packet + 0xC;
+    packet = ((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0;
+    ((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0 = packet + 0xC;
     func_80067F20(packet, 0, 0, func_80066460(0, 0, 0, 0), 0);
 
     (*(u32 *)((u8 *)packet + 0)) = (((CB_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
-        (((CB_80173E40_S_80173E40_3 *)(g_game_work.unk_000))->unk_B0 & 0x00FFFFFF);
-    (*(u32 *)((u8 *)(g_game_work.unk_000) + 0xB0)) =
-        (((CB_80173E40_S_80173E40_3 *)(g_game_work.unk_000))->unk_B0 & 0xFF000000) |
+        (((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_B0 & 0x00FFFFFF);
+    (*(u32 *)((u8 *)(g_game_work.draw_buffer) + 0xB0)) =
+        (((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_B0 & 0xFF000000) |
         ((u32)packet & 0x00FFFFFF);
 
     {
-        u8 *render_state = g_game_work.unk_000;
+        u8 *render_state = g_game_work.draw_buffer;
         packet = ((CB_80173E40_S_80173E40_5 *)render_state)->unk_8D0;
         ((CB_80173E40_S_80173E40_5 *)render_state)->unk_8D0 = packet + 0x24;
     }
@@ -103,8 +103,8 @@ void project_visible_effect_quad(void *quad, void *position, void *render_info, 
                     + ((CB_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
 
-            packet = ((CB_80173E40_S_80173E40_7 *)(render_state_ptr->unk_000))->unk_8D0;
-            ((CB_80173E40_S_80173E40_7 *)(render_state_ptr->unk_000))->unk_8D0 = packet + 0xC;
+            packet = ((CB_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0;
+            ((CB_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0 = packet + 0xC;
             func_80067F20(packet, 0, 0, func_80066460(0, 1, 0, 0), 0);
             ((CB_80173E40_S_80173E40_4 *)packet)->unk_00 = (((CB_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
                 ((*(u32 *)((u8 *)(((CB_80173E40_S_80173E40_0 *)scratch)->unk_24.p2)

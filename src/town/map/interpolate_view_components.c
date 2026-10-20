@@ -26,17 +26,17 @@ void interpolate_view_components(S_800A526C_1 *transition)
     u16 target_component;
 
     state_base = &g_game_work;
-    state_base->view.unk_094 =
-        ((u16)state_base->view.unk_094) +
-        ((transition->unk_00.s - state_base->view.unk_094) /
+    state_base->view.view_offset.parts.view_offset_x =
+        ((u16)state_base->view.view_offset.parts.view_offset_x) +
+        ((transition->unk_00.s - state_base->view.view_offset.parts.view_offset_x) /
          transition->unk_18);
-    state_base->view.unk_096 =
-        ((u16)state_base->view.unk_096) +
-        ((transition->unk_02.s - state_base->view.unk_096) /
+    state_base->view.view_offset.parts.view_offset_y =
+        ((u16)state_base->view.view_offset.parts.view_offset_y) +
+        ((transition->unk_02.s - state_base->view.view_offset.parts.view_offset_y) /
          transition->unk_18);
-    state_base->view.unk_098 =
-        ((u16)state_base->view.unk_098) +
-        ((transition->unk_04.s - state_base->view.unk_098) /
+    state_base->view.view_offset.parts.view_offset_z =
+        ((u16)state_base->view.view_offset.parts.view_offset_z) +
+        ((transition->unk_04.s - state_base->view.view_offset.parts.view_offset_z) /
          transition->unk_18);
 
     ticks_left = transition->unk_18 - 1;
@@ -44,15 +44,15 @@ void interpolate_view_components(S_800A526C_1 *transition)
     if (ticks_left <= 0) {
         target_component = transition->unk_00.u;
         transition->unk_10 = target_component;
-        state_base->view.unk_094 = target_component;
+        state_base->view.view_offset.parts.view_offset_x = target_component;
 
         target_component = transition->unk_02.u;
         transition->unk_12 = target_component;
-        state_base->view.unk_096 = target_component;
+        state_base->view.view_offset.parts.view_offset_y = target_component;
 
         target_component = transition->unk_04.u;
         transition->unk_14 = target_component;
-        state_base->view.unk_098 = target_component;
+        state_base->view.view_offset.parts.view_offset_z = target_component;
 
         transition->unk_20 = D_800A51CC;
     }

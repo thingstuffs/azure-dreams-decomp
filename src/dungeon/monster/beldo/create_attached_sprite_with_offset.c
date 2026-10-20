@@ -91,7 +91,7 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
         } while (copy_src != (sprite_template + 0x30));
         register_node(object, project_sprite_chain, copy_dst, copy_src);
         sprite->frameTable = &D_80173EB4;
-        select_sprite_entry(sprite, *((u8 *)&D_80173EB4 + ((((s32) (g_game_work.view.viewAngle
+        select_sprite_entry(sprite, *((u8 *)&D_80173EB4 + ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle
             + (s16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
         sprite_flags = sprite->flags | 0xC;
         sprite->flags = sprite_flags;

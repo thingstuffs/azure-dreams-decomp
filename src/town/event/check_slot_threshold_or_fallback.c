@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 s32 test_resident_bitmap_bit();                         /* extern */
@@ -16,7 +17,7 @@ s32 check_slot_threshold_or_fallback(s32 slot) {
         return 1;
     }
     if (slot == 3) {
-        return test_resident_bitmap_bit(0x4FB) == 0;
+        return test_resident_bitmap_bit(F_sbs07_pad04) == 0;
     }
     return 0;
 }

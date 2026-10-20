@@ -1038,7 +1038,7 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
             pending = D_80025924[0];
             state->counter84 = ticks;
             if (pending == 0) {
-                g_dungeon_status.unk_0C = 0;
+                g_dungeon_status.active_actor = 0;
                 ((u16 *)state)[-1] |= 0x8000;
                 object_flag_block.flags |= 0x8000;
             } else {

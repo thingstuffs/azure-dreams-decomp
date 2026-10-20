@@ -26,7 +26,7 @@ s32 retain_spawn_resource(s16 entry_type, s16 entry_key) {
     if (entry != NULL) {
         entry->type = type;
         entry->count++;
-        g_dungeon_status.unk_1C++;
+        g_dungeon_status.monster_count++;
         return 1;
     }
     return 0;

@@ -66,6 +66,6 @@ s32 dispatch_item_target_action(void *target, void *item, s16 action_type, s32 a
     } else {
         display_formatted_context_message((u8 *)&D_800E101C, action_value, action_type);
     }
-    g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+    g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     return 1;
 }

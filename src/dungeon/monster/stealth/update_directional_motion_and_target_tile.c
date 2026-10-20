@@ -128,8 +128,8 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, EntityRec *
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, target->unk_24, target->unk_25);
 
-        if (((s32)g_dungeon_status.unk_10) == (s32)entity - 0x20) {
-            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
+        if (((s32)g_dungeon_status.pending_display_owner) == (s32)entity - 0x20) {
+            *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         action->unk_8C = D_80170F74;
 

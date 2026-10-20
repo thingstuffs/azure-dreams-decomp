@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 
@@ -21,7 +22,7 @@ s32 *lookup_slot_record_with_substitute(s32 slot, s32 unused, s32 context) {
         if (func_800187D8(8) != 0) {
             result = &D_8001A0A1;
         } else {
-            func_8001856C(0x12C8);
+            func_8001856C(F_gym_build);
             result = &D_80019F15;
         }
     }

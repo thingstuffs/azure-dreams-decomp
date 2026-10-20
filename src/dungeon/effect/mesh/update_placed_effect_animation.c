@@ -171,7 +171,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
             position[2] = (s32)player->unk_88 << 16;
             spawn_angle = player->facing;
             tile_map = &D_80082E80;
-            spawned_object = scan_monster_along_heading(player, tile_map->tileX, tile_map->tileY, spawn_angle, 8);
+            spawned_object = scan_monster_along_heading(player, tile_map->tile_position.parts.tile_x, tile_map->tile_position.parts.tile_y, spawn_angle, 8);
         }
         self->object = spawned_object;
         if (spawned_object != 0) {
@@ -182,9 +182,9 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
                 u8 tile_x;
                 u8 tile_y;
 
-                tile_x = tile_map->tileX;
+                tile_x = tile_map->tile_position.parts.tile_x;
                 ((S_81978428_6 *)target_pos)->unk_02.s = (tile_x << 6) + 0x20;
-                tile_y = tile_map->tileY;
+                tile_y = tile_map->tile_position.parts.tile_y;
                 ((S_81978428_6 *)target_pos)->unk_06.s = (tile_y << 6) + 0x20;
             }
 
@@ -288,7 +288,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
         }
 
         {
-            u32 map_flags = D_80082E80.unk_014;
+            u32 map_flags = D_80082E80.sprite_flags;
             if ((map_flags & 0x8000) == 0) {
                 timer = self->timer;
                 timer--;
@@ -323,8 +323,8 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
             self->state++;
             break;
         }
-        g_dungeon_status.unk_0C = 0;
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.active_actor = 0;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((S_81978428_12_pre *)self)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
         return;
@@ -334,8 +334,8 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
             break;
         }
 
-        g_dungeon_status.unk_0C = 0;
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.active_actor = 0;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((S_81978428_12_pre *)self)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
         return;

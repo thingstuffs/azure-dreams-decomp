@@ -78,7 +78,7 @@ void advance_entity_path_state(void *motion_state, s32 unused, void *entity, voi
     if (((S_80171FC8_1 *)entity)->unk_2C != D_80174634) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_80174634;
         select_sprite_entry(entity,
-                      D_80174634[((g_game_work.view.viewAngle + ((S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+                      D_80174634[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
                       0);
     }
 

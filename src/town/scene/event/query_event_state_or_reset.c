@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/town_event_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -14,8 +15,8 @@ s32 query_event_state_or_reset(void)
 {
     s32 index;
 
-    if ((func_8001E670(0x1391) == 0) ||
-        (func_8001E670(0xA2) != 0)) {
+    if ((func_8001E670(F_veld_kill) == 0) ||
+        (func_8001E670(F_end_ending) != 0)) {
         index = (*(Callback **)((u8 *)*(void **)((u8 *)D_80016000 + 0x20) + 0x2D4))(0);
         return D_80018448[index];
     }

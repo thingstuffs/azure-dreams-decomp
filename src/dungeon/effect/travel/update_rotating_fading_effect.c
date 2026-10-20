@@ -404,7 +404,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
         if (((Rec_func_800243B8_arg0 *)effect)->unk_14 != 0) {
             break;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
         (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
         break;

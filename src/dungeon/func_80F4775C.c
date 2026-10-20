@@ -170,7 +170,7 @@ void update_effect_action_variant(ActorActionView *action, EntityRec *transform,
         transform->unk_10 = 0;
         transform->unk_0C = 0;
         set_record_integer_tile_center(transform, sprite->position.tile.x, sprite->position.tile.y);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((PlayerActionCountView *)D_800814A8)->remaining = ((PlayerActionCountView *)D_800814A8)->remaining - 1;
         advance_status_timers(actor);
         actor->unk_6D = ((u8)actor->unk_6D) - 1;
@@ -217,15 +217,15 @@ void update_effect_action_variant(ActorActionView *action, EntityRec *transform,
             if (sprite->directionFrames != direction_frames) {
                 sprite->directionFrames = direction_frames;
                 select_sprite_entry(sprite,
-                    direction_frames[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
         }
         status = &g_dungeon_status;
-        if (status->unk_0C != 0) {
+        if (status->active_actor != 0) {
             return;
         }
-        status->unk_0A = status->unk_0A - 1;
+        status->activity_counts.parts.pending_action_count = status->activity_counts.parts.pending_action_count - 1;
         sprite->flags &= 0xF7FF;
         action->nextAction.record = D_8015EE94;
         advance_status_timers(actor);

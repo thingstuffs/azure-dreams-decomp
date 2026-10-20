@@ -167,7 +167,7 @@ void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, 
 
         part_flags = ((CallbackActorSprite *)entity_part)->flags;
         if (!(part_flags & 0x8000)) {
-            view_direction = (g_game_work.view.viewAngle + ((CallbackActorState *)state_alias)->facing + 0x100) >> 9;
+            view_direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((CallbackActorState *)state_alias)->facing + 0x100) >> 9;
             direction = view_direction & 7;
             if (((CallbackActorState *)entity_state)->sprite_direction != direction) {
                 direction_frames = ((CallbackActorSprite *)entity_part)->direction_frames;

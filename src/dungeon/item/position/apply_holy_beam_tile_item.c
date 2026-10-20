@@ -124,6 +124,6 @@ s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
 
     cycle_map_cell_flags(entity->unk_24, entity->unk_25, 2);
     clear_slot_and_update_linked_state(object_data);
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

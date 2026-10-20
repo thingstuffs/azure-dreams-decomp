@@ -780,7 +780,7 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
                 s32 effect_active = D_80025308;
                 U16_AT(effect_data, 0x82) = old_frame;
                 if (effect_active == 0) {
-                    g_dungeon_status.unk_0C = 0;
+                    g_dungeon_status.active_actor = 0;
                     U16_AT(effect_data, -2) |= 0x8000;
                     object_flag_block.flags |= 0x8000;
                 } else {

@@ -285,7 +285,7 @@ void update_item_use_visual_effect_actor_s_return_idle(ActionState *actor, VecDa
                 effect_sprite = actor->effect;
                 effect_sprite = ((EffectObject *)effect_sprite)->sprite;
                 animations = effect_sprite->directionFrames;
-                direction = ((g_game_work.view.viewAngle + actor_data->facing.s + 0x100) >> 9) & 7;
+                direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing.s + 0x100) >> 9) & 7;
                 select_sprite_entry(effect_sprite, animations[direction], 0);
             }
             if (create_actor_spell_effect(actor_data, item_slot, use_player,
@@ -303,7 +303,7 @@ void update_item_use_visual_effect_actor_s_return_idle(ActionState *actor, VecDa
         motion->dy = 0;
         motion->dx = 0;
         set_record_integer_tile_center(motion, sprite->tileX, sprite->tileY);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((PlayerActionCounter *)D_800814A8)->pendingActions--;
         advance_status_timers(actor_data);
         actor_data->actionsLeft.u--;
@@ -343,16 +343,16 @@ void update_item_use_visual_effect_actor_s_return_idle(ActionState *actor, VecDa
         sprite->directionFrames = D_8015C038;
         select_sprite_entry(
             sprite,
-            D_8015C038[((g_game_work.view.viewAngle + actor_data->facing.s + 0x100) >> 9) & 7],
+            D_8015C038[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing.s + 0x100) >> 9) & 7],
             0);
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
         set_record_integer_tile_center(motion, sprite->tileX, sprite->tileY);
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         sprite->flags &= 0xF7FF;
         actor->handler = &D_80158EA8;
         advance_status_timers(actor_data);

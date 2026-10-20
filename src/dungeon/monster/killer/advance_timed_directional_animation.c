@@ -42,7 +42,7 @@ void advance_timed_directional_animation(void *action_state, s32 actor_id, void 
         ((S_801727EC_0 *)action_state)->unk_96 = 7;
         ((SpriteFrameState *)animation)->frameTable = D_80174060;
         select_sprite_entry(animation,
-                      D_80174060[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                      D_80174060[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
         ((S_801727EC_0 *)action_state)->unk_9B++;
         break;
@@ -58,7 +58,7 @@ void advance_timed_directional_animation(void *action_state, s32 actor_id, void 
             set_record_integer_tile_center(actor_id, ((SpriteFrameState *)animation)->unk_24, ((SpriteFrameState *)animation)->unk_25);
             reduce_actor_food_meter(actor, 0x100);
             ((S_801727EC_0 *)action_state)->unk_8C = &D_80170EA8;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->unk_6D == 0) {
                 actor->unk_46 &= 0x7FFF;

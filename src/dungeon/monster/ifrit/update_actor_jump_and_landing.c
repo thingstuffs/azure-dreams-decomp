@@ -107,7 +107,7 @@ void update_actor_jump_and_landing(u8 *motion, EntityRec *position, u8 *sprite, 
             ((SpriteFrameState *)sprite)->frameTable = D_80174820;
             select_sprite_entry(
                 sprite,
-                D_80174820[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80174820[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             phase_value = ((S_80172288_0 *)motion)->unk_9B;
             ((S_80172288_0 *)motion)->unk_9B = phase_value + 1;
@@ -126,8 +126,8 @@ void update_actor_jump_and_landing(u8 *motion, EntityRec *position, u8 *sprite, 
         advance_status_timers(actor);
 
         global_counter = &g_dungeon_status;
-        if (global_counter->unk_08 != 0) {
-            (*(u16 *)&global_counter->unk_08)--;
+        if (global_counter->activity_counts.parts.pending_movement_count != 0) {
+            (*(u16 *)&global_counter->activity_counts.parts.pending_movement_count)--;
         }
 
         actor_flags = actor->flags1C;
@@ -138,7 +138,7 @@ void update_actor_jump_and_landing(u8 *motion, EntityRec *position, u8 *sprite, 
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    sprite[0x24], sprite[0x25], D_80082E80.tileX, D_80082E80.tileY,
+                    sprite[0x24], sprite[0x25], D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                     &facing_result);
             }
         }

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern void *D_8001B16C[];
@@ -27,8 +28,8 @@ void *select_event_response_flags_fallback(s32 handler_arg_a, s32 handler_arg_b,
         if (response != 0) {
             return response;
         }
-        if (func_8001A64C(0x92C) == 0) {
-            func_8001A554(0x92C);
+        if (func_8001A64C(F_sbs32_pad02) == 0) {
+            func_8001A554(F_sbs32_pad02);
             return D_8001B8CC;
         }
         return D_8001B9E0;
@@ -38,10 +39,10 @@ void *select_event_response_flags_fallback(s32 handler_arg_a, s32 handler_arg_b,
         if (response != 0) {
             return response;
         }
-        if (func_8001A64C(0xAC) == 0) {
-            func_8001A554(0xAC);
+        if (func_8001A64C(F_okami_talk_00) == 0) {
+            func_8001A554(F_okami_talk_00);
         }
-        func_8001A554(0x943);
+        func_8001A554(F_sbs32_pad25);
         return D_800206CC;
     case 52:
     case 53:

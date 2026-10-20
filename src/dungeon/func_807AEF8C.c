@@ -53,12 +53,12 @@ void update_dungeon_tile_boundary_state(void *owner) {
     if (*(s32 *)((u8 *)D_800E3D7C + 0x14) & 0x100000) {
         return;
     }
-    if (D_80082E80.tileY != 0x24) {
+    if (D_80082E80.tile_position.parts.tile_y != 0x24) {
         return;
     }
-    if (D_80082E80.tileX == 0x1F) {
+    if (D_80082E80.tile_position.parts.tile_x == 0x1F) {
         mode = 2;
-    } else if (D_80082E80.tileX == 0x20) {
+    } else if (D_80082E80.tile_position.parts.tile_x == 0x20) {
         mode = 1;
     }
     if (mode == 0) {

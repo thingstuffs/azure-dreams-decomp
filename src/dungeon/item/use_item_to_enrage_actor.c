@@ -59,6 +59,6 @@ s32 use_item_to_enrage_actor(DungeonObject *object, s32 action, s16 action_type)
         display_text_with_fullwidth_adjustment(message);
     }
     clear_slot_and_update_linked_state(action);
-    g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+    g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     return 1;
 }

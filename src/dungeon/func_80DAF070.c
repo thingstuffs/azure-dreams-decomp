@@ -162,7 +162,7 @@ void func_80154870(ActorActionView *action, EntityRec *motion, ActorSpriteView *
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((PlayerActionCounterView *)D_800814A8)->activeActions = ((PlayerActionCounterView *)D_800814A8)->activeActions - 1;
         advance_status_timers(actor);
         actor->unk_6D = ((u8)actor->unk_6D) - 1;
@@ -206,15 +206,15 @@ void func_80154870(ActorActionView *action, EntityRec *motion, ActorSpriteView *
             if (sprite->frameTable != direction_anims) {
                 (sprite->frameTable) = direction_anims;
                 select_sprite_entry(sprite,
-                    direction_anims[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
         }
-        target_sprite = (u8 *)&g_dungeon_status.unk_00;
-        if (((DungeonGlobalStatus *)target_sprite)->unk_0C != 0) {
+        target_sprite = (u8 *)&g_dungeon_status.turn_scale;
+        if (((DungeonGlobalStatus *)target_sprite)->active_actor != 0) {
             return;
         }
-        ((DungeonGlobalStatus *)target_sprite)->unk_0A = ((DungeonGlobalStatus *)target_sprite)->unk_0A - 1;
+        ((DungeonGlobalStatus *)target_sprite)->activity_counts.parts.pending_action_count = ((DungeonGlobalStatus *)target_sprite)->activity_counts.parts.pending_action_count - 1;
         sprite->flags &= 0xF7FF;
         action->nextBehavior = func_80152E68;
         advance_status_timers(actor);

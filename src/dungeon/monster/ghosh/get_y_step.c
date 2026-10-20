@@ -155,7 +155,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
             update_actor_status_and_food(actor);
             return;
         }
-        active_actor = ((s32)g_dungeon_status.unk_0C);
+        active_actor = ((s32)g_dungeon_status.active_actor);
         if ((void *)active_actor == actor) {
             path_status = 0xC008;
             ((S_8016BF74_1 *)actor)->unk_46 = (u16) path_status;
@@ -345,7 +345,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
             ((S_8016BF74_1 *)actor)->unk_46 = (u16) (((S_8016BF74_1 *)actor)->unk_46 & 0x7FFF);
             ((S_8016BF74_5 *)motion)->unk_9C = (s8) (u8) position->unk_26;
             ((S_8016BF74_1 *)actor)->unk_6D.u = (u8) (((S_8016BF74_1 *)actor)->unk_6D.u - 1);
-            g_dungeon_status.unk_08 = (u16) (((u16)g_dungeon_status.unk_08) + 1);
+            g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
             if (((S_8016BF74_1 *)actor)->unk_6D.s == 0) {
                 ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
                 return;

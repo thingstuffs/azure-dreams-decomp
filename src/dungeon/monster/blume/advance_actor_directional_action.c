@@ -79,10 +79,10 @@ void advance_actor_directional_action(void *controller, void *context, void *spr
 
             (((SpriteFieldView_80DBC9D8 *)sprite)->field_2C) = D_80175404;
             select_sprite_entry(sprite,
-                D_80175404[((g_game_work.view.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_80175404[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             counter = &g_dungeon_status;
-            (*(u16 *)&counter->unk_0A)--;
+            (*(u16 *)&counter->activity_counts.parts.pending_action_count)--;
             ((S_801741D8_0 *)controller)->unk_9B++;
             break;
         }
@@ -167,14 +167,14 @@ final_call:
 
         (((SpriteFieldView_80DBC9D8 *)sprite)->field_2C) = D_8017540C;
         select_sprite_entry(sprite,
-            D_8017540C[((g_game_work.view.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8017540C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         if (((S_801741D8_1 *)sprite)->unk_14 & 0x8000) {
             ((S_801741D8_0 *)controller)->unk_8C = D_80171E20;
             break;
         } else {
             DungeonGlobalStatus *counter_m = &g_dungeon_status;
-            counter_m->unk_0A++;
+            counter_m->activity_counts.parts.pending_action_count++;
         }
 
 increment_state:
@@ -184,7 +184,7 @@ increment_state:
     case 2:
         if (((S_801741D8_1 *)sprite)->unk_14 & 0xE000) {
             DungeonGlobalStatus *counter_m = &g_dungeon_status;
-            counter_m->unk_0A--;
+            counter_m->activity_counts.parts.pending_action_count--;
 set_owner:
             ((S_801741D8_0 *)controller)->unk_8C = D_80171E20;
         }

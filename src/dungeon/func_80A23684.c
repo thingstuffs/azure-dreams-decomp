@@ -67,7 +67,7 @@ void func_8016AE84(void *controller, void *context, void *entity, EntityRec *act
             u8 *early_table = D_8016E858;
             ((ActorSpriteView *)entity)->animationTable = early_table;
             select_sprite_entry(entity,
-                early_table[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
+                early_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                 0);
             return;
         }
@@ -100,7 +100,7 @@ void func_8016AE84(void *controller, void *context, void *entity, EntityRec *act
             if (((ActorSpriteView *)entity)->animationTable != anim_table) {
                 ((ActorSpriteView *)entity)->animationTable = anim_table;
                 select_sprite_entry(entity,
-                    anim_table[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
+                    anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                     0);
             }
             ((Rec_func_800A9E70_arg0 *)controller)->unk_9A.as_u8 = control_state;
@@ -132,7 +132,7 @@ void func_8016AE84(void *controller, void *context, void *entity, EntityRec *act
             update_actor_status_and_food(actor_state);
             return;
         }
-        if (((ActorSpriteView *)entity)->tile.packed == *(u16 *)(&D_80082E80.tileX)) {
+        if (((ActorSpriteView *)entity)->tile.packed == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_8016B624(controller, context, entity, actor_state);
             return;
         }
@@ -171,7 +171,7 @@ void func_8016AE84(void *controller, void *context, void *entity, EntityRec *act
 
                 direction = get_rounded_facing_and_rounding_flag(
                     ((ActorSpriteView *)entity)->tile.bytes.x, ((ActorSpriteView *)entity)->tile.bytes.y,
-                    D_80082E80.tileX, D_80082E80.tileY,
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                     &direction_flags);
                 player_controller = D_800814A8;
                 actor_state->facing = direction;
@@ -203,11 +203,11 @@ void func_8016AE84(void *controller, void *context, void *entity, EntityRec *act
             if (!(((u32)actor_state->flags1C) & 0x430)) {
 
                 if ((s16)compare_monster_neighbor_values(((ActorSpriteView *)entity)->tile.bytes.x,
-                    ((ActorSpriteView *)entity)->tile.bytes.y, D_80082E80.tileX,
-                    D_80082E80.tileY) != 0) {
+                    ((ActorSpriteView *)entity)->tile.bytes.y, D_80082E80.tile_position.parts.tile_x,
+                    D_80082E80.tile_position.parts.tile_y) != 0) {
                     actor_state->facing = get_rounded_facing_and_rounding_flag(
                         ((ActorSpriteView *)entity)->tile.bytes.x, ((ActorSpriteView *)entity)->tile.bytes.y,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &direction_flags);
                 }
             }
@@ -226,6 +226,6 @@ void func_8016AE84(void *controller, void *context, void *entity, EntityRec *act
     }
     ((ActorSpriteView *)entity)->animationTable = anim_table;
     select_sprite_entry(entity,
-        anim_table[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
+        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
         0);
 }

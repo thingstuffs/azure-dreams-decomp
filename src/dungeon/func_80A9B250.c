@@ -58,7 +58,7 @@ void func_80170A50(void *entity, R08_80170A50_S_80170A28_2 *motion, void *part)
 
     part_flags = ((R08_80170A50_S_80170A28_0 *)part)->unk_14;
     if (!(part_flags & 0x8000)) {
-        rounded_angle = g_game_work.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        rounded_angle = g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         state_or_direction = (rounded_angle >> 9) & 7;
         direction_index = state_or_direction;
         direction_copy = state_or_direction;

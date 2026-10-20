@@ -71,7 +71,7 @@ s32 apply_familiar_call_item(void *target, s32 action, s16 action_type, s32 acti
         display_text_with_fullwidth_adjustment(message_start);
     }
 
-    (((u16)g_dungeon_status.unk_0A))--;
+    (((u16)g_dungeon_status.activity_counts.parts.pending_action_count))--;
     clear_slot_and_update_linked_state(action);
     return 1;
 }

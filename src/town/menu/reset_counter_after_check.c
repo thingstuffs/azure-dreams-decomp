@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
@@ -12,7 +13,7 @@ typedef struct S_800A6EA4_0 {
 
 /* Reset the object counter and select its next state when check 0x99 succeeds. */
 void reset_counter_after_check_99(S_800A6EA4_0 *object) {
-    if (test_resident_bitmap_bit(0x99) != 0) {
+    if (test_resident_bitmap_bit(F_bookshelf_fall) != 0) {
         object->unk_90 = 0;
         object->unk_50 = &accumulate_effect_step;
     }

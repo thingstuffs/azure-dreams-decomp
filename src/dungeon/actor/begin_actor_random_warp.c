@@ -43,5 +43,5 @@ void begin_actor_random_warp(Rec_func_800A9E70_arg0 *entity, void *unused, void 
     ((SpriteFrameState *)position)->unk_26 = find_active_rect_containing_point(((SpriteFrameState *)position)->unk_24,
         ((SpriteFrameState *)position)->unk_25);
     refresh_actor_proximity_state(entity_state);
-    g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) + 1;
+    g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
 }

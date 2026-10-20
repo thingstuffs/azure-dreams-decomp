@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 lookup_with_override_fallback(void *, s32, s32);
@@ -21,8 +22,8 @@ u8 *select_scene_result_address(void *object, s32 check_input_b, s32 check_input
     pos = *(void **)((u8 *)object + 0x14);
     func_80017A8C(*(s16 *)pos, *(s16 *)((u8 *)pos + 2), *(s16 *)((u8 *)pos + 4));
 
-    if (func_80018B5C(0x5C1) == 0) {
-        func_80018A64(0x5C1);
+    if (func_80018B5C(F_sbs11_pad30) == 0) {
+        func_80018A64(F_sbs11_pad30);
         return D_80019DBC;
     }
 

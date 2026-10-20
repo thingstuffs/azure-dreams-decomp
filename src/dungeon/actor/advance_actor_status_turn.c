@@ -17,7 +17,7 @@ void advance_actor_status_turn(s32 dispatch_arg0, s32 dispatch_arg1, s32 dispatc
             state[0x28]--;
         }
         if (state[0x28] == 0) {
-            g_dungeon_status.unk_10 = state - 0x20;
+            g_dungeon_status.pending_display_owner = state - 0x20;
             begin_actor_display_action(dispatch_arg0, dispatch_arg1, dispatch_arg2, 0);
             return;
         }

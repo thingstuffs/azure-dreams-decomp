@@ -26,7 +26,7 @@ s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, S_80045C34 *valu
     do {
         if (!(value_record->unk14 & 0x80)) {
             draw_sprite_clipped(link_data, link_value, value_record, value_record->unk6);
-            if (is_frame_packet_arena_overflowed(*(u32 *)((u8 *)g_game_work.unk_000 + 0x8D0))) {
+            if (is_frame_packet_arena_overflowed(*(u32 *)((u8 *)g_game_work.draw_buffer + 0x8D0))) {
                 return 0;
             }
         }

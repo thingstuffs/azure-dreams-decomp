@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 func_80016BC0(void *, void *, s32, s32);
@@ -26,9 +27,9 @@ s32 lookup_entry_and_apply_override(s32 lookup_key, s32 unused, s32 entry_id)
     }
     if (entry_id == 12) {
         if (!advance_counter_modulo_eight(D_800178D8, lookup_key, 12)) {
-            func_80017674(0xB11);
+            func_80017674(F_sbs43_pad14);
         }
-        if (func_800176F4(0xB11)) {
+        if (func_800176F4(F_sbs43_pad14)) {
             return (s32)D_80018B70;
         }
     }

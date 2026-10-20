@@ -80,9 +80,9 @@ void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_s
     if ((((S_801717D0_0 *)self)->unk_1C & 0x2000) && ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5)) {
         special_action = 1;
         if ((*(u16 *)((u8 *)&((EntityRec *)((u8 *)D_800E3D7C))->unk_A4 + 2)) == 2) {
-            counter = ((u16)g_dungeon_status.unk_0A);
+            counter = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
             counter--;
-            g_dungeon_status.unk_0A = counter;
+            g_dungeon_status.activity_counts.parts.pending_action_count = counter;
         }
 
         player = ((u8 *)D_800E3D7C);
@@ -90,7 +90,7 @@ void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_s
             ((S_801717D0_3 *)player)->unk_A6 != special_action) {
             ((S_801717D0_3 *)player)->unk_A6 = special_action;
             ((S_801717D0_3 *)player)->unk_98.u16 |= 0x1000;
-            g_dungeon_status.unk_0A++;
+            g_dungeon_status.activity_counts.parts.pending_action_count++;
         } else {
             advance_status_timers(self);
             ((S_801717D0_0 *)self)->unk_6D--;
@@ -149,11 +149,11 @@ void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_s
 
     if (frame_table != 0) {
         (*(u8 * *)((u8 *)action_sprite + 0x2C)) = frame_table;
-        selection_index = (g_game_work.view.viewAngle + ((S_801717D0_0 *)self)->unk_2A.s + 0x100) >> 9;
+        selection_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_801717D0_0 *)self)->unk_2A.s + 0x100) >> 9;
         select_sprite_entry(action_sprite, frame_table[selection_index & 7], 0);
     }
 
-    ((S_801717D0_2 *)((u8 *)&g_dungeon_status.unk_00))->unk_0A++;
+    ((S_801717D0_2 *)((u8 *)&g_dungeon_status.turn_scale))->unk_0A++;
 
     return;
 }

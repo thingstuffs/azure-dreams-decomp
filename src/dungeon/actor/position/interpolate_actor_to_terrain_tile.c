@@ -63,7 +63,7 @@ s32 interpolate_actor_to_terrain_tile(S_800AC480_0 *move_state, EntityRec *motio
             move_state->unk_92 = (u16) (move_state->unk_92 + (height_state->unk_88 - target_height));
             height_state->unk_88 = (u16) target_height;
         }
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         return 1;
     }
     return 0;

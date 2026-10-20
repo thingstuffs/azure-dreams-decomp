@@ -18,22 +18,22 @@ void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, EntityRec *mo
     saved_context = context;
 
     if (g_dungeon_status.flags & 0x80) {
-        g_dungeon_status.unk_04 = 0;
+        g_dungeon_status.movement_frames_left = 0;
     }
-    if (g_dungeon_status.unk_04 != 0) {
+    if (g_dungeon_status.movement_frames_left != 0) {
         motion->unk_0C = (s32) ((s32) ((((destination->unk_24 << 6) + 0x20) << 0x10)
-            - motion->x.v) / (s16) g_dungeon_status.unk_04);
+            - motion->x.v) / (s16) g_dungeon_status.movement_frames_left);
         motion->unk_10 = (s32) ((s32) ((((destination->unk_25 << 6) + 0x20) << 0x10)
-            - motion->y.v) / (s16) g_dungeon_status.unk_04);
+            - motion->y.v) / (s16) g_dungeon_status.movement_frames_left);
     }
     actor_flags = actor->unk_A2;
     if (!(actor_flags & 0x10)) {
         actor->unk_A2 = (u16) (actor_flags | 1);
     }
-    frames_left = (u16) g_dungeon_status.unk_04 - 1;
-    g_dungeon_status.unk_04 = frames_left;
+    frames_left = (u16) g_dungeon_status.movement_frames_left - 1;
+    g_dungeon_status.movement_frames_left = frames_left;
     if ((frames_left << 0x10) <= 0) {
-        g_dungeon_status.unk_04 = 0;
+        g_dungeon_status.movement_frames_left = 0;
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;

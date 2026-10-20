@@ -70,7 +70,7 @@ void update_actor_actions_and_impact_effects(S_func_801728C4_0 *action, S_func_8
         motion->unk_0C = 0;
         *(void **)((u8 *)animation + 0x2C) = D_80173D58;
         select_sprite_entry(animation,
-            D_80173D58[((g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+            D_80173D58[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
             0);
         action->unk_96 = 0;
         action->unk_9B++;
@@ -92,7 +92,7 @@ void update_actor_actions_and_impact_effects(S_func_801728C4_0 *action, S_func_8
         set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
         reduce_actor_food_meter(actor, 0x100);
         action->unk_8C = D_80170F74;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 &= 0x7FFF;

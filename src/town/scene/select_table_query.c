@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 typedef struct {
@@ -11,5 +12,5 @@ extern s32 func_80018868(s32, s32);
 s32 select_table_query(void) {
     ValueTable table = D_8001601C;
 
-    return table.values[func_80018868(0x990, 2)];
+    return table.values[func_80018868(F_sbs34_pad16, 2)];
 }

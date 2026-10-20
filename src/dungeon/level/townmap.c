@@ -264,13 +264,13 @@ void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_para
         ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_64 = input_delay;
         if ((input_delay << 16) <= 0) {
             ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_64 = 0;
-            if (((s32)input->unk_010) & 0x10000000) {
+            if (((s32)input->pressed_buttons) & 0x10000000) {
                 view_params->unk_0A += 0x10;
             }
-            if (((s32)input->unk_010) & 0x40000000) {
+            if (((s32)input->pressed_buttons) & 0x40000000) {
                 view_params->unk_0A -= 0x10;
             }
-            buttons = ((s32)input->unk_010);
+            buttons = ((s32)input->pressed_buttons);
             if (buttons & 0x40) {
                 D_800FC418 = 1;
                 call_script(D_80072214);
@@ -308,7 +308,7 @@ void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_para
         s32 buttons;
 
         func_800478B8(update_context);
-        buttons = ((s32)input->unk_010);
+        buttons = ((s32)input->pressed_buttons);
         if (buttons & 0x6000) {
             selection_index = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74 + 1;
             ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74 = selection_index;

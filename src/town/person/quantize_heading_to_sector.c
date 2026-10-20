@@ -18,7 +18,7 @@ s32 quantize_heading_to_sector(s32 referenceAngle, s16 sectorCount)
         effectiveSectorCount = 1;
     }
     sectorAngle = 0x1000 / effectiveSectorCount;
-    roundedAngle = sharedState->view.viewAngle + (s16) sectorAngle / 2;
+    roundedAngle = sharedState->view.camera_rotation.parts.viewAngle + (s16) sectorAngle / 2;
     roundedAngle += 0x400;
     roundedAngle -= referenceAngle;
     return (s32) (roundedAngle & 0xFFF) / (s16) sectorAngle;

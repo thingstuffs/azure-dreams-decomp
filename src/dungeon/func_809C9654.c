@@ -21,7 +21,7 @@ void func_80170E54(void *controller, void *context, void *entity, EntityRec *act
             entity = (u8 *)entity + 0x2C;
             *(void **)entity = early_table;
             select_sprite_entry(record,
-                early_table[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
+                early_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                 0);
             return;
         }
@@ -54,7 +54,7 @@ void func_80170E54(void *controller, void *context, void *entity, EntityRec *act
             if (((R03_80170E54_S_80170E54_2 *)entity)->unk_2C != anim_table) {
                 (*(void * *)((u8 *)entity + (0x2C))) = anim_table;
                 select_sprite_entry(entity,
-                    anim_table[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
+                    anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                     0);
             }
             ((Rec_func_800A9E70_arg0 *)controller)->unk_9A.as_u8 = control_state;
@@ -86,7 +86,7 @@ void func_80170E54(void *controller, void *context, void *entity, EntityRec *act
             update_actor_status_and_food(actor_state);
             return;
         }
-        if (((R03_80170E54_S_80170E54_2 *)entity)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (((R03_80170E54_S_80170E54_2 *)entity)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             advance_actor_path_with_item_search(controller, context, entity, actor_state);
             return;
         }
@@ -123,7 +123,7 @@ void func_80170E54(void *controller, void *context, void *entity, EntityRec *act
                 EntityRec *player_controller;
                 s32 direction;
 
-                direction = get_rounded_facing_and_rounding_flag((s16)(((R03_80170E54_S_80170E54_2 *)entity)->unk_24.at00.v),(s16)(((R03_80170E54_S_80170E54_2 *)entity)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                direction = get_rounded_facing_and_rounding_flag((s16)(((R03_80170E54_S_80170E54_2 *)entity)->unk_24.at00.v),(s16)(((R03_80170E54_S_80170E54_2 *)entity)->unk_24.at01.v),(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
                     &direction_flags);
                 player_controller = D_800814A8;
                 actor_state->facing = direction;
@@ -155,9 +155,9 @@ void func_80170E54(void *controller, void *context, void *entity, EntityRec *act
             if (!(((u32)actor_state->flags1C) & 0x430)) {
 
                 if ((s16)compare_monster_neighbor_values(((R03_80170E54_S_80170E54_2 *)entity)->unk_24.at00.v,
-                    ((R03_80170E54_S_80170E54_2 *)entity)->unk_24.at01.v, D_80082E80.tileX,
-                    D_80082E80.tileY) != 0) {
-                    actor_state->facing = get_rounded_facing_and_rounding_flag((s16)(((R03_80170E54_S_80170E54_2 *)entity)->unk_24.at00.v),(s16)(((R03_80170E54_S_80170E54_2 *)entity)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                    ((R03_80170E54_S_80170E54_2 *)entity)->unk_24.at01.v, D_80082E80.tile_position.parts.tile_x,
+                    D_80082E80.tile_position.parts.tile_y) != 0) {
+                    actor_state->facing = get_rounded_facing_and_rounding_flag((s16)(((R03_80170E54_S_80170E54_2 *)entity)->unk_24.at00.v),(s16)(((R03_80170E54_S_80170E54_2 *)entity)->unk_24.at01.v),(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
                         &direction_flags);
                 }
             }
@@ -176,6 +176,6 @@ void func_80170E54(void *controller, void *context, void *entity, EntityRec *act
     }
     (*(void * *)((u8 *)entity + (0x2C))) = anim_table;
     select_sprite_entry(entity,
-        *(u8 *)((u32)(((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7) + (u32)anim_table),
+        *(u8 *)((u32)(((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
 }

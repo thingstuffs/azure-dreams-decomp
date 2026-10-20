@@ -30,7 +30,7 @@ void finish_actor_tile_move_and_check_trap(void *action_state, s32 action_ctx, v
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((S_801721C0_1 *)action_state)->unk_9B = 0;
             (*(u8 **)((u8 *)sprite + 0x2C)) = &D_80176480;
-            select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+            select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &D_80176480), 0);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
             ((S_801721C0_1 *)action_state)->unk_98 = (u16) (((S_801721C0_1 *)action_state)->unk_98 | 8);

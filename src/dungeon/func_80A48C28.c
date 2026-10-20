@@ -10,7 +10,7 @@ void update_actor_action_and_direction(void *action_state, void *context, Sprite
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((R06_80172428_S_80172428_1 *)action_state)->unk_9B = 0;
             sprite->frameTable = ((u8 *)D_8017587C);
-            select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+            select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + ((u8 *)D_8017587C)), 0);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);

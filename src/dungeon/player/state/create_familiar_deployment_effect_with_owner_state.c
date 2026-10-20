@@ -49,7 +49,7 @@ void create_familiar_deployment_effect_with_owner_state(s32 priority, EntityRec 
         flags = sprite->flags;
         sprite->flags = (u16) (flags | 0x200);
         sprite->unk_06 = 4;
-        if (D_80082E80.unk_014 & 1) {
+        if (D_80082E80.sprite_flags & 1) {
             sprite->flags = (u16) (sprite->flags | 1);
         }
         set_sprite_animation_frame(sprite, 0xCE, 0, 3);

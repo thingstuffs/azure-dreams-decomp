@@ -31,7 +31,7 @@ void apply_pending_actor_updates(void *controller, s32 move_state, void *entity,
         *(s16 *)((u8 *)actor + 0x8A) = 2;
         D_800E4940 = 2;
         begin_player_menu_action(controller, move_state, entity, D_8004F5F4);
-        D_80082E80.unk_030 = 0;
+        D_80082E80.selected_item = 0;
         *(s32 *)((u8 *)controller + 0xC8) = 0;
         *(s32 *)((u8 *)controller + 0x104) = 0;
         return;

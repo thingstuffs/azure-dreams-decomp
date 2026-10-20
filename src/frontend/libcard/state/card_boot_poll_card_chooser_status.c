@@ -1,10 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern void card_boot_toggle_channel(void);
-extern s32 card_boot_get_operation_state(void);
-extern s32 card_boot_debounce_card_status_events(void);
-extern void no_op_card_stub(void);
+#include "modules/main_server_ship_interfaces.h"
 extern void card_boot_show_please_wait_notice(void *input, void *value);
 
 extern u8 D_8002789C[];
@@ -15,7 +12,7 @@ void card_boot_poll_card_chooser_status(void *state) {
     s32 callback_index;
     void *callback;
 
-    if ((g_game_work.buttons != 0) && (((s32)g_game_work.unk_010) & 0x20)) {
+    if ((g_game_work.buttons != 0) && (((s32)g_game_work.pressed_buttons) & 0x20)) {
         card_boot_toggle_channel();
         *(s32 *)((u8 *)state + 0x38) = 0;
         *(void **)((u8 *)state - 0x10) = D_8002789C;

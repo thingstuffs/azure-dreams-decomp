@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 s32 func_80017D9C(s32, s32);
@@ -12,6 +13,6 @@ typedef struct S_800164E8_0 {
 /* Process the object identifier and 0x50C before forwarding the object and value. */
 void process_scene_request_state(S_800164E8_0 *object, s32 value) {
     call_helper_with_fixed_id_0x118a(object->unk_18);
-    func_800188CC(0x50C);
+    func_800188CC(F_sbs07_pad21);
     func_80017D9C(object, value);
 }

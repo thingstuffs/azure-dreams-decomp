@@ -26,8 +26,8 @@ void update_target_tracking_and_transition(void *tracker) {
     }
     frames_left = *(s16 *)((char *)tracker + 0x24);
     if (frames_left > 0) {
-        state->unk_098 = (u16)state->unk_098 +
-            (*(s16 *)((char *)tracker + 0x26) - state->unk_098) / frames_left;
+        state->view_offset.parts.view_offset_z = (u16)state->view_offset.parts.view_offset_z +
+            (*(s16 *)((char *)tracker + 0x26) - state->view_offset.parts.view_offset_z) / frames_left;
     } else {
         D_800E3D20[0] = 0;
     }
@@ -44,12 +44,12 @@ void update_target_tracking_and_transition(void *tracker) {
     if (target_height >= 0x201) {
         *(s16 *)((char *)tracker + 8) = *(u16 *)((char *)*(void **)((char *)tracker + 0xC) + 0xA);
     }
-    state->unk_0A4 = (u16)state->unk_0A4 + ((s32)((s16)*(u16 *)((char *)tracker + 4) - state->unk_0A4) >> 2);
-    state->unk_0A6 = (u16)state->unk_0A6 + ((s32)((s16)*(u16 *)((char *)tracker + 6) - state->unk_0A6) >> 2);
+    state->camera_position.parts.camera_position_x = (u16)state->camera_position.parts.camera_position_x + ((s32)((s16)*(u16 *)((char *)tracker + 4) - state->camera_position.parts.camera_position_x) >> 2);
+    state->camera_position.parts.camera_position_y = (u16)state->camera_position.parts.camera_position_y + ((s32)((s16)*(u16 *)((char *)tracker + 6) - state->camera_position.parts.camera_position_y) >> 2);
     if (D_800DF63C[0] != 0) {
-        state->unk_0A8 = (u16)state->unk_0A8 + ((s32)(*(s16 *)((char *)tracker + 8) - state->unk_0A8) >> 2);
+        state->camera_position.parts.camera_position_z = (u16)state->camera_position.parts.camera_position_z + ((s32)(*(s16 *)((char *)tracker + 8) - state->camera_position.parts.camera_position_z) >> 2);
     }
-    D_800DF63C[0] = (s8)(state->unk_0A8 != *(s16 *)((char *)tracker + 8));
-    state->unk_094 = (s32)(((u16)state->unk_094) << 0x10) >> 0x12;
-    state->unk_096 = (s32)(((u16)state->unk_096) << 0x10) >> 0x12;
+    D_800DF63C[0] = (s8)(state->camera_position.parts.camera_position_z != *(s16 *)((char *)tracker + 8));
+    state->view_offset.parts.view_offset_x = (s32)(((u16)state->view_offset.parts.view_offset_x) << 0x10) >> 0x12;
+    state->view_offset.parts.view_offset_y = (s32)(((u16)state->view_offset.parts.view_offset_y) << 0x10) >> 0x12;
 }

@@ -28,12 +28,12 @@ void start_naplass_status_action(S_80F60808_1 *action_state, void *unused, Sprit
         action_state->unk_8C = 0;
         action_state->unk_9B = 0;
         sprite->frameTable = &D_801741D4;
-        select_sprite_entry(sprite, D_801741D4[(((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
+        select_sprite_entry(sprite, D_801741D4[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
         actor->flags1C = (s32) (actor->flags1C | 0x200);
         set_or_clear_actor_status_slot(actor, 1, 4);
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
         advance_status_timers(actor);
         actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     }
 }

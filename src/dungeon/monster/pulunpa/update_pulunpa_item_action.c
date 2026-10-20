@@ -178,7 +178,7 @@ void func_80175480(void *action, EntityRec *motion, void *sprite, EntityRec *act
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((PlayerActionCountView *)D_800814A8)->remainingActions--;
         advance_status_timers(actor);
         ((ActorActionBytesView *)actor)->remainingActions--;
@@ -227,11 +227,11 @@ void func_80175480(void *action, EntityRec *motion, void *sprite, EntityRec *act
 
             anim_table = D_80176320;
             ((SpriteFrameState *)sprite)->frameTable = anim_table;
-            direction = ((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, anim_table[direction], 0);
         }
         {
-            target_sprite = (u8 *)&g_dungeon_status.unk_00;
+            target_sprite = (u8 *)&g_dungeon_status.turn_scale;
             if (((DungeonActionStatusView *)target_sprite)->actionBusy != 0) {
                 return;
             }

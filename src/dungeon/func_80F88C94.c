@@ -177,7 +177,7 @@ void update_bank_staged_movement(void *action, void *motion, void *map_actor, vo
             ((S_80172494_3 *)motion)->unk_10 = 0;
             ((S_80172494_3 *)motion)->unk_14 = 0;
             ((SpriteFrameState *)map_actor)->frameTable = D_80174AE4;
-            direction_index = (g_game_work.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
             select_sprite_entry(map_actor, D_80174AE4[direction_index & 7], 0);
         }
         if (((S_80172494_1 *)action)->unk_96.u > 0) {
@@ -278,9 +278,9 @@ void update_bank_staged_movement(void *action, void *motion, void *map_actor, vo
                       ((SpriteFrameState *)map_actor)->unk_25);
         reduce_actor_food_meter(actor_arg, 0x100);
         ((S_80172494_1 *)action)->unk_8C = update_bank_actor_state;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((SpriteFrameState *)map_actor)->frameTable = D_80174AD4;
-        direction_index_2 = (g_game_work.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
+        direction_index_2 = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
         select_sprite_entry(map_actor, D_80174AD4[direction_index_2 & 7], 0);
         advance_status_timers(actor_arg);
         if (((S_80172494_0 *)actor_arg)->unk_6D == 0) {

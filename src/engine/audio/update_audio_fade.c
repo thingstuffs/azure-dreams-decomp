@@ -6,7 +6,7 @@
  * field0 (fn ptr), field4 (s32 state), field8 (s16 current value),
  * fieldA (s16 target), field16 (u16 increment step), field18 (u16 decrement step). */
 typedef struct S_800545F4 {
-    /*0x00*/ void (*field0)(void);
+    /*0x00*/ sound_task_callback_fn field0;
     /*0x04*/ s32 field4;
     /*0x08*/ s16 field8;
     /*0x0A*/ s16 fieldA;

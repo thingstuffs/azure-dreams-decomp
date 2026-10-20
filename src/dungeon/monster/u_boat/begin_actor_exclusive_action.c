@@ -58,14 +58,14 @@ void begin_actor_exclusive_action(S_func_80D40744_0 *entity, s32 unused_1, s32 u
             saved_entity->unk_9A.u8 = 14;
             return;
         }
-        if (state->unk_0C != entity) {
-            if (state->unk_0C != 0 || state->unk_10 != 0 || (state_or_flags & 8)) {
+        if (state->active_actor != entity) {
+            if (state->active_actor != 0 || state->pending_display_owner != 0 || (state_or_flags & 8)) {
                 entity->unk_9A.u8 = 14;
                 return;
             }
         }
     } else {
-        state_or_flags = (s32)&g_dungeon_status.unk_00;
+        state_or_flags = (s32)&g_dungeon_status.turn_scale;
         if ((((S_func_80D40744_1 *)state_or_flags)->unk_02 & 0x2000) ||
             ((S_func_80D40744_1 *)state_or_flags)->unk_0A.s16 != 0) {
             saved_entity->unk_9A.u8 = 14;
@@ -80,7 +80,7 @@ void begin_actor_exclusive_action(S_func_80D40744_0 *entity, s32 unused_1, s32 u
 
         if (mode == 0) {
             DungeonGlobalStatus *state = &g_dungeon_status;
-            (*(u16 *)&state->unk_0A)++;
+            (*(u16 *)&state->activity_counts.parts.pending_action_count)++;
         }
         entity->unk_8C = 0;
         entity->unk_9A.s8 = 0x19;

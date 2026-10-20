@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "modules/town_ovl_3ef1c8.h"
 
 s32 *select_state_result_with_lookup_overrides(s32 first_value, s32 second_value, s32 unused_context) {
@@ -8,23 +9,23 @@ s32 *select_state_result_with_lookup_overrides(s32 first_value, s32 second_value
         result = &D_8001EC04;
     } else {
         value = func_8001A7F8();
-        if ((func_8001A510(0x79A) == 0) && ((value < 5) || (lookup_variant_with_special_overrides(0x47E, 0x79A) != 0))) {
+        if ((func_8001A510(F_sbs22_pad30) == 0) && ((value < 5) || (lookup_variant_with_special_overrides(0x47E, 0x79A) != 0))) {
             result = &D_8001E2F8;
-            func_8001A418(0x47E);
-        } else if ((func_8001A510(0x79B) == 0) && ((value < 0xA) || (lookup_variant_with_special_overrides(0x47E, 0x79B) != 0))) {
+            func_8001A418(F_sbs04_pad08);
+        } else if ((func_8001A510(F_sbs22_pad31) == 0) && ((value < 0xA) || (lookup_variant_with_special_overrides(0x47E, 0x79B) != 0))) {
             result = &D_8001E634;
-            func_8001A418(0x47E);
-        } else if ((func_8001A510(0x79C) == 0) && ((value < 0xF) || (lookup_variant_with_special_overrides(0x47E, 0x79C) != 0))) {
+            func_8001A418(F_sbs04_pad08);
+        } else if ((func_8001A510(F_sbs22_pad32) == 0) && ((value < 0xF) || (lookup_variant_with_special_overrides(0x47E, 0x79C) != 0))) {
             result = &D_8001E79C;
-            func_8001A418(0x47E);
-        } else if ((func_8001A510(0x79D) == 0) && (((value < 0x19) && (check_any_entry_matches_predicate() != 0))
+            func_8001A418(F_sbs04_pad08);
+        } else if ((func_8001A510(F_sbs22_pad33) == 0) && (((value < 0x19) && (check_any_entry_matches_predicate() != 0))
             || (lookup_variant_with_special_overrides(0x47E, 0x79D) != 0))) {
             result = &D_8001E9C0;
-            func_8001A418(0x47E);
+            func_8001A418(F_sbs04_pad08);
         } else {
             result = &D_8001EB10;
         }
-        func_8001A418(0x7A3);
+        func_8001A418(F_sbs22_pad39);
     }
     return result;
 }

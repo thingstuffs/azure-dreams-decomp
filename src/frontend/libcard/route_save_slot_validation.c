@@ -1,11 +1,11 @@
 #include "common.h"
+#include "frontend/libcard/interfaces.h"
 
 extern s32 D_80083E98[];
 extern s32 D_8002644C[];
 extern s32 D_800263C0[];
 
-s32 card_boot_get_remaining_block_summary(void);
-s32 card_boot_count_cached_slots(void);
+#include "modules/main_server_ship_interfaces.h"
 void func_800264D8(void *context);
 void card_boot_enter_insufficient_space_advice(void *record_part);
 

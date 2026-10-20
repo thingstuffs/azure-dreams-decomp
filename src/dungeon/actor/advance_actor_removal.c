@@ -214,7 +214,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         } else {
             ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((s32 *)&D_800E3D7C)))->x)))->unk_110 = 0;
         }
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
         next_state = 3;
         state->unk_9B = next_state;
         break;
@@ -287,7 +287,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
 
             state4_global = (u16 *)&D_800DCE68;
             (*state4_global)--;
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         func_800A31D0(actor);
         actor_slot4 = find_entity_slot_by_field_ac(actor);
@@ -326,12 +326,12 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         unlink_entity_node(actor);
         ((S_800AB778_0_pre *)actor)[-1].unk_00 |= 0x8000;
         ((S_800AB778_10 *)(&D_800814A0))->unk_00 |= 0x8000;
-        state4_count = ((u16)g_dungeon_status.unk_0A);
-        state4_owner = ((s32)g_dungeon_status.unk_0C);
+        state4_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
+        state4_owner = ((s32)g_dungeon_status.active_actor);
         state4_count--;
-        g_dungeon_status.unk_0A = state4_count;
+        g_dungeon_status.activity_counts.parts.pending_action_count = state4_count;
         if (state4_owner == (s32)actor) {
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             return 0;
         }
         return 0;
@@ -385,9 +385,9 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         update_flags = (s32 *)&D_800814A0;
         ((S_800AB778_0_pre *)actor)[-1].unk_00 |= 0x8000;
         ((S_800AB778_16 *)update_flags)->unk_00 |= 0x8000;
-        state16_count = ((u16)g_dungeon_status.unk_0A);
+        state16_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         state16_count--;
-        g_dungeon_status.unk_0A = state16_count;
+        g_dungeon_status.activity_counts.parts.pending_action_count = state16_count;
     }
     return 0;
 }

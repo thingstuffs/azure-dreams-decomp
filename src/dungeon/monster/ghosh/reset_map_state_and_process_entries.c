@@ -60,7 +60,7 @@ void reset_map_state_and_process_entries(void) {
     sys_work->f371A = 0;
     sys_work->f3718 = 0;
     sys_work->f3716 = 0;
-    g_dungeon_status.unk_0A -= 1;
+    g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
     active_object = D_80174704;
     sys_work->flags = (sys_work->flags | 9) & 0xFFEF;
     lookup_key = D_800834E2;
@@ -69,7 +69,7 @@ void reset_map_state_and_process_entries(void) {
     D_800DCF4D = -1;
     map_data = active_object + 0x20;
     coord_result = get_rounded_facing_and_rounding_flag(map_object[0x24], map_object[0x25],
-                           D_80082E80.tileX, D_80082E80.tileY, &coord_aux);
+                           D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &coord_aux);
     ((MapDataFieldView_81326794 *)map_data)->field_2A = coord_result;
     D_80174CD0 = 0;
     D_80174CCC = (s32 *)D_801749E0[(coord_result >> 9) & 7];

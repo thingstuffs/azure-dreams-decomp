@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -11,9 +12,9 @@ s32 triggers_x_7_state_callback(void) {
     if ((*(Callback *)((u8 *)*(void **)((u8 *)D_80016000 + 0x20) + 0x2D4))(0) != 1) {
         return 0;
     }
-    if (func_80018668(0xA7) != 0) {
+    if (func_80018668(F_30kinko_talk) != 0) {
         return 0;
     }
-    func_80018570(0xA7);
+    func_80018570(F_30kinko_talk);
     return 1;
 }

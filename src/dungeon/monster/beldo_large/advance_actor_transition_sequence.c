@@ -107,7 +107,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
             ((S_8016BE20_0 *)state)->unk_9B.n++;
             (*(u8 * *)((u8 *)actor + 0x2C)) = D_80173A40;
             select_sprite_entry(actor,
-                D_80173A40[((g_game_work.view.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                D_80173A40[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
         } else {
             if (D_80175DC0 == 0) {
@@ -118,7 +118,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
             play_sound_if_enabled(0x300);
             (*(u8 * *)((u8 *)actor + 0x2C)) = D_80173A40;
             select_sprite_entry(actor,
-                D_80173A40[((g_game_work.view.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                D_80173A40[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         return;
@@ -146,7 +146,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
         if (((S_8016BE20_3 *)actor)->unk_2C != anim_table) {
             (*(u8 * *)((u8 *)actor + 0x2C)) = anim_table;
             select_sprite_entry(actor,
-                anim_table[((g_game_work.view.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         if (D_80175DC1 != 0) {
@@ -174,10 +174,10 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
             if (((S_8016BE20_2 *)ctx)->unk_60 == world) {
                 setup_data = D_80175392;
                 ((S_8016BE20_0 *)state)->unk_8C = D_8016A36C;
-                control_count = ((u16)g_dungeon_status.unk_0A);
-                g_dungeon_status.unk_0C = 0;
+                control_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
+                g_dungeon_status.active_actor = 0;
                 control_count++;
-                g_dungeon_status.unk_0A = control_count;
+                g_dungeon_status.activity_counts.parts.pending_action_count = control_count;
                 ((S_8016BE20_2 *)ctx)->unk_46 &= 0x7FFF;
                 global_flags = ((ResetFlagWord *)&D_80013714)->flags;
                 ((ResetFlagWord *)&D_80013714)->flags = global_flags | 8;
@@ -198,7 +198,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
             }
         }
         ((S_8016BE20_0 *)state)->unk_8C = D_8016A36C;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         advance_status_timers(ctx);
         ((S_8016BE20_2 *)ctx)->unk_46 &= 0x7FFF;
         return;

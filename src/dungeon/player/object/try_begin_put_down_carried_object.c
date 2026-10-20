@@ -41,8 +41,8 @@ void try_begin_put_down_carried_object(void *state, EntityRec *target, SpriteFra
         ((Rec_func_8008ACDC_arg0 *)state)->unk_9B.as_s8 = 0;
         ((Rec_func_8008ACDC_arg0 *)state)->unk_8C.as_s32 = 0;
         sprite->frameTable = D_800DD0D0;
-        set_sprite_animation_frame(sprite, D_800DD0D0[(((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)) >> 9) & 7], 0, 1);
-        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) + 1;
+        set_sprite_animation_frame(sprite, D_800DD0D0[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)) >> 9) & 7], 0, 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
         append_packed_action_record(actor, 0x28, 0, 0);
     }
 }

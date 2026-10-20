@@ -53,7 +53,7 @@ void begin_actor_directional_target_action(void *action_state, s32 action_contex
             ((S_80174A9C_1 *)action_state)->unk_9B = 0;
             (((SpriteFieldView_80DBD29C *)sprite)->field_2C) = &D_80175414;
             select_sprite_entry(sprite,
-                          *(&D_80175414 + (((s32)(g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)),
+                          *(&D_80175414 + (((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                           0);
             advance_status_timers(actor);
             actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);

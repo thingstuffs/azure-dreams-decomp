@@ -106,7 +106,7 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 void draw_ribbon_center_lines(S_80166968_4 *geometry, S_80166968_1 *position, u8 *render_data, s32 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
-    u8 *render_state = g_game_work.unk_000;
+    u8 *render_state = g_game_work.draw_buffer;
     u32 draw_flags;
     u8 **render_state_ref;
     u8 *packet;
@@ -137,7 +137,7 @@ void draw_ribbon_center_lines(S_80166968_4 *geometry, S_80166968_1 *position, u8
     saved_depth_bias = depth_bias;
     ((S_80166968_0 *)scratch)->unk_90 = position->unk_0A;
     ((S_80166968_2 *)render_data)->unk_14 |= 0x8000;
-    render_state_ref = &g_game_work.unk_000;
+    render_state_ref = &g_game_work.draw_buffer;
     func_800649A0();
 
     ((S_80166968_0 *)scratch)->unk_3C = 0x2000;

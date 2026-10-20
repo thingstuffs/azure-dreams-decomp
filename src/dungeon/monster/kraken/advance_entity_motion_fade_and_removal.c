@@ -110,7 +110,7 @@ void advance_entity_motion_fade_and_removal(S_801731FC_0 *state, S_801731FC_2 *m
             motion->unk_10 = 0;
             motion->unk_0C = 0;
         }
-        if (g_dungeon_status.unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
         state->unk_9B = state->unk_9B + 1;
@@ -145,8 +145,8 @@ void advance_entity_motion_fade_and_removal(S_801731FC_0 *state, S_801731FC_2 *m
         if ((s16)next_brightness >= 0x18) {
             return;
         }
-        if (((s32)g_dungeon_status.unk_10) == (entity - 0x20)) {
-            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
+        if (((s32)g_dungeon_status.pending_display_owner) == (entity - 0x20)) {
+            *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         distribute_experience_and_report_gains(entity);
         detach_record_and_update_slot_state(entity);

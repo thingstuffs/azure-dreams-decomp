@@ -43,7 +43,7 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
     register_node(effect, project_sprite_chain);
     (*(void * *)((u8 *)effect_data + 0x2c)) = (void *)&D_80175EB4;
     select_sprite_entry(effect_data,
-        ((u8 *)&D_80175EB4)[(((s32)g_game_work.view.viewAngle + (s32)actor->facing + 0x100) >> 9) & 7],
+        ((u8 *)&D_80175EB4)[(((s32)g_game_work.view.camera_rotation.parts.viewAngle + (s32)actor->facing + 0x100) >> 9) & 7],
         0);
     effect_data = ((T_801714FC_S_801714FC_2 *)effect)->unk_08;
     if (((s32)actor->target) != 0 && (actor->flags14 & 0x04000000) == 0) {

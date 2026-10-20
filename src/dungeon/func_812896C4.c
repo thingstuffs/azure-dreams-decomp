@@ -91,12 +91,12 @@ void func_80165EC4(void *action, void *context, void *entity, EntityRec *actor)
             local_table_0 = D_80166E94;
 
             (*(void * *)((u8 *)entity + 0x2C)) = local_table_0;
-            effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+            effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
             effect_entry &= 7;
             effect_entry += (s32)local_table_0;
             func_80047320(entity, *(u8 *)effect_entry, 0);
             dungeon_state = &g_dungeon_status;
-            (*(u16 *)&dungeon_state->unk_0A)--;
+            (*(u16 *)&dungeon_state->activity_counts.parts.pending_action_count)--;
             next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
             ((S_8017360C_0 *)action)->unk_9B = next_state;
             return;
@@ -113,7 +113,7 @@ void func_80165EC4(void *action, void *context, void *entity, EntityRec *actor)
         local_table_1 = D_80166EBC;
 
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_1;
-        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_1;
         func_80047320(entity, *(u8 *)effect_entry, 0);
@@ -133,7 +133,7 @@ void func_80165EC4(void *action, void *context, void *entity, EntityRec *actor)
         local_table_2 = D_80166EC4;
 
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_2;
-        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_2;
         func_80047320(entity, *(u8 *)effect_entry, 0);
@@ -213,7 +213,7 @@ void func_80165EC4(void *action, void *context, void *entity, EntityRec *actor)
                 TileObject *room_base = &D_80081490;
                 s8 room_id = ((Rec_D_80082E80 *)entity)->unk_26.as_s8;
 
-                if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)func_8009EB30(room_base, entity) < 2) {
+                if ((room_id == room_base->room_index && room_id >= 0) || (s16)func_8009EB30(room_base, entity) < 2) {
                     if ((func_800A59E8() & 7) == 0) {
                         func_8004272C(actor, 1);
                     }
@@ -227,7 +227,7 @@ void func_80165EC4(void *action, void *context, void *entity, EntityRec *actor)
         local_table_3 = D_80166ECC;
 
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_3;
-        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_3;
         func_80047320(entity, *(u8 *)effect_entry, 0);
@@ -237,7 +237,7 @@ void func_80165EC4(void *action, void *context, void *entity, EntityRec *actor)
         ((S_8017360C_0 *)action)->unk_9B++;
         {
             DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
-            (*(u16 *)&dungeon_state->unk_0A)++;
+            (*(u16 *)&dungeon_state->activity_counts.parts.pending_action_count)++;
         }
         return;
 
@@ -259,7 +259,7 @@ void func_80165EC4(void *action, void *context, void *entity, EntityRec *actor)
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_4;
-        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_4;
         func_80047320(entity, *(u8 *)effect_entry, 0);
@@ -279,13 +279,13 @@ void func_80165EC4(void *action, void *context, void *entity, EntityRec *actor)
         local_table_5 = D_80166E94;
 
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_5;
-        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_5;
         func_80047320(entity, *(u8 *)effect_entry, 0);
         {
             DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
-            (*(u16 *)&dungeon_state->unk_0A)--;
+            (*(u16 *)&dungeon_state->activity_counts.parts.pending_action_count)--;
         }
         break;
 

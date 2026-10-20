@@ -2,6 +2,7 @@
 #define TOWN_OVL_79DD70_H
 #include "shared/object_node.h"
 #include "common.h"
+#include "town/minigame/pickup_data.h"
 
 typedef struct { s32 words[22]; } Payload88;
 typedef struct { s32 words[6]; } Initial24;
@@ -42,5 +43,5 @@ extern s32 func_80045340(void *, s32, struct S_80045340_Entry *, s32);
 extern void update_bouncing_pickup(void *, void *, void *);
 extern s32 D_8002445C[];
 
-void initialize_source_and_initial_data(void *, void *);
+
 #endif

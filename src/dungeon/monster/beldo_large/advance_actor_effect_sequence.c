@@ -121,7 +121,7 @@ top:
 
         case 0xE8:
             actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
-                D_80082E80.tileX, D_80082E80.tileY, angle_out);
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, angle_out);
             complete_actor_facing_action(entity, action_value, aux, actor);
             return 0;
 
@@ -154,7 +154,7 @@ top:
                 if (old_sequence == sequence) {
                     break;
                 }
-                angle_base = &g_game_work.view.viewAngle;
+                angle_base = &g_game_work.view.camera_rotation.parts.viewAngle;
                 (*(u8 **)((u8 *)aux + 0x2C)) = sequence;
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
@@ -178,7 +178,7 @@ top:
                 if (old_sequence == start_sequence) {
                     break;
                 }
-                angle_base = &g_game_work.view.viewAngle;
+                angle_base = &g_game_work.view.camera_rotation.parts.viewAngle;
                 (*(u8 **)((u8 *)aux + 0x2C)) = start_sequence;
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, start_sequence);
@@ -197,7 +197,7 @@ top:
                     break;
                 }
                 entity->animation = 2;
-                angle_base = &g_game_work.view.viewAngle;
+                angle_base = &g_game_work.view.camera_rotation.parts.viewAngle;
                 sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B0);
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
@@ -223,7 +223,7 @@ top:
                 if (aux->sequence == event_sequence) {
                     break;
                 }
-                angle_base = &g_game_work.view.viewAngle;
+                angle_base = &g_game_work.view.camera_rotation.parts.viewAngle;
                 (*(u8 **)((u8 *)aux + 0x2C)) = event_sequence;
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, event_sequence);
@@ -251,7 +251,7 @@ top:
                     break;
                 }
                 entity->animation = 3;
-                angle_base = &g_game_work.view.viewAngle;
+                angle_base = &g_game_work.view.camera_rotation.parts.viewAngle;
                 sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B8);
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
@@ -272,7 +272,7 @@ top:
                 entity->direction = 0;
             case 1:
                 actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
-                    D_80082E80.tileX, D_80082E80.tileY, angle_out);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, angle_out);
                 timer = (u16)(entity->timer + 1);
                 entity->timer = timer;
                 if (timer & 1) {
@@ -290,7 +290,7 @@ top:
             switch (state) {
             case 0:
                 actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
-                    D_80082E80.tileX, D_80082E80.tileY, angle_out);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, angle_out);
                 entity->state++;
                 entity->timer = 0;
                 entity->direction = 0;
@@ -307,9 +307,9 @@ top:
                     entity->timer = 0;
                     entity->state = (u8)(entity->state + 1);
                     actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
-                        D_80082E80.tileX, D_80082E80.tileY, angle_out);
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, angle_out);
                     idle_sequence = D_801739A0;
-                    angle_base = &g_game_work.view.viewAngle;
+                    angle_base = &g_game_work.view.camera_rotation.parts.viewAngle;
                     entity->animation = 0;
                     (*(u8 **)((u8 *)aux + 0x2C)) = idle_sequence;
                     sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
@@ -319,7 +319,7 @@ top:
             }
             case 2:
                 actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
-                    D_80082E80.tileX, D_80082E80.tileY, angle_out);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, angle_out);
                 break;
             }
             break;

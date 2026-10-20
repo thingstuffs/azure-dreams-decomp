@@ -35,7 +35,7 @@ void create_positioned_view_marker(s16 x, s16 y) {
         object->unk_10 = (void *)func_800F6070;
         register_node(object, project_sprite_chain);
         render_state = object->unk_0C;
-        render_config = (u32) *((u32 *)(&g_game_work.view.unk_090));
+        render_config = (u32) *((u32 *)(&g_game_work.view.tint.parts.tint_r));
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->color.word = render_config;

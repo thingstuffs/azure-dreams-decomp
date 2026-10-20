@@ -48,7 +48,7 @@ void update_directional_transition_state(S_func_810870DC_0 *entity, void *unused
         if (animation->unk_14 & 0xE000) {
             animation->unk_2C = D_80175F28;
             select_sprite_entry(animation,
-                D_80175F28[((scene_data->view.viewAngle +
+                D_80175F28[((scene_data->view.camera_rotation.parts.viewAngle +
                     orientation->unk_2A + 0x100) >> 9) & 7], 0);
             entity->unk_9B++;
         }
@@ -60,11 +60,11 @@ void update_directional_transition_state(S_func_810870DC_0 *entity, void *unused
         if (!(scene_flags & 0x100) && (scene_flags & 0xFFFF)) {
             animation->unk_2C = D_80175F10;
             select_sprite_entry(animation,
-                D_80175F10[((scene_data->view.viewAngle +
+                D_80175F10[((scene_data->view.camera_rotation.parts.viewAngle +
                     orientation->unk_2A + 0x100) >> 9) & 7], 0);
             entity->unk_8C = D_80170E94;
             entity->unk_A6 = 0;
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
     }
         break;

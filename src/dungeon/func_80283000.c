@@ -58,5 +58,5 @@ void init_dungeon_view(void) {
     *(s16 *)(render_data + 0x1A) = -0x88;
     *(s16 *)(render_data + 0x1C) = 0x172;
     *(s16 *)(render_data + 0x1E) = 0x19A;
-    g_dungeon_status.unk_18 = &D_800DDC7C;
+    g_dungeon_status.monster_spawn_table = &D_800DDC7C;
 }

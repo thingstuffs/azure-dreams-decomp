@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -21,15 +22,15 @@ s32 update_scene_action_flags(s32 object, s32 context) {
 
     store_supplied_values(object, context);
     if (func_8001894C(D_80018AEA) == 0) {
-        call_helper_with_fixed_id_0x118a(0x511);
+        call_helper_with_fixed_id_0x118a(F_sbs07_pad26);
         if (((S_func_804B80D0_1 *)
              ((D_80016000->unk_08 * 8) +
               ((s32)D_80016000->unk_40)))->unk_02 == 0) {
-            func_800188CC(0x514);
+            func_800188CC(F_sbs07_pad29);
         }
     }
-    if (func_8001894C(0x514) == 0) {
-        action_allowed = func_8001894C(0x11FC) == 0;
+    if (func_8001894C(F_sbs07_pad29) == 0) {
+        action_allowed = func_8001894C(Fp_pool_open) == 0;
     } else {
         action_allowed = 1;
     }

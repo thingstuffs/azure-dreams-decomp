@@ -576,7 +576,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         if (effect->unk_14.s16 != 0) {
             break;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((Row_8191CD78_S_func_80024578_12 *)((u8 *)(effect) - 2))->unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
         break;

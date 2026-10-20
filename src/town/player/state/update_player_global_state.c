@@ -24,17 +24,17 @@ void update_player_global_state(Entity *entity, void *ptr, void *ptr2) {
     GameWork *state = &g_game_work;
     s32 adjustment;
 
-    if (((u32)state->unk_010) & 0x40) {
+    if (((u32)state->pressed_buttons) & 0x40) {
         entity->unkA = 4;
         call_the_handler_selects_nonzero_entry((s32 *) D_800D0190, (Rec_func_80094268_arg0 *) entity, ptr2);
         entity->unk4 = D_8009B0EC;
-    } else if ((((u32)state->unk_010) & 0x1000) && ((adjustment = D_800D0620) >= 0)) {
+    } else if ((((u32)state->pressed_buttons) & 0x1000) && ((adjustment = D_800D0620) >= 0)) {
         D_800D0620 = adjustment - 1;
         entity->unk10 = 0x800;
         entity->unkA = 4;
         call_the_handler_selects_nonzero_entry((s32 *) D_800D0088, (Rec_func_80094268_arg0 *) entity, ptr2);
         entity->unk4 = D_8009B014;
-    } else if ((((u32)state->unk_010) & 0x4000) && ((adjustment = D_800D0620) <= 0)) {
+    } else if ((((u32)state->pressed_buttons) & 0x4000) && ((adjustment = D_800D0620) <= 0)) {
         D_800D0620 = adjustment + 1;
         entity->unk10 = 0;
         entity->unkA = 4;

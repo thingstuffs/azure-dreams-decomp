@@ -131,7 +131,7 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
             reduce_actor_food_meter(actor, 0x400);
             set_record_integer_tile_center(scene, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             ((S_80174764_0 *)action)->unk_8C = &D_80171094;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
         }
         break;
@@ -141,7 +141,7 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
         s32 direction;
 
         ((SpriteFrameState *)sprite)->frameTable = D_80176460;
-        direction = (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_80176460[direction & 7], 0);
         ((S_80174764_0 *)action)->unk_98 &= 0xFFF7;
     }

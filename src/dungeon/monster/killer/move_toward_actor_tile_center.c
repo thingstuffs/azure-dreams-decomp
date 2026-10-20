@@ -75,7 +75,7 @@ void move_toward_actor_tile_center(State *action, Motion *motion, Actor *actor, 
             break;
         }
         actor->table2C = D_80174050;
-        direction_index = (g_game_work.view.viewAngle + entity->direction2A + 0x100) >> 9;
+        direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
         select_sprite_entry(actor, D_80174050[direction_index & 7], 0);
         action->flags98 |= 8;
         entity->flags1C &= 0xF7FFFFFF;
@@ -120,7 +120,7 @@ void move_toward_actor_tile_center(State *action, Motion *motion, Actor *actor, 
         motion->dxC = 0;
         set_record_integer_tile_center(motion, actor->x24, actor->y25);
         actor->table2C = D_80174058;
-        direction_index = (g_game_work.view.viewAngle + entity->direction2A + 0x100) >> 9;
+        direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
         select_sprite_entry(actor, D_80174058[direction_index & 7], 0);
         action->state9B++;
         break;
@@ -142,8 +142,8 @@ void move_toward_actor_tile_center(State *action, Motion *motion, Actor *actor, 
 
     {
 
-        if (g_dungeon_status.unk_08 != 0) {
-            g_dungeon_status.unk_08 -= 1;
+        if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
+            g_dungeon_status.activity_counts.parts.pending_movement_count -= 1;
         }
     }
 
@@ -155,8 +155,8 @@ void move_toward_actor_tile_center(State *action, Motion *motion, Actor *actor, 
     } else if ((entity_flags & 0x410) == 0) {
         if ((entity_flags & 0x20000) != 0) {
             entity->direction2A = get_rounded_facing_and_rounding_flag(
-                actor->x24, actor->y25, D_80082E80.tileX,
-                D_80082E80.tileY, direction_scratch);
+                actor->x24, actor->y25, D_80082E80.tile_position.parts.tile_x,
+                D_80082E80.tile_position.parts.tile_y, direction_scratch);
         }
     }
 

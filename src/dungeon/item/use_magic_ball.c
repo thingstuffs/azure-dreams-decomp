@@ -211,7 +211,7 @@ scan_next:
         }
 
         status = &g_dungeon_status;
-        status->unk_0C = object;
+        status->active_actor = object;
         D_800814A8->unk_98 |= 0x80;
         ((S_800C0E88_1 *)data)->unk_02.u--;
 
@@ -220,7 +220,7 @@ scan_next:
         message_end = expand_text_control_codes(D_800E146F, message_end);
         func_80099290(message_end);
         display_text_with_fullwidth_adjustment(message_start);
-        (*(u16 *)&status->unk_0A)--;
+        (*(u16 *)&status->activity_counts.parts.pending_action_count)--;
     }
     return 1;
 }

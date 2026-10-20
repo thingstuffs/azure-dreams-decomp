@@ -41,7 +41,7 @@ void advance_actor_animation_and_restore(void *action, s32 actor_id, void *sprit
         }
         ((SpriteFrameState *)sprite)->frameTable = D_80174840;
         select_sprite_entry(sprite,
-            D_80174840[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80174840[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801726D4_0 *)action)->unk_9B++;
         return;
@@ -61,7 +61,7 @@ void advance_actor_animation_and_restore(void *action, s32 actor_id, void *sprit
             set_record_integer_tile_center(actor_id, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             reduce_actor_food_meter(actor, 0x100);
             ((S_801726D4_0 *)action)->unk_8C = &D_80170E84;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->unk_6D == 0) {
                 actor->unk_46 &= 0x7FFF;

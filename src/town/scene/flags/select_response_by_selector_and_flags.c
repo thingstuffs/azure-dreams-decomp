@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "modules/town_ovl_3ef1c8.h"
 
 s32 *select_response_by_selector_and_flags(s32 context, s32 check_value, s32 selector) {
@@ -5,10 +6,10 @@ s32 *select_response_by_selector_and_flags(s32 context, s32 check_value, s32 sel
 
     if (selector == 9) {
         if (check_table_result_below_minus_47(context, check_value) != 0) {
-            if (func_8001A510(0x798) != 0) {
+            if (func_8001A510(F_sbs22_pad28) != 0) {
                 return &D_8001B6D0;
             }
-            if (func_8001A510(0x47D) == 0) {
+            if (func_8001A510(F_sbs04_pad07) == 0) {
                 return &D_8001B63C;
             }
         }

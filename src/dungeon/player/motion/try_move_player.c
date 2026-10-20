@@ -101,7 +101,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
                     sprite->unk_2C.as_pu8 = D_800DCFC0;
                     set_sprite_animation_frame(
                         sprite,
-                        D_800DCFC0[((s32)(dungeon_state->view.viewAngle +
+                        D_800DCFC0[((s32)(dungeon_state->view.camera_rotation.parts.viewAngle +
                                           actor->facing + 0x100) >> 9) & 7],
                         0, 1);
                 }
@@ -120,7 +120,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
                     sprite->unk_2C.as_pu8 = D_800DCFB8;
                     set_sprite_animation_frame(
                         anim_sprite,
-                        D_800DCFB8[((s32)(g_game_work.view.viewAngle +
+                        D_800DCFB8[((s32)(g_game_work.view.camera_rotation.parts.viewAngle +
                                           actor->facing + 0x100) >> 9) & 7],
                         0, 1);
                 }
@@ -143,7 +143,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
                 sprite->unk_2C.as_pu8 = D_800DD030;
                 set_sprite_animation_frame(
                     sprite,
-                    D_800DD030[((s32)(g_game_work.view.viewAngle + actor->facing +
+                    D_800DD030[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
                                       0x100) >> 9) & 7],
                     0, 1);
             }
@@ -179,7 +179,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
             ((S_8008B9FC_5 *)idle_sprite)->unk_2C = D_800DCFB0;
             set_sprite_animation_frame(
                 idle_sprite,
-                D_800DCFB0[((s32)(dungeon_state->view.viewAngle +
+                D_800DCFB0[((s32)(dungeon_state->view.camera_rotation.parts.viewAngle +
                                   actor->facing + 0x100) >> 9) & 7],
                 0, 1);
         }
@@ -227,7 +227,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
         sprite->unk_2C.as_pu8 = alt_anim;
         set_sprite_animation_frame(
             sprite,
-            alt_anim[((s32)(g_game_work.view.viewAngle + actor->facing +
+            alt_anim[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
                                  0x100) >> 9) & 7],
             0, 1);
         flags_2[2] = (s16)flags_2[2] >> 1;
@@ -238,7 +238,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
         sprite->unk_2C.as_pu8 = D_800DCFE8;
         set_sprite_animation_frame(
             sprite,
-            D_800DCFE8[((s32)(g_game_work.view.viewAngle + actor->facing +
+            D_800DCFE8[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
                               0x100) >> 9) & 7],
             1, 1);
         update_map_cell_flags_with_item_limit(sprite->unk_24, sprite->unk_25, 0x300);
@@ -254,7 +254,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
         sprite->unk_2C.as_pu8 = D_800DD0D0;
         set_sprite_animation_frame(
             sprite,
-            D_800DD0D0[((s32)(g_game_work.view.viewAngle + actor->facing +
+            D_800DD0D0[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
                               0x100) >> 9) & 7],
             1, 1);
         update_map_cell_flags_with_item_limit(sprite->unk_24, sprite->unk_25, 0x300);

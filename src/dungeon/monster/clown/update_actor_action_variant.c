@@ -84,7 +84,7 @@ void update_actor_action_variant(void *actor, void *actor_context, void *map_obj
         animation_table = D_80162254;
         ((BehaviorSpriteView *)map_object)->animationTable = animation_table;
         select_sprite_entry(map_object,
-            ((u8 *)animation_table)[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
+            ((u8 *)animation_table)[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -122,7 +122,7 @@ void update_actor_action_variant(void *actor, void *actor_context, void *map_obj
             if (current_animation != animation_table) {
                 ((BehaviorSpriteView *)map_object)->animationTable = animation_table;
                 select_sprite_entry(map_object,
-                    ((u8 *)animation_table)[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
+                    ((u8 *)animation_table)[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
                     0);
                 ((BehaviorSpriteView *)map_object)->animationStep = 1;
                 ((BehaviorControllerView *)actor)->animationOffset.signedValue = 0;
@@ -167,7 +167,7 @@ void update_actor_action_variant(void *actor, void *actor_context, void *map_obj
             update_actor_status_and_food(creature);
             return;
         }
-        if (((BehaviorSpriteView *)map_object)->tile.packed != *(u16 *)(&D_80082E80.tileX)) {
+        if (((BehaviorSpriteView *)map_object)->tile.packed != *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             if (!(creature->unk_46 & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(creature,
@@ -203,7 +203,7 @@ void update_actor_action_variant(void *actor, void *actor_context, void *map_obj
 
                         facing_angle = get_rounded_facing_and_rounding_flag(
                             ((BehaviorSpriteView *)map_object)->tile.bytes.x, ((BehaviorSpriteView *)map_object)->tile.bytes.y,
-                            D_80082E80.tileX, D_80082E80.tileY,
+                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                             &direction_flags);
                         player = D_800814A8;
                         creature->facing = facing_angle;
@@ -244,10 +244,10 @@ void update_actor_action_variant(void *actor, void *actor_context, void *map_obj
 
                 if ((compare_monster_neighbor_values(
                     ((BehaviorSpriteView *)map_object)->tile.bytes.x, ((BehaviorSpriteView *)map_object)->tile.bytes.y,
-                    D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
                     creature->facing = get_rounded_facing_and_rounding_flag(
                         ((BehaviorSpriteView *)map_object)->tile.bytes.x, ((BehaviorSpriteView *)map_object)->tile.bytes.y,
-                        D_80082E80.tileX, D_80082E80.tileY,
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                         &direction_flags);
                 }
             }

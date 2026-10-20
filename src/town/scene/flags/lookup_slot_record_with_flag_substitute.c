@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern u8 D_80017A20[9];
@@ -19,13 +20,13 @@ void *lookup_slot_record_with_flag_substitute(void *slot, s32 unused, s32 contex
 
     result = func_80016F14(D_80017A20, D_80017B5C, slot, context);
     if (func_80016EB8(D_80017A20, slot, context) != 0) {
-        if (install_scene_handler_and_close_dialogue(0x9E9) != 0) {
+        if (install_scene_handler_and_close_dialogue(F_sbs36_pad19) != 0) {
             result = D_80018D9F;
         } else {
             result = D_80018CC0;
         }
     } else {
-        func_8001779C(0x9E9);
+        func_8001779C(F_sbs36_pad19);
     }
     if (get_indexed_table_entry(7) != 0) {
         result = D_80018E42;

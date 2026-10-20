@@ -192,7 +192,7 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
     globals_page = (u8 *)(intensity << 16);
     div255_multiplier = (s32) 0x80808081U;
     wide_product.both = (s64) (s32)globals_page * div255_multiplier;
-    ctx = ((GpuContext *)render_state->unk_000);
+    ctx = ((GpuContext *)render_state->draw_buffer);
     line_prim = ctx->packetCursor;
     ctx->packetCursor = line_prim + 0x14;
     line_prim[3] = 4;
@@ -268,8 +268,8 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
     {
       u8 *draw_mode_prim;
       ovl_18d0850_818B0E10_addPrim(((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot + ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_B4, line_prim);
-      draw_mode_prim = ((GpuContext *)render_state->unk_000)->packetCursor;
-      ((GpuContext *)render_state->unk_000)->packetCursor = draw_mode_prim + 0xC;
+      draw_mode_prim = ((GpuContext *)render_state->draw_buffer)->packetCursor;
+      ((GpuContext *)render_state->draw_buffer)->packetCursor = draw_mode_prim + 0xC;
       func_80067F20(draw_mode_prim, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
       ovl_18d0850_818B0E10_addPrim(((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot + ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_B4, draw_mode_prim);
     }
@@ -844,7 +844,7 @@ create_loop:
         if (state_arg->field14 != 0) {
             break;
         }
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         *(u16 *)((u8 *)state_arg - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
         break;

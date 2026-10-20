@@ -24,7 +24,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
         animations = ((u8 *)D_801759E0);
         ((SpriteFrameState *)sprite_arg)->frameTable = animations;
         select_sprite_entry(sprite_arg,
-            animations[((g_game_work.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
+            animations[((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -59,7 +59,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
                 if (((SpriteFrameState *)sprite_arg)->frameTable != animations) {
                     ((SpriteFrameState *)sprite_arg)->frameTable = animations;
                     select_sprite_entry(sprite_arg,
-                        animations[((g_game_work.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
+                        animations[((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9E.as_s16 = 0;
@@ -81,7 +81,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
             func_80174258(actor_arg, context_arg, sprite_arg, entity_arg);
             ((SpriteFrameState *)sprite_arg)->frameTable = ((u8 *)D_80175988);
             select_sprite_entry(sprite_arg,
-                ((u8 *)D_80175988)[((g_game_work.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
+                ((u8 *)D_80175988)[((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_90.at00_s32.v = 0;
             return;
@@ -103,7 +103,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
             update_actor_status_and_food(entity_arg);
             return;
         }
-        if (*(u16 *)&((SpriteFrameState *)sprite_arg)->unk_24 == *(u16 *)(&D_80082E80.tileX)) {
+        if (*(u16 *)&((SpriteFrameState *)sprite_arg)->unk_24 == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
             func_80171FE8(actor_arg, context_arg, sprite_arg, entity_arg);
             return;
         }
@@ -142,7 +142,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
                 EntityRec *player;
                 s16 direction;
 
-                direction = get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite_arg)->unk_24,(s16)((SpriteFrameState *)sprite_arg)->unk_25,(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                direction = get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite_arg)->unk_24,(s16)((SpriteFrameState *)sprite_arg)->unk_25,(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
                     &direction_aux);
                 player = D_800814A8;
                 entity_arg->facing = direction;
@@ -175,8 +175,8 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
 
                 if ((s16)compare_monster_neighbor_values(
                         ((SpriteFrameState *)sprite_arg)->unk_24, ((SpriteFrameState *)sprite_arg)->unk_25,
-                        D_80082E80.tileX, D_80082E80.tileY) != 0) {
-                    entity_arg->facing = get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite_arg)->unk_24,(s16)((SpriteFrameState *)sprite_arg)->unk_25,(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
+                    entity_arg->facing = get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite_arg)->unk_24,(s16)((SpriteFrameState *)sprite_arg)->unk_25,(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
                         &direction_aux);
                 }
             }

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -9,7 +10,7 @@ extern s32 func_80018B5C(s32);
 s32 tick_scene_counter(void) {
     s32 result;
 
-    if (func_80018B5C(0x5C8) != 0) {
+    if (func_80018B5C(F_sbs11_pad37) != 0) {
         {
             void *context;
             u8 *entry;
@@ -27,11 +28,11 @@ s32 tick_scene_counter(void) {
             entry = (u8 *)((*(s32 *)((u8 *)context + 8) << 3) + *(s32 *)((u8 *)context + 0x40));
 
             if (entry[1] == 0) {
-                func_80018ADC(0x5C8);
+                func_80018ADC(F_sbs11_pad37);
             }
         }
         return result;
     }
-    result = func_80018B5C(0x11FC) != 0;
+    result = func_80018B5C(Fp_pool_open) != 0;
     return result;
 }

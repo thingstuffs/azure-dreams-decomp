@@ -47,13 +47,13 @@ s32 create_object_from_polar_spawn_data(S_800BB798_0 *spawn_data, s16 state_48, 
     S_800BB798_3 *object_state;
     void *object_data;
 
-    angle = spawn_data->unk_10 + g_game_work.view.viewAngle;
+    angle = spawn_data->unk_10 + g_game_work.view.camera_rotation.parts.viewAngle;
     radius_fixed = spawn_data->unk_0C;
     trig_factor = func_80064584(angle);
     radius = radius_fixed >> 0xC;
     component = radius * trig_factor;
     spawn_data->unk_0C = component;
-    angle = spawn_data->unk_10 + g_game_work.view.viewAngle;
+    angle = spawn_data->unk_10 + g_game_work.view.camera_rotation.parts.viewAngle;
     trig_factor = func_800644B8(angle);
 
     component = radius * trig_factor;

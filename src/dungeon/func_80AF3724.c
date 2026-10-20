@@ -21,7 +21,7 @@ void spawn_randomized_oscillating_effect(s32 unused, R10_80174F24_S_func_80AF372
         state->unk_1A = 0;
         angle = 0;
         do {
-            if (((g_game_work.view.viewAngle + angle + 0x100) >> 9 & 7) == 2) {
+            if (((g_game_work.view.camera_rotation.parts.viewAngle + angle + 0x100) >> 9 & 7) == 2) {
                 state->unk_18 = angle;
             }
             angle += 0x200;

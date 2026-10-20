@@ -22,7 +22,7 @@ void advance_stored_path_motion(void *action, s32 action_id, SpriteFrameState *e
     if (*(u8 * *)&entity->frameTable != ((u8 *)D_80174138)) {
         entity->frameTable = ((u8 *)D_80174138);
         select_sprite_entry(
-            entity,(s16)(((u8 *)D_80174138)[((g_game_work.view.viewAngle + ((R07_80171570_S_80171570_0 *)state)->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
+            entity,(s16)(((u8 *)D_80174138)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R07_80171570_S_80171570_0 *)state)->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
     }
 
     x = entity->unk_24;

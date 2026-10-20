@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/sound_state.h"
 #include "common.h"
 #include "shared/sound_volume.h"
@@ -724,7 +725,7 @@ extern void clear_resident_bitmap_bit(int);
 
 /* Invoke clear_resident_bitmap_bit with mode two. */
 void func_8004DDC4(void) {
-    clear_resident_bitmap_bit(2);
+    clear_resident_bitmap_bit(sn_win_sw0);
 }
 
 /* Encode the low five index bits into the record's halfword at offset six. */
@@ -1066,7 +1067,6 @@ short SD_Call(int flags)
     return func_80055778((unsigned short)flags);
 }
 
-extern void func_80054D64(void);
 
 /* Sets volume scale [2] and re-applies it through func_80054D64. */
 void sound_set_cd_playback_volume_scale(short value)

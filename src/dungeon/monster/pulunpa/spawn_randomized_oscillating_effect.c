@@ -66,7 +66,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
 
             (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
             select_sprite_entry(unit,
-                direction_table[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80174F24_0 *)action)->unk_98 |= 8;
             ((EntityRec *)actor)->flags1C &= ~0x08000000;
@@ -130,7 +130,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
             direction_table = D_80176340;
             (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
             select_sprite_entry(unit,
-                direction_table[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80174F24_0 *)action)->unk_9B++;
         }
@@ -158,8 +158,8 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
         reduce_actor_food_meter(actor, 4);
         advance_status_timers(actor);
 
-        if (g_dungeon_status.unk_08 != 0) {
-            g_dungeon_status.unk_08--;
+        if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
+            g_dungeon_status.activity_counts.parts.pending_movement_count--;
         }
 
         actor_flags = ((u32)((EntityRec *)actor)->flags1C);
@@ -171,7 +171,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
             if (actor_flags & 0x20000) {
                 ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
                     ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25,
-                    D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
             }
         }
 

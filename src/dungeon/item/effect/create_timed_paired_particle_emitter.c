@@ -82,7 +82,7 @@ void create_timed_paired_particle_emitter(MovingPosition *source, s32 effect_par
     ((S_800C4AFC_0 *)state)->unk_28 = state_param;
     play_sound_if_enabled(0x702);
     status = &g_dungeon_status;
-    (*(u16 *)&status->unk_0A)++;
+    (*(u16 *)&status->activity_counts.parts.pending_action_count)++;
 }
 
 /* MECHANISM: The 0x30 frame, s1/s2/s3 argument holds, two-word init record, and callee ABIs

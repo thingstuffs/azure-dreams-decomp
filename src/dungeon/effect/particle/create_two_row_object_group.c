@@ -112,8 +112,8 @@ s32 draw_linked_textured_quads(void *first_quad) {
     tag_mask = 0xFF000000;
 
     do {
-        packet = ((S_800DA93C_0 *)(render_state->unk_000))->unk_8D0;
-        ((S_800DA93C_0 *)(render_state->unk_000))->unk_8D0 = (u8 *)packet + 0x28;
+        packet = ((S_800DA93C_0 *)(render_state->draw_buffer))->unk_8D0;
+        ((S_800DA93C_0 *)(render_state->draw_buffer))->unk_8D0 = (u8 *)packet + 0x28;
 
         depth = func_80065420((u8 *)quad_data + 0x28,
                               (u8 *)packet + 8, &scratch, &scratch);
@@ -156,8 +156,8 @@ s32 draw_linked_textured_quads(void *first_quad) {
             link_addr = depth << 2;
             ((S_800DA93C_2 *)packet)->unk_00 =
                 (((S_800DA93C_2 *)packet)->unk_00 & tag_mask) |
-                (((S_800DA93C_3 *)((u8 *)((u32)link_addr + (u32)render_state->unk_000)))->unk_B0 & addr_mask);
-            link_addr += (s32)render_state->unk_000;
+                (((S_800DA93C_3 *)((u8 *)((u32)link_addr + (u32)render_state->draw_buffer)))->unk_B0 & addr_mask);
+            link_addr += (s32)render_state->draw_buffer;
             ((S_800DA93C_4 *)((u8 *)link_addr))->unk_B0 =
                 (((S_800DA93C_4 *)((u8 *)link_addr))->unk_B0 & tag_mask) |
                 ((u32)packet & addr_mask);
@@ -761,7 +761,7 @@ void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *pos
         return;
     case 1:
         register_node((u8 *)state - 0x20, project_sprite_chain);
-        select_sprite_entry(effect, effect->data2c[((g_game_work.view.viewAngle + state->value2a + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(effect, effect->data2c[((g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9) & 7], 0);
         *(u16 *)((u8 *)state + 4) += 1;
         return;
     case 2:

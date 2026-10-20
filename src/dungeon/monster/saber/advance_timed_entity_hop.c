@@ -60,7 +60,7 @@ void advance_timed_entity_hop(void *action, EntityRec *motion, void *map_entity,
         ((SpriteFrameState *)map_entity)->frameTable = D_80168E0C;
         select_sprite_entry(
             map_entity,
-            D_80168E0C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80168E0C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80166BAC_0 *)action)->unk_98 |= 8;
         actor->flags1C &= 0xF7FFFFFF;
@@ -115,7 +115,7 @@ void advance_timed_entity_hop(void *action, EntityRec *motion, void *map_entity,
             ((SpriteFrameState *)map_entity)->frameTable = D_80168E14;
             select_sprite_entry(
                 map_entity,
-                D_80168E14[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80168E14[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80166BAC_0 *)action)->unk_9B++;
         }
@@ -126,7 +126,7 @@ void advance_timed_entity_hop(void *action, EntityRec *motion, void *map_entity,
             ((SpriteFrameState *)map_entity)->frameTable = D_80168DEC;
             select_sprite_entry(
                 map_entity,
-                D_80168DEC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80168DEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;
@@ -146,8 +146,8 @@ void advance_timed_entity_hop(void *action, EntityRec *motion, void *map_entity,
     advance_status_timers(actor);
 
     action_counts = &g_dungeon_status;
-    if (action_counts->unk_08 != 0) {
-        (*(u16 *)&action_counts->unk_08)--;
+    if (action_counts->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&action_counts->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = actor->flags1C;
@@ -160,8 +160,8 @@ void advance_timed_entity_hop(void *action, EntityRec *motion, void *map_entity,
             actor->facing = get_rounded_facing_and_rounding_flag(
                 ((SpriteFrameState *)map_entity)->unk_24,
                 ((SpriteFrameState *)map_entity)->unk_25,
-                D_80082E80.tileX,
-                D_80082E80.tileY,
+                D_80082E80.tile_position.parts.tile_x,
+                D_80082E80.tile_position.parts.tile_y,
                 &direction_aux);
         }
     }

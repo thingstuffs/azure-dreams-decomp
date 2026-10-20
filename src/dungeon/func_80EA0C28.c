@@ -109,7 +109,7 @@ void update_entity_movement_and_recovery_animation(ActorActionView *action, Acto
             (entity->flags & 0x2000) ? 0x300 : 0x3000);
         (sprite->frameTable) = D_80162EF8;
         select_sprite_entry(sprite,
-            D_80162EF8[((g_game_work.view.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
+            D_80162EF8[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
         motion->velocityX = (x_step << 19) + (x_step << 18);
         motion->velocityY = (y_step << 19) + (y_step << 18);
         action->timer.raw = 4;
@@ -127,7 +127,7 @@ void update_entity_movement_and_recovery_animation(ActorActionView *action, Acto
         motion->velocityX = 0;
         (sprite->frameTable) = D_80162F58;
         select_sprite_entry(sprite,
-            D_80162F58[((g_game_work.view.viewAngle +
+            D_80162F58[((g_game_work.view.camera_rotation.parts.viewAngle +
                 entity->facing.signedValue + 0x100) >> 9) & 7], 0);
         action->timer.raw = 0;
         motion->velocityX = (-x_step) << 18;
@@ -143,7 +143,7 @@ void update_entity_movement_and_recovery_animation(ActorActionView *action, Acto
         motion->velocityX = 0;
         (sprite->frameTable) = D_80162F00;
         select_sprite_entry(sprite,
-            D_80162F00[((g_game_work.view.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
+            D_80162F00[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
         if (entity->flags & 0x2000) {
             action->timer.raw = 7;
             action->phase = 5;
@@ -193,7 +193,7 @@ void update_entity_movement_and_recovery_animation(ActorActionView *action, Acto
             if (direction_offset < 0) {
                 continue;
             }
-            if (direction_offset == (s8)((u8)player_tile->unk_026) &&
+            if (direction_offset == (s8)((u8)player_tile->room_index) &&
                 floor_limits[3] >= 2) {
                 continue;
             }
@@ -220,7 +220,7 @@ void update_entity_movement_and_recovery_animation(ActorActionView *action, Acto
                     return;
                 }
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             refresh_actor_proximity_state(entity);
             height = sample_terrain_surface_height((sprite->tile.bytes.x << 6) | 0x20,
                 (sprite->tile.bytes.y << 6) | 0x20,
@@ -229,7 +229,7 @@ void update_entity_movement_and_recovery_animation(ActorActionView *action, Acto
             sprite->frameTable = D_80162F00;
             reduce_actor_food_meter(entity, 0x200);
             select_sprite_entry(sprite,
-                sprite->frameTable[((g_game_work.view.viewAngle + entity->facing.signedValue + 0x100)
+                sprite->frameTable[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing.signedValue + 0x100)
                     >> 9) & 7], 0);
             cycle_map_cell_flags(sprite->tile.bytes.x, sprite->tile.bytes.y,
                 (entity->flags & 0x2000) ? 0x300 : 0x3000);

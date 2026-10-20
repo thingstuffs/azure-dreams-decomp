@@ -48,7 +48,7 @@ void advance_directional_action_and_reset(void *action, void *motion, void *anim
             direction_table = D_801762E8;
             ((SpriteFrameState *)anim)->frameTable = direction_table;
             select_sprite_entry(anim,
-                direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801725B8_0 *)action)->unk_9B++;
         }
@@ -71,7 +71,7 @@ void advance_directional_action_and_reset(void *action, void *motion, void *anim
         }
         reduce_actor_food_meter(actor, 0x100);
         ((S_801725B8_0 *)action)->unk_8C = &D_80170F20;
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (actor->unk_46) &= 0x7FFF;
         advance_status_timers(actor);
         return;

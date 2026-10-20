@@ -11,7 +11,7 @@ void create_rotating_effect(void)
 {
     u8 *object;
 
-    g_dungeon_status.unk_0A++;
+    g_dungeon_status.activity_counts.parts.pending_action_count++;
     object = allocate_list_node(2, ((s32 *)(&D_80083498)));
     if (object != 0) {
         *(void (**)(void))(object + 0x10) = update_effect_controller;

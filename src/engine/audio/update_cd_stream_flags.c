@@ -8,7 +8,6 @@
 
 
 extern s32 get_cd_flags_with_conditional_bit(void);
-extern void func_80054D64(void);
 extern void audio_handle_stream_control_event(s32 event);
 extern void submit_tagged_driver_byte(u8 a0, u8 a1, u8 a2);
 

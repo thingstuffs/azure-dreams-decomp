@@ -63,10 +63,10 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             anim_table = D_80174F50;
             (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
             select_sprite_entry(in_sprite,
-                anim_table[((g_game_work.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             system_state = &g_dungeon_status;
-            (*(u16 *)&system_state->unk_0A)--;
+            (*(u16 *)&system_state->activity_counts.parts.pending_action_count)--;
             ((ActorActionStateView *)in_action)->unk_9B++;
             return;
         }
@@ -78,7 +78,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             anim_table = D_80174F48;
             (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
             select_sprite_entry(in_sprite,
-                anim_table[((g_game_work.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -89,7 +89,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 anim_table = D_80174F50;
                 (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
                 select_sprite_entry(in_sprite,
-                    anim_table[((g_game_work.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                    anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                     0);
             }
 
@@ -100,7 +100,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             {
                 DungeonGlobalStatus *system_state = &g_dungeon_status;
 
-                (*(u16 *)&system_state->unk_0A)++;
+                (*(u16 *)&system_state->activity_counts.parts.pending_action_count)++;
             }
             ((ActorActionStateView *)in_action)->unk_9B++;
             return;
@@ -164,7 +164,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
 
                 origin = &D_80082E80;
                 coordinate = ((SpriteStatusIndexView *)in_sprite)->unk_26;
-                if ((((coordinate == origin->unk_026) &&
+                if ((((coordinate == origin->room_index) &&
                             (coordinate >= 0)) ||
                      (get_tile_chebyshev_distance(origin, in_sprite) < 2)) &&
                     ((generate_random_value() & 7) == 0)) {
@@ -183,7 +183,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             anim_table = D_80174F50;
             (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
             select_sprite_entry(in_sprite,
-                anim_table[((g_game_work.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -195,9 +195,9 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             DungeonGlobalStatus *system_state = &g_dungeon_status;
             u16 state_count;
 
-            state_count = ((u16)system_state->unk_0A);
+            state_count = ((u16)system_state->activity_counts.parts.pending_action_count);
             state_count++;
-            system_state->unk_0A = state_count;
+            system_state->activity_counts.parts.pending_action_count = state_count;
         }
         ((ActorActionStateView *)in_action)->unk_9B++;
         return;
@@ -208,7 +208,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             anim_table = D_80174F40;
             (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
             select_sprite_entry(in_sprite,
-                anim_table[((g_game_work.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((ActorActionStateView *)in_action)->unk_9B++;
             return;
@@ -222,7 +222,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             DungeonGlobalStatus *system_state;
 
             system_state = &g_dungeon_status;
-            (*(u16 *)&system_state->unk_0A)--;
+            (*(u16 *)&system_state->activity_counts.parts.pending_action_count)--;
         }
         break;
     default:

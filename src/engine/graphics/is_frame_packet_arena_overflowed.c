@@ -30,7 +30,7 @@ s32 func_80044C54(u8 *first_data, void *first_coords, Entry80044C54 *first_entry
             *(u16 *)(scratch + 0x74) = *(u16 *)((u8 *)coords + 0xA);
             RotTransPers(scratch + 0x70, scratch, scratch + 0x90, scratch + 0x94);
             draw_sprite_parts(node_data, entry, entry->unk06);
-            if (is_frame_packet_arena_overflowed(*(u32 *)((u8 *)g_game_work.unk_000 + 0x8D0))) {
+            if (is_frame_packet_arena_overflowed(*(u32 *)((u8 *)g_game_work.draw_buffer + 0x8D0))) {
                 return 0;
             }
         }

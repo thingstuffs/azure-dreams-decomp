@@ -73,7 +73,7 @@ void spawn_offset_motion_object(void *parent_data, MovingPosition *origin, Rec_D
               object->unk_20 = (s16 *)((u8 *)parent_data + 0x2A),
               select_sprite_entry(object_data, 0x45, 0),
               register_node(object, &D_80175D74),
-              angle = ((((g_game_work.view.viewAngle + *object->unk_20 + 0x100) >> 9) & 7) + 2) << 9,
+              angle = ((((g_game_work.view.camera_rotation.parts.viewAngle + *object->unk_20 + 0x100) >> 9) & 7) + 2) << 9,
               object_data->angle_y = angle,
               angle == 0x400) ||
              (angle == 0xC00))) {

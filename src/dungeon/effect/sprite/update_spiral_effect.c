@@ -99,7 +99,7 @@ void update_spiral_effect(void *effect, void *motion, void *sprite) {
         }
         break;
     case 1:
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
         object_flag_block.flags |= 0x8000;
         break;

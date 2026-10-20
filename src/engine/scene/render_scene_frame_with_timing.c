@@ -38,10 +38,10 @@ void render_scene_frame_with_timing(void)
     s32 frame_ticks;
     u16 sync_flags;
 
-    PutDispEnv((u8 *)g_game_work.unk_000 + 0x5C);
-    PutDrawEnv(g_game_work.unk_000);
+    PutDispEnv((u8 *)g_game_work.draw_buffer + 0x5C);
+    PutDrawEnv(g_game_work.draw_buffer);
     if (!(D_80013714[0] & 2)) {
-        DrawOTag((u8 *)g_game_work.unk_000 + 0x8CC);
+        DrawOTag((u8 *)g_game_work.draw_buffer + 0x8CC);
     }
     func_8003E758();
     func_800542BC();
@@ -51,15 +51,15 @@ void render_scene_frame_with_timing(void)
     update_controller_buttons_and_triggers();
 
     next_buffer = D_801C9E40;
-    current_buffer = g_game_work.unk_000;
+    current_buffer = g_game_work.draw_buffer;
     if (current_buffer == next_buffer) {
         next_buffer += 0x108D4;
     }
     ordering_table = next_buffer + 0x70;
-    g_game_work.unk_000 = next_buffer;
+    g_game_work.draw_buffer = next_buffer;
     ClearOTagR(ordering_table, 0x218);
-    *(void **)((u8 *)g_game_work.unk_000 + 0x8D0) =
-        (u8 *)g_game_work.unk_000 + 0x8D4;
+    *(void **)((u8 *)g_game_work.draw_buffer + 0x8D0) =
+        (u8 *)g_game_work.draw_buffer + 0x8D4;
     tick_screen_fade_slots();
     update_active_nodes_and_render_frame();
     if (!(D_80013714[0] & 2)) {

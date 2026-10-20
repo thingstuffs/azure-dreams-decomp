@@ -47,7 +47,7 @@ void update_actor_death_motion(void *state, void *motion, void *sprite, void *ac
         anim_frames = ((Rec_func_8008ACDC_arg0 *)state)->unk_96.as_u16 - 1;
         ((Rec_func_8008ACDC_arg0 *)state)->unk_96.as_u16 = anim_frames;
         if ((anim_frames << 0x10) > 0) {
-            set_sprite_animation_frame(sprite, ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[((s32) (g_game_work.view.viewAngle
+            set_sprite_animation_frame(sprite, ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                 + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0, 1);
         }
     }
@@ -73,10 +73,10 @@ void update_actor_death_motion(void *state, void *motion, void *sprite, void *ac
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         anim_table = D_800DCFB0;
         (*(u8 **)((u8 *)sprite + (0x2C))) = anim_table;
-        set_sprite_animation_frame(sprite, anim_table[((s32) (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+        set_sprite_animation_frame(sprite, anim_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7], 0, 1);
-        if (((s32)g_dungeon_status.unk_10) == (actor - 0x20)) {
-            g_dungeon_status.unk_10 = (s32) (((s32)g_dungeon_status.unk_10) & 0x7FFFFFFF);
+        if (((s32)g_dungeon_status.pending_display_owner) == (actor - 0x20)) {
+            g_dungeon_status.pending_display_owner = (s32) (((s32)g_dungeon_status.pending_display_owner) & 0x7FFFFFFF);
         }
         if (((EntityRec *)actor)->unk_28 == 0) {
             if (D_800E296C & 0x08000000) {

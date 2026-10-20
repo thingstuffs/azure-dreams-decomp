@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/town_event_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -16,7 +17,7 @@ s32 dispatch_enabled_message_coordinates(void) {
         message = select_event_data_table(0, D_8001E950->unk_05);
         D_80016000->unk_20->callback_2F8(message->unk_00, message->unk_02);
         D_8001E950->dispatchState++;
-        func_8001E578(0x408);
+        func_8001E578(F_sbs01_pad19);
         return 1;
     }
     return 0;

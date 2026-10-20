@@ -297,7 +297,7 @@ void advance_actor_height_arc(void *action, void *motion, void *record, EntityRe
                           ((SpriteFrameState *)record)->unk_25);
             reduce_actor_food_meter(actor, 0x200);
             ((S_80172D08_0 *)action)->unk_8C = &D_80170E94;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             (actor->unk_46) &= 0x7FFF;
             ((S_80172D08_0 *)action)->unk_98 &= 0xFFF3;
             (*(u32 *)&actor->flags1C) |= 0x08000000;

@@ -131,7 +131,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_
         s32 scaled_step;
         heading->unk_2A = get_rounded_facing_and_rounding_flag(
             object->unk_24, object->unk_25,
-            D_80082E80.tileX, D_80082E80.tileY, &distance);
+            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
         ((S_8016FC4C_3 *)effect)->unk_96 = (u16)(((S_8016FC4C_3 *)effect)->unk_96 + 1);
         height = object->unk_1E.s;
         height = (u16)(height - 0x14);
@@ -168,7 +168,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_
         s32 scaled_step;
         heading->unk_2A = get_rounded_facing_and_rounding_flag(
             object->unk_24, object->unk_25,
-            D_80082E80.tileX, D_80082E80.tileY, &distance);
+            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
         scaled_step = 0 - (object->unk_1E.s << 6);
         if (scaled_step < 0)
             scaled_step += 0xFFF;
@@ -258,7 +258,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_
     if (((S_8016FC4C_8 *)D_80170000)->unk_5D50 != 0) {
         s16 sprite_direction;
         s32 old_direction;
-        common_page = (u32)(s32)g_game_work.view.viewAngle;
+        common_page = (u32)(s32)g_game_work.view.camera_rotation.parts.viewAngle;
         direction = (((s32)common_page + (s16)heading->unk_2A + 0x100) >> 9) & 7;
         old_direction = ((S_8016FC4C_3 *)effect)->unk_94;
         sprite_direction = direction;

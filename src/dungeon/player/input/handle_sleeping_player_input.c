@@ -38,7 +38,7 @@ void handle_sleeping_player_input(Rec_func_8008ACDC_arg0 *controller, EntityRec 
         actor->unk_8A = 2;
         D_800E4940[0] = 2;
         begin_player_menu_action(controller, move_state, entity, &create_animated_selection_menu_owner);
-        D_80082E80.unk_030 = 0;
+        D_80082E80.selected_item = 0;
         controller->unk_C8 = 0;
         controller->unk_104 = 0;
         return;

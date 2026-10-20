@@ -45,26 +45,26 @@ s32 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 o
     saved_x = ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_00;
     saved_y = ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_04;
     result = 1;
-    ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.s = select_monster_data_pointer(item_id);
+    ((S_80095538_1 *)(&D_80082E80.selected_item))->unk_00.s = select_monster_data_pointer(item_id);
     if (other_item_id != 0) {
-        ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_04 = select_monster_data_pointer(other_item_id);
+        ((S_80095538_1 *)(&D_80082E80.selected_item))->unk_04 = select_monster_data_pointer(other_item_id);
     } else {
-        ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_04 = 0;
+        ((S_80095538_1 *)(&D_80082E80.selected_item))->unk_04 = 0;
     }
-    item_type = ((S_80095538_4 *)(((Rec_D_80082EB0 *)(&D_80082E80.unk_030))->unk_00.as_pv))->unk_01;
+    item_type = ((S_80095538_4 *)(((Rec_D_80082EB0 *)(&D_80082E80.selected_item))->unk_00.as_pv))->unk_01;
     switch (item_type) {
     case 15:
     case 16:
         equipment_item = NULL;
-        if (((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_64) {
-            equipment_item = ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u;
+        if (((S_80095538_1 *)(&D_80082E80.selected_item))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_64) {
+            equipment_item = ((S_80095538_1 *)(&D_80082E80.selected_item))->unk_00.u;
         }
         equip_item_and_update_status(actor_base, equipment_item);
         break;
     case 17:
         accessory_item = NULL;
-        if (((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_68) {
-            accessory_item = ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u;
+        if (((S_80095538_1 *)(&D_80082E80.selected_item))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_68) {
+            accessory_item = ((S_80095538_1 *)(&D_80082E80.selected_item))->unk_00.u;
         }
         change_equipped_item_and_notify(actor_base, accessory_item);
         break;
@@ -82,10 +82,10 @@ s32 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 o
     case 12:
     case 13:
     case 14:
-        result = dispatch_dungeon_category_action(actor_base, ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u, 3, 0);
+        result = dispatch_dungeon_category_action(actor_base, ((S_80095538_1 *)(&D_80082E80.selected_item))->unk_00.u, 3, 0);
         break;
     case 18:
-        actor->unk_BC = (void *) ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u;
+        actor->unk_BC = (void *) ((S_80095538_1 *)(&D_80082E80.selected_item))->unk_00.u;
         begin_target_flagged_action(actor, saved_x, saved_y, actor_base);
         break;
     case 19:

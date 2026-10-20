@@ -128,14 +128,14 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
     void *object_position;
 
     state = ((S_80095A10_0 *)actor)->unk_9B;
-    resource_info = ((u8 *)D_80082E80.unk_030);
+    resource_info = ((u8 *)D_80082E80.selected_item);
     switch (state) {
     case 0:
         if (!(((S_80095A10_1 *)animation)->unk_14 & 0xE000)) {
             return;
         }
         (*(s32 **)((u8 *)animation + 0x2C)) = D_800DD138;
-        set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
+        set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
             >> 9) & 7) + D_800DD138), 0, 1);
         ((S_80095A10_1 *)animation)->unk_14 = (u16) (((S_80095A10_1 *)animation)->unk_14 | 0x200);
         create_familiar_deployment_effect_with_owner_state(actor, position, animation);
@@ -170,7 +170,7 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
         if (spawn_resource == 0) {
             return;
         }
-        runtime_map_type_16_entry_code(((u8 *)D_80082E80.unk_030));
+        runtime_map_type_16_entry_code(((u8 *)D_80082E80.selected_item));
         object = load_monster_resource_data(((S_80095A10_3 *)resource_info)->unk_00, spawn_resource, 1)(6,
             ((S_80095A10_2 *)context)->unk_72, ((S_80095A10_2 *)context)->unk_73,
             (s16) (((S_80095A10_2 *)context)->unk_88 - 0x20));
@@ -212,7 +212,7 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
             return;
         }
         (*(s32 **)((u8 *)animation + 0x2C)) = D_800DD140;
-        set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
+        set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
             >> 9) & 7) + D_800DD140), 0, 1);
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;
         ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
@@ -226,7 +226,7 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
         ((S_80095A10_1 *)animation)->unk_14 = (u16) (animation_flags & 0xFDFF);
 set_animation:
         (*(s32 **)((u8 *)animation + 0x2C)) = animation_table;
-        set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
+        set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
             >> 9) & 7) + animation_table), 0, 1);
 advance_state:
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;

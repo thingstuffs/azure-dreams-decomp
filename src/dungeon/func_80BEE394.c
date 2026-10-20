@@ -25,9 +25,9 @@ void fade_entity_colors_to_neutral(void *entity_data, void *unused, void *source
             return;
         }
     } else {
-        colors->view.unk_090 += (0x80 - colors->view.unk_090) / *(s16 *)(entity + 0x96);
-        colors->view.unk_091 += (0x80 - colors->view.unk_091) / *(s16 *)(entity + 0x96);
-        colors->view.unk_092 += (0x80 - colors->view.unk_092) / *(s16 *)(entity + 0x96);
+        colors->view.tint.parts.tint_r += (0x80 - colors->view.tint.parts.tint_r) / *(s16 *)(entity + 0x96);
+        colors->view.tint.parts.tint_g += (0x80 - colors->view.tint.parts.tint_g) / *(s16 *)(entity + 0x96);
+        colors->view.tint.parts.tint_b += (0x80 - colors->view.tint.parts.tint_b) / *(s16 *)(entity + 0x96);
 
         fade_left = *(u16 *)(entity + 0x96) - 1;
         *(u16 *)(entity + 0x96) = fade_left;

@@ -39,7 +39,7 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
         motion->unk_10 = direction_y * 0x60000;
         sprite->frameTable = ((u8 *)D_80174140);
         select_sprite_entry(sprite,
-            (*(u8 *)((u8 *)(((u8 *)D_80174140)) + (((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7))),
+            (*(u8 *)((u8 *)(((u8 *)D_80174140)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
             0);
         action->unk_96.s = 0;
         action->unk_9B += 1;
@@ -53,7 +53,7 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
         if (sprite->flags & 0xE000) {
             sprite->frameTable = ((u8 *)D_80174170);
             select_sprite_entry(sprite,
-                (*(u8 *)((u8 *)(((u8 *)D_80174170)) + (((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7))),
+                (*(u8 *)((u8 *)(((u8 *)D_80174170)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
                 0);
             action->unk_96.s = 0x14;
             action->unk_9B += 1;
@@ -115,7 +115,7 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
             set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
             reduce_actor_food_meter(actor, 0x100);
             action->unk_8C = ((void *)func_80170E54);
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             action->unk_98 &= 0xFFF7;
             advance_status_timers(actor);
             if (actor->unk_6D == 0) {

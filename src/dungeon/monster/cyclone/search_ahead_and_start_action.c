@@ -131,7 +131,7 @@ s32 search_ahead_and_start_action(void *action_state, void *action_context, void
     ((S_80172438_2 *)action_state)->unk_9A = 0x17;
     (*(void * *)((u8 *)sprite + 0x2C)) = D_801764A0;
     select_sprite_entry(sprite,
-                  D_801764A0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                  D_801764A0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
     advance_status_timers(actor);
     (*(u8 *)&actor->unk_6D)--;

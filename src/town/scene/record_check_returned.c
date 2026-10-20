@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern u32 process_checked_entry(s32 object, s32 entryIndex);
@@ -13,7 +14,7 @@ s32 record_check_returned(s32 check_input_1, s32 check_input_2) {
         D_8001F15A[0] = 0;
     } else {
         D_8001F15A[0] = 1;
-        clear_script_flag_bit(0xD7A);
+        clear_script_flag_bit(Ftt_pad73);
     }
     return result;
 }

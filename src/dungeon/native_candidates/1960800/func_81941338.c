@@ -474,10 +474,10 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
             }
             {
                 DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
-                bits_2 = ((u16)dungeon_state->unk_0A);
+                bits_2 = ((u16)dungeon_state->activity_counts.parts.pending_action_count);
                 F(dungeon_state, u32, 0xC) = 0;
                 F(((u8 *)(&D_80082E80)), u16, 6) = 0;
-                dungeon_state->unk_0A = (u16)(bits_2 - 1);
+                dungeon_state->activity_counts.parts.pending_action_count = (u16)(bits_2 - 1);
             }
             F(effect, u16, -2) = (u16)(F(effect, u16, -2) | 0x8000);
             object_flag_block.flags |= 0x8000;

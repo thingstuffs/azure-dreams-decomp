@@ -116,9 +116,9 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
             sprite->scale_x = 0x1000;
             sprite->scale_y = 0x1000;
             sprite->unk_20 = 0xAAA;
-            sprite->color.c.r = work->view.unk_090;
-            sprite->color.c.g = work->view.unk_091;
-            blue = work->view.unk_092;
+            sprite->color.c.r = work->view.tint.parts.tint_r;
+            sprite->color.c.g = work->view.tint.parts.tint_g;
+            blue = work->view.tint.parts.tint_b;
             sprite->source = part_index + 0x1A;
             sprite->color.c.b = blue;
             obj = ((S_800BA00C_1 *)obj)->unk_08.p;
@@ -224,11 +224,11 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
         sprite->scale_y = 0x1000;
         sprite->unk_20 = 0x1000;
         sprite->angle_z = ((S_800BA00C_0 *)parent)->unk_66.u;
-        palette_red = g_game_work.view.unk_090;
+        palette_red = g_game_work.view.tint.parts.tint_r;
         sprite->color.c.r = palette_red;
-        palette_green = g_game_work.view.unk_091;
+        palette_green = g_game_work.view.tint.parts.tint_g;
         sprite->color.c.g = palette_green;
-        palette_blue = g_game_work.view.unk_092;
+        palette_blue = g_game_work.view.tint.parts.tint_b;
         sprite->color.c.b = palette_blue;
         obj = ((S_800BA00C_1 *)obj)->unk_08.p;
         sprite->source = 0x19;

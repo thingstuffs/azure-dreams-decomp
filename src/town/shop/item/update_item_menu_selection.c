@@ -70,19 +70,19 @@ void update_item_menu_selection(TownObject *obj)
         return;
     }
     if (obj->inner->limit == 0) {
-        if (((s32)g_game_work.unk_010) & 0x20) {
+        if (((s32)g_game_work.pressed_buttons) & 0x20) {
             SD_Call(0x515);
             set_item_menu_data_pointer(obj->resource);
         }
         return;
     }
 
-    if (((s32)g_game_work.unk_010) & 0x20) {
+    if (((s32)g_game_work.pressed_buttons) & 0x20) {
         SD_Call(0x515);
         set_item_menu_data_pointer(obj->resource);
         return;
     }
-    if (((s32)g_game_work.unk_010) & 0x40) {
+    if (((s32)g_game_work.pressed_buttons) & 0x40) {
         SD_Call(0x514);
         obj->inner->handle = place_selected_item_menu_entry(obj);
         if (obj->inner->handle != 0) {
@@ -91,7 +91,7 @@ void update_item_menu_selection(TownObject *obj)
         obj->old_state = *(s32 *)((u8 *)obj - 0x10);
         *(void **)((u8 *)obj - 0x10) = D_800AF96C;
         return;
-    } else if (((s32)g_game_work.unk_010) & 0x10) {
+    } else if (((s32)g_game_work.pressed_buttons) & 0x10) {
         SD_Call(0x503);
         sort_entries_by_category((void *)0x8001029C);
         update_item_menu_record(obj);
@@ -103,15 +103,15 @@ void update_item_menu_selection(TownObject *obj)
     if (!(held_buttons & 0xF000)) {
         return;
     }
-    if (((s32)g_game_work.unk_010) & 0xF000) {
+    if (((s32)g_game_work.pressed_buttons) & 0xF000) {
         obj->counter = 0;
-        if (((s32)g_game_work.unk_010) & 0x8000)
+        if (((s32)g_game_work.pressed_buttons) & 0x8000)
             move_step = -5;
-        else if (((s32)g_game_work.unk_010) & 0x2000)
+        else if (((s32)g_game_work.pressed_buttons) & 0x2000)
             move_step = 5;
-        else if (((s32)g_game_work.unk_010) & 0x1000)
+        else if (((s32)g_game_work.pressed_buttons) & 0x1000)
             move_step = -1;
-        else if (((s32)g_game_work.unk_010) & 0x4000)
+        else if (((s32)g_game_work.pressed_buttons) & 0x4000)
             move_step = 1;
     } else {
         if (obj->counter >= 5) {

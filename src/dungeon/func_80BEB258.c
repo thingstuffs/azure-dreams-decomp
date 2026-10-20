@@ -54,7 +54,7 @@ void update_entity_facing_and_ground(void *entity, EntityRec *motion, void *spri
 
     part_flags = ((SpriteFrameState *)sprite)->flags;
     if (!(part_flags & 0x8000)) {
-        view_dir = ((g_game_work.view.viewAngle + state->unk_2A + 0x100) >> 9) & 7;
+        view_dir = ((g_game_work.view.camera_rotation.parts.viewAngle + state->unk_2A + 0x100) >> 9) & 7;
         dir_index = view_dir;
         if ((*(s16 *)((u8 *)entity + 0x94)) != dir_index) {
             select_indirect_table_entry(sprite,(u8)((*(u8 * *)&((SpriteFrameState *)sprite)->frameTable)[dir_index]),(s8)((SpriteFrameState *)sprite)->unk_04);

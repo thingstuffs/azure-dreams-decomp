@@ -65,7 +65,7 @@ s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, EntityRec *position, Mov
         animation->unk_96 = 0x10;
 
         if (!(((Rec_D_80082E80 *)object)->unk_14.at00_s32.v & 0x4000)) {
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             detach_record_and_update_slot_state(object);
             unlink_entity_node(object);
             ((S_800AC5C8_1_pre *)object)[-1].unk_00 |= 0x8000;
@@ -98,7 +98,7 @@ s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, EntityRec *position, Mov
             force = 0x3000;
         }
         cycle_map_cell_flags(tile_x, tile_y, force);
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         {
             u16 saved_angle;
             s32 finished;

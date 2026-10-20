@@ -29,6 +29,6 @@ void initialize_counted_entity_action(void *entity_data, s32 unused_1, s32 unuse
         entity[0x9A] = kind;
         entity[0x9B] = 0;
         D_800DCF5E = 0;
-        g_dungeon_status.unk_0A++;
+        g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 }

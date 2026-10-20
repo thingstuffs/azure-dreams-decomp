@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -20,7 +21,7 @@ void advance_actor_reaction_downward(void *context, ReactionAccumulators *accumu
     accumulators->unk_00 = (s32) (accumulators->unk_00 + 0x40000);
     accumulators->unk_04 = (s32) (accumulators->unk_04 - 0x15555);
     if (flagState->unk_14 & 0x8000) {
-        set_resident_bitmap_bit(0x43);
+        set_resident_bitmap_bit(F_act_wedy);
         unlink_scene_list_node(context);
         clear_object_slot_and_mark_removed(context);
     }

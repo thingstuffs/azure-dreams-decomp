@@ -104,8 +104,8 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, EntityRec *transform, Sprit
 
     {
 
-        if (g_dungeon_status.unk_08 != 0) {
-            g_dungeon_status.unk_08--;
+        if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
+            g_dungeon_status.activity_counts.parts.pending_movement_count--;
         }
     }
 
@@ -119,7 +119,7 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, EntityRec *transform, Sprit
             if (actor_flags & 0x20000) {
                 actor->facing = get_rounded_facing_and_rounding_flag(
                     tile->unk_24, tile->unk_25,
-                    D_80082E80.tileX, D_80082E80.tileY, &coord_result);
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &coord_result);
             }
         }
     }

@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 s32 *func_80017D80();             /* extern */
@@ -11,7 +12,7 @@ typedef struct S_8051EE00_0 {
 
 /* Apply operation 0x5BC and the record code, then dispatch the record and context. */
 void apply_event_5bc_and_record_code(S_8051EE00_0 *record, s32 context) {
-    func_80018ADC(0x5BC);
+    func_80018ADC(F_sbs11_pad25);
     func_80018A64(record->unk_18);
     func_80017D80(record, context);
 }

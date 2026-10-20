@@ -45,7 +45,7 @@ void *select_object_by_flags_and_keys(Func8180F0F4_Obj *first, Func8180F0F4_Obj 
                     (first_key = first->field18,
                      second_key = second->field18,
                      (first_key == second_key))) {
-                    choose_first = ((s16)g_dungeon_status.unk_1E) & 1;
+                    choose_first = ((s16)g_dungeon_status.turn_counter) & 1;
                 } else {
                     choose_first = second_key < first_key;
                 }

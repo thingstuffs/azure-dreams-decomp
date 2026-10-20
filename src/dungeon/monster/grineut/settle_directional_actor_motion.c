@@ -96,7 +96,7 @@ void settle_directional_actor_motion(void *motion_state, void *motion, void *map
             ((SpriteFrameState *)map_actor)->frameTable = D_8015C150;
             select_sprite_entry(
                 map_actor,
-                D_8015C150[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_8015C150[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_8015B238_1 *)motion_state)->unk_9B++;
             return;
@@ -112,7 +112,7 @@ void settle_directional_actor_motion(void *motion_state, void *motion, void *map
         ((SpriteFrameState *)map_actor)->frameTable = D_8015C150;
         select_sprite_entry(
             map_actor,
-            D_8015C150[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_8015C150[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_8015B238_1 *)motion_state)->unk_96.s = 8;
         ((S_8015B238_1 *)motion_state)->unk_9B++;
@@ -147,9 +147,9 @@ void settle_directional_actor_motion(void *motion_state, void *motion, void *map
         ((S_8015B238_2 *)motion)->unk_04.at00.v = ((((SpriteFrameState *)map_actor)->unk_25 << 6) + 0x20) << 16;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)map_actor)->unk_24, ((SpriteFrameState *)map_actor)->unk_25);
 
-        tracked_actor = ((s32)g_dungeon_status.unk_10);
+        tracked_actor = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_actor == (s32)((u8 *)actor - 0x20)) {
-            g_dungeon_status.unk_10 = tracked_actor & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = tracked_actor & 0x7FFFFFFF;
         }
         ((S_8015B238_1 *)motion_state)->unk_8C = &D_80158E54;
 

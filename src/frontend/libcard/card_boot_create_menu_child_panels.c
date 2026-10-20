@@ -10,10 +10,10 @@ typedef struct S_80027A9C_0 {
 } S_80027A9C_0;   /* arg0 in card_boot_create_menu_child_panels; pointer addresses record offset 0x10 */
 
 
-void card_boot_toggle_channel(void);                            /* extern */
+#include "modules/main_server_ship_interfaces.h"
 s32 create_visual_object();                        /* extern */
 s32 create_or_reset_seven_entry_menu_backdrop();                        /* extern */
-void card_boot_update_card_chooser_input(void *menu);
+#include "frontend/libcard/interfaces.h"
 
 /* Initializes record values and installs its callback pointer. */
 void card_boot_create_menu_child_panels(void *record) {

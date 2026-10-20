@@ -51,7 +51,7 @@ s32 func_8125456C(u8 *actor, s32 action_context, u8 *sprite) {
             if (*(u8 **)(sprite + 0x2C) != D_80173E94) {
                 *(u8 **)(sprite + 0x2C) = D_80173E94;
                 select_sprite_entry(sprite,
-                              D_80173E94[((g_game_work.view.viewAngle +
+                              D_80173E94[((g_game_work.view.camera_rotation.parts.viewAngle +
                                            *(s16 *)(saved_actor + 0x2A) + 0x100) >> 9) & 7],
                               *(s8 *)(sprite + 4));
             }

@@ -209,7 +209,7 @@ void draw_empty_map_cell_quads(u32 packet_limit)
     map_bounds = state + 0x1DC;
     ((MapQuadScratch *)scratch)->normal_x = 0;
     ((MapQuadScratch *)scratch)->normal_y = 0;
-    render_state = g_game_work.unk_000;
+    render_state = g_game_work.draw_buffer;
     x_shift = ((S_800AD138_0 *)map_bounds)->unk_14;
     initial_size = 0x01000100;
     y_shift = ((S_800AD138_0 *)map_bounds)->unk_16;

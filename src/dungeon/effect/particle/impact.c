@@ -127,12 +127,12 @@ void *func_80024064(s32 world_x, s32 world_y, s16 min_height) {
     (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
     map_entry = (u8 *)((long)cell_index * 6 +
                        (unsigned long)*(u8 **)((u8 *)(&g_game_work.map)));
-    vertices = ((u8 *)map_data->unk_08);
-    planes = ((u8 *)map_data->unk_0C);
+    vertices = ((u8 *)map_data->vertices);
+    planes = ((u8 *)map_data->surface_planes);
     best_polygon = 0;
     if (((S_func_80024064_2 *)map_entry)->unk_00 != 0) {
         ((S_func_80024064_0 *)scratch)->unk_152.s = -((S_func_80024064_2 *)map_entry)->unk_02;
-        best_polygon = (*(u8 * *)((u8 *)(((u8 **)map_data->unk_04))
+        best_polygon = (*(u8 * *)((u8 *)(((u8 **)map_data->cell_faces))
             + ((S_func_80024064_2 *)map_entry)->unk_00 * 4));
         polygon = best_polygon;
         if (((S_func_80024064_8 *)(planes + ((S_func_80024064_3 *)best_polygon)->unk_10 * 8))->unk_04
@@ -648,8 +648,8 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
     ((S_800247C0_0 *)effect)->unk_28 = next_timer;
     if ((next_timer << 0x10) <= 0) {
         ((S_800247C0_0 *)effect)->unk_28 = timer;
-        if (g_dungeon_status.unk_10 == NULL) {
-            g_dungeon_status.unk_10 = ((S_800247C0_0 *)effect)->unk_20;
+        if (g_dungeon_status.pending_display_owner == NULL) {
+            g_dungeon_status.pending_display_owner = ((S_800247C0_0 *)effect)->unk_20;
         }
         object = ((S_800247C0_0 *)effect)->unk_20;
         set_or_clear_actor_status_slot(object + 0x20, 0x18, 0x14);
@@ -2263,12 +2263,12 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
             particle_index++;
         } while (particle_index < 2);
 
-        if (colors->view.unk_090 < 0x3D) {
+        if (colors->view.tint.parts.tint_r < 0x3D) {
             return;
         }
-        colors->view.unk_090 -= 2;
-        colors->view.unk_091 -= 2;
-        colors->view.unk_092 -= 2;
+        colors->view.tint.parts.tint_r -= 2;
+        colors->view.tint.parts.tint_g -= 2;
+        colors->view.tint.parts.tint_b -= 2;
         return;
     }
 
@@ -2276,10 +2276,10 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
         effect->unk_28.u = 0;
         effect->unk_0A.u = effect->unk_0A.u + 1;
     case 4:
-        if (colors->view.unk_090 >= 0x3D) {
-            colors->view.unk_090 -= 2;
-            colors->view.unk_091 -= 2;
-            colors->view.unk_092 -= 2;
+        if (colors->view.tint.parts.tint_r >= 0x3D) {
+            colors->view.tint.parts.tint_r -= 2;
+            colors->view.tint.parts.tint_g -= 2;
+            colors->view.tint.parts.tint_b -= 2;
         }
         effect->unk_1C.u = effect->unk_1C.u - 1;
         if (effect->unk_1C.s > 0) {
@@ -2292,15 +2292,15 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
 
     case 5:
     {
-        s8 color = colors->view.unk_090;
+        s8 color = colors->view.tint.parts.tint_r;
         s32 dungeon_mode;
 
         if ((u8)color < 0x80) {
-            colors->view.unk_090 += 10;
-            colors->view.unk_091 += 10;
-            colors->view.unk_092 += 10;
+            colors->view.tint.parts.tint_r += 10;
+            colors->view.tint.parts.tint_g += 10;
+            colors->view.tint.parts.tint_b += 10;
         }
-        if ((D_80082E80.unk_014 & 0x8000) == 0) {
+        if ((D_80082E80.sprite_flags & 0x8000) == 0) {
             effect->unk_1C.u = effect->unk_1C.u - 1;
             if (effect->unk_1C.s >= 0) {
                 return;
@@ -2326,14 +2326,14 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
         if ((s16)timer < 4) {
             return;
         }
-        colors->view.unk_092 = 0x80;
-        colors->view.unk_091 = 0x80;
-        colors->view.unk_090 = 0x80;
+        colors->view.tint.parts.tint_b = 0x80;
+        colors->view.tint.parts.tint_g = 0x80;
+        colors->view.tint.parts.tint_r = 0x80;
         {
 
-            g_dungeon_status.unk_0C = 0;
-            g_dungeon_status.unk_0A =
-                ((u16)g_dungeon_status.unk_0A) - 1;
+            g_dungeon_status.active_actor = 0;
+            g_dungeon_status.activity_counts.parts.pending_action_count =
+                ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
         }
         D_80082E80.unk_006 = 0;
         *(u16 *)((u8 *)effect - 2) |= 0x8000;

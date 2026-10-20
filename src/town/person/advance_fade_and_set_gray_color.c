@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern void set_resident_bitmap_bit(s32);
@@ -20,7 +21,7 @@ typedef struct {
 // Decrements the countdown and resets the state and color when it expires.
 void advance_fade_and_set_gray_color(Struct800CED50Arg0 *state, s32 unusedArg, Struct800CED50Arg2 *color) {
     if ((s16)(--state->unk6C) <= 0) {
-        set_resident_bitmap_bit(0x97);
+        set_resident_bitmap_bit(F_selfy_magic_trg);
         state->unk54 = &D_800CC524;
         state->unk6C = 0xA;
         color->unkE = 0x80;

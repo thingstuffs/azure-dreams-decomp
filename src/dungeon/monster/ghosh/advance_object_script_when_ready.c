@@ -22,19 +22,19 @@ void advance_object_script_when_ready(void *object, s32 unused_1, s32 unused_2, 
     *(u8 *)((u8 *)object + 0x9B) = count;
 
     if (count == 1) {
-        s32 state_code = ((s32)g_dungeon_status.unk_10);
+        s32 state_code = ((s32)g_dungeon_status.pending_display_owner);
 
         if (state_code == state_base - 0x20) {
-            g_dungeon_status.unk_10 = state_code & 0x7FFFFFFF;
+            g_dungeon_status.pending_display_owner = state_code & 0x7FFFFFFF;
             return;
         }
     } else if (count >= 5) {
 
         *(u8 *)((u8 *)object + 0x9B) = previous_count;
-        if (g_dungeon_status.unk_0A == 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
             allocate_type_12_object();
             *(s8 *)((u8 *)object + 0xB4) = 1;
-            g_dungeon_status.unk_0A = (u16)g_dungeon_status.unk_0A + 1;
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16)g_dungeon_status.activity_counts.parts.pending_action_count + 1;
             *(u8 *)((u8 *)object + 0x9B) = 0;
             *(u8 **)((u8 *)object + 0x8C) = D_8016B778;
         }

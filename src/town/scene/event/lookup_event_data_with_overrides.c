@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -35,7 +36,7 @@ void *lookup_event_data_with_overrides(s32 entry_id, s32 unused, s32 event_id)
     event_table = D_800189DC;
     event_data = func_80017960(event_table, D_80018B94, entry_id, event_id);
     if (event_id == 0xB) {
-        initialize_state_two_entries_pointer(0x1458);
+        initialize_state_two_entries_pointer(F_s34_sero_start);
         if (func_800178A8(event_table, entry_id, 0xB) != 0) {
             return &D_8001A3AE[0];
         }
@@ -43,13 +44,13 @@ void *lookup_event_data_with_overrides(s32 entry_id, s32 unused, s32 event_id)
               ((u8 *)D_80016000->unk_40)))->unk_04++;
         if (((S_80016714_2 *)(D_80016000->unk_08 * 8 +
                   ((u8 *)D_80016000->unk_40)))->unk_04 >= 5U) {
-            initialize_state_two_entries_pointer(0x1459);
+            initialize_state_two_entries_pointer(F_s34_sero_quickstart);
         }
         return event_data;
     }
     if (event_id == 0x1C) {
-        if (func_8001868C(0x992) == 0) {
-            initialize_state_two_entries_pointer(0x992);
+        if (func_8001868C(F_sbs34_pad18) == 0) {
+            initialize_state_two_entries_pointer(F_sbs34_pad18);
             return &D_8001A495[0];
         }
     }

@@ -204,7 +204,7 @@ void advance_actor_action_and_target(void *action, void *motion, void *sprite, v
         ((S_8017256C_5 *)motion)->unk_10 = 0;
         ((S_8017256C_5 *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, ((S_8017256C_4 *)sprite)->unk_24, ((S_8017256C_4 *)sprite)->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((D800814A8FieldView_81252D6C *)D_800814A8)->field_A6--;
         advance_status_timers(actor);
         ((S_8017256C_1 *)actor)->unk_6D--;
@@ -251,7 +251,7 @@ void advance_actor_action_and_target(void *action, void *motion, void *sprite, v
         (((S_8017256C_4 *)sprite)->unk_2C) = D_80173EDC;
         select_sprite_entry(
             sprite,
-            D_80173EDC[((g_game_work.view.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80173EDC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
 
@@ -302,7 +302,7 @@ void advance_actor_action_and_target(void *action, void *motion, void *sprite, v
         (((S_8017256C_4 *)sprite)->unk_2C) = D_80173E8C;
         select_sprite_entry(
             sprite,
-            D_80173E8C[((g_game_work.view.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80173E8C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_8017256C_0 *)action)->unk_9E = 0;
         ((S_8017256C_0 *)action)->unk_92 = -0x20;
@@ -311,10 +311,10 @@ void advance_actor_action_and_target(void *action, void *motion, void *sprite, v
     case 8:
         {
 
-            if (((s32)g_dungeon_status.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;
             }
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((S_8017256C_0 *)action)->unk_8C = &update_object_animation;
             advance_status_timers(actor);
             ((S_8017256C_1 *)actor)->unk_6D--;

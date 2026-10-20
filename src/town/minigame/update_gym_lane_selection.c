@@ -35,7 +35,7 @@ void update_gym_lane_selection(void *unused, EntityRec *object)
         record_base = &D_80083780;
         choice_index = D_800272C8;
         choice_id = D_80026F24[choice_index];
-        buttons = ((s32)button_base->unk_010);
+        buttons = ((s32)button_base->pressed_buttons);
 
         record_base->unk_0C = 0;
         record_base->x.w.i = choice_id;
@@ -44,12 +44,12 @@ void update_gym_lane_selection(void *unused, EntityRec *object)
             record_base->unk_0C = (s32)0xFFD00000;
             D_800272CA = 3;
             apply_global_scene_value(D_800D00C0);
-        } else if ((((s32)button_base->unk_010) & 0x2000) && D_800272C8 < 2) {
+        } else if ((((s32)button_base->pressed_buttons) & 0x2000) && D_800272C8 < 2) {
             D_800272C8++;
             D_80083780.unk_0C = 0x300000;
             D_800272CA = 3;
             apply_global_scene_value(D_800D00C0);
-        } else if (D_80082E80.unk_014 & 0x6000) {
+        } else if (D_80082E80.sprite_flags & 0x6000) {
             apply_global_scene_value(D_800D0128);
         }
     }

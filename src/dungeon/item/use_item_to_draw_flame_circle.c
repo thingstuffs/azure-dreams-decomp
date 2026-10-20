@@ -57,7 +57,7 @@ s32 use_item_to_draw_flame_circle(void *object, s32 value, s16 operation, s32 co
             return 1;
         }
 
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
     } else {
         object_data = ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_00;
         if (create_five_point_effect(object_data->unk_24, object_data->unk_25, ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_9C,

@@ -54,7 +54,7 @@ void update_player_sleep_action(Arg0Struct *controller, void *unused, Arg2Struct
     case 0:
         if (animation->flags14 & 0xE000) {
             animation->table = &D_800DD0F0;
-            set_sprite_animation_frame(animation, (&D_800DD0F0)[((s32)(scene->view.viewAngle + actor->angle + 0x100) >> 9) & 7], 0,
+            set_sprite_animation_frame(animation, (&D_800DD0F0)[((s32)(scene->view.camera_rotation.parts.viewAngle + actor->angle + 0x100) >> 9) & 7], 0,
                 1);
             controller->handler = &D_8008B870;
             controller->state = (s8)(controller->state + 1);
@@ -75,10 +75,10 @@ void update_player_sleep_action(Arg0Struct *controller, void *unused, Arg2Struct
             }
             if ((get_entity_effect_value(actor, 1) << 0x10) == 0) {
                 animation->table = D_800DD0F8;
-                set_sprite_animation_frame(animation, D_800DD0F8[((s32)(g_game_work.view.viewAngle + actor->angle + 0x100) >> 9) & 7],
+                set_sprite_animation_frame(animation, D_800DD0F8[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->angle + 0x100) >> 9) & 7],
                     0, 1);
                 controller->handler = NULL;
-                g_dungeon_status.unk_0A += 1;
+                g_dungeon_status.activity_counts.parts.pending_action_count += 1;
                 controller->state += 1;
             } else {
                 process_unflagged_linked_entries_alt(actor->val5c);
@@ -95,7 +95,7 @@ void update_player_sleep_action(Arg0Struct *controller, void *unused, Arg2Struct
             process_unflagged_linked_entries(actor->val5c);
             g_dungeon_status.flags |= 0x812;
             controller->handler =handle_player_input;
-            g_dungeon_status.unk_0A -= 1;
+            g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
         }
         break;
     }

@@ -165,7 +165,7 @@ void update_bank_actor_targeted_action(void *owner_input, EntityRec *motion_inpu
         motion_input->unk_10 = 0;
         motion_input->unk_0C = 0;
         set_record_integer_tile_center(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(object);
         (*(u8 *)&object->unk_6D)--;
@@ -209,15 +209,15 @@ void update_bank_actor_targeted_action(void *owner_input, EntityRec *motion_inpu
         if (((S_80172A40_4 *)actor_input)->unk_2C != D_80174AD4) {
             (*(u8 * *)((u8 *)actor_input + 0x2C)) = D_80174AD4;
             select_sprite_entry(actor_input,
-                          D_80174AD4[((g_game_work.view.viewAngle +
+                          D_80174AD4[((g_game_work.view.camera_rotation.parts.viewAngle +
                                        object->facing + 0x100) >> 9) & 7],
                           ((S_80172A40_0 *)owner_input)->unk_A0);
         }
 
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
-        g_dungeon_status.unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((S_80172A40_4 *)actor_input)->unk_14 &= 0xF7FF;
         ((S_80172A40_0 *)owner_input)->unk_8C = update_bank_actor_state;
         advance_status_timers(object);

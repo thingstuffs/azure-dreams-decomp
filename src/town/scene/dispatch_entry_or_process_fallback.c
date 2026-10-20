@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/town_dispatch_object.h"
 #include "m2c_compat.h"
@@ -17,6 +18,6 @@ s32 dispatch_entry_or_process_fallback(s32 context, s32 unused, s32 entry_key) {
     if (resolve_entry_flag(&D_8001BB94, context, entry_key) != 0) {
         return (s32)&D_8001E891;
     }
-    set_script_flag_bit(0x1457);
+    set_script_flag_bit(F_slefy_all_talk_town);
     return result;
 }

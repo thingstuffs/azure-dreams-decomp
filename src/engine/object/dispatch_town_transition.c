@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 
@@ -69,10 +70,10 @@ void dispatch_town_transition(void)
     } else if (runtime_flags & 0x8000) {
         set_resident_mode_flags(1);
         add_counter_increment_capped();
-        if ((test_resident_bitmap_bit(0x1391) == 0) ||
-            (test_resident_bitmap_bit(0xA2) != 0)) {
+        if ((test_resident_bitmap_bit(F_veld_kill) == 0) ||
+            (test_resident_bitmap_bit(F_end_ending) != 0)) {
             change_map_by_home_rank_secondary();
-        } else if (test_resident_bitmap_bit(0xA3) == 0) {
+        } else if (test_resident_bitmap_bit(F_end_ending_step0) == 0) {
             change_map_by_home_rank_tertiary();
         } else {
             chg_map_second_house_sel();

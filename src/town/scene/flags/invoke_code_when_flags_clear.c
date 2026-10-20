@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -10,7 +11,7 @@ s32 get_script_flag_mask();                         /* extern */
 
 /* Invoke the callback with code 8 when checks 0x1200 and 0x1201 both return zero. */
 void invoke_code_8_when_flags_clear(void) {
-    if ((get_script_flag_mask(0x1200) == 0) && (get_script_flag_mask(0x1201) == 0)) {
+    if ((get_script_flag_mask(Fp_bibian_pool_event) == 0) && (get_script_flag_mask(Fp_mia_pool_event) == 0)) {
         D_80016000->unk_20->callback_1E8(8);
     }
 }

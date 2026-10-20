@@ -36,7 +36,7 @@ s32 initialize_transition_action(void *action_state, s32 action_id, void *source
         (*(u8 * *)((u8 *)source_obj + 0x2C)) = ((u8 *)D_80174214);
         select_sprite_entry(
             source_obj,
-            ((u8 *)D_80174214)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80174214)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         prepare_directional_attack(actor, source_obj, actor->facing, 1, 0);
         actor->unk_6D--;

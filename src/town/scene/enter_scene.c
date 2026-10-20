@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/town_root.h"
 #include "common.h"
 
@@ -15,8 +16,8 @@ extern u8 D_800190B8[];
 void enter_scene(void) {
     TownServiceTable *dispatch;
 
-    func_80018A64(0x5C2);
-    func_80018A64(0x5BF);
+    func_80018A64(F_sbs11_pad31);
+    func_80018A64(F_sbs11_pad28);
     update_scene_flag_5_c_4();
 
     dispatch = *(TownServiceTable **)(*(u8 **)(D_80010000 + 0x6000) + 0x20);

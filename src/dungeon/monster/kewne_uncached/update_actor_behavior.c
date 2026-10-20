@@ -54,7 +54,7 @@ void update_actor_behavior_2(void *action, void *motion, void *object, void *act
             return;
         }
         PTR(object, 0x2C) = D_80175C78;
-        facing_ptr = &D_80175C78[((g_game_work.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7];
+        facing_ptr = &D_80175C78[((g_game_work.view.camera_rotation.parts.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7];
         select_sprite_entry(object, *facing_ptr, 0);
         U16(action, 0x96) = 0;
         play_sound_if_enabled(0x808);

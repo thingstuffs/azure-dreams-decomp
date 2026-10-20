@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -23,15 +24,15 @@ typedef struct S_80016D18_0 {
 s32 *get_local_global_table(void) {
     if (func_800197FC(0xD, 6) != 0) {
         D_80016000->unk_20->callback_078(0);
-        func_8001A554(0x92C);
-        func_8001A554(0x92D);
-        func_8001A554(0x92E);
-        func_8001A554(0x92F);
-        func_8001A554(0x930);
-        func_8001A5CC(0x943);
+        func_8001A554(F_sbs32_pad02);
+        func_8001A554(F_sbs32_pad03);
+        func_8001A554(F_sbs32_pad04);
+        func_8001A554(F_sbs32_pad05);
+        func_8001A554(F_sbs32_pad06);
+        func_8001A5CC(F_sbs32_pad25);
         return &D_8002116C;
     }
-    if (func_8001A64C(0x930) != 0) {
+    if (func_8001A64C(F_sbs32_pad06) != 0) {
         return (s32 *)((s8 *)&D_8002116C + 0x21A);
     }
     return 0;

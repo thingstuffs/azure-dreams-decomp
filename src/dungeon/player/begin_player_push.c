@@ -75,7 +75,7 @@ void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0
                               ((SpriteFrameState *)sprite)->unk_25, 0x300);
 
                 actor->unk_1C |= 0x40000000;
-                g_dungeon_status.unk_04 = 0x20;
+                g_dungeon_status.movement_frames_left = 0x20;
                 g_dungeon_status.flags |= 8;
                 action->unk_9B.as_u8 = 0x10;
                 ((SpriteFrameState *)sprite)->frameTable = D_800DCFB8;
@@ -90,6 +90,6 @@ void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0
     set_sprite_animation_frame(
         sprite,
         (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable)
-            [((g_game_work.view.viewAngle + actor->unk_2A.u + 0x100) >> 9) & 7],
+            [((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A.u + 0x100) >> 9) & 7],
         0, 1);
 }

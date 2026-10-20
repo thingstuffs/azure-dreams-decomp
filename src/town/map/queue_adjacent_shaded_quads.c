@@ -68,7 +68,7 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
         GpuContext *poly_state;
         GpuContext *tpage_state;
 
-        poly_state = (GpuContext *)render_state_ptr->unk_000;
+        poly_state = (GpuContext *)render_state_ptr->draw_buffer;
         poly = (Func800AB788Poly *)poly_state->packetCursor;
         poly_state->packetCursor = (u8 *)poly + sizeof(*poly);
 
@@ -94,7 +94,7 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
         poly->x3 = strip->x3;
         poly->y3 = strip->y3;
 
-        tpage_state = (GpuContext *)render_state_ptr->unk_000;
+        tpage_state = (GpuContext *)render_state_ptr->draw_buffer;
         tpage = tpage_state->packetCursor;
         tpage_state->packetCursor = tpage + 0xC;
         func_80067F20(tpage, 1, 0, func_80066460(0, 1, 0x140, 0), 0);
@@ -112,7 +112,7 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
         GpuContext *poly_state;
         GpuContext *tpage_state;
 
-        poly_state = (GpuContext *)render_state_ptr->unk_000;
+        poly_state = (GpuContext *)render_state_ptr->draw_buffer;
         poly = (Func800AB788Poly *)poly_state->packetCursor;
         poly_state->packetCursor = (u8 *)poly + sizeof(*poly);
 
@@ -138,7 +138,7 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
         poly->x3 = strip->x5;
         poly->y3 = strip->y5;
 
-        tpage_state = (GpuContext *)render_state_ptr->unk_000;
+        tpage_state = (GpuContext *)render_state_ptr->draw_buffer;
         tpage = tpage_state->packetCursor;
         tpage_state->packetCursor = tpage + 0xC;
         func_80067F20(tpage, 1, 0, func_80066460(0, 1, 0x140, 0), 0);

@@ -55,7 +55,7 @@ void update_three_state_directional_motion(void *action, void *motion, void *spr
             return;
         }
         PTR(sprite, 0x2C) = D_80175E88;
-        facing_ptr = &D_80175E88[((g_game_work.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7];
+        facing_ptr = &D_80175E88[((g_game_work.view.camera_rotation.parts.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7];
         select_sprite_entry(sprite, *facing_ptr, 0);
         U16(action, 0x96) = 0;
         play_sound_if_enabled(0x808);

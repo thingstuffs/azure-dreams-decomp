@@ -143,14 +143,14 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
             if ((call_result << 16) <= 0) {
                 U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
                     U8_AT(position, 0x24), U8_AT(position, 0x25),
-                    D_80082E80.tileX,
-                    D_80082E80.tileY, path_work);
+                    D_80082E80.tile_position.parts.tile_x,
+                    D_80082E80.tile_position.parts.tile_y, path_work);
             }
 
             work_value = compare_monster_neighbor_values(
                 U8_AT(position, 0x24), U8_AT(position, 0x25),
-                D_80082E80.tileX,
-                D_80082E80.tileY);
+                D_80082E80.tile_position.parts.tile_x,
+                D_80082E80.tile_position.parts.tile_y);
             attempt = 0;
             if ((work_value << 16) != 0) {
                 limit_turn = 1;
@@ -279,7 +279,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
             break;
         }
         if (attempt == 0) {
-            if (*(u16 *)(&D_80082E80.tileX) != U16_AT(position, 0x24)) {
+            if (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) != U16_AT(position, 0x24)) {
                 if ((check_entity_relation(actor, S32_AT(D_800814A8, 0x58) + 0x20) << 16) != 0) {
                     return;
                 }

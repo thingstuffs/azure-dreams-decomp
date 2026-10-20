@@ -266,7 +266,7 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
         if ((u32)depth < 0x1E0U) {
             i = 0;
             do {
-                context = render_state->unk_000;
+                context = render_state->draw_buffer;
                 prim = context->unk_8D0;
                 render_term = (s32)((u8 *)prim + 0x28);
                 context->unk_8D0 = (void *)render_term;
@@ -348,10 +348,10 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
                 ot_offset = depth * 4;
                 addr_mask = 0x00FFFFFF;
                 tag_mask = 0xFF000000;
-                context = render_state->unk_000;
+                context = render_state->draw_buffer;
                 prim->unk_00 = (prim->unk_00 & tag_mask) |
                     (((S_func_80174228_10 *)((u8 *)context + (0xB0 + ot_offset)))->unk_00 & addr_mask);
-                context2 = render_state->unk_000;
+                context2 = render_state->draw_buffer;
                 ((S_func_80174228_10 *)((u8 *)context2 + (0xB0 + ot_offset)))->unk_00 =
                     (((S_func_80174228_10 *)((u8 *)context2 + (0xB0 + ot_offset)))->unk_00 & tag_mask) |
                     ((u32)prim & addr_mask);

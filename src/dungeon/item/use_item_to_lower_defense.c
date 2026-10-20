@@ -42,6 +42,6 @@ s32 use_item_to_lower_defense(void *target, s32 item, s16 use_type) {
     }
 
     clear_slot_and_update_linked_state(item);
-    g_dungeon_status.unk_0A--;
+    g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

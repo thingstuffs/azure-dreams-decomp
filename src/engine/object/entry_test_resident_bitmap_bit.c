@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 #include "common.h"
@@ -22,7 +23,7 @@ s32 func_80035DBC(s32 entry_index) {
         return D_8006A948[0];
     }
 
-    if (entry_index == 10 && test_resident_bitmap_bit(0x1473) == 0) {
+    if (entry_index == 10 && test_resident_bitmap_bit(Ft_mia_new) == 0) {
         return D_80080A50[0];
     }
 

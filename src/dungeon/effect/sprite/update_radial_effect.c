@@ -92,7 +92,7 @@ void update_radial_effect(DungeonState *effect) {
 
     {
         TileObject *position_table = &D_80082E80;
-        if (resolve_record_orientation_or_fallback(position_table->unk_008, position_table, position_offset, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(position_table->sprite_source, position_table, position_offset, 0) != 0) {
             effect->x = ((u16)D_80083780.x.w.i) + position_offset[0];
             effect->y = ((u16)D_80083780.y.w.i) + position_offset[1];
             effect->z = ((u16)D_80083780.z.w.i) + position_offset[2] + 0x20;
@@ -116,7 +116,7 @@ void update_radial_effect(DungeonState *effect) {
             DungeonObject *object = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
             if (object != NULL) {
                 object->unk10 = (DungeonInner *)object_data;
-                object_counter->unk_0A += 1;
+                object_counter->activity_counts.parts.pending_action_count += 1;
                 register_node(object, project_sprite_chain);
                 {
                     DungeonInner *object_inner = object->unkC;

@@ -180,7 +180,7 @@ void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprit
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)((u8 *)actor + 0x6D))--;
@@ -235,12 +235,12 @@ void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprit
 
                 anim_table = D_800E2410;
                 effect_sprite->frameTable = anim_table;
-                anim_entry = (u8 *)((u32)(((g_game_work.view.viewAngle +
+                anim_entry = (u8 *)((u32)(((g_game_work.view.camera_rotation.parts.viewAngle +
                           (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7) + (u32)anim_table);
                 select_sprite_entry(effect_sprite, *anim_entry, 0);
                 effect_sprite->flags &= 0xFFF3;
 
-                direction_index = ((g_game_work.view.viewAngle +
+                direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle +
                           ((S_80173A60_0 *)actor_state)->unk_2A.s + 0x100) >> 9) & 7;
                 height_offsets = D_800DCECC;
                 effect_sprite->unk_06 = -(height_offsets[direction_index] * 4);
@@ -261,7 +261,7 @@ void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprit
 
             anim_table = D_800E23E0;
             ((SpriteFrameState *)sprite)->frameTable = anim_table;
-            direction_index = ((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+            direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, anim_table[direction_index], 3);
             if (((S_80173A60_0 *)actor_state)->unk_B0 == 0) {
                 create_owner_linked_directional_object(actor_state, motion, sprite);

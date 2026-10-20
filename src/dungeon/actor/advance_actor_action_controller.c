@@ -47,10 +47,10 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
             direction_table = D_800E262C;
             ((SpriteFrameState *)sprite)->frameTable = direction_table;
             func_8003DB94(sprite,
-                *(void **)(direction_table + (((g_game_work.view.viewAngle + actor->facing + 0x100) >> 7) & 28)),
+                *(void **)(direction_table + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 28)),
                 0);
             system_base = &g_dungeon_status;
-            (*(u16 *)&system_base->unk_0A)--;
+            (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
             ((S_800DA014_0 *)controller)->unk_9B++;
         }
         return;
@@ -113,7 +113,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
 
             reference_sprite = &D_80082E80;
             coordinate = *(s8 *)&((SpriteFrameState *)sprite)->unk_26;
-            if ((((coordinate == reference_sprite->unk_026) &&
+            if ((((coordinate == reference_sprite->room_index) &&
                         (coordinate >= 0)) ||
                  (get_tile_chebyshev_distance(reference_sprite, sprite) < 2)) &&
                 ((generate_random_value() & 7) == 0)) {
@@ -127,7 +127,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
             direction_table = D_800E262C;
             ((SpriteFrameState *)sprite)->frameTable = direction_table;
             func_8003DB94(sprite,
-                *(void **)(direction_table + (((g_game_work.view.viewAngle + actor->facing + 0x100) >> 7) & 28)),
+                *(void **)(direction_table + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 28)),
                 0);
         } else {
             return;
@@ -137,7 +137,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
         if (!(((SpriteFrameState *)sprite)->flags & 0x8000)) {
             DungeonGlobalStatus *system_base = &g_dungeon_status;
 
-            (*(u16 *)&system_base->unk_0A)++;
+            (*(u16 *)&system_base->activity_counts.parts.pending_action_count)++;
             ((S_800DA014_0 *)controller)->unk_9B++;
             return;
         }
@@ -148,7 +148,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
         }
         {
             DungeonGlobalStatus *system_base = &g_dungeon_status;
-            (*(u16 *)&system_base->unk_0A)--;
+            (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
         }
         break;
     default:

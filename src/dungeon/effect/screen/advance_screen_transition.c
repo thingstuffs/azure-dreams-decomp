@@ -136,14 +136,14 @@ case 1:
         break;
 
     case 5:
-        screen->view.unk_091 += (0x80 - screen->view.unk_091) / ctx->timer_1A;
-        screen->view.unk_092 += (0x80 - screen->view.unk_092) / ctx->timer_1A;
+        screen->view.tint.parts.tint_g += (0x80 - screen->view.tint.parts.tint_g) / ctx->timer_1A;
+        screen->view.tint.parts.tint_b += (0x80 - screen->view.tint.parts.tint_b) / ctx->timer_1A;
         ctx->timer_1A--;
         if (ctx->timer_1A > 0) {
             break;
         }
-        screen->view.unk_091 = 0x80;
-        screen->view.unk_092 = 0x80;
+        screen->view.tint.parts.tint_g = 0x80;
+        screen->view.tint.parts.tint_b = 0x80;
         ctx->state++;
         break;
 
@@ -151,8 +151,8 @@ case 1:
         if ((s16)D_800281F8[0] != 0) {
             break;
         } else {
-            g_dungeon_status.unk_0C = 0;
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.active_actor = 0;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         (*(u16 *)((u8 *)ctx + -2)) |= 0x8000;
         object_flag_block.flags |= 0x8000;
@@ -163,8 +163,8 @@ case 1:
     }
 
     if (ctx->phase_20 < 0) {
-        screen->view.unk_091 += (0x20 - screen->view.unk_091) / ctx->timer_22;
-        screen->view.unk_092 += (0x20 - screen->view.unk_092) / ctx->timer_22;
+        screen->view.tint.parts.tint_g += (0x20 - screen->view.tint.parts.tint_g) / ctx->timer_22;
+        screen->view.tint.parts.tint_b += (0x20 - screen->view.tint.parts.tint_b) / ctx->timer_22;
         ctx->timer_22--;
         if (ctx->timer_22 <= 0) {
             ctx->phase_20 = 0;

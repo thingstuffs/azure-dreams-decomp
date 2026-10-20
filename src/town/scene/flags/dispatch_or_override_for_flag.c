@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern u8 *apply_entry_position();
@@ -15,7 +16,7 @@ u8 *dispatch_or_override_for_flag_1390(s32 dispatch_arg, s32 unused, s32 dispatc
 
 
     result = apply_entry_position(&D_8001BB6C, &D_8001C354, first_arg, fourth_arg);
-    if (get_script_flag_mask(0x1390) != 0) {
+    if (get_script_flag_mask(F_selfy_dungeon_kenka_b) != 0) {
         return D_8001F8B5;
     }
     return result;

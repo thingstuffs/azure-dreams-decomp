@@ -23,7 +23,7 @@ void advance_actor_path_step(void *action, s32 action_id, void *entity, void *mo
         ((SpriteFrameState *)entity)->frameTable = D_80174518;
         select_sprite_entry(
             entity,
-            D_80174518[((g_game_work.view.viewAngle + ((E_80171B68_S_80171570_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            D_80174518[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_80171B68_S_80171570_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

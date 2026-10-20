@@ -15,7 +15,7 @@ void start_directional_action_and_record_tile(void *action_state, void *action_c
             (*(u8 **)((u8 *)sprite + 0x2C)) = &D_80174EC8;
             select_sprite_entry(
                 sprite,
-                *(&D_80174EC8 + (((s32)(g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)),
+                *(&D_80174EC8 + (((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                 0);
             ((Rec_func_800AA258_arg2 *)sprite)->unk_14 = (u16)(((Rec_func_800AA258_arg2 *)sprite)->unk_14 | 0x800);
             advance_status_timers(actor);

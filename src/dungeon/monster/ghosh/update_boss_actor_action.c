@@ -51,7 +51,7 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, EntityRe
         if (current_state != next_state) {
             if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_80174A2C) {
                 ((SpriteFrameState *)sprite)->frameTable = D_80174A2C;
-                select_sprite_entry(sprite, D_80174A2C[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
+                select_sprite_entry(sprite, D_80174A2C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             }
             ((S_8016F78C_0 *)actor)->unk_9A = next_state;
         }
@@ -63,7 +63,7 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, EntityRe
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
             func_8017092C(actor, context, sprite, entity);
             ((SpriteFrameState *)sprite)->frameTable = D_80174A2C;
-            select_sprite_entry(sprite, D_80174A2C[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(sprite, D_80174A2C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             ((S_8016F78C_0 *)actor)->unk_90 = 0;
             return;
         }

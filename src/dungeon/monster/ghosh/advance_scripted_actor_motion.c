@@ -169,7 +169,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         break;
     case 5:
         *(u8 **)((u8 *)sprite + 0x2C) = D_80174C8C;
-        select_sprite_entry(sprite, D_80174C8C[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, D_80174C8C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         play_sound_if_enabled(0x801);
         actor->unk_96 = 0U;
         actor->unk_9A = (u8) (actor->unk_9A + 1);
@@ -184,7 +184,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             break;
         }
         *(u8 **)((u8 *)sprite + 0x2C) = D_80174C64;
-        select_sprite_entry(sprite, D_80174C64[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, D_80174C64[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         actor->unk_96 = 0U;
         actor->unk_9A = (u8) (actor->unk_9A + 1);
         create_boss_child_effect(actor, motion, sprite);
@@ -211,7 +211,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         }
         actor->unk_9A = (u8) (actor->unk_9A + 1);
         *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-        select_sprite_entry(sprite, D_80174C6C[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, D_80174C6C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         motion->unk_0C.unk_0C = 0xFFF80000;
         actor->unk_B4.s = 5;
         actor->unk_96 = 0x10U;
@@ -252,7 +252,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         if (sprite->unk_04 == 5) {
             particle_a0 = sprite;
             *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-            select_sprite_entry(particle_a0, D_80174C6C[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100)
+            select_sprite_entry(particle_a0, D_80174C6C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100)
                 >> 9) & 7], 0);
             path_particle_count = 0;
             play_sound_if_enabled(0x706);
@@ -270,7 +270,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
         if (sprite->unk_04 == 5) {
             *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-            select_sprite_entry(sprite, D_80174C6C[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(sprite, D_80174C6C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
             end_particle_count = 0;
             play_sound_if_enabled(0x706);
             do {
@@ -289,7 +289,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             break;
         }
         sprite->unk_2C = D_80174C64;
-        select_sprite_entry(sprite, D_80174C64[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, D_80174C64[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         break;
     case 12:
         turn_timer = actor->unk_96 - 1;
@@ -339,14 +339,14 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         actor->unk_96 = 0U;
         actor->unk_9A++;
         sprite->unk_2C = D_80174C6C;
-        select_sprite_entry(sprite, D_80174C6C[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, D_80174C6C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         break;
     case 15:
         if (sprite->unk_04 == 5) {
             particle_a0 = sprite;
             particle_color = 0;
             *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-            sprite_angle_base = g_game_work.view.viewAngle;
+            sprite_angle_base = g_game_work.view.camera_rotation.parts.viewAngle;
             sprite_angle_delta = beldo->unk_2A.s;
             select_sprite_entry(particle_a0, D_80174C6C[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7],
                 particle_color);
@@ -395,7 +395,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             particle_a0 = sprite;
             particle_color = 0;
             *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-            sprite_angle_base = g_game_work.view.viewAngle;
+            sprite_angle_base = g_game_work.view.camera_rotation.parts.viewAngle;
             sprite_angle_delta = beldo->unk_2A.s;
             select_sprite_entry(particle_a0, D_80174C6C[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7],
                 particle_color);
@@ -449,7 +449,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             actor->unk_9A = (u8) (actor->unk_9A + 1);
             create_boss_linked_effect(actor, motion, sprite);
             *(u8 **)((u8 *)sprite + 0x2C) = D_80174C7C;
-            select_sprite_entry(sprite, D_80174C7C[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(sprite, D_80174C7C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
             play_sound_if_enabled(0x800);
         }
         if ((actor->unk_96 & 3) == 1) {
@@ -465,7 +465,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         }
         actor->unk_9A++;
         sprite->unk_2C = D_80174C84;
-        select_sprite_entry(sprite, D_80174C84[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, D_80174C84[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         break;
     case 20:
         release_secondary_overlay_object();
@@ -476,7 +476,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
     if (D_80174CE0 == 0) {
         return;
     }
-    final_direction = ((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7;
+    final_direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7;
     sprite_direction = final_direction;
     if (actor->unk_94 != sprite_direction) {
         select_indirect_table_entry(sprite, sprite->unk_2C[sprite_direction], sprite->unk_04);

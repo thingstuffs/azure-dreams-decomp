@@ -29,7 +29,7 @@ void start_kewne_attack_action(void *controller, void *action_context, void *spr
             (*(s32 *)((u8 *)controller + 0x8C)) = 0;
             ((S_809A0A34_1 *)controller)->unk_9B = 0;
             (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80175E70;
-            select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+            select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &D_80175E70), 0);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
             ((S_809A0A34_1 *)controller)->unk_98 = (u16) (((S_809A0A34_1 *)controller)->unk_98 | 8);

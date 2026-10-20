@@ -185,7 +185,7 @@ void update_actor_ability_action(ActorActionView *action, EntityRec *motion, Act
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             ((PlayerActionCounterView *)D_800814A8)->activeActions = (u16) (((PlayerActionCounterView *)D_800814A8)->activeActions - 1);
             advance_status_timers(actor);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
@@ -223,7 +223,7 @@ void update_actor_ability_action(ActorActionView *action, EntityRec *motion, Act
         }
         return;
     case 3:
-        if (((s32)g_dungeon_status.unk_0C) == 0) {
+        if (((s32)g_dungeon_status.active_actor) == 0) {
             action->timer.raw = 0U;
         }
         finish_ticks = action->timer.raw - 1;
@@ -242,14 +242,14 @@ void update_actor_ability_action(ActorActionView *action, EntityRec *motion, Act
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         if (sprite->frameTable != D_80150E88) {
             (sprite->frameTable) = D_80150E88;
-            select_sprite_entry(sprite, D_80150E88[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(sprite, D_80150E88[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             sprite->flags =
                 (u16) (sprite->flags & 0xF7FF);
         }
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
-        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         action->nextBehavior = &update_actor_behavior_variant_h;
         advance_status_timers(actor);
         actor->unk_73 = 0;

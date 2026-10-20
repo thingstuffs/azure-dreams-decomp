@@ -69,8 +69,8 @@ s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *ta
         ((S_800AB1C0_2 *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)target_tile)->unk_24,
                       ((Rec_D_80082E80 *)target_tile)->unk_25);
-        if (g_dungeon_status.unk_08 != 0) {
-            g_dungeon_status.unk_08 = (s16)((u16)g_dungeon_status.unk_08 - 1);
+        if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
+            g_dungeon_status.activity_counts.parts.pending_movement_count = (s16)((u16)g_dungeon_status.activity_counts.parts.pending_movement_count - 1);
         }
         if (actor->flags1C & 0x2000) {
             actor->unk_46 =

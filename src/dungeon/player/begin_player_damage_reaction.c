@@ -36,7 +36,7 @@ void begin_player_damage_reaction(void *action, s32 unused, void *sprite, Entity
     (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
     {
         u8 *direction_entry;
-        direction_entry = direction_table + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7);
+        direction_entry = direction_table + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7);
         set_sprite_animation_frame(sprite, *direction_entry, 0, 1);
     }
     ((Rec_func_8008ACDC_arg0 *)action)->unk_9A.as_s8 = 7;

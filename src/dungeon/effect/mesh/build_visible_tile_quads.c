@@ -69,8 +69,8 @@ void build_visible_tile_quads(u8 *tiles)
     u16 z;
 
     ((S_800D1824_0 *)scratch)->unk_28 = 0;
-    render_state = ((u8 *)globals->unk_000);
-    style = ((S_800D1824_5 *)(((u8 *)globals->map.unk_04)))->unk_10;
+    render_state = ((u8 *)globals->draw_buffer);
+    style = ((S_800D1824_5 *)(((u8 *)globals->map.cell_faces)))->unk_10;
     prim = ((GpuContext *)render_state)->packetCursor;
     ((S_800D1824_0 *)scratch)->unk_2C = -0x1000;
     ((S_800D1824_0 *)scratch)->unk_20 = render_state + 0xB0;
@@ -136,5 +136,5 @@ void build_visible_tile_quads(u8 *tiles)
         tiles += 4;
     }
 
-    ((GpuContext *)(((u8 *)globals->unk_000)))->packetCursor = prim;
+    ((GpuContext *)(((u8 *)globals->draw_buffer)))->packetCursor = prim;
 }

@@ -67,19 +67,19 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(void *action, v
         case 13:
             ((SpriteFrameState *)anim)->frameTable = D_8016FDDC;
             select_sprite_entry(anim,
-                D_8016FDDC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_8016FDDC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 14:
             ((SpriteFrameState *)anim)->frameTable = D_8016FDE4;
             select_sprite_entry(anim,
-                D_8016FDE4[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_8016FDE4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 15:
             ((SpriteFrameState *)anim)->frameTable = D_8016FDEC;
             select_sprite_entry(anim,
-                D_8016FDEC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_8016FDEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_8016E3C4_0 *)action)->unk_9B = 5;
             play_sound_if_enabled(0x60C);
@@ -106,7 +106,7 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(void *action, v
         if (((SpriteFrameState *)anim)->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x100);
             ((S_8016E3C4_0 *)action)->unk_8C = D_8016C4BC;
-            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->unk_46 &= 0x7FFF;
         }

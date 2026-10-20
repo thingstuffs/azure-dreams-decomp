@@ -175,7 +175,7 @@ void advance_action_and_restore_actor(ActorActionView *action, EntityRec *transf
         transform->unk_10 = 0;
         transform->unk_0C = 0;
         set_record_integer_tile_center(transform, sprite->position.tile.x, sprite->position.tile.y);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((PlayerActionCountView *)D_800814A8)->remaining = ((PlayerActionCountView *)D_800814A8)->remaining - 1;
         advance_status_timers(actor);
         actor->unk_6D = ((u8)actor->unk_6D) - 1;
@@ -220,14 +220,14 @@ void advance_action_and_restore_actor(ActorActionView *action, EntityRec *transf
             if (sprite->directionFrames != direction_table) {
                 sprite->directionFrames = direction_table;
                 select_sprite_entry(sprite,
-                    direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
         }
-        if (((s32)g_dungeon_status.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
-        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+        g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
         sprite->flags &= 0xF7FF;
         action->nextAction.record = D_8016AF6C;
         advance_status_timers(actor);

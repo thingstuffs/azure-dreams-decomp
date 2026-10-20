@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -17,10 +18,10 @@ s32 func_80017940(s32 kind, s32 value) {
     Rec_D_80016000 *root;
 
     func_80016CC4();
-    if (func_8001A64C(0x943) != 0) {
+    if (func_8001A64C(F_sbs32_pad25) != 0) {
         update_entry_flags();
         if (func_8001991C(kind, value) != 0) {
-            func_8001A5CC(0x943);
+            func_8001A5CC(F_sbs32_pad25);
             return 1;
         }
     }

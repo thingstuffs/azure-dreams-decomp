@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 check_inputs_after_threshold_two(s32);
@@ -14,7 +15,7 @@ s32 select_data_by_mode_and_index(s32 unused0, s32 unused1, s32 selector) {
 
     if (selector == 8) {
         result = check_inputs_after_threshold_two(D_80019760[D_8001967C]);
-        func_800193E0(0x147A);
+        func_800193E0(Ft_paty_love);
     } else if (selector == 1) {
         if (D_8001967C != 3) {
             result = (s32)D_8001DE58;

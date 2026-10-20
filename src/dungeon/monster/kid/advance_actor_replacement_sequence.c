@@ -176,7 +176,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
         ((S_80174B20_1 *)actor)->unk_8A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
         ((S_80174B20_1 *)actor)->unk_1C = (s32) (((S_80174B20_1 *)actor)->unk_1C & 0xFFFBFFFF);
     case 2:
-        direction = ((s32) (g_game_work.view.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
         if ((*(u8 *)&D_8017521C) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
@@ -208,12 +208,12 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
         }
         color_index = lookup_masked_byte_table(actor);
         target_color = D_800DCEEC[color_index];
-        scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (target_color->unk_00
-            - scene_color->view.unk_090) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
-        scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (target_color->unk_01
-            - scene_color->view.unk_091) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
-        scene_color->view.unk_092 = (u8) (scene_color->view.unk_092 + ((s32) (target_color->unk_02
-            - scene_color->view.unk_092) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
+        scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (target_color->unk_00
+            - scene_color->view.tint.parts.tint_r) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
+        scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (target_color->unk_01
+            - scene_color->view.tint.parts.tint_g) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
+        scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (target_color->unk_02
+            - scene_color->view.tint.parts.tint_b) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
         return;
     case 4:
         effect = func_8003FC64(0x12);
@@ -289,7 +289,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
         ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
         replacement = ((S_80174B20_1 *)actor)->unk_60;
         sprite = ((S_80174B20_11_pre *)replacement)[-1].unk_00;
-        select_indirect_table_entry((struct S_80047738 *)(sprite), sprite->unk_2C[((s32) (g_game_work.view.viewAngle
+        select_indirect_table_entry((struct S_80047738 *)(sprite), sprite->unk_2C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
             + (s16) ((S_80174B20_11 *)replacement)->unk_2A + 0x100) >> 9) & 7], sprite->unk_04);
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
     case 8:
@@ -302,9 +302,9 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
         ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_8A;
         ((S_80174B20_0_pre *)state)[-1].unk_00 = (u16) (((S_80174B20_0_pre *)state)[-1].unk_00 | 0x8000);
         global_flags = globals_base->unk_14A0;
-        active_count = ((u16)g_dungeon_status.unk_0A);
+        active_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         globals_base->unk_14A0 = global_flags | 0x8000;
-        g_dungeon_status.unk_0A = active_count - 1;
+        g_dungeon_status.activity_counts.parts.pending_action_count = active_count - 1;
         ((S_80174B20_1 *)actor)->unk_6D = 0;
         return;
     default:

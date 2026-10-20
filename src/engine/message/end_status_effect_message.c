@@ -136,7 +136,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
 
             if (g_dungeon_status.flags & 0x1000) {
                 if (ent->x71 > (s16)ent->x8A) {
-                    g_dungeon_status.unk_08 -= (ent->x71 - ent->x8A);
+                    g_dungeon_status.activity_counts.parts.pending_movement_count -= (ent->x71 - ent->x8A);
                 }
             }
             update_actor_status_and_food(spawn_result_2);
@@ -169,7 +169,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
                         *(int *)((u8 *)spawn_result_2 - 0x14), spawn_result_2);
                 } else {
                     if (spawn_result_2->x25 == 0) {
-                        g_dungeon_status.unk_0A += 1;
+                        g_dungeon_status.activity_counts.parts.pending_action_count += 1;
                         spawn_result_2->x1C &= ~0x8;
                     }
                 }

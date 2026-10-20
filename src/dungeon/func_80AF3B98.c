@@ -25,7 +25,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
         s32 direction;
         u16 angle;
 
-        direction = ((g_game_work.view.viewAngle + ((R10_80175398_S_80175398_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80175398_S_80175398_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         angle = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
         if (((u8 *)D_80175A80)[0] == 0 || direction != 2) {
             if (direction == 2) {
@@ -161,7 +161,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
             u8 *direction_frames;
 
             object_data = ((R10_80175398_S_80175398_5_pre *)linked_state)[-1].unk_00;
-            direction = ((g_game_work.view.viewAngle + ((R10_80175398_S_80175398_5 *)linked_state)->unk_2A + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80175398_S_80175398_5 *)linked_state)->unk_2A + 0x100) >> 9) & 7;
             direction_frames = ((R10_80175398_S_80175398_2 *)object_data)->unk_2C;
             select_indirect_table_entry(object_data, direction_frames[direction], ((R10_80175398_S_80175398_2 *)object_data)->unk_04);
         }
@@ -180,7 +180,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
             ((R10_80175398_S_80175398_7 *)(((R10_80175398_S_80175398_1 *)actor)->unk_60))->unk_2A = ((R10_80175398_S_80175398_1 *)actor)->unk_8A;
             ((R10_80175398_S_80175398_0_pre *)transition)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= 0x8000;
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
     }
         ((R10_80175398_S_80175398_1 *)actor)->unk_6D = 0;

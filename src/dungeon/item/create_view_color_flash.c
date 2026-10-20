@@ -39,8 +39,8 @@ void create_view_color_flash(s32 payload, s16 trigger_event) {
         if ((held_event << 0x10) != 0) {
             play_sound_if_enabled(0x501);
         }
-        g_dungeon_status.unk_0A =
-            (u16)(((u16)g_dungeon_status.unk_0A) + 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count =
+            (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     }
 }
 

@@ -143,7 +143,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
                 u32 direction_index;
 
                 sprite->directionFrames = direction_frames;
-                direction_index = ((g_game_work.view.viewAngle +
+                direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle +
                     entity->facing + 0x100) >> 9) & 7;
                 /* Keep the integer addition order used by the retail compiler. */
                 select_sprite_entry(sprite,
@@ -181,7 +181,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
                 if (sprite->directionFrames != D_80163258) {
                     sprite->directionFrames = D_80163258;
                     select_sprite_entry(sprite,
-                        D_80163258[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                        D_80163258[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 action->behavior = state;
@@ -192,7 +192,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
             switch (action->effectState.signedPhase) {
             case 0:
                 if (sprite->directionFrames != D_801632A0) {
-                    g_dungeon_status.unk_0A++;
+                    g_dungeon_status.activity_counts.parts.pending_action_count++;
                     action->saved.facing = (u16)(entity->facing);
                     entity->facing =
                         (entity->unk_6A + 0x800) & 0xFFF;
@@ -209,7 +209,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
                 action->effectTicks = timer;
                 if ((s16)timer <= 0 ||
                     entity->unk_64 != 0) {
-                    g_dungeon_status.unk_0A--;
+                    g_dungeon_status.activity_counts.parts.pending_action_count--;
                     motion->unk_10 = 0;
                     motion->unk_0C = 0;
                     set_record_integer_tile_center(motion,
@@ -222,7 +222,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
                     action->effectState.phase++;
                     sprite->directionFrames = D_801632A0;
                     select_sprite_entry(sprite,
-                        D_801632A0[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                        D_801632A0[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     action->effectTicks = 0;
                     return;
@@ -330,7 +330,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
                 timer = action->effectTicks - 1;
                 action->effectTicks = timer;
                 if ((s16)timer <= 0) {
-                    g_dungeon_status.unk_0A--;
+                    g_dungeon_status.activity_counts.parts.pending_action_count--;
                     motion->unk_10 = 0;
                     motion->unk_0C = 0;
                     set_record_integer_tile_center(motion,
@@ -339,7 +339,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
                     entity->facing = action->saved.facing;
                     sprite->directionFrames = D_80163258;
                     select_sprite_entry(sprite,
-                        D_80163258[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                        D_80163258[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     action->effectState.phase = 0;
                     return;
@@ -375,7 +375,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
             update_actor_status_and_food(entity);
             return;
         }
-        if (sprite->position.packed == ((TilePairView *)&D_80082E80.tileX)->packed) {
+        if (sprite->position.packed == ((TilePairView *)&D_80082E80.tile_position.parts.tile_x)->packed) {
             func_8015FB68(action, motion, sprite, entity);
             return;
         }
@@ -422,7 +422,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
 
             facing_angle = get_rounded_facing_and_rounding_flag(
                 sprite->position.tile.x, sprite->position.tile.y,
-                D_80082E80.tileX, D_80082E80.tileY,
+                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                 &facing_aux);
             player = D_800814A8[0];
             entity->facing = facing_angle;
@@ -461,10 +461,10 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
 
                     if ((s16)compare_monster_neighbor_values(
                             sprite->position.tile.x, sprite->position.tile.y,
-                            D_80082E80.tileX, D_80082E80.tileY) != 0) {
+                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
                         entity->facing = get_rounded_facing_and_rounding_flag(
                             sprite->position.tile.x, sprite->position.tile.y,
-                            D_80082E80.tileX, D_80082E80.tileY,
+                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
                             &facing_aux);
                     }
                 }
@@ -481,7 +481,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
             u32 direction_index;
 
             sprite->directionFrames = direction_frames;
-            direction_index = ((g_game_work.view.viewAngle +
+            direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle +
                 entity->facing + 0x100) >> 9) & 7;
             /* Keep the integer addition order used by the retail compiler. */
             select_sprite_entry(sprite,

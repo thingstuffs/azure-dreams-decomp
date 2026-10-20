@@ -376,7 +376,7 @@ void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip
     void *call_order_table;
     s32 call_param;
 
-    draw_page = g_game_work.unk_000;
+    draw_page = g_game_work.draw_buffer;
     pos_or_ot = screen_pos;
     clip_packet = ((Row_818ED25C_S_80024A5C_0 *)draw_page)->unk_8D0;
     offset_y = draw_page != (void *)D_801C9E40;
@@ -384,7 +384,7 @@ void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip
     saved_param = draw_param;
     clear_enabled = clear_rect;
     page_ptr = &g_game_work;
-    func_80067E2C(clip_packet, g_game_work.unk_000);
+    func_80067E2C(clip_packet, g_game_work.draw_buffer);
     tag_mask = 0xFF000000U;
 
     ((Row_818ED25C_S_80024A5C_1 *)clip_packet)->unk_00 = (((Row_818ED25C_S_80024A5C_1 *)clip_packet)->unk_00 & tag_mask) |
@@ -409,7 +409,7 @@ void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip
     if (clear_enabled != 0) {
         u8 *fill_packet;
 
-        packet_page = g_game_work.unk_000;
+        packet_page = g_game_work.draw_buffer;
         fill_packet = packet_page->unk_8D0;
         packet_page->unk_8D0 = fill_packet + 0x10;
         ((Row_818ED25C_S_80024A5C_4 *)fill_packet)->unk_04 = 0x60000000;
@@ -427,7 +427,7 @@ void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip
                             ((u32)fill_packet & 0x00FFFFFFU);
     }
 
-    packet_page = page_ptr->unk_000;
+    packet_page = page_ptr->draw_buffer;
     clip_packet = packet_page->unk_8D0;
     packet_page->unk_8D0 = clip_packet + 0xC;
     func_80067E2C(clip_packet, clip_rect);

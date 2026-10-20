@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "shared/town_pointees.h"
 #include "shared/town_root.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -26,7 +27,7 @@ void func_8059E540(void) {
     void *new_value;
     Rec_D_80016000 *state;
 
-    if (func_80018964(0x11FC) == 0) {
+    if (func_80018964(Fp_pool_open) == 0) {
         u8 *page = (u8 *)0x80010000;
         ((s32 (*)(s32))((TownServiceTable *)(((Rec_D_80016000 *)(((S_8059E540_2 *)page)->unk_6000))->unk_20))->callback_27C)(0);
         ((s32 (*)(s32, s32))((TownServiceTable *)(((Rec_D_80016000 *)(((S_8059E540_2 *)page)->unk_6000))->unk_20))->callback_2F4)(-1, -5);

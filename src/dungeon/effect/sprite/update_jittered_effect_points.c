@@ -153,8 +153,8 @@ void func_80024020(void *sequence, void *out_position)
         ((S_func_819A6800_5 *)(out_position))->unk_08.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.u;
 
         new_object = scan_monster_along_heading(reloaded_object,
-                                   D_80082E80.tileX,
-                                   D_80082E80.tileY,
+                                   D_80082E80.tile_position.parts.tile_x,
+                                   D_80082E80.tile_position.parts.tile_y,
                                    reloaded_object->unk_2A,
                                    7);
         owner->unk_60.p = new_object;
@@ -273,7 +273,7 @@ void func_80024020(void *sequence, void *out_position)
                           owner,
                           2);
         }
-        if ((D_80082E80.unk_014 & 0x8000) == 0 &&
+        if ((D_80082E80.sprite_flags & 0x8000) == 0 &&
             SELF->unk_50.s >= 0) {
             return;
         }
@@ -303,8 +303,8 @@ void func_80024020(void *sequence, void *out_position)
         }
     }
         {
-            g_dungeon_status.unk_0C = 0;
-            g_dungeon_status.unk_0A--;
+            g_dungeon_status.active_actor = 0;
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         ((S_func_819A6800_6 *)((u8 *)SELF - 2))->unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
@@ -403,7 +403,7 @@ void func_800244BC(void *object, S_800244BC_2 *position, s32 context) {
         ((S_800244BC_0 *)object)->unk_4C = (s16) ((u16) ((S_800244BC_0 *)object)->unk_4C + 1);
                         /* fall through */
     case 1:
-        if (resolve_record_orientation_or_fallback(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(D_80082E80.sprite_source, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
             func_800478B8(context);
             position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i)
                 - position->unk_00.at02.v) << 0xE));
@@ -440,7 +440,7 @@ void func_800244BC(void *object, S_800244BC_2 *position, s32 context) {
         }
         break;
     case 2:
-        if (resolve_record_orientation_or_fallback(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(D_80082E80.sprite_source, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
             func_800478B8(context);
             position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i)
                 - position->unk_00.at02.v) << 0xF));
@@ -520,7 +520,7 @@ void update_jittered_effect_points(void *effect) {
     ((S_80024810_0 *)effect)->unk_04 = (u16) D_80083780.x.w.i;
     ((S_80024810_0 *)effect)->unk_06 = (u16) D_80083780.y.w.i;
     ((S_80024810_0 *)effect)->unk_08 = (u16) D_80083780.z.w.i;
-    if (resolve_record_orientation_or_fallback(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), coord_delta, 0) != 0) {
+    if (resolve_record_orientation_or_fallback(D_80082E80.sprite_source, ((s32 *)(&D_80082E80)), coord_delta, 0) != 0) {
         ((S_80024810_0 *)effect)->unk_04 = (u16) (((S_80024810_0 *)effect)->unk_04 + coord_delta[0]);
         ((S_80024810_0 *)effect)->unk_06 = (u16) (((S_80024810_0 *)effect)->unk_06 + coord_delta[1]);
         ((S_80024810_0 *)effect)->unk_08 = (u16) (((S_80024810_0 *)effect)->unk_08 + coord_delta[2]);

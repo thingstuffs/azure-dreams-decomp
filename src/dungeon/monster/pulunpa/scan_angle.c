@@ -80,8 +80,8 @@ s32 select_nearby_target_and_start_action(void *action_state, void *unused, void
     }
     }
     if ((target != NULL) && (reference_found & 0xFFFF)) {
-        reference_found = (s16) (g_dungeon_status.unk_0A + 1);
-        g_dungeon_status.unk_0A = reference_found;
+        reference_found = (s16) (g_dungeon_status.activity_counts.parts.pending_action_count + 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = reference_found;
         ((EntityRec *)actor)->target = target;
         update_actor_status_and_food(target);
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;
@@ -92,7 +92,7 @@ s32 select_nearby_target_and_start_action(void *action_state, void *unused, void
             ((S_80175E6C_1 *)actor_pos_arg)->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24,
             ((S_80175E6C_5 *)target_pos)->unk_25, &distance);
         ((Rec_D_80082E80 *)actor_pos_arg)->unk_2C.as_pu8 = D_80176348;
-        select_sprite_entry(actor_pos_arg, D_80176348[((s32) (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+        select_sprite_entry(actor_pos_arg, D_80176348[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7], 0);
         build_and_display_encoded_message(actor);
         result = 1;

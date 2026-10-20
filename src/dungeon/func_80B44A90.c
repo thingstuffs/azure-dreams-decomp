@@ -17,7 +17,7 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
         ((SpriteFrameState *)map_actor)->frameTable = ((u8 *)D_80175A6C);
         select_sprite_entry(
             map_actor,
-            ((u8 *)D_80175A6C)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80175A6C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((R12_80172290_S_80172290_0 *)action)->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFF00000;
@@ -63,7 +63,7 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
             ((SpriteFrameState *)map_actor)->frameTable = ((u8 *)D_80175A74);
             select_sprite_entry(
                 map_actor,
-                ((u8 *)D_80175A74)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                ((u8 *)D_80175A74)[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((R12_80172290_S_80172290_0 *)action)->unk_9B++;
         }
@@ -83,11 +83,11 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
             u32 count;
             s32 signed_count;
 
-            signed_count = g_dungeon_status.unk_08;
-            count = ((u16)g_dungeon_status.unk_08);
+            signed_count = g_dungeon_status.activity_counts.parts.pending_movement_count;
+            count = ((u16)g_dungeon_status.activity_counts.parts.pending_movement_count);
 
             if (signed_count != 0) {
-                g_dungeon_status.unk_08 = count - 1;
+                g_dungeon_status.activity_counts.parts.pending_movement_count = count - 1;
             }
         }
 
@@ -101,7 +101,7 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
 
                 ((EntityRec *)actor)->facing = ((s16)get_rounded_facing_and_rounding_flag(
                     ((SpriteFrameState *)map_actor)->unk_24, ((SpriteFrameState *)map_actor)->unk_25,
-                    D_80082E80.tileX, D_80082E80.tileY, &target_distance));
+                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &target_distance));
             }
         }
 

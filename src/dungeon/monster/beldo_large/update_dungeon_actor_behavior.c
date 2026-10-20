@@ -184,7 +184,7 @@ void update_dungeon_actor_behavior(void *effect) {
         U16_AT(effect, 0x12) = next_state + 1;
         return;
     case 3:
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         U16_AT(effect, -2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
 

@@ -8,8 +8,7 @@ typedef struct S_80025494_0 {
 } S_80025494_0;   /* arg0 in card_boot_enter_copying_progress; pointer addresses record offset 0x10 */
 
 
-void card_boot_show_copying_progress();                    /* extern */
-void card_boot_wait_before_copying_slot(void *record_data);
+#include "frontend/libcard/interfaces.h"
 
 /* Sets two state fields, initializes embedded data, and assigns the record pointer. */
 void card_boot_enter_copying_progress(void *object_data) {

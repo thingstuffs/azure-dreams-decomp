@@ -168,7 +168,7 @@ void advance_damage_effect_and_particles(void *effect, s32 context, void *record
     case 4:
         ((S_800CABA8_0 *)effect)->unk_A0.at02.v = 0U;
         set_record_integer_tile_center(context, ((SpriteFrameState *)record)->unk_24, ((SpriteFrameState *)record)->unk_25);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         ((S_800CABA8_2 *)actor_state)->unk_46 = (u16) ((((S_800CABA8_2 *)actor_state)->unk_46) & 0x7FFF);
         advance_status_timers(actor_state);
         cycles_left = ((S_800CABA8_0 *)effect)->unk_B6 - 1;

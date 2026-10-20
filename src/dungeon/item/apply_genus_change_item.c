@@ -121,6 +121,6 @@ s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
     }
 
     clear_slot_and_update_linked_state(event);
-    g_dungeon_status.unk_0A -= 1;
+    g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
     return 1;
 }

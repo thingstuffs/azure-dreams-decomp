@@ -81,7 +81,7 @@ void advance_directional_attack_sequence(void *action, void *position, void *spr
                 ((R10_80174898_S_80174898_2 *)sprite)->unk_2C = ((u8 *)D_80175988);
                 ((R10_80174898_S_80174898_2 *)sprite)->unk_14 &= 0xF7FF;
                 select_sprite_entry(sprite,
-                    ((R10_80174898_S_80174898_2 *)sprite)->unk_2C[((g_game_work.view.viewAngle +
+                    ((R10_80174898_S_80174898_2 *)sprite)->unk_2C[((g_game_work.view.camera_rotation.parts.viewAngle +
                         entity->facing + 0x100) >> 9) & 7],
                     0);
                 ((R10_80174898_S_80174898_0 *)action)->unk_9B++;
@@ -92,7 +92,7 @@ void advance_directional_attack_sequence(void *action, void *position, void *spr
     case 3:
         reduce_actor_food_meter(entity, 0x400);
         ((R10_80174898_S_80174898_0 *)action)->unk_8C = ((void *)func_801717F4);
-        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.active_actor = 0;
         (entity->unk_46) &= 0x7FFF;
         break;
     }

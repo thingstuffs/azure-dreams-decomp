@@ -127,7 +127,7 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
             ((TrailMotion *)motion)->unk_14;
         sprite_flags = ((S_80170B64_2 *)sprite_arg)->unk_14;
         if (!(sprite_flags & 0x8000)) {
-            view_direction = ((g_game_work.view.viewAngle + ((S_80170B64_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
+            view_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170B64_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
             if (((S_80170B64_0 *)actor)->unk_94 != view_direction) {
                 select_indirect_table_entry(sprite_arg,
                     *(((u8 *)((S_80170B64_2 *)sprite_arg)->unk_2C.p) + view_direction),

@@ -94,7 +94,7 @@ s16 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle,
         }
     }
     if (self->status98 & 1) {
-        slot = g_dungeon_status.unk_1E & 3;
+        slot = g_dungeon_status.turn_counter & 3;
         for (slots_checked = 0; slots_checked < 3; slots_checked++, slot++) {
             if (slot == 3) {
                 slot = 0;

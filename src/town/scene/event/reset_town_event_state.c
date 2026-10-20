@@ -1,3 +1,4 @@
+#include "script_symbols.h"
 #include "common.h"
 
 extern s32 func_800188E4();
@@ -18,7 +19,7 @@ void reset_town_event_state(void) {
         func_800188E4(entryValue);
     } while (entryCount < 7);
 
-    func_800188E4(0x60E);
-    func_800188E4(0x606);
-    func_800188E4(0x611);
+    func_800188E4(F_sbs13_pad21);
+    func_800188E4(F_sbs13_pad13);
+    func_800188E4(F_sbs13_pad24);
 }
