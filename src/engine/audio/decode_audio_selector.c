@@ -1,6 +1,6 @@
 #include "common.h"
 
-#include "common.h"
+
 
 extern s32 test_sound_channel_availability(s16 bit_index);
 extern void sound_start_scaled_primary_and_secondary_voices(s32 a0, s32 a1);

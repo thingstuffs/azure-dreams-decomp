@@ -1,5 +1,5 @@
 #include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
-#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
+
 
 void func_80024028(void *target, s32 effect_param) {
     s32 base_gain;
@@ -19,7 +19,6 @@ void func_80024028(void *target, s32 effect_param) {
     }
 }
 
-#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 
 void func_800240C4(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
                    Row_818A48C4_Func818A48C4Object *target) {
@@ -35,7 +34,6 @@ void func_800240C4(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
         func_8003DB94(target, D_80025238, 0);
     }
 }
-#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 
 void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords) {
     Row_818A4948_S_func_818A4948_0 *obj;
@@ -64,7 +62,6 @@ void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A494
     }
     return 0;
 }
-#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 
 void func_80024230(void **object_ref, long long value) {
     void *object;
@@ -77,7 +74,6 @@ void func_80024230(void **object_ref, long long value) {
     *counter = (u16)(*counter + 1);
     func_800478B8(low_value);
 }
-#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 
 void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position) {
     Row_818A4A64_S_818A4A64_1 *render_state;
@@ -105,7 +101,6 @@ void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4
     }
     return NULL;
 }
-#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 
 void func_80024340(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 *position, Rec_D_80082E80 *object) {
     s16 angle;
@@ -133,7 +128,6 @@ void func_80024340(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 
         func_8003DB94(object, &D_800DECF8, 0);
     }
 }
-#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 
 s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A4CA0_S_818A4CA0_2 *origin, s16 effect_param, s16 frame_index) {
     s32 result;
@@ -185,7 +179,6 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A
     return result;
 }
 
-#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 
 void func_80024674(void **object_ref, s32 unused, Row_818A4E74_S_func_818A4E74_1 *target) {
     s32 random_value;
@@ -198,7 +191,6 @@ void func_80024674(void **object_ref, s32 unused, Row_818A4E74_S_func_818A4E74_1
     random_quotient = random_value / 0x1000;
     target->unk_1A = (s16)(random_value - (random_quotient << 12));
 }
-#include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 
 s32 create_randomly_rotated_effect(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *spawn_position) {
     s32 rotation_rng;

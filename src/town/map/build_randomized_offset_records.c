@@ -43,7 +43,5 @@ void build_randomized_offset_records(void *origin, void *spread, s32 count) {
     }
 }
 
-/* MECHANISM: One escaping 24-byte record preserves the fields at
-   sp+0x12/+0x16/+0x1A/+0x26 and forces the retail 0x40 frame. Guarded pins hold
-   ranges in s1 and the counter in s0; last-use ASM_KEEP leaves the prologue slot free.
-   Loading record.z before storing -4 produces retail's lhu-v1 then li-v0 order. */
+/* MECHANISM: One escaping 24-byte record preserves the fields at sp+0x12/+0x16/+0x1A/+0x26 and forces
+   the retail 0x40 frame. Loading record.z before storing -4 produces retail's lhu-v1 then li-v0 order. */

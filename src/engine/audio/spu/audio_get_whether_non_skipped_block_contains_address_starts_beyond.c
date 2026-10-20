@@ -1,6 +1,6 @@
 #include "engine/audio/spu/sound_range_records.h"
 
-#include "engine/audio/spu/sound_range_records.h"
+
 
 /* Initializes and publishes the record-list head for a positive count, returning the count or zero. */
 s32 func_8005D838(s32 count, S_800799BC *record) {
@@ -18,7 +18,6 @@ s32 func_8005D838(s32 count, S_800799BC *record) {
         return result;
     }
 }
-#include "engine/audio/spu/sound_range_records.h"
 
 /* Returns whether a non-skipped block contains the address or starts at or beyond it. */
 s32 audio_get_whether_non_skipped_block_contains_address_starts_beyond(u32 address) {
@@ -55,7 +54,6 @@ s32 audio_get_whether_non_skipped_block_contains_address_starts_beyond(u32 addre
     } while (1);
     return 0;
 }
-#include "engine/audio/spu/sound_range_records.h"
 
 /* Returns whether the shifted value precedes or lies within an active list entry range. */
 s32 func_8005D9DC(u32 value)

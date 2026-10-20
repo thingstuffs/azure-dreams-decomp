@@ -1,5 +1,5 @@
 #include "dungeon/monster/metal/queue_linked_render_packets.h"
-#include "dungeon/monster/metal/queue_linked_render_packets.h"
+
 
 /* Builds render packets for linked entries and inserts them into the ordering table. */
 s32 queue_linked_render_packets(u8 *entry_data, u16 *position)

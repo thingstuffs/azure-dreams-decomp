@@ -1,5 +1,5 @@
 #include "dungeon/effect/sprite/advance_timed_visual_effect.h"
-#include "dungeon/effect/sprite/advance_timed_visual_effect.h"
+
 
 void func_800246F8(void *state_data, s32 unused, void *scale_data)
 {
@@ -22,7 +22,6 @@ void func_800246F8(void *state_data, s32 unused, void *scale_data)
 /* MECHANISM: Frameless leaf; pin the persistent arg0 pointer in $a1.
    Hold the signed halfword reload in a pinned s32 $a0 local: this selects
    retail's direct lh/bgtz and avoids the s16 pin's extra lhu/sll pair. */
-#include "dungeon/effect/sprite/advance_timed_visual_effect.h"
 
 void func_80024750(void *object) {
     u16 *flags = (u16 *)object - 1;
@@ -31,7 +30,6 @@ void func_80024750(void *object) {
     *flags |= 0x8000;
     object_flag_block.flags |= 0x8000;
 }
-#include "dungeon/effect/sprite/advance_timed_visual_effect.h"
 
 void advance_timed_visual_effect(void *state, void *position, void *visual) {
     void *object;
@@ -79,7 +77,6 @@ void advance_timed_visual_effect(void *state, void *position, void *visual) {
         ((Row_818FEF80_S_818FEF80_4 *)linked_visual)->unk_14 = linked_flags & 0xFF7F;
     }
 }
-#include "dungeon/effect/sprite/advance_timed_visual_effect.h"
 
 void update_tiled_fade_effect(void *effect, void *offset_state, void *render_state) {
     Row_818FF19C_Rect8 moving_rect;
@@ -199,7 +196,6 @@ void update_tiled_fade_effect(void *effect, void *offset_state, void *render_sta
         ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_14 |= 0x80;
     }
 }
-#include "dungeon/effect/sprite/advance_timed_visual_effect.h"
 
 void func_80024DB8(void **owner_ref, Row_818FF5B8_S_818FF5B8_4 *spawn_pos, Row_818FF5B8_S_818FF5B8_5 *appearance) {
     Row_818FF5B8_S_818FF5B8_2 *sprite;

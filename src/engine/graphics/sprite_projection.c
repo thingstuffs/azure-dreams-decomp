@@ -1,10 +1,11 @@
 #include "slus/gp_shared_81510.h"
+#include "common.h"
+#include "shared/scratchpad.h"
+
 
 /* Inferred present ownership of the retail zero word. */
 s32 D_80081510 = 0;
 
-#include "common.h"
-#include "slus/gp_shared_81510.h"
 
 /* set to 0 at entry and again on the "list exhausted" exit path */
 extern s32 D_80081510;
@@ -43,6 +44,19 @@ typedef struct {
 } S_80045340_HwFlag;
 
 /* Processes unflagged entries across groups until the stop condition or end of the chain. */
+extern void *D_80083160[3];
+extern u32 D_8006CD30[8];
+extern s32 D_80081510;
+extern u32 RotTransPers(void *, void *, void *, void *);
+extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void RotMatrix(void *, void *);
+extern void ScaleMatrix(void *, void *);
+extern void CompMatrix(void *, void *, void *);
+extern void SetTransMatrix(void *);
+extern void SetRotMatrix(void *);
+
 s32 project_sprite_chain(void *group_data, s32 context, S_80045340_Entry *entry, s32 unused)
 {
     void *current_data = group_data;
@@ -70,9 +84,6 @@ s32 project_sprite_chain(void *group_data, s32 context, S_80045340_Entry *entry,
         current_entry = next_group->unk0C;
     }
 }
-#include "common.h"
-#include "shared/scratchpad.h"
-#include "slus/gp_shared_81510.h"
 
 typedef struct Command Command;
 typedef struct Packet Packet;
@@ -152,19 +163,7 @@ typedef struct OtTag {
 
 typedef s32 (*CommandFn)(void *, void *, Entry *, Command *, Packet *);
 
-extern void *D_80083160[3];
-extern u32 D_8006CD30[8];
-extern s32 D_80081510;
 
-extern u32 RotTransPers(void *, void *, void *, void *);
-extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void RotMatrix(void *, void *);
-extern void ScaleMatrix(void *, void *);
-extern void CompMatrix(void *, void *, void *);
-extern void SetTransMatrix(void *);
-extern void SetRotMatrix(void *);
 
 #define SP8(base, off)  ((base)->b[(off)])
 #define SPS8(base, off) ((base)->sb[(off)])

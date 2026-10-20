@@ -70,6 +70,4 @@ void update_orbital_motion_effect(void *motion, S_818BD3B0_2 *position, Rec_D_80
     }
 }
 
-/* MECHANISM: Preserve the seed's exact 0x20 frame and s0/s2/s1 lifetime shape.
-   The zero-argument advance_timed_visual edge is noreturn, enabling LEAD 18 to replace
-   jal-plus-epilogue with retail's tail j while retaining the global store slot. */
+/* MECHANISM: Preserve the seed's exact 0x20 frame and s0/s2/s1 lifetime shape. */

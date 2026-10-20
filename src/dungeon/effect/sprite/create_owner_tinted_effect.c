@@ -119,7 +119,5 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data
     return 0;
 }
 
-/* MECHANISM: The natural 0x20 frame holds owner/object/initial_data in s0/s1/s2.
-   A v1 flags accumulator plus a separate v0 flags word prevents OR fusion;
-   pinned a0/v0 lifetimes and a fence place li before the callback la pair,
-   while the kept destination and v0 result preserve the retail tail ABI. */
+/* MECHANISM: The natural 0x20 frame holds owner/object/initial_data in s0/s1/s2. A v1 flags accumulator
+   plus a separate v0 flags word prevents OR fusion. */

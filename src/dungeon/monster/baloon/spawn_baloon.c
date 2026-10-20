@@ -124,6 +124,5 @@ void *spawn_baloon(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     }
     return work;
 }
-/* MECHANISM: A matched sibling supplied the shared RMW/write and call-merge CFG.
-   Narrow args stay in s6/s2/s5; guarded v0/v1 and a0/a1 pins preserve ABI lifetimes.
-   Pointer locals naturally produce the 0x38 frame, held bases, joins, and delay slots. */
+/* MECHANISM: A matched sibling supplied the shared RMW/write and call-merge CFG. Narrow args stay in
+   s6/s2/s5; pointer locals naturally produce the 0x38 frame, held bases, joins, and delay slots. */

@@ -74,6 +74,5 @@ void spawn_random_velocity_offset_effect(void *state, MovingPosition *position, 
     }
 }
 
-/* MECHANISM: StackWork fixes the 0x40 frame and the s2/s1/s0 stack-output roles.
-   A retained 0x80080000 page base yields the displaced angle/global accesses.
-   The table pointer stays in a1; only the tail page live range is pinned to v1. */
+/* MECHANISM: StackWork fixes the 0x40 frame and the s2/s1/s0 stack-output roles. A retained 0x80080000
+   page base yields the displaced angle/global accesses. The table pointer stays in a1. */

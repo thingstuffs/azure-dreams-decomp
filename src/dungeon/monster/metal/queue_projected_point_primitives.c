@@ -1,5 +1,5 @@
 #include "dungeon/monster/metal/queue_projected_point_primitives.h"
-#include "dungeon/monster/metal/queue_projected_point_primitives.h"
+
 
 /* Adds projected point primitives and draw-mode packets to the ordering table. */
 s32 queue_projected_point_primitives_2(u8 *object_data, u16 *point_data)

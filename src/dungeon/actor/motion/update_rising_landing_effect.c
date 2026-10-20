@@ -7,6 +7,10 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "records/Rec_D_80082E80.h"
+#include "shared/sprite_source.h"
+#include "m2c_compat.h"
+
 
 typedef struct S_FUNC_8197C800_BODY_0_pre {
     u16 unk_00;
@@ -151,6 +155,16 @@ extern s32 func_80053EF0(s32);
 extern s32 func_80069EF8(void);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, void *, s32);
 
+void update_directional_actor_effect(void *input, void *output);
+extern int abs(int);
+extern s32 D_800DEA68[];
+extern s32 resolve_record_orientation_or_fallback(void *entry, void *table, void *scratch, s32 a3);
+extern s32 func_800644B8(s32 angle);
+extern s32 func_80069EF8(void);
+extern u8 D_800DED70[];
+s32 func_80069EF8();                          /* extern */
+extern M2C_UNK D_800DE990;
+
 static __inline__ s32 jitter_coordinate_64(s32 grid, s32 random)
 {
     return (grid << 6) + random % 64;
@@ -164,7 +178,6 @@ static __inline__ s32 jitter_coordinate_32(s32 grid, s32 random)
     return scaled + jitter;
 }
 
-void update_directional_actor_effect(void *input, void *output);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
@@ -481,14 +494,6 @@ store_state:
     object_flag_block.flags |= 0x8000;
     }
 }
-#include "modules/dungeon_ovl_199c800.h"
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/tile_object.h"
-#include "shared/entity_objects.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
-extern int abs(int);
 
 typedef union {
     s32 word;
@@ -558,11 +563,7 @@ typedef struct {
     void *entry;
 } EntryTable;
 
-extern s32 D_800DEA68[];
 
-extern s32 resolve_record_orientation_or_fallback(void *entry, void *table, void *scratch, s32 a3);
-extern s32 func_800644B8(s32 angle);
-extern s32 func_80069EF8(void);
 
 /* Advance the actor animation, move toward the entry position, and spawn trailing particles. */
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor *actor, Vec3 *target, Sprite *sprite) {
@@ -703,10 +704,6 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
         }
     }
 }
-#include "modules/dungeon_ovl_199c800.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "records/Rec_D_80082E80.h"
 
 typedef struct S_8197D3B8_0 {
     s32 unk_00;
@@ -756,14 +753,6 @@ void func_80024BB8(void *render_entry, void *motion_data, void *render_status)
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "modules/dungeon_ovl_199c800.h"
-#include "shared/sprite_source.h"
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/entity_objects.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
 
 typedef struct S_8197D468_0_pre {
     u16 unk_00;
@@ -851,9 +840,6 @@ typedef struct S_8197D468_9 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_800DED70[];
-s32 func_80069EF8();                          /* extern */
-extern M2C_UNK D_800DE990;
 
 /* Update a rising, expanding, and falling effect, spawning particles on landing. */
 void update_rising_landing_effect(void *effect, void *motion, void *sprite) {

@@ -1,5 +1,5 @@
 #include "dungeon/monster/death/queue_linked_object_draw_packets.h"
-#include "dungeon/monster/death/queue_linked_object_draw_packets.h"
+
 
 s32 queue_linked_object_draw_packets(u8 *item, u16 *coords)
 {

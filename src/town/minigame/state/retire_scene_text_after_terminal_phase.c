@@ -41,4 +41,4 @@ void retire_scene_text_after_terminal_phase(void *context) {
 }
 
 /* MECHANISM: Frameless leaf with an explicit dispatch, state 0 before state 1, and a shared return.
-   A zero-word scheduling barrier preserves the common epilogue; width-accurate fields keep RMW order. */
+   Width-accurate fields keep RMW order. */

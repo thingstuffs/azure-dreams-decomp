@@ -115,5 +115,5 @@ void fade_remove_entity_and_update_tile(void *fade_state, void *unused, void *vi
 }
 
 /* MECHANISM: A natural three-case switch preserves the retail dispatch and fallthrough block order.
-   A guarded s1 arg2 hold fixes the s0/s1/s2 frame roles; true-space targets remain local joins.
-   Direct D_80083460+0xA access schedules the page base, and u16 0xFF80 selects the ori encoding. */
+   True-space targets remain local joins. Direct D_80083460+0xA access schedules the page base, and u16
+   0xFF80 selects the ori encoding. */

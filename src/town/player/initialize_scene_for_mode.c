@@ -1,6 +1,6 @@
 #include "town/player/initialize_scene_for_mode.h"
 
-#include "town/player/initialize_scene_for_mode.h"
+
 
 /* Initialize the town scene and configure its object for the current mode. */
 void initialize_scene_for_mode(void)
@@ -95,7 +95,6 @@ void initialize_scene_for_mode(void)
         }
     }
 }
-#include "town/player/initialize_scene_for_mode.h"
 
 /* Synchronizes the mode flag, updates state, and runs the pending callback. */
 void synchronize_mode_and_pending_callback(void) {
@@ -144,32 +143,27 @@ void synchronize_mode_and_pending_callback(void) {
         }
     }
 }
-#include "town/player/initialize_scene_for_mode.h"
 
 /* Initialize the global record using its preceding value and D_800D0178. */
 void initialize_global_scene_record(void) {
     s32 *record = &D_800834B8;
     call_the_handler_selects_nonzero_entry(&D_800D0178, record, ((func_80092C18_S_80090378_0 *)((u8 *)record - 0x14))->unk_00);
 }
-#include "town/player/initialize_scene_for_mode.h"
 
 /* plt_init_sleep_set: set the sleep initialization pointer. */
 void plt_init_sleep_set(void) {
     D_800D0438 = &initialize_global_scene_record;
 }
-#include "town/player/initialize_scene_for_mode.h"
 
 /* Initialize the town scene and its render state. */
 void initialize_scene_render_state(void) {
     initialize_scene_for_mode();
 }
-#include "town/player/initialize_scene_for_mode.h"
 
 /* Initialize the town scene and its render object. */
 void initialize_scene_render_object(void) {
     initialize_scene_for_mode();
 }
-#include "town/player/initialize_scene_for_mode.h"
 
 /* Rebuild the town menu's node list for the current mode and hand it to the drawing pass. */
 void rebuild_menu_node_list(void *owner, EntityRec *node_in, s32 mode) {
@@ -243,7 +237,6 @@ void rebuild_menu_node_list(void *owner, EntityRec *node_in, s32 mode) {
 /* MECHANISM: The 0x28 frame and s2/s1/s3 argument holds preserve the retail prologue.
    A block-local update_work separates D_800FE488 from the earlier work lifetime.
    GCC coalesces both to s0 and emits the two-edge lui/addiu held base. */
-#include "town/player/initialize_scene_for_mode.h"
 
 void process_scene_record_update(void *context, void *input, void *record) {
     GameWork *work = &g_game_work;
@@ -349,7 +342,6 @@ void process_scene_record_update(void *context, void *input, void *record) {
 /* MECHANISM: The three arguments stay in s1/s2/s3 and D_80083160 in s0, yielding the retail 0x28 frame.
    A one-sided schedule barrier preserves both clamp tails; ASM_TAILSLOT_PIN sinks the dead OR into its j slot.
    Memory fences retain the clear/store call sequence and force the post-store signed-halfword reload. */
-#include "town/player/initialize_scene_for_mode.h"
 
 /* func_800909A0: Moves the camera offset toward zero in steps of 16. */
 s32 func_800909A0() {
@@ -375,7 +367,6 @@ s32 func_800909A0() {
 
     return camera_state->view.viewAngle;
 }
-#include "town/player/initialize_scene_for_mode.h"
 
 /* Clear the state field or invoke updates according to the record value. */
 void clear_record_state_or_update(void *record) {
@@ -393,12 +384,10 @@ void clear_record_state_or_update(void *record) {
     func_800909A0();
     func_800909A0();
 }
-#include "town/player/initialize_scene_for_mode.h"
 
 /* Returns without performing any work. */
 void func_80090A64(void) {
 }
-#include "town/player/initialize_scene_for_mode.h"
 
 /* Return without performing any work. */
 void no_op_scene_callback_b(void) {

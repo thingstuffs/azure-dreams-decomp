@@ -26,6 +26,5 @@ s32 get_cue_table_entry(void) {
     return result;
 }
 
-/* MECHANISM: A 12-byte D_80019B8C declaration holds its page in retail's sole s0 save.
-   The noreturn path plus a guarded v0 tail-slot pin splits D_80019A6C across the
-   branch/jump delays; cdk-G0 preserves the retail reload and epilogue-load order. */
+/* MECHANISM: A 12-byte D_80019B8C declaration holds its page in retail's sole s0 save. Cdk-G0 preserves
+   the retail reload and epilogue-load order. */

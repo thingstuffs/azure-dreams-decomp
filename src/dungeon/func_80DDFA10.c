@@ -172,6 +172,5 @@ end_state:
     }
 }
 
-/* MECHANISM: The four live arguments plus direction_work[2] produce retail's 0x38 frame
-   and s0/s2/s3/s1 roles. A guarded a1 table register preserves coloring; removing
-   both ASM_KEEP barriers lets each D_80083228 lui cross the table store exactly. */
+/* MECHANISM: The four live arguments plus direction_work[2] produce retail's 0x38 frame and s0/s2/s3/s1
+   roles. */

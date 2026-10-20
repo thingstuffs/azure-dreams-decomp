@@ -1,5 +1,5 @@
 #include "dungeon/effect/directional_actor.h"
-#include "dungeon/effect/directional_actor.h"
+
 
 void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0800_10 *actor_state)
 {
@@ -204,7 +204,6 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
         return;
     }
 }
-#include "dungeon/effect/directional_actor.h"
 
 void func_80024594(void *effect, Row_818E0D94_S_818E0D94_3 *position, Rec_D_80082E80 *sprite)
 {

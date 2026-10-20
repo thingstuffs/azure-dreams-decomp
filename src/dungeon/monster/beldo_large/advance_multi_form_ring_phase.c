@@ -22,6 +22,4 @@ void advance_multi_form_ring_phase(void) {
     } while (object_index < 0x10);
 }
 
-/* MECHANISM: Frameless leaf loop retained; an explicit u16 temp exposes the retail RMW lifetime.
-   The v0 pin+keep preserves the load-delay nop and places the increment below lhu.
-   A fence after the zero store leaves a0 += 4 available for the loop branch delay slot. */
+/* MECHANISM: Frameless leaf loop retained; an explicit u16 temp exposes the retail RMW lifetime. */

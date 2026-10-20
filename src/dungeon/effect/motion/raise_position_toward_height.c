@@ -1,11 +1,21 @@
 #include "modules/dungeon_ovl_192a800.h"
+#include "common.h"
+#include "shared/dungeon_effect_views.h"
+#include "shared/gpu_packets.h"
+#include "shared/game_work.h"
+#include "shared/object_node.h"
+#include "shared/object_flags.h"
+#include "modules/dungeon_native_abi.h"
+#include "shared/entity_height_offsets.h"
+#include "shared/slus_callbacks.h"
+#include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+
 void (*const dungeon_192a800_entry)(struct S_func_8190B2D0_0 *,void *,void *) = update_a_moving_effect_target_animation_cleanup_state;
 const u8 D_80024004[52] = {0x81,0x66,0x82,0x93,0x81,0x40,0x82,0x8c,0x82,0x85,0x82,0x96,0x82,0x85,0x82,0x8c,0x81,0x40,0x82,0x84,0x82,0x89,0x82,0x84,0x82,0x8e,0x81,0x66,0x82,0x94,0x81,0x40,0x82,0x84,0x82,0x85,0x82,0x83,0x82,0x92,0x82,0x85,0x82,0x81,0x82,0x93,0x82,0x85,0x81,0x44,0x0,0x0};
 const Rect D_80024038 = {832,256,96,88};
 const Rect D_80024040 = {832,256,2,2};
 
-#include "modules/dungeon_ovl_192a800.h"
-#include "common.h"
 
 
 extern s32 try_trigger_target_record_effect(void *entity, s32 flags);
@@ -17,6 +27,26 @@ extern const u8 D_80024004[];
 
 
 /* Runs action 0x53 on the target after state and threshold checks. */
+extern u32 func_80065420(void *, void *, void *, void *);
+extern s32 func_80066460(s32, s32, s32, s32);
+extern void func_80067F20(void *, s32, s32, s32, s32);
+extern s32 rand(void);
+extern s32 rand(void);
+extern s32 rand(void);
+extern s32 D_80025638[4];
+extern u8 D_80025648[48];
+extern u8 D_80025678[44];
+extern s32 get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(s32);
+extern void func_800672D8(Rect *, s32 *);
+extern void *jtbl_80024088[9];
+extern Packed12 D_80025618;
+extern Packed12 D_80025624;
+extern u8 D_800E3D68[];
+extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
+extern s32 func_80069EF8(void);
+extern s32 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
+extern u16 GetTPage(s32, s32, s32, s32);
+
 void func_800240AC(void *target, s32 threshold_arg, void *owner_context) {
     s32 value_index;
     s32 threshold;
@@ -40,12 +70,6 @@ void func_800240AC(void *target, s32 threshold_arg, void *owner_context) {
     adjust_source_value_and_finalize(target, D_80024004);
     create_actor_value_popup(0x53, target, -1, 1);
 }
-#include "shared/dungeon_effect_views.h"
-#include "modules/dungeon_ovl_192a800.h"
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_node.h"
 
 /* GPU scratchpad (0x1F800000) workspace used while projecting. */
 typedef struct Scratch80024154 {
@@ -63,9 +87,6 @@ typedef struct Scratch80024154 {
     u32 index;
 } Scratch80024154;
 
-extern u32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Retail 8190A954 (func_80024154): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
@@ -149,13 +170,7 @@ s32 func_80024154(PointRecord *first_point, EntityRec *first_position)
     final_render_ctx->packetCursor = scratch->cursor;
     return 0;
 }
-#include "shared/dungeon_effect_views.h"
-#include "modules/dungeon_ovl_192a800.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "modules/dungeon_native_abi.h"
 
-extern s32 rand(void);
 
 /* Position slots: three 4-byte slots with only the second halfword used (x +2, y +6, z +0xA);
  * the z slot's word is also bumped as one s32 (+0x20000 raises z by 2). */
@@ -185,13 +200,7 @@ void handle_raise_position_toward_queried_height_set_flags_countdown_expires(Eff
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "shared/dungeon_effect_views.h"
-#include "modules/dungeon_ovl_192a800.h"
-#include "common.h"
-#include "modules/dungeon_native_abi.h"
-#include "shared/object_node.h"
 
-extern s32 rand(void);
 
 /* Retail 8190AC70 (handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
@@ -250,10 +259,7 @@ void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_p
         fields->color = saved_field_28;
     }
 }
-#include "modules/dungeon_ovl_192a800.h"
-#include "common.h"
 
-extern s32 rand(void);
 
 /* Returns a random value in [0, limit), or zero when limit is zero. Rejection sampling: the rand() bits are masked
  * to the smallest bit range that covers limit (2, 4, 6, 8, 12 or 16 bits) and redrawn until below limit. */
@@ -299,9 +305,6 @@ s32 get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(s32 limit) {
 
     return sample;
 }
-#include "modules/dungeon_ovl_192a800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 typedef struct S_8190AEB4_0 {
     union { s16 s; u16 u; u16 p; } unk_00;   /* accessed as both */
@@ -325,12 +328,7 @@ typedef struct S_8190AEB4_2 {
 
 
 
-extern s32 D_80025638[4];
-extern u8 D_80025648[48];
-extern u8 D_80025678[44];
 
-extern s32 get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(s32);
-extern void func_800672D8(Rect *, s32 *);
 
 /* Advances the object animation and draws rectangles in randomized order. */
 void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s32 *position, void *transform)
@@ -513,26 +511,11 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
 
 
 const CoordTable D_80024064 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
-#include "modules/dungeon_ovl_192a800.h"
-#include "shared/entity_height_offsets.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
 
-extern void *jtbl_80024088[9];
 
-extern Packed12 D_80025618;
-extern Packed12 D_80025624;
-extern u8 D_800E3D68[];
 
-extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 
-extern s32 func_80069EF8(void);
-extern s32 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
 
-extern u16 GetTPage(s32, s32, s32, s32);
 
 typedef struct S_func_8190B2D0_0 {
     void * unk_0;

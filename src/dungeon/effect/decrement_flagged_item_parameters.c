@@ -1,6 +1,6 @@
 #include "dungeon/effect/decrement_flagged_item_parameters.h"
+
 void (*const dungeon_1966800_entry)(void *, void *) = decrement_flagged_item_parameters;
-#include "dungeon/effect/decrement_flagged_item_parameters.h"
 
 void decrement_flagged_item_parameters(void *action, void *saved_position)
 {

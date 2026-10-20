@@ -63,6 +63,5 @@ void spawn_offset_seed_effect(SpawnSeed *seed) {
         (*(s32 *)((u8 *)sprite + 8)) = global_word;
     }
 }
-/* MECHANISM: Symbol-typed hi/lo globals preserve the 0x20 frame and natural s2/s1/s0 held roles.
-   A guarded v0 flags pin plus volatile tail fields and one scheduler fence reproduce the lhu/address/store order.
-   A named 0x00800000 page kept live splits the late ori and fills the global-load delay. */
+/* MECHANISM: Symbol-typed hi/lo globals preserve the 0x20 frame and natural s2/s1/s0 held roles. A
+   named 0x00800000 page kept live splits the late ori and fills the global-load delay. */

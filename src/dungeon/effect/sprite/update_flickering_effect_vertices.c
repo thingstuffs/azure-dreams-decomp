@@ -4,6 +4,8 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/game_work.h"
+
 extern int abs(int);
 
 
@@ -216,9 +218,6 @@ start_hit:
     return;
     }
 }
-#include "modules/dungeon_ovl_1840800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 
 
@@ -362,9 +361,6 @@ void update_flickering_effect_vertices(DungeonObj *obj)
         }
     }
 }
-#include "modules/dungeon_ovl_1840800.h"
-#include "common.h"
-#include "shared/game_work.h"
 
 
 

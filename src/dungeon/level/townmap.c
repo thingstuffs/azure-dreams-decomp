@@ -1,5 +1,5 @@
 #include "dungeon/level/townmap.h"
-#include "dungeon/level/townmap.h"
+
 
 void process_pending_resource_load(void)
 {
@@ -18,7 +18,6 @@ void process_pending_resource_load(void)
         D_800CF874[0] = 1;
     }
 }
-#include "dungeon/level/townmap.h"
 
 void write_resource_command(s32 value, s32 command) {
     D_800CFC24[3] = (s8)(value >> 8);
@@ -28,12 +27,10 @@ void write_resource_command(s32 value, s32 command) {
     D_800CFC24[6] = command;
     call_script(&D_800CFC24);
 }
-#include "dungeon/level/townmap.h"
 
 void send_resource_command_23(s32 entry_index) {
     write_resource_command(D_800CFBA0[entry_index], 0x23);
 }
-#include "dungeon/level/townmap.h"
 
 s32 town_map_set(s32 value_7c, s32 value_78) {
     register s32 count;
@@ -114,19 +111,16 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
         }
     }
 }
-#include "dungeon/level/townmap.h"
 
 s32 town_map_del(void) {
     D_800FC418 = 0xFF;
     return 1;
 }
-#include "dungeon/level/townmap.h"
 
 s32 clear_town_map_status(void) {
     D_800FC418 = 0;
     return 1;
 }
-#include "dungeon/level/townmap.h"
 
 void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 *target_object) {
     u8 *context = init_context;
@@ -185,12 +179,10 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
         unlink_node_if_registered(record);
     }
 }
-#include "dungeon/level/townmap.h"
 
 void func_8008B9D8(town_map_7FFEE278_S_8008B9D8_0 *object) {
     object->unk_68((struct Struct_7FFEE2A0 *)object);
 }
-#include "dungeon/level/townmap.h"
 
 void advance_town_map_countdown_callback(town_map_7FFEE2A0_Struct_7FFEE2A0 *state) {
     state->unk64--;
@@ -200,7 +192,6 @@ void advance_town_map_countdown_callback(town_map_7FFEE2A0_Struct_7FFEE2A0 *stat
         next_callback();
     }
 }
-#include "dungeon/level/townmap.h"
 
 void decrease_town_map_object_field_0a_and_transition(town_map_7FFEE2E4_S_8008BA44_0 *state) {
     town_map_7FFEE2E4_S_8008BA44_1 *object;
@@ -219,7 +210,6 @@ void decrease_town_map_object_field_0a_and_transition(town_map_7FFEE2E4_S_8008BA
         state->unk_6C = next_value;
     }
 }
-#include "dungeon/level/townmap.h"
 
 void decrease_inner_value_and_load_indexed_state(town_map_7FFEE36C_MainStruct *state) {
     state->sub->unkA -= 0x200;
@@ -230,7 +220,6 @@ void decrease_inner_value_and_load_indexed_state(town_map_7FFEE36C_MainStruct *s
         state->unk6C = D_800CFC7C[state->unk66];
     }
 }
-#include "dungeon/level/townmap.h"
 
 void advance_inner_value_and_load_indexed_state(town_map_7FFEE3F0_Actor *actor) {
     town_map_7FFEE3F0_SubStruct *sub = actor->sub;
@@ -243,7 +232,6 @@ void advance_inner_value_and_load_indexed_state(town_map_7FFEE3F0_Actor *actor) 
         actor->unk6C = D_800CFC7C[actor->unk66];
     }
 }
-#include "dungeon/level/townmap.h"
 
 void decrease_substructure_value_and_reset(town_map_7FFEE474_MainStruct *object) {
     object->sub->unk8 -= 0x200;
@@ -254,7 +242,6 @@ void decrease_substructure_value_and_reset(town_map_7FFEE474_MainStruct *object)
         object->unk6c = D_800CFC7C[object->unk66];
     }
 }
-#include "dungeon/level/townmap.h"
 
 void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_params, void *update_context)
 {
@@ -356,7 +343,6 @@ void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_para
 
     return;
 }
-#include "dungeon/level/townmap.h"
 
 void restore_town_map_input_state(town_map_7FFEE778_S_8008BED8_0 *state) {
     s32 *handler;
@@ -371,7 +357,6 @@ void restore_town_map_input_state(town_map_7FFEE778_S_8008BED8_0 *state) {
     }
     state->unk_68 = handler;
 }
-#include "dungeon/level/townmap.h"
 
 void release_town_map_record(void *record) {
     int global_flags;

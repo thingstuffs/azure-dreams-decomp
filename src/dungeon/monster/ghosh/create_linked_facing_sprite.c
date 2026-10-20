@@ -14,7 +14,7 @@ extern void initialize_actor_sprite_and_animation();
 void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
     u8 saved_x = x;
     u8 saved_y = y;
-    void *object, *state ASM_REG("$19"), *position ASM_REG("$17"), *sprite ASM_REG("$16");
+    void *object, *state, *position, *sprite;
     s32 tile_mask;
     u8 tile_x, tile_y;
     void *call_object;

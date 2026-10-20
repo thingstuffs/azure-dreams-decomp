@@ -1,8 +1,8 @@
 #include "slus/gp_af3_pair.h"
-
 #include "common.h"
+
+
 s8 D_80080AF3 = -1;
-#include "slus/gp_af3_pair.h"
 
 static s16 D_80080AFC;
 s32 select_sound_stream(s16 entry_index, s16 mode)
@@ -35,7 +35,6 @@ s32 select_sound_stream(s16 entry_index, s16 mode)
 
     return 0;
 }
-#include "slus/gp_af3_pair.h"
 
 s32 load_sound_set(s16 state_index)
 {

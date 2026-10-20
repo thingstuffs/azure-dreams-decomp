@@ -1,5 +1,5 @@
 #include "town/scene/hooks/invoke_callback_and_set_shared_pointer.h"
-#include "town/scene/hooks/invoke_callback_and_set_shared_pointer.h"
+
 
 void invoke_callback_and_set_shared_pointer(void) {
     Rec_D_80016000 *town_state;
@@ -21,7 +21,6 @@ void invoke_callback_and_set_shared_pointer(void) {
    Preserve the two-load D_80016000 -> +0x38 object chain so a1 holds the field base.
    Hold the signed-halfword read in s32 before the independent global store: this selects
    a direct lh, lets its low-half address fill the delay, and puts sw in the branch slot. */
-#include "town/scene/hooks/invoke_callback_and_set_shared_pointer.h"
 
 s16 invoke_state_callback_with_zero(void) {
     return D_80016000->unk_38->unk_35BC;

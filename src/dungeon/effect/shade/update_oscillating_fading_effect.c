@@ -1,5 +1,5 @@
 #include "dungeon/effect/shade/update_oscillating_fading_effect.h"
-#include "dungeon/effect/shade/update_oscillating_fading_effect.h"
+
 
 void update_oscillating_fading_effect(void *effect, Row_818F34E4_S_80024CE4_2 *position, Row_818F34E4_S_80024CE4_1 *visual, s32 unused) {
     s16 initialized;

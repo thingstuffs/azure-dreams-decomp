@@ -136,7 +136,5 @@ void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_stat
     color->unk_0C = 0x80;
 }
 
-/* MECHANISM: A five-word position array exposes all three initialized siblings and
-   supplies the retail 0x40 frame; the four arguments naturally occupy s3/s0/s1/s2.
-   A guarded $a1 pin holds the second factory result across its field updates, while
-   unsigned byte lvalues preserve the retail li 0x80 before the final sb sequence. */
+/* MECHANISM: A five-word position array exposes all three initialized siblings and supplies the retail
+   0x40 frame; the four arguments naturally occupy s3/s0/s1/s2. */

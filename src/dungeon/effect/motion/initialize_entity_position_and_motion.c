@@ -1,6 +1,6 @@
 #include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
+
 void (*const dungeon_ovl_19a332c_entry)(void) = (void (*)(void))func_80024064;
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void func_80024064(void *transition) {
     ovl_19a332c_81982864_StackPair setup_args;
@@ -103,7 +103,6 @@ update_dimming:
     return;
 }
 /* Warning: struct S_8003E2D8 is not defined (only forward-declared) */
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void initialize_entity_position_and_motion(ovl_19a332c_81982B2C_Entity *entity, ovl_19a332c_81982B2C_Position *position, ovl_19a332c_81982B2C_Motion *motion)
 {
@@ -158,7 +157,6 @@ void initialize_entity_position_and_motion(ovl_19a332c_81982B2C_Entity *entity, 
         }
     }
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s32 offset)
 {
@@ -194,7 +192,6 @@ void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s
     }
     return result;
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *sprite_data)
 {
@@ -233,7 +230,6 @@ void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *spr
         ((s32 *)(&object_flag_block))[zero] = (s32) (object_flag_block.flags | 0x8000);
     }
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
 {
@@ -279,7 +275,6 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
     }
     return particle;
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void advance_effect_motion_and_color_fade(void *effect, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color) {
     s32 velocity_x;
@@ -309,7 +304,6 @@ void advance_effect_motion_and_color_fade(void *effect, ovl_19a332c_81983088_S_8
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unused_context) {
     s32 direction_x;
@@ -359,7 +353,6 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
     } while (particle_index < 0x20);
     return particle;
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, ovl_19a332c_819832B4_EffectColor *color) {
     u8 red;
@@ -380,7 +373,6 @@ void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, ovl_19a332c_8198
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
     ovl_19a332c_8198332C_Actor *actor;
@@ -439,7 +431,6 @@ void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spa
     }
     return actor;
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 *effect, ovl_19a332c_819835AC_S_819835AC_2 *motion, ovl_19a332c_819835AC_S_819835AC_3 *visual) {
     struct { s16 x, y, z; } emit_offset;
@@ -1134,7 +1125,6 @@ block_139:
     effect->unk_94 = (u16) (effect->unk_94 + 1);
     return;
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
 {
@@ -1272,7 +1262,6 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
 
     return objects[0];
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void inventory_copy_and_sign_extend_record_fields(ovl_19a332c_81984A40_Dest81984A40 *dst, ovl_19a332c_81984A40_Source81984A40 *src)
 {
@@ -1285,7 +1274,6 @@ void inventory_copy_and_sign_extend_record_fields(ovl_19a332c_81984A40_Dest81984
     dst->field_18 = src->field_13;
     dst->field_1C = src->field_14;
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void inventory_select_entry_and_reset_object(ovl_19a332c_81984AB0_S_81984AB0_0 *object, s16 entry_index) {
     s32 entry_base;
@@ -1296,7 +1284,6 @@ void inventory_select_entry_and_reset_object(ovl_19a332c_81984AB0_S_81984AB0_0 *
     object->unk_14 = (u16) (object->unk_14 & 0x9FFF);
     object->unk_00 = (s32) (entry_base + (entry_index * 0x16));
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void step_and_clamp_entry_index(void *object, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
@@ -1332,12 +1319,10 @@ void step_and_clamp_entry_index(void *object, s16 *index_step, s32 min_index, s3
     }
     obj->unk_14.u &= 0xBFFF;
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void inventory_set_object_entry_address(ovl_19a332c_81984BC0_S_81984BC0_0 *object, s16 entry_index) {
     object->unk_00 = (s32) (((ovl_19a332c_81984BC0_S_81984BC0_2 *)(((ovl_19a332c_81984BC0_S_81984BC0_1 *)object)->unk_08))->unk_0C + (entry_index * 0x16));
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void inventory_clear_circular_list_flag_2000(void *unused_actor)
 {
@@ -1365,7 +1350,6 @@ void inventory_clear_circular_list_flag_2000(void *unused_actor)
         link = (void *)(link_value + 0x20);
     } while (link != head);
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void *find_eligible_nearby_entity(void *source_entity)
 {
@@ -1408,7 +1392,6 @@ void *find_eligible_nearby_entity(void *source_entity)
     }
     return 0;
 }
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 void clear_object_buffer_and_state(void *tracker) {
     s16 blend_ticks;
@@ -1453,7 +1436,6 @@ void clear_object_buffer_and_state(void *tracker) {
    The tracker+0xC pointer is read a second time, after the first-use load and the store to
    tracker+4: the u16 store invalidates the earlier read (cse invalidate_memory), giving retail's
    paired lw v0/v1 and keeping v1 live for offsets 6/0xA. */
-#include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 
 s32 inventory_reset_shared_state_mode_13(s32 unused, s32 state_key, s32 value, s16 secondary_value) {
     GameView *state = &g_game_work.view;

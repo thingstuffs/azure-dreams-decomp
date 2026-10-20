@@ -1,6 +1,7 @@
 #include "engine/scene/slot_transition.h"
+#include "shared/runtime_dispatch.h"
+
 s16 D_80081500 = 0;
-#include "engine/scene/slot_transition.h"
 
 /* Updates controller and dispatch state, then allocates a slot and schedules func_80043DB8 if callbacks do not signal completion. */
 void func_80043D04(void)
@@ -24,7 +25,6 @@ void func_80043D04(void)
         set_scene_phase_callback((s32)func_80043DB8);
     }
 }
-#include "engine/scene/slot_transition.h"
 
 /* Runs the per-tick update and installs func_80043E04 when the current slot is free. */
 void func_80043DB8(void) {
@@ -33,8 +33,6 @@ void func_80043DB8(void) {
         set_scene_phase_callback((int) func_80043E04);
     }
 }
-#include "shared/runtime_dispatch.h"
-#include "engine/scene/slot_transition.h"
 
 /* Updates the frame, then allocates a slot and installs func_80043E60 if signaled, otherwise calls update_shoulder_button_angle. */
 void func_80043E04(void) {
@@ -46,7 +44,6 @@ void func_80043E04(void) {
         update_shoulder_button_angle();
     }
 }
-#include "engine/scene/slot_transition.h"
 
 /* Updates the frame, then sets bit 0 and calls scene_save_previous_mode_and_reset_callbacks if the current slot is unflagged. */
 void func_80043E60(void) {

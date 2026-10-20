@@ -41,7 +41,6 @@ void process_town_records(s32 records_addr, s32 record_count)
     }
 }
 
-/* MECHANISM: A held pointer to D_8001B8A8 supplies retail's long-lived s4 base,
-   while index-derived eight-byte record pointers force retail's repeated sll/addu.
-   A guarded index seam preserves branch-local recomputation; pinning only the
-   runtime index to s1 leaves the record pointer to fall naturally into s0. */
+/* MECHANISM: A held pointer to D_8001B8A8 supplies retail's long-lived s4 base, while index-derived
+   eight-byte record pointers force retail's repeated sll/addu. Pinning only the runtime index to s1
+   leaves the record pointer to fall naturally into s0. */

@@ -49,6 +49,5 @@ void set_selected_entry_position(s32 unused, s32 x, s32 y)
     }
 }
 
-/* MECHANISM: Frameless leaf; volatile pointer-chain reads plus zero-byte keeps
-   preserve three load-delay gaps. Guarded pins encode the measured v0/v1/a3
-   roles, while a block-local destination reuses the dead root in a0. */
+/* MECHANISM: Frameless leaf; volatile pointer-chain reads plus zero-byte keeps preserve three load-
+   delay gaps. */

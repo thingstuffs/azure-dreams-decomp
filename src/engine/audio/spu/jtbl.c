@@ -1,11 +1,11 @@
 #include "slus/jtbl_8005F134.h"
-
 #include "common.h"
+
+
 
 /* Rodata owner: the row's switch emits its jump table(s) into this object's .rodata,
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
-#include "slus/jtbl_8005F134.h"
 
 /* Returns the active/key-on state of the first selected voice, or -1 if none is selected. */
 s32 func_8005EB78(s32 voice_mask)
@@ -48,7 +48,6 @@ s32 func_8005EB78(s32 voice_mask)
 
     return active != 0 ? 2 : 0;
 }
-#include "slus/jtbl_8005F134.h"
 
 void func_8005F134(SpuVoiceAttr_ *attr)
 {
@@ -266,7 +265,6 @@ void func_8005F134(SpuVoiceAttr_ *attr)
         delay_value = delay_value * 13;
     }
 }
-#include "slus/jtbl_8005F134.h"
 
 /* Read volume, pitch, addresses, and envelope settings for the first selected voice. */
 void func_8005FA34(SpuVoiceAttr_ *voice_attr)

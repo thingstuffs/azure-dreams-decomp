@@ -44,6 +44,5 @@ void create_view_color_flash(s32 payload, s16 trigger_event) {
     }
 }
 
-/* MECHANISM: A short-lived D_80083460 base preserves the retail lui/addiu/lhu form.
-   Pinned arg roles reproduce s1=payload and s0=trigger_event across the allocator call.
-   Tail keepalives force sw-before-sll while leaving the retail prologue schedule intact. */
+/* MECHANISM: A short-lived D_80083460 base preserves the retail lui/addiu/lhu form. Tail keepalives
+   force sw-before-sll while leaving the retail prologue schedule intact. */

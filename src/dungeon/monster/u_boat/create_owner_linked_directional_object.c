@@ -1,5 +1,5 @@
 #include "dungeon/monster/u_boat/create_owner_linked_directional_object.h"
-#include "dungeon/monster/u_boat/create_owner_linked_directional_object.h"
+
 
 void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
     u8 *object;

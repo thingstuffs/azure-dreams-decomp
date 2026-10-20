@@ -76,6 +76,4 @@ s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out)
     return result;
 }
 
-/* MECHANISM: The retail 0x40 frame comes from the tile local plus s0-s7/fp holds.
-   A guarded $v0 result carrier establishes each dispatcher return on its CFG edge,
-   leaving both func_800A5018 sibcalls eligible for SHAPE-B tail conversion. */
+/* MECHANISM: The retail 0x40 frame comes from the tile local plus s0-s7/fp holds. */

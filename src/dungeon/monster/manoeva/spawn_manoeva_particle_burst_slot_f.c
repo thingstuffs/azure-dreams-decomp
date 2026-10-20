@@ -105,6 +105,5 @@ void spawn_manoeva_particle_burst_slot_f(S_80E3CC80_4 *origin, S_80E3CC80_2 *sou
     } while (remaining > 0);
 }
 
-/* MECHANISM: Named word and halfword read locals extend the arg1 value live ranges,
-   reproducing retail's load-before-store emission order in the setup block.
-   Natural locals retain the 0x30 frame and s0-s5 roles without register pins. */
+/* MECHANISM: Named word and halfword read locals extend the arg1 value live ranges, reproducing
+   retail's load-before-store emission order in the setup block. */

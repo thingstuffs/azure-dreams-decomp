@@ -272,7 +272,6 @@ next_right_row:
     return 0;
 }
 
-/* MECHANISM: Sibling pointer arrays force the 0x48 frame; split first-loop callback
-   liveness yields the retail s7/s6/s4 held-base roles. A prefix scheduling fence
-   plus short-lived copy/link/final pins reproduce the call and join lifetimes.
-   Volatile final stores retain the retail store-before-RMW emission order. */
+/* MECHANISM: Sibling pointer arrays force the 0x48 frame; split first-loop callback liveness yields the
+   retail s7/s6/s4 held-base roles. Volatile final stores retain the retail store-before-RMW emission
+   order. */

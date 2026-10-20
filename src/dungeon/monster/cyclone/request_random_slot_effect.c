@@ -45,9 +45,4 @@ s32 request_random_slot_effect(S_801761AC_0 *actor) {
    and three prior waves floored at aligned 8 fighting an invented
    "internal v0/v1 entry contract" for a callee that does not exist.
    Single shared `fail:` label keeps gcc's jump.c from store-flagging the final
-   `return 1 / return 0` into nor+srl, reproducing retail's bgez + delay `li v0,1`.
-   $v0 divisor hold and $v1 remainder (KEEP_DEP chain) reproduce the two extra
-   copies retail carries around `rem`; the $v1 count pin puts seed in $a0 and
-   fixes the andi/move-$a0 argument-setup order; the else-arm ASM_KEEP(count)
-   blocks gcc's cross-jump merge of `slot = 0` into `move $v0,$v1` (it can prove
-   count == 0 there), which is what restores the local `j` word. */
+   `return 1 / return 0` into nor+srl, reproducing retail's bgez + delay `li v0,1`. */

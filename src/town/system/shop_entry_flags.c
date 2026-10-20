@@ -5,12 +5,16 @@
 #include "records/Rec_func_800AD7F8_arg0.h"
 
 
+
 typedef struct S_800AD7F8_1 {
     u8 pad_00[0x3];
     u8 unk_03;
 } S_800AD7F8_1;
 
 /* Toggle the selected entry flag 0x20 when flag 0x80 is clear. */
+extern s32 func_8004A618(u8 *);
+extern s32 func_8004A638(u8 *);
+
 void toggle_selected_entry_flag(Rec_func_800AD7F8_arg0 *state) {
     u8 flags;
     S_800AD7F8_1 *entry;
@@ -21,10 +25,7 @@ void toggle_selected_entry_flag(Rec_func_800AD7F8_arg0 *state) {
         entry->unk_03 = (u8) (flags ^ 0x20);
     }
 }
-#include "common.h"
 
-extern s32 func_8004A618(u8 *);
-extern s32 func_8004A638(u8 *);
 
 /* Sum results for flagged entries using the selected mode. */
 s32 sum_flagged_entry_values(u8 *entry, s32 mode) {

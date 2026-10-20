@@ -1,6 +1,6 @@
 #include "common.h"
 
-#include "common.h"
+
 
 /* D_80084850 accessed via %hi/%lo (lui+lw/sw); size > 8 forces non-gp. */
 extern s32 D_80084850[3];

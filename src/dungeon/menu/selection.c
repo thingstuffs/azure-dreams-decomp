@@ -1,22 +1,19 @@
 #include "dungeon/menu/selection.h"
-#include "dungeon/menu/selection.h"
+
 
 void set_indexed_object_field(ovl_1831370_81811370_S_80026370_0 *object, s32 index) {
     ((ovl_1831370_81811370_S_80026370_2 *)(((ovl_1831370_81811370_S_80026370_1 *)(object->unk_04))->unk_04))->unk_08 = (s16) ((index * 8) - 0x18);
 }
-#include "dungeon/menu/selection.h"
 
 s32 adjust_selection_by_item_count(s32 input_value, s32 target, s32 lookup_index)
 {
     return advance_index_with_single_wrap(target, input_value, D_800294F8[lookup_index]);
 }
-#include "dungeon/menu/selection.h"
 
 void inventory_set_object_entry_address(ovl_1831370_818113C0_S_800263C0_0 *object, s32 source) {
     release_object_handle(object);
     *object->unk_0C = func_8004DC14(source, 0);
 }
-#include "dungeon/menu/selection.h"
 
 void update_menu_selection_from_input(ovl_1831370_8181140C_MenuState *menu) {
     s32 direction = 0;
@@ -56,7 +53,6 @@ void update_menu_selection_from_input(ovl_1831370_8181140C_MenuState *menu) {
         }
     }
 }
-#include "dungeon/menu/selection.h"
 
 void update_embedded_state_from_table(s32 object_addr) {
     s32 updated_value;
@@ -67,7 +63,6 @@ void update_embedded_state_from_table(s32 object_addr) {
     state->unk_08 = updated_value;
     set_indexed_object_field(state->unk_70, updated_value);
 }
-#include "dungeon/menu/selection.h"
 
 void clear_object_buffer_and_state(s32 objectAddress)
 {
@@ -80,7 +75,6 @@ void clear_object_buffer_and_state(s32 objectAddress)
     objectState->unk_08 = 0;
     set_indexed_object_field(objectState->unk_70, 0);
 }
-#include "dungeon/menu/selection.h"
 
 void write_text_and_advance_selection(s32 objectAddress, s32 updateValue) {
     s32 updatedValue;
@@ -93,7 +87,6 @@ void write_text_and_advance_selection(s32 objectAddress, s32 updateValue) {
     object[2] = updatedValue;
     set_indexed_object_field(object[28], updatedValue);
 }
-#include "dungeon/menu/selection.h"
 
 void copy_string_to_object_buffer(s8 *object, s32 sourceString) {
     ovl_1831370_8181161C_Func8181161CData *textData = (ovl_1831370_8181161C_Func8181161CData *)(object + 0x20);
@@ -102,11 +95,9 @@ void copy_string_to_object_buffer(s8 *object, s32 sourceString) {
     strcpy(textData->field_14, sourceString);
     inventory_set_object_entry_address(textData->field_70, textData->field_14);
 }
-#include "dungeon/menu/selection.h"
 
 /* Forward the complete menu object to its update routine. */
 void forward_menu_object_to_selection_updater(ovl_1831370_8181140C_MenuState *menu) { update_menu_selection_from_input(menu); }
-#include "dungeon/menu/selection.h"
 
 void apply_step_and_reset_after_five(s32 *step) {
     s32 step_value = *step << 10;
@@ -119,7 +110,6 @@ void apply_step_and_reset_after_five(s32 *step) {
     }
     update_menu_selection_from_input((ovl_1831370_8181140C_MenuState *)step);
 }
-#include "dungeon/menu/selection.h"
 
 void *initialize_variant_packet(ovl_1831370_81811708_Packet *packet, s32 variant) {
     s32 payload;
@@ -134,7 +124,6 @@ void *initialize_variant_packet(ovl_1831370_81811708_Packet *packet, s32 variant
     packet->unk0 = 0x80;
     return packet;
 }
-#include "dungeon/menu/selection.h"
 
 void set_descriptor_fields_and_flag(void *descriptor)
 {
@@ -151,12 +140,10 @@ void set_descriptor_fields_and_flag(void *descriptor)
     *(s32 *)((u8 *)descriptor + 4) = settings;
     *(u8 *)descriptor |= 0x80;
 }
-#include "dungeon/menu/selection.h"
 
 S_800491F4 *forward_value_to_shared_helper(S_800491F4 **value) {
     return build_reverse_indexed_chain(value, D_80029500, 4);
 }
-#include "dungeon/menu/selection.h"
 
 void initialize_owner_defaults(void *unused, ovl_1831370_818117D8_Owner *owner, ovl_1831370_818117D8_S_8002E5D8 *patch_data,
                    ovl_1831370_818117D8_S_8002E5E8 *aux_data) {
@@ -184,7 +171,6 @@ void initialize_owner_defaults(void *unused, ovl_1831370_818117D8_Owner *owner, 
     owner->unk4->unk6 = 0;
     owner->unk4->unkF = 4;
 }
-#include "dungeon/menu/selection.h"
 
 void initialize_object_destination_fields(ovl_1831370_81811878_Source *src, ovl_1831370_81811878_Destinations *dst)
 {
@@ -196,7 +182,6 @@ void initialize_object_destination_fields(ovl_1831370_81811878_Source *src, ovl_
     dst->dstC->unk4->unk8 = 0x68;
     dst->dstC->unk4->unkA = 0x88;
 }
-#include "dungeon/menu/selection.h"
 
 void initialize_object_phase_data(void *recordFields, s32 recordValue2C, s32 typeCode, s32 recordValue24) {
     s32 isType13;
@@ -210,14 +195,12 @@ void initialize_object_phase_data(void *recordFields, s32 recordValue2C, s32 typ
     ((ovl_1831370_8181192C_S_8002692C_0 *)((u8 *)recordFields - 0x10))->unk_2C = recordValue2C;
     ((ovl_1831370_8181192C_S_8002692C_0 *)((u8 *)recordFields - 0x10))->unk_00 = (void *)apply_step_and_reset_after_five;
 }
-#include "dungeon/menu/selection.h"
 
 void initialize_embedded_object_state(void *state, s32 parent, s32 type, s32 config) {
     initialize_object_phase_data(state, parent, type, config);
     initialize_owner_defaults(state, state + 0x60, state + 0x38, state + 0x48);
     initialize_object_destination_fields(state, ((ovl_1831370_818119A0_S_800269A0_0 *)state)->unk_70);
 }
-#include "dungeon/menu/selection.h"
 
 s32 get_and_position_object_handle(void *object)
 {
@@ -234,7 +217,6 @@ s32 get_and_position_object_handle(void *object)
     }
     return success;
 }
-#include "dungeon/menu/selection.h"
 
 void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 config_value) {
     u8 *object;
@@ -257,7 +239,6 @@ void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 co
     }
     return object;
 }
-#include "dungeon/menu/selection.h"
 
 void release_object_handle(ovl_1831370_81811B44_S_80026B44_0 *owner) {
     s32 handle;
@@ -268,7 +249,6 @@ void release_object_handle(ovl_1831370_81811B44_S_80026B44_0 *owner) {
         *owner->unk_0C = 0;
     }
 }
-#include "dungeon/menu/selection.h"
 
 void cleanup_object_resources(ovl_1831370_81811B94_CleanupObject *object)
 {
@@ -282,7 +262,6 @@ void cleanup_object_resources(ovl_1831370_81811B94_CleanupObject *object)
         D_800814A0 |= 0x8000;
     }
 }
-#include "dungeon/menu/selection.h"
 
 u32 has_available_object(void *object) {
     if (object != 0) {
@@ -292,7 +271,6 @@ u32 has_available_object(void *object) {
     }
     return 0;
 }
-#include "dungeon/menu/selection.h"
 
 s32 check_object_byte_pairs_content(s32 object_addr) {
     s32 byte_count;

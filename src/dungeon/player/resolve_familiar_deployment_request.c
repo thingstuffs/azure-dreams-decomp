@@ -122,12 +122,4 @@ void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void
 }
 
 /* MECHANISM: frame is 4 saves (s2,ra,s1,s0 at 0x18/0x1c/0x14/0x10) with arg3->s2
-   and arg0->s1; the two message tails take their string address from a $v0-pinned
-   page base ((u8*)0x800E0000 + 0x5F0/0x5E1, ASM_KEEP'd) so gcc splits HIGH/LO_SUM
-   across two registers instead of coalescing lui+addiu into $a0.  Retail leaves
-   both expand_text_control_codes call delay slots EMPTY: the fix is to materialise every arg
-   BEFORE a zero-def ASM_USE/ASM_USE2 liveness barrier (a1 pre-set into the $a1-pinned
-   `value`), which fences gcc's dbr out of the slot; ASM_USE(msg3) first forces the
-   $a0 la ahead of the $a1 move.  The L9 tail wants the loaded state pointer in $v1
-   and the literal 2 in $v0 -- plain ASM_REG pins with NO ASM_KEEP (the keep's extra
-   DEF reorders the sb/sw group and costs a load-delay nop). */
+   and arg0->s1. Retail leaves both expand_text_control_codes call delay slots empty. */

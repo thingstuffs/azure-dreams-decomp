@@ -1,5 +1,5 @@
 #include "dungeon/monster/death/queue_linked_point_packets.h"
-#include "dungeon/monster/death/queue_linked_point_packets.h"
+
 
 s32 queue_linked_point_packets(u8 *entry, u16 *position)
 {

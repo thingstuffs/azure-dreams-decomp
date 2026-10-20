@@ -112,7 +112,7 @@ void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(S_80174234_0 *own
     }
 }
 
-/* MECHANISM: The four-argument ABI and true-space merge preserve retail's s1/a3, s4/a2, s3/a0, s2/s0 roles.
-   A packed four-byte assignment restores lwl/lwr/swl/swr; guarded v0-field and branch-local calls close local roles.
-   Byte-table indexing plus a held D_80083460 base fixes the tail and its one-word displacement cascade.
-   The final packed-copy scratch is v0 only at 2.7.2-cdk-G0; 2.8.1-G0 leaves the four-word t0 residue. */
+/* MECHANISM: The four-argument ABI and true-space merge preserve retail's s1/a3, s4/a2, s3/a0, s2/s0
+   roles. A packed four-byte assignment restores lwl/lwr/swl/swr; byte-table indexing plus a held
+   D_80083460 base fixes the tail and its one-word displacement cascade. The final packed-copy scratch
+   is v0 only at 2.7.2-cdk-G0; 2.8.1-G0 leaves the four-word t0 residue. */

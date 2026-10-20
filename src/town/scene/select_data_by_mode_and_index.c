@@ -28,6 +28,5 @@ s32 select_data_by_mode_and_index(s32 unused0, s32 unused1, s32 selector) {
     return result;
 }
 
-/* MECHANISM: the row's two tail targets (true base +0x94 / +0x98) are its own epilogue;
-   the plain `result` chain returning through one exit reproduces both entries. The former
-   D4/D0 pseudo-calls and their ASM_KEEP pins were removed 2026-09-22 (byte-exact). */
+/* MECHANISM: The row's two tail targets (true base +0x94 / +0x98) are its own epilogue; the plain
+   `result` chain returning through one exit reproduces both entries. */

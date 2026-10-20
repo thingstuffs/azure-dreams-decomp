@@ -207,7 +207,6 @@ void func_801510F8(void *action_in, void *direction_data_in, void *sprite_in, vo
     return;
 }
 
-/* MECHANISM: pin-free at 2.7.2-cdk-G0. Testing timer < 3 first, then
-   < 7, < 11, < 15 and < 17, retains both squash/stretch sites and the shared
-   completion path. The short deformation-and-sound tail is copied for the
-   two low-timer intervals; all four original gotos are removed byte-exactly. */
+/* MECHANISM: Testing timer < 3 first, then < 7, < 11, < 15 and < 17, retains both squash/stretch sites
+   and the shared completion path. The short deformation-and-sound tail is copied for the two low-timer
+   intervals; all four original gotos are removed byte-exactly. */

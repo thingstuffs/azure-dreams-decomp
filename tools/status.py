@@ -9,7 +9,7 @@ _TOOLS_DIR = str(Path(__file__).resolve().parent)
 if sys.path[:1] != [_TOOLS_DIR]:
     sys.path.insert(0, _TOOLS_DIR)
 from common import LEDGER, ROOT, rows, read_jsonl, PARKED_CONTAINERS
-from source_layout import row_path as layout_row_path
+from source_layout import row_path as layout_row_path, own_source as layout_own_source
 from pin_census import sites_of, hidden_asm, strip_composite_asm, composite_asm_spans
 import levels as _levels   # the live L5 predicates: the clean column reuses them, never a second copy
 from census import _fakedep, _real_tail_count
@@ -410,6 +410,19 @@ def placed_shapes(f, curc, by):
     return [r for r in by.values() if r.get("source_row") and r["container"] not in PARKED_CONTAINERS
             and curc.get(r["source_row"]) and f(curc[r["source_row"]])]
 
+
+def current_shape_text(r, root=ROOT):
+    """The same own-row span levels.row_view scans, excluding placement copies.
+
+    LL7 members share a physical TU. A sibling's constructs must not count as
+    this row's defects or enter its fact-cache key. Placement bytes are added
+    separately by placed_shapes, using their home's facts.
+    """
+    if r.get("source_row") or not layout_row_path(r, root).exists():
+        return None
+    return layout_own_source(r, root)[0]
+
+
 SECTIONS = ("head", "glance", "notyet", "progress", "levels", "shape", "modules", "compiler", "trades", "trade_notes", "evidence", "proof")
 PROOF_TEXT = ("(1) Per row: the row's C is compiled with the period compiler and assembler and compared byte for byte with the retail bytes. "
               "(2) Window gate: the container's overlay windows (and the whole `SLUS` image) are rebuilt from the sources and compared with retail. "
@@ -514,11 +527,8 @@ def main():
     with cache.phase("dependencies"):
         facts = FactInputs(ROOT, _levels)
     def cur_facts(r):
-        if r.get("source_row"): return None   # link-list placement: its home's TU is counted once (placed_shapes adds the bytes)
-        cp = layout_row_path(r, ROOT)
-        p = cp
-        if not p.exists(): return None
-        t = p.read_text(errors="replace")
+        t = current_shape_text(r, ROOT)
+        if t is None: return None
         def compute():
             return {"boiler": "This header contains macros emitted by m2c" in t or "typedef float f32;" in t,
                 "m2c_field": len(_re.findall(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in t.splitlines() if not l.lstrip().startswith("#")))),

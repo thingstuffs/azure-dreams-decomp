@@ -1,12 +1,21 @@
 #include "dungeon/effect/particle/view_parameter_transition.h"
+#include "modules/dungeon_native_abi.h"
+#include "common.h"
+#include "shared/entity.h"
+#include "shared/gpu_packets.h"
+#include "shared/game_work.h"
+#include "shared/object_node.h"
+#include "shared/object_flags.h"
+#include "m2c_compat.h"
+#include "shared/entity_height_offsets.h"
+#include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+
 void (*const dungeon_188e800_entry)(u8 *, u8 *, u8 *) = update_moving_effect_particles_and_cleanup;
 const u8 D_80024004[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
 const u8 D_80024034[4] = {0x81,0x44,0x0,0x0};
 const s16 D_80024038[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}};
 
-#include "dungeon/effect/particle/view_parameter_transition.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
 
 
 
@@ -27,6 +36,32 @@ extern s32 D_800E1C64;
 
 
 /* Applies effect 0x12 to an eligible entity and handles messages for flagged entities. */
+extern s32 func_80065420(void *, void *, void *, void *);
+extern s32 func_80066460(s32, s32, s32, s32);
+extern void func_80067F20(void *, s32, s32, s32, s32);
+extern s32 rand(void);
+extern s16 D_80025308;
+extern s32 rand(void);
+extern s32 begin_view_parameter_transition(PointRecord *, EntityRec *);
+extern void create_randomized_transform_effect();
+extern s16 D_80025308;
+s32 func_800644B8(s16);                          /* extern */
+s32 func_80064584(s16);                          /* extern */
+extern int abs(int);
+extern void *memcpy(void *, const void *, u32);
+extern s32 get_sprite_attachment_vector();
+extern void project_sprite_chain(void);
+extern s32 func_80069EF8(void);
+extern s32 check_adjacent_tile_height_clearance();
+extern s32 func_800644B8();
+extern s32 func_80064584();
+extern void func_8003DB94();
+extern const s16 D_80024038[8][2];
+extern void *D_80024058[9];
+extern u8 D_800252FC[12];
+extern s16 D_80025308;
+extern u8 D_800DEAE0[];
+
 void apply_random_actor_value_adjustment(S_func_8186E800_0 *entity, s32 effect_param, void *context)
 {
     s32 message_end;
@@ -50,16 +85,7 @@ void apply_random_actor_value_adjustment(S_func_8186E800_0 *entity, s32 effect_p
         }
     }
 }
-#include "shared/entity.h"
-#include "dungeon/effect/particle/view_parameter_transition.h"
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_node.h"
 
-extern s32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Retail 8186E96C (begin_view_parameter_transition): projects each linked point and queues a brightness-scaled shaded point
  * followed by a draw-mode packet for it. */
@@ -145,13 +171,7 @@ s32 begin_view_parameter_transition(PointRecord *start_node, EntityRec *start_co
     final_state->packetCursor = scratch->cursor;
     return 0;
 }
-#include "dungeon/effect/particle/view_parameter_transition.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
-extern s32 rand(void);
-extern s16 D_80025308;
 
 
 
@@ -174,15 +194,7 @@ void create_randomized_transform_effect(u8 *state, UnkArg1 *position)
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "shared/entity.h"
-#include "dungeon/effect/particle/view_parameter_transition.h"
-#include "common.h"
-#include "modules/dungeon_native_abi.h"
-#include "shared/object_node.h"
 
-extern s32 rand(void);
-extern s32 begin_view_parameter_transition(PointRecord *, EntityRec *);
-extern void create_randomized_transform_effect();
 
 /* Retail 8186EC88 (spawn_parent_attached_effect): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
@@ -241,11 +253,6 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
         fields->color = saved_field_28;
     }
 }
-#include "dungeon/effect/particle/view_parameter_transition.h"
-#include "modules/dungeon_native_abi.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
 
    /* arg1 in func_8186EDA8 */
 
@@ -253,9 +260,6 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s16 D_80025308;
-s32 func_800644B8(s16);                          /* extern */
-s32 func_80064584(s16);                          /* extern */
 
 
 
@@ -367,15 +371,7 @@ void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, 
     return;
 
 }
-#include "dungeon/effect/particle/view_parameter_transition.h"
-#include "modules/dungeon_native_abi.h"
-#include "shared/entity_height_offsets.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
 
-extern int abs(int);
 
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -384,22 +380,9 @@ extern int abs(int);
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(u8 **)((u8 *)(p) + (o)))
 
-extern void *memcpy(void *, const void *, u32);
 
-extern s32 get_sprite_attachment_vector();
-extern void project_sprite_chain(void);
-extern s32 func_80069EF8(void);
 
-extern s32 check_adjacent_tile_height_clearance();
-extern s32 func_800644B8();
-extern s32 func_80064584();
-extern void func_8003DB94();
 
-extern const s16 D_80024038[8][2];
-extern void *D_80024058[9];
-extern u8 D_800252FC[12];
-extern s16 D_80025308;
-extern u8 D_800DEAE0[];
 
 /* Updates a moving effect, its particles, target color animation, and cleanup. */
 void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {

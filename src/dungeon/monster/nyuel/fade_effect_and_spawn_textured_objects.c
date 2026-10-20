@@ -178,9 +178,7 @@ void fade_effect_and_spawn_textured_objects(EffectState *state, s32 *position, E
    increment) and retargeting the branch one word past it. Our gcc predicts the
    EQ branch not-taken, so fill_eager_delay_slots searches the FALLTHROUGH thread
    first and takes `addiu $s1,$s0,0x20` instead (292 words, 1 short).
-   A scheduling barrier as the first statement of the `if (object != 0)` body makes
-   stop_search_p() abort the fallthrough search at word 0, so reorg falls back to
-   the target thread and performs retail's steal. Loop index is a plain `i++` at
+   Loop index is a plain `i++` at
    the loop bottom (NOT an explicit next-index phi: that shape emits the addiu in
    both preds and misplaces the body copy into the inner-loop back-branch slot).
    The state[-1] RMW must NOT be volatile: reorg's resource_conflicts_p returns 1

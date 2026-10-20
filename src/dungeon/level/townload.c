@@ -1,5 +1,5 @@
 #include "dungeon/level/townload.h"
-#include "dungeon/level/townload.h"
+
 
 s32 resource_value_table_contains(s32 value) {
     s32 i = 0;
@@ -12,7 +12,6 @@ s32 resource_value_table_contains(s32 value) {
     }
     return 0;
 }
-#include "dungeon/level/townload.h"
 
 s32 has_listed_resource_in_slots(void) {
     s32 slot;
@@ -34,7 +33,6 @@ s32 has_listed_resource_in_slots(void) {
     any_found = 0;
     return any_found;
 }
-#include "dungeon/level/townload.h"
 
 s32 find_slot_for_resource_entry(void) {
     s32 slot_index = 0;
@@ -49,7 +47,6 @@ s32 find_slot_for_resource_entry(void) {
     } while (slot_index < 15);
     return -1;
 }
-#include "dungeon/level/townload.h"
 
 void reserve_twch_load(s32 entry_id) {
     s32 entry_index;
@@ -75,7 +72,6 @@ void reserve_twch_load(s32 entry_id) {
         entry_index++;
     } while (entry_index < 15);
 }
-#include "dungeon/level/townload.h"
 
 void func_8008B4B0(void) {
     s32 slot;

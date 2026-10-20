@@ -93,5 +93,3 @@ void load_catalog_detail_texture(void *loader)
     ((S_80124DB0_0 *)loader)->unk_06 = 0x19;
 }
 
-/* MECHANISM: The real two-argument upload ABI leaves texture_height naturally in a2,
-   so the rectangle stores and call setup share it without a pin or an a3 copy. */

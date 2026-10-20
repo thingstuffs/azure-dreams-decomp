@@ -82,7 +82,6 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
     }
 }
 
-/* MECHANISM: The 8-byte leaf frame preserves width in pinned s0; the body
-   holds the D_80083160 base through the early branch and hoists its 0x1dc
-   table pointer before both nested loops. The map pointer and signed inner
-   bound split v1->t4 and s0->t5; BASE[index] fixes the neighbor addu order. */
+/* MECHANISM: The body holds the D_80083160 base through the early branch and hoists its 0x1dc table
+   pointer before both nested loops. The map pointer and signed inner bound split v1->t4 and s0->t5;
+   BASE[index] fixes the neighbor addu order. */

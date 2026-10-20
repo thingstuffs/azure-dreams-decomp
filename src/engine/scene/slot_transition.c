@@ -1,6 +1,7 @@
 #include "engine/scene/slot_transition.h"
+#include "shared/runtime_dispatch.h"
+
 s16 D_800814E8 = 0;
-#include "engine/scene/slot_transition.h"
 
 /* Refreshes controller input and runs the current entry's handlers, starting a state transition if none signals completion. */
 void func_80041AE4(void)
@@ -24,7 +25,6 @@ void func_80041AE4(void)
         set_scene_phase_callback((s32)func_80041B98);
     }
 }
-#include "engine/scene/slot_transition.h"
 
 /* Runs the state update and registers the next callback when the current slot becomes inactive. */
 void func_80041B98(void)
@@ -34,8 +34,6 @@ void func_80041B98(void)
         set_scene_phase_callback((int)func_80041BE4);
     }
 }
-#include "shared/runtime_dispatch.h"
-#include "engine/scene/slot_transition.h"
 
 /* Runs the state update, then allocates a slot and advances the callback if enabled, or invokes the fallback. */
 void func_80041BE4(void)
@@ -50,7 +48,6 @@ void func_80041BE4(void)
         update_shoulder_button_angle();
     }
 }
-#include "engine/scene/slot_transition.h"
 
 /* Runs the state update, then sets flag bit 0 and invokes scene_save_previous_mode_and_reset_callbacks when the current slot is inactive. */
 void func_80041C64(void)

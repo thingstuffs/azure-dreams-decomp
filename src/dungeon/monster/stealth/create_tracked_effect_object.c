@@ -1,5 +1,5 @@
 #include "dungeon/monster/stealth/create_tracked_effect_object.h"
-#include "dungeon/monster/stealth/create_tracked_effect_object.h"
+
 
 
 void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value0A)

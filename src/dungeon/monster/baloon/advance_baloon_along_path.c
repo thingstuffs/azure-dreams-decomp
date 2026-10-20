@@ -98,6 +98,6 @@ void advance_baloon_along_path(void *motion, s32 actor_index, void *actor, Entit
     return;
 }
 
-/* MECHANISM: The four live arguments and two call results naturally produce the retail 0x38 frame and saved-register order.
-   A guarded s0 pin holds the signed check_movement_clearance_and_height result; placing ASM_KEEP before the result store lets that sh fill the bne delay slot.
-   Explicit mode initialization plus scoped next-coordinate locals reproduce the post-call load/store and branch emission order. */
+/* MECHANISM: The four live arguments and two call results naturally produce the retail 0x38 frame and
+   saved-register order. Explicit mode initialization plus scoped next-coordinate locals reproduce the
+   post-call load/store and branch emission order. */

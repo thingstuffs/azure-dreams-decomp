@@ -1,5 +1,5 @@
 #include "dungeon/monster/troll/update_direction_tables_kind_flags_processes_state.h"
-#include "dungeon/monster/troll/update_direction_tables_kind_flags_processes_state.h"
+
 
 /* Updates direction tables by kind and flags, then processes the object state. */
 void update_direction_tables_kind_flags_processes_state(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)

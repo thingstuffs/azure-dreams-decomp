@@ -1,5 +1,5 @@
 #include "dungeon/monster/naplass/create_actor_with_kind_parts.h"
-#include "dungeon/monster/naplass/create_actor_with_kind_parts.h"
+
 
 /* Creates an actor and initializes its parts and flags for the requested kind. */
 void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value)

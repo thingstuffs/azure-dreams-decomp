@@ -1,8 +1,7 @@
 #include "dungeon/effect/motion/interpolate_view_parameters.h"
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
 /* Selector entry invokes this complete native state machine. */
 void (*const D_80024000)(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual) = build_inverted;
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void interpolate_view_parameters(void *tracker) {
     s16 blend_ticks;
@@ -44,7 +43,6 @@ void interpolate_view_parameters(void *tracker) {
     blend_state->unk_094 = (u16) ((s32) (((u16)blend_state->unk_094) << 0x10) >> 0x12);
     blend_state->unk_096 = (u16) ((s32) (((u16)blend_state->unk_096) << 0x10) >> 0x12);
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_value, s16 request_param) {
     GameView *state = &g_game_work.view;
@@ -73,7 +71,6 @@ s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_valu
     dispatch->unkDC = request_value;
     return change_flags;
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void advance_motion_counters_position_set_completion_flags_past_lifetime(void *motion, void *position, s32 update_context)
 {
@@ -102,7 +99,6 @@ void advance_motion_counters_position_set_completion_flags_past_lifetime(void *m
 /* MECHANISM: The seed preserves the 0x20 frame and the long-lived s1/s0 argument bases.
    A literal 0x80080000 page local held by ASM_KEEP emits the branch-delay lui in v1.
    Both flag RMW accesses use +0x14A0 from that base, closing all three addressing words. */
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void *initial_data, Row_81916AEC_S_800242EC_2 *source)
 {
@@ -140,7 +136,6 @@ void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void
     }
     return NULL;
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown)
 {
@@ -175,7 +170,6 @@ void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg819
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
     Row_81916D2C_S_8002452C_0 *object;
@@ -187,7 +181,6 @@ void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
         object->unk_20 = initial_value;
     }
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void update_the_target_records_counts_flags_status(void *object_slot, void *unused, void *target)
 {
@@ -211,7 +204,6 @@ void update_the_target_records_counts_flags_status(void *object_slot, void *unus
         *(u16 *)((u8 *)post_object + 0x18) = object_count + 1;
     }
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, Row_81916E00_Copy24 *initial_data) {
     s32 owner_value;
@@ -242,7 +234,6 @@ void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, 
         return NULL;
     }
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position) {
     s32 angle_scale_x;
@@ -257,7 +248,6 @@ void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_8002471
     position->unk_04 = (s32) (position->unk_04 + ((angle_scale_y >> 4) * (func_80064584(object->unk_10) >> 4) * 0x1C));
     position->unk_08 = (s32) (position->unk_08 + ((func_80064584(object->unk_0E) >> 4) * 0x1C00));
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step)
 {
@@ -325,7 +315,6 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
 
     return NULL;
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E80 *visual) {
     s16 azimuth;
@@ -389,7 +378,6 @@ void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *
     position->unk_08 = (s32) (position->unk_08 + ((func_80064584(polar_angle) >> 4) << 0xC));
     create_an_default_rendering_settings_copies_initial_data(object, position);
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void advance_radial_effect_state(void *motion, void *position, void *effect) {
     s32 direction_scale;
@@ -468,7 +456,6 @@ void advance_radial_effect_state(void *motion, void *position, void *effect) {
         break;
     }
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_80024E80_arg1 *start_pos) {
     void *effect;
@@ -536,7 +523,6 @@ void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_800
     }
     return 0;
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void *effect, void *transform, void *visual) {
     s32 scale;
@@ -598,7 +584,6 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void
         + ((s32) ((func_800644B8(((Row_81917894_S_80025094_0 *)effect)->unk_0C) >> 4) * (s16) ((Row_81917894_S_80025094_0 *)effect)->unk_0A)
            >> 8));
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index) {
     s32 first_word;
@@ -651,7 +636,6 @@ s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *objec
     }
     return 0;
 }
-#include "dungeon/effect/motion/interpolate_view_parameters.h"
 
 void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual)
 {

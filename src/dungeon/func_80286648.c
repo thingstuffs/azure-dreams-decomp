@@ -21,6 +21,5 @@ void convert_valid_entry_code_2_to_39(void)
     }
 }
 
-/* MECHANISM: Frameless leaf; split and pin index=$v0, literal page base=$v1,
-   and entry=$a0 so their live ranges reproduce retail. The absolute base
-   selects lui/ori; in-place index *= 4 preserves index-first addu order. */
+/* MECHANISM: Frameless leaf; the absolute base selects lui/ori; in-place index *= 4 preserves index-
+   first addu order. */

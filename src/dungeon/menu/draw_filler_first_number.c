@@ -60,6 +60,5 @@ plus:
     }
 }
 
-/* MECHANISM: Sibling 16-byte buffers plus an 8-byte halfword record yield the 0x58 frame.
-   The s16 sixth arg stays in s4 across both calls, then narrows into reused s1; one joined
-   glyph_coord yields one sh. Direct integer-ordered global indexing and a post-sh fence close ordering. */
+/* MECHANISM: Sibling 16-byte buffers plus an 8-byte halfword record yield the 0x58 frame. The s16 sixth
+   arg stays in s4 across both calls, then narrows into reused s1; one joined glyph_coord yields one sh. */

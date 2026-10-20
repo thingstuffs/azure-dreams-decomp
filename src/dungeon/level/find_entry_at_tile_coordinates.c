@@ -52,11 +52,5 @@ s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z) {
 
 /* MECHANISM: func_800B510C is a j-only noreturn dispatcher (config/sibcall_syms.dungeon.txt)
    that is SERVED ITS ARGUMENT IN $v0, so the return value must be materialised BEFORE the
-   tail call, not after it: a guarded `s32 rv` carrier assigned then
-   `func_800B510C(); return rv;`. Site 1 (rv=-1 + ASM_KEEP) leaves the jal delay a nop, gcc's
-   dbr steals `li v0,-1` into the preceding bnez delay slot, and LEAD-22 SHAPE B drops the dead
-   j-to-epilogue. Site 2 (rv=(s16)i + ASM_TAILSLOT_PIN) keeps `sll v0,a0,16` as the block's
-   first insn (dbr steals it into the loop bnez delay) and LEAD-28 ARM B sinks the standalone
-   `sra v0,v0,16` into the converted j's empty delay slot (-1 word). The one-sided pin
-   asymmetry also defeats -O2 cross-jumping, so BOTH tail sites survive; the extra reference to
-   `i` from `rv=(s16)i` is what flips local-alloc to retail's i=$a0 / D_800E3648=$a2 coloring. */
+   tail call, not after it: an `s32 rv` carrier assigned then
+   `func_800B510C(); return rv;`. */

@@ -1,5 +1,5 @@
 #include "dungeon/effect/particle/get_a_random_sign_either.h"
-#include "dungeon/effect/particle/get_a_random_sign_either.h"
+
 
 s32 get_a_random_sign_either_n_1_n_1(void) {
     s32 sign;
@@ -10,7 +10,6 @@ s32 get_a_random_sign_either_n_1_n_1(void) {
     }
     return sign;
 }
-#include "dungeon/effect/particle/get_a_random_sign_either.h"
 
 void create_linked_effect_segments(ParticleWork *work, ParticlePosition *position) {
     *(s16 *)D_80026428 = 1;
@@ -23,7 +22,6 @@ void create_linked_effect_segments(ParticleWork *work, ParticlePosition *positio
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/particle/get_a_random_sign_either.h"
 
 void spawn_linked_effect_particle(Row_818ED7A0_ParticleNode *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz) {
     Row_818ED7A0_ParticleNode *node = allocate_list_node(0x211, owner);

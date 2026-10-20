@@ -108,7 +108,4 @@ void advance_path_motion(void *motion, void *unused, void *entity, void *path_st
     }
 }
 
-/* MECHANISM: A guarded $s0 state-base pin restores the retail 0x30 frame and
-   saved-register roles; byte-table typing fixes the indexed lbu sequence.
-   A cached flag plus schedule seam preserves the second-call order, while a
-   widened $a2 divisor pin closes the lbu/blez/div tail live range. */
+/* MECHANISM: Byte-table typing fixes the indexed lbu sequence. */

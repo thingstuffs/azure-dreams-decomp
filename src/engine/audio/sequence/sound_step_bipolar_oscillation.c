@@ -1,7 +1,7 @@
 #include "common.h"
 
+
 /* manual g1 strike 2: order the negative-direction compare like retail */
-#include "common.h"
 
 typedef struct S_80056800_0 {
     u8 pad_00[0x8];

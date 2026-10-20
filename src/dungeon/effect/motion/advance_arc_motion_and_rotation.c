@@ -1,5 +1,5 @@
 #include "dungeon/effect/motion/advance_arc_motion_and_rotation.h"
-#include "dungeon/effect/motion/advance_arc_motion_and_rotation.h"
+
 
 void func_80024020(void *state, Row_8189E820_S_8189E820_2 *motion, Row_8189E820_S_8189E820_3 *rotation)
 {

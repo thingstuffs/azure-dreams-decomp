@@ -103,6 +103,5 @@ void advance_timed_target_flags(void *state, void *output, void *target)
     }
 }
 
-/* MECHANISM: True-space epilogue joins and a u16[3] output object produce the 0x28 frame.
-   Four guarded short-lived copy pins reproduce retail's v1/a0/a1/a2 copy roles.
-   Ordering mode_zero before mode_one removes the word-61 displacement cascade. */
+/* MECHANISM: True-space epilogue joins and a u16[3] output object produce the 0x28 frame. Ordering
+   mode_zero before mode_one removes the word-61 displacement cascade. */

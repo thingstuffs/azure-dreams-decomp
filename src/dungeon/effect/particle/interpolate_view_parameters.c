@@ -1,9 +1,14 @@
 #include "dungeon/effect/particle/interpolate_view_parameters.h"
-void (*const dungeon_18e8800_entry)(B31_818C8FD0_S_func_818C8FD0_1 *, B31_818C8FD0_S_func_818C8FD0_4 *, B31_818C8FD0_S_func_818C8FD0_5 *) = update_an_effect_through_attachment_motion_timed_cleanup;
-const B31_818C8FD0_OffsetTable D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
-#include "dungeon/effect/particle/interpolate_view_parameters.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
+#include "shared/dungeon_sprite_data.h"
+#include "shared/slus_callbacks.h"
+#include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+
+void (*const dungeon_18e8800_entry)(B31_818C8FD0_S_func_818C8FD0_1 *, B31_818C8FD0_S_func_818C8FD0_4 *, B31_818C8FD0_S_func_818C8FD0_5 *) = update_an_effect_through_attachment_motion_timed_cleanup;
+const B31_818C8FD0_OffsetTable D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 
    /* the 0x2 bytes before arg0 in interpolate_view_parameters, addressed as arg0[-1] */
 
@@ -15,6 +20,10 @@ const B31_818C8FD0_OffsetTable D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{-3
 
 
 /* Apply the effect offset, update its object, and flag expired or inactive effects. */
+extern u8 D_800DEC00[];
+extern u8 D_800E3D68;
+extern u8 D_800DEC00[];
+
 void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position, B31_818C8824_EffectObject *object)
 {
     u16 life;
@@ -37,9 +46,6 @@ void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position,
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/particle/interpolate_view_parameters.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
    /* the 0x2 bytes before arg0 in func_80024124, addressed as arg0[-1] */
 
@@ -84,12 +90,6 @@ void func_80024124(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "shared/object_node.h"
-#include "dungeon/effect/particle/interpolate_view_parameters.h"
-#include "common.h"
-#include "shared/dungeon_sprite_data.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 
    /* the 0x2 bytes before arg0 in update_a_moving_effect_spawns_particles_advances_timed_phases, addressed as arg0[-1] */
 
@@ -111,8 +111,6 @@ void func_80024124(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_800DEC00[];
-extern u8 D_800E3D68;
 
 /* Updates a moving effect, spawns particles, and advances its timed phases. */
 void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect, B31_818C8A70_S_818C8A70_4 *position) {
@@ -310,12 +308,6 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
         }
     }
 }
-#include "shared/object_node.h"
-#include "dungeon/effect/particle/interpolate_view_parameters.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
 
 
 
@@ -340,7 +332,6 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
 
 
 
-extern u8 D_800DEC00[];
 
 
 

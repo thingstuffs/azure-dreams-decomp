@@ -1,10 +1,11 @@
 #include "dungeon/effect/motion/update_directional_actor_effect.h"
-#include "dungeon/effect/motion/update_directional_actor_effect.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+
 typedef struct S_8195281C_0_pre {
     u16 unk_00;
 } S_8195281C_0_pre;   /* the 0x2 bytes before arg0 in func_8195281C, addressed as arg0[-1] */
@@ -95,6 +96,8 @@ typedef struct S_8195281C_10 {
 void (*const dungeon_1972800_entry)(void *, void *) = update_directional_actor_effect;
 
 /* Advances a timed effect sequence, fading model colors and marking completion. */
+extern void process_effect_modes_and_completion(void *state);
+
 void update_directional_actor_effect(void *effect, void *color_data) {
     s32 upload_rect[2];
     s16 delay_left;
@@ -203,9 +206,6 @@ void update_directional_actor_effect(void *effect, void *color_data) {
     D_800249A6[0] = 0;
     return;
 }
-#include "dungeon/effect/motion/update_directional_actor_effect.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 typedef struct S_81952B4C_0 {
     s32 unk_00;
@@ -353,9 +353,6 @@ void update_spiraling_effect_growth_and_fade(void *effect, void *position, void 
     ((S_81952B4C_1 *)position)->unk_04.at00.v += ((S_81952B4C_0 *)effect)->unk_04;
     ((S_81952B4C_1 *)position)->unk_08.at00.v += ((S_81952B4C_0 *)effect)->unk_08;
 }
-#include "dungeon/effect/motion/update_directional_actor_effect.h"
-#include "common.h"
-#include "shared/dir_step.h"
 
 typedef struct SpawnPosition {
     u16 pad_00, x, pad_04, y, pad_08;
@@ -462,10 +459,6 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
     state->lifetime = 0x40;
     state->mirrored = mirrored;
 }
-#include "dungeon/effect/motion/update_directional_actor_effect.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/object_flags.h"
 
 
 /* Processes both modes and sets completion flags on countdown expiry or an override. */
@@ -486,11 +479,8 @@ void process_effect_modes_and_completion(void *state)
         object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }
-#include "dungeon/effect/motion/update_directional_actor_effect.h"
-#include "common.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void process_effect_modes_and_completion(void *state);
 
 typedef struct S_80024908_0 {
     u8 pad_00[0x10];

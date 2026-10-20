@@ -1,11 +1,10 @@
 #include "common.h"
 
+
 /* Rodata owner: the row's switch emits its jump table into this object's .rodata,
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
-#include "common.h"
 
-#include "common.h"
 
 typedef struct {
     u8 pad_00[0x2C];

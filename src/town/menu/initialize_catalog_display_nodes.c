@@ -71,6 +71,4 @@ s32 initialize_catalog_display_nodes(S_801264AC_2 *context) {
     return result;
 }
 
-/* MECHANISM: The natural loop shape yields the exact 32-byte frame and s1/s0/ra saves.
-   A post-store ASM_SCHED_BARRIER makes the tail load/store reuse v0 instead of v1.
-   An unpinned named return kept at last use places li v0,1 before the epilogue reloads. */
+/* MECHANISM: The natural loop shape yields the exact 32-byte frame and s1/s0/ra saves. */

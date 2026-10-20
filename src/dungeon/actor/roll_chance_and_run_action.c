@@ -40,6 +40,3 @@ s32 roll_chance_and_run_action(void *record, s16 chance, s8 action)
     return 0;
 }
 
-/* MECHANISM: Pin the three live arguments to retail's s0/s1/s2 roles so the
-   0x20 frame and save order match; defer their guarded keeps past the opening
-   call for the s2 delay move, and reuse the v0 divisor carrier for chance/2. */

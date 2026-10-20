@@ -27,6 +27,4 @@ s32 set_state_four_and_check_conditions(void) {
     return ret;
 }
 
-/* MECHANISM: A guarded $v1 pin makes the second call result a distinct branch value.
-   A shared return-one barrier preserves retail's branch CFG without emitting a word.
-   The post-call ret local supplies $zero in the branch delay slot and avoids an s-reg. */
+/* MECHANISM: The post-call ret local supplies $zero in the branch delay slot and avoids an s-reg. */

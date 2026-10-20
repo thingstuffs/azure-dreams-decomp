@@ -1,6 +1,6 @@
 #include "common.h"
 
-#include "common.h"
+
 
 /* Sub-object embedded at offset 0x20 of the entity (same family as
  * init_color_fade_effect / init_fade_in_out_effect): owner backpointer, four zeroed shorts,

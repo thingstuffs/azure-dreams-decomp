@@ -1,5 +1,5 @@
 #include "dungeon/effect/motion/decrement_effect_counter_by_twelve.h"
-#include "dungeon/effect/motion/decrement_effect_counter_by_twelve.h"
+
 
 void decrement_effect_counter_by_twelve(void *object)
 {
@@ -15,7 +15,6 @@ void decrement_effect_counter_by_twelve(void *object)
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/motion/decrement_effect_counter_by_twelve.h"
 
 void create_random_offset_effect_object(
     EntityRec *source, s16 field_14_value, void *payload, s16 field_32_value,

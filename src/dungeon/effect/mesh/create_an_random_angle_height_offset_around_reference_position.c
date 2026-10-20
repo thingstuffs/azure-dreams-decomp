@@ -106,10 +106,6 @@ void create_an_random_angle_height_offset_around_reference_position(void)
     }
 }
 
-/* MECHANISM: pure scheduler rotation.  Retail materialises the `&D_80026180`
-   lui/addiu pair BEFORE the `sh v0,0xA(s2)` remainder store; gcc-2.8.1 sinks the
-   address pair past both the store and the `li v0,0x80`.  Hoisting the
-   assignment alone is not enough (the scheduler re-sinks it) -- the VOLATILE
-   ASM_KEEP on the address temp is the anchor that pins it in place.  The
-   non-volatile ASM_KEEP_NV spelling regresses straight back to aligned 4, and a
-   $a1 register pin is unnecessary: gcc already colours the temp a1. */
+/* MECHANISM: Pure scheduler rotation. Retail materialises the `&D_80026180` lui/addiu pair BEFORE the
+   `sh v0,0xA(s2)` remainder store; gcc-2.8.1 sinks the address pair past both the store and the `li
+   v0,0x80`. */

@@ -1,5 +1,5 @@
 #include "dungeon/system/resource.h"
-#include "dungeon/system/resource.h"
+
 
 void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count) {
     s32 *dest_word;
@@ -22,7 +22,6 @@ void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count
         } while (words_left > 0);
     }
 }
-#include "dungeon/system/resource.h"
 
 s32 sum_resource_bytes(s32 entry_count) {
     s32 sum;
@@ -34,7 +33,6 @@ s32 sum_resource_bytes(s32 entry_count) {
     }
     return sum;
 }
-#include "dungeon/system/resource.h"
 
 s32 find_resource_index_by_key(s32 first_byte, s32 second_byte, s32 halfword_value) {
     s32 entry_index;
@@ -61,7 +59,6 @@ check_entry:
     }
     return entry_index - 0x80000000;
 }
-#include "dungeon/system/resource.h"
 
 void shift_resource_entries_and_data(s32 record_count, s32 data_offset) {
     s32 data_addr;
@@ -92,7 +89,6 @@ void shift_resource_entries_and_data(s32 record_count, s32 data_offset) {
         } while (dst_index != 0);
     }
 }
-#include "dungeon/system/resource.h"
 
 void move_resource_to_front(s32 entry_index) {
     ovl_d54c_7FFED6EC_DungeonEntry *entries;
@@ -120,7 +116,6 @@ void move_resource_to_front(s32 entry_index) {
     entries->field_2 = saved_field_2;
     entries->field_4 = data_size;
 }
-#include "dungeon/system/resource.h"
 
 u32 *find_packed_resource_descriptor(s32 key_flag, s32 key_high, s32 key_low) {
     u32 *value_ptr;
@@ -146,7 +141,6 @@ u32 *find_packed_resource_descriptor(s32 key_flag, s32 key_high, s32 key_low) {
     }
     return NULL;
 }
-#include "dungeon/system/resource.h"
 
 s32 install_resource_descriptor_at_front(s32 resource_kind, s32 resource_group, s32 resource_id, s32 entry_index) {
     s32 entry = entry_index;
@@ -193,7 +187,6 @@ s32 install_resource_descriptor_at_front(s32 resource_kind, s32 resource_group, 
     start_cd_read(resource, D_801131E4[0]);
     return 0;
 }
-#include "dungeon/system/resource.h"
 
 void ensure_resource_at_front(s32 resource_flag, s32 resource_group, s32 resource_id) {
     s32 entry_index;
@@ -206,7 +199,6 @@ void ensure_resource_at_front(s32 resource_flag, s32 resource_group, s32 resourc
         move_resource_to_front(entry_index);
     }
 }
-#include "dungeon/system/resource.h"
 
 void submit_object_resource_data(ovl_d54c_7FFED9F8_Object *object) {
     ovl_d54c_7FFED9F8_Item *item;
@@ -242,7 +234,6 @@ void submit_object_resource_data(ovl_d54c_7FFED9F8_Object *object) {
     }
     call_script(data);
 }
-#include "dungeon/system/resource.h"
 
 void ensure_packed_resource_list(u8 *entries_in) {
     u8 *entries;

@@ -1,7 +1,7 @@
 #include "dungeon/effect/particle/fade_effect_sprite_to_black.h"
+
 /* Loader entry pointer; gcc emits the five-state switch table after alignment. */
 void (*const dungeon_184c800_entry)(void *, void *, void *) = update_directional_actor_effect;
-#include "dungeon/effect/particle/fade_effect_sprite_to_black.h"
 
 /* The stack frame of the launch/trail states: a target point, a launch offset, a particle spec handed to transform_rotated_vertices
  * and the particle's velocity vector (offsets are from the frame base; the frame starts at sp+0x20). */
@@ -471,7 +471,6 @@ spawn_trail:
         return;
     }
 }
-#include "dungeon/effect/particle/fade_effect_sprite_to_black.h"
 
 
 /* Move the effect, count down its timer, then fade its sprite to black. */
@@ -527,7 +526,6 @@ void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544
         break;
     }
 }
-#include "dungeon/effect/particle/fade_effect_sprite_to_black.h"
 
 #define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
 

@@ -1,5 +1,5 @@
 #include "dungeon/monster/univern/create_actor_child_display_b.h"
-#include "dungeon/monster/univern/create_actor_child_display_b.h"
+
 
 void *create_actor_child_display_b(s32 kind, s32 part_x, s32 part_y, s32 initial_value)
 {

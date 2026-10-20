@@ -1,6 +1,6 @@
 #include "dungeon/effect/mesh/follow_brighten.h"
+
 void (*const dungeon_ovl_18d0850_entry)(void) = (void (*)(void))update_movement_toward_child_terrain_target_animates_associated_effects;
-#include "dungeon/effect/mesh/follow_brighten.h"
 
 void follow_brighten(EntityRec *entity, s32 value_id) {
     if (try_trigger_target_record_effect(entity, 4) == 0) {
@@ -22,7 +22,6 @@ void follow_brighten(EntityRec *entity, s32 value_id) {
         apply_clamped_actor_value_delta(entity);
     }
 }
-#include "dungeon/effect/mesh/follow_brighten.h"
 
 void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2) {
     s16 rect[4];
@@ -44,7 +43,6 @@ void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2) {
 
     func_80067014(0);
 }
-#include "dungeon/effect/mesh/follow_brighten.h"
 
 void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, ovl_18d0850_818B097C_EffectCounter *state) {
     owner->parent->flags++;
@@ -54,7 +52,6 @@ void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void 
         D_800814A0 |= 0x8000;
     }
 }
-#include "dungeon/effect/mesh/follow_brighten.h"
 
 ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec) {
     ovl_18d0850_818B09F8_MainObj *obj = (ovl_18d0850_818B09F8_MainObj *)func_8003FC64(530);
@@ -89,7 +86,6 @@ ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32
         return result;
     }
 }
-#include "dungeon/effect/mesh/follow_brighten.h"
 
 void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ovl_18d0850_818B0AE0_S_800242E0_2 *position, Rec_D_80082E80 *object) {
     s32 angle;
@@ -113,7 +109,6 @@ void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *stat
         func_8003DB94(object, D_800DEC70, 0);
     }
 }
-#include "dungeon/effect/mesh/follow_brighten.h"
 
 s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 frame) {
     s32 *node_type;
@@ -163,7 +158,6 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
     result = 0;
     return result;
 }
-#include "dungeon/effect/mesh/follow_brighten.h"
 
 s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
 {
@@ -284,7 +278,6 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
   while (segment >= 0);
   return 0;
 }
-#include "dungeon/effect/mesh/follow_brighten.h"
 
 s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ovl_18d0850_818B11B4_S_818B11B4_2 *height_ref, void *context) {
     s32 trig_table[34];
@@ -341,7 +334,6 @@ s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18
     }
     return 0;
 }
-#include "dungeon/effect/mesh/follow_brighten.h"
 
 s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850_818B1334_S_818B1334_1 *source, ovl_18d0850_818B1334_S_818B1334_3 *target, void *context) {
     s32 circle_values[34];
@@ -385,7 +377,6 @@ s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850
     } while (entry_index < 8);
     return 0;
 }
-#include "dungeon/effect/mesh/follow_brighten.h"
 
 s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_18d0850_818B1484_S_818B1484_3 *target, void *context) {
     void *effect_arg;
@@ -433,7 +424,6 @@ s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_1
     }
     return 0;
 }
-#include "dungeon/effect/mesh/follow_brighten.h"
 
 s32 dispatch_effect_state_handler(void *state_ptr, void *second_ptr, void *third_ptr)
 {
@@ -457,7 +447,6 @@ s32 dispatch_effect_state_handler(void *state_ptr, void *second_ptr, void *third
     }
     return 0;
 }
-#include "dungeon/effect/mesh/follow_brighten.h"
 
 void update_movement_toward_child_terrain_target_animates_associated_effects(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info)
 {

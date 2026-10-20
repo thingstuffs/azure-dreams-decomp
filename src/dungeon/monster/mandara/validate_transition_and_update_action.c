@@ -84,6 +84,5 @@ s32 validate_transition_and_update_action(void *state, s32 transition_id, void *
     return transitioned;
 }
 
-/* MECHANISM: True-rowbase 0x80172484/0x801724E8 are local joins; placing the abort label before
-   the success body reproduces the branch polarity and exact 0x38-frame CFG. The guarded $s3 transitioned
-   hold preserves the eight-register save set, and -call()+0x40 emits retail's v0 negu/addiu pair. */
+/* MECHANISM: True-rowbase 0x80172484/0x801724E8 are local joins; placing the abort label before the
+   success body reproduces the branch polarity and exact 0x38-frame CFG. */

@@ -42,7 +42,5 @@ void *create_radial_effect_from_source(s32 type_code, void *source, s32 unused, 
     return object;
 }
 
-/* MECHANISM: The 0x38 frame holds s3=source, s5=object_value, s4=type_code-0x20,
-   s2=result, s1=child, and s0=loop index; the fifth call arg uses sp+0x10.
-   ASM_KEEP(s5) at its true last use changes sched2 prologue entry order only,
-   placing the s5 save/copy between the s3 and s4 packets byte-exactly. */
+/* MECHANISM: The 0x38 frame holds s3=source, s5=object_value, s4=type_code-0x20, s2=result, s1=child,
+   and s0=loop index; the fifth call arg uses sp+0x10. */

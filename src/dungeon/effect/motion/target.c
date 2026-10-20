@@ -1,5 +1,5 @@
 #include "dungeon/effect/motion/target.h"
-#include "dungeon/effect/motion/target.h"
+
 
 void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position, Row_818E71DC_S_800249DC_3 *visual) {
     s32 current_x;
@@ -55,7 +55,6 @@ void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position
 
     visual->unk_0C.s32 += 0xC0C0C;
 }
-#include "dungeon/effect/motion/target.h"
 
 void advance_effect_state_and_frame(void *effect)
 {
@@ -99,7 +98,6 @@ void advance_effect_state_and_frame(void *effect)
     S16_AT(effect, 0x40) = ((U16_AT(effect, 0x4E) & 3) << 5) + 0x80;
     S16_AT(effect, 0x42) = ((s16)U16_AT(effect, 0x4E) >> 2) << 5;
 }
-#include "dungeon/effect/motion/target.h"
 
 s32 render_linked_jittered_effect_strips(void *node_data) {
     for (;;) {
@@ -276,7 +274,6 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
         node_data = (u8 *)next_node + 0x20;
     }
 }
-#include "dungeon/effect/motion/target.h"
 
 void copy_selected_table_pair(void *record_field, s32 pair_index) {
     u16 value_pairs[12];

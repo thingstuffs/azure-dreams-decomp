@@ -53,6 +53,5 @@ void update_catalog(S_80126704_0 *state) {
     D_80126B74[state->unk_0A](state);
 }
 
-/* MECHANISM: The true-space body uses a 24-byte frame and a local join at 0x8012677C, not a phantom call.
-   Pointer-table declarations restore 4-byte indexing; short-lived v0/v1/a0 pins reproduce the dispatch roles.
-   A volatile byte commit plus a zero-word schedule fence preserves the retail sb/sltiu order. */
+/* MECHANISM: The true-space body uses a 24-byte frame and a local join at 0x8012677C, not a phantom
+   call. Pointer-table declarations restore 4-byte indexing. */

@@ -1,5 +1,4 @@
 #include "modules/dungeon_ovl_1852800.h"
-#include "modules/dungeon_ovl_1852800.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -8,6 +7,9 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
+#include "shared/position_views.h"
+
 extern int abs(int);
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -108,6 +110,10 @@ void (*const dungeon_1852800_entry)(S_func_81832800_1 *, S_func_81832800_4 *, vo
 
 void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite);
 /* Advance the effect state, move toward its target, and animate spawned particles. */
+s32 rand();                             /* extern */
+s16 set_or_clear_actor_status_slot();        /* extern */
+extern void func_800478B8(void *state);
+
 void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite) {
     S_func_81832800_3 *source_object;
     s32 step_x;
@@ -411,13 +417,8 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "modules/dungeon_ovl_1852800.h"
-#include "common.h"
-#include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 rand();                             /* extern */
-s16 set_or_clear_actor_status_slot();        /* extern */
 
 typedef struct S_81832FE8_0 {
     u8 pad_00[0x60];
@@ -446,9 +447,6 @@ void func_800247E8(S_81832FE8_0 *owner) {
         }
     }
 }
-#include "modules/dungeon_ovl_1852800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 typedef struct StructInner {
     s8 pad0[0x52];
@@ -467,7 +465,6 @@ typedef struct StructA2 {
     u16 unk1E;
 } StructA2;
 
-extern void func_800478B8(void *state);
 
 /* Decreases paired state values by 0x80, invokes the state handler, and sets flags. */
 void update_shrinking_effect_sprite(StructA0 *owner, void *unused, StructA2 *state) {
@@ -483,12 +480,6 @@ void update_shrinking_effect_sprite(StructA0 *owner, void *unused, StructA2 *sta
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "modules/dungeon_ovl_1852800.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
-#include "records/Rec_D_80082E80.h"
-#include "shared/position_views.h"
 
 
 

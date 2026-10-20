@@ -56,6 +56,5 @@ s32 advance_town_scene_finish_early(s32 kind, void *param)
     return 0;
 }
 
-/* MECHANISM: Recovering 800183C4/800183EC as local joins removed phantom calls
-   and the s2 hold, yielding the retail 0x20/s0-s1-ra prologue. Guarded v0 page
-   and v1 pointer lifetimes preserve lui/lw/addiu; pinned a0 fills the tail gap. */
+/* MECHANISM: Recovering 800183C4/800183EC as local joins removed phantom calls and the s2 hold,
+   yielding the retail 0x20/s0-s1-ra prologue. */

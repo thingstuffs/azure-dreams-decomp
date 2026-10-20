@@ -6,8 +6,8 @@
  *        `reg_qty[ureg] < 0` early-out and refuses to tie either the shift result or
  *        the andi result to the dying value -- which is what lets the block-count
  *        statements be written in retail's order (shift first) without the andi
- *        stealing $a0.  No ASM_REG pin is needed on it.
- *   NO ASM_REG pin is needed anywhere in the block-count code: once `transfer_arg` is the
+ *        stealing $a0.  No register pin is needed on it.
+ *   NO register pin is needed anywhere in the block-count code: once `transfer_arg` is the
  *        shared multi-block pseudo, the prior lane's `size`->$a0 and `blocks`->$v1
  *        pins are both dead (ablated, still MATCH) and were removed.
  *   The shift MUST be logical: `transfer_arg` is s32, so the (u32) casts are what make it

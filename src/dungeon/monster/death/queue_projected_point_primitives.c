@@ -1,5 +1,5 @@
 #include "dungeon/monster/death/queue_projected_point_primitives.h"
-#include "dungeon/monster/death/queue_projected_point_primitives.h"
+
 
 s32 queue_projected_point_primitives_2(u8 *entry_data, u16 *coords)
 {

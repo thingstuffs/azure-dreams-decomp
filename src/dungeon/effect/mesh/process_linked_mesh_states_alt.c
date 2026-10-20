@@ -6,8 +6,6 @@ typedef struct Node {
     struct Node *value2;
 } Node;
 
-#define ASM_CLOBBER_A0() ASM_CLOBBER("$4")
-
 extern void draw_mesh_quads_with_orientation_mode();
 
 /* Process each linked state with draw_mesh_quads_with_orientation_mode in mode one. */

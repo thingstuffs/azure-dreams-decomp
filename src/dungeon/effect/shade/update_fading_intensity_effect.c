@@ -54,6 +54,5 @@ void update_fading_intensity_effect(Obj *obj)
     }
 }
 
-/* MECHANISM: Frameless noreturn tails use tied $v0 carriers for dead delay-slot values.
-   A volatile byte reread and two seam barriers preserve retail load/schedule order.
-   Shared-store gotos plus $v0 value reuse (3 -> 0x7E02) free cycle_phase into $v1. */
+/* MECHANISM: Frameless noreturn tails use tied $v0 carriers for dead delay-slot values. Shared-store
+   gotos plus $v0 value reuse (3 -> 0x7E02) free cycle_phase into $v1. */

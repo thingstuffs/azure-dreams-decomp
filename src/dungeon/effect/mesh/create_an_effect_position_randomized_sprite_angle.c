@@ -1,6 +1,6 @@
 #include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
+
 void (*const dungeon_ovl_1930844_entry)(void) = (void (*)(void))update_movement_toward_target_along_direction_advances_action_phases;
-#include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
 
 void func_80024044(void *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual) {
     s32 pos_x;
@@ -46,7 +46,6 @@ void func_80024044(void *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
 
 s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, void *source_position)
 {
@@ -89,7 +88,6 @@ s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *ow
     }
     return 0;
 }
-#include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
 
 void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, void *origin, s16 step_index, s16 scale_factor)
 {
@@ -206,7 +204,6 @@ void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, v
     }
     while (ray_index < 5);
 }
-#include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
 
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den)
 {
@@ -334,7 +331,6 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *sh
         edge++;
     } while (edge < 5);
 }
-#include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
 
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius)
 {
@@ -591,7 +587,6 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
         }
     }
 }
-#include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
 
 void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *effect, void *unused, void *fade_state) {
     s8 green_blue;
@@ -622,7 +617,6 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
 
 void create_object_hex_212_initialize_data_pointer_mode(s32 *initial_value) {
     ovl_1930844_81911B9C_S_81911B9C_0 *object;
@@ -634,7 +628,6 @@ void create_object_hex_212_initialize_data_pointer_mode(s32 *initial_value) {
         object->unk_20 = (s32) *initial_value;
     }
 }
-#include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
 
 void update_the_five_orbiting_points_advance_effect_animation(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
 {
@@ -780,7 +773,6 @@ void update_the_five_orbiting_points_advance_effect_animation(ovl_1930844_81911B
         return;
     }
 }
-#include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
 
 void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl_1930844_81912074_Copy24 *source_data, s16 initial_setting) {
     void *obj;
@@ -810,7 +802,6 @@ void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl
     }
     return 0;
 }
-#include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
 
 void update_movement_toward_target_along_direction_advances_action_phases(void *state, void *motion, void *appearance) {
     ovl_1930844_81912154_LocalStack stack;

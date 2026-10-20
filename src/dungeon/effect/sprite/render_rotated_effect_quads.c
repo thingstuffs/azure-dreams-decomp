@@ -1,5 +1,5 @@
 #include "dungeon/effect/sprite/render_rotated_effect_quads.h"
-#include "dungeon/effect/sprite/render_rotated_effect_quads.h"
+
 
 void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_mode)
 {
@@ -355,7 +355,6 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     final_context = *((void **) (((s8 *) context_addr) + 0));
     *((s32 **) (((s8 *) final_context) + 0x8D0)) = packet;
 }
-#include "dungeon/effect/sprite/render_rotated_effect_quads.h"
 
 void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
 {

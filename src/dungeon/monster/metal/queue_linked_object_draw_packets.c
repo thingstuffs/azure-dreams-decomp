@@ -1,5 +1,5 @@
 #include "dungeon/monster/metal/queue_linked_object_draw_packets.h"
-#include "dungeon/monster/metal/queue_linked_object_draw_packets.h"
+
 
 /* Builds and queues drawing packets for a linked list of objects. */
 s32 queue_linked_object_draw_packets(u8 *object_data, u16 *position)

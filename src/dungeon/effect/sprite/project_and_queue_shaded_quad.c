@@ -1,5 +1,5 @@
 #include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
-#include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
+
 
 void project_and_queue_shaded_quad(void *quad, void *position, void *render_state, s16 depth_bias)
 {
@@ -121,7 +121,6 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
 
     func_80064A40();
 }
-#include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 
 s32 draw_linked_shaded_quads(void *state, void *position, void *appearance) {
     Row_81922E70_GapNode *node;
@@ -135,7 +134,6 @@ s32 draw_linked_shaded_quads(void *state, void *position, void *appearance) {
     }
     return 0;
 }
-#include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 
 void fade_four_colors_to_black(Row_81922EC4_DungeonColorWork *work)
 {
@@ -157,7 +155,6 @@ void fade_four_colors_to_black(Row_81922EC4_DungeonColorWork *work)
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 
 void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_800247B8_arg1 *origin, void *unused_sprite)
 {
@@ -230,7 +227,6 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
         sprite->unk_0C = 0x80;
     }
 }
-#include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 
 void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_800249FC_0 *effect) {
     s32 ticks_left;
@@ -270,7 +266,6 @@ void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_80
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 
 void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func_800247B8_arg1 *position, void *unused_sprite) {
     Row_819232EC_S_80024AEC_3 *render_state;
@@ -304,7 +299,6 @@ void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func
         render_state->unk_08 = (void *) (effect + 0x96);
     }
 }
-#include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 
 void advance_radial_effect_state(void *entity_data, s32 unused, Row_8192340C_DungeonEffect *effect_data) {
     u16 ticks_left;
@@ -345,7 +339,6 @@ void advance_radial_effect_state(void *entity_data, s32 unused, Row_8192340C_Dun
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 
 void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, void *unused_sprite)
 {
@@ -393,7 +386,6 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
 /* MECHANISM: Preserve the seed's exact 0x20 frame, s2/s1/s0 holds, and CFG.
    Unsigned byte fields keep the shared 0x80 store value as +128, matching
    retail's addiu before the three sb operations. */
-#include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 
 void update_effect_cycle_and_bursts(void *effect, void *motion, void *sprite) {
     s32 delta_x;

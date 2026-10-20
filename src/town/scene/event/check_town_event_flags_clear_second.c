@@ -18,7 +18,4 @@ s32 check_town_event_flags_clear(void) {
     return return_value;
 }
 
-/* MECHANISM: The call-shaped body naturally gives the 0x18 frame with only ra saved.
-   A guarded v1 result preserves the retail copy after the second call.
-   The shared zero-return label and schedule barrier retain the branch diamond,
-   allowing li v0,1 in the beqz delay slot while blocking the zero-return steal. */
+/* MECHANISM: The call-shaped body naturally gives the 0x18 frame with only ra saved. */

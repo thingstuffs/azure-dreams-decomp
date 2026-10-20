@@ -60,5 +60,4 @@ void populate_display_row(S_800B61C0_1 *entry, s32 widgets_base, s32 row)
 }
 
 /* MECHANISM: Sibling detail_info/entry_info arrays produce the retail 0x48 frame; keeping the
-   entry_info pointer live hoists sp+0x28 and lets the $s2 save fill the first jal slot.
-   Guarded $s2/$a1 value pins restore the scaled-index role and immediate return copy. */
+   entry_info pointer live hoists sp+0x28 and lets the $s2 save fill the first jal slot. */

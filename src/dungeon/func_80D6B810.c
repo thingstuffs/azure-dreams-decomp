@@ -137,6 +137,3 @@ void func_8016B010(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x
     }
 }
 
-/* MECHANISM: Inherited pins preserve the retail 0x30 frame and s4/s5 argument holds.
-   Splitting the flags RMW around ASM_SCHED_BARRIER makes its sh precede the reused-value copy.
-   Guarded s0/s1 pins restore the held object/subobject bases perturbed by that zero-word fence. */

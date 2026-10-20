@@ -1,6 +1,14 @@
 #include "modules/dungeon_ovl_18f4800.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/object_flags.h"
+#include "m2c_compat.h"
+#include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+#include "shared/slus_callbacks.h"
+
 
 typedef struct DungeonState818D4800 {
     u8 pad0[0x8D0];
@@ -38,6 +46,18 @@ const PackedOffsets dungeon_18f4800_offsets = { {
 } };
 
 /* Queue a shaded tile and draw mode packet, then continue the object chain. */
+int abs(int);
+extern u8 D_80025100[16];
+extern Packed12 D_8002510C;
+extern u8 D_800E3D68[16];
+extern s32 get_sprite_attachment_vector(void *, void *, s16 *, s32);
+extern void unlink_node(void *);
+extern s32 func_80069EF8(void);
+extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
+extern s32 try_trigger_target_record_effect(void *, s32, void *);
+extern s32 generate_random_value(void);
+extern void try_apply_threshold_effect_variant_b(void *entity, s16 chance, s16 effect_value);
+
 s32 func_80024044(void *object_data, void *position_data)
 {
     u8 *object = object_data;
@@ -104,10 +124,6 @@ s32 func_80024044(void *object_data, void *position_data)
     (((DungeonState818D4800 *)state_slot->unk_000))->next = scratch->next;
     return 0;
 }
-#include "modules/dungeon_ovl_18f4800.h"
-#include "common.h"
-#include "shared/object_flags.h"
-int abs(int);
 
 typedef struct S_818D4A94_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -165,11 +181,6 @@ void func_80024294(void *motion, void *position_data)
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "modules/dungeon_ovl_18f4800.h"
-#include "common.h"
-#include "m2c_compat.h"
-#include "shared/entity.h"
-#include "shared/dungeon_moving_views.h"
 
 typedef struct S_818D4B94_2 {
     u8 pad_00[0x8];
@@ -258,9 +269,6 @@ void func_80024394(ObjectNodeHeader *source, s32 setting_14, s32 setting_08, s32
         state->unk_08 = setting_08;
     }
 }
-#include "modules/dungeon_ovl_18f4800.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 typedef struct S_818D4D48_0 {
     u16 unk_00;
@@ -318,11 +326,6 @@ void func_80024548(void *record_data, s32 unused, RenderFade33 *effect)
         object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
     }
 }
-#include "modules/dungeon_ovl_18f4800.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
 
 typedef union FixedWord {
     s32 word;
@@ -412,20 +415,9 @@ typedef struct Task {
     Packed12 image_data;
 } Task;
 
-extern u8 D_80025100[16];
-extern Packed12 D_8002510C;
-extern u8 D_800E3D68[16];
 
-extern s32 get_sprite_attachment_vector(void *, void *, s16 *, s32);
-extern void unlink_node(void *);
-extern s32 func_80069EF8(void);
-extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 
-extern s32 try_trigger_target_record_effect(void *, s32, void *);
-extern s32 generate_random_value(void);
-extern void try_apply_threshold_effect_variant_b(void *entity, s16 chance, s16 effect_value);
 
-#include "shared/slus_callbacks.h"
 
 /* Updates the actor effect through movement, particle emission, fading, and cleanup. */
 void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion, Render33 *render)

@@ -1,5 +1,5 @@
 #include "dungeon/monster/kraken/create_actor_child_display_c.h"
-#include "dungeon/monster/kraken/create_actor_child_display_c.h"
+
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)

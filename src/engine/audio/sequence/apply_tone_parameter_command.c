@@ -1,11 +1,11 @@
 #include "slus/jtbl_80057A94.h"
-
 #include "common.h"
+
+
 
 /* Rodata owner: the row's switch emits its jump table(s) into this object's .rodata,
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
-#include "slus/jtbl_80057A94.h"
 
 void apply_tone_parameter_command(S_80057A94 *command) {
     S_80057A94_cell *cell;

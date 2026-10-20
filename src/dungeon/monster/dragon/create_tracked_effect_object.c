@@ -1,5 +1,5 @@
 #include "dungeon/monster/dragon/create_tracked_effect_object.h"
-#include "dungeon/monster/dragon/create_tracked_effect_object.h"
+
 
 void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
 {

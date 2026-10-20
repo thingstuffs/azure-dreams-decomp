@@ -30,7 +30,6 @@ s32 start_interaction_on_code_0x479(S_800178B4_0 *menu, s32 index) {
     return func_80019814(menu, index);
 }
 
-/* MECHANISM: Holding menu/index in s0/s1 and delaying the second scaled index restores the 32-byte frame.
-   The true-space s32 function uses return 0 for the in-row epilogue edge, removing the phantom call.
-   At 2.7.2-cdk-G0, an arm-local v1 pin destructively forms offset + base; post-store ASM_KEEP
-   preserves the exact lui/lw/addiu schedule and the ordered addu v1,a0,v1. */
+/* MECHANISM: Holding menu/index in s0/s1 and delaying the second scaled index restores the 32-byte
+   frame. The true-space s32 function uses return 0 for the in-row epilogue edge, removing the phantom
+   call. */

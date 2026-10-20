@@ -1,5 +1,5 @@
 #include "dungeon/monster/troll/update_kind_to_direction_tables.h"
-#include "dungeon/monster/troll/update_kind_to_direction_tables.h"
+
 
 /* Updates directional tables for kinds 13-15 and handles the owner state transition. */
 void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)

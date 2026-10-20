@@ -95,6 +95,5 @@ void create_color_cycling_pulse(S_8016738C_3 *origin)
     }
 }
 
-/* MECHANISM: Four packed 12-byte assignments emit retail's twelve unaligned
-   copy quartets without gcc's large-copy loop. A guarded a3 pin preserves the
-   control-pointer role while arg0/object remain live in s1/s0 for the 0x20 frame. */
+/* MECHANISM: Four packed 12-byte assignments emit retail's twelve unaligned copy quartets without gcc's
+   large-copy loop. */

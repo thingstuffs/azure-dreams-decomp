@@ -1,5 +1,5 @@
 #include "dungeon/monster/kewne_uncached/create_entity_at_tile_center.h"
-#include "dungeon/monster/kewne_uncached/create_entity_at_tile_center.h"
+
 
 void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
     Func812A5000Parent *parent;
@@ -40,7 +40,6 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
     }
     return entity;
 }
-#include "dungeon/monster/kewne_uncached/create_entity_at_tile_center.h"
 
 void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
     Packed16 facing_map;

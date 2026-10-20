@@ -1,6 +1,6 @@
 #include "engine/audio/spu/sound_transfer_frontends.h"
 
-#include "engine/audio/spu/sound_transfer_frontends.h"
+
 
 /* Starts or restarts channel playback and returns the playback parameter. */
 s32 submit_driver_transfer_with_fallback(s32 channel, s32 playback_param)
@@ -18,7 +18,6 @@ s32 submit_driver_transfer_with_fallback(s32 channel, s32 playback_param)
     func_8005D1D0(3, saved_channel, saved_param);
     return saved_param;
 }
-#include "engine/audio/spu/sound_transfer_frontends.h"
 
 /* Uploads a buffer to the current SPU transfer address and returns its size. */
 s32 submit_driver_transfer_mode_zero(s32 buffer_addr, s32 size)

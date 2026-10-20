@@ -1,17 +1,15 @@
 #include "dungeon/menu/entries.h"
-#include "dungeon/menu/entries.h"
+
 
 void clear_menu_state_values(ovl_1831cd8_81811CD8_S_80026CD8_0 *state) {
     *state->unk_0C = 0;
     *state->unk_10 = 0;
 }
-#include "dungeon/menu/entries.h"
 
 void set_entry_destination_and_value(Rec_func_80026CF0_arg0 *record, s32 value) {
     *record->unk_0C = &D_800789B8;
     *record->unk_10 = value;
 }
-#include "dungeon/menu/entries.h"
 
 void position_menu_grid_entries(ovl_1831cd8_81811D0C_S_80026D0C_0 *display, s32 cell_index) {
     s32 row_y;
@@ -36,7 +34,6 @@ void position_menu_grid_entries(ovl_1831cd8_81811D0C_S_80026D0C_0 *display, s32 
     ((ovl_1831cd8_81811D0C_S_80026D0C_5 *)(element->unk_04))->unk_0A =
         (s16)(row_y + ((((ovl_1831cd8_81811D0C_S_80026D0C_6 *)(element->unk_00))->unk_0B >> 1) + 0xF));
 }
-#include "dungeon/menu/entries.h"
 
 s32 configure_menu_resource(s32 setup_value, s32 setup_data) {
     s32 resource;
@@ -47,7 +44,6 @@ s32 configure_menu_resource(s32 setup_value, s32 setup_data) {
     }
     return resource;
 }
-#include "dungeon/menu/entries.h"
 
 s32 count_menu_entry_matches(s32 target_value) {
     s32 index;
@@ -67,7 +63,6 @@ s32 count_menu_entry_matches(s32 target_value) {
     }
     return count;
 }
-#include "dungeon/menu/entries.h"
 
 s32 count_menu_entry_pair_matches(s32 target_value, s32 prefix_value) {
     s32 index;
@@ -87,7 +82,6 @@ s32 count_menu_entry_pair_matches(s32 target_value, s32 prefix_value) {
     }
     return count;
 }
-#include "dungeon/menu/entries.h"
 
 s32 find_menu_entry_occurrence(s32 target_value, s32 target_occurrence) {
     s32 occurrence;
@@ -105,7 +99,6 @@ s32 find_menu_entry_occurrence(s32 target_value, s32 target_occurrence) {
     }
     return -1;
 }
-#include "dungeon/menu/entries.h"
 
 s32 find_menu_entry_from_index(s32 target_value, s32 start_index)
 {
@@ -118,7 +111,6 @@ s32 find_menu_entry_from_index(s32 target_value, s32 start_index)
     }
     return -1;
 }
-#include "dungeon/menu/entries.h"
 
 s32 find_menu_entry_pair_occurrence(s32 target_value, s32 prefix_value, s32 target_occurrence)
 {
@@ -141,7 +133,6 @@ s32 find_menu_entry_pair_occurrence(s32 target_value, s32 prefix_value, s32 targ
     } while (index < 0x40);
     return -1;
 }
-#include "dungeon/menu/entries.h"
 
 s32 find_menu_entry_by_pair_from_index(s32 match_byte_2, s32 match_byte_1, s32 start_index)
 {
@@ -154,7 +145,6 @@ s32 find_menu_entry_by_pair_from_index(s32 match_byte_2, s32 match_byte_1, s32 s
     }
     return -1;
 }
-#include "dungeon/menu/entries.h"
 
 s32 pack_selected_menu_entries(s32 held_entry_set, s32 position, s32 entry_count) {
     s32 start_entry;
@@ -196,7 +186,6 @@ s32 pack_selected_menu_entries(s32 held_entry_set, s32 position, s32 entry_count
 /* MECHANISM: The in-place /72 quotient forces the retail 0x30 frame and s0/s3/s6 argument holds.
    Exact callee arity plus guarded a1/s2 runtime roles reproduce the return-slot and loop coloring.
    Integer index-first addition preserves the retail addu a1,a1,s5 operand order. */
-#include "dungeon/menu/entries.h"
 
 void *get_mapped_menu_table_entry(s32 row_id, s32 entry_index)
 {
@@ -208,7 +197,6 @@ void *get_mapped_menu_table_entry(s32 row_id, s32 entry_index)
     }
     return D_800287EC + (row * 0x41) + (entry_index * 0xD);
 }
-#include "dungeon/menu/entries.h"
 
 s32 build_menu_text_page(s32 context, s32 scroll_y, s32 entry_count, s32 list_type) {
     s32 slot;
@@ -263,7 +251,6 @@ s32 build_menu_text_page(s32 context, s32 scroll_y, s32 entry_count, s32 list_ty
     }
     return buffer;
 }
-#include "dungeon/menu/entries.h"
 
 void *refresh_menu_record_resource(Rec_func_80027328_arg0 *record, s32 resource_arg) {
     func_8004B1A4(record->unk_08);
@@ -271,7 +258,6 @@ void *refresh_menu_record_resource(Rec_func_80027328_arg0 *record, s32 resource_
     record->unk_08 = configure_menu_resource(record->unk_00, resource_arg);
     return record;
 }
-#include "dungeon/menu/entries.h"
 
 void *rebuild_menu_resource(Rec_func_80027328_arg0 *record, s32 resource_arg) {
     s32 resource_value;
@@ -282,7 +268,6 @@ void *rebuild_menu_resource(Rec_func_80027328_arg0 *record, s32 resource_arg) {
     record->unk_08 = pack_selected_menu_entries(record->unk_00, resource_arg, resource_value);
     return record;
 }
-#include "dungeon/menu/entries.h"
 
 void *refresh_menu_derived_value(ovl_1831cd8_818123E4_S_800273E4_0 *state, s32 replacementInput, s32 calculationInput) {
     s32 adjustedValue;
@@ -293,7 +278,6 @@ void *refresh_menu_derived_value(ovl_1831cd8_818123E4_S_800273E4_0 *state, s32 r
     state->unk_08 = build_menu_text_page(state->unk_00, replacementInput, adjustedValue, calculationInput);
     return state;
 }
-#include "dungeon/menu/entries.h"
 
 void dispatch_menu_state_update(s32 *state, s32 mode, s32 value, s32 extra_value)
 {
@@ -307,7 +291,6 @@ void dispatch_menu_state_update(s32 *state, s32 mode, s32 value, s32 extra_value
     }
     refresh_menu_derived_value(state, value, extra_value);
 }
-#include "dungeon/menu/entries.h"
 
 void reset_menu_object_state_2(void *record) {
     ((ovl_1831cd8_818124A8_S_800274A8_0 *)((u8 *)record - 0x10))->unk_00 = (void *)tick_menu_countdown;
@@ -315,7 +298,6 @@ void reset_menu_object_state_2(void *record) {
     reset_object_to_default_data(((ovl_1831cd8_818124A8_S_800274A8_0 *)((u8 *)record - 0x10))->unk_54);
     clear_menu_embedded_state(record - 0x20);
 }
-#include "dungeon/menu/entries.h"
 
 void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
     GameWork *input;
@@ -412,7 +394,6 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
 
     return;
 }
-#include "dungeon/menu/entries.h"
 
 void handle_menu_button_input(void *menu) {
     GameWork *input = &g_game_work;
@@ -506,17 +487,14 @@ void handle_menu_button_input(void *menu) {
 
     position_menu_grid_entries(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_88, new_offset);
 }
-#include "dungeon/menu/entries.h"
 
 void invoke_enabled_menu_callback(s32 *record) {
     if (record[8] != 0) {
         D_80029514[record[5]](record);
     }
 }
-#include "dungeon/menu/entries.h"
 
 void func_80027A68(s32 *record) { invoke_enabled_menu_callback(record); }
-#include "dungeon/menu/entries.h"
 
 void handle_menu_record_check(void *record) {
     if (advance_timed_tagged_stream(record + 0x2C) != 0) {
@@ -525,7 +503,6 @@ void handle_menu_record_check(void *record) {
     }
     invoke_enabled_menu_callback(record);
 }
-#include "dungeon/menu/entries.h"
 
 void draw_menu_progress_bar(void *context, s32 currentValue, s32 maxValue) {
     ovl_1831cd8_81812AD0_RECT rect;
@@ -534,13 +511,11 @@ void draw_menu_progress_bar(void *context, s32 currentValue, s32 maxValue) {
     rect.h = ((s32) (currentValue * 0x90) / maxValue) + 4;
     build_tinted_gradient_rect(*(s32 *)((s8 *)context + 0x4C) + 0x18, &rect, D_80080B54);
 }
-#include "dungeon/menu/entries.h"
 
 void store_scaled_menu_ratio(ovl_1831cd8_81812B44_S_80027B44_0 *object, s32 numerator, s32 denominator) {
     ((ovl_1831cd8_81812B44_S_80027B44_2 *)(((ovl_1831cd8_81812B44_S_80027B44_1 *)(object->unk_04))->unk_04))->unk_0A =
         (s16) ((s32) (numerator * 0x90) / denominator);
 }
-#include "dungeon/menu/entries.h"
 
 void set_menu_object_scale_fields(s32 object_table, s32 scale_numerator, s32 scale_denominator) {
     s32 scaled_value;
@@ -563,7 +538,6 @@ void set_menu_object_scale_fields(s32 object_table, s32 scale_numerator, s32 sca
         entry_offset += 0x10;
     } while (entry_index < 0xE);
 }
-#include "dungeon/menu/entries.h"
 
 void refresh_menu_entry_resources(void *entry_table, void *resource_names)
 {
@@ -598,7 +572,6 @@ void refresh_menu_entry_resources(void *entry_table, void *resource_names)
         }
     }
 }
-#include "dungeon/menu/entries.h"
 
 void update_menu_object_data(void *object) {
     store_scaled_menu_ratio(((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_88, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_00, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_04);
@@ -607,7 +580,6 @@ void update_menu_object_data(void *object) {
     refresh_menu_entry_resources(((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_88, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_40);
     advance_timed_tagged_stream(object + 0x2C);
 }
-#include "dungeon/menu/entries.h"
 
 void update_menu_progress_bar(ovl_1831cd8_81812D08_ProgressState *state) {
     store_scaled_menu_ratio(state->entries, state->current, state->maximum);
@@ -616,7 +588,6 @@ void update_menu_progress_bar(ovl_1831cd8_81812D08_ProgressState *state) {
     refresh_menu_entry_resources(state->entries, state->resource_names);
     advance_timed_tagged_stream(state->cursor);
 }
-#include "dungeon/menu/entries.h"
 
 void dispatch_menu_update_callback(s32 *state) {
     D_8002951C[state[5]](state);
@@ -628,7 +599,6 @@ void dispatch_menu_update_callback(s32 *state) {
     }
     invoke_enabled_menu_callback(state);
 }
-#include "dungeon/menu/entries.h"
 
 void tick_menu_countdown(s32 *countdownState) {
     D_80029524[countdownState[5]](countdownState);
@@ -639,7 +609,6 @@ void tick_menu_countdown(s32 *countdownState) {
     }
     invoke_enabled_menu_callback(countdownState);
 }
-#include "dungeon/menu/entries.h"
 
 void run_menu_countdown_callback(s32 *state) {
     D_8002952C[state[5]](state);
@@ -651,7 +620,6 @@ void run_menu_countdown_callback(s32 *state) {
     }
     invoke_enabled_menu_callback(state);
 }
-#include "dungeon/menu/entries.h"
 
 void advance_menu_value_fade(void *state) {
     s32 nextStep;
@@ -667,15 +635,12 @@ void advance_menu_value_fade(void *state) {
     }
     invoke_enabled_menu_callback(state);
 }
-#include "dungeon/menu/entries.h"
 
 S_800491F4 *link_menu_record_nodes(S_800491F4 **nodes) {
     return build_reverse_indexed_chain(nodes, &D_80029534, 15);
 }
-#include "dungeon/menu/entries.h"
 
 S_800491F4 *build_menu_entry_chain(S_800491F4 **nodes) { return build_reverse_indexed_chain(nodes, D_80029544, 15); }
-#include "dungeon/menu/entries.h"
 
 void *initialize_menu_mode_one_fields(ovl_1831cd8_81812FF4_S_80027FF4_0 *object, s32 mode) {
     copy_menu_record_template(object);
@@ -687,7 +652,6 @@ void *initialize_menu_mode_one_fields(ovl_1831cd8_81812FF4_S_80027FF4_0 *object,
     }
     return object;
 }
-#include "dungeon/menu/entries.h"
 
 void initialize_menu_header_records(void *unused, ovl_1831cd8_81813050_Header *header, ovl_1831cd8_81813050_Template0 *record_a, ovl_1831cd8_81813050_Record1 *record_b) {
     ovl_1831cd8_81813050_Template0 *defaults_a = &D_8002E5D8;
@@ -715,7 +679,6 @@ void initialize_menu_header_records(void *unused, ovl_1831cd8_81813050_Header *h
     header->unk8->unk6 = -0x50;
     header->unk4->unkF = 4;
 }
-#include "dungeon/menu/entries.h"
 
 void initialize_menu_panel_rows(void *panel, void *widgets) {
     s16 row_y;
@@ -748,7 +711,6 @@ void initialize_menu_panel_rows(void *panel, void *widgets) {
     ((ovl_1831cd8_818130FC_S_800280FC_10 *)(((ovl_1831cd8_818130FC_S_800280FC_8 *)(((ovl_1831cd8_818130FC_S_800280FC_4 *)widgets)->unk_38))->unk_04))->unk_08 = 0x4C;
     ((ovl_1831cd8_818130FC_S_800280FC_8 *)(((ovl_1831cd8_818130FC_S_800280FC_4 *)widgets)->unk_38))->unk_00 = 0;
 }
-#include "dungeon/menu/entries.h"
 
 void initialize_menu_record_range(void *record, s32 range_start, s32 value) {
     *(s32 *)((u8 *)record + 0x44) = range_start;
@@ -759,14 +721,12 @@ void initialize_menu_record_range(void *record, s32 range_start, s32 value) {
     *(s32 *)record = 0;
     *(u8 **)((u8 *)record - 0x10) = (void *)advance_menu_value_fade;
 }
-#include "dungeon/menu/entries.h"
 
 void initialize_menu_object_from_data(void *object, s32 init_value, s32 init_value_2) {
     initialize_menu_record_range(object, init_value, init_value_2);
     initialize_menu_header_records(object, object + 0x78, object + 0x50, object + 0x60);
     initialize_menu_panel_rows(object, ((Rec_func_80027AD0_arg0 *)object)->unk_88);
 }
-#include "dungeon/menu/entries.h"
 
 s32 allocate_menu_object_buffers(ovl_1831cd8_81813284_Unk818110CC *object, s32 buffer_param)
 {
@@ -789,7 +749,6 @@ s32 allocate_menu_object_buffers(ovl_1831cd8_81813284_Unk818110CC *object, s32 b
     }
     return success;
 }
-#include "dungeon/menu/entries.h"
 
 void initialize_menu_object_state(s32 object_addr, s32 initial_value) {
     void *state;
@@ -807,7 +766,6 @@ void initialize_menu_object_state(s32 object_addr, s32 initial_value) {
     func_80028648(object_addr);
     ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_00 = (void *)dispatch_menu_update_callback;
 }
-#include "dungeon/menu/entries.h"
 
 void install_menu_object_handler(s32 object_addr) {
     void *object_state;
@@ -826,7 +784,6 @@ void install_menu_object_handler(s32 object_addr) {
     func_80028648(object_addr);
     ((ovl_1831cd8_818133B4_S_800283B4_0_pre *)object_state)[-1].unk_00 = (void *)dispatch_menu_update_callback;
 }
-#include "dungeon/menu/entries.h"
 
 void *create_menu_child_object(s32 parent_obj, s32 descriptor_value)
 {
@@ -851,7 +808,6 @@ void *create_menu_child_object(s32 parent_obj, s32 descriptor_value)
     }
     return obj;
 }
-#include "dungeon/menu/entries.h"
 
 void format_menu_referenced_values(void *state) {
     s32 **value_slot;
@@ -867,7 +823,6 @@ void format_menu_referenced_values(void *state) {
     } while (slot_index < 0xE);
     func_8004E99C(**(s32 **)((u8 *)state + 0x38));
 }
-#include "dungeon/menu/entries.h"
 
 void retire_menu_object(void *object)
 {
@@ -886,7 +841,6 @@ void retire_menu_object(void *object)
         object_flag_block.flags = globalFlags | 0x8000;
     }
 }
-#include "dungeon/menu/entries.h"
 
 void clear_menu_embedded_state(s32 object_addr) {
     ovl_1831cd8_81813620_S_80028620_0 *state;
@@ -895,10 +849,8 @@ void clear_menu_embedded_state(s32 object_addr) {
     state->unk_20 = 0;
     clear_menu_state_values(state->unk_88);
 }
-#include "dungeon/menu/entries.h"
 
 void func_80028648(ovl_1831cd8_81813648_ReadyState *state) { state->ready = 1; }
-#include "dungeon/menu/entries.h"
 
 void *build_menu_draw_packets(void *packet, void *coords) {
     u32 packet_type;
@@ -942,7 +894,6 @@ void *build_menu_draw_packets(void *packet, void *coords) {
     *((u8 *)packet + 0) = packet_type;
     return packet;
 }
-#include "dungeon/menu/entries.h"
 
 ovl_1831cd8_81813774_UnalignedBlock12 *copy_menu_record_template(ovl_1831cd8_81813774_UnalignedBlock12 *dest) {
     dest[0] = D_80029550.chunks[0];

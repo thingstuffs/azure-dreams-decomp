@@ -1,5 +1,5 @@
 #include "dungeon/monster/volcano/create_mode_configured_actor_object.h"
-#include "dungeon/monster/volcano/create_mode_configured_actor_object.h"
+
 
 void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {

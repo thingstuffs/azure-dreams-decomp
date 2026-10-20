@@ -6,6 +6,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/sprite_frame_state.h"
 
+
 extern int abs(int);
 
 extern void *allocate_list_node(s32, void *);
@@ -185,6 +186,11 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
 void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, SpriteFlagsView *) = decrement_flagged_item_parameters;
 
 /* Advance a directional effect, spawn its particles, and apply its target impact. */
+extern s32 register_node(ObjectNodeHeader *, s32);
+extern s32 project_sprite_chain(void *, s32, struct S_80045340_Entry *, s32);
+extern void func_800478B8(void *);
+extern s32 func_80069EF8(void);
+
 void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion, SpriteFlagsView *sprite)
 {
     s32 step_x;
@@ -504,9 +510,6 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
         return;
     }
 }
-#include "modules/dungeon_ovl_1870800.h"
-#include "shared/object_flags.h"
-#include "shared/object_node.h"
 
 typedef struct ParticleOwner {
     u8 pad_00[0x52];
@@ -537,10 +540,6 @@ typedef struct ParticlePrimitive {
 } ParticlePrimitive;
 
 struct S_80045340_Entry;
-extern s32 register_node(ObjectNodeHeader *, s32);
-extern s32 project_sprite_chain(void *, s32, struct S_80045340_Entry *, s32);
-extern void func_800478B8(void *);
-extern s32 func_80069EF8(void);
 
 /* Delay a spawned particle, then integrate its motion and fade until deletion.
  * Retail: [file 0x1870FDC,0x1871178), [RAM 0x800247DC,0x80024978).

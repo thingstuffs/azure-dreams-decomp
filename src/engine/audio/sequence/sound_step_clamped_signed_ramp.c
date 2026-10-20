@@ -1,6 +1,6 @@
 #include "common.h"
 
-#include "common.h"
+
 
 #define S16_FIELD(ptr, offset) (*(s16 *)((u8 *)(ptr) + (offset)))
 #define U16_FIELD(ptr, offset) (*(u16 *)((u8 *)(ptr) + (offset)))

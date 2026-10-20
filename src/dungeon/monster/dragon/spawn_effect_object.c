@@ -1,5 +1,5 @@
 #include "dungeon/monster/dragon/spawn_effect_object.h"
-#include "dungeon/monster/dragon/spawn_effect_object.h"
+
 
 void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {

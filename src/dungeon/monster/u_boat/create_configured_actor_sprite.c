@@ -131,5 +131,5 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
 }
 
 /* MECHANISM: Ordered value_24/value_0A/value_25 homes plus an s5 part_a base reproduce the 0x38 frame
-   and retail save/hold set; ASM_USE keeps s6/s7 occupied so the mode copy takes fp.
-   Both generate_random_value sites are zero-argument RNG calls, leaving their delay slots as nops. */
+   and retail save/hold set; both generate_random_value sites are zero-argument RNG calls, leaving their
+   delay slots as nops. */

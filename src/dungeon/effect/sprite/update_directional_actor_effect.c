@@ -333,8 +333,6 @@ typedef struct {
     s32 unk1FC;
 } S_800A1600_D80083160;
 
-#define READ_ZERO(var) ASM_UNDEF(var)
-
 extern s32 func_80065420();
 extern void func_80066640();
 extern void func_800666F4();

@@ -17,6 +17,4 @@ u8 *select_monster_data_pointer(s32 selector_id) {
     return result;
 }
 
-/* MECHANISM: Frameless s16 selector preserves the retail a0 lifetime and CFG.
-   Pinned v0 results plus the noreturn callee reproduce both continuation tails.
-   Raw table addressing and the final fence place both page loads in retail slots. */
+/* MECHANISM: Frameless s16 selector preserves the retail a0 lifetime and CFG. */

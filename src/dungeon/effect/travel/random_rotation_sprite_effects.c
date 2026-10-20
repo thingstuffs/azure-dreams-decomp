@@ -1,6 +1,6 @@
 #include "dungeon/effect/travel/random_rotation_sprite_effects.h"
+
 void (*const dungeon_ovl_18b8824_entry)(void) = (void (*)(void))advance_launched_effect;
-#include "dungeon/effect/travel/random_rotation_sprite_effects.h"
 
 void interpolate_view_parameters(void *state, void *motion, void *transform)
 {
@@ -26,7 +26,6 @@ void interpolate_view_parameters(void *state, void *motion, void *transform)
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/travel/random_rotation_sprite_effects.h"
 
 void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value)
 {
@@ -61,7 +60,6 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
     }
     return 0;
 }
-#include "dungeon/effect/travel/random_rotation_sprite_effects.h"
 
 void handle_increment_entry_counters_process_target_propagate_status_flags(void *entry, void *unused, void *target)
 {
@@ -76,7 +74,6 @@ void handle_increment_entry_counters_process_target_propagate_status_flags(void 
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/travel/random_rotation_sprite_effects.h"
 
 void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 *initial_state)
 {
@@ -110,7 +107,6 @@ void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 
         return NULL;
     }
 }
-#include "dungeon/effect/travel/random_rotation_sprite_effects.h"
 
 void advance_the_entry_counters_trigger_count_milestones_update_target(void *entry, s32 unused, void *target)
 {
@@ -139,7 +135,6 @@ void advance_the_entry_counters_trigger_count_milestones_update_target(void *ent
     }
     func_800478B8(target);
 }
-#include "dungeon/effect/travel/random_rotation_sprite_effects.h"
 
 void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_state) {
     ovl_18b8824_81898C1C_S_8002441C_1 *display;
@@ -179,7 +174,6 @@ void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441
         return result;
     }
 }
-#include "dungeon/effect/travel/random_rotation_sprite_effects.h"
 
 void mark_owner_on_target_completion(void *object_ref, s32 unused, void *target) {
     u8 *object;
@@ -192,7 +186,6 @@ void mark_owner_on_target_completion(void *object_ref, s32 unused, void *target)
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/travel/random_rotation_sprite_effects.h"
 
 ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32 *initial_data) {
     ovl_18b8824_81898DCC_Object *obj;
@@ -224,7 +217,6 @@ ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32
 
     return 0;
 }
-#include "dungeon/effect/travel/random_rotation_sprite_effects.h"
 
 void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part)
 {

@@ -1,5 +1,5 @@
 #include "dungeon/monster/troll/update_direction_table_for_entity_kinds.h"
-#include "dungeon/monster/troll/update_direction_table_for_entity_kinds.h"
+
 
 /* Updates the direction table and selected entry for entity kinds 13 through 15. */
 void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *sprite_arg, Obj3 *entity_arg)

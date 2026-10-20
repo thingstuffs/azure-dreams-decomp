@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-20T05:45:16Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-20T10:21:43Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -13,10 +13,10 @@ Generated 2026-10-20T05:45:16Z. Baseline: first-pass text frozen 2026-09-07.
 | **Byte-identical to retail** | 21,392 of 21,432 rows (99.8%), 8,018,768 bytes; 0 unverified |
 | **Code that is C** | 99.0% as C; 99.5% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
-| **Readability** | L3 90.4%, L4 9.2%, L5 8.9% of bytes (levels below) |
-| **Module certificates** | 227 of 300 current, 2 stale, 71 not certified yet |
+| **Readability** | L3 90.4%, L4 0.0%, L5 0.0% of bytes (levels below) |
+| **Module certificates** | 0 of 300 current, 229 stale, 71 not certified yet |
 
-**Current proof state.** 73 of 300 module certificates are not current; L4 and L5, which need the module certificate, read 9.2% and 8.9%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
+**Current proof state.** 300 of 300 module certificates are not current; L4 and L5, which need the module certificate, read 0.0% and 0.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
 
 
 ## Not yet C
@@ -68,14 +68,14 @@ Baseline NOT exact: 40 rows: town/func_80035C0C, town/func_8003705C, town/func_8
 | L1 | 8,018,768 | 99.9% |
 | L2 | 8,018,768 | 99.9% |
 | L3 | 7,255,040 | 90.4% |
-| L4 | 738,280 | 9.2% |
-| L5 | 713,392 | 8.9% |
+| L4 | 0 | 0.0% |
+| L5 | 0 | 0.0% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 3623 rows, 2,305,216 bytes (28.7%); records used: 98.
+On shared record headers (T7, `include/records/`): 3619 rows, 2,304,644 bytes (28.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 19,828 rows (7,280,312 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 21,392 rows (8,018,768 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -84,15 +84,15 @@ Defects still present in the current tree (files = source files, bytes = image b
 | defect still in the clean tree | files | bytes | % of bytes |
 |---|---:|---:|---:|
 | m2c local names | 35 | 36,004 | 0.4% |
-| goto | 452 | 510,072 | 6.4% |
+| goto | 181 | 400,472 | 5.0% |
 | computed-goto jump table | 1 | 16 | 0.0% |
-| inline asm outside macros | 49 | 15,020 | 0.2% |
+| inline asm outside macros | 7 | 8,984 | 0.1% |
 | any fidelity site | 2 | 23,708 | 0.3% |
 | any live audit site, unnarrowed | 1,643 | 2,290,572 | 28.5% |
-| do{}while(0) scheduling barrier | 180 | 175,196 | 2.2% |
+| do{}while(0) scheduling barrier | 83 | 129,728 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 3,418 | 3,809,960 | 47.5% |
-| clean shape | 9,255 | 7,482,228 | 93.2% |
+| local address-named struct | 3,009 | 3,657,100 | 45.6% |
+| clean shape | 9,526 | 7,591,828 | 94.6% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
 
@@ -102,18 +102,18 @@ Defects still present in the current tree (files = source files, bytes = image b
 | M2C_FIELD raw offsets | 2950 | 1,449,308 | 18.1% | 0 | 0 | 0.0% |
 | m2c local names | 5181 | 2,162,116 | 26.9% | 35 | 36,004 | 0.4% |
 | ASM_ pins | 2135 | 1,456,292 | 18.1% | 0 | 0 | 0.0% |
-| goto | 1545 | 1,312,068 | 16.3% | 452 | 510,072 | 6.4% |
+| goto | 1545 | 1,312,068 | 16.3% | 181 | 400,472 | 5.0% |
 | computed-goto jump table | 317 | 436,504 | 5.4% | 1 | 16 | 0.0% |
-| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 3.0% | 49 | 15,020 | 0.2% |
+| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 3.0% | 7 | 8,984 | 0.1% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 8.4% | 0 | 0 | 0.0% |
 | any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 16.0% | 2 | 23,708 | 0.3% |
 | any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 16.0% | 1643 | 2,290,572 | 28.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 489,140 | 6.1% | 0 | 0 | 0.0% |
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.3% | 0 | 0 | 0.0% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 180 | 175,196 | 2.2% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 83 | 129,728 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.3% | 3418 | 3,809,960 | 47.5% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 9255 | 7,482,228 | 93.2% |
+| local address-named struct | 633 | 346,824 | 4.3% | 3009 | 3,657,100 | 45.6% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 9526 | 7,591,828 | 94.6% |
 
 </details>
 
@@ -220,10 +220,11 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | state | modules | rows | meaning |
 |---|---:|---:|---|
-| current | 227 | 1,552 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
+| current | 0 | 0 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
+| stale: inputs changed | 227 | 1,552 | a certificate exists but a source, recipe, header, tool or review it covers has changed since; it needs renewing |
 | not certified yet | 17 | 277 | no certificate has been issued for this module |
 
-<details><summary>current - 227 modules, 1,552 rows</summary>
+<details><summary>stale: inputs changed - 227 modules, 1,552 rows</summary>
 
 | module | rows |
 |---|---:|
@@ -542,7 +543,7 @@ Choices the tree keeps on purpose and tracks; none is an assembler pin. The comp
 | one-trip barrier rows | 2 | `ledger/onetrip_barrier_rows.jsonl` |
 | load-bearing one-trip rows | 85 | `ledger/onetrip_loadbearing.jsonl` |
 | carve debt: composite rows | 0 statements in 0 rows | `tools/pin_census.py composite_asm_spans` |
-| hidden scaffolding (not pins) | 51 sites (49 symbol aliases) | `pin_census.hidden_asm` |
+| hidden scaffolding (not pins) | 9 sites (7 symbol aliases) | `pin_census.hidden_asm` |
 | per-row optimization flags | 2,010 rows with one, 0 with two or more | `ledger/rows.jsonl` |
 | site-for-pin trades | 27 | `ledger/recipe_trades.jsonl` |
 | dead-initializer trades | 24 | `ledger/recipe_trades.jsonl` |
@@ -557,7 +558,7 @@ Choices the tree keeps on purpose and tracks; none is an assembler pin. The comp
 
 Tracked, not pins (owner 2026-10-06): oddities 0 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: -); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 0 statements in 0 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 49 (a second typed name for one symbol: a missing type); file-scope asm directives 2; file-scope global register variables 0 (`register T g asm("$R")`).
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 7 (a second typed name for one symbol: a missing type); file-scope asm directives 2; file-scope global register variables 0 (`register T g asm("$R")`).
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 2,010 rows carry one flag, 0 carry two or more.
 

@@ -72,6 +72,4 @@ s32 choose_best_eligible_entry_for_actor(void *actor_arg, s32 action_arg, Moving
     return 0;
 }
 
-/* MECHANISM: the 0x38 frame holds natural s4 plus pinned s5/s2/s0/s1/s3 roles.
-   Selective DEPIN of saved_actor preserves natural s4 but makes the first call source s0;
-   the post-call s0 keep splits later live ranges without disturbing call setup. */
+/* MECHANISM: The post-call s0 keep splits later live ranges without disturbing call setup. */

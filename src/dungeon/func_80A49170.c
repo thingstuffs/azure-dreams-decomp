@@ -168,7 +168,7 @@ void start_selected_move_and_reset_action(void *action, EntityRec *position, voi
     }
 }
 
-/* MECHANISM: The 0x38 frame naturally holds args in s3/s4/s2/s1, with s5 state and s0 choice.
-   Carrying the loaded object through the copy join removes a redundant lw+nop pair.
-   A kept special-test copy restores move v0,s5; a schedule fence orders the result store.
-   Holding the copied record in v1 closes the final four register-field substitutions. */
+/* MECHANISM: The 0x38 frame naturally holds args in s3/s4/s2/s1, with s5 state and s0 choice. Carrying
+   the loaded object through the copy join removes a redundant lw+nop pair. A kept special-test copy
+   restores move v0,s5; holding the copied record in v1 closes the final four register-field
+   substitutions. */

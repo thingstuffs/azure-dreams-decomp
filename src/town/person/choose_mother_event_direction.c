@@ -91,7 +91,6 @@ void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_
     entity->unk_50.as_pv = &D_800C7674;
 }
 
-/* MECHANISM: Recovered 0x800C7BB0 as the true-space local join, not a callee.
-   Guarded s2/s3 holds leave the retry counter in s1 and reproduce the save contract.
-   Arm-local v0/v1/a0 live ranges order all three loads before each add/sub compare.
-   2.7.2-cdk-G0 closes the final lui/move/jal/addiu argument schedule. */
+/* MECHANISM: Recovered 0x800C7BB0 as the true-space local join, not a callee. Arm-local v0/v1/a0 live
+   ranges order all three loads before each add/sub compare. 2.7.2-cdk-G0 closes the final
+   lui/move/jal/addiu argument schedule. */

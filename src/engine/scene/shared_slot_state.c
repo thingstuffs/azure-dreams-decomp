@@ -1,6 +1,6 @@
 #include "engine/scene/gp_shared_slots.h"
 
-#include "engine/scene/gp_shared_slots.h"
+
 
 void func_8003CB08(void)
 {
@@ -83,7 +83,6 @@ void func_8003CB08(void)
         }
     }
 }
-#include "engine/scene/gp_shared_slots.h"
 
 void func_8003CCB0(s32 blend_step)
 {

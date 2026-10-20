@@ -45,6 +45,5 @@ s32 compare_three_bit_masks_cyclically(s32 left_mask, s32 right_mask) {
     return (s16)score;
 }
 
-/* MECHANISM: Frameless leaf; guarded roles hold result/flags in $v1/$a3/$a2.
-   A separate $v0 next-mask plus an explicit early return preserves the split CFG
-   and both retail sign-extension sites, including the false-edge delay slot. */
+/* MECHANISM: Frameless leaf; a separate $v0 next-mask plus an explicit early return preserves the split
+   CFG and both retail sign-extension sites, including the false-edge delay slot. */

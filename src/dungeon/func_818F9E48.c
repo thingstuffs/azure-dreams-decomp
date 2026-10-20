@@ -175,7 +175,5 @@ void update_timed(void *state, void *position_out, void *effect_arg) {
     }
 }
 
-/* MECHANISM: Separate packed source/derived locals preserve the 0x40 frame and retail slots.
-   Guarded $t0/$a3 holds plus EffectState::levels recover the prologue and base-first loop adds.
-   Zero-arg noreturn tails, a $v0 tail-slot pin, ordered CFG labels, and seam fences close the ABI. */
+/* MECHANISM: Separate packed source/derived locals preserve the 0x40 frame and retail slots. */
 

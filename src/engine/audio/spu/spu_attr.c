@@ -1,11 +1,11 @@
 #include "slus/jtbl_8005EDA0.h"
-
 #include "common.h"
+
+
 
 /* Rodata owner: the row's switch emits its jump table(s) into this object's .rodata,
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
-#include "slus/jtbl_8005EDA0.h"
 
 /* Enables/disables SPU reverb and mirrors the active flag in D_800794F8. */
 s32 func_8005D88C(s32 enable)
@@ -37,7 +37,6 @@ s32 func_8005D88C(s32 enable)
 
     return D_800794F8;
 }
-#include "slus/jtbl_8005EDA0.h"
 
 void func_8005EDA0(SpuCommonAttr *attr)
 {

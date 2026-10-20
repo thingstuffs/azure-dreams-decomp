@@ -1,6 +1,6 @@
 #include "dungeon/effect/shade/fading_effect_set.h"
+
 void (*const dungeon_ovl_188898c_entry)(void) = (void (*)(void))move_linked_effect_along_path;
-#include "dungeon/effect/shade/fading_effect_set.h"
 
 void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
     u8 *actor = D_800E3D7C;
@@ -20,7 +20,6 @@ void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
         actor = *(u8 **)(actor + 0x5C) + 0x20;
     } while (actor != D_800E3D7C);
 }
-#include "dungeon/effect/shade/fading_effect_set.h"
 
 void advance_fading_effect(void *effect, void *position, void *render_data)
 {
@@ -49,7 +48,6 @@ void advance_fading_effect(void *effect, void *position, void *render_data)
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/shade/fading_effect_set.h"
 
 void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81868A64_3 *source_pos, u8 intensity) {
     ovl_188898c_81868A64_S_81868A64_1 *render_state;
@@ -77,7 +75,6 @@ void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81
         effect_pos->unk_0A = (s16) ((source_pos->unk_0A + (rand() % 17)) - 8);
     }
 }
-#include "dungeon/effect/shade/fading_effect_set.h"
 
 void animate_spiral_grayscale_effect(void *effect, void *position) {
     s32 radial_product;
@@ -195,7 +192,6 @@ void animate_spiral_grayscale_effect(void *effect, void *position) {
         ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_00 = 3;
     }
 }
-#include "dungeon/effect/shade/fading_effect_set.h"
 
 void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E84_3 *coords) {
     u32 owner_value;
@@ -235,7 +231,6 @@ void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E8
 /* MECHANISM: Hold owner[9] in a u32 local after the first two zero stores.
    Its live range claims $a0, leaving the allocator result in $a1; u32 avoids
    the redundant andi and collapses the +1-word branch-displacement cascade. */
-#include "dungeon/effect/shade/fading_effect_set.h"
 
 void shrink_and_brighten_effect(void *state_ref, void *unused, void *effect) {
     u16 scale;
@@ -258,7 +253,6 @@ void shrink_and_brighten_effect(void *state_ref, void *unused, void *effect) {
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/shade/fading_effect_set.h"
 
 void delay_and_fade_particle(s32 value, void *source_data) {
     ovl_188898c_81868FDC_Object *obj;
@@ -288,7 +282,6 @@ void delay_and_fade_particle(s32 value, void *source_data) {
         dst[5] = src[5];
     }
 }
-#include "dungeon/effect/shade/fading_effect_set.h"
 
 static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 {
@@ -518,7 +511,6 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
    Each interpolation arm keeps its coordinates, steps and mask in arm-local variables
    (single-lifetime quantities for local-alloc), while coord_delta and line stay function-wide;
    the masked step_x read gives the mask the extra reference that orders it ahead of y0. */
-#include "dungeon/effect/shade/fading_effect_set.h"
 
 void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_818694D4_Motion *input_motion, void *input_render_data)
 {

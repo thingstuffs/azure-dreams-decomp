@@ -79,6 +79,5 @@ void create_familiar_deployment_effect_with_owner_state(s32 priority, EntityRec 
         effect_state->unk_08 = 1;
     }
 }
-/* MECHANISM: The natural three-pointer lifetimes reproduce retail's 0x20 frame
-   and s0/s2/s1 save contract. A volatile first flags read fixes load placement;
-   ASM_MEM_BARRIER forces the second lhu while preserving the branch-delay move. */
+/* MECHANISM: The natural three-pointer lifetimes reproduce retail's 0x20 frame and s0/s2/s1 save
+   contract. A volatile first flags read fixes load placement. */

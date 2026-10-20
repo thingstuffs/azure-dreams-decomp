@@ -1,18 +1,11 @@
 #include "slus/gp_shared_8099c.h"
 
+
 /* Shared display-cancellation state; retail initializes it to zero. */
 s32 D_8008099C = 0;
 
-#include "slus/gp_shared_8099c.h"
 
 /* obj_disp23_cancel_sw_set: sets the display cancellation switch and returns it. */
-s32 obj_disp23_cancel_sw_set(s32 cancel_switch)
-{
-    D_8008099C = cancel_switch;
-    return cancel_switch;
-}
-#include "slus/gp_shared_8099c.h"
-
 extern void PushMatrix(void);
 extern void PopMatrix(void);
 extern void TransMatrix(void *, void *);
@@ -24,9 +17,16 @@ extern void SetTransMatrix(void *);
 extern void RotTransPers4(void *, void *, void *, void *, void *, void *,
                           void *, void *, void *, void *);
 extern void AddPrim(void *, void *);
-
 extern u8 D_80080994[];
 extern u8 *D_80083160[3];
+
+s32 obj_disp23_cancel_sw_set(s32 cancel_switch)
+{
+    D_8008099C = cancel_switch;
+    return cancel_switch;
+}
+
+
 
 #define U8_AT(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o) (*(s8 *)((u8 *)(p) + (o)))

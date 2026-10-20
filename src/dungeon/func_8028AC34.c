@@ -43,6 +43,6 @@ void clear_region_grid_rectangle(floor_generate_isolated_8028AC34_S_8001DC34_0 *
     }
 }
 
-/* MECHANISM: Frameless true-name leaf; runtime pins preserve a3/a2/a1 and v1/a0 roles.
-   Narrow inner counters plus top-of-loop sign rematerialization recover both loop shapes.
-   Integer-address D_800E9FFA with scaled-index-first addition closes the final addu. */
+/* MECHANISM: Frameless true-name leaf; narrow inner counters plus top-of-loop sign rematerialization
+   recover both loop shapes. Integer-address D_800E9FFA with scaled-index-first addition closes the
+   final addu. */

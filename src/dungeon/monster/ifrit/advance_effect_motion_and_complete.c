@@ -28,5 +28,5 @@ void advance_effect_motion_and_complete(Func80A209A4Data *motion) {
     }
 }
 
-/* MECHANISM: Frameless leaf; the guarded $a2 data pin reproduces the entry copy and base lifetime.
-   Direct compound member updates preserve retail load order and induce its v0/v1 copy pseudos. */
+/* MECHANISM: Frameless leaf; direct compound member updates preserve retail load order and induce its
+   v0/v1 copy pseudos. */

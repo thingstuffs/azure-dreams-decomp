@@ -115,6 +115,4 @@ void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 s
     }
 }
 
-/* MECHANISM: Pinned stack args offset_y/offset_z create the retail s3/s4 hold set and 0x30 frame;
-   end-placed ASM_KEEP guards preserve the exact prologue and call-delay scheduling.
-   A packed Copy12 assignment emits the retail lwl/lwr and swl/swr copy sequence. */
+/* MECHANISM: A packed Copy12 assignment emits the retail lwl/lwr and swl/swr copy sequence. */

@@ -1,5 +1,5 @@
 #include "dungeon/system/quad_turn.h"
-#include "dungeon/system/quad_turn.h"
+
 
 s32 check_scratch_quad_half_turn_gaps(ovl_16b08_f6a8_7FFEF6A8_S_7FFEF6A8_0 *poly) {
     s32 delta_3;

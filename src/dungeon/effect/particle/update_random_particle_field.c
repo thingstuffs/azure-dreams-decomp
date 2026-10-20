@@ -1,9 +1,8 @@
 #include "dungeon/effect/particle/update_random_particle_field.h"
-#include "dungeon/effect/particle/update_random_particle_field.h"
+
 
 /* Selector bank entry calls the complete native initialization member. */
 void (*const D_80024000)(void *, void *) = update_random_particle_field;
-#include "dungeon/effect/particle/update_random_particle_field.h"
 s32 decrement_flagged_item_parameters(DungeonObject *object) {
     s32 changed_count;
     DungeonObjectEntry *entry;
@@ -37,7 +36,6 @@ s32 decrement_flagged_item_parameters(DungeonObject *object) {
     }
     return changed_count;
 }
-#include "dungeon/effect/particle/update_random_particle_field.h"
 void update_random_particle_field(void *self, void *output)
 {
     Copy24 *copy_src;
@@ -171,7 +169,6 @@ void update_random_particle_field(void *self, void *output)
         return;
     }
 }
-#include "dungeon/effect/particle/update_random_particle_field.h"
 void draw_red(void *effect) {
     s32 ticks_left;
     s32 surface_height;

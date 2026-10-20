@@ -13,6 +13,5 @@ void select_scene_choice_by_mode(void)
     D_8001B320 = choices[*(s32 *)((s8 *)town + 0xB0)];
 }
 
-/* MECHANISM: Two sibling pointer locals create the retail sp+0x10/sp+0x14 table
-   while the town pointer alone remains live in s0 across calls.  An entry
-   scheduling fence keeps the ra/s0 saves ahead of independent table setup. */
+/* MECHANISM: Two sibling pointer locals create the retail sp+0x10/sp+0x14 table while the town pointer
+   alone remains live in s0 across calls. */

@@ -72,7 +72,4 @@ void fill_display_slots(EntityRec *source, s32 output) {
         } while (index < 3);
     }
 }
-/* MECHANISM: A 3-pointer stack array forces the retail 0x40 frame; unified loop-role
-   live ranges plus guarded $s1/$s3/$s2 pins reproduce the hold set.
-   cdk-G0's zero-equivalence copy and a volatile $v0 tail load with post-store keep fence
-   place $s0++ in the load delay and preserve the retail loop schedule. */
+/* MECHANISM: A 3-pointer stack array forces the retail 0x40 frame. */

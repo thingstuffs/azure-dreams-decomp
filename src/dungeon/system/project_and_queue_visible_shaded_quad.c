@@ -1,5 +1,5 @@
 #include "dungeon/system/project_and_queue_visible_shaded_quad.h"
-#include "dungeon/system/project_and_queue_visible_shaded_quad.h"
+
 
 s32 project_and_queue_visible_shaded_quad(s32 limit) {
     s16 result;

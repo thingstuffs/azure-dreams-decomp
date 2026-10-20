@@ -1,6 +1,6 @@
 #include "town/map/door.h"
 
-#include "town/map/door.h"
+
 
 /* Test the object status, reversing the result when the linked record has bit 3 set. */
 s32 check_door_status_inverted(void *object) {
@@ -9,7 +9,6 @@ s32 check_door_status_inverted(void *object) {
     }
     return ((Rec_func_800A0668_arg0 *)object)->unk_95 != 0;
 }
-#include "town/map/door.h"
 
 /* Initialize the record and select its handler according to its variant. */
 void initialize_door_variant(void *record_data, s32 initial_value) {
@@ -37,7 +36,6 @@ void initialize_door_variant(void *record_data, s32 initial_value) {
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_1C = &D_800D09E0;
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_78 = 0;
 }
-#include "town/map/door.h"
 
 /* Clear and flag the object on a nonzero check result, or invoke its callback. */
 void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data)
@@ -68,7 +66,6 @@ void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32
         }
     }
 }
-#include "town/map/door.h"
 
 /* Install the next object handler when the update call succeeds. */
 void install_next_door_handler(void *object, s32 unused_value, s32 update_context, u8 unused_flags) {
@@ -79,7 +76,6 @@ void install_next_door_handler(void *object, s32 unused_value, s32 update_contex
         *(s32 *)((u8 *)object + 0x50) = (s32) &emit_door_position_effect;
     }
 }
-#include "town/map/door.h"
 
 /* Set the entity effect and emit it at the supplied position when the checks pass. */
 void emit_door_position_effect(S800A3088Arg0 *entity, s32 action, S800A3088Arg2 *position) {
@@ -96,7 +92,6 @@ void emit_door_position_effect(S800A3088Arg0 *entity, s32 action, S800A3088Arg2 
         initialize_player_entity_callbacks(entity->unk72, action, position->unk6);
     }
 }
-#include "town/map/door.h"
 
 // Increase the object's ramp value, then finalize and change state at the limit.
 void open_door_to_target(void *object, void *context) {
@@ -110,12 +105,10 @@ void open_door_to_target(void *object, void *context) {
         *(void **)((u8 *)object + 0x50) = &door_no_op;
     }
 }
-#include "town/map/door.h"
 
 /* Returns without performing any work. */
 void door_no_op(void) {
 }
-#include "town/map/door.h"
 
 /* Increase the door opening angle and switch handlers when fully open. */
 void advance_door_open_angle(S_800A08F0_0 *door) {
@@ -128,7 +121,6 @@ void advance_door_open_angle(S_800A08F0_0 *door) {
         door->unk_50 = &tick_door_open_countdown;
     }
 }
-#include "town/map/door.h"
 
 /* Decrement the countdown and switch to advance_door_close_angle when it expires. */
 void tick_door_open_countdown(S_800A092C_0 *state) {
@@ -140,7 +132,6 @@ void tick_door_open_countdown(S_800A092C_0 *state) {
         state->unk_50 = &advance_door_close_angle;
     }
 }
-#include "town/map/door.h"
 
 /* Decrease the door opening angle and switch handlers when closed. */
 void advance_door_close_angle(S_800A0958_0 *door) {
@@ -153,7 +144,6 @@ void advance_door_close_angle(S_800A0958_0 *door) {
         door->unk_50 = &emit_door_position_effect;
     }
 }
-#include "town/map/door.h"
 
 /* Finds the first node with the required key and value whose 0x400 flag is clear. */
 void *find_door_keyed_node(s32 requested_value)
@@ -186,7 +176,6 @@ void *find_door_keyed_node(s32 requested_value)
     result = 0;
     return result;
 }
-#include "town/map/door.h"
 
 /* door_open_demo_set_sub: Set the door opening demo handler and angle. */
 void door_open_demo_set_sub(s32 door_id, s16 demo_angle) {
@@ -200,13 +189,11 @@ void door_open_demo_set_sub(s32 door_id, s16 demo_angle) {
         door->unk6C = demo_angle;
     }
 }
-#include "town/map/door.h"
 
 /* door_open_demo_set: Run the shared town script handler with argument 8. */
 void door_open_demo_set(s32 script_context) {
     door_open_demo_set_sub(script_context, 8);
 }
-#include "town/map/door.h"
 
 /* door_atari_on_off: Set the collision flag for the selected door. */
 void door_atari_on_off(s32 door_id, s16 collision_enabled) {
@@ -217,7 +204,6 @@ void door_atari_on_off(s32 door_id, s16 collision_enabled) {
         door->unk_88 = collision_enabled;
     }
 }
-#include "town/map/door.h"
 
 /* into_dn_door_demo_set: Initialize the dungeon entrance door demo state and handler. */
 void into_dn_door_demo_set(void) {
@@ -231,7 +217,6 @@ void into_dn_door_demo_set(void) {
         door->unk_50 = &update_door_completion_state;
     }
 }
-#include "town/map/door.h"
 
 /* Check interaction conditions, apply the target value, and trigger a positional effect. */
 void trigger_door_interaction_effect(void *actor, void *target, void *position) {
@@ -251,7 +236,6 @@ void trigger_door_interaction_effect(void *actor, void *target, void *position) 
     *(void **)((u8 *)actor + 0x50) = &door_no_op;
     initialize_entity_handlers_and_position(*(s16 *)((u8 *)actor + 0x72), *(s16 *)((u8 *)position + 2), *(s16 *)((u8 *)position + 6));
 }
-#include "town/map/door.h"
 
 /* Changes maps using direct map data or a selected table entry. */
 void change_door_map(void *map_source, s32 *map_table) {
@@ -272,7 +256,6 @@ void change_door_map(void *map_source, s32 *map_table) {
     }
     change_map(map_source);
 }
-#include "town/map/door.h"
 
 /* Update the entity step state and switch handlers when the result is zero. */
 void advance_door_step(void *entity) {
@@ -286,7 +269,6 @@ void advance_door_step(void *entity) {
         *(void **)((u8 *)entity + 0x50) = &select_tower_entry_handler_by_item_count;
     }
 }
-#include "town/map/door.h"
 
 void select_tower_entry_handler_by_item_count(S_800A0C30_0 *script_state, void *unused_context, S_800A0C30_1 *event_params) {
     if (check_door_input_and_angle(script_state, unused_context) != 0) {
@@ -300,7 +282,6 @@ void select_tower_entry_handler_by_item_count(S_800A0C30_0 *script_state, void *
         set_player_block_value(script_state->unk_72);
     }
 }
-#include "town/map/door.h"
 
 /* Set the object handler when service_script_controller returns zero. */
 void set_door_handler_if_ready(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3) {
@@ -308,7 +289,6 @@ void set_door_handler_if_ready(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s
         object->unk_50 = &select_tower_entry_handler_by_item_count;
     }
 }
-#include "town/map/door.h"
 
 /* Updates the object's state and applies completion effects when it reaches zero. */
 void update_door_completion_state(u8 *object, s32 unused, s32 state_id, s32 state_arg) {
@@ -324,7 +304,6 @@ void update_door_completion_state(u8 *object, s32 unused, s32 state_id, s32 stat
         SD_Call(0x300);
     }
 }
-#include "town/map/door.h"
 
 /* Advance the state counter and apply the next state when the check succeeds. */
 void advance_door_state_counter(S_800A0DAC_0 *state, s32 unused, s32 context_a, s32 context_b) {
@@ -335,7 +314,6 @@ void advance_door_state_counter(S_800A0DAC_0 *state, s32 unused, s32 context_a, 
         state->unk_50 = &tick_door_countdown;
     }
 }
-#include "town/map/door.h"
 
 /* Update the countdown and reset the object's state when it expires. */
 void tick_door_countdown(Rec_func_800A0668_arg0 *object, S_800A0E3C_1 *source, s32 update_arg_a, s32 update_arg_b) {
@@ -350,7 +328,6 @@ void tick_door_countdown(Rec_func_800A0668_arg0 *object, S_800A0E3C_1 *source, s
         into_dn_door_jobs();
     }
 }
-#include "town/map/door.h"
 
 /* into_dn_door_jobs: Run dungeon entrance setup and reset entry flags. */
 void into_dn_door_jobs(void) {
@@ -362,7 +339,6 @@ void into_dn_door_jobs(void) {
     D_80082E60.flags16 = 0;
     D_80013714 &= 0xFFF8;
 }
-#include "town/map/door.h"
 
 /* Tests the input and object angle against either supported global state. */
 s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, s32 test_value) {

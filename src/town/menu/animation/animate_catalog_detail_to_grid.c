@@ -83,6 +83,5 @@ void animate_catalog_detail_to_grid(Rec_func_801237A4_arg0 *state)
     }
 }
 
-/* MECHANISM: The true-space 0x801260D4 target is a local epilogue edge; a 13-way
-   external-table dispatch preserves the 0x18 frame and sole s0 hold. Named bases,
-   runtime a0/a1 pins, load-boundary keeps, and integer index-first addition close it. */
+/* MECHANISM: The true-space 0x801260D4 target is a local epilogue edge; a 13-way external-table
+   dispatch preserves the 0x18 frame and sole s0 hold. */

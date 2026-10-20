@@ -1,6 +1,6 @@
 #include "engine/audio/spu/sound_transfer_helpers.h"
 
-#include "engine/audio/spu/sound_transfer_helpers.h"
+
 
 /* Applies and returns the rate capped at 0x7EFF0, clearing the flag when the queue is inactive. */
 s32 clamp_and_submit_driver_parameter(s32 voice, u32 rate)
@@ -19,7 +19,6 @@ s32 clamp_and_submit_driver_parameter(s32 voice, u32 rate)
 
     return clamped_rate;
 }
-#include "engine/audio/spu/sound_transfer_helpers.h"
 
 /* Latches and shifts the value for an in-range address, or returns zero. */
 s32 lookup_and_scale_driver_address(s32 address)
@@ -34,7 +33,6 @@ s32 lookup_and_scale_driver_address(s32 address)
     D_80079970 = shift_input;
     return (s32)shift_input << D_80079980;
 }
-#include "engine/audio/spu/sound_transfer_helpers.h"
 
 /* Polls or waits for SPU transfer completion and latches the completion status. */
 s32 poll_driver_completion_event(s32 wait_for_completion)

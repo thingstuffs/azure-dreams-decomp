@@ -67,7 +67,4 @@ void update_randomized_motion_and_completion(void *state, void *position, void *
     }
 }
 
-/* MECHANISM: Guarded a0/a1/a2 call-argument pins fence D_80025338 without
-   growing the retail 0x20 s1/s0/s2 frame. Byte table bases with s16 loads
-   plus explicit accumulator RMWs place each lw before mflo. A tail a0
-   constant pin and direct D_800814A0 scalar RMW remove the two cascades. */
+/* MECHANISM: Byte table bases with s16 loads plus explicit accumulator RMWs place each lw before mflo. */

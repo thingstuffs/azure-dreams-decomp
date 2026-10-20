@@ -19,7 +19,3 @@ s32 check_active_transform_object(void *other) {
     return 0;
 }
 
-/* MECHANISM: An entry ASM_SCHED_BARRIER keeps GCC's frame alloc/save ahead of the first global load;
-   LEAD 19 then elides them while preserving the retail load and branch delay nops.
-   A short-lived pinned $v0 copy plus ASM_TAILSLOT_PIN lets LEAD 28 sink move v0,a0
-   into LEAD 22's converted func_800C2AAC tail-jump delay slot. */

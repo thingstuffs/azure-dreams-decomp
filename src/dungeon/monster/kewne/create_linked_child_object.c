@@ -73,6 +73,5 @@ void create_linked_child_object(void *parent_state) {
     }
 }
 
-/* MECHANISM: The Pair stack object plus long-lived arg0/result locals produces the
-   retail 0x28 frame and s1/s0 save contract. Removing inherited ASM_REG/ASM_KEEP
-   pins releases both tail argument schedules and closes the reorder-only residue. */
+/* MECHANISM: The Pair stack object plus long-lived arg0/result locals produces the retail 0x28 frame
+   and s1/s0 save contract. */

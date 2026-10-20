@@ -1,5 +1,5 @@
 #include "dungeon/monster/naplass/allocate_kind_object.h"
-#include "dungeon/monster/naplass/allocate_kind_object.h"
+
 
 /* Allocate an object, initialize its parts and kind flags, and return its work area. */
 void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 value_0a)

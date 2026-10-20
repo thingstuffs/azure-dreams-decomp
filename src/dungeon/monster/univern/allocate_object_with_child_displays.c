@@ -1,5 +1,5 @@
 #include "dungeon/monster/univern/allocate_object_with_child_displays.h"
-#include "dungeon/monster/univern/allocate_object_with_child_displays.h"
+
 
 void *allocate_object_with_child_displays(s32 kind, s32 part_value_24, s32 part_value_25, s32 copy_value)
 {

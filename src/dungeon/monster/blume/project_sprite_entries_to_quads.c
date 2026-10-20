@@ -1,5 +1,5 @@
 #include "dungeon/monster/blume/project_sprite_entries_to_quads.h"
-#include "dungeon/monster/blume/project_sprite_entries_to_quads.h"
+
 
 /* Project sprite entries into textured quads and append visible quads to the ordering table. */
 void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_80170874_S_80DB9000_2 *position, T_80170874_S_80DB9000_3 *sprite, s16 depth_bias) {

@@ -49,6 +49,5 @@ void advance_damped_motion(void *actor, Motion *motion) {
     object_flag_block.flags |= 0x8000;
 }
 
-/* MECHANISM: Frameless leaf keeps actor/motion in $a3/$a2; the volatile y reload preserves damping order.
-   A split counter RMW holds its increment in $v0 past the timer sh, filling the blez delay slot.
-   Reusing pinned $v0 for the 0xE signed term, then adding the $v1 0x12 term, closes the final coloring. */
+/* MECHANISM: Frameless leaf keeps actor/motion in $a3/$a2; the volatile y reload preserves damping
+   order. A split counter RMW holds its increment in $v0 past the timer sh, filling the blez delay slot. */

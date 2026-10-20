@@ -23,6 +23,5 @@ s32 get_conditional_monster_entry(s16 entry_index) {
     return value;
 }
 
-/* MECHANISM: Frameless leaf; one guarded $v0 carrier spans zero, global base,
-   halfword condition, and result, while a guarded $v1 holds the entry.
-   Assigning the halfword before the literal-zero guard preserves both zero delay slots. */
+/* MECHANISM: Frameless leaf; assigning the halfword before the literal-zero guard preserves both zero
+   delay slots. */

@@ -1,5 +1,5 @@
 #include "dungeon/effect/shade/update_directional_actor_effect.h"
-#include "dungeon/effect/shade/update_directional_actor_effect.h"
+
 
 void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
                    s16 end_z, s16 *angles)
@@ -24,7 +24,6 @@ void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 
     angles[1] = func_80065F90(delta.x, divisor);
     angles[2] = 0;
 }
-#include "dungeon/effect/shade/update_directional_actor_effect.h"
 
 void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *sprite)
 {
@@ -155,7 +154,6 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
 
     ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_12 = ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_12 + 1;
 }
-#include "dungeon/effect/shade/update_directional_actor_effect.h"
 
 void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s32 render_param)
 {
@@ -185,7 +183,6 @@ void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s3
         *((u16 *) (((s8 *) sprite) + 0x14)) = (u16) ((*((u16 *) (((s8 *) sprite) + 0x14))) | 0x10C);
     }
 }
-#include "dungeon/effect/shade/update_directional_actor_effect.h"
 
 void update_rotating_effect_and_fade(void *effect, void *position, void *sprite) {
     Row_8194CD5C_InputVector local_offset;
@@ -230,7 +227,6 @@ void update_rotating_effect_and_fade(void *effect, void *position, void *sprite)
 /* MECHANISM: Two six-byte vector aggregates force stack slots sp+0x10..0x14 and sp+0x18..0x1C,
    restoring the 0x30 frame and the s0/s1/s2-only save set.
    cdk -G0 plus a direct scalar D_800814A0 RMW removes the extra address addiu and closes the residue. */
-#include "dungeon/effect/shade/update_directional_actor_effect.h"
 
 void create_textured_offset_object(void *source_object)
 {
@@ -312,7 +308,6 @@ void create_textured_offset_object(void *source_object)
         ((Row_8194CF00_S_80024700_1 *)primitive_2)->unk_08.at02.v += world_offset[2];
     }
 }
-#include "dungeon/effect/shade/update_directional_actor_effect.h"
 
 void advance_object_motion_and_animation(void *object) {
     s16 next_tick;
@@ -338,7 +333,6 @@ void advance_object_motion_and_animation(void *object) {
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/shade/update_directional_actor_effect.h"
 
 void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,
     Row_8194D1E4_FourWords params_b, Row_8194D1E4_Packed8 packed_params) {
@@ -401,7 +395,6 @@ void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end
    Scalarized copy bursts color through v0,v1,a0,a1 while the allocation result is held in a2.
    A derived sp base with ASM_KEEP prevents packed tail loads folding from lwl/lwr pairs into lw;
    the paired tail source reads then also eliminate both downstream branch-displacement drifts. */
-#include "dungeon/effect/shade/update_directional_actor_effect.h"
 
 void update_three_way_target_effect(void *effect_arg, void *position) {
     s32 fallback_pos[6];

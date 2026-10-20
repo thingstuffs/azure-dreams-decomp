@@ -1,5 +1,5 @@
 #include "dungeon/monster/troll/update_kind_directional_tables.h"
-#include "dungeon/monster/troll/update_kind_directional_tables.h"
+
 
 /* Updates directional tables for kinds 13 through 15 and processes object state. */
 void update_kind_directional_tables(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)

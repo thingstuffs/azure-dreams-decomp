@@ -1,6 +1,6 @@
 #include "engine/audio/sound_pitch_conversions.h"
 
-#include "engine/audio/sound_pitch_conversions.h"
+
 
 /* Scales a pitch by a fractional note offset, interpolating between adjacent steps. */
 u32 sound_scale_pitch_by_fractional_note(s32 pitch, u32 note_offset)
@@ -29,7 +29,6 @@ u32 sound_scale_pitch_by_fractional_note(s32 pitch, u32 note_offset)
     }
     return (u32)(pitch_low + (((u32)(pitch_high - pitch_low) >> 5) * note_offset)) >> 12;
 }
-#include "engine/audio/sound_pitch_conversions.h"
 
 u32 func_8005F7D0(u16 center_note, u16 center_fine, u16 note, u16 fine)
 {
@@ -91,7 +90,6 @@ u32 func_8005F7D0(u16 center_note, u16 center_fine, u16 note, u16 fine)
     }
     return pitch & 0xFFFF;
 }
-#include "engine/audio/sound_pitch_conversions.h"
 
 u32 sound_convert_pitch_to_packed_note(u16 center_note, u16 center_fine, u16 pitch)
 {

@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 
 
+
 typedef struct S_80098FB0_0 {
     u8 pad_00[0x249];
     u8 unk_249;
@@ -27,7 +28,6 @@ s32 find_last_zero_entry_run_start(void) {
     shifted_index = run_start << 0x10;
     return shifted_index >> 0x10;
 }
-#include "common.h"
 
 /* Find the first empty slot and clear its associated table entry. */
 s32 find_and_clear_empty_item_slot(void) {
@@ -48,7 +48,6 @@ s32 find_and_clear_empty_item_slot(void) {
     }
     return (s16)empty_index;
 }
-#include "common.h"
 s32 find_table_value_index(s32 target_value) {
     s32 *table = (s32 *)0x80010000;
     s32 entry_index;

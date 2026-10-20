@@ -1,5 +1,5 @@
 #include "dungeon/effect/motion/create_randomized_source_effect.h"
-#include "dungeon/effect/motion/create_randomized_source_effect.h"
+
 
 void func_80024048(void *motion, Row_8191C848_S_8191C848_3 *position, Rec_D_80082E80 *status) {
     s32 y_step_scaled;
@@ -17,7 +17,6 @@ void func_80024048(void *motion, Row_8191C848_S_8191C848_3 *position, Rec_D_8008
     position->unk_0A = (u16) (position->unk_0A - 4);
     position->unk_06 = (u16) (position->unk_06 + (y_step_scaled >> 8));
 }
-#include "dungeon/effect/motion/create_randomized_source_effect.h"
 
 void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
 {
@@ -63,7 +62,6 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
     result = NULL;
     return result;
 }
-#include "dungeon/effect/motion/create_randomized_source_effect.h"
 
 void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect) {
     s32 state;
@@ -145,7 +143,6 @@ void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion
         return;
     }
 }
-#include "dungeon/effect/motion/create_randomized_source_effect.h"
 
 s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
     Row_8191CBCC_S_8191CBCC_2 *params = params_input;
@@ -204,7 +201,6 @@ s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
     }
     return 0;
 }
-#include "dungeon/effect/motion/create_randomized_source_effect.h"
 
 void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_80024578_2 *position, void *render_data)
 {

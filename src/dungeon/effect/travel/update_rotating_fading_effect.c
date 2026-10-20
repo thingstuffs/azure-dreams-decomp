@@ -1,6 +1,6 @@
 #include "dungeon/effect/travel/update_rotating_fading_effect.h"
+
 void (*const dungeon_ovl_18ca83c_entry)(void) = (void (*)(void))advance_target_travel_effect;
-#include "dungeon/effect/travel/update_rotating_fading_effect.h"
 
 void func_8002403C(void *target, s32 amount_input, void *owner) {
     s32 base_amount;
@@ -20,7 +20,6 @@ void func_8002403C(void *target, s32 amount_input, void *owner) {
     }
 }
 
-#include "dungeon/effect/travel/update_rotating_fading_effect.h"
 
 void update_rotating_fading_effect(void *effect, void *position, void *sprite)
 {
@@ -115,7 +114,6 @@ void update_rotating_fading_effect(void *effect, void *position, void *sprite)
         break;
     }
 }
-#include "dungeon/effect/travel/update_rotating_fading_effect.h"
 
 void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83c_818AABB8_S_800243B8_3 *start, ovl_18ca83c_818AABB8_S_800243B8_4 *center, s16 index)
 {
@@ -206,7 +204,6 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
     }
     return NULL;
 }
-#include "dungeon/effect/travel/update_rotating_fading_effect.h"
 
 void advance_target_travel_effect(void *effect, void *motion, void *appearance) {
     ovl_18ca83c_818AAE60_Func818AAE60Scratch scratch;

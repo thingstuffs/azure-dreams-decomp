@@ -1,6 +1,6 @@
 /* Complete assigned cohort in retail order; compiled once as one native TU. */
 #include "town/scene/set_fixed_record_parameters.h"
-#include "town/scene/set_fixed_record_parameters.h"
+
 
 /* extern */
 
@@ -8,7 +8,6 @@
 void set_fixed_record_parameters(void) {
     blend_position_and_trace(7, 1, 1, 2);
 }
-#include "town/scene/set_fixed_record_parameters.h"
 
 /* extern */
 
@@ -16,7 +15,6 @@ void set_fixed_record_parameters(void) {
 void set_negative_record_parameters(void) {
     blend_position_and_trace(7, 1, -1, 2);
 }
-#include "town/scene/set_fixed_record_parameters.h"
 
 /* Set the current record's linked state fields to 0x15 and 0x12. */
 void set_current_record_linked_states(void) {

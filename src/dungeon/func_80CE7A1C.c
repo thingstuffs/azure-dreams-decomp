@@ -163,7 +163,7 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
     ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5E = fallback_y / 2;
 }
 
-/* MECHANISM: The 0x38 frame and guarded register live ranges preserve the retail prologue, held bases, and table pipelines.
-   Raw u8 shift/sign-extension idioms reproduce the fallback branches without widening artifacts.
-   Mutating scaled_x with >>= 10 lets its sra fill an lh delay; scaled_y is shifted in one expression (single-set pseudos
-   are scheduled as births), which keeps the second half in source order around the zero store. */
+/* MECHANISM: Raw u8 shift/sign-extension idioms reproduce the fallback branches without widening
+   artifacts. Mutating scaled_x with >>= 10 lets its sra fill an lh delay; scaled_y is shifted in one
+   expression (single-set pseudos are scheduled as births), which keeps the second half in source order
+   around the zero store. */

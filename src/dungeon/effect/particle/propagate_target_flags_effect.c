@@ -1,15 +1,45 @@
 #include "dungeon/effect/particle/propagate_target_flags_effect.h"
+#include "common.h"
+#include "shared/object_flags.h"
+#include "shared/entity.h"
+#include "shared/gpu_packets.h"
+#include "shared/game_work.h"
+#include "shared/object_node.h"
+#include "modules/dungeon_native_abi.h"
+#include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_sprite_data.h"
+#include "shared/entity_objects.h"
+#include "shared/slus_callbacks.h"
+#include "shared/record_ptrs.h"
+#include "shared/tile_object.h"
+#include "shared/dungeon_status.h"
+
 void (*const dungeon_198a800_entry)(Work *, s32, s32) = update_staged_particle_effect;
 const NativeOffsets58 D_80024004 = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};
 const RectTable D_80024024 = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 
 
 
 /* Updates a countdown-driven visual and clears its owner slot when the countdown expires. */
+extern u32 func_80065420(void *, void *, void *, void *);
+extern s32 func_80066460(s32, s32, s32, s32);
+extern void func_80067F20(void *, s32, s32, s32, s32);
+extern s32 rand(void);
+extern s32 func_80024124(PointRecord *, EntityRec *);
+extern void advance_counter_and_propagate_target_flags(void *);
+extern u8 D_800DEC70[];
+extern u8 D_800DECF8[];
+extern void draw_transformed_sprite_with_clip_rect(void *, Rect16 *, void *, s32, s32);
+extern s16 D_80082E86[6];
+extern Template12 D_80026990;
+extern Template12 D_8002699C;
+extern Template12 D_800269A8;
+extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
+extern void func_800542BC(void);
+extern u32 func_80069EF8(void);
+
 void apply_random_actor_value_adjustment(void *state, void *unused, void *visual) {
     s32 remaining_ratio;
     u16 ticks_left;
@@ -38,16 +68,7 @@ void apply_random_actor_value_adjustment(void *state, void *unused, void *visual
         object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }
-#include "shared/entity.h"
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_node.h"
 
-extern u32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Retail 8196A924 (func_80024124): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
@@ -128,9 +149,6 @@ s32 func_80024124(PointRecord *first_point, EntityRec *first_position)
     final_render_ctx->packetCursor = scratch->cursor;
     return 0;
 }
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 
 /* Subtracts 8 from the object counter and sets flags when it reaches zero. */
@@ -148,15 +166,7 @@ void advance_counter_and_propagate_target_flags(void *object)
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "shared/entity.h"
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "modules/dungeon_native_abi.h"
-#include "shared/object_node.h"
 
-extern s32 rand(void);
-extern s32 func_80024124(PointRecord *, EntityRec *);
-extern void advance_counter_and_propagate_target_flags(void *);
 
 /* Retail 8196ABC4 (func_800243C4): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..15 in x/y, 0..31 in z) and the given offsets (minus half the jitter range). */
@@ -193,11 +203,6 @@ void func_800243C4(ObjectNodeHeader *parent, s32 state_14_value, s32 state_08_va
         state->color = state_08_value;
     }
 }
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
-#include "records/Rec_D_80082E80.h"
 
    /* arg1 in func_8196ACE4 */
 
@@ -304,9 +309,6 @@ void func_800244E4(void *effect, S_8196ACE4_0 *position, Rec_D_80082E80 *sprite)
         }
     }
 }
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
    /* arg0 in func_8196B074 */
 
@@ -358,9 +360,6 @@ void func_80024874(void *motion, void *position, s32 update_id) {
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
 
 /* Dim the effect's color and flag completion when its countdown expires. */
@@ -390,11 +389,6 @@ void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive) {
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/dungeon_sprite_data.h"
-#include "shared/entity_objects.h"
-#include "shared/slus_callbacks.h"
 
 
 
@@ -456,10 +450,6 @@ void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z
         func_8003DB94(render, D_800DE870, 0);
     }
 }
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/entity_objects.h"
-#include "shared/slus_callbacks.h"
 
    /* sub in func_8196B4A4 */
 
@@ -479,7 +469,6 @@ void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z
 
 
 
-extern u8 D_800DEC70[];
 
 /* Spawns a sprite effect with randomized position and motion based on the source direction. */
 void func_80024CA4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
@@ -554,10 +543,6 @@ void func_80024CA4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_
 /* MECHANISM: The 0x20 byte-aligned copy object preserves the 0x58 frame and lwl/lwr stack copy;
    a held D_80083780 base plus RMW updates restores the load-delay moves and $a0 base.
    Epilogue-held arg pins and split point base/index/add produce the retail saved roles and $s6+$v0 order. */
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/entity_objects.h"
-#include "shared/slus_callbacks.h"
 
    /* sub in func_8196B780 */
 
@@ -577,7 +562,6 @@ void func_80024CA4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_
 
 
 
-extern u8 D_800DECF8[];
 
 /* Spawns an effect with randomized position and direction-based motion. */
 void func_80024F80(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 y,
@@ -652,11 +636,6 @@ void func_80024F80(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 
 /* MECHANISM: The 0x20 byte-aligned copy object preserves the 0x58 frame and lwl/lwr stack copy;
    a held D_80083780 base plus RMW updates restores the load-delay moves and $a0 base.
    Epilogue-held arg pins and split point base/index/add produce the retail saved roles and $s6+$v0 order. */
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
 
    /* work in func_8196BA5C */
 
@@ -678,7 +657,6 @@ void func_80024F80(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 
 
 
 
-extern void draw_transformed_sprite_with_clip_rect(void *, Rect16 *, void *, s32, s32);
 
 /* Creates an object in the first free rectangle slot and marks completion when the timer expires. */
 void create_timed_rectangle_effect(void *owner) {
@@ -775,9 +753,6 @@ void create_timed_rectangle_effect(void *owner) {
 /* MECHANISM: The 0x80-byte frame, sibling table/center locals, packed copies,
    held object roles, and noreturn tail shape preserve the seed's 184-word body.
    A block-local $v1 page pin lets LEAD27 sink lui 0x8002 into the tail-j slot. */
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
 
    /* work in func_8196BD3C */
 
@@ -830,9 +805,6 @@ void func_8002553C(void *source, s32 unused_position, s32 unused_render) {
         display->vector = (u8 *)object + 0x58;
     }
 }
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
    /* the 0x2 bytes before obj in func_8196BE48, addressed as obj[-1] */
 
@@ -874,9 +846,6 @@ void update_timed(void *effect_data, s32 unused, void *sprite) {
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/object_flags.h"
 
    /* the 0x2 bytes before arg0 in advance_effect_animation, addressed as arg0[-1] */
 
@@ -903,10 +872,6 @@ void func_80025724(void *effect, s32 unused, S_8196BF24_1 *transform) {
         object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
     }
 }
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/entity_objects.h"
-#include "shared/object_flags.h"
 
    /* arg1 in update_renders */
 
@@ -999,10 +964,6 @@ void func_800257B0(void *object, void *position, void *render_state)
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/entity_objects.h"
-#include "shared/object_flags.h"
 
    /* arg1 in func_8196C280 */
 
@@ -1102,14 +1063,6 @@ void func_80025A80(void *effect, void *position, void *sprite) {
         object_flag_block.flags |= 0x8000;
     }
 }
-#include "dungeon/effect/particle/propagate_target_flags_effect.h"
-#include "common.h"
-#include "shared/tile_object.h"
-#include "shared/entity_objects.h"
-#include "shared/record_ptrs.h"
-#include "shared/entity.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
 
 
 
@@ -1133,14 +1086,7 @@ void func_80025A80(void *effect, void *position, void *sprite) {
 
 
 
-extern s16 D_80082E86[6];
-extern Template12 D_80026990;
-extern Template12 D_8002699C;
-extern Template12 D_800269A8;
 
-extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
-extern void func_800542BC(void);
-extern u32 func_80069EF8(void);
 
 /* Update the staged particle effect and clear its actor state when it finishes. */
 void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)

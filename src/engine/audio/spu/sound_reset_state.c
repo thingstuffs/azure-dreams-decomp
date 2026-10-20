@@ -1,6 +1,6 @@
 #include "engine/audio/spu/sound_reset_state.h"
 
-#include "engine/audio/spu/sound_reset_state.h"
+
 
 /* Resets SPU playback state and initializes voice sentinels for the master channel. */
 void func_8005CA90(s32 channel)
@@ -44,7 +44,6 @@ void func_8005CA90(s32 channel)
     D_80079518 = 0;
     D_80079950 = 0;
 }
-#include "engine/audio/spu/sound_reset_state.h"
 
 /* Records and returns whether enabled and the stored pointer has no matching entry. */
 s32 func_8005E450(s32 enabled) {

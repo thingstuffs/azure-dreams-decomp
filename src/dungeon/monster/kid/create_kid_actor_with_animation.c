@@ -1,5 +1,5 @@
 #include "dungeon/monster/kid/create_kid_actor_with_animation.h"
-#include "dungeon/monster/kid/create_kid_actor_with_animation.h"
+
 
 void *func_801708DC(s32 kind, s32 part_x, s32 part_y, s32 copy_value)
 {

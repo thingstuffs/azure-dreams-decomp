@@ -1,5 +1,5 @@
 #include "dungeon/monster/metal/build_projected_tile_packets.h"
-#include "dungeon/monster/metal/build_projected_tile_packets.h"
+
 
 /* Builds and links tile and draw-mode packets for a chain of projected positions. */
 s32 build_projected_tile_packets(u8 *node_data, u16 *position)

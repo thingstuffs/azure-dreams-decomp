@@ -1,5 +1,5 @@
 #include "dungeon/monster/kid/allocate_kind_object_with_children.h"
-#include "dungeon/monster/kid/allocate_kind_object_with_children.h"
+
 
 void *allocate_kind_object_with_children(s32 kind, s32 part_x, s32 part_y, s32 copy_value)
 {

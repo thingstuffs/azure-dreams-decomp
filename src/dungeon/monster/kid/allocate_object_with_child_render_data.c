@@ -1,5 +1,5 @@
 #include "dungeon/monster/kid/allocate_object_with_child_render_data.h"
-#include "dungeon/monster/kid/allocate_object_with_child_render_data.h"
+
 
 void *allocate_object_with_child_render_data(s32 kind, s32 part_x, s32 part_y, s32 copy_value)
 {

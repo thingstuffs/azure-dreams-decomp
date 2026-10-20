@@ -55,7 +55,6 @@ void animate_linked_value_threshold(void *record_ptr) {
     }
 }
 
-/* MECHANISM: Retail-order state cases preserve the 0x20 s0/s1 frame and CFG.
-   Noreturn tails plus named fences hold both RMW and delay-slot store shapes.
-   Split predicate/read lifetimes and signed s16 arm stores recover a0/v1/v0 roles.
-   Symbolic load plus literal store forces independent global load/store bases. */
+/* MECHANISM: Retail-order state cases preserve the 0x20 s0/s1 frame and CFG. Split predicate/read
+   lifetimes and signed s16 arm stores recover a0/v1/v0 roles. Symbolic load plus literal store forces
+   independent global load/store bases. */

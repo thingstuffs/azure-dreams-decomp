@@ -1,5 +1,5 @@
 #include "dungeon/monster/naplass/create_kind_actor.h"
-#include "dungeon/monster/naplass/create_kind_actor.h"
+
 
 /* Allocate an actor and initialize its parts and behavior from the kind flags. */
 void *create_kind_actor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s16 part_value_0a)

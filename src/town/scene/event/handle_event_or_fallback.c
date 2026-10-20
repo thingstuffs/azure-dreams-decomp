@@ -68,6 +68,5 @@ s32 handle_event_or_fallback(s32 fallback_first, s32 fallback_second) {
     return 0;
 }
 
-/* MECHANISM: An 8-byte byte-aligned local reproduces the lwl/lwr stack copy; guarded
-   s0/s1 pins preserve the argument-to-constant/page live-range reuse. One-argument
-   flag calls, nested short-lived field expressions, and late literal stores close the CFG. */
+/* MECHANISM: An 8-byte byte-aligned local reproduces the lwl/lwr stack copy; one-argument flag calls,
+   nested short-lived field expressions, and late literal stores close the CFG. */

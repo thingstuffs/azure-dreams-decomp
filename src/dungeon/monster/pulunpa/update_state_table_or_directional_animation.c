@@ -51,6 +51,5 @@ void update_state_table_or_directional_animation(void *state_arg, void *context,
 
 }
 
-/* MECHANISM: The 0x20 frame and s1/s0/s2 held arguments preserve the proven CFG.
-   Pinned a0 call-object and v0 anim_entry lifetimes fill the lh delay slot without length drift.
-   Integer direction-first address addition defeats pointer-first canonicalization at word 57. */
+/* MECHANISM: The 0x20 frame and s1/s0/s2 held arguments preserve the proven CFG. Integer direction-
+   first address addition defeats pointer-first canonicalization at word 57. */

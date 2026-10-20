@@ -105,7 +105,6 @@ void animate_encounter_overlay_slide(void *transition, S_8016F99C_1 *target)
     }
 }
 
-/* MECHANISM: Frameless leaf recovers every apparent 0x8016FAxx call as a local CFG join.
-   A direct 0..11 switch and shared advance/clear/finish labels restore retail layout.
-   Guarded $v0/$v1 lifetimes serve both advance values and late page bases; placing the
-   page births after flag branches produces the exact delay-slot luis and stores. */
+/* MECHANISM: Frameless leaf recovers every apparent 0x8016FAxx call as a local CFG join. A direct 0..11
+   switch and shared advance/clear/finish labels restore retail layout. Placing the page births after
+   flag branches produces the exact delay-slot luis and stores. */

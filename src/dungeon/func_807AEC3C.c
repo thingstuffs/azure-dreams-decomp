@@ -83,7 +83,5 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
     }
 }
 
-/* MECHANISM: The 0x30/no-local frame follows from six natural held values; s32 slot plus
-   symbolic D_800F8A44[index] removes the sign-extension and scale-by-16 length cascade.
-   ASM_USE(slot) restores retail s3/s4/s5 argument coloring, and the named one-read
-   D_80083208 value hoists its lui/lw and preserves the v1 store schedule. */
+/* MECHANISM: The 0x30/no-local frame follows from six natural held values; s32 slot plus symbolic
+   D_800F8A44[index] removes the sign-extension and scale-by-16 length cascade. */

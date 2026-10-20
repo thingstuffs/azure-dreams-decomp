@@ -85,6 +85,5 @@ void create_positioned_linked_visual_child(void *object, IntVector3 *position, s
     }
 }
 
-/* MECHANISM: Natural argument liveness gives the 0x20 frame and s2/s0/s1 save order.
-   A split tail sub-base plus input-only ASM_USE materializes v0 = s0 + 0x20 without a second def.
-   This restores the 0xA0(v0) store and its upstream branch displacement; aligned residue is zero. */
+/* MECHANISM: Natural argument liveness gives the 0x20 frame and s2/s0/s1 save order. This restores the
+   0xA0(v0) store and its upstream branch displacement; aligned residue is zero. */

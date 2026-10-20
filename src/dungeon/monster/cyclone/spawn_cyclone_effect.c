@@ -140,6 +140,5 @@ void *func_80E122F4(S_80E122F4_0 *owner, void *transform, void *source)
     return 0;
 }
 
-/* MECHANISM: Reverse-order Vec3 zero stores and explicit negative-add-31/shift CFGs reproduce retail scheduling.
-   Guarded $s0/$s1/$v0 roles preserve the 0x38 frame and return carrier under the noreturn tail contract.
-   The row's own `j` to its epilogue is spelled honestly as `return obj;`. */
+/* MECHANISM: Reverse-order Vec3 zero stores and explicit negative-add-31/shift CFGs reproduce retail
+   scheduling. The row's own `j` to its epilogue is spelled honestly as `return obj;`. */

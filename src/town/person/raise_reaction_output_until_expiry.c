@@ -26,6 +26,5 @@ void raise_reaction_output_until_expiry(TownObject *obj, s32 update_input_1, s32
     obj->output = output_value;
 }
 
-/* MECHANISM: The seed's 24-byte frame and s0-held object base were already exact.
-   A guarded v0 value plus ASM_TAILSLOT_PIN_TIED lets LEAD 28 sink value+0x800
-   into LEAD 22's tail-j delay; the live output RMW uses +0x100. */
+/* MECHANISM: The seed's 24-byte frame and s0-held object base were already exact. The live output RMW
+   uses +0x100. */

@@ -1,5 +1,5 @@
 #include "dungeon/effect/sprite/draw.h"
-#include "dungeon/effect/sprite/draw.h"
+
 
 void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *position, Row_818F2800_S_BODY_1 *state, s32 depth_offset)
 {
@@ -398,7 +398,6 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
     func_80064A40();
     ((GpuContext *)(globals[0]))->packetCursor = packet;
 }
-#include "dungeon/effect/sprite/draw.h"
 
 s32 draw_linked_gap_effects(void *state, void *position, void *appearance) {
     Row_818F3098_GapNode *node;
@@ -412,7 +411,6 @@ s32 draw_linked_gap_effects(void *state, void *position, void *appearance) {
     }
     return 0;
 }
-#include "dungeon/effect/sprite/draw.h"
 
 s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
 {
@@ -491,7 +489,6 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
     ((GpuContext *)final_render_ctx)->packetCursor = scratch->cursor;
     return 0;
 }
-#include "dungeon/effect/sprite/draw.h"
 
 s32 choose_random_sign(void) {
     s32 sign;

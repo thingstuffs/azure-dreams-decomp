@@ -1,5 +1,5 @@
 #include "dungeon/monster/stealth/create_mode_configured_actor_object.h"
-#include "dungeon/monster/stealth/create_mode_configured_actor_object.h"
+
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)

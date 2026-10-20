@@ -1,5 +1,5 @@
 #include "dungeon/monster/clown/allocate_object_state.h"
-#include "dungeon/monster/clown/allocate_object_state.h"
+
 
 void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y, s16 type_id)
 {

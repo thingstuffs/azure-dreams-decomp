@@ -1,5 +1,5 @@
 #include "dungeon/item/itemwin.h"
-#include "dungeon/item/itemwin.h"
+
 
 void inventory_dispatch_indexed_handler(void *context, s32 handler_index) {
     DispatchFunc *table;
@@ -9,7 +9,6 @@ void inventory_dispatch_indexed_handler(void *context, s32 handler_index) {
     handler_entry = table + handler_index;
     (*handler_entry)(context, (void *)handler_entry);
 }
-#include "dungeon/item/itemwin.h"
 
 void inventory_set_paired_index_offset(ovl_1830850_81810888_S_80025888_0 *pair, s32 index) {
     s16 offset;
@@ -18,10 +17,8 @@ void inventory_set_paired_index_offset(ovl_1830850_81810888_S_80025888_0 *pair, 
     ((ovl_1830850_81810888_S_80025888_3 *)(((ovl_1830850_81810888_S_80025888_1 *)(pair->unk_04))->unk_04))->unk_0A = offset;
     ((ovl_1830850_81810888_S_80025888_4 *)(((ovl_1830850_81810888_S_80025888_2 *)(pair->unk_08))->unk_04))->unk_0A = offset;
 }
-#include "dungeon/item/itemwin.h"
 
 s32 func_800258B0(void *menu) { return 0; }
-#include "dungeon/item/itemwin.h"
 
 void restore_item_text_before_edit(void *item_object)
 {
@@ -44,7 +41,6 @@ void restore_item_text_before_edit(void *item_object)
     }
     strcpy(((ovl_1830850_818108B8_S_800258B8_0 *)object)->unk_88, (u8 *)object + 0x78);
 }
-#include "dungeon/item/itemwin.h"
 
 void inventory_select_null_or_default_data(void *object)
 {
@@ -55,7 +51,6 @@ void inventory_select_null_or_default_data(void *object)
 
     **(void ***)((u8 *)*(void **)((u8 *)object + 0x54) + 0x30) = D_800294C4;
 }
-#include "dungeon/item/itemwin.h"
 
 s32 inventory_check_type_four_linked_object(Rec_func_80025850_arg0 *context) {
     s32 check_passed;
@@ -66,7 +61,6 @@ s32 inventory_check_type_four_linked_object(Rec_func_80025850_arg0 *context) {
     }
     return check_passed;
 }
-#include "dungeon/item/itemwin.h"
 
 void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *menu) {
     ovl_1830850_81810A0C_DungeonState *input = D_80083160;
@@ -122,10 +116,8 @@ void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *m
 
     inventory_select_null_or_default_data(menu);
 }
-#include "dungeon/item/itemwin.h"
 
 void update_inventory_menu(void *menu) { inventory_handle_menu_actions_and_repeat(menu); }
-#include "dungeon/item/itemwin.h"
 
 void inventory_apply_step_and_reset_after_five(ovl_1830850_81810BF4_Entity *entity) {
     s32 next_state;
@@ -141,17 +133,14 @@ void inventory_apply_step_and_reset_after_five(ovl_1830850_81810BF4_Entity *enti
     }
     inventory_handle_menu_actions_and_repeat((ovl_1830850_81810A0C_DungeonArg *)entity);
 }
-#include "dungeon/item/itemwin.h"
 
 void inventory_clear_entry_value(ovl_1830850_81810C4C_S_80025C4C_0 *entry) {
     *entry->unk_04 = 0;
 }
-#include "dungeon/item/itemwin.h"
 
 void set_destination_byte_pointer(ovl_1830850_81810C58_S_80025C58_0 *dest) {
     *dest->unk_04 = D_800789B8;
 }
-#include "dungeon/item/itemwin.h"
 
 void *inventory_initialize_five_shared_entries(void *entryBuffer) {
     s32 entryIndex;
@@ -173,7 +162,6 @@ void *inventory_initialize_five_shared_entries(void *entryBuffer) {
     ((ovl_1830850_81810C6C_Entry *)((entryIndex * 12) + entryBuffer))[-1].f0 = 128;
     return entryBuffer;
 }
-#include "dungeon/item/itemwin.h"
 
 void inventory_initialize_packet_and_set_flag(ovl_1830850_81810CD8_S_80025CD8_0 *packet) {
     s32 zero;
@@ -189,7 +177,6 @@ void inventory_initialize_packet_and_set_flag(ovl_1830850_81810CD8_S_80025CD8_0 
     packet->unk_04 = payload;
     packet->unk_00 |= 0x80;
 }
-#include "dungeon/item/itemwin.h"
 
 void initialize_inventory_packet(Rec_func_80025D28_arg0 *packet) {
     s32 initial_payload;
@@ -207,12 +194,10 @@ void initialize_inventory_packet(Rec_func_80025D28_arg0 *packet) {
     packet->unk_04 = payload;
     packet->unk_00 = (u8)(flags | 0x80);
 }
-#include "dungeon/item/itemwin.h"
 
 S_800491F4 *inventory_create_context_entry_13(S_800491F4 **context) {
     return build_reverse_indexed_chain(context, D_800294E8, 13);
 }
-#include "dungeon/item/itemwin.h"
 
 void inventory_initialize_owner_patch_and_state(void *unused, ovl_1830850_81810D9C_Owner *owner, ovl_1830850_81810D9C_S_8002E5D8 *patch,
                    ovl_1830850_81810D9C_S_8002E5E8 *state) {
@@ -240,7 +225,6 @@ void inventory_initialize_owner_patch_and_state(void *unused, ovl_1830850_81810D
     owner->unk4->unk6 = 0;
     owner->unk4->unkF = 4;
 }
-#include "dungeon/item/itemwin.h"
 
 void inventory_initialize_owner_pointers_and_offsets(ovl_1830850_81810E3C_Source *source, ovl_1830850_81810E3C_Owner **owners)
 {
@@ -278,7 +262,6 @@ void inventory_initialize_owner_pointers_and_offsets(ovl_1830850_81810E3C_Source
     owners[12]->unk4->unk8 = -12;
     owners[12]->unk4->unkA = 23;
 }
-#include "dungeon/item/itemwin.h"
 
 void initialize_text_editor_context(void *object, s32 range_start, s32 initial_value, s32 text_addr)
 {
@@ -293,14 +276,12 @@ void initialize_text_editor_context(void *object, s32 range_start, s32 initial_v
     strcpy(data + 0x78, text_addr);
     *(s32 **)(data - 0x10) = (void *)inventory_apply_step_and_reset_after_five;
 }
-#include "dungeon/item/itemwin.h"
 
 void inventory_initialize_object_from_embedded_data(void *object, s32 init_value, s32 init_value_2, s32 init_value_3) {
     initialize_text_editor_context(object, init_value, init_value_2, init_value_3);
     inventory_initialize_owner_patch_and_state(object, object + 0x44, object + 0x1C, object + 0x2C);
     inventory_initialize_owner_pointers_and_offsets(object, ((Rec_func_80025850_arg0 *)object)->unk_54);
 }
-#include "dungeon/item/itemwin.h"
 
 s32 inventory_copy_state_vector_after_buffers(ovl_1830850_818110CC_Unk818110CC *state, s32 input)
 {
@@ -323,7 +304,6 @@ s32 inventory_copy_state_vector_after_buffers(ovl_1830850_818110CC_Unk818110CC *
     }
     return success;
 }
-#include "dungeon/item/itemwin.h"
 
 ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child(s32 parent_obj, s32 initial_value, s32 text_addr)
 {
@@ -348,13 +328,11 @@ ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child
     }
     return obj;
 }
-#include "dungeon/item/itemwin.h"
 
 void inventory_clear_referenced_handle(ovl_1830850_81811250_S_80026250_0 *context) {
     func_8004E99C(*context->unk_14);
     *context->unk_14 = 0;
 }
-#include "dungeon/item/itemwin.h"
 
 void inventory_process_resources_and_set_flags(void *object)
 {
@@ -370,7 +348,6 @@ void inventory_process_resources_and_set_flags(void *object)
         object_flag_block.flags = global_flags | 0x8000;
     }
 }
-#include "dungeon/item/itemwin.h"
 
 void inventory_clear_object_field_and_entry(s32 object_addr) {
     ovl_1830850_818112EC_S_800262EC_0 *object_data;
@@ -379,7 +356,6 @@ void inventory_clear_object_field_and_entry(s32 object_addr) {
     object_data->unk_10 = 0;
     inventory_clear_entry_value(object_data->unk_54);
 }
-#include "dungeon/item/itemwin.h"
 
 void inventory_set_embedded_state_one(s32 object_addr) {
     ovl_1830850_81811314_S_80026314_0 *state;
@@ -388,7 +364,6 @@ void inventory_set_embedded_state_one(s32 object_addr) {
     state->unk_10 = 1;
     set_destination_byte_pointer(state->unk_54);
 }
-#include "dungeon/item/itemwin.h"
 
 void inventory_set_embedded_state_four(s32 object_addr) {
     ovl_1830850_81811340_S_80026340_0 *state;

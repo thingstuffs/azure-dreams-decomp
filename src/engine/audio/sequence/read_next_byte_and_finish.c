@@ -1,6 +1,6 @@
 #include "common.h"
 
-#include "common.h"
+
 
 extern s32 D_80085FA4[4];
 extern s32 D_800869B0[4];

@@ -1,5 +1,5 @@
 #include "dungeon/monster/battnel/spawn_effect_object.h"
-#include "dungeon/monster/battnel/spawn_effect_object.h"
+
 
 void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
 {

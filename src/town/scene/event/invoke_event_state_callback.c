@@ -17,6 +17,5 @@ void invoke_event_state_callback(void)
     callbacks[D_8001E950->dispatchState]();
 }
 
-/* MECHANISM: A two-entry sibling stack array creates the retail 0x20 frame
-   and 0x10/0x14 callback slots; a body-entry scheduling fence retains the
-   compiler-generated ra save at word 1. The callback's void ABI emits no args. */
+/* MECHANISM: A two-entry sibling stack array creates the retail 0x20 frame and 0x10/0x14 callback
+   slots; the callback's void ABI emits no args. */

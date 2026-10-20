@@ -156,6 +156,5 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
     }
 }
 
-/* MECHANISM: Four held arguments naturally give the 0x38 frame and s0/s1/s3/s2 save order.
-   Named coordinate/delta and position/offset locals close both load-order residues.
-   A guarded v0 timer pin plus a pre-load scheduling fence preserves the mflo nop and shift roles. */
+/* MECHANISM: Four held arguments naturally give the 0x38 frame and s0/s1/s3/s2 save order. Named
+   coordinate/delta and position/offset locals close both load-order residues. */

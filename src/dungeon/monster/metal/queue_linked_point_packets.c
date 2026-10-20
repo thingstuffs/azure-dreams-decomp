@@ -1,5 +1,5 @@
 #include "dungeon/monster/metal/queue_linked_point_packets.h"
-#include "dungeon/monster/metal/queue_linked_point_packets.h"
+
 
 /* Builds point and draw-mode packets for a linked list and adds them to the ordering table. */
 s32 queue_linked_point_packets(u8 *item_data, u16 *coords)

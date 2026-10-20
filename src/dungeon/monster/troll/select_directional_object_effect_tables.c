@@ -1,5 +1,5 @@
 #include "dungeon/monster/troll/select_directional_object_effect_tables.h"
-#include "dungeon/monster/troll/select_directional_object_effect_tables.h"
+
 
 /* Selects direction-dependent table entries for kinds 13 through 15 around the object update. */
 void select_directional_object_effect_tables(Obj0 *owner, void *context, Obj2 *render_arg, Obj3 *state_arg)

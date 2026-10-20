@@ -103,6 +103,5 @@ void create_jittered_child_effect(EntityRec *parent, s32 effect_value, s16 effec
     }
 }
 
-/* MECHANISM: s3/s4 stack-argument holds reproduce the 0x30 frame and seven-register save set.
-   Pinned v0 RNG plus pinned v1 compound accumulation preserves all three coordinate sequences.
-   One cached obj+8 pointer collapses the three zero stores to retail's single-load form. */
+/* MECHANISM: S3/s4 stack-argument holds reproduce the 0x30 frame and seven-register save set. One
+   cached obj+8 pointer collapses the three zero stores to retail's single-load form. */

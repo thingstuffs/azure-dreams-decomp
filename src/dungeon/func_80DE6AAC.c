@@ -46,6 +46,6 @@ s32 create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *init
     return 0;
 }
 
-/* MECHANISM: A typed 24-byte assignment restores the packed lw/sw copy and natural seven-register frame.
-   An unsigned color byte plus a post-copy schedule seam fixes the immediate and held table-base order.
-   The moved shape selects 2.7.2-cdk-G0; a scoped $v0 tail-slot pin closes the noreturn dispatch delay. */
+/* MECHANISM: A typed 24-byte assignment restores the packed lw/sw copy and natural seven-register
+   frame. An unsigned color byte plus a post-copy schedule seam fixes the immediate and held table-base
+   order. The moved shape selects 2.7.2-cdk-G0. */

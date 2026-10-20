@@ -1,6 +1,6 @@
 #include "dungeon/effect/sprite/advance_fading_effect.h"
+
 void (*const dungeon_ovl_188298c_entry)(void) = (void (*)(void))move_to_linked_object_and_apply_arrival_effects;
-#include "dungeon/effect/sprite/advance_fading_effect.h"
 
 void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
     u8 *actor = D_800E3D7C;
@@ -20,7 +20,6 @@ void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
         actor = *(u8 **)(actor + 0x5C) + 0x20;
     } while (actor != D_800E3D7C);
 }
-#include "dungeon/effect/sprite/advance_fading_effect.h"
 
 void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ovl_188298c_8186298C_Arg2Ent *effect)
 {
@@ -48,7 +47,6 @@ void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ov
         }
     }
 }
-#include "dungeon/effect/sprite/advance_fading_effect.h"
 
 void spawn_jittered_type_212_effect(s32 owner, void *source)
 {
@@ -81,7 +79,6 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
         *((s16 *) (((s8 *) render) + 0xA)) = (s16) (((*((u16 *) (((s8 *) source) + 0xA))) - 0x40) - (roll % 16));
     }
 }
-#include "dungeon/effect/sprite/advance_fading_effect.h"
 
 void advance_counter_and_propagate_target_flags(void *state, s32 context, Rec_D_80082E80 *target) {
     u16 update_count;
@@ -100,7 +97,6 @@ void advance_counter_and_propagate_target_flags(void *state, s32 context, Rec_D_
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }
-#include "dungeon/effect/sprite/advance_fading_effect.h"
 
 void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 radius_arg, u8 *blocked_dirs) {
     s16 target_y;
@@ -177,7 +173,6 @@ void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 r
         }
     }
 }
-#include "dungeon/effect/sprite/advance_fading_effect.h"
 
 static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 {
@@ -402,7 +397,6 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
    Each interpolation arm keeps its coordinates, steps and mask in arm-local variables
    (single-lifetime quantities for local-alloc), while delta and line_or_red stay function-wide;
    the masked step_x read gives the mask the extra reference that orders it ahead of y0. */
-#include "dungeon/effect/sprite/advance_fading_effect.h"
 
 void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data)
 {

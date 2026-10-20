@@ -23,6 +23,4 @@ s32 func_801736AC(void *initial_payload, s32 entry_data, R16_801736AC_Entry *ent
     }
 }
 
-/* MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
-   ASM_KEEP breaks absolute-page constant folding; the guarded s1 page pin plus kept
-   scratch base preserves the retail 0x20-frame save/init order s0, s2, s1, ra. */
+/* MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets. */
