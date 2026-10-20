@@ -1,0 +1,4 @@
+{
+ "func": "func_8004D75C",
+ "doc": "Copies a 0x44-byte (68-byte) struct from *src to *dst (first word, then remaining 0x40 bytes via a 4-word-at-a-time loop), then zeroes the first word of the source struct (consumes/clears it after transfer)."
+}

@@ -1,0 +1,13 @@
+{
+ "func": "func_8005B27C",
+ "doc": "Stores masked a1/a2 (each &0x7F) into the field_8 (u16 @0x8) and field_A (u16 @0xA) members of the D_80086C00[a0] entry, then calls func_800564A8(a0).",
+ "globals": [
+  {
+   "name": "D_80086C00",
+   "decl": "12-byte struct array S_80086C00 { s16 field_0; char pad4[6]; u16 field_8; u16 field_A; } D_80086C00[8]; (matches existing sibling layout used by func_8005B2C8 in src/w_8005B2C8.c, which reads field_8/field_A of the same array)"
+  }
+ ],
+ "calls": [
+  "func_800564A8(s16 a0) -- called with the same index a0; asm shows no use of a0 inside func_800564A8 itself, but the call-site register is set from the sign-extended index parameter."
+ ]
+}

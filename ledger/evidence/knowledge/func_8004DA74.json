@@ -1,0 +1,10 @@
+{
+ "func": "func_8004DA74",
+ "doc": "Parses a text-encoded note/command sequence (a1) into fixed-size (0xC-byte) note entries written starting at a0, using a2 as the initial octave. Control bytes: 0x20 (space) accumulates into a length counter; 0x08 sets the octave from the following ASCII digit; 0x0A resets the length counter and increments a tie counter; 0x09 either reads a dot count (if followed by 's') or folds the following char into the length counter. Any other byte pair is decoded via func_8004D880 into a note value and, unless it decodes to a rest (0x20), emitted as one entry via func_8004D98C/func_8004E264/func_8004D9E0. Returns a0 with the final entry's flag byte OR'd with 0x80 if any entries were written, otherwise NULL.",
+ "calls": [
+  "func_8004D880(int a0) -- extern, 2-byte note-mnemonic decoder (unmatched elsewhere); called as func_8004D880(b1 | (b0 << 8)) where b0=s[0], b1=s[1]; low byte of return used as the note value",
+  "func_8004D98C(int a0/*note*/, int a1/*octave*/, void *a2/*entry ptr*/) -- extern, writes note-header fields (offsets 0,1,4,6,8-11) of the 0xC-byte entry",
+  "func_8004E264(void *a0, int a1) -- already matched (2.7.2), packs a1's low nibble+bit4 into a 16-bit field at offset 6 of a0",
+  "func_8004D9E0(signed char *a0, int a1, int a2, int a3, int a4) -- already matched (2.7.2), writes a0[2],a0[3] from a1..a4"
+ ]
+}

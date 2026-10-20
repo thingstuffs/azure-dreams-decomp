@@ -1,0 +1,14 @@
+{
+ "func": "func_80049D80",
+ "doc": "Wrapper that initializes two consecutive sub-records inside a caller-supplied struct: forwards (a0, a1) straight through to func_80049CF4 (fills the first pair of sub-records at a0+0x0/a0+0xC), then calls func_800499E8(a0+0x18, a1, &D_80080B54) to fill the next pair of sub-records at a0+0x18/a0+0x30, using D_80080B54 as a fixed reference color (CVECTOR-like {r,g,b,cd}) for a lighting/color-scaling calculation. a1 points to a small 'light params' struct (fields at offsets 0,2,4 = u8, offset 6 = s16 angle) consumed identically by both callees.",
+ "globals": [
+  {
+   "name": "D_80080B54",
+   "decl": "typedef struct S_80080B54 { u8 r; u8 g; u8 b; u8 cd; } S_80080B54; extern S_80080B54 D_80080B54[3]; /* only field accessed by THIS function: base address &D_80080B54[0] taken and passed as a func_800499E8 arg (a2); no field is read here directly. Sibling func_800497F4 reads it as a full 32-bit word (lw, masked 0xFFFFFF against 0x808080) confirming layout r@0,g@1,b@2,cd@3 and that it's referenced via %hi/%lo (not $gp), so it must stay declared with total size > 8 (array, not a bare 4-byte struct/scalar). */"
+  }
+ ],
+ "calls": [
+  "void *func_80049CF4(void *a0, void *a1); // writes fields into a0[0..0xC) and a0[0xC..0x18) from *a1 (u8 @0,2,4,6); return value (a0+0xC) unused by caller",
+  "void func_800499E8(void *a0, void *a1, void *a2); // a0=dest record pair (0x18 bytes each), a1=light-params struct (u8@0,2,4; s16@6), a2=&S_80080B54 reference color used for RGB scaling"
+ ]
+}

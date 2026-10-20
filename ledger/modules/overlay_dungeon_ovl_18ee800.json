@@ -1,0 +1,51 @@
+{
+  "schema": "overlay-module-native-v4",
+  "kind": "overlay_module_placement",
+  "module": "dungeon_ovl_18ee800",
+  "members": [
+    "dungeon/func_818CE83C",
+    "dungeon/func_818CEA8C",
+    "dungeon/func_818CEB58",
+    "dungeon/func_818CEC78",
+    "dungeon/func_818CED78",
+    "dungeon/func_818CEDC8",
+    "dungeon/func_818CF0E8",
+    "dungeon/func_818CFB74"
+  ],
+  "at": "2026-10-20T00:36:19Z",
+  "reviewer": "orchestrator-r120",
+  "fingerprint": {
+    "schema": "overlay-module-scoped-v2",
+    "sha256": "972f4733bd7abf4fc9bf27ff893645382000bb9a0d1383f4ee821c1a311b7b89",
+    "module": {
+      "sha256": "70e32b5a7e0ec05f9e9111b578b42c5701e8d5a8d9a28aa8c9fdb573a51178c4"
+    },
+    "windows": {
+      "config/overlays/dungeon_deep_t8_18d0.overlay.yaml": {
+        "sha256": "f00fe523f966b6d5075e5aa9eb2fd5c1080812db84752fd838c50d1c7afefe6a"
+      }
+    },
+    "required_windows": [
+      "config/overlays/dungeon_deep_t8_18d0.overlay.yaml"
+    ]
+  },
+  "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_18ee800/module",
+  "receipt_sha256": "8776eb050d077f26deb0bf47681f7618c48ea89244f41cd811a332162892835d",
+  "windows": [
+    {
+      "config": "config/overlays/dungeon_deep_t8_18d0.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 26020076,
+      "file_end": 26193684,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_18ee800/windows/dungeon_deep_t8_18d0",
+      "artifacts": {
+        "gate.log": "17d36104baaa68e1d874212146091e94e7fd204a79043fc6067b876074bd77d9",
+        "window.bin": "a5d4a48042a00ea2b3a9e53cfe620a51bc3b0f5e62120b471f4386a55e892bd3",
+        "manifest.json": "0f45f3e5b2c9063e58a6a3d41c9e4d559da2fc8a918bbd2755c6ae261f332b27",
+        "projection.json": "8b217ab004967dcfbf9291e8546e951cf995f8b52e3436a8392b889aee794b64",
+        "module/receipt.json": "8776eb050d077f26deb0bf47681f7618c48ea89244f41cd811a332162892835d"
+      },
+      "digest": "f00fe523f966b6d5075e5aa9eb2fd5c1080812db84752fd838c50d1c7afefe6a"
+    }
+  ]
+}

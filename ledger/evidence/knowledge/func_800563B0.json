@@ -1,0 +1,13 @@
+{
+ "func": "func_800563B0",
+ "doc": "Populates the global struct D_80084918 (field4=15 constant, field8/fieldA from s16 params a1/a2, fieldC/fieldE cleared, field0 loaded from D_80073740[a0]) then tail-calls func_8005F134(&D_80084918), returning its result.",
+ "globals": [
+  {
+   "name": "D_80084918",
+   "decl": "typedef struct S_80084918 { /*0x0*/ s32 field0; /*0x4*/ s32 field4; /*0x8*/ s16 field8; /*0xA*/ s16 fieldA; /*0xC*/ s16 fieldC; /*0xE*/ s16 fieldE; } S_80084918; extern S_80084918 D_80084918; // size 0x10, only fields 0x0-0xE accessed by this function"
+  }
+ ],
+ "calls": [
+  "func_8005F134(S_80084918 *arg) -- extern s32 func_8005F134(S_80084918 *arg); called with the address of D_80084918 after it's populated; only arg setup (a0 = &D_80084918) needs to match, callee resolved via undefined_funcs.txt"
+ ]
+}

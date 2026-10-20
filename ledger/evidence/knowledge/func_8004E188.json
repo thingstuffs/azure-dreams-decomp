@@ -1,0 +1,14 @@
+{
+ "func": "func_8004E188",
+ "doc": "Sets a record's status-effect fields (offsets 0x8-0xB) from a packed byte parameter `a1`, driven by a lookup flags-table `D_800714B0` indexed by `a1 & 0xFF`. If flags bit 0x10/0x20 set: field8=(a1&0xF)<<3, field9=(a1&0x70)>>1, fieldA=fieldB=8. Else if flag 0x40 set: field8=(a1&0xF)<<3, field9=(a1&0xF0)-0x60, fieldA=fieldB=8. Else if flag 0x80 set: writes a pre-packed 32-bit value from table D_80071410 directly over fields 8-11. Otherwise no fields are touched. Returns the same pointer passed in (a0).",
+ "globals": [
+  {
+   "name": "D_800714B0",
+   "decl": "extern u8 D_800714B0[]; /* plain byte flags-table, indexed 0-255 by a raw a1&0xFF byte; NOT a struct. Confirmed by sibling func_8004E69C.s which does the same lbu D_800714B0[byte] and tests bit 0x10. No struct fields \u2014 single byte per index, meaning is bitmask flags (bits seen used: 0x10,0x20,0x40,0x80).*/"
+  },
+  {
+   "name": "D_80071410",
+   "decl": "extern s32 D_80071410[]; /* word table, one s32 (pre-packed byte-quad) per same byte-index as D_800714B0, used only when flags&0x80 */"
+  }
+ ]
+}

@@ -1,0 +1,7 @@
+{
+ "func": "func_8004D45C",
+ "doc": "Wrapper that converts a struct-of-s32-like fields (S_8004D45C_Src, halfwords read at offsets 2,6,0xA -- the high halfwords of what look like 3 consecutive 32-bit values) into a compact 3x s16 local buffer, then tail-calls func_8004D294 with that buffer (or NULL if a0 is NULL), forwarding a1 and a3 untouched and masking a2 to 16 bits.",
+ "calls": [
+  "func_8004D294(void *a0, void *a1, u16 a2, s32 a3) -- called with a0 = pointer to local 3xs16 buffer (or NULL), a1/a3 forwarded unchanged from caller, a2 masked to 0xFFFF"
+ ]
+}

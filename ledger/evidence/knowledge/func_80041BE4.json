@@ -1,0 +1,25 @@
+{
+ "func": "func_80041BE4",
+ "doc": "If D_80082E6E is nonzero, ensures the current D_800814E8-indexed slot of the D_80083120 state table has an active flag (field0); if not, allocates one via func_8003F794(6, 8) and stores the returned index back into D_800814E8. Then registers func_80041C64 as the next state callback via func_80040A88. If D_80082E6E is zero, falls back to func_8003D92C() instead.",
+ "globals": [
+  {
+   "name": "D_80083120",
+   "decl": "typedef struct S_80083120 { s16 field0; s16 field2; s16 field4; s16 field6; } S_80083120; extern S_80083120 D_80083120[8]; -- 8-entry state table, stride 8 bytes/4 s16 fields, indexed by D_800814E8. Matches siblings func_80041B98 (src/w_80041B98.c) and func_80041C64 (src/w_80041C64.c) exactly; only field0 (the active/type flag) is read here."
+  },
+  {
+   "name": "D_800814E8",
+   "decl": "extern s16 D_800814E8; -- gp_rel s16 index into D_80083120, read and (conditionally) written here via func_8003F794's return value."
+  },
+  {
+   "name": "D_80082E6E",
+   "decl": "extern u8 D_80082E6E[9]; -- byte flag, accessed via %hi/%lo (declared size>8 to force that addressing mode over a scalar); gate for the whole function body vs the func_8003D92C fallback. Also read (same %hi/%lo form) in func_80043E04 (asm/nonmatchings/code/func_80043E04.s)."
+  }
+ ],
+ "calls": [
+  "func_80041CBC(void) - extern, no args, return value unused",
+  "func_8003D92C(void) - extern, no args, void return (fallback path)",
+  "func_8003F794(s32 a0, s32 a1) - extern, allocates a state-table slot; returns s16 index sign-extended (used to update D_800814E8)",
+  "func_80040A88(int a0) - already matched (gcc 2.8.1, src/code2.c): stores a0 into D_80082E60.field_4, clears field_D/field_C; here passed the address of func_80041C64 cast to int (callback registration)",
+  "func_80041C64(void) - already matched (gcc 2.8.1, src/w_80041C64.c); address taken as callback, never called directly here"
+ ]
+}

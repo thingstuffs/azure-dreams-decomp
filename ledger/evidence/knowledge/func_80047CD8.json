@@ -1,0 +1,10 @@
+{
+ "func": "func_80047CD8",
+ "doc": "/* Given a short entity index, look it up via func_80047BC0(); if not registered, try to allocate a slot via func_80047C8C(), running the cleanup pass func_80047C00() once and retrying if the first allocation attempt also fails, then return the pointer for the (possibly freshly allocated) slot index via func_80047A44(). Returns NULL if the entity was already found registered by func_80047BC0(). */",
+ "calls": [
+  "func_80047BC0(s32 arg0) -> s32  [matched gcc 2.8.1, src/w_80047BC0.c: linear search D_80083D08[0..5] for entry with unk6==arg0]",
+  "func_80047C8C(s32 a0) -> s32  [unmatched sibling in code.c; assumed signature s32 func_80047C8C(s32 a0)]",
+  "func_80047C00(void)  [unmatched sibling in code.c; assumed signature void func_80047C00(void)]",
+  "func_80047A44(s32 a0) -> void*  [matched gcc 2.7.2, src/code.c: returns &D_800FC000[a0]]"
+ ]
+}

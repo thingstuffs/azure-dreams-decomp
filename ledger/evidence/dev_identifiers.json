@@ -1,0 +1,267 @@
+{
+ "note": "Real identifier text printed by Konami's shipped debug macros; each entry lists the rows whose function prints it (docs/evidence/konami_assertion_sites.md).",
+ "identifiers": [
+  {
+   "text": "((u_long)p - (u_long)ost_w)/ sizeof(OSETDT)",
+   "file": "main.c",
+   "meaning": "OSETDT = object-set table record type; ost_w = the object-set table (array of OSETDT); p indexes it",
+   "rows": [
+    "town/func_8032F844",
+    "town/func_806D30B4"
+   ]
+  },
+  {
+   "text": "((u_long)pp - (u_long)osel_w)/ sizeof(OSETDT*)",
+   "file": "main.c",
+   "meaning": "osel_w = object-select array (OSETDT* pointers parallel to ost_w); pp indexes it",
+   "rows": [
+    "town/func_8032F844",
+    "town/func_806D30B4"
+   ]
+  },
+  {
+   "text": "cdhd_cnt",
+   "file": "main.c",
+   "meaning": "CD-header counter (global)",
+   "rows": [
+    "town/func_8032F844",
+    "town/func_806D30B4"
+   ]
+  },
+  {
+   "text": "ov_work.kind",
+   "file": "sn_main.c",
+   "meaning": "ov_work = overlay work struct (devkit scene tool), .kind = overlay kind",
+   "rows": [
+    "town/func_80878974",
+    "town/func_808B3620"
+   ]
+  },
+  {
+   "text": "p->kind",
+   "file": "sn_main.c",
+   "meaning": "kind field of the object pointed to by p (devkit scene tool)",
+   "rows": [
+    "town/func_80878974",
+    "town/func_808B3620"
+   ]
+  },
+  {
+   "text": "kind",
+   "file": "flgtst.c?",
+   "meaning": "devkit blob, probably flgtst.c (inferred)",
+   "rows": [
+    "town/func_80877FEC",
+    "town/func_80883004"
+   ]
+  },
+  {
+   "text": "mode",
+   "file": "flgtst.c?",
+   "meaning": "devkit blob, probably flgtst.c (inferred)",
+   "rows": [
+    "town/func_80877FEC",
+    "town/func_80883004"
+   ]
+  },
+  {
+   "text": "sno",
+   "file": "flgtst.c?",
+   "meaning": "scene/sequence number, devkit blob, probably flgtst.c (inferred)",
+   "rows": [
+    "town/func_80877FEC",
+    "town/func_80883004"
+   ]
+  },
+  {
+   "text": "head",
+   "file": "(unnamed object before lshop.o)",
+   "meaning": "list head; same function also prints ptr[n].vx / ptr[n].vy -> a vertex array walker",
+   "rows": [
+    "town/func_8046C280"
+   ]
+  },
+  {
+   "text": "ptr[n].vx",
+   "file": "(unnamed object before lshop.o)",
+   "meaning": "vertex array element x (PSY-Q SVECTOR/DVECTOR .vx)",
+   "rows": [
+    "town/func_8046C280"
+   ]
+  },
+  {
+   "text": "ptr[n].vy",
+   "file": "(unnamed object before lshop.o)",
+   "meaning": "vertex array element y",
+   "rows": [
+    "town/func_8046C280"
+   ]
+  },
+  {
+   "text": "s0[0]",
+   "file": "(unnamed object between main.o and player.o)",
+   "meaning": "first element of string/array s0",
+   "rows": [
+    "town/func_803301B8"
+   ]
+  },
+  {
+   "text": "s1[0]",
+   "file": "(unnamed object between main.o and player.o)",
+   "meaning": "first element of string/array s1",
+   "rows": [
+    "town/func_803301B8"
+   ]
+  },
+  {
+   "text": "s[0]",
+   "file": "(unnamed object between main.o and player.o)",
+   "meaning": "first element of string/array s",
+   "rows": [
+    "town/func_803301B8"
+   ]
+  },
+  {
+   "text": "(int)gsw->check_sum",
+   "file": "(MAIN.BIN devkit module)",
+   "meaning": "gsw = game-save work struct, .check_sum = save checksum",
+   "rows": [
+    "main/func_8001AF98",
+    "main/func_8001AFEC"
+   ]
+  },
+  {
+   "text": "card_first_flg",
+   "file": "c_server.c",
+   "meaning": "Sony libcard: first-access flag",
+   "rows": [
+    "main/func_80019E34"
+   ]
+  },
+  {
+   "text": "cnt",
+   "file": "c_server.c",
+   "meaning": "Sony libcard: a counter",
+   "rows": [
+    "main/func_8001AB30",
+    "main/func_8001B2C8"
+   ]
+  }
+ ],
+ "source_files": {
+  "main.c": "Konami town-scene main (linked into every one of the 54 TOWN event-script modules; two revisions: lines 40/55 in 47 modules, 39/54 in 7)",
+  "lshop.c": "Konami shop code (small file; assertions at lines 65, 113, 118, 128 in three consecutive functions; linked before main.o)",
+  "player.c": "Konami player code (assert at line 64; linked after main.o)",
+  "tobjs.c": "Konami devkit scene tool: town objects (TOWN.BIN devkit blob, not shipped game code)",
+  "sn_main.c": "Konami devkit scene tool main (mark: trace macro, devkit blob)",
+  "flgtst.c": "Konami devkit flag test (mark: trace macro, devkit blob)",
+  "c_server.c": "Sony libcard card server (MAIN.BIN; shipped copy at 0x80020000 and a devkit copy at 0x80400000)",
+  "card_mes.c": "Konami memory-card UI: messages (MAIN.BIN devkit module)",
+  "card_opt.c": "Konami memory-card UI: options (MAIN.BIN devkit module)",
+  "card_win.c": "Konami memory-card UI: windows (MAIN.BIN devkit module)",
+  "cardbk.c": "Konami memory-card UI: background (MAIN.BIN devkit module)",
+  "cardinfo.c": "Konami memory-card UI: info (MAIN.BIN devkit module)",
+  "cardslot.c": "Konami memory-card UI: slots (MAIN.BIN devkit module)",
+  "cardsme.c": "Konami memory-card UI (MAIN.BIN devkit module)",
+  "memory.c": "Konami memory-card module (MAIN.BIN devkit module; a code-only copy in TOWN.BIN)"
+ },
+ "developer_strings": [
+  {
+   "string": "\\vx035\\data\\town\\sb43s000.bin, \\vx035\\data\\town\\sb06.bin",
+   "container": "town",
+   "foff": [
+    "0x65281C",
+    "0x65283C"
+   ],
+   "note": "developer volume \\vx035; town map data files"
+  },
+  {
+   "string": "\\vx035\\data\\sn\\SENGEI00.BIN .. SENGEI10.BIN (11)",
+   "container": "town",
+   "foff": [
+    "0x7F877C-0x7F8894"
+   ],
+   "note": "scene data files (sn = scene), devkit blob path table"
+  },
+  {
+   "string": "\\vx035\\data\\town\\st.bin (6)",
+   "container": "town",
+   "foff": [
+    "0x8CD128",
+    "0x8CE128",
+    "0x8CF124",
+    "0x8D0124",
+    "0x8D1124",
+    "0x8D21E8"
+   ],
+   "note": ""
+  },
+  {
+   "string": "\\vx035\\data\\sn\\mv05.bin",
+   "container": "town",
+   "foff": [
+    "0x8D20FC"
+   ],
+   "note": ""
+  },
+  {
+   "string": "GAME OVER (4)",
+   "container": "town",
+   "foff": [
+    "0x78BA94",
+    "0x796030",
+    "0x796070",
+    "0x7960B4"
+   ],
+   "note": ""
+  },
+  {
+   "string": "BASLUS-00614",
+   "container": "main",
+   "foff": [
+    "0x264F20"
+   ],
+   "note": "save file name, shipped image, vram 0x80027F20"
+  },
+  {
+   "string": "BISLPS-00001",
+   "container": "main",
+   "foff": [
+    "0x271AA8"
+   ],
+   "note": "leftover JP save name, devkit image, vram 0x80408AA8"
+  },
+  {
+   "string": "CHAN %x, CARD STATUS0/1 %x, illegal data",
+   "container": "main",
+   "foff": [
+    "0x269090",
+    "0x2690BC",
+    "0x2690D0",
+    "0x269138"
+   ],
+   "note": "devkit image card diagnostics"
+  },
+  {
+   "string": "bu10: / bu00:",
+   "container": "main",
+   "foff": [
+    "0x25D074",
+    "0x25D07C",
+    "0x2690E4",
+    "0x2690EC"
+   ],
+   "note": "libcard device names"
+  },
+  {
+   "string": "$Id: intr.c,v 1.76 / bios.c,v 1.86 / sys.c,v 1.129",
+   "container": "slus",
+   "foff": [
+    "0x6AC8",
+    "0x6D78",
+    "0x6EFC"
+   ],
+   "note": "PSY-Q library RCS ids"
+  }
+ ]
+}

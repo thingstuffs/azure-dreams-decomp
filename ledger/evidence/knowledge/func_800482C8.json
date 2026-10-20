@@ -1,0 +1,14 @@
+{
+ "func": "func_800482C8",
+ "doc": "Walks an array of 0xC-byte entries starting at arg0, terminated by an entry whose flags byte (offset 0) has bit 0x80 set. For each entry whose flags byte has neither of bits 0x20/0x40 set, decrements a running s32* cursor (initialized to the array base reinterpreted as s32*, so it walks backward through memory preceding the array) and dispatches to func_80047468 (if D_80082E60's byte at offset 0xA equals 1) or func_80047338 (otherwise), passing the entry pointer, *arg1, and the dereferenced cursor value.",
+ "globals": [
+  {
+   "name": "D_80082E60",
+   "decl": "struct S_80082E60 { char pad0[0xA]; u8 field_A; /* offset 0xA, u8: ==1 selects func_80047468 vs func_80047338 in func_800482C8. This is the SAME global as src/w_80040BB4.c's S_80082E60 (pad0[8]; union{u8 b;u16 h;} field_8; s8 pad_A; s8 field_B; ...) -- offset 0xA there is currently an unused 's8 pad_A' placeholder; needs to be renamed field_A and reconciled as u8 across both views. };"
+  }
+ ],
+ "calls": [
+  "func_80047468(struct S_800482C8_Entry *a0, s32 a1, s32 a2) - extern, library-only, resolved by match.py",
+  "func_80047338(struct S_800482C8_Entry *a0, s32 a1, s32 a2) - extern, library-only, resolved by match.py"
+ ]
+}

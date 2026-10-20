@@ -1,0 +1,4 @@
+{
+ "func": "func_80042518",
+ "doc": "Searches backward through a 4-entry array of 2-byte slots (type byte + value byte) located at offset 0x2C of the struct pointed to by a0, looking for a slot whose `type` field equals the signed byte a1. If found, clears that slot (both bytes) and returns its `value` byte (sign-extended to s32); otherwise returns 0."
+}

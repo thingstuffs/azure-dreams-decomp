@@ -1,0 +1,9 @@
+{
+ "func": "func_80050EF8",
+ "doc": "Lazily allocates/initializes obj's embedded sub-object's result pointer (obj->sub.field28) via func_8004FDE0(obj->sub.field20), storing the result back into field28. If that field was already non-NULL, or becomes non-NULL after the call, then: if obj->sub.field24 holds a pending value, it's moved into obj->field10 and field24 is cleared; then func_8004491C(obj, func_8004CAA0) is called unconditionally (registers/refreshes a callback keyed by func_8004CAA0's address). Returns obj->sub.field28 (may still be NULL if allocation failed).",
+ "calls": [
+  "func_8004FDE0(void *a0) -> void* : called with sub->field20 (a value loaded from obj+0x40), matches already-matched signature `void *func_8004FDE0(void *a0)`",
+  "func_8004CAA0(void *a0, int a1, void *a2) -> int : NOT called directly; its address is passed as a callback pointer (2nd arg) to func_8004491C, matching already-matched signature `int func_8004CAA0(void *a0, int a1, void *a2)`",
+  "func_8004491C(void *a0, void *a1) -> void : unmatched callee; called as func_8004491C(obj, (void*)func_8004CAA0) -- looks like a registration/dispatch-table function (D_80083360/D_800833E0 tables) that stores obj keyed by a1 (the callback function pointer used as an id); only arg setup (a0=obj, a1=func addr) needed to match, so signature/return type guess doesn't affect this callsite's bytes"
+ ]
+}

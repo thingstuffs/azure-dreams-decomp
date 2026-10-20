@@ -1,0 +1,14 @@
+{
+ "func": "func_8004EEFC",
+ "doc": "Entity-init helper: copies two global template records (D_8002E5D8, a 16-byte 4-word block; D_8002E5E8, a 12-byte 3-word block) verbatim into caller-supplied buffers a1/a2, wires them into the a0 header struct (unk4=a1, unk8=a2, unk0=0), then patches four sub-fields of the just-copied a1 record with hardcoded defaults (a halfword pair at +8/+A = -0xA0/-0x78, a halfword at +C = 0x200, and a byte at +F = 4) \u2014 i.e. it materializes a fresh instance from a template and stamps in per-instance override fields.",
+ "globals": [
+  {
+   "name": "D_8002E5D8",
+   "decl": "struct S_8002E5D8 { s32 unk0; s32 unk4; s32 unk8; s32 unkC; } D_8002E5D8;  /* 16-byte template record; copied word-for-word into the a1 buffer at entry. Only whole-word reads observed here (each field is later reinterpreted as smaller sub-fields on the DESTINATION copy, not on the global itself). */"
+  },
+  {
+   "name": "D_8002E5E8",
+   "decl": "struct S_8002E5E8 { s32 unk0; s32 unk4; s32 unk8; } D_8002E5E8;  /* 12-byte template record (immediately follows D_8002E5D8 in memory, +0x10 offset); copied word-for-word into the a2 buffer. Note: D_8002E5E8 == (address)D_8002E5D8 + 0x10, so a sibling that treats these as ONE combined struct should use a 0x1C-byte layout with D_8002E5E8's 3 fields living at offset 0x10/0x14/0x18 of that combined struct. */"
+  }
+ ]
+}

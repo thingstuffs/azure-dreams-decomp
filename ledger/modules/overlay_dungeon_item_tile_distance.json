@@ -1,0 +1,45 @@
+{
+  "schema": "overlay-module-native-v4",
+  "kind": "overlay_module_placement",
+  "module": "dungeon_item_tile_distance",
+  "members": [
+    "dungeon/func_8009A590",
+    "dungeon/func_8009A5E0"
+  ],
+  "at": "2026-10-20T00:38:50Z",
+  "reviewer": "codex-r121w-tu4",
+  "fingerprint": {
+    "schema": "overlay-module-scoped-v2",
+    "sha256": "e4f95b67d570a3aa3363e262cebaf858c1d6f402b107fa4f0b0332de247a480b",
+    "module": {
+      "sha256": "30a43cd804702aea533d57fac1aaed7ea91addc1eafe37312666b28b483d8a51"
+    },
+    "windows": {
+      "config/overlays/dungeon_engine.overlay.yaml": {
+        "sha256": "dae35a0aaca1712e874df21c596f7a698785539af5d449931716c1081c962121"
+      }
+    },
+    "required_windows": [
+      "config/overlays/dungeon_engine.overlay.yaml"
+    ]
+  },
+  "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_item_tile_distance/module",
+  "receipt_sha256": "b90a7ef08a80051e5bafb3ca2c4b0f88b12757b9bff9d9168214b302f0767654",
+  "windows": [
+    {
+      "config": "config/overlays/dungeon_engine.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 655360,
+      "file_end": 1048576,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_item_tile_distance/windows/dungeon_engine",
+      "artifacts": {
+        "gate.log": "6f514e3bfc522b95741ac28301b362260491fb6ed8ff243978c9bb1c0a9fd1c8",
+        "window.bin": "1612c21559c49a3b69f10548bca5ec6d18ec11a0764ea317c396edca9211d796",
+        "manifest.json": "3fa5108300eb0554be429b87d18a207163965a821ce8f4f4ffa02c2508f5fa3a",
+        "projection.json": "14503adc7c002337d91882dcbd9ba42164cc3bfb99625f819ba5ab01d5810853",
+        "module/receipt.json": "b90a7ef08a80051e5bafb3ca2c4b0f88b12757b9bff9d9168214b302f0767654"
+      },
+      "digest": "dae35a0aaca1712e874df21c596f7a698785539af5d449931716c1081c962121"
+    }
+  ]
+}

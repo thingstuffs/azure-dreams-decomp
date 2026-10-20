@@ -1,0 +1,8 @@
+{
+ "func": "func_80052C10",
+ "doc": "Clears two adjacent 64x16-pixel VRAM rectangles (at fixed x=0x380 and x=0x3C0, y = arg0*16, i.e. a row selected by arg0) via ClearImage, then draws two text strings (pointers taken from arg1's offset 0x8 and 0xC) at the same two positions via func_80052A90. Looks like refreshing/erasing-then-redrawing two side-by-side text fields (e.g. two stat/name columns) on a given row of a font/VRAM buffer.",
+ "calls": [
+  "ClearImage(S_80052C10_RECT *rect, u8 r, u8 g, u8 b) -- PSY-Q libgpu primitive; SOTN prototype `int ClearImage(RECT* rect, u_char r, u_char g, u_char b)`; called twice with (rect, 0, 0, 0)",
+  "func_80052A90(u8 *str, s16 x, s16 y) -- sibling function in this TU (still unmatched itself); reads bytes from str via lbu (font/text glyph stream), x/y are the VRAM draw-cursor start position; called with (arg1->text8, 0x380, arg0*0x10) and (arg1->textC, 0x3C0, arg0*0x10)"
+ ]
+}

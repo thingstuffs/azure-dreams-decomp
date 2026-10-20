@@ -1,0 +1,33 @@
+{
+ "func": "func_8005B16C",
+ "doc": "Marks D_80085F98 \\\"busy\\\" (=1), and if D_80073734[0] (active-entry count) > 0, walks D_80085458 (stride 0x78 struct array) for slots whose f06 < 0x10 (u16) AND f1a != 0 (u16); for each match, builds a request (type/count=3, value=D_80073740[i], plus the slot's f10/f12 fields) and dispatches it via func_8005F134. After the scan (or immediately if the count was <= 0), marks D_80086C00[arg0].field_2 = 1 (active), sets D_800737A4[0] = 1, then clears D_80085F98[0] back to 0.",
+ "globals": [
+  {
+   "name": "D_80073734",
+   "decl": "extern s32 D_80073734[4]; /* index 0 = active-entry count for the D_80085458/D_80073740 scan (established sibling layout, e.g. src/w_8005C130.c) */"
+  },
+  {
+   "name": "D_80073740",
+   "decl": "extern s32 D_80073740[64]; /* one s32 flag/value word per D_80085458 slot; this function reads D_80073740[i] as the request's flags/value field */"
+  },
+  {
+   "name": "D_800737A4",
+   "decl": "extern s32 D_800737A4[4]; /* mode flag; this function sets D_800737A4[0] = 1 near the end (paired with D_80085F98 elsewhere, e.g. src/w_8005AF74.c) */"
+  },
+  {
+   "name": "D_80085458",
+   "decl": "typedef struct S_80085458 { /* 0x00 */ u8 pad00[6]; /* 0x06 */ u16 f06; /* 0x08 */ u8 pad08[8]; /* 0x10 */ u16 f10; /* 0x12 */ u16 f12; /* 0x14 */ u8 pad14[6]; /* 0x1A */ u16 f1a; /* 0x1C */ u8 pad1c[0x78-0x1C]; } S_80085458; extern S_80085458 D_80085458[64]; /* stride 0x78; this function only touches f06 (dispatch/channel index, <0x10 test), f10/f12 (forwarded s16 values), f1a (active flag) -- exact same offsets already established in src/w_80056A08.c, src/w_8005BAB0.c, src/w_8005C130.c */"
+  },
+  {
+   "name": "D_80085F98",
+   "decl": "extern s32 D_80085F98[4]; /* busy/mode flag: set to 1 at entry, cleared to 0 at exit, matching src/w_8005AF74.c and src/w_8005C130.c */"
+  },
+  {
+   "name": "D_80086C00",
+   "decl": "typedef struct S_80086C00 { /* 0x0 */ s16 field_0; /* 0x2 */ s16 field_2; /* 0x4 */ s32 field_4; /* 0x8 */ u16 field_8; /* 0xA */ u16 field_A; } S_80086C00; extern S_80086C00 D_80086C00[8]; /* stride 0xC sound-driver slot table (established in src/w_8005AF74.c); this function sets D_80086C00[arg0].field_2 = 1 */"
+  }
+ ],
+ "calls": [
+  "func_8005F134(S_8005B16C_req *arg0) -> void: request struct pointer (field_0=s32 flags/value from D_80073740[i], field_4=s32 type/count constant 3, field_8=s16, field_A=s16, then padding to 0x40 total per the established D_8005xxxx request-struct family shared with func_8005C668/func_8005C6B4/func_800563B0)."
+ ]
+}

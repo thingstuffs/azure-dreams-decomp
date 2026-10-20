@@ -1,0 +1,38 @@
+{
+ "func": "func_8004437C",
+ "doc": "Toggles the active double-buffer slot (D_80080AFC, 0/1) for the D_80080AF4[] pointer table keyed against D_8006E704[arg0] (a per-index array of pointers into small 'color/mode' entries). If the CURRENT slot's cached pointer already equals D_8006E704[arg0], returns 1 immediately (nothing to do). Otherwise it flips the slot index and checks the OTHER slot too; if that also mismatches: kicks the queue processor (func_800542BC), optionally fires func_80044698 when D_80080AF3 (a last-seen id byte) differs from arg1, repacks the entry's packed field (clears the low 23 bits, then ORs in the low 23 bits of one of two marker-table addresses D_801C4640/D_801BEE40 chosen by the new slot index -- mirrors the func_8003F6D4 (cat<<23)|(id&0x7FFFFF) packing idiom, using an address's low bits as a compile-time id), registers the entry via func_8003E4FC(6, entry, 0), stores it into the new slot of D_80080AF4, and flushes via func_8003F320. Finally always calls func_8004450C(arg1), then func_80053DA8(0x22 if the slot index is nonzero else 0x21), and returns 0.",
+ "globals": [
+  {
+   "name": "D_8006E704",
+   "decl": "extern S_8006E704 *D_8006E704[]; /* array of pointers to {s32 field_0;} entries, indexed by arg0 (s16) */"
+  },
+  {
+   "name": "D_80080AF3",
+   "decl": "extern s8 D_80080AF3; /* plain gp-rel scalar byte (<=8B); this function only reads it once, no offset -- no struct needed */"
+  },
+  {
+   "name": "D_80080AF4",
+   "decl": "extern S_8006E704 *D_80080AF4[2]; /* MUST be declared at its true finite size (2), not incomplete/oversized -- that is what let gcc-2.7.2-cdk canonicalize the repeated %hi/%lo base into one shared register across the whole extended basic block, matching retail byte-for-byte */"
+  },
+  {
+   "name": "D_80080AFC",
+   "decl": "extern s16 D_80080AFC; /* gp-rel active-slot toggle (0/1) */"
+  },
+  {
+   "name": "D_801C4640",
+   "decl": "extern s32 D_801C4640[4]; /* only its ADDRESS's low 23 bits are used as a packed id; declared >8B to force %hi/%lo */"
+  },
+  {
+   "name": "D_801BEE40",
+   "decl": "extern s32 D_801BEE40[4]; /* same as D_801C4640, selected on the other branch */"
+  }
+ ],
+ "calls": [
+  "func_800542BC(void) -- void, no args (its own body ignores a0/a1; verified from its already-split asm: a bare dispatch-queue poll loop)",
+  "func_80044698(void) -- void, no args",
+  "func_8004450C(s16 arg0) -> s32 (return value unused here)",
+  "func_8003E4FC(s32 a0, void *a1, s32 a2) -> s32 (return value unused here; signature matches other established call sites in src/code.c)",
+  "func_8003F320(void) -- void, no args",
+  "func_80053DA8(int a0) -> short (ALREADY MATCHED, src/code.c; return value unused here)"
+ ]
+}

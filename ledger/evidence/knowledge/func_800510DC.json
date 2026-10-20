@@ -1,0 +1,13 @@
+{
+ "func": "func_800510DC",
+ "doc": "Sets a \"used\"/flag bit (0x2000) on a sub-entity's flags field (offset 0x1E) reached via a0->field4, and if that bit was already clear-then-observed-set... actually: if a0->field4's flags bit 0x2000 is set, calls func_80051228(), then re-reads a0->field0 (fresh, since the call may have changed it) and sets bit 0x2000 on ITS flags field too, sets bit 0x8000 on a 16-bit flags word 2 bytes before a0 itself, and sets bit 0x8000 on the global 32-bit flags word D_800814A0.",
+ "globals": [
+  {
+   "decl": "extern int D_800814A0; /* plain 32-bit scalar flags word; bit 0x8000 = a generic \"used\"/mark flag, set (never cleared) by many call sites across the codebase (func_8004B530, func_8004F52C, func_8004EE90, func_800510DC, ...). Some TUs alternatively declare it as `typedef struct { int val; int pad[2]; } S_800814A0; extern S_800814A0 D_800814A0;` and access `.val` (gcc 2.95.2 -fstrict-aliasing path) -- both reconcile to the SAME single 32-bit value at offset 0, no other fields observed. */",
+   "name": "D_800814A0"
+  }
+ ],
+ "calls": [
+  "func_80051228(void) -- extern void func_80051228(void); called with no args, return value unused"
+ ]
+}

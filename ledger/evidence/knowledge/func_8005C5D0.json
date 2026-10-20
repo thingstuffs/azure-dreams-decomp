@@ -1,0 +1,13 @@
+{
+ "func": "func_8005C5D0",
+ "doc": "Checks D_80086C00[a0].field_2; if it equals 1, calls func_80059D60() and if the result is 3, stores it back into D_80086C00[a0].field_2. Always returns (the possibly-updated) D_80086C00[a0].field_2.",
+ "globals": [
+  {
+   "name": "D_80086C00",
+   "decl": "S_80086C00 D_80086C00[8]; // typedef struct { s16 field_0; s16 field_2; s8 pad4[4]; u16 field_8; u16 field_A; } S_80086C00; (12 bytes/entry). This function only touches field_2 (offset 0x2, s16); field_0 (offset 0x0) and field_8/field_A (offsets 0x8/0xA, u16) are inferred from the sibling w_8005B2C8.c view (which used pad4[6] covering offsets 2-7 since it never touched offset 2) -- reconciled here by splitting that pad into field_2 (offset2, s16) + pad4[4] (offset4-7) so both views agree on the 12-byte total size and the 0x8/0xA fields."
+  }
+ ],
+ "calls": [
+  "func_80059D60(void) -> s32 : no-arg lookup/state helper returning an int status code (0,1,3), called for its return value only"
+ ]
+}

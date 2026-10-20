@@ -1,0 +1,9 @@
+{
+ "func": "func_80050640",
+ "doc": "Bumps the object's counter at offset 0x8 (passing the pre-increment value into func_80050550 along with &obj+0x58 and a fixed count of 3), then installs func_800505BC as the object's vtable/callback function pointer at offset 0, then dispatches through func_80050308(obj).",
+ "calls": [
+  "func_80050550(void *a0, s32 a1, s32 a2) -> void : unmatched sibling in src/code.c; called here with a0=&obj->buf58 (obj+0x58), a1=pre-increment counter value, a2=3",
+  "func_800505BC(void *a0, s32 a1, s32 a2, s32 a3) -> void : unmatched sibling in src/code.c; used here only as a function-pointer VALUE stored into obj->vtable (offset 0), not called directly",
+  "func_80050308(void *a0) -> void : unmatched sibling in src/code.c; called here with a0=obj (the same pointer passed into func_80050640)"
+ ]
+}

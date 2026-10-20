@@ -1,0 +1,13 @@
+{
+ "func": "func_80048190",
+ "doc": "If arg0 (a signed 16-bit key) is found in D_80083D08 via func_80047BC0, set bit 0 of that matching entry's `status` field.",
+ "globals": [
+  {
+   "name": "D_80083D08",
+   "decl": "S_80083D08 D_80083D08[6]; /* 8-byte elements: s32 flag @0; u16 status @4 (bit0 set here); u16 pad6 @6. Reconciles with w_800481E0.c's S_80083D08 and w_80047BC0.c's S_80047BC0 (which only reads the s16 @6, treated there as unk6) */"
+  }
+ ],
+ "calls": [
+  "func_80047BC0(s32 arg0) -> s32  (matched at gcc 2.8.1; linear search of D_80083D08[0..5] by unk6==arg0, returns index or -1)"
+ ]
+}

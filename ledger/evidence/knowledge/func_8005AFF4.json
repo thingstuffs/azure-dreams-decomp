@@ -1,0 +1,18 @@
+{
+ "func": "func_8005AFF4",
+ "doc": "Resets a D_80086C00[] sound-driver slot (index a0) to its free/default state: sets D_80085F98 mode flag, calls func_80059D1C() and func_80056A08(), then clears the slot's field_0/field_2/field_8/field_A fields (field_0=-1 marks it free), and finally clears the D_80085F98 flag.",
+ "globals": [
+  {
+   "name": "D_80086C00",
+   "decl": "extern S_80086C00 D_80086C00[8]; /* struct S_80086C00 { s16 field_0; s16 field_2; s32 field_4; u16 field_8; u16 field_A; } size 0xC, canonical layout already established by src/w_8005AE08.c, w_8005AE90.c, w_8005B27C.c, w_8005C5D0.c */"
+  },
+  {
+   "name": "D_80085F98",
+   "decl": "extern s32 D_80085F98[4]; /* mode/status flag; forced hi/lo access via size > 8; same declaration already used by src/w_8005AE90.c, w_8005BAB0.c, w_800586B0.c, w_800585A0.c, w_8005863C.c */"
+  }
+ ],
+ "calls": [
+  "func_80059D1C(void) - extern void func_80059D1C(void);",
+  "func_80056A08(void) - extern void func_80056A08(void);"
+ ]
+}

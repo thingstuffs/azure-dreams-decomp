@@ -1,0 +1,15 @@
+{
+ "func": "func_80055B44",
+ "doc": "Sets the CD-audio attenuator volume via CdMix: when a0==1, arms availability flag via func_8005A3E0, sets all four CdlATV channels to 0x4F, and updates D_800847D0.flags1 (clear bit 0x10, set bit 0x20); otherwise disarms via func_8005A3D4, sets L/R channels (val0,val2) to 0x7F and cross channels (val1,val3) to 0, and updates flags1 the opposite way (clear 0x20, set 0x10). Always finishes by calling CdMix(&vol).",
+ "globals": [
+  {
+   "name": "D_800847D0",
+   "decl": "typedef struct S_800847D0 { u32 flags1; /*0x00*/ u32 flags2; /*0x04*/ u32 field8; /*0x08*/ u32 fieldC; /*0x0C*/ u32 field10; /*0x10*/ u32 field14; /*0x14*/ u32 field18; /*0x18*/ u8 pad1C[2]; /*0x1C*/ s16 field1E; /*0x1E*/ s16 field20; /*0x20*/ s16 field22; /*0x22*/ u8 pad24[2]; /*0x24*/ s16 field26; /*0x26*/ u8 field28; /*0x28*/ u8 pad29[7]; /*0x29*/ s8 field30; /*0x30*/ s8 field31; /*0x31*/ s8 field32; /*0x32*/ s8 field33; /*0x33*/ } S_800847D0; extern S_800847D0 D_800847D0; -- this function only touches flags1 (bits 0x10/0x20), matching the pre-existing canonical struct layout used across the w_800xxxxx.c family."
+  }
+ ],
+ "calls": [
+  "func_8005A3D4(void) -- extern void func_8005A3D4(void); (matched gcc 2.7.2, src/code.c)",
+  "func_8005A3E0(void) -- extern int func_8005A3E0(void); (matched gcc 2.8.1, src/code2.c)",
+  "CdMix(CdlATV *vol) -- extern int CdMix(CdlATV *vol); (libcd.h prototype)"
+ ]
+}

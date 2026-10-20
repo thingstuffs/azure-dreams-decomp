@@ -1,0 +1,7 @@
+{
+ "func": "func_8004A10C",
+ "doc": "If a0 is NULL, returns 0. Otherwise calls func_8004B4DC(a0) to get a 1-based struct-array index (scans 12-byte structs for one whose byte0 has the 0x80 bit set), then reads the signed byte at offset (idx*12 - 10) from a0 -- i.e. offset 2 of the struct at that index -- adds 0x80 to it, and returns the result truncated/sign-extended to 16 bits.",
+ "calls": [
+  "func_8004B4DC(S_8004A10C *a0) -> s32  (reuses existing matched signature: int func_8004B4DC(Unk8004B4DC *a0))"
+ ]
+}

@@ -1,0 +1,7 @@
+{
+ "func": "func_800545F4",
+ "doc": "Updates a shared gauge/timer struct pointed to by a0 (the same layout used elsewhere as D_800848F8/D_80084858): field4 is a mode/state selector. State 1 increases field8 (current value) by field16 (step-up), clamping to fieldA (target, signed) and setting state to 3 when the target is reached/exceeded. State 2 decreases field8 by field18 (step-down); if the result drops to <=0 it clamps field8 to 0 and returns -1 immediately (skipping the completion callback). Any other state returns 0 with no side effects. On the state==1 path, or the state==2 path while still >0, the completion callback stored at field0 is invoked (if non-NULL) and the function returns 0.",
+ "calls": [
+  "a0->field0 (indirect call via struct-embedded function pointer, void (*)(void)) \u2014 no fixed extern callee; called through the struct's field0 member, matching the established S_800848F8/S_80084858 family layout"
+ ]
+}

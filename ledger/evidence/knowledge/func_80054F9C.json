@@ -1,0 +1,10 @@
+{
+ "func": "func_80054F9C",
+ "doc": "func_80054F9C is a pad-event classifier for a \"task/timer object\" (S_80084858-shaped struct, e.g. D_80084858 / D_800848F8). On first entry into the active state (field4 != 2) it snapshots field8 into fieldA and marks field4 = 2. It then maps the low byte of the event code a0 into a priority code stored into field18: 0xB1/0xB4 -> 0xF, 0xC1/0xC4 -> 4, 0xD1/0xD4 -> 2, everything else (including out-of-range) -> 0xA. The dispatch is implemented via a 36-entry (0x24) jump table already present at a fixed retail rodata address (jtbl_80032E14 = 0x80032E14, verified by reading baserom/slus_006.14 at file offset 0x6614 = vram_of formula), not a compiler-generated one.",
+ "globals": [
+  {
+   "name": "jtbl_80032E14",
+   "decl": "extern void *jtbl_80032E14[0x24]; /* 36-entry retail jump table, fixed address 0x80032E14 (already present as raw bytes in the untouched binary blob region, already in config/generated/slus_006.14.undefined_syms.txt); entries: idx 0(0xB1)->0x80054FE8, idx3(0xB4)->same, idx0x10(0xC1)->0x80054FF0, idx0x13(0xC4)->same, idx0x20(0xD1)->0x80054FF8, idx0x23(0xD4)->same, all others->0x80055000 (default) */"
+  }
+ ]
+}

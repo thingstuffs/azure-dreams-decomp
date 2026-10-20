@@ -1,0 +1,18 @@
+{
+ "func": "func_800494B4",
+ "doc": "Calls func_800B8C90(a0); depending on whether it returned nonzero, forwards the original arg together with a pointer to one of two 12-byte-apart globals (D_80080B34 vs D_80080B40) into func_80049374, and returns its result.",
+ "globals": [
+  {
+   "name": "D_80080B34",
+   "decl": "extern int D_80080B34[4]; /* opaque blob/array, only its address is passed onward; size/type unresolved beyond >8B for hi/lo codegen */"
+  },
+  {
+   "name": "D_80080B40",
+   "decl": "extern int D_80080B40[4]; /* opaque blob/array, only its address is passed onward; size/type unresolved beyond >8B for hi/lo codegen */"
+  }
+ ],
+ "calls": [
+  "func_800B8C90(void *a0) -> int  (external status/check query, undefined asm-only function)",
+  "func_80049374(void *a0, int *a1) -> int  (existing prototype from src/code.c: extern int func_80049374(void *a0, int *a1);)"
+ ]
+}

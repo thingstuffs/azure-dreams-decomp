@@ -1,0 +1,4 @@
+{
+ "func": "func_8004DA24",
+ "doc": "If a1 (source struct ptr) is non-null, accumulate a1[0] into a0-&gt;f8, a1[1] into a0-&gt;f9 (both 8-bit adds with wraparound), and copy a1[2]/a1[3] directly into a0-&gt;fA/a0-&gt;fB (bytes at offsets 0x8-0xB of a0)."
+}

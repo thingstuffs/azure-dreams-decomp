@@ -1,0 +1,10 @@
+{
+ "func": "func_80040F2C",
+ "doc": "Runs the callback list for dispatch-table entry D_8006CE80[id]. If the entry has a handler (offset 0x4) and the handler's callback array (handler->funcs, offset 0x0) is non-empty, calls each no-arg function pointer in turn until one of them sets the flag byte D_80082E60[0xE], in which case the function returns 1 immediately. Returns 0 if there's no handler, no callback array, an empty array, or every callback ran without setting the flag.",
+ "globals": [
+  {
+   "name": "D_8006CE80",
+   "decl": "extern struct S_8006CE80 { u16 unk0; s16 unk2; S_8006CE80_Handler *handler; void *unk8; } D_8006CE80[]; /* 12-byte-stride dispatch table indexed by a 16-bit id. This function only touches offset 0x4 (handler). Siblings in the family: func_80040CBC reads offset 0x0 (u16 state) and offset 0x8 (another pointer, double-indirected differently than 'handler'); func_80041818 reads offset 0x8 (lbu) and writes offset 0x8/0xB (u16/u8 fields, likely a union/overlay with the func_80040CBC view - not reconciled by this task). The S_8006CE80_Handler struct pointed to by .handler (offset 0x4) is consistent across func_80040FDC (unk8 forwarded to func_8003F8F8), func_80041038 (unk4 forwarded to func_8003F9E0), func_800411FC (argList array of pointers each passed to func_80041284), and this function (funcs: null-terminated array of no-arg callback fn ptrs, called directly via jalr with no args)."
+  }
+ ]
+}

@@ -1,0 +1,18 @@
+{
+ "func": "func_8003FD64",
+ "doc": "Allocates a freelist node and links it onto the caller-provided list *a1 (hlist-style doubly linked list: each node's pprev field points at the SLOT that references it, not at the previous node). If global flag D_80013714.flags bit 0x2 is set and a0 has bit 0x200 set, bails out early returning NULL before touching the freelist. Otherwise pops the head of freelist D_80081490; if the freelist is empty, falls back to func_8003FB98(a0, a1) (unless a0 has bit 0x200 set, in which case NULL). On a successful pop: the node is zeroed via func_8003DB4C(node, 0x49) (0x124 bytes), pushed onto the front of *a1 (updating the old head's pprev to point at the new node, and the new node's pprev to a1 itself), its field_0x1E flags set to a0|0x4000, and one of 4 sub-buffer offsets (0xF4/0x100/0x10C/default 0x124, chosen by a0's low bits 0x100/0x6/0x41) is stored at field_0xC (skipped only for the default 0x124 case via a shared write_0xc label); if any of bits 0x157 are set, field_0x8 is set to that same pointer minus 0x18. Returns the allocated node. This is the near-twin of the already-matched func_8003FC64 (same freelist/zero/dispatch logic, but FC64 inserts into the fixed global active list D_80081498 with a plain prev pointer, while FD64 takes an explicit list-head arg1 and uses hlist pprev semantics).",
+ "globals": [
+  {
+   "name": "D_80013714",
+   "decl": "typedef struct S_80013714 { u16 flags; u8 pad[8]; } S_80013714; extern S_80013714 D_80013714;  /* only .flags (offset 0) is accessed by this function: (D_80013714.flags & 0x2) tested. Size kept >8B to force %hi/%lo; matches the existing convention already established in src/w_8003FC64.c for the same symbol. */"
+  },
+  {
+   "name": "D_80081490",
+   "decl": "Freelist head, real object >8B so hi/lo addressing is used (established in src/code.c / src/w_8003FC64.c as `struct { S_80081490 *head; s32 pad[2]; }`). This function needs a SPLIT scoped declaration to avoid gcc CSE-ing the base address across the read-then-write: `{ extern S_80081490 *D_80081490; v0 = D_80081490; }` for the initial pointer READ (single fused lui+lw), then in a nested scope `{ extern struct { S_80081490 *head; s32 pad[2]; } D_80081490; D_80081490.head = s0->next; }` for the pop-store (separate lui+sw via $at). This exact idiom is already used in src/code.c's func_80040044 for the same global."
+  }
+ ],
+ "calls": [
+  "func_8003DB4C(int *p, int n) -> void : zeroes n words (4 bytes each) starting at p; called here as func_8003DB4C((int*)s0, 0x49) to zero the 0x124-byte node.",
+  "func_8003FB98(s32 a0, void *a1) -> void* : matched sibling (src/w_8003FB98.c); called here as the freelist-empty fallback, func_8003FB98(a0, a1)."
+ ]
+}

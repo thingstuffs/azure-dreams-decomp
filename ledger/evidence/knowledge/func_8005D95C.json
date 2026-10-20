@@ -1,0 +1,10 @@
+{
+ "func": "func_8005D95C",
+ "doc": "Scans the linked block list at D_800799BC (an array of {flags,size} entries) looking for a block that either starts at/after arg0, or whose [start,start+size) range contains arg0. flags packs bit31=skip(inactive)/bit30=terminator flags in its top bits with a 28-bit start value in the low bits. Returns 1 on match/empty-remainder, 0 if the pointer is null or a terminator entry is hit first before any match. Used by a VRAM/heap-style allocator alongside sibling funcs func_8005D838 (which initializes the list) and func_8005D9DC (same scan but with a size shifted by a level index first).",
+ "globals": [
+  {
+   "name": "D_800799BC",
+   "decl": "extern S_800799BC *D_800799BC[3]; /* single pointer to head of a {u32 flags, u32 size} entry list; declared as a size>8 array only to force %hi/%lo (not $gp-rel) codegen matching sibling funcs func_8005D838/func_8005D9DC which touch it the same way. flags: bit31=skip(inactive) entry, bit30=terminator, low 28 bits = start value when active. size: block length. Only D_800799BC[0] is ever read/written (the array-of-3 is a codegen trick, not real shape)."
+  }
+ ]
+}

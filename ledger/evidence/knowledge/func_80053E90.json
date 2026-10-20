@@ -1,0 +1,18 @@
+{
+ "func": "func_80053E90",
+ "doc": "Selects one of three player-stat halfword globals by an index argument: arg0==2 -> D_80084808[0], arg0==1 -> D_8008480A[0], arg0==4 -> D_8008480C[0], any other value -> 0. The control-flow shape (test ==2 first with the case2 body deferred to the very end of the function, then a range check arg0>=3 that skips to the \"case 4\" block, with each default-0 path either explicitly jumping to the shared return or being merged into a branch's delay slot) only reproduces byte-exact when written with explicit goto/labels forcing that exact block layout; equivalent nested-if / switch / ternary rewrites all diverge in branch polarity or block ordering even though they're logically identical.",
+ "globals": [
+  {
+   "name": "D_80084808",
+   "decl": "extern s16 D_80084808[8]; /* player-stat halfword array; index 0 read here; indices 0-2 written 0x7FFF by w_800559B4.c; already declared this way in include/globals.h and src/*.c */"
+  },
+  {
+   "name": "D_8008480A",
+   "decl": "extern s16 D_8008480A[8]; /* sibling stat array 2 bytes above D_80084808 in memory but declared/used as its own independent extern symbol elsewhere in the codebase (not offset into D_80084808); index 0 read here */"
+  },
+  {
+   "name": "D_8008480C",
+   "decl": "extern s16 D_8008480C[8]; /* sibling stat array, independent extern symbol (see src/code.c: D_8008480C[0] = arg0 setter); index 0 read here */"
+  }
+ ]
+}

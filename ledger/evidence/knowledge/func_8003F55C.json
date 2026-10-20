@@ -1,0 +1,15 @@
+{
+ "func": "func_8003F55C",
+ "doc": "Waits for CD sync to complete; if the sync result is \"no intr\" (2), issues a CdlPause CdControl command writing into the global CD position buffer D_800814B8, then converts that position to an integer (sector count) via CdPosToInt.",
+ "globals": [
+  {
+   "name": "D_800814B8",
+   "decl": "unsigned char D_800814B8[16]; /* CD sector position buffer (CdlLOC-ish), size>8 so it addresses via %hi/%lo not $gp under -G8; exact size unconfirmed beyond >8 */"
+  }
+ ],
+ "calls": [
+  "CdSync(int mode, unsigned char *result)",
+  "CdControl(unsigned char com, unsigned char *param, unsigned char *result)",
+  "CdPosToInt(unsigned char *loc)"
+ ]
+}

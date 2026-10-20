@@ -1,0 +1,10 @@
+{
+ "func": "func_800497F4",
+ "doc": "Fades an object's color toward neutral gray (0x808080) by -0x10 per call on each of r/g/b. If the color is already neutral (0x808080) on entry, it either clears the object's flag/counter (unk0=0) when the caller passes a1!=0, or does nothing. Otherwise it decrements r/g/b by 0x10 each; if the color becomes exactly neutral as a result, it resets the whole color word to a template value read from global D_80080B54.",
+ "globals": [
+  {
+   "name": "D_80080B54",
+   "decl": "struct S_80080B54 { s32 color; u8 pad[8]; } D_80080B54;  /* only offset 0x0 (a packed r,g,b,cd word) is accessed by func_800497F4, read as a whole s32 and copied into a CVECTOR-style struct; declared size >8 bytes to force %hi/%lo addressing per the gp-vs-hilo-extern-size rule. Siblings func_80049D80 and func_8004CD28 (same TU/global) take its ADDRESS (&D_80080B54) as a callee argument rather than reading fields directly, consistent with it being a larger struct/array whose full layout isn't determined by any of these three functions."
+  }
+ ]
+}

@@ -1,0 +1,1237 @@
+{
+ "schema": "azure.goto-cleanup.v1",
+ "lane": "r121w_goto4a",
+ "base_commit": "ddc07bc5949684593cdc45a67e378a1f18324318",
+ "at": "2026-10-18T14:37:41.924710+00:00",
+ "summary": {
+  "queue_files": 80,
+  "gotos_before": 188,
+  "pass1_after": 164,
+  "gotos_after": 159,
+  "pass2_removed": 5,
+  "status": {
+   "partial": 3,
+   "held": 69,
+   "exact": 8
+  },
+  "measurements": 657,
+  "candidate_measurements": 566,
+  "pass2_candidate_measurements": 242,
+  "pass2_admissible_shapes": 237,
+  "pass2_files_revisited": 75,
+  "pass2_min_shapes": 3,
+  "pass2_rejected_generations": 5,
+  "changed": [
+   "src/slus/w_8003E4FC.c",
+   "src/slus/w_800595C0.c",
+   "src/slus/w_80041588.c",
+   "src/town/func_800CF608.c",
+   "src/town/func_8081E9A4.c",
+   "src/town/func_805D3AC8.c",
+   "src/slus/w_8004FC98.c",
+   "src/slus/w_8004E8D8.c",
+   "src/slus/w_80041E70.c",
+   "src/slus/konami_runtime_w_80039884.c",
+   "src/main/func_8001B508.c"
+  ],
+  "holds": {
+   "exact partial; remaining object-diff": 3,
+   "object-diff": 25,
+   "polarity": 5,
+   "addressing": 5,
+   "const-remat": 4,
+   "block-order": 2,
+   "delay-slot": 1,
+   "build-fail": 1,
+   "broad": 3,
+   "hold-set": 8,
+   "li-expansion": 5,
+   "code-motion": 1,
+   "length-drift": 4,
+   "reg-rename": 2,
+   "slot-rotation": 2,
+   "computed transfer; address temporary assembles but tail-call/return layout differs": 1
+  }
+ },
+ "scope": {
+  "sources": [
+   "src/main/func_8001B508.c",
+   "src/slus/konami_runtime_w_80039884.c",
+   "src/slus/w_8003E4FC.c",
+   "src/slus/w_80041588.c",
+   "src/slus/w_80041E70.c",
+   "src/slus/w_8004E8D8.c",
+   "src/slus/w_8004FC98.c",
+   "src/slus/w_800595C0.c",
+   "src/town/func_800CF608.c",
+   "src/town/func_805D3AC8.c",
+   "src/town/func_8081E9A4.c"
+  ],
+  "affected_rows": [
+   "main/func_8001B508",
+   "town/func_800CF608",
+   "town/func_805D3AC8",
+   "town/func_8081E9A4",
+   "slus/konami_runtime_w_80039884",
+   "slus/w_8003E4FC",
+   "slus/w_80041588",
+   "slus/w_80041E70",
+   "slus/w_8004E8D8",
+   "slus/w_8004FC98",
+   "slus/w_800595C0"
+  ],
+  "overlay_windows": [
+   "config/overlays/main_boot.overlay.yaml",
+   "config/overlays/town_deep_t8b_79cdc8.overlay.yaml",
+   "config/overlays/town_scene.overlay.yaml",
+   "config/overlays/town_scene_55.overlay.yaml"
+  ],
+  "slus_image": true
+ },
+ "source_audit": {
+  "added_forbidden_tokens": [],
+  "changed_source_count": 11,
+  "changed_files_all_queue_homes": true,
+  "shared_headers_extended": [],
+  "gotos_before": 188,
+  "gotos_after": 159,
+  "all_final_source_hashes_current": true,
+  "pass1_reductions_preserved": true
+ },
+ "measurements": [
+  {
+   "id": "slus/w_8003E4FC",
+   "file": "src/slus/w_8003E4FC.c",
+   "cfg": "2.7.2-cdk",
+   "preimage_sha256": "bbe2a137e0de3dfb32c4c5094982dbaeb8bfffc1368134190bf085b0b5621a5b",
+   "final_sha256": "4c0821f5479043cbfc0a5163a791e8ed9a6253096f23d0152312c865bb1d8ace",
+   "gotos_before": 28,
+   "gotos_after": 14,
+   "baseline": {
+    "status": "ok",
+    "exact": true,
+    "units": {
+     "src/cd_command_state_owned.c": {
+      "object": "tmp/slus_base/w_8003E4FC/0/a.o",
+      "sha": "cebe7332cdbeb4564b68e25234a68e9bf5afe4121ca675621854a3305ff8d665"
+     }
+    },
+    "secs": 0.0034046173095703125
+   },
+   "final": {
+    "status": "ok",
+    "exact": true,
+    "total": 0,
+    "class": null,
+    "units": {
+     "src/cd_command_state_owned.c": "cebe7332cdbeb4564b68e25234a68e9bf5afe4121ca675621854a3305ff8d665"
+    },
+    "details": {},
+    "secs": 6.77,
+    "proof": "B13 paired complete physical TU object identity"
+   }
+  },
+  {
+   "id": "slus/w_800595C0",
+   "file": "src/slus/w_800595C0.c",
+   "cfg": "2.7.2-cdk",
+   "preimage_sha256": "52546fc030d973a4882a9f5ba42edef0c0d5586bece33da1bf629cd29b1cd78e",
+   "final_sha256": "cd39bc5c70a4ab813c7dac282fa65fd1e696ca515a7edcd5407162d9fcc46b18",
+   "gotos_before": 5,
+   "gotos_after": 1,
+   "baseline": {
+    "status": "ok",
+    "exact": true,
+    "units": {
+     "src/w_800595C0_jtbl_owned.c": {
+      "object": "tmp/slus_base/w_800595C0/0/a.o",
+      "sha": "7ec269650d07acd22f598e6b28f8ace068970275505cc73139afa254a8c77d29"
+     }
+    },
+    "secs": 0.0003230571746826172
+   },
+   "final": {
+    "status": "ok",
+    "exact": true,
+    "total": 0,
+    "class": null,
+    "units": {
+     "src/w_800595C0_jtbl_owned.c": "7ec269650d07acd22f598e6b28f8ace068970275505cc73139afa254a8c77d29"
+    },
+    "details": {},
+    "secs": 6.0,
+    "proof": "B13 paired complete physical TU object identity"
+   }
+  },
+  {
+   "id": "slus/w_80041588",
+   "file": "src/slus/w_80041588.c",
+   "cfg": "2.7.2-cdk",
+   "preimage_sha256": "03e9f68849233d340da78e16756770316ac8da0b0832df155bc289fcf17df509",
+   "final_sha256": "67a0e3c8995fc55747cdc159dad82fc0c0e583aee96565a8c733e37e4b15ef4d",
+   "gotos_before": 4,
+   "gotos_after": 2,
+   "baseline": {
+    "status": "ok",
+    "exact": true,
+    "units": {
+     "src/w_80041588_jtbl_owned.c": {
+      "object": "tmp/slus_base/w_80041588/0/a.o",
+      "sha": "5053e764fc71ba7c97e6f096e545c4e66f98e2d76279190ff9be0f14116d0052"
+     }
+    },
+    "secs": 1.2148418426513672
+   },
+   "final": {
+    "status": "ok",
+    "exact": true,
+    "total": 0,
+    "class": null,
+    "units": {
+     "src/w_80041588_jtbl_owned.c": "5053e764fc71ba7c97e6f096e545c4e66f98e2d76279190ff9be0f14116d0052"
+    },
+    "details": {},
+    "secs": 5.99,
+    "proof": "B13 paired complete physical TU object identity"
+   }
+  },
+  {
+   "id": "town/func_800CF608",
+   "file": "src/town/func_800CF608.c",
+   "cfg": "2.7.2-cdk-G0",
+   "preimage_sha256": "576400be110f1cce0831d69a93bc6a85a658f5d3c511baf3a22ee0a4cbed47f0",
+   "final_sha256": "aff3964d8407b26a081cc5e5350f5cc01216cb55919a0659edfcffc8934ce05f",
+   "gotos_before": 2,
+   "gotos_after": 0,
+   "baseline": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 54,
+    "tgt_words": 54,
+    "class": "match",
+    "signals": [],
+    "secs": 11.13,
+    "err": null
+   },
+   "final": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 54,
+    "tgt_words": 54,
+    "class": "match",
+    "signals": [],
+    "secs": 2.41,
+    "err": null
+   }
+  },
+  {
+   "id": "town/func_8081E9A4",
+   "file": "src/town/func_8081E9A4.c",
+   "cfg": "2.7.2-cdk-G0",
+   "preimage_sha256": "d46471ba9e8c8dbbd09c09b6244cd750b6ca22dc2d6603362a6b045515bc2a58",
+   "final_sha256": "71b25559c7eeea620b0a88793d88a4bacda83236dfd8060ca5499f6738ff96cb",
+   "gotos_before": 1,
+   "gotos_after": 0,
+   "baseline": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 825,
+    "tgt_words": 825,
+    "class": "match",
+    "signals": [],
+    "secs": 10.05,
+    "err": null
+   },
+   "final": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 825,
+    "tgt_words": 825,
+    "class": "match",
+    "signals": [],
+    "secs": 2.05,
+    "err": null
+   }
+  },
+  {
+   "id": "town/func_805D3AC8",
+   "file": "src/town/func_805D3AC8.c",
+   "cfg": "2.7.2-cdk-G0",
+   "preimage_sha256": "7ea9abde76f9e03df0c4b4782b8f0f5cefe591150bef97b5f26c436a2fbaa563",
+   "final_sha256": "9e3eed5a5206d20edfc87fd5137b7d6ce85c7a3cb151cd60ca7ed9ed6584a24a",
+   "gotos_before": 1,
+   "gotos_after": 0,
+   "baseline": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 19,
+    "tgt_words": 19,
+    "class": "match",
+    "signals": [],
+    "secs": 4.66,
+    "err": null
+   },
+   "final": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 19,
+    "tgt_words": 19,
+    "class": "match",
+    "signals": [],
+    "secs": 1.64,
+    "err": null
+   }
+  },
+  {
+   "id": "slus/w_8004FC98",
+   "file": "src/slus/w_8004FC98.c",
+   "cfg": "2.7.2-cdk",
+   "preimage_sha256": "54d795592e40de7e336d6f672c28f8d75dc38fc1ab795fa7a0a09f5e41e85aef",
+   "final_sha256": "8052e63e8a23f955309f72d09b0dfdc60ec2a78f8905c0397a3bb691da4a3c8c",
+   "gotos_before": 1,
+   "gotos_after": 0,
+   "baseline": {
+    "status": "ok",
+    "exact": true,
+    "units": {
+     "src/w_8004FC98.c": {
+      "object": "tmp/slus_base/w_8004FC98/0/a.o",
+      "sha": "aafde590dd04e994fd0e665187da2567605155c32f16f32e562c15d50cd60c05"
+     }
+    },
+    "secs": 0.011893749237060547
+   },
+   "final": {
+    "status": "ok",
+    "exact": true,
+    "total": 0,
+    "class": null,
+    "units": {
+     "src/w_8004FC98.c": "aafde590dd04e994fd0e665187da2567605155c32f16f32e562c15d50cd60c05"
+    },
+    "details": {},
+    "secs": 1.25,
+    "proof": "B13 paired complete physical TU object identity"
+   }
+  },
+  {
+   "id": "slus/w_8004E8D8",
+   "file": "src/slus/w_8004E8D8.c",
+   "cfg": "2.7.2-cdk",
+   "preimage_sha256": "16686c0157d77bdbacb6da384409ddc5aed0ef53b19ed711964d6624542bc5f9",
+   "final_sha256": "29c625e284ee5b2d61db1ceae33a7a9a1157dfe8d03314d57d2241a903234a1b",
+   "gotos_before": 1,
+   "gotos_after": 0,
+   "baseline": {
+    "status": "ok",
+    "exact": true,
+    "units": {
+     "src/w_8004E8D8.c": {
+      "object": "tmp/slus_base/w_8004E8D8/0/a.o",
+      "sha": "f7843794f65a58f7b84e69fa9dd667591cc1adafd9d764563e9500688eb2ae95"
+     }
+    },
+    "secs": 0.00034737586975097656
+   },
+   "final": {
+    "status": "ok",
+    "exact": true,
+    "total": 0,
+    "class": null,
+    "units": {
+     "src/w_8004E8D8.c": "f7843794f65a58f7b84e69fa9dd667591cc1adafd9d764563e9500688eb2ae95"
+    },
+    "details": {},
+    "secs": 1.09,
+    "proof": "B13 paired complete physical TU object identity"
+   }
+  },
+  {
+   "id": "slus/w_80041E70",
+   "file": "src/slus/w_80041E70.c",
+   "cfg": "2.7.2-cdk",
+   "preimage_sha256": "9025bab76cfa4bb08b7a5ee57b6069cf5f6aca009eaff7e5a980a2d5eab198f7",
+   "final_sha256": "11ec3c01124b491395b917acca0686107f053b21a56eac2142b2b6949e839076",
+   "gotos_before": 1,
+   "gotos_after": 0,
+   "baseline": {
+    "status": "ok",
+    "exact": true,
+    "units": {
+     "src/w_80041E70.c": {
+      "object": "tmp/slus_base/w_80041E70/0/a.o",
+      "sha": "9155b420c4a36087f0fa38fe407d8c3525476229b3e9ed74286d224e781bf9c5"
+     }
+    },
+    "secs": 0.0003159046173095703
+   },
+   "final": {
+    "status": "ok",
+    "exact": true,
+    "total": 0,
+    "class": null,
+    "units": {
+     "src/w_80041E70.c": "9155b420c4a36087f0fa38fe407d8c3525476229b3e9ed74286d224e781bf9c5"
+    },
+    "details": {},
+    "secs": 1.1,
+    "proof": "B13 paired complete physical TU object identity"
+   }
+  },
+  {
+   "id": "slus/konami_runtime_w_80039884",
+   "file": "src/slus/konami_runtime_w_80039884.c",
+   "cfg": "2.7.2-cdk",
+   "preimage_sha256": "7666af486fd799ce3b7507e60ad72f21ed50534525eca8dafe8b6615166dc0a6",
+   "final_sha256": "67916685a7ed49eb3ade79bc857bacdde858f9de6f75d498353da2cbe38e3a7c",
+   "gotos_before": 1,
+   "gotos_after": 0,
+   "baseline": {
+    "status": "ok",
+    "exact": true,
+    "units": {
+     "src/konami_runtime_w_80039884.c": {
+      "object": "tmp/slus_base/konami_runtime_w_80039884/0/a.o",
+      "sha": "47bb65ca12f86b48a569d96e6d09b1116e2ae3a029194f28f2cd930caacce761"
+     }
+    },
+    "secs": 0.0002944469451904297
+   },
+   "final": {
+    "status": "ok",
+    "exact": true,
+    "total": 0,
+    "class": null,
+    "units": {
+     "src/konami_runtime_w_80039884.c": "47bb65ca12f86b48a569d96e6d09b1116e2ae3a029194f28f2cd930caacce761"
+    },
+    "details": {},
+    "secs": 0.86,
+    "proof": "B13 paired complete physical TU object identity"
+   }
+  },
+  {
+   "id": "main/func_8001B508",
+   "file": "src/main/func_8001B508.c",
+   "cfg": "2.6.3",
+   "preimage_sha256": "ed8fec7b0c36d920b6c5dc7dbe91f546c65ddb77a48ae0efdc370b5438ed5394",
+   "final_sha256": "a2291c20f809e8f729abed86969c4856a13072e9b1b5307ac228d712eb073ff1",
+   "gotos_before": 1,
+   "gotos_after": 0,
+   "baseline": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 44,
+    "tgt_words": 44,
+    "class": "match",
+    "signals": [],
+    "secs": 2.97,
+    "err": null
+   },
+   "final": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 44,
+    "tgt_words": 44,
+    "class": "match",
+    "signals": [],
+    "secs": 1.09,
+    "err": null
+   }
+  }
+ ],
+ "gate": {
+  "overlay_windows": [
+   {
+    "window": "main_boot",
+    "container": "main",
+    "result": "MATCH",
+    "bytes": 86016,
+    "detail": "MATCH: rebuilt overlay window byte-identical (86016 bytes)",
+    "secs": 548.6,
+    "inputs_sha": "3d5adeeaf44e58082ebd6e2e91dea1c707226a7bc1fdb953f82745b3520a35e9",
+    "at": "2026-10-18T14:21:10Z"
+   },
+   {
+    "window": "town_deep_t8b_79cdc8",
+    "container": "town",
+    "result": "MATCH",
+    "bytes": 11364,
+    "detail": "MATCH: rebuilt overlay window byte-identical (11364 bytes)",
+    "secs": 360.3,
+    "inputs_sha": "fb99006984e16d588fa67449db78eace5dfffcd73ee809ec8bdb036267f74449",
+    "at": "2026-10-18T14:18:02Z"
+   },
+   {
+    "window": "town_scene",
+    "container": "town",
+    "result": "MATCH",
+    "bytes": 335872,
+    "detail": "MATCH: rebuilt overlay window byte-identical (335872 bytes)",
+    "secs": 1396.7,
+    "inputs_sha": "c2a43bc9ba371a67f6f5080d274cc3b8df011368332eab06248ecaebf9cd2f06",
+    "at": "2026-10-18T14:35:18Z"
+   },
+   {
+    "window": "town_scene_55",
+    "container": "town",
+    "result": "MATCH",
+    "bytes": 4096,
+    "detail": "MATCH: rebuilt overlay window byte-identical (4096 bytes)",
+    "secs": 305.2,
+    "inputs_sha": "c9d48d692ba3a2c535ab6e68bb4f4c41e4f3a57f41a41a2039d305ab67d3e9e1",
+    "at": "2026-10-18T14:17:07Z"
+   }
+  ],
+  "steps": [
+   {
+    "step": "source_layout",
+    "exit_code": 0,
+    "seconds": 18.77,
+    "log": "evidence/gate_source_layout.internal.log",
+    "sha256": "ebe2f63cf1bdd0d3dab52d37a7c0cca6258285af0c68a70583e9623c9f7030f1"
+   },
+   {
+    "step": "row_database",
+    "exit_code": 0,
+    "seconds": 40.58,
+    "log": "evidence/gate_row_database.internal.log",
+    "sha256": "8f7b233b95af13e2d563d9f9f2ebc7320a81806b8a99ecf60eac165da5d0cbd7"
+   },
+   {
+    "step": "exported_view",
+    "exit_code": 0,
+    "seconds": 88.61,
+    "log": "evidence/gate_exported_view.internal.log",
+    "sha256": "c0bd63dc655f7f18d7081bbda121042adc5672e92289586151f8db3dd7f07d95"
+   },
+   {
+    "step": "slus_image",
+    "exit_code": 0,
+    "seconds": 21.62,
+    "log": "evidence/gate_slus_image.internal.log",
+    "sha256": "221919ee91f1ddd54418bcab8fbbcd22a63c41c7515c70c229cbc7230ba49175"
+   },
+   {
+    "step": "overlay_windows",
+    "exit_code": 0,
+    "seconds": 1510.84,
+    "log": "evidence/gate_overlay_windows.internal.log",
+    "sha256": "6f520f99cbaa651ebeb8569fbdee944f54e3e9c34411fc6f1b25490dc3409481"
+   }
+  ],
+  "portable_log_sha256": "f19d9a0c6013be7f913fca7a09065b94072abbcb7eb5b85ffacdb4576939483b",
+  "internal_artifacts": [
+   {
+    "directory": "gate_receipts",
+    "files": 218,
+    "bytes": 1982605,
+    "manifest_sha256": "729c501cb0d43994c4670c4201b6727febe40d161b5e48f53751249e1c7a2e11",
+    "manifest_bytes": 32191
+   }
+  ]
+ },
+ "existing_certificate_audit": {
+  "B13_connected_fingerprint": "fda369988100e5eed966ac6ff4261bdf02044c3c4f4482f03ea65fe48bb189fc",
+  "final_connected_fingerprint": "eb28334de34f7681a8ef7e4064eef3cbcae77682cc4a25f547061cc2d8f870e0",
+  "certificates": [
+   {
+    "module": "list_cursor_e0",
+    "certificate": "ledger/modules/list_cursor_e0.json",
+    "certificate_sha256": "4d7fece7de91b7a94d725ad9ec8bec03b030e5622a3a4217df3aaff83e30eaa7",
+    "certificate_fingerprint_matches_B13": false,
+    "current_reason": "certificate physical contributors or destination changed",
+    "preexisting_recipe_matches": false
+   }
+  ]
+ },
+ "results_sha256": "19be783fcc892fd666270b852d217577d6855bccbaa2bf6d88df68ad8ae8b710",
+ "holds_sha256": "3137c638a6ed6703557482e15d0b4a70d7656146de02714baf92dd8fd16401f2",
+ "measurements_tsv_sha256": "4515250c09f45d579c45cd1d367e7a4b9b094cffc89b5da1c3fb9da11094a766",
+ "new_rows": 0,
+ "new_coverage_bytes": 0,
+ "shared_headers_extended": [],
+ "continuation": {
+  "pass": 2,
+  "pass1_delivery_patch_sha256": "e6e211b8e54a9a51aa695eadd45dc73e63a75e8fc329bcd29c08a62eaac96c61",
+  "coverage_audit": {
+   "pass1_unresolved": 75,
+   "per_file_admissible_scored_shapes": {
+    "w_8003E4FC": 3,
+    "w_8003E758": 3,
+    "func_80956260": 3,
+    "func_8081B4A4": 3,
+    "func_8001A2B0": 5,
+    "func_8000E298": 3,
+    "func_8000E0F0": 3,
+    "func_8095563C": 3,
+    "w_800595C0": 3,
+    "w_80048734": 3,
+    "w_8005552C": 3,
+    "w_80041588": 10,
+    "func_8001A0F0": 3,
+    "func_809548E4": 3,
+    "func_808110CC": 3,
+    "func_8046BD98": 3,
+    "func_800BB530": 3,
+    "w_80059F8C": 3,
+    "w_80059E94": 3,
+    "w_80041344": 3,
+    "func_8081C14C": 3,
+    "func_80469200": 3,
+    "func_800CF608": 3,
+    "func_800C4508": 3,
+    "func_800BB3A0": 3,
+    "func_800A6420": 3,
+    "w_800599B0": 3,
+    "konami_runtime_w_80038AB8": 3,
+    "func_8096AE44": 3,
+    "func_808B3620": 3,
+    "func_80878A78": 3,
+    "func_8081E410": 3,
+    "func_80818F60": 3,
+    "func_80818C8C": 3,
+    "func_808151F8": 3,
+    "func_808146C8": 3,
+    "func_80811C54": 3,
+    "func_806D85A0": 3,
+    "func_80476DBC": 3,
+    "func_8046986C": 3,
+    "func_8032EF6C": 3,
+    "func_8032C6E0": 3,
+    "func_800C6228": 3,
+    "func_800C3688": 3,
+    "func_800BC0D0": 3,
+    "func_800BB990": 3,
+    "func_800B93B0": 3,
+    "func_800B8244": 3,
+    "func_800B3E58": 3,
+    "func_800AF9D8": 3,
+    "func_800A265C": 3,
+    "func_800A201C": 6,
+    "func_8008EFF8": 3,
+    "w_8005F90C": 3,
+    "w_8005BAB0": 3,
+    "w_8005B16C": 3,
+    "w_8005B070": 3,
+    "w_800565D8": 3,
+    "w_80054A7C": 3,
+    "w_80054104": 3,
+    "w_8004E8D8": 3,
+    "w_8004B08C": 3,
+    "w_8004AFE8": 3,
+    "w_8004713C": 3,
+    "w_80046C20": 3,
+    "w_80044D24": 3,
+    "w_800407C0": 3,
+    "w_8003F368": 3,
+    "konami_runtime_w_8003B714": 3,
+    "konami_runtime_w_80039884": 3,
+    "konami_runtime_w_800387D0": 3,
+    "konami_runtime_w_80033D54": 3,
+    "func_80021848": 3,
+    "func_8001BA1C": 3,
+    "func_8000FBE8": 3
+   },
+   "minimum": 3,
+   "all_candidate_hashes_current": true,
+   "distinct_from_pass1_and_each_other_ignoring_comments_whitespace": true,
+   "excluded_generations": {
+    "func_800CF608__p2_phase_nested": "Generator retained a switch default label in an if-chain; replaced by p2_phase_if.",
+    "w_800565D8__p2_pitch_common_result": "Generator did not connect all three arms; replaced by p2_pitch_shared_result.",
+    "w_80041344__p2_upload_offset_value": "Generator mismatched the pre-existing direct_src name; replaced by p2_upload_serial_offset.",
+    "w_80041344__p2_upload_arg_lifetimes": "Only unused declarations were added; not a distinct shape. Replaced by p2_upload_continue.",
+    "func_800A6420__p2_strips_reverse_returns": "Generator copied a multistatement return tail into an unbraced conditional; replaced by p2_strips_terminal_returns."
+   }
+  },
+  "coverage_audit_sha256": "15ef1a6c91e0096130ad8ac35a9a624282c34c90985a9b1f2c84f703e04a7f02",
+  "module_scope": {
+   "physical_modules": {
+    "list_cursor_e0": {
+     "source": "src/w_80041134_owned.c",
+     "members": [
+      "slus/w_80041134"
+     ],
+     "fingerprint": "eb28334de34f7681a8ef7e4064eef3cbcae77682cc4a25f547061cc2d8f870e0",
+     "headers": [
+      "include/common.h",
+      "include/game.h",
+      "include/globals.h",
+      "include/include_asm.h",
+      "include/slus/list_cursor_e0.h"
+     ],
+     "partition_only": false,
+     "data_spans": [
+      {
+       "symbol": "D_800814E0",
+       "vram": 2148013280,
+       "size": 4
+      }
+     ]
+    },
+    "saved_value_b98": {
+     "source": "src/w_80050DA8_owned.c",
+     "members": [
+      "slus/w_80050DA8",
+      "slus/w_80050E20"
+     ],
+     "fingerprint": "eb28334de34f7681a8ef7e4064eef3cbcae77682cc4a25f547061cc2d8f870e0",
+     "headers": [
+      "include/common.h",
+      "include/slus/saved_value_b98.h"
+     ],
+     "partition_only": false,
+     "data_spans": [
+      {
+       "symbol": "D_80080B94",
+       "vram": 2148010900,
+       "size": 4
+      },
+      {
+       "symbol": "D_80080B98",
+       "vram": 2148010904,
+       "size": 4
+      }
+     ]
+    },
+    "sort_rank_81540": {
+     "source": "src/sort_rank_81540_owned.c",
+     "members": [
+      "slus/w_8004B08C"
+     ],
+     "fingerprint": "eb28334de34f7681a8ef7e4064eef3cbcae77682cc4a25f547061cc2d8f870e0",
+     "headers": [
+      "include/common.h",
+      "include/slus/sort_rank_81540.h"
+     ],
+     "partition_only": false,
+     "data_spans": [
+      {
+       "symbol": "D_80081540",
+       "vram": 2148013376,
+       "size": 4
+      }
+     ]
+    },
+    "command_slots_81554": {
+     "source": "src/w_8004DCA8_owned.c",
+     "members": [
+      "slus/w_8004DCA8",
+      "slus/w_8004DD2C",
+      "slus/w_8004DDE4",
+      "slus/w_8004E130"
+     ],
+     "fingerprint": "eb28334de34f7681a8ef7e4064eef3cbcae77682cc4a25f547061cc2d8f870e0",
+     "headers": [
+      "include/common.h",
+      "include/slus/command_slots_81554.h"
+     ],
+     "partition_only": false,
+     "data_spans": [
+      {
+       "symbol": "D_80081554",
+       "vram": 2148013396,
+       "size": 4
+      },
+      {
+       "symbol": "D_80081558",
+       "vram": 2148013400,
+       "size": 4
+      }
+     ]
+    },
+    "message_mode_81550": {
+     "source": "src/w_8004DCEC_owned.c",
+     "members": [
+      "slus/w_8004DCEC",
+      "slus/w_8004DE88",
+      "slus/w_8004DF8C"
+     ],
+     "fingerprint": "eb28334de34f7681a8ef7e4064eef3cbcae77682cc4a25f547061cc2d8f870e0",
+     "headers": [
+      "include/common.h",
+      "include/slus/message_mode_81550.h"
+     ],
+     "partition_only": false,
+     "data_spans": [
+      {
+       "symbol": "D_8008154C",
+       "vram": 2148013388,
+       "size": 4
+      },
+      {
+       "symbol": "D_80081550",
+       "vram": 2148013392,
+       "size": 4
+      }
+     ]
+    },
+    "cd_command_state": {
+     "source": "src/cd_command_state_owned.c",
+     "members": [
+      "slus/w_8003E34C",
+      "slus/w_8003E4FC",
+      "slus/w_8003E758",
+      "slus/w_8003F2A4",
+      "slus/w_8003F368",
+      "slus/w_8003F5AC",
+      "slus/w_8003F624"
+     ],
+     "fingerprint": "eb28334de34f7681a8ef7e4064eef3cbcae77682cc4a25f547061cc2d8f870e0",
+     "headers": [
+      "include/common.h",
+      "include/slus/cd_state.h",
+      "include/slus/cd_cohort_types.h"
+     ],
+     "partition_only": false,
+     "data_spans": [
+      {
+       "symbol": "D_800814D0",
+       "vram": 2148013264,
+       "size": 1
+      },
+      {
+       "symbol": "D_800814D4",
+       "vram": 2148013268,
+       "size": 1
+      },
+      {
+       "symbol": "D_800814CC",
+       "vram": 2148013260,
+       "size": 4
+      },
+      {
+       "symbol": "D_80081450",
+       "vram": 2148013136,
+       "size": 8
+      },
+      {
+       "symbol": "D_80080AD0",
+       "vram": 2148010704,
+       "size": 1
+      },
+      {
+       "symbol": "D_80080AD2",
+       "vram": 2148010706,
+       "size": 2
+      },
+      {
+       "symbol": "D_80080AD4",
+       "vram": 2148010708,
+       "size": 2
+      },
+      {
+       "symbol": "D_80080AD8",
+       "vram": 2148010712,
+       "size": 4
+      },
+      {
+       "symbol": "D_80080ADC",
+       "vram": 2148010716,
+       "size": 4
+      },
+      {
+       "symbol": "D_800814B0",
+       "vram": 2148013232,
+       "size": 4
+      },
+      {
+       "symbol": "D_800814B4",
+       "vram": 2148013236,
+       "size": 4
+      },
+      {
+       "symbol": "jtbl_8002D5C0",
+       "vram": 2147669440,
+       "size": 112
+      }
+     ]
+    },
+    "accessors_814c8": {
+     "source": "src/c8_accessors_owned.c",
+     "members": [],
+     "fingerprint": "eb28334de34f7681a8ef7e4064eef3cbcae77682cc4a25f547061cc2d8f870e0",
+     "headers": [
+      "include/common.h"
+     ],
+     "partition_only": true,
+     "data_spans": [
+      {
+       "symbol": "D_800814C8",
+       "vram": 2148013256,
+       "size": 4
+      }
+     ]
+    },
+    "table_counters_b1b_b1c": {
+     "source": "src/b1b_b1c_table_owned.c",
+     "members": [],
+     "fingerprint": "eb28334de34f7681a8ef7e4064eef3cbcae77682cc4a25f547061cc2d8f870e0",
+     "headers": [
+      "include/common.h"
+     ],
+     "partition_only": true,
+     "data_spans": [
+      {
+       "symbol": "D_80080B1B",
+       "vram": 2148010779,
+       "size": 1
+      },
+      {
+       "symbol": "D_80080B1C",
+       "vram": 2148010780,
+       "size": 1
+      }
+     ]
+    },
+    "sound_tu_code": {
+     "source": "src/sound_tu_code_owned.c",
+     "members": [],
+     "fingerprint": "eb28334de34f7681a8ef7e4064eef3cbcae77682cc4a25f547061cc2d8f870e0",
+     "headers": [
+      "include/common.h"
+     ],
+     "partition_only": true,
+     "data_spans": []
+    },
+    "jtbl_80041588": {
+     "source": "src/w_80041588_jtbl_owned.c",
+     "members": [
+      "slus/w_80041588"
+     ],
+     "fingerprint": "067e98b796fb9c4ab66472f8b0a626133b70b974199615f7737fc1fd3f86aa57",
+     "headers": [
+      "include/common.h"
+     ],
+     "partition_only": false,
+     "data_spans": [
+      {
+       "symbol": "jtbl_8002D658",
+       "vram": 2147669592,
+       "size": 36
+      }
+     ]
+    },
+    "jtbl_800595C0": {
+     "source": "src/w_800595C0_jtbl_owned.c",
+     "members": [
+      "slus/w_800595C0"
+     ],
+     "fingerprint": "a12d3b4ffe50ec06a30bcf41a91ebe20a5cc8ee2e469684f0769d1806a6451f0",
+     "headers": [
+      "include/common.h"
+     ],
+     "partition_only": false,
+     "data_spans": [
+      {
+       "symbol": "jtbl_8003310C",
+       "vram": 2147692812,
+       "size": 232
+      }
+     ]
+    }
+   },
+   "partition_parents": {
+    "slus/code": {
+     "id": "slus/code",
+     "source": "src/code.c",
+     "raw_sha256": "b2c7805e009a7ae79b7cdbd95f4c7d246f4491dd1d4367ac12e101564b302c9c",
+     "recipe": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+     },
+     "functions": [
+      "func_8003D56C",
+      "func_8003DB4C",
+      "func_8003DB6C",
+      "func_8003DB94",
+      "func_8003E12C",
+      "func_8003E140",
+      "func_8003F52C",
+      "func_8003F534",
+      "func_8003F5D4",
+      "func_8003F5E0",
+      "func_8003F5EC",
+      "func_8003F6D4",
+      "func_80040044",
+      "func_80040418",
+      "func_80040F00",
+      "func_80041110",
+      "func_800422A8",
+      "func_800424E0",
+      "func_80043FB8",
+      "func_80044234",
+      "func_800445E0",
+      "func_80046398",
+      "func_80047714",
+      "func_800478B8",
+      "func_800479AC",
+      "func_80047A44",
+      "func_80047AA4",
+      "func_80047C60",
+      "func_80048374",
+      "func_80048568",
+      "func_80048590",
+      "func_800485B8",
+      "func_80048D00",
+      "func_80048D20",
+      "func_80048D40",
+      "func_80048DCC",
+      "func_80048DE8",
+      "func_80048F8C",
+      "func_80049250",
+      "func_80049280",
+      "func_8004928C",
+      "func_80049490",
+      "func_800494FC",
+      "func_80049944",
+      "func_80049984",
+      "func_800499DC",
+      "func_80049DC8",
+      "func_80049DE8",
+      "func_80049E6C",
+      "func_8004A4C4",
+      "func_8004A618",
+      "func_8004A638",
+      "func_8004A918",
+      "func_8004AA34",
+      "func_8004AE3C",
+      "func_8004AE98",
+      "func_8004AFC8",
+      "func_8004B3DC",
+      "func_8004B4A8",
+      "func_8004B4DC",
+      "func_8004B634",
+      "func_8004B834",
+      "func_8004B8BC",
+      "func_8004CBFC",
+      "func_8004D064",
+      "func_8004D8F0",
+      "func_8004D9E0",
+      "func_8004DCE0",
+      "func_8004DDB4",
+      "func_8004DDC4",
+      "func_8004E264",
+      "func_8004E280",
+      "func_8004E57C",
+      "func_8004E994",
+      "func_8004E99C",
+      "func_8004E9C0",
+      "func_8004E9E4",
+      "func_8004EB30",
+      "func_8004EE30",
+      "func_8004EE50",
+      "func_8004EE70",
+      "func_8004F2BC",
+      "func_8004F308",
+      "func_8004F3D0",
+      "func_8004F67C",
+      "func_8004F85C",
+      "func_8004FC68",
+      "func_8004FF00",
+      "func_800502E0",
+      "func_80050494",
+      "func_80050694",
+      "func_80050B7C",
+      "func_80050CAC",
+      "func_80050F84",
+      "func_80050FA8",
+      "func_80051500",
+      "func_80051528",
+      "func_800517AC",
+      "func_80051CA4",
+      "func_80051F38",
+      "func_800530A4",
+      "func_80053C3C",
+      "func_80053DA8",
+      "func_80053DCC",
+      "func_80053E14",
+      "func_800542A4",
+      "func_80054AF0",
+      "func_800555FC",
+      "func_80055604",
+      "func_80055730",
+      "func_800557BC",
+      "func_80055990",
+      "func_80055CEC",
+      "func_80055E6C",
+      "func_80055E74",
+      "func_80055E7C",
+      "func_80056D3C",
+      "func_80057A48",
+      "func_8005848C",
+      "func_800584E4",
+      "func_800587F8",
+      "func_80058A7C",
+      "func_80058AA8",
+      "func_80058E50",
+      "func_80058E64",
+      "func_8005A37C",
+      "func_8005A39C",
+      "func_8005A3A8",
+      "func_8005A3D4",
+      "func_8005A420",
+      "func_8005A4B8",
+      "func_8005ACD0",
+      "func_8005B300",
+      "func_8005B320",
+      "func_8005B3D8",
+      "func_8005C808",
+      "func_8005C88C",
+      "func_8005C8EC",
+      "func_8005C980",
+      "func_8005C988",
+      "func_8005C990",
+      "func_8005C998",
+      "func_8005C9A0",
+      "func_8005C9A8",
+      "func_8005C9D4",
+      "func_8005C9F4",
+      "func_8005CA1C",
+      "func_8005CA4C",
+      "func_8005CA70",
+      "func_8005D6D8",
+      "func_8005D704",
+      "func_8005D798",
+      "func_8005DA68",
+      "func_8005E4A0",
+      "func_8005E78C",
+      "func_8005EC0C"
+     ],
+     "parts": [
+      {
+       "module": "list_cursor_e0",
+       "functions": [
+        "func_80041110"
+       ]
+      },
+      {
+       "module": "saved_value_b98",
+       "functions": [
+        "func_80050CAC"
+       ]
+      },
+      {
+       "module": "sort_rank_81540",
+       "functions": [
+        "func_8004AE98"
+       ]
+      },
+      {
+       "module": "command_slots_81554",
+       "functions": [
+        "func_8004DDB4"
+       ]
+      },
+      {
+       "module": "message_mode_81550",
+       "functions": [
+        "func_8004DCE0"
+       ]
+      },
+      {
+       "module": "accessors_814c8",
+       "functions": [
+        "func_8003F5D4",
+        "func_8003F5E0"
+       ]
+      },
+      {
+       "module": "sound_tu_code",
+       "functions": [
+        "func_8005D6D8",
+        "func_8005D704",
+        "func_8005D798",
+        "func_8005DA68",
+        "func_8005E4A0",
+        "func_8005E78C",
+        "func_8005EC0C"
+       ]
+      }
+     ]
+    },
+    "slus/code2": {
+     "id": "slus/code2",
+     "source": "src/code2.c",
+     "raw_sha256": "6e3cdb453228a565637cab754f42e70df8647c75bbf38fbf30dc16116029d69d",
+     "recipe": {
+      "asflags": "",
+      "ccflags": "",
+      "ccver": "2.7.2-cdk"
+     },
+     "functions": [
+      "func_8003F240",
+      "func_8003F540",
+      "func_8003F7E4",
+      "func_80040A88",
+      "func_80040B88",
+      "func_800410FC",
+      "func_800419EC",
+      "func_8004827C",
+      "func_80048DA0",
+      "func_800499BC",
+      "func_8004A8D8",
+      "func_8004AC18",
+      "func_8004D0C8",
+      "func_8004D110",
+      "func_80050F74",
+      "func_80053C6C",
+      "func_80053CA4",
+      "func_800542AC",
+      "func_8005A3E0",
+      "func_8005B348",
+      "func_8005C818",
+      "func_8005C8B8",
+      "func_8005C918",
+      "func_8005C94C"
+     ],
+     "parts": [
+      {
+       "module": "list_cursor_e0",
+       "functions": [
+        "func_800410FC"
+       ]
+      },
+      {
+       "module": "cd_command_state",
+       "functions": [
+        "func_8003F240"
+       ]
+      },
+      {
+       "module": "table_counters_b1b_b1c",
+       "functions": [
+        "func_80048DA0"
+       ]
+      }
+     ]
+    }
+   }
+  }
+ }
+}

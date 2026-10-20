@@ -1,0 +1,14 @@
+{
+ "func": "func_8003FA44",
+ "doc": "Walks the linked list D_80081490 counting its nodes; if the count ever reaches the a0 limit, returns TRUE(1) immediately. Otherwise continues counting nodes in the linked list D_80081498 that have flag bit 0x200 set in the u16 field at offset 0x1E, again returning TRUE(1) as soon as the running total reaches a0. If both lists are exhausted without reaching the limit, returns FALSE(0).",
+ "globals": [
+  {
+   "name": "D_80081490",
+   "decl": "extern S_80081490 *D_80081490[3]; // head pointer of a singly-linked list; node layout: next @0x00 (struct S_80081490*), u16 flags-ish field @0x1E (bit 0x200 checked by sibling D_80081498 list). Declared as a 3-elem array (size>8) purely to force %hi/%lo addressing instead of $gp small-data; only [0] is read."
+  },
+  {
+   "name": "D_80081498",
+   "decl": "extern S_80081490 *D_80081498[3]; // head pointer of a second list using the SAME node struct (S_80081490): next @0x00, u16 field @0x1E with bit 0x200 tested. Declared as a 3-elem array for the same %hi/%lo-forcing reason; only [0] is read."
+  }
+ ]
+}

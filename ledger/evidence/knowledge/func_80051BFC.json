@@ -1,0 +1,14 @@
+{
+ "func": "func_80051BFC",
+ "doc": "Initializes an object at a0: installs func_800517CC as its update-function pointer (offset 0x10), stashes the raw a1 argument (a slot pointer, per the caller func_800525D4 which passes a S_800525D4_sub*) into a sub-record at offset 0x20 and zeroes the three shorts that follow it, sets up the object's linked dst-record (offset 0xC) via func_8003DB94(dst, &D_800720AC, 0) and tags the dst-record with a neutral-gray color (0x808080) plus two fields (0x1C/0x1E) set to 0x1000, invokes func_8004491C(a0, func_80044BB0) to register a callback, and finally writes three fixed constants (0x01A00000, 0x00600000, 0x00700000) into a 3-word block pointed to by offset 0x8 of the object.",
+ "globals": [
+  {
+   "name": "D_800720AC",
+   "decl": "extern u8 D_800720AC[12]; /* only ever passed by address to func_8003DB94 as its Elem*-shaped table arg; real element layout is struct S_80051BFC_Elem {u8 b0; u8 pad[3]; s32 f4;} per func_8003DB94's existing definition in src/code.c */"
+  }
+ ],
+ "calls": [
+  "func_8003DB94(S_80051BFC_Dst *a0, S_80051BFC_Elem *a1, s16 a2) -- already matched at gcc 2.7.2 in src/code.c; called here as func_8003DB94(v0 /* a0->fc dst-record ptr */, (Elem*)D_800720AC, 0)",
+  "func_8004491C(void *a0, void *a1) -- not yet decompiled (INCLUDE_ASM stub in code.c); called as func_8004491C(a0 /* this object */, (void*)func_80044BB0 /* callback address */)"
+ ]
+}

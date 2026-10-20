@@ -1,0 +1,4 @@
+{
+ "func": "func_800485E0",
+ "doc": "Looks up a slot pointer from a Q-table (either arr[a1+1] if in range, else a table fallback), decrements it by 8 to get the enclosing Result record, then fills that record's unk2 (=1) and unk4 (= arr2[a2] + a3*8) fields and returns the record pointer."
+}

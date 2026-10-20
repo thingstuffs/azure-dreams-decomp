@@ -1,0 +1,9 @@
+{
+ "func": "func_80040490",
+ "doc": "Decompresses image data (a0) into a freshly-sized buffer obtained from func_80040574 (size = rect->w * (rect->h*2)), unpacks via func_8004068C, then uploads via LoadImage(rect, buffer); returns LoadImage's result.",
+ "calls": [
+  "func_80040574(s32 size) -> void* : allocates/reserves an image buffer of `size` bytes, returns its address",
+  "func_8004068C(u8 *src, void *dst) : bit-unpacks/decompresses src into dst",
+  "LoadImage(S_80040490_RECT *rect, void *p) : PSY-Q libgpu LoadImage(RECT*, u_long*)"
+ ]
+}

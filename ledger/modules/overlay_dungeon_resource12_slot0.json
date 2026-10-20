@@ -1,0 +1,291 @@
+{
+  "schema": "overlay-module-native-v4",
+  "kind": "overlay_module_placement",
+  "module": "dungeon_resource12_slot0",
+  "members": [
+    "dungeon/func_80B4307C",
+    "dungeon/func_80B43244",
+    "dungeon/func_80B43670",
+    "dungeon/func_80B43BD4",
+    "dungeon/func_80B43E2C",
+    "dungeon/func_80B44574",
+    "dungeon/func_80B445D8",
+    "dungeon/func_80B4479C",
+    "dungeon/func_80B448B4",
+    "dungeon/func_80B449F8",
+    "dungeon/func_80B44A90",
+    "dungeon/func_80B44DF0",
+    "dungeon/func_80B44E54",
+    "dungeon/func_80B452F8",
+    "dungeon/func_80B457E8",
+    "dungeon/func_80B45AEC",
+    "dungeon/func_80B45E14",
+    "dungeon/func_80B45E34",
+    "dungeon/func_80B45E54",
+    "dungeon/func_80B45E8C",
+    "dungeon/func_80B46228",
+    "dungeon/func_80B46564",
+    "dungeon/func_80B4662C",
+    "dungeon/func_80B46690",
+    "dungeon/func_80B466C8",
+    "dungeon/func_80B46700",
+    "dungeon/func_80B46738",
+    "dungeon/func_80B467DC",
+    "dungeon/func_80B46D8C",
+    "dungeon/func_80B46E18",
+    "dungeon/func_80B47154",
+    "dungeon/func_80B471A8",
+    "dungeon/func_80B471EC",
+    "dungeon/func_80B47980",
+    "dungeon/func_80B47A6C",
+    "dungeon/func_80B47B18",
+    "dungeon/func_80B47C70",
+    "dungeon/func_80B481DC",
+    "dungeon/func_80B48214"
+  ],
+  "at": "2026-10-20T00:25:44Z",
+  "reviewer": "orchestrator-r120",
+  "fingerprint": {
+    "schema": "overlay-module-scoped-v2",
+    "sha256": "24dbf4afda3e012038508bd129f581ee93ff43470c1092b24f8e7c6393521aee",
+    "module": {
+      "sha256": "6e9dd6d081f99e4869696669d4d41e51a173f3c61f7b490d357ee5f71a5b0859"
+    },
+    "windows": {
+      "config/overlays/dungeon_deep_b63060_truebase_80170860.overlay.yaml": {
+        "sha256": "25bbcf7832c48704dfc56ae6158de97c002e86c306f2184ef26e0f2aa2647633"
+      },
+      "config/overlays/dungeon_deep_t8b_b63000.overlay.yaml": {
+        "sha256": "d489640695624ef0f91955c4e78b7034a246d2e2ec44ffec26ae45d19bc4d9a4"
+      },
+      "config/overlays/dungeon_deep_t8b_b63000_truebase_80170800.overlay.yaml": {
+        "sha256": "15582b17715acd01cca95562fa379588160128b360550503ac25fdefa00a5e24"
+      },
+      "config/overlays/dungeon_deep_t8b_b63670.overlay.yaml": {
+        "sha256": "3ebe6478fa861862d8080192ba5a97207e5c3df394bd46794105d55188e7b5c5"
+      },
+      "config/overlays/dungeon_deep_t8b_b64a90.overlay.yaml": {
+        "sha256": "aa42403dc4153ac60df42b5c4702287594add2a6ad6ddeca73191b4d84ffa1b5"
+      },
+      "config/overlays/dungeon_deep_t8b_b64e54.overlay.yaml": {
+        "sha256": "7924924c1a9b901b5bd9dedbbcb1fcb69197418c96fd995731e92a892db6be99"
+      },
+      "config/overlays/dungeon_deep_t8b_b65aec.overlay.yaml": {
+        "sha256": "27676e0cf4fd2208ecf815fd2262c97ee2dfd342c3e6ca89fc3dccd2e9541560"
+      },
+      "config/overlays/dungeon_deep_t8b_b66738.overlay.yaml": {
+        "sha256": "231da6bd2f4acf7c8ed0aac9d5df7bd1e7dd3eee5e2002bbb1a5adc482920356"
+      },
+      "config/overlays/dungeon_deep_t8b_b66e18.overlay.yaml": {
+        "sha256": "1ceb40f34b566315993ab604737250e0655e431ae4e1da62aa7b72459674c995"
+      },
+      "config/overlays/dungeon_deep_t8b_b671ec.overlay.yaml": {
+        "sha256": "04d50d9687acf11f001071c8fd2065f09f35af0ca885427a874a998ecac8bb66"
+      },
+      "config/overlays/dungeon_deep_t8b_b67b18.overlay.yaml": {
+        "sha256": "a5de7ffc9c28679ea2da7237bdc765963869262d4a0c44b40b527c5752578a45"
+      },
+      "config/overlays/dungeon_resource12_native_truebase_80170800.overlay.yaml": {
+        "sha256": "9ed616b60347aa0d61b5af609dcbe749df1a0315c2ebf6db9de19a9fd62349b2"
+      }
+    },
+    "required_windows": [
+      "config/overlays/dungeon_deep_b63060_truebase_80170860.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_b63000.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_b63000_truebase_80170800.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_b63670.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_b64a90.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_b64e54.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_b65aec.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_b66738.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_b66e18.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_b671ec.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_b67b18.overlay.yaml",
+      "config/overlays/dungeon_resource12_native_truebase_80170800.overlay.yaml"
+    ]
+  },
+  "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_resource12_slot0/module",
+  "receipt_sha256": "ec1c7562a5763d23a2c8b3959f65c045a3c610e3128197c5663e708f35f91724",
+  "windows": [
+    {
+      "config": "config/overlays/dungeon_deep_b63060_truebase_80170860.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 11939840,
+      "file_end": 11960796,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_resource12_slot0/windows/dungeon_deep_b63060_truebase_80170860",
+      "artifacts": {
+        "gate.log": "9eeaa2f99b619dad15cf0a5f4e3b7117a8ccb457dfd6def11be39749e1c3d97c",
+        "window.bin": "7f1616be03bd88c1d45931b00c9994aedebeedb8feb4ab1112c5a88838ba5d7b",
+        "manifest.json": "3bcc58f38bea6dfb4d73e1c6d66b5d12c38603ae76e34576fe742dccf1080fd0",
+        "projection.json": "83509a7f1c861954c50d55f84729121608544c780ec7375f3a6c07c629defe5e",
+        "module/receipt.json": "ec1c7562a5763d23a2c8b3959f65c045a3c610e3128197c5663e708f35f91724"
+      },
+      "digest": "25bbcf7832c48704dfc56ae6158de97c002e86c306f2184ef26e0f2aa2647633"
+    },
+    {
+      "config": "config/overlays/dungeon_deep_t8b_b63000.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 11939840,
+      "file_end": 11940420,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_resource12_slot0/windows/dungeon_deep_t8b_b63000",
+      "artifacts": {
+        "gate.log": "2492ed32a486ff9e53200280cd54c3273b5dfc396b2595fa32deb7053da36e6d",
+        "window.bin": "c3d2816f9a5f1277fde16d68a68e4590f77fde068475087a55c3843bab186223",
+        "manifest.json": "ebb394bf5252a8b6042d45430eaf069c3c64eb80164fa78dfb8f7ec4f4385a15",
+        "projection.json": "83ff1c20b4e930877fb482a02a3a5f85f56b081bdf19c938674c9c762a7ee3b8",
+        "module/receipt.json": "ec1c7562a5763d23a2c8b3959f65c045a3c610e3128197c5663e708f35f91724"
+      },
+      "digest": "d489640695624ef0f91955c4e78b7034a246d2e2ec44ffec26ae45d19bc4d9a4"
+    },
+    {
+      "config": "config/overlays/dungeon_deep_t8b_b63000_truebase_80170800.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 11939840,
+      "file_end": 11940420,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_resource12_slot0/windows/dungeon_deep_t8b_b63000_truebase_80170800",
+      "artifacts": {
+        "gate.log": "c26d06e93a402cf136d35982e5905e2cd7e3a49d6fac02c25beadae1c3622e1d",
+        "window.bin": "c3d2816f9a5f1277fde16d68a68e4590f77fde068475087a55c3843bab186223",
+        "manifest.json": "df091cf3f7f681766563dca41b04897bd44bbd08fb04f21d09b9380e07306418",
+        "projection.json": "6db50ab66d84aacc8e5e703544d666647af9faf04c08325a0669c501dd33a329",
+        "module/receipt.json": "ec1c7562a5763d23a2c8b3959f65c045a3c610e3128197c5663e708f35f91724"
+      },
+      "digest": "15582b17715acd01cca95562fa379588160128b360550503ac25fdefa00a5e24"
+    },
+    {
+      "config": "config/overlays/dungeon_deep_t8b_b63670.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 11941488,
+      "file_end": 11942868,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_resource12_slot0/windows/dungeon_deep_t8b_b63670",
+      "artifacts": {
+        "gate.log": "d64d571115562cb7fc2fb513b064b455680875ab1a04bbc7a2237a681bc4fb52",
+        "window.bin": "d0ca315181037f7dc6b38c273838ee044ce7387dac9784680f5b0c118b3dd99f",
+        "manifest.json": "76f59f926f56edd2409c4ef513cfac839791132557e68322b7d5e729d5f46577",
+        "projection.json": "e4691a413fb7acd188c12bcd8ea8493414c62b86fd51e79578b6a1303dfb145a",
+        "module/receipt.json": "ec1c7562a5763d23a2c8b3959f65c045a3c610e3128197c5663e708f35f91724"
+      },
+      "digest": "3ebe6478fa861862d8080192ba5a97207e5c3df394bd46794105d55188e7b5c5"
+    },
+    {
+      "config": "config/overlays/dungeon_deep_t8b_b64a90.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 11946640,
+      "file_end": 11947504,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_resource12_slot0/windows/dungeon_deep_t8b_b64a90",
+      "artifacts": {
+        "gate.log": "0eecfbdf382bf7015c58d126fa84db9c4813cfcec639f48db1ccf6287c77bb3c",
+        "window.bin": "88601e2ecca84e0ccfb4f57fdd63de38ab9b8f60a45e9fbef9ecd86855458e27",
+        "manifest.json": "97efac42d9836c2dbbd4a28e8f47f20a04af7e6706c963e91055a46319c30f60",
+        "projection.json": "81b4ec491d9d07ce5d2dd3be3f372d2f0a51314ff8ac491dcb5abafe7e7dffd5",
+        "module/receipt.json": "ec1c7562a5763d23a2c8b3959f65c045a3c610e3128197c5663e708f35f91724"
+      },
+      "digest": "aa42403dc4153ac60df42b5c4702287594add2a6ad6ddeca73191b4d84ffa1b5"
+    },
+    {
+      "config": "config/overlays/dungeon_deep_t8b_b64e54.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 11947604,
+      "file_end": 11948792,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_resource12_slot0/windows/dungeon_deep_t8b_b64e54",
+      "artifacts": {
+        "gate.log": "67df66160ff2fa1a216e256c4c77e9c37e8046433e1b9dbf8d10bb86f7681acd",
+        "window.bin": "c4e6c882f296f27d1eec76fbe3d2bd61c524103791802bd933f6568d836509c3",
+        "manifest.json": "e1603e4d77450fef647037f80b34bdd98293dae39d1bd74def3a8d60556ad2c9",
+        "projection.json": "0186d8232950d95338aebb2c3cfb7067dec8f98851f033a690f2da32c7b427ec",
+        "module/receipt.json": "ec1c7562a5763d23a2c8b3959f65c045a3c610e3128197c5663e708f35f91724"
+      },
+      "digest": "7924924c1a9b901b5bd9dedbbcb1fcb69197418c96fd995731e92a892db6be99"
+    },
+    {
+      "config": "config/overlays/dungeon_deep_t8b_b65aec.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 11950828,
+      "file_end": 11951636,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_resource12_slot0/windows/dungeon_deep_t8b_b65aec",
+      "artifacts": {
+        "gate.log": "b69c451f6507a88dee6177fc3159667ab4c36d0a9117c85ab3c683a4751ed993",
+        "window.bin": "ef0a2981c591bb58d963e6ff2d57a3f961de9bdb0450cb48d222d9acaab0242d",
+        "manifest.json": "86dacea878783617f38ff21c99bc722c107a2caa7706aef0eab371782c03affc",
+        "projection.json": "5ae19c9d7c0c0fd4a2e621130b96f932fabb8e71aca9eb8234a6b5e87010ab22",
+        "module/receipt.json": "ec1c7562a5763d23a2c8b3959f65c045a3c610e3128197c5663e708f35f91724"
+      },
+      "digest": "27676e0cf4fd2208ecf815fd2262c97ee2dfd342c3e6ca89fc3dccd2e9541560"
+    },
+    {
+      "config": "config/overlays/dungeon_deep_t8b_b66738.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 11953976,
+      "file_end": 11955596,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_resource12_slot0/windows/dungeon_deep_t8b_b66738",
+      "artifacts": {
+        "gate.log": "0f47e96d40808e395a511ecbb6372e01a5574cc1d8984e132ad0dc8e419ad934",
+        "window.bin": "a46e8468cab00d44c4fffc7881a2153cd764bde30a554a756507e48f05eca494",
+        "manifest.json": "93ae94d03011772233ec00f841fbbeb2b063d63c59605ba9b2674619db8edea5",
+        "projection.json": "1e08128621ee06cceda13a21b6b64d1f14bbdd1bf83261ff3daaca2e6375d705",
+        "module/receipt.json": "ec1c7562a5763d23a2c8b3959f65c045a3c610e3128197c5663e708f35f91724"
+      },
+      "digest": "231da6bd2f4acf7c8ed0aac9d5df7bd1e7dd3eee5e2002bbb1a5adc482920356"
+    },
+    {
+      "config": "config/overlays/dungeon_deep_t8b_b66e18.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 11955736,
+      "file_end": 11956564,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_resource12_slot0/windows/dungeon_deep_t8b_b66e18",
+      "artifacts": {
+        "gate.log": "12d34033a1a735d657281c1a21d22f814510907ed1104b663fdd1667a9f5dedb",
+        "window.bin": "abd50b42336dcdbaa659ad98e5d7e4c93a1a80fa3f472235ddd7a2443394d5a4",
+        "manifest.json": "751e91d1b465b5dc268281c3cc76dd0ba663a85fbb58c0be1ec4fd4974d6db6f",
+        "projection.json": "e1d1b7482649f3cbc8fa35db2b6f709fa680710741ec8a43ea66c0fad8399753",
+        "module/receipt.json": "ec1c7562a5763d23a2c8b3959f65c045a3c610e3128197c5663e708f35f91724"
+      },
+      "digest": "1ceb40f34b566315993ab604737250e0655e431ae4e1da62aa7b72459674c995"
+    },
+    {
+      "config": "config/overlays/dungeon_deep_t8b_b671ec.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 11956716,
+      "file_end": 11958892,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_resource12_slot0/windows/dungeon_deep_t8b_b671ec",
+      "artifacts": {
+        "gate.log": "3f11c3b8a95cc2535469dfd1707c5bf09f7daddcf5399ed01ff8607ae3dd7084",
+        "window.bin": "736c31954cb42748b05c289f09c2a622fbac323cc528a8acfdc1d7d7c432b51a",
+        "manifest.json": "d7ce2c6337752bd5b958e63fadb1b57c8588fdeba370b4d652da28b5a0688a0b",
+        "projection.json": "5c57dcdd435c6b279dea2b7b5f37e5a1af5e32121aa16938a22f5ece124448dc",
+        "module/receipt.json": "ec1c7562a5763d23a2c8b3959f65c045a3c610e3128197c5663e708f35f91724"
+      },
+      "digest": "04d50d9687acf11f001071c8fd2065f09f35af0ca885427a874a998ecac8bb66"
+    },
+    {
+      "config": "config/overlays/dungeon_deep_t8b_b67b18.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 11959064,
+      "file_end": 11960796,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_resource12_slot0/windows/dungeon_deep_t8b_b67b18",
+      "artifacts": {
+        "gate.log": "e610581cbbb002e85e37932c2a74995f9274dcd59bc0f517fe5a1786b632f7c1",
+        "window.bin": "2f423726ec99e257040451173605d9abf35fbb3809eb1e68cfd04d234648282a",
+        "manifest.json": "7c464688a5a14d476f492b3ecc6cbba3de716514881378422c991f459f2fcfb3",
+        "projection.json": "8c2df3510c195c510c9c75adcbe1dfc1abaa2d160a19712006b72a953aff88ce",
+        "module/receipt.json": "ec1c7562a5763d23a2c8b3959f65c045a3c610e3128197c5663e708f35f91724"
+      },
+      "digest": "a5de7ffc9c28679ea2da7237bdc765963869262d4a0c44b40b527c5752578a45"
+    },
+    {
+      "config": "config/overlays/dungeon_resource12_native_truebase_80170800.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 11939840,
+      "file_end": 11960908,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_resource12_slot0/windows/dungeon_resource12_native_truebase_80170800",
+      "artifacts": {
+        "gate.log": "36bf44118e2edc1c77654368f9377d2fa4c0342fc1e8ae197ea6dd8aaa0a6be5",
+        "window.bin": "ef86fc02ef3babbc52aa88678a8d27155775c87bf4f6bf1ef1856c578b0bf9a6",
+        "manifest.json": "2c125d0418dd506a86c30505926f24647de7fdc15724b135c4010c111513845e",
+        "projection.json": "f27da02618528b97a5289d98aee5cd61b8cf9a4375a685589a92d2a7b2cfed21",
+        "module/receipt.json": "ec1c7562a5763d23a2c8b3959f65c045a3c610e3128197c5663e708f35f91724"
+      },
+      "digest": "9ed616b60347aa0d61b5af609dcbe749df1a0315c2ebf6db9de19a9fd62349b2"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+ "func": "func_80048A44",
+ "doc": "Selects a frame via func_800489F4(a0,a1,a2), dispatches via func_80048998(a0,a3), then divides the newly-selected frame's leading u16 field by the global byte divisor D_80080A84[0], storing the quotient into obj offset 0x5 and clearing bits 0x6000 of obj's u16 field at offset 0x14.",
+ "globals": [
+  {
+   "name": "D_80080A84",
+   "decl": "extern u8 D_80080A84[16]; /* accessed as a single byte D_80080A84[0]; must be declared size>8 so gcc addresses it via %hi/%lo (lui+lbu) rather than $gp-relative, matching retail's lui %hi(D_80080A84)/lbu %lo(D_80080A84)($v0) sequence */"
+  }
+ ],
+ "calls": [
+  "func_800489F4(S_800489F4_Obj *a0, s16 a1, s16 a2) -- already matched, reused exact signature",
+  "func_80048998(S_80083110 *a0, s32 a1) -- already matched, reused exact signature"
+ ]
+}

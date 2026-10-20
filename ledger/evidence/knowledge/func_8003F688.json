@@ -1,0 +1,4 @@
+{
+ "func": "func_8003F688",
+ "doc": "Converts a 32-bit value whose 4-bit nibbles each hold a decimal digit (0-9) into the equivalent base-10 integer: for i=0..7, extracts nibble i (mask 0xF<<(4i)), multiplies by pow10=10^i while still shifted into position, then arithmetic-shifts the 32-bit truncated product back down by 4i and accumulates. Net effect (assuming valid BCD-like input) is sum = \u03a3 digit_i * 10^i."
+}

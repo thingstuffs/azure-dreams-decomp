@@ -1,0 +1,14 @@
+{
+ "func": "func_80043E60",
+ "doc": "Runs a per-frame update via func_80043EB8, then, if the current D_80081500-indexed slot of D_80083120 has not been flagged yet (field_0 == 0), sets bit 0 of D_80082E60.field_0 and invokes func_80040B88.",
+ "globals": [
+  {
+   "name": "D_80083120",
+   "decl": "extern S_80083120 D_80083120[8]; typedef struct S_80083120 { s16 field_0; s16 field_2; s16 field_4; s16 field_6; } S_80083120; -- 8-byte element, only field_0 (offset 0, s16) read here; matches the layout already used by sibling src/w_80043DB8.c"
+  }
+ ],
+ "calls": [
+  "func_80043EB8(void) - extern void, no args",
+  "func_80040B88(void) - extern void, no args (matched gcc 2.8.1, src/code2.c)"
+ ]
+}

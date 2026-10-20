@@ -1,0 +1,45 @@
+{
+  "schema": "overlay-module-native-v4",
+  "kind": "overlay_module_placement",
+  "module": "main_card_slot_records",
+  "members": [
+    "main/func_80013240",
+    "main/func_80013270"
+  ],
+  "at": "2026-10-20T00:39:09Z",
+  "reviewer": "codex-r121w-tu1",
+  "fingerprint": {
+    "schema": "overlay-module-scoped-v2",
+    "sha256": "725d66bad653cf3bd22c7e645ee35f9fa583274ce55be7a7c82f40caed7fabb2",
+    "module": {
+      "sha256": "1242c9bf78ed6da191ba4d5a467afe246b4349c06e40c3fb953fa49706d4dc29"
+    },
+    "windows": {
+      "config/overlays/main_boot.overlay.yaml": {
+        "sha256": "12e1f0825bfd2fcc027dabc487745002a39368cc9d74ee379ceab62e224ccb99"
+      }
+    },
+    "required_windows": [
+      "config/overlays/main_boot.overlay.yaml"
+    ]
+  },
+  "proof_dir": "build_ovl_gate/work/module_proofs/main_card_slot_records/module",
+  "receipt_sha256": "3f8a12d1471b0f4afdd68ae8ae1d7b1149d2da88f3749f47b4d460e2e0c2c9d0",
+  "windows": [
+    {
+      "config": "config/overlays/main_boot.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 2478080,
+      "file_end": 2564096,
+      "proof_dir": "build_ovl_gate/work/module_proofs/main_card_slot_records/windows/main_boot",
+      "artifacts": {
+        "gate.log": "f7ab79f0eba3cf5722fe2c8f9fb50059eb719ba703952447e621bb94dab8b868",
+        "window.bin": "22399e0337ca893385caadfe7349e69bb16b49ea124b7232985d0d07519ebe4d",
+        "manifest.json": "4458865ab17a32bf8913de8f516eb95d1b2f7c72ca05a62d27323d36c7c79013",
+        "projection.json": "6e1f48b071e4ece6acafa653691ebb88f01b2c7c524401cec4900baae4a72335",
+        "module/receipt.json": "3f8a12d1471b0f4afdd68ae8ae1d7b1149d2da88f3749f47b4d460e2e0c2c9d0"
+      },
+      "digest": "12e1f0825bfd2fcc027dabc487745002a39368cc9d74ee379ceab62e224ccb99"
+    }
+  ]
+}

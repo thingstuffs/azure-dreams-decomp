@@ -1,0 +1,14 @@
+{
+ "func": "func_80045C34",
+ "doc": "Walks a singly-linked list of \"link\" records reachable via a back-pointer stored 8 bytes before the current s0 pointer (record_base+0x18, since s0 == record_base+0x20). For each S_80045C34 record (pointed to by a2) whose flags field at 0x14 doesn't have bit 0x80 set, calls func_80045CC4(s0, a1, a2, a2->unk6), then reads the pointer field at D_80083160[0]+0x8D0 and passes it to func_80045310; if that returns nonzero the function returns 0 immediately. Otherwise it follows the link record's next pointer (offset 0x18 relative to base, i.e. *(s0-8)), refreshing s0 (=next+0x20), a1 (=next->unk8, an int) and a2 (=next->unkC, an S_80045C34*) from the new link record, and loops. Returns 0 when the list is exhausted or the func_80045310 check fires.",
+ "globals": [
+  {
+   "name": "D_80083160",
+   "decl": "extern void *D_80083160[3]; /* only D_80083160[0]+0x8D0 (a u32/pointer field) is read by this function; other translation units declare much richer/incompatible views of this same symbol - not yet reconciled */"
+  }
+ ],
+ "calls": [
+  "func_80045CC4(void *a0, s32 a1, S_80045C34 *a2, s16 a3) -- not yet matched elsewhere; signature inferred solely from this call site",
+  "func_80045310(u32 a0) -- matches src/code8.c's existing definition"
+ ]
+}

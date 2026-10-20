@@ -1,0 +1,26 @@
+{
+ "func": "func_8005BAB0",
+ "doc": "Scans D_80085458[0..D_80073734[0]) for active slots (f1a != 0, f06 >= 0x10) whose key fields (f0a, f5c, f04) match the caller-supplied device/channel id encoded in arg0 (channel/device hi-byte in bits 8+, note/index in bits 0-6) and arg1 (device hi-byte in bits 8+). For each match: clears f1a/f0a, OR-accumulates D_80073740[i] into a running flags word, and re-dispatches the note twice via func_80056D44(i,&entry) each followed by func_8005E97C(0, D_80073740[i]). Sets D_80085F98[0]=1 for the duration, calls func_8005E97C(0, acc) at the end, then clears D_80085F98[0]. Likely a \"stop matching active notes\" (all-notes-off style) handler in the sound driver.",
+ "globals": [
+  {
+   "name": "D_80085458",
+   "decl": "extern S_8005BAB0_85458 D_80085458[64]; /* stride 0x78 struct array; this function newly establishes fields f0a (u16 @0x0A) and f5c (u16 @0x5C) not touched by other reconciled siblings (w_80056A08.c/w_800564A8.c/w_80056408.c/w_80056948.c); f04 and f1a here must be typed u16 (not s16 as w_80056A08.c's write-only view has them) because this function READS them and the target uses lhu (zero-extend), not lh -- reconcile as u16 across any function that READS these two fields."
+  },
+  {
+   "name": "D_80073734",
+   "decl": "extern s32 D_80073734[4]; /* D_80073734[0] = active-slot count, reloaded fresh every loop test (not cached) */"
+  },
+  {
+   "name": "D_80073740",
+   "decl": "extern s32 D_80073740[64]; /* per-slot flags/note word, walked via an incrementing pointer (not array-indexed by i) to match retail's addiu s1,s1,4 idiom */"
+  },
+  {
+   "name": "D_80085F98",
+   "decl": "extern s32 D_80085F98[4]; /* forced hi/lo access via size > 8; mode/busy flag set to 1 for the duration of this function, cleared to 0 at the end (same idiom as w_8005863C.c/w_800585A0.c/w_8005AE90.c) */"
+  }
+ ],
+ "calls": [
+  "func_80056D44(s32 a0, S_8005BAB0_85458 *a1) -> s32 (matched sibling, reused struct-pointer signature; return value discarded here)",
+  "func_8005E97C(s32 a0, s32 a1) -> void (already-known signature from code.c)"
+ ]
+}

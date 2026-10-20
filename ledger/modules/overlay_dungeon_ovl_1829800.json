@@ -1,0 +1,55 @@
+{
+  "schema": "overlay-module-native-v4",
+  "kind": "overlay_module_placement",
+  "module": "dungeon_ovl_1829800",
+  "members": [
+    "dungeon/func_81809800",
+    "dungeon/func_81809970",
+    "dungeon/func_81809A0C",
+    "dungeon/func_8180A214",
+    "dungeon/func_8180A494",
+    "dungeon/func_8180A8C8",
+    "dungeon/func_8180A990",
+    "dungeon/func_8180AE3C",
+    "dungeon/func_8180AFF0",
+    "dungeon/func_8180B064",
+    "dungeon/func_8180B71C",
+    "dungeon/func_8180B768"
+  ],
+  "at": "2026-10-20T00:36:30Z",
+  "reviewer": "orchestrator-r120",
+  "fingerprint": {
+    "schema": "overlay-module-scoped-v2",
+    "sha256": "46924f0347c537398c9d299f903d7e1e050534da79cf01f1fe53adb1acb494ac",
+    "module": {
+      "sha256": "4a86c71c0f42e477b6b7bcef378d9b639ba4fbd172d57c38d025482b4f2b26d9"
+    },
+    "windows": {
+      "config/overlays/dungeon_deep_t8b_1829800.overlay.yaml": {
+        "sha256": "8e40a921695c5b13276abce2ab1e43b445e6076e847897a1cf861027999885e0"
+      }
+    },
+    "required_windows": [
+      "config/overlays/dungeon_deep_t8b_1829800.overlay.yaml"
+    ]
+  },
+  "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_1829800/module",
+  "receipt_sha256": "dffd4faba1873147c1710b750e8a9c0f56a9fbce3b0a7487fd29b6dfd005ce28",
+  "windows": [
+    {
+      "config": "config/overlays/dungeon_deep_t8b_1829800.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 25335808,
+      "file_end": 25354352,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_1829800/windows/dungeon_deep_t8b_1829800",
+      "artifacts": {
+        "gate.log": "e0e476e5b2b6c9b053bc38b16dcb9d59e86b664963b5ba6aa2d52a6aa2c16c1c",
+        "window.bin": "28b6ba010dfe59c02d5d8c8329693a5902c980b183f896841269f8e6cc46652f",
+        "manifest.json": "83c52f8bb1685dd3101147597cff066806c1387195373b05a31c667bf05530f6",
+        "projection.json": "7241dea4743683cfebe9d77517de251ec0e425cbc3e5788ce71b224a66d78f14",
+        "module/receipt.json": "dffd4faba1873147c1710b750e8a9c0f56a9fbce3b0a7487fd29b6dfd005ce28"
+      },
+      "digest": "8e40a921695c5b13276abce2ab1e43b445e6076e847897a1cf861027999885e0"
+    }
+  ]
+}

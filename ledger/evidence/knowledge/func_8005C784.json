@@ -1,0 +1,13 @@
+{
+ "func": "func_8005C784",
+ "doc": "Looks up D_80073740[idx] (idx = s16 arg0) as a flags value, builds a request struct on the stack (unk0=flags, unk4=0), calls func_8005FA34(&req) which fills in two s16 output fields (unk8/unkA), then rescales each by an arithmetic shift-right-by-7 (s16 >> 7) and stores the results through the *a1/*a2 out-pointers. Always returns 0.",
+ "globals": [
+  {
+   "name": "D_80073740",
+   "decl": "extern s32 D_80073740[]; /* flag-value array, one entry per slot index (matches sibling funcs' existing declaration, e.g. src/w_8005ACDC.c, src/w_80056DB4.c) - plain s32 array, no struct needed, element size 4 confirmed by the *4 index scaling in this function's asm */"
+  }
+ ],
+ "calls": [
+  "func_8005FA34(S_8005C784 *a0) -- takes a pointer to a partially-filled request/response struct; caller sets unk0 (flags value) and unk4 (=0 here), callee writes back unk8/unkA (s16 outputs). Return value unused/void."
+ ]
+}

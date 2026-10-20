@@ -1,0 +1,14 @@
+{
+ "func": "func_800508F0",
+ "doc": "Fills two consecutive 12-byte entries at a0/a0+0xC from a 12-byte source template a1 (only bytes 0,2,4,6 of the template are read), tagging each entry with a distinct opaque handler word (D_80080B84 for the first, D_80080B80 for the second) and marking the second entry's type byte as 3. Returns a pointer to the entry following the pair (a0+0x18). Sibling of func_8005097C (src/code4.c) which calls this with (a0, D_80080B88) followed by func_800499E8(a0+0x18, D_80080B88, D_80080B90) -- confirms the 12-byte entry stride and the char[12] template type for a1.",
+ "globals": [
+  {
+   "name": "D_80080B84",
+   "decl": "extern s32 D_80080B84; /* opaque word, gp-relative (<=8B), copied verbatim into entry.field4 for the first of two entries this func inits */"
+  },
+  {
+   "name": "D_80080B80",
+   "decl": "extern s32 D_80080B80; /* opaque word, gp-relative (<=8B), copied verbatim into entry.field4 for the second entry */"
+  }
+ ]
+}

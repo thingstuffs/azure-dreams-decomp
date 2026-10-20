@@ -1,0 +1,14 @@
+{
+ "func": "func_8004EB8C",
+ "doc": "Trivial init/reset routine: clears the byte at *a0, then makes two calls into what looks like a callback-registration table (func_8003E4FC), first registering slot 6 with global D_80071644, then registering slot 0xFF with the fallback handler func_8003E140 bound to a0.",
+ "globals": [
+  {
+   "name": "D_80071644",
+   "decl": "extern u8 D_80071644; /* only address-taken here (%hi/%lo), passed as a slot-6 callback pointer; size/type unconfirmed beyond byte-alignment */"
+  }
+ ],
+ "calls": [
+  "func_8003E4FC(s32 a0, void *a1, void *a2) -- extern, already used elsewhere in src/code.c as func_8003E4FC(int, void*, int)",
+  "func_8003E140(u8 *a0) -- matched callee, defined in src/code.c as void func_8003E140(unsigned char *a0)"
+ ]
+}

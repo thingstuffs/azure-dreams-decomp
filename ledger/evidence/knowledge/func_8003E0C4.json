@@ -1,0 +1,11 @@
+{
+ "func": "func_8003E0C4",
+ "doc": "Pushes the GTE matrix stack, sets the translation and rotation matrices from *m, then calls RotTrans(v0, v1, &flag) to transform v0/v1 (discarding the overflow flag), and pops the matrix stack. A thin wrapper around PSYQ libgte matrix-stack + RotTrans calls, likely used to compute a world-space rotate/translate for a single point/vertex relative to matrix m without permanently altering the current GTE matrix.",
+ "calls": [
+  "PushMatrix(void)",
+  "PopMatrix(void)",
+  "SetTransMatrix(S_8003E0C4_MATRIX *m)",
+  "SetRotMatrix(S_8003E0C4_MATRIX *m)",
+  "RotTrans(S_8003E0C4_SVECTOR *v0, S_8003E0C4_VECTOR *v1, s32 *flag)"
+ ]
+}

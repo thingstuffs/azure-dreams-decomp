@@ -1,0 +1,24 @@
+{
+ "func": "func_8004878C",
+ "doc": "Decodes a1's tile-count fields (s16 fields at offset 4 and 6) into a pixel/word 'product' count. Checks whether the streaming decode buffer write-pointer (D_80081480) plus this object's data (product*4+2 bytes) would overflow the buffer's base+size (D_8008148C + D_80080A7C, unsigned compare); if so, resets the write pointer to the buffer base (D_80081480 = D_8008148C) and waits for the GPU via DrawSync(0). It then decodes the object's compressed data in two passes (func_8004068C writing to D_80081480+product*2, func_80048734 processing that same region), issues a LoadImage of the object header a1 using the (possibly just-reset) buffer pointer D_80081480 as the VRAM source, and finally advances the write pointer past the newly decoded data (D_80081480 += product*2).",
+ "globals": [
+  {
+   "name": "D_80080A7C",
+   "decl": "extern s32 D_80080A7C; /* plain 4-byte scalar accumulator; this function's TU is -G0 (small-data off), so declare as PLAIN s32, NOT an oversized >8B struct -- oversizing it here would wrongly force address-CSE across the whole function. Same global as code5.c's func_8004066C (D_80080A7C = D_80080A7C + a0), confirming this is the -G0 TU family (code5.c)."
+  },
+  {
+   "name": "D_80081480",
+   "decl": "extern s32 D_80081480; /* running write-pointer into a growing GPU decode/streaming buffer; plain s32 (pointer value stored as int), -G0 TU -- do NOT use the >8B struct-with-padding trick seen in w_80041AB0.c/w_80043CD0.c (those are separate default -G8 TUs); here every access is a fresh, unmerged lui+lw/sw pair to a plain scalar."
+  },
+  {
+   "name": "D_8008148C",
+   "decl": "extern s32 D_8008148C; /* base address of the same streaming decode buffer (D_80081480 is reset to this value on overflow); plain s32, same -G0 TU as D_80081480/D_80080A7C */"
+  }
+ ],
+ "calls": [
+  "DrawSync(s32 a0) -- library function, matched sibling elsewhere",
+  "func_8004068C(void *a0, void *a1) -- RLE-style byte decoder; returns end pointer (unused here); only arg setup (src/dst) must match",
+  "func_80048734(void *a0) -- second-stage decode/expand pass; single pointer arg; no return value used",
+  "LoadImage(void *rect, void *p) == RECT* rect, u_long* p) -- libgpu VRAM upload; a0=object header pointer, a1=pointer value read from D_80081480"
+ ]
+}

@@ -1,0 +1,8 @@
+{
+ "func": "func_800505BC",
+ "doc": "Increments arg0->counter and passes the sub-object at arg0+0x58 plus the new counter and a fixed max of 3 to func_80050550. If the counter has reached (or exceeded) 3, resets counter to 0 and rewires arg0->func (a state-machine function pointer at offset 0x00) to func_800504B4. Unconditionally forwards to func_800504B4(arg0, arg1, arg2) regardless of the branch taken.",
+ "calls": [
+  "func_80050550(void *arg, s32 arg1, s32 arg2) - increments/positions a sub-timer struct at offset 0x58 of the caller's object; args are (sub_struct_ptr, counter_after_increment, max=3)",
+  "func_800504B4(S_800505BC *arg0, s32 arg1, s32 arg2) - main state handler, iterates a pointer table at arg0+0x68"
+ ]
+}

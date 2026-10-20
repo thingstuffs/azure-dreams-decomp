@@ -1,0 +1,10 @@
+{
+ "func": "func_80044A50",
+ "doc": "Unlinks a0 from its current doubly-linked list (the D_800833E0[type]-indexed intrusive list family used by func_80044AAC / w_80044AAC.c). a0->prev (v1) is the node whose forward pointer must be fixed to a0->next (a1); if v1 lies inside the 0x80-byte D_800833E0[0x20] head-pointer array (i.e. a0 was list-head), the array slot itself is overwritten, else the sibling node's `next` field is. a0->next's `prev` is retargeted to v1 if non-null. a0's own next/prev are cleared. No-op if a0->prev is already 0 (i.e. a0 isn't linked).",
+ "globals": [
+  {
+   "name": "D_800833E0",
+   "decl": "extern struct S_800833E0 *D_800833E0[0x20]; /* array of 32 (0x80 bytes) list-head pointers; struct S_800833E0 { u8 pad00[0x14]; struct S_800833E0 *prev; /* 0x14 */ struct S_800833E0 *next; /* 0x18 */ u16 type; /* 0x1C */ }; -- EXACT SAME layout as sibling-matched src/w_80044AAC.c's S_80044AAC typedef, just renamed here per the global-address naming convention."
+  }
+ ]
+}

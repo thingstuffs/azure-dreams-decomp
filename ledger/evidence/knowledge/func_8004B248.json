@@ -1,0 +1,7 @@
+{
+ "func": "func_8004B248",
+ "doc": "Iterates a NULL-terminated array of u16* pointers, calling func_8004B1A4 on each non-null entry until a null terminator is reached.",
+ "calls": [
+  "func_8004B1A4(u16 *a0)"
+ ]
+}

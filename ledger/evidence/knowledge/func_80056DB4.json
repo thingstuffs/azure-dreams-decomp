@@ -1,0 +1,13 @@
+{
+ "func": "func_80056DB4",
+ "doc": "Builds a request record in the global D_80084918 struct: sets field_0x04 to the constant 0x60100 (a resource/flag ID), looks up D_80073740[arg0] (a word-array indexed by arg0) into field_0x00, zeroes field_0x3A/field_0x3C, sets field_0x24 to 5, then calls func_8005F134(&D_80084918) to submit/process it.",
+ "globals": [
+  {
+   "name": "D_80084918",
+   "decl": "struct S_80084918 { s32 field_0x00; s32 field_0x04; u8 pad_0x08[0x1C]; s32 field_0x24; u8 pad_0x28[0x12]; s16 field_0x3A; s16 field_0x3C; } D_80084918; /* only fields at 0x00,0x04,0x24,0x3A,0x3C touched by this function are given exact types; other sibling functions (func_80055E84, func_80056654, func_800563B0, func_80056D44, func_80056E10) touch additional offsets (e.g. 0x42,0x44,0x48,0x50,0x51,0x54,0x60,0x64,0x68 per func_80056D44) that must be reconciled into this same struct later */"
+  }
+ ],
+ "calls": [
+  "func_8005F134(S_80084918 *arg0) - initializer/setup function taking a pointer to the D_80084918-shaped struct"
+ ]
+}

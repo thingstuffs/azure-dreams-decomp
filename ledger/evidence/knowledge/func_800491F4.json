@@ -1,0 +1,4 @@
+{
+ "func": "func_800491F4",
+ "doc": "Given an array a1 of u8 indices into pointer table a0 (terminated when *a1 >= a2), builds a singly-linked list through the unkC field of each referenced struct (in reverse traversal order, chaining each newly visited struct's unkC to the previously visited one) and returns the last-visited struct pointer (head of the resulting list)."
+}

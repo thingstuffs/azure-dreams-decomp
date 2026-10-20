@@ -1,0 +1,4 @@
+{
+ "func": "func_8004C010",
+ "doc": "Modulates a 3-byte RGB color buffer in place by a tint color: for each of the first 3 bytes, dst[i] = clamp((dst[i]*src[i])>>7, 0xFF). If the tint's r,g,b bytes are all 0x80 (a 'no shading' sentinel, cd byte ignored), the function is a no-op. Always returns the dst pointer (a0)."
+}

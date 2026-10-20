@@ -1,0 +1,17 @@
+{
+ "func": "func_80040BB4",
+ "doc": "Reads D_80082E60.field_8 (byte), forwards it to func_80040CBC and copies it into D_80082E60.field_B, then clears D_80082E60.field_E (byte), D_80082E60.field_8 (halfword), and four u32 fields of D_80083160 (offsets 0x154, 0x198, 0xCC, 0x110).",
+ "globals": [
+  {
+   "name": "D_80082E60",
+   "decl": "struct S_80082E60 { char pad0[8]; union { u8 b; u16 h; } field_8; s8 pad_A; s8 field_B; s8 field_C; s8 field_D; s8 field_E; char pad_F[0xA]; s8 field_18; }; (also field_4 int at offset 4, and field_18 char at offset 0x18, per code2.c). field_8 is read as a byte and later cleared as a halfword (same address, different width, hence the union)."
+  },
+  {
+   "name": "D_80083160",
+   "decl": "struct S_80083160 { char pad0[0xCC]; u32 field_CC; char pad_D0[0x40]; u32 field_110; char pad_114[0x40]; u32 field_154; char pad_158[0x40]; u32 field_198; }; only offsets 0xCC/0x110/0x154/0x198 (each a u32) are touched by this function."
+  }
+ ],
+ "calls": [
+  "func_80040CBC(s16 a0) \u2014 extern void func_80040CBC(s16 a0); called with D_80082E60.field_8 (byte, promoted) as the only argument; only arg setup needed to match, body lives in its own nonmatching TU."
+ ]
+}

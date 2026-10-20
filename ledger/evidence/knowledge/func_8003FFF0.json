@@ -1,0 +1,10 @@
+{
+ "func": "func_8003FFF0",
+ "doc": "Unlinks a node from a doubly-linked intrusive list, clearing bit 0x4000 of its flags field. If the node has a prev pointer, it's a mid/tail-list unlink (prev->next = next, next->prev = prev). If prev is null, the node was the list head, so the global head pointer D_80081498 is updated to the node's next, and next->prev is cleared. Finally both next/prev pointers on the node are zeroed.",
+ "globals": [
+  {
+   "name": "D_80081498",
+   "decl": "extern S_8003FFF0 *D_80081498[4]; // global list head pointer for this node type; declared as an array (>8 bytes) so gcc emits %hi/%lo addressing matching the target, since the true size/type of this global is unknown from this function alone"
+  }
+ ]
+}

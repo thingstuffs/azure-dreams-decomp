@@ -1,0 +1,45 @@
+{
+  "schema": "overlay-module-native-v4",
+  "kind": "overlay_module_placement",
+  "module": "town_secondary_item_menu_input",
+  "members": [
+    "town/func_800B4E78",
+    "town/func_800B4EAC"
+  ],
+  "at": "2026-10-20T00:40:42Z",
+  "reviewer": "codex-r121w-tu4",
+  "fingerprint": {
+    "schema": "overlay-module-scoped-v2",
+    "sha256": "687a55893afc1f03fbe6baf89f3ebb5ee51c49457edb71553f0b934a8ee2dadf",
+    "module": {
+      "sha256": "c30e1727b031456445a812c66d0d6f413510dff77545ac39dd97f772fe9f077a"
+    },
+    "windows": {
+      "config/overlays/town_scene.overlay.yaml": {
+        "sha256": "280f598ecbb8f6101e171605621d1bc8b950fdf7ab24f6043e1358e1c38a3fdd"
+      }
+    },
+    "required_windows": [
+      "config/overlays/town_scene.overlay.yaml"
+    ]
+  },
+  "proof_dir": "build_ovl_gate/work/module_proofs/town_secondary_item_menu_input/module",
+  "receipt_sha256": "27d8896f46f1e578f1656f0988144e6558475e6921327e7e716889019ce29ad0",
+  "windows": [
+    {
+      "config": "config/overlays/town_scene.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 0,
+      "file_end": 335872,
+      "proof_dir": "build_ovl_gate/work/module_proofs/town_secondary_item_menu_input/windows/town_scene",
+      "artifacts": {
+        "gate.log": "e0eccd9053c8d1cf7359c15199c2149794fff95dc6da05d4bed6a25f4dfb439f",
+        "window.bin": "6ca153dec42742a952cdfbfc38efb1a793de9ede267a9cebd4b1d1cf00740ed4",
+        "manifest.json": "4ca0bfe6a4998a9ac6dc33c34c50fd1f0282936aa38565ae66569f2d42e459b8",
+        "projection.json": "8a765bdc7c12cde18d5b651cc014c059daffb251e0f8843eb42eb4328645eacb",
+        "module/receipt.json": "27d8896f46f1e578f1656f0988144e6558475e6921327e7e716889019ce29ad0"
+      },
+      "digest": "280f598ecbb8f6101e171605621d1bc8b950fdf7ab24f6043e1358e1c38a3fdd"
+    }
+  ]
+}

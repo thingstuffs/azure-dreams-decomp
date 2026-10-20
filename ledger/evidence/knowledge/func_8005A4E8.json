@@ -1,0 +1,7 @@
+{
+ "func": "func_8005A4E8",
+ "doc": "Builds a small tagged local struct on the stack based on two boolean byte params (a0,a1) selecting one of 4 type codes (0x100/0x200/0x1000/0x2000), stashing the third byte param (a2) into a type-specific field, then passes the struct's address to func_8005EDA0. Return type void.",
+ "calls": [
+  "func_8005EDA0(S_8005A4E8 *s) -- called with &s, a local 40-byte struct/union built on the stack based on (a0,a1) type selection"
+ ]
+}

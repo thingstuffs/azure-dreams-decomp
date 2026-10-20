@@ -1,0 +1,10 @@
+{
+ "func": "func_80047738",
+ "doc": "Selects table entry [a1][a2] via a quadruply-indirected table pointer at a0+0x28, caches the resulting entry pointer into a0->unk00 (0x0) and the entry's second word into a0->unk08 (0x8), records index a2 (as a byte) into a0->unk04 (0x4), and clears flag bit 0x40 in a0->unk14 (0x14).",
+ "globals": [
+  {
+   "name": "S_80047738 (param struct, no fixed global instance observed here)",
+   "decl": "typedef struct S_80047738 { EntryS_80047738 *unk00; u8 unk04; u8 pad05[3]; s32 unk08; u8 pad0C[8]; u16 unk14; u8 pad16[18]; EntryS_80047738 ****unk28; } S_80047738; /* unk14 bit 0x40 is a flag; unk28 is a quadruple pointer to a table of EntryS_80047738 rows */"
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+{
+ "func": "func_8005AE08",
+ "doc": "Registers a MIDI/SEQ header buffer (a0) that matches one of three known magic signatures (0x53455170 \"pQES\"/Sony SEQ, 0x6468544D \"MThd\"/Standard MIDI File, 0x2054444B \"KDT \") into the first free slot of the 8-entry D_80086C00[] table (a slot is free when field_0 == -1). Stores a0 into field_4, a1 into field_0, and 2 into field_2 of the chosen slot; returns the slot index (0-7), or -1 if the header type wasn't recognised or no free slot was found.",
+ "globals": [
+  {
+   "name": "D_80086C00",
+   "decl": "extern S_80086C00 D_80086C00[8]; /* struct S_80086C00 { s16 field_0 (0x0, -1=free); s16 field_2 (0x2, type/status, e.g. 2); s32 field_4 (0x4, data ptr/word); u16 field_8 (0x8); u16 field_A (0xA); }; total size 12 bytes, 8-entry array. Layout cross-confirmed against already-matched src/w_8005B2C8.c (field_8/field_A) and asm/nonmatchings/code/func_8005AF74.s and func_8005AE90.s (field_2, field_4/offset4-as-word, field_8=field_A=0x7F init)."
+  }
+ ]
+}

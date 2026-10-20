@@ -1,0 +1,17 @@
+{
+ "func": "func_8005B418",
+ "doc": "OR-accumulates flag words from D_80073740[0..D_80073734[0]-1] into a mask, then calls func_8005E97C(0, mask).",
+ "globals": [
+  {
+   "name": "D_80073734",
+   "decl": "extern s32 D_80073734[4]; // element [0] is a loop-count/entry-count, shared with w_80056A08.c, w_800564A8.c, w_80056948.c, w_80056408.c, w_8005A3F0.c"
+  },
+  {
+   "name": "D_80073740",
+   "decl": "extern s32 D_80073740[64]; // per-entry flag words, shared with w_80056A08.c (declared s32[64] there) and several w_8005*.c readers"
+  }
+ ],
+ "calls": [
+  "func_8005E97C(s32 arg0, s32 arg1) - already used with this 2-arg signature in sibling src/w_80056A08.c"
+ ]
+}

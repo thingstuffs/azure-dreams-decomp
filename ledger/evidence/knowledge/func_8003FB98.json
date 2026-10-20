@@ -1,0 +1,17 @@
+{
+ "func": "func_8003FB98",
+ "doc": "Scans the global singly-linked node list headed by D_80081498 for the first node (other than a1) whose 16-bit field_1E has bit 0x200 set. When found: calls func_80044A50(node) and func_8003FFF0(node) unconditionally, then func_80040044(node) unless field_1E also has bit 0x80 set (i.e. frees/recycles the node unless it's flagged to be kept), then dispatches to func_8003FD64(a0,a1) if a1 is non-NULL, else func_8003FC64(a0), and returns that call's result. If no such node exists in the list, returns NULL.",
+ "globals": [
+  {
+   "name": "D_80081498",
+   "decl": "extern struct { Node *head; int pad[2]; } D_80081498;  // matches existing decl in src/code.c (Node with next@0x0, field_1E@0x1E)"
+  }
+ ],
+ "calls": [
+  "func_80044A50(void *a0)",
+  "func_8003FFF0(void *a0)",
+  "func_80040044(void *a0)  // already matched, defined in src/code.c as void func_80040044(void *a0)",
+  "func_8003FD64(void *a0, void *a1) -> void*",
+  "func_8003FC64(void *a0) -> void*"
+ ]
+}

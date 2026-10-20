@@ -1,0 +1,10 @@
+{
+ "func": "func_800403BC",
+ "doc": "Walks the global singly-linked list headed by D_80081498 looking for every node whose field_10 (offset 0x10) equals the argument; for each match, sets bit 0x8000 in that node's field_1E (offset 0x1E) AND in the global 32-bit flags word D_800814A0. There is no early exit -- the entire list is always walked even after a match is found.",
+ "globals": [
+  {
+   "name": "D_80081498",
+   "decl": "extern struct { S_80081498 *head; int pad[2]; } D_80081498; // struct S_80081498 { struct S_80081498 *next; /*0x00*/ u8 pad4[0xC]; s32 field_10; /*0x10*/ u8 pad14[0xA]; u16 field_1E; /*0x1E*/ }; canonical Node layout shared with func_80040418/func_800401FC/func_8004B4A8 (which only used next@0x0 and field_1E@0x1E) plus a new s32 field_10 @0x10 (id/value compared against the function's a0 argument) established by this function."
+  }
+ ]
+}

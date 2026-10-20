@@ -1,0 +1,7 @@
+{
+ "func": "func_8004ECAC",
+ "doc": "Given a sub-object pointer arg0 == entity_base + 0x20 (the shared convention across the func_8004ECAC/func_8004EDA8/func_800511B4/func_80048D60 sibling family), if the entity's flags word (offset 0x1E) has bit 0x2000 set, clear that bit on self, set the SAME bit (0x2000) on the flags word of the entity pointed to by the field stored AT arg0 (entity offset 0x20), and then call func_8004EE90(self) to set bit 0x8000 on self's own flags plus a global \"dirty\" flag.",
+ "calls": [
+  "func_8004EE90(u16 *a0) -- extern void func_8004EE90(unsigned short *a0); as defined in src/code9.c"
+ ]
+}

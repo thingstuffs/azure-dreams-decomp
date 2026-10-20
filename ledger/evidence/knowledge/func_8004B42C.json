@@ -1,0 +1,8 @@
+{
+ "func": "func_8004B42C",
+ "doc": "Fills an array of `cnt` s32 slots by repeatedly calling func_8004B404(0x82) and storing its result into arr[i]. If any call returns 0, it immediately calls func_8004B248(arr) (cleanup/reset on the original array), sets the returned pointer to NULL, and stops filling. Returns the (possibly NULLed) array pointer.",
+ "calls": [
+  "func_8004B404(s32 a0) -> s32  (arg setup: single literal 0x82; return value used/stored, though the neighbor TU declares it void -- the actual retail asm leaves a meaningful value in $v0 via its tail-call to func_8004B364, so this TU's own extern decl treats it as returning s32)",
+  "func_8004B248(s32 *a0) -> void  (called with the array base pointer as sole arg; not yet matched elsewhere, so signature is this TU's own inference)"
+ ]
+}

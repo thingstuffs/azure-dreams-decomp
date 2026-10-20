@@ -1,0 +1,13 @@
+{
+ "func": "func_80048998",
+ "doc": "Registers a pointer into slot D_80083110[index-1] (when index != 0) and dispatches to func_800488F0 with two fields loaded from the struct plus a mode constant (2 if index != 0, 3 if index == 0).",
+ "globals": [
+  {
+   "name": "D_80083110",
+   "decl": "extern S_80083110 *D_80083110[4]; /* array of 4 pointers to S_80083110-typed structs; element index written as (a1-1) where a1 is a 1-based slot number in [1..4]; siblings func_80048B28 (loops i=0..3 reading/clearing D_80083110[i]) and func_8003D8B0 (zeroes D_80083110[0..3] via offsets 0x0/0x4/0x8/0xC) confirm 4 pointer-sized elements */"
+  }
+ ],
+ "calls": [
+  "func_800488F0(s32, s32, s32) -- extern; args are a0->field_8, a0->field_28, and a mode constant (2 or 3)"
+ ]
+}

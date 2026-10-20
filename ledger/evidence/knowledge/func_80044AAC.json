@@ -1,0 +1,13 @@
+{
+ "func": "func_80044AAC",
+ "doc": "func_80044AAC(a0, a1): first unlinks a1 from its current list via func_80044A50(a1). Then, if a0 is non-NULL, inserts a1 as the new head of a0's child list (a0->next / a1->prev=a0 / a1->next=old-child / old-child->prev=a1, only touching old-child->prev when old-child != NULL). If a0 is NULL, inserts a1 as the new head of the global type-indexed list D_800833E0[a1->type]: saves the old head, sets a1->next=old-head, a1->prev=&D_800833E0[a1->type] (the address of the array slot itself, not a node), sets D_800833E0[a1->type]=a1, and unconditionally sets old-head->prev=a1 (no NULL check on this path).",
+ "globals": [
+  {
+   "name": "D_800833E0",
+   "decl": "extern S_80044AAC *D_800833E0[0x20]; /* 0x80-byte array of list-head pointers, indexed by a node's u16 `type` field at offset 0x1C; range-checked against this exact address range by func_80044A50 to detect a sentinel/head-array `prev` link */"
+  }
+ ],
+ "calls": [
+  "func_80044A50(S_80044AAC *node) \u2014 unlinks node from whichever list it's currently in (sibling-list or D_800833E0 head-array), based on whether node->prev falls inside the D_800833E0[0x20] address range; declared extern void func_80044A50(S_80044AAC *node);"
+ ]
+}

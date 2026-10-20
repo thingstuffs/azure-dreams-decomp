@@ -1,0 +1,18 @@
+{
+ "func": "func_8004FF20",
+ "doc": "State-transition dispatcher: looks up a per-object 'ready' flag byte from D_800717B4[obj->unk1C]; if set, reads obj->unk20 (a mode) and, if mode==2, calls func_800213AC() and derives a boolean arg from (result^2)<1 (i.e. result==2), otherwise passes through arg=0 when the flag was clear, or the mode itself when flag set and mode!=2. Then indirect-calls D_8007179C[obj->unk1C] with (obj-0x20, arg) \u2014 obj is a sub-object embedded 0x20 bytes into a larger parent struct, and this recovers the parent pointer to hand to the callback.",
+ "globals": [
+  {
+   "name": "D_800717B4",
+   "decl": "extern u8 D_800717B4[]; /* flags array, indexed by a small int id (obj->unk1C), 1 byte per entry */"
+  },
+  {
+   "name": "D_8007179C",
+   "decl": "extern void (*D_8007179C[])(void *, s32); /* array of function pointers, same index space as D_800717B4, called as fn(parentPtr, arg) */"
+  }
+ ],
+ "calls": [
+  "func_800213AC(void) -> s32  (no args; result xor'd with 2)",
+  "D_8007179C[idx](void *parent, s32 arg) -> void  (indirect call via function-pointer table; parent = (u8*)a0 - 0x20)"
+ ]
+}

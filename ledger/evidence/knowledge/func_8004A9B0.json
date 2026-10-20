@@ -1,0 +1,7 @@
+{
+ "func": "func_8004A9B0",
+ "doc": "Fisher-Yates-style byte-array shuffle.",
+ "calls": [
+  "func_800A6D30(void) -> s32  (RNG-like function; return value used masked with 0xFFFF)"
+ ]
+}

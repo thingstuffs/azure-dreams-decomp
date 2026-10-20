@@ -1,0 +1,22 @@
+{
+ "func": "func_8005A26C",
+ "doc": "Re-initializes three contiguous sound-slot tables (D_800869C0[16], D_80086A40[16], D_80086C00[16]) to default/free values, then resets a 0x1000 counter (D_80086D4C). Called by func_8005A428 at the end of its per-frame update as the \"table re-init\" step. First loop marks all 16 D_80086A40 slots free (marker=-1) and sets default volume/pan bytes (0x7F,0x7F,0x40) at offsets 0x19-0x1B. Second loop marks all 16 D_80086C00 sound slots free (field_0=-1, field_2=0, field_8=field_A=0x7F) and simultaneously zeroes the two words of the adjacent D_800869C0[16] table. Finally stores 0x1000 into D_80086D4C[0].",
+ "globals": [
+  {
+   "decl": "typedef struct {\n    /* 0x00 */ s16 marker;\n    /* 0x02 */ s16 unk02;\n    /* 0x04 */ s32 unk04;\n    /* 0x08 */ u8 pad08[8];\n    /* 0x10 */ s32 unk10;\n    /* 0x14 */ u8 pad14[5];\n    /* 0x19 */ u8 unk19;   /* default 0x7F, volume/pan-like */\n    /* 0x1A */ u8 unk1A;   /* default 0x7F */\n    /* 0x1B */ u8 unk1B;   /* default 0x40 */\n} S_80086A40; /* size 0x1C (28); extern S_80086A40 D_80086A40[16]; */",
+   "name": "D_80086A40"
+  },
+  {
+   "decl": "typedef struct {\n    /* 0x00 */ s16 field_0;   /* -1 == free slot */\n    /* 0x02 */ s16 field_2;   /* status/type, reset to 0 here */\n    /* 0x04 */ s32 field_4;   /* not touched by this function */\n    /* 0x08 */ u16 field_8;   /* default 0x7F */\n    /* 0x0A */ u16 field_A;   /* default 0x7F */\n} S_80086C00; /* size 0xC (12); extern S_80086C00 D_80086C00[16] (this function inits 16 entries, not just the 8 used elsewhere) */",
+   "name": "D_80086C00"
+  },
+  {
+   "decl": "typedef struct {\n    /* 0x00 */ s32 unk00;\n    /* 0x04 */ s32 unk04;\n} S_800869C0; /* size 0x8; extern S_800869C0 D_800869C0[16]; immediately precedes D_80086A40 (0x800869C0 + 16*8 == 0x80086A40) */",
+   "name": "D_800869C0"
+  },
+  {
+   "decl": "extern s32 D_80086D4C[3]; /* forced hi/lo via size > 8; [0] set to 0x1000 here */",
+   "name": "D_80086D4C"
+  }
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "func": "func_8004FDE0",
+ "doc": "Allocates an object via func_8003FC64(0). If allocation fails, returns NULL. Otherwise takes the embedded sub-object at offset 0x20, initializes it via func_8004FC68, computes/stores an index or size via func_8004FD78(sub, a0) into sub+0x30, then validates via func_8004FC98(sub). On validation failure it tears the object down with func_8004FE78 and returns NULL; on success it installs the object's vtable function pointer (func_8004FC2C at offset 0x10 of the outer object) and the sub-object's callback function pointer (func_8004F9AC at offset 0x00 of the sub-object), then returns the object pointer.",
+ "calls": [
+  "func_8003FC64(s32 a0) -> void* : allocator, called with a0=0",
+  "func_8004FC68(void *a0) : already matched (src/w_8004FC2C-adjacent code.c), inits sub-object at a0",
+  "func_8004FC2C(void *a0) : already matched (src/w_8004FC2C.c), stored as a function-pointer value only (address-of), not called here",
+  "func_8004FD78(void *a0, void *a1) -> s32 : unmatched, result stored into sub-object field",
+  "func_8004FC98(void *a0) -> s32 : unmatched, validity/success check",
+  "func_8004FE78(void *a0) : unmatched, teardown on failure",
+  "func_8004F9AC(void *a0) : unmatched, address stored as a callback function pointer only, not called"
+ ]
+}

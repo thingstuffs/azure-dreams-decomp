@@ -1,0 +1,8 @@
+{
+ "func": "func_8004E5A0",
+ "doc": "Format `value` into `buf` right-justified in `width` columns (space-padded, via func_8004E57C), then reverse the resulting `width` characters in place (via func_8004E478); returns buf.",
+ "calls": [
+  "extern void func_8004E57C(int value, unsigned short width, char *buf); // matched, gcc 2.7.2, src/code.c: formats value right-justified space-padded into buf",
+  "extern void func_8004E478(char *buf, unsigned short width); // unmatched sibling; reverses width bytes of buf in place (return value NOT used by caller -- must be declared void for match)"
+ ]
+}

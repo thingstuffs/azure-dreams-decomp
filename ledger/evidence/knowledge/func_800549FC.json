@@ -1,0 +1,22 @@
+{
+ "func": "func_800549FC",
+ "doc": "Fires event 0x71 via func_800553D4, then dispatches on the low byte of the argument: for 0x21, clears D_800847F0.field0 and registers marker table D_801BEE40 (slot 0) via func_80055ADC; for 0x22, sets D_800847F0.field0 to 1 and registers marker table D_801C4640 (slot 1). Any other value does nothing further.",
+ "globals": [
+  {
+   "name": "D_800847F0",
+   "decl": "typedef struct S_800847F0 { /* 0x0 */ s16 field0; /* 0x2 */ u8 pad2[10]; } S_800847F0; extern S_800847F0 D_800847F0; -- only field0 (offset 0, s16) is touched by this function; declared >8 bytes total to force %hi/%lo addressing (matches target's lui/sh pattern instead of gp-relative)."
+  },
+  {
+   "name": "D_801BEE40",
+   "decl": "extern s32 D_801BEE40[4]; -- only its address is taken (passed to func_80055ADC as a marker-table pointer), never dereferenced here."
+  },
+  {
+   "name": "D_801C4640",
+   "decl": "extern s32 D_801C4640[4]; -- only its address is taken (passed to func_80055ADC as a marker-table pointer), never dereferenced here."
+  }
+ ],
+ "calls": [
+  "func_800553D4(s32 a0) - already declared elsewhere as extern void func_800553D4(s32 a0); (src/w_8005440C.c)",
+  "func_80055ADC(void *a0, s32 a1) - not yet decompiled elsewhere; signature inferred from asm (a0 used as struct-array base, a1 masked 0xFFFF and used as small index/count)"
+ ]
+}

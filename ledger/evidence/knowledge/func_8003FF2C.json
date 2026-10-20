@@ -1,0 +1,7 @@
+{
+ "func": "func_8003FF2C",
+ "doc": "Initializes and inserts a variable-size list node. Zeroes arg2 words starting at arg1 (via func_8003DB4C), then links arg1 onto the head of the singly/doubly-linked list at *arg3 (arg1->link0 = old head, *arg3 = arg1, and back-links: arg1->link4 = &head-pointer, old_head->link4 = arg1 if old head existed). Writes (arg0|0x80|0x4000) into the 16-bit flags field at offset 0x1E. Finally computes `tail = arg1 + arg2*4` (one-past-end of the zeroed region) and, depending on which bits of (arg0|0x80) are set, stores tail-0x24 or tail-0x18 into field 0xC, and/or a further -0x18 into field 8 -- i.e. carving off trailing sub-buffers whose presence/size depends on caller-supplied option flags.",
+ "calls": [
+  "func_8003DB4C(int *p, int n) -- zeroes n words starting at p (matched gcc 2.7.2, src/code.c); called here as func_8003DB4C((int*)node, arg2) to zero-init the arg2-word struct at arg1 before the caller's fields are set."
+ ]
+}

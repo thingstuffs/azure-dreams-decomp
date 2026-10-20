@@ -1,0 +1,21 @@
+{
+ "func": "func_8005863C",
+ "doc": "Tears down the periodic-update event: sets the critical-section-active flag (D_800737C0), enters a critical section, calls StopRCnt(0xF2000002), then disables and closes the event handle stored in D_80085F9C, exits the critical section, and finally clears the mode flag (D_80085F98) and the critical-section-active flag (D_800737C0).",
+ "globals": [
+  {
+   "name": "D_800737C0",
+   "decl": "extern s32 D_800737C0[4]; /* single s32 flag, forced hi/lo via size>8; slot [0] = critical-section-active flag (0/1), written before EnterCriticalSection and cleared before return; also read/written by sibling func_800585A0 */"
+  },
+  {
+   "name": "D_80085F9C",
+   "decl": "extern s32 D_80085F9C[4]; /* single s32 event handle, forced hi/lo via size>8; slot [0] holds the event id from OpenEvent (set in sibling func_800585A0), read here for DisableEvent/CloseEvent */"
+  }
+ ],
+ "calls": [
+  "EnterCriticalSection(void) -> s32",
+  "ExitCriticalSection(void) -> void",
+  "StopRCnt(s32 arg) -> void  (called with 0xF2000002, an rcnt/hw id constant; psyq COUNTER.OBJ, named 2026-08-23 cd681dea -- was func_8006A27C)",
+  "DisableEvent(s32 event) -> s32",
+  "CloseEvent(s32 event) -> s32"
+ ]
+}

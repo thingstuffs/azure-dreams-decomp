@@ -1,0 +1,4 @@
+{
+ "func": "func_80054538",
+ "doc": "Timed-ramp/state-machine step for a task-block struct (same family as src/code.c's S_800848F8 and src/w_800544A4.c's S_80084858): state 1 ramps field10 up by field14 clamped at 0x7F (then latches state 3); state 2 ramps field10 down by field14 clamped at field12 (then latches state 3); any other state returns immediately. After a ramp runs, invokes the struct's own no-arg completion callback (field0) if set."
+}

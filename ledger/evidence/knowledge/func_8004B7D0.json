@@ -1,0 +1,15 @@
+{
+ "func": "func_8004B7D0",
+ "doc": "Copies the 4-byte global D_80080B50 to a stack local (unaligned-safe lwl/lwr+swl/swr block move), calls func_8004B634() and func_8003F320() (both void/void), then forwards (a0, NULL, 0, &local_copy) to func_800253A0.",
+ "globals": [
+  {
+   "name": "D_80080B50",
+   "decl": "extern UA32 D_80080B50; /* 4-byte scalar, typedef struct { u32 v; } __attribute__((packed)) UA32 to reproduce lwl/lwr unaligned copy */"
+  }
+ ],
+ "calls": [
+  "func_8004B634(void)",
+  "func_8003F320(void)",
+  "func_800253A0(void *a0, void *a1, s32 a2, void *a3)"
+ ]
+}

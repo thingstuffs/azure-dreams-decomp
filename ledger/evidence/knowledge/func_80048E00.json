@@ -1,0 +1,4 @@
+{
+ "func": "func_80048E00",
+ "doc": "Initializes a 0x48-byte record at arg0 from a small input pattern arg1: a header (type 0x81) at arg0+0x0, two mirrored 0x18-byte \"mid\" blocks (type 0x3A) at arg0+0xC and arg0+0x24 whose two 24-bit-ish color/constant words (0x201808 / 0x602820) are swapped between the two blocks and whose per-block bytes derive from arg1 (byte0/2/6, half4 halved with signed rounding), and a matching tail (type 0x81, val6=1) at arg0+0x3C. Returns the original arg0 pointer (recovered via subtraction from the final walked cursor, exactly mirroring retail's `addiu v0,a0,-0x3C`)."
+}

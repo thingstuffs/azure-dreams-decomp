@@ -1,0 +1,4 @@
+{
+ "func": "func_8004B028",
+ "doc": "For each non-null pointer entry in a NULL-terminated array of S_8004AFE8* (arg1), if the pointee's unk1 byte field equals arg2, look up arg0[pointee->unk0]; if that byte slot is still zero, stamp it with the current 1-based loop index (i+1). Used by func_8004B08C to assign discovery-order ranks into a byte lookup table, keyed by a per-entry index byte, filtered by a per-entry type/category byte."
+}

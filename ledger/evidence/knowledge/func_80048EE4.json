@@ -1,0 +1,8 @@
+{
+ "func": "func_80048EE4",
+ "doc": "Allocates a fixed 0x104-byte pool via func_8004B404, stores the pointer through the out-param *a0, and (if non-NULL) partitions the block into: a leading array of `a1` pointers (the block's own start, `a0[0..a1-1]`), followed immediately by `a1` 16-byte records that those pointers reference, followed immediately by `a1` more 16-byte records whose addresses are written into each first record's offset+4 field (a producer/consumer or double-buffer style link). Finishes with func_8004CC38(pool, a1) and returns the pool pointer (or NULL on alloc failure).",
+ "calls": [
+  "func_8004B404(s32 a0) -> void* : fixed-size (0x104) allocator; only the size arg is set explicitly by this caller shape (matched at gcc 2.8.1, src/code7.c)",
+  "func_8004CC38(void **a0, s32 a1) : called with (pool, count) at the end; not yet matched itself, signature inferred from arg registers only"
+ ]
+}

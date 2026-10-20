@@ -1,0 +1,8 @@
+{
+ "func": "func_8003DE58",
+ "doc": "Table-lookup dispatcher: looks up a record for `arg3` inside the fixed-stride table `arg0` via func_8004CAE8; if found, calls func_8003DBD0(arg1, record, &tmp) and copies the 3-halfword Vec it produces into *arg2. If not found, and arg1's status flags (offset 0x14) have either 0x2000 or 0x4000 set, resets *arg2 to (0,0,-0x40) and returns arg0 itself instead of NULL.",
+ "calls": [
+  "func_8004CAE8: S_8004CAE8 *func_8004CAE8(S_8004CAE8 *a0, u32 a1)  -- exact signature reused from src/w_8004CAE8.c (already matched); called as func_8004CAE8(arg0, arg3) where arg3 (s16) promotes to u32.",
+  "func_8003DBD0: void func_8003DBD0(S_8003DE58_Ent *a0, void *a1, S_8003DE58_Vec *a2)  -- still nonmatching itself; prototype chosen locally (a0=arg1 forwarded opaquely, a1=table-lookup result pointer, a2=&stack-tmp Vec it fills in)."
+ ]
+}

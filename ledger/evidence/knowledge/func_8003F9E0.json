@@ -1,0 +1,7 @@
+{
+ "func": "func_8003F9E0",
+ "doc": "Iterates a NULL(f0)-terminated array of fixed-size (0xC-byte) entries starting at a0; for each live entry, dispatches it via func_8003F80C(entry.f0, entry.f4, entry.f6, 0), then advances to the next entry. Stops as soon as an entry's f0 field is 0 (do-while-style loop guarded by an initial while test).",
+ "calls": [
+  "func_8003F80C(s32 a0, s32 a1, s32 a2, s32 a3) -- pre-existing extern signature reused from src/w_80047AB0.c"
+ ]
+}

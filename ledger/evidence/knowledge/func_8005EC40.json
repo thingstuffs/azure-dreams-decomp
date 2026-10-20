@@ -1,0 +1,17 @@
+{
+ "func": "func_8005EC40",
+ "doc": "Clamps a1 (a playback rate/param) to a maximum of 0x7EFF0, forwards (a0, clamped_a1) to func_8005D460, then clears D_8007998C.value if D_80079990.value is zero (no active queue). Returns the clamped a1.",
+ "globals": [
+  {
+   "name": "D_8007998C",
+   "decl": "typedef struct { s32 value; s32 _pad[2]; } S_8007998C; extern S_8007998C D_8007998C; /* accessed field: value (offset 0, s32), written 0 */"
+  },
+  {
+   "name": "D_80079990",
+   "decl": "typedef struct { s32 value; s32 _pad[2]; } S_80079990; extern S_80079990 D_80079990; /* accessed field: value (offset 0, s32), read, compared to 0 */"
+  }
+ ],
+ "calls": [
+  "func_8005D460(s32 a0, s32 a1) -- extern s32 func_8005D460(s32 a0, s32 a1); return value discarded, forwards (a0, clamped_a1)"
+ ]
+}

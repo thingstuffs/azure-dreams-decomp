@@ -1,0 +1,18 @@
+{
+ "func": "func_8004EFF4",
+ "doc": "placeholder",
+ "globals": [
+  {
+   "name": "D_8007166C",
+   "decl": "extern s32 D_8007166C[]; /* single s32 value, accessed as D_8007166C[0]; declared as an incomplete array (not a plain scalar) purely to force %hi/%lo codegen instead of a $gp-relative access, since this TU already has other >8B hi/lo globals and a plain extern int here overflowed the small-data section (ld GPREL16 relocation-truncated error) */"
+  },
+  {
+   "name": "D_80071670",
+   "decl": "extern s32 D_80071670[]; /* single s32 value, accessed as D_80071670[0]; same array-decl trick as D_8007166C */"
+  },
+  {
+   "name": "D_80071674",
+   "decl": "extern s32 D_80071674[]; /* single s32 value, accessed as D_80071674[0]; same array-decl trick as D_8007166C */"
+  }
+ ]
+}

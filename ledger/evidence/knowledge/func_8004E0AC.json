@@ -1,0 +1,8 @@
+{
+ "func": "func_8004E0AC",
+ "doc": "Tries three \"slot\" checks in sequence (args 3, 4, 5) via func_80033B2C; for the first that returns nonzero, calls func_80033AE8 with the same arg and returns 1/2/3 respectively (indicating which slot triggered). If none trigger, returns 0. (Slot index acquire/release pair, likely related to sound/channel or item-slot reservation given the small enumerated arg values 3-5.)",
+ "calls": [
+  "func_80033B2C(int a0) - checks something for slot a0, returns nonzero on success",
+  "func_80033AE8(int a0) - acts on slot a0 (called only when func_80033B2C(a0) succeeded)"
+ ]
+}

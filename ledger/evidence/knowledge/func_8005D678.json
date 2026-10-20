@@ -1,0 +1,10 @@
+{
+ "func": "func_8005D678",
+ "doc": "Clears a 3-bit flag-group (bits 0x70000) in the status word of a struct pointed to by global D_80079968.ptr, then sets it to 0x30000 if a0 is nonzero, else 0x50000. Re-reads the global pointer at each access site (matches gcc's non-CSE'd codegen).",
+ "globals": [
+  {
+   "name": "D_80079968",
+   "decl": "extern struct { S_80079968 *ptr; s32 pad[2]; } D_80079968; /* actually a global pointer variable; padded to size>8 so gcc emits %hi/%lo instead of $gp-relative addressing. Points to a struct whose word-0 field (unk0) is a status/flags word; bits 0x70000 are a 3-value flag group (0=idle/none, 0x30000, 0x50000 seen here). */"
+  }
+ ]
+}

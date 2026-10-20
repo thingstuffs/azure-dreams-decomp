@@ -1,0 +1,1190 @@
+[
+ {
+  "vram": "0x8006AA90",
+  "file_offset": "0x3E290",
+  "entries": 89,
+  "kind": "code",
+  "role": "event-script VM handler table: entry i = handler for opcode i (the interpreter func_80038AB8 does `D_8006AA90[opcode](context)`); four slots share the 8-byte 'unimplemented opcode' stub; the 89th word is the default/terminator (state-transition dispatcher)",
+  "targets": [
+   {
+    "index": 0,
+    "target": "0x800391B4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391B4"
+   },
+   {
+    "index": 1,
+    "target": "0x800390D0",
+    "row": "slus/konami_runtime_w_800390D0",
+    "symbol": "func_800390D0"
+   },
+   {
+    "index": 2,
+    "target": "0x8003919C",
+    "row": "slus/konami_runtime",
+    "symbol": "func_8003919C"
+   },
+   {
+    "index": 3,
+    "target": "0x800391A4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391A4"
+   },
+   {
+    "index": 4,
+    "target": "0x800391AC",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391AC"
+   },
+   {
+    "index": 5,
+    "target": "0x800399EC",
+    "row": "slus/konami_runtime_w_800399EC",
+    "symbol": "func_800399EC"
+   },
+   {
+    "index": 6,
+    "target": "0x80039A08",
+    "row": "slus/konami_runtime_w_80039A08",
+    "symbol": "func_80039A08"
+   },
+   {
+    "index": 7,
+    "target": "0x800391B4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391B4"
+   },
+   {
+    "index": 8,
+    "target": "0x800391BC",
+    "row": "slus/konami_runtime_w_800391BC",
+    "symbol": "func_800391BC"
+   },
+   {
+    "index": 9,
+    "target": "0x800391EC",
+    "row": "slus/konami_runtime_w_800391EC",
+    "symbol": "func_800391EC"
+   },
+   {
+    "index": 10,
+    "target": "0x80039148",
+    "row": "slus/konami_runtime_w_80038CB8",
+    "symbol": "func_80039148"
+   },
+   {
+    "index": 11,
+    "target": "0x80039208",
+    "row": "slus/konami_runtime_w_80039208",
+    "symbol": "func_80039208"
+   },
+   {
+    "index": 12,
+    "target": "0x80039214",
+    "row": "slus/konami_runtime_w_80039214",
+    "symbol": "func_80039214"
+   },
+   {
+    "index": 13,
+    "target": "0x80039258",
+    "row": "slus/konami_runtime_w_80039258",
+    "symbol": "func_80039258"
+   },
+   {
+    "index": 14,
+    "target": "0x8003929C",
+    "row": "slus/konami_runtime",
+    "symbol": "func_8003929C"
+   },
+   {
+    "index": 15,
+    "target": "0x8003931C",
+    "row": "slus/konami_runtime_w_8003931C",
+    "symbol": "func_8003931C"
+   },
+   {
+    "index": 16,
+    "target": "0x80039560",
+    "row": "slus/konami_runtime",
+    "symbol": "func_80039560"
+   },
+   {
+    "index": 17,
+    "target": "0x80039568",
+    "row": "slus/konami_runtime_w_80039568",
+    "symbol": "func_80039568"
+   },
+   {
+    "index": 18,
+    "target": "0x80039578",
+    "row": "slus/konami_runtime_w_80039578",
+    "symbol": "func_80039578"
+   },
+   {
+    "index": 19,
+    "target": "0x800395B0",
+    "row": "slus/konami_runtime_w_800395B0",
+    "symbol": "func_800395B0"
+   },
+   {
+    "index": 20,
+    "target": "0x800395E8",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800395E8"
+   },
+   {
+    "index": 21,
+    "target": "0x800395F0",
+    "row": "slus/konami_runtime_w_800395F0",
+    "symbol": "func_800395F0"
+   },
+   {
+    "index": 22,
+    "target": "0x80039640",
+    "row": "slus/konami_runtime_w_80038F48",
+    "symbol": "func_80039640"
+   },
+   {
+    "index": 23,
+    "target": "0x8003965C",
+    "row": "slus/konami_runtime_w_8003965C",
+    "symbol": "func_8003965C"
+   },
+   {
+    "index": 24,
+    "target": "0x80039694",
+    "row": "slus/konami_runtime_w_80039694",
+    "symbol": "func_80039694"
+   },
+   {
+    "index": 25,
+    "target": "0x80039730",
+    "row": "slus/konami_runtime_w_80039730",
+    "symbol": "func_80039730"
+   },
+   {
+    "index": 26,
+    "target": "0x80039760",
+    "row": "slus/konami_runtime_w_80039760",
+    "symbol": "func_80039760"
+   },
+   {
+    "index": 27,
+    "target": "0x800397A0",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800397A0"
+   },
+   {
+    "index": 28,
+    "target": "0x800397A8",
+    "row": "slus/konami_runtime_w_800397A8",
+    "symbol": "func_800397A8"
+   },
+   {
+    "index": 29,
+    "target": "0x800398BC",
+    "row": "slus/konami_runtime_w_800398BC",
+    "symbol": "func_800398BC"
+   },
+   {
+    "index": 30,
+    "target": "0x80039B28",
+    "row": "slus/konami_runtime_w_80039B28",
+    "symbol": "func_80039B28"
+   },
+   {
+    "index": 31,
+    "target": "0x80039B64",
+    "row": "slus/konami_runtime",
+    "symbol": "func_80039B64"
+   },
+   {
+    "index": 32,
+    "target": "0x80039B6C",
+    "row": "slus/konami_runtime",
+    "symbol": "func_80039B6C"
+   },
+   {
+    "index": 33,
+    "target": "0x80039B74",
+    "row": "slus/konami_runtime",
+    "symbol": "func_80039B74"
+   },
+   {
+    "index": 34,
+    "target": "0x80039B7C",
+    "row": "slus/konami_runtime",
+    "symbol": "func_80039B7C"
+   },
+   {
+    "index": 35,
+    "target": "0x80039B84",
+    "row": "slus/konami_runtime_w_80039B84",
+    "symbol": "func_80039B84"
+   },
+   {
+    "index": 36,
+    "target": "0x80039B94",
+    "row": "slus/konami_runtime_w_80039B94",
+    "symbol": "func_80039B94"
+   },
+   {
+    "index": 37,
+    "target": "0x80039BBC",
+    "row": "slus/konami_runtime_w_80039BBC",
+    "symbol": "func_80039BBC"
+   },
+   {
+    "index": 38,
+    "target": "0x80039BE4",
+    "row": "slus/konami_runtime_w_80039BE4",
+    "symbol": "func_80039BE4"
+   },
+   {
+    "index": 39,
+    "target": "0x80039C0C",
+    "row": "slus/konami_runtime_w_80039C0C",
+    "symbol": "func_80039C0C"
+   },
+   {
+    "index": 40,
+    "target": "0x800391B4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391B4"
+   },
+   {
+    "index": 41,
+    "target": "0x800391B4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391B4"
+   },
+   {
+    "index": 42,
+    "target": "0x80039C44",
+    "row": "slus/konami_runtime_w_80039C44",
+    "symbol": "func_80039C44"
+   },
+   {
+    "index": 43,
+    "target": "0x80039C74",
+    "row": "slus/konami_runtime_w_80039C74",
+    "symbol": "func_80039C74"
+   },
+   {
+    "index": 44,
+    "target": "0x80039D10",
+    "row": "slus/konami_runtime_w_80039D10",
+    "symbol": "func_80039D10"
+   },
+   {
+    "index": 45,
+    "target": "0x80039D40",
+    "row": "slus/konami_runtime",
+    "symbol": "func_80039D40"
+   },
+   {
+    "index": 46,
+    "target": "0x80039DBC",
+    "row": "slus/konami_runtime_w_80039DBC",
+    "symbol": "func_80039DBC"
+   },
+   {
+    "index": 47,
+    "target": "0x80039E1C",
+    "row": "slus/konami_runtime_w_80039E1C",
+    "symbol": "func_80039E1C"
+   },
+   {
+    "index": 48,
+    "target": "0x80039ED0",
+    "row": "slus/konami_runtime_w_80039ED0",
+    "symbol": "func_80039ED0"
+   },
+   {
+    "index": 49,
+    "target": "0x80039F28",
+    "row": "slus/konami_runtime_w_80039F28",
+    "symbol": "func_80039F28"
+   },
+   {
+    "index": 50,
+    "target": "0x80039F4C",
+    "row": "slus/konami_runtime_w_80039F4C",
+    "symbol": "func_80039F4C"
+   },
+   {
+    "index": 51,
+    "target": "0x80039F80",
+    "row": "slus/konami_runtime_w_80039F80",
+    "symbol": "func_80039F80"
+   },
+   {
+    "index": 52,
+    "target": "0x80039FC0",
+    "row": "slus/konami_runtime_w_80039FC0",
+    "symbol": "func_80039FC0"
+   },
+   {
+    "index": 53,
+    "target": "0x8003A01C",
+    "row": "slus/konami_runtime_w_8003A01C",
+    "symbol": "func_8003A01C"
+   },
+   {
+    "index": 54,
+    "target": "0x8003A060",
+    "row": "slus/konami_runtime_w_8003A060",
+    "symbol": "func_8003A060"
+   },
+   {
+    "index": 55,
+    "target": "0x8003A248",
+    "row": "slus/konami_runtime_w_8003A248",
+    "symbol": "func_8003A248"
+   },
+   {
+    "index": 56,
+    "target": "0x8003A288",
+    "row": "slus/konami_runtime_w_8003A288",
+    "symbol": "func_8003A288"
+   },
+   {
+    "index": 57,
+    "target": "0x8003A29C",
+    "row": "slus/konami_runtime_w_8003A29C",
+    "symbol": "func_8003A29C"
+   },
+   {
+    "index": 58,
+    "target": "0x8003A2E0",
+    "row": "slus/konami_runtime_w_8003A2E0",
+    "symbol": "func_8003A2E0"
+   },
+   {
+    "index": 59,
+    "target": "0x8003A468",
+    "row": "slus/konami_runtime_w_8003A468",
+    "symbol": "func_8003A468"
+   },
+   {
+    "index": 60,
+    "target": "0x8003A4B4",
+    "row": "slus/konami_runtime_w_8003A4B4",
+    "symbol": "func_8003A4B4"
+   },
+   {
+    "index": 61,
+    "target": "0x8003A500",
+    "row": "slus/konami_runtime_w_8003A500",
+    "symbol": "func_8003A500"
+   },
+   {
+    "index": 62,
+    "target": "0x8003A54C",
+    "row": "slus/konami_runtime_w_8003A54C",
+    "symbol": "func_8003A54C"
+   },
+   {
+    "index": 63,
+    "target": "0x8003A5B4",
+    "row": "slus/konami_runtime_w_8003A5B4",
+    "symbol": "func_8003A5B4"
+   },
+   {
+    "index": 64,
+    "target": "0x8003A61C",
+    "row": "slus/konami_runtime_w_8003A61C",
+    "symbol": "func_8003A61C"
+   },
+   {
+    "index": 65,
+    "target": "0x8003A684",
+    "row": "slus/konami_runtime_w_8003A684",
+    "symbol": "func_8003A684"
+   },
+   {
+    "index": 66,
+    "target": "0x8003A6EC",
+    "row": "slus/konami_runtime_w_8003A6EC",
+    "symbol": "func_8003A6EC"
+   },
+   {
+    "index": 67,
+    "target": "0x8003A754",
+    "row": "slus/konami_runtime_w_8003A754",
+    "symbol": "func_8003A754"
+   },
+   {
+    "index": 68,
+    "target": "0x8003A7BC",
+    "row": "slus/konami_runtime_w_8003A7BC",
+    "symbol": "func_8003A7BC"
+   },
+   {
+    "index": 69,
+    "target": "0x8003A7FC",
+    "row": "slus/konami_runtime_w_8003A7FC",
+    "symbol": "func_8003A7FC"
+   },
+   {
+    "index": 70,
+    "target": "0x8003A858",
+    "row": "slus/konami_runtime_w_8003A858",
+    "symbol": "func_8003A858"
+   },
+   {
+    "index": 71,
+    "target": "0x8003A904",
+    "row": "slus/konami_runtime_w_8003A904",
+    "symbol": "func_8003A904"
+   },
+   {
+    "index": 72,
+    "target": "0x8003A9B8",
+    "row": "slus/konami_runtime_w_8003A9B8",
+    "symbol": "func_8003A9B8"
+   },
+   {
+    "index": 73,
+    "target": "0x8003A9E4",
+    "row": "slus/konami_runtime_w_8003A9E4",
+    "symbol": "func_8003A9E4"
+   },
+   {
+    "index": 74,
+    "target": "0x8003AA34",
+    "row": "slus/konami_runtime_w_8003AA34",
+    "symbol": "func_8003AA34"
+   },
+   {
+    "index": 75,
+    "target": "0x8003AA84",
+    "row": "slus/konami_runtime_w_8003AA84",
+    "symbol": "func_8003AA84"
+   },
+   {
+    "index": 76,
+    "target": "0x80039D48",
+    "row": "slus/konami_runtime_w_80039D48",
+    "symbol": "func_80039D48"
+   },
+   {
+    "index": 77,
+    "target": "0x8003A10C",
+    "row": "slus/konami_runtime_w_8003A10C",
+    "symbol": "func_8003A10C"
+   },
+   {
+    "index": 78,
+    "target": "0x8003A374",
+    "row": "slus/konami_runtime_w_8003A374",
+    "symbol": "func_8003A374"
+   },
+   {
+    "index": 79,
+    "target": "0x8003A1A4",
+    "row": "slus/konami_runtime_w_8003A1A4",
+    "symbol": "func_8003A1A4"
+   },
+   {
+    "index": 80,
+    "target": "0x8003A3E8",
+    "row": "slus/konami_runtime_w_8003A3E8",
+    "symbol": "func_8003A3E8"
+   },
+   {
+    "index": 81,
+    "target": "0x800391B4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391B4"
+   },
+   {
+    "index": 82,
+    "target": "0x800391B4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391B4"
+   },
+   {
+    "index": 83,
+    "target": "0x80039814",
+    "row": "slus/konami_runtime_w_80039814",
+    "symbol": "func_80039814"
+   },
+   {
+    "index": 84,
+    "target": "0x80039ED8",
+    "row": "slus/konami_runtime_w_80039ED8",
+    "symbol": "func_80039ED8"
+   },
+   {
+    "index": 85,
+    "target": "0x80039EF4",
+    "row": "slus/konami_runtime_w_80039EF4",
+    "symbol": "func_80039EF4"
+   },
+   {
+    "index": 86,
+    "target": "0x80039A88",
+    "row": "slus/konami_runtime_w_80039A88",
+    "symbol": "func_80039A88"
+   },
+   {
+    "index": 87,
+    "target": "0x80039ACC",
+    "row": "slus/konami_runtime_w_80039ACC",
+    "symbol": "func_80039ACC"
+   },
+   {
+    "index": 88,
+    "target": "0x8003B470",
+    "row": "slus/konami_runtime_w_8003B470",
+    "symbol": "func_8003B470"
+   }
+  ]
+ },
+ {
+  "vram": "0x8006AC9C",
+  "file_offset": "0x3E49C",
+  "entries": 19,
+  "kind": "text",
+  "role": "town NPC name table (Shift-JIS fullwidth: Barry, Beldo, Okami, Barten, Wotta, Silver, Jorda, Dr.Hal, Tonka, Hush, Nadia, Coppe, NcsDad, Angel, Issac, Jacof, Etto, Romi, Shin)",
+  "targets": [
+   {
+    "index": 0,
+    "target": "0x8002D2D4",
+    "text": "\uff22\uff41\uff52\uff52\uff59"
+   },
+   {
+    "index": 1,
+    "target": "0x8002D2C8",
+    "text": "\uff22\uff45\uff4c\uff44\uff4f"
+   },
+   {
+    "index": 2,
+    "target": "0x8002D2BC",
+    "text": "\uff2f\uff4b\uff41\uff4d\uff49"
+   },
+   {
+    "index": 3,
+    "target": "0x8002D2AC",
+    "text": "\uff22\uff41\uff52\uff54\uff45\uff4e"
+   },
+   {
+    "index": 4,
+    "target": "0x8002D2A0",
+    "text": "\uff37\uff4f\uff54\uff54\uff41"
+   },
+   {
+    "index": 5,
+    "target": "0x8002D290",
+    "text": "\uff33\uff49\uff4c\uff56\uff45\uff52"
+   },
+   {
+    "index": 6,
+    "target": "0x8002D284",
+    "text": "\uff2a\uff4f\uff52\uff44\uff41"
+   },
+   {
+    "index": 7,
+    "target": "0x8002D274",
+    "text": "\uff24\uff52\uff0e\uff28\uff41\uff4c"
+   },
+   {
+    "index": 8,
+    "target": "0x8002D268",
+    "text": "\uff34\uff4f\uff4e\uff4b\uff41"
+   },
+   {
+    "index": 9,
+    "target": "0x8002D25C",
+    "text": "\uff28\uff55\uff53\uff48"
+   },
+   {
+    "index": 10,
+    "target": "0x8002D250",
+    "text": "\uff2e\uff41\uff44\uff49\uff41"
+   },
+   {
+    "index": 11,
+    "target": "0x8002D244",
+    "text": "\uff23\uff4f\uff50\uff50\uff45"
+   },
+   {
+    "index": 12,
+    "target": "0x8002D234",
+    "text": "\uff2e\uff43\uff53\uff24\uff41\uff44"
+   },
+   {
+    "index": 13,
+    "target": "0x8002D228",
+    "text": "\uff21\uff4e\uff47\uff45\uff4c"
+   },
+   {
+    "index": 14,
+    "target": "0x8002D21C",
+    "text": "\uff29\uff53\uff53\uff41\uff43"
+   },
+   {
+    "index": 15,
+    "target": "0x8002D210",
+    "text": "\uff2a\uff41\uff43\uff4f\uff46"
+   },
+   {
+    "index": 16,
+    "target": "0x8002D204",
+    "text": "\uff25\uff54\uff54\uff4f"
+   },
+   {
+    "index": 17,
+    "target": "0x8002D1F8",
+    "text": "\uff32\uff4f\uff4d\uff49"
+   },
+   {
+    "index": 18,
+    "target": "0x8002D1EC",
+    "text": "\uff33\uff48\uff49\uff4e"
+   }
+  ]
+ },
+ {
+  "vram": "0x8006AD74",
+  "file_offset": "0x3E574",
+  "entries": 12,
+  "kind": "text",
+  "role": "second NPC name table (Danser x4, Aunt, Horse x4, Shiela, Butler, Bunny2)",
+  "targets": [
+   {
+    "index": 0,
+    "target": "0x8002D0B4",
+    "text": "\uff24\uff41\uff4e\uff53\uff45\uff52"
+   },
+   {
+    "index": 1,
+    "target": "0x8002D0B4",
+    "text": "\uff24\uff41\uff4e\uff53\uff45\uff52"
+   },
+   {
+    "index": 2,
+    "target": "0x8002D0B4",
+    "text": "\uff24\uff41\uff4e\uff53\uff45\uff52"
+   },
+   {
+    "index": 3,
+    "target": "0x8002D0B4",
+    "text": "\uff24\uff41\uff4e\uff53\uff45\uff52"
+   },
+   {
+    "index": 4,
+    "target": "0x8002D188",
+    "text": "\uff21\uff55\uff4e\uff54"
+   },
+   {
+    "index": 5,
+    "target": "0x8002D0A8",
+    "text": "\uff28\uff4f\uff52\uff53\uff45"
+   },
+   {
+    "index": 6,
+    "target": "0x8002D0A8",
+    "text": "\uff28\uff4f\uff52\uff53\uff45"
+   },
+   {
+    "index": 7,
+    "target": "0x8002D0A8",
+    "text": "\uff28\uff4f\uff52\uff53\uff45"
+   },
+   {
+    "index": 8,
+    "target": "0x8002D0A8",
+    "text": "\uff28\uff4f\uff52\uff53\uff45"
+   },
+   {
+    "index": 9,
+    "target": "0x8002D098",
+    "text": "\uff33\uff48\uff49\uff45\uff4c\uff41"
+   },
+   {
+    "index": 10,
+    "target": "0x8002D088",
+    "text": "\uff22\uff55\uff54\uff4c\uff45\uff52"
+   },
+   {
+    "index": 11,
+    "target": "0x8002D078",
+    "text": "\uff22\uff55\uff4e\uff4e\uff59\uff12"
+   }
+  ]
+ },
+ {
+  "vram": "0x8006B01C",
+  "file_offset": "0x3E81C",
+  "entries": 33,
+  "kind": "text",
+  "role": "monster (familiar) name table in monster-id order (ifrit, flame, grineu, griff, saber, snow, ashra, aran, battne, nyuel, death, clown, univer, unicon, metal, block, pulun, troll, noise, u-boat, baloon, dream, blume, volcan, cyclo, maneva, barong, picket, kraken, weadog, steal, viper, naplas): the id space initialStatsTable (24-byte records) is indexed by",
+  "targets": [
+   {
+    "index": 0,
+    "target": "0x8002D560",
+    "text": "\uff49\uff46\uff52\uff49\uff54"
+   },
+   {
+    "index": 1,
+    "target": "0x8002D554",
+    "text": "\uff46\uff4c\uff41\uff4d\uff45"
+   },
+   {
+    "index": 2,
+    "target": "0x8002D544",
+    "text": "\uff47\uff52\uff49\uff4e\uff45\uff55"
+   },
+   {
+    "index": 3,
+    "target": "0x8002D538",
+    "text": "\uff47\uff52\uff49\uff46\uff46"
+   },
+   {
+    "index": 4,
+    "target": "0x8002D52C",
+    "text": "\uff53\uff41\uff42\uff45\uff52"
+   },
+   {
+    "index": 5,
+    "target": "0x8002D520",
+    "text": "\uff53\uff4e\uff4f\uff57"
+   },
+   {
+    "index": 6,
+    "target": "0x8002D514",
+    "text": "\uff41\uff53\uff48\uff52\uff41"
+   },
+   {
+    "index": 7,
+    "target": "0x8002D508",
+    "text": "\uff41\uff52\uff41\uff4e"
+   },
+   {
+    "index": 8,
+    "target": "0x8002D4F8",
+    "text": "\uff42\uff41\uff54\uff54\uff4e\uff45"
+   },
+   {
+    "index": 9,
+    "target": "0x8002D4EC",
+    "text": "\uff4e\uff59\uff55\uff45\uff4c"
+   },
+   {
+    "index": 10,
+    "target": "0x8002D4E0",
+    "text": "\uff44\uff45\uff41\uff54\uff48"
+   },
+   {
+    "index": 11,
+    "target": "0x8002D4D4",
+    "text": "\uff43\uff4c\uff4f\uff57\uff4e"
+   },
+   {
+    "index": 12,
+    "target": "0x8002D4C4",
+    "text": "\uff55\uff4e\uff49\uff56\uff45\uff52"
+   },
+   {
+    "index": 13,
+    "target": "0x8002D4B4",
+    "text": "\uff55\uff4e\uff49\uff43\uff4f\uff4e"
+   },
+   {
+    "index": 14,
+    "target": "0x8002D4A8",
+    "text": "\uff4d\uff45\uff54\uff41\uff4c"
+   },
+   {
+    "index": 15,
+    "target": "0x8002D49C",
+    "text": "\uff42\uff4c\uff4f\uff43\uff4b"
+   },
+   {
+    "index": 16,
+    "target": "0x8002D490",
+    "text": "\uff50\uff55\uff4c\uff55\uff4e"
+   },
+   {
+    "index": 17,
+    "target": "0x8002D484",
+    "text": "\uff54\uff52\uff4f\uff4c\uff4c"
+   },
+   {
+    "index": 18,
+    "target": "0x8002D478",
+    "text": "\uff4e\uff4f\uff49\uff53\uff45"
+   },
+   {
+    "index": 19,
+    "target": "0x8002D468",
+    "text": "\uff55\u2212\uff42\uff4f\uff41\uff54"
+   },
+   {
+    "index": 20,
+    "target": "0x8002D458",
+    "text": "\uff42\uff41\uff4c\uff4f\uff4f\uff4e"
+   },
+   {
+    "index": 21,
+    "target": "0x8002D44C",
+    "text": "\uff44\uff52\uff45\uff41\uff4d"
+   },
+   {
+    "index": 22,
+    "target": "0x8002D440",
+    "text": "\uff42\uff4c\uff55\uff4d\uff45"
+   },
+   {
+    "index": 23,
+    "target": "0x8002D430",
+    "text": "\uff56\uff4f\uff4c\uff43\uff41\uff4e"
+   },
+   {
+    "index": 24,
+    "target": "0x8002D424",
+    "text": "\uff43\uff59\uff43\uff4c\uff4f"
+   },
+   {
+    "index": 25,
+    "target": "0x8002D414",
+    "text": "\uff4d\uff41\uff4e\uff45\uff56\uff41"
+   },
+   {
+    "index": 26,
+    "target": "0x8002D404",
+    "text": "\uff42\uff41\uff52\uff4f\uff4e\uff47"
+   },
+   {
+    "index": 27,
+    "target": "0x8002D3F4",
+    "text": "\uff50\uff49\uff43\uff4b\uff45\uff54"
+   },
+   {
+    "index": 28,
+    "target": "0x8002D3E4",
+    "text": "\uff4b\uff52\uff41\uff4b\uff45\uff4e"
+   },
+   {
+    "index": 29,
+    "target": "0x8002D3D4",
+    "text": "\uff57\uff45\uff41\uff44\uff4f\uff47"
+   },
+   {
+    "index": 30,
+    "target": "0x8002D3C8",
+    "text": "\uff53\uff54\uff45\uff41\uff4c"
+   },
+   {
+    "index": 31,
+    "target": "0x8002D3BC",
+    "text": "\uff56\uff49\uff50\uff45\uff52"
+   },
+   {
+    "index": 32,
+    "target": "0x8002D3AC",
+    "text": "\uff4e\uff41\uff50\uff4c\uff41\uff53"
+   }
+  ]
+ },
+ {
+  "vram": "0x8007AED8",
+  "file_offset": "0x4E6D8",
+  "entries": 40,
+  "kind": "text",
+  "role": "libcd command-name table (gCdCommandStringTable in config/slus_006.14.symbols.txt): CdlSync, CdlNop, ... DiskError",
+  "targets": [
+   {
+    "index": 0,
+    "target": "0x80033474",
+    "text": "CdlSync"
+   },
+   {
+    "index": 1,
+    "target": "0x8003346C",
+    "text": "CdlNop"
+   },
+   {
+    "index": 2,
+    "target": "0x80033460",
+    "text": "CdlSetloc"
+   },
+   {
+    "index": 3,
+    "target": "0x80033458",
+    "text": "CdlPlay"
+   },
+   {
+    "index": 4,
+    "target": "0x8003344C",
+    "text": "CdlForward"
+   },
+   {
+    "index": 5,
+    "target": "0x80033440",
+    "text": "CdlBackward"
+   },
+   {
+    "index": 6,
+    "target": "0x80033434",
+    "text": "CdlReadN"
+   },
+   {
+    "index": 7,
+    "target": "0x80033428",
+    "text": "CdlStandby"
+   },
+   {
+    "index": 8,
+    "target": "0x80033420",
+    "text": "CdlStop"
+   },
+   {
+    "index": 9,
+    "target": "0x80033414",
+    "text": "CdlPause"
+   },
+   {
+    "index": 10,
+    "target": "0x80033408",
+    "text": "CdlReset"
+   },
+   {
+    "index": 11,
+    "target": "0x80033400",
+    "text": "CdlMute"
+   },
+   {
+    "index": 12,
+    "target": "0x800333F4",
+    "text": "CdlDemute"
+   },
+   {
+    "index": 13,
+    "target": "0x800333E4",
+    "text": "CdlSetfilter"
+   },
+   {
+    "index": 14,
+    "target": "0x800333D8",
+    "text": "CdlSetmode"
+   },
+   {
+    "index": 15,
+    "target": "0x800333D4",
+    "text": "?"
+   },
+   {
+    "index": 16,
+    "target": "0x800333C8",
+    "text": "CdlGetlocL"
+   },
+   {
+    "index": 17,
+    "target": "0x800333BC",
+    "text": "CdlGetlocP"
+   },
+   {
+    "index": 18,
+    "target": "0x800333D4",
+    "text": "?"
+   },
+   {
+    "index": 19,
+    "target": "0x800333B0",
+    "text": "CdlGetTN"
+   },
+   {
+    "index": 20,
+    "target": "0x800333A4",
+    "text": "CdlGetTD"
+   },
+   {
+    "index": 21,
+    "target": "0x80033398",
+    "text": "CdlSeekL"
+   },
+   {
+    "index": 22,
+    "target": "0x8003338C",
+    "text": "CdlSeekP"
+   },
+   {
+    "index": 23,
+    "target": "0x800333D4",
+    "text": "?"
+   },
+   {
+    "index": 24,
+    "target": "0x800333D4",
+    "text": "?"
+   },
+   {
+    "index": 25,
+    "target": "0x800333D4",
+    "text": "?"
+   },
+   {
+    "index": 26,
+    "target": "0x800333D4",
+    "text": "?"
+   },
+   {
+    "index": 27,
+    "target": "0x80033380",
+    "text": "CdlReadS"
+   },
+   {
+    "index": 28,
+    "target": "0x800333D4",
+    "text": "?"
+   },
+   {
+    "index": 29,
+    "target": "0x800333D4",
+    "text": "?"
+   },
+   {
+    "index": 30,
+    "target": "0x800333D4",
+    "text": "?"
+   },
+   {
+    "index": 31,
+    "target": "0x800333D4",
+    "text": "?"
+   },
+   {
+    "index": 32,
+    "target": "0x800334B4",
+    "text": "NoIntr"
+   },
+   {
+    "index": 33,
+    "target": "0x800334A8",
+    "text": "DataReady"
+   },
+   {
+    "index": 34,
+    "target": "0x8003349C",
+    "text": "Complete"
+   },
+   {
+    "index": 35,
+    "target": "0x80033490",
+    "text": "Acknowledge"
+   },
+   {
+    "index": 36,
+    "target": "0x80033488",
+    "text": "DataEnd"
+   },
+   {
+    "index": 37,
+    "target": "0x8003347C",
+    "text": "DiskError"
+   },
+   {
+    "index": 38,
+    "target": "0x800333D4",
+    "text": "?"
+   },
+   {
+    "index": 39,
+    "target": "0x800333D4",
+    "text": "?"
+   }
+  ]
+ },
+ {
+  "vram": "0x8008077C",
+  "file_offset": "0x53F7C",
+  "entries": 16,
+  "kind": "unknown",
+  "role": "resident pointer table (targets not yet classified)",
+  "targets": [
+   {
+    "index": 0,
+    "target": "0x800336FC",
+    "text": null
+   },
+   {
+    "index": 1,
+    "target": "0x800690AC",
+    "text": null
+   },
+   {
+    "index": 2,
+    "target": "0x800690D0",
+    "text": null
+   },
+   {
+    "index": 3,
+    "target": "0x80068888",
+    "text": null
+   },
+   {
+    "index": 4,
+    "target": "0x80068FA4",
+    "text": null
+   },
+   {
+    "index": 5,
+    "target": "0x80068FE0",
+    "text": null
+   },
+   {
+    "index": 6,
+    "target": "0x80069030",
+    "text": null
+   },
+   {
+    "index": 7,
+    "target": "0x80068D20",
+    "text": null
+   },
+   {
+    "index": 8,
+    "target": "0x80068AE4",
+    "text": null
+   },
+   {
+    "index": 9,
+    "target": "0x800693B0",
+    "text": null
+   },
+   {
+    "index": 10,
+    "target": "0x80068FCC",
+    "text": null
+   },
+   {
+    "index": 11,
+    "target": "0x800687A0",
+    "text": null
+   },
+   {
+    "index": 12,
+    "target": "0x8006907C",
+    "text": null
+   },
+   {
+    "index": 13,
+    "target": "0x8006969C",
+    "text": null
+   },
+   {
+    "index": 14,
+    "target": "0x80068788",
+    "text": null
+   },
+   {
+    "index": 15,
+    "target": "0x800697F8",
+    "text": null
+   }
+  ]
+ }
+]

@@ -1,0 +1,52 @@
+{
+  "schema": "overlay-module-native-v4",
+  "kind": "overlay_module_placement",
+  "module": "dungeon_ovl_18c4828",
+  "members": [
+    "dungeon/func_818A4828",
+    "dungeon/func_818A48C4",
+    "dungeon/func_818A4948",
+    "dungeon/func_818A4A30",
+    "dungeon/func_818A4A64",
+    "dungeon/func_818A4B40",
+    "dungeon/func_818A4CA0",
+    "dungeon/func_818A4E74",
+    "dungeon/func_818A4ED0"
+  ],
+  "at": "2026-10-20T00:37:11Z",
+  "reviewer": "orchestrator-r120",
+  "fingerprint": {
+    "schema": "overlay-module-scoped-v2",
+    "sha256": "7c2f255188ddbc5dfa72f88c6ee4ee4d5383304e56726c2df953a00556a95d66",
+    "module": {
+      "sha256": "c7ebb24fadc220b8d4006f7c539dd2addcfdc074574ed795971ac58870ca9bfb"
+    },
+    "windows": {
+      "config/overlays/dungeon_deep_18c4.overlay.yaml": {
+        "sha256": "1dd1ce2df0753886ca7bb4dc45774302830dda465937f9fa772908888a64cbc0"
+      }
+    },
+    "required_windows": [
+      "config/overlays/dungeon_deep_18c4.overlay.yaml"
+    ]
+  },
+  "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_18c4828/module",
+  "receipt_sha256": "06ac47cf86ce30131c6febf599e3d4206fbe71f0046f0be0dc483a5f24069e20",
+  "windows": [
+    {
+      "config": "config/overlays/dungeon_deep_18c4.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 25968640,
+      "file_end": 25972736,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_18c4828/windows/dungeon_deep_18c4",
+      "artifacts": {
+        "gate.log": "2d45a3c7d6eff127dbef9e7afc6522f3c082d2833a7f8f91e58b4384a2676e1e",
+        "window.bin": "9c797cac1cb3e5996dc79175a76b6bab3adc3d30fc442e0a0fde9c27adfef5ef",
+        "manifest.json": "f6f360a9b8faddb2f955d8214221ce4e91871e91700c1098b502d3682aaae9d8",
+        "projection.json": "8ff8db10faad9fe10447896b453205d6372beb7c856b605e5d394bc4eb05a852",
+        "module/receipt.json": "06ac47cf86ce30131c6febf599e3d4206fbe71f0046f0be0dc483a5f24069e20"
+      },
+      "digest": "1dd1ce2df0753886ca7bb4dc45774302830dda465937f9fa772908888a64cbc0"
+    }
+  ]
+}

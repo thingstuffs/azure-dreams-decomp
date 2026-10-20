@@ -1,0 +1,101 @@
+{
+  "schema": "overlay-module-native-v4",
+  "kind": "overlay_module_placement",
+  "module": "dungeon_ovl_cc5000",
+  "members": [
+    "dungeon/func_80CA5000",
+    "dungeon/func_80CA5120",
+    "dungeon/func_80CA525C",
+    "dungeon/func_80CA5424",
+    "dungeon/func_80CA582C",
+    "dungeon/func_80CA5D90",
+    "dungeon/func_80CA6010",
+    "dungeon/func_80CA6758",
+    "dungeon/func_80CA67BC",
+    "dungeon/func_80CA6980",
+    "dungeon/func_80CA6A98",
+    "dungeon/func_80CA6BDC",
+    "dungeon/func_80CA6C58",
+    "dungeon/func_80CA7144",
+    "dungeon/func_80CA71A8",
+    "dungeon/func_80CA73CC",
+    "dungeon/func_80CA78E0",
+    "dungeon/func_80CA7B04",
+    "dungeon/func_80CA7B24",
+    "dungeon/func_80CA7B44",
+    "dungeon/func_80CA7B64",
+    "dungeon/func_80CA7B9C",
+    "dungeon/func_80CA7F2C",
+    "dungeon/func_80CA8238",
+    "dungeon/func_80CA8300",
+    "dungeon/func_80CA8364",
+    "dungeon/func_80CA839C",
+    "dungeon/func_80CA83D4",
+    "dungeon/func_80CA840C",
+    "dungeon/func_80CA84FC",
+    "dungeon/func_80CA8640",
+    "dungeon/func_80CA8B20",
+    "dungeon/func_80CA8B74",
+    "dungeon/func_80CA8F24",
+    "dungeon/func_80CA933C",
+    "dungeon/func_80CA93E8",
+    "dungeon/func_80CA9514",
+    "dungeon/func_80CA9A3C",
+    "dungeon/func_80CA9A74"
+  ],
+  "at": "2026-10-20T00:31:28Z",
+  "reviewer": "orchestrator-r120",
+  "fingerprint": {
+    "schema": "overlay-module-scoped-v2",
+    "sha256": "1b092ffcbe4e21d3a20dd3ea9f2fc710f840dad90c37ee4790f744430578bde0",
+    "module": {
+      "sha256": "9e3ed05c17444c41d55e11a07d00bde416f68618d74e97e87b1cbca8d0d76cf7"
+    },
+    "windows": {
+      "config/overlays/dungeon_deep_cc5120_truebase_8015e920.overlay.yaml": {
+        "sha256": "c1673ddc82ffbc7ef502036d1de92bc03d2e1abe6c6259129b6e2bb97e47bc62"
+      },
+      "config/overlays/dungeon_deep_t8b_0cc5.overlay.yaml": {
+        "sha256": "9169498b3e578c2ff293e9fa67e5b8c1aa8551a2cc9997a2daded4d9cac5e0fb"
+      }
+    },
+    "required_windows": [
+      "config/overlays/dungeon_deep_cc5120_truebase_8015e920.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_0cc5.overlay.yaml"
+    ]
+  },
+  "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_cc5000/module",
+  "receipt_sha256": "b04f8b8071555674b48997b813168a5411b077978af6020d5b49f4932363e9df",
+  "windows": [
+    {
+      "config": "config/overlays/dungeon_deep_cc5120_truebase_8015e920.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 13389824,
+      "file_end": 13408940,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_cc5000/windows/dungeon_deep_cc5120_truebase_8015e920",
+      "artifacts": {
+        "gate.log": "03aee7933e73ccb92a78e53d0732f09d4161703f6edf07fb48b36591e95488e3",
+        "window.bin": "966f3c2cef0df75b430931ac8cf08d7774a45118af9e34a1b0029ed389143b33",
+        "manifest.json": "4d1ccb30d80838dfbbf0afe04b6c1e8db691ae7ea7b6ff235c28f1ce193df168",
+        "projection.json": "ac19fab9c0cd03fd4f2c4c9c633bc7abd45d3530487f653f937a2b45b77d2b52",
+        "module/receipt.json": "b04f8b8071555674b48997b813168a5411b077978af6020d5b49f4932363e9df"
+      },
+      "digest": "c1673ddc82ffbc7ef502036d1de92bc03d2e1abe6c6259129b6e2bb97e47bc62"
+    },
+    {
+      "config": "config/overlays/dungeon_deep_t8b_0cc5.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 13389824,
+      "file_end": 13408940,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_cc5000/windows/dungeon_deep_t8b_0cc5",
+      "artifacts": {
+        "gate.log": "908d674298fdaef433f93b1efc127e140503ed8dd24e7eede4a08b1fa46c5630",
+        "window.bin": "966f3c2cef0df75b430931ac8cf08d7774a45118af9e34a1b0029ed389143b33",
+        "manifest.json": "c5f3510dba600c25cd4dda09a4c87191d17e9e65493d959d0de0c61aadac97fd",
+        "projection.json": "b6ec5f9f21a30b2855b0ce3e6a7ce58bbc9f6977dcac65b04ff0e02fd4bd6916",
+        "module/receipt.json": "b04f8b8071555674b48997b813168a5411b077978af6020d5b49f4932363e9df"
+      },
+      "digest": "9169498b3e578c2ff293e9fa67e5b8c1aa8551a2cc9997a2daded4d9cac5e0fb"
+    }
+  ]
+}

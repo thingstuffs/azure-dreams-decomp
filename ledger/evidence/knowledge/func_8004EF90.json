@@ -1,0 +1,18 @@
+{
+ "func": "func_8004EF90",
+ "doc": "Initializes an object at a0: sets a type/flag byte to 0xB0|2, copies three global values (D_80071660/D_80071664/D_80071668) into fields at offsets 4/8/0xC, then initializes a nested sub-structure at offset 0x18 (type byte 0x81|0x80, a u16 field to 0x20, another u16 to 0), and returns a pointer to offset 0xC within that sub-structure (used by callers as an embedded list/anchor node). Called from func_8004F2BC as one of several per-subsystem initializers dispatched at fixed offsets from a larger object.",
+ "globals": [
+  {
+   "name": "D_80071660",
+   "decl": "extern s32 D_80071660[4]; // single-use scalar load (D_80071660[0]) copied into hdr->unk8; declared as an array only to force %hi/%lo codegen (size>8)"
+  },
+  {
+   "name": "D_80071664",
+   "decl": "extern volatile u32 D_80071664[4]; // single-use scalar load (D_80071664[0]) copied into hdr->unkC; MUST be volatile to reproduce retail's scheduling (splits the %hi computation, hoisted early into an unrelated load's delay slot, from the %lo-folded load which stays at its later point of use)"
+  },
+  {
+   "name": "D_80071668",
+   "decl": "extern s32 D_80071668[4]; // single-use scalar load (D_80071668[0]) copied into hdr->unk4; array only to force %hi/%lo"
+  }
+ ]
+}

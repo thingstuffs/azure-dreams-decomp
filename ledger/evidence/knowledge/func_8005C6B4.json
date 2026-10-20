@@ -1,0 +1,13 @@
+{
+ "func": "func_8005C6B4",
+ "doc": "Builds a local 0x40-byte effect-request struct on the stack: flags = D_80073740[(s16)a0] (word-array lookup indexed by the low 16 bits of a0, sign-extended), count = 3 (constant), and two packed halfwords at offsets 0x8/0xA computed as (a1 & 0x7F) << 7 and (a2 & 0x7F) << 7. Dispatches the struct via func_8005F134(&st) and always returns 0.",
+ "globals": [
+  {
+   "name": "D_80073740",
+   "decl": "extern s32 D_80073740[128]; /* array of 32-bit words indexed by a small signed 16-bit id (idx = (s16)a0); used as an effect/flags lookup table shared by func_8005C668, func_8005C710, func_8005C130, func_8005BBFC, func_8005BAB0 and others nearby */"
+  }
+ ],
+ "calls": [
+  "extern void func_8005F134(void *a0); -- takes pointer to a 0x40-byte request struct (flags word @0x0, count word @0x4, halfword @0x8, halfword @0xA, rest unused by this caller)"
+ ]
+}

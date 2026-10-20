@@ -1,0 +1,18 @@
+{
+ "func": "func_80047EEC",
+ "doc": "Registers the entity slot pointed to by a1 into three consecutive D_80083D08 index slots (idx, idx+1, idx+2 where idx = func_80047C60(a1), i.e. a1's index within its owning D_800FC000 array), storing the entry pointer and the entity type id (a0, truncated to s16) into each slot. Then kicks off asynchronous loading via func_80047AB0(a1, idx+5, (idx*3+0x1D2)*64, 0xD, &D_8014A000).",
+ "globals": [
+  {
+   "name": "D_80083D08",
+   "decl": "typedef struct { void *entry; u16 pad4; s16 id; } S_80047EEC_D8; extern S_80047EEC_D8 D_80083D08[6];  (matches S_80083D08 struct used elsewhere: s32 flag/pointer field at offset 0, u16 at offset 4, s16 at offset 6)"
+  },
+  {
+   "name": "D_8014A000",
+   "decl": "extern u8 D_8014A000[]; // address-of only, passed as opaque pointer arg"
+  }
+ ],
+ "calls": [
+  "func_80047C60(void *a0) -> s32  [already matched, src/code.c]",
+  "func_80047AB0(void *a0, s32 a1, s32 a2, s32 a3, void *a4) -> void*  [nonmatching; caller passes a1 as plain int/s32 -- callee masks it itself via 'andi $s3,$a1,0xFFFF' at entry (see asm/nonmatchings/code/func_80047AB0.s), so no caller-side truncation is emitted]"
+ ]
+}

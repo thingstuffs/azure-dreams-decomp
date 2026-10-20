@@ -1,0 +1,8 @@
+{
+ "func": "func_80041E28",
+ "doc": "Copy the first 0x13 words from src into dst via func_8003DB6C, set dst's field at offset 0x54 from src's field at offset 0x50, then finish initializing dst via func_80041E70.",
+ "calls": [
+  "func_8003DB6C(int *a0, int *a1, int a2) - already matched, defined in src/code.c",
+  "func_80041E70(S_80041E28_Dst *a0) - void, assumed struct-pointer arg matching this function's dst layout"
+ ]
+}

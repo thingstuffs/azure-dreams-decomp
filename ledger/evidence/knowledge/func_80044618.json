@@ -1,0 +1,14 @@
+{
+ "func": "func_80044618",
+ "doc": "Checks the just-polled controller/id value (VSync(1)'s return, shifted right 8 bits) against a cached id (D_80080AFC[1], a u16 at D_80080AFC+2) for the given pad slot (arg0==2 uses a 9-bit id mask 0x1FF; any other arg0 uses an 8-bit mask 0xFF). If the freshly-masked id equals the cache, returns 2 immediately (no change). Otherwise it recomputes the masked id, stores it into the cache slot, and returns whatever func_800542BC() returns (a queue-kick/processor call).",
+ "globals": [
+  {
+   "decl": "extern u16 D_80080AFC[2]; /* only index [1] (offset +2) used; sibling func_8004437C already declares D_80080AFC as a lone extern s16 scalar for index [0] in its own TU, which is fine (separate TU) */",
+   "name": "D_80080AFC"
+  }
+ ],
+ "calls": [
+  "VSync(s32 mode) -> s32  (BIOS-style sync/poll call; only its return value's byte layout is used)",
+  "func_800542BC(void) -> s32  (queue/processor kick; its return value IS this function's return value on the update path)"
+ ]
+}

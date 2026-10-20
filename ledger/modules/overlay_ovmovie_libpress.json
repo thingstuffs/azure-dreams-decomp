@@ -1,0 +1,60 @@
+{
+  "schema": "overlay-module-native-v4",
+  "kind": "overlay_module_placement",
+  "module": "ovmovie_libpress",
+  "members": [
+    "ovmovie/func_80040ED8",
+    "ovmovie/func_80040F10",
+    "ovmovie/func_80040F9C",
+    "ovmovie/func_80041038",
+    "ovmovie/func_80041044",
+    "ovmovie/func_800410C0",
+    "ovmovie/func_800410E0",
+    "ovmovie/func_8004111C",
+    "ovmovie/func_80041158",
+    "ovmovie/func_8004117C",
+    "ovmovie/func_800411A0",
+    "ovmovie/func_8004129C",
+    "ovmovie/func_80041330",
+    "ovmovie/func_800413C0",
+    "ovmovie/func_80041458",
+    "ovmovie/func_800414F0",
+    "ovmovie/func_80041508"
+  ],
+  "at": "2026-10-20T00:36:18Z",
+  "reviewer": "orchestrator-r120",
+  "fingerprint": {
+    "schema": "overlay-module-scoped-v2",
+    "sha256": "edc16b8064906445b93d7e0753268e26e22629ab08e480bc4c6d779d3c3627b1",
+    "module": {
+      "sha256": "401dfa0ec5a11a0de817f828af800bbe0980bfc6da25ffaef8da704dd81a531f"
+    },
+    "windows": {
+      "config/overlays/ovmovie.overlay.yaml": {
+        "sha256": "164c4429d2865313ea01f82fcbf07b1939fbd02b8ce21e563fce161ad100254d"
+      }
+    },
+    "required_windows": [
+      "config/overlays/ovmovie.overlay.yaml"
+    ]
+  },
+  "proof_dir": "build_ovl_gate/work/module_proofs/ovmovie_libpress/module",
+  "receipt_sha256": "4c41439a6e01b1e77256528abefa9b04d7efe1519289412edbe9ac657a0bc4cc",
+  "windows": [
+    {
+      "config": "config/overlays/ovmovie.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 0,
+      "file_end": 131072,
+      "proof_dir": "build_ovl_gate/work/module_proofs/ovmovie_libpress/windows/ovmovie",
+      "artifacts": {
+        "gate.log": "fdf7f0ebbb6e412664a7c4ca37e78c89e8692a2af1e395bd460e94d36ff815b8",
+        "window.bin": "3728150db3cd6137be49142b923d7e8a39bd3ce497451bbc592a169027ae70f4",
+        "manifest.json": "f1df071e75d8df638993a58a9c541cf5acdcfbe6902cad7caa72738fac1e4704",
+        "projection.json": "41a74d412cfd679cfca912cc8e7d25b654e818ed1e49c3245a1c7b61243f87a9",
+        "module/receipt.json": "4c41439a6e01b1e77256528abefa9b04d7efe1519289412edbe9ac657a0bc4cc"
+      },
+      "digest": "164c4429d2865313ea01f82fcbf07b1939fbd02b8ce21e563fce161ad100254d"
+    }
+  ]
+}

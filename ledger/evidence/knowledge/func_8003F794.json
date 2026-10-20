@@ -1,0 +1,10 @@
+{
+ "func": "func_8003F794",
+ "doc": "Scans D_80083120's 8 fixed-size slots from index 7 down to 0, looking for the first slot with field_0 == 0 (free). Fills the first free slot found with {field_0=a0, field_2=0, field_4=a1, field_6=0} and returns its index; returns -1 if all 8 slots are occupied.",
+ "globals": [
+  {
+   "name": "D_80083120",
+   "decl": "extern S_80083120 D_80083120[8]; // typedef struct S_80083120 { s16 field_0; s16 field_2; s16 field_4; s16 field_6; } S_80083120; -- canonical 4x-s16, 8-byte-stride, 8-element dispatch/slot table, matches the layout already established by sibling functions func_80041B98/func_80041C64/func_80043DB8/func_80043E60 (field_0 used as the 'occupied' flag, indexed by a running s16 index elsewhere)."
+  }
+ ]
+}

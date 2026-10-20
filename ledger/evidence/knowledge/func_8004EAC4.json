@@ -1,0 +1,8 @@
+{
+ "func": "func_8004EAC4",
+ "doc": "Computes dest = arg0 + arg2*2 (byte offset), first calls func_8004E9EC(arg0, arg2) to get a flag, then strncpy(dest, arg1, 2), and if the flag was nonzero, null-terminates at dest[2]. Returns dest.",
+ "calls": [
+  "func_8004E9EC(arg0, arg2) -- signature assumed: s32 func_8004E9EC(u8 *arg0, s32 arg1); called with (this func's arg0, this func's arg2) before arg2 is doubled",
+  "strncpy(dest, arg1, 2) -- standard libc strncpy(char*, const char*, u32)"
+ ]
+}

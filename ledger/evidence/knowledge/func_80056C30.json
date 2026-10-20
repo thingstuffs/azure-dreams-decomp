@@ -1,0 +1,27 @@
+{
+ "func": "func_80056C30",
+ "doc": "Re-init hook: calls func_80056A08() to reset global state, then for every active slot index < D_80073734[0] resets its D_80085458[i] entry (f00=i, f1a=0, f18=0x40, f70=0x40, f74=0x40), re-registers its D_80073740[i] request via func_80056DB4(i), OR-accumulates the request flags into a local, and flushes each with func_8005E97C(0, tmp). After the loop it re-initialises a single D_80085014 request record (fields f0c/f04/f18/f1c/f14/f20/f24/f08/f94/f50) and flushes the accumulated OR'd flags with func_8005E97C(0, acc).",
+ "globals": [
+  {
+   "name": "D_80073734",
+   "decl": "extern s32 D_80073734[4]; // loop bound at [0], same decl as src/w_80056A08.c"
+  },
+  {
+   "name": "D_80073740",
+   "decl": "extern s32 D_80073740[64]; // per-slot request value, indexed [i]"
+  },
+  {
+   "name": "D_80085458",
+   "decl": "extern S_85458 D_80085458[64]; struct stride 0x78, fields used here: f00 (s16 @0x00)=i, f1a (s16 @0x1a)=0, f18 (s16 @0x18)=0x40, f70 (s32 @0x70)=0x40, f74 (s32 @0x74)=0x40 -- identical layout to S_80085458 in src/w_80056A08.c"
+  },
+  {
+   "name": "D_80085014",
+   "decl": "extern struct S_85014 D_80085014; single instance == &D_80084960[11] (same family as D_80084960[16] in src/w_80056A08.c, struct size 0x9C). Fields touched: f04(s32@0x04)=0x40, f08(s32@0x08)=0, f0c(s32@0x0c)=0x7F, f14(s32@0x14)=0x7F, f18(s32@0x18)=0, f1c(s32@0x1c)=0x40, f20(s32@0x20)=0x7F, f24(s32@0x24)=0x7F, f50(s16@0x50)=0, f94(s32@0x94)=0"
+  }
+ ],
+ "calls": [
+  "func_80056A08(void) -> matched gcc 2.7.2-cdk, src/w_80056A08.c",
+  "func_80056DB4(s32 arg0) -> matched gcc 2.7.2-cdk, src/w_80056DB4.c",
+  "func_8005E97C(s32 arg0, s32 arg1) -> library-resolved callee (undefined_funcs.txt), no C body needed"
+ ]
+}

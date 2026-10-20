@@ -1,0 +1,14 @@
+{
+ "func": "func_80055C50",
+ "doc": "Clears availability bit (16+n) of D_800847D0.flags1 for channel n and notifies the channel-release path (func_8005AC68). If n==0 and status bit 0x100 is currently set, it first fires a stop-note event (func_800553D4(0x71)) and resets D_800847D0.field26 to -1.",
+ "globals": [
+  {
+   "name": "D_800847D0",
+   "decl": "extern S_800847D0 D_800847D0; /* canonical status-block struct, >8B (size 0x34): flags1@0x00 (u32 bitmask), flags2@0x04, field8/fieldC/field10/field14@0x08/0x0C/0x10/0x14 (u32), field18@0x18 (u32), pad1C[2], field1E/field20/field22 (s16)@0x1E/0x20/0x22, pad24[2], field26 (s16)@0x26, field28 (u8)@0x28, pad29[7], field30..33 (s8)@0x30-0x33. Already established in w_800540A8.c/w_80054C58.c/w_8005405C.c/w_800559B4.c/w_800552C8.c -- this function only touches flags1 and field26."
+  }
+ ],
+ "calls": [
+  "func_800553D4(s32 a0) -- extern void func_800553D4(s32 a0); (arg setup only, addiu a0,zero,0x71)",
+  "func_8005AC68(s16 a0) -- ALREADY-MATCHED callee (gcc 2.7.2-cdk), signature extern void func_8005AC68(s16 a0); called with truncated channel id"
+ ]
+}

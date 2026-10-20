@@ -1,0 +1,9 @@
+{
+ "func": "func_8004E928",
+ "doc": "Allocates a 0x100-byte buffer via func_8004B404 and fills it by parsing string a0 via func_8004E298 (passing a1 through), unless a0 is a blank/empty string (per func_8004E8D8) or the allocation fails. Returns the buffer pointer, or NULL/0 on either failure path.",
+ "calls": [
+  "func_8004E8D8(char *a0) -> int  [unmatched sibling, INCLUDE_ASM'd in code.c]",
+  "func_8004B404(...) -> void*  [matched gcc 2.8.1, src/code7.c as void func_8004B404(int,int,int,int); called here through a K&R/unspecified-args extern decl in THIS TU so only $a0 is set, and its real (undeclared-void) return value is captured as a pointer]",
+  "func_8004E298(void *a0, char *a1, int a2) -> void  [unmatched sibling, INCLUDE_ASM'd in code.c]"
+ ]
+}

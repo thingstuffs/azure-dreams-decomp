@@ -1,0 +1,8 @@
+{
+ "func": "func_800511B4",
+ "doc": "Allocates a new entity node via func_8003FC64(0). On success, links the new node's sub-object slot (offset 0x20) to point back at a0, clears bit 0x2000 in both the new node's and a0's flags word (offset 0x1E), sets the new node's self-pointer (offset 0x24) and clears its byte flag (offset 0x2C) via an explicit intermediate pointer to the sub-object, and installs func_80051164 as the new node's callback (offset 0x10). Returns the new node, or NULL if allocation failed.",
+ "calls": [
+  "func_8003FC64(s32 a0) -> void* : called as func_8003FC64(0)",
+  "func_80051164(void *a0) : stored as a function-pointer value only (never called here)"
+ ]
+}

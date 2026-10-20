@@ -1,0 +1,10 @@
+{
+ "func": "func_8004E69C",
+ "doc": "Walks a nul-terminated byte string in place. For each character c (until the terminating 0), looks up a per-character flag byte in the 256-entry table D_800714B0[c]; if bit 0x10 is set, replaces the character in the string with (c + 0x31). Returns the original string pointer unchanged.",
+ "globals": [
+  {
+   "name": "D_800714B0",
+   "decl": "extern u8 D_800714B0[0x100]; /* 256-entry per-character flag/classification table, indexed by unsigned byte value; bit 0x10 checked here, bits 0x30/0x40/0x80 checked by sibling func_8004E188 */"
+  }
+ ]
+}

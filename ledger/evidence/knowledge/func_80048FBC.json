@@ -1,0 +1,8 @@
+{
+ "func": "func_80048FBC",
+ "doc": "72-byte leaf that: (1) calls func_80048F8C(a0, a1) forwarding its own two parameters unchanged, capturing the s32 result as an index; (2) calls func_8004B404(0x104) and captures its s32 result as a value; (3) stores that value into a0[idx] (treating a0 as an s32* / int array with 4-byte elements); (4) returns the stored value. No conditionals, no globals touched directly.",
+ "calls": [
+  "func_80048F8C(s32 *a0, s32 a1) -> s32  (already matched at gcc 2.7.2 in src/code.c; called here with func_80048FBC's own a0,a1 forwarded unchanged)",
+  "func_8004B404(s32 a0) -> s32  (call-site-local prototype: only the first argument (0x104) is set up before the jal, and the return value in $v0 is consumed by our caller, so this TU declares it as a single-int-arg, s32-returning extern; the tracked definition in src/code7.c happens to declare it as `void func_8004B404(int a0,int a1,int a2,int a3)` for its OWN body/other callers -- object-level linkage only cares about the symbol, so this narrower call-site prototype is fine and produces the byte-exact call sequence)"
+ ]
+}

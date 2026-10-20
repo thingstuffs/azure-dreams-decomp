@@ -1,0 +1,22 @@
+{
+ "func": "func_80056408",
+ "doc": "For each of the first D_80073734[0] entries in the D_80085458 struct array, dispatch it via func_800561D8 (passing the element pointer and the matching D_80084960[f06] slot), then dispatch its (f10, f12) field pair through func_800563B0 tagged with its loop index.",
+ "globals": [
+  {
+   "name": "D_80085458",
+   "decl": "extern S_80085458 D_80085458[64]; /* stride 0x78 (120) bytes. Fields touched by this function: 0x06 u16 f06 (index into D_80084960), 0x10 u16 f10, 0x12 u16 f12 (passed to func_800563B0). Bytes 0x08-0x0F and 0x14-0x77 are padding (untouched here; see w_80056A08.c's S_80085458 for a fuller reconciled layout with additional fields at other offsets)."
+  },
+  {
+   "name": "D_80084960",
+   "decl": "extern S_80084960 D_80084960[16]; /* opaque struct array, stride 0x9C (156) bytes -- matches the already-established Entry80084960/S_80084960 size used in code8.c/code2.c/w_80056A08.c. This function only takes an element's ADDRESS (indexed by D_80085458[i].f06) and passes it to func_800561D8; it does not itself read/write any field, so no field layout is asserted here beyond the element size (0x9C)."
+  },
+  {
+   "name": "D_80073734",
+   "decl": "extern s32 D_80073734[4]; /* [0] is the loop-bound count, matches existing decl in w_8005A3F0.c / w_80056A08.c */"
+  }
+ ],
+ "calls": [
+  "func_800561D8(S_80085458 *a0, S_80084960 *a1) -- extern, void return (unused by caller); a0=element pointer into D_80085458, a1=&D_80084960[index]",
+  "func_800563B0(s32 a0, u16 a1, u16 a2) -- already-matched (src/w_800563B0.c), signature reused (a1/a2 typed u16 at THIS call site so gcc emits lhu not lh; the callee's own matched definition still declares them s16 -- both compile independently and are ABI-identical)"
+ ]
+}

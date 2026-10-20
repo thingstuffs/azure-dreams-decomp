@@ -1,0 +1,21 @@
+{
+ "func": "func_80040574",
+ "doc": "Bump/ring allocator (confirmed by config/knowledge/func_800483AC.json's caller doc: called with 0x2000, returns scratch buffer pointer). Returns the current write pointer (D_80081480) and advances it by `size` bytes. If the advanced pointer would reach/pass the end of the buffer (base D_8008148C + total size D_80080A7C), the write pointer is reset back to the buffer base and the GPU is synced via DrawSync(0) before the (now possibly-reset) pointer is returned and advanced. This function's TU is compiled -G0 (small-data disabled) -- same TU family as code5.c/w_8004878C.c which touch these same 3 globals as plain s32 scalars; -G0 makes gcc emit fully independent lui/%hi+lw/sw/%lo pairs per access (no materialised/reused base register), unlike the default -G8 TU siblings (func_80041AB0/func_80043CD0) that force hi/lo via an oversized-struct-with-padding trick on the SAME symbols. Declaring these as plain s32 (not the padded struct) was required to reproduce the fresh-lui-per-access pattern; a struct/volatile-struct attempt kept materialising a shared base address register across accesses and did not match. Comparison operand order in the C (`base+D_80080A7C <= D_80081480+size` rather than the mirrored `>=`) was needed to get v0/v1 register assignment to match retail's evaluation order.",
+ "globals": [
+  {
+   "name": "D_8008148C",
+   "decl": "extern s32 D_8008148C; /* base address of the streaming/scratch ring buffer. In THIS function's -G0 TU declare as a PLAIN s32 scalar (fresh lui/%hi+lw/%lo per access, no shared base reg). NOTE: the default -G8 sibling TUs (func_80041AB0.c/func_80043CD0.c) declare the SAME symbol as an oversized `struct { s32 field_0; s8 pad[8]; }` to force hi/lo under -G8 -- that is a DIFFERENT TU's view of the same global, not a conflicting layout; reconcile as: real data is a plain 4-byte pointer-valued s32, and each TU independently pads/doesn't-pad it to get hi/lo addressing depending on that TU's -G setting."
+  },
+  {
+   "name": "D_80080A7C",
+   "decl": "extern s32 D_80080A7C; /* ring buffer's total size, plain 4-byte scalar. Same -G0 TU family as code5.c's func_8004066C (D_80080A7C = D_80080A7C + a0) and w_8004878C.c -- declare as PLAIN s32 here, not a padded struct. */"
+  },
+  {
+   "name": "D_80081480",
+   "decl": "extern s32 D_80081480; /* running write pointer into the ring buffer, plain 4-byte scalar (pointer value stored as int). Same -G0 TU as D_8008148C/D_80080A7C. The -G8 sibling TUs (func_80041AB0/func_80043CD0) view the same symbol as an oversized `struct { s32 field_0; s8 pad[8]; }` to force hi/lo under their -G8 setting -- not a conflicting layout, just a different TU's forcing trick on the same 4-byte scalar. */"
+  }
+ ],
+ "calls": [
+  "DrawSync(s32 a0) -- library, called with 0"
+ ]
+}

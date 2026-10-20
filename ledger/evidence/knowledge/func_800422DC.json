@@ -1,0 +1,10 @@
+{
+ "func": "func_800422DC",
+ "doc": "Rebuilds `other`'s per-slot state (clearing/releasing 3 fixed slot ids via func_80042B68/func_80042518), conditionally OR's a flag word on `other` when other->f25==0 && other->f13!=0, snapshots the first 0x4C bytes of `other` into `self` via func_8003DB6C, then derives two byte slot-indices in `self` (via func_800422A8 against a fixed base address 0x80010248, elem size 4, count 0x14) from other->f4C and other->f50, and finally copies other->f54 into self->f50.",
+ "calls": [
+  "func_8003DB6C(int *a0, int *a1, int a2) - word-copy loop, matched",
+  "func_800422A8(unsigned int a0, unsigned int a1, unsigned short a2, unsigned short a3) -> short, matched",
+  "func_80042B68(void *a0, int a1) - unmatched sibling, called with a1 in {0x1A,0x1C,0x1D}",
+  "func_80042518(void *a0, int a1) -> int - unmatched sibling, called with a1=0x1B, return value unused"
+ ]
+}

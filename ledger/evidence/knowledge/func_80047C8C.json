@@ -1,0 +1,8 @@
+{
+ "func": "func_80047C8C",
+ "doc": "Finds a free slot via func_80047B80(); if one is found (result != -1), registers/initializes it with func_80047A68(slot, a0). Returns the slot index (or -1 if none free).",
+ "calls": [
+  "s32 func_80047B80(void)",
+  "void func_80047A68(s32 a0, s32 a1)"
+ ]
+}

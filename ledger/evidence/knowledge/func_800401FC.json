@@ -1,0 +1,15 @@
+{
+ "func": "func_800401FC",
+ "doc": "Walks the global singly-linked list headed by D_80081498. For every node whose field_1E has bit 0x8000 set, it detaches the node (func_80044A50 then func_8003FFF0), and unless the node's (now-updated) field_1E has bit 0x80 set, pushes it onto the freelist via func_80040044. The 'next' pointer for loop continuation is captured before the detach calls run (since func_8003FFF0 clears node->next).",
+ "globals": [
+  {
+   "name": "D_80081498",
+   "decl": "extern struct { Node *head; int pad[2]; } D_80081498; /* head of a global singly-linked Node list; Node = { Node *next @0x00; ...; u16 field_1E @0x1E; }; padded to >8B so hi/lo addressing is forced (matches existing decl in src/code.c used by func_80040418) */"
+  }
+ ],
+ "calls": [
+  "func_80044A50(Node *a0)",
+  "func_8003FFF0(Node *a0)",
+  "func_80040044(void *a0) -- already matched, defined in src/code.c"
+ ]
+}

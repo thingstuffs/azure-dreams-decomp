@@ -1,0 +1,45 @@
+{
+  "schema": "overlay-module-native-v4",
+  "kind": "overlay_module_placement",
+  "module": "town_map_cell_read",
+  "members": [
+    "town/func_8008E94C",
+    "town/func_8008E990"
+  ],
+  "at": "2026-10-20T00:41:59Z",
+  "reviewer": "codex-r121w-tu4",
+  "fingerprint": {
+    "schema": "overlay-module-scoped-v2",
+    "sha256": "56950f082e3697eb3d217cd56c0324503b463ab3271f6e4ba98315864e9cf385",
+    "module": {
+      "sha256": "44c7aa7b36b919ebf484d0f4bb5fd9f8d852466168164ad95619b1da051a69e8"
+    },
+    "windows": {
+      "config/overlays/town_scene.overlay.yaml": {
+        "sha256": "280f598ecbb8f6101e171605621d1bc8b950fdf7ab24f6043e1358e1c38a3fdd"
+      }
+    },
+    "required_windows": [
+      "config/overlays/town_scene.overlay.yaml"
+    ]
+  },
+  "proof_dir": "build_ovl_gate/work/module_proofs/town_map_cell_read/module",
+  "receipt_sha256": "b25423f05751bda3c07ab2f127dfc706845ba34364b86d5550fa2fd54d478c3e",
+  "windows": [
+    {
+      "config": "config/overlays/town_scene.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 0,
+      "file_end": 335872,
+      "proof_dir": "build_ovl_gate/work/module_proofs/town_map_cell_read/windows/town_scene",
+      "artifacts": {
+        "gate.log": "e0eccd9053c8d1cf7359c15199c2149794fff95dc6da05d4bed6a25f4dfb439f",
+        "window.bin": "6ca153dec42742a952cdfbfc38efb1a793de9ede267a9cebd4b1d1cf00740ed4",
+        "manifest.json": "4ca0bfe6a4998a9ac6dc33c34c50fd1f0282936aa38565ae66569f2d42e459b8",
+        "projection.json": "8ca46957e206a65043f3a5842e4ccedb9006ee2ded7b824ca0c94e826ce15e4b",
+        "module/receipt.json": "b25423f05751bda3c07ab2f127dfc706845ba34364b86d5550fa2fd54d478c3e"
+      },
+      "digest": "280f598ecbb8f6101e171605621d1bc8b950fdf7ab24f6043e1358e1c38a3fdd"
+    }
+  ]
+}

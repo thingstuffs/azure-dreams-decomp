@@ -1,0 +1,16 @@
+{
+ "func": "func_80044698",
+ "doc": "Main frame-pump loop. Repeatedly polls pad/state via func_80053EF0(1); returns immediately once it reports 0. On the very first nonzero poll only (guarded by a one-shot `flag`), if the reported value isn't 3, fires a one-time func_80053DA8(0xC1) event. Every iteration then calls func_80044618(2), waits on VSync(1), extracts a 9-bit field (bits 15:8, masked to 0x1FF... actually (result>>8)&0x1FF) from the vsync return value, and updates the gp-relative global D_80080B00 only when that field changes from its previous value.",
+ "globals": [
+  {
+   "name": "D_80080B00",
+   "decl": "extern u16 D_80080B00; // gp_rel (%gp_rel(D_80080B00)($gp)), 2-byte scalar, unsigned (lhu/sh load-compare-store of a 9-bit field 0..0x1FF)"
+  }
+ ],
+ "calls": [
+  "func_80053EF0(s32 a0) -> s32  (already matched? assumed s32 return, s32 arg \u2014 used in sibling src/w_8004EBDC.c as `func_80053EF0(1) == 0`)",
+  "func_80053DA8(s32 a0) -> s16  (ALREADY MATCHED, src/code.c: `short func_80053DA8(int a0)`)",
+  "func_80044618(s32 a0) -> void  (declared elsewhere as `extern void func_80044618(int);` in src/w_8003F320.c)",
+  "VSync(s32 mode) -> s32  (standard PSX libetc.h: `int VSync(int mode)`)"
+ ]
+}

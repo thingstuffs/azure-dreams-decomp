@@ -1,0 +1,4 @@
+{
+ "func": "func_8005D730",
+ "doc": "Computes x = x*13 sixty times on stack locals (x starting at 13, plus a loop counter), with the result never stored anywhere observable. `volatile` on both locals is required to keep gcc from proving the loop dead and eliminating it entirely (matches the retail asm which faithfully performs and discards the computation)."
+}

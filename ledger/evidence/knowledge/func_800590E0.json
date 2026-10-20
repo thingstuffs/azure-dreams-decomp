@@ -1,0 +1,8 @@
+{
+ "func": "func_800590E0",
+ "doc": "Reads a VLQ-style count via func_80058A04(a0), then reads that many bytes one-by-one from the same stream via func_800589B8(a0), stopping early if a byte equal to 0xF7 (247) is seen. Return value is unused by any caller (function is void).",
+ "calls": [
+  "func_80058A04(S_800590E0 *a0) -> s32: reads a variable-length-quantity (delta-time style) count from the stream, called with the SAME struct pointer this function received.",
+  "func_800589B8(S_800590E0 *a0) -> s32: reads/advances one byte from the stream referenced by a0; returns the byte value in the low byte (or -1 at end-of-stream per its own body, seen in asm/nonmatchings/code/func_800589B8.s)."
+ ]
+}

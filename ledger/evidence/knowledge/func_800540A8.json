@@ -1,0 +1,18 @@
+{
+ "func": "func_800540A8",
+ "doc": "Init routine: calls func_8005A4E8(0,0,0), initializes the D_80055990_Struct-shaped object D_80084858 via func_80055990, then zero-clears several fields (0x8,0xC,0x10,0x14,0x18 as s32; 0x30,0x31,0x32,0x33 as s8) of the struct at D_800847D0.",
+ "globals": [
+  {
+   "name": "D_800847D0",
+   "decl": "typedef struct { char pad0[8]; s32 field8; s32 fieldC; s32 field10; s32 field14; s32 field18; char pad1C[0x30-0x1C]; s8 field30; s8 field31; s8 field32; s8 field33; } S_800847D0; extern S_800847D0 D_800847D0; /* only fields at 0x8,0xC,0x10,0x14,0x18,0x30,0x31,0x32,0x33 observed so far; total size unknown, >=0x34 */"
+  },
+  {
+   "name": "D_80084858",
+   "decl": "extern D_80055990_Struct D_80084858; /* reuses the pre-existing D_80055990_Struct layout from src/code.c: pad0[4], field4(int)@0x4, pad8[4], fieldC(int)@0xC, field10(short)@0x10, pad12[4], field16(short)@0x16, field18(short)@0x18 */"
+  }
+ ],
+ "calls": [
+  "func_8005A4E8(u8 a0, u8 a1, u8 a2) -- already declared elsewhere as byte-masking trampoline to func_8005A4E8; called here as func_8005A4E8(0,0,0)",
+  "func_80055990(D_80055990_Struct *a0) -- matched, defined in src/code.c; called here as func_80055990(&D_80084858)"
+ ]
+}

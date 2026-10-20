@@ -1,0 +1,11 @@
+{
+ "func": "func_80048118",
+ "doc": "Given a packed value whose low 16 bits are a signed entity/state code (a0) and an output buffer (a1): if the code equals 0x38, runs the status-refresh pass func_800481E0() then the cleanup pass func_80047C00(). Then looks up/allocates the slot for the code via func_80047CD8(code); if a slot pointer was found/allocated, zeroes *a1 and registers a callback (func_800499DC) with arg a1 via func_8003E4FC(0xFF, func_800499DC, a1). Returns the func_80047CD8 result (NULL if not found).",
+ "calls": [
+  "func_800481E0(void)",
+  "func_80047C00(void)",
+  "void *func_80047CD8(s16 a0)",
+  "s32 func_8003E4FC(s32 kind, void *callback, void *arg)",
+  "int func_800499DC(int *a0) -- only address taken, not called"
+ ]
+}

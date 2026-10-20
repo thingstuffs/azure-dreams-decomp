@@ -1,0 +1,10 @@
+{
+ "func": "func_80043B4C",
+ "doc": "Sets flags bit 0x8000 on 4 entries (of a 6-byte struct table pointed to by D_8008333C.field0) for each party-slot index i in [10,12): entries at byte offsets (i << D_8008333C.field14)*6 + {0x78,0x7E,0xFC,0x102}. Sibling func_80043A68 clears the same bit (&= 0x7FFF) over the identical index set \u2014 same struct, same idiom.",
+ "globals": [
+  {
+   "decl": "typedef struct S_8008333C {\n    /* 0x00 */ u8 *field0;   /* pointer to a table of 6-byte entries { s32 unk0; u16 flags; } */\n    /* 0x04 */ u8 unk04[0x10]; /* unknown/unaccessed by this function */\n    /* 0x14 */ s16 field14;  /* per-call shift amount applied to the party-slot index */\n} S_8008333C;\nextern S_8008333C D_8008333C;",
+   "name": "D_8008333C"
+  }
+ ]
+}

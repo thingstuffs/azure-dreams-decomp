@@ -1,0 +1,10 @@
+{
+ "func": "func_800448BC",
+ "doc": "Searches a null(zero-first-byte)-terminated array of 4-byte records (D_80081508, a gp_rel-stored pointer) for a record whose first two bytes (masked to 16-bit) equal the low 16 bits of a0 and a1 respectively; returns 1 if found, 0 otherwise (including when the array is empty).",
+ "globals": [
+  {
+   "name": "D_80081508",
+   "decl": "extern S_80081508 *D_80081508;  /* gp_rel-loaded pointer to a null-terminated array of 4-byte records {u8 a; u8 b; u8 pad2; u8 pad3;}; only bytes 0 and 1 of each record are accessed by this function */"
+  }
+ ]
+}

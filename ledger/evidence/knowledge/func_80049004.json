@@ -1,0 +1,9 @@
+{
+ "func": "func_80049004",
+ "doc": "Rebuilds a0's field0 buffer: zeroes the PRE-EXISTING a0[0] buffer (sized a2*4 bytes) via bzero, then replaces a0[0] with a freshly-allocated 0x104-byte buffer from func_8004B404. Walks a0's trailing flexible array (a zero-terminated list of raw words starting at a0+1) in two passes: each pass calls func_8004B42C(cursor, (a1>>4)+1) to allocate a batch of 0x82-byte sub-buffers into the list, then copies the resulting sub-buffer base pointers into two 16-word local banks (bank1 = buf[0..15], bank2 = buf[16..31]), advancing the cursor past what it read. Returns 0 immediately if the top-level allocation failed, or after either func_8004B42C batch fails (via a single shared fail block, confirmed by both failure paths targeting the identical branch offset in the retail asm). If a1>0, builds a1 output entries into the new buffer: entry i = bank1[i>>4] + (i&0xF)*16 (a pointer into a bank1 sub-buffer), and that same sub-buffer's word at +4 is overwritten with bank2[i>>4] + (i&0xF)*16 (linking each bank1 record to its bank2 counterpart). Finally calls func_8004CC38(newbuf, a1) and returns the new buffer pointer.",
+ "calls": [
+  "func_8004B404(u32 size) -> void* : extern void *func_8004B404(u32 size); (real signature in src/code7.c is void func_8004B404(int,int,int,int) forwarding to func_8004B364/func_8004B364->func_8003FC64 malloc; call site here only sets a0=0x104 and reads v0 as the returned pointer, so our own extern decl uses a single-u32-arg/pointer-return shape for correct arg-setup codegen)",
+  "func_8004B42C(s32 *a0, s32 a1) -> s32 : allocates a1 buffers of 0x82 bytes each into a0[0..a1-1] (still nonmatching itself); returns a0 (truthy) on success or 0 on failure",
+  "func_8004CC38(s32 *a0, s32 a1) : finalizer/registration call on the built table, return value unused (still nonmatching itself)"
+ ]
+}

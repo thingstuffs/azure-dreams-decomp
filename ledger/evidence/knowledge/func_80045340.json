@@ -1,0 +1,18 @@
+{
+ "func": "func_80045340",
+ "doc": "Walks a chain of \"entry\" structs (each guarded by a 0x80 flag bit) hanging off a caller-supplied node pointer, invoking func_800453E0 on each live entry and checking func_80045310 against the current global-state pointer (D_80083160[0]) after each call to decide whether to abort early. Also clears a global flag (D_80081510) and a scratchpad status word at fixed address 0x1F80013C on entry and again when the chain is exhausted. Advances to the next node via a pointer stored 8 bytes before the current node pointer (s0-8); when that pointer is null the walk ends.",
+ "globals": [
+  {
+   "name": "D_80081510",
+   "decl": "extern s32 D_80081510; /* gp_rel scalar flag, zeroed at entry and at chain-exhausted exit */"
+  },
+  {
+   "name": "D_80083160",
+   "decl": "extern void *D_80083160[3]; /* [0] is a live pointer to a struct whose field at offset 0x8D0 (u32) is read each successful iteration; matches the type already used by func_80045310 in src/code8.c */"
+  }
+ ],
+ "calls": [
+  "func_800453E0: extern void func_800453E0(void *a0, s32 a1, S_80045340_Entry *a2, s16 a3); // called as func_800453E0(s0, a1, cur, cur->unk06) \u2014 not matched elsewhere yet (854B function), signature inferred purely from this call site's register usage",
+  "func_80045310: s32 func_80045310(u32 a0) \u2014 reused EXACT signature from already-matched src/code8.c (gcc 2.7.2-cdk TU; this caller itself matches at 2.8.1)"
+ ]
+}

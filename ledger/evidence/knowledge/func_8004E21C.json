@@ -1,0 +1,7 @@
+{
+ "func": "func_8004E21C",
+ "doc": "Decodes an item/equipment byte code (a1) into a 4-byte value written into the struct at a0: builds a temporary 12-byte scratch struct on the stack, calls func_8004E188(&local, a1) to fill it, then copies the derived word from local's offset-8 field into a0's offset-0 field (an UNALIGNED 4-byte copy \u2014 both src and dst are treated as 1-byte-aligned by the compiler), and returns a0.",
+ "calls": [
+  "func_8004E188(void *a0, u8 a1) -> void* : fills a struct at a0 (>=12 bytes) based on the byte code a1 (item/equipment stat decode); a0's field at offset 8 (4 bytes) ends up holding a derived word. Only arg setup (address of local, a1&0xFF) needed to match here; body left as INCLUDE_ASM (still unmatched itself)."
+ ]
+}

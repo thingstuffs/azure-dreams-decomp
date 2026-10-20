@@ -1,0 +1,26 @@
+{
+ "func": "func_80048660",
+ "doc": "Per-frame scroll/animation stepper. Resets the shared accumulator triple (D_80080B10 = position, D_80080B12 = fractional carry, D_80080B14 = max-step-seen) whenever the session/generation counter D_80083164 changes from the last-seen value cached in D_80081530 (a new session started). It then derives a row half-step (temp_a1, from arg0->field_A) and a column step (temp_a2, from arg0->field_B), rolls the carry into the position when it overflows 0x100, wraps the position back to 0 (clearing all three accumulators) once it reaches 0x20, writes the current position (doubled, truncated to a byte) and carry (truncated to a byte) back into arg0->field_8/field_9, bumps the running max D_80080B14 if the new half-step is larger, and finally accumulates temp_a2 into the carry.",
+ "globals": [
+  {
+   "name": "D_80083164",
+   "decl": "struct S_80083164 { u16 field_0; u8 pad2[0xA]; }; extern struct S_80083164 D_80083164;  /* only field_0 (offset 0, u16) is read by any known caller in this wave (func_80048660/func_80047338/func_80047468/func_8003E758 all only ever do lui %hi(D_80083164); lhu %lo(D_80083164)($base) at offset 0 -- no other offset observed). Padded to 0xC bytes (the real gap to the next known linker symbol D_80083170) purely to force >8B hi/lo codegen; this is a LOCAL per-TU view, sibling functions should reconcile onto this same field_0-at-offset-0 layout and extend pad/fields only if they prove a different offset is touched."
+  },
+  {
+   "name": "D_80081530",
+   "decl": "extern u16 D_80081530;  /* gp_rel scalar, <=8B: last-seen value of D_80083164.field_0, used to detect a new session/generation and trigger the accumulator reset. */"
+  },
+  {
+   "name": "D_80080B10",
+   "decl": "extern u16 D_80080B10;  /* gp_rel scalar: current accumulated position (0..0x1F), doubled+truncated to a byte and written to arg0->field_8 each call. */"
+  },
+  {
+   "name": "D_80080B12",
+   "decl": "extern u16 D_80080B12;  /* gp_rel scalar: fractional carry/column accumulator (0..0xFF), truncated to a byte and written to arg0->field_9 each call. */"
+  },
+  {
+   "name": "D_80080B14",
+   "decl": "extern u16 D_80080B14;  /* gp_rel scalar: running max half-step seen (used both as the carry source when D_80080B12 overflows, and updated via a running max against temp_a1). */"
+  }
+ ]
+}

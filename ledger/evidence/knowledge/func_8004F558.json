@@ -1,0 +1,13 @@
+{
+ "func": "func_8004F558",
+ "doc": "Recycles the object pointed to by *(void**)(arg0+4) into func_8004FE78, then sets the 0x8000 \\\"used\\\"/flag bit on both a 16-bit flags field 2 bytes before arg0 and the global 32-bit flags word D_800814A0.",
+ "globals": [
+  {
+   "name": "D_800814A0",
+   "decl": "extern int D_800814A0; /* global 32-bit flags word; accessed here as a plain scalar under -G0 (forces lui/%hi+lw|sw/%lo addressing instead of $gp-relative, matching the target's TWO separate lui computations for load and store -- no address reuse/CSE across the intervening flags store) */"
+  }
+ ],
+ "calls": [
+  "func_8004FE78(void *arg0) -- extern void func_8004FE78(void *arg0);"
+ ]
+}

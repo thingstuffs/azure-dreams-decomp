@@ -1,0 +1,14 @@
+{
+ "func": "func_8004A658",
+ "doc": "Two-level item table lookup. itemCategoryTable[a0] is a 0x14-byte entry: offset0 = u8 'kind' (selects which record layout the offset-0xC pointer refers to), offset0xC = void* 'records' pointing to an array of fixed-size records (confirmed by sibling func_8004A574/func_8004AA78, which both read the same offset0 and offset0xC fields and use 0x14-byte record strides). When kind==0, records[] elements are 20 bytes (S_8004A658_RecB); when kind!=0, elements are 12 bytes (S_8004A658_RecA). Both record layouts share a signed 16-bit field 'f1' at byte offset 2. The function reads records[a1].f1 (sign-extended s16) and uses that as an index into the global s32 D_8007361C[256] pointer/word table, returning D_8007361C[val].",
+ "globals": [
+  {
+   "name": "itemCategoryTable",
+   "decl": "extern S_8004A658_CategoryEntry itemCategoryTable[]; struct is 0x14 (20) bytes: u8 kind @0x0; void *records @0xC (pointer to an array of item records, 12 or 20 bytes each depending on kind); other bytes unmodeled (sibling funcs show 0x2=count byte, 0x8=function pointer, 0x3=byte index into D_800713CC)."
+  },
+  {
+   "name": "D_8007361C",
+   "decl": "extern s32 D_8007361C[256]; word/pointer table indexed by a signed 16-bit value read from an item record."
+  }
+ ]
+}

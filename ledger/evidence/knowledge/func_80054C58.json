@@ -1,0 +1,14 @@
+{
+ "func": "func_80054C58",
+ "doc": "Resets/rotates a subsystem state block: moves D_800847D0's field10/field14/field31/field33 into field8/fieldC/field30/field32 respectively, zeroes the source fields, sets D_80084858's field_C=3 and field_10=0x80 (re-arming timers/counters), then clears bits 0x400 and 0x4000 in D_800847D0.flags1 and bit 0x200 in D_800847D0.flags2 (as three separate AND-immediate operations, matching the target's constant encoding).",
+ "globals": [
+  {
+   "name": "D_800847D0",
+   "decl": "struct S_800847D0 { /*0x00*/ u32 flags1; /*0x04*/ u32 flags2; /*0x08*/ u32 field8; /*0x0C*/ u32 fieldC; /*0x10*/ u32 field10; /*0x14*/ u32 field14; /*0x18*/ u8 pad18[0x18]; /*0x30*/ u8 field30; /*0x31*/ u8 field31; /*0x32*/ u8 field32; /*0x33*/ u8 field33; } D_800847D0; (this function only touches offsets 0x0,0x4,0x8,0xC,0x10,0x14,0x30,0x31,0x32,0x33; the 0x18-0x2F gap size is unverified padding, only the union of accessed offsets is confirmed)"
+  },
+  {
+   "name": "D_80084858",
+   "decl": "struct S_80084858 { /*0x00*/ u8 pad0[0xC]; /*0x0C*/ s32 field_C; /*0x10*/ s16 field_10; } D_80084858; (this wave's SIBLING functions also touch D_80084858 -- only offsets 0xC (s32/u32, stored 3) and 0x10 (s16/u16, stored 0x80) are confirmed by this function; field_C's exact signedness and any fields before 0xC or after 0x10 are unconfirmed here, reconcile with siblings)"
+  }
+ ]
+}
