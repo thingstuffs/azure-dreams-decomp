@@ -11,22 +11,12 @@ void copy_record_tail_bytes(void)
     u8 *source_record;
     u8 *page;
 
-    entry_index = 0;
     source_record = D_800D2EA4;
     page = (u8 *)0x80010000;
-loop_0:
-    {
-        entry_index++;
-        page[0x33A4] = source_record[6];
-        {
-            u8 second_byte = source_record[7];
-            source_record += 8;
-            page[0x33A5] = second_byte;
-        }
-        page += 2;
+    for (entry_index = 0; entry_index < 0x22; entry_index++) {
+        page[0x33A4 + entry_index * 2] = source_record[entry_index * 8 + 6];
+        page[0x33A5 + entry_index * 2] = source_record[entry_index * 8 + 7];
     }
-    if (entry_index < 0x22)
-        goto loop_0;
 
     entry_index = 0;
     page = (u8 *)0x80010000;

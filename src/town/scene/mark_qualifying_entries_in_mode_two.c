@@ -30,39 +30,29 @@ extern s32 D_80019BB4;
 s32 mark_qualifying_entries_in_mode_two(void)
 {
     s32 entry_index;
-    s32 mark_value;
     void *source_entry;
     void *dest_entry;
     void *dest_state;
-    s32 entry_offset;
 
     if (D_80019BB0 == 2) {
-        entry_index = 1;
-        mark_value = 0x400;
         dest_state = &D_80016608;
-        dest_entry = dest_state + 0x14;
-        entry_offset = 0xC;
-        source_entry = (u8 *)&D_80016470 + entry_offset;
-check_entry:
-        if (func_800198D0(((S_80017DBC_0 *)source_entry)->unk_04) != 0) {
-            if (((S_80017DBC_0 *)source_entry)->unk_08 != 0) {
-                ((S_80017DBC_1 *)dest_entry)->unk_02 = mark_value;
-                if (entry_index == 1) {
-                    ((S_80017DBC_2 *)dest_state)->unk_A2 = mark_value;
-                } else {
-                    ((S_80017DBC_2 *)dest_state)->unk_B6 = mark_value;
+        for (entry_index = 1; entry_index < 8; entry_index++) {
+            source_entry = (u8 *)&D_80016470 + entry_index * 0xC;
+            dest_entry = (u8 *)dest_state + entry_index * 0x14;
+            if (func_800198D0(((S_80017DBC_0 *)source_entry)->unk_04) != 0) {
+                if (((S_80017DBC_0 *)source_entry)->unk_08 != 0) {
+                    ((S_80017DBC_1 *)dest_entry)->unk_02 = 0x400;
+                    if (entry_index == 1) {
+                        ((S_80017DBC_2 *)dest_state)->unk_A2 = 0x400;
+                    } else {
+                        ((S_80017DBC_2 *)dest_state)->unk_B6 = 0x400;
+                    }
+                } else if (D_80019BB4 == entry_index) {
+                    ((S_80017DBC_1 *)dest_entry)->unk_02 = 0x400;
                 }
-            } else if (D_80019BB4 == entry_index) {
-                ((S_80017DBC_1 *)dest_entry)->unk_02 = mark_value;
             }
         }
-        dest_entry += 0x14;
-        entry_index += 1;
-        source_entry += 0xC;
-        if (entry_index >= 8) {
-            return 0;
-        }
-        goto check_entry;
+        return 0;
     }
     return 1;
 }

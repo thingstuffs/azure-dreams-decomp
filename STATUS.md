@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-20T13:17:31Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-20T14:40:27Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -84,7 +84,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | defect still in the clean tree | files | bytes | % of bytes |
 |---|---:|---:|---:|
 | m2c local names | 29 | 36,004 | 0.4% |
-| goto | 179 | 400,472 | 5.0% |
+| goto | 151 | 384,700 | 4.8% |
 | computed-goto jump table | 1 | 16 | 0.0% |
 | inline asm outside macros | 7 | 8,984 | 0.1% |
 | any fidelity site | 2 | 23,708 | 0.3% |
@@ -92,7 +92,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | do{}while(0) scheduling barrier | 14 | 125,648 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
 | local address-named struct | 2,697 | 3,682,604 | 45.9% |
-| clean shape | 8,441 | 7,591,828 | 94.6% |
+| clean shape | 8,469 | 7,607,600 | 94.8% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
 
@@ -102,7 +102,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | M2C_FIELD raw offsets | 2950 | 1,449,308 | 18.1% | 0 | 0 | 0.0% |
 | m2c local names | 5181 | 2,162,116 | 26.9% | 29 | 36,004 | 0.4% |
 | ASM_ pins | 2135 | 1,456,292 | 18.1% | 0 | 0 | 0.0% |
-| goto | 1545 | 1,312,068 | 16.3% | 179 | 400,472 | 5.0% |
+| goto | 1545 | 1,312,068 | 16.3% | 151 | 384,700 | 4.8% |
 | computed-goto jump table | 317 | 436,504 | 5.4% | 1 | 16 | 0.0% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 3.0% | 7 | 8,984 | 0.1% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 8.4% | 0 | 0 | 0.0% |
@@ -113,7 +113,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 14 | 125,648 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
 | local address-named struct | 633 | 346,824 | 4.3% | 2697 | 3,682,604 | 45.9% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 8441 | 7,591,828 | 94.6% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 8469 | 7,607,600 | 94.8% |
 
 </details>
 

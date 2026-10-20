@@ -92,9 +92,35 @@ def source_text(m, member_source, candidate):
         return hit[0]  # shared headers resolve through root/include
     text = re.sub(r'^\s*#\s*include\s+"([^"]+)"\s*$', include,
                   src.read_text(), flags=re.M)
+    if replaced == 0 and _inlined_tu(m):
+        # LL7 merged TU: the member's fragment is inlined in the physical TU, so there is no
+        # member include to swap.  The candidate is then the WHOLE physical TU text (a lane edits
+        # the TU in place); relocate its quoted file includes the same way and compile it as is.
+        return _relocate_includes(src, Path(candidate).read_text())
     if replaced != 1:
         raise ValueError('member must occur exactly once in its physical TU')
     return text
+
+
+def _inlined_tu(m):
+    """True when the module's physical TU is an LL7 merged TU (ledger/layout_inline.jsonl records)."""
+    path = kitlib.ROOT / 'ledger/layout_inline.jsonl'
+    if not path.exists():
+        return False
+    tu = Path(m['source']).as_posix()
+    return any(json.loads(line).get('tu_new') == tu for line in path.read_text().splitlines() if line.strip())
+
+
+def _relocate_includes(src, text):
+    root = kitlib.ROOT
+    def include(hit):
+        dest = (src.parent / hit[1]).resolve()
+        if dest.is_file():
+            if not dest.is_relative_to(root):
+                raise ValueError('native TU include escapes root')
+            return '#include ' + json.dumps(str(dest))
+        return hit[0]
+    return re.sub(r'^\s*#\s*include\s+"([^"]+)"\s*$', include, text, flags=re.M)
 
 
 def source_text_many(m, candidates):

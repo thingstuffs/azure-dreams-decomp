@@ -100,8 +100,6 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
     s16 timer;
     s32 timer0;
     s32 timer_end;
-    s32 base;
-    s32 mask;
     s32 step;
     s32 sum;
     s32 sum3;
@@ -110,7 +108,7 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
     s32 x;
     s32 rnd;
     s32 x4;
-    s32 rnd4;
+    s32 color4;
     s32 work_value;
     s16 scale;
     u16 kind;
@@ -301,19 +299,13 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
         break;
 
     case 4:
-        count4 = 7;
-        base = 0x05600000;
         ((S_8052F2C8_1 *)root)->unk_58 |= 2;
-        mask = 0xFFC00000;
-case_4_loop:
-        count4--;
-        x4 = (((func_80071494() & 0xFF) - 0x80) << 14) + base;
-        rnd4 = func_80071494();
-        create_object_position_configures_color(0, x4, ((IntVector3 *)state_held)->y + 0x80000,
-                      ((rnd4 & 0x3F) << 16) | mask);
-        if (count4 >= 0) {
-            goto case_4_loop;
+        for (count4 = 7; count4 >= 0; count4--) {
+            x4 = (((func_80071494() & 0xFF) - 0x80) << 14) + 0x05600000;
+            color4 = ((func_80071494() & 0x3F) << 16) | 0xFFC00000;
+            create_object_position_configures_color(0, x4, ((IntVector3 *)state_held)->y + 0x80000, color4);
         }
+
 
         timer_end = (u16)((S_8052F2C8_0 *)obj_held)->unk_0E - 1;
         ((S_8052F2C8_0 *)obj_held)->unk_0E = timer_end;

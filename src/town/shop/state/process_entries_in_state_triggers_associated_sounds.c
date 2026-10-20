@@ -10,30 +10,18 @@ extern s16 D_800D253C[];
 void process_entries_in_state_n_19_triggers_associated_sounds(void) {
     s32 entry_count;
     s32 entry_index;
-    s16 *sound_id;
     u8 *entry;
     u8 state;
 
     entry_count = D_800D0728[find_target_byte_index_in_list()];
-    do {
-        entry_index = 0;
-    } while (0);
-    if (entry_count > 0) {
-        sound_id = D_800D253C;
-        entry = (u8 *)0x80010000;
-loop:
-        state = entry[0x981];
+    entry = (u8 *)0x80010000;
+    for (entry_index = 0; entry_index < entry_count; entry_index++) {
+        state = entry[0x981 + entry_index * 4];
         if (state != 0) {
             if (state == 19) {
-                load_a_shared_buffer_process_write_back((void *)(0x80010A80 + ((entry[0x983] & 0x3F) * 84)));
-                set_resident_bitmap_bit(*sound_id);
+                load_a_shared_buffer_process_write_back((void *)(0x80010A80 + ((entry[0x983 + entry_index * 4] & 0x3F) * 84)));
+                set_resident_bitmap_bit(D_800D253C[entry_index]);
             }
-        }
-        sound_id++;
-        entry_index++;
-        entry += 4;
-        if (entry_index < entry_count) {
-            goto loop;
         }
     }
 }

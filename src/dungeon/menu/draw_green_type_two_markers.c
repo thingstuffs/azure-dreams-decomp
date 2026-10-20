@@ -11,16 +11,13 @@ void draw_green_type_two_markers(void) {
     s32 color;
 
     submit_activation_command();
-    entry_count = 0;
-    record = D_800E3CD8;
-loop:
-    if (record[0] == 2) {
+    for (entry_count = 0; entry_count < 4; entry_count++) {
+        record = &D_800E3CD8[entry_count * 4];
+        if (record[0] != 2) {
+            break;
+        }
         color = 0x208020;
         create_transformed_render_object(record[1], record[2], color, 1, 0);
-        record += 4;
-        entry_count += 1;
-        if (entry_count < 4) {
-            goto loop;
-        }
     }
+
 }

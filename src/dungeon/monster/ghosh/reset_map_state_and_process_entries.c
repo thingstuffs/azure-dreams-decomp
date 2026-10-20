@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 #include "shared/dungeon_status.h"
 
 /* Sparse views for fields not covered by the existing record types. */
@@ -13,11 +14,6 @@ typedef struct {
     u8 pad_00[0x2A];
     u16 field_2A;
 } MapDataFieldView_81326794;
-
-typedef struct {
-    u8 pad_00[0x3D7C];
-    u8 *field_3D7C;
-} EntryPageFieldView_81326794;
 
 typedef struct {
     u8 pad_00[0x10];
@@ -50,18 +46,15 @@ extern s16 D_80174CD0;
 void reset_map_state_and_process_entries(void) {
     s32 coord_aux;
     s16 entry_slot;
-    s32 slot_offset;
     u16 coord_result;
     u16 lookup_key;
     u8 *map_object;
     u8 *active_object;
     u8 *map_data;
     u8 *entry;
-    u8 *entry_page;
     SysWork *sys_work;
 
     entry_slot = 0;
-    entry_page = (u8 *)0x800E0000;
     sys_work = (SysWork *)0x80010000;   /* integer page, five genuine accesses (decision 44); same SysWork view as func_81337FAC */
     D_80174704[0xD2] = 1;
     sys_work->f371A = 0;
@@ -81,18 +74,15 @@ void reset_map_state_and_process_entries(void) {
     D_80174CD0 = 0;
     D_80174CCC = (s32 *)D_801749E0[(coord_result >> 9) & 7];
 
-loop:
-    slot_offset = ((s32)entry_slot << 16) >> 14;
-    entry = *(u8 **)&(((EntryPageFieldView_81326794 *)entry_page)->field_3D7C)[slot_offset + 0xAC];
-    if (entry != 0) {
-
-        clear_actor_action_markers(entry);
-        unlink_entity_node(*(u8 **)&(((EntryPageFieldView_81326794 *)entry_page)->field_3D7C)[slot_offset + 0xAC]);
-        entry = *(u8 **)&(((EntryPageFieldView_81326794 *)entry_page)->field_3D7C)[slot_offset + 0xAC];
-        entry -= 0x20;
-        ((EntryFieldView_81326794 *)entry)->field_10 |= 0x80000000;
+    for (entry_slot = 0; entry_slot < 2; entry_slot++) {
+        entry = (&D_800E3D7C->unk_AC)[entry_slot];
+        if (entry != 0) {
+            clear_actor_action_markers(entry);
+            unlink_entity_node((&D_800E3D7C->unk_AC)[entry_slot]);
+            entry = (&D_800E3D7C->unk_AC)[entry_slot];
+            entry -= 0x20;
+            ((EntryFieldView_81326794 *)entry)->field_10 |= 0x80000000;
+        }
     }
-    entry_slot++;
-    if (entry_slot < 2)
-        goto loop;
+
 }

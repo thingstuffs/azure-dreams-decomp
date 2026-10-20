@@ -24,47 +24,23 @@ void dispatch_records_by_kind(void *records, s32 *value_sets) {
     s32 record_kind;
     s32 values_base;
     void *context;
-    s32 value_addr;
     s32 slot_index;
-    u8 *kind_table;
     u8 *status_ptr;
     void *record;
-    u8 *table_page;
     s32 next_status;
-    s16 end_mask;
 
     context = D_80016000->unk_20;
     status_ptr = (u8 *)value_sets;
     values_base = *((((S_8001A200_1 *)context)->unk_2D4(0)) + (s32 *)status_ptr);
-    record = records;
-    if ((((S_8001A200_2 *)record)->unk_01 & 0xC0) != 0x80) {
-        table_page = (u8 *)0x80010000;
-        kind_table = (u8 *)&D_8001791C;
-        status_ptr = record + 1;
-next_record:
-        slot_index = 1;
-        value_addr = values_base + 4;
-        kind_entry = kind_table + 0xC;
-next_kind:
-        next_status = *(s32 *)kind_entry;
-        record_kind = (*(s32 *)((u8 *)status_ptr + 0xB));
-        if ((next_status == record_kind) || ((next_status == 6) && (record_kind == 0x64))) {
-            copy_town_record_pair_fields(record, value_addr, kind_entry, slot_index);
-        } else {
-            value_addr += 4;
-            slot_index += 1;
-            kind_entry += 0xC;
-            if (slot_index < 8) {
-                goto next_kind;
+    for (record = records; (((S_8001A200_2 *)record)->unk_01 & 0xC0) != 0x80; record += 0x14) {
+        for (slot_index = 1; slot_index < 8; slot_index++) {
+            kind_entry = (u8 *)&D_8001791C + slot_index * 0xC;
+            next_status = *(s32 *)kind_entry;
+            record_kind = *(s32 *)((u8 *)record + 0xC);
+            if ((next_status == record_kind) || ((next_status == 6) && (record_kind == 0x64))) {
+                copy_town_record_pair_fields(record, values_base + slot_index * 4, kind_entry, slot_index);
+                break;
             }
-        }
-        status_ptr += 0x14;
-        record += 0x14;
-        next_status = *status_ptr;
-        end_mask = 0x80;
-        if ((next_status & 0xC0) == end_mask) {
-        } else {
-            goto next_record;
         }
     }
 }

@@ -87,19 +87,17 @@ s32 convert_ground_items_to_gold(EntityRec *target, s32 action, s16 action_type,
         play_sound_if_enabled(0x80F);
         slot_index = 0;
         slot_data = D_800E36C8;
-        slot_state = ((u8 *)D_800E3548);
-    loop:
-        if (slot_state[1] != 0) {
-            slot_state[1] = 0xE;
-            slot_state[0] = 3;
-            *(s32 *)(slot_data + 8) = lookup_item_category_mapped_value(0xE, 3);
-            slot_state[2] = random_dungeon_range_16(0x10, 0x18);
-            slot_state[3] = 1;
+        for (; slot_index < 0x40; slot_index++) {
+            slot_state = (u8 *)D_800E3548 + slot_index * 4;
+            if (slot_state[1] != 0) {
+                slot_state[1] = 0xE;
+                slot_state[0] = 3;
+                *(s32 *)(slot_data + 8) = lookup_item_category_mapped_value(0xE, 3);
+                slot_state[2] = random_dungeon_range_16(0x10, 0x18);
+                slot_state[3] = 1;
+            }
+            slot_data += 0xC;
         }
-        slot_data += 0xC;
-        slot_index++;
-        slot_state += 4;
-        if (slot_index < 0x40) goto loop;
         table_base = (u8 *)0x80080000;
     }
     table_base += 0x3460;

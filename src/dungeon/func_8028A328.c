@@ -13,9 +13,7 @@ void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D3
     s32 sum;
     u8 *state_base;
     u8 *prefix_base;
-    u8 *coords_base;
     s32 state_offset;
-    s32 coords_offset;
 
     random_bits = generate_random_value();
     sum = ((region->unk_06 * region->unk_04) >> 6) + (random_bits & 7) + 4;
@@ -30,10 +28,8 @@ void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D3
         state_offset = entry_index * 4;
         state_prefix = state_offset + prefix_base;
         state = state_offset + state_base;
-        coords_base = ((u8 *)D_800E36C8);
-        coords_offset = entry_index * 0xC;
-        coords = (floor_generate_isolated_8028A328_S_8001D328_1 *)(coords_offset + coords_base);
-loop:
+        do {
+            coords = (floor_generate_isolated_8028A328_S_8001D328_1 *)((u8 *)D_800E36C8 + entry_index * 0xC);
             x_offset = random_dungeon_range_16(0, (region->unk_04 - 1) & 0xFFFF) & 0xFFFF;
             y_offset = random_dungeon_range_16(0, (region->unk_06 - 1) & 0xFFFF) & 0xFFFF;
             coords->unk_00 = region->unk_00 + x_offset;
@@ -45,9 +41,6 @@ loop:
             state_prefix -= 4;
             state -= 4;
             entry_index--;
-            coords = (floor_generate_isolated_8028A328_S_8001D328_1 *)((u8 *)coords - 0xC);
-            if (entry_index >= 0) {
-                goto loop;
-            }
+        } while (entry_index >= 0);
     }
 }

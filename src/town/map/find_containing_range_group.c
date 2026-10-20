@@ -3,57 +3,16 @@
 /* Returns the first range group containing value as a one-based index, or zero if none. */
 s32 find_containing_range_group(s32 value, s16 **range_groups)
 {
-    s16 **group;
-    s16 *ranges;
-    s16 *range;
     s32 group_index;
-    s32 return_value;
-    s32 group_number;
-    s32 range_offset;
-    s32 empty_marker;
-    s32 end_marker;
+    s32 range_index;
 
-    group_index = 0;
-    if (*range_groups == 0) {
-        return_value = 0;
-        return return_value;
-    }
-
-    empty_marker = -1;
-    group = range_groups;
-group_loop:
-    ranges = *group;
-    if (*ranges != empty_marker) {
-        group_number = group_index + 1;
-        end_marker = -1;
-        range_offset = 0;
-
-range_loop:
-        ranges = *group;
-        range = (s16 *)(range_offset + (s32)ranges);
-        if (value >= range[0]) {
-            if (range[1] >= value) {
-                return_value = group_number;
-                return return_value;
+    for (group_index = 0; range_groups[group_index] != 0; group_index++) {
+        for (range_index = 0; range_groups[group_index][range_index * 2] != -1; range_index++) {
+            if (value >= range_groups[group_index][range_index * 2] &&
+                range_groups[group_index][range_index * 2 + 1] >= value) {
+                return group_index + 1;
             }
-            ranges = range_groups[group_index];
-        } else {
-            ranges = range_groups[group_index];
-        }
-        range_offset += 4;
-        return_value = range_offset + (s32)ranges;
-        return_value = *(s16 *)return_value;
-        if (return_value != end_marker) {
-            goto range_loop;
         }
     }
-
-    group++;
-    group_index++;
-    if (*group != 0) {
-        goto group_loop;
-    }
-
-    return_value = 0;
-    return return_value;
+    return 0;
 }

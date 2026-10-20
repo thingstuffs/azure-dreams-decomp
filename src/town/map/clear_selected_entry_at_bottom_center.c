@@ -19,28 +19,22 @@ void clear_selected_entry_at_bottom_center(void)
     u8 *selection_state = D_800D3814;
     u8 *shared_state = ((u8 *)&D_80082E60);
     u8 *entries = D_800D2EA4;
-    u8 *entry = entries + 0x100;
-    u8 *id_cursor = (u8 *) 0x80010040;
+    u8 *page = (u8 *) 0x80010000;
+    u8 *entry;
     u8 *fallback_entries;
-    u8 *fallback_entry;
-scan_entries:
-    entry_index--;
 
-    if (id_cursor[0x33A4] == selection_state[6]) {
-        func_80041094(0xB, ((entry[0] + (entry[2] >> 1)) << 6) | 0x20, ((entry[1] + entry[3]) << 6) | 0x20, 0,
-            (*((u16 *) (&shared_state[0x16]))) ^ 1);
-        selection_state[6] = 0;
-        return;
+    for (; entry_index > 0; entry_index--) {
+        entry = entries + entry_index * 8;
+        if (page[0x33A4 + entry_index * 2] == selection_state[6]) {
+            func_80041094(0xB, ((entry[0] + (entry[2] >> 1)) << 6) | 0x20, ((entry[1] + entry[3]) << 6) | 0x20, 0,
+                (*((u16 *) (&shared_state[0x16]))) ^ 1);
+            selection_state[6] = 0;
+            return;
+        }
     }
-    entry -= 8;
-    id_cursor -= 2;
-    if (entry_index <= 0) {
-        fallback_entries = D_800D2EA4;
-        fallback_entry = fallback_entries + (entry_index * 8);
-        func_80041094(0xB, ((fallback_entry[0] + (fallback_entry[2] >> 1)) << 6) | 0x20,
-            ((fallback_entry[1] + fallback_entry[3]) << 6) | 0x20, 0, D_80082E60.flags16 ^ 1);
-        D_800D381A = 0;
-        return;
-    }
-    goto scan_entries;
+    fallback_entries = D_800D2EA4;
+    entry = fallback_entries + entry_index * 8;
+    func_80041094(0xB, ((entry[0] + (entry[2] >> 1)) << 6) | 0x20,
+        ((entry[1] + entry[3]) << 6) | 0x20, 0, D_80082E60.flags16 ^ 1);
+    D_800D381A = 0;
 }

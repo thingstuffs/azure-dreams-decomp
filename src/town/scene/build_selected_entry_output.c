@@ -31,39 +31,28 @@ extern u8 D_80017D50;
 u8 *build_selected_entry_output(s32 selected_index) {
     s32 entry_index;
     s32 first_marked;
-    s32 entry_flag;
     u8 *output_base;
-    Record12 *record_base;
     Record12 *record;
     void *entry;
 
     first_marked = 0;
     output_base = &D_80017D50;
     if (selected_index != 0) {
-        entry_index = 1;
-        do {
-            entry_flag = 0x400;
-        } while (0);
-        entry = output_base + 0x14;
-        record_base = D_8001791C;
-        record = &record_base[1];
-loop:
-        if (func_8001E670(record->field4) != 0) {
-            if (record->field8 != 0) {
-                ((S_8001A86C_0 *)entry)->unk_02 = entry_flag;
-                if (entry_index == 1) {
-                    first_marked = 1;
+        for (entry_index = 1; entry_index < 8; entry_index++) {
+            record = &D_8001791C[entry_index];
+            entry = output_base + entry_index * 0x14;
+            if (func_8001E670(record->field4) != 0) {
+                if (record->field8 != 0) {
+                    ((S_8001A86C_0 *)entry)->unk_02 = 0x400;
+                    if (entry_index == 1) {
+                        first_marked = 1;
+                    }
+                } else if (selected_index == entry_index) {
+                    ((S_8001A86C_0 *)entry)->unk_02 = 0x400;
                 }
-            } else if (selected_index == entry_index) {
-                ((S_8001A86C_0 *)entry)->unk_02 = entry_flag;
             }
         }
-        entry += 0x14;
-        entry_index++;
-        record++;
-        if (entry_index < 8) {
-            goto loop;
-        }
+
     }
 
     dispatch_records_by_kind(output_base, &D_80017ADC);

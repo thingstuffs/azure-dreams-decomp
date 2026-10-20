@@ -169,37 +169,13 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
         if (((S_812A524C_5 *)(&D_800FBE54))->unk_00 != NULL) {
             set_or_clear_actor_status_slot(((S_812A524C_5 *)(&D_800FBE54))->unk_00 + 0x20, 1, 0xA);
         }
-        goto block_27;
+    } else {
+        object_addr = (s32) ((S_812A524C_5 *)(&D_800FBE54))->unk_00;
+        if (object_addr != 0) {
+            clear_slots_of_type(object_addr + 0x20, 1);
+            ((S_812A524C_5 *)(&D_800FBE54))->unk_00 = NULL;
+        }
     }
-    goto block_26;
-action_10:
-    func_800353F4(&D_8006F6B9);
-    ((S_812A524C_4 *)entity)->unk_6D = 0U;
-    ((S_812A524C_3 *)actor_in)->unk_9B = 0;
-    ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
-    ((S_812A524C_3 *)actor_in)->unk_B0 |= 0x10;
-    goto block_105;
-action_80:
-    func_800353F4(&D_8006FFB7);
-    ((S_812A524C_4 *)entity)->unk_6D = 0U;
-    ((S_812A524C_3 *)actor_in)->unk_9B = 0;
-    ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
-    ((S_812A524C_3 *)actor_in)->unk_B0 |= 0x80;
-    goto block_112;
-action_100:
-    func_800353F4(&D_800703D9);
-    ((S_812A524C_4 *)entity)->unk_6D = 0U;
-    ((S_812A524C_3 *)actor_in)->unk_9B = 0;
-    ((S_812A524C_3 *)actor_in)->unk_B8 = scan_type;
-    ((S_812A524C_3 *)actor_in)->unk_B0 |= 0x100;
-    goto block_119;
-block_26:
-    object_addr = (s32) ((S_812A524C_5 *)(&D_800FBE54))->unk_00;
-    if (object_addr != 0) {
-        clear_slots_of_type(object_addr + 0x20, 1);
-        ((S_812A524C_5 *)(&D_800FBE54))->unk_00 = NULL;
-    }
-block_27:
     if (!(((S_812A524C_6 *)(&D_80013714))->unk_00 & 1)) {
         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
             if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_actor_or_turn_action(entity) << 0x10) == 0)
@@ -376,15 +352,17 @@ block_27:
                                                     scan_group = 2;
                                                     scan_10 = (u8 *)0x80010000;
                                                     do {
-                                                        if ((scan_10[scan_index_10 * 4 + 0x249] != scan_kind)
-                                                            || (scan_10[scan_index_10 * 4 + 0x248] != scan_group)) {
-                                                            scan_index_10 += 1;
-                                                        } else {
-                                                            goto action_10;
+                                                        if ((scan_10[scan_index_10 * 4 + 0x249] == scan_kind) && (scan_10[scan_index_10 * 4 + 0x248] == scan_group)) {
+                                                            func_800353F4(&D_8006F6B9);
+                                                            ((S_812A524C_4 *)entity)->unk_6D = 0U;
+                                                            ((S_812A524C_3 *)actor_in)->unk_9B = 0;
+                                                            ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
+                                                            ((S_812A524C_3 *)actor_in)->unk_B0 |= 0x10;
+                                                            break;
                                                         }
+                                                        scan_index_10 += 1;
                                                     } while (scan_index_10 < 0x14);
                                                 }
-block_105:
                                                 if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                     if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x80)
                                                         && (((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A
@@ -394,15 +372,17 @@ block_105:
                                                         scan_group = 0x15;
                                                         scan_80 = (u8 *)0x80010000;
                                                         do {
-                                                            if ((scan_80[scan_index_80 * 4 + 0x249] != scan_kind)
-                                                                || (scan_80[scan_index_80 * 4 + 0x248] != scan_group)) {
-                                                                scan_index_80 += 1;
-                                                            } else {
-                                                                goto action_80;
+                                                            if ((scan_80[scan_index_80 * 4 + 0x249] == scan_kind) && (scan_80[scan_index_80 * 4 + 0x248] == scan_group)) {
+                                                                func_800353F4(&D_8006FFB7);
+                                                                ((S_812A524C_4 *)entity)->unk_6D = 0U;
+                                                                ((S_812A524C_3 *)actor_in)->unk_9B = 0;
+                                                                ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
+                                                                ((S_812A524C_3 *)actor_in)->unk_B0 |= 0x80;
+                                                                break;
                                                             }
+                                                            scan_index_80 += 1;
                                                         } while (scan_index_80 < 0x14);
                                                     }
-block_112:
                                                     if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                         if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x100)
                                                             && (((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A
@@ -412,16 +392,17 @@ block_112:
                                                             scan_group = 1;
                                                             scan_100 = (u8 *)0x80010000;
                                                             do {
-                                                                if ((scan_100[scan_index_100 * 4 + 0x249] != scan_kind)
-                                                                    || (scan_type = scan_100[scan_index_100 * 4 + 0x248],
-                                                                        (scan_type != scan_group))) {
-                                                                    scan_index_100 += 1;
-                                                                } else {
-                                                                    goto action_100;
+                                                                if ((scan_100[scan_index_100 * 4 + 0x249] == scan_kind) && ((scan_type = scan_100[scan_index_100 * 4 + 0x248]) == scan_group)) {
+                                                                    func_800353F4(&D_800703D9);
+                                                                    ((S_812A524C_4 *)entity)->unk_6D = 0U;
+                                                                    ((S_812A524C_3 *)actor_in)->unk_9B = 0;
+                                                                    ((S_812A524C_3 *)actor_in)->unk_B8 = scan_type;
+                                                                    ((S_812A524C_3 *)actor_in)->unk_B0 |= 0x100;
+                                                                    break;
                                                                 }
+                                                                scan_index_100 += 1;
                                                             } while (scan_index_100 < 0x14);
                                                         }
-block_119:
                                                         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                             if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x40)
                                                                 && (event_7 = (u8 *)((u8 *)(&D_80082E80)),

@@ -30,7 +30,6 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
     s16 *x_adjust;
     s16 *y_adjust;
     s32 history_index;
-    s32 history_offset;
     s32 direction_offset;
     s32 shade;
     u8 *linked_rgb;
@@ -47,17 +46,12 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
     U16_AT(obj, 0x1E) = U16_AT(obj, 0x2E);
     U16_AT(obj, 0x22) = U16_AT(obj, 0x30);
 
-    history_index = 1;
-copy_history:
-    history_offset = history_index * 8;
-    history_index--;
-    history_src = obj + history_index * 8;
-    history_dst = obj + history_offset;
-    U16_AT(history_dst, 0x24) = U16_AT(history_src, 0x24);
-    U16_AT(history_dst, 0x26) = U16_AT(history_src, 0x26);
-    U16_AT(history_dst, 0x28) = U16_AT(history_src, 0x28);
-    if (history_index > 0) {
-        goto copy_history;
+    for (history_index = 1; history_index > 0; history_index--) {
+        history_dst = obj + history_index * 8;
+        history_src = obj + (history_index - 1) * 8;
+        U16_AT(history_dst, 0x24) = U16_AT(history_src, 0x24);
+        U16_AT(history_dst, 0x26) = U16_AT(history_src, 0x26);
+        U16_AT(history_dst, 0x28) = U16_AT(history_src, 0x28);
     }
 
     final_z = U16_AT(obj, 0x12);

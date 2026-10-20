@@ -80,9 +80,11 @@ void store_normalized_building_code(s32 code) {
         return;
     case 0x37:
         stored_code = 3;
-                /* fallthrough */
-store_group_code:
+        store_base = (u8 *)0x80010000;
+        store_base[0x33BB] = stored_code;
+        return;
     case 0x0:
+
     case 0x1:
     case 0x2:
     case 0x3F:
@@ -93,10 +95,14 @@ store_group_code:
         return;
     case 0x38:
         stored_code = 2;
-        goto store_group_code;
+        store_base = (u8 *)0x80010000;
+        store_base[0x33BB] = stored_code;
+        return;
     case 0x3E:
         stored_code = 1;
-        goto store_group_code;
+        store_base = (u8 *)0x80010000;
+        store_base[0x33BB] = stored_code;
+        return;
     case 0x3:
     case 0x4:
         store_base = (u8 *)0x80010000;

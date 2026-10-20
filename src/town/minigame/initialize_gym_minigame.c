@@ -37,16 +37,8 @@ s32 initialize_gym_minigame(void)
     SpriteFrameState *render_record;
     void *shared_data;
     void *object_data;
-    s32 left_x;
-    s32 right_x;
-    s32 top_y;
     s32 count;
-    u8 *data_page;
     u16 *count_page;
-    s32 bottom_y;
-    void *spawn_position;
-    s32 spawn_kind;
-    void *spawn_table;
 
     parent_link = NULL;
     shared_data = (void *)&D_80020054;
@@ -67,38 +59,20 @@ s32 initialize_gym_minigame(void)
     position[2] = (s32)0xFFA00000;
     create_gym_mesh_object(position, 0x34, &D_8002390C, parent_link);
 
-    object_or_slot = 3;
-    left_x = 0x02700000;
-    right_x = 0x04900000;
-    top_y = 0x02E00000;
     position[2] = (s32)0xFFE00000;
-loop_0:
-    {
+    for (object_or_slot = 3; object_or_slot >= 0; object_or_slot--) {
         if ((object_or_slot >> 1) != 0) {
-            position[0] = left_x;
+            position[0] = 0x02700000;
         } else {
-            position[0] = right_x;
+            position[0] = 0x04900000;
         }
-
         if (object_or_slot & 1) {
-            position[1] = top_y;
-            spawn_position = position;
-            spawn_kind = 0x35;
-            spawn_table = (void *)0x80020000;
+            position[1] = 0x02E00000;
         } else {
-            bottom_y = 0x03E00000;
-            position[1] = bottom_y;
-            spawn_position = position;
-            spawn_kind = 0x35;
-            spawn_table = (void *)0x80020000;
+            position[1] = 0x03E00000;
         }
-        spawn_table = (u8 *)spawn_table + 0x3920;
-        create_gym_mesh_object(spawn_position, spawn_kind, spawn_table, parent_link);
-        object_or_slot--;
-
+        create_gym_mesh_object(position, 0x35, (u8 *)&D_8002390C + 0x14, parent_link);
     }
-    if (object_or_slot >= 0)
-        goto loop_0;
 
     object_or_slot = (s32)func_8003FC64(0x136);
     if (object_or_slot != 0) {

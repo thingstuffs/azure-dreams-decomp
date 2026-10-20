@@ -140,39 +140,27 @@ s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z) {
     held_z = input_z;
     get_offset_map_cell_value_and_flags((s16)(held_x - 1), (held_y = (s16)input_y), 0, &tile_flags);
     entry_index = 0;
-    if (tile_flags & 0x800) {
-        goto scan;
+    if (!(tile_flags & 0x800)) {
+        return -1;
     }
-    result = -1;
-    return result;
-success:
-    result = (s16)entry_index;
-    return result;
-scan:
     x = (s16)held_x;
     y = held_y;
     z = (s16)held_z;
-    position = (PositionEntry *)D_800E36C8;
-    active_entry = (DungeonItemEntry *)((u8 *)D_800E3548);
-    do {
+    for (; entry_index < 0x40; entry_index++) {
+        active_entry = &((DungeonItemEntry *)D_800E3548)[entry_index];
+        position = &((PositionEntry *)D_800E36C8)[entry_index];
         if ((active_entry->kind != 0) && (position->x == x) && (position->y == y)) {
             height_delta = z - position->value;
             if (height_delta < 0) {
                 height_delta = 0 - height_delta;
             }
             if (height_delta < 0x40) {
-                goto success;
+                return (s16)entry_index;
             }
         }
-        position++;
-        entry_index += 1;
-        active_entry++;
-        if (entry_index >= 0x40) {
-            result = -1;
-            return result;
-        }
-    } while (1);
-    return result;
+    }
+    return -1;
+
 }
 
 /* MECHANISM: True-space epilogue targets are two pre-scan return trampolines; s32 formals
@@ -974,25 +962,15 @@ void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16
 
 /* Removes an entry by shifting subsequent entries down and clearing the final slot. */
 void compact_item_entry_table(s32 entry_index) {
-    u8 *ptr = (u8 *)0x80010000;
+    for (; entry_index < 19; entry_index++) {
+        u8 *page = (u8 *)0x80010000;
 
-    if (entry_index < 19) {
-        ptr += entry_index * 4;
-loop_0:
-        {
-            entry_index++;
-            *(s32 *)(ptr + 0x29C) = *(s32 *)(ptr + 0x2A0);
-            ptr += 4;
-        }
-        if (entry_index < 19)
-            goto loop_0;
+        *(s32 *)(page + 0x29C + entry_index * 4) = *(s32 *)(page + 0x2A0 + entry_index * 4);
     }
     {
         u8 *page = (u8 *)0x80010000;
-        s32 entry_offset;
 
-        entry_offset = entry_index * 4;
-        *(s32 *)(entry_offset + (u32)page + 0x29C) = 0;
+        *(s32 *)(page + 0x29C + entry_index * 4) = 0;
     }
 }
 #include "modules/dungeon_engine_entity_effects_abi_views.h"

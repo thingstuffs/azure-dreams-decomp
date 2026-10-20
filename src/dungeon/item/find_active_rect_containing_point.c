@@ -5,34 +5,15 @@ extern s16 D_8008146E;
 
 /* Returns the first active rectangle containing the point, or -1 if none does. */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y) {
-    u8 *record;
     s32 index;
-    s32 initial_count;
-    s32 count;
-    s32 x;
-    s32 y;
 
-    initial_count = D_8008146E;
-    index = 0;
-    if (initial_count > 0) {
-        x = point_x & 0xFFFF;
-        y = point_y & 0xFFFF;
-        count = initial_count;
-        record = D_800E2970;
-loop_0:
-        {
-            if ((*(s16 *)(record + 10) != 0) &&
-                ((u16)x >= *(u16 *)(record + 0)) &&
-                (x < *(u16 *)(record + 0) + *(u16 *)(record + 4)) &&
-                ((u16)y >= *(u16 *)(record + 2)) &&
-                (y < *(u16 *)(record + 2) + *(u16 *)(record + 6))) {
-                return (s16)index;
-            }
-            index++;
-            record += 20;
+    for (index = 0; index < D_8008146E; index++) {
+        DungeonRoom *room = &D_800E2970[index];
+
+        if (room->unk_0A != 0 && (u16)point_x >= room->x && (u16)point_x < room->x + (u16)room->w &&
+            (u16)point_y >= room->y && (u16)point_y < room->y + (u16)room->h) {
+            return (s16)index;
         }
-        if (index < count)
-            goto loop_0;
     }
     return -1;
 }

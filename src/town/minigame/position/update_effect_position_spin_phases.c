@@ -39,7 +39,6 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
     s32 speed_limit;
     s32 sector_start;
     s32 reduced_speed;
-    s32 icon_x;
     s32 icon_frame;
     s32 value_close;
     s32 value_idle;
@@ -200,21 +199,11 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
         S16(state_arg, 0x72) = 0;
 
     case 7:
-        dx = 0;
-        spin_data = (void *)6;
-        dy = (s32)D_800245DC;
-        icon_x = 122;
-icon_loop:
-        {
-            point.x = icon_x;
-            point.y = (s32)spin_data;
+        for (dx = 0; dx < 3; dx++) {
+            point.x = 122 + dx * 16;
+            point.y = 6;
             icon_frame = (S16(state_arg, 0x72) >> 1) + dx;
-            func_800672D8(&point, (void *)((icon_frame % 3) * 32 + dy));
-            icon_x += 16;
-            dx++;
-        }
-        if (dx < 3) {
-            goto icon_loop;
+            func_800672D8(&point, (void *)((icon_frame % 3) * 32 + (s32)D_800245DC));
         }
         value_draw = U16(state_arg, 0x72);
         U16(state_arg, 0x72) = value_draw + 1;

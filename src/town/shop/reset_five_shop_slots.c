@@ -24,20 +24,18 @@ void reset_five_shop_slots(Rec_func_800B15B8_arg0 *owner) {
     void *slot_cursor;
     s32 slot_index;
 
-    slot_index = 0;
-    slot_cursor = owner->unk_CC;
-loop_0:
-    {
+    u8 *slots;
+
+    slots = owner->unk_CC;
+    for (slot_index = 0; slot_index < 5; slot_index++) {
+        slot_cursor = slots + slot_index * 4;
         *((S_800B15B8_1 *)slot_cursor)->unk_10 = 0;
-        slot_index += 1;
         func_8004E99C(*((S_800B15B8_1 *)slot_cursor)->unk_38);
         *((S_800B15B8_1 *)slot_cursor)->unk_38 = 0;
         func_8004E99C(*((S_800B15B8_1 *)slot_cursor)->unk_4C);
         *((S_800B15B8_1 *)slot_cursor)->unk_4C = 0;
         func_8004E99C(*((S_800B15B8_1 *)slot_cursor)->unk_60);
         *((S_800B15B8_1 *)slot_cursor)->unk_60 = 0;
-        slot_cursor += 4;
     }
-    if (slot_index < 5)
-        goto loop_0;
+
 }

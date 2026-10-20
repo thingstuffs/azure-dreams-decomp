@@ -13,19 +13,14 @@ void dispatch_first_matching_state_entry(void)
 {
     s32 *table_entry;
     s8 *state;
-    if (*((s32 *) D_800D3824) != (-1)) {
-        do {
-            state = (s8 *) (&D_8006ADBC);
-        } while (0);
-        table_entry = D_800D3824;
-check_entry:
+    s32 i;
+
+    for (i = 0; D_800D3824[i * 3] != -1; i++) {
+        state = (s8 *) (&D_8006ADBC);
+        table_entry = &D_800D3824[i * 3];
         if (*((s16 *) (state + 0x1A)) == (*table_entry)) {
             build_two_display_entries(*((s32 *) (((s8 *) table_entry) + 4)), *((s16 *) (((s8 *) table_entry) + 8)));
             return;
-        }
-        table_entry += 3;
-        if (*table_entry != (-1)) {
-            goto check_entry;
         }
     }
 }
