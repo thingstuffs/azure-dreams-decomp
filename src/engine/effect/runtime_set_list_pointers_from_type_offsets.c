@@ -12,7 +12,7 @@ typedef struct S_80046D64_Info {
     u16 offE;  /* 0xE */
 } S_80046D64_Info;
 
-extern S_80046D64_Info *D_8006E7F0[];
+extern S_80046D64_Info *resource_type_list_layouts[];
 
 /* D_80083160: shared state table (own view here); this function only touches
  * a small sub-record living at +0x1DC (five s32 fields; f0 is untouched by
@@ -40,11 +40,11 @@ void runtime_set_list_pointers_from_type_offsets(s32 data_base, s16 type_index)
     s32 *entry;
     s32 remaining;
 
-    first_list = (s32 *) (data_base + D_8006E7F0[type_index]->off8 * 4);
+    first_list = (s32 *) (data_base + resource_type_list_layouts[type_index]->off8 * 4);
     lists->f4 = (s32) first_list;
 
     entry = first_list;
-    remaining = D_8006E7F0[type_index]->count;
+    remaining = resource_type_list_layouts[type_index]->count;
     if (remaining > 0) {
         do {
             remaining--;
@@ -53,7 +53,7 @@ void runtime_set_list_pointers_from_type_offsets(s32 data_base, s16 type_index)
         } while (remaining > 0);
     }
 
-    lists->f8 = data_base + D_8006E7F0[type_index]->offA * 4;
-    lists->fC = data_base + D_8006E7F0[type_index]->offC * 4;
-    lists->f10 = data_base + D_8006E7F0[type_index]->offE * 4;
+    lists->f8 = data_base + resource_type_list_layouts[type_index]->offA * 4;
+    lists->fC = data_base + resource_type_list_layouts[type_index]->offC * 4;
+    lists->f10 = data_base + resource_type_list_layouts[type_index]->offE * 4;
 }

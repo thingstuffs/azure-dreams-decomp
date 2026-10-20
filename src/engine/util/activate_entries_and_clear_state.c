@@ -2,7 +2,7 @@
 
 /* see src/code2.c sibling audio_set_all_track_tempo_steps: same D_80085FA8 array-of-structs / D_800869B4 count idiom */
 
-extern int D_800869B4[3];
+extern int audio_sequence_track_count[3];
 
 typedef struct {
     int field_00;
@@ -11,7 +11,7 @@ typedef struct {
     char pad_30[0x50 - 0x30];
 } Struct_80059D1C_80085FA8;
 
-extern Struct_80059D1C_80085FA8 D_80085FA8[];
+extern Struct_80059D1C_80085FA8 audio_sequence_tracks[];
 
 /* Sets field_2C to 1 and clears field_00 for each active entry. */
 void activate_entries_and_clear_state(void) {
@@ -19,12 +19,12 @@ void activate_entries_and_clear_state(void) {
     unsigned int entry_index = 0;
     unsigned int entry_count;
 
-    if (D_800869B4[0] != 0) {
+    if (audio_sequence_track_count[0] != 0) {
         one = 1;
-        entry_count = D_800869B4[0];
+        entry_count = audio_sequence_track_count[0];
         do {
-            D_80085FA8[entry_index].field_2C = one;
-            D_80085FA8[entry_index].field_00 = 0;
+            audio_sequence_tracks[entry_index].field_2C = one;
+            audio_sequence_tracks[entry_index].field_00 = 0;
             entry_index++;
         } while (entry_index < entry_count);
     }

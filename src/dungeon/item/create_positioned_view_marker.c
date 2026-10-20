@@ -2,7 +2,7 @@
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 /* Forwards the third argument to func_800478B8. */
-void func_800F6070(s32 unused_first, s32 unused_second, s32 value) {
+void update_sprite_from_third_argument(s32 unused_first, s32 unused_second, s32 value) {
     func_800478B8(value);
 }
 #include "modules/dungeon_ovl_7ce800.h"
@@ -39,7 +39,7 @@ void create_positioned_view_marker(s16 x, s16 y) {
 
     object = func_8003FC64(0x16);
     if (object != NULL) {
-        object->unk_10 = (void *)func_800F6070;
+        object->unk_10 = (void *)update_sprite_from_third_argument;
         register_node(object, project_sprite_chain);
         render_state = object->unk_0C;
         render_config = (u32) *((u32 *)(&g_game_work.view.tint.parts.tint_r));
@@ -266,7 +266,7 @@ typedef struct S_800F643C_3 {
 } S_800F643C_3;
 
 
-s32 func_80046398(void *,s32,void *);
+s32 draw_linked_lit_meshes(void *,s32,void *);
 extern s32 D_80083208;
 extern s16 *D_800F8A44[];
 
@@ -282,7 +282,7 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
     object = func_8003FC64(0x16);
     if (object != NULL) {
         ((S_800F643C_0 *)object)->unk_10 = (void *)advance_dungeon_tile_action_state;
-        register_node(object, (s32)func_80046398);
+        register_node(object, (s32)draw_linked_lit_meshes);
         render_config = D_80083208;
         model = ((S_800F643C_0 *)object)->unk_0C;
         (*(s16 *)((u8 *)model + 0x20)) = 0x1000;

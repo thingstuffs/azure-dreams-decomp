@@ -26,7 +26,7 @@ typedef struct ActorActionWork {
 /* Resident bindings traced in this bank; shared record layouts retained. */
 extern GameWork D_80084818;
 extern DungeonGlobalStatus D_80085990;
-extern TileObject D_80081490;
+extern TileObject free_node_list_head;
 extern struct EntityRec * D_800803DC;
 
 extern s32 func_800424C4(void *, s32);
@@ -191,7 +191,7 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, S
             func_800A86C4(actor);
             update_fading_effect_motion(actor);
             if ((func_800424C4(actor, 1) << 16) != 0) {
-                TileObject *room_base = &D_80081490;
+                TileObject *room_base = &free_node_list_head;
                 s8 room_id = *(s8 *)&entity->unk_26;
 
                 if ((room_id == room_base->room_index && room_id >= 0) || (s16)func_8009EB30(room_base, entity) < 2) {

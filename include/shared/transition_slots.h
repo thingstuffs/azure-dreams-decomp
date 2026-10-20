@@ -13,6 +13,6 @@ typedef struct TransitionSlot {
     /* 0x6 */ short unk_6;      /* cleared by the allocator; the dungeon sets 1 */
 } TransitionSlot;
 
-extern TransitionSlot D_80083120[8];
+extern TransitionSlot runtime_transition_slots[8];
 
 #endif

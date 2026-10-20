@@ -573,7 +573,7 @@ void func_80171F40(void *object, void *unused, void *display, void *orientation)
 s32 update_actor_animation_behavior_and_facing(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, EntityRec *actor);
 void func_80172168(void *action_state, void *action_context, SpriteFrameState *sprite, EntityRec *actor);
 s32 func_80172280(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void func_801723C4(R08_801723C4_S_801724A8_0 *state, s32 context, s32 source, s32 target);
+void finish_actor_tile_move_then_resume_effect_behavior(R08_801723C4_S_801724A8_0 *state, s32 context, s32 source, s32 target);
 void func_8017245C(void *action, void *motion, void *sprite, void *actor);
 void advance_a_timed_actor_animation_applies_completion_effects(Resource08CallbackState *state, void *entity, void *position, void *graphic);
 void update_staged_movement_and_return_to_tile(void *action, EntityRec *motion, void *sprite, EntityRec *actor);
@@ -582,14 +582,14 @@ void advance_action_phase_and_process_actor(void *action, void *motion, void *sp
 void func_80173688(void *state, void *motion, void *position, void *actor);
 void func_801736A8(void *state, void *motion, void *position, void *actor);
 void func_801736C8(void *state, void *motion, void *position, void *actor);
-void func_801736E8(Resource08CallbackState *state, void *motion, void *position, void *actor);
+void finish_actor_hop_and_grow_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor);
 void update_object_or_select_directional_data(void *controller, s32 actor_index, void *sprite, EntityRec *actor);
-void func_80173BE4(void *controller, void *context, void *sprite, EntityRec *entity);
+void resume_actor_effect_behavior_after_status_animation(void *controller, void *context, void *sprite, EntityRec *entity);
 void func_80173F20(R08_80173F20_Actor *actor, s32 action, R08_80173F20_Entity *entity, R08_80173F20_MapObject *map_object);
-void func_80173FE8(Resource08CallbackState *state, void *entity, void *position, void *graphic);
-void func_8017404C(Resource08CallbackState *state, void *motion, void *position, void *actor);
+void finish_thrown_actor_travel_and_floor_trap_then_resume_effect_behavior(Resource08CallbackState *state, void *entity, void *position, void *graphic);
+void finish_actor_terrain_interpolation_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor);
 void create_four_directional_effects(Resource08CallbackState *state, void *motion, void *position, void *actor);
-void func_801740BC(Resource08CallbackState *state, void *motion, void *position, void *actor);
+void finish_actor_fade_in_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor);
 s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, R08_801740F4_Entry *entry, s32 unused);
 void advance_object_angle_and_height(u16 *record_data, s32 unused, R08_80174180_Object *object);
 void create_tinted_rotated_sprite(s32 unused_0, R08_801741D0_S_801741D0_3 *source_pos, s32 unused_2, s8 green, u8 red_blue);
@@ -598,6 +598,6 @@ void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void
 void func_80174470(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
 void func_8017451C(u8 *task, void *context, u8 *input);
 void advance_effect_and_child_animation(void *effect_state, EntityRec *position, SpriteFrameState *entity, void *actor);
-void func_80174BBC(Resource08CallbackState *state, void *motion, void *position, void *actor);
-void func_80174BF4(Resource08CallbackState *state, void *motion, void *position, void *actor);
+void finish_actor_floor_trap_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor);
+void finish_actor_action_flag_propagation_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor);
 #endif

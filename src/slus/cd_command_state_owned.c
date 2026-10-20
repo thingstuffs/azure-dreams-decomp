@@ -1,17 +1,17 @@
 #include "engine/scene/cd_cohort_types.h"
-u8 D_800814D0 = 0;
-u8 D_800814D4 = 0;
-u32 D_800814CC = 0;
-SlusCdResult D_80081450 = {0};
+u8 cd_command_read_index = 0;
+u8 cd_command_mode_byte = 0;
+u32 cd_read_tail_word_address = 0;
+SlusCdResult cd_command_result = {0};
 u8 D_80080AD0 = 0;
-u16 D_80080AD2 = 0;
-u16 D_80080AD4 = 0;
-s32 D_80080AD8 = 0;
-void *D_80080ADC = 0;
-s32 D_800814B0 = 0;
-s32 D_800814B4 = 0;
+u16 cd_command_poll_ticks = 0;
+u16 cd_retry_counters_pending = 0;
+s32 cd_read_sync_result = 0;
+void *cd_event_payload = 0;
+s32 cd_queue_buffered_argument_word_0 = 0;
+s32 cd_queue_buffered_argument_word_1 = 0;
 
-extern u8 D_800814D3[2];
+extern u8 cd_command_phase[2];
 
 #include "w_8003E34C.c"
 #include "w_8003E4FC.c"

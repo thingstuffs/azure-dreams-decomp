@@ -22,7 +22,7 @@ typedef struct {
 extern GlobalADBC D_8006ADBC;
 
 /* Initializes state pointers and copies the global default values. */
-void func_80034EC4(FuncState *state) {
+void initialize_script_cursor_and_defaults(FuncState *state) {
     GlobalADBC *defaults = &D_8006ADBC;
 
     state->unk2 = 2;

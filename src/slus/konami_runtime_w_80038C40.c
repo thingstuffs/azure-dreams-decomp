@@ -11,7 +11,7 @@ typedef struct {
 extern Func80038C40Data D_8002D03C;
 
 /* Returns whether value matches any of the nine bytes in D_8002D03C. */
-s32 func_80038C40(s8 value) {
+s32 is_message_byte_in_lookup_set(s8 value) {
     Func80038C40Data byte_table;
     s32 byte_index;
 

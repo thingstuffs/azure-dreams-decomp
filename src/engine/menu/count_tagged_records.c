@@ -10,7 +10,7 @@ typedef struct {
 extern s32 count_tagged_records(S_8004A10C *a0);
 
 /* Returns the first flagged entry's signed byte at offset 2 plus 0x80, or zero for NULL. */
-s16 func_8004A10C(S_8004A10C *entries) {
+s16 read_terminal_tagged_entry_value(S_8004A10C *entries) {
     s32 entry_index;
     s8 entry_value;
 

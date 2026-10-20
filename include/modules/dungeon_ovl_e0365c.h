@@ -737,16 +737,16 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, EntityRec *m
 void func_801731BC(void *state,void *position,void *render_state,void *entity);
 void func_801731DC(void *state,void *motion,void *sprite,void *actor);
 void advance_entity_motion_fade_and_removal(void *state, s32 action, SpriteFrameState *source, EntityRec *target);
-void func_8017321C(E_8017321C_ActionState *state,void *motion,void *sprite,void *actor);
+void finish_actor_hop_and_grow_then_resume_facing_animation(E_8017321C_ActionState *state,void *motion,void *sprite,void *actor);
 void handle_actor_pending_action(void *action, void *context, void *sprite, EntityRec *entity);
 void handle_actor_action_effects(void *controller, void *context, void *sprite, EntityRec *actor);
 void update_actor_landing_and_trap(E_801737DC_ActionState *state,void *motion,E_801737DC_RenderState *sprite,E_801737DC_RenderActor *actor);
 void update_thrown_actor_and_trap(E_801738A4_ActionState *state,void *motion,void *sprite,void *actor);
-void func_80173908(E_80173908_ActionState *state,void *motion,void *sprite,void *actor);
-void func_80173940(E_80173940_ActionState *state,void *motion,void *sprite,void *actor);
-void func_80173978(E_80173978_ActionState *state,void *motion,void *sprite,void *actor);
-void func_801739B0(E_801739B0_ActionState *state,void *motion,void *sprite,void *actor);
-void func_801739E8(E_801739E8_ActionState *state,void *motion,void *sprite,void *actor);
+void finish_actor_terrain_interpolation_then_resume_facing_animation(E_80173908_ActionState *state,void *motion,void *sprite,void *actor);
+void finish_spinning_actor_fall_then_resume_facing_animation(E_80173940_ActionState *state,void *motion,void *sprite,void *actor);
+void finish_actor_fade_in_then_resume_facing_animation(E_80173978_ActionState *state,void *motion,void *sprite,void *actor);
+void finish_actor_floor_trap_then_resume_facing_animation(E_801739B0_ActionState *state,void *motion,void *sprite,void *actor);
+void finish_actor_action_flag_propagation_then_resume_facing_animation(E_801739E8_ActionState *state,void *motion,void *sprite,void *actor);
 void advance_actor_state_with_child(void *actor, void *context, void *entity, void *creature);
 void advance_actor_state_when_allowed(void *state_ctx, s32 entity_id, void *action, void *entity);
 s32 select_actor_relation_state(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
@@ -755,5 +755,5 @@ void create_four_directional_effects(void *owner_arg, void *motion_arg, void *or
 void advance_effect_record_counters(u16 *counter, M2C_UNK unused, SpriteFrameState *record);
 s32 create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *initial_position, E_801742AC_S_80DE6AAC_4 *tile_origin);
 void func_80174460(void *record);
-void func_801744B8(void *record);
+void display_entity_action_message(void *record);
 #endif

@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-extern s32 D_800869C0[];
+extern s32 audio_ram_blocks[];
 
 /* Sort up to 16 entries before the first zero key in ascending key order. */
 void sort_entries_by_key(void)
@@ -18,7 +18,7 @@ void sort_entries_by_key(void)
     void *sort_entry;
 
     entry_count = 0;
-    scan_entry = D_800869C0;
+    scan_entry = audio_ram_blocks;
     do {
         if (*(s32 *)scan_entry != 0) {
             entry_count++;
@@ -32,7 +32,7 @@ void sort_entries_by_key(void)
 
     entry_index = 0;
     if (entry_count > 0) {
-        entry = D_800869C0;
+        entry = audio_ram_blocks;
         entries = entry;
         do {
             compare_index = entry_count - 1;

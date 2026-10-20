@@ -2,27 +2,27 @@
 #define OVMOVIE_LIBPRESS_H
 #include "common.h"
 #include "m2c_compat.h"
-extern u8 D_8017823C;
-extern u8 D_80178240[];
-extern u8 D_80178280[];
-extern u8 D_801782C0;
-extern u8 D_801782C4;
+extern u8 movie_iq_table_header;
+extern u8 movie_iq_luma_bytes[];
+extern u8 movie_iq_chroma_bytes[];
+extern u8 movie_coefficient_table_header;
+extern u8 movie_coefficient_table_bytes;
 extern u8 D_80180000[];
-extern s32 D_80176800;
-extern s32 D_8017681C;
-extern s32 D_8017682C;
-extern u32 D_8017683C;
-extern u32 D_80176864;
-extern u32 D_8017689C;
-static s32 *D_8017834C;
-static s32 *D_80178350;
-static s32 *D_80178354;
-static s32 *D_80178358;
-static s32 *D_8017835C;
-static s32 *D_80178360;
-static s32 *D_8017837C;
-static u32 *D_80178380;
-static s32 *D_80178384;
+extern s32 movie_decoder_option_format;
+extern s32 movie_decoder_input_sync_label;
+extern s32 movie_decoder_output_sync_label;
+extern u32 movie_decoder_dma_format;
+extern u32 movie_decoder_fifo_format;
+extern u32 movie_decoder_timeout_format;
+static s32 *movie_mdec_input_dma_address;
+static s32 *movie_mdec_input_dma_blocks;
+static s32 *movie_mdec_input_dma_control;
+static s32 *movie_mdec_output_dma_address;
+static s32 *movie_mdec_output_dma_blocks;
+static s32 *movie_mdec_output_dma_control;
+static s32 *movie_mdec_data_register;
+static u32 *movie_mdec_status_register;
+static s32 *movie_dma_priority_register;
 extern s32 func_8005FFFC(void);
 extern s32 func_8006005C(s32, void (*)(void));
 extern s32 printf();

@@ -10,9 +10,9 @@
  * Dispatching through it means this TU emits NO compiler-generated jump table
  * into .text-referenced .rodata, which is what makes the object LINK. */
 
-extern u8  D_800814D1[1];    /* Observed tail-index byte view; no storage ownership. */
-extern u8  D_800814D8[8];     /* CdReadSync buffer (retail extent 8: small data at -G8) */
-extern u32 D_80081480[1];     /* retail extent 5: small data at -G8 */
+extern u8  cd_command_write_index[1];    /* Observed tail-index byte view; no storage ownership. */
+extern u8  cd_read_status_bytes[8];     /* CdReadSync buffer (retail extent 8: small data at -G8) */
+extern u32 gpu_scratch_write_pointer[1];     /* retail extent 5: small data at -G8 */
 extern u16 D_80083164[];
 
 extern int  CdSync(int mode, u8 *result);
@@ -28,10 +28,10 @@ extern void func_8003E70C(void);
 extern void wait_512_vertical_syncs(void);
 extern void cd_set_mode_with_retry(void);
 extern void CdIntToPos(u32 lba, u8 *loc);
-extern u8  D_800814D3[2];   /* CD driver state byte (+0); +1 is the byte at D_800814D4 */
+extern u8  cd_command_phase[2];   /* CD driver state byte (+0); +1 is the byte at D_800814D4 */
 extern u8  D_800814D2[1];
 
-#define CDBUF (D_80081450.bytes)
+#define CDBUF (cd_command_result.bytes)
 
 /* Processes queued CD commands and advances pending reads and drive operations. */
 void func_8003E758(void)
@@ -47,17 +47,17 @@ void func_8003E758(void)
     u8  sync_status[8];
 
 process_queue:
-    driver = &D_80083958[0];
+    driver = &cd_driver_prefix[0];
     driver->flags &= 0xFFFE;
 
-    if (D_800814D0 != D_800814D1[0]) {
+    if (cd_command_read_index != cd_command_write_index[0]) {
 
         driver->flags |= 1;
-        state = D_800814D3[0];
+        state = cd_command_phase[0];
 
         if (state == 0xFF) {
-            queue = D_80083968;
-            head_index = D_800814D0;
+            queue = cd_command_records;
+            head_index = cd_command_read_index;
                             /* head_index*24 SPLIT into two carriers (head_index*3, then <<3): one 4-ref temp for
              * the whole chain outranks the address %hi in local-alloc
              * (floor_log2(4)*4/5 vs floor_log2(2)*2/4) and steals $v0; two 2-ref
@@ -65,10 +65,10 @@ process_queue:
             head_stride = head_index * 3;
             switch (*((u8 *)queue + head_stride * 8)) {
             case 0:
-                D_800814D3[0] = 0xFF;
+                cd_command_phase[0] = 0xFF;
                 driver->unk4 = 0;
                 D_800814D2[0] = 0;
-                D_800814D0 = (head_index + 1) & 0x1F;
+                cd_command_read_index = (head_index + 1) & 0x1F;
                 goto process_queue;
 
             case 1:
@@ -83,7 +83,7 @@ process_queue:
                 }
                 D_800814D2[0] = 2;
                 driver->unk4 = 2;
-                D_800814D0 = D_800814D0 + 1;
+                cd_command_read_index = cd_command_read_index + 1;
                 break;
 
             case 2:
@@ -98,11 +98,11 @@ process_queue:
                 }
                 D_800814D2[0] = 0;
                 driver->unk4 = 0;
-                command = &queue[D_800814D0];
+                command = &queue[cd_command_read_index];
                 CdIntToPos(command->unk04, location);
                 if (CdControl(2, location, CDBUF) == 0)
                     break;
-                D_800814D0 = D_800814D0 + 1;
+                cd_command_read_index = cd_command_read_index + 1;
                 break;
 
             case 6:
@@ -120,24 +120,24 @@ process_queue:
                 }
                 D_800814D2[0] = 0;
                 driver->unk4 = 0;
-                command = &queue[D_800814D0];
+                command = &queue[cd_command_read_index];
                 read_info = (u32 *)command->unk04;
                 read_word = read_info[0];
                 read_addr = read_word & 0x7FFFFF;
                 if (read_addr == 0)
-                    read_addr = D_80081480[0];
+                    read_addr = gpu_scratch_write_pointer[0];
                 else
                     read_addr = read_addr | 0x80000000;
                 sector_count = read_info[0] >> 23;
                 if (sector_count == 0) {
-                    u8 *state_ptr = &D_800814D3[0];
-                    D_800814D3[0] = 0xFF;
+                    u8 *state_ptr = &cd_command_phase[0];
+                    cd_command_phase[0] = 0xFF;
                     state_ptr[-3] += 1;
                     break;
                 }
-                D_800814CC = (read_addr + (sector_count << 11)) - 4;
-                D_800814D4 = 0x80;
-                if (CdControl(0xE, &D_800814D3[1], 0) == 0)
+                cd_read_tail_word_address = (read_addr + (sector_count << 11)) - 4;
+                cd_command_mode_byte = 0x80;
+                if (CdControl(0xE, &cd_command_phase[1], 0) == 0)
                     return;
                 sync_result = CdSync(1, sync_status);
                 if (sync_result != 0) {
@@ -162,7 +162,7 @@ process_queue:
                 }
                 if (CdRead(sector_count, (u32 *)read_addr, 0x80) == 0)
                     return;
-                D_800814D3[0] = 1;
+                cd_command_phase[0] = 1;
                 break;
             }
 
@@ -180,7 +180,7 @@ process_queue:
                 driver->unk4 = 0;
                 if (CdControl(9, 0, CDBUF) == 0)
                     break;
-                D_800814D3[0] = 1;
+                cd_command_phase[0] = 1;
                 break;
 
             case 0xD:
@@ -196,13 +196,13 @@ process_queue:
                 D_800814D2[0] = 0;
                 driver->unk4 = 0;
                 {
-                    int command_offset = D_800814D0 * 24;
+                    int command_offset = cd_command_read_index * 24;
                     u8 *params = queue->unk08;
                     if (CdControl(0xD, command_offset + params, CDBUF) == 0)
                         break;
                 }
-                D_800814D3[0] = 0xFF;
-                D_800814D0 = D_800814D0 + 1;
+                cd_command_phase[0] = 0xFF;
+                cd_command_read_index = cd_command_read_index + 1;
                 break;
 
             case 0xE:
@@ -218,13 +218,13 @@ process_queue:
                 D_800814D2[0] = 0;
                 driver->unk4 = 0;
                 {
-                    int command_offset = D_800814D0 * 24;
+                    int command_offset = cd_command_read_index * 24;
                     u8 *params = queue->unk08;
                     if (CdControl(0xE, command_offset + params, CDBUF) == 0)
                         break;
                 }
-                D_800814D3[0] = 0xFF;
-                D_800814D0 = D_800814D0 + 1;
+                cd_command_phase[0] = 0xFF;
+                cd_command_read_index = cd_command_read_index + 1;
                 break;
 
             case 0x15:
@@ -239,11 +239,11 @@ process_queue:
                 }
                 D_800814D2[0] = 0;
                 driver->unk4 = 0;
-                command = &queue[D_800814D0];
+                command = &queue[cd_command_read_index];
                 CdIntToPos(command->unk04, location);
                 if (CdControlF(0x15, location) == 0)
                     break;
-                D_800814D3[0] = 1;
+                cd_command_phase[0] = 1;
                 break;
 
             case 0x1B:
@@ -258,7 +258,7 @@ process_queue:
                 }
                 D_800814D2[0] = 0;
                 driver->unk4 = 0;
-                command = &queue[D_800814D0];
+                command = &queue[cd_command_read_index];
                 CdIntToPos(command->unk04, location);
                 retries = 0x10;
                 if (CdControl(2, location, 0) == 0)
@@ -289,8 +289,8 @@ process_queue:
                         return;
                     }
                 }
-                D_80083958[0].unk4 = 0;
-                D_800814D3[0] = 1;
+                cd_driver_prefix[0].unk4 = 0;
+                cd_command_phase[0] = 1;
                 break;
 
             case 0xA:
@@ -305,18 +305,18 @@ process_queue:
                         return;
                     }
                 }
-                D_800814D3[0] = 0xFF;
-                D_800814D0 = D_800814D0 + 1;
+                cd_command_phase[0] = 0xFF;
+                cd_command_read_index = cd_command_read_index + 1;
                 break;
 
             case 0xFF:
-                (*(void (*)(u32))queue[head_index].unk04)(*(u32 *)D_80083968[D_800814D0].unk08);
-                D_800814D0 = D_800814D0 + 1;
+                (*(void (*)(u32))queue[head_index].unk04)(*(u32 *)cd_command_records[cd_command_read_index].unk08);
+                cd_command_read_index = cd_command_read_index + 1;
                 break;
 
             case 0xFC:
                 StUnSetRing();
-                D_800814D0 = D_800814D0 + 1;
+                cd_command_read_index = cd_command_read_index + 1;
                 break;
 
             case 0x4:
@@ -331,8 +331,8 @@ process_queue:
         } else if (state == 1) {
             u32 opcode;
             int completion_offset;
-            active_queue = D_80083968;
-            head_index = D_800814D0;
+            active_queue = cd_command_records;
+            head_index = cd_command_read_index;
                             /* Keep one byte-offset accumulator for this completion lookup. */
             completion_offset = head_index << 1;
             completion_offset += head_index;
@@ -346,10 +346,10 @@ process_queue:
                     s16 idle_state;
                     int old_head;
                     idle_state = 0xFF;
-                    D_800814D3[0] = idle_state;
-                    state_ptr = &D_800814D3[0];
+                    cd_command_phase[0] = idle_state;
+                    state_ptr = &cd_command_phase[0];
                     old_head = state_ptr[-3];
-                    D_80083958[0].unk4 = 0;
+                    cd_driver_prefix[0].unk4 = 0;
                     D_800814D2[0] = 0;
                     state_ptr[-3] = (old_head + 1) & 0x1F;
                     goto process_queue;
@@ -365,27 +365,27 @@ process_queue:
                     if (sync_result == disk_error)
                         goto command_failed;
                 }
-                D_80080AD8 = CdReadSync(1, D_800814D8);
-                if (D_80080AD8 > 0)
+                cd_read_sync_result = CdReadSync(1, cd_read_status_bytes);
+                if (cd_read_sync_result > 0)
                     break;
-                if (D_80080AD8 == 0) {
+                if (cd_read_sync_result == 0) {
                     if (D_80080AD0 != 0) {
-                        if ((*(u32 *)D_800814CC & 0xFFFF0000) == 0x10120000)
+                        if ((*(u32 *)cd_read_tail_word_address & 0xFFFF0000) == 0x10120000)
                             break;
                         func_8003E70C();
                         D_800814D2[0] = 0;
-                        D_80080AD2 = D_80080AD2 + 1;
-                        if ((D_80080AD2 & 3) == 3) {
+                        cd_command_poll_ticks = cd_command_poll_ticks + 1;
+                        if ((cd_command_poll_ticks & 3) == 3) {
                             CdReset(0);
                             wait_512_vertical_syncs();
                         }
-                        D_800814D3[0] = 0xFF;
+                        cd_command_phase[0] = 0xFF;
                         break;
                     }
                     {
-                        u8 *state_ptr = &D_800814D3[0];
-                        SlusCdDriverPrefix *read_driver = &D_80083958[0];
-                        D_800814D3[0] = 0xFF;
+                        u8 *state_ptr = &cd_command_phase[0];
+                        SlusCdDriverPrefix *read_driver = &cd_driver_prefix[0];
+                        cd_command_phase[0] = 0xFF;
                         read_driver->unk4 = 2;
                         state_ptr[-3] += 1;
                         D_800814D2[0] = D_800814D2[0] | 1;
@@ -393,7 +393,7 @@ process_queue:
                         break;
                     }
                 }
-                if (D_80080AD8 >= 0)
+                if (cd_read_sync_result >= 0)
                     break;
                 goto command_failed;
 
@@ -417,24 +417,24 @@ process_queue:
                     goto check_drive_status;
     command_failed:
                 func_8003E70C();
-                D_800814D3[0] = 0xFF;
-                D_80083958[0].unk4 = 0;
+                cd_command_phase[0] = 0xFF;
+                cd_driver_prefix[0].unk4 = 0;
                 D_800814D2[0] = 0;
                 break;
 
     check_drive_status:
                 if (CdControl(1, 0, CDBUF) == 0)
                     break;
-                if ((D_80081450.bytes[0] & 0xFD) != 0)
+                if ((cd_command_result.bytes[0] & 0xFD) != 0)
                     break;
-                D_80083958[0].unk4 = 2;
-                D_800814D3[0] = 0xFF;
-                D_800814D0 = D_800814D0 + 1;
+                cd_driver_prefix[0].unk4 = 2;
+                cd_command_phase[0] = 0xFF;
+                cd_command_read_index = cd_command_read_index + 1;
                 break;
 
             case 0x1B:
                 if (CdSync(1, CDBUF) == 5) {
-                    D_800814D3[0] = 0xFF;
+                    cd_command_phase[0] = 0xFF;
                     break;
                 }
                 retries = 0x10;
@@ -443,11 +443,11 @@ process_queue:
                         break;
                     if (--retries == 0) {
                         func_8003E70C();
-                        D_800814D3[0] = 0xFF;
+                        cd_command_phase[0] = 0xFF;
                         return;
                     }
                 }
-                status = D_80081450.bytes[0];
+                status = cd_command_result.bytes[0];
                 if (status & 0x40)
                     break;
                 if (status & 0x20) {
@@ -456,20 +456,20 @@ process_queue:
                     SlusCdQueueEntry *stream_command;
                     s32 stream_head;
                     stream_command = 0xFF;
-                    stream_queue = D_80083968;
+                    stream_queue = cd_command_records;
                     D_800814D2[0] = 0;
-                    D_800814D3[0] = stream_command;
+                    cd_command_phase[0] = stream_command;
                     stream_head = status_ptr[-2];
                     stream_command = &stream_queue[stream_head];
                     if (stream_command->unk17 != 0xFF) {
-                        D_80083958[0].unk4 = 4;
-                        D_80080AD4 = 1;
+                        cd_driver_prefix[0].unk4 = 4;
+                        cd_retry_counters_pending = 1;
                     }
                     status_ptr[-2] += 1;
                     break;
                 }
                 if (status & 0x80)
-                    D_800814D3[0] = 0xFF;
+                    cd_command_phase[0] = 0xFF;
                 break;
 
             }
@@ -477,11 +477,11 @@ process_queue:
     } else {
         if (CdSync(1, 0) == 5) {
             if ((get_previous_cd_command_byte() & 0xFF) == 0x1B) {
-                D_800814D3[0] = 0xFF;
-                if (D_800814D0 != 0)
-                    D_800814D0 = D_800814D0 - 1;
+                cd_command_phase[0] = 0xFF;
+                if (cd_command_read_index != 0)
+                    cd_command_read_index = cd_command_read_index - 1;
                 else
-                    D_800814D0 = 0x1F;
+                    cd_command_read_index = 0x1F;
                 cd_set_mode_with_retry();
             } else {
                 CdControl(1, 0, 0);
@@ -491,6 +491,6 @@ process_queue:
 
 finish:
     if ((D_80083164[0] & 0x7FFF) == 0)
-        D_80083958[0].counter1 = 0;
-    D_800814D0 = D_800814D0 & 0x1F;
+        cd_driver_prefix[0].counter1 = 0;
+    cd_command_read_index = cd_command_read_index & 0x1F;
 }

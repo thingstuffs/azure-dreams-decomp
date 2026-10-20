@@ -11,7 +11,7 @@ typedef struct S_8005C668 {
     u8 pad[0x40 - 0xC];
 } S_8005C668;
 
-extern s32 D_80073740[];
+extern s32 audio_voice_masks[];
 extern void func_8005F134(void *a0);
 
 /* Sends a type-3 request with indexed flags and two s16 parameters, then returns zero. */
@@ -20,7 +20,7 @@ s32 submit_driver_halfword_pair(s16 flags_index, s16 first_value, s16 second_val
     S_8005C668 request;
 
     request.unk4 = 3;
-    request.unk0 = *(&D_80073740[flags_index]);
+    request.unk0 = *(&audio_voice_masks[flags_index]);
     request.unk8 = first_value;
     request.unkA = second_value;
     func_8005F134(&request);

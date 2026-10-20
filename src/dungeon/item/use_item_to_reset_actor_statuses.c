@@ -36,7 +36,7 @@ s32 use_item_to_reset_actor_statuses(void *actor, s32 cause, s16 amount)
     }
     if (((u32) actor) <= 0x9FFFFFFFU) {
         display_item_status_message(actor, cause, amount);
-        if (apply_actor_food_preference(actor, (D_800DDE84[*((u8 *) (((s8 *) actor) + 0x13))] >> 6) & 3, 0) == 0) {
+        if (apply_actor_food_preference(actor, (entity_action_selectors[*((u8 *) (((s8 *) actor) + 0x13))] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(actor, cause);
             return 1;
         }

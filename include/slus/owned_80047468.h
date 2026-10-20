@@ -12,11 +12,11 @@ typedef struct {
     s16 unk06;
 } S_80047270_hdr;
 
-extern void func_80047270(void *a0, S_80047270_hdr *a1);
-extern u16 D_80081520;
-extern u16 D_80081522;
-extern u16 D_80081524;
-extern u16 D_80081526;
+extern void decode_upload_image_from_wrapping_buffer(void *a0, S_80047270_hdr *a1);
+extern u16 narrow_texture_pack_x;
+extern u16 narrow_texture_pack_y;
+extern u16 narrow_texture_pack_column_width;
+extern u16 narrow_texture_pack_generation;
 
 typedef struct {
     u8 pad00[4];

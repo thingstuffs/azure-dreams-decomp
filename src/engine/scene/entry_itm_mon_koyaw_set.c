@@ -13,7 +13,7 @@ extern Entry *D_8001029C[];
 extern void itm_mon_koyaw_set(s32, Entry *, void *, s32);
 
 /* Process kind 0x13 entries with nonnegative codes in their indexed records. */
-void func_8003B714(void) {
+void refresh_monster_items_from_creature_records(void) {
     Entry **cursor;
     Entry *entry;
     s32 record_offset;

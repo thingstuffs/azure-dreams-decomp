@@ -52,7 +52,7 @@ S_80049F68_Obj;
 
 extern S_8002E5D8 D_8002E5D8;
 extern S_8002E5E8 D_8002E5E8;
-extern u8 D_80080B30[4];
+extern u8 menu_element_order[4];
 
 /* Initialize element defaults and link elements in the configured order. */
 

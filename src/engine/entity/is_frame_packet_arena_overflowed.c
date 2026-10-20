@@ -4,16 +4,16 @@
 /* --- gcc 2.7.2-cdk (cygnus SN32.3.7.0004) translation unit: zero-frame shared-tail
    epilogue that the -psx builds don't reproduce. See tools/compiler_notes.md. --- */
 
-extern unsigned short D_80084778[5];
+extern unsigned short audio_command_queue[5];
 
 /* Append a value to the counted array; return -1 if its 32 slots are full, otherwise 0. */
-short func_80055778(int value)
+short enqueue_audio_command(int value)
 {
-    unsigned short count = D_80084778[0];
+    unsigned short count = audio_command_queue[0];
     if (count >= 0x20)
         return -1;
-    D_80084778[0] = count + 1;
-    D_80084778[*(unsigned short *)D_80084778] = value;
+    audio_command_queue[0] = count + 1;
+    audio_command_queue[*(unsigned short *)audio_command_queue] = value;
     return 0;
 }
 
@@ -28,10 +28,10 @@ typedef struct {
     int unk1C;
     char pad20[0x9C - 0x20];
 } Entry80084960;
-extern Entry80084960 D_80084960[];
+extern Entry80084960 audio_channel_controls[];
 
 /* Clamp a 16-bit signed value to the range [0, 0x7F]. */
-s32 func_80055750(s16 value) {
+s32 clamp_sound_value_to_seven_bits(s16 value) {
     if (value < 0) {
         return 0;
     }
@@ -49,24 +49,24 @@ typedef struct {
 extern s32 D_800835E8[];
 
 /* Look up a signed table value using the entry byte field plus an index offset. */
-s32 func_8004383C(Struct1 *entry, s16 index_offset) {
+s32 lookup_level_experience_threshold(Struct1 *entry, s16 index_offset) {
     return D_800835E8[entry->unk11 + index_offset];
 }
 
-extern u8 D_800712AC[16];
+extern u8 primary_packet_limit_indices[16];
 extern s32 D_8007361C[256];
 
 /* Look up a word through the byte index table D_800712AC. */
-s32 func_800498EC(s32 index) {
-    return D_8007361C[D_800712AC[index]];
+s32 lookup_patterned_display_icon(s32 index) {
+    return D_8007361C[primary_packet_limit_indices[index]];
 }
 
-extern u8 D_800712B0[256];
+extern u8 secondary_packet_limit_indices[256];
 extern s32 D_8007361C[256];
 
 /* Look up a word through the byte index table D_800712B0. */
-s32 func_80049918(s32 index) {
-    return D_8007361C[D_800712B0[index]];
+s32 lookup_unpatterned_display_icon(s32 index) {
+    return D_8007361C[secondary_packet_limit_indices[index]];
 }
 
 /* extern decls */
@@ -82,13 +82,13 @@ void func_80053CD0(void)
 }
 
 /* size >8B to force %hi/%lo (not gp_rel) codegen for all three globals */
-extern u32 D_80081478[3];
+extern u32 frame_packet_limit_pointers[3];
 extern u8 D_801C9E40[16];
 
 /* Return whether the state-selected table value is below the unsigned limit. */
 s32 is_frame_packet_arena_overflowed(u32 limit)
 {
-    u32 *values = &D_80081478[0];
+    u32 *values = &frame_packet_limit_pointers[0];
     u32 *selected_value = values;
 
     if (g_game_work.draw_buffer != (void *)D_801C9E40) {
@@ -103,21 +103,21 @@ typedef struct {
 } Struct_80084960; /* size 0x9C (156) */
 
 /* Store a byte value in the selected entry's first word. */
-void func_8005845C(unsigned char entry_index, unsigned char value) {
-    D_80084960[entry_index].unk00 = value;
+void set_audio_channel_program(unsigned char entry_index, unsigned char value) {
+    audio_channel_controls[entry_index].unk00 = value;
 }
 
 extern int subtract_pointed_int_values(int *a0, int *a1);
-extern void func_8004AFC8(void *base, int count, int size, int (*compar)(int *, int *));
+extern void forward_selection_sort_request(void *base, int count, int size, int (*compar)(int *, int *));
 
 /* Sort the array of four-byte elements using subtract_pointed_int_values. */
-void func_8004AA44(int count, void *base)
+void sort_signed_word_array(int count, void *base)
 {
-    func_8004AFC8(base, count, 4, subtract_pointed_int_values);
+    forward_selection_sort_request(base, count, 4, subtract_pointed_int_values);
 }
 
 /* Return the word at offset 0xC in the selected table entry. */
 int func_8005C858(int unused_0, short entry_index, int unused_2)
 {
-    return D_80084960[entry_index].unk0C;
+    return audio_channel_controls[entry_index].unk0C;
 }

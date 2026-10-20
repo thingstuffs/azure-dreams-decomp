@@ -3,7 +3,7 @@
 
 
 /* D_80084850 accessed via %hi/%lo (lui+lw/sw); size > 8 forces non-gp. */
-extern s32 D_80084850[3];
+extern s32 audio_stream_request_count[3];
 
 extern s32 pop_audio_queue(void);
 extern void dispatch_audio_event(s32 a0);
@@ -11,15 +11,15 @@ extern void audio_dispatch_stream_request(s32 a0);
 extern void dispatch_audio_command(s32 a0);
 extern void decode_audio_selector(s32 a0);
 extern void service_audio_channels(void);
-extern void func_800557BC(void);
+extern void clear_audio_command_queue(void);
 
 /* Dispatch commands by type until a zero code, then finalize processing. */
-void func_800542BC(void) {
+void drain_audio_commands_and_service_channels(void) {
     s32 command_code;
     s32 command;
     s32 command_type;
 
-    D_80084850[0] += 1;
+    audio_stream_request_count[0] += 1;
     while (1) {
         command = pop_audio_queue();
         command_code = command & 0xFFFF;
@@ -46,5 +46,5 @@ void func_800542BC(void) {
         }
     }
     service_audio_channels();
-    func_800557BC();
+    clear_audio_command_queue();
 }

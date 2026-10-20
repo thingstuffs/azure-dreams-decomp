@@ -9,7 +9,7 @@ S_80050DA8_sub;
 extern s32 D_800814A0_abs __attribute__((section(".data")));
 extern void fade_effect_parts(void);
 /* Starts the fade callback, releases the attachment, and sets global and child flags. */
-void func_80050DA8(u8 *object)
+void begin_selection_menu_teardown_and_fade(u8 *object)
 {
     u8 *object_data = object + 0x20;
     s32 saved_value;
@@ -20,7 +20,7 @@ void func_80050DA8(u8 *object)
         saved_value = *((s32 *) (object_data + 0x1C));
         attachment = *((void **) (object_data + 0x28));
         *((void (**)(void)) (object_data - 0x10)) = fade_effect_parts;
-        D_80080B98 = saved_value;
+        selection_menu_saved_value = saved_value;
         destroy_animated_selection_menu(attachment);
         child = *((S_80050DA8_sub **) (object_data + 0xA0));
         D_800814A0_abs |= 0x8000;

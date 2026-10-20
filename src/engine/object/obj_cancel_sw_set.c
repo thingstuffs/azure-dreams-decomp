@@ -2,7 +2,7 @@
 
 
 /* Shared display-cancellation state; retail initializes it to zero. */
-s32 D_8008099C = 0;
+s32 object_render_cancel_switch = 0;
 
 
 /* obj_disp23_cancel_sw_set: sets the display cancellation switch and returns it. */
@@ -17,12 +17,12 @@ extern void SetTransMatrix(void *);
 extern void RotTransPers4(void *, void *, void *, void *, void *, void *,
                           void *, void *, void *, void *);
 extern void AddPrim(void *, void *);
-extern u8 D_80080994[];
+extern u8 object_render_rotation_angles[];
 extern u8 *D_80083160[3];
 
 s32 obj_disp23_cancel_sw_set(s32 cancel_switch)
 {
-    D_8008099C = cancel_switch;
+    object_render_cancel_switch = cancel_switch;
     return cancel_switch;
 }
 
@@ -80,7 +80,7 @@ s32 runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callb
     transform = first_transform;
     context = first_context;
 
-    render_disabled = D_8008099C;
+    render_disabled = object_render_cancel_switch;
     state_ptr = D_80083160;
     scratch = (u8 *)0x1F800000;
     if (render_disabled != 0) {
@@ -135,7 +135,7 @@ s32 runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callb
             SCR_S32(0x48) = S32_AT(object, 0x14);
             SCR_S32(0x4C) = S32_AT(object, 0x18);
             TransMatrix(work_matrix, translation);
-            RotMatrix(D_80080994, work_matrix);
+            RotMatrix(object_render_rotation_angles, work_matrix);
             CompMatrix(matrix, work_matrix, matrix);
             SetRotMatrix(matrix);
             SetTransMatrix(matrix);
@@ -158,7 +158,7 @@ s32 runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callb
             SCR_S32(0x48) = S32_AT(object, 0x14);
             SCR_S32(0x4C) = S32_AT(object, 0x18);
             TransMatrix(work_matrix, scratch + 0x44);
-            RotMatrix(D_80080994, work_matrix);
+            RotMatrix(object_render_rotation_angles, work_matrix);
             CompMatrix(matrix, work_matrix, matrix);
             SetRotMatrix(matrix);
             SetTransMatrix(matrix);

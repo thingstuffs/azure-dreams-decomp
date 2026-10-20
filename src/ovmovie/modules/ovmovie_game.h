@@ -60,7 +60,7 @@ extern s32 Control_CD(s32, s32, s32);
 extern void func_8003F320(void);
 extern s32 func_8003E240(s32);
 extern void SD_Call(s32);
-extern void func_800542BC(void);
+extern void drain_audio_commands_and_service_channels(void);
 extern void func_8005A4E8(s32, s32, s32);
 extern void func_8005A56C(s32, s16, s16);
 extern void func_8005FE18(s32);
@@ -93,15 +93,15 @@ extern s32 register_mode_one_callback(void (*)(void));
 /* The unregistered VLC routine is an external platform boundary. */
 extern s32 func_80177E6C(s32, void *);
 
-void func_801768AC(void);
-void func_80176AD8(s32);
-void func_80176B3C(s16, s16);
-void func_80176B60(void *, void (*)(void));
-void func_80176BEC(MovieBuffer *, s32, s32, s32, s32);
-void func_80176CA8(void);
-s32 func_80176E90(void *);
-s32 func_80176F2C(u8 *);
-void func_801770BC(MovieEntity *, s32);
-void func_80177154(void *);
-s32 func_8017719C(s32, s32, s32, s32);
+void play_selected_movie_and_restore_display(void);
+void clear_movie_display_area(s32);
+void set_movie_strip_offsets(s16, s16);
+void initialize_movie_decoder_and_start_stream(void *, void (*)(void));
+void initialize_movie_frame_buffers(MovieBuffer *, s32, s32, s32, s32);
+void upload_movie_strip_and_advance_buffer(void);
+s32 decode_next_movie_frame(void *);
+s32 poll_movie_frame_and_update_dimensions(u8 *);
+void wait_for_movie_strip_completion(MovieEntity *, s32);
+void start_movie_cd_stream_and_wait_ready(void *);
+s32 play_movie_frames_with_skip_fade(s32, s32, s32, s32);
 #endif

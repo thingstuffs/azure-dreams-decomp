@@ -1,11 +1,11 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 
-extern s32 D_80080A7C;
-extern s32 D_8008148C;
-extern s32 D_80081480;
+extern s32 gpu_scratch_ring_size;
+extern s32 gpu_scratch_buffer_base;
+extern s32 gpu_scratch_write_pointer;
 
-extern u8 D_80126804[];
+extern u8 gpu_scratch_ring_buffer[];
 
 extern void load_dispatch_entry_files(u16);
 extern void queue_mode_selected_resource_table(void);
@@ -23,14 +23,14 @@ void select_next_scene_mode(void)
     u8 flags;
 
     buffer_size = 0x38000;
-    saved_data_addr = D_8008148C;
-    D_80080A7C = buffer_size;
-    D_80081480 = saved_data_addr;
+    saved_data_addr = gpu_scratch_buffer_base;
+    gpu_scratch_ring_size = buffer_size;
+    gpu_scratch_write_pointer = saved_data_addr;
     flags = state_ptr->field_B;
     if (flags != 0) {
         next_mode = 3;
     } else {
-        D_8008148C = (s32)D_80126804;
+        gpu_scratch_buffer_base = (s32)gpu_scratch_ring_buffer;
         load_dispatch_entry_files(0);
         queue_mode_selected_resource_table();
         next_mode = read_combined_controller_buttons(0);

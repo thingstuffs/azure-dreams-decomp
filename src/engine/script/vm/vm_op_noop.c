@@ -5,19 +5,19 @@ void func_80034E40(void) {
 }
 
 /* Returns without performing any work. */
-void func_80035D38(void) {
+void noop_after_window_shrink(void) {
 }
 
 /* Returns without performing any work. */
-void func_800368F8(void) {
+void noop_after_menu_slot_release(void) {
 }
 
 /* Returns without performing any work. */
-void func_80036980(void) {
+void noop_after_cursor_extent_completion(void) {
 }
 
 /* Returns without performing any work. */
-void func_80038A00(void) {
+void noop_runtime_record_idle(void) {
 }
 
 /* Returns without performing any work. */
@@ -57,7 +57,7 @@ void vm_op_27_noop(void) {
 }
 
 /* Returns without performing any work. */
-void func_80039AE8(void) {
+void noop_script_terminator_action(void) {
 }
 
 /* Returns without performing any work. */
@@ -101,6 +101,6 @@ void func_8003C064(void) {
 }
 
 /* Returns without performing any work. */
-void func_8003C4C0(void) {
+void noop_after_fade_ramp_completion(void) {
 }
 

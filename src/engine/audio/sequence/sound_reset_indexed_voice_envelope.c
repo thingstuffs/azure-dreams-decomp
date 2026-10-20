@@ -14,8 +14,8 @@ typedef struct S_80084918 {
     /* 0x3C */ s16 field_0x3C;
 } S_80084918;
 
-extern S_80084918 D_80084918;
-extern s32 D_80073740[];
+extern S_80084918 audio_voice_request;
+extern s32 audio_voice_masks[];
 
 extern void func_8005F134(S_80084918 *descriptor);
 
@@ -23,11 +23,11 @@ extern void func_8005F134(S_80084918 *descriptor);
 void sound_reset_indexed_voice_envelope(s32 request_index) {
     s32 request_value;
 
-    D_80084918.field_0x04 = 0x60100;
-    request_value = D_80073740[request_index];
-    D_80084918.field_0x3A = 0;
-    D_80084918.field_0x3C = 0;
-    D_80084918.field_0x24 = 5;
-    D_80084918.field_0x00 = request_value;
-    func_8005F134(&D_80084918);
+    audio_voice_request.field_0x04 = 0x60100;
+    request_value = audio_voice_masks[request_index];
+    audio_voice_request.field_0x3A = 0;
+    audio_voice_request.field_0x3C = 0;
+    audio_voice_request.field_0x24 = 5;
+    audio_voice_request.field_0x00 = request_value;
+    func_8005F134(&audio_voice_request);
 }

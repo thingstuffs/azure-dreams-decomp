@@ -18,12 +18,12 @@ typedef struct {
     u8 pad0C[0x40 - 0x0C];
 } S_8005B070_req;
 
-extern s32 D_80073734[4];
-extern s32 D_80073740[64];
-extern s32 D_800737A4[4];
-extern u8 D_80085458[0x78 * 64];
-extern s32 D_80085F98[4];
-extern S_80086C00 D_80086C00[8];
+extern s32 audio_voice_count[4];
+extern s32 audio_voice_masks[64];
+extern s32 audio_sequence_active[4];
+extern u8 audio_voice_records[0x78 * 64];
+extern s32 audio_update_guard[4];
+extern S_80086C00 audio_sequence_slots[8];
 
 extern void func_8005F134(S_8005B070_req *request);
 
@@ -37,10 +37,10 @@ void suspend_sequence_slot(s16 slot_index)
     S_80086C00 *slots;
 
     entry_index = 0;
-    D_80085F98[0] = 1;
-    if (D_80073734[0] > 0) {
-        entry_id = D_80073740;
-        entry = D_80085458;
+    audio_update_guard[0] = 1;
+    if (audio_voice_count[0] > 0) {
+        entry_id = audio_voice_masks;
+        entry = audio_voice_records;
 loop:
         if (*(u16 *)(entry + 6) < 0x10U) {
             if (*(u16 *)(entry + 0x1A) != 0) {
@@ -56,7 +56,7 @@ loop:
         entry_id++;
         entry += 0x78;
         {
-            s32 entry_count = D_80073734[0];
+            s32 entry_count = audio_voice_count[0];
             do {
                 entry_index++;
             } while (0);
@@ -64,8 +64,8 @@ loop:
                 goto loop;
         }
     }
-    slots = D_80086C00;
+    slots = audio_sequence_slots;
     slots[slot_index].field_2 = 4;
-    D_80085F98[0] = 0;
-    D_800737A4[0] = 0;
+    audio_update_guard[0] = 0;
+    audio_sequence_active[0] = 0;
 }

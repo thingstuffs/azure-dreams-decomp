@@ -7,34 +7,34 @@ typedef struct {
     s32 value;
 } Entry;
 
-extern s32 func_8003C5F0(s32 entry_group);
-extern s32 func_8003C758(void *entry_data);
+extern s32 lookup_sentinel_resource_value_or_zero(s32 entry_group);
+extern s32 find_or_load_runtime_resource_key(void *entry_data);
 extern void runtime_move_entry_to_front(s32 index);
 extern void LoadImage(void *rect, void *data);
 
-extern s32 D_80082D58[];
-extern s32 D_8006B200[];
-extern s32 D_8006B220[];
+extern s32 fade_manager_state[];
+extern s32 runtime_resource_directory[];
+extern s32 resource_directory_upload_rectangles[];
 
 /* Processes the selected entry and uploads its two image regions to VRAM. */
-s32 func_8003C7D8(s32 entry_group, s32 entry_index) {
-    s32 *state = D_80082D58;
+s32 activate_indexed_resource_and_upload_images(s32 entry_group, s32 entry_index) {
+    s32 *state = fade_manager_state;
     Entry *entries;
     void *entry_data;
     s32 result;
 
     if (entry_index >= 0) {
-        entries = (Entry *)func_8003C5F0(entry_group);
+        entries = (Entry *)lookup_sentinel_resource_value_or_zero(entry_group);
         if (entries != 0) {
             entry_data = entries[entry_index].data;
             if (entry_data != 0) {
                 state[2] = entries[entry_index].value;
-                result = func_8003C758(entry_data);
+                result = find_or_load_runtime_resource_key(entry_data);
                 runtime_move_entry_to_front(result);
 
-                LoadImage(D_8006B220, (void *)D_8006B200[1]);
-                LoadImage(&D_8006B220[2],
-                          (void *)(D_8006B200[1] + 0x2000));
+                LoadImage(resource_directory_upload_rectangles, (void *)runtime_resource_directory[1]);
+                LoadImage(&resource_directory_upload_rectangles[2],
+                          (void *)(runtime_resource_directory[1] + 0x2000));
 
                 return result;
             }

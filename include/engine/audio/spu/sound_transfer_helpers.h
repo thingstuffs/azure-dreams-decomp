@@ -3,12 +3,12 @@
 
 #include "common.h"
 
-extern s32 D_80079980;
-extern s32 D_8007998C;
-extern s32 D_80079990;
-extern s32 D_800794F4;
-extern s32 D_800794EC;
-extern u16 D_80079970;
+extern s32 spu_address_unit_shift;
+extern s32 spu_transfer_complete;
+extern s32 spu_transfer_callback;
+extern s32 spu_transfer_completion_override;
+extern s32 spu_transfer_event_handle;
+extern u16 spu_transfer_address_units;
 
 s32 submit_driver_transfer_with_fallback(s32 channel, s32 playback_param);
 s32 audio_handle_optionally_aligns_shifts_stores_returns_result(s32 index, u32 value);

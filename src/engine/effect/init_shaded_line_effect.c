@@ -13,7 +13,7 @@ typedef struct {
     u8 f11;
 } S_80084478;
 
-extern S_80084478 D_80084478[16];
+extern S_80084478 shaded_line_render_templates[16];
 extern void update_shaded_line_effect(void);
 extern void draw_linked_sprites(void);
 extern void register_node(void *a0, void *a1);
@@ -69,7 +69,7 @@ void init_shaded_line_effect(S_80052FE8 *object, s16 entry_index) {
     render_state->unkC = 0x808080;
     render_state->unk1E = 0x1000;
     render_state->unk1C = 0x1000;
-    render_state->unk8 = D_80084478 + entry_index;
+    render_state->unk8 = shaded_line_render_templates + entry_index;
     render_state->unk14 |= 0x80;
     register_node(object, draw_linked_sprites);
     position = object->unk8;

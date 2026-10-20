@@ -22,8 +22,8 @@ extern u8 D_800C321C[];
 extern Func80039470Block *ms_mot_accpt_ow(s32 index);
 
 /* Activates an unused entry and stores its pair of values according to the block type. */
-s32 func_80039470(s32 entry_value, s32 first_value, s32 second_value, s32 packed_index) {
-    Func80039470Entry *entries = D_80082660;
+s32 accept_message_motion_request(s32 entry_value, s32 first_value, s32 second_value, s32 packed_index) {
+    Func80039470Entry *entries = object_index_slots;
     u8 entry_index = packed_index;
     Func80039470Entry *entry = entries + entry_index;
     Func80039470Block *block;

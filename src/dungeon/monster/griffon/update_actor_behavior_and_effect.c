@@ -886,7 +886,7 @@ s32 func_80172280(void *entity_arg, void *primary_context_arg, void *secondary_c
     return result;
 }
 
-void func_801723C4(R08_801723C4_S_801724A8_0 *state, s32 context, s32 source, s32 target) {
+void finish_actor_tile_move_then_resume_effect_behavior(R08_801723C4_S_801724A8_0 *state, s32 context, s32 source, s32 target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
         reduce_actor_food_meter(target, 4);
         advance_status_timers(target);
@@ -1515,7 +1515,7 @@ void func_801736C8(void *state, void *motion, void *position, void *actor)
     advance_actor_removal(state, motion, position, actor);
 }
 
-void func_801736E8(Resource08CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_hop_and_grow_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
         state->callback = update_actor_behavior_and_effect;
@@ -1686,7 +1686,7 @@ void update_object_or_select_directional_data(void *controller, s32 actor_index,
     }
 }
 
-void func_80173BE4(void *controller, void *context, void *sprite, EntityRec *entity)
+void resume_actor_effect_behavior_after_status_animation(void *controller, void *context, void *sprite, EntityRec *entity)
 {
     s32 state;
 
@@ -1802,7 +1802,7 @@ void func_80173F20(R08_80173F20_Actor *actor, s32 action, R08_80173F20_Entity *e
     }
 }
 
-void func_80173FE8(Resource08CallbackState *state, void *entity, void *position, void *graphic)
+void finish_thrown_actor_travel_and_floor_trap_then_resume_effect_behavior(Resource08CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
@@ -1811,7 +1811,7 @@ void func_80173FE8(Resource08CallbackState *state, void *entity, void *position,
     }
 }
 
-void func_8017404C(Resource08CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_terrain_interpolation_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
         state->callback = update_actor_behavior_and_effect;
@@ -1825,7 +1825,7 @@ void create_four_directional_effects(Resource08CallbackState *state, void *motio
     }
 }
 
-void func_801740BC(Resource08CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_fade_in_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
         state->callback = update_actor_behavior_and_effect;
@@ -2187,14 +2187,14 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
         }
 }
 
-void func_80174BBC(Resource08CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_floor_trap_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
         state->callback = update_actor_behavior_and_effect;
     }
 }
 
-void func_80174BF4(Resource08CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_action_flag_propagation_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
         state->callback = update_actor_behavior_and_effect;

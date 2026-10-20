@@ -19,16 +19,16 @@ typedef struct {
 extern s32 unlink_cursor_when_finished(FuncInput *input);
 extern void copy_texture_descriptor_with_page_offsets(u32 *texture_pos, u32 *src, void *dst);
 
-extern u32 D_8006A958[3];
-extern u32 D_8006A964[3];
-extern u32 D_8006A970[3];
-extern u32 D_8006A97C[128];
-extern u32 D_80082B50[6];
-extern u32 D_80082B60[6];
-extern u32 D_80082B70[6];
+extern u32 blinking_cursor_texture_template_0[3];
+extern u32 blinking_cursor_texture_template_1[3];
+extern u32 blinking_cursor_texture_template_2[3];
+extern u32 texture_descriptor_variant_values[128];
+extern u32 blinking_cursor_texture_descriptor_0[6];
+extern u32 blinking_cursor_texture_descriptor_1[6];
+extern u32 blinking_cursor_texture_descriptor_2[6];
 
 /* Updates three data tables and selects an output value and flashing intensity. */
-void func_80036F24(FuncInput *input, s32 unused, FuncOutput *output) {
+void update_blinking_cursor_with_bright_idle(FuncInput *input, s32 unused, FuncOutput *output) {
     u8 flags;
     u32 *data;
 
@@ -36,9 +36,9 @@ void func_80036F24(FuncInput *input, s32 unused, FuncOutput *output) {
         return;
     }
 
-    copy_texture_descriptor_with_page_offsets(input->data + 3, D_8006A958, D_80082B50);
-    copy_texture_descriptor_with_page_offsets(input->data + 3, D_8006A964, D_80082B60);
-    copy_texture_descriptor_with_page_offsets(input->data + 3, D_8006A970, D_80082B70);
+    copy_texture_descriptor_with_page_offsets(input->data + 3, blinking_cursor_texture_template_0, blinking_cursor_texture_descriptor_0);
+    copy_texture_descriptor_with_page_offsets(input->data + 3, blinking_cursor_texture_template_1, blinking_cursor_texture_descriptor_1);
+    copy_texture_descriptor_with_page_offsets(input->data + 3, blinking_cursor_texture_template_2, blinking_cursor_texture_descriptor_2);
 
     data = input->data;
     flags = ((u8 *)data + input->data_index)[0x4C];
@@ -56,5 +56,5 @@ void func_80036F24(FuncInput *input, s32 unused, FuncOutput *output) {
         output->value_0c = 0xC0C0C0;
     }
 
-    output->value_08 = D_8006A97C[(flags & 0x7F) + input->table_offset];
+    output->value_08 = texture_descriptor_variant_values[(flags & 0x7F) + input->table_offset];
 }

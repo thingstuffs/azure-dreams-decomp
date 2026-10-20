@@ -25,9 +25,9 @@ typedef struct S_80085458 {
     s32 f70, f74;
 } S_80085458;
 
-extern S_80085458 D_80085458[64];
-extern s32 D_80073740[];
-extern s32 D_80085F98[3];
+extern S_80085458 audio_voice_records[64];
+extern s32 audio_voice_masks[];
+extern s32 audio_update_guard[3];
 
 extern s32 sound_apply_indexed_voice_envelope(s32 slot_index, S_80085458 *envelope);
 extern void sound_reset_indexed_voice_envelope(s32 slot_index);
@@ -37,8 +37,8 @@ extern s32 func_8005EB78(s32 voice_mask);
 /* Services an active SPU slot until completion and clears the busy flag. */
 s32 audio_stop_effect_voice(s16 slot_id)
 {
-    u8 *busy_or_slot = (u8 *)D_80085F98;
-    u8 *slots = (u8 *)D_80085458;
+    u8 *busy_or_slot = (u8 *)audio_update_guard;
+    u8 *slots = (u8 *)audio_voice_records;
     s32 slot_index = slot_id;
     s32 slot_handle;
     u8 *slot;
@@ -49,13 +49,13 @@ s32 audio_stop_effect_voice(s16 slot_id)
     active = *(u16 *)(slot + 0x1A);
     *(s32 *)busy_or_slot = 1;
     if (!(active == 0 || *(u16 *)(slot + 6) < 0x10)) {
-        slot_handle = D_80073740[slot_index];
+        slot_handle = audio_voice_masks[slot_index];
         busy_or_slot = slot;
         *(u16 *)(busy_or_slot + 0x1A) = 0;
         *(u16 *)(busy_or_slot + 0x0A) = 0;
         sound_apply_indexed_voice_envelope(slot_index, (S_80085458 *)busy_or_slot);
         sound_reset_indexed_voice_envelope(slot_index);
-        func_8005E97C(0, D_80073740[slot_index]);
+        func_8005E97C(0, audio_voice_masks[slot_index]);
         do {
             func_8005E97C(0, slot_handle);
             status = func_8005EB78(slot_handle);
@@ -64,9 +64,9 @@ s32 audio_stop_effect_voice(s16 slot_id)
             }
         } while (status != 0);
     } else {
-        D_80085F98[0] = 0;
+        audio_update_guard[0] = 0;
         return -1;
     }
-    D_80085F98[0] = 0;
+    audio_update_guard[0] = 0;
     return 0;
 }

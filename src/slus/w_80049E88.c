@@ -7,7 +7,7 @@ extern s8 D_800712E4[];
 extern u8 D_800712F0[];
 
 /* Selects a table value from descending object queries, with an adjustment for query 7. */
-u8 func_80049E88(void *object) {
+u8 select_mapped_object_status_code(void *object) {
     s32 query_index;
     s32 query_base;
     u8 *result_entry;

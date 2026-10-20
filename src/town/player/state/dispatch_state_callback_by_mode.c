@@ -16,7 +16,7 @@ void dispatch_state_callback_by_mode(s32 value, void *ptr, void *ptr2, void *unu
         ((Callback)D_800FE5D8[0])(value, ptr, ptr2);
         return;
     }
-    state = D_80082660;
+    state = object_index_slots;
     status = *(s8 *)(state + 8);
     if (status >= 2) {
         ((Callback)D_800D0508[status])(value, ptr, ptr2);

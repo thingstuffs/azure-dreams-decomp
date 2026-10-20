@@ -90,7 +90,7 @@ call_tile:
         case 2:
         src_addr = (void *)command->offset;
         decompress_lz((void *)(data_base + (s32)src_addr),
-                      (void *)(D_80080A8C + command->u.m.a));
+                      (void *)(image_load_data_base + command->u.m.a));
         break;
         case 3:
         src_addr = (void *)0x80080000;

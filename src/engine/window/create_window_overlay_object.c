@@ -74,13 +74,13 @@ extern void scroll_window_y(void *);
 extern void draw_window_rects(void *);
 
 extern u8 D_80082BC0[];
-extern u8 D_8006AA3C[];
-extern u8 D_80073AAC[];
-extern u16 D_8006A91C[];
-extern u16 D_8006A924[];
-extern u16 D_8006A92C[];
-extern u32 D_8006A8FC[];
-extern s16 D_8006A914[];
+extern u8 window_overlay_parameter_template[];
+extern u8 window_overlay_default_render_data[];
+extern u16 window_overlay_field_12_values[];
+extern u16 window_overlay_field_2e_values[];
+extern u16 window_overlay_field_36_values[];
+extern u32 window_overlay_render_variants[];
+extern s16 window_overlay_model_values[];
 
 /* Initializes an actor-linked display node, clears its image region, and sets callbacks and rendering data. */
 void create_window_overlay_object(s32 node_addr, void *display, u8 *image, s32 *state_ref,
@@ -105,23 +105,23 @@ void create_window_overlay_object(s32 node_addr, void *display, u8 *image, s32 *
     node->unk_20 = display;
     node_data->unk_04 = image;
     node_data->unk_08 = draw_window_rects;
-    copy_window_params(node_data, D_8006AA3C);
+    copy_window_params(node_data, window_overlay_parameter_template);
     func_800350B0(owner, node_data);
 
     node_data->unk_68 = scroll_window_y;
     actor = (S_func_80035E58_3 *)(owner + 0x8C);
     render_data->unk_0C = 0x808080;
-    render_data->unk_08.unk_08_ptr = D_80073AAC;
+    render_data->unk_08.unk_08_ptr = window_overlay_default_render_data;
     render_data->unk_00 = 0;
     render_data->unk_04 = 0;
     render_data->unk_05 = 0;
     node_data->unk_74 = actor;
 
-    node_data->unk_12 = D_8006A91C[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
-    node_data->unk_2E = D_8006A924[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
-    node_data->unk_36 = D_8006A92C[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
+    node_data->unk_12 = window_overlay_field_12_values[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
+    node_data->unk_2E = window_overlay_field_2e_values[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
+    node_data->unk_36 = window_overlay_field_36_values[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
     copy_window_offset_rectangle((u8 *)node + 0x2C, node_data->unk_74);
-    render_data->unk_08.unk_08_u32 = D_8006A8FC[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
+    render_data->unk_08.unk_08_u32 = window_overlay_render_variants[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
     ((S_func_80035E58_5 *)node->unk_20)->unk_34 =
-        D_8006A914[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
+        window_overlay_model_values[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
 }

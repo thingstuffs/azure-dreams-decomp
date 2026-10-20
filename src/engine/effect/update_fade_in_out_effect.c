@@ -7,7 +7,7 @@ typedef struct S_80071A68
     s32 field_0x00;
 }
 S_80071A68;
-extern S_80071A68 D_80071A68[];
+extern S_80071A68 fade_effect_visual_table[];
 typedef struct S_80051CC4_Owner
 {
     u8 unk00[0x6];
@@ -94,7 +94,7 @@ void update_fade_in_out_effect(S_80051CC4_Sub *state, void *unused_arg, S_80051C
             if (entry_index != 7) {
                 entry_index = entry_index % 7;
                 state->field_0x0A = entry_index;
-                visual->field_0x08 = (*(&D_80071A68[entry_index])).field_0x00;
+                visual->field_0x08 = (*(&fade_effect_visual_table[entry_index])).field_0x00;
                 state->field_0x04 = 0;
                 state->field_0x06 = 0;
                 return;

@@ -18,12 +18,12 @@ typedef struct S_80084904 {
 
 /* Same shape/reasoning as S_80084904. */
 
-extern S_80084904 D_80084904;
+extern S_80084904 audio_sequence_task_mode;
 
 extern void submit_tagged_driver_byte(u8 a0, u8 a1, u8 a2);
 extern s32 Control_CD(s32 a0, void *a1, void *a2);
 extern s32 sound_get_cd_sector_position(void);
-extern int func_80054AF0(int mode);
+extern int select_audio_mode_attenuation(int mode);
 extern void activate_pending_playback(void);
 extern void sound_begin_cd_playback_setup(void);
 
@@ -35,42 +35,42 @@ void audio_handle_stream_control_event(s32 event) {
     case 0x74:
         submit_tagged_driver_byte(0, 0, 0);
         Control_CD(9, 0, 0);
-        D_800847D0.flags00 &= ~0x400;
-        if (D_800847D0.unk_18 == 0) {
-            D_80084904.v = 1;
-            D_80084858.unk_04 = 0;
-            if (D_800847D0.unk_10 != 0) {
-                s16 countdown = (s16)func_80054AF0(D_800847D0.unk_1C);
-                D_80084858.unk_08 = countdown;
-                D_80084858.unk_0A = countdown;
+        sound_playback_state.flags00 &= ~0x400;
+        if (sound_playback_state.unk_18 == 0) {
+            audio_sequence_task_mode.v = 1;
+            sound_stream_task.unk_04 = 0;
+            if (sound_playback_state.unk_10 != 0) {
+                s16 countdown = (s16)select_audio_mode_attenuation(sound_playback_state.unk_1C);
+                sound_stream_task.unk_08 = countdown;
+                sound_stream_task.unk_0A = countdown;
                 break;
             }
         }
         return;
 
     case 0xE4:
-        if (D_800847D0.flags04 & 0x200) {
+        if (sound_playback_state.flags04 & 0x200) {
             Control_CD(9, 0, 0);
             return;
         }
-        if (D_800847D0.flags00 & 0x400) {
+        if (sound_playback_state.flags00 & 0x400) {
             u32 cd_position = (u32)sound_get_cd_sector_position();
-            D_800847D0.unk_18 = cd_position;
-            if (D_800847D0.unk_08 >= cd_position) {
-                D_800847D0.unk_18 = D_800847D0.unk_08;
+            sound_playback_state.unk_18 = cd_position;
+            if (sound_playback_state.unk_08 >= cd_position) {
+                sound_playback_state.unk_18 = sound_playback_state.unk_08;
             }
-            D_80084864[0] = 2;
-            D_800847D0.unk_10 = D_800847D0.unk_18;
-            D_800847D0.unk_14 = D_800847D0.unk_0C;
-            D_800847D0.unk_31 = D_800847D0.unk_30;
-            D_800847D0.unk_33 = D_800847D0.unk_32;
-            D_800847D0.flags00 |= 0x4000;
+            sound_stream_task_word[0] = 2;
+            sound_playback_state.unk_10 = sound_playback_state.unk_18;
+            sound_playback_state.unk_14 = sound_playback_state.unk_0C;
+            sound_playback_state.unk_31 = sound_playback_state.unk_30;
+            sound_playback_state.unk_33 = sound_playback_state.unk_32;
+            sound_playback_state.flags00 |= 0x4000;
         }
         return;
 
     case 0xF4:
-        if (D_800847D0.flags00 & 0x4000) {
-            D_800847D0.unk_18 = 0;
+        if (sound_playback_state.flags00 & 0x4000) {
+            sound_playback_state.unk_18 = 0;
             break;
         }
         return;

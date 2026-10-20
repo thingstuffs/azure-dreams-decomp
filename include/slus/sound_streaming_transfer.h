@@ -3,18 +3,18 @@
 
 #include "common.h"
 
-extern s32 D_800799C0[10];
-extern s32 D_80079974;
-extern s32 D_80079970[4];
-extern s32 D_80079980;
-extern s32 D_80079990[3];
-extern s32 D_80079988[3];
-extern volatile s32 D_8007998C[3];
-extern u8 D_80079550[];
-extern s32 D_800794EC;
+extern s32 spu_reverb_start_addresses[10];
+extern s32 spu_transfer_uses_fifo;
+extern s32 spu_transfer_address_units[4];
+extern s32 spu_address_unit_shift;
+extern s32 spu_transfer_callback[3];
+extern s32 spu_address_alignment_mask[3];
+extern volatile s32 spu_transfer_complete[3];
+extern u8 spu_reverb_clear_buffer[];
+extern s32 spu_transfer_event_handle;
 
 extern s32 func_8005D9DC(u32 value);
-extern s32 func_8005D1D0(s32 mode, ...);
+extern s32 dispatch_spu_dma_transfer_command(s32 mode, ...);
 extern s32 WaitEvent(s32 event);
 
 s32 func_8005E7E0(s32 voice);

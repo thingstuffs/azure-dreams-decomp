@@ -34,7 +34,7 @@ s32 use_item_to_reveal_items(EntityRec *target, s32 value, s16 mode, s32 context
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, value, mode);
         if (apply_actor_food_preference(target,
-                          D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
+                          entity_action_selectors[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
                           value) == 0) {
             apply_item_effect_at_entity_position(target, value);
             return 1;

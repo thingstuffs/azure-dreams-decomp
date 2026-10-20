@@ -81,7 +81,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
     if ((u32) entity <= (u32) compare_ptr) {
         if (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != 0x16) {
             display_actor_item_status_message(entity, target);
-            if (apply_actor_food_preference(entity, (D_800DDE84[((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B] >> 4) & 3, 0) == 0) {
+            if (apply_actor_food_preference(entity, (entity_action_selectors[((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B] >> 4) & 3, 0) == 0) {
                 apply_item_effect_at_entity_position(entity, target);
                 return 1;
             }

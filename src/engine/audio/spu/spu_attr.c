@@ -8,34 +8,34 @@
 
 
 /* Enables/disables SPU reverb and mirrors the active flag in D_800794F8. */
-s32 func_8005D88C(s32 enable)
+s32 set_spu_reverb_enabled_if_available(s32 enable)
 {
     u16 spu_control;
 
     switch (enable) {
     case 0:
-        spu_control = D_80079958->spucnt;
-        D_800794F8 = 0;
+        spu_control = spu_registers->spucnt;
+        spu_reverb_enabled = 0;
         spu_control &= ~0x80;
-        D_80079958->spucnt = spu_control;
+        spu_registers->spucnt = spu_control;
         break;
 
     case 1:
-        if ((D_800794FC != enable) && func_8005D9DC(D_80079500)) {
-            spu_control = D_80079958->spucnt;
-            D_800794F8 = 0;
+        if ((spu_reverb_range_override != enable) && func_8005D9DC(spu_reverb_start_address)) {
+            spu_control = spu_registers->spucnt;
+            spu_reverb_enabled = 0;
             spu_control &= ~0x80;
-            D_80079958->spucnt = spu_control;
+            spu_registers->spucnt = spu_control;
         } else {
-            spu_control = D_80079958->spucnt;
-            D_800794F8 = enable;
+            spu_control = spu_registers->spucnt;
+            spu_reverb_enabled = enable;
             spu_control |= 0x80;
-            D_80079958->spucnt = spu_control;
+            spu_registers->spucnt = spu_control;
         }
         break;
     }
 
-    return D_800794F8;
+    return spu_reverb_enabled;
 }
 
 void func_8005EDA0(SpuCommonAttr *attr)
@@ -101,7 +101,7 @@ void func_8005EDA0(SpuCommonAttr *attr)
                 left_volume = left_level;
             }
         }
-        D_80079958->mvoll = (left_volume & 0x7FFF) | mode_bits;
+        spu_registers->mvoll = (left_volume & 0x7FFF) | mode_bits;
     }
 
     if (set_all || (mask & 0x2)) {
@@ -151,63 +151,63 @@ void func_8005EDA0(SpuCommonAttr *attr)
                 right_volume = right_level;
             }
         }
-        D_80079958->mvolr = (right_volume & 0x7FFF) | mode_bits;
+        spu_registers->mvolr = (right_volume & 0x7FFF) | mode_bits;
     }
 
     if (set_all || (mask & 0x40)) {
-        D_80079958->cdvoll = attr->cd.volume.left;
+        spu_registers->cdvoll = attr->cd.volume.left;
     }
     if (set_all || (mask & 0x80)) {
-        D_80079958->cdvolr = attr->cd.volume.right;
+        spu_registers->cdvolr = attr->cd.volume.right;
     }
     if (set_all || (mask & 0x400)) {
-        D_80079958->extvoll = attr->ext.volume.left;
+        spu_registers->extvoll = attr->ext.volume.left;
     }
     if (set_all || (mask & 0x800)) {
-        D_80079958->extvolr = attr->ext.volume.right;
+        spu_registers->extvolr = attr->ext.volume.right;
     }
     if (set_all || (mask & 0x100)) {
         if (attr->cd.reverb == 0) {
-            spu_control = D_80079958->spucnt;
+            spu_control = spu_registers->spucnt;
             spu_control &= 0xFFFB;
-            D_80079958->spucnt = spu_control;
+            spu_registers->spucnt = spu_control;
         } else {
-            spu_control = D_80079958->spucnt;
+            spu_control = spu_registers->spucnt;
             spu_control |= 0x4;
-            D_80079958->spucnt = spu_control;
+            spu_registers->spucnt = spu_control;
         }
     }
     if (set_all || (mask & 0x200)) {
         if (attr->cd.mix == 0) {
-            spu_control = D_80079958->spucnt;
+            spu_control = spu_registers->spucnt;
             spu_control &= 0xFFFE;
-            D_80079958->spucnt = spu_control;
+            spu_registers->spucnt = spu_control;
         } else {
-            spu_control = D_80079958->spucnt;
+            spu_control = spu_registers->spucnt;
             spu_control |= 0x1;
-            D_80079958->spucnt = spu_control;
+            spu_registers->spucnt = spu_control;
         }
     }
     if (set_all || (mask & 0x1000)) {
         if (attr->ext.reverb == 0) {
-            spu_control = D_80079958->spucnt;
+            spu_control = spu_registers->spucnt;
             spu_control &= 0xFFF7;
-            D_80079958->spucnt = spu_control;
+            spu_registers->spucnt = spu_control;
         } else {
-            spu_control = D_80079958->spucnt;
+            spu_control = spu_registers->spucnt;
             spu_control |= 0x8;
-            D_80079958->spucnt = spu_control;
+            spu_registers->spucnt = spu_control;
         }
     }
     if (set_all || (mask & 0x2000)) {
         if (attr->ext.mix == 0) {
-            spu_control = D_80079958->spucnt;
+            spu_control = spu_registers->spucnt;
             spu_control &= 0xFFFD;
-            D_80079958->spucnt = spu_control;
+            spu_registers->spucnt = spu_control;
         } else {
-            spu_control = D_80079958->spucnt;
+            spu_control = spu_registers->spucnt;
             spu_control |= 0x2;
-            D_80079958->spucnt = spu_control;
+            spu_registers->spucnt = spu_control;
         }
     }
 }

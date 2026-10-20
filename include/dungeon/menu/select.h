@@ -751,9 +751,9 @@ extern s32 find_or_retain_sprite_resource_slot(s32, s32);
 extern void unlink_entity_node(void *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void retire_tracked_effect_by_id(void *);
-M2C_UNK func_8004DCE0();                     /* extern */
+M2C_UNK set_message_mode();                     /* extern */
 void runtime_call_selected_mode_handler();                            /* extern */
-M2C_UNK func_8004DD2C();                   /* extern */
+M2C_UNK submit_script_with_registered_context();                   /* extern */
 extern M2C_UNK D_80027160;
 extern Cell D_80027120[];
 extern s16 D_8002713A[];

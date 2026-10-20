@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern int func_8004D880(int a0);
-extern void func_8004D98C(int a0, int a1, void *a2);
+extern int map_fullwidth_character_to_glyph_byte(int a0);
+extern void initialize_styled_glyph_rectangle(int a0, int a1, void *a2);
 extern void set_glyph_style_index(void *a0, int a1);
 extern void set_descriptor_grid_byte_coordinates(signed char *a0, int a1, int a2, int a3, int a4);
 
@@ -48,12 +48,12 @@ void *decode_note_text(void *entries, u8 *text, s32 initial_octave)
             } else {
                 u8 note_hi = cursor[0];
                 u8 note_lo = cursor[1];
-                u8 note = (u8)func_8004D880(note_lo | (note_hi << 8));
+                u8 note = (u8)map_fullwidth_character_to_glyph_byte(note_lo | (note_hi << 8));
                 do {
                     cursor += 2;
                 } while (0);
                 if (note != ' ') {
-                    func_8004D98C(note, octave, entry);
+                    initialize_styled_glyph_rectangle(note, octave, entry);
                     set_glyph_style_index(entry, octave);
                     set_descriptor_grid_byte_coordinates(entry, length, tie_count, dot_count, 0);
                     entry += 0xC;

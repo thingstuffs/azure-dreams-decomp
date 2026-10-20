@@ -42,18 +42,18 @@ typedef struct Func8003C160Context {
     Func8003C160Dst *dst;
 } Func8003C160Context;
 
-extern Func8003C160Context D_80082D58;
+extern Func8003C160Context fade_manager_state;
 extern u8 D_800F26F8[12];
-extern u8 D_80077784[12];
-extern u8 D_800776FC[12];
+extern u8 flagged_effect_source_1[12];
+extern u8 flagged_effect_source_0[12];
 
 extern void func_8003DB94(Func8003C160Dst *, SpriteSourceEntry *, s16);
 extern void runtime_set_destination_flag_from_source(Func8003C160Context *, Func8003C160Dst *);
 extern void ramp_fade_up_fast(void);
 
 /* Initialize the destination and vector for the current source and set the next callback. */
-void func_8003C160(void) {
-    Func8003C160Context *context = &D_80082D58;
+void initialize_shared_sprite_fade_display(void) {
+    Func8003C160Context *context = &fade_manager_state;
     Func8003C160Root *root = (Func8003C160Root *)((u8 *)context - 0x20);
     Func8003C160Dst *dst = root->dst;
     Func8003C160Vec *vec = root->vec;
@@ -69,8 +69,8 @@ void func_8003C160(void) {
     dst->f14 = 0;
     dst->f10 = 0;
 
-    if (context->source == (SpriteSourceEntry *)D_80077784 ||
-        context->source == (SpriteSourceEntry *)D_800776FC) {
+    if (context->source == (SpriteSourceEntry *)flagged_effect_source_1 ||
+        context->source == (SpriteSourceEntry *)flagged_effect_source_0) {
         dst->f14 |= 0x400;
     }
 

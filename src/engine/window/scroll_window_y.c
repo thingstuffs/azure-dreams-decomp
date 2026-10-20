@@ -14,7 +14,7 @@ typedef struct S_80036110_0 {
    /* temp_v1 in scroll_window_y */
 
 
-void func_80036154();
+void select_menu_initializer_from_message_handler();
 
 /* Decreases the state field at offset 0x0A by 0x140, clamping below zero and advancing the handler. */
 void scroll_window_y(S_80036110_0 *object) {
@@ -26,6 +26,6 @@ void scroll_window_y(S_80036110_0 *object) {
     updated_state = object->unk_00;
     if ((s16) updated_state->unk_0A < 0) {
         updated_state->unk_0A = 0U;
-        object->unk_68 = &func_80036154;
+        object->unk_68 = &select_menu_initializer_from_message_handler;
     }
 }

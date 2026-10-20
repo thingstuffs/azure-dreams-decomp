@@ -1,7 +1,7 @@
 #include "engine/scene/slot_transition.h"
 #include "shared/runtime_dispatch.h"
 
-s16 D_800814E8 = 0;
+s16 transition_runtime_slot_index = 0;
 
 /* Refreshes controller input and runs the current entry's handlers, starting a state transition if none signals completion. */
 void func_80041AE4(void)
@@ -9,8 +9,8 @@ void func_80041AE4(void)
     unsigned int copied_value;
     struct SlotTransitionState *state;
 
-    copied_value = D_8008148C;
-    D_80081480 = copied_value;
+    copied_value = gpu_scratch_buffer_base;
+    gpu_scratch_write_pointer = copied_value;
     update_controller_buttons_and_triggers();
 
     state = &D_80082E60;
@@ -21,39 +21,39 @@ void func_80041AE4(void)
         scene_save_previous_mode_and_reset_callbacks();
     } else {
         D_80082E60.field_0 &= ~1;
-        D_800814E8 = reserve_runtime_slot(5, 8);
-        set_scene_phase_callback((s32)func_80041B98);
+        transition_runtime_slot_index = reserve_runtime_slot(5, 8);
+        set_scene_phase_callback((s32)render_scene_until_runtime_slot_idle);
     }
 }
 
 /* Runs the state update and registers the next callback when the current slot becomes inactive. */
-void func_80041B98(void)
+void render_scene_until_runtime_slot_idle(void)
 {
     render_scene_frame_with_timing();
-    if (D_80083120[D_800814E8].type == 0) {
-        set_scene_phase_callback((int)func_80041BE4);
+    if (runtime_transition_slots[transition_runtime_slot_index].type == 0) {
+        set_scene_phase_callback((int)await_scene_confirmation_and_reserve_slot);
     }
 }
 
 /* Runs the state update, then allocates a slot and advances the callback if enabled, or invokes the fallback. */
-void func_80041BE4(void)
+void await_scene_confirmation_and_reserve_slot(void)
 {
     render_scene_frame_with_timing();
     if (D_80082E60.unk_0E != 0) {
-        if (D_80083120[D_800814E8].type == 0) {
-            D_800814E8 = reserve_runtime_slot(6, 8);
+        if (runtime_transition_slots[transition_runtime_slot_index].type == 0) {
+            transition_runtime_slot_index = reserve_runtime_slot(6, 8);
         }
-        set_scene_phase_callback((int) func_80041C64);
+        set_scene_phase_callback((int) finish_scene_when_runtime_slot_idle);
     } else {
         update_shoulder_button_angle();
     }
 }
 
 /* Runs the state update, then sets flag bit 0 and invokes scene_save_previous_mode_and_reset_callbacks when the current slot is inactive. */
-void func_80041C64(void)
+void finish_scene_when_runtime_slot_idle(void)
 {
     render_scene_frame_with_timing();
-    if (D_80083120[D_800814E8].type == 0) {
+    if (runtime_transition_slots[transition_runtime_slot_index].type == 0) {
         D_80082E60.field_0 |= 1;
         scene_save_previous_mode_and_reset_callbacks();
     }

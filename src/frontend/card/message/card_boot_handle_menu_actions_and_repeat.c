@@ -27,10 +27,10 @@ void card_boot_handle_menu_actions_and_repeat(void *menu)
     s32 step;
     s32 repeat_ticks;
 
-    held_buttons = D_801379A8.held;
+    held_buttons = boot_pad_state.held;
     step = 0;
     if (held_buttons != 0) {
-        pressed_buttons = D_801379A8.pressed;
+        pressed_buttons = boot_pad_state.pressed;
         if (!(pressed_buttons & 0x40)) {
             if (pressed_buttons & 0x20) {
                 s32 action_result;
@@ -47,7 +47,7 @@ void card_boot_handle_menu_actions_and_repeat(void *menu)
             } else if (held_buttons & 0xA000) {
                 if (pressed_buttons & 0xA000) {
                     (*(s32 *)((u8 *)menu + 0x10)) = 0;
-                    pressed_buttons = D_801379A8.pressed;
+                    pressed_buttons = boot_pad_state.pressed;
                     if (pressed_buttons & 0x8000) {
                         step = -1;
                     } else if (pressed_buttons & 0x2000) {

@@ -13,13 +13,13 @@ typedef struct {
     /* 0x18 */ s32 unk18;
 } S_80086A40;
 
-extern S_80086A40 D_80086A40[16];
+extern S_80086A40 audio_bank_slots[16];
 typedef struct {
     s32 value;
     s32 pad[2];
 } S_8007382C;
 
-extern S_8007382C D_8007382C;
+extern S_8007382C sound_slot_transfer_cursor;
 
 extern s32 clamp_and_submit_driver_parameter(s32 dest, u32 size);
 extern void lookup_and_scale_driver_address(s32 value);
@@ -31,16 +31,16 @@ s32 read_sound_slot_chunk(s32 dest, u32 read_size, s16 entry_id)
     S_80086A40 *entry;
     u32 remaining;
 
-    base = D_80086A40;
+    base = audio_bank_slots;
     entry = &base[entry_id];
 
     if (entry->marker != entry_id) {
         return -1;
     }
 
-    lookup_and_scale_driver_address(entry->unk10 + D_8007382C.value);
+    lookup_and_scale_driver_address(entry->unk10 + sound_slot_transfer_cursor.value);
 
-    remaining = entry->unk14 - D_8007382C.value;
+    remaining = entry->unk14 - sound_slot_transfer_cursor.value;
     if (remaining < read_size) {
         read_size = remaining;
     }
@@ -52,9 +52,9 @@ s32 read_sound_slot_chunk(s32 dest, u32 read_size, s16 entry_id)
     {
         s32 new_cursor;
         s32 end;
-        new_cursor = D_8007382C.value + read_size;
+        new_cursor = sound_slot_transfer_cursor.value + read_size;
         end = entry->unk14;
-        D_8007382C.value = new_cursor;
+        sound_slot_transfer_cursor.value = new_cursor;
         if (new_cursor >= end) {
             return entry_id;
         }

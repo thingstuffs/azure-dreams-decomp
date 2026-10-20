@@ -1,7 +1,7 @@
 #include "modules/ovmovie_game.h"
 
 /* Initializes movie buffer pointers and frame rectangles for the current mode. */
-void func_80176BEC(MovieBuffer *movie, s32 frame_x, s32 frame_y, s32 next_frame_x, s32 next_frame_y) {
+void initialize_movie_frame_buffers(MovieBuffer *movie, s32 frame_x, s32 frame_y, s32 next_frame_x, s32 next_frame_y) {
     s32 buffer_offset = 0x15A40;
     s32 next_buffer_offset = 0x22AB0;
     s32 work_offset = 0x10040;

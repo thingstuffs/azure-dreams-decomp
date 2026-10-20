@@ -11,7 +11,7 @@ extern s32 D_80082EB0[];
 extern s16 D_800DCE66[5];
 extern s32 D_800E4940[];
 extern u8 D_8004F5F4[];
-void func_8004DD2C();                     /* extern */
+void submit_script_with_registered_context();                     /* extern */
 s32 resolve_player_input_facing();                /* extern */
 s32 check_familiar_deployment_placement(); /* extern */
 s32 reject_forbidden_familiar_recall();                         /* extern */
@@ -98,16 +98,16 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
         if (selection_ready == 0) {
             return;
         }
-        func_8004DCE0(2);
+        set_message_mode(2);
         runtime_call_selected_mode_handler();
         if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
             if (D_80012D6D == 0) {
-                func_8004DD2C(&D_80088904);
+                submit_script_with_registered_context(&D_80088904);
             } else {
-                func_8004DD2C(&D_80088934);
+                submit_script_with_registered_context(&D_80088934);
             }
         } else {
-            func_8004DD2C(&D_80088970);
+            submit_script_with_registered_context(&D_80088970);
         }
         (*(u8 *)((u8 *)state + 0x9B)) = (u8) ((*(u8 *)((u8 *)state + 0x9B)) + 1);
     case 1:

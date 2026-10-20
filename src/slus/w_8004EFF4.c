@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern s32 D_8007166C[];
-extern s32 D_80071670[];
-extern s32 D_80071674[];
+extern s32 object_header_b_default_word_08[];
+extern s32 object_header_b_default_word_0c[];
+extern s32 object_header_b_default_word_04[];
 
 typedef struct S_8004EFF4 {
     /* 0x00 */ u8 unk00;
@@ -29,9 +29,9 @@ void *func_8004EFF4(S_8004EFF4 *record)
     s32 initial_word_c;
 
     record->unk01 = 0xB0;
-    record->unk08 = D_8007166C[0];
-    initial_word_4 = D_80071674[0];
-    initial_word_c = D_80071670[0];
+    record->unk08 = object_header_b_default_word_08[0];
+    initial_word_4 = object_header_b_default_word_04[0];
+    initial_word_c = object_header_b_default_word_0c[0];
     record->unk01 = record->unk01 | 2;
     record->unk00 = record->unk00 | 0x60;
     record->unk04 = initial_word_4;

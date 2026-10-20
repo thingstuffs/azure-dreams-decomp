@@ -40,7 +40,7 @@ s32 use_item_to_restore_eyesight(void *entity_arg, s32 amount_arg, s16 effect_ar
         display_item_status_message(entity_arg, amount, effect_arg);
         lookup_entity = entity_arg;
         entity_type = *((u8 *)entity_arg + 0x13);
-        type_table = (u16 *)&D_800DDE84;
+        type_table = (u16 *)&entity_action_selectors;
         if (apply_actor_food_preference(lookup_entity,
                           (type_table[entity_type] >> 6) & 3,
                           0) == 0) {

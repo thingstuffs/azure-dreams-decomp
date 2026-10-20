@@ -9,14 +9,14 @@ extern void handle_audio_status_code(s32 a0);
 extern void dispatch_combined_driver_flags();
 extern void release_enabled_sound_channel(s16 a0);
 extern void audio_reset_and_release_sequence_banks(void);
-extern void func_8005A4B8(void);
+extern void reset_voices_slots_and_stop_spu_service(void);
 
 /* Stops active playback, releases all four channels, and runs audio cleanup. */
 void stop_audio_playback(void)
 {
     s16 channel;
 
-    if (D_800847D0.flags00 & 0x100) {
+    if (sound_playback_state.flags00 & 0x100) {
         handle_audio_status_code(0x71);
     }
 
@@ -27,5 +27,5 @@ void stop_audio_playback(void)
     }
 
     audio_reset_and_release_sequence_banks();
-    func_8005A4B8();
+    reset_voices_slots_and_stop_spu_service();
 }

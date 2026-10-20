@@ -35,11 +35,11 @@ typedef struct {
 } S_80057A94_msg;
 
 extern s32 audio_get_current_bank_tone_record(void *row, s32 column);
-extern s32 func_8005DA68(void);
-extern void func_8005D88C(s32 enable);
+extern s32 is_tone_parameter_flag_set(void);
+extern void set_spu_reverb_enabled_if_available(s32 enable);
 extern s32 func_8005DA88(void *settings);
 
-extern u8 D_8007382B[0x10];
+extern u8 sound_ram_reserve_mode[0x10];
 
 /* Apply a command value to a cell field or dispatch a control message. */
 

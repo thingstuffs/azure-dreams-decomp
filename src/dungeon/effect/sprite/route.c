@@ -646,7 +646,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
     if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s == 1) {
         if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s == 0) {
             play_sound_if_enabled(0x300);
-            func_800542BC();
+            drain_audio_commands_and_service_channels();
         }
         cnt = ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.u + 1;
         ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s = cnt;

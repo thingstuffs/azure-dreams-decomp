@@ -40,7 +40,7 @@ typedef struct RuntimeTask {
 
 extern u8 D_80082BC0[9];
 extern RuntimeState D_80082A38;
-extern u8 D_800809C0[9];
+extern u8 message_window_state_data[9];
 extern u8 D_80012D6E[9];
 
 extern void *initialize_scene_object_in_buffer(s32 flags_or_addr, void *buffer, s16 word_count);
@@ -49,7 +49,7 @@ extern void init_message_window(RuntimeState *input, u8 mode);
 extern void *memset(void *ptr, s32 value, u32 size);
 
 /* Create the runtime task and initialize its shared state and blocks. */
-void func_80037E58(void)
+void initialize_message_window_runtime_task(void)
 {
     RuntimeTask *task;
     RuntimeLinks *links;
@@ -65,7 +65,7 @@ void func_80037E58(void)
     links->field00 = &D_80082A38.field8C;
 
     for (index = 0; index < 107; index++) {
-        memset(&D_80082660[index], 0, sizeof(RuntimeBlock));
+        memset(&object_index_slots[index], 0, sizeof(RuntimeBlock));
     }
 
     for (index = 15; index >= 0; index--) {
@@ -75,7 +75,7 @@ void func_80037E58(void)
     do {
         state = &D_80082A38;
     } while (0);
-    state_data = D_800809C0;
+    state_data = message_window_state_data;
     state->field88 = state_data;
     state->field38 = 0;
     do {

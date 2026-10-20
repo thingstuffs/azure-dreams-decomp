@@ -962,7 +962,7 @@ extern u16 D_8002745C[8][8];
 extern s32 D_800274DC[7][8];
 extern s32 D_800273A8;
 extern Bank56Counter D_800273BC;
-s32 func_80046398(void *, void *, void *);
+s32 draw_linked_lit_meshes(void *, void *, void *);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 void draw_textured_ellipse(s32, void *, u16, u16);
 void func_80064840(void *, void *, void *);

@@ -40,7 +40,7 @@ typedef struct S_800233D0_7 {
 
 
 extern s32 func_80049E6C(s32 kind);
-extern u8 D_80077E84[];
+extern u8 menu_leaf_template_6[];
 extern u8 D_80077EF0[];
 extern u8 D_80077EFC[];
 
@@ -63,7 +63,7 @@ void card_boot_bind_command_panel_resources(void *object)
     shared_data = (u8 *)object + 4;
     block_offset = 0x90;
     ((S_800233D0_2 *)(((Rec_func_800233D0_arg0 *)object)->unk_1A0))->unk_00 = kind_value;
-    ((S_800233D0_3 *)(((Rec_func_800233D0_arg0 *)object)->unk_1A4))->unk_00 = D_80077E84;
+    ((S_800233D0_3 *)(((Rec_func_800233D0_arg0 *)object)->unk_1A4))->unk_00 = menu_leaf_template_6;
     do {
         slot_cursor = (u8 *)object + slot_index * 4;
         ((S_800233D0_4 *)(((S_800233D0_1 *)slot_cursor)->unk_1A8))->unk_00 = primary_table;

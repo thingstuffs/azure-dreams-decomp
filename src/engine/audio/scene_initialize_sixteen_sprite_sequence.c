@@ -22,7 +22,7 @@ typedef struct S_80053374_obj {
     /* 0x20 */ S_80053374_Sub sub;
 } S_80053374_obj;
 
-extern s32 D_80071A84[4];
+extern s32 sixteen_sprite_sequence_source[4];
 
 extern void play_timed_animation_sequence(void *a0);
 extern void *allocate_list_node(s32 a0, void *a1);
@@ -45,7 +45,7 @@ void scene_initialize_sixteen_sprite_sequence(S_80053374_obj *entity, void *owne
     sub[3] = 0;
     sub[4] = 0;
     sub[5] = 0;
-    *(void **)(sub + 6) = &D_80071A84;
+    *(void **)(sub + 6) = &sixteen_sprite_sequence_source;
     slot_cursor = (s32 *)sub;
 
     do {

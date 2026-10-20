@@ -5,15 +5,15 @@
 extern s32 func_80049E6C(s32 a0);
 extern void reset_six_object_leaf_records(void *slots);
 
-extern u8 D_80077E3C[12];
-extern u8 D_80077E48[12];
-extern u8 D_80077E54[12];
-extern u8 D_80077E60[12];
-extern u8 D_80077E6C[12];
-extern u8 D_80077E78[12];
-extern u8 D_80077E84[12];
-extern u8 D_80077F80[12];
-extern u8 D_80077F8C[12];
+extern u8 menu_leaf_template_0[12];
+extern u8 menu_leaf_template_1[12];
+extern u8 menu_leaf_template_2[12];
+extern u8 menu_leaf_template_3[12];
+extern u8 menu_leaf_template_4[12];
+extern u8 menu_leaf_template_5[12];
+extern u8 menu_leaf_template_6[12];
+extern u8 menu_leaf_variant_template_0[12];
+extern u8 menu_leaf_variant_template_1[12];
 extern u8 D_80081485[12];
 
 typedef struct S_800506BC_Mid {
@@ -41,7 +41,7 @@ typedef struct S_800506BC_Ctx {
 } S_800506BC_Ctx;
 
 /* Initialize entry data, enable context flags, and set subobject offsets. */
-void func_800506BC(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx)
+void initialize_gauge_menu_display_rows(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx)
 {
     s16 fixed_offset;
     s16 layout_offset;
@@ -55,20 +55,20 @@ void func_800506BC(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx)
     u8 *variant_data;
 
     obj->slot0->val = func_80049E6C(6);
-    obj->arr5[0]->val = (s32) D_80077E3C;
-    obj->arr5[1]->val = (s32) D_80077E48;
-    obj->arr5[2]->val = (s32) D_80077E54;
-    obj->arr5[3]->val = (s32) D_80077E60;
-    obj->arr5[4]->val = (s32) D_80077E6C;
+    obj->arr5[0]->val = (s32) menu_leaf_template_0;
+    obj->arr5[1]->val = (s32) menu_leaf_template_1;
+    obj->arr5[2]->val = (s32) menu_leaf_template_2;
+    obj->arr5[3]->val = (s32) menu_leaf_template_3;
+    obj->arr5[4]->val = (s32) menu_leaf_template_4;
     variant_entry = obj->slot18;
     if (D_80081485[0] == 0) {
-        variant_data = D_80077F80;
+        variant_data = menu_leaf_variant_template_0;
     } else {
-        variant_data = D_80077F8C;
+        variant_data = menu_leaf_variant_template_1;
     }
     variant_entry->val = (s32) variant_data;
-    obj->slot20->val = (s32) D_80077E78;
-    obj->slot24->val = (s32) D_80077E84;
+    obj->slot20->val = (s32) menu_leaf_template_5;
+    obj->slot24->val = (s32) menu_leaf_template_6;
 
     ctx->flag10 = 1;
     ctx->flag14 = 1;

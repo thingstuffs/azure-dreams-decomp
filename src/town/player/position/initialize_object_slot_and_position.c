@@ -17,8 +17,8 @@ typedef struct {
 /* Initialize the town object, clear its slot flags, and apply its coordinates. */
 void initialize_object_slot_and_position(TownObject *object, void *ptr, void *ptr2) {
     call_the_handler_selects_nonzero_entry((s32 *) D_800D01C0, (Rec_func_80094268_arg0 *) object, ptr2);
-    D_80082660[1].unk_00 = 0;
+    object_index_slots[1].unk_00 = 0;
     object->unk4 = D_80097EA0;
-    D_80082660[1].unk_01 = 0;
+    object_index_slots[1].unk_01 = 0;
     create_indexed_effect_object(object->unk36, object->unk38);
 }

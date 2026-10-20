@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8004DD2C(s32 context);
+extern void submit_script_with_registered_context(s32 context);
 extern void SD_Call(s32 flags);
 extern void toggle_selected_entry_flag(void *state);
 extern void store_record_check_result(void *record);
@@ -25,12 +25,12 @@ void handle_selected_entry(s32 *state) {
                 return;
             }
             SD_Call(0x506);
-            func_8004DD2C(D_800D1558);
+            submit_script_with_registered_context(D_800D1558);
             return;
         }
         SD_Call(0x506);
         if (state[6] == 1) {
-            func_8004DD2C(D_800D155C);
+            submit_script_with_registered_context(D_800D155C);
             return;
         }
     } else {

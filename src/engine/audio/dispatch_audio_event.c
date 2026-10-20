@@ -13,12 +13,12 @@
    address is taken by this function, no fields accessed here. */
 
 
-extern void func_8005497C(u16 a0);
+extern void assign_sound_payload_and_release_channel(u16 a0);
 extern void select_marker_table(u16 a0);
 extern void handle_audio_status_code(u8 a0);
 extern void func_80054104(void);
 extern void audio_handle_stream_control_event(s32 a0);
-extern void func_80054A7C(u8 a0);
+extern void dispatch_audio_mix_action(u8 a0);
 extern void set_sound_task_priority(u32 a0, void *a1);
 
 /* Dispatches packed events by status nibble and enabled event flags. */
@@ -28,7 +28,7 @@ void dispatch_audio_event(s32 event) {
 
     switch (event_bits & 0xF0) {
     case 0x10:
-        func_8005497C((u16)packed_event);
+        assign_sound_payload_and_release_channel((u16)packed_event);
         break;
     case 0x20:
         select_marker_table((u16)packed_event);
@@ -64,22 +64,22 @@ void dispatch_audio_event(s32 event) {
     case 0xC0:
     case 0xD0:
         if (packed_event & 1) {
-            if (D_800847D0.flags00 & 0x100) {
-                if (!(D_800847D0.flags00 & 0x1000)) {
-                    set_sound_task_priority(packed_event & 0xFFF1, &D_800848F8);
+            if (sound_playback_state.flags00 & 0x100) {
+                if (!(sound_playback_state.flags00 & 0x1000)) {
+                    set_sound_task_priority(packed_event & 0xFFF1, &sound_sequence_task);
                 }
             }
         }
         if (packed_event & 4) {
-            if (D_800847D0.flags00 & 0x400) {
-                if (!(D_800847D0.flags00 & 0x4000)) {
-                    set_sound_task_priority(packed_event & 0xFFF4, &D_80084858);
+            if (sound_playback_state.flags00 & 0x400) {
+                if (!(sound_playback_state.flags00 & 0x4000)) {
+                    set_sound_task_priority(packed_event & 0xFFF4, &sound_stream_task);
                 }
             }
         }
         break;
     default:
-        func_80054A7C(packed_event & 0xFF);
+        dispatch_audio_mix_action(packed_event & 0xFF);
         break;
     }
 }

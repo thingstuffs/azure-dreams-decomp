@@ -3,7 +3,7 @@
 extern s32 func_80049004(s32 *a0, s32 a1, s32 a2);
 extern s32 *allocate_entry_slots(s32 *a0, u32 a1, s32 a2);
 extern s32 initialize_seventeen_object_pointers(s32 *a0, s32 a1);
-extern s32 func_80048FBC(s32 *a0, s32 a1);
+extern s32 allocate_and_append_callback_payload(s32 *a0, s32 a1);
 
 typedef struct S_80050AF0 {
     u8 pad_00[0x2C];
@@ -14,7 +14,7 @@ typedef struct S_80050AF0 {
 } S_80050AF0;
 
 /* Allocates and initializes sub-buffers, returning 1 if all steps succeed. */
-s32 func_80050AF0(S_80050AF0 *state, s32 allocation_arg)
+s32 allocate_selection_menu_entry_buffers(S_80050AF0 *state, s32 allocation_arg)
 {
     s32 *sub_buffers = state->unk6C;
     s32 success = 0;
@@ -26,7 +26,7 @@ s32 func_80050AF0(S_80050AF0 *state, s32 allocation_arg)
         buffer_address = (s32)allocate_entry_slots(sub_buffers, 9, 0xC);
         if (buffer_address != 0) {
             initialize_seventeen_object_pointers((s32 *)state->unk68, buffer_address);
-            buffer_address = func_80048FBC(sub_buffers, 0xC);
+            buffer_address = allocate_and_append_callback_payload(sub_buffers, 0xC);
             success = (buffer_address != 0);
             state->unk2C = buffer_address;
         }

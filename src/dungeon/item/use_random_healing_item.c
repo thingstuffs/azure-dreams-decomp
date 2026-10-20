@@ -25,7 +25,7 @@ extern u8 D_800E0E14[];
 extern u8 D_800E0E34[];
 extern u8 D_800E0E50[];
 
-extern s32 func_8003AD08(s16, s32);
+extern s32 format_unsigned_double_byte_decimal(s16, s32);
 extern void apply_entity_effects(DungeonObject *);
 extern void begin_deferred_item_action(DungeonObject *, u8 *, u8 *, DungeonObject *);
 extern void clear_slot_and_update_linked_state(u8 *);
@@ -61,7 +61,7 @@ s32 use_random_healing_item(DungeonObject *obj, u8 *payload, s16 effect_arg) {
     }
     if ((u32)obj <= 0x9FFFFFFFU) {
         display_item_status_message(obj, payload, effect_arg);
-        kind_flags = D_800DDE84;
+        kind_flags = entity_action_selectors;
         if (apply_actor_food_preference(obj, ((u32)kind_flags[obj->kind] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(obj, payload);
             return 1;
@@ -104,10 +104,10 @@ s32 use_random_healing_item(DungeonObject *obj, u8 *payload, s16 effect_arg) {
     if (obj->flags & 0x4000) {
         message_handle = get_unused_text_buffer();
         if (effect_state > 0) {
-            func_80099290(expand_text_control_codes(&D_80089354[0], func_8003AD08(obj->amount, expand_text_control_codes(&D_800E0E14[0],
+            func_80099290(expand_text_control_codes(&D_80089354[0], format_unsigned_double_byte_decimal(obj->amount, expand_text_control_codes(&D_800E0E14[0],
                 append_entity_display_text(obj, message_handle)))));
         } else if (effect_state == 0) {
-            func_80099290(expand_text_control_codes(&D_80089354[0], func_8003AD08(obj->amount, expand_text_control_codes(&D_800E0E34[0],
+            func_80099290(expand_text_control_codes(&D_80089354[0], format_unsigned_double_byte_decimal(obj->amount, expand_text_control_codes(&D_800E0E34[0],
                 append_entity_display_text(obj, message_handle)))));
         } else {
             func_80099290(expand_text_control_codes(&D_800E0E50[0], message_handle));

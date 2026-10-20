@@ -67,7 +67,7 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, (s32)item, action);
         if (apply_actor_food_preference(target,
-                          D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3,
+                          entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3,
                           (s32)item) == 0) {
             apply_item_effect_at_entity_position(target, (s32)item);
             return 1;

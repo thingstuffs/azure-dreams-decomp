@@ -3,7 +3,7 @@
 extern s32 runtime_lookup_byte_by_key(s32);
 
 /* Converts fullwidth alphanumerics to ASCII, delegating other character codes. */
-s32 func_8004D880(s32 char_code)
+s32 map_fullwidth_character_to_glyph_byte(s32 char_code)
 {
     s32 code;
     s32 letter_code;

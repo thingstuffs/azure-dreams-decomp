@@ -35,7 +35,7 @@ extern Template12 D_80026990;
 extern Template12 D_8002699C;
 extern Template12 D_800269A8;
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
-extern void func_800542BC(void);
+extern void drain_audio_commands_and_service_channels(void);
 extern u32 func_80069EF8(void);
 
 void apply_random_actor_value_adjustment(void *state, void *unused, void *visual) {
@@ -1063,7 +1063,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
         work->table_index = direction_index;
         func_8002553C(work, position_arg, sprite_arg);
         play_sound_if_enabled(0x300);
-        func_800542BC();
+        drain_audio_commands_and_service_channels();
         return;
 
     case 2:

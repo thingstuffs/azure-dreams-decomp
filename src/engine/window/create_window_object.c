@@ -9,7 +9,7 @@ void create_window_object(s32 object_addr, S_func_80035484_4 *model, S_func_8003
     S_func_80035484_0 *object;
 
     object = initialize_runtime_node_storage(0x11, object_addr, 0x49, &D_80082BC0[0]);
-    D_80081440 = object;
+    current_window_object = object;
     object->unk_10 = invoke_window_object_callback;
     register_node(object, &runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
     transform = object->unk_08;
@@ -28,14 +28,14 @@ void create_window_object(s32 object_addr, S_func_80035484_4 *model, S_func_8003
     transform->unk_06 = 0x78;
     transform->unk_0A = 0x200;
     appearance->unk_0C = 0x808080;
-    appearance->unk_08 = &D_80073B54[0];
+    appearance->unk_08 = &window_default_render_data[0];
     appearance->unk_00 = 0;
     appearance->unk_04 = 0;
     appearance->unk_05 = 0;
     state->unk_74 = config;
     ((S_func_80035484_4 *)object->unk_20)->unk_14 =
-        *(s16 *)((u8 *)&D_8006A93C[0] + config->unk_02 * 2);
+        *(s16 *)((u8 *)&window_variant_model_values[0] + config->unk_02 * 2);
     appearance->unk_08 =
-        *(void **)((u8 *)&D_8006A8F0[0] + ((S_func_80035484_5 *)state->unk_74)->unk_02 * 4);
+        *(void **)((u8 *)&window_variant_render_data[0] + ((S_func_80035484_5 *)state->unk_74)->unk_02 * 4);
 }
-void * D_80081440 = 0;
+void * current_window_object = 0;

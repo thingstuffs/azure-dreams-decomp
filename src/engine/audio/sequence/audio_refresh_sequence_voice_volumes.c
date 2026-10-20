@@ -39,9 +39,9 @@ typedef struct S_80084960 {
     u8 pad99[3];
 } S_80084960;
 
-extern s32 D_80073734[4];
-extern S_800564A8_85458 D_80085458[64];
-extern S_80084960 D_80084960[16];
+extern s32 audio_voice_count[4];
+extern S_800564A8_85458 audio_voice_records[64];
+extern S_80084960 audio_channel_controls[16];
 
 extern void audio_compute_voice_stereo_volumes(S_800564A8_85458 *voice_arg, S_80084960 *sound_params);
 extern s32 sound_set_indexed_voice_volumes(s32 a0, u16 a1, u16 a2);
@@ -50,10 +50,10 @@ extern s32 sound_set_indexed_voice_volumes(s32 a0, u16 a1, u16 a2);
 void audio_refresh_sequence_voice_volumes(void) {
     s32 entry_index;
 
-    for (entry_index = 0; entry_index < D_80073734[0]; entry_index++) {
-        if ((u16)D_80085458[entry_index].f06 < 0x10) {
-            audio_compute_voice_stereo_volumes(&D_80085458[entry_index], &D_80084960[D_80085458[entry_index].f06]);
-            sound_set_indexed_voice_volumes(entry_index, D_80085458[entry_index].f10, D_80085458[entry_index].f12);
+    for (entry_index = 0; entry_index < audio_voice_count[0]; entry_index++) {
+        if ((u16)audio_voice_records[entry_index].f06 < 0x10) {
+            audio_compute_voice_stereo_volumes(&audio_voice_records[entry_index], &audio_channel_controls[audio_voice_records[entry_index].f06]);
+            sound_set_indexed_voice_volumes(entry_index, audio_voice_records[entry_index].f10, audio_voice_records[entry_index].f12);
         }
     }
 }

@@ -84,16 +84,16 @@ typedef struct
     u8 pad3e[2];
 }
 S_8005BBFC_req;
-extern s32 D_80073734[4];
-extern s32 D_80073740[64];
-extern S_80085458 D_80085458[64];
-extern s32 D_80085F98[4];
-extern S_80086A40 D_80086A40[16];
+extern s32 audio_voice_count[4];
+extern s32 audio_voice_masks[64];
+extern S_80085458 audio_voice_records[64];
+extern s32 audio_update_guard[4];
+extern S_80086A40 audio_bank_slots[16];
 extern void sound_reset_indexed_voice_envelope(s32 request_index);
 extern void func_8005E97C(s32 a0, s32 a1);
 extern s32 func_8005EB78(s32 a0);
-extern void func_8005EC0C(void *a0);
-extern s32 func_8005E4A0(s32 a0, s32 a1);
+extern void apply_voice_attributes_and_key_on(void *a0);
+extern s32 update_spu_register_pair_cc_cd(s32 a0, s32 a1);
 /* Starts a channel voice with sample, pitch, envelope, and panned volume settings. */
 s32 func_8005BBFC(channel_arg, bank_arg, program_arg, tone_arg, note_arg, fine_note_arg, left_gain_arg, right_gain_arg)
 s16 channel_arg;
@@ -139,12 +139,12 @@ u16 right_gain_arg;
     left_gain = left_gain_arg;
     tone = tone_arg;
     right_gain = right_gain_arg;
-    D_80085F98[0] = 1;
-    if ((D_80073734[0] - 1) < channel) {
+    audio_update_guard[0] = 1;
+    if ((audio_voice_count[0] - 1) < channel) {
         channel = -1;
     }
     if (channel != (-1)) {
-        bank_data = D_80086A40[bank_arg].f04;
+        bank_data = audio_bank_slots[bank_arg].f04;
         program_offset = ((s32) (program_arg << 0x10)) >> 0xC;
         program_data = bank_data + (program_offset + 0x20);
         note_pitch = (note_arg << 8) + fine_note_arg;
@@ -152,7 +152,7 @@ u16 right_gain_arg;
         if ((note_arg >= ((s32) tone_data->f06)) && (((s32) tone_data->f07) >= note_arg)) {
             sound_reset_indexed_voice_envelope(channel);
             {
-                s32 * voice_ids = D_80073740;
+                s32 * voice_ids = audio_voice_masks;
                 voice_id = voice_ids + channel;
             }
             do {
@@ -166,7 +166,7 @@ u16 right_gain_arg;
             sample = 0;
             left_volume = sample;
             sample_index = tone_data->f16;
-            sample_sizes = (u16 *) ((D_80086A40[(s16) bank].f04 + ((*((u16 *) (bank_data + 0x12))) << 9)) + 0x820);
+            sample_sizes = (u16 *) ((audio_bank_slots[(s16) bank].f04 + ((*((u16 *) (bank_data + 0x12))) << 9)) + 0x820);
             if (sample_index > 0) {
                 do {
                     left_volume += *sample_sizes;
@@ -178,15 +178,15 @@ u16 right_gain_arg;
             voice_request.f04 = 0x701EF;
             voice_request.f0c = 0;
             voice_request.f0e = 0;
-            voice_request.f00 = D_80073740[channel];
+            voice_request.f00 = audio_voice_masks[channel];
             left_volume <<= 3;
-            voice_request.f1c = D_80086A40[(s16) bank].f10 + left_volume;
+            voice_request.f1c = audio_bank_slots[(s16) bank].f10 + left_volume;
             adsr1 = tone_data->f10;
             voice_request.f3a = adsr1;
-            D_80085458[channel].f60 = adsr1;
+            audio_voice_records[channel].f60 = adsr1;
             adsr2 = tone_data->f12;
             voice_request.f3c = adsr2;
-            D_80085458[channel].f64 = adsr2;
+            audio_voice_records[channel].f64 = adsr2;
             if (tone_data->f10 & 0x80) {
                 voice_request.f24 = 5;
             }
@@ -194,23 +194,23 @@ u16 right_gain_arg;
                 voice_request.f24 = 1;
             }
             voice_request.f20 = voice_request.f1c;
-            D_80085458[channel].f22 = tone_data->f04;
-            D_80085458[channel].f23 = tone_data->f05;
-            D_80085458[channel].f21 = tone_data->f0c;
+            audio_voice_records[channel].f22 = tone_data->f04;
+            audio_voice_records[channel].f23 = tone_data->f05;
+            audio_voice_records[channel].f21 = tone_data->f0c;
             tone_param = tone_data->f0d;
-            D_80085458[channel].f00 = channel;
-            D_80085458[channel].f04 = program;
-            D_80085458[channel].f08 = tone;
-            D_80085458[channel].f0a = (s16) (note_pitch >> 8);
-            D_80085458[channel].f06 = 0x11;
-            D_80085458[channel].f1a = 1;
-            D_80085458[channel].f20 = tone_param;
-            D_80085458[channel].f14 = program_data[1];
-            D_80085458[channel].f16 = program_data[4];
-            D_80085458[channel].f15 = tone_data->f02;
-            D_80085458[channel].f17 = tone_data->f03;
-            D_80085458[channel].f5c = bank;
-            pan_total = (D_80086A40[(s16) bank].f1b + D_80085458[channel].f16) + D_80085458[channel].f17;
+            audio_voice_records[channel].f00 = channel;
+            audio_voice_records[channel].f04 = program;
+            audio_voice_records[channel].f08 = tone;
+            audio_voice_records[channel].f0a = (s16) (note_pitch >> 8);
+            audio_voice_records[channel].f06 = 0x11;
+            audio_voice_records[channel].f1a = 1;
+            audio_voice_records[channel].f20 = tone_param;
+            audio_voice_records[channel].f14 = program_data[1];
+            audio_voice_records[channel].f16 = program_data[4];
+            audio_voice_records[channel].f15 = tone_data->f02;
+            audio_voice_records[channel].f17 = tone_data->f03;
+            audio_voice_records[channel].f5c = bank;
+            pan_total = (audio_bank_slots[(s16) bank].f1b + audio_voice_records[channel].f16) + audio_voice_records[channel].f17;
             pan = pan_total - 0x80;
             if (pan < 0) {
                 pan = 0;
@@ -218,9 +218,9 @@ u16 right_gain_arg;
             if (!(pan < 0x80)) {
                 pan = 0x7F;
             }
-            D_80085458[channel].f18 = pan;
-            volume = D_80086A40[(s16) bank].f18;
-            volume = ((s32) ((volume * D_80085458[channel].f14) * D_80085458[channel].f15)) >> 7;
+            audio_voice_records[channel].f18 = pan;
+            volume = audio_bank_slots[(s16) bank].f18;
+            volume = ((s32) ((volume * audio_voice_records[channel].f14) * audio_voice_records[channel].f15)) >> 7;
             if (pan >= 0x40) {
                 right_volume = volume;
                 left_volume = ((s32) ((0x40 - (pan & 0x3F)) * (right_volume << 1))) >> 7;
@@ -229,15 +229,15 @@ u16 right_gain_arg;
                 left_volume = volume;
                 right_volume = ((s32) (pan * (left_volume << 1))) >> 7;
             }
-            bank_volume = D_80086A40[(s16) bank].f18;
+            bank_volume = audio_bank_slots[(s16) bank].f18;
             left_volume = ((s32) (left_volume * bank_volume)) >> 7;
             right_volume = ((s32) (right_volume * bank_volume)) >> 7;
             left_scaled = left_volume * ((s16) left_gain);
             right_scaled = right_volume * ((s16) right_gain);
-            D_80085458[channel].f10 = (s16) (left_scaled >> 7);
-            D_80085458[channel].f12 = (u16) (right_scaled >> 7);
-            voice_request.f08 = (s16) D_80085458[channel].f10;
-            voice_request.f0a = D_80085458[channel].f12;
+            audio_voice_records[channel].f10 = (s16) (left_scaled >> 7);
+            audio_voice_records[channel].f12 = (u16) (right_scaled >> 7);
+            voice_request.f08 = (s16) audio_voice_records[channel].f10;
+            voice_request.f0a = audio_voice_records[channel].f12;
             voice_request.f16 = note_pitch;
 
             if (tone_data->f05 != 0) {
@@ -246,18 +246,18 @@ u16 right_gain_arg;
             else {
                 voice_request.f18 = tone_data->f05 | (tone_data->f04 << 8);
             }
-            func_8005EC0C(&voice_request);
+            apply_voice_attributes_and_key_on(&voice_request);
             if (tone_data->f01 & 4) {
-                func_8005E4A0(1, D_80073740[channel]);
+                update_spu_register_pair_cc_cd(1, audio_voice_masks[channel]);
             }
             else {
-                func_8005E4A0(0, D_80073740[channel]);
+                update_spu_register_pair_cc_cd(0, audio_voice_masks[channel]);
             }
         }
         else {
             channel = -1;
         }
     }
-    D_80085F98[0] = 0;
+    audio_update_guard[0] = 0;
     return channel;
 }

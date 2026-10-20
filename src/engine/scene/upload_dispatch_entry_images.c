@@ -15,13 +15,13 @@ typedef struct S_8006CE80 {
     s32 unk8;
 } S_8006CE80;
 
-extern S_8006CE80 D_8006CE80[64];
+extern S_8006CE80 dispatch_resource_records[64];
 extern void decode_and_upload_image_array(void *arg);
 
 /* Passes the indexed entry's nested pointer to decode_and_upload_image_array if both pointers exist. */
 void upload_dispatch_entry_images(u16 index) {
     s32 byte_offset = (s32)index * 3 * 4;
-    S_8006CE80 *entry = (S_8006CE80 *)((u8 *)D_8006CE80 + byte_offset);
+    S_8006CE80 *entry = (S_8006CE80 *)((u8 *)dispatch_resource_records + byte_offset);
     S_8006CE80_inner *inner = entry->unk4;
 
     if (inner != (S_8006CE80_inner *)0) {

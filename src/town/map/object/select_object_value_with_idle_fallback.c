@@ -48,7 +48,7 @@ void select_object_value_with_idle_fallback(S_800A4F84_0 *object, s32 check_arg_
 
         state_index = state[1];
         if ((u32)(state_index - 2) < 0x53U) {
-            state_table = ((u8 *)D_80082660);
+            state_table = ((u8 *)object_index_slots);
             value = ((S_800A4F84_1 *)(state_table + (state[1] * 8)))->unk_04;
             if (value != 0) {
                 object->unk_00.i = value->unk_08;

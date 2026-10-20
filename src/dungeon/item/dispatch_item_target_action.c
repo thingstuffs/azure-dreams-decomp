@@ -52,9 +52,9 @@ s32 dispatch_item_target_action(void *target, void *item, s16 action_type, s32 a
         item_entries = D_80073414[category_index].entries;
         item_flags = item_entries[item_index].flags;
         if (!(item_flags & 0x8000)) {
-            selector = D_800DDE84[*((u8 *)target + 0x13)] & 3;
+            selector = entity_action_selectors[*((u8 *)target + 0x13)] & 3;
         } else {
-            selector_table = D_800DDE84;
+            selector_table = entity_action_selectors;
             selector_bits = selector_table[*((u8 *)target + 0x13)];
             selector = (selector_bits >> 4) & 3;
         }

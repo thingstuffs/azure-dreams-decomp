@@ -18,10 +18,10 @@ extern void pack_tagged_resource_descriptor(s32, s32, s32 *, s32);
 extern u8 *decompress_lz(u8 *, u8 *);
 extern void runtime_set_list_pointers_from_type_offsets(u8 *, s16);
 
-extern Info80046E38 *D_8006E7F0[];
-extern s32 D_80080A7C;
-extern u8 *D_80081480;
-extern u8 *D_8008148C[3];
+extern Info80046E38 *resource_type_list_layouts[];
+extern s32 gpu_scratch_ring_size;
+extern u8 *gpu_scratch_write_pointer;
+extern u8 *gpu_scratch_buffer_base[3];
 
 
 /* Processes the selected entry stream and updates the drawing buffer and mode mask. */
@@ -40,12 +40,12 @@ void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
     s32 *entry_data;
 
     stream_start = stream;
-    D_80081480 = D_8008148C[0];
-    buffer_start = (s32)D_8008148C[0];
+    gpu_scratch_write_pointer = gpu_scratch_buffer_base[0];
+    buffer_start = (s32)gpu_scratch_buffer_base[0];
     DrawSync(0);
 
     shifted_id = entry_id << 16;
-    table_base = (u8 *)D_8006E7F0;
+    table_base = (u8 *)resource_type_list_layouts;
     table_offset = shifted_id >> 14;
     entry_slot = (Info80046E38 **)(table_offset + (u32)table_base);
     entry_data = (*entry_slot)->data;
@@ -59,7 +59,7 @@ void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
             Control_CD(6, (s32 *)&pair, 0);
             data_offset += 0x10;
             drain_cd_command_queue();
-            stream = decompress_lz(D_80081480, stream);
+            stream = decompress_lz(gpu_scratch_write_pointer, stream);
             remaining--;
             pack_tagged_resource_descriptor(0x10, 0, (s32 *)&pair, data_offset);
         } while (remaining > 0);
@@ -67,9 +67,9 @@ void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
 
     runtime_set_list_pointers_from_type_offsets(stream_start, entry_id);
     if (D_80082E60.mode != 2) {
-        D_80080A7C = 0x8000;
+        gpu_scratch_ring_size = 0x8000;
     } else {
-        D_80080A7C = 0x4000;
+        gpu_scratch_ring_size = 0x4000;
     }
-    D_80081480 = (u8 *)((buffer_start + 3) & ~3);
+    gpu_scratch_write_pointer = (u8 *)((buffer_start + 3) & ~3);
 }

@@ -5,10 +5,10 @@
 #include "common.h"
 
 extern s32 VSync(s32 mode);
-extern s32 func_800542BC(void);
+extern s32 drain_audio_commands_and_service_channels(void);
 
 /* Cached upper bits of VSync(1), separate from the slot selector at AFC. */
-extern u16 D_80080AFE;
+extern u16 cached_vsync_frame_id;
 
 /* Updates the cached upper bits and calls func_800542BC when they change. */
 

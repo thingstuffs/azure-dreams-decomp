@@ -7,6 +7,6 @@ extern void initialize_record_with_handler_table(void *record, s32 setup_value, 
 /* Clean up the actor, clear its indexed flag, and complete its current action. */
 void complete_player_action(void *actor, s32 motionState, s32 completionArg) {
     unlink_node_if_registered(actor);
-    *(((*(s32 *)((u8 *)actor + 0x40)) * 8) + ((u8 *)D_80082660)) = 0;
+    *(((*(s32 *)((u8 *)actor + 0x40)) * 8) + ((u8 *)object_index_slots)) = 0;
     initialize_record_with_handler_table(actor, motionState, completionArg);
 }

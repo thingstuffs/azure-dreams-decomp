@@ -2,19 +2,19 @@
 #include "shared/sound_state.h"
 
 /* extern decls for callees; sizes/types from asm inspection */
-extern void func_8005CA70(void);
+extern void reset_audio_sequence_state_default(void);
 extern void audio_reset_all_voices(void);
 extern void reset_sound_slots(void);
-extern void func_8005D838(int count, void *record);
+extern void initialize_sound_transfer_range(int count, void *record);
 
 
-extern SoundSequenceListState D_80086CC0;
+extern SoundSequenceListState spu_allocation_record_storage;
 
 /* Resets sound state and slot tables, then initializes the record list at D_80086CC0. */
 void audio_reset_sequence_subsystem(void)
 {
-    func_8005CA70();
+    reset_audio_sequence_state_default();
     audio_reset_all_voices();
     reset_sound_slots();
-    func_8005D838(0x10, &D_80086CC0);
+    initialize_sound_transfer_range(0x10, &spu_allocation_record_storage);
 }

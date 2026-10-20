@@ -21,12 +21,12 @@ typedef struct S_800364BC_0 {
 } S_800364BC_0;   /* arg0 in runtime_mark_state_when_flag_51_set */
 
 
-void func_80036154();
+void select_menu_initializer_from_message_handler();
 
 /* If the flag at offset 0x51 is set, marks the linked state and selects func_80036154. */
 void runtime_mark_state_when_flag_51_set(S_800364BC_0 *state) {
     if (state->unk_51 != 0) {
         ((S_800364BC_2 *)(((S_800364BC_1 *)state)->unk_74))->unk_84 = 1;
-        state->unk_68 = &func_80036154;
+        state->unk_68 = &select_menu_initializer_from_message_handler;
     }
 }

@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern int runtime_upload_image_blocks_vram_offsets_selected_tile_block_indices(s32 a0, u16 a1, s32 a2);
-extern int func_80047AA4(int a0);
+extern int get_image_palette_address(int a0);
 extern int upload_vram_row_and_cache(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void DrawSync(s32 a0);
 extern int mark_palette_colors_with_high_bit(u16 *entry, s32 groupCount, s32 contiguousMode);
@@ -14,7 +14,7 @@ void *upload_image_tiles(void *object, u16 texture_page, s32 clut_id, s32 altern
     s32 palette_addr;
 
     runtime_upload_image_blocks_vram_offsets_selected_tile_block_indices(image_addr, texture_page, 4);
-    palette_addr = func_80047AA4(image_addr);
+    palette_addr = get_image_palette_address(image_addr);
     upload_vram_row_and_cache(palette_addr, clut_id, 0x10, 2);
     DrawSync(0);
     mark_palette_colors_with_high_bit(palette_addr, 0x10, 0);

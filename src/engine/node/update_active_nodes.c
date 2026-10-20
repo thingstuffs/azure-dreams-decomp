@@ -10,7 +10,7 @@ extern s32 D_800814A0;
 
 
 extern void build_screen_outline(void *a0, void *a1, s32 a2);
-extern void func_8003BFE4(void);
+extern void copy_and_scale_screen_outline_points(void);
 extern void run_active_node_callbacks(void);
 extern void remove_marked_active_nodes(void);
 extern void integrate_active_node_vectors(void);
@@ -27,7 +27,7 @@ void update_active_nodes(void)
     s32 mode;
     if ((D_80080A86 == 0) && (state->map.cells != 0)) {
         build_screen_outline(&state->view, &state->view.outline_0_x, 0);
-        func_8003BFE4();
+        copy_and_scale_screen_outline_points();
     }
     run_active_node_callbacks();
     if (D_800814A0 & 0x8000) {

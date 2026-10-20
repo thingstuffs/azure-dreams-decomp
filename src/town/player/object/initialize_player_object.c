@@ -9,7 +9,7 @@ void initialize_player_object(void *object) {
 
     *(void **)((u8 *)object + 0x44) = D_800D05E0;
     *(s32 *)((u8 *)object + 0x40) = 1;
-    global_state = D_80082660;
+    global_state = object_index_slots;
     *(void **)(global_state + 0xC) = (u8 *)object - 0x20;
     global_state[8] = 0;
 }

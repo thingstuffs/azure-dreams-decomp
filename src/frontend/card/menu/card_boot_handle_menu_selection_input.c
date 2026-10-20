@@ -41,10 +41,10 @@ void card_boot_handle_menu_selection_input(void *menu)
     s32 selection_changed;
     s32 old_selection;
 
-    buttons = D_801379A8.held;
+    buttons = boot_pad_state.held;
     selection_changed = 0;
     if (buttons != 0) {
-        button_flags = D_801379A8.pressed;
+        button_flags = boot_pad_state.pressed;
         if (button_flags & 0x40) {
             s32 *linked_object;
 

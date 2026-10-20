@@ -13,12 +13,12 @@
 extern void submit_scaled_driver_halfword_pair(s32 mode, s32 level_a, s32 level_b);
 
 /* When status flag 0x400 is set: D_80084858's level, scaled by volume scale [2], goes to submit_scaled_driver_halfword_pair (mode 0). */
-void func_80054D64(void) {
+void apply_scaled_cd_stream_volume(void) {
     s16 level;
     s32 scaled;
 
-    if (D_800847D0.flags00 & 0x400) {
-        SoundTask *task = &D_80084858;
+    if (sound_playback_state.flags00 & 0x400) {
+        SoundTask *task = &sound_stream_task;
 
         level = (task->unk_08 * g_volume_scale[2]) / 32767;
         scaled = level * task->unk_10;

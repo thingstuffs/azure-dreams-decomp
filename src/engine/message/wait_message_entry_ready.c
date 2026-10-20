@@ -19,7 +19,7 @@ extern void update_message_window(void);
 /* Sets the object's callback to update_message_window when its entry's field_1 is zero. */
 void wait_message_entry_ready(Object *object)
 {
-    if (D_80082660[object->entry_index].unk_01 == 0) {
+    if (object_index_slots[object->entry_index].unk_01 == 0) {
         object->callback = update_message_window;
     }
 }

@@ -8,7 +8,7 @@ extern s32 D_800D62BC[];
 void initialize_scene_entry_group_8(void *object, s32 unused, void *output)
 {
     initialize_object_entries(object, output, D_800D62BC);
-    D_80082660[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
+    object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
     *(void **)((u8 *)object + 0x54) = func_800C899C;
     *(s16 *)((u8 *)object + 0x6C) = 8;
 }

@@ -10,20 +10,20 @@ typedef struct S_80038288_0 {
 } S_80038288_0;   /* arg0 in choose_message_wait_handler */
 
 
-s32 func_80038240();                              /* extern */
+s32 play_message_confirmation_sound();                              /* extern */
 s32 func_80053EF0();                         /* extern */
 void finish_message_when_idle();
-void func_8003832C();
+void consume_message_byte_and_start_countdown();
 
 /* Selects the context's next handler based on its current byte when updates are allowed. */
 void choose_message_wait_handler(S_80038288_0 *context) {
     s32 *next_handler;
 
     if (func_80053EF0(4) != 0x100) {
-        if (func_80038240(*context->unk_1C) != 0) {
+        if (play_message_confirmation_sound(*context->unk_1C) != 0) {
             next_handler = &finish_message_when_idle;
         } else {
-            next_handler = &func_8003832C;
+            next_handler = &consume_message_byte_and_start_countdown;
         }
         context->unk_10 = next_handler;
     }

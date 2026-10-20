@@ -1,7 +1,7 @@
 #include "modules/ovmovie_game.h"
 
 /* Waits for readiness, switching entries and copying the selected pair on timeout. */
-void func_801770BC(MovieEntity *entity, s32 unused) {
+void wait_for_movie_strip_completion(MovieEntity *entity, s32 unused) {
     volatile s32 timeout;
     s32 entry_index;
     u16 *entry;

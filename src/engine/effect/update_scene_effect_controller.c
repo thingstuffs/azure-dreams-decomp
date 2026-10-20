@@ -56,9 +56,9 @@ void update_scene_effect_controller(Controller *controller)
         if (func_80053EF0(4) != 1) {
             return;
         }
-        func_80051528(controller->child0);
-        func_800517AC(controller->child1);
-        func_800530A4(controller->group);
+        mark_staged_motion_effect_complete(controller->child0);
+        mark_sine_motion_effect_complete(controller->child1);
+        mark_timed_animation_sequence_complete(controller->group);
         controller->timer = 0;
         controller->state++;
         return;
@@ -67,7 +67,7 @@ void update_scene_effect_controller(Controller *controller)
             if (controller->script[0] != controller->timer) {
                 return;
             }
-            func_80051CA4(controller->child2);
+            mark_fade_in_out_effect_complete(controller->child2);
             controller->script = (s16 *)((u8 *)controller->script + 0x10);
             if (controller->script[0] != 0) {
                 return;
@@ -81,15 +81,15 @@ void update_scene_effect_controller(Controller *controller)
         if (controller->timer != 0x1C09) {
             return;
         }
-        func_80051528(controller->child0);
-        func_800517AC(controller->child1);
+        mark_staged_motion_effect_complete(controller->child0);
+        mark_sine_motion_effect_complete(controller->child1);
         controller->state++;
         return;
     case 3:
         if (controller->timer != 0x1CCF) {
             return;
         }
-        func_80051F38(controller->child3);
+        mark_color_fade_effect_complete(controller->child3);
         controller->timer = 0;
         controller->state++;
         return;

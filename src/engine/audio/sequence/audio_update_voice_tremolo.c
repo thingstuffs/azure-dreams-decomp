@@ -35,9 +35,9 @@ typedef struct S_80055E84
     s16 unk6C;
 }
 S_80055E84;
-extern S_80084918 D_80084918;
-extern s16 D_80084920[8];
-extern s32 D_80073740[];
+extern S_80084918 audio_voice_request;
+extern s16 voice_tremolo_left_volume_alias[8];
+extern s32 audio_voice_masks[];
 extern s32 func_8005F134(S_80084918 *arg);
 /* Advance volume modulation and apply the updated channel volumes. */
 void audio_update_voice_tremolo(S_80055E84 *voice)
@@ -102,8 +102,8 @@ void audio_update_voice_tremolo(S_80055E84 *voice)
         }
         if (voice->unk6C != voice->unk58) {
             voice->unk6C = (u16) voice->unk58;
-            D_80084918.field4 = 0xF;
-            D_80084918.field0 = D_80073740[voice->unk0];
+            audio_voice_request.field4 = 0xF;
+            audio_voice_request.field0 = audio_voice_masks[voice->unk0];
             volume = voice->unk10 + voice->unk58;
             if (volume < 0) {
                 volume = 0;
@@ -111,7 +111,7 @@ void audio_update_voice_tremolo(S_80055E84 *voice)
             else if (volume >= 0x4000) {
                 volume = 0x3FFF;
             }
-            D_80084920[0] = volume;
+            voice_tremolo_left_volume_alias[0] = volume;
             volume = voice->unk12 + voice->unk58;
             if (volume < 0) {
                 volume = 0;
@@ -119,10 +119,10 @@ void audio_update_voice_tremolo(S_80055E84 *voice)
             else if (volume >= 0x4000) {
                 volume = 0x3FFF;
             }
-            D_80084918.fieldA = volume;
-            D_80084918.fieldC = 0;
-            D_80084918.fieldE = 0;
-            func_8005F134(&D_80084918);
+            audio_voice_request.fieldA = volume;
+            audio_voice_request.fieldC = 0;
+            audio_voice_request.fieldE = 0;
+            func_8005F134(&audio_voice_request);
         }
     }
 }

@@ -12,7 +12,7 @@ typedef struct S_8005C6B4 {
     u8  pad[0x40 - 0xC];   /* 0xC..0x3F (unused here) */
 } S_8005C6B4;
 
-extern s32 D_80073740[128];
+extern s32 audio_voice_masks[128];
 extern void func_8005F134(void *a0);
 
 /* Dispatches an effect request with table flags, count 3, and two scaled 7-bit values. */
@@ -22,7 +22,7 @@ s32 submit_driver_seven_bit_pair(s32 flag_index, s32 first_value, s32 second_val
     s32 flags;
 
     request.count = 3;
-    flags = D_80073740[(s16)flag_index];
+    flags = audio_voice_masks[(s16)flag_index];
     request.f8 = (first_value & 0x7F) << 7;
     request.fa = (second_value & 0x7F) << 7;
     request.flags = flags;

@@ -74,10 +74,10 @@ extern void invoke_window_object_callback(void *callbackData);
 extern void init_window_object(void *callbackData);
 extern void func_80035614(void *callbackData);
 
-extern s16 D_8006A93C[];
-extern void *D_8006A8F0[];
-extern u8 D_80073B54[];
-extern void *D_80081440;
+extern s16 window_variant_model_values[];
+extern void *window_variant_render_data[];
+extern u8 window_default_render_data[];
+extern void *current_window_object;
 extern void *D_80082BC0[3];
 
 /* Creates a runtime object and initializes its model, transform, and appearance. */

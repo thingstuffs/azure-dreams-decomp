@@ -25,9 +25,9 @@ void wait_until_sound_idle(void)
         update_vsync_frame_id(2);
 
         frame_value = (u32)VSync(1) >> 8 & 0x1FF;
-        if ((u32)frame_value != D_80080B00) {
-            D_80080B00 = (u16)frame_value;
+        if ((u32)frame_value != sound_idle_vsync_frame_alias) {
+            sound_idle_vsync_frame_alias = (u16)frame_value;
         }
     }
 }
-u16 D_80080B00 = 0;
+u16 sound_idle_vsync_frame_alias = 0;

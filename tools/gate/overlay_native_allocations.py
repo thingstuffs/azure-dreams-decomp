@@ -5,6 +5,7 @@ accounted for. Only zero GNU section-end alignment padding may be removed.
 """
 import ast,hashlib,json,re,struct,sys,shutil,tempfile,os,dataclasses
 from pathlib import Path
+from functools import lru_cache
 import overlay_switch_allocations as X
 MODEL='separated-literal-allocations-v1'
 def switches(m):return X.enabled(m)
@@ -25,11 +26,27 @@ def literal_words(text):
   if not 0<=value<=0xffffffff:raise ValueError('word initializer outside u32')
   values.append(value)
  return struct.pack('<'+'I'*len(values),*values)
+@lru_cache(maxsize=8)
+def _source_aliases(path,stamp):
+ aliases={}
+ for raw in Path(path).read_text().splitlines():
+  columns=raw.split('#',1)[0].rstrip().split('\t')
+  if len(columns)<3:continue
+  old,new=columns[1].strip(),columns[2].strip()
+  if old and new and old!=new:aliases.setdefault(old,set()).add(new)
+ return aliases
+def source_symbol_pattern(symbol,root):
+ names={symbol};table=Path(root)/'config/names.tsv'
+ if table.is_file():
+  stat=table.stat();aliases=_source_aliases(str(table),(stat.st_dev,stat.st_ino,stat.st_mtime_ns,stat.st_ctime_ns,stat.st_size)).get(symbol,set())
+  if len(aliases)>1 or any(not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*',n) for n in aliases):raise ValueError('ambiguous or invalid source ownership alias')
+  names.update(aliases)
+ return '(?:'+'|'.join(re.escape(n) for n in sorted(names))+')'
 def slot_literal(slot,root):
  p=Path(slot['source'])
  if p.is_absolute() or '..' in p.parts:raise ValueError('unsafe storage source')
  text=(root/p).read_text();text=re.sub(r'/\*.*?\*/|//[^\n]*','',text,flags=re.S)
- name=re.escape(slot['symbol']);kind=slot['kind']
+ name=source_symbol_pattern(slot['symbol'],root);kind=slot['kind']
  if kind=='typed_string':
   found=re.findall(r'\bstatic\s+const\s+char\s+'+name+r'\s*\[\s*\]\s*=\s*("(?:\\.|[^"\\])*")\s*;',text)
   if len(found)!=1:raise ValueError('string ownership declaration differs')
@@ -197,7 +214,7 @@ def build(m,out,root,G,substitutions=None,*,artifact_only=False):
  sys.path.insert(0,str(root/'tools/fidelity'));import aspsx_diff as A
  (out/'IN.S').write_bytes(A.aspsx_input(canonical.decode()))
  # ASPSX has a DOS path-length limit; keep its working directory short.
- with tempfile.TemporaryDirectory(prefix='g',dir='/tmp') as td:
+ with tempfile.TemporaryDirectory(prefix='g',dir=root) as td:
   td=Path(td);shutil.copy2(out/'IN.S',td/'IN.S')
   G.command([root/'toolchain/genuine/bin/wibo',root/'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE','-q','-G0',*G.genuine_flags(m,root),'-o','OUT.OBJ','IN.S'],td,dict(env,TMPDIR=str(td),TMP=str(td),TEMP=str(td)),out/'genuine.log')
   shutil.copy2(td/'OUT.OBJ',out/'OUT.OBJ')

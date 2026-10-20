@@ -9,12 +9,12 @@ typedef struct S_800390D0_0 {
 
 short SD_Call(int flags);
 s32 func_80053EF0();                         /* extern */
-extern u8 D_80082E6A[];
-void func_80038A00();
+extern u8 runtime_dispatch_mode_alias[];
+void noop_runtime_record_idle();
 
 /* Selects the next callback or clears it and decrements the state counter. */
 void handle_vm_opcode_01(S_800390D0_0 *state) {
-    if (D_80082E6A[0] != 2) {
+    if (runtime_dispatch_mode_alias[0] != 2) {
         if (func_80053EF0(4) != 0x100) {
             SD_Call(0xC4);
         } else {
@@ -23,5 +23,5 @@ void handle_vm_opcode_01(S_800390D0_0 *state) {
             return;
         }
     }
-    state->unk_10 = &func_80038A00;
+    state->unk_10 = &noop_runtime_record_idle;
 }

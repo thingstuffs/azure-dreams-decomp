@@ -7,8 +7,8 @@ typedef struct S_80083968
     u8 unk08[16];
 }
 S_80083968;
-extern S_80083968 D_80083968[32];
-extern u8 D_800814D1;
+extern S_80083968 cd_command_records[32];
+extern u8 cd_command_write_index;
 extern void func_8003E758(void);
 typedef struct
 {
@@ -23,18 +23,18 @@ S_80083968 *enqueue_cd_command_record(s16 entry_type, s32 entry_value, s32 paylo
     u8 *queue_index;
     u8 *wait_index;
     S_80083968 *entries;
-    queue_index = (u8 *) (&D_800814D1);
-    if (((D_800814D1 + 1) & 0x1F) == queue_index[-1]) {
+    queue_index = (u8 *) (&cd_command_write_index);
+    if (((cd_command_write_index + 1) & 0x1F) == queue_index[-1]) {
         wait_index = queue_index;
         do {
             func_8003E758();
         }
-        while (((D_800814D1 + 1) & 0x1F) == wait_index[-1]);
+        while (((cd_command_write_index + 1) & 0x1F) == wait_index[-1]);
     }
 
-    entries = D_80083968;
+    entries = cd_command_records;
     sentinel = 0xFF;
-    write_index = D_800814D1;
+    write_index = cd_command_write_index;
     entries[write_index].unk00 = (u8) entry_type;
     entries[write_index].unk04 = entry_value;
     entries[write_index].unk08[15] = 0;
@@ -55,6 +55,6 @@ S_80083968 *enqueue_cd_command_record(s16 entry_type, s32 entry_value, s32 paylo
         block_slot += write_index * 24;
         *((S_8003E39C_blk16 *) block_slot) = *((S_8003E39C_blk16 *) payload);
     }
-    D_800814D1 = (D_800814D1 + 1) & 0x1F;
-    return &D_80083968[write_index];
+    cd_command_write_index = (cd_command_write_index + 1) & 0x1F;
+    return &cd_command_records[write_index];
 }

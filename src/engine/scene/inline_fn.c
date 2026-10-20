@@ -15,7 +15,7 @@ extern struct {
     int pad[2];
     S_8003FE78 *active_head;
     int force_large;
-} D_80081490;
+} free_node_list_head;
 
 extern void zero_words(int *p, int n);
 
@@ -35,7 +35,7 @@ void *initialize_scene_object_in_buffer(s32 flags_or_addr, S_8003FE78 *buffer, s
     flags_or_addr = (s32)buffer;
     node = buffer;
     zero_words((int *)flags_or_addr, word_count);
-    old_head = D_80081490.active_head;
+    old_head = free_node_list_head.active_head;
     D_80081498 = node;
     node->prev = 0;
     node->next = old_head;

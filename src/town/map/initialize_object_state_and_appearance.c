@@ -5,7 +5,7 @@ extern u8 D_800BB640[];
 extern void initialize_object_state_and_appearance(void *, void *, void *);
 
 /* Set the object handler table, initialize its state, and set its counter to 30. */
-void func_800BB688(void *object, void *context, void *state) {
+void initialize_object_appearance_with_delay(void *object, void *context, void *state) {
     *(void **)((u8 *)object - 0x10) = D_800BB640;
     initialize_object_state_and_appearance(object, context, state);
     ((s32 *)state)[2] = 30;

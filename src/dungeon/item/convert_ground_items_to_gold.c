@@ -74,7 +74,7 @@ s32 convert_ground_items_to_gold(EntityRec *target, s32 action, s16 action_type,
 
         table_base = (u8 *)0x800E0000;
         scratch_value = (*(u8 *)((u8 *)&target->unk_10 + 3));
-        table_base_2 = (u8 *)D_800DDE84;
+        table_base_2 = (u8 *)entity_action_selectors;
         second_arg = ((u16 *)table_base_2)[scratch_value];
         first_arg = second_arg & 3;
         if (apply_actor_food_preference(target, first_arg, action) == 0) {

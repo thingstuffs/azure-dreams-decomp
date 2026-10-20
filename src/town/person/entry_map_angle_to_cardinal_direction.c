@@ -21,7 +21,7 @@ void func_800C4C88(s32 object_slot) {
     u16 angle_raw;
 
     if (object_slot != 0) {
-        entry = D_80082660[object_slot].object;
+        entry = object_index_slots[object_slot].object;
         if (entry != 0) {
             data = (u8 *)entry + 0x20;
             if (object_slot == 1) {

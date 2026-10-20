@@ -88,11 +88,11 @@ typedef struct S_80073738
     s16 pad[7];
 }
 S_80073738;
-extern s32 D_80073734[4];
-extern S_80073738 D_80073738;
-extern s32 D_80073740[64];
-extern S_80084960 D_80084960[16];
-extern S_80085458 D_80085458[64];
+extern s32 audio_voice_count[4];
+extern S_80073738 audio_master_level;
+extern s32 audio_voice_masks[64];
+extern S_80084960 audio_channel_controls[16];
+extern S_80085458 audio_voice_records[64];
 extern void func_80055E7C();
 extern void audio_refresh_sequence_voice_volumes();
 extern void audio_update_voice_pitch(S_80085458 *e, s32 value);

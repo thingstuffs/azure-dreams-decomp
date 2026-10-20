@@ -1,7 +1,7 @@
 #include "modules/ovmovie_game.h"
 
 // Clears a 480-wide rectangle with a height of 448 or 480.
-void func_80176AD8(s32 useFullHeight) {
+void clear_movie_display_area(s32 useFullHeight) {
     s16 clearRect[4];
     s16 extent;
     s32 blackComponent;

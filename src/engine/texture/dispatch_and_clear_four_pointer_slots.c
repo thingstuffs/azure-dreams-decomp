@@ -11,7 +11,7 @@ typedef struct S_80083110 {
 
 extern S_80083110 *D_80083110[4];
 
-extern void func_800488F0(s32 a0, s32 a1, s32 a2);
+extern void process_sprite_scroll_and_texture_uploads(s32 a0, s32 a1, s32 a2);
 
 /* Dispatches each occupied slot in mode 1 and clears it. */
 void dispatch_and_clear_four_pointer_slots(void)
@@ -22,7 +22,7 @@ void dispatch_and_clear_four_pointer_slots(void)
     for (slots_left = 4; slots_left > 0; slots_left--, slot++) {
         S_80083110 *object = *slot;
         if (object != 0) {
-            func_800488F0(object->unk08, object->unk28, 1);
+            process_sprite_scroll_and_texture_uploads(object->unk08, object->unk28, 1);
             *slot = 0;
         }
     }

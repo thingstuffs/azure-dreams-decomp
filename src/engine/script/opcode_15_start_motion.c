@@ -63,7 +63,7 @@ void handle_vm_opcode_15(State *state)
     cursor++;
     state->read_ptr = cursor;
     entry_index = index_byte & 0xFF;
-    entries = D_80082660;
+    entries = object_index_slots;
     entry = entries + entry_index;
     aux = state->aux;
     if (entry->active == 0) {

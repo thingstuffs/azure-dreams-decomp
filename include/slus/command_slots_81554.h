@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-extern s32 D_80083D98[32];
+extern s32 script_message_command_words[32];
 extern s32 D_80081554;
 extern s32 D_80081558;
 

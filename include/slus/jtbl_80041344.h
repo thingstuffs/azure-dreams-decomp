@@ -14,7 +14,7 @@ typedef struct {
     } u;
 } S_80041344;
 
-extern u32 D_80080A8C;
+extern u32 image_load_data_base;
 extern void decompress_lz(u8 *src, u8 *dst);
 extern void func_8004068C(u8 *src, u8 *dst);
 extern void upload_vram_row_and_cache(void *src, s32 x, s32 y, s32 flags);

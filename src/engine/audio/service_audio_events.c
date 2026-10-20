@@ -18,15 +18,15 @@ extern void update_audio_ramp(SoundTask *a0);
 
 /* Handles flag-triggered events and status checks, then dispatches the state block. */
 void service_audio_events(void) {
-    if (D_800847D0.flags04 & 0x2) {
+    if (sound_playback_state.flags04 & 0x2) {
         start_pending_selection();
     }
 
-    if (D_800847D0.flags00 & 0x100) {
-        if (get_sequence_play_state() == 3 || update_audio_fade(&D_800848F8) == -1) {
+    if (sound_playback_state.flags00 & 0x100) {
+        if (get_sequence_play_state() == 3 || update_audio_fade(&sound_sequence_task) == -1) {
             handle_audio_status_code(0x71);
         }
     }
 
-    update_audio_ramp(&D_800848F8);
+    update_audio_ramp(&sound_sequence_task);
 }

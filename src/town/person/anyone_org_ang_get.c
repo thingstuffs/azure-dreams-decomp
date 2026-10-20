@@ -16,7 +16,7 @@ void anyone_org_ang_get(s32 actor_id, void *script_context) {
     void *actor;
 
     if (actor_id != 0) {
-        actor = D_80082660[actor_id].object;
+        actor = object_index_slots[actor_id].object;
         if (actor != 0) {
             script_vars[0x12] = map_angle_to_cardinal_direction(*(s16 *)((u8 *)actor + 0x8E));
         }

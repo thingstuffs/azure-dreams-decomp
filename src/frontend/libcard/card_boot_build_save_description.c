@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8003AD08(s32 value, void *output_buffer);
+extern void format_unsigned_double_byte_decimal(s32 value, void *output_buffer);
 extern void strcat(s32 destination, s32 source);
 extern void strcpy(s32 destination, s32 source);
 
@@ -23,7 +23,7 @@ void card_boot_build_save_description(s32 record, s32 index) {
     output_text_target = record + 4;
     text_fragments = D_80028294;
     strcpy(output_text_target, text_fragments[0]);
-    func_8003AD08(saved_index + 1, number_buffer);
+    format_unsigned_double_byte_decimal(saved_index + 1, number_buffer);
     strcat(output_text_target, (s32)number_buffer);
     strcat(output_text_target, text_fragments[3]);
     strcat(output_text_target, 0x8001020C);
@@ -40,6 +40,6 @@ void card_boot_build_save_description(s32 record, s32 index) {
     suffix_text_target = record + 4;
     strcat(suffix_text_target, D_800282A0);
     trailing_value = *(s32 *)0x8001022C;
-    func_8003AD08(trailing_value, number_buffer);
+    format_unsigned_double_byte_decimal(trailing_value, number_buffer);
     strcat(suffix_text_target, (s32)number_buffer);
 }

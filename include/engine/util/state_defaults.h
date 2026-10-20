@@ -9,15 +9,15 @@
 #include "common.h"
 
 extern void bzero(void *dst, s32 len);
-extern void func_8004D0C8(void *entity);
+extern void bind_view_triplet_source(void *entity);
 
-extern s32 D_80080B58;
-extern s32 D_80080B5C;
-extern s32 D_80080B60;
-extern s32 D_80080B64;
+extern s32 camera_default_rotation_xy;
+extern s32 camera_default_rotation_tail;
+extern s32 camera_default_origin_xy;
+extern s32 camera_default_origin_tail;
 
 /* Initialize state fields from globals and clear associated state. */
 
-void func_8004D614(void);
+void reset_camera_transition_fields(void);
 
 #endif

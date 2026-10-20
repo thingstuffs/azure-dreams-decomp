@@ -10,8 +10,8 @@ typedef struct {
     /* 0x04 */ s32 pad[2];
 } S_800737C0;
 
-extern S_800737C0 D_800737C0;
-extern s32 D_80085F98[4]; /* forced hi/lo access via size > 8 */
+extern S_800737C0 audio_timer_setup_guard;
+extern s32 audio_update_guard[4]; /* forced hi/lo access via size > 8 */
 
 extern s32 EnterCriticalSection(void);
 extern s32 ExitCriticalSection(void);
@@ -20,10 +20,10 @@ extern void StopRCnt(s32 a0);
 /* Stops hardware timer 2 in a critical section, then clears the mode and lock flags. */
 void stop_timer_2_updates(void)
 {
-    D_800737C0.v = 1;
+    audio_timer_setup_guard.v = 1;
     EnterCriticalSection();
     StopRCnt(0xF2000002);
     ExitCriticalSection();
-    D_80085F98[0] = 0;
-    D_800737C0.v = 0;
+    audio_update_guard[0] = 0;
+    audio_timer_setup_guard.v = 0;
 }

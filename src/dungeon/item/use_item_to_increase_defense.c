@@ -34,7 +34,7 @@ s32 use_item_to_increase_defense(void *entity, s32 update_value, s16 update_mode
     if ((u32)entity <= 0x9FFFFFFF) {
         display_item_status_message(entity, update_value, update_mode);
         if (apply_actor_food_preference(
-                entity, (D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+                entity, (entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(entity, update_value);
             return 1;
         }

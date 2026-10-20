@@ -30,10 +30,10 @@ typedef struct {
     /* 0x70 */ s32 f70, f74;
 } S_8005BAB0_85458;
 
-extern s32 D_80073734[4];
-extern s32 D_80073740[64];
-extern S_8005BAB0_85458 D_80085458[64];
-extern s32 D_80085F98[4]; /* forced hi/lo access via size > 8 */
+extern s32 audio_voice_count[4];
+extern s32 audio_voice_masks[64];
+extern S_8005BAB0_85458 audio_voice_records[64];
+extern s32 audio_update_guard[4]; /* forced hi/lo access via size > 8 */
 
 extern s32 sound_apply_indexed_voice_envelope(s32 a0, S_8005BAB0_85458 *a1);
 extern void func_8005E97C(s32 a0, s32 a1);
@@ -48,11 +48,11 @@ void audio_stop_matching_effect_voices(s32 packed_key, s32 packed_channel)
 
     slot_index = 0;
     combined_flags = slot_index;
-    D_80085F98[0] = 1;
+    audio_update_guard[0] = 1;
 
-    if (D_80073734[0] > 0) {
-        slot_flags = D_80073740;
-        slot = D_80085458;
+    if (audio_voice_count[0] > 0) {
+        slot_flags = audio_voice_masks;
+        slot = audio_voice_records;
 loop:
         if (slot->f1a != 0 && (u16)slot->f06 >= 0x10 && slot->f0a == (packed_channel >> 8) &&
             slot->f5c == (packed_key >> 8) && slot->f04 == (u16)(packed_key & 0x7F)) {
@@ -68,11 +68,11 @@ loop:
         slot_flags++;
         slot++;
         slot_index++;
-        if (slot_index < D_80073734[0]) {
+        if (slot_index < audio_voice_count[0]) {
             goto loop;
         }
     }
 
     func_8005E97C(0, combined_flags);
-    D_80085F98[0] = 0;
+    audio_update_guard[0] = 0;
 }

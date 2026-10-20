@@ -6,7 +6,7 @@ typedef struct {
 
 extern S_80032E0C D_80032E0C[];
 extern s32 test_sound_channel_availability(s16 n);
-extern void func_80055730();
+extern void stop_matching_effect_voices();
 
 /* Sends packed codes and region offsets for available lookup entries across 48 slots. */
 void func_80054104(void) {
@@ -29,7 +29,7 @@ inner:
             code += 0x10;
         }
         if ((test_sound_channel_availability(entry) << 16) != 0) {
-            func_80055730(code, region_offset);
+            stop_matching_effect_voices(code, region_offset);
         }
         entry_index++;
         if (entry_index < 3) {

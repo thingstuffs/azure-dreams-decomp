@@ -34,9 +34,9 @@ typedef struct S_8003566C_2 {
 
 
 void create_window_overlay_object(s32 node_addr, void *display, u8 *image, s32 *state_ref, s32 option, u8 *owner);
-extern u8 D_8006A86C[];
-extern u8 D_80081F78[];
-extern u8 D_800822F0[];
+extern u8 message_window_object_template[];
+extern u8 scrolling_window_display_storage[];
+extern u8 scrolling_window_node_storage[];
 void runtime_decrease_state_by_a_0();
 
 /* Decrease the stored value, clamp negatives to zero, and advance state below 0x100. */
@@ -51,7 +51,7 @@ void scroll_window_x(S_8003566C_0 *state) {
         clamp_data->unk_08 = 0U;
     }
     if ((s16) ((S_8003566C_4 *)(((S_8003566C_3 *)state)->unk_00))->unk_08 < 0x100) {
-        create_window_overlay_object(&D_800822F0, &D_80081F78, &D_8006A86C, state, 1, state->unk_74);
+        create_window_overlay_object(&scrolling_window_node_storage, &scrolling_window_display_storage, &message_window_object_template, state, 1, state->unk_74);
         state->unk_4D = 0;
         state->unk_68 = &runtime_decrease_state_by_a_0;
     }

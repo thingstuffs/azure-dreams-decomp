@@ -7,14 +7,14 @@ typedef struct {
     u16 field_A;
 } S_80086C00;
 
-extern S_80086C00 D_80086C00[8];
+extern S_80086C00 audio_sequence_slots[8];
 
 extern void audio_refresh_sequence_voice_volumes(void);
 
 /* Stores two 7-bit values in the selected entry, then calls audio_refresh_sequence_voice_volumes for it. */
 void set_sound_slot_byte_pair(s16 index, s32 value_8, s32 value_a)
 {
-    S_80086C00 *entries = D_80086C00;
+    S_80086C00 *entries = audio_sequence_slots;
     S_80086C00 *entry = entries + index;
     entry->field_8 = value_8 & 0x7F;
     entry->field_A = value_a & 0x7F;

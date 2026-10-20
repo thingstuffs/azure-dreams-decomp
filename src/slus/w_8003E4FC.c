@@ -23,20 +23,20 @@ s32 Control_CD(s32 event_code, void *event_data, s32 payload)
         return enqueue_cd_command_record(0xFF, event_data, payload);
     case 6:
     case 0xFE:
-        D_80080ADC = ((EventSource_8003E4FC *)event_data)->field4;
+        cd_event_payload = ((EventSource_8003E4FC *)event_data)->field4;
         return enqueue_cd_command_record((u8)event_code, event_data, payload);
     case 9:
     case 0xFC:
         return enqueue_cd_command_record((u8)event_code, 0, 0);
     case 13:
-        D_80080AD4 = 0;
+        cd_retry_counters_pending = 0;
         if (event_data == 0) {
             return enqueue_cd_command_record(13, 0, payload);
         }
         enqueue_cd_command_record(13, 0, payload);
         enqueue_cd_command_record(2, event_data, 0);
         result = enqueue_cd_command_record(27, event_data, 0);
-        D_80080ADC = event_data;
+        cd_event_payload = event_data;
         return result;
     case 14:
         return enqueue_cd_command_record(14, 0, payload);

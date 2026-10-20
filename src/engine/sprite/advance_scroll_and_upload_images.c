@@ -6,7 +6,7 @@ extern void sound_advance_shared_scroll_coordinates(u8 *, s32);
 extern void upload_tile_texture(u8 *, s32, s32);
 
 /* Advances scroll state and uploads images for eligible records according to operation flags. */
-void func_800488F0(u8 *records, s32 *image_ref, s32 operation_flags)
+void process_sprite_scroll_and_texture_uploads(u8 *records, s32 *image_ref, s32 operation_flags)
 {
     u8 *record;
     s32 *image_ref_ptr;

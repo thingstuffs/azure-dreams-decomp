@@ -4,9 +4,9 @@
 #include "shared/sound_volume.h"
 
 extern int   D_80084130[3];
-extern short D_80073828[5];
-extern short D_80084778[5];
-extern int   D_80086D4C[3];
+extern short audio_voice_drain_suppressed[5];
+extern short audio_command_queue[5];
+extern int   audio_slot_service_word[3];
 
 /* Initialize memory card services and disable automatic pad interrupt clearing. */
 void initialize_memory_card_services(void) {
@@ -87,18 +87,18 @@ int identity_int(int value)
 extern int D_8006CE34[4];
 
 /* Return the global status block. */
-int *func_8003F534(void) {
+int *read_sound_stream_cue_pointer(void) {
     return D_8006CE34;
 }
 
 /* Return the saved global value. */
-int func_8003F5D4(void)
+int read_sound_payload_slot(void)
 {
     return D_800814C8;
 }
 
 /* Store the global value. */
-void func_8003F5E0(int value)
+void set_sound_payload_slot(int value)
 {
     D_800814C8 = value;
 }
@@ -121,14 +121,14 @@ void pack_tagged_resource_descriptor(int tag, int id, int *record, int value)
     record[1] = value;
 }
 
-extern void *D_80081490;
+extern void *free_node_list_head;
 
 /* Push a node onto the free list and clear its second word. */
 void push_node_onto_free_list(void *node)
 {
     void *old_head;
-    old_head = D_80081490;
-    D_80081490 = node;
+    old_head = free_node_list_head;
+    free_node_list_head = node;
     *(int *)((char *)node + 4) = 0;
     *(void **)node = old_head;
 }
@@ -142,7 +142,7 @@ typedef struct Node {
 extern Node *D_80081498;
 
 /* Set flag bits 0xC00 on every node in the global list. */
-void func_80040418(void)
+void mark_resource_list_flags_ten_and_eleven(void)
 {
     Node *node = D_80081498;
 
@@ -209,18 +209,18 @@ extern void sound_set_cd_cue_parameters(int a0, int a1, int a2, int a3);
 extern short SD_Call(int a0);
 
 /* Forward four values and trigger status event 0x300. */
-void func_80044234(int first, int second, int third, int fourth)
+void set_cd_cue_and_submit_sound_command(int first, int second, int third, int fourth)
 {
     sound_set_cd_cue_parameters(first, second, third, fourth);
     SD_Call(0x300);
 }
 
-extern int *func_8003F534(void);
+extern int *read_sound_stream_cue_pointer(void);
 
 /* Combine the status block's low 24-bit tick value with its base adjustment. */
 int func_800445E0(void)
 {
-    int *status = func_8003F534();
+    int *status = read_sound_stream_cue_pointer();
     int ticks = status[2] & 0xFFFFFF;
     ticks = ticks - 0x20;
     return ticks + status[1];
@@ -236,7 +236,7 @@ typedef struct Node46398 {
 } Node46398;
 
 /* Process linked objects using each node's value, record pointer, and halfword parameter. */
-int func_80046398(void *object, int value, void *record)
+int draw_linked_lit_meshes(void *object, int value, void *record)
 {
     void *current = object;
     Node46398 *node;
@@ -259,7 +259,7 @@ int func_80046398(void *object, int value, void *record)
 extern int draw_linked_sprites(void);
 
 /* Return the query result as a signed halfword. */
-short func_80047714(void)
+short draw_linked_sprites_and_narrow_result(void)
 {
     return (short)draw_linked_sprites();
 }
@@ -275,12 +275,12 @@ void func_800478B8(void *entity)
 }
 
 extern void bzero(void *dst, int n);
-extern unsigned char D_80083D08[0x30];
+extern unsigned char sprite_resource_slots[0x30];
 
 /* Clear the global 0x30-byte buffer. */
-void func_800479AC(void)
+void clear_sprite_work_table(void)
 {
-    bzero(D_80083D08, 0x30);
+    bzero(sprite_resource_slots, 0x30);
 }
 
 typedef struct {
@@ -296,7 +296,7 @@ void *get_sprite_resource_slot_buffer(s32 index)
 }
 
 /* Add 0x8000 to the supplied value. */
-int func_80047AA4(int value)
+int get_image_palette_address(int value)
 {
     return value + 0x8000;
 }
@@ -317,7 +317,7 @@ typedef struct {
 extern void select_sprite_entry(Struct_80048374 *a0, short a1, short a2);
 
 /* Set entity flag 0x400 and reselect its entry. */
-void func_80048374(Struct_80048374 *entity, short index, short offset) {
+void select_sprite_entry_with_flag(Struct_80048374 *entity, short index, short offset) {
     entity->unk14 |= 0x400;
     select_sprite_entry(entity, index, offset);
 }
@@ -325,7 +325,7 @@ void func_80048374(Struct_80048374 *entity, short index, short offset) {
 extern int load_resource_and_mirror_palette(short a0, int a1);
 
 /* Load the indexed entry from table zero. */
-void func_80048568(short index)
+void load_default_object_palette(short index)
 {
     load_resource_and_mirror_palette(index, 0);
 }
@@ -333,7 +333,7 @@ void func_80048568(short index)
 extern int load_resource_and_mirror_palette(short a0, int a1);
 
 /* Load the indexed entry from table one and return the result. */
-int func_80048590(short index)
+int load_equipment_palette_for_category_sixteen(short index)
 {
     return load_resource_and_mirror_palette(index, 1);
 }
@@ -341,7 +341,7 @@ int func_80048590(short index)
 extern int load_resource_and_mirror_palette(short a0, int a1);
 
 /* Load the indexed entry from table two. */
-void func_800485B8(short index)
+void load_equipment_change_palette(short index)
 {
     load_resource_and_mirror_palette(index, 2);
 }
@@ -349,7 +349,7 @@ void func_800485B8(short index)
 extern int resource_load_indexed_sprite_bundle(int a0);
 
 /* Return the result of query zero. */
-int func_80048D00(void)
+int load_dungeon_sprite_bundle(void)
 {
     return resource_load_indexed_sprite_bundle(0);
 }
@@ -357,7 +357,7 @@ int func_80048D00(void)
 extern int resource_load_indexed_sprite_bundle(int a0);
 
 /* Return the result of query one. */
-int func_80048D20(void)
+int load_town_sprite_bundle(void)
 {
     return resource_load_indexed_sprite_bundle(1);
 }
@@ -365,19 +365,19 @@ int func_80048D20(void)
 extern int resource_load_indexed_sprite_bundle(int);
 
 /* Return the result of query two. */
-int func_80048D40(void)
+int load_alternate_town_sprite_bundle(void)
 {
     return resource_load_indexed_sprite_bundle(2);
 }
 
 /* Return the indexed global table value. */
-int func_80048DCC(int index)
+int read_display_spacing_word(int index)
 {
     return D_80071250[index];
 }
 
 /* Read the indexed byte from the volatile global table. */
-unsigned char func_80048DE8(int index) {
+unsigned char read_display_spacing_byte(int index) {
     volatile unsigned char *values = D_80071298;
     return values[index];
 }
@@ -414,12 +414,12 @@ void append_linked_chain(Struct_C_next *tail, Struct_C_next *node) {
 }
 
 /* Test whether the type equals 0x14. */
-int func_80049280(int type)
+int is_type_twenty(int type)
 {
     return type == 0x14;
 }
 
-extern int func_80049280(int type);
+extern int is_type_twenty(int type);
 
 typedef struct {
     u8 unk0;
@@ -429,9 +429,9 @@ typedef struct {
 } Struct8004928C;
 
 /* Test whether the record's low five type bits equal 0x14. */
-int func_8004928C(Struct8004928C *record)
+int record_has_type_twenty(Struct8004928C *record)
 {
-    return func_80049280(record->unk3 & 0x1F);
+    return is_type_twenty(record->unk3 & 0x1F);
 }
 
 extern int D_800713FC[4]; /* >8B forces hi/lo addressing (matches target's lui/addiu) */
@@ -439,14 +439,14 @@ extern int D_800713FC[4]; /* >8B forces hi/lo addressing (matches target's lui/a
 extern int get_item_name_text(void *a0, int *a1);
 
 /* Process an object using the fixed global table. */
-int func_80049490(void *object) {
+int get_item_name_with_shared_text_table(void *object) {
     return get_item_name_text(object, D_800713FC);
 }
 
 extern int get_item_category_flags(void);
 
 /* Return flag bit 0x400 from the status query. */
-int func_800494FC(void) {
+int read_item_category_flag_ten(void) {
     return get_item_category_flags() & 0x400;
 }
 
@@ -495,7 +495,7 @@ int func_800499DC(int *flag)
 extern void init_paired_packet_records(void *packets, void *record);
 
 /* Initialize a pair of packets from a source record. */
-void func_80049DC8(void *packets, void *record)
+void initialize_packet_pair_from_record(void *packets, void *record)
 {
     init_paired_packet_records(packets, record);
 }
@@ -524,7 +524,7 @@ int func_80049E6C(int index)
 extern int get_scaled_byte_value(void *a1);
 
 /* Forward the second argument to the object query. */
-int func_8004A4C4(void *unused, void *object) {
+int read_second_argument_scaled_byte(void *unused, void *object) {
     return get_scaled_byte_value(object);
 }
 
@@ -545,7 +545,7 @@ s32 get_item_buy_money(void *item)
 extern void bzero(void *ptr, int len);
 
 /* Clear the 0x50-byte table at address 0x80013564. */
-void func_8004A918(void) {
+void clear_floor_resource_state_table(void) {
     bzero((void *)0x80013564, 0x50);
 }
 
@@ -556,7 +556,7 @@ int subtract_pointed_int_values(int *left, int *right)
 }
 
 /* Count entries in a NULL-terminated pointer array. */
-s32 func_8004AE3C(void **entries)
+s32 count_pointer_list_entries(void **entries)
 {
     void **list;
     s32 count;
@@ -572,7 +572,7 @@ s32 func_8004AE3C(void **entries)
     return count;
 }
 
-extern unsigned char *D_80081540;
+extern unsigned char *current_sort_rank_table;
 
 /* Compare strings by their first characters' translated ordering values. */
 int compare_mapped_leading_bytes(unsigned char **left, unsigned char **right)
@@ -580,13 +580,13 @@ int compare_mapped_leading_bytes(unsigned char **left, unsigned char **right)
     unsigned char *left_text = *left;
     unsigned char *right_text = *right;
 
-    return D_80081540[*left_text] - D_80081540[*right_text];
+    return current_sort_rank_table[*left_text] - current_sort_rank_table[*right_text];
 }
 
 extern void selection_sort_elements(void);
 
 /* Invoke selection_sort_elements. */
-void func_8004AFC8(void)
+void forward_selection_sort_request(void)
 {
     selection_sort_elements();
 }
@@ -594,7 +594,7 @@ void func_8004AFC8(void)
 extern void create_callback_pair_payload(int a0, int a1, void *a2);
 
 /* Forward an object with fixed leading arguments zero and one. */
-void func_8004B3DC(void *object) {
+void create_single_callback_payload(void *object) {
     create_callback_pair_payload(0, 1, object);
 }
 
@@ -631,23 +631,23 @@ int count_tagged_records(Unk8004B4DC *record) {
 
 extern int D_80080B48;
 /* Process the fixed global record with command six. */
-void func_8004B634(void)
+void submit_global_cd_command_six(void)
 {
     Control_CD(6, &D_80080B48, 0);
 }
 
-extern void func_8004B634(void);
+extern void submit_global_cd_command_six(void);
 
 /* jyotyu_set_reserve_nyul: process the fixed reserve record. */
 void load_bin_nametwin(void)
 {
-    func_8004B634();
+    submit_global_cd_command_six();
 }
 
 extern int create_item_view_for_entry(int a0, int a1, int a2);
 
 /* Forward an object and value with a zero event parameter. */
-int func_8004B8BC(int object, int value)
+int create_item_view_without_event(int object, int value)
 {
     return create_item_view_for_entry(object, value, 0);
 }
@@ -677,7 +677,7 @@ void func_8004CBFC(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *
 }
 
 /* Select the embedded record at offset 0x18 for type 0x30, or 0xC otherwise. */
-void *func_8004D064(void *object) {
+void *advance_packed_record_by_type(void *object) {
     unsigned char type = *((unsigned char *)object + 1) & 0xF0;
 
     switch (type) {
@@ -709,13 +709,13 @@ void set_descriptor_grid_byte_coordinates(signed char *record, int width, int he
 }
 
 /* Store the global value. */
-void func_8004DCE0(int value)
+void set_message_mode(int value)
 {
     D_80081550 = value;
 }
 
 /* Clear both global values. */
-void func_8004DDB4(void)
+void clear_message_command_words(void)
 {
     D_80081554 = 0;
     D_80081558 = 0;
@@ -724,7 +724,7 @@ void func_8004DDB4(void)
 extern void clear_resident_bitmap_bit(int);
 
 /* Invoke clear_resident_bitmap_bit with mode two. */
-void func_8004DDC4(void) {
+void clear_resident_bitmap_bit_two(void) {
     clear_resident_bitmap_bit(sn_win_sw0);
 }
 
@@ -778,14 +778,14 @@ void func_8004E9E4(void) {
 }
 
 /* Clear the first word of the global state. */
-void func_8004EB30(void) {
+void clear_vram_callback_state(void) {
     D_80084130[0] = 0;
 }
 
 extern void *scene_create_resource_transition(void *owner, int task_context);
 
 /* Create an object task with mode zero. */
-void func_8004EE30(void *object)
+void create_resource_transition_for_descriptor_check(void *object)
 {
     scene_create_resource_transition(object, 0);
 }
@@ -793,7 +793,7 @@ void func_8004EE30(void *object)
 extern void *scene_create_resource_transition(void *owner, int task_context);
 
 /* Create an object task with mode one. */
-void func_8004EE50(int object) {
+void create_resource_transition_card(int object) {
     scene_create_resource_transition(object, 1);
 }
 
@@ -832,13 +832,13 @@ void link_menu_backdrop_display_nodes(void *entries)
 }
 
 /* Store a word through the supplied pointer. */
-void func_8004F3D0(int *dst, int value)
+void set_menu_backdrop_initial_value(int *dst, int value)
 {
     *dst = value;
 }
 
 /* Return without performing any work. */
-void func_8004F67C(void) {
+void noop_selection_menu_animation_idle(void) {
 }
 
 typedef struct {
@@ -879,7 +879,7 @@ void func_8004FC68(Struct_8004FC68 *object) {
 }
 
 /* Return the selected word from the embedded record's value array. */
-int func_8004FF00(char *object)
+int read_selected_menu_entry_word(char *object)
 {
     int index;
     object = object + 0x20;
@@ -887,19 +887,19 @@ int func_8004FF00(char *object)
     return *(int *)(object + index * 4 + 0x10);
 }
 
-extern int func_8004FF00(char *a0);
+extern int read_selected_menu_entry_word(char *a0);
 extern void func_80021300(int a0);
 
 /* Pass the object's selected value to func_80021300. */
-void func_800502E0(char *object)
+void resolve_selected_menu_entry(char *object)
 {
-    func_80021300(func_8004FF00(object));
+    func_80021300(read_selected_menu_entry_word(object));
 }
 
 extern void handle_object_input(void *a0);
 
 /* Forward the object to handle_object_input. */
-void func_80050494(void *object)
+void forward_object_input_handler(void *object)
 {
     handle_object_input(object);
 }
@@ -909,7 +909,7 @@ struct VtableObj {
 };
 
 /* Invoke the object's leading function pointer with the object itself. */
-void func_80050694(struct VtableObj *object)
+void invoke_leading_object_callback(struct VtableObj *object)
 {
     object->func(object);
 }
@@ -919,50 +919,50 @@ extern unsigned char D_800717BC[16];
 extern void build_reverse_indexed_chain(void *a0, void *a1, int a2);
 
 /* Link entries using the fixed index table and limit 0x11. */
-void func_80050B7C(void *entries)
+void link_seventeen_indexed_entries(void *entries)
 {
     build_reverse_indexed_chain(entries, D_800717BC, 0x11);
 }
 
-extern int D_80080B94;
-extern int D_80080B98;
-extern void func_80050BA4(int a0);
+extern int saved_value_output_enabled;
+extern int selection_menu_saved_value;
+extern void create_gauge_with_selection_menu(int a0);
 
 /* Pass the saved value when enabled, or zero otherwise. */
-void func_80050CAC(void) {
+void submit_enabled_saved_display_value(void) {
     int value = 0;
-    if (D_80080B94 != 0) {
-        value = D_80080B98;
+    if (saved_value_output_enabled != 0) {
+        value = selection_menu_saved_value;
     }
-    func_80050BA4(value);
+    create_gauge_with_selection_menu(value);
 }
 
 extern void run_deferred_callbacks(void *a0);
-extern unsigned char D_800717D0[16];
+extern unsigned char town_movie_callback_list[16];
 
 /* Process the global buffer D_800717D0. */
 void func_80050F84(void)
 {
-    run_deferred_callbacks(&D_800717D0);
+    run_deferred_callbacks(&town_movie_callback_list);
 }
 
 extern void run_deferred_callbacks(void *a0);
 
-extern char D_800717E8[12];
+extern char town_transition_callback_list[12];
 
 /* Process the global buffer D_800717E8. */
 void func_80050FA8(void)
 {
-    run_deferred_callbacks(D_800717E8);
+    run_deferred_callbacks(town_transition_callback_list);
 }
 
-extern char D_80080C1C;
+extern char direct_load_resource_descriptor;
 extern void file_load_com(void *arg);
 
 /* Load the fixed global record D_80080C1C. */
 void func_80051500(void)
 {
-    file_load_com(&D_80080C1C);
+    file_load_com(&direct_load_resource_descriptor);
 }
 
 extern void update_staged_motion_effect(void);
@@ -975,7 +975,7 @@ typedef struct {
 } Struct_80051528;
 
 /* Mark the object when its callback is update_staged_motion_effect. */
-void func_80051528(Struct_80051528 *object) {
+void mark_staged_motion_effect_complete(Struct_80051528 *object) {
     if (object->func == update_staged_motion_effect) {
         object->field2C = 1;
     }
@@ -991,7 +991,7 @@ typedef struct {
 } Entity;
 
 /* Mark the entity when its callback is update_sine_motion_effect. */
-void func_800517AC(Entity *entity)
+void mark_sine_motion_effect_complete(Entity *entity)
 {
     if (entity->update_func == update_sine_motion_effect) {
         entity->flag_2C = 1;
@@ -1008,7 +1008,7 @@ typedef struct {
 } Obj;
 
 /* Mark the object when its callback is update_fade_in_out_effect. */
-void func_80051CA4(Obj *object) {
+void mark_fade_in_out_effect_complete(Obj *object) {
     if (object->update_func == update_fade_in_out_effect) {
         object->field_2C = 1;
     }
@@ -1024,7 +1024,7 @@ typedef struct {
 extern void update_color_fade_effect(void);
 
 /* Mark the object when its callback is update_color_fade_effect. */
-void func_80051F38(Obj80051F38 *object)
+void mark_color_fade_effect_complete(Obj80051F38 *object)
 {
     if (object->update_func == update_color_fade_effect) {
         object->flag_2C = 1;
@@ -1043,7 +1043,7 @@ typedef struct {
 extern void play_timed_animation_sequence(void *a0);
 
 /* Mark the entity when its callback is play_timed_animation_sequence. */
-void func_800530A4(Entity1 *entity) {
+void mark_timed_animation_sequence_complete(Entity1 *entity) {
     if (entity->unk10 == play_timed_animation_sequence) {
         entity->unk2A = 1;
     }
@@ -1053,18 +1053,18 @@ extern int Control_CD(int a0, void *a1, int a2);
 extern void drain_cd_command_queue(void);
 
 /* Process a record with command six and finish the update. */
-void func_80053C3C(void *record)
+void submit_cd_command_six_and_drain(void *record)
 {
     Control_CD(6, record, 0);
     drain_cd_command_queue();
 }
 
-extern int func_80055778(unsigned short a0);
+extern int enqueue_audio_command(unsigned short a0);
 
 /* Pass the low 16 flag bits to the event handler and return its signed halfword result. */
 short SD_Call(int flags)
 {
-    return func_80055778((unsigned short)flags);
+    return enqueue_audio_command((unsigned short)flags);
 }
 
 
@@ -1072,7 +1072,7 @@ short SD_Call(int flags)
 void sound_set_cd_playback_volume_scale(short value)
 {
     g_volume_scale[2] = value;
-    func_80054D64();
+    apply_scaled_cd_stream_volume();
 }
 
 /* Sets volume scale [0]. */
@@ -1088,7 +1088,7 @@ int func_800542A4(void)
 }
 
 /* Return 0x5F for mode one and 0x7F otherwise. */
-int func_80054AF0(int mode)
+int select_audio_mode_attenuation(int mode)
 {
     if (mode == 1) {
         return 0x5F;
@@ -1107,19 +1107,19 @@ void func_80055604(void) {
 extern void audio_stop_matching_effect_voices(void);
 
 /* Invoke audio_stop_matching_effect_voices. */
-void func_80055730(void)
+void stop_matching_effect_voices(void)
 {
     audio_stop_matching_effect_voices();
 }
 
 /* Clear the global halfword. */
-void func_800557BC(void) {
-    D_80084778[0] = 0;
+void clear_audio_command_queue(void) {
+    audio_command_queue[0] = 0;
 }
 
 
 /* Initialize the state record's values and two counters. */
-void func_80055990(SoundTask *state) {
+void initialize_audio_ramp_defaults(SoundTask *state) {
     state->unk_10 = 0x80;
     state->unk_0C = 3;
     state->unk_04 = 0;
@@ -1155,12 +1155,12 @@ void func_80057A48(void) {
 void func_8005848C(void) {
 }
 
-extern int D_800737A4[4];
+extern int audio_sequence_active[4];
 extern void audio_tick_sequence_tracks(void);
 
 /* Invoke audio_tick_sequence_tracks when the global flag is set. */
-void func_800584E4(void) {
-    if (D_800737A4[0]) {
+void tick_enabled_sequence_tracks(void) {
+    if (audio_sequence_active[0]) {
         audio_tick_sequence_tracks();
     }
 }
@@ -1191,7 +1191,7 @@ int pack_big_endian_halfword(int high, int low)
 }
 
 /* Add delta to the pointed-to counter and return its new value. */
-int func_80058E50(int *counter, int delta)
+int add_to_sequence_counter(int *counter, int delta)
 {
     *counter += delta;
     return *counter;
@@ -1204,33 +1204,33 @@ void func_80058E64(u8 status) {
 extern void service_audio_timer(void);
 
 /* Invoke service_audio_timer. */
-void func_8005A37C(void)
+void service_audio_timer_callback(void)
 {
     service_audio_timer();
 }
 
 /* Store the first word of the global state. */
-void func_8005A39C(int value) {
-    D_80086D4C[0] = value;
+void set_audio_timer_state(int value) {
+    audio_slot_service_word[0] = value;
 }
 
-extern s32 D_80073824[4];
+extern s32 audio_timer_update_enabled[4];
 
 extern void sound_run_guarded_sequence_update(void);
 
 /* Invoke sound_run_guarded_sequence_update when the global value is nonzero. */
-void func_8005A3A8(void)
+void run_enabled_sound_sequence_update(void)
 {
-    if (D_80073824[0]) {
+    if (audio_timer_update_enabled[0]) {
         sound_run_guarded_sequence_update();
     }
 }
 
-extern unsigned char D_8007382A[16];
+extern unsigned char audio_force_center_pan[16];
 
 /* Clear the global byte flag. */
-void func_8005A3D4(void) {
-    D_8007382A[0] = 0;
+void clear_cd_audio_mix_mode(void) {
+    audio_force_center_pan[0] = 0;
 }
 
 /* Return without performing any work. */
@@ -1239,36 +1239,36 @@ void func_8005A420(void) {
 
 extern void audio_reset_all_voices(void);
 extern void reset_sound_slots(void);
-extern void func_8005D7BC(void);
+extern void stop_spu_dma_event_service(void);
 
 /* Run the three initialization routines in order. */
-void func_8005A4B8(void)
+void reset_voices_slots_and_stop_spu_service(void)
 {
     audio_reset_all_voices();
     reset_sound_slots();
-    func_8005D7BC();
+    stop_spu_dma_event_service();
 }
 
 /* Store the global halfword value. */
-void func_8005ACD0(short value) {
-    D_80073828[0] = value;
+void set_sound_flag_update_suppression(short value) {
+    audio_voice_drain_suppressed[0] = value;
 }
 
-extern void func_8005ACDC(void);
+extern void drain_ready_sound_voice_flags(void);
 
 /* Invoke func_8005ACDC. */
-void func_8005B300(void)
+void flush_pending_sound_voice_flags(void)
 {
-    func_8005ACDC();
+    drain_ready_sound_voice_flags();
 }
 
-extern void func_8005E450(int a0);
-extern void func_8005D88C(int a0);
+extern void set_reverb_address_available(int a0);
+extern void set_spu_reverb_enabled_if_available(int a0);
 
 /* Run both setup routines with mode one. */
-void func_8005B320(void) {
-    func_8005E450(1);
-    func_8005D88C(1);
+void enable_available_spu_reverb(void) {
+    set_reverb_address_available(1);
+    set_spu_reverb_enabled_if_available(1);
 }
 
 extern int func_8005DA88(void *arg);
@@ -1284,7 +1284,7 @@ struct Msg8005B3D8 {
 };
 
 /* Send a type-six message with coordinates scaled by 256. */
-int func_8005B3D8(short x, short y) {
+int submit_shifted_stereo_sound_parameters(short x, short y) {
     struct Msg8005B3D8 msg;
     int scaled_x = x;
     int scaled_y = y;
@@ -1307,7 +1307,7 @@ int func_8005C808(void) {
 extern void audio_apply_channel_control(short a0, int a1, int a2);
 
 /* Send command seven for the indexed entity with a seven-bit value. */
-void func_8005C88C(int unused, short index, int value)
+void set_audio_channel_volume_control(int unused, short index, int value)
 {
     audio_apply_channel_control(index, 7, value & 0x7F);
 }
@@ -1315,7 +1315,7 @@ void func_8005C88C(int unused, short index, int value)
 extern void audio_apply_channel_control(short a0, int a1, int a2);
 
 /* Send command ten for the indexed entity with a seven-bit value. */
-void func_8005C8EC(int unused, short index, int value)
+void set_audio_channel_pan_control(int unused, short index, int value)
 {
     audio_apply_channel_control(index, 10, value & 0x7F);
 }
@@ -1343,14 +1343,14 @@ void func_8005C9A0(void) {
 extern void sound_set_spu_master_volume(s16 left_volume, s16 right_volume);
 
 /* Forward two signed halfword values to sound_set_spu_master_volume. */
-void func_8005C9A8(s16 first, s16 second) {
+void set_spu_master_volume_pair(s16 first, s16 second) {
     sound_set_spu_master_volume(first, second);
 }
 
 extern void audio_reset_and_release_sequence_banks(void);
 
 /* Invoke audio_reset_and_release_sequence_banks. */
-void func_8005C9D4(void)
+void reset_and_release_audio_sequence_banks(void)
 {
     audio_reset_and_release_sequence_banks();
 }
@@ -1358,7 +1358,7 @@ void func_8005C9D4(void)
 extern void submit_tagged_driver_byte(u8 a0, u8 a1, u8 a2);
 
 /* Forward the low bytes of three values to submit_tagged_driver_byte. */
-void func_8005C9F4(s32 first, s32 second, s32 third)
+void submit_audio_driver_byte_command(s32 first, s32 second, s32 third)
 {
     submit_tagged_driver_byte(first, second, third);
 }
@@ -1366,7 +1366,7 @@ void func_8005C9F4(s32 first, s32 second, s32 third)
 extern void submit_scaled_driver_halfword_pair(unsigned char a0, short a1, short a2);
 
 /* Forward a byte code and two signed halfword values to submit_scaled_driver_halfword_pair. */
-void func_8005CA1C(unsigned char code, short first, short second)
+void submit_audio_driver_scaled_pair(unsigned char code, short first, short second)
 {
     submit_scaled_driver_halfword_pair(code, first, second);
 }
@@ -1374,23 +1374,23 @@ void func_8005CA1C(unsigned char code, short first, short second)
 extern void dispatch_combined_driver_flags(s16 arg0);
 
 /* Forward the value as a signed halfword to dispatch_combined_driver_flags. */
-void func_8005CA4C(s32 value)
+void dispatch_audio_driver_halfword_flags(s32 value)
 {
     dispatch_combined_driver_flags((s16)value);
 }
 
-extern void func_8005CA90(int channel);
+extern void reset_spu_runtime_and_start_event_service(int channel);
 
 /* Invoke func_8005CA90 with mode zero. */
-void func_8005CA70(void)
+void reset_audio_sequence_state_default(void)
 {
-    func_8005CA90(0);
+    reset_spu_runtime_and_start_event_service(0);
 }
 
 extern int *D_8007996C[4];
 
 /* Clear bits 0x0F000000 and set bit 0x20000000 in the global target word. */
-void func_8005D6D8(void)
+void select_spu_dma_write_channel_flags(void)
 {
     volatile int *flags = D_8007996C[0];
 
@@ -1400,7 +1400,7 @@ void func_8005D6D8(void)
 extern int *D_8007996C[4];
 
 /* Clear bits 0x0F000000 and set bits 0x22000000 in the global target word. */
-void func_8005D704(void)
+void select_spu_dma_read_channel_flags(void)
 {
     volatile int *flags = D_8007996C[0];
 
@@ -1425,26 +1425,26 @@ typedef struct {
     u32 pad2[2]; /* keep total size > 8 bytes so hi/lo addressing (not gp_rel) is used */
 } D_80079958_t;
 
-extern D_80079958_t D_80079958;
+extern D_80079958_t spu_registers;
 
 /* Test bit 0x80 in the global target's halfword at offset 0x1AA. */
-s32 func_8005DA68(void) {
-    if (D_80079958.ptr->field_1AA & 0x80)
+s32 is_tone_parameter_flag_set(void) {
+    if (spu_registers.ptr->field_1AA & 0x80)
         return 1;
     return 0;
 }
 
-extern s32 func_8005E4C4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 modify_spu_register_bit_pair(s32 a0, s32 a1, s32 a2, s32 a3);
 
 /* Forward two values with fixed trailing arguments 0xCC and 0xCD. */
-s32 func_8005E4A0(s32 first, s32 second) {
-    return func_8005E4C4(first, second, 0xCC, 0xCD);
+s32 update_spu_register_pair_cc_cd(s32 first, s32 second) {
+    return modify_spu_register_bit_pair(first, second, 0xCC, 0xCD);
 }
 
 extern void read_spu_register_pair(int a0, int a1);
 
 /* Invoke read_spu_register_pair with values 0xCC and 0xCD. */
-void func_8005E78C(void)
+void read_spu_register_pair_cc_cd(void)
 {
     read_spu_register_pair(0xCC, 0xCD);
 }
@@ -1453,7 +1453,7 @@ extern void func_8005F134(void *a0);
 extern void func_8005E97C(int a0, int a1);
 
 /* Update an object and pass its first word to the mode-one handler. */
-void func_8005EC0C(void *object)
+void apply_voice_attributes_and_key_on(void *object)
 {
     void *current = object;
 

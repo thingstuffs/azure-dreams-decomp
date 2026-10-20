@@ -42,7 +42,7 @@ typedef struct S_800D2E9C_2 {
 } S_800D2E9C_2;   /* ent in func_800D2E9C */
 
 /* Runs object callbacks, applies movement and gravity, and updates ground height. */
-void func_800D2E9C(void *object, void *motion, void *entity) {
+void dispatch_actor_actions_and_integrate_gravity(void *object, void *motion, void *entity) {
     void *ent = entity;
     void *update_obj = object;
     DungeonCallback callback;

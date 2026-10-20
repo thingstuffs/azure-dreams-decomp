@@ -42,7 +42,7 @@ s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
     }
     if ((u32)target <= 0x9FFFFFFF) {
         display_item_status_message(target, event, (s16)value);
-        if (apply_actor_food_preference(target, (D_800DDE84[target[0x13]] >> 6) & 3, 0) == 0) {
+        if (apply_actor_food_preference(target, (entity_action_selectors[target[0x13]] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(target, event);
             return 1;
         }

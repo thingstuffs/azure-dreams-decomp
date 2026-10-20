@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s16 D_80080B00[8];
+extern s16 sound_idle_vsync_frame_alias[8];
 extern u8 D_800E6000[16400];
 extern u8 *D_80081508;
 
@@ -22,6 +22,6 @@ void clear_listed_tile_flags(void) {
             *(s16 *)(tile + 4) = (s16)(tile_flags & 0xFF7F);
         } while (*entry != 0);
     }
-    *(s16 *)((u8 *)D_80080B00 + 4) = 0;
+    *(s16 *)((u8 *)sound_idle_vsync_frame_alias + 4) = 0;
     *D_80081508 = 0;
 }

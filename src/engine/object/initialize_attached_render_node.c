@@ -3,12 +3,12 @@
 #include "common.h"
 
 /* Retail bytes at assets/3E018.bin + 0x161A0; current ownership reconstruction only. */
-s32 D_800809B8 = 0x01DE03E0;
-s32 D_800809BC = 0x00100030;
+s32 attached_node_initial_word_14 = 0x01DE03E0;
+s32 attached_node_initial_word_18 = 0x00100030;
 
 #include "engine/object/render_words.h"
 
-void func_80035888(void *node_storage, void *attached_object, s32 *init_data, s16 object_id, void *owner)
+void initialize_attached_message_window_node(void *node_storage, void *attached_object, s32 *init_data, s16 object_id, void *owner)
 {
     void *node;
     void *object;
@@ -16,7 +16,7 @@ void func_80035888(void *node_storage, void *attached_object, s32 *init_data, s1
     void *render_state;
 
     node = initialize_runtime_node_storage(0x11, node_storage, 0x49, D_80082BC0);
-    ((S_80035888_0 *)node)->unk_10 = func_800359FC;
+    ((S_80035888_0 *)node)->unk_10 = dispatch_window_fade_and_update_extents;
     register_node(node, runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
 
     object = (u8 *)node + 0x20;
@@ -31,7 +31,7 @@ void func_80035888(void *node_storage, void *attached_object, s32 *init_data, s1
     ((S_80035888_0 *)node)->unk_20 = attached_object;
     ((S_80035888_1 *)object)->unk_04 = 0;
     ((S_80035888_1 *)object)->unk_08 = draw_window_rects;
-    copy_window_params(object, D_8006A9E8);
+    copy_window_params(object, attached_node_default_parameters);
     func_800350B0(owner, object);
 
     {
@@ -40,21 +40,21 @@ void func_80035888(void *node_storage, void *attached_object, s32 *init_data, s1
         s32 initial_state_18;
 
         color = 0x800000;
-        initial_state_14 = D_800809B8;
+        initial_state_14 = attached_node_initial_word_14;
         (*(void * *)((u8 *)object + 0x68)) = set_window_handler;
         (*(s32 *)((u8 *)object + 0x14)) = initial_state_14;
-        initial_state_18 = D_800809BC;
+        initial_state_18 = attached_node_initial_word_18;
         color |= 0x8080;
         ((S_80035888_1 *)object)->unk_18 = initial_state_18;
         ((S_80035888_2 *)aux_state)->unk_02 = 0;
         ((S_80035888_3 *)render_state)->unk_0C = color;
-        ((S_80035888_3 *)render_state)->unk_08 = D_8007386C;
+        ((S_80035888_3 *)render_state)->unk_08 = attached_node_default_render_data;
         ((S_80035888_3 *)render_state)->unk_00 = 0;
         ((S_80035888_3 *)render_state)->unk_04 = 0;
         ((S_80035888_3 *)render_state)->unk_05 = 0;
         ((S_80035888_1 *)object)->unk_74 = owner;
         ((S_80035888_1 *)object)->unk_78 = ((Rec_func_80034F58_arg0 *)owner)->unk_01;
         ((S_80035888_5 *)(((S_80035888_0 *)node)->unk_20))->unk_34 =
-            D_8006A90C[((S_80035888_6 *)(((S_80035888_1 *)object)->unk_74))->unk_02];
+            attached_node_variant_data[((S_80035888_6 *)(((S_80035888_1 *)object)->unk_74))->unk_02];
     }
 }

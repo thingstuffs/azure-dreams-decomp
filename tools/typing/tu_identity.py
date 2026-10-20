@@ -19,6 +19,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 
 HERE = Path(__file__).resolve().parent
 TOOLS = HERE.parent
@@ -26,11 +27,31 @@ sys.path[:0] = [str(TOOLS)]
 
 
 def _mm(args):
-    root, rel = args
-    res = subprocess.run(['clang', '--target=mipsel-unknown-none', '-w', '-MM', '-I', 'include', rel],
-                         cwd=root, capture_output=True, text=True)
-    deps = res.stdout.replace('\\\n', ' ').split(':', 1)[-1].split()
-    return rel, [d for d in deps if d != rel]
+    root, rel, recipe = args
+    import layout_compile_identity as L
+    root = Path(root).resolve()
+    (root / 'build_ovl').mkdir(exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='tu-mm-', dir=root / 'build_ovl') as td:
+        with L.compilation_input(root, rel, recipe, Path(td)) as source:
+            res = subprocess.run(['clang', '--target=mipsel-unknown-none', '-w', '-MM', '-I', 'include', str(source)],
+                                 cwd=root, capture_output=True, text=True)
+        if res.returncode:
+            raise ValueError('dependency scan failed: ' + rel + ': ' + res.stderr[-500:])
+        deps = []
+        for token in res.stdout.replace('\\\n', ' ').split(':', 1)[-1].split():
+            p = Path(os.path.normpath(token))
+            if not p.is_absolute(): p = root / p
+            if p.is_relative_to(root) and not p.is_relative_to(td):
+                deps.append(p.relative_to(root).as_posix())
+        # Generated partition fragments derive from these canonical parents.
+        if 'slus_unit' in recipe:
+            from slus_module_context import partition_context, source_path
+            from source_layout import registry
+            parents, owners, _ = partition_context(registry(root)[recipe['row_id']], root)
+            inputs = {p['source'] for p in parents} | {m['source'] for m in owners}
+            inputs.update(x['source'] for m in owners for x in m['members'])
+            deps.extend(source_path(p, root).relative_to(root).as_posix() for p in inputs)
+    return rel, sorted(set(deps) - {rel})
 
 
 def proof_set(root, edited, physical, workers=6):
@@ -40,7 +61,7 @@ def proof_set(root, edited, physical, workers=6):
     quoted = consumer_paths(root, edited, parents=include_parents(root)) & set(physical)
     closure = set()
     with ProcessPoolExecutor(max_workers=workers) as ex:
-        for rel, deps in ex.map(_mm, [(str(root), p) for p in sorted(physical)], chunksize=32):
+        for rel, deps in ex.map(_mm, [(str(root), p, physical[p]) for p in sorted(physical)], chunksize=32):
             if rel in edited or edited & {os.path.normpath(d) for d in deps}:
                 closure.add(rel)
     return sorted(quoted | closure), sorted(quoted ^ closure)

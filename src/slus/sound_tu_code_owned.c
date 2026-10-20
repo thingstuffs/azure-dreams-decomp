@@ -18,9 +18,9 @@ typedef struct {
     u32 pad2[2]; /* keep total size > 8 bytes so hi/lo addressing (not gp_rel) is used */
 } D_80079958_t;
 
-extern D_80079958_t D_80079958;
+extern D_80079958_t spu_registers;
 
-extern s32 func_8005E4C4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 modify_spu_register_bit_pair(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void read_spu_register_pair(int a0, int a1);
 extern void func_8005E7B0(int a0, int a1);
 extern void func_8005F134(void *a0);

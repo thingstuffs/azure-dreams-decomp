@@ -1,38 +1,38 @@
 #include "common.h"
 
 extern void sound_update_voice_modulation_slots(void);
-extern void func_800584E4(void);
-extern void func_8005ACDC(void);
+extern void tick_enabled_sequence_tracks(void);
+extern void drain_ready_sound_voice_flags(void);
 
 typedef struct {
     s32 v;
     s32 pad[2];
 } S_80085F98;
 
-extern S_80085F98 D_80085F98;
-extern s32 D_800737A4[];
-extern s32 D_800869A8[];
+extern S_80085F98 audio_update_guard;
+extern s32 audio_sequence_active[];
+extern s32 audio_sequence_timing_division[];
 
 /* Prevents re-entry while processing active state updates and running cleanup. */
 void sound_run_guarded_sequence_update(void) {
-    if (D_80085F98.v == 0) {
-        D_80085F98.v = 1;
-        if (D_800737A4[0] != 0) {
-            if (D_800869A8[0] == 0x1E0) {
-                func_800584E4();
-                func_800584E4();
-                func_800584E4();
-                func_800584E4();
-                func_800584E4();
-                func_800584E4();
+    if (audio_update_guard.v == 0) {
+        audio_update_guard.v = 1;
+        if (audio_sequence_active[0] != 0) {
+            if (audio_sequence_timing_division[0] == 0x1E0) {
+                tick_enabled_sequence_tracks();
+                tick_enabled_sequence_tracks();
+                tick_enabled_sequence_tracks();
+                tick_enabled_sequence_tracks();
+                tick_enabled_sequence_tracks();
+                tick_enabled_sequence_tracks();
             }
-            func_800584E4();
-            func_800584E4();
-            func_800584E4();
-            func_800584E4();
+            tick_enabled_sequence_tracks();
+            tick_enabled_sequence_tracks();
+            tick_enabled_sequence_tracks();
+            tick_enabled_sequence_tracks();
         }
         sound_update_voice_modulation_slots();
-        func_8005ACDC();
-        D_80085F98.v = 0;
+        drain_ready_sound_voice_flags();
+        audio_update_guard.v = 0;
     }
 }

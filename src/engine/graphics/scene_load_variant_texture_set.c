@@ -8,20 +8,20 @@ extern void runtime_load_packed_resource_chunks(u8, void *);
 extern void set_byte_one(void);
 
 extern u8 D_800136B8;
-extern u8 D_80080BB4[8];
-extern u8 D_80080BBC[8];
-extern u8 D_80080BC4[8];
-extern u8 D_80080BCC[8];
-extern u8 D_80080BD4[8];
-extern u8 D_80080BDC[8];
-extern u8 D_80080BE4[8];
-extern u8 D_80080BEC[8];
-extern u8 D_80080BF4[8];
-extern u8 D_80080BFC[8];
-extern u8 D_80080C04[8];
-extern u8 D_80080C0C[8];
-extern u8 D_80080C14[8];
-extern s32 D_80081480;
+extern u8 scene_common_texture_resource_0[8];
+extern u8 scene_common_texture_resource_1[8];
+extern u8 scene_common_texture_resource_2[8];
+extern u8 scene_common_texture_resource_3[8];
+extern u8 scene_variant_texture_resource_0[8];
+extern u8 scene_variant_texture_resource_1[8];
+extern u8 scene_variant_texture_resource_2[8];
+extern u8 scene_variant_texture_resource_3[8];
+extern u8 scene_variant_texture_resource_4[8];
+extern u8 scene_variant_texture_resource_5[8];
+extern u8 scene_variant_texture_resource_6[8];
+extern u8 scene_variant_texture_resource_7[8];
+extern u8 scene_variant_texture_resource_8[8];
+extern s32 gpu_scratch_write_pointer;
 extern u8 D_800D2FB4[][32];
 extern u8 D_800D381A;
 extern u8 D_8012F004[];
@@ -34,28 +34,28 @@ void scene_load_variant_texture_set(void)
     s32 command;
 
     load_status = 0;
-    Control_CD(6, D_80080BB4, 0);
+    Control_CD(6, scene_common_texture_resource_0, 0);
     Control_CD(0xFF, set_byte_one, &load_status);
     drain_cd_command_queue();
-    run_image_load_commands((void *)0x80020000, D_80081480);
+    run_image_load_commands((void *)0x80020000, gpu_scratch_write_pointer);
     DrawSync(0);
     load_status = 0;
-    Control_CD(6, D_80080BBC, 0);
+    Control_CD(6, scene_common_texture_resource_1, 0);
     Control_CD(0xFF, set_byte_one, &load_status);
     drain_cd_command_queue();
-    run_image_load_commands((void *)0x80020000, D_80081480);
+    run_image_load_commands((void *)0x80020000, gpu_scratch_write_pointer);
     DrawSync(0);
     load_status = 0;
-    Control_CD(6, D_80080BC4, 0);
+    Control_CD(6, scene_common_texture_resource_2, 0);
     Control_CD(0xFF, set_byte_one, &load_status);
     drain_cd_command_queue();
-    run_image_load_commands((void *)0x80020000, D_80081480);
+    run_image_load_commands((void *)0x80020000, gpu_scratch_write_pointer);
     DrawSync(0);
     load_status = 0;
-    Control_CD(6, D_80080BCC, 0);
+    Control_CD(6, scene_common_texture_resource_3, 0);
     Control_CD(0xFF, set_byte_one, &load_status);
     drain_cd_command_queue();
-    run_image_load_commands((void *)0x80020000, D_80081480);
+    run_image_load_commands((void *)0x80020000, gpu_scratch_write_pointer);
     DrawSync(0);
     load_status = 0;
 
@@ -66,43 +66,43 @@ void scene_load_variant_texture_set(void)
         switch (D_800136B8) {
         default:
             command = 6;
-            resource = D_80080BD4;
+            resource = scene_variant_texture_resource_0;
             break;
         case 11:
             command = 6;
-            resource = D_80080BDC;
+            resource = scene_variant_texture_resource_1;
             break;
         case 12:
             command = 6;
-            resource = D_80080BE4;
+            resource = scene_variant_texture_resource_2;
             break;
         case 13:
             command = 6;
-            resource = D_80080BEC;
+            resource = scene_variant_texture_resource_3;
             break;
         }
         break;
     case 2:
         command = 6;
-        resource = D_80080BF4;
+        resource = scene_variant_texture_resource_4;
         break;
     case 3:
         switch (D_800136B8) {
         default:
             command = 6;
-            resource = D_80080BFC;
+            resource = scene_variant_texture_resource_5;
             break;
         case 11:
             command = 6;
-            resource = D_80080C04;
+            resource = scene_variant_texture_resource_6;
             break;
         case 12:
             command = 6;
-            resource = D_80080C0C;
+            resource = scene_variant_texture_resource_7;
             break;
         case 13:
             command = 6;
-            resource = D_80080C14;
+            resource = scene_variant_texture_resource_8;
             break;
         }
         break;
@@ -111,7 +111,7 @@ void scene_load_variant_texture_set(void)
     Control_CD(command, resource, 0);
     Control_CD(0xFF, set_byte_one, &load_status);
     drain_cd_command_queue();
-    run_image_load_commands((void *)0x80020000, D_80081480);
+    run_image_load_commands((void *)0x80020000, gpu_scratch_write_pointer);
     DrawSync(0);
     runtime_load_packed_resource_chunks(D_800D2FB4[D_800D381A][0], D_8012F004);
 }

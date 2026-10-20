@@ -461,7 +461,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
             break;
         }
         play_sound_if_enabled(0x300);
-        func_800542BC();
+        drain_audio_commands_and_service_channels();
         {
             Row_8191CD78_S_func_80024578_3 *owner = effect->unk_1C;
             s32 flags;
@@ -604,7 +604,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
             break;
         }
         play_sound_if_enabled(0x300);
-        func_800542BC();
+        drain_audio_commands_and_service_channels();
         effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
         effect->unk_10.u16 = 0;
         break;

@@ -42,7 +42,7 @@ s32 apply_familiar_call_item(void *target, s32 action, s16 action_type, s32 acti
 
     if ((u32)target <= 0x9FFFFFFFU) {
         display_actor_item_status_message(target, action, action_type);
-        if (apply_actor_food_preference(target, D_800DDE84[((u8 *)target)[0x13]] & 3, action) == 0) {
+        if (apply_actor_food_preference(target, entity_action_selectors[((u8 *)target)[0x13]] & 3, action) == 0) {
             apply_item_effect_at_entity_position(target, action);
             return 1;
         }

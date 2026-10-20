@@ -8,12 +8,12 @@ typedef struct S_800847F0 {
     /* 0x2 */ u8 pad2[10];
 } S_800847F0;
 
-extern S_800847F0 D_800847F0;
+extern S_800847F0 sound_stream_marker_index;
 
 /* Marker-table arrays: only their addresses are taken here (matching the
  * sibling usage in src/w_8004437C.c), never dereferenced. */
-extern s32 D_801BEE40[4];
-extern s32 D_801C4640[4];
+extern s32 sound_stream_primary_marker_address[4];
+extern s32 sound_stream_secondary_marker_address[4];
 
 extern void handle_audio_status_code(s32 a0);
 extern void build_record_pointer_table(void *a0, s32 a1);
@@ -26,12 +26,12 @@ void select_marker_table(s32 marker_code) {
 
     switch (marker_type) {
     case 0x21:
-        D_800847F0.field0 = 0;
-        build_record_pointer_table(D_801BEE40, 0);
+        sound_stream_marker_index.field0 = 0;
+        build_record_pointer_table(sound_stream_primary_marker_address, 0);
         break;
     case 0x22:
-        D_800847F0.field0 = 1;
-        build_record_pointer_table(D_801C4640, 1);
+        sound_stream_marker_index.field0 = 1;
+        build_record_pointer_table(sound_stream_secondary_marker_address, 1);
         break;
     }
 }

@@ -28,8 +28,8 @@ typedef struct S_8005A778_Arg0 {
     u8 unk19;
 } S_8005A778_Arg0;
 
-extern S_8005A778_D80086A40 D_80086A40[16];
-extern S_8007382C D_8007382C;
+extern S_8005A778_D80086A40 audio_bank_slots[16];
+extern S_8007382C sound_slot_transfer_cursor;
 
 extern void release_sound_ram_block(s32 addr);
 extern s32 reserve_sound_ram_block(void *addr, s32 size);
@@ -45,13 +45,13 @@ s32 init_sound_slot_from_header(S_8005A778_Arg0 *header, s16 requested_slot, voi
     S_8005A778_Arg0 *header_fields;
 
     slot = 0;
-    D_8007382C.unk00 = 0;
+    sound_slot_transfer_cursor.unk00 = 0;
     raw_slot = requested_slot;
     header_fields = header;
 
     if (requested_slot == -1) {
         while (1) {
-            if (D_80086A40[slot].unk00 == -1) {
+            if (audio_bank_slots[slot].unk00 == -1) {
                 break;
             }
             slot = slot + 1;
@@ -67,13 +67,13 @@ s32 init_sound_slot_from_header(S_8005A778_Arg0 *header, s16 requested_slot, voi
         if (slot >= 16) {
             return -1;
         }
-        slots = D_80086A40;
+        slots = audio_bank_slots;
         old_entry = &slots[slot];
         if (old_entry->unk00 != -1) {
             release_sound_ram_block(old_entry->unk10);
         }
     }
-    entry = &D_80086A40[slot];
+    entry = &audio_bank_slots[slot];
     entry->unk00 = (s16)slot;
     entry->unk04 = header;
     offset_blocks = header_fields->unk12;

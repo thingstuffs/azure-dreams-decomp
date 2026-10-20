@@ -18,7 +18,7 @@
 #define D_800814A8 D_800803DC
 #define begin_pushed_actor_move func_800A8F10
 #define func_80042900 func_800424C4
-#define D_80082E80 D_80081490
+#define D_80082E80 free_node_list_head
 #define get_tile_chebyshev_distance func_8009EB30
 /* Relink of matched dungeon/func_80977E0C at file 0x997E0C; imports and data use paired retail relocations. */
 #define g_dungeon_status D_80085990
@@ -210,7 +210,7 @@ void func_80153EC4(void *action, void *context, void *entity, EntityRec *actor)
             func_800A86C4(actor);
             update_fading_effect_motion(actor);
             if ((func_800424C4(actor, 1) << 16) != 0) {
-                TileObject *room_base = &D_80081490;
+                TileObject *room_base = &free_node_list_head;
                 s8 room_id = ((Rec_D_80082E80 *)entity)->unk_26.as_s8;
 
                 if ((room_id == room_base->room_index && room_id >= 0) || (s16)func_8009EB30(room_base, entity) < 2) {

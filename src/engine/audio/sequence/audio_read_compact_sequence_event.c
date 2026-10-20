@@ -25,14 +25,14 @@ typedef struct {
     u8 pad_30[0x50 - 0x30];
 } Slot;
 
-extern Slot D_80085FA8[];
-extern s32 D_800869B4[3];
+extern Slot audio_sequence_tracks[];
+extern s32 audio_sequence_track_count[3];
 
 extern s32 read_next_byte_and_finish(Entity *);
 extern void audio_sequence_note_off(s32, s32, s32);
 extern void start_channel_note(s32, s32, s32);
 extern void sound_set_seven_bit_channel_value_and_notify(s32, s32, s32);
-extern void func_8005845C(u8, u8);
+extern void set_audio_channel_program(u8, u8);
 extern void audio_dispatch_midi_event(Entity *, s32, s32, s32);
 
 /* Processes the next entity command and returns its control flag. */
@@ -79,11 +79,11 @@ s32 audio_read_compact_sequence_event(Entity *entity)
         s32 next_byte = read_next_byte_and_finish(ent);
         u32 slot_count;
         operand = next_byte;
-        slot_count = D_800869B4[0];
+        slot_count = audio_sequence_track_count[0];
         {
             u32 slot_index = 0;
             while (slot_index < slot_count) {
-                D_80085FA8[slot_index].field_24 = ((next_byte & 0x7F) << 1) + 2;
+                audio_sequence_tracks[slot_index].field_24 = ((next_byte & 0x7F) << 1) + 2;
                 slot_index++;
             }
         }
@@ -100,7 +100,7 @@ s32 audio_read_compact_sequence_event(Entity *entity)
     {
         s32 next_byte = read_next_byte_and_finish(ent);
         operand = next_byte;
-        func_8005845C(ent->field_4C, next_byte & 0x7F);
+        set_audio_channel_program(ent->field_4C, next_byte & 0x7F);
         break;
     }
     case 0:

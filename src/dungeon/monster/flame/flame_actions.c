@@ -1046,7 +1046,7 @@ s32 func_80172550(void *entity_arg, void *primary_context_arg, void *secondary_c
     return result;
 }
 
-void func_80172694(void *state, s32 unused, s32 source, s32 target) {
+void finish_actor_tile_move_then_initialize_destination(void *state, s32 unused, s32 source, s32 target) {
     if (update_actor_movement_to_tile() != 0) {
         reduce_actor_food_meter(target, 4);
         advance_status_timers(target);
@@ -1061,7 +1061,7 @@ void func_80172694(void *state, s32 unused, s32 source, s32 target) {
     }
 }
 
-void func_80172728(Resource06CallbackState *state, void *entity, void *position, void *graphic)
+void finish_linked_actor_motion_and_floor_trap_then_initialize_destination(Resource06CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
@@ -1847,21 +1847,21 @@ void create_randomized_rotated_effect(Resource06CallbackState *state, void *enti
     }
 }
 
-void func_80173D60(Resource06CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_terrain_interpolation_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
         state->callback = initialize_destination_state;
     }
 }
 
-void func_80173D98(Resource06CallbackState *state, void *motion, void *position, void *actor)
+void finish_spinning_actor_fall_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
         state->callback = initialize_destination_state;
     }
 }
 
-void func_80173DD0(Resource06CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_fade_in_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
         state->callback = initialize_destination_state;
@@ -2244,7 +2244,7 @@ void project_and_queue_textured_quad(void *quad, void *position, void *draw_stat
 }
 
 
-s32 func_8017489C(void *initial_state, void *context, void *data) {
+s32 project_textured_quad_chain(void *initial_state, void *context, void *data) {
     void *state = initial_state;
     void *next_node;
 
@@ -2349,7 +2349,7 @@ void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, u8 
         strip_obj = func_8003FC64(0x12);
         if (strip_obj != 0) {
             init_obj = strip_obj;
-            callback = ((u8 *)func_8017489C);
+            callback = ((u8 *)project_textured_quad_chain);
             strip_data = strip_obj + 0x20;
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1A = 1;
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1C = 1;
@@ -2766,14 +2766,14 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
         }
 }
 
-void func_801757FC(Resource06CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_floor_trap_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
         state->callback = initialize_destination_state;
     }
 }
 
-void func_80175834(Resource06CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_action_flag_propagation_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
         state->callback = initialize_destination_state;

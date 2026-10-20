@@ -4,9 +4,9 @@
 typedef struct { s32 field0; s32 pad4; s32 pad8; } SlotTransitionWords3;
 #include "shared/transition_slots.h"
 #include "shared/runtime_dispatch.h"
-extern volatile s32 D_80081480;
-extern volatile s32 D_8008148C;
-extern s16 D_800814E8;
+extern volatile s32 gpu_scratch_write_pointer;
+extern volatile s32 gpu_scratch_buffer_base;
+extern s16 transition_runtime_slot_index;
 extern u8 D_80082E6E[];
 extern void update_controller_buttons_and_triggers(void);
 extern void upload_dispatch_entry_images(s32);
@@ -20,13 +20,13 @@ extern void render_scene_frame_with_timing(void);
 extern void update_shoulder_button_angle(void);
 extern void func_8003D92C(void);
 void func_80041AE4(void);
-void func_80041B98(void);
-void func_80041BE4(void);
-void func_80041C64(void);
-extern s16 D_80081500;
+void render_scene_until_runtime_slot_idle(void);
+void await_scene_confirmation_and_reserve_slot(void);
+void finish_scene_when_runtime_slot_idle(void);
+extern s16 secondary_transition_slot_index;
 extern void render_object_scene_frame(void);
 void func_80043D04(void);
-void func_80043DB8(void);
-void func_80043E04(void);
-void func_80043E60(void);
+void render_object_scene_until_slot_idle(void);
+void await_object_scene_confirmation(void);
+void finish_object_scene_when_slot_idle(void);
 #endif

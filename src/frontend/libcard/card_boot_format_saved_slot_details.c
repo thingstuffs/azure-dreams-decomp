@@ -59,7 +59,7 @@ typedef struct S_80024390_4 {
 } S_80024390_4;   /* recordCursor in card_boot_format_saved_slot_details */
 
 
-u8 * func_8003AD08(u32, u8 *); /* extern */
+u8 * format_unsigned_double_byte_decimal(u32, u8 *); /* extern */
 void * decode_note_text(void *, u8 *, s32); /* extern */
 void * build_positioned_text_glyphs(u8 *, u8 *, s32); /* extern */
 char * func_8004E5A0(int, unsigned short, char *); /* extern */
@@ -105,7 +105,7 @@ void card_boot_format_saved_slot_details(void *record) {
     s32 *global_table;
 
     assetSlot = ((S_80024390_0 *)record)->unk_B4C;
-    func_8003AD08(((S_80024390_0 *)record)->unk_7C + 1, (u8 *)(&textBuffer));
+    format_unsigned_double_byte_decimal(((S_80024390_0 *)record)->unk_7C + 1, (u8 *)(&textBuffer));
     func_80069E38(&textBuffer, D_800282D8);
     assetDataBase = D_80083EA4;
     func_80069E38(&textBuffer, (((S_80024390_0 *)record)->unk_7C << 7) + assetDataBase);
@@ -126,7 +126,7 @@ void card_boot_format_saved_slot_details(void *record) {
         table_base = D_800283A8;
         assetSlot = ((S_80024390_0 *)record)->unk_B54;
         func_80069E78(&textBuffer, table_base->unk_08);
-        func_8003AD08(((S_80024390_6 *)(((((S_80024390_0 *)record)->unk_7C << 7) + recordBase)))->unk_34, (u8 *)(&numberBuffer));
+        format_unsigned_double_byte_decimal(((S_80024390_6 *)(((((S_80024390_0 *)record)->unk_7C << 7) + recordBase)))->unk_34, (u8 *)(&numberBuffer));
         func_80069E38(&textBuffer, &numberBuffer);
         func_80069E38(&textBuffer, table_base->unk_0C);
         asset2 = record + 0x384;

@@ -14,7 +14,7 @@ typedef struct S_8009F868_0 {
 
 extern u8 D_800DCE60[16];
 
-extern void func_8004D0C8(void *);
+extern void bind_view_triplet_source(void *);
 extern void queue_view_slot(s32);
 extern void set_camera_targets(s32, void *, s32);
 
@@ -37,7 +37,7 @@ void *advance_monster_timed_sequence(void)
         }
         ((S_8009F868_0 *)state)->unk_0A = 0;
         ((S_8009F868_0 *)state)->unk_04 &= 0xC;
-        func_8004D0C8(((u8 *)(&D_80083780)));
+        bind_view_triplet_source(((u8 *)(&D_80083780)));
         g_game_work.view.slot[2].callback = 0;
         queue_view_slot(1);
         set_camera_targets(0, D_800DCE60, 8);

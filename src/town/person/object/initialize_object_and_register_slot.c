@@ -31,5 +31,5 @@ void initialize_object_and_register_slot(void *object, s32 slot_index, s32 field
     ((WordField *)((u8 *)object + 0x7C))->value = field_7c_value;
     registered_slot = ((WordField *)((u8 *)object + 0x60))->value;
     ((WordField *)((u8 *)object + 0x80))->value = field_80_value;
-    D_80082660[registered_slot].object = (u8 *)object - 0x20;
+    object_index_slots[registered_slot].object = (u8 *)object - 0x20;
 }

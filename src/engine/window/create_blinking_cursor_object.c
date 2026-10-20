@@ -56,15 +56,15 @@ void func_800350B0(void *context, Struct800350B0 *object);
 void copy_texture_descriptor_with_page_offsets(); /* extern */
 void *initialize_runtime_node_storage(); /* extern */
 s32 register_node();           /* extern */
-extern u8 D_8006A958[];
-extern u8 D_8006A964[];
-extern u8 D_8006A970[];
-extern u8 D_80082B50[];
-extern u8 D_80082B60[];
-extern u8 D_80082B70[];
+extern u8 blinking_cursor_texture_template_0[];
+extern u8 blinking_cursor_texture_template_1[];
+extern u8 blinking_cursor_texture_template_2[];
+extern u8 blinking_cursor_texture_descriptor_0[];
+extern u8 blinking_cursor_texture_descriptor_1[];
+extern u8 blinking_cursor_texture_descriptor_2[];
 extern u8 D_80082BC0[];
 void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback();
-void func_80036F24();
+void update_blinking_cursor_with_bright_idle();
 
 /* Initializes and links a runtime node, then sets its record, state, and display data. */
 void create_blinking_cursor_object(s32 node_addr, Rec_D_80081FDC *record, s32 *config, s16 initial_mode, s32 initial_value,
@@ -74,7 +74,7 @@ void create_blinking_cursor_object(s32 node_addr, Rec_D_80081FDC *record, s32 *c
     void *node;
 
     node = initialize_runtime_node_storage(0x11, node_addr, 0x49, &D_80082BC0);
-    ((S_80036D4C_0 *)node)->unk_10 = &func_80036F24;
+    ((S_80036D4C_0 *)node)->unk_10 = &update_blinking_cursor_with_bright_idle;
     register_node(node, &runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
     state = node + 0x20;
     display = ((S_80036D4C_0 *)node)->unk_0C;
@@ -90,10 +90,10 @@ void create_blinking_cursor_object(s32 node_addr, Rec_D_80081FDC *record, s32 *c
     state->unk_08 = 0;
     func_800350B0(setup_id, state);
     display->unk_0C = 0xC0C0C0;
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &D_8006A958, &D_80082B50);
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &D_8006A964, &D_80082B60);
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &D_8006A970, &D_80082B70);
-    display->unk_08 = &D_80082B60;
+    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &blinking_cursor_texture_template_0, &blinking_cursor_texture_descriptor_0);
+    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &blinking_cursor_texture_template_1, &blinking_cursor_texture_descriptor_1);
+    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &blinking_cursor_texture_template_2, &blinking_cursor_texture_descriptor_2);
+    display->unk_08 = &blinking_cursor_texture_descriptor_1;
     display->unk_00 = 0;
     display->unk_04 = 0;
     display->unk_05 = 0;

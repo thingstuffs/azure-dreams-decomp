@@ -34,7 +34,7 @@ s32 use_item_to_lower_level(EntityRec *entity, s32 item, s16 action) {
         display_item_status_message(entity, item, action);
         if (apply_actor_food_preference(
                 entity,
-                (D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3,
+                (entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3,
                 0) == 0) {
             apply_item_effect_at_entity_position(entity, item);
             return 1;

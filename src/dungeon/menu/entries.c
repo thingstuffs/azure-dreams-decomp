@@ -737,7 +737,7 @@ s32 allocate_menu_object_buffers(ovl_1831cd8_81813284_Unk818110CC *object, s32 b
     allocated_buffer = func_80049004(buffers, buffer_param, 8);
     object->unk88 = allocated_buffer;
     if (allocated_buffer != 0) {
-        allocated_buffer = func_80048FBC(buffers, 8);
+        allocated_buffer = allocate_and_append_callback_payload(buffers, 8);
         object->unk4C = allocated_buffer;
         if (allocated_buffer != 0) {
             object->unk6C[0] = D_8002E5E8.unk0;
@@ -763,7 +763,7 @@ void initialize_menu_object_state(s32 object_addr, s32 initial_value) {
     initialize_menu_mode_one_fields(((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_5C, ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_24);
     ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_94 = (s32)link_menu_record_nodes(((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_98);
     format_menu_referenced_values(((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_98);
-    func_80028648(object_addr);
+    mark_menu_object_ready(object_addr);
     ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_00 = (void *)dispatch_menu_update_callback;
 }
 
@@ -781,7 +781,7 @@ void install_menu_object_handler(s32 object_addr) {
     initialize_menu_mode_one_fields(((ovl_1831cd8_818133B4_S_800283B4_0 *)object_state)->unk_4C, ((ovl_1831cd8_818133B4_S_800283B4_0 *)object_state)->unk_14);
     ((ovl_1831cd8_818133B4_S_800283B4_0 *)object_state)->unk_84 = (s32)link_menu_record_nodes(((ovl_1831cd8_818133B4_S_800283B4_0 *)object_state)->unk_88);
     format_menu_referenced_values(((ovl_1831cd8_818133B4_S_800283B4_0 *)object_state)->unk_88);
-    func_80028648(object_addr);
+    mark_menu_object_ready(object_addr);
     ((ovl_1831cd8_818133B4_S_800283B4_0_pre *)object_state)[-1].unk_00 = (void *)dispatch_menu_update_callback;
 }
 
@@ -850,7 +850,7 @@ void clear_menu_embedded_state(s32 object_addr) {
     clear_menu_state_values(state->unk_88);
 }
 
-void func_80028648(ovl_1831cd8_81813648_ReadyState *state) { state->ready = 1; }
+void mark_menu_object_ready(ovl_1831cd8_81813648_ReadyState *state) { state->ready = 1; }
 
 void *build_menu_draw_packets(void *packet, void *coords) {
     u32 packet_type;

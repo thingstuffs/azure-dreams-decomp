@@ -155,7 +155,7 @@ scan_next:
             }
         } else {
             if (apply_actor_food_preference(object,
-                              D_800DDE84[object[0x13]] & 3, 0) == 0) {
+                              entity_action_selectors[object[0x13]] & 3, 0) == 0) {
                 apply_item_effect_at_entity_position(object, data);
                 return 1;
             }

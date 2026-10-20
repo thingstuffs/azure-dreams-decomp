@@ -7,7 +7,7 @@ typedef struct S_800833E0 {
     u16 type;                /* 0x1C */
 } S_800833E0;
 
-extern S_800833E0 *D_800833E0[0x20];
+extern S_800833E0 *registered_draw_objects[0x20];
 
 /* Unlinks the node from its doubly-linked list and clears its links. */
 void unlink_node(S_800833E0 *node) {
@@ -20,7 +20,7 @@ void unlink_node(S_800833E0 *node) {
         if (next_node != 0) {
             next_node->prev = prev_node;
         }
-        if (prev_node >= (S_800833E0 *)D_800833E0 && prev_node < (S_800833E0 *)((u8 *)D_800833E0 + 0x80)) {
+        if (prev_node >= (S_800833E0 *)registered_draw_objects && prev_node < (S_800833E0 *)((u8 *)registered_draw_objects + 0x80)) {
             *(S_800833E0 **)prev_node = next_node;
         } else {
             prev_node->next = next_node;

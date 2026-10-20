@@ -57,7 +57,7 @@ typedef struct {
 
 extern u8 D_801C9E40[16];
 extern u8 D_800DD0F8[];
-extern s16 D_800814E8;
+extern s16 transition_runtime_slot_index;
 
 extern void func_8006658C();
 extern void func_800667BC();
@@ -179,10 +179,10 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
             if (obj->handle[0x13] == 0 &&
                 (*(u16 *)(*(u8 **)((u8 *)D_800E3D7C - 0x14) + 0x14) & 0x6000)) {
                 s16 entry_index = reserve_runtime_slot(6, 0x20);
-                u8 *entry_table = (u8 *)D_80083120;
+                u8 *entry_table = (u8 *)runtime_transition_slots;
                 s16 *entry_flag;
                 void *active_dungeon;
-                D_800814E8 = entry_index;
+                transition_runtime_slot_index = entry_index;
                 entry_flag = (s16 *)(entry_table + (((s32)(entry_index << 16)) >> 0xD) + 6);
                 active_dungeon = D_800E3D7C;
                 *entry_flag = index_or_phase;

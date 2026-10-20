@@ -11,7 +11,7 @@ typedef struct {
 
 extern State80082A38 D_80082A38;
 extern void *D_80082A70[];
-extern u8 D_8006B230[];
+extern u8 runtime_pool_service_script[];
 
 extern s32 service_script_controller(void);
 extern void runtime_store_value_in_shifted_slot_pool(void *value);
@@ -21,12 +21,12 @@ extern void call_script(void *reset_value);
 s32 func_800353F4(void *input_data) {
     s32 entry_index;
 
-    if (service_script_controller() == 0 || D_80082A70[0] != D_8006B230) {
+    if (service_script_controller() == 0 || D_80082A70[0] != runtime_pool_service_script) {
         for (entry_index = 10; entry_index < 15; entry_index++) {
             D_80082A38.entries[entry_index] = 0;
         }
         runtime_store_value_in_shifted_slot_pool(input_data);
-        call_script(D_8006B230);
+        call_script(runtime_pool_service_script);
     } else {
         runtime_store_value_in_shifted_slot_pool(input_data);
     }

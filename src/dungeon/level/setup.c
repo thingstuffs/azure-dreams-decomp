@@ -137,7 +137,7 @@ void reset_dungeon_runtime_state(void) {
         file_load_com(&D_80080E20);
         file_load_com(&D_80080EE8);
         file_load_com(&D_80080E30);
-        D_80080A80 = func_80048D00();
+        D_80080A80 = load_dungeon_sprite_bundle();
         ((dungeon_setup_8028325C_S_8001625C_3 *)((u8 *)init_flag_page - 0x30B2))->unk_00 = 1;
     }
 }
@@ -163,7 +163,7 @@ void initialize_dungeon_floor_state(void) {
         D_8008146C = 1;
         D_8001022C++;
         init_koh_properties_and_entry_tables();
-        func_8004A918();
+        clear_floor_resource_state_table();
     } else {
         saved_init_value = 0x80010000;
 
@@ -173,7 +173,7 @@ void initialize_dungeon_floor_state(void) {
     }
     globals_base = (u8 *)0x80010000;
     if (D_800DCF4E == 0) {
-        D_80080A80 = func_80048D00();
+        D_80080A80 = load_dungeon_sprite_bundle();
         D_800DCF4E = 1;
     }
     if ((*(u16 *)(globals_base + 0x3714) & 3) == 0) {
@@ -198,7 +198,7 @@ void initialize_dungeon_floor_state(void) {
         D_800E3D1C = 0;
     }
     set_monster_data_pointer();
-    func_800499BC();
+    invalidate_four_sprite_resource_slots();
     D_800E3CD0 = 0;
 }
 

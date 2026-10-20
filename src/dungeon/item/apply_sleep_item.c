@@ -26,7 +26,7 @@ s32 apply_sleep_item(EntityRec *entity, s32 item, s16 use_type) {
     if ((s32)entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, item, use_type);
         if (apply_actor_food_preference(entity,
-                          (D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3,
+                          (entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3,
                           0) == 0) {
             apply_item_effect_at_entity_position(entity, item);
             return 1;

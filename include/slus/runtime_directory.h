@@ -8,16 +8,16 @@ typedef struct {
     u32 value[8];
 } GpTablePrefix;
 
-extern s32 D_80080A6C;
-extern GpTablePrefix D_8006B200;
-extern GpTablePrefix D_8002D594;
-extern u8 D_80082E6A[];
+extern s32 runtime_directory_entry_count;
+extern GpTablePrefix runtime_resource_directory;
+extern GpTablePrefix runtime_directory_defaults;
+extern u8 runtime_dispatch_mode_alias[];
 extern u8 D_80016000[];
 
-extern void func_8003C6F8(s32 key, s32 index);
+extern void bind_and_load_indexed_resource_record(s32 key, s32 index);
 
 s32 find_runtime_table_key_index(s32 key);
-s32 func_8003C758(s32 key);
-void func_8003C920(void);
+s32 find_or_load_runtime_resource_key(s32 key);
+void initialize_runtime_resource_directory(void);
 
 #endif

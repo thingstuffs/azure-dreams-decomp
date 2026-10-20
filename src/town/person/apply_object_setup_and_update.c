@@ -5,7 +5,7 @@
 extern void apply_object_setup_and_update(void *object, void *update_context, s32 setup_context);
 
 /* Updates and clamps record motion, delegating when the lower bound is reached. */
-void func_800C5100(void *context, EntityRec *record, s32 callback_arg) {
+void accelerate_object_coordinates_to_lower_limits(void *context, EntityRec *record, s32 callback_arg) {
     if (record->z.v == -0x08000000) {
         apply_object_setup_and_update(context, record, callback_arg);
         return;

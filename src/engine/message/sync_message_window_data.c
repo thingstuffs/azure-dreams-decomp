@@ -30,7 +30,7 @@ struct Func8003800CState {
 };
 
 extern u8 D_800809C4[];
-extern u8 D_8002D030[];
+extern u8 message_window_audio_sync_data[];
 
 extern s32 func_80043FB8(void *, ...);
 extern s32 func_80053EF0(s32);
@@ -41,7 +41,7 @@ extern void update_message_window(Func8003800CState *);
 void sync_message_window_data(Func8003800CState *state)
 {
     func_80043FB8(D_800809C4);
-    func_80043FB8(D_8002D030, func_80053EF0(4));
+    func_80043FB8(message_window_audio_sync_data, func_80053EF0(4));
     func_80043FB8(D_800809C4);
 
     {

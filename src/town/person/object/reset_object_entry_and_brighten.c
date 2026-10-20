@@ -18,7 +18,7 @@ void reset_object_entry_and_brighten(void *object, s32 draw_arg, Func800CEC24Arg
     u32 intensity;
 
     initialize_object_entries(object, packet, D_800D6CA8);
-    D_80082660[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
+    object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
 
     intensity = packet->unkC;
     intensity += 0x20;

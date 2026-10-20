@@ -14,7 +14,7 @@ void store_object_slot_and_dispatch(void *object, s32 callback_arg1, s32 callbac
     s32 slot_index;
 
     slot_index = *(s32 *)((u8 *)object + 0x60);
-    D_80082660[slot_index].object = (u8 *)object - 0x20;
-    D_80082660[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
+    object_index_slots[slot_index].object = (u8 *)object - 0x20;
+    object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
     apply_object_setup_and_update(object, callback_arg1, callback_arg2);
 }

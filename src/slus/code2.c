@@ -49,13 +49,13 @@ void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int valu
 
 /* reset_scene_frame_callback_list */
 
-extern int D_80083C68[8];
+extern int runtime_callback_entries[8];
 extern void *D_800814E0;
 
 /* Points D_800814E0 at D_80083C68 and clears its first word. */
 void reset_scene_frame_callback_list(void) {
-    D_800814E0 = D_80083C68;
-    D_80083C68[0] = 0;
+    D_800814E0 = runtime_callback_entries;
+    runtime_callback_entries[0] = 0;
 }
 
 /* func_8004D0C8 */
@@ -63,7 +63,7 @@ void reset_scene_frame_callback_list(void) {
 void copy_view_halfword_triplet(void);
 
 /* Registers the state pointer and the default callback copy_view_halfword_triplet. */
-void func_8004D0C8(void *state)
+void bind_view_triplet_source(void *state)
 {
     D_80083178.slot[0].position_source = state;
     D_80083178.slot[0].callback = copy_view_halfword_triplet;
@@ -81,13 +81,13 @@ extern struct {
     short pad4;
     short field6;
     short field8;
-} D_80083CA8;
+} timed_entity_motion_state;
 
 /* Sets the countdown, amount, and per-tick quotient in D_80083CA8. */
 void func_800419EC(unsigned short countdown, unsigned int amount) {
-    D_80083CA8.field8 = countdown;
-    D_80083CA8.field6 = amount;
-    D_80083CA8.field0 = amount / countdown;
+    timed_entity_motion_state.field8 = countdown;
+    timed_entity_motion_state.field6 = amount;
+    timed_entity_motion_state.field0 = amount / countdown;
 }
 
 /* func_8004D110 */
@@ -95,23 +95,23 @@ void func_800419EC(unsigned short countdown, unsigned int amount) {
 void copy_global_short_triplet(void);
 
 /* Registers the state pointer and the default callback copy_global_short_triplet. */
-void func_8004D110(void *state)
+void bind_global_triplet_source(void *state)
 {
     D_80083178.slot[0].unk_04 = state;
     D_80083178.slot[0].callback = copy_global_short_triplet;
 }
 
-extern unsigned char D_8007382A[16];
+extern unsigned char audio_force_center_pan[16];
 
 /* Sets D_8007382A to 1 and returns 1. */
 int audio_enable_mono_mix(void) {
-    unsigned char *flag = &D_8007382A[0];
+    unsigned char *flag = &audio_force_center_pan[0];
     int enabled = 1;
     *flag = enabled;
     return enabled;
 }
 
-extern int D_800869B4[3];
+extern int audio_sequence_track_count[3];
 
 typedef struct {
     char pad_00[0x20];
@@ -120,7 +120,7 @@ typedef struct {
     char pad_28[0x50 - 0x28];
 } Struct80085FA8;
 
-extern Struct80085FA8 D_80085FA8[];
+extern Struct80085FA8 audio_sequence_tracks[];
 
 /* Sets both value fields of every active entry in D_80085FA8. */
 void audio_set_all_track_tempo_steps(int unused, int value) {
@@ -128,11 +128,11 @@ void audio_set_all_track_tempo_steps(int unused, int value) {
     unsigned int count;
 
     index = 0;
-    if (D_800869B4[0] != 0) {
-        count = D_800869B4[0];
+    if (audio_sequence_track_count[0] != 0) {
+        count = audio_sequence_track_count[0];
         do {
-            D_80085FA8[index].field_24 = value;
-            D_80085FA8[index].field_20 = value;
+            audio_sequence_tracks[index].field_24 = value;
+            audio_sequence_tracks[index].field_20 = value;
             index++;
         } while (index < count);
     }
@@ -147,7 +147,7 @@ typedef struct {
 } Struct_80050F74;
 
 /* Stores the value at offsets 0x38 and 0x3C of the object. */
-void func_80050F74(void *object, s32 value) {
+void set_current_and_previous_menu_selection(void *object, s32 value) {
     Struct_80050F74 *fields = (Struct_80050F74 *)((u8 *)object + 0x20);
     fields->unk1C = value;
     fields->unk18 = value;
@@ -178,7 +178,7 @@ typedef struct {
 extern D_80083D78_t D_80083D78;
 
 /* Resets the four short fields of D_80083D78 to -1. */
-void func_800499BC(void) {
+void invalidate_four_sprite_resource_slots(void) {
     D_80083D78.a = -1;
     D_80083D78.b = -1;
     D_80083D78.c = -1;
@@ -209,20 +209,20 @@ int monster_get_species_name_text(int index)
     return entries[index].unk4;
 }
 
-extern int D_80082EC0[128];
+extern int vram_row_upload_cache[128];
 
 /* Clears all 128 words of D_80082EC0 in reverse order. */
 void clear_runtime_slot_word_table(void) {
     s32 index;
 
     for (index = 0x7F; index >= 0; index--) {
-        D_80082EC0[index] = 0;
+        vram_row_upload_cache[index] = 0;
     }
 }
 
 /* --- v6 (LEAD 1: maspsx un-fills jr-delay sp-restore at 2+ callee-saved) --- */
 typedef struct { short unk0, unk2, flags4, id6; } D8Elem;
-extern D8Elem D_80083D08[6];
+extern D8Elem sprite_resource_slots[6];
 extern int find_sprite_resource_slot_by_id(short);
 
 struct Target_827C { char pad[0x28]; void *entry; };
@@ -230,7 +230,7 @@ struct Source_827C { char pad[0xC]; struct Target_827C *target; };
 
 /* Assigns the resolved D_80083D08 entry to the source target and returns the source. */
 struct Source_827C *bind_sprite_resource_slot_record(struct Source_827C *source, short entry_id) {
-    source->target->entry = &D_80083D08[find_sprite_resource_slot_by_id(entry_id)];
+    source->target->entry = &sprite_resource_slots[find_sprite_resource_slot_by_id(entry_id)];
     return source;
 }
 
@@ -263,7 +263,7 @@ typedef struct {
     int unk1C;
     char pad20[0x9C - 0x20];
 } Entry80084960;
-extern Entry80084960 D_80084960[];
+extern Entry80084960 audio_channel_controls[];
 
 extern void activate_scene_resource_and_clear_view_callbacks(void);
 
@@ -274,18 +274,18 @@ void scene_save_previous_mode_and_reset_callbacks(void)
     activate_scene_resource_and_clear_view_callbacks();
 }
 
-extern u8 D_80080B18[16];
-extern u8 D_80080B1B;
-extern u8 D_80080B1C;
+extern u8 indexed_count_byte_table[16];
+extern u8 indexed_byte_table_count_plus_five;
+extern u8 indexed_byte_table_double_count_plus_five;
 
 /* Updates two byte counters from count and returns the indexed D_80080B18 byte. */
-u8 func_80048DA0(s32 index, s32 count)
+u8 select_display_spacing_table_entry(s32 index, s32 count)
 {
     u8 *table;
 
-    D_80080B1B = count + 5;
-    table = D_80080B18;
-    D_80080B1C = (count * 2) + 5;
+    indexed_byte_table_count_plus_five = count + 5;
+    table = indexed_count_byte_table;
+    indexed_byte_table_double_count_plus_five = (count * 2) + 5;
     return table[index];
 }
 
@@ -309,36 +309,36 @@ typedef struct {
     u8 pad[0x17];
 } Struct80083968;
 
-extern u8 D_800814D0;
-extern Struct80083968 D_80083968[32];
+extern u8 cd_command_read_index;
+extern Struct80083968 cd_command_records[32];
 
 /* Returns the previous history entry byte, wrapping the ring index modulo 32. */
 u8 get_previous_cd_command_byte(void) {
-    return D_80083968[(D_800814D0 + 0x1F) & 0x1F].unk00;
+    return cd_command_records[(cd_command_read_index + 0x1F) & 0x1F].unk00;
 }
 
-extern unsigned char D_8007382B[9];
+extern unsigned char sound_ram_reserve_mode[9];
 
-extern void func_8005D88C(int value);
-extern void func_8005E450(int value);
+extern void set_spu_reverb_enabled_if_available(int value);
+extern void set_reverb_address_available(int value);
 
 /* Clears D_8007382B and calls both reset routines with zero. */
 void audio_disable_reverb(void)
 {
-    D_8007382B[0] = 0;
-    func_8005D88C(0);
-    func_8005E450(0);
+    sound_ram_reserve_mode[0] = 0;
+    set_spu_reverb_enabled_if_available(0);
+    set_reverb_address_available(0);
 }
 
 /* Returns the word at offset 4 of the indexed D_80084960 entry. */
 int audio_get_channel_pan(int unused, short index)
 {
-    return D_80084960[index].unk04;
+    return audio_channel_controls[index].unk04;
 }
 
 /* Returns the word at offset 0x1C of the indexed D_80084960 entry. */
 int audio_get_channel_pitch_bend(int unused, short index) {
-    return D_80084960[index].unk1C;
+    return audio_channel_controls[index].unk1C;
 }
 
 /* D_80084960 is an array of structs, each 0x9C (156) bytes; offset 0x1C
@@ -346,7 +346,7 @@ int audio_get_channel_pitch_bend(int unused, short index) {
 
 /* Stores the low seven bits of value in the indexed D_80084960 entry. */
 void audio_set_channel_pitch_bend_value(s32 unused, s16 index, s32 value) {
-    D_80084960[index].unk1C = value & 0x7F;
+    audio_channel_controls[index].unk1C = value & 0x7F;
 }
 
 /* D_8006ADBC is a 3-word global; splat separately names word[1] as
@@ -361,7 +361,7 @@ typedef struct {
 
 extern StructADBC D_8006ADBC;
 
-extern void func_80053C3C(s32 a0);
+extern void submit_cd_command_six_and_drain(s32 a0);
 
 /* Copies field4 to field0 of D_8006ADBC and forwards nonzero values to func_80053C3C. */
 void resource_load_current_optional_descriptor(void) {
@@ -369,6 +369,6 @@ void resource_load_current_optional_descriptor(void) {
 
     D_8006ADBC.field0 = value;
     if (value != 0) {
-        func_80053C3C(value);
+        submit_cd_command_six_and_drain(value);
     }
 }

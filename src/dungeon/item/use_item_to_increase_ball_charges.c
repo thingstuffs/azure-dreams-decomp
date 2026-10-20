@@ -56,7 +56,7 @@ s32 use_item_to_increase_ball_charges(EntityRec *target, s32 action, s16 action_
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, action, action_type);
         if (apply_actor_food_preference(
-                target, D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3, 0) == 0) {
+                target, entity_action_selectors[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3, 0) == 0) {
             apply_item_effect_at_entity_position(target, action);
             return 1;
         }

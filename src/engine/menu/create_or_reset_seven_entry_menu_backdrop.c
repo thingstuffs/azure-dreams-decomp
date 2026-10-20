@@ -12,7 +12,7 @@ typedef struct S_8004F418_Node {
     u8 body[0x31C];
 } S_8004F418_Node;
 
-extern S_8004F418_Node D_80084138;
+extern S_8004F418_Node menu_backdrop_node_storage;
 extern u8 D_801C9E40[0x10900];
 extern u8 D_80027DD0[16];
 
@@ -29,7 +29,7 @@ extern void update_menu_backdrop_variant(S_8004EEBC_Obj *);
 /* Initialize or reset the shared node, link its owner and state, and select its active sub-object. */
 void *create_or_reset_seven_entry_menu_backdrop(s32 owner, s32 state)
 {
-    S_8004F418_Node *node = &D_80084138;
+    S_8004F418_Node *node = &menu_backdrop_node_storage;
     u8 *body = node->body;
     u8 *template_node;
 

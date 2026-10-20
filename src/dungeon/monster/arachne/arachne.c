@@ -843,7 +843,7 @@ s32 func_801720B4(void *entity_arg, void *primary_context_arg, void *secondary_c
     return result;
 }
 
-void func_801721F8(R12_801721F8_S_801724A8_0 *state, s32 context, s32 source, s32 target) {
+void finish_actor_tile_move_then_select_target(R12_801721F8_S_801724A8_0 *state, s32 context, s32 source, s32 target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
         reduce_actor_food_meter(target, 4);
         advance_status_timers(target);
@@ -1278,7 +1278,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
     }
 }
 
-void func_80172FE8(R12_80172FE8_S_801730B8_1 *action, EntityRec *motion, SpriteFrameState *entity, void *source)
+void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *action, EntityRec *motion, SpriteFrameState *entity, void *source)
 {
     s16 timer;
     s32 direction;
@@ -1482,7 +1482,7 @@ void func_80173634(void *state, void *motion, void *position, void *actor)
     advance_actor_removal(state, motion, position, actor);
 }
 
-void func_80173654(Resource12CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_hop_and_grow_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
         state->callback = update_actor_state_and_select_target;
@@ -1623,7 +1623,7 @@ void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in
     *(void **)in_controller = ((u8 *)update_actor_state_and_select_target);
 }
 
-void func_80173A28(void *controller, void *context, void *sprite, EntityRec *entity)
+void resume_actor_target_selection_after_status_animation(void *controller, void *context, void *sprite, EntityRec *entity)
 {
     s32 state;
 
@@ -1739,7 +1739,7 @@ void func_80173D64(R12_80173D64_Actor *actor, s32 action, R12_80173D64_Entity *e
     }
 }
 
-void func_80173E2C(Resource12CallbackState *state, void *entity, void *position, void *graphic)
+void finish_thrown_actor_travel_and_floor_trap_then_select_target(Resource12CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
@@ -1748,21 +1748,21 @@ void func_80173E2C(Resource12CallbackState *state, void *entity, void *position,
     }
 }
 
-void func_80173E90(Resource12CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_terrain_interpolation_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
         state->callback = update_actor_state_and_select_target;
     }
 }
 
-void func_80173EC8(Resource12CallbackState *state, void *motion, void *position, void *actor)
+void finish_spinning_actor_fall_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
         state->callback = update_actor_state_and_select_target;
     }
 }
 
-void func_80173F00(Resource12CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_fade_in_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
         state->callback = update_actor_state_and_select_target;
@@ -2164,7 +2164,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     }
 }
 
-s32 func_80174954(void *initial_state, void *context, void *data) {
+s32 queue_line_packets_for_node_chain(void *initial_state, void *context, void *data) {
     void *state = initial_state;
     void *next_node;
 
@@ -2350,7 +2350,7 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
             ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_1A = 1;
             ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_1C = 1;
             ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_10 = ((u8 *)update_turning_fade_effect_and_model);
-            register_node(meridian_object, &func_80174954);
+            register_node(meridian_object, &queue_line_packets_for_node_chain);
             meridian_render = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_0C;
             meridian_render->tpage_abr = 0x20;
             meridian_render->flags = (u16) (meridian_render->flags | 0xC);
@@ -2394,7 +2394,7 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
                 ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_1A = 1;
                 ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_1C = 1;
                 ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_10 = ((u8 *)update_turning_fade_effect_and_model);
-                register_node(ring_object, &func_80174954);
+                register_node(ring_object, &queue_line_packets_for_node_chain);
                 ring_render = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_0C;
                 {
                     u16 object_flags;
@@ -2706,14 +2706,14 @@ store_next_state:
     }
 }
 
-void func_801759DC(Resource12CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_floor_trap_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
         state->callback = update_actor_state_and_select_target;
     }
 }
 
-void func_80175A14(Resource12CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_action_flag_propagation_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
         state->callback = update_actor_state_and_select_target;

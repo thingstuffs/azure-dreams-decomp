@@ -7,7 +7,7 @@
 #include "shared/dungeon_status.h"
 
 
-extern s32 func_8003AD08();
+extern s32 format_unsigned_double_byte_decimal();
 extern void begin_deferred_item_action();
 extern void clear_slot_and_update_linked_state();
 extern s32 get_unused_text_buffer(void);
@@ -47,7 +47,7 @@ s32 use_item_to_heal_small_random_amount(void *target, s32 source, s16 effect_mo
     if ((u32)target <= 0x9FFFFFFF) {
         display_item_status_message(target, source, effect_mode);
         if (apply_actor_food_preference(target,
-                          (*(u16 *)(((u8 *)D_800DDE84) +
+                          (*(u16 *)(((u8 *)entity_action_selectors) +
                                     (*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3)) * 2) >> 6) & 3,
                           source) == 0) {
             apply_item_effect_at_entity_position(target, source);
@@ -79,7 +79,7 @@ s32 use_item_to_heal_small_random_amount(void *target, s32 source, s16 effect_mo
         }
         func_80099290(expand_text_control_codes(
             &D_800893E0,
-            func_8003AD08(((EntityRec *)target)->unk_64,
+            format_unsigned_double_byte_decimal(((EntityRec *)target)->unk_64,
                           expand_text_control_codes(&D_800E18A4, effect_text))));
         display_text_with_fullwidth_adjustment(message_context);
     }

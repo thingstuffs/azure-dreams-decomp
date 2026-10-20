@@ -9,8 +9,8 @@ typedef struct {
 } CounterPage;
 
 extern void reset_entry_flags(void);
-extern void func_8003B820(void);
-extern void func_8003B714(void);
+extern void remove_monster_items_with_negative_status(void);
+extern void refresh_monster_items_from_creature_records(void);
 
 /* Runs runtime updates and adds the counter increment, capping the total at one billion. */
 void add_counter_increment_capped(void) {
@@ -18,8 +18,8 @@ void add_counter_increment_capped(void) {
     u32 total;
 
     reset_entry_flags();
-    func_8003B820();
-    func_8003B714();
+    remove_monster_items_with_negative_status();
+    refresh_monster_items_from_creature_records();
 
     page = (CounterPage *)0x80010000;
     total = page->total + page->increment;

@@ -292,7 +292,7 @@ s32 inventory_copy_state_vector_after_buffers(ovl_1830850_818110CC_Unk818110CC *
     call_result = func_80049004(buffer, input, 6);
     state->unk54 = call_result;
     if (call_result != 0) {
-        call_result = func_80048FBC(buffer, 6);
+        call_result = allocate_and_append_callback_payload(buffer, 6);
         state->unk74 = call_result;
         if (call_result != 0) {
             state->unk38[0] = D_8002E5E8.unk0;

@@ -2,17 +2,17 @@
 #include "common.h"
 
 
-extern s32 func_80055750(s16 clamp_input);
+extern s32 clamp_sound_value_to_seven_bits(s16 clamp_input);
 
 /* Optionally lowers the note by 0x18, clamps it, and stores it in both note fields. */
 void set_playback_note(s32 note) {
     s32 clamped_note;
 
-    D_800848F8.unk_0A = (s16) note;
-    if (((s32)D_800847D0.flags00) & 0x20) {
-        D_800848F8.unk_0A = (s16) (note - 0x18);
+    sound_sequence_task.unk_0A = (s16) note;
+    if (((s32)sound_playback_state.flags00) & 0x20) {
+        sound_sequence_task.unk_0A = (s16) (note - 0x18);
     }
-    clamped_note = func_80055750(D_800848F8.unk_0A);
-    D_800848F8.unk_0A = (s16) clamped_note;
-    D_800848F8.unk_08 = (s16) clamped_note;
+    clamped_note = clamp_sound_value_to_seven_bits(sound_sequence_task.unk_0A);
+    sound_sequence_task.unk_0A = (s16) clamped_note;
+    sound_sequence_task.unk_08 = (s16) clamped_note;
 }

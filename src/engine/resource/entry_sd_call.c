@@ -8,17 +8,17 @@ struct S_8006CE80
     void *field_4;
     u32 field_8;
 };
-extern struct S_8006CE80 D_8006CE80[];
+extern struct S_8006CE80 dispatch_resource_records[];
 
 extern s8 D_80080A88[12];
 extern void reset_tagged_entry_states(void);
 extern void SD_Call(s32 flags);
-extern void func_800542BC(void);
+extern void drain_audio_commands_and_service_channels(void);
 /* Updates the requested state and triggers transition handling when needed. */
 void func_80040AA0(s16 requested_state)
 {
     u16 state_index = ((u16) requested_state) & 0xFFFF;
-    struct S_8006CE80 *state_entry = &D_8006CE80[state_index];
+    struct S_8006CE80 *state_entry = &dispatch_resource_records[state_index];
     s32 current_state;
     if (D_80082E60.unk_08 == 3) {
         return;
@@ -37,6 +37,6 @@ void func_80040AA0(s16 requested_state)
     }
     if (D_80080A88[0] == 0) {
         SD_Call(0xCF);
-        func_800542BC();
+        drain_audio_commands_and_service_channels();
     }
 }

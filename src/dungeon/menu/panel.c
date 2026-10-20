@@ -1110,7 +1110,7 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
 #include "shared/game_work.h"
 extern s32 register_node();
 void play_sound_if_enabled(s32);
-extern int func_80046398();
+extern int draw_linked_lit_meshes();
 struct S_800B1F34_0;
 struct S_800B1F34_1;
 extern void advance_timed_panel_motion(struct S_800B1F34_0 *animation, struct S_800B1F34_1 *motion);
@@ -1171,7 +1171,7 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
         init_object = object;
         {
             InitSlot slot = { advance_timed_panel_motion };
-            init_data = func_80046398;
+            init_data = draw_linked_lit_meshes;
             ((S_800B2074_1 *)object)->unk_10 = slot.pointer;
             register_node(init_object, init_data);
         }

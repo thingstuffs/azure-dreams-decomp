@@ -38,11 +38,11 @@ extern void reset_group_and_flag_children(void *);
 extern void func_800530C4(void *);
 extern s16 SD_Call(s32);
 extern s32 func_80053EF0(s32);
-extern void func_80051528(void *);
-extern void func_800517AC(void *);
-extern void func_800530A4(void *);
-extern void func_80051CA4(void *);
-extern void func_80051F38(void *);
+extern void mark_staged_motion_effect_complete(void *);
+extern void mark_sine_motion_effect_complete(void *);
+extern void mark_timed_animation_sequence_complete(void *);
+extern void mark_fade_in_out_effect_complete(void *);
+extern void mark_color_fade_effect_complete(void *);
 extern void func_80041094(s32, s32, s32, s32, s32);
 
 /* Advances the timed child sequence and retires the controller when all children finish. */

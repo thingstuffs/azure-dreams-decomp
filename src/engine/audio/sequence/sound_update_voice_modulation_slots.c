@@ -51,9 +51,9 @@ typedef struct {
     s32 f70, f74;
 } S_80085458;
 
-extern s32 D_80073734[4];
-extern S_80084960 D_80084960[16];
-extern S_80085458 D_80085458[64];
+extern s32 audio_voice_count[4];
+extern S_80084960 audio_channel_controls[16];
+extern S_80085458 audio_voice_records[64];
 
 extern void sound_step_bipolar_oscillation(S_80084960 *state);
 extern void sound_step_clamped_signed_ramp(S_80084960 *state);
@@ -66,16 +66,16 @@ void sound_update_voice_modulation_slots(void) {
     S_80084960 *entity;
     s32 slot;
 
-    for (slot = 0, entity = D_80084960; slot < 0x10; slot++, entity++) {
+    for (slot = 0, entity = audio_channel_controls; slot < 0x10; slot++, entity++) {
         sound_step_bipolar_oscillation(entity);
         sound_step_clamped_signed_ramp(entity);
     }
 
-    for (slot = 0; slot < D_80073734[0]; slot++) {
-        if ((u16)D_80085458[slot].f06 < 0x10) {
-            audio_update_voice_vibrato(&D_80085458[slot]);
-            audio_update_voice_tremolo(&D_80085458[slot]);
-            audio_update_voice_pitch(&D_80085458[slot], 0);
+    for (slot = 0; slot < audio_voice_count[0]; slot++) {
+        if ((u16)audio_voice_records[slot].f06 < 0x10) {
+            audio_update_voice_vibrato(&audio_voice_records[slot]);
+            audio_update_voice_tremolo(&audio_voice_records[slot]);
+            audio_update_voice_pitch(&audio_voice_records[slot], 0);
         }
     }
 }

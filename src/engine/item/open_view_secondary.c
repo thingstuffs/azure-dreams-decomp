@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern void func_8004B634(void);
+extern void submit_global_cd_command_six(void);
 extern void drain_cd_command_queue(void);
-extern void func_800253A0(void *a0, void *a1, s32 a2, void *a3);
+extern void allocate_item_without_data_override(void *a0, void *a1, s32 a2, void *a3);
 
 /* Calls func_8004B634 and drain_cd_command_queue, then forwards the pointers to func_800253A0 with mode 2. */
 void open_view_secondary(void *first_ptr, void *second_ptr, void *last_ptr)
 {
-    func_8004B634();
+    submit_global_cd_command_six();
     drain_cd_command_queue();
-    func_800253A0(first_ptr, second_ptr, 2, last_ptr);
+    allocate_item_without_data_override(first_ptr, second_ptr, 2, last_ptr);
 }

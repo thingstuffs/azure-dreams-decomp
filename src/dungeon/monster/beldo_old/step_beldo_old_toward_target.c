@@ -107,8 +107,8 @@ extern s8 D_8006BDA8;
 extern s8 D_8006BDB8;
 extern s16 D_8006BDD0[];
 extern void *D_800803DC;
-extern u8 D_80081490[];
-extern s8 D_800814B4;
+extern u8 free_node_list_head[];
+extern s8 cd_queue_buffered_argument_word_1;
 extern s32 D_80085990;
 extern s8 D_800E1D50[];
 
@@ -179,7 +179,7 @@ void step_beldo_old_toward_target(void *move_state_arg, void *action_context, vo
                 s32 target_y;
                 u8 *turn_state;
                 {
-                    u8 *target_position = D_80081490;
+                    u8 *target_position = free_node_list_head;
                     s32 target_facing = ((S_8127C3E0_4 *)D_800803DC)->unk_2A;
                     s32 direction_offset =
                         ((((S_8127C3E0_1 *)actor_arg)->unk_45 + ((s16)target_facing >> 9)) & 7) << 1;
@@ -203,11 +203,11 @@ void step_beldo_old_toward_target(void *move_state_arg, void *action_context, vo
                 if (func_800996B0(target_angle, position_arg, actor_arg, 0x20) <= 0) {
                     ((S_8127C3E0_1 *)actor_arg)->unk_2A.s = func_8009F608(
                         ((S_8127C3E0_2 *)position_arg)->unk_24.at00.v, ((S_8127C3E0_2 *)position_arg)->unk_24.at01.v,
-                        D_80081490[0x24], D_80081490[0x25], turn_state);
+                        free_node_list_head[0x24], free_node_list_head[0x25], turn_state);
                 }
                 if (func_8009EB6C(
                         ((S_8127C3E0_2 *)position_arg)->unk_24.at00.v, ((S_8127C3E0_2 *)position_arg)->unk_24.at01.v,
-                        D_80081490[0x24], D_80081490[0x25]) != 0) {
+                        free_node_list_head[0x24], free_node_list_head[0x25]) != 0) {
                     limit_detour = 1;
                 }
             } else {
@@ -236,7 +236,7 @@ void step_beldo_old_toward_target(void *move_state_arg, void *action_context, vo
         }
 
         if (((S_8127C3E0_1 *)actor_arg)->unk_1C & 0x20000) {
-            u8 *target_position = D_80081490;
+            u8 *target_position = free_node_list_head;
             ((S_8127C3E0_1 *)actor_arg)->unk_2A.s = func_8009F608(
                 ((S_8127C3E0_2 *)position_arg)->unk_24.at00.v, ((S_8127C3E0_2 *)position_arg)->unk_24.at01.v,
                 target_position[0x24], target_position[0x25], (u8 *)move_state_arg + 0x98);
@@ -308,7 +308,7 @@ void step_beldo_old_toward_target(void *move_state_arg, void *action_context, vo
         }
 
         if (turn_index == 0 &&
-            *(u16 *)&D_800814B4 != ((S_8127C3E0_2 *)position_arg)->unk_24.at00u.v) {
+            *(u16 *)&cd_queue_buffered_argument_word_1 != ((S_8127C3E0_2 *)position_arg)->unk_24.at00u.v) {
             if (func_80098F70(actor_arg,
                     (u8 *)((S_8127C3E0_4 *)D_800803DC)->unk_58 + 0x20) != 0) {
                 return;

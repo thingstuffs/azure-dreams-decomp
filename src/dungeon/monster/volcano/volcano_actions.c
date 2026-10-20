@@ -1349,7 +1349,7 @@ void advance_entity_motion_fade_and_removal(void *state, s32 action, SpriteFrame
 
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_8017321C(E_8017321C_ActionState *state,void *motion,void *sprite,void *actor) {
+void finish_actor_hop_and_grow_then_resume_facing_animation(E_8017321C_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_actor_hop_and_grow(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "modules/dungeon_ovl_e0365c.h"
@@ -1572,27 +1572,27 @@ void update_thrown_actor_and_trap(E_801738A4_ActionState *state,void *motion,voi
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_80173908(E_80173908_ActionState *state,void *motion,void *sprite,void *actor) {
+void finish_actor_terrain_interpolation_then_resume_facing_animation(E_80173908_ActionState *state,void *motion,void *sprite,void *actor) {
  if(interpolate_actor_to_terrain_tile(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_80173940(E_80173940_ActionState *state,void *motion,void *sprite,void *actor) {
+void finish_spinning_actor_fall_then_resume_facing_animation(E_80173940_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_spinning_actor_fall(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_80173978(E_80173978_ActionState *state,void *motion,void *sprite,void *actor) {
+void finish_actor_fade_in_then_resume_facing_animation(E_80173978_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_actor_fade_in(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_801739B0(E_801739B0_ActionState *state,void *motion,void *sprite,void *actor) {
+void finish_actor_floor_trap_then_resume_facing_animation(E_801739B0_ActionState *state,void *motion,void *sprite,void *actor) {
  if(resolve_actor_floor_trap_once(state,motion,sprite,actor) > 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_801739E8(E_801739E8_ActionState *state,void *motion,void *sprite,void *actor) {
+void finish_actor_action_flag_propagation_then_resume_facing_animation(E_801739E8_ActionState *state,void *motion,void *sprite,void *actor) {
  if(propagate_actor_action_flag(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "modules/dungeon_ovl_e0365c.h"
@@ -1718,7 +1718,7 @@ void advance_actor_state_when_allowed(void *state_ctx, s32 entity_id, void *acti
             !(((E_80173CE0_S_80173CE0_1 *)action)->unk_14 & 0xE000)) {
             return;
         }
-        func_801744B8(entity);
+        display_entity_action_message(entity);
         play_sound_if_enabled(0x80C);
         create_four_directional_effects(state_ctx, entity_id, action);
         ((E_80173CE0_S_80173CE0_0 *)state_ctx)->unk_9B++;
@@ -1934,7 +1934,7 @@ void func_80174460(void *record) {
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_801744B8(void *record) {
+void display_entity_action_message(void *record) {
  u8 *original;
  u8 *current;
  u8 *cursor;

@@ -22,7 +22,7 @@ extern void confirm_list_menu_choice(Object *, void *, void *);
 extern void SD_Call(s32);
 
 /* Move the two-column menu cursor and handle confirmation input. */
-void func_800366F4(Object *menu, void *confirm_arg1, void *confirm_arg2) {
+void handle_two_column_menu_input(Object *menu, void *confirm_arg1, void *confirm_arg2) {
     s32 next_cursor;
     s32 prev_cursor;
     s32 cursor;

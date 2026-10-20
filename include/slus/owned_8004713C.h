@@ -14,9 +14,9 @@ extern int LoadImage(RECT *rect, void *p);
  * pointer is the absolute address of D_80080B08 (D_80080B00 declared at its
  * 8-byte extent: a view of <= 8 bytes keeps the unsplit la, one past it lands
  * on D_80080B08). */
-extern s16 D_80080B08;
-extern s16 D_80080B0A;
-extern s16 D_80080B00[4];
+extern s16 image_block_upload_x;
+extern s16 image_block_upload_y;
+extern s16 sound_idle_vsync_frame_alias[4];
 
 /* Register pins force retail's saved-reg map: s3=full num_blocks (re-andi each
  * use), s2=tile, s4=tile<<4, s5=&rect. Without pins, 2.7.2 CSEs

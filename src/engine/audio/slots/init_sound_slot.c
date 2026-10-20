@@ -24,10 +24,10 @@ typedef struct {
     /* 0x19 */ u8 unk19;
 } Sound;
 
-extern S_80086A40 D_80086A40[16];
-extern s32 D_8007382C[3]; /* size > 8: forced hi/lo, no $gp */
+extern S_80086A40 audio_bank_slots[16];
+extern s32 sound_slot_transfer_cursor[3]; /* size > 8: forced hi/lo, no $gp */
 extern void release_sound_ram_block(u32);
-extern s32 func_80059E94(s32);
+extern s32 reserve_sound_ram_region(s32);
 
 /* Initializes a requested or free sound slot and returns its index. */
 s32 init_sound_slot(Sound *sound, s16 requested_slot)
@@ -37,12 +37,12 @@ s32 init_sound_slot(Sound *sound, s16 requested_slot)
     s32 result_index;
     S_80086A40 *slot;
 
-    D_8007382C[0] = 0;
+    sound_slot_transfer_cursor[0] = 0;
     slot_index = 0;
     selected_slot = requested_slot;
     if (selected_slot == -1) {
         while (1) {
-            if (D_80086A40[slot_index].marker == -1) {
+            if (audio_bank_slots[slot_index].marker == -1) {
                 break;
             }
             slot_index++;
@@ -52,19 +52,19 @@ s32 init_sound_slot(Sound *sound, s16 requested_slot)
         }
     } else {
         slot_index = selected_slot;
-        if (D_80086A40[slot_index].marker != -1) {
-            release_sound_ram_block(D_80086A40[slot_index].unk10);
+        if (audio_bank_slots[slot_index].marker != -1) {
+            release_sound_ram_block(audio_bank_slots[slot_index].unk10);
         }
     }
     result_index = slot_index;
-    slot = &D_80086A40[result_index];
+    slot = &audio_bank_slots[result_index];
     slot->marker = slot_index;
     slot->unk04 = (s32)sound;
     slot->unk08 = (sound->unk12 << 9) + 0xA20;
     slot->unk14 = sound->unk0C - slot->unk08;
     slot->unk18 = sound->unk18;
     slot->unk1B = sound->unk19;
-    slot->unk10 = func_80059E94(slot->unk14);
+    slot->unk10 = reserve_sound_ram_region(slot->unk14);
     if (slot->unk10 == -1) {
         return -1;
     }

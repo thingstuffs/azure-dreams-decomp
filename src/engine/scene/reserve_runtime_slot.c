@@ -8,7 +8,7 @@ s16 reserve_runtime_slot(s16 slot_id, s16 slot_value)
     TransitionSlot *slot;
 
     for (slot_index = 7; slot_index >= 0; slot_index--) {
-        slot = &D_80083120[slot_index];
+        slot = &runtime_transition_slots[slot_index];
         if (slot->type == 0) {
             slot->type = slot_id;
             slot->unk_2 = 0;

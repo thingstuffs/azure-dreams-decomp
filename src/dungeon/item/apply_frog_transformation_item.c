@@ -67,7 +67,7 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
     } else {
         if ((u32)entity <= 0x9FFFFFFF) {
             display_item_status_message(entity, action_id, mode);
-            if (apply_actor_food_preference(entity, (D_800DDE84[((S_800BDEB8_0 *)entity)->unk_13] >> 6) & 3, 0) == 0) {
+            if (apply_actor_food_preference(entity, (entity_action_selectors[((S_800BDEB8_0 *)entity)->unk_13] >> 6) & 3, 0) == 0) {
                 apply_item_effect_at_entity_position(entity, action_id);
                 return 1;
             }

@@ -6,6 +6,6 @@
  * decision routine. The selectors' individual meanings and table length are
  * not established. Byte-addressed callers retain an explicit byte view. */
 typedef unsigned short EntityActionSelectors;
-extern EntityActionSelectors D_800DDE84[];
+extern EntityActionSelectors entity_action_selectors[];
 
 #endif

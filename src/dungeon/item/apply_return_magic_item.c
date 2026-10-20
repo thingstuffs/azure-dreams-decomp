@@ -40,7 +40,7 @@ s32 apply_return_magic_item(u8 *entity, s32 event, s16 target_type, s32 target_r
     }
     if ((u32)entity <= 0x9FFFFFFF) {
         display_actor_item_status_message(entity, event);
-        if (apply_actor_food_preference(entity, D_800DDE84[entity[0x13]] & 3, event) == 0) {
+        if (apply_actor_food_preference(entity, entity_action_selectors[entity[0x13]] & 3, event) == 0) {
             apply_item_effect_at_entity_position(entity, event);
             return 1;
         }

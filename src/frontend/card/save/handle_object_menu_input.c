@@ -13,7 +13,7 @@ typedef struct S_80406368_0 {
 } S_80406368_0;   /* menu in handle_object_menu_input */
 
 
-extern s32 D_801379A8;
+extern s32 boot_pad_state;
 extern s32 D_801379B0;
 
 extern void func_80063FF8(s32 sound_code);
@@ -34,10 +34,10 @@ void handle_object_menu_input(void *menu)
     s32 nav_result;
     s32 needs_refresh;
     s32 repeat_ticks;
-    s32 *held_p = &D_801379A8;
+    s32 *held_p = &boot_pad_state;
     s32 *press_p = &D_801379B0;
 
-    held_buttons = D_801379A8;
+    held_buttons = boot_pad_state;
     nav_result = 0;
     needs_refresh = 0;
     if (held_buttons != 0) {

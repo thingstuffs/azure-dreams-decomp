@@ -13,10 +13,10 @@ typedef struct OrderingTable {
 } OrderingTable;
 
 
-extern s32 D_8008148C;
-extern s32 D_80081480;
+extern s32 gpu_scratch_buffer_base;
+extern s32 gpu_scratch_write_pointer;
 extern FrameData D_801C9E40;
-extern OrderingTable D_801DA784;
+extern OrderingTable alternate_frame_ordering_table;
 
 extern void runtime_reset_object_pool(s32);
 extern void reset_scene_frame_callback_list(void);
@@ -35,13 +35,13 @@ void init_frame_buffers_for_scene(void)
     flags = D_80082E60.field_0;
     flags |= 1;
     D_80082E60.field_0 = flags;
-    state_value = D_8008148C;
-    D_80081480 = state_value;
+    state_value = gpu_scratch_buffer_base;
+    gpu_scratch_write_pointer = state_value;
     runtime_reset_object_pool(state_value);
     reset_scene_frame_callback_list();
     g_game_work.draw_buffer = (s32)&D_801C9E40;
     ClearOTagR((OT_TYPE *)(D_801C9E40.raw + 0x70), 0x218);
-    ClearOTagR(D_801DA784.ot, 0x218);
+    ClearOTagR(alternate_frame_ordering_table.ot, 0x218);
     {
         u8 *frame_data = (u8 *)((s32)g_game_work.draw_buffer);
         *(void **)(frame_data + 0x8D0) = frame_data + 0x8D4;

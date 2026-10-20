@@ -43,7 +43,7 @@ void update_sprite_offset_and_position(void *object_arg, s32 update_arg, s32 set
     s32 y_offset;
     u32 row_offset;
 
-    *(((u8 *)D_80082660) + object->unk_60 * 8) = 0;
+    *(((u8 *)object_index_slots) + object->unk_60 * 8) = 0;
     sprite = object->unk_98;
     if (sprite != NULL && ((flags = sprite->unk_08) & 0xC0000000) == 0xC0000000) {
         u32 table_select = (flags >> 23) & 1;

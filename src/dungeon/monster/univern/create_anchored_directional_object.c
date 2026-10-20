@@ -990,7 +990,7 @@ s32 func_801724C4(void *entity_arg, void *primary_context_arg, void *secondary_c
 }
 #include "modules/dungeon_resource17_slot0.h"
 
-void func_80172608(void *state, s32 unused, s32 source, s32 target) {
+void finish_actor_tile_move_then_resume_ground_movement(void *state, s32 unused, s32 source, s32 target) {
     if (update_actor_movement_to_tile() != 0) {
         reduce_actor_food_meter(target, 4);
         advance_status_timers(target);
@@ -1006,7 +1006,7 @@ void func_80172608(void *state, s32 unused, s32 source, s32 target) {
 }
 #include "modules/dungeon_resource17_slot0.h"
 
-void func_8017269C(Resource17CallbackState *state, void *entity, void *position, void *graphic)
+void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(Resource17CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
@@ -1638,7 +1638,7 @@ void func_80173888(void *state, void *motion, void *position, void *actor)
 }
 #include "modules/dungeon_resource17_slot0.h"
 
-void func_801738A8(Resource17CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_hop_and_grow_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
         state->callback = update_entity_movement_and_ground_height;
@@ -2020,7 +2020,7 @@ void update_timed_effect_and_expire(Resource17CallbackState *state, void *entity
 }
 #include "modules/dungeon_resource17_slot0.h"
 
-void func_8017437C(Resource17CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_terrain_interpolation_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
         state->callback = update_entity_movement_and_ground_height;
@@ -2028,7 +2028,7 @@ void func_8017437C(Resource17CallbackState *state, void *motion, void *position,
 }
 #include "modules/dungeon_resource17_slot0.h"
 
-void func_801743B4(Resource17CallbackState *state, void *motion, void *position, void *actor)
+void finish_spinning_actor_fall_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
         state->callback = update_entity_movement_and_ground_height;
@@ -2052,7 +2052,7 @@ void blend_animation_palette_and_complete(Resource17CallbackState *state, void *
 }
 #include "modules/dungeon_resource17_slot0.h"
 
-void func_8017445C(Resource17CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_action_flag_propagation_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
         state->callback = update_entity_movement_and_ground_height;

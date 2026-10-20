@@ -8,9 +8,9 @@ typedef struct S_800B65D8_4 {
 } S_800B65D8_4;
 
 
-s32 func_80048DA0();                         /* extern */
-int func_80048DCC(int);                             /* extern */
-s32 func_80048DE8();                             /* extern */
+s32 select_display_spacing_table_entry();                         /* extern */
+int read_display_spacing_word(int);                             /* extern */
+s32 read_display_spacing_byte();                             /* extern */
 void set_monster_status_panel_height();                    /* extern */
 extern u8 D_80089344[];
 
@@ -49,12 +49,12 @@ void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode) {
     do {
         mode = display_mode;
         entry = ((S_800B65D8_0 *)entry_slot)->unk_50;
-        entry_id = func_80048DA0(mode, *(u8 *)((s32)entry_index + (s32)lookup));
+        entry_id = select_display_spacing_table_entry(mode, *(u8 *)((s32)entry_index + (s32)lookup));
         if ((entry_index == 0) && (mode == 4)) {
             entry_id -= 1;
         }
-        entry->unk_00 = func_80048DCC(entry_id);
-        spacing = func_80048DE8(entry_id);
+        entry->unk_00 = read_display_spacing_word(entry_id);
+        spacing = read_display_spacing_byte(entry_id);
         if (spacing == 0x10) {
             ((SignedWidgetYView *)(((S_800B65D8_4 *)entry)->unk_04))->unk_0A = 0;
         } else {

@@ -8,7 +8,7 @@ typedef struct {
 extern void set_object_and_global_removal_flag(u16 *a0);
 
 /* If flag 0x2000 is set, transfer it to the linked entity and mark this entity and global state dirty. */
-void func_8004ECAC(void *link_field)
+void propagate_linked_removal_request(void *link_field)
 {
     S_8004ECAC *self = (S_8004ECAC *)((u8 *)link_field - 0x20);
     u16 **linked_entity = (u16 **)link_field;

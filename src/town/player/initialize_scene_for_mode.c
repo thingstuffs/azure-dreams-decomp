@@ -112,7 +112,7 @@ void synchronize_mode_and_pending_callback(void) {
             ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 0;
             disabled_flag = test_resident_bitmap_bit(F_player_mizugi);
             if (disabled_flag != test_resident_bitmap_bit(F_player_mizugi_old)) {
-                mode_result = func_80048D20();
+                mode_result = load_town_sprite_bundle();
                 D_80080A80 = mode_result;
                 update_state->render_attributes = mode_result;
             }
@@ -121,7 +121,7 @@ void synchronize_mode_and_pending_callback(void) {
             enabled_flag = test_resident_bitmap_bit(F_player_mizugi);
             if (enabled_flag != test_resident_bitmap_bit(F_player_mizugi_old)) {
                 s32 mode_result;
-                mode_result = func_80048D40();
+                mode_result = load_alternate_town_sprite_bundle();
                 D_80080A80 = mode_result;
                 update_state->render_attributes = mode_result;
             }

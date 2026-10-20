@@ -1,7 +1,7 @@
 #include "modules/ovmovie_game.h"
 
 /* Plays the selected movie and resets both frame buffers afterward. */
-void func_801768AC(void) {
+void play_selected_movie_and_restore_display(void) {
     u8 *frame_buffers;
     s32 movie_flag;
     s32 saved_movie_flag;
@@ -11,7 +11,7 @@ void func_801768AC(void) {
     D_80082E60.field_0 &= ~1;
     if (D_80080A88 == 0) {
         SD_Call(0x7F);
-        func_800542BC();
+        drain_audio_commands_and_service_channels();
     }
 
     submit_tagged_driver_byte(0, 0, 1);
@@ -21,18 +21,18 @@ void func_801768AC(void) {
     movie_flag = (u32) D_80189394 >> 31;
     movie_globals_hi = (u8 *) 0x80180000;
     *(s32 *) (movie_globals_hi - 0x7E1C) = movie_flag;
-    func_80176AD8(movie_flag);
+    clear_movie_display_area(movie_flag);
     func_80066F78(0);
 
     frame_buffers = D_801C9E40;
     frame_buffers[0x6D] = 1;
     frame_buffers[0x10941] = 1;
     saved_movie_flag = *(s32 *) (movie_globals_hi - 0x7E1C);
-    func_80176AD8(saved_movie_flag);
+    clear_movie_display_area(saved_movie_flag);
 
     D_801781E0 = 1;
-    func_80176B3C(0, ((D_80189394 & 0x40000000) == 0) * 0x10);
-    func_8017719C(0, D_80189394 & 0x3FFFFFFF, D_801B8EB8, *(s32 *) (movie_globals_hi - 0x7E1C));
+    set_movie_strip_offsets(0, ((D_80189394 & 0x40000000) == 0) * 0x10);
+    play_movie_frames_with_skip_fade(0, D_80189394 & 0x3FFFFFFF, D_801B8EB8, *(s32 *) (movie_globals_hi - 0x7E1C));
     func_80066F78(0);
 
     {
@@ -51,7 +51,7 @@ void func_801768AC(void) {
     register_mode_one_callback(0);
     func_80061208(0);
     func_80067014(0);
-    func_80176AD8(*(s32 *) (movie_globals_hi - 0x7E1C));
+    clear_movie_display_area(*(s32 *) (movie_globals_hi - 0x7E1C));
 
     {
         u8 *active_buffer;
@@ -81,5 +81,5 @@ void func_801768AC(void) {
         func_80067688(*(void **) (resident_globals_hi + 0x3160));
     }
     func_8005FE18(0);
-    func_80176AD8(*(s32 *) (movie_globals_hi - 0x7E1C));
+    clear_movie_display_area(*(s32 *) (movie_globals_hi - 0x7E1C));
 }

@@ -20,7 +20,7 @@ extern s32 D_80013628;
 extern void queue_mode_selected_resource_table(void);
 extern void drain_cd_command_queue(void);
 extern void save_or_restore_random_seed(s32 a0);
-extern void func_800A6D98(s32 a0);
+extern void restore_dungeon_random_seed(s32 a0);
 extern void shuffle_category_item_data(s32 a0);
 extern void table_handle_assign_consecutive_n_19_byte_data_blocks_items_selected_category_index(void);
 
@@ -33,7 +33,7 @@ void shuffle_enabled_item_category_pointers(void)
     queue_mode_selected_resource_table();
     drain_cd_command_queue();
     save_or_restore_random_seed(1);
-    func_800A6D98(D_80013628);
+    restore_dungeon_random_seed(D_80013628);
 
     category = itemCategoryTable;
     for (category_id = 0; category_id < 20; category_id++, category++) {

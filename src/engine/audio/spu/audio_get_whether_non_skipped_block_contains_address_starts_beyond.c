@@ -3,14 +3,14 @@
 
 
 /* Initializes and publishes the record-list head for a positive count, returning the count or zero. */
-s32 func_8005D838(s32 count, S_800799BC *record) {
+s32 initialize_sound_transfer_range(s32 count, S_800799BC *record) {
     s32 result = count;
     if (result > 0) {
-        s32 shift = D_80079980;
+        s32 shift = spu_address_unit_shift;
         record->flags = 0x40001010;
-        D_800799BC = record;
+        spu_ram_block_records = record;
         D_800799B8 = 0;
-        D_800799B4 = result;
+        spu_ram_block_record_count = result;
         record->size = (0x10000 << shift) - 0x1010;
         return result;
     } else {
@@ -27,13 +27,13 @@ s32 audio_get_whether_non_skipped_block_contains_address_starts_beyond(u32 addre
     u32 end_mask;
     u32 start_mask;
 
-    if (D_800799BC == 0) {
+    if (spu_ram_block_records == 0) {
         return 0;
     }
     skip_mask = 0x80000000;
     end_mask = 0x40000000;
     start_mask = 0x0FFFFFFF;
-    entry = D_800799BC;
+    entry = spu_ram_block_records;
     do {
         block_start = entry->flags;
         if (block_start & skip_mask) {
@@ -62,9 +62,9 @@ s32 func_8005D9DC(u32 value)
     S_800799BC *entry;
     u32 skip_mask, stop_mask, base_mask;
 
-    value = value << D_80079980;
+    value = value << spu_address_unit_shift;
 
-    list = D_800799BC;
+    list = spu_ram_block_records;
     if (list == 0) {
         return 0;
     }

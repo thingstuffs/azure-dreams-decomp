@@ -11,9 +11,9 @@ typedef struct {
     s32 unk0C;
 } S_8003F8F8;
 
-extern s32 D_80080A7C;
-extern s32 D_80081480;
-extern s32 D_8008148C;
+extern s32 gpu_scratch_ring_size;
+extern s32 gpu_scratch_write_pointer;
+extern s32 gpu_scratch_buffer_base;
 
 extern void DrawSync(s32 mode);
 extern void *decompress_lz(u8 *src, u8 *dst);
@@ -32,17 +32,17 @@ void decode_and_upload_image_array(S_8003F8F8 *images)
         width = entry->width;
         column_bytes = entry->height * 2;
         image_bytes = width * column_bytes;
-        if ((u32)(D_8008148C + D_80080A7C) >=
-            (u32)(D_80081480 + image_bytes)) {
-            D_80081480 = D_8008148C;
+        if ((u32)(gpu_scratch_buffer_base + gpu_scratch_ring_size) >=
+            (u32)(gpu_scratch_write_pointer + image_bytes)) {
+            gpu_scratch_write_pointer = gpu_scratch_buffer_base;
             DrawSync(0);
         }
-        decompress_lz(entry->data, (void *)D_80081480);
-        LoadImage(&entry->rect_x, (void *)D_80081480);
+        decompress_lz(entry->data, (void *)gpu_scratch_write_pointer);
+        LoadImage(&entry->rect_x, (void *)gpu_scratch_write_pointer);
         width = entry->width;
         column_bytes = entry->height * 2;
         image_bytes = width * column_bytes;
         entry++;
-        D_80081480 += image_bytes;
+        gpu_scratch_write_pointer += image_bytes;
     }
 }

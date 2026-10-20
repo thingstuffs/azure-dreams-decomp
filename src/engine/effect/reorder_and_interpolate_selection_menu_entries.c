@@ -8,7 +8,7 @@ typedef struct S_8004F884_arg {
 
 extern void interpolate_selection_menu_entry_coordinates(S_8004F884_arg *a0);
 extern void interpolate_selection_menu_entry_shade(S_8004F884_arg *a0);
-extern void func_8004AFC8(void *base, s32 count, s32 size, int (*compar)(void *, void *));
+extern void forward_selection_sort_request(void *base, s32 count, s32 size, int (*compar)(void *, void *));
 extern int compare_selection_menu_entry_order(void *a0, void *a1);
 extern void link_typed_list_node(void *a0, void *a1);
 
@@ -33,7 +33,7 @@ void reorder_and_interpolate_selection_menu_entries(S_8004F884_arg *list) {
         } while (index < list->count);
     }
 
-    func_8004AFC8(sorted, list->count, 4, compare_selection_menu_entry_order);
+    forward_selection_sort_request(sorted, list->count, 4, compare_selection_menu_entry_order);
 
     index = 0;
     if (list->count - 1 > 0) {

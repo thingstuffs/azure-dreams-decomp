@@ -53,7 +53,7 @@ s32 can_entity_gain_level(void *entity) {
 #include "shared/dungeon_status.h"
 
 
-extern s32 func_8003AD08();
+extern s32 format_unsigned_double_byte_decimal();
 extern s32 apply_entity_effects();
 extern s32 func_800647A0();
 extern s32 get_unused_text_buffer();
@@ -370,7 +370,7 @@ loop_0:
             text_end = write_text_byte_and_advance(0xA, text_end);
             text_end = append_entity_display_text(((u8 *)entity_data), text_end);
             text_end = expand_text_control_codes(D_800E095F, text_end);
-            text_end = func_8003AD08(((u8 *)entity_data)[0x11], text_end);
+            text_end = format_unsigned_double_byte_decimal(((u8 *)entity_data)[0x11], text_end);
             text_end = expand_text_control_codes(D_80089000, text_end);
 
             if (((u8 *)entity_data)[0x13] != 0 && ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x4000) != 0)) {
@@ -409,7 +409,7 @@ loop_0:
 
 #include "m2c_compat.h"
 
-extern s32 func_8003AD08();
+extern s32 format_unsigned_double_byte_decimal();
 extern s32 apply_entity_effects();
 extern s32 func_800647A0();
 extern s32 get_unused_text_buffer();
@@ -703,7 +703,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
         message_end = write_text_byte_and_advance(0xA, message_end);
         message_end = append_entity_display_text(entity, message_end);
         message_end = expand_text_control_codes(&D_800E099A, message_end);
-        message_end = func_8003AD08(entity[0x11], message_end);
+        message_end = format_unsigned_double_byte_decimal(entity[0x11], message_end);
         message_end = expand_text_control_codes(D_80089000, message_end);
 
         if (entity[0x13] != 0 && ((*(s32 *)(entity + 0x14) & 0x4000) != 0)) {
@@ -1060,7 +1060,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-s32 func_8003AD08();                        /* extern */
+s32 format_unsigned_double_byte_decimal();                        /* extern */
 s32 get_unused_text_buffer();                                /* extern */
 s32 expand_text_control_codes();                  /* extern */
 extern void * func_80099290(s8 *byte_ptr);
@@ -1131,7 +1131,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
                     selectionInputThird = get_unused_text_buffer();
                     globalData = D_8007359C;
                     currentValue = selectionInputThird;
-                    func_80099290(expand_text_control_codes(&D_800E09E6, func_8003AD08(result, expand_text_control_codes(&D_800E09D9,
+                    func_80099290(expand_text_control_codes(&D_800E09E6, format_unsigned_double_byte_decimal(result, expand_text_control_codes(&D_800E09D9,
                         expand_text_control_codes(globalData->unk_04, currentValue)))));
                 } else {
                     return;
@@ -1142,7 +1142,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
                 }
                 selectionInputSecond = get_unused_text_buffer();
                 currentValue = selectionInputSecond;
-                func_80099290(expand_text_control_codes(&D_800E09FB, func_8003AD08(result, expand_text_control_codes(&D_800E09EE,
+                func_80099290(expand_text_control_codes(&D_800E09FB, format_unsigned_double_byte_decimal(result, expand_text_control_codes(&D_800E09EE,
                     append_entity_display_text(entity->target, currentValue)))));
             }
             display_text_with_fullwidth_adjustment(currentValue);

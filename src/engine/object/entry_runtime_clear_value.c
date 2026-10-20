@@ -4,14 +4,14 @@
 #include "common.h"
 
 void runtime_clear_value();                   /* extern */
-extern u8 D_800816C0[];
+extern u8 runtime_object_pool[];
 
 /* Calls runtime_clear_value for each of the 20 records starting at D_800816C0. */
-void func_80033C8C(void) {
+void clear_twenty_runtime_records(void) {
     void *record;
     s32 record_index;
 
-    record = D_800816C0;
+    record = runtime_object_pool;
     record_index = 0;
     do {
         runtime_clear_value(record);

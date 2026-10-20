@@ -3,6 +3,6 @@
 extern s32 update_actor_defeat_removal(u8 *, s32 *, u8 *, u8 *);
 
 /* Forward all four effect callback arguments and the result. */
-s32 func_8016DC20(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
+s32 forward_defeat_removal_callback(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
     return update_actor_defeat_removal(state, position, sprite, entity_data);
 }

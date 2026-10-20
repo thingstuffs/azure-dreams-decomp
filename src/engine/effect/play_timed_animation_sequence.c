@@ -48,7 +48,7 @@ typedef struct S_8005313C
     Ent *unk10[16];
 }
 S_8005313C;
-extern void func_80052C10(s16, FrameB *);
+extern void clear_and_draw_paired_text_rows(s16, FrameB *);
 /* Plays timed entity animations, then flags the sequence and its entities for cleanup. */
 void play_timed_animation_sequence(S_8005313C *sequence)
 {
@@ -87,7 +87,7 @@ void play_timed_animation_sequence(S_8005313C *sequence)
                     anim->unk10 = sequence->unkC->unk2 - 0x180;
                     anim->unkC = sequence->unkC->unk4;
                     anim->unkE = (sequence->unkC->unk6 * 12) + 12;
-                    func_80052C10(sequence->unk8, sequence->unkC);
+                    clear_and_draw_paired_text_rows(sequence->unk8, sequence->unkC);
                 }
                 frame = sequence->unkC;
                 sequence->unkC = frame + 1;

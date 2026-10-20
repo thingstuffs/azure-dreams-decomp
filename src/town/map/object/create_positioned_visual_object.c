@@ -20,7 +20,7 @@ void *create_positioned_visual_object(TownPropPosition *source_pos, s32 object_d
 
     object = func_8003FC64(0x136);
     if (object != NULL) {
-        register_node(object, func_80046398);
+        register_node(object, draw_linked_lit_meshes);
         visual = object->unk_0C;
         object->unk_10 = object_data;
         visual->angle_z = (s16) angle;

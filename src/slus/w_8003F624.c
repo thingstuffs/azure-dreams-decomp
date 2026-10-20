@@ -12,9 +12,9 @@ extern void wait_512_vertical_syncs(void);
 void cd_set_mode_with_retry(void) {
     int attempts_left;
 
-    D_800814D4 = 0x84;
+    cd_command_mode_byte = 0x84;
     for (attempts_left = 0x10; attempts_left != 0; attempts_left--) {
-        if (CdControlB(0xE, &D_800814D3[1], 0) != 0) {
+        if (CdControlB(0xE, &cd_command_phase[1], 0) != 0) {
             wait_512_vertical_syncs();
             return;
         }

@@ -13,7 +13,7 @@ typedef struct S_8006CE80 {
     s32 unk08;
 } S_8006CE80;
 
-extern S_8006CE80 D_8006CE80[100];
+extern S_8006CE80 dispatch_resource_records[100];
 extern void file_load_com(s32);
 
 /* Calls file_load_com for each value in the indexed entry's zero-terminated list. */
@@ -22,7 +22,7 @@ void load_dispatch_entry_files(u16 entry_index) {
     S_8006CE80_inner *record;
     s32 *callback_args;
 
-    entry = &D_8006CE80[entry_index];
+    entry = &dispatch_resource_records[entry_index];
     record = entry->unk04;
     if (record == 0) {
         return;

@@ -8,15 +8,15 @@ s32 audio_handle_optionally_aligns_shifts_stores_returns_result(s32 index, u32 v
     s32 store_index = index;
     u32 shifted_value;
 
-    if (D_8007997C != 0) {
-        s32 alignment = D_80079984;
+    if (spu_address_alignment_enabled != 0) {
+        s32 alignment = spu_address_alignment;
         if (value % alignment != 0) {
             value = value + alignment;
-            value = value & ~D_80079988;
+            value = value & ~spu_address_alignment_mask;
         }
     }
 
-    shifted_value = value >> D_80079980;
+    shifted_value = value >> spu_address_unit_shift;
 
     switch (store_index) {
     case -1:
@@ -24,7 +24,7 @@ s32 audio_handle_optionally_aligns_shifts_stores_returns_result(s32 index, u32 v
     case -2:
         return value;
     default:
-        D_80079958[store_index] = (u16)shifted_value;
+        spu_registers[store_index] = (u16)shifted_value;
         return value;
     }
 }

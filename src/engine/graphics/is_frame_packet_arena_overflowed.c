@@ -15,7 +15,7 @@ extern void draw_sprite_parts(void *unused, u8 *sprite, s32 ot_depth);
 extern s32 is_frame_packet_arena_overflowed(u32 a0);
 
 /* Projects coordinates and processes linked entries whose 0x80 flag is clear. */
-s32 func_80044C54(u8 *first_data, void *first_coords, Entry80044C54 *first_entry)
+s32 project_and_draw_sprite_node_chain(u8 *first_data, void *first_coords, Entry80044C54 *first_entry)
 {
     u8 *node_data = first_data;
     void *coords = first_coords;

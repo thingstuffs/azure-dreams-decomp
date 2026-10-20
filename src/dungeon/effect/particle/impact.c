@@ -697,7 +697,7 @@ typedef struct S_80024AE8_3 {
 } S_80024AE8_3;   /* arg1 in func_80024AE8 */
 
 /* Create and initialize an effect at the supplied position. */
-void func_80024AE8(s32 effect_value, S_80024AE8_3 *position) {
+void create_shrinking_entry_particle_effect(s32 effect_value, S_80024AE8_3 *position) {
     void *effect;
     S_80024AE8_0 *effect_state;
     S_80024AE8_2 *effect_position;
@@ -1029,7 +1029,7 @@ s32 draw_linked_meshes(void *initial_mesh, void *transform, void *object) {
 extern void func_800478B8(void *render_state);
 
 /* Updates motion and rotation and marks the object finished when flagged or expired. */
-void func_80025088(void *state, void *position, void *render_state) {
+void advance_rotating_ballistic_particle_and_expire(void *state, void *position, void *render_state) {
     s32 x_step;
     s32 y_step;
     s32 z_step;
@@ -1204,7 +1204,7 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
         if (particle != 0) {
             ((S_800251F4_0 *)particle_work)->unk_28 = 0x78;
             ((S_800251F4_0 *)particle_work)->unk_2C = func_80069EF8() & 1;
-            ((S_800251F4_1 *)particle)->unk_10 = (void *)func_80025088;
+            ((S_800251F4_1 *)particle)->unk_10 = (void *)advance_rotating_ballistic_particle_and_expire;
             register_node(particle, (s32)draw_linked_meshes);
 
             transform = ((S_800251F4_1 *)particle)->unk_0C;
@@ -1419,7 +1419,7 @@ void process_entries_at_coordinates(void *list_head, s32 x, s32 y, s16 upper_bou
                     flags = entry->unk_1E;
                     if (!(flags & 0x2000)) {
                         entry->unk_1E = flags | 0x2000;
-                        func_80024AE8(entry, range_data);
+                        create_shrinking_entry_particle_effect(entry, range_data);
                     }
                 }
                 next_entry = list_link->unk_5C;
@@ -2151,7 +2151,7 @@ extern u8 D_8006EE50[];
 extern void clear_circular_list_flags(void);
 extern void upload_vram_row_and_cache(void *, s32, s32, s32);
 extern s32 decode_and_upload_image(void *, void *);
-extern void func_800542BC(void);
+extern void drain_audio_commands_and_service_channels(void);
 extern s32 func_80069EF8(void);
 extern void select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 
@@ -2195,7 +2195,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
             return;
         }
         play_sound_if_enabled(0x300);
-        func_800542BC();
+        drain_audio_commands_and_service_channels();
         effect->unk_28.u = 0;
         effect->unk_0A.u = effect->unk_0A.u + 1;
         return;

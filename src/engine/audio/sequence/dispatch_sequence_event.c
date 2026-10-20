@@ -29,7 +29,7 @@ typedef struct {
     s8 f4d[3];
 } S_80085FA8;
 
-extern s32 D_800737DC[16];
+extern s32 audio_event_data_counts[16];
 extern s32 read_next_byte_and_finish(S_80085FA8 *a0);
 extern void func_80058E64(u8 status);
 extern void handle_sequence_meta_event(S_80085FA8 *a0, s32 a1);
@@ -63,7 +63,7 @@ s32 dispatch_sequence_event(S_80085FA8 *stream)
     }
     status_group = (u32)status;
     status_group >>= 4;
-    data_count = D_800737DC[status_group & 0xF];
+    data_count = audio_event_data_counts[status_group & 0xF];
     if (data_count != 0) {
         if (stream->f49 != 0) {
             first_data = event_byte;

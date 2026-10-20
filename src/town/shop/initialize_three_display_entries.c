@@ -11,7 +11,7 @@ typedef struct Func800B8500Entry {
     Func800B8500Inner *inner;
 } Func800B8500Entry;
 
-extern s32 func_800498EC(s32 value);
+extern s32 lookup_patterned_display_icon(s32 value);
 extern s32 get_enabled_record_flag_priority(s32 value);
 extern s32 D_80077FBC[];
 
@@ -29,5 +29,5 @@ void initialize_three_display_entries(s32 source_value, Func800B8500Entry **entr
 
     entries[2]->inner->field_8 = -0x10;
     entries[2]->inner->field_A = 0x16;
-    entries[2]->value = func_800498EC(get_enabled_record_flag_priority(source_value));
+    entries[2]->value = lookup_patterned_display_icon(get_enabled_record_flag_priority(source_value));
 }

@@ -57,12 +57,12 @@ typedef struct {
     u8 pad99[3];
 } S_80084960;
 
-extern s32 D_80073734[4];
-extern S_80073738 D_80073738;
-extern s32 D_80073740[64];
-extern S_80084960 D_80084960[16];
-extern S_80085458 D_80085458[64];
-extern S_80085FA8 D_80085FA8[32];
+extern s32 audio_voice_count[4];
+extern S_80073738 audio_master_level;
+extern s32 audio_voice_masks[64];
+extern S_80084960 audio_channel_controls[16];
+extern S_80085458 audio_voice_records[64];
+extern S_80085FA8 audio_sequence_tracks[32];
 
 extern s32 sound_reset_indexed_voice_envelope(s32 request_index);
 extern void func_8005E97C(s32 key_on, s32 voices);
@@ -74,50 +74,50 @@ void audio_reset_sequence_tracks_and_channels(void) {
     s32 entry_flags;
 
     combined_flags = 0;
-    D_80073738.f0 = 0x7F;
+    audio_master_level.f0 = 0x7F;
     for (entry_index = 0; entry_index < 0x20; entry_index++) {
-        D_80085FA8[entry_index].f00 = 0;
-        D_80085FA8[entry_index].f04 = 0;
-        D_80085FA8[entry_index].f08 = 0;
-        D_80085FA8[entry_index].f0c = 0;
-        D_80085FA8[entry_index].f10 = 0;
-        D_80085FA8[entry_index].f18 = 0;
-        D_80085FA8[entry_index].f1c = 0;
-        D_80085FA8[entry_index].f20 = 0;
-        D_80085FA8[entry_index].f24 = 0;
-        D_80085FA8[entry_index].f28 = 0;
-        D_80085FA8[entry_index].f2c = 1;
-        D_80085FA8[entry_index].f34 = 0;
-        D_80085FA8[entry_index].f38 = 0;
-        D_80085FA8[entry_index].f3c = 0x78;
-        D_80085FA8[entry_index].f40 = 0;
-        D_80085FA8[entry_index].f48 = 0;
-        D_80085FA8[entry_index].f49 = 0xFF;
-        D_80085FA8[entry_index].f4a = 0;
-        D_80085FA8[entry_index].f4c = 0;
+        audio_sequence_tracks[entry_index].f00 = 0;
+        audio_sequence_tracks[entry_index].f04 = 0;
+        audio_sequence_tracks[entry_index].f08 = 0;
+        audio_sequence_tracks[entry_index].f0c = 0;
+        audio_sequence_tracks[entry_index].f10 = 0;
+        audio_sequence_tracks[entry_index].f18 = 0;
+        audio_sequence_tracks[entry_index].f1c = 0;
+        audio_sequence_tracks[entry_index].f20 = 0;
+        audio_sequence_tracks[entry_index].f24 = 0;
+        audio_sequence_tracks[entry_index].f28 = 0;
+        audio_sequence_tracks[entry_index].f2c = 1;
+        audio_sequence_tracks[entry_index].f34 = 0;
+        audio_sequence_tracks[entry_index].f38 = 0;
+        audio_sequence_tracks[entry_index].f3c = 0x78;
+        audio_sequence_tracks[entry_index].f40 = 0;
+        audio_sequence_tracks[entry_index].f48 = 0;
+        audio_sequence_tracks[entry_index].f49 = 0xFF;
+        audio_sequence_tracks[entry_index].f4a = 0;
+        audio_sequence_tracks[entry_index].f4c = 0;
     }
 
-    for (entry_index = 0; entry_index < D_80073734[0]; entry_index++) {
-        if ((u16)D_80085458[entry_index].f06 < 0x10) {
-            D_80085458[entry_index].f00 = entry_index;
-            D_80085458[entry_index].f1a = 0;
-            D_80085458[entry_index].f18 = 0x40;
-            D_80085458[entry_index].f1d = 0;
-            D_80085458[entry_index].f27 = 0;
-            D_80085458[entry_index].f26 = 0;
-            D_80085458[entry_index].f28 = 0;
-            D_80085458[entry_index].f2c = 0;
-            D_80085458[entry_index].f30 = 0;
-            D_80085458[entry_index].f3c = 0;
-            D_80085458[entry_index].f43 = 0;
-            D_80085458[entry_index].f42 = 0;
-            D_80085458[entry_index].f44 = 0;
-            D_80085458[entry_index].f48 = 0;
-            D_80085458[entry_index].f4c = 0;
-            D_80085458[entry_index].f58 = 0;
-            D_80085458[entry_index].f70 = 0x40;
-            D_80085458[entry_index].f74 = 0x40;
-            entry_flags = D_80073740[entry_index];
+    for (entry_index = 0; entry_index < audio_voice_count[0]; entry_index++) {
+        if ((u16)audio_voice_records[entry_index].f06 < 0x10) {
+            audio_voice_records[entry_index].f00 = entry_index;
+            audio_voice_records[entry_index].f1a = 0;
+            audio_voice_records[entry_index].f18 = 0x40;
+            audio_voice_records[entry_index].f1d = 0;
+            audio_voice_records[entry_index].f27 = 0;
+            audio_voice_records[entry_index].f26 = 0;
+            audio_voice_records[entry_index].f28 = 0;
+            audio_voice_records[entry_index].f2c = 0;
+            audio_voice_records[entry_index].f30 = 0;
+            audio_voice_records[entry_index].f3c = 0;
+            audio_voice_records[entry_index].f43 = 0;
+            audio_voice_records[entry_index].f42 = 0;
+            audio_voice_records[entry_index].f44 = 0;
+            audio_voice_records[entry_index].f48 = 0;
+            audio_voice_records[entry_index].f4c = 0;
+            audio_voice_records[entry_index].f58 = 0;
+            audio_voice_records[entry_index].f70 = 0x40;
+            audio_voice_records[entry_index].f74 = 0x40;
+            entry_flags = audio_voice_masks[entry_index];
             sound_reset_indexed_voice_envelope(entry_index);
             combined_flags |= entry_flags;
             func_8005E97C(0, entry_flags);
@@ -125,34 +125,34 @@ void audio_reset_sequence_tracks_and_channels(void) {
     }
 
     for (entry_index = 0; entry_index < 0x10; entry_index++) {
-        D_80084960[entry_index].f0c = 0x7F;
-        D_80084960[entry_index].f04 = 0x40;
-        D_80084960[entry_index].f18 = 0;
-        D_80084960[entry_index].f1c = 0x40;
-        D_80084960[entry_index].f14 = 0x7F;
-        D_80084960[entry_index].f20 = 0x7F;
-        D_80084960[entry_index].f24 = 0x7F;
-        D_80084960[entry_index].f08 = 0;
-        D_80084960[entry_index].f3a = 0;
-        D_80084960[entry_index].f44 = 0;
-        D_80084960[entry_index].f40 = 0;
-        D_80084960[entry_index].f48 = 0;
-        D_80084960[entry_index].f94 = 0;
-        D_80084960[entry_index].f30 = 0;
-        D_80084960[entry_index].f60 = 0;
-        D_80084960[entry_index].f5f = 0;
-        D_80084960[entry_index].f61 = 0;
-        D_80084960[entry_index].f64 = 0;
-        D_80084960[entry_index].f68 = 0;
-        D_80084960[entry_index].f7b = 0;
-        D_80084960[entry_index].f7a = 0;
-        D_80084960[entry_index].f7c = 0;
-        D_80084960[entry_index].f80 = 0;
-        D_80084960[entry_index].f84 = 0;
-        D_80084960[entry_index].f28 = 0;
-        D_80084960[entry_index].f2c = 0;
-        D_80084960[entry_index].f50 = 0;
-        D_80084960[entry_index].f98 = 0;
+        audio_channel_controls[entry_index].f0c = 0x7F;
+        audio_channel_controls[entry_index].f04 = 0x40;
+        audio_channel_controls[entry_index].f18 = 0;
+        audio_channel_controls[entry_index].f1c = 0x40;
+        audio_channel_controls[entry_index].f14 = 0x7F;
+        audio_channel_controls[entry_index].f20 = 0x7F;
+        audio_channel_controls[entry_index].f24 = 0x7F;
+        audio_channel_controls[entry_index].f08 = 0;
+        audio_channel_controls[entry_index].f3a = 0;
+        audio_channel_controls[entry_index].f44 = 0;
+        audio_channel_controls[entry_index].f40 = 0;
+        audio_channel_controls[entry_index].f48 = 0;
+        audio_channel_controls[entry_index].f94 = 0;
+        audio_channel_controls[entry_index].f30 = 0;
+        audio_channel_controls[entry_index].f60 = 0;
+        audio_channel_controls[entry_index].f5f = 0;
+        audio_channel_controls[entry_index].f61 = 0;
+        audio_channel_controls[entry_index].f64 = 0;
+        audio_channel_controls[entry_index].f68 = 0;
+        audio_channel_controls[entry_index].f7b = 0;
+        audio_channel_controls[entry_index].f7a = 0;
+        audio_channel_controls[entry_index].f7c = 0;
+        audio_channel_controls[entry_index].f80 = 0;
+        audio_channel_controls[entry_index].f84 = 0;
+        audio_channel_controls[entry_index].f28 = 0;
+        audio_channel_controls[entry_index].f2c = 0;
+        audio_channel_controls[entry_index].f50 = 0;
+        audio_channel_controls[entry_index].f98 = 0;
     }
 
     func_8005E97C(0, combined_flags);

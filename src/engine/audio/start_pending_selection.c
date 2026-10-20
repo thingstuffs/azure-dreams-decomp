@@ -3,15 +3,15 @@
 
 
 
-extern s16 D_80084810[][16];
-extern void *D_80084878[][16];
-extern s32 D_800848FC[3];
+extern s16 pending_sound_selection_entries[][16];
+extern void *audio_selection_record_pointers[][16];
+extern s32 audio_sequence_task_phase[3];
 extern s32 test_sound_channel_availability(s16);
 extern void handle_audio_status_code(s32);
 extern s16 copy_sound_slot_info(s16 idx, u8 *dst);
 extern void set_playback_note(s32);
-extern s16 func_8005AE08(void *, s32);
-extern int func_8005B3D8(s16, s16);
+extern s16 allocate_sequence_bank_slot(void *, s32);
+extern int submit_shifted_stereo_sound_parameters(s16, s16);
 extern void sound_activate_loaded_sequence_slot(s16, u8, s16);
 
 /* Starts playback of the pending selection when available and initializes its mode. */
@@ -25,53 +25,53 @@ void start_pending_selection(void)
     u16 mode_bits;
     s16 is_ready;
 
-    if (D_800847D0.unk_26 == -1) {
+    if (sound_playback_state.unk_26 == -1) {
         handle_audio_status_code(0x71);
         return;
     }
     is_ready = test_sound_channel_availability(0);
     if (!is_ready) {
-        D_800847D0.flags04 |= 2;
+        sound_playback_state.flags04 |= 2;
         return;
     }
-    note_offset = -((((u8)D_800847D0.unk_26) >> 4) << 1);
+    note_offset = -((((u8)sound_playback_state.unk_26) >> 4) << 1);
     if (copy_sound_slot_info(0, entry_data) == 0) {
         set_playback_note(entry_data[0x18] + note_offset);
     } else {
         set_playback_note(0x64);
     }
 
-    selection = D_800847D0.unk_26;
+    selection = sound_playback_state.unk_26;
     mode_bits = selection & 0xF000;
     entry_index = selection & 0xF;
-    D_800847D0.unk_26 = entry_index;
-    entry_value = D_80084810[((u16)D_800847D0.unk_20)][entry_index];
+    sound_playback_state.unk_26 = entry_index;
+    entry_value = pending_sound_selection_entries[((u16)sound_playback_state.unk_20)][entry_index];
     if (entry_value != 0) {
-        func_8005B3D8(entry_value, entry_value);
+        submit_shifted_stereo_sound_parameters(entry_value, entry_value);
     }
-    D_800847D0.unk_22 = func_8005AE08(
-        D_80084878[((u16)D_800847D0.unk_20)][D_800847D0.unk_26], 0);
-    D_800847D0.unk_26 = -1;
-    D_800847D0.flags00 &= ~0x1000;
-    D_800847D0.flags04 &= ~2;
+    sound_playback_state.unk_22 = allocate_sequence_bank_slot(
+        audio_selection_record_pointers[((u16)sound_playback_state.unk_20)][sound_playback_state.unk_26], 0);
+    sound_playback_state.unk_26 = -1;
+    sound_playback_state.flags00 &= ~0x1000;
+    sound_playback_state.flags04 &= ~2;
     if (mode_bits != 0) {
-        D_800848F8.unk_04 = 1;
-        D_800848F8.unk_08 = 0;
+        sound_sequence_task.unk_04 = 1;
+        sound_sequence_task.unk_08 = 0;
         switch (mode_bits) {
         case 0x9000:
-            D_800848F8.unk_16 = 4;
+            sound_sequence_task.unk_16 = 4;
             break;
         case 0x8000:
-            D_800848F8.unk_16 = 2;
+            sound_sequence_task.unk_16 = 2;
             break;
         default:
-            D_800848F8.unk_16 = 0xA;
+            sound_sequence_task.unk_16 = 0xA;
             break;
         }
     } else {
-        D_800848FC[0] = 3;
+        audio_sequence_task_phase[0] = 3;
     }
-    D_800847D0.flags00 |= 0x100;
-    func_800552C8();
-    sound_activate_loaded_sequence_slot(D_800847D0.unk_22, 1, 1);
+    sound_playback_state.flags00 |= 0x100;
+    apply_scaled_sound_slot_volume();
+    sound_activate_loaded_sequence_slot(sound_playback_state.unk_22, 1, 1);
 }

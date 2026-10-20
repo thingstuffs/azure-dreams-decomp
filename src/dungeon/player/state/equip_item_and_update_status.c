@@ -32,8 +32,8 @@ extern s32 append_entity_display_text(void *record, u8 *out);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void clear_alternate_texture_regions(s32);
-extern void func_80048568(s32);
-extern void func_80048590(s32);
+extern void load_default_object_palette(s32);
+extern void load_equipment_palette_for_category_sixteen(s32);
 extern u8 D_80088B64[];
 extern u8 D_800DD2B4[];
 extern u8 D_800DD2C4[];
@@ -142,7 +142,7 @@ void equip_item_and_update_status(Arg0 *context, Item *item) {
             clear_alternate_texture_regions(1);
             return;
         }
-        func_80048590(tail_index);
+        load_equipment_palette_for_category_sixteen(tail_index);
     } else {
         context->b84 = D_800DD2C4[tail_index];
         context->b85 = D_800DD2B4[tail_index];
@@ -150,7 +150,7 @@ void equip_item_and_update_status(Arg0 *context, Item *item) {
             clear_alternate_texture_regions(1);
             return;
         }
-        func_80048568(tail_index);
+        load_default_object_palette(tail_index);
     }
     if (item_index == 0) {
         clear_alternate_texture_regions(1);

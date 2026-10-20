@@ -15,7 +15,7 @@ typedef struct S_8004A24C_0 {
 void sound_initialize_ordered_elements();                            /* extern */
 void menu_initialize_four_sub_blocks_position_offsets_fixed_header_derived_values();       /* extern */
 s32 lookup_first_mask_value();                         /* extern */
-s32 func_8004A10C();                             /* extern */
+s32 read_terminal_tagged_entry_value();                             /* extern */
 void menu_copy_the_default_template_fills_five_byte_pairs_negated_half();       /* extern */
 s32 func_8004DC14();                /* extern */
 
@@ -33,7 +33,7 @@ void init_menu_panel(S_8004A24C_0 *state, s32 config_id, s32 resource_id, s16 x,
     state->unk_18 = resource_handle;
     requested_size = (s16)requested_size;
     if (requested_size == -1) {
-        resolved_size = func_8004A10C(resource_handle) + 0x20;
+        resolved_size = read_terminal_tagged_entry_value(resource_handle) + 0x20;
     }
     menu_copy_the_default_template_fills_five_byte_pairs_negated_half(state, state->unk_08, resolved_size & 0xFFFF, state->unk_00 & 1);
     state->unk_14 = (s32) state->unk_08;

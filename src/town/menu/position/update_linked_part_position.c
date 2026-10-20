@@ -41,7 +41,7 @@ void update_linked_part_position(u16 *part, u16 *out_coords)
     }
 
     if (index != 0) {
-        object = D_80082660[index].object;
+        object = object_index_slots[index].object;
         if (object != 0) {
             inner = &object->inner;
             coords = object->coords;

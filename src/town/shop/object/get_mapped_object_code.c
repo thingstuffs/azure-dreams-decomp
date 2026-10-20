@@ -2,7 +2,7 @@
 
 extern s32 get_entity_effect_value(void *, s8);
 extern s32 normalize_monster_status_species_code(s32);
-extern s32 func_80049E88(void *);
+extern s32 select_mapped_object_status_code(void *);
 
 /* Returns a mapped code for the object, or its fallback value when the code is zero. */
 s32 get_mapped_object_code(void *object) {
@@ -16,5 +16,5 @@ s32 get_mapped_object_code(void *object) {
         }
         return code;
     }
-    return func_80049E88(object);
+    return select_mapped_object_status_code(object);
 }

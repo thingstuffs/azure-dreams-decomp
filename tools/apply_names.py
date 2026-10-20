@@ -76,9 +76,15 @@ def main():
     ap.add_argument("--dry-run", action="store_true"); ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--data", action="store_true", help="accept D_<addr> data aliases without a defining function row")
     ap.add_argument("--rewrite", action="store_true", help="with --data, rewrite and verify source references")
+    ap.add_argument("--defer-verification", action="store_true", help="with --batch, stage explicitly unverified aliases for independent complete-TU before/after proof and final gates; data also requires --rewrite")
     a = ap.parse_args()
     if a.rewrite and not a.data:
         ap.error("--rewrite requires --data (function renames always rewrite)")
+    if a.defer_verification and not (a.batch and (not a.data or a.rewrite)):
+        ap.error("--defer-verification requires --batch (and --rewrite for data)")
+    if a.batch and a.data:
+        from apply_names_data import main as data_main
+        return data_main(a, sys.modules[__name__])
     if a.batch:
         from apply_names_batch import main as batch_main
         return batch_main(a, sys.modules[__name__])

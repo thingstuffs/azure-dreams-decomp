@@ -4,7 +4,7 @@
 
 extern void process_message_control_bytes(void *);
 extern void handle_vm_opcode_10(void *);
-extern void func_8003AB44(u8 *, s16, s16, u8, s32, s32, s32);
+extern void move_glyph_to_grid_position(u8 *, s16, s16, u8, s32, s32, s32);
 extern void wait_message_countdown(void);
 
 typedef void (*Callback)(void);
@@ -59,7 +59,7 @@ void render_message_glyphs(S_func_80038CB8_0 *text)
                     (text->unk_20.s < (s32)text->unk_24)) {
                     process_message_control_bytes(text);
                     if (*(s8 *)text->unk_1C <= 0) {
-                        func_8003AB44(
+                        move_glyph_to_grid_position(
                             text->unk_1C,
                             text->unk_20.s,
                             text->unk_22,
@@ -99,7 +99,7 @@ void render_message_glyphs(S_func_80038CB8_0 *text)
                     return;
                 }
                 neg_glyph_count -= 1;
-                func_8003AB44(
+                move_glyph_to_grid_position(
                     text->unk_1C,
                     text->unk_20.s,
                     text->unk_22,
@@ -124,7 +124,7 @@ void render_message_glyphs(S_func_80038CB8_0 *text)
     } else {
         process_message_control_bytes(text);
         if (*(s8 *)text->unk_1C <= 0) {
-            func_8003AB44(
+            move_glyph_to_grid_position(
                 text->unk_1C,
                 text->unk_20.s,
                 text->unk_22,

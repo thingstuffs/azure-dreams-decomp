@@ -158,7 +158,7 @@ extern u8 D_80174EF0[];
 void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, IntVector3 *position);
 void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
     s16 y_offset, s16 z_offset);
-void * func_80171190(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
+void * create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 extern void update_actor_behavior_and_direction();
 extern void create_timed_offset_motion_effect();
 #endif

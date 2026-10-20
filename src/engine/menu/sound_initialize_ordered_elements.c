@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-u8 D_80080B30[4] = { 1, 3, 2, 4 };
+u8 menu_element_order[4] = { 1, 3, 2, 4 };
 
 #include "engine/menu/gp_order_bytes_owner.h"
 
@@ -28,13 +28,13 @@ void sound_initialize_ordered_elements(S_80049F68_Obj *obj)
     }
 
     tail = &obj->elem[0].link;
-    elem_index = D_80080B30[0];
+    elem_index = menu_element_order[0];
     end_marker = 4;
     if (elem_index != end_marker) {
         s32 expected_marker;
 
         expected_marker = end_marker;
-        order = D_80080B30;
+        order = menu_element_order;
         do {
             elem_index = *(order++);
             next = &obj->elem[elem_index].link;

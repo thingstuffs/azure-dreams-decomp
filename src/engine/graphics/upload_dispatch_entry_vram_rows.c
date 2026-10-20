@@ -9,13 +9,13 @@ typedef struct S_8006CE80 {
     /* 0x8 */ s32 unk8;
 } S_8006CE80;
 
-extern S_8006CE80 D_8006CE80[];
+extern S_8006CE80 dispatch_resource_records[];
 
 extern void upload_vram_entry_array(S_8006CE80 *a0);
 
 /* Follow two links from the indexed entry and dispatch the final entry if both links exist. */
 void upload_dispatch_entry_vram_rows(u16 entry_index) {
-    S_8006CE80 *entry = &D_8006CE80[(u16)entry_index & 0xFFFF];
+    S_8006CE80 *entry = &dispatch_resource_records[(u16)entry_index & 0xFFFF];
     S_8006CE80 *linked_entry = entry->unk4;
 
     if (linked_entry != 0) {

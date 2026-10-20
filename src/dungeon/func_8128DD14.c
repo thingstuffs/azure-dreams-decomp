@@ -10,7 +10,7 @@
 /* Resident bindings traced in this bank; shared record layouts retained. */
 extern GameWork D_80084818;
 extern DungeonGlobalStatus D_80085990;
-extern TileObject D_80081490;
+extern TileObject free_node_list_head;
 extern struct EntityRec * D_800803DC;
 extern DungeonRoom D_800E1D50[];
 
@@ -162,7 +162,7 @@ void update_object_animation_and_facing(ActorActionWork *action, void *context, 
             return;
         }
 
-        if (sprite->position.packed == *(u16 *)(&D_80081490.tile_position.parts.tile_x)) {
+        if (sprite->position.packed == *(u16 *)(&free_node_list_head.tile_position.parts.tile_x)) {
             func_8015EBE0(action, context, sprite, actor);
             return;
         }
@@ -244,10 +244,10 @@ void update_object_animation_and_facing(ActorActionWork *action, void *context, 
         if ((state_flags & 0x430) == 0) {
             if ((s16)func_8009EB6C(
                     sprite->position.tile.x, sprite->position.tile.y,
-                    D_80081490.tile_position.parts.tile_x, D_80081490.tile_position.parts.tile_y) != 0) {
+                    free_node_list_head.tile_position.parts.tile_x, free_node_list_head.tile_position.parts.tile_y) != 0) {
                 roomOrDirection = func_8009F608(
                     sprite->position.tile.x, sprite->position.tile.y,
-                    D_80081490.tile_position.parts.tile_x, D_80081490.tile_position.parts.tile_y, &distance);
+                    free_node_list_head.tile_position.parts.tile_x, free_node_list_head.tile_position.parts.tile_y, &distance);
                 actor->facing = roomOrDirection;
             }
         }

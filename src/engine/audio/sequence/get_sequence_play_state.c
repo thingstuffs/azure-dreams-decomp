@@ -6,14 +6,14 @@ typedef struct {
     u8 pad_30[0x50 - 0x30];
 } Slot;
 
-extern s32 D_800869B4[3];
-extern Slot D_80085FA8[];
+extern s32 audio_sequence_track_count[3];
+extern Slot audio_sequence_tracks[];
 
 /* Return 1 if any slot is active, or 3 if all slots are finished. */
 s32 get_sequence_play_state(void) {
     u32 i;
-    for (i = 0; i < D_800869B4[0]; i++) {
-        if (D_80085FA8[i].field_2C == 0) {
+    for (i = 0; i < audio_sequence_track_count[0]; i++) {
+        if (audio_sequence_tracks[i].field_2C == 0) {
             return 1;
         }
     }

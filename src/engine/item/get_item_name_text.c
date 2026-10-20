@@ -20,15 +20,15 @@ typedef struct {
     u8 pad2[4];
 } CatEnt;
 
-extern s32 func_8004928C(Item *);
-extern s32 func_800494FC(Item *);
-extern s32 func_8004DD2C(char *);
+extern s32 record_has_type_twenty(Item *);
+extern s32 read_item_category_flag_ten(Item *);
+extern s32 submit_script_with_registered_context(char *);
 extern char *rindex(char *, s32);
 extern char *strcpy(char *, char *);
 
 extern CatEnt itemCategoryTable[];
-extern char D_80083D38[0x40];
-extern char *D_800713F8[];
+extern char item_name_suffix_buffer[0x40];
+extern char *item_name_suffix_texts[];
 
 /* Selects item text or a fallback, adjusts its special suffix, and passes it to func_8004DD2C. */
 s32 get_item_name_text(Item *item, StrPair *fallbacks) {
@@ -41,7 +41,7 @@ s32 get_item_name_text(Item *item, StrPair *fallbacks) {
 
     if ((item == 0) || (item->unk1 == 0)) {
         item_text = fallbacks->unk4;
-    } else if (func_800494FC(item) != 0) {
+    } else if (read_item_category_flag_ten(item) != 0) {
         item_text = fallbacks->unk0;
     } else {
                         /* 3-statement category_table form: lui fills prior branch delay; category_id then add */
@@ -60,11 +60,11 @@ s32 get_item_name_text(Item *item, StrPair *fallbacks) {
         record_words = record_words + (s32)category->records;
         item_text = *(char **)(record_words + 8);
         record_words = item->unk1;
-        if ((record_words == 0x13) && (func_8004928C(item) != 0)) {
-            strcpy(D_80083D38, item_text);
-            strcpy(rindex(D_80083D38, 0) - 0x12, D_800713F8[0]);
-            item_text = D_80083D38;
+        if ((record_words == 0x13) && (record_has_type_twenty(item) != 0)) {
+            strcpy(item_name_suffix_buffer, item_text);
+            strcpy(rindex(item_name_suffix_buffer, 0) - 0x12, item_name_suffix_texts[0]);
+            item_text = item_name_suffix_buffer;
         }
     }
-    return func_8004DD2C(item_text);
+    return submit_script_with_registered_context(item_text);
 }

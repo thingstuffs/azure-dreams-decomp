@@ -20,7 +20,7 @@ extern s32 ClearImage(S_80052C10_RECT *rect, u8 r, u8 g, u8 b); /* extern PSY-Q 
 extern void draw_double_byte_text(u8 *str, s16 x, s16 y); /* extern */
 
 /* Clears two 64x16 VRAM text regions and draws the two strings at the given row. */
-void func_80052C10(s16 row, S_80052C10_Arg1 *texts) {
+void clear_and_draw_paired_text_rows(s16 row, S_80052C10_Arg1 *texts) {
     S_80052C10_RECT left_rect;
     S_80052C10_RECT right_rect;
 

@@ -14,6 +14,6 @@ void initialize_indexed_object_and_clear_flags(Rec_func_80094268_arg0 *object, s
     clear_entity_record_fields((struct EntityRec *)(setupValue));
     call_the_handler_selects_nonzero_entry(&D_800D0178, object, (void *)(initializationValue));
     object->unk_04.as_pm = &D_80097DE8;
-    D_80082660[1].unk_00 = 0;
-    D_80082660[1].unk_01 = 0;
+    object_index_slots[1].unk_00 = 0;
+    object_index_slots[1].unk_01 = 0;
 }

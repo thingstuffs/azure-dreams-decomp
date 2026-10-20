@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-extern u8 D_8002E950[];
+extern u8 menu_object_pointer_order[];
 
 /* Set 17 objects' data pointers using table-selected groups and 12-byte entries. */
 void initialize_seventeen_object_pointers(s32 *objects, s32 *group_bases)
@@ -13,7 +13,7 @@ void initialize_seventeen_object_pointers(s32 *objects, s32 *group_bases)
     s32 index_table;
 
     object_index = 0;
-    index_table = (s32)D_8002E950;
+    index_table = (s32)menu_object_pointer_order;
     do {
         entry_index = *(u8 *)(object_index + index_table);
         group_index = entry_index / 21;

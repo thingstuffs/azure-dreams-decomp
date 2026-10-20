@@ -19,7 +19,7 @@ extern int draw_tinted_node_sprites_scratch(void *a0, int a1, void *a2);
 extern void register_node(void *a0, void *a1);
 
 /* Lazily initializes and returns the result object, applying any pending value and registering a callback when ready. */
-void *func_80050EF8(S_80050EF8 *object)
+void *ensure_selection_menu_and_register_draw(S_80050EF8 *object)
 {
     S_80050EF8_sub *object_state = &object->sub;
 

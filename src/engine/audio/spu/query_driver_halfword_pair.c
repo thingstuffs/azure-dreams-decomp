@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 D_80073740[64];
+extern s32 audio_voice_masks[64];
 
 /* Local request record built on the stack and handed to func_8005FA34.
  * Same overall layout/size (0x40 bytes) as the D_80084918 request struct
@@ -22,7 +22,7 @@ s32 query_driver_halfword_pair(s16 entry_index, s16 *out_first_value, s16 *out_s
     S_8005C710_Req request;
 
     request.field4 = 0;
-    request.field0 = D_80073740[entry_index];
+    request.field0 = audio_voice_masks[entry_index];
     func_8005FA34(&request);
     *out_first_value = request.field8;
     *out_second_value = request.fieldA;

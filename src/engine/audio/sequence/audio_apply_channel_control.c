@@ -9,7 +9,7 @@
 
 void audio_apply_channel_control(u8 channel, u8 control, u32 value)
 {
-    S_80084960 *settings = &D_80084960[channel];
+    S_80084960 *settings = &audio_channel_controls[channel];
     s32 refresh_notes = 0;
     s32 stopped_voices = 0;
     s32 voice_idx;
@@ -28,17 +28,17 @@ void audio_apply_channel_control(u8 channel, u8 control, u32 value)
             }
             else {
                 settings->f3a = 0;
-                for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
-                    if (D_80085458[voice_idx].f06 == channel) {
-                        audio_update_voice_pitch(&D_80085458[voice_idx], 1);
+                for (voice_idx = 0; voice_idx < *(s32 *)&audio_voice_count; voice_idx++) {
+                    if (audio_voice_records[voice_idx].f06 == channel) {
+                        audio_update_voice_pitch(&audio_voice_records[voice_idx], 1);
                     }
                 }
             }
             if (((control_value & 0xFF) == 0) || (settings->f38 == 0)) {
                 settings->f3a = 0;
-                for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
-                    if (D_80085458[voice_idx].f06 == channel) {
-                        audio_update_voice_pitch(&D_80085458[voice_idx], 1);
+                for (voice_idx = 0; voice_idx < *(s32 *)&audio_voice_count; voice_idx++) {
+                    if (audio_voice_records[voice_idx].f06 == channel) {
+                        audio_update_voice_pitch(&audio_voice_records[voice_idx], 1);
                     }
                 }
             }
@@ -51,17 +51,17 @@ void audio_apply_channel_control(u8 channel, u8 control, u32 value)
             }
             else {
                 settings->f3a = 0;
-                for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
-                    if (D_80085458[voice_idx].f06 == channel) {
-                        audio_update_voice_pitch(&D_80085458[voice_idx], 1);
+                for (voice_idx = 0; voice_idx < *(s32 *)&audio_voice_count; voice_idx++) {
+                    if (audio_voice_records[voice_idx].f06 == channel) {
+                        audio_update_voice_pitch(&audio_voice_records[voice_idx], 1);
                     }
                 }
             }
             if (((control_value & 0xFF) == 0) || (settings->f38 == 0)) {
                 settings->f3a = 0;
-                for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
-                    if (D_80085458[voice_idx].f06 == channel) {
-                        audio_update_voice_pitch(&D_80085458[voice_idx], 1);
+                for (voice_idx = 0; voice_idx < *(s32 *)&audio_voice_count; voice_idx++) {
+                    if (audio_voice_records[voice_idx].f06 == channel) {
+                        audio_update_voice_pitch(&audio_voice_records[voice_idx], 1);
                     }
                 }
             }
@@ -176,46 +176,46 @@ void audio_apply_channel_control(u8 channel, u8 control, u32 value)
         break;
 
     case 30:
-        D_80073738.f0 = control_value & 0xFF;
+        audio_master_level.f0 = control_value & 0xFF;
         audio_refresh_sequence_voice_volumes();
         break;
 
     case 64:
-        for (entry_idx = 0; entry_idx < *(s32 *)&D_80073734; entry_idx++) {
-            if (channel == D_80085458[entry_idx].f06) {
+        for (entry_idx = 0; entry_idx < *(s32 *)&audio_voice_count; entry_idx++) {
+            if (channel == audio_voice_records[entry_idx].f06) {
                 if (((u32) (control_value & 0xFF)) < 0x40) {
-                    for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
-                        if (((D_80085458[voice_idx].f06 == channel) && (D_80085458[voice_idx].f1d != 0))
-                            && (D_80085458[voice_idx].f1c & 0x80)) {
+                    for (voice_idx = 0; voice_idx < *(s32 *)&audio_voice_count; voice_idx++) {
+                        if (((audio_voice_records[voice_idx].f06 == channel) && (audio_voice_records[voice_idx].f1d != 0))
+                            && (audio_voice_records[voice_idx].f1c & 0x80)) {
                             {
-                                voice_status = D_80073740[voice_idx];
+                                voice_status = audio_voice_masks[voice_idx];
                                 pending_voices = stopped_voices;
                                 pending_voices |= voice_status;
                                 stopped_voices = pending_voices;
                             }
                             do {
-                                func_8005E97C(0, D_80073740[voice_idx]);
-                                voice_status = func_8005EB78(D_80073740[voice_idx]);
+                                func_8005E97C(0, audio_voice_masks[voice_idx]);
+                                voice_status = func_8005EB78(audio_voice_masks[voice_idx]);
                             }
                             while ((voice_status != 2) && (voice_status != 0));
-                            D_80085458[voice_idx].f1d = 0;
-                            D_80085458[voice_idx].f1a = 0;
+                            audio_voice_records[voice_idx].f1d = 0;
+                            audio_voice_records[voice_idx].f1a = 0;
                         }
                     }
 
-                    D_80085458[entry_idx].f1d = 0;
+                    audio_voice_records[entry_idx].f1d = 0;
                 }
                 else {
-                    D_80085458[entry_idx].f1d = 1;
+                    audio_voice_records[entry_idx].f1d = 1;
                 }
             }
         }
 
         if (((u32) (control_value & 0xFF)) < 0x40) {
-            D_80084960[channel].f18 = 0;
+            audio_channel_controls[channel].f18 = 0;
         }
         else {
-            D_80084960[channel].f18 = 1;
+            audio_channel_controls[channel].f18 = 1;
         }
         break;
 
@@ -263,10 +263,10 @@ void audio_apply_channel_control(u8 channel, u8 control, u32 value)
     {
         s32 needs_refresh = refresh_notes;
         if (needs_refresh) {
-            for (entry_idx = 0; entry_idx < *(s32 *)&D_80073734; entry_idx++) {
-                if ((channel == D_80085458[entry_idx].f06) && (D_80085458[entry_idx].f1a != 0)) {
-                    audio_compute_voice_stereo_volumes(&D_80085458[entry_idx], &D_80084960[channel]);
-                    sound_set_indexed_voice_volumes(entry_idx, D_80085458[entry_idx].f10, D_80085458[entry_idx].f12);
+            for (entry_idx = 0; entry_idx < *(s32 *)&audio_voice_count; entry_idx++) {
+                if ((channel == audio_voice_records[entry_idx].f06) && (audio_voice_records[entry_idx].f1a != 0)) {
+                    audio_compute_voice_stereo_volumes(&audio_voice_records[entry_idx], &audio_channel_controls[channel]);
+                    sound_set_indexed_voice_volumes(entry_idx, audio_voice_records[entry_idx].f10, audio_voice_records[entry_idx].f12);
                 }
             }
         }

@@ -8,7 +8,7 @@ void update_message_window(Func80038A10State *input_state) {
     void *context = input_state->field80;
     void (*handler)(Func80038A10State *);
 
-    D_80081448 = state;
+    current_message_window_state = state;
 
     if (state->field87 == 0) {
         if ((((u32)global->buttons) & 0x20) != 0) {
@@ -21,9 +21,9 @@ void update_message_window(Func80038A10State *input_state) {
     handler = update_message_window;
 
     do {
-        if (func_80038AB8((struct RuntimeContext *)state, (u8 *)context) == 0) {
+        if (interpret_script_opcodes_until_action_changes((struct RuntimeContext *)state, (u8 *)context) == 0) {
             break;
         }
     } while (state->func10 == handler);
 }
-Func80038A10State * D_80081448 = 0;
+Func80038A10State * current_message_window_state = 0;

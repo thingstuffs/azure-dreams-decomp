@@ -9,9 +9,9 @@ typedef struct S_80035AAC_0 {
 } S_80035AAC_0;   /* arg0 in set_window_handler */
 
 
-extern M2C_UNK func_80035AF8;
+extern M2C_UNK display_sound_selection_and_prepare_playback;
 
 /* Set the object's function pointer to func_80035AF8. */
 void set_window_handler(S_80035AAC_0 *object) {
-    object->unk_68 = &func_80035AF8;
+    object->unk_68 = &display_sound_selection_and_prepare_playback;
 }

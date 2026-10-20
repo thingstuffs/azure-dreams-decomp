@@ -58,18 +58,18 @@ void copy_texture_descriptor_with_page_offsets(); /* extern */
 void update_cursor_blink_colors(void *state, s32 mode, void *output);
 void *initialize_runtime_node_storage(); /* extern */
 s32 register_node();           /* extern */
-extern u8 D_8006A988[];
-extern u8 D_8006A994[];
-extern u8 D_8006A9A0[];
-extern u8 D_8006A9AC[];
-extern u8 D_8006A9B8[];
-extern u8 D_8006A9C4[];
-extern u8 D_80081E90[];
-extern u8 D_80081EA0[];
-extern u8 D_80082B80[];
-extern u8 D_80082B90[];
-extern u8 D_80082BA0[];
-extern u8 D_80082BB0[];
+extern u8 cursor_texture_template_0[];
+extern u8 cursor_texture_template_1[];
+extern u8 cursor_texture_template_2[];
+extern u8 cursor_texture_template_3[];
+extern u8 cursor_texture_template_4[];
+extern u8 cursor_texture_template_5[];
+extern u8 cursor_texture_descriptor_4[];
+extern u8 cursor_texture_descriptor_5[];
+extern u8 cursor_texture_descriptor_0[];
+extern u8 cursor_texture_descriptor_1[];
+extern u8 cursor_texture_descriptor_2[];
+extern u8 cursor_texture_descriptor_3[];
 extern u8 D_80082BC0[];
 void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback();
 
@@ -99,13 +99,13 @@ void init_cursor_sprite_object(s32 node_addr, Rec_D_80081FDC *transform, s32 *sc
     state->unk_08 = 0;
     func_800350B0(owner, state);
     sprite->unk_0C = 0xC0C0C0;
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &D_8006A988, &D_80082B80);
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &D_8006A994, &D_80082B90);
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &D_8006A9A0, &D_80082BA0);
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &D_8006A9AC, &D_80082BB0);
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &D_8006A9B8, &D_80081E90);
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &D_8006A9C4, &D_80081EA0);
-    sprite->unk_08 = &D_80082B90;
+    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &cursor_texture_template_0, &cursor_texture_descriptor_0);
+    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &cursor_texture_template_1, &cursor_texture_descriptor_1);
+    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &cursor_texture_template_2, &cursor_texture_descriptor_2);
+    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &cursor_texture_template_3, &cursor_texture_descriptor_3);
+    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &cursor_texture_template_4, &cursor_texture_descriptor_4);
+    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &cursor_texture_template_5, &cursor_texture_descriptor_5);
+    sprite->unk_08 = &cursor_texture_descriptor_1;
     sprite->unk_00 = 0;
     sprite->unk_04 = 0;
     sprite->unk_05 = 0;

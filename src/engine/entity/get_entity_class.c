@@ -14,7 +14,7 @@ typedef struct {
 } Entity;
 
 extern InitialStats initialStatsTable[1];
-extern u8 D_8006D160[9];
+extern u8 entity_class_lookup[9];
 
 /* Returns the entity class from shared initial-stat flags or its lowest class flag. */
 s32 get_entity_class(Entity *entity)
@@ -34,7 +34,7 @@ s32 get_entity_class(Entity *entity)
         class_bits = shared_flags & 7;
 
         if (class_bits != 0) {
-            u8 *class_table = D_8006D160;
+            u8 *class_table = entity_class_lookup;
             class_id = class_table[class_bits];
         } else if (flags & 1) {
             class_id = 1;

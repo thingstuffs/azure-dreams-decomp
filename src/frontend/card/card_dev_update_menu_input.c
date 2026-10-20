@@ -23,7 +23,7 @@ extern s32 card_devkit_poll_stable_slot_state(void);
 extern void submit_stored_and_queried_boot_values(void);
 extern void propagate_object_high_bit_flags(void *obj);
 extern void allocate_or_reuse_effect_and_install_callback(s32 current, s32 mode);
-extern volatile s32 D_801379A8;
+extern volatile s32 boot_pad_state;
 extern volatile s32 D_801379B0;
 extern u8 D_80405AB4[];
 
@@ -38,7 +38,7 @@ void card_dev_update_menu_input(u8 *root)
     s32 side;
     s32 result;
 
-    entry_flags = D_801379A8;
+    entry_flags = boot_pad_state;
     if (entry_flags != 0) {
         s32 flags20;
         s32 flags5000;
@@ -53,7 +53,7 @@ void card_dev_update_menu_input(u8 *root)
             func_80063FF8(0x514);
             advance_indexed_object_operation(root);
         } else {
-            flags5000 = D_801379A8;
+            flags5000 = boot_pad_state;
             if (flags5000 & 0x5000) {
                 side = flags10 & 0x5000;
                 if (side != 0) {
@@ -69,7 +69,7 @@ void card_dev_update_menu_input(u8 *root)
                     if (value >= 13) {
                         side = value - 2;
                         (*(s32 *)((u8 *)root + 0x30)) = side;
-                        flags8 = D_801379A8;
+                        flags8 = boot_pad_state;
                         if (flags8 & 0x1000) {
                             action = -1;
                         } else if (flags8 & 0x4000) {

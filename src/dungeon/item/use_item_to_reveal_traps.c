@@ -34,7 +34,7 @@ s32 use_item_to_reveal_traps(EntityRec *target, s32 item, s16 use_type, s32 use_
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, item, use_type);
         if (apply_actor_food_preference(target,
-                          D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
+                          entity_action_selectors[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
                           item) == 0) {
             apply_item_effect_at_entity_position(target, item);
             return 1;

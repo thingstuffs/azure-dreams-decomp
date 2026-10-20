@@ -4,7 +4,7 @@
 
 typedef void (*Callback)(void);
 
-extern void func_800368F8(void);
+extern void noop_after_menu_slot_release(void);
 
 #define FIELD(ptr, type, offset) (*(type *)((u8 *)(ptr) + (offset)))
 
@@ -30,5 +30,5 @@ void mark_menu_slot_used(S_func_800368D0_0 *state) {
     buffer = state->unk_44;
     byte_offset = state->unk_4A;
     ((S_func_800368D0_1 *)(buffer + byte_offset))->unk_50 = 0xFF;
-    state->unk_68 = func_800368F8;
+    state->unk_68 = noop_after_menu_slot_release;
 }

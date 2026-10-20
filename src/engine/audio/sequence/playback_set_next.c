@@ -19,7 +19,7 @@ static inline void playback_set_next(PlaybackState *state, s32 position, s32 ste
 }
 
 /* Updates the playback position and next position, returning 1 if playback has ended. */
-s32 func_800597A8(PlaybackState *state)
+s32 seek_sequence_tag_and_schedule_step(PlaybackState *state)
 {
     s32 updated_position;
 

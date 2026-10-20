@@ -24,6 +24,6 @@ void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_c
 /* Set the object data pointer and clear its indexed flag before calling apply_object_setup_and_update. */
 void func_800C8600(S_800C8600_0 *object, s32 param_1, s32 param_2) {
     ((S_800C8600_2 *)(((S_800C8600_1 *)object)->unk_80))->unk_04 = &D_800D62C4;
-    D_80082660[object->unk_60].unk_00 = 0;
+    object_index_slots[object->unk_60].unk_00 = 0;
     apply_object_setup_and_update(object, param_1, param_2);
 }

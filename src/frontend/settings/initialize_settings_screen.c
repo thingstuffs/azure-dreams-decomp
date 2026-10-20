@@ -50,9 +50,9 @@ extern u8 D_80013186;
 extern M2C_UNK D_800786E8;
 extern M2C_UNK D_80078AF0;
 extern s8 D_80080A84;
-extern s32 D_80080A94;
-extern s32 D_80080A98;
-extern s32 D_80080A9C;
+extern s32 saved_cd_playback_volume_scale;
+extern s32 saved_sequence_volume_scale;
+extern s32 saved_voice_gain_scale;
 extern u8 D_800888AC;
 extern M2C_UNK D_8008AC70;
 extern M2C_UNK D_8008B030;
@@ -120,18 +120,18 @@ void initialize_settings_screen(void) {
     first_level = 0x100;
     D_80080A84 = 1;
     levels = (s32 *)&D_8008B2F0;
-    if (D_80080A98 != 0x7FFF) {
-        first_level = (s32) D_80080A98 >> 7;
+    if (saved_sequence_volume_scale != 0x7FFF) {
+        first_level = (s32) saved_sequence_volume_scale >> 7;
     }
     second_level = 0x100;
     levels[0] = first_level;
-    if (D_80080A9C != 0x7FFF) {
-        second_level = (s32) D_80080A9C >> 7;
+    if (saved_voice_gain_scale != 0x7FFF) {
+        second_level = (s32) saved_voice_gain_scale >> 7;
     }
     third_level = 0x100;
     levels[1] = second_level;
-    if (D_80080A94 != 0x7FFF) {
-        third_level = (s32) D_80080A94 >> 7;
+    if (saved_cd_playback_volume_scale != 0x7FFF) {
+        third_level = (s32) saved_cd_playback_volume_scale >> 7;
     }
     levels[2] = third_level;
     SD_Call(0x200);

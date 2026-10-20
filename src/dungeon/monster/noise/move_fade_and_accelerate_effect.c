@@ -80,7 +80,7 @@ void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 e
 }
 
 /* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *func_80171190(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     T_80171190_Work *work;

@@ -7,7 +7,7 @@
    codegen uses %hi/%lo addressing rather than $gp-relative. */
 
 extern s32 D_8008485C[3];
-extern s32 D_800848FC[3];
+extern s32 audio_sequence_task_phase[3];
 
 /* Returns the blocking status for the selected mode from flags and pending state. */
 s32 func_80053EF0(s32 mode) {
@@ -15,11 +15,11 @@ s32 func_80053EF0(s32 mode) {
 
     switch (mode) {
     case 1:
-        flags = D_800847D0.flags00;
+        flags = sound_playback_state.flags00;
         if (flags & 0x1000) {
             return 2;
         }
-        if (D_800848FC[0] == 2) {
+        if (audio_sequence_task_phase[0] == 2) {
             return 3;
         }
         if (flags & 0x100) {
@@ -27,10 +27,10 @@ s32 func_80053EF0(s32 mode) {
         }
         return 0;
     case 4:
-        if (D_800847D0.flags04 & 0x200) {
+        if (sound_playback_state.flags04 & 0x200) {
             return 0x100;
         }
-        flags = D_800847D0.flags00;
+        flags = sound_playback_state.flags00;
         if (flags & 0x4000) {
             return 2;
         }

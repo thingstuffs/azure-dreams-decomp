@@ -2,7 +2,7 @@
 
 extern s32 select_sound_stream(s16 entry_index, s16 mode);
 extern s16 SD_Call(s32 flags);
-extern void func_800542BC(void);
+extern void drain_audio_commands_and_service_channels(void);
 extern s8 D_80080A88[];
 extern s16 D_800D4258[];
 extern s16 D_800D4260[];
@@ -49,7 +49,7 @@ void apply_sound_selections_and_update(void)
         previous = D_800D4268;
         if (previous[2] != selection) {
             SD_Call(0x71);
-            func_800542BC();
+            drain_audio_commands_and_service_channels();
             select_sound_stream(active[2], 0);
             if (active[3] != unset) {
                 selection = (u16)active[3];
@@ -58,22 +58,22 @@ void apply_sound_selections_and_update(void)
         } else if (active[3] != unset) {
             if (previous[3] != active[3]) {
                 SD_Call(0x71);
-                func_800542BC();
+                drain_audio_commands_and_service_channels();
                 selection = (u16)active[3];
                 SD_Call(selection);
             } else if (D_80080A88[0] == 0) {
                 ((void (*)(s32))SD_Call)(0x71);
-                func_800542BC();
+                drain_audio_commands_and_service_channels();
                 selection = (u16)active[3];
                 SD_Call(selection);
             }
         } else {
             SD_Call(0x71);
-            func_800542BC();
+            drain_audio_commands_and_service_channels();
         }
     } else {
         SD_Call(0x71);
-        func_800542BC();
+        drain_audio_commands_and_service_channels();
         if (active[3] != selection) {
             selection = (u16)active[3];
             SD_Call(selection);

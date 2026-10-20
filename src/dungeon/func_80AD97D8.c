@@ -30,7 +30,7 @@ typedef struct MotionResetView {
     s32 motionFlags;
 } MotionResetView;
 
-void func_80160FD8(void *sequence, void *motion, void *sprite, EntityRec *actor)
+void advance_attack_with_delayed_sprite_flash(void *sequence, void *motion, void *sprite, EntityRec *actor)
 {
     u8 state;
 

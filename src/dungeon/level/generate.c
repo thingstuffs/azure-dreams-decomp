@@ -192,7 +192,7 @@ void append_generation_region_entry(s16 row_index, s16 first_byte, s16 second_by
     row = (row_index * 0x14) + rows_base;
     if (row->unk_0A != 0) {
         row_offset = row_index << 6;
-        entries_base = (void *)D_800E2C40;
+        entries_base = (void *)generation_region_cell_entries;
         entry_count = row->unk_0E;
         row->unk_10 = row_offset + entries_base;
         entry = ((s32)(entry_count << 0x10) >> 0xE) + row_offset + entries_base;
@@ -627,9 +627,9 @@ void load_dungeon_layout(s16 layout_number)
     u16 shift_y;
 
     layout_index = layout_number - 1;
-    data_2 = *(u8 * *)&((SpriteFrameState *)D_8008148C)->unk_00;
-    (*(u8 * *)D_80081480) = data_2;
-    layout_id = D_8001F604[layout_index];
+    data_2 = *(u8 * *)&((SpriteFrameState *)gpu_scratch_buffer_base)->unk_00;
+    (*(u8 * *)gpu_scratch_write_pointer) = data_2;
+    layout_id = floor_layout_resource_descriptors[layout_index];
     cfg = &g_game_work.map;
     map = ((floor_generate_isolated_80285464_MapCell *)cfg->cells);
     Control_CD(6, layout_id, 0);
@@ -655,7 +655,7 @@ void load_dungeon_layout(s16 layout_number)
         room_header += 4;
         data = (u8 *)room_header;
         while (*data != 0) {
-            ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].tiles = &D_800E2C40[entry_index << 6];
+            ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].tiles = &generation_region_cell_entries[entry_index << 6];
             floor_generate_isolated_80285464_ROOM_CELL(entry_index, ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].count).a = *data++;
             floor_generate_isolated_80285464_ROOM_CELL(entry_index, ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].count).b = *data++;
             floor_generate_isolated_80285464_ROOM_CELL(entry_index, ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].count).c = *data;
@@ -687,7 +687,7 @@ void load_dungeon_layout(s16 layout_number)
     if (try_add_second_tower_entry(entry_index) != 0) {
         entry_index++;
     }
-    D_8001F586 = 1;
+    floor_layout_loaded = 1;
     entry_index++;
     while (entry_index < 4) {
         ((floor_generate_isolated_80285464_Ent8 *)D_800E3CD8)[entry_index].kind = 0;
@@ -786,7 +786,7 @@ void setup_run_and_load_track(void) {
             u32 r;
             u16 fl;
 
-            func_800A6D98(state->seed);
+            restore_dungeon_random_seed(state->seed);
             r = generate_random_value();
             state->field8 = 0;
             state->fieldA = 0;
@@ -797,14 +797,14 @@ void setup_run_and_load_track(void) {
             (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).level = ((floor_generate_isolated_80285A70_LevelPage *)0x80010000)->level;
             fl &= 0xFFFC;
             state->flags = fl;
-            func_8004D0C8(((u8 *)(&D_80083780)));
+            bind_view_triplet_source(((u8 *)(&D_80083780)));
             bzero((void *)0x80013720, 0x2000);
         } else if (entry_flags & 1) {
             state->field8 = 0;
             state->fieldA = 0;
             (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed = state->seed;
             (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).level = ((floor_generate_isolated_80285A70_LevelPage *)0x80010000)->level;
-            func_8004D0C8(((u8 *)(&D_80083780)));
+            bind_view_triplet_source(((u8 *)(&D_80083780)));
         } else {
             u32 hi;
 
@@ -816,13 +816,13 @@ void setup_run_and_load_track(void) {
             state->field11 = 0;
             state->field10 = 0;
             state->seed = (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed = (value | (hi << 16)) ^ xor_base->unk_004;
-            func_8004D0C8(((u8 *)(&D_80083780)));
+            bind_view_triplet_source(((u8 *)(&D_80083780)));
             bzero((void *)0x80013720, 0x2000);
         }
     }
 
     srand((*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed);
-    func_800A6D98((*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed);
+    restore_dungeon_random_seed((*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed);
     store_monster_direction_nibble();
     D_80082E60.flags16 = 0;
     D_800E3D6C = 0;
@@ -849,10 +849,10 @@ void setup_run_and_load_track(void) {
 
         track_no--;
         clear_thirty_six_table_fields();
-        tracks = D_8001F62C;
+        tracks = floor_track_configuration_records;
         track = &tracks[track_no];
         create_default_state_object(track->track);
-        file_load_com(D_8001F588[track->table_index]);
+        file_load_com(floor_track_resource_descriptors[track->table_index]);
         runtime_load_packed_resource_chunks(track->kind, D_800F0000);
         clear_generation_cell_grid();
         clear_generation_region_entries();
@@ -867,15 +867,15 @@ void setup_run_and_load_track(void) {
         }
     } else {
         if (page1->mode != 2) {
-            create_default_state_object(D_8001F584 % 24 + 3);
-            action = D_8001F594[D_8001F584 % 24];
+            create_default_state_object(floor_generation_track_variant % 24 + 3);
+            action = floor_variant_resource_descriptors[floor_generation_track_variant % 24];
         } else {
             s32 random_remainder;
 
             random_remainder = generate_random_value() & 0xFFFF;
             random_remainder %= 24;
             create_default_state_object((s16)(random_remainder + 3));
-            action = D_8001F594[random_remainder];
+            action = floor_variant_resource_descriptors[random_remainder];
         }
 
         file_load_com(action);
@@ -890,7 +890,7 @@ void setup_run_and_load_track(void) {
 
     }
     apply_state_index_tile_masks();
-    if (D_8001F586 == 0) {
+    if (floor_layout_loaded == 0) {
         place_random_floor_elevators();
     }
     initialize_grid_border_cells();
@@ -972,7 +972,7 @@ s32 setup_dungeon_floor_encounters(void)
                     wait_until_sound_idle();
                     D_80080A88[0] = 1;
                     SD_Call(0x200);
-                    func_800542BC();
+                    drain_audio_commands_and_service_channels();
                 }
                 if (encounter_status == 0) {
                     load_object_into_alternate_buffer(0, 1, 0);
@@ -981,7 +981,7 @@ s32 setup_dungeon_floor_encounters(void)
                 load_object_into_alternate_buffer(0, 1, 0);
                 load_object_into_alternate_buffer(0x29, 1, 1);
                 SD_Call(0x200);
-                func_800542BC();
+                drain_audio_commands_and_service_channels();
                 load_and_upload_sprite_resource(0x38);
             }
 
@@ -995,7 +995,7 @@ s32 setup_dungeon_floor_encounters(void)
                 D_800E296C |= 0x10000000;
                 load_object_into_alternate_buffer(1, 1, 1);
                 SD_Call(0x200);
-                func_800542BC();
+                drain_audio_commands_and_service_channels();
                 load_object_into_alternate_buffer(0, 1, 0);
             } else if (state == 2) {
                 s32 i_m;
@@ -1004,7 +1004,7 @@ s32 setup_dungeon_floor_encounters(void)
                 if (encounter_status == 0) {
                     wait_until_sound_idle();
                     SD_Call(0x200);
-                    func_800542BC();
+                    drain_audio_commands_and_service_channels();
                     load_object_into_alternate_buffer(0, 1, 0);
                 }
 
@@ -1145,7 +1145,7 @@ void load_floor_spawn_tables(s16 resource_index)
     drain_cd_command_queue();
     *(floor_generate_isolated_802864C4_Copy32 *)g_dungeon_status.monster_spawn_table = D_8014A000;
     (*(floor_generate_isolated_802864C4_Copy32 *)D_800DDC9C) = *(floor_generate_isolated_802864C4_Copy32 *)(resource_data + 0x20);
-    D_8001F584 = resource_data[0x40];
+    floor_generation_track_variant = resource_data[0x40];
 }
 
 /* MECHANISM: Packed 32-byte assignments express both retail unaligned copies.
@@ -1183,10 +1183,10 @@ s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) 
     s16 saved_mode = mode;
     s16 activate_tail = (s16)activate_flag;
     s32 object_offset = (s32)object_index << 16;
-    floor_generate_isolated_80286684_Object **objects = D_8006E704;
+    floor_generate_isolated_80286684_Object **objects = sound_stream_resource_entries;
     floor_generate_isolated_80286684_Object **slot =
         (floor_generate_isolated_80286684_Object **)((u8 *)objects + (object_offset >> 14));
-    floor_generate_isolated_80286684_Object **buffers = D_80080AF4;
+    floor_generate_isolated_80286684_Object **buffers = sound_stream_buffer_entries;
     u16 buffer_index;
     floor_generate_isolated_80286684_Object *requested_object;
     floor_generate_isolated_80286684_Object *header_object;
@@ -1194,7 +1194,7 @@ s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) 
     u32 header;
     u32 buffer_addr;
     u32 mask_2;
-    if (*slot == buffers[D_80080AFC]) {
+    if (*slot == buffers[sound_stream_buffer_index]) {
         return 1;
     }
 
@@ -1204,16 +1204,16 @@ s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) 
     {
         buffer_addr = (u32)(activate_flag << 16);
         if ((s32)buffer_addr == 0) {
-            saved_index = (u16)D_80080AFC;
+            saved_index = (u16)sound_stream_buffer_index;
         }
     }
 
-    buffer_index = (u16)D_80080AFC;
+    buffer_index = (u16)sound_stream_buffer_index;
     requested_object = *slot;
     buffer_index ^= 1;
-    D_80080AFC = buffer_index;
+    sound_stream_buffer_index = buffer_index;
     if (requested_object != buffers[(s16)buffer_index]) {
-        if (D_80080AF3 != (s16)mode) {
+        if (sound_stream_state_index != (s16)mode) {
             wait_until_sound_idle();
         }
 
@@ -1223,10 +1223,10 @@ s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) 
         load_object = *slot;
         header = load_object->field_0;
         {
-            if (D_80080AFC != 0) {
-                buffer_addr = (u32)D_801C4640 & 0x007FFFFF;
+            if (sound_stream_buffer_index != 0) {
+                buffer_addr = (u32)sound_stream_secondary_marker_address & 0x007FFFFF;
             } else {
-                buffer_addr = (u32)D_801BEE40 & 0x007FFFFF;
+                buffer_addr = (u32)sound_stream_primary_marker_address & 0x007FFFFF;
             }
             header |= buffer_addr;
             buffer_addr = header;
@@ -1238,12 +1238,12 @@ s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) 
             s16 cd_command = 6;
             reload_left = (s32)saved_object_index << 16;
             load_object->field_0 = buffer_addr;
-            reload_objects = D_8006E704;
+            reload_objects = sound_stream_resource_entries;
             reload_offset = reload_left >> 14;
             {
                 floor_generate_isolated_80286684_Object **reload_slot = (floor_generate_isolated_80286684_Object **)((u8 *)reload_objects + reload_offset);
                 Control_CD(cd_command, *reload_slot, 0);
-                D_80080AF4[D_80080AFC] = *reload_slot;
+                sound_stream_buffer_entries[sound_stream_buffer_index] = *reload_slot;
             }
             drain_cd_command_queue();
         }
@@ -1255,7 +1255,7 @@ s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) 
             (s32)activate_tail << 16;
         if (activate_tail_test != 0) {
             s32 sound_command = 0x21;
-            if (D_80080AFC != 0) {
+            if (sound_stream_buffer_index != 0) {
                 sound_command = 0x22;
             }
             SD_Call(sound_command);
@@ -1263,7 +1263,7 @@ s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) 
         }
     }
 
-    D_80080AFC = saved_index;
+    sound_stream_buffer_index = saved_index;
     return 0;
 }
 
@@ -1274,26 +1274,26 @@ s32 load_generation_resource_slot(s16 resource_index) {
     floor_generate_isolated_80286894_S_80019894_0 *resource;
     void *cd_data;
 
-    resource = (resource_index * 0xC) + (s8 *)&D_8006E61C;
+    resource = (resource_index * 0xC) + (s8 *)&sound_effect_bank_descriptors;
     slot_index = resource->unk_00 - 1;
-    loaded_id = slot_index + (u8 *)&D_80080AF0;
+    loaded_id = slot_index + (u8 *)&sound_effect_loaded_record_ids;
     resource_id = resource_index + 1;
     if (*loaded_id == resource_id) {
         return 0;
     }
     SD_Call(0x72, resource_id);
-    func_800542BC();
+    drain_audio_commands_and_service_channels();
     *loaded_id = resource_index + 1;
     func_80067014(0);
     func_8005FE18(0);
     cd_data = resource->unk_08;
-    (*(s32 *)D_80081480) = ((Rec_D_80082E80 *)(&*(s32 *)&((SpriteFrameState *)D_8008148C)->unk_00))->unk_00;
+    (*(s32 *)gpu_scratch_write_pointer) = ((Rec_D_80082E80 *)(&*(s32 *)&((SpriteFrameState *)gpu_scratch_buffer_base)->unk_00))->unk_00;
     Control_CD(6, cd_data, 0);
     Control_CD(6, resource->unk_04, 0);
     drain_cd_command_queue();
-    func_8003F5E0(*(s32 *)&((SpriteFrameState *)D_8008148C)->unk_00);
+    set_sound_payload_slot(*(s32 *)&((SpriteFrameState *)gpu_scratch_buffer_base)->unk_00);
     SD_Call(((2 << slot_index) | 0x10) & 0xFFFF);
-    func_800542BC();
+    drain_audio_commands_and_service_channels();
     do {
     } while (test_sound_channel_availability((s16) resource->unk_00) != 1);
     return 1;
@@ -1389,37 +1389,37 @@ s32 generate_floor_layout(void)
     tries = 1024;
     rnd = generate_random_value();
     if ((rnd & 0x7F) == 0) {
-        D_8001F660 = 2;
+        generation_room_columns = 2;
     }
     else
         if ((rnd & 0x1F) == 0) {
-            D_8001F660 = 3;
+            generation_room_columns = 3;
         }
     else {
-        D_8001F660 = 4;
+        generation_room_columns = 4;
     }
     rnd = generate_random_value();
     if ((rnd & 0x7F) == 0) {
-        D_8001F664 = 2;
+        generation_room_rows = 2;
     }
     else
         if ((rnd & 0x1F) == 0) {
-            D_8001F664 = 3;
+            generation_room_rows = 3;
         }
     else {
-        D_8001F664 = 4;
+        generation_room_rows = 4;
     }
     for (i = 32; i > 0; i--) {
-        ((floor_generate_isolated_80286AF8_Pair *)D_8001F6A8)[i].b = 0;
-        ((floor_generate_isolated_80286AF8_Pair *)D_8001F6A8)[i].a = 0;
+        ((floor_generate_isolated_80286AF8_Pair *)generation_room_link_pairs)[i].b = 0;
+        ((floor_generate_isolated_80286AF8_Pair *)generation_room_link_pairs)[i].a = 0;
     }
 
-    (*(s16 *)D_8001F668) = 0;
+    (*(s16 *)generation_room_link_count) = 0;
     if (((s16) random_dungeon_range_16(0, 512)) < 2) {
         j = 1;
     }
     else {
-        oy = (D_8001F664 * D_8001F660) - 1;
+        oy = (generation_room_rows * generation_room_columns) - 1;
         k = 0;
         while (oy >= 0) {
             flags[k] = (generate_random_value() & 3) != 0;
@@ -1428,16 +1428,16 @@ s32 generate_floor_layout(void)
             k++;
         }
 
-        for (oy = 0; oy < D_8001F664; oy++) {
-            for (ox = 0; ox < D_8001F660; ox++) {
-                k = (oy * D_8001F660) + ox;
+        for (oy = 0; oy < generation_room_rows; oy++) {
+            for (ox = 0; ox < generation_room_columns; ox++) {
+                k = (oy * generation_room_columns) + ox;
                 if (flags[k] > 0) {
                     s32 rx;
                     s32 ry;
-                    rx = random_dungeon_range_16(0, ((64 / D_8001F660) / 2) - 1) + (ox * (64 / D_8001F660));
-                    ry = random_dungeon_range_16(0, ((64 / D_8001F664) / 2) - 1) + (oy * (64 / D_8001F664));
-                    dw = random_dungeon_range_16(0, ((64 / D_8001F660) / 2) - 1);
-                    jr = random_dungeon_range_16(0, ((64 / D_8001F664) / 2) - 1) + 5;
+                    rx = random_dungeon_range_16(0, ((64 / generation_room_columns) / 2) - 1) + (ox * (64 / generation_room_columns));
+                    ry = random_dungeon_range_16(0, ((64 / generation_room_rows) / 2) - 1) + (oy * (64 / generation_room_rows));
+                    dw = random_dungeon_range_16(0, ((64 / generation_room_columns) / 2) - 1);
+                    jr = random_dungeon_range_16(0, ((64 / generation_room_rows) / 2) - 1) + 5;
                     rh = jr;
                     do {
                     } while (0);
@@ -1464,8 +1464,8 @@ s32 generate_floor_layout(void)
                         s32 sy;
                         s32 sx;
                         flags[k] = 0;
-                        sx = ((ox * (64 / D_8001F660)) + (generate_random_value() & 7)) + 6;
-                        sy = (oy * (64 / D_8001F664)) + (generate_random_value() & 7);
+                        sx = ((ox * (64 / generation_room_columns)) + (generate_random_value() & 7)) + 6;
+                        sy = (oy * (64 / generation_room_rows)) + (generate_random_value() & 7);
                         sy = sy + 6;
                         D_800E2970[k].x = sx;
                         D_800E2970[k].y = sy;
@@ -1476,8 +1476,8 @@ s32 generate_floor_layout(void)
                 else {
                     s32 sy;
                     s32 sx;
-                    sx = ((ox * (64 / D_8001F660)) + (generate_random_value() & 7)) + 6;
-                    sy = (oy * (64 / D_8001F664)) + (generate_random_value() & 7);
+                    sx = ((ox * (64 / generation_room_columns)) + (generate_random_value() & 7)) + 6;
+                    sy = (oy * (64 / generation_room_rows)) + (generate_random_value() & 7);
                     sy = sy + 6;
                     D_800E2970[k].x = sx;
                     D_800E2970[k].y = sy;
@@ -1506,9 +1506,9 @@ s32 generate_floor_layout(void)
     else {
         floor_generate_isolated_80286AF8_Room *room;
         s32 x;
-        for (oy = 0; oy < D_8001F664; oy++) {
-            for (ox = 0; ox < D_8001F660; ox++) {
-                k = (oy * D_8001F660) + ox;
+        for (oy = 0; oy < generation_room_rows; oy++) {
+            for (ox = 0; ox < generation_room_columns; ox++) {
+                k = (oy * generation_room_columns) + ox;
                 if (D_800E2970[k].unk_0A != 0) {
                     update_region_until_complete(&D_800E2970[k], k);
                 }
@@ -1517,11 +1517,11 @@ s32 generate_floor_layout(void)
         }
 
         fill_inactive_interior_cells(16384);
-        k = (generate_random_value() & 0xFFFF) % (D_8001F664 * D_8001F660);
+        k = (generate_random_value() & 0xFFFF) % (generation_room_rows * generation_room_columns);
         dir = generate_random_value() & 6;
         rp = D_800E2970;
         while (1) {
-            n = D_8001F664 * D_8001F660;
+            n = generation_room_rows * generation_room_columns;
             if (n <= 0) {
                 break;
             }
@@ -1537,12 +1537,12 @@ s32 generate_floor_layout(void)
                 }
             }
             while (i < n);
-            if (i >= (D_8001F664 * D_8001F660)) {
+            if (i >= (generation_room_rows * generation_room_columns)) {
                 break;
             }
             i = 4;
-            oy = k / D_8001F660;
-            ox = k % D_8001F660;
+            oy = k / generation_room_columns;
+            ox = k % generation_room_columns;
             next = k;
             x = k << 2;
             cn = conn;
@@ -1565,13 +1565,13 @@ s32 generate_floor_layout(void)
                         bq = (u8 *) (&cn[next]);
                         (*bp)--;
                         bq[((dirv + 4) & 7) >> 1]--;
-                        x0 = (s32) (&(*(s16 *)D_8001F668));
+                        x0 = (s32) (&(*(s16 *)generation_room_link_count));
                         idx = ((s16 *) x0)[0];
                         room->link = 1;
                         rp[next].link = 1;
                         do {
                         } while (0);
-                        n = (s32) ((floor_generate_isolated_80286AF8_Pair *)D_8001F6A8);
+                        n = (s32) ((floor_generate_isolated_80286AF8_Pair *)generation_room_link_pairs);
                         do {
                             ((floor_generate_isolated_80286AF8_Pair *) n)[idx].a = k;
                         } while (0);
@@ -1585,7 +1585,7 @@ s32 generate_floor_layout(void)
             }
             while (i > 0);
             if (i <= 0) {
-                n = D_8001F664 * D_8001F660;
+                n = generation_room_rows * generation_room_columns;
                 j = (k + 1) % n;
                 for (i = 0; i < n; i++) {
                     if ((rp[j].link != 0) && (flags[j] > 0)) {
@@ -1607,7 +1607,7 @@ s32 generate_floor_layout(void)
             k = next;
             tries--;
             if (tries < 0) {
-                i = (D_8001F664 * D_8001F660) - 1;
+                i = (generation_room_rows * generation_room_columns) - 1;
                 for (; i >= 0; i--) {
                     if ((rp[i].link == 0) && (rp[i].active != 0)) {
                         clear_region_grid_rectangle(&rp[i]);
@@ -1616,12 +1616,12 @@ s32 generate_floor_layout(void)
                 break;
             }
         }
-        D_8001F66A = 0;
+        generation_unflagged_room_count = 0;
 
-        nt = D_8001F664 * D_8001F660;
+        nt = generation_room_rows * generation_room_columns;
         for (i = 0; i < nt; i++) {
             if ((D_800E2970[i].flags == 0) && (D_800E2970[i].unk_0A != 0)) {
-                D_8001F66A++;
+                generation_unflagged_room_count++;
             }
         }
 
@@ -1636,11 +1636,11 @@ s32 generate_floor_layout(void)
 void reset_generation_link_scratch(void) {
     s32 entry_index;
 
-    ((u8 *)D_8001F6A4)[0] = ((u8 *)D_8001F6A4)[1] = ((u8 *)D_8001F6A4)[2] = ((u8 *)D_8001F6A4)[3] = 0;
-    D_8001F6A0 = D_8001F660;
+    ((u8 *)generation_blocked_direction_marks)[0] = ((u8 *)generation_blocked_direction_marks)[1] = ((u8 *)generation_blocked_direction_marks)[2] = ((u8 *)generation_blocked_direction_marks)[3] = 0;
+    generation_search_forward_limit = generation_room_columns;
 
-    for (entry_index = D_8001F660 - 1; entry_index >= 0; entry_index--) {
-        u8* entry = &((u8 *)D_8001F6E8)[entry_index];
+    for (entry_index = generation_room_columns - 1; entry_index >= 0; entry_index--) {
+        u8* entry = &((u8 *)generation_search_side_marks_alias)[entry_index];
 
         entry[0] = 0;
         entry[4] = 0;
@@ -1699,9 +1699,9 @@ s16 filter_arg;
 
     saved_filter = filter_arg;
 
-    if (((s16)x >= 0) && ((s16)x < D_8001F660) && ((s16)y >= 0) &&
-        ((s16)y < D_8001F664) && (((s8 *)D_8001F6A4)[facing_high >> 17] == 0)) {
-        tile_index_u16 = x + (s16)y * D_8001F660;
+    if (((s16)x >= 0) && ((s16)x < generation_room_columns) && ((s16)y >= 0) &&
+        ((s16)y < generation_room_rows) && (((s8 *)generation_blocked_direction_marks)[facing_high >> 17] == 0)) {
+        tile_index_u16 = x + (s16)y * generation_room_columns;
         tile_index = (s16)tile_index_u16;
         tile = tiles[tile_index];
         if (tile > 0) {
@@ -1717,14 +1717,14 @@ s16 filter_arg;
     }
 
     if (failures != 0) {
-        ((s8 *)D_8001F6A4)[((s32)*facing << 16) >> 17] = 1;
-        if ((s16)saved_radius < (s8)D_8001F6A0) {
-            D_8001F6A0 = saved_radius;
+        ((s8 *)generation_blocked_direction_marks)[((s32)*facing << 16) >> 17] = 1;
+        if ((s16)saved_radius < (s8)generation_search_forward_limit) {
+            generation_search_forward_limit = saved_radius;
         }
     }
 
-    if ((s16)saved_radius > (s8)D_8001F6A0) {
-        forward_limit = (s8)D_8001F6A0;
+    if ((s16)saved_radius > (s8)generation_search_forward_limit) {
+        forward_limit = (s8)generation_search_forward_limit;
     } else {
         forward_limit = (s16)saved_radius;
     }
@@ -1744,19 +1744,19 @@ s16 filter_arg;
                 for (; sides_left > 0; sides_left--, side ^= 1) {
                     forward_dir = *(s16 *)facing;
                     forward_offset = forward_dir * 2;
-                    turn_dir = (forward_dir + D_8001F66C[side]) & 6;
+                    turn_dir = (forward_dir + generation_search_turn_offsets[side]) & 6;
                     turn_offset = turn_dir * 2;
                     next_x = start_x + *(s16 *)(forward_offset + x_steps_base) * forward_steps
                     + *(s16 *)(turn_offset + x_steps_base) * side_steps;
                     next_y = start_y + *(s16 *)(forward_offset + y_steps_base) * forward_steps
                     + *(s16 *)(turn_offset + y_steps_base) * side_steps;
-                    if (((s16)next_x >= 0) && ((s16)next_x < D_8001F660) &&
-                        ((s16)next_y >= 0) && ((s16)next_y < D_8001F664)) {
-                        map_base = ((s8 *)D_8001F6E8);
+                    if (((s16)next_x >= 0) && ((s16)next_x < generation_room_columns) &&
+                        ((s16)next_y >= 0) && ((s16)next_y < generation_room_rows)) {
+                        map_base = ((s8 *)generation_search_side_marks_alias);
                         side_marks = map_base + side * 4;
                         blocked = side_marks + forward_steps;
                         if (*blocked == 0) {
-                            tile_index_u16 = next_x + (s16)next_y * D_8001F660;
+                            tile_index_u16 = next_x + (s16)next_y * generation_room_columns;
                             tile_index = (s16)tile_index_u16;
                             map_base = tiles;
                             tile = map_base[tile_index];
@@ -1795,11 +1795,11 @@ s32 has_generation_link_within_pair(s16 value_a, s16 value_b)
     u8 *pair;
     u8 value;
 
-    pair_index = ((s16 *)D_8001F668)[0] - 1;
+    pair_index = ((s16 *)generation_room_link_count)[0] - 1;
     if (pair_index >= 0) {
         first = value_a;
         second = value_b;
-        pairs = ((u8 *)D_8001F6A8);
+        pairs = ((u8 *)generation_room_link_pairs);
         pair = pairs + pair_index * 2;
         do {
             value = pair[0];
@@ -1874,10 +1874,10 @@ s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest
         start.x = start.x + dir_step_x[travel_dir];
         start.y = start.y + dir_step_y[travel_dir];
     }
-    cursor_x = (s16)(src_idx % D_8001F660) + dir_step_x[travel_dir];
-    cursor_y = (s16)(src_idx / D_8001F660) + dir_step_y[travel_dir];
-    dest_grid_x = dest_idx % D_8001F660;
-    dest_grid_y = dest_idx / D_8001F660;
+    cursor_x = (s16)(src_idx % generation_room_columns) + dir_step_x[travel_dir];
+    cursor_y = (s16)(src_idx / generation_room_columns) + dir_step_y[travel_dir];
+    dest_grid_x = dest_idx % generation_room_columns;
+    dest_grid_y = dest_idx / generation_room_columns;
     for (;;) {
         if (cursor_x == dest_grid_x && cursor_y == dest_grid_y) {
             if (D_800E2970[dest_idx].unk_0A) {
@@ -1899,7 +1899,7 @@ s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest
             choose_next_step_toward_destination(&start, &end, 0, &join_x, &join_y);
             break;
         }
-        room_idx = cursor_y * D_8001F660 + cursor_x;
+        room_idx = cursor_y * generation_room_columns + cursor_x;
         room_marks[room_idx] = 2;
         end.x = D_800E2970[room_idx].x;
         end.y = D_800E2970[room_idx].y;
@@ -2043,10 +2043,10 @@ failed:
         start.x = start.x + dir_step_x[travel_dir];
         start.y = start.y + dir_step_y[travel_dir];
     }
-    cursor_x = (s16)(src_idx % D_8001F660) + dir_step_x[travel_dir];
-    cursor_y = (s16)(src_idx / D_8001F660) + dir_step_y[travel_dir];
-    dest_grid_x = dest_idx % D_8001F660;
-    dest_grid_y = dest_idx / D_8001F660;
+    cursor_x = (s16)(src_idx % generation_room_columns) + dir_step_x[travel_dir];
+    cursor_y = (s16)(src_idx / generation_room_columns) + dir_step_y[travel_dir];
+    dest_grid_x = dest_idx % generation_room_columns;
+    dest_grid_y = dest_idx / generation_room_columns;
     for (;;) {
         if (cursor_x == dest_grid_x && cursor_y == dest_grid_y) {
             if (D_800E2970[dest_idx].unk_0A) {
@@ -2072,7 +2072,7 @@ failed:
             }
             break;
         }
-        room_idx = cursor_y * D_8001F660 + cursor_x;
+        room_idx = cursor_y * generation_room_columns + cursor_x;
         room_marks[room_idx] = 2;
         end.x = D_800E2970[room_idx].x;
         end.y = D_800E2970[room_idx].y;
@@ -2684,26 +2684,26 @@ void choose_random_region_feature(Rec_func_8001CE44_arg0 *region, s32 update_id)
         region->unk_0A = 2;
         return;
     case 1:
-        if (((floor_generate_isolated_8028A4AC_S_8001D4AC_1 *)(&D_8001F670))->unk_00 != 0) {
+        if (((floor_generate_isolated_8028A4AC_S_8001D4AC_1 *)(&generation_special_feature_placed))->unk_00 != 0) {
             break;
         }
         region->unk_0A = 3;
-        D_8001F670 = 1;
+        generation_special_feature_placed = 1;
         initialize_random_room_slot(region, saved_update_id);
         return;
     case 2:
-        if (((floor_generate_isolated_8028A4AC_S_8001D4AC_1 *)(&D_8001F670))->unk_00 != 0) {
+        if (((floor_generate_isolated_8028A4AC_S_8001D4AC_1 *)(&generation_special_feature_placed))->unk_00 != 0) {
             break;
         }
-        D_8001F670 = 1;
+        generation_special_feature_placed = 1;
         region->unk_0A = 2;
         mark_random_eligible_region_tiles(region, saved_update_id);
         return;
     case 4:
-        if (((floor_generate_isolated_8028A4AC_S_8001D4AC_1 *)(&D_8001F670))->unk_00 != 0) {
+        if (((floor_generate_isolated_8028A4AC_S_8001D4AC_1 *)(&generation_special_feature_placed))->unk_00 != 0) {
             break;
         }
-        D_8001F670 = 1;
+        generation_special_feature_placed = 1;
         region->unk_0A = 4;
         place_room_trap_records(region, saved_update_id);
         return;
@@ -2885,29 +2885,29 @@ void write_rectangular_border(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, 
     info_page = (u8 *)0x80080000;
     info = &g_game_work.map;
     bottom_row = bottom_y;
-    tile = (s16 *)(D_800E9FFA + (((((s16)top_y - 1) << info->shiftX) + left_x) * 6));
+    tile = (s16 *)(generation_border_cell_base_alias + (((((s16)top_y - 1) << info->shiftX) + left_x) * 6));
     tile[0] = 0xE;
     tile_value = tile_value_base + 0x40;
     tile[1] = tile_value;
     tile[2] = 9;
 
-    tile = (s16 *)(D_800E9FFA + 6 + (((((s16)top_y - 1) << info->shiftX) + right_x) * 6));
+    tile = (s16 *)(generation_border_cell_base_alias + 6 + (((((s16)top_y - 1) << info->shiftX) + right_x) * 6));
     tile[0] = 0xB;
     tile[1] = tile_value;
     tile[2] = 9;
 
-    tile = (s16 *)(D_800E9FFA + ((((bottom_row << info->shiftX) + left_x) * 6)));
+    tile = (s16 *)(generation_border_cell_base_alias + ((((bottom_row << info->shiftX) + left_x) * 6)));
     tile[0] = 0xD;
     tile[1] = tile_value;
     tile[2] = 9;
 
-    tile = (s16 *)(D_800E9FFA + 6 + ((((bottom_row << info->shiftX) + right_x) * 6)));
+    tile = (s16 *)(generation_border_cell_base_alias + 6 + ((((bottom_row << info->shiftX) + right_x) * 6)));
     tile[0] = 0xC;
     tile[1] = tile_value;
     tile[2] = 9;
 
-    tile = (s16 *)(D_800E9FFA + 6 + (((((s16)top_y - 1) << info->shiftX) + left_x) * 6));
-    opposite_tile = (s16 *)(D_800E9FFA + 6 + (((bottom_row << info->shiftX) + left_x) * 6));
+    tile = (s16 *)(generation_border_cell_base_alias + 6 + (((((s16)top_y - 1) << info->shiftX) + left_x) * 6));
+    opposite_tile = (s16 *)(generation_border_cell_base_alias + 6 + (((bottom_row << info->shiftX) + left_x) * 6));
     x = left_x;
     if (left_x < right_x) {
         do {
@@ -2924,8 +2924,8 @@ void write_rectangular_border(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, 
     }
 
     y = top_y;
-    tile = (s16 *)(D_800E9FFA + ((((y << info->shiftX) + left_x) * 6)));
-    opposite_tile = (s16 *)(D_800E9FFA + 6 + ((((y << info->shiftX) + right_x) * 6)));
+    tile = (s16 *)(generation_border_cell_base_alias + ((((y << info->shiftX) + left_x) * 6)));
+    opposite_tile = (s16 *)(generation_border_cell_base_alias + 6 + ((((y << info->shiftX) + right_x) * 6)));
     if (y < bottom_row) {
         do {
             y++;
@@ -2960,7 +2960,7 @@ void clear_region_grid_rectangle(floor_generate_isolated_8028AC34_S_8001DC34_0 *
     row = first_row;
     end_row = first_row + region->unk_06 + 2;
     if ((first_row << 16) < (end_row << 16)) {
-        grid_base = (u32)D_800E9FFA;
+        grid_base = (u32)generation_border_cell_base_alias;
         do {
             cell = (s16 *)((((row << grid_config->shiftX) +
                   region->unk_00) * 6) + grid_base);

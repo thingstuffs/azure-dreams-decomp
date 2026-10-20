@@ -21,7 +21,7 @@ typedef struct S_800504B4 {
     S_800504B4_Elem **arr;
 } S_800504B4;
 
-extern void func_80050494(void *a0);
+extern void forward_object_input_handler(void *a0);
 extern void handle_object_input(void *a0);
 
 /* Decays six counters, switches callbacks when the last reaches zero, and updates the object. */
@@ -38,7 +38,7 @@ void decay_gauge_counters(S_800504B4 *object)
         }
     }
     if (object->arr[6]->sub->val.s == 0) {
-        object->func = func_80050494;
+        object->func = forward_object_input_handler;
     }
     handle_object_input(object);
 }

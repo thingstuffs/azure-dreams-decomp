@@ -18,8 +18,8 @@ typedef struct S_800B6094_6 {
 
 
 s32 runtime_test_table_byte_pattern(s16);
-s32 func_800498EC(s32 index);
-s32 func_80049918(s32);
+s32 lookup_patterned_display_icon(s32 index);
+s32 lookup_unpatterned_display_icon(s32);
 int get_low_flag_priority(int);
 struct S_800B5264_0; void set_display_entry_text_and_position(struct S_800B5264_0 *, s32, s32, s16, s32);
 s32 func_800B53BC(s32, const void *, s32, s32, s32);
@@ -74,9 +74,9 @@ void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_
     icon_id = get_low_flag_priority(entry_info->unk_10);
     icon_slot = row_data->unk_38;
     if (runtime_test_table_byte_pattern(entry->unk_00) != 0) {
-        display_value = func_800498EC(icon_id);
+        display_value = lookup_patterned_display_icon(icon_id);
     } else {
-        display_value = func_80049918(icon_id);
+        display_value = lookup_unpatterned_display_icon(icon_id);
     }
     display_node = (S_800B6094_3 *)((row_index * 4) + display_base);
     *icon_slot = display_value;

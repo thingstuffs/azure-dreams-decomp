@@ -10,18 +10,18 @@ typedef struct S_80080B70 {
     /* 0x3 */ s8 pad[13];
 } S_80080B70; /* size 0x10 */
 
-extern S_80080B70 D_80080B70;
+extern S_80080B70 string_tail_fill_pattern;
 
 extern void fill_string_tail_and_detect_zero(u8 *buffer, s32 pair_count);
 extern char *strncpy(char *dst, const char *src, u32 n);
 
 /* Fills a field, appends two pattern bytes, and returns the appended position. */
-char *func_8004EA70(u8 *dst, s32 field_width) {
+char *pad_double_byte_field_and_append_marker(u8 *dst, s32 field_width) {
     u8 *field_end = dst;
     s32 width = field_width;
 
     fill_string_tail_and_detect_zero(dst, field_width);
     field_end = field_end + (width << 1);
-    strncpy((char *)field_end, (char *)&D_80080B70, 2);
+    strncpy((char *)field_end, (char *)&string_tail_fill_pattern, 2);
     return (char *)field_end;
 }

@@ -14,8 +14,8 @@ typedef struct {
     /* 0x1B */ u8 unk1B;
 } S_80086A40;
 
-extern S_80086A40 D_80086A40[16];
-extern s32 D_8007382C[3]; /* size > 8: forced hi/lo, no $gp */
+extern S_80086A40 audio_bank_slots[16];
+extern s32 sound_slot_transfer_cursor[3]; /* size > 8: forced hi/lo, no $gp */
 
 extern void release_sound_ram_block(s32);
 extern s32 reserve_sound_ram_block(s32, s32);
@@ -31,12 +31,12 @@ s32 upload_sample_to_sound_slot(s32 src_addr, s32 sound_addr, s32 size, s16 requ
     S_80086A40 *slot;
     s32 reserved_addr;
 
-    D_8007382C[0] = 0;
+    sound_slot_transfer_cursor[0] = 0;
     slot_id = 0;
     selected_slot = requested_slot;
     if (selected_slot == -1) {
         while (1) {
-            if (D_80086A40[slot_id].marker == -1) {
+            if (audio_bank_slots[slot_id].marker == -1) {
                 break;
             }
             slot_id = slot_id + 1;
@@ -46,12 +46,12 @@ s32 upload_sample_to_sound_slot(s32 src_addr, s32 sound_addr, s32 size, s16 requ
         }
     } else {
         slot_id = selected_slot;
-        if (D_80086A40[slot_id].marker != -1) {
-            release_sound_ram_block(D_80086A40[slot_id].unk10);
+        if (audio_bank_slots[slot_id].marker != -1) {
+            release_sound_ram_block(audio_bank_slots[slot_id].unk10);
         }
     }
     slot_index = slot_id;
-    slot = &D_80086A40[slot_index];
+    slot = &audio_bank_slots[slot_index];
     slot->unk14 = size;
     slot->marker = slot_id;
     slot->unk04 = src_addr;

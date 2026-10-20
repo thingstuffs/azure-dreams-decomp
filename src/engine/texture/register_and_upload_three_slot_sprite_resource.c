@@ -6,7 +6,7 @@ typedef struct {
     s16 id;
 } S_80047EEC_D8;
 
-extern S_80047EEC_D8 D_80083D08[6];
+extern S_80047EEC_D8 sprite_resource_slots[6];
 extern u8 D_8014A000[];
 
 extern s32 get_resource_block_index_from_address(void *a0);
@@ -17,14 +17,14 @@ void register_and_upload_three_slot_sprite_resource(s32 type_id, void *entity)
 {
     s32 slot_index = get_resource_block_index_from_address(entity);
 
-    D_80083D08[slot_index].entry = entity;
-    D_80083D08[slot_index].id = (s16)type_id;
+    sprite_resource_slots[slot_index].entry = entity;
+    sprite_resource_slots[slot_index].id = (s16)type_id;
 
-    D_80083D08[slot_index + 1].entry = entity;
-    D_80083D08[slot_index + 1].id = (s16)type_id;
+    sprite_resource_slots[slot_index + 1].entry = entity;
+    sprite_resource_slots[slot_index + 1].id = (s16)type_id;
 
-    D_80083D08[slot_index + 2].entry = entity;
-    D_80083D08[slot_index + 2].id = (s16)type_id;
+    sprite_resource_slots[slot_index + 2].entry = entity;
+    sprite_resource_slots[slot_index + 2].id = (s16)type_id;
 
     {
         s32 load_offset = (slot_index * 3 + 0x1D2) * 64;

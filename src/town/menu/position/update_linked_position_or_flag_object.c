@@ -59,7 +59,7 @@ void update_linked_position_or_flag_object(S_func_800AA760_0 *object, SignedPosi
     }
 
     if (link_index != 0) {
-        linked_record = D_80082660[link_index].object;
+        linked_record = object_index_slots[link_index].object;
         linked_entity = (S_func_800AA760_3 *)((u8 *)linked_record + 0x20);
         if (linked_record != 0) {
             linked_position = linked_record->unk_08;

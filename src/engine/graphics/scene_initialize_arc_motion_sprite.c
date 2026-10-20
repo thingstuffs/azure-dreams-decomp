@@ -27,7 +27,7 @@ extern void update_staged_motion_effect(void);
 extern void draw_linked_sprites(void);
 
 /* Sized >8B to force %hi/%lo (not $gp) addressing, matching retail's lui/addiu. */
-extern struct Elem D_80072044[2];
+extern struct Elem arc_motion_sprite_source[2];
 
 typedef struct {
     unsigned char pad00[8];
@@ -54,7 +54,7 @@ void scene_initialize_arc_motion_sprite(S_80051708 *object, void *sub_object)
 
     record = object->fc;
     record->fc = 0x808080;
-    func_8003DB94(record, D_80072044, 0);
+    func_8003DB94(record, arc_motion_sprite_source, 0);
 
     *(short *)((char *)record + 0x1E) = 0x1000;
     *(short *)((char *)record + 0x1C) = 0x1000;

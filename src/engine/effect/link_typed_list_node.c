@@ -7,7 +7,7 @@ typedef struct S_80044AAC {
     u16 type;                /* 0x1C */
 } S_80044AAC;
 
-extern S_80044AAC *D_800833E0[0x20];
+extern S_80044AAC *registered_draw_objects[0x20];
 
 extern void unlink_node(S_80044AAC *node);
 
@@ -26,10 +26,10 @@ void link_typed_list_node(S_80044AAC *anchor, S_80044AAC *node) {
             next_node->prev = node;
         }
     } else {
-        next_node = D_800833E0[node->type];
+        next_node = registered_draw_objects[node->type];
         node->next = next_node;
-        node->prev = (S_80044AAC *)&D_800833E0[node->type];
-        D_800833E0[node->type] = node;
+        node->prev = (S_80044AAC *)&registered_draw_objects[node->type];
+        registered_draw_objects[node->type] = node;
         next_node->prev = node;
     }
 }

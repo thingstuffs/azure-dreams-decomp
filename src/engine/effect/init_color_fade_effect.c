@@ -31,7 +31,7 @@ typedef struct S_800520B4 {
     S_800520B4_Sub sub;
 } S_800520B4;
 
-extern u8 D_80071FF0[0x10];
+extern u8 color_fade_visual_data[0x10];
 extern void update_color_fade_effect(void);
 extern void draw_linked_sprites(void);
 extern void register_node(S_800520B4 *a0, void (*a1)(void));
@@ -52,7 +52,7 @@ void init_color_fade_effect(S_800520B4 *object, void *context)
     state_words[6] = 0;
 
     settings = object->ptr;
-    settings->field_0x08 = D_80071FF0;
+    settings->field_0x08 = color_fade_visual_data;
     settings->field_0x0C = 0;
     settings->field_0x1E = 0x1000;
     settings->field_0x1C = 0x1000;

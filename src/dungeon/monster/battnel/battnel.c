@@ -48,7 +48,7 @@ extern u8 D_8015BD0C[];
 extern u8 D_8015BD4C[];
 
 /* Allocates a dungeon object and initializes its flags, parts, and actor state. */
-void *func_80B85054(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, s16 part_value)
+void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, s16 part_value)
 {
     s32 kind;
     S_80B85054_1 *work = 0;

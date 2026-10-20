@@ -11,14 +11,14 @@ typedef struct S_8003C128_0 {
 
 
 void *initialize_scene_object_in_buffer();   /* extern */
-extern u8 D_80082D38[];
+extern u8 callback_node_storage[];
 void run_node_callback_and_set_marker();
 
 /* Create an object, set its callback, and clear its state. */
-void func_8003C128(void) {
+void create_marked_callback_node(void) {
     S_8003C128_0 *object;
 
-    object = initialize_scene_object_in_buffer(0x15, &D_80082D38, 0x49);
+    object = initialize_scene_object_in_buffer(0x15, &callback_node_storage, 0x49);
     object->unk_10 = &run_node_callback_and_set_marker;
     object->unk_20 = 0;
 }

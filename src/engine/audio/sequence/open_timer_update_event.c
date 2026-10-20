@@ -2,11 +2,11 @@
 
 /* D_800737C0: "in-progress" guard flag for the RCnt/event init sequence.
  * hi/lo access (lui/lw with %hi/%lo, not gp_rel) -> size must be > 8 bytes. */
-extern s32 D_800737C0[4];
+extern s32 audio_timer_setup_guard[4];
 /* D_80085F9C: stores the event handle returned by OpenEvent. */
-extern s32 D_80085F9C[4];
+extern s32 audio_timer_event_handle[4];
 /* D_80085F98: mode/status flag, cleared at the end of the init sequence. */
-extern s32 D_80085F98[4];
+extern s32 audio_update_guard[4];
 
 extern void EnterCriticalSection(void);
 extern void ExitCriticalSection(void);
@@ -20,15 +20,15 @@ extern void sound_tick_guarded_periodic_update(void);
 /* Set up the root counter interrupt event and start the counter unless setup is in progress. */
 void open_timer_2_update_event(void)
 {
-    if (D_800737C0[0] == 0) {
-        D_800737C0[0] = 1;
+    if (audio_timer_setup_guard[0] == 0) {
+        audio_timer_setup_guard[0] = 1;
         EnterCriticalSection();
-        D_80085F9C[0] = OpenEvent(0xF2000002, 2, 0x1000, sound_tick_guarded_periodic_update);
-        EnableEvent(D_80085F9C[0]);
+        audio_timer_event_handle[0] = OpenEvent(0xF2000002, 2, 0x1000, sound_tick_guarded_periodic_update);
+        EnableEvent(audio_timer_event_handle[0]);
         SetRCnt(0xF2000002, 0x1C00, 0x1000);
         StartRCnt(0xF2000002);
         ExitCriticalSection();
-        D_80085F98[0] = 0;
-        D_800737C0[0] = 0;
+        audio_update_guard[0] = 0;
+        audio_timer_setup_guard[0] = 0;
     }
 }

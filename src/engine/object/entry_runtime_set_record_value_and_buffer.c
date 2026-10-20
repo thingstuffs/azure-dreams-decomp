@@ -6,7 +6,7 @@ extern void remove_all_controller_nodes(void *controller);
 extern void init_message_window(void *controller, s32 selector);
 
 /* Updates the runtime selector, clearing active objects when needed, and resets its state. */
-void func_80035164(void *controller, s32 reset_value, s32 requested_selector)
+void prepare_script_controller_and_set_cursor(void *controller, s32 reset_value, s32 requested_selector)
 {
     s32 selector;
 

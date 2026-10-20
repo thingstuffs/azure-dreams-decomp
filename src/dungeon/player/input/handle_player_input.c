@@ -99,7 +99,7 @@ s32 lookup_definition_pair_value();                          /* extern */
 s32 generate_random_value(void);                      /* extern */
 extern M2C_UNK D_800245A8;
 extern M2C_UNK D_8004F5F4;
-void func_80050CAC(void);
+void submit_enabled_saved_display_value(void);
 extern u8 D_800DCFB0[8];
 extern u8 D_800DD058[];
 extern M2C_UNK D_800DD148;
@@ -409,7 +409,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         }
                     }
                     if (((u32)input->buttons) & 0x80) {
-                        begin_player_menu_action(actor, motion, sprite, &func_80050CAC);
+                        begin_player_menu_action(actor, motion, sprite, &submit_enabled_saved_display_value);
                         return;
                     }
                     if ((((u32)input->buttons) & 0x10) || !(((u32)input->buttons) & 3)

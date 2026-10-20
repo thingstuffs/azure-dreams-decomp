@@ -2,9 +2,9 @@
 
 #include "common.h"
 
-extern s32 D_8006ADB8[];
+extern s32 user_name_window_value[];
 
 /* set_user_name_win stores the supplied name-window value. */
 void set_user_name_win(s32 window_value) {
-    D_8006ADB8[0] = window_value;
+    user_name_window_value[0] = window_value;
 }

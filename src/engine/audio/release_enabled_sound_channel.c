@@ -11,7 +11,7 @@ extern void free_sound_slot(s16 a0);
 /* Releases an available channel, stopping channel zero's note when its status requires it. */
 void release_enabled_sound_channel(s16 channel) {
     s16 channel_index = channel;
-    SoundPlaybackState *status = &D_800847D0;
+    SoundPlaybackState *status = &sound_playback_state;
     if (status->flags00 & (0x10000 << channel_index)) {
         if (channel_index == 0) {
             if (status->flags00 & 0x100) {
@@ -20,6 +20,6 @@ void release_enabled_sound_channel(s16 channel) {
             }
         }
         free_sound_slot((s16) channel);
-        D_800847D0.flags00 &= ~(0x10000 << ((s16) channel));
+        sound_playback_state.flags00 &= ~(0x10000 << ((s16) channel));
     }
 }

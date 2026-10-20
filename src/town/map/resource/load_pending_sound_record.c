@@ -13,7 +13,7 @@ extern s16 D_800D4260[];
 extern void audio_load_sound_effect_bank(s32 record_id);
 extern void load_sound_set(s32 state_index);
 extern void SD_Call(s32 flags);
-extern void func_800542BC(void);
+extern void drain_audio_commands_and_service_channels(void);
 extern u16 *build_four_value_entry_result(s16 unused, s16 index);
 
 /* Loads a four-value record and applies the pending override to its first value. */
@@ -22,9 +22,9 @@ void load_pending_sound_record(void) {
     u16 *current_values;
 
     SD_Call(0x72);
-    func_800542BC();
+    drain_audio_commands_and_service_channels();
     SD_Call(0x74);
-    func_800542BC();
+    drain_audio_commands_and_service_channels();
     audio_load_sound_effect_bank(2);
     load_sound_set(0);
 

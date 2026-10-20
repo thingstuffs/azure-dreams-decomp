@@ -22,8 +22,8 @@ extern void upload_vram_row_and_cache(s32, s32, s32, s32);
 extern s32 DrawSync(s32);
 extern s32 LoadImage(void *, void *);
 extern void *memcpy(void *, const void *, u32);
-extern s32 D_80081480;
-extern s32 D_8008148C;
+extern s32 gpu_scratch_write_pointer;
+extern s32 gpu_scratch_buffer_base;
 
 /* Processes a command stream for VRAM uploads, tile caching, memory copies, and pointer relocation. */
 void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute)
@@ -60,8 +60,8 @@ void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute)
     cmd = (StreamCommand *)((u32)base | 0x80000000);
     base = (u8 *)cmd;
     DrawSync(0);
-    buffer_addr = D_8008148C;
-    D_80081480 = buffer_addr;
+    buffer_addr = gpu_scratch_buffer_base;
+    gpu_scratch_write_pointer = buffer_addr;
     buffer = (u8 *)buffer_addr;
 
     while (1) {

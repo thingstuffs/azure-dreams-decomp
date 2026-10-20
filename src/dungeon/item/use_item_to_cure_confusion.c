@@ -58,7 +58,7 @@ s32 use_item_to_cure_confusion(void *entity, s32 update_value, s16 mode) {
         display_item_status_message(entity, update_value, mode);
         call_arg = entity;
         type_index = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
-        type_flags = (u16 *)&D_800DDE84;
+        type_flags = (u16 *)&entity_action_selectors;
         if (apply_actor_food_preference(call_arg, (type_flags[type_index] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(entity, update_value);
             return 1;

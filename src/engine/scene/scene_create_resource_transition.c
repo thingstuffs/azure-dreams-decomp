@@ -19,7 +19,7 @@ typedef struct S_8004EDA8_owner {
 } S_8004EDA8_owner;
 
 extern void scene_begin_transition_texture_read(void *a0);
-extern void func_8004ED5C(void *a0);
+extern void schedule_deferred_resource_transition(void *a0);
 extern s16 SD_Call(s32 a0);
 
 /* Clears the owner flag and allocates and initializes a callback node with its context. */
@@ -37,7 +37,7 @@ void *scene_create_resource_transition(void *owner_arg, void *context_arg)
         *(void **)(node_fields + 4) = context;
         node->owner_0x20 = owner;
         SD_Call(0xD1);
-        *(void (**)(void *))(node_fields - 0x10) = func_8004ED5C;
+        *(void (**)(void *))(node_fields - 0x10) = schedule_deferred_resource_transition;
         scene_begin_transition_texture_read((u8 *)node + 0x28);
     }
     return node;

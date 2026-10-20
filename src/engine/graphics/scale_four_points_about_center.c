@@ -7,7 +7,7 @@ extern u8 D_80082D08[0x100];
 extern void runtime_scale_four_points_about_center(u16 *, s32, s32);
 
 /* Copies three fields from each of six records and processes the destination buffer. */
-void func_8003BFE4(void)
+void copy_and_scale_screen_outline_points(void)
 {
     u16 *dst_first = (u16 *)D_80082D08;
     u8 *source_data = ((u8 *)(&g_game_work));

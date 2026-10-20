@@ -15,7 +15,7 @@ void anyone_org_pos_get(s32 actor_id) {
     s16 *position_data;
 
     if (actor_id != 0) {
-        actor = D_80082660[actor_id].object;
+        actor = object_index_slots[actor_id].object;
         if (actor != 0) {
             position_data = (s16 *)((u8 *)actor + 0x20);
             script_vars[0x13] = *(s16 *)((u8 *)position_data + 0x84);

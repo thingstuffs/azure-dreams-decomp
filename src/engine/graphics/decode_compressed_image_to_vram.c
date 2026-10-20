@@ -6,9 +6,9 @@
  * $gp. D_80080A7C is a plain int elsewhere too (see code5.c func_8004066C,
  * same -G0 TU). D_80081480/D_8008148C are really running write/base
  * pointers into a growing decode buffer, stored as plain 32-bit values. */
-extern s32 D_80080A7C;
-extern s32 D_80081480;
-extern s32 D_8008148C;
+extern s32 gpu_scratch_ring_size;
+extern s32 gpu_scratch_write_pointer;
+extern s32 gpu_scratch_buffer_base;
 
 /* Object header this function operates on: rect points at a struct whose
  * fields at 0x4/0x6 are s16 tile-dimension counters. */
@@ -34,12 +34,12 @@ void decode_compressed_image_to_vram(void *src, S_8004878C_hdr *rect)
 
     pixel_count = rect->unk04 * rect->unk06;
     image_bytes = pixel_count * 2;
-    if ((u32)(D_8008148C + D_80080A7C) <= (u32)(D_80081480 + pixel_count * 4 + 2)) {
-        D_80081480 = D_8008148C;
+    if ((u32)(gpu_scratch_buffer_base + gpu_scratch_ring_size) <= (u32)(gpu_scratch_write_pointer + pixel_count * 4 + 2)) {
+        gpu_scratch_write_pointer = gpu_scratch_buffer_base;
         DrawSync(0);
     }
-    decompress_lz(src, (void *)(D_80081480 + image_bytes));
-    texture_handle_expands_six_bit_values_runs_one_four_bytes_until_n_1((u8 *)(D_80081480 + image_bytes), (u8 *)D_80081480);
-    LoadImage(rect, (void *)D_80081480);
-    D_80081480 = D_80081480 + image_bytes;
+    decompress_lz(src, (void *)(gpu_scratch_write_pointer + image_bytes));
+    texture_handle_expands_six_bit_values_runs_one_four_bytes_until_n_1((u8 *)(gpu_scratch_write_pointer + image_bytes), (u8 *)gpu_scratch_write_pointer);
+    LoadImage(rect, (void *)gpu_scratch_write_pointer);
+    gpu_scratch_write_pointer = gpu_scratch_write_pointer + image_bytes;
 }

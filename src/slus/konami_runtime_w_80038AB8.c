@@ -20,15 +20,15 @@ extern void func_80034F58(void *);
 extern s32 func_80034FD0(void *);
 extern ActionFunc func_800381D0(void *);
 extern s32 func_80038A10(void *);
-extern s32 func_80038C40(s8);
+extern s32 is_message_byte_in_lookup_set(s8);
 struct S_func_80038CB8_0;
 extern void func_80038CB8(struct S_func_80038CB8_0 *);
-extern s32 func_80039AE8(void *);
-extern s32 func_8003ADB4(s32);
-extern ActionFunc D_8006AA90[];
+extern s32 noop_script_terminator_action(void *);
+extern s32 dispatch_sound_word_unless_disabled(s32);
+extern ActionFunc script_opcode_handlers[];
 
 /* Dispatch script opcodes, advance active text, and report whether processing can continue. */
-s32 func_80038AB8(RuntimeContext *context, u8 *owner)
+s32 interpret_script_opcodes_until_action_changes(RuntimeContext *context, u8 *owner)
 {
     s8 *cursor;
     u8 opcode;
@@ -39,7 +39,7 @@ s32 func_80038AB8(RuntimeContext *context, u8 *owner)
         if (context->active != 0) {
             func_80038CB8((struct S_func_80038CB8_0 *)context);
             if ((context->state == 2) &&
-                (func_80038C40(*context->cursor) != 0)) {
+                (is_message_byte_in_lookup_set(*context->cursor) != 0)) {
                 return 1;
             }
             context->state = 0;
@@ -48,7 +48,7 @@ s32 func_80038AB8(RuntimeContext *context, u8 *owner)
         goto fallback;
     }
 
-    opcode_handlers = D_8006AA90;
+    opcode_handlers = script_opcode_handlers;
     dispatch_action = func_80038A10;
 
     do {
@@ -58,12 +58,12 @@ s32 func_80038AB8(RuntimeContext *context, u8 *owner)
         opcode_handlers[opcode](context);
     } while (*context->cursor > 0 && context->action == dispatch_action);
 
-    if (context->action == func_80039AE8) {
+    if (context->action == noop_script_terminator_action) {
         context->action = 0;
         if (context->active == 0) {
 fallback:
             if (func_80034FD0(owner) == 0) {
-                func_8003ADB4(0xB4);
+                dispatch_sound_word_unless_disabled(0xB4);
                 func_80034EF8(owner, owner[2]);
                 func_80034F58(owner);
                 return 0;

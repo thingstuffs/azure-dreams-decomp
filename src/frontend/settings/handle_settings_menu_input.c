@@ -34,12 +34,12 @@ typedef struct Menu
 }
 Menu;
 extern u8 D_80080A84;
-extern u8 D_80080A8A;
-extern s32 D_80080A94;
-extern s32 D_80080A98;
-extern s32 D_80080A9C;
+extern u8 runtime_state_restore_requested;
+extern s32 saved_cd_playback_volume_scale;
+extern s32 saved_sequence_volume_scale;
+extern s32 saved_voice_gain_scale;
 extern s32 D_8008B2F0[3];
-extern s32 D_80081494;
+extern s32 runtime_saved_state_word;
 extern s32 render_screen_fade_decreasing_intensity();
 extern s32 render_screen_fade_increasing_intensity();
 extern void SD_Call();
@@ -137,7 +137,7 @@ void handle_settings_menu_input(Menu *menu)
                 if (channel_or_color == 1) {
                     SD_Call(0x516);
                 }
-                volume_a = &D_80080A98;
+                volume_a = &saved_sequence_volume_scale;
                 scaled_a = 0x7FFF;
                 level = D_8008B2F0[0];
                 if (level < 0x100) {
@@ -148,13 +148,13 @@ void handle_settings_menu_input(Menu *menu)
                     *volume_a = scaled_a;
                 }
                 while (0);
-                volume_b = &D_80080A9C;
+                volume_b = &saved_voice_gain_scale;
                 level = D_8008B2F0[1];
                 if (level < 0x100) {
                     scaled_b = level << 7;
                 }
                 *volume_b = scaled_b;
-                volume_c = &D_80080A94;
+                volume_c = &saved_cd_playback_volume_scale;
                 volume_or_red = 0x7FFF;
                 level = D_8008B2F0[2];
                 if (level < 0x100) {
@@ -163,7 +163,7 @@ void handle_settings_menu_input(Menu *menu)
                 *volume_c = volume_or_red;
                 sound_set_sequence_volume_scale(*((s16 *) volume_a));
                 sound_set_voice_gain_scale(*((s16 *) volume_b));
-                sound_set_cd_playback_volume_scale(*((s16 *) (&D_80080A94)));
+                sound_set_cd_playback_volume_scale(*((s16 *) (&saved_cd_playback_volume_scale)));
                 break;
             case 4:
             case 5:
@@ -221,24 +221,24 @@ void handle_settings_menu_input(Menu *menu)
             channel_or_color = blue_bits + red_green;
         }
         if (((Gfx *) 0x80010000)->shade != delta) {
-            D_80080A8A = 1;
+            runtime_state_restore_requested = 1;
         }
         if (((Gfx *) 0x80010000)->color != channel_or_color) {
-            D_80080A8A = 1;
+            runtime_state_restore_requested = 1;
         }
         if (menu->flags & 2) {
             if (((Gfx *) 0x80010000)->flags & 1) {
-                D_80080A8A = 1;
+                runtime_state_restore_requested = 1;
             }
         }
         else if (!(((Gfx *) 0x80010000)->flags & 1)) {
-            D_80080A8A = 1;
+            runtime_state_restore_requested = 1;
         }
-        if (D_80080A8A == 1) {
+        if (runtime_state_restore_requested == 1) {
             ((Gfx *) 0x80010000)->shade = delta;
             object_flag_block.unk_0C = delta;
             ((Gfx *) 0x80010000)->color = channel_or_color;
-            D_80081494 = channel_or_color;
+            runtime_saved_state_word = channel_or_color;
             if (menu->flags & 2) {
                 ((Gfx *) 0x80010000)->flags = ((Gfx *) 0x80010000)->flags & 0xFE;
             }

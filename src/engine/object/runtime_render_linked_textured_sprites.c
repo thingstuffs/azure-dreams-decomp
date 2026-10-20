@@ -17,12 +17,12 @@ extern void SetTransMatrix(void *);
 extern void SetRotMatrix(void *);
 extern void AddPrim(void *, void *);
 extern int abs(int);
-extern s16 D_8006A83E[];
-extern u8 D_8006A847[];
-extern u8 D_8006A84C[32];
+extern s16 sprite_depth_amplitude_table[];
+extern u8 sprite_transform_copy_flags[];
+extern u8 sprite_fixed_transform_matrix[32];
 extern u8 D_8006CD10[32];
 extern u8 D_8006CD30[32];
-extern s32 D_8006CD4C[];
+extern s32 sprite_scaled_depth_word[];
 
 /* Renders linked textured sprites with dimmed offset copies near the screen center. */
 s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *render_state)
@@ -81,14 +81,14 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *rend
     render_pools = ((GpuContext * *)(&g_game_work));
     fixed_matrix = (void *) 0x1F8000C8;
     do {
-        copy_matrix_a = D_8006A84C;
+        copy_matrix_a = sprite_fixed_transform_matrix;
         copy_matrix_b = D_8006CD10;
         (((SpU16 *) (scratch + 0x04))->v) = *((u16 *) (position + 2));
         (((SpU16 *) (scratch + 0x06))->v) = *((u16 *) (position + 6));
         (((SpU16 *) (scratch + 0x08))->v) = *((u16 *) (position + 10));
         (((SpS32 *) (scratch + 0xC4))->v) = RotTransPers(scratch + 0x04, scratch + 0xBC, scratch + 0x94, scratch + 0x98);
         *((u16 *) (render_state + 0x14)) |= 0x8000;
-        D_8006CD4C[0] = (scaled_depth = ((((SpS32 *) (scratch + 0xC4))->v)) << 2);
+        sprite_scaled_depth_word[0] = (scaled_depth = ((((SpS32 *) (scratch + 0xC4))->v)) << 2);
         *((s32 *) (copy_matrix_b + 0x1C)) = scaled_depth;
         *((s32 *) (copy_matrix_a + 0x1C)) = scaled_depth;
         depth_value = ((((SpS32 *) (scratch + 0xC4))->v)) - (*((s16 *) (render_state + 0x06)));
@@ -120,7 +120,7 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *rend
                 if (copy_index != 0) {
                     (((SpS32 *) (scratch + 0xC4))->v) = 10;
                     sin_x = rsin(ratan2((s16) base_x, 0x200));
-                    amplitude_addr = (s32) D_8006A83E;
+                    amplitude_addr = (s32) sprite_depth_amplitude_table;
                     amplitude = (s16 *) (amplitude_addr + (copy_index << 1));
                     product_x = (*amplitude) * sin_x;
                     (((SpU16 *) (scratch + 0xBC))->v) = base_x - (product_x / 4096);
@@ -140,8 +140,8 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *rend
                 (((SpU16 *) (scratch + 0x102))->v) = scale;
                 RotMatrix(scratch + 0xF8, fixed_matrix);
                 if (copy_index != 0) {
-                    if (D_8006A847[copy_index] != 0) {
-                        CompMatrix(D_8006A84C, fixed_matrix, scratch + 0x54);
+                    if (sprite_transform_copy_flags[copy_index] != 0) {
+                        CompMatrix(sprite_fixed_transform_matrix, fixed_matrix, scratch + 0x54);
                     }
                     else {
                         CompMatrix(D_8006CD10, fixed_matrix, scratch + 0x54);

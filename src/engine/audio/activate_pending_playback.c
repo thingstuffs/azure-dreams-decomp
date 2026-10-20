@@ -6,7 +6,7 @@
 
 /* Activates and clears pending state, rearms the counter and timer, and clears status flags. */
 void activate_pending_playback(void) {
-    SoundPlaybackState *state = &D_800847D0;
+    SoundPlaybackState *state = &sound_playback_state;
     u32 pending_word_a = state->unk_10;
     u32 pending_word_b = state->unk_14;
     u8 pending_byte_a = ((u8)state->unk_31);
@@ -17,8 +17,8 @@ void activate_pending_playback(void) {
     ((u8)state->unk_31) = 0;
     ((u8)state->unk_33) = 0;
 
-    D_80084858.unk_0C = 3;
-    D_80084858.unk_10 = 0x80;
+    sound_stream_task.unk_0C = 3;
+    sound_stream_task.unk_10 = 0x80;
 
     state->unk_08 = pending_word_a;
     state->unk_0C = pending_word_b;

@@ -30,7 +30,7 @@ extern void release_null_terminated_entries(s32 *a0);
 extern S_800814A0 D_800814A0;
 
 /* Releases the attachment and effect parts, restores the saved value, and sets completion flags. */
-void func_80050E20(S_80050E20 *object)
+void destroy_selection_menu_and_release_owner(S_80050E20 *object)
 {
     S_80050E20_sub *object_state = &object->unk20;
     s32 global_flags;
@@ -38,7 +38,7 @@ void func_80050E20(S_80050E20 *object)
 
     destroy_animated_selection_menu(object_state->unk28);
     object_state->unk28 = 0;
-    D_80080B98 = object_state->unk1C;
+    selection_menu_saved_value = object_state->unk1C;
     release_null_terminated_entries((s32 *)(((u8 *)object) + 0x8C));
     object_state->unkA0->unk1E |= 0x8000;
     global_flags = D_800814A0.val;

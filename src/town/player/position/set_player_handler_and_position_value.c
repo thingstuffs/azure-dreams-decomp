@@ -11,7 +11,7 @@ void set_player_handler_and_position_value(void *object, s32 value_arg, s32 hand
 
     call_the_handler_selects_nonzero_entry(*(s32 **)(*(void **)((u8 *)object + 0x44) + 0x14), object, (void *)(handler_param));
     saved_value_arg = value_arg;
-    *((s8 *)(D_80082660) + (*(s32 *)((u8 *)object + 0x40) * 8)) = 0;
+    *((s8 *)(object_index_slots) + (*(s32 *)((u8 *)object + 0x40) * 8)) = 0;
     *(void **)((u8 *)object + 4) = &forward_player_motion_state;
     *(s16 *)((u8 *)object + 0x10) = clamp_transform_coordinate_deltas(
         *(s16 *)((u8 *)object + 0x36),

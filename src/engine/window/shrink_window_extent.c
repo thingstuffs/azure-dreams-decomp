@@ -22,7 +22,7 @@ extern void begin_fade_to_black(void);
 extern void shrink_window_extent_to_two(void);
 
 /* Flag the referenced record and switch callbacks when the state byte changes. */
-void func_80035C80(Func80035C80Object *object) {
+void fade_and_shrink_window_on_value_change(Func80035C80Object *object) {
     if (object->field78 != object->field74[1]) {
         u8 *record_base = object->field44;
         s16 record_offset = object->field4A;

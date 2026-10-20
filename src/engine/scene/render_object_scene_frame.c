@@ -21,10 +21,10 @@ typedef struct S_8008148C
     s8 pad[8];
 }
 S_8008148C;
-extern S_80081480 D_80081480;
-extern S_8008148C D_8008148C;
+extern S_80081480 gpu_scratch_write_pointer;
+extern S_8008148C gpu_scratch_buffer_base;
 extern u8 D_80080A84[16];
-extern u8 D_80080A85[16];
+extern u8 scene_skip_vsync[16];
 extern void PutDispEnv(void *a0);
 extern void PutDrawEnv(void *a0);
 extern void DrawOTag(s32 *a0);
@@ -34,7 +34,7 @@ extern void VSync(s32 a0);
 extern void run_runtime_callbacks(void);
 extern void dispatch_and_clear_four_pointer_slots(void);
 extern void func_8003E758(void);
-extern void func_800542BC(void);
+extern void drain_audio_commands_and_service_channels(void);
 extern void update_controller_buttons_and_triggers(void);
 extern void tick_screen_fade_slots(void);
 extern void update_active_nodes(void);
@@ -50,8 +50,8 @@ void render_object_scene_frame(void)
     PutDrawEnv(D_80083160[0]);
     DrawOTag(&D_80083160[0]->ot[8]);
     func_8003E758();
-    func_800542BC();
-    saved_value = D_8008148C.field_0;
+    drain_audio_commands_and_service_channels();
+    saved_value = gpu_scratch_buffer_base.field_0;
     *(s32 *)0x80081480 = saved_value;
     run_runtime_callbacks();
     update_controller_buttons_and_triggers();
@@ -69,7 +69,7 @@ void render_object_scene_frame(void)
     update_active_nodes();
     dispatch_and_clear_four_pointer_slots();
     DrawSync(0);
-    skip_vsync = D_80080A85[0];
+    skip_vsync = scene_skip_vsync[0];
     if (skip_vsync == 0) {
         skip_vsync = 0x80080000;
         vsync_mode = skip_vsync;

@@ -20,9 +20,9 @@ struct Func80038A10State {
     s8 field87;
 };
 
-extern Func80038A10State *D_80081448;
+extern Func80038A10State *current_message_window_state;
 struct RuntimeContext;
-extern s32 func_80038AB8(struct RuntimeContext *, u8 *);
+extern s32 interpret_script_opcodes_until_action_changes(struct RuntimeContext *, u8 *);
 extern void update_message_window(Func80038A10State *);
 extern void func_80038A10(Func80038A10State *);
 

@@ -19,7 +19,7 @@ typedef struct S_800CB5DC_0 {
 /* Initialize the object's state, clear its slot flag, and set its counter to ten. */
 void func_800CB5DC(void *object, M2C_UNK unused, s8 *context) {
     func_800C2E84(object, context, &D_800D694C);
-    D_80082660[((S_800CB5DC_0 *)object)->unk_60].unk_00 = 0;
+    object_index_slots[((S_800CB5DC_0 *)object)->unk_60].unk_00 = 0;
     ((S_800CB5DC_0 *)object)->unk_54 = &D_800CB570;
     ((S_800CB5DC_0 *)object)->unk_6C = 0xA;
 }

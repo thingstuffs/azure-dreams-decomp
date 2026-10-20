@@ -4,10 +4,10 @@
 #include "common.h"
 #include "shared/spu_voice.h"
 
-extern volatile u16 *D_80079958;
-extern u16 D_80079520[24];
-extern s32 D_800794F0;
-extern s32 D_80079980;
+extern volatile u16 *spu_registers;
+extern u16 spu_voice_sample_notes[24];
+extern s32 spu_active_voice_mask;
+extern s32 spu_address_unit_shift;
 
 u32 func_8005F7D0(u16 center_note, u16 center_fine, u16 note, u16 fine);
 u32 sound_convert_pitch_to_packed_note(u16 center_note, u16 center_fine, u16 pitch);

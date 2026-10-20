@@ -1,12 +1,12 @@
 #include "slus/message_mode_81550.h"
 
 typedef void (*FuncPtr_8004DCEC)(char *);
-extern char D_80080B6C[2];
+extern char message_mode_work_buffer[2];
 
 /* Calls the selected mode handler with the shared work buffer. */
 void runtime_call_selected_mode_handler(void)
 {
     FuncPtr_8004DCEC handler;
-    handler = D_800714A4[D_80081550];
-    handler(D_80080B6C);
+    handler = message_mode_handlers[D_80081550];
+    handler(message_mode_work_buffer);
 }

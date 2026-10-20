@@ -7,7 +7,7 @@
 #include "town/player/initialize_record_with_handler_table_api.h"
 s16 query_lowered_transform_position();
 
-void func_80099A38(Rec_func_80094268_arg0 *state, EntityRec *object, s32 context) {
+void step_actor_positive_x_until_timer_expires(Rec_func_80094268_arg0 *state, EntityRec *object, s32 context) {
     u16 ticks_left;
 
     object->z.w.i = query_lowered_transform_position(object);

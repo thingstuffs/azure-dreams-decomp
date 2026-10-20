@@ -46,7 +46,7 @@ s32 lookup_definition_pair_value();                          /* extern */
 s32 generate_random_value(void);                          /* extern */
 extern M2C_UNK D_800245A8;
 extern void * create_animated_selection_menu_owner(void *unused, void *source);
-extern void func_80050CAC(void);
+extern void submit_enabled_saved_display_value(void);
 extern u8 D_800DCFB0[];
 extern u8 D_800DD0B8[];
 extern s32 (*D_800DD830[])(s32, u16);
@@ -349,7 +349,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                     }
                 }
                 if (((u32)held_D_80083160->buttons) & 0x80) {
-                    begin_player_menu_action(object, aux_entity, sprite, &func_80050CAC);
+                    begin_player_menu_action(object, aux_entity, sprite, &submit_enabled_saved_display_value);
                     return;
                 }
                 if ((((u32)held_D_80083160->buttons) & 0x10) || !(((u32)held_D_80083160->buttons) & 3)

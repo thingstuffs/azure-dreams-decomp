@@ -21,12 +21,12 @@ typedef struct {
     u16 field8;   /* offset 0x8 -- countdown timer */
 } S_80041900_D80083CA8;
 
-extern S_80041900_D80083CA8 D_80083CA8;
+extern S_80041900_D80083CA8 timed_entity_motion_state;
 
 /* Same address as D_80083CA8.u.h.field6 (0x80083CA8+6 == 0x80083CAE), but
  * retail refetches it via a fresh hi/lo instead of reusing the already
  * -materialized D_80083CA8 base register, so it must be its own symbol. */
-extern u16 D_80083CAE[];
+extern u16 timed_entity_motion_delta_alias[];
 
 typedef struct {
     char pad0[0x14];
@@ -38,7 +38,7 @@ typedef struct {
 void advance_timed_entity_motion(S_80041900_Obj *entity)
 {
     GameWork *direction_state = &g_game_work;
-    S_80041900_D80083CA8 *motion_state = &D_80083CA8;
+    S_80041900_D80083CA8 *motion_state = &timed_entity_motion_state;
 
     if (motion_state->field8 != 0) {
         if (direction_state->unk_004 & 2) {
@@ -48,15 +48,15 @@ void advance_timed_entity_motion(S_80041900_Obj *entity)
         }
 
         if (direction_state->unk_004 & 1) {
-            entity->unk14 += (s16)D_80083CAE[0] >> 2;
+            entity->unk14 += (s16)timed_entity_motion_delta_alias[0] >> 2;
         } else {
-            entity->unk14 -= (s16)D_80083CAE[0] >> 2;
+            entity->unk14 -= (s16)timed_entity_motion_delta_alias[0] >> 2;
         }
 
-        D_80083CA8.field8 -= 1;
-        if (D_80083CA8.field8 == 0 ||
-            (D_80083CA8.u.accum -= D_80083CA8.field0, D_80083CA8.u.accum < 0)) {
-            D_80083CA8.u.accum = 0;
+        timed_entity_motion_state.field8 -= 1;
+        if (timed_entity_motion_state.field8 == 0 ||
+            (timed_entity_motion_state.u.accum -= timed_entity_motion_state.field0, timed_entity_motion_state.u.accum < 0)) {
+            timed_entity_motion_state.u.accum = 0;
         }
     }
 }

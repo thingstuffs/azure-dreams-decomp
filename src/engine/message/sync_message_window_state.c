@@ -12,9 +12,9 @@ typedef struct Func80037F70Outer {
     Func80037F70Inner *field_00;
 } Func80037F70Outer;
 
-extern const char D_8002D000[0x10];
-extern const char D_8002D010[0x10];
-extern const char D_8002D020[0x10];
+extern const char message_window_primary_sync_data[0x10];
+extern const char message_window_tail_sync_data[0x10];
+extern const char message_window_detail_sync_data[0x10];
 extern u8 D_80082A38[0xB0];
 
 extern s32 func_80043FB8(const char *format, ...);
@@ -25,9 +25,9 @@ void sync_message_window_state(Func80037F70Outer *context)
 {
     u8 *state = D_80082A38;
 
-    func_80043FB8(D_8002D000, state);
-    func_80043FB8(D_8002D010, state + 0xA8);
-    func_80043FB8(D_8002D020, state + 0x9C);
+    func_80043FB8(message_window_primary_sync_data, state);
+    func_80043FB8(message_window_tail_sync_data, state + 0xA8);
+    func_80043FB8(message_window_detail_sync_data, state + 0x9C);
     sync_message_window_data(context->field_00);
     context->field_00->field_86 = context->field_00->field_85;
     context->field_00->field_85 = 0;

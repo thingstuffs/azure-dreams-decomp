@@ -412,7 +412,7 @@ extern M2C_UNK D_80078AB4;
 extern M2C_UNK D_80078AD8;
 extern M2C_UNK D_80079324;
 extern s32 func_80049004(s32 *buffer_slot, s32 entry_count, s32 clear_words);
-extern s32 func_80048FBC(s32 *values, s32 lookup_key);
+extern s32 allocate_and_append_callback_payload(s32 *values, s32 lookup_key);
 extern void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(s32 entries, s32 *value, s32 count);
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
@@ -470,7 +470,7 @@ void *create_menu_child_object(s32 parent_obj, s32 descriptor_value);
 void format_menu_referenced_values(void *state);
 void retire_menu_object(void *object);
 void clear_menu_embedded_state(s32 object_addr);
-void func_80028648(ovl_1831cd8_81813648_ReadyState *state);
+void mark_menu_object_ready(ovl_1831cd8_81813648_ReadyState *state);
 void *build_menu_draw_packets(void *packet, void *coords);
 ovl_1831cd8_81813774_UnalignedBlock12 *copy_menu_record_template(ovl_1831cd8_81813774_UnalignedBlock12 *dest);
 #endif

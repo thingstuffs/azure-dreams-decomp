@@ -1,13 +1,13 @@
 #include "common.h"
 
 /* D_80085FA4: [0] = base address of a byte table; accessed via %hi/%lo (forced size>8) */
-extern s32 D_80085FA4[4];
+extern s32 audio_sequence_data_base[4];
 
 /* D_800869B0: [0] = table length/bound; accessed via %hi/%lo (forced size>8) */
-extern s32 D_800869B0[4];
+extern s32 audio_sequence_stream_limit[4];
 
 /* Fixed 4-byte data blob compared against entries in the D_80085FA4[0] table. */
-extern s8 D_80033104[];
+extern s8 audio_sequence_track_tag[];
 
 extern s32 compare_byte_span(s8 *a0, s8 *a1, s32 a2);
 
@@ -17,11 +17,11 @@ s32 find_sequence_tag(s32 start_index)
     s32 byte_index = start_index;
 
     do {
-        if (compare_byte_span(D_80033104, (s8 *)D_80085FA4[0] + byte_index, 4) == 0) {
+        if (compare_byte_span(audio_sequence_track_tag, (s8 *)audio_sequence_data_base[0] + byte_index, 4) == 0) {
             return byte_index + 4;
         }
         byte_index = byte_index + 1;
-    } while ((u32)D_800869B0[0] >= (u32)byte_index);
+    } while ((u32)audio_sequence_stream_limit[0] >= (u32)byte_index);
 
     return -1;
 }

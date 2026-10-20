@@ -25,7 +25,7 @@ s16 get_cached_or_coordinate_transform_value(void *object, s32 lookup_mode)
     TownState *state = &D_800CFCB4;
 
     if (object == state->current &&
-        object == (u8 *)D_80082660[*(s32 *)((u8 *)object + 0x60)].object +
+        object == (u8 *)object_index_slots[*(s32 *)((u8 *)object + 0x60)].object +
                     0x20) {
         return D_800D5078[state->object_index];
     }

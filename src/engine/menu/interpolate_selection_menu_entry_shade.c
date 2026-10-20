@@ -20,8 +20,8 @@ typedef struct S_8004F780 {
     /* 0x34 */ s32 idxA;
 } S_8004F780;
 
-extern u8 D_80071784[];
-extern u8 D_80071790[];
+extern u8 selection_menu_animation_keys[];
+extern u8 selection_menu_shade_keys[];
 
 /* Interpolates table values and fills each entry's three-byte buffer with the result. */
 void interpolate_selection_menu_entry_shade(S_8004F780 *state)
@@ -36,9 +36,9 @@ void interpolate_selection_menu_entry_shade(S_8004F780 *state)
 
     for (entry_index = 0; entry_index < state->count; entry_index++) {
         entry = state->entries[entry_index];
-        row = D_80071784 + entry_index * 3;
-        start_value = D_80071790[row[state->idxA] * 4];
-        end_value = D_80071790[row[state->idxB] * 4];
+        row = selection_menu_animation_keys + entry_index * 3;
+        start_value = selection_menu_shade_keys[row[state->idxA] * 4];
+        end_value = selection_menu_shade_keys[row[state->idxB] * 4];
         value_delta = (end_value - start_value) * state->multiplier / state->divisor;
 
         obj = entry->obj;

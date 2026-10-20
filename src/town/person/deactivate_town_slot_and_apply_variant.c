@@ -18,7 +18,7 @@ void deactivate_town_slot_and_apply_variant(void *town_object, void *passthru_1,
     u8 raw_variant;
     ObjectIndexSlot *slot_table;
 
-    slot_table = D_80082660;
+    slot_table = object_index_slots;
     slot = (u32)(&slot_table[*(s32 *)((u8 *)town_object + 0x60)]);
     raw_variant = ((TownSlot *)slot)->variant;
     ((TownSlot *)slot)->active = 0;

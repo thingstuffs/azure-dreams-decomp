@@ -59,8 +59,8 @@ void func_800350B0();
 void *initialize_runtime_node_storage();
 s32 register_node();
 void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
-extern u8 D_8006A934[];
-extern u8 D_80073DC4[];
+extern u8 cursor_variant_values[];
+extern u8 cursor_sprite_source[];
 extern u8 D_80082BC0[];
 extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);
 extern void update_cursor_callback(void);
@@ -84,12 +84,12 @@ void create_cursor_object(s32 task_buffer, Rec_D_80081FDC *record, s32 *source, 
     ((S_80036B10_0 *)task)->unk_20 = record;
     record->unk_60 = 6;
     ((S_80036B10_6 *)(((S_80036B10_4 *)task)->unk_20))->unk_10 = 0x10C;
-    variant_table = (s16 *)&D_8006A934;
+    variant_table = (s16 *)&cursor_variant_values;
     ((S_80036B10_6 *)(((S_80036B10_4 *)task)->unk_20))->unk_14 =
         variant_table[((S_80036B10_8 *)(((S_80036B10_7 *)(((Rec_func_80036210_arg0 *)source)->unk_74.as_pm))->unk_80))->unk_02];
     state->unk_04 = 0;
     state->unk_08 = 0;
     func_800350B0(setup_arg, state);
     render_data->unk_0C = 0x808080;
-    func_8003DB94(render_data, &D_80073DC4, 0);
+    func_8003DB94(render_data, &cursor_sprite_source, 0);
 }

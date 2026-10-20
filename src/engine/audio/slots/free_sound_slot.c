@@ -13,13 +13,13 @@ typedef struct {
     /* 0x14 */ u8 pad14[8];
 } S_8005AC68; /* size 0x1C (28) */
 
-extern S_8005AC68 D_80086A40[16];
+extern S_8005AC68 audio_bank_slots[16];
 
 extern void release_sound_ram_block(s32 addr);
 
 /* Releases an occupied slot's data and marks the slot free. */
 void free_sound_slot(s16 slot_index) {
-    S_8005AC68 *slots = D_80086A40;
+    S_8005AC68 *slots = audio_bank_slots;
     S_8005AC68 *slot = &slots[slot_index];
     s16 free_marker = -1;
 

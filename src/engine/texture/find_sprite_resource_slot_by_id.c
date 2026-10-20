@@ -6,14 +6,14 @@ typedef struct {
     s16 unk6;
 } S_80047BC0;
 
-extern S_80047BC0 D_80083D08[6];
+extern S_80047BC0 sprite_resource_slots[6];
 
 /* Returns the first slot index with the requested ID in D_80083D08, or -1 if absent. */
 s32 find_sprite_resource_slot_by_id(s32 slot_id) {
     S_80047BC0 *slot;
     s32 match_index = -1;
     s32 slot_index = 0;
-    slot = D_80083D08;
+    slot = sprite_resource_slots;
 
     for (; slot_index < 6; slot_index++, slot++) {
         if (slot->unk6 == slot_id) {

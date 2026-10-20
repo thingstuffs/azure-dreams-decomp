@@ -9,7 +9,7 @@ extern s32 D_800814A0_load[3];
 #define D_800814A0_store (*(s32 *)0x800814A0)
 extern s16 reserve_runtime_slot(s16 a0, s16 a1);
 extern void clear_flags_on_resource_list(void);
-extern void func_80040418(void);
+extern void mark_resource_list_flags_ten_and_eleven(void);
 typedef struct S_80043FD0_Node
 {
     struct S_80043FD0_Node *next;
@@ -44,19 +44,19 @@ void update_deferred_resource_transition_task(S_80043FD0 *controller)
         }
         return;
     }
-    if (D_80083120[controller->field_8].type != 0) {
+    if (runtime_transition_slots[controller->field_8].type != 0) {
         return;
     }
     if (state != 0) {
         node = controller->field_0(controller->field_4);
         if (node == 0) {
-            D_80083120[controller->field_8].type = 6;
-            D_80083120[controller->field_8].unk_2 = 1;
-            D_80083120[controller->field_8].param = 1;
-            D_80083120[controller->field_8].unk_6 = 0;
+            runtime_transition_slots[controller->field_8].type = 6;
+            runtime_transition_slots[controller->field_8].unk_2 = 1;
+            runtime_transition_slots[controller->field_8].param = 1;
+            runtime_transition_slots[controller->field_8].unk_6 = 0;
             return;
         }
-        func_80040418();
+        mark_resource_list_flags_ten_and_eleven();
         D_80080A86_store = (state = 1);
         node->field_1E &= 0xF3FF;
     }

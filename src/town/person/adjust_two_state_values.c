@@ -9,7 +9,7 @@ extern M2C_UNK D_800D5388;
 
 
 /* Initialize the actor and set its counter to 40 and its handler. */
-void func_800C5864(Rec_func_80094268_arg0 *actor, s32 unused, s32 init_param) {
+void initialize_two_value_adjustment_action(Rec_func_80094268_arg0 *actor, s32 unused, s32 init_param) {
     initialize_object_entries((Struct800C5724 *)(actor), (s8 *)(init_param), &D_800D5388);
     actor->unk_6C.as_s16 = 0x28;
     actor->unk_54 = &adjust_two_state_values;

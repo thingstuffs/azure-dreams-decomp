@@ -16,7 +16,7 @@ typedef struct {
     u16 value;
 } FuncValue;
 
-extern void func_80035D38(void);
+extern void noop_after_window_shrink(void);
 
 /* Decreases value by 0x20, clamps it to 2, and updates the callback and data flag at the lower limit. */
 void shrink_window_and_signal_linked_record(FuncState *state, FuncValue *value_state) {
@@ -29,7 +29,7 @@ void shrink_window_and_signal_linked_record(FuncState *state, FuncValue *value_s
         s16 offset;
 
         value_state->value = 2;
-        state->callback = func_80035D38;
+        state->callback = noop_after_window_shrink;
         data = state->data;
         offset = state->offset;
         *(data + offset + 0x50) = 1;

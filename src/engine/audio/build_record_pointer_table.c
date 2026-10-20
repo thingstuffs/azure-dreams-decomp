@@ -17,7 +17,7 @@ typedef struct S_80055ADC_arg0
     u8 records[1];
 }
 S_80055ADC_arg0;
-extern u32 D_80084878[];
+extern u32 audio_selection_record_pointers[];
 // Fills a 16-entry table with record payload pointers, repeating the first pointer for unused slots.
 void build_record_pointer_table(S_80055ADC_arg0 *recordBlock, u32 tableIndex)
 {
@@ -33,7 +33,7 @@ void build_record_pointer_table(S_80055ADC_arg0 *recordBlock, u32 tableIndex)
     recordCount = (*(s32 *)((u8 *)recordBlock + 0x10));
     slotIndex = 0;
     tableByteOffset &= 0xFFFF;
-    tableBase = (u8 *)D_80084878;
+    tableBase = (u8 *)audio_selection_record_pointers;
     tableByteOffset <<= 6;
     outputSlot = (u32 *)(tableBase + tableByteOffset);
     firstSlot = outputSlot;

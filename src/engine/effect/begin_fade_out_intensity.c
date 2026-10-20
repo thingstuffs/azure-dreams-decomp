@@ -18,13 +18,13 @@ typedef struct {
     u8 rest[0x0C];
 } Manager;
 
-extern Manager D_80082D58;
+extern Manager fade_manager_state;
 extern void runtime_set_destination_flag_from_source(void *, void *);
 extern void fade_manager_step_out(void);
 
 /* Prepares the manager state and installs its next callback. */
 void begin_fade_out_intensity(void) {
-    void *manager = &D_80082D58;
+    void *manager = &fade_manager_state;
     State *state = *(State **)((u8 *)manager - 0x14);
 
     if (state->unkC == 0x80) {
@@ -35,6 +35,6 @@ void begin_fade_out_intensity(void) {
         state->unk14 |= 0x1C;
     }
 
-    D_80082D58.callback = fade_manager_step_out;
+    fade_manager_state.callback = fade_manager_step_out;
     runtime_set_destination_flag_from_source(manager, state);
 }

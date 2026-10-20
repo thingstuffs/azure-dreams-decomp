@@ -62,7 +62,7 @@ s32 flatten_floor_terrain(void *target, s32 effect_arg, s16 effect_id, s32 conte
     }
     if ((u32) target <= 0x9FFFFFFFU) {
         display_actor_item_status_message(target, effect_arg, effect_code);
-        if (apply_actor_food_preference(target, U16(((u8 *)D_800DDE84), U8(target, 0x13) * 2) & 3, effect_arg) == 0) {
+        if (apply_actor_food_preference(target, U16(((u8 *)entity_action_selectors), U8(target, 0x13) * 2) & 3, effect_arg) == 0) {
             apply_item_effect_at_entity_position(target, effect_arg);
             return 1;
         }

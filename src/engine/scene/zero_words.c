@@ -7,7 +7,7 @@
 
 
 extern struct { u16 flags; u8 pad[8]; } D_80013714;
-extern ObjectNodeHeader *D_80081490;   /* freelist head */
+extern ObjectNodeHeader *free_node_list_head;   /* freelist head */
 extern ObjectNodeHeader *D_80081498;   /* active list head */
 
 extern void zero_words(void *p, s32 n);
@@ -24,7 +24,7 @@ ObjectNodeHeader *func_8003FC64(s32 flags)
     ObjectNodeHeader **active_ptr;
     ObjectNodeHeader **active_ptr_early;
 
-    freelist_ptr = &D_80081490;
+    freelist_ptr = &free_node_list_head;
     active_ptr_early = &D_80081498;
     if ((D_80013714.flags & 0x2) && (flags & 0x200)) {
         return 0;
@@ -33,7 +33,7 @@ ObjectNodeHeader *func_8003FC64(s32 flags)
     free_head = *freelist_ptr;
     if (free_head != 0) {
         node = free_head;
-        D_80081490 = node->next;
+        free_node_list_head = node->next;
         zero_words(node, 0x49);
 
         active_ptr = active_ptr_early;

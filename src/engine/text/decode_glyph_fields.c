@@ -2,9 +2,9 @@
 
 /* Flags table indexed by a full byte value (0-255); bit 0x10/0x20 => "range A",
    bit 0x40 => "range B", bit 0x80 => "range C" encoding selector. */
-extern u8 D_800714B0[];
+extern u8 glyph_code_flags[];
 /* Pre-packed word table, one s32 per byte-index, used for the "range C" case. */
-extern s32 D_80071410[];
+extern s32 glyph_code_values[];
 
 /* Struct describing the caller-supplied record; fields 0x8-0xB form either four
    individually-set byte fields, or (in the word case) a single packed s32. */
@@ -21,7 +21,7 @@ void *decode_glyph_fields(void *record_ptr, s32 code)
 {
     S_8004E188 *record = (S_8004E188 *)record_ptr;
     u8 code_index = (u8)code;
-    u8 *flags_entry = D_800714B0 + code_index;
+    u8 *flags_entry = glyph_code_flags + code_index;
     u8 flags = *flags_entry;
     s32 field_value;
 
@@ -40,7 +40,7 @@ void *decode_glyph_fields(void *record_ptr, s32 code)
         record->fA = 8;
         record->fB = 8;
     } else if (flags & 0x80) {
-        *(s32 *)&record->f8 = D_80071410[code_index];
+        *(s32 *)&record->f8 = glyph_code_values[code_index];
     }
 
     return record;

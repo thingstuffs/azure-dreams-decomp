@@ -3,7 +3,7 @@
 #include "shared/game_work.h"
 
 extern void select_sprite_entry();
-extern s32 func_80047D44();
+extern s32 load_and_publish_texture_resource_pair();
 extern void load_and_upload_sprite_resource();
 extern void bind_sprite_resource_slot_record();
 extern void clear_entry_flag_and_link_owner();
@@ -32,7 +32,7 @@ void initialize_actor_sprite_and_animation(void *entity, void *position, void *s
     if (mode == 2) {
         if ((extra_flags << 16) == 0) {
             *(s32 *)((u8 *)sprite + 0x28) =
-                func_80047D44(*(u8 *)(entity_data + 0x13));
+                load_and_publish_texture_resource_pair(*(u8 *)(entity_data + 0x13));
         } else {
             *(s32 *)((u8 *)sprite + 0x28) = D_80081488[0];
         }

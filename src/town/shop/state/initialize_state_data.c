@@ -2,7 +2,7 @@
 
 
 
-s32 func_80048FBC();
+s32 allocate_and_append_callback_payload();
 s32 func_80049004();
 s32 texture_set_the_field_offset_hex_8_in_each_entry_pointer_array();
 extern s32 D_8002E5E8[];
@@ -43,7 +43,7 @@ s32 initialize_state_data(void *state, s32 input)
         ((S_800B44F0_0 *)state)->unk_44 = ((S_800B44F0_1 *)defaults)->unk_04;
         ((S_800B44F0_0 *)state)->unk_48 = ((S_800B44F0_1 *)defaults)->unk_08;
         texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(((S_800B44F0_0 *)state)->unk_5C, state + 0x40, 0x21);
-        init_result = func_80048FBC(state_data, 0xC);
+        init_result = allocate_and_append_callback_payload(state_data, 0xC);
         success = init_result != 0;
         ((S_800B44F0_0 *)state)->unk_20 = init_result;
     }

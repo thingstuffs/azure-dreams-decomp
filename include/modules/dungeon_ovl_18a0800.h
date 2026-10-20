@@ -20,7 +20,7 @@ s32 process_linked_mesh_states_mode_0(void *,s32,void *);
 void follow_brighten(u8 *,u8 *,u8 *);
 void tint_effect_and_advance_motion(void *,void *);
 void *create_initialized_effect_object(s32,MovingPosition *,s16,s32);
-void func_80024A00(void *,s32,void *);
+void advance_sprite_on_alternate_ticks_until_complete(void *,s32,void *);
 void *create_radial_effect_node(MovingPosition *);
 void func_80024B98(void *,void *,void *);
 void *spawn_ring_effects(void *,s16);

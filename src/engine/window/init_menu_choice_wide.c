@@ -20,10 +20,10 @@ typedef struct S_func_8003666C_1 {
     s32 unk_80;
 } S_func_8003666C_1;
 
-extern u8 D_80082040[0x10];
-extern u8 D_80082538[0x10];
+extern u8 menu_choice_display_data[0x10];
+extern u8 menu_choice_cursor_storage[0x10];
 
-extern void func_800366F4(void);
+extern void handle_two_column_menu_input(void);
 extern void init_cursor_sprite_object(s32, void *, s32 *, s16, s32, s32);
 
 /* Copies the marker, applies the position offset, and installs the next callback. */
@@ -42,11 +42,11 @@ void init_menu_choice_wide(S_func_8003666C_0 *state) {
     doubled_position = (s16) (position * 2);
     state->unk_4D = marker;
     init_cursor_sprite_object(
-        (s32) D_80082538,
-        D_80082040,
+        (s32) menu_choice_cursor_storage,
+        menu_choice_display_data,
         (s32 *) state,
         1,
         doubled_position,
         ((S_func_8003666C_1 *) state->unk_74)->unk_80);
-    state->unk_68 = func_800366F4;
+    state->unk_68 = handle_two_column_menu_input;
 }

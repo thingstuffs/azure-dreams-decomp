@@ -353,7 +353,7 @@ s32 check_layer_offset_height(s32, s32, s16, s32);
 s16 sample_terrain_surface_height(s32, s32, s16);
 void func_800419EC(u16, u16);
 s32 func_80053EF0(s32);
-void func_800542BC(void);
+void drain_audio_commands_and_service_channels(void);
 void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 void play_sound_if_enabled(s32);
 extern u8 D_80024048[];

@@ -28,7 +28,7 @@ typedef struct S_8004F684 {
     /* 0x34 */ s32 idxA;
 } S_8004F684;
 
-extern u8 D_80071784[];
+extern u8 selection_menu_animation_keys[];
 
 /* Interpolate table values into each target's fields with scales of 30 and 12 and fixed offsets. */
 void interpolate_selection_menu_entry_coordinates(S_8004F684 *state)
@@ -51,7 +51,7 @@ void interpolate_selection_menu_entry_coordinates(S_8004F684 *state)
 
     for (entry_index = 0; entry_index < settings->count; entry_index++) {
         entry_slot = (S_8004F684_Entry **)settings + entry_index;
-        value_row = D_80071784 + entry_index * 3;
+        value_row = selection_menu_animation_keys + entry_index * 3;
         start_value = value_row[settings->idxA];
         value_delta = value_row[settings->idxB] - start_value;
 

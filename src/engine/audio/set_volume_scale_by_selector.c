@@ -7,11 +7,11 @@ void set_volume_scale_by_selector(s16 value, s32 stat_index) {
     switch (stat_index) {
     case 4:
         g_volume_scale[2] = value;
-        func_80054D64();
+        apply_scaled_cd_stream_volume();
         break;
     case 1:
         g_volume_scale[1] = value;
-        func_800552C8();
+        apply_scaled_sound_slot_volume();
         break;
     case 2:
         g_volume_scale[0] = value;

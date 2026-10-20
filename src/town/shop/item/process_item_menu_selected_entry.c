@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800AF254_arg1.h"
 
-int func_80049490(void *);
+int get_item_name_with_shared_text_table(void *);
 void populate_item_menu_page_entries(s32, void * *);
 extern void update_item_menu_enabled_record(Rec_func_800AF254_arg1 *);
 void populate_item_menu_lower_entries(void *);
@@ -29,5 +29,5 @@ void process_item_menu_selected_entry(Rec_func_800AF254_arg1 *record) {
     populate_item_menu_page_entries(record->unk_A8.as_s32, (void * *)(record));
     item_menu_no_op(record->unk_A8.as_s32, record);
     selection = record->unk_00;
-    func_80049490((void *)(selection->unk_20[selection->unk_18]));
+    get_item_name_with_shared_text_table((void *)(selection->unk_20[selection->unk_18]));
 }

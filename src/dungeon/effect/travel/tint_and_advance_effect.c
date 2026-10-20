@@ -481,7 +481,7 @@ typedef struct {
 
 
 /* Advances counters and conditionally processes the target, propagating its status flag. */
-void func_80024A00(void *record, s32 unused, void *target)
+void advance_sprite_on_alternate_ticks_until_complete(void *record, s32 unused, void *target)
 {
     u16 flags = *(u16 *)((u8 *)record + 0x1C);
 
@@ -525,7 +525,7 @@ void *create_radial_effect_node(MovingPosition *source_coords)
 
     node = func_8003FC64(0x202);
     if (node != 0) {
-        node->unk_10 = func_80024A00;
+        node->unk_10 = advance_sprite_on_alternate_ticks_until_complete;
         register_node(node, (s32)project_sprite_chain);
         coords = node->unk_08;
         coords->unk_02 = source_coords->unk_02;

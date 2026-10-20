@@ -9,17 +9,17 @@ typedef struct S_80083958 {
     /* 0xA */ u16 flags;
 } S_80083958;
 
-extern S_80083958 D_80083958;
+extern S_80083958 cd_driver_prefix;
 
 extern void CdInit(void);
 
 /* Increment both retry counters, resetting counter1 and initializing the CD when counter1 reaches 0x401. */
 void cd_inc_retry_counters(void)
 {
-    D_80083958.counter2++;
-    D_80083958.counter1++;
-    if (D_80083958.counter1 >= 0x401) {
-        D_80083958.counter1 = 0;
+    cd_driver_prefix.counter2++;
+    cd_driver_prefix.counter1++;
+    if (cd_driver_prefix.counter1 >= 0x401) {
+        cd_driver_prefix.counter1 = 0;
         CdInit();
     }
 }

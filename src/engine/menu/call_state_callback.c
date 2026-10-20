@@ -1,12 +1,12 @@
 #include "common.h"
 
 /* byte flags array indexed by a state/id field (obj->unk1C) */
-extern u8 D_800717B4[];
+extern u8 menu_state_callback_flags[];
 
 /* table of callback function pointers indexed by the same state/id field;
    called as fn(parent_ptr, arg) */
 typedef void (*Fn_8007179C)(void *, s32);
-extern Fn_8007179C D_8007179C[];
+extern Fn_8007179C menu_state_callbacks[];
 
 extern s32 func_800213AC(void);
 
@@ -20,7 +20,7 @@ typedef struct S_8004FF20 {
 void call_state_callback(S_8004FF20 *obj) {
     s32 callback_arg = 0;
 
-    if (D_800717B4[obj->unk1C] != 0) {
+    if (menu_state_callback_flags[obj->unk1C] != 0) {
         callback_arg = obj->unk20;
         if (callback_arg == 2) {
             s32 query_result = func_800213AC();
@@ -29,5 +29,5 @@ void call_state_callback(S_8004FF20 *obj) {
         }
     }
 
-    D_8007179C[obj->unk1C]((u8 *)obj - 0x20, callback_arg);
+    menu_state_callbacks[obj->unk1C]((u8 *)obj - 0x20, callback_arg);
 }

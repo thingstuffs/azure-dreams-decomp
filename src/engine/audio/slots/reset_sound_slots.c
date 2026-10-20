@@ -37,10 +37,10 @@ typedef struct {
     /* 0x0A */ u16 field_A;
 } S_80086C00; /* size 0xC (12) */
 
-extern S_80086A40 D_80086A40[16];
-extern S_800869C0 D_800869C0[16];
-extern S_80086C00 D_80086C00[16];
-extern s32 D_80086D4C[3]; /* forced hi/lo via size > 8 */
+extern S_80086A40 audio_bank_slots[16];
+extern S_800869C0 audio_ram_blocks[16];
+extern S_80086C00 audio_sequence_slots[16];
+extern s32 audio_slot_service_word[3]; /* forced hi/lo via size > 8 */
 
 /* Resets the sound slot tables to their free defaults and restores the global counter. */
 void reset_sound_slots(void)
@@ -48,20 +48,20 @@ void reset_sound_slots(void)
     s32 i;
 
     for (i = 0; i < 16; i++) {
-        D_80086A40[i].marker = -1;
-        D_80086A40[i].unk19 = 0x7F;
-        D_80086A40[i].unk1A = 0x7F;
-        D_80086A40[i].unk1B = 0x40;
+        audio_bank_slots[i].marker = -1;
+        audio_bank_slots[i].unk19 = 0x7F;
+        audio_bank_slots[i].unk1A = 0x7F;
+        audio_bank_slots[i].unk1B = 0x40;
     }
 
     for (i = 0; i < 16; i++) {
-        D_80086C00[i].field_0 = -1;
-        D_80086C00[i].field_2 = 0;
-        D_80086C00[i].field_A = 0x7F;
-        D_80086C00[i].field_8 = 0x7F;
-        D_800869C0[i].unk04 = 0;
-        D_800869C0[i].unk00 = 0;
+        audio_sequence_slots[i].field_0 = -1;
+        audio_sequence_slots[i].field_2 = 0;
+        audio_sequence_slots[i].field_A = 0x7F;
+        audio_sequence_slots[i].field_8 = 0x7F;
+        audio_ram_blocks[i].unk04 = 0;
+        audio_ram_blocks[i].unk00 = 0;
     }
 
-    D_80086D4C[0] = 0x1000;
+    audio_slot_service_word[0] = 0x1000;
 }

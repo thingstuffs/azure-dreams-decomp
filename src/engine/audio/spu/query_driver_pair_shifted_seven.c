@@ -11,7 +11,7 @@ typedef struct S_8005C784 {
     u8 pad[0x40 - 0xC];
 } S_8005C784;
 
-extern s32 D_80073740[];
+extern s32 audio_voice_masks[];
 extern void func_8005FA34(S_8005C784 *a0);
 
 /* Computes two outputs from indexed flags, scales them down by 128, and returns zero. */
@@ -20,7 +20,7 @@ s32 query_driver_pair_shifted_seven(s16 flags_index, s16 *out_first, s16 *out_se
     S_8005C784 request;
 
     request.unk4 = 0;
-    request.unk0 = D_80073740[flags_index];
+    request.unk0 = audio_voice_masks[flags_index];
     func_8005FA34(&request);
     *out_first = request.unk8 >> 7;
     *out_second = request.unkA >> 7;

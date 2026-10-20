@@ -8,14 +8,14 @@ s32 submit_driver_transfer_with_fallback(s32 channel, s32 playback_param)
     s32 saved_channel = channel;
     s32 saved_param = playback_param;
 
-    if (D_80079974 != 0) {
-        func_8005CE98((u16 *)saved_channel, (u32)saved_param);
+    if (spu_transfer_uses_fifo != 0) {
+        write_spu_transfer_fifo_in_chunks((u16 *)saved_channel, (u32)saved_param);
         return saved_param;
     }
 
-    func_8005D1D0(2, (s32)D_80079970 << D_80079980);
-    func_8005D1D0(1);
-    func_8005D1D0(3, saved_channel, saved_param);
+    dispatch_spu_dma_transfer_command(2, (s32)spu_transfer_address_units << spu_address_unit_shift);
+    dispatch_spu_dma_transfer_command(1);
+    dispatch_spu_dma_transfer_command(3, saved_channel, saved_param);
     return saved_param;
 }
 
@@ -25,9 +25,9 @@ s32 submit_driver_transfer_mode_zero(s32 buffer_addr, s32 size)
     s32 upload_addr = buffer_addr;
     s32 upload_size = size;
 
-    func_8005D1D0(2, (s32)D_80079970 << D_80079980);
-    func_8005D1D0(0);
-    func_8005D1D0(3, upload_addr, upload_size);
+    dispatch_spu_dma_transfer_command(2, (s32)spu_transfer_address_units << spu_address_unit_shift);
+    dispatch_spu_dma_transfer_command(0);
+    dispatch_spu_dma_transfer_command(3, upload_addr, upload_size);
 
     return upload_size;
 }

@@ -36,9 +36,9 @@ typedef struct S_80050308 {
 typedef void (*StateFn_80050308)(void *);
 
 extern s16 SD_Call(s32 a0);
-extern void func_80050DA8(void *a0);
-extern void func_80050EA8(void *a0);
-extern s32 func_800502E0(void *a0);
+extern void begin_selection_menu_teardown_and_fade(void *a0);
+extern void release_selection_menu_and_preserve_pending_value(void *a0);
+extern s32 resolve_selected_menu_entry(void *a0);
 extern s32 call_state_callback(void *a0);
 extern void run_state_callback_and_restore(void *a0);
 extern s32 advance_index_with_single_wrap(s32 a0, s32 a1, s32 a2);
@@ -55,17 +55,17 @@ void handle_object_input(void *object)
         action_flags = ((s32)g_game_work.pressed_buttons);
         if (action_flags & 0x20) {
             SD_Call(0x515);
-            func_80050DA8((char *)obj - 0x20);
+            begin_selection_menu_teardown_and_fade((char *)obj - 0x20);
         } else if (action_flags & 0x40) {
             SD_Call(0x514);
-            obj->unk20 = func_800502E0(obj->unk28);
+            obj->unk20 = resolve_selected_menu_entry(obj->unk28);
             if (call_state_callback(obj) == 0) {
                 s32 prev_callback = *(s32 *)((char *)obj - 0x10);
 
                 *(StateFn_80050308 *)((char *)obj - 0x10) = run_state_callback_and_restore;
                 obj->unk04 = prev_callback;
             } else {
-                func_80050EA8((char *)obj - 0x20);
+                release_selection_menu_and_preserve_pending_value((char *)obj - 0x20);
             }
         } else if (g_game_work.buttons & 0x5000) {
             direction = 0;

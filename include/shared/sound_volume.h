@@ -57,8 +57,8 @@ typedef struct SoundPlaybackState {
 typedef void (*sound_task_callback_fn)(void);
 
 /* Installed SoundTask completion functions; both take no arguments. */
-void func_800552C8(void);
-void func_80054D64(void);
+void apply_scaled_sound_slot_volume(void);
+void apply_scaled_cd_stream_volume(void);
 
 typedef struct SoundTask {
     /* 0x00 */ sound_task_callback_fn callback;

@@ -18,6 +18,6 @@ typedef struct ObjectIndexSlot {
     /* 0x04 */ void *object;
 } ObjectIndexSlot;
 
-extern ObjectIndexSlot D_80082660[];
+extern ObjectIndexSlot object_index_slots[];
 
 #endif

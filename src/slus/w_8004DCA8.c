@@ -7,14 +7,14 @@
    D_80080B68: fallback return-script byte whose ADDRESS is registered when
    the caller passes NULL. The audited opcode 0x16 pops/restores the caller
    cursor; this one-byte used view does not assert historical allocation. */
-extern u8 D_80080B68[1];
+extern u8 script_message_default_record[1];
 
 /* Registers the object or its fallback in the next slot and advances the slot counter. */
 void runtime_register_object_or_fallback_slot(void *object)
 {
     void *registered_ptr = object;
     if (registered_ptr == 0) {
-        registered_ptr = D_80080B68;
+        registered_ptr = script_message_default_record;
     }
-    D_80083D98[D_80081554++] = (s32)registered_ptr;
+    script_message_command_words[D_80081554++] = (s32)registered_ptr;
 }

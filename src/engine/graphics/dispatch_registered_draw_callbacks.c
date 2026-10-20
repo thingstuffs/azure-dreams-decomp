@@ -13,17 +13,17 @@ typedef struct Entry {
 } Entry;
 
 extern s32 is_frame_packet_arena_overflowed(s32);
-extern Callback D_80083360[0x20];
-extern Entry *D_800833E0[0x20];
+extern Callback registered_draw_callbacks[0x20];
+extern Entry *registered_draw_objects[0x20];
 
 void dispatch_registered_draw_callbacks(void)
 {
     s32 i;
 
     for (i = 0; i < 32; i++) {
-        Callback callback = D_80083360[i];
+        Callback callback = registered_draw_callbacks[i];
         if (callback != 0) {
-            Entry *entry = D_800833E0[i];
+            Entry *entry = registered_draw_objects[i];
             if (entry != 0) {
                 if (!(entry->flags & 0x800)) {
                     callback(entry->data, entry->callback_arg1, entry->callback_arg2);
@@ -32,7 +32,7 @@ void dispatch_registered_draw_callbacks(void)
                     }
                 }
             } else {
-                D_80083360[i] = 0;
+                registered_draw_callbacks[i] = 0;
             }
         }
     }

@@ -2,12 +2,12 @@
 
 extern void ClearImage(void *, s32, s32, s32);
 extern void init_double_buffered_gpu_environments(void);
-extern void func_8004EB30(void);
+extern void clear_vram_callback_state(void);
 extern void ResetCallback(void);
-extern s32 D_80080A7C;
-extern s32 D_80081480;
-extern s32 D_8008148C;
-extern u8 D_80126804[];
+extern s32 gpu_scratch_ring_size;
+extern s32 gpu_scratch_write_pointer;
+extern s32 gpu_scratch_buffer_base;
+extern u8 gpu_scratch_ring_buffer[];
 
 /* Reset callbacks, clear VRAM, and initialize buffer state. */
 void reset_callbacks_and_clear_vram(void)
@@ -15,12 +15,12 @@ void reset_callbacks_and_clear_vram(void)
     s32 vram_rect[2];
 
     ResetCallback();
-    func_8004EB30();
+    clear_vram_callback_state();
     init_double_buffered_gpu_environments();
     vram_rect[0] = 0;
     vram_rect[1] = 0x02000400;
     ClearImage(vram_rect, 0, 0, 0);
-    D_8008148C = (s32) D_80126804;
-    D_80081480 = (s32) D_80126804;
-    D_80080A7C = 0x38000;
+    gpu_scratch_buffer_base = (s32) gpu_scratch_ring_buffer;
+    gpu_scratch_write_pointer = (s32) gpu_scratch_ring_buffer;
+    gpu_scratch_ring_size = 0x38000;
 }

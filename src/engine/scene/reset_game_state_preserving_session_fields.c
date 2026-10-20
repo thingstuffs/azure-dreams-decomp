@@ -16,8 +16,8 @@ typedef struct {
 } __attribute__((packed)) Copy10;
 
 extern void bzero(void *ptr, s32 size);
-extern u8 D_80080AB4[10];
-extern u8 D_8002D5B4[10];
+extern u8 session_reset_default_pair[10];
+extern u8 session_reset_default_block[10];
 
 
 /* Clear the memory region and copy defaults while preserving six saved fields. */
@@ -42,8 +42,8 @@ void reset_game_state_preserving_session_fields(void)
 
     bzero(clear_page, 0x5C84);
 
-    *(Copy6 *)0x8001020C = *(Copy6 *)D_80080AB4;
-    *(Copy10 *)0x80010238 = *(Copy10 *)D_8002D5B4;
+    *(Copy6 *)0x8001020C = *(Copy6 *)session_reset_default_pair;
+    *(Copy10 *)0x80010238 = *(Copy10 *)session_reset_default_block;
 
     *(u8 *)(page + 0x3186) = saved_3186;
     *(u32 *)(page + 0x3180) = saved_3180;

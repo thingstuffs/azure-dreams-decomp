@@ -10,7 +10,7 @@ void reset_object_handler_after_update(void *object, s32 unused, s32 updateValue
 
     objectData = *(void **)((u8 *)object + 0x80);
     initialize_object_entries(object, (s8 *)(updateValue), (s32 *)(*(s32 *)((u8 *)objectData + 8)));
-    D_80082660[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
+    object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
     *(void **)((u8 *)object + 0x54) = &D_800C3A98;
     *(s16 *)((u8 *)object + 0x6C) = 0x20;
 }

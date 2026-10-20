@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern u8 D_80080B28[16];
-extern u8 D_80080B2C[16];
+extern u8 gradient_rectangle_edge_color[16];
+extern u8 gradient_rectangle_center_color[16];
 extern void *bzero(void *, s32);
 
 /* Builds a tinted rectangle with gradient top and bottom bands. */
@@ -15,8 +15,8 @@ void *build_tinted_gradient_rect(u8 *cmd, u8 *rect, u8 *tint)
     u32 bottom_center;
     u8 *start;
 
-    memcpy(edge_color, D_80080B28, 4);
-    memcpy(center_color, D_80080B2C, 4);
+    memcpy(edge_color, gradient_rectangle_edge_color, 4);
+    memcpy(center_color, gradient_rectangle_center_color, 4);
     bzero(cmd, 0x14);
 
     if ((*(s32 *)tint & 0xFFFFFF) != 0x808080) {

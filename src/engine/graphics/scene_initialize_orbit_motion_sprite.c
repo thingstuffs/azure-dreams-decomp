@@ -3,7 +3,7 @@
 
 /* Global >8-byte struct accessed via %hi/%lo (passed by address to func_8003DB94
  * as its `Elem`-shaped table argument). */
-extern u8 D_800720AC[12];
+extern u8 orbit_motion_sprite_source[12];
 
 /* callback/update-function pointers, assigned by address only */
 extern void update_sine_motion_effect(void);
@@ -69,7 +69,7 @@ void scene_initialize_orbit_motion_sprite(void *object_ptr, void *slot)
 
     render_state = object->fc;
     render_state->fc = 0x808080;
-    func_8003DB94(render_state, (SpriteSourceEntry *)D_800720AC, 0);
+    func_8003DB94(render_state, (SpriteSourceEntry *)orbit_motion_sprite_source, 0);
 
     render_state->f1e = 0x1000;
     render_state->f1c = 0x1000;

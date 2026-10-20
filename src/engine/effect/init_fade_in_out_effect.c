@@ -6,7 +6,7 @@ typedef struct S_80071A68 {
     /* 0x00 */ s32 field_0x00;
 } S_80071A68;
 
-extern S_80071A68 D_80071A68[];
+extern S_80071A68 fade_effect_visual_table[];
 
 extern void update_fade_in_out_effect(void);
 extern void draw_linked_sprites(void);
@@ -66,7 +66,7 @@ void init_fade_in_out_effect(S_80051E94 *object, s32 sub_value)
 
     render_state = object->ptr;
     render_state->field_0x0C = 0;
-    kind_value = D_80071A68[sub_state->field_0x0A].field_0x00;
+    kind_value = fade_effect_visual_table[sub_state->field_0x0A].field_0x00;
     render_state->field_0x1E = 0x1000;
     render_state->field_0x1C = 0x1000;
     render_state->field_0x08 = kind_value;

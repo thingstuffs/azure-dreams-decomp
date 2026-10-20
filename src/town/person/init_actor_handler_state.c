@@ -18,7 +18,7 @@ typedef struct S_800C51DC_1 {
 
 /* Clear the actor table flag, install its handler, and initialize state values. */
 void init_actor_handler_state(S_800C51DC_0 *actor, S_800C51DC_1 *state) {
-    D_80082660[actor->unk_60].unk_00 = 0;
+    object_index_slots[actor->unk_60].unk_00 = 0;
     actor->unk_54 = &D_800C5100;
     state->unk_10 = 0x80000;
     state->unk_14 = 0x40000;

@@ -12,7 +12,7 @@ typedef struct CdlATV {
     u8 val3;
 } CdlATV;
 
-extern void func_8005A3D4(void);
+extern void clear_cd_audio_mix_mode(void);
 extern int audio_enable_mono_mix(void);
 extern int CdMix(CdlATV *vol);
 
@@ -24,12 +24,12 @@ void set_cd_audio_mix_mode(unsigned char mix_mode) {
         audio_enable_mono_mix();
         cd_volume.val0 = cd_volume.val2 = 0x4F;
         cd_volume.val1 = cd_volume.val3 = 0x4F;
-        D_800847D0.flags00 = (D_800847D0.flags00 & ~0x10) | 0x20;
+        sound_playback_state.flags00 = (sound_playback_state.flags00 & ~0x10) | 0x20;
     } else {
-        func_8005A3D4();
+        clear_cd_audio_mix_mode();
         cd_volume.val0 = cd_volume.val2 = 0x7F;
         cd_volume.val1 = cd_volume.val3 = 0;
-        D_800847D0.flags00 = (D_800847D0.flags00 & ~0x20) | 0x10;
+        sound_playback_state.flags00 = (sound_playback_state.flags00 & ~0x20) | 0x10;
     }
 
     CdMix(&cd_volume);

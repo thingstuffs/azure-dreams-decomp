@@ -7,12 +7,12 @@
 #include "shared/game_work.h"
 
 extern u8 D_80080A84;
-extern short D_80080ABC;
-extern short D_80080ABE;
-extern short D_80080A94;
-extern short D_80080A98;
-extern short D_80080A9C;
-extern u8 D_80080A8A;
+extern short camera_shoulder_hold_ticks;
+extern short camera_shoulder_repeat_latch;
+extern short saved_cd_playback_volume_scale;
+extern short saved_sequence_volume_scale;
+extern short saved_voice_gain_scale;
+extern u8 runtime_state_restore_requested;
 extern u8 D_80080A88;
 extern u8 D_80080AA0;
 

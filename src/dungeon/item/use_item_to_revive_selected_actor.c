@@ -61,7 +61,7 @@ s32 use_item_to_revive_selected_actor(EntityRec *entity, s32 action, s16 action_
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, action, action_type);
-        if (apply_actor_food_preference(entity, D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, 0) == 0) {
+        if (apply_actor_food_preference(entity, entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, 0) == 0) {
             apply_item_effect_at_entity_position(entity, action);
             return 1;
         }

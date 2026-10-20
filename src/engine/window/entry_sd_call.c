@@ -24,7 +24,7 @@ extern void SD_Call(u32);
 extern void confirm_menu_choice(CursorState *, s32, s32);
 
 /* Wrap the cursor on directional input and dispatch the selected action. */
-void func_80036350(CursorState *cursor, s32 action_arg1, s32 action_arg2)
+void handle_wrapping_menu_cursor_input(CursorState *cursor, s32 action_arg1, s32 action_arg2)
 {
     GameWork *runtime;
     u32 next_cursor;

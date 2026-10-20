@@ -8,6 +8,6 @@ typedef struct S_80097D2C_0 {
 
 
 /* Invoke the object's callback. */
-void func_80097D2C(S_80097D2C_0 *object) {
+void invoke_object_state_callback(S_80097D2C_0 *object) {
     object->unk_04(object);
 }

@@ -30,11 +30,11 @@ typedef struct {
 extern s32 read_next_byte_and_finish(S_80085FA8 *a0);
 extern s32 read_base_128_vlq(S_80085FA8 *a0);
 extern s32 read_big_endian_word(S_80085FA8 *a0);
-extern s32 func_80058E50(S_80085FA8 *a0, s32 a1);
-extern s32 D_800737C8[];
-extern S_80085FA8 D_80085FA8[];
-extern u32 D_800869A8[];
-extern u32 D_800869B4[];
+extern s32 add_to_sequence_counter(S_80085FA8 *a0, s32 a1);
+extern s32 audio_sequence_format[];
+extern S_80085FA8 audio_sequence_tracks[];
+extern u32 audio_sequence_timing_division[];
+extern u32 audio_sequence_track_count[];
 
 /* Handles sequence metadata events, updating tempo and marking track endings. */
 void handle_sequence_meta_event(S_80085FA8 *track, s32 event_type)
@@ -52,14 +52,14 @@ void handle_sequence_meta_event(S_80085FA8 *track, s32 event_type)
     event_or_bpm = event_type & 0xFF;
     switch (event_or_bpm) {
     case 0 ... 0xF:
-        func_80058E50(track, read_base_128_vlq(track));
+        add_to_sequence_counter(track, read_base_128_vlq(track));
         return;
     case 0x2F:
         track->f2c = 1;
         read_next_byte_and_finish(track);
         return;
     case 0x51:
-        if (D_800737C8[0] == 1) {
+        if (audio_sequence_format[0] == 1) {
             track->f20 = read_big_endian_word(track) & 0xFFFFFF;
         } else {
             track->f20 = read_next_byte_and_finish(track) << 0x10;
@@ -76,7 +76,7 @@ void handle_sequence_meta_event(S_80085FA8 *track, s32 event_type)
         if (timing_value == 0) {
             track->f24 = 0xFF;
         }
-        timing_value = D_800869A8[0];
+        timing_value = audio_sequence_timing_division[0];
         if (timing_value != 0x1E) {
             if (timing_value < 0x1FU ? timing_value == 0x18 : timing_value == 0x3C) {
                 scaled_tempo = (u32) track->f24 >> 1;
@@ -88,11 +88,11 @@ void handle_sequence_meta_event(S_80085FA8 *track, s32 event_type)
         }
         track_index = 0;
         track_tempo = track->f24;
-        track_count = D_800869B4[0];
+        track_count = audio_sequence_track_count[0];
         if (track_count != 0) {
             track_limit = track_count;
             do {
-                tempo_track = &D_80085FA8[track_index];
+                tempo_track = &audio_sequence_tracks[track_index];
                 tempo_track->f24 = track_tempo;
                 tempo_track->f20 = track_tempo;
             } while (++track_index < track_limit);
@@ -117,7 +117,7 @@ void handle_sequence_meta_event(S_80085FA8 *track, s32 event_type)
         read_next_byte_and_finish(track);
         return;
     default:
-        func_80058E50(track, read_base_128_vlq(track));
+        add_to_sequence_counter(track, read_base_128_vlq(track));
         return;
     }
 }

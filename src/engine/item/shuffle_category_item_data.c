@@ -25,7 +25,7 @@ typedef struct S_8004AA78_Buf {
 } S_8004AA78_Buf;
 
 extern S_8004AA78_CategoryEntry itemCategoryTable[];
-extern void func_8004A9B0(u8 *indices, s32 count);
+extern void shuffle_byte_array(u8 *indices, s32 count);
 
 /* Shuffles nonzero item pointers among occupied records in a category. */
 void shuffle_category_item_data(s32 category) {
@@ -65,7 +65,7 @@ void shuffle_category_item_data(s32 category) {
         } while (index < ptr_count);
     }
 
-    func_8004A9B0(shuffle.indices, ptr_count);
+    shuffle_byte_array(shuffle.indices, ptr_count);
 
     ptr_count = 0;
     index = 0;

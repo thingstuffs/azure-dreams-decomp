@@ -38,16 +38,16 @@ typedef struct {
     u16 extvolr;  /* 0x1B6 */
 } SpuRegs;
 
-extern SpuRegs *D_80079958;
+extern SpuRegs *spu_registers;
 
 /* Apply masked SPU master volume and CD/external input volume, reverb, and mixing settings. */
 
 void func_8005EDA0(SpuCommonAttr *attr);
 
-extern s32 D_800794F8;
-extern s32 D_800794FC;
-extern u32 D_80079500;
+extern s32 spu_reverb_enabled;
+extern s32 spu_reverb_range_override;
+extern u32 spu_reverb_start_address;
 s32 func_8005D9DC(u32 value);
-s32 func_8005D88C(s32 enable);
+s32 set_spu_reverb_enabled_if_available(s32 enable);
 
 #endif

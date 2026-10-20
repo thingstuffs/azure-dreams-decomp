@@ -28,7 +28,7 @@ struct AnimObject {
     u8 frame_2a;
 };
 
-extern s32 D_8006A8B4[];
+extern s32 message_row_heights[];
 extern void move_vram_rect(s16 x, s16 y, s16 width, s16 height, s32 move_x, s32 move_y);
 extern void fill_vram_rect(s16 x, s16 y, s16 width, s16 height, u8 red, u8 green, u8 blue);
 extern void update_message_window(AnimObject *anim);
@@ -40,13 +40,13 @@ void scroll_message_rows(AnimObject *anim)
 
     anim->frame_a += 4;
     row = 0;
-    if ((s16)anim->frame_a < D_8006A8B4[anim->frame_2a]) {
+    if ((s16)anim->frame_a < message_row_heights[anim->frame_2a]) {
         return;
     }
 
     anim->frame_a = 0;
     if (anim->count_25 - 1 > 0) {
-        s32 *row_heights = D_8006A8B4;
+        s32 *row_heights = message_row_heights;
 
 scroll_row:
         move_vram_rect(
@@ -67,7 +67,7 @@ scroll_row:
         s32 *height_table;
         s32 *row_height;
 
-        height_table = D_8006A8B4;
+        height_table = message_row_heights;
         row_height = height_table + anim->frame_2a;
 
         fill_vram_rect(

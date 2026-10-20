@@ -5,7 +5,7 @@
 extern void *reverse_town_movie_buffer_bytes(u8 *buf, u16 len);
 
 /* Writes value as fullwidth decimal digits and returns a pointer to the null terminator. */
-u8 *func_8003AD08(u32 value, u8 *out)
+u8 *format_unsigned_double_byte_decimal(u32 value, u8 *out)
 {
     u8 digits[16];
     u8 *digit = digits;

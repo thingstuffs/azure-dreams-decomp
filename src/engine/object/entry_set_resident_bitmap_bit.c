@@ -4,12 +4,12 @@
 #include "shared/resident_resources.h"
 
 
-extern ResidentBitmapEntry D_8006A94C[];
+extern ResidentBitmapEntry resident_bitmap_key_map[];
 extern void set_resident_bitmap_bit(s32 bit_id);
 
 /* Pass each matching key's value to set_resident_bitmap_bit. */
-void func_80035D4C(s16 key) {
-    ResidentBitmapEntry *entry = D_8006A94C;
+void set_resident_bits_for_matching_key(s16 key) {
+    ResidentBitmapEntry *entry = resident_bitmap_key_map;
 
     if (entry->key != 0) {
         do {

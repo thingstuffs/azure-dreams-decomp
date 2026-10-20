@@ -16,7 +16,7 @@ typedef struct ObjA464 {
     InnerA464 inner;
 } ObjA464;
 
-extern void func_8004B530(s32 object);
+extern void mark_object_removal_for_inner_release(s32 object);
 extern s32 D_800814A0_store;
 
 /* Sets object and global flags and processes the object's two inner values. */
@@ -28,7 +28,7 @@ void flag_object_and_release_inner(ObjA464 *obj)
         obj->flags |= 0x8000;
         inner = &obj->inner;
         D_800814A0_store = object_flag_block.flags | 0x8000;
-        func_8004B530(inner->field_8);
-        func_8004B530(inner->field_18);
+        mark_object_removal_for_inner_release(inner->field_8);
+        mark_object_removal_for_inner_release(inner->field_18);
     }
 }

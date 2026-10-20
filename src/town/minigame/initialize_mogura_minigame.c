@@ -54,7 +54,7 @@ extern void set_resident_bit(s32);
 extern void func_8003E188(s32, void *);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
-extern void func_80048568(s32);
+extern void load_default_object_palette(s32);
 extern s32 rand(void);
 extern void tw_sd_sq_ld_call(s32, s32);
 
@@ -84,7 +84,7 @@ s32 initialize_mogura_minigame(void)
     set_resident_bit(0x552);
     set_resident_bit(0xA4);
     set_resident_bit(0xA5);
-    func_80048568(7);
+    load_default_object_palette(7);
     func_8003E188(0x3F, parent_state);
 
     object = allocate_list_node(0x136, ((u8 *)(&D_80083498)));

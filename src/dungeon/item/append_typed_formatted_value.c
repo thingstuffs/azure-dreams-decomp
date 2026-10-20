@@ -3,7 +3,7 @@
 #include "shared/entity.h"
 
 typedef struct { u8 unk0; u8 unk1; s8 unk2; u8 unk3; } FuncData;
-extern void *func_8003AD08();
+extern void *format_unsigned_double_byte_decimal();
 extern void *expand_text_control_codes();
 extern void *append_signed_value_bytes();
 extern void *copy_selected_text_without_terminator();
@@ -47,7 +47,7 @@ u8 *append_typed_formatted_value(FuncData *data, u8 *buffer) {
                 value = data->unk2;
                 *out++ = *format++;
                 *out = *format++;
-                value_end = func_8003AD08(value, out + 1);
+                value_end = format_unsigned_double_byte_decimal(value, out + 1);
                 out = value_end;
                 *out++ = *format++;
                 *out++ = *format++;
@@ -65,7 +65,7 @@ u8 *append_typed_formatted_value(FuncData *data, u8 *buffer) {
                     out = append_signed_value_bytes(value, out);
                     if (value < 0)
                         value = -value;
-                    out = func_8003AD08(value, out);
+                    out = format_unsigned_double_byte_decimal(value, out);
                 }
             }
             break;

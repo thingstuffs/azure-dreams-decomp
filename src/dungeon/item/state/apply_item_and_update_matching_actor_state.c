@@ -46,7 +46,7 @@ s32 apply_item_and_update_matching_actor_state(void *entity, s32 action_id, s16 
             match_state = 1;
         }
 
-        type_flags = D_800DDE84[((u8 *)entity)[0x13]];
+        type_flags = entity_action_selectors[((u8 *)entity)[0x13]];
         if ((apply_actor_food_preference(entity, ((u32)type_flags >> 8) & 3, action_id) << 16) == 0) {
             apply_item_effect_at_entity_position(entity, action_id);
             return 1;

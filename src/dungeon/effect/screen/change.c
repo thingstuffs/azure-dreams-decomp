@@ -134,7 +134,7 @@ s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s1
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes(u8 *src, u8 *dst);
-s32 func_8003AD08(s32, s32);
+s32 format_unsigned_double_byte_decimal(s32, s32);
 s32 append_entity_display_text(void *record, u8 *out);
 extern void * func_80099290(s8 *byte_ptr);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
@@ -174,7 +174,7 @@ void add_random_quarter_value(void *source, void *target) {
             message_end = get_unused_text_buffer();
             message_start = message_end;
             message_end = expand_text_control_codes(D_800E0D51, message_start);
-            message_end = func_8003AD08(-signed_amount, message_end);
+            message_end = format_unsigned_double_byte_decimal(-signed_amount, message_end);
             message_end = expand_text_control_codes(D_800E0D6D, message_end);
             message_end = append_entity_display_text(target, message_end);
             message_end = expand_text_control_codes(D_80088CAC, message_end);
@@ -194,7 +194,7 @@ void add_random_quarter_value(void *source, void *target) {
 typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
 extern u8 D_800E0000[];
 
-s32 func_8003AD08();
+s32 format_unsigned_double_byte_decimal();
 void func_800419EC();
 s32 get_entity_effect_value();
 void clear_player_linked_action_flags();
@@ -524,11 +524,11 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
             s32 display_damage;
             if ((modifier << 0x10) != 0) {
                 display_damage = 0;
-                message_cursor = func_8003AD08(display_damage, message_cursor);
+                message_cursor = format_unsigned_double_byte_decimal(display_damage, message_cursor);
             } else {
                 display_damage = ((S_8009C12C_3 *)target)->unk_64.n;
                 display_damage = 0 - display_damage;
-                message_cursor = func_8003AD08(display_damage, message_cursor);
+                message_cursor = format_unsigned_double_byte_decimal(display_damage, message_cursor);
             }
         }
         message_cursor = expand_text_control_codes(&D_800E0DEA, message_cursor);

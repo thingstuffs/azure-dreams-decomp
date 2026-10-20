@@ -10,8 +10,8 @@ typedef struct {
     /* 0x14 */ u8 pad14[0x8];
 } S_8005A428_D80086A40; /* size 0x1C (28) */
 
-extern int D_80086D4C[3]; /* forced hi/lo via size > 8 */
-extern S_8005A428_D80086A40 D_80086A40[16];
+extern int audio_slot_service_word[3]; /* forced hi/lo via size > 8 */
+extern S_8005A428_D80086A40 audio_bank_slots[16];
 
 extern void audio_reset_all_voices(void);
 extern void close_timer_2_update_event(void);
@@ -26,14 +26,14 @@ void audio_reset_and_release_sequence_banks(void)
 
     audio_reset_all_voices();
 
-    if (D_80086D4C[0] > 0) {
-        if (D_80086D4C[0] < 4) {
+    if (audio_slot_service_word[0] > 0) {
+        if (audio_slot_service_word[0] < 4) {
             close_timer_2_update_event();
         }
     }
     slot_index = 0;
 
-    slot = D_80086A40;
+    slot = audio_bank_slots;
     for (; slot_index < 8; slot_index++, slot++) {
         if (slot->unk00 >= 0) {
             release_sound_ram_block(slot->unk10);

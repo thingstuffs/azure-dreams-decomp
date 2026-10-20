@@ -2,13 +2,13 @@
 
 #include "common.h"
 
-void func_800253A0(s32 owner, s32 context, s32 mode, s32 item_id);
+void allocate_item_without_data_override(s32 owner, s32 context, s32 mode, s32 item_id);
 void drain_cd_command_queue(void);
-void func_8004B634(void);
+void submit_global_cd_command_six(void);
 
 /* Prepares shared state and initializes an item in mode 1. */
 void open_view_primary(s32 context, s32 user_data, s32 item) {
-    func_8004B634();
+    submit_global_cd_command_six();
     drain_cd_command_queue();
-    func_800253A0(context, user_data, 1, item);
+    allocate_item_without_data_override(context, user_data, 1, item);
 }

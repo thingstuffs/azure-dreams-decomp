@@ -14,7 +14,7 @@ typedef struct S_80084904 {
     /* 0x04 */ u8 pad4[8];
 } S_80084904;
 
-extern S_80084904 D_80084904;
+extern S_80084904 audio_sequence_task_mode;
 
 extern void submit_tagged_driver_byte(u8 a0, u8 a1, u8 a2);
 extern void submit_scaled_driver_halfword_pair(s32 a0, s32 a1, s32 a2);
@@ -26,9 +26,9 @@ void sound_begin_cd_playback_setup(void) {
     u8 pending_2c;
     u8 pending_2d;
 
-    D_80084904.v = 2;
+    audio_sequence_task_mode.v = 2;
 
-    status = &D_800847D0;
+    status = &sound_playback_state;
     pending_2c = status->unk_32;
     pending_2d = status->unk_30;
 

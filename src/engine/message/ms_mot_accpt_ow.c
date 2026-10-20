@@ -20,7 +20,7 @@ void *ms_mot_accpt_ow(u8 object_index)
     void *object_type;
     void *object_data;
 
-    object = D_80082660[object_index].object;
+    object = object_index_slots[object_index].object;
     if (object == 0) {
         return 0;
     }

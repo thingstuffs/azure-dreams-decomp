@@ -977,8 +977,8 @@ void func_80171B1C(void *move_data, void *context, void *position_data, void *ac
 s32 func_80172264(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, EntityRec *actor);
 void update_actor_action_and_direction(void *action_state, void *context, SpriteFrameState *sprite, EntityRec *actor);
 s32 func_80172550(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void func_80172694(void *state, s32 unused, s32 source, s32 target);
-void func_80172728(Resource06CallbackState *state, void *entity, void *position, void *graphic);
+void finish_actor_tile_move_then_initialize_destination(void *state, s32 unused, s32 source, s32 target);
+void finish_linked_actor_motion_and_floor_trap_then_initialize_destination(Resource06CallbackState *state, void *entity, void *position, void *graphic);
 void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, EntityRec *motion, SpriteFrameState *sprite, void *actor);
 void start_selected_move_and_reset_action(void *action, EntityRec *position, void *sprite, EntityRec *actor);
 void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, SpriteFrameState *tile_state, EntityRec *entity);
@@ -990,9 +990,9 @@ void update_actor_state_by_flags(void *in_actor, void *in_context, void *in_spri
 void func_801738E0(void *entity, void *context, void *anim, void *actor);
 void func_80173C34(R06_80173C34_Actor *actor, s32 action, R06_80173C34_Entity *entity, R06_80173C34_MapObject *map_object);
 void create_randomized_rotated_effect(Resource06CallbackState *state, void *entity, void *position, void *graphic);
-void func_80173D60(Resource06CallbackState *state, void *motion, void *position, void *actor);
-void func_80173D98(Resource06CallbackState *state, void *motion, void *position, void *actor);
-void func_80173DD0(Resource06CallbackState *state, void *motion, void *position, void *actor);
+void finish_actor_terrain_interpolation_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor);
+void finish_spinning_actor_fall_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor);
+void finish_actor_fade_in_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor);
 s32 func_80173E08(void *initial_payload, s32 entry_data, R06_80173E08_Entry *entry, s32 unused);
 s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg);
 void advance_randomized_motion_and_complete(void *object_data, R06_801740E4_S_801740E4_0 *position, R06_801740E4_S_801740E4_2 *state);
@@ -1005,13 +1005,13 @@ void advance_actor_action_and_update_status(
     s16 y_offset,
     s16 z_offset);
 void project_and_queue_textured_quad(void *quad, void *position, void *draw_state, s16 depth_bias);
-s32 func_8017489C(void *initial_state, void *context, void *data);
+s32 project_textured_quad_chain(void *initial_state, void *context, void *data);
 void advance_record_countdown(void *record_data);
 void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, u8 *render_data);
 void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, void *unused_context);
 void func_80175068(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
 void fade_effect_to_neutral_and_finish(void *entity_data, void *unused, void *source_data);
 void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *position, Rec_D_80082E80 *entity, void *actor);
-void func_801757FC(Resource06CallbackState *state, void *motion, void *position, void *actor);
-void func_80175834(Resource06CallbackState *state, void *motion, void *position, void *actor);
+void finish_actor_floor_trap_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor);
+void finish_actor_action_flag_propagation_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor);
 #endif

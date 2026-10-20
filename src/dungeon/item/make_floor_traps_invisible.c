@@ -45,7 +45,7 @@ s32 make_floor_traps_invisible(EntityRec *entity, s32 event, s16 event_type, s32
         display_actor_item_status_message(entity, event);
         if (apply_actor_food_preference(
                 entity,
-                D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3,
+                entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3,
                 event) == 0) {
             apply_item_effect_at_entity_position(entity, event);
             return 1;

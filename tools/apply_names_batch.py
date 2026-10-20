@@ -1,6 +1,9 @@
 """Atomic naming batch: one alias-table update, one SLUS gate, each touched row once."""
 import json,re,time,subprocess,concurrent.futures
 from pathlib import Path
+from source_layout import row_path, own_source, row_ids_for_paths
+from layout_dependencies import consumer_paths
+from apply_names_data import inline_plan
 
 def rewrite(text,pattern,mapping,code_only=False):
  if code_only:
@@ -18,27 +21,27 @@ def main(a,N):
   if len(cols)>=4 and cols[1]:proposed.append(cols[:4])
  if a.only:proposed=[p for p in proposed if p[1] in set(a.only.split(','))]
  if a.limit:proposed=proposed[:a.limit]
- rs=N.rows();by_id={r['id']:r for r in rs};by_file={N.ROOT/'src'/r['container']/Path(r['c_path']).name:r for r in rs}
+ rs=N.rows();by_id={r['id']:r for r in rs};by_file={row_path(r,N.ROOT):r for r in rs}
  defined={}
  for r in rs:
   for name in {r.get('func'),r.get('true_name')}|set(r.get('defs') or []):
    if name:defined[name]=r
  texts,idents=N.load_tree()
  for p in (N.ROOT/'include').rglob('*.h'):texts[p]=p.read_text()
- for c in N.CONTAINERS:
-  for p in sorted((N.ROOT/'src'/c).rglob('*')):
-   if p.suffix in('.c','.h') and p not in texts and p.is_file():texts[p]=p.read_text()  # modules, native_candidates, ... included by wrappers
+ for p in sorted((N.ROOT/'src').rglob('*')):
+  if p.suffix in('.c','.h') and p not in texts and p.is_file():texts[p]=p.read_text()
+ if any(p.is_symlink() or p.stat().st_size>4*1024*1024 for p in texts):raise ValueError('source symlink or oversized source')
  applied={r[1]:r[2] for r in N.read_names()};taken=set(applied.values());plan=[];mapping={};new=[];renames={}
  for addr,old,name,evidence in proposed:
   rec=dict(addr=addr,old=old,new=name,at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()))
   identity=identities.get(name) or identities.get(old)
   if identity:
-   r=by_id.get(identity.get('row'));symbol=identity.get('symbol','');p=N.ROOT/'src'/r['container']/Path(r['c_path']).name if r else None
+   r=by_id.get(identity.get('row'));symbol=identity.get('symbol','');p=row_path(r,N.ROOT) if r else None
    pat=r'^[ \t]*[A-Za-z_][A-Za-z0-9_ \t*]*?\b'+re.escape(symbol)+r'\s*\([^;{]*\)[^{;]*\{'
    if not re.fullmatch(r'func_[0-9A-Fa-f]{8}',symbol) or p not in texts:raise ValueError('invalid explicit identity: '+old)
    # An already-renamed definition is valid only under that exact configured alias.
    current=applied.get(symbol,symbol)
-   if not re.search(pat.replace(re.escape(symbol),re.escape(current)),texts[p],re.M):raise ValueError('identity does not name a current definition: '+old)
+   if not re.search(pat.replace(re.escape(symbol),re.escape(current)),own_source(r,N.ROOT)[0],re.M):raise ValueError('identity does not name a current definition: '+old)
    old=symbol;rec['identity_row']=r['id']
   elif old in defined and old not in applied:
    r=defined[old];old=r.get('true_name') or r.get('func') or old
@@ -59,14 +62,14 @@ def main(a,N):
    mapping[old]=name
   plan.append(rec)
  pattern=re.compile(r'\b(?:'+'|'.join(map(re.escape,mapping))+r')\b')
- held={N.ROOT/'src'/r['container']/Path(r['c_path']).name:r for r in rs if a.hold_unproven_references and r.get('placement')=='unproven'}
+ held={row_path(r,N.ROOT):r for r in rs if a.hold_unproven_references and r.get('placement')=='unproven'}
  holds=[dict(row=r['id'],path=str(p.relative_to(N.ROOT)),aliases=sorted(set(pattern.findall(texts[p]))),reason='pre-existing placement-unproven source; preserve legacy alias references') for p,r in held.items() if p in texts and pattern.search(texts[p])]
  for p in held:
   if p in texts:
    for old in set(pattern.findall(texts[p])):
     if re.search(r'^[ \t]*[A-Za-z_][A-Za-z0-9_ \t*]*?\b'+re.escape(old)+r'\s*\([^;{]*\)[^{;]*\{',texts[p],re.M):raise ValueError('cannot alias an excluded definition: '+old)
  if a.holds_log:Path(a.holds_log).write_text(json.dumps(holds,indent=1)+'\n')
- changed={p:rewrite(t,pattern,mapping,p.suffix=='.h' or p not in by_file) for p,t in texts.items() if p not in held and pattern.search(t)}
+ changed={p:rewrite(t,pattern,mapping,True) for p,t in texts.items() if p not in held and pattern.search(t)}
  changed={p:t for p,t in changed.items() if t!=texts[p]}
  # Include transitive users of rewritten headers; all per-row C keeps its own declarations.
  inc=re.compile(r'^\s*#\s*include\s*["<]([^">]+)[">]',re.M);headers={p for p in texts if p.suffix=='.h' or p not in by_file}
@@ -80,12 +83,16 @@ def main(a,N):
  dependencies={p:closure(p) for p in by_file if p in texts}
  changed_headers=set(changed)&headers
  touched_rows={r['id'] for p,r in by_file.items() if p in changed or dependencies.get(p,set())&changed_headers}
+ affected=consumer_paths(N.ROOT,{p.relative_to(N.ROOT).as_posix() for p in changed})
+ touched_rows.update(row_ids_for_paths(affected,N.ROOT))
+ metadata,rebases=inline_plan(N.ROOT,texts,changed,pattern,mapping)
  # A changed wrapper affects every registered member in that physical TU.
  module_file=N.ROOT/'config/overlays/modules.json'
  if module_file.exists():
   for m in json.loads(module_file.read_text()).get('modules',[]):
    if N.ROOT/m['source'] in changed:touched_rows.update(x['id'] for x in m['members'])
- print(f"batch: {len(new)} new aliases, {len(changed)} files, {len(touched_rows)} rows",flush=True)
+ deferred=getattr(a,'defer_verification',False)
+ print(f"batch: {len(new)} new aliases, {len(changed)} files, {len(touched_rows)} rows"+('; UNVERIFIED staging' if deferred else ''),flush=True)
  if a.dry_run:return
  if a.proof_log:Path(a.proof_log).write_text('')
  names_before=N.NAMES.read_text();written=False;bad=[];proofs=[]
@@ -98,7 +105,16 @@ def main(a,N):
    lines.append(ln)
   N.NAMES.write_text('\n'.join(lines).rstrip('\n')+'\n'+''.join('\t'.join(x)+'\n' for x in new))
   for p,t in changed.items():p.write_text(t)
+  for p,pair in metadata.items():p.write_bytes(pair[1])
   written=True
+  if deferred:
+   receipt=dict(status='UNVERIFIED',new_aliases=len(new),files=[str(p.relative_to(N.ROOT)) for p in changed],
+                rows=sorted(touched_rows),map=mapping,inline_rebases=rebases,
+                required='independent complete-TU object identity, SLUS SHA-1 and scoped overlay gates')
+   if a.proof_log:Path(a.proof_log).write_text(json.dumps(receipt,indent=2)+'\n')
+   for rec in plan:
+    if not rec['existing'] or changed:N.append_jsonl(N.JOURNAL,dict(rec,outcome='staged-unverified',batch=True))
+   return receipt
   if any(p.parts[-2]=='slus' and p.suffix=='.c' for p in changed):
    gate=subprocess.run(['bash',str(N.ROOT/'tools/build/build_slus.sh'),'-j',str(a.workers)],cwd=N.ROOT,capture_output=True,text=True)
    print(gate.stdout[-3000:],flush=True)
@@ -126,6 +142,7 @@ def main(a,N):
  except BaseException:
   if written:
    for p in changed:p.write_text(texts[p])
+   for p,pair in metadata.items():p.write_bytes(pair[0])
   N.NAMES.write_text(names_before)
   for rec in plan:
    if not rec['existing'] or rec.get('rename'):N.append_jsonl(N.JOURNAL,dict(rec,outcome='reverted',reason='atomic batch failed',failures=[(rid,v.get('status'),v.get('class'),v.get('total'),v.get('err')) for rid,v in bad[:5]]))

@@ -7,9 +7,9 @@ typedef struct RegistrationNode {
     u16 type;
 } RegistrationNode;
 
-extern s32 D_80083360[0x20];
-extern RegistrationNode *D_800833E0[0x20];
-extern s32 D_8006E7B4[];
+extern s32 registered_draw_callbacks[0x20];
+extern RegistrationNode *registered_draw_objects[0x20];
+extern s32 node_registration_ids[];
 
 /* Registers a node under an existing or newly allocated registration ID. */
 s32 register_node(RegistrationNode *entry, s32 registration_id)
@@ -27,21 +27,21 @@ s32 register_node(RegistrationNode *entry, s32 registration_id)
     no_slot = first_free;
 
     for (; slot < 0x20; slot++) {
-        if (D_80083360[slot] == registration_id) {
-            head = D_800833E0[slot];
+        if (registered_draw_callbacks[slot] == registration_id) {
+            head = registered_draw_objects[slot];
             entry->next = head;
             if (head != 0) {
                 head->prev = entry;
-                D_800833E0[slot] = entry;
+                registered_draw_objects[slot] = entry;
             } else {
-                D_800833E0[slot] = entry;
+                registered_draw_objects[slot] = entry;
             }
             success = 1;
-            entry->prev = (RegistrationNode *)&D_800833E0[slot];
+            entry->prev = (RegistrationNode *)&registered_draw_objects[slot];
             entry->type = slot;
             return success;
         }
-        if (D_80083360[slot] == 0) {
+        if (registered_draw_callbacks[slot] == 0) {
             if (first_free == no_slot) {
                 first_free = slot;
             }
@@ -51,25 +51,25 @@ s32 register_node(RegistrationNode *entry, s32 registration_id)
 
     if (first_free >= 0) {
         entry->next = 0;
-        if (D_8006E7B4[0] != 0) {
+        if (node_registration_ids[0] != 0) {
             s32 preferred_index = 0;
             do {
-                if (D_8006E7B4[preferred_index] == registration_id) {
-                    D_80083360[first_free] = registration_id;
-                    D_800833E0[first_free] = entry;
+                if (node_registration_ids[preferred_index] == registration_id) {
+                    registered_draw_callbacks[first_free] = registration_id;
+                    registered_draw_objects[first_free] = entry;
                     success = 1;
-                    entry->prev = (RegistrationNode *)&D_800833E0[first_free];
+                    entry->prev = (RegistrationNode *)&registered_draw_objects[first_free];
                     entry->type = first_free;
                     return success;
                 }
                 preferred_index++;
-            } while (D_8006E7B4[preferred_index] != 0);
+            } while (node_registration_ids[preferred_index] != 0);
         }
 
-        D_80083360[last_free] = registration_id;
-        D_800833E0[last_free] = entry;
+        registered_draw_callbacks[last_free] = registration_id;
+        registered_draw_objects[last_free] = entry;
         success = 1;
-        entry->prev = (RegistrationNode *)&D_800833E0[last_free];
+        entry->prev = (RegistrationNode *)&registered_draw_objects[last_free];
         entry->type = last_free;
         return success;
     }

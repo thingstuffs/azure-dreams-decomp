@@ -40,7 +40,7 @@ s32 use_item_to_enrage_actor(DungeonObject *object, s32 action, s16 action_type)
     }
     if ((u32) object <= 0x9FFFFFFFU) {
         display_item_status_message(object, action, action_type);
-        if (apply_actor_food_preference(object, (D_800DDE84[object->unk_13] >> 6) & 3, 0) == 0) {
+        if (apply_actor_food_preference(object, (entity_action_selectors[object->unk_13] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(object, action);
             return 1;
         }

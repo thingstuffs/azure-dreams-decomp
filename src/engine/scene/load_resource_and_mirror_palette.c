@@ -7,7 +7,7 @@ typedef struct {
 } S_80048500_elem;
 
 /* Sized array (>8B) => forces %hi/%lo addressing (not $gp-relative). */
-extern S_80048500_elem *D_800710E4[100];
+extern S_80048500_elem *palette_resource_descriptors[100];
 
 /* S_80048500_target: struct pointed to by D_80081480.field_0; only the s16 field at
  * offset 0x18 is accessed here. */
@@ -23,7 +23,7 @@ typedef struct {
     s32 pad8;
 } S_80081480;
 
-extern S_80081480 D_80081480;
+extern S_80081480 gpu_scratch_write_pointer;
 
 extern void file_load_com(void *arg);
 extern void drain_cd_command_queue(void);
@@ -35,9 +35,9 @@ s32 load_resource_and_mirror_palette(s32 elem_index, s32 array_index)
 {
     s32 tile_index;
 
-    file_load_com(&D_800710E4[array_index][elem_index]);
+    file_load_com(&palette_resource_descriptors[array_index][elem_index]);
     drain_cd_command_queue();
-    tile_index = D_80081480.field_0->unk18;
+    tile_index = gpu_scratch_write_pointer.field_0->unk18;
     DrawSync(0);
     return copy_processed_vram_tile_backward(tile_index);
 }

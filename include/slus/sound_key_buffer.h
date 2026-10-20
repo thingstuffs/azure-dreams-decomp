@@ -10,16 +10,16 @@ typedef struct {
     u16 keyoff_hi;
 } SpuKeyRegs;
 
-extern u16 *D_80079958;
-extern u16 D_80086BD0[];
-extern s32 D_80079950;
-extern volatile s32 D_800794F0;
-extern volatile s32 D_80079518;
-extern volatile s32 D_8007951C;
-extern volatile u16 D_80086D58[];
-extern volatile u16 D_80086D5C;
-extern volatile u16 D_80086D5E;
-u32 func_8005E4C4(s32 mode, u32 value, s32 low_index, s32 high_index);
+extern u16 *spu_registers;
+extern u16 spu_register_shadow[];
+extern s32 spu_register_buffer_flags;
+extern volatile s32 spu_active_voice_mask;
+extern volatile s32 spu_buffered_voice_mask;
+extern volatile s32 spu_register_dirty_flags;
+extern volatile u16 spu_keyon_shadow[];
+extern volatile u16 spu_keyoff_low_shadow;
+extern volatile u16 spu_keyoff_high_shadow;
+u32 modify_spu_register_bit_pair(s32 mode, u32 value, s32 low_index, s32 high_index);
 void func_8005E97C(s32 key_on, u32 voices);
 
 #endif

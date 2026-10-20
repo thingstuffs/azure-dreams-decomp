@@ -4,12 +4,12 @@ extern int CdSync(int mode, unsigned char *result);
 extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
 extern int CdPosToInt(unsigned char *loc);
 
-extern unsigned char D_800814B8[8];
+extern unsigned char cd_sector_position_result[8];
 
 /* Refreshes the CD position when sync returns 2 and returns its sector count. */
 int cd_poll_and_get_sector(void) {
     if (CdSync(1, 0) == 2) {
-        CdControl(0x10, 0, D_800814B8);
+        CdControl(0x10, 0, cd_sector_position_result);
     }
-    return CdPosToInt(D_800814B8);
+    return CdPosToInt(cd_sector_position_result);
 }

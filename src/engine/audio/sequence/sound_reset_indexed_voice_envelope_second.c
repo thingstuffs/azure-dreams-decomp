@@ -93,18 +93,18 @@ typedef struct S_8005B4D0_req
     u8 pad3e[0x40 - 0x3E];
 }
 S_8005B4D0_req;
-extern s32 D_80073734[4];
-extern s32 D_80073740[128];
-extern S_80085458 D_80085458[64];
-extern s32 D_80085F98[4];
-extern S_80086A40 D_80086A40[16];
+extern s32 audio_voice_count[4];
+extern s32 audio_voice_masks[128];
+extern S_80085458 audio_voice_records[64];
+extern s32 audio_update_guard[4];
+extern S_80086A40 audio_bank_slots[16];
 extern void sound_reset_indexed_voice_envelope(s32 request_index);
 extern void func_8005E97C(s32 a0, s32 a1);
 extern s32 func_8005EB78(s32 voice_mask);
-extern void func_8005EC0C(void *a0);
-extern s32 func_8005E4A0(s32 a0, s32 a1);
+extern void apply_voice_attributes_and_key_on(void *a0);
+extern s32 update_spu_register_pair_cc_cd(s32 a0, s32 a1);
 /* Allocates and configures voices for program tones matching the requested note. */
-void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_gain, s32 force_effect)
+void start_sound_effect_program_voices(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_gain, s32 force_effect)
 {
     S_8005B4D0_req voice_req;
     u16 left_scale;
@@ -138,10 +138,10 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
     used_programs = 0;
     program_id = bank_program & 0x7F;
     bank_index = bank_program >> 8;
-    D_80085F98[0] = 1;
+    audio_update_guard[0] = 1;
     left_scale = left_gain;
     right_scale = right_gain;
-    bank_header = D_80086A40[(s16) bank_index].unk4;
+    bank_header = audio_bank_slots[(s16) bank_index].unk4;
     bank_id = bank_index;
     bank_data = bank_header;
     if (program_id != 0) {
@@ -160,7 +160,7 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
     program = (S_8005B4D0_hdr *) (bank_data + ((program_id * 0x10) + 0x20));
     note = note_pitch >> 8;
     if (program->unk00 == 0) {
-        D_80085F98[0] = 0;
+        audio_update_guard[0] = 0;
         return;
     }
     do {
@@ -168,11 +168,11 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
         if ((note >= ((s32) tone->unk06)) && (((s32) tone->unk07) >= note)) {
             voice_slot = 0;
             while (1) {
-                if (func_8005EB78(D_80073740[voice_slot]) == 0) {
+                if (func_8005EB78(audio_voice_masks[voice_slot]) == 0) {
                     break;
                 }
                 voice_slot += 1;
-                if ((D_80073734[0] - 1) < voice_slot) {
+                if ((audio_voice_count[0] - 1) < voice_slot) {
                     voice_slot = -1;
                     break;
                 }
@@ -181,11 +181,11 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
             if (voice_slot == (-1)) {
                 voice_slot = 0;
                 while (1) {
-                    if (D_80085458[voice_slot].unk1A == 0) {
+                    if (audio_voice_records[voice_slot].unk1A == 0) {
                         break;
                     }
                     voice_slot += 1;
-                    if ((D_80073734[0] - 1) < voice_slot) {
+                    if ((audio_voice_count[0] - 1) < voice_slot) {
                         voice_slot = -1;
                         break;
                     }
@@ -195,13 +195,13 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
             if (voice_slot != (-1)) {
                 sound_reset_indexed_voice_envelope(voice_slot);
                 do {
-                    func_8005E97C(0, D_80073740[voice_slot]);
-                    voice_status = func_8005EB78(D_80073740[voice_slot]);
+                    func_8005E97C(0, audio_voice_masks[voice_slot]);
+                    voice_status = func_8005EB78(audio_voice_masks[voice_slot]);
                 }
                 while ((voice_status != 2) && (voice_status != 0));
                 entry_index = 0;
                 sample_offset = 0;
-                sample_sizes = (s16 *) ((D_80086A40[(s16) bank_id].unk4 + ((*((u16 *) (bank_header + 0x12))) << 9))
+                sample_sizes = (s16 *) ((audio_bank_slots[(s16) bank_id].unk4 + ((*((u16 *) (bank_header + 0x12))) << 9))
                     + 0x820);
                 sample_id = tone->unk16;
                 if (sample_id > 0) {
@@ -216,14 +216,14 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
                 voice_req.f04 = 0x701EF;
                 voice_req.f0c = 0;
                 voice_req.f0e = 0;
-                voice_req.f00 = D_80073740[voice_slot];
-                voice_req.f1c = D_80086A40[(s16) bank_id].unk10 + sample_offset;
+                voice_req.f00 = audio_voice_masks[voice_slot];
+                voice_req.f1c = audio_bank_slots[(s16) bank_id].unk10 + sample_offset;
                 adsr1 = tone->unk10;
                 voice_req.f3a = adsr1;
-                D_80085458[voice_slot].unk60 = adsr1;
+                audio_voice_records[voice_slot].unk60 = adsr1;
                 adsr2 = tone->unk12;
                 voice_req.f3c = adsr2;
-                D_80085458[voice_slot].unk64 = adsr2;
+                audio_voice_records[voice_slot].unk64 = adsr2;
                 if (tone->unk10 & 0x80) {
                     voice_req.f24 = 5;
                 }
@@ -231,22 +231,22 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
                     voice_req.f24 = 1;
                 }
                 voice_req.f20 = voice_req.f1c;
-                D_80085458[voice_slot].unk22 = tone->unk04;
-                D_80085458[voice_slot].unk23 = tone->unk05;
-                D_80085458[voice_slot].unk21 = tone->unk0C;
-                D_80085458[voice_slot].unk20 = tone->unk0D;
-                D_80085458[voice_slot].unk00 = voice_slot;
-                D_80085458[voice_slot].unk04 = program_id;
-                D_80085458[voice_slot].unk08 = tone_id;
-                D_80085458[voice_slot].unk0A = note_pitch >> 8;
-                D_80085458[voice_slot].unk06 = 0x11;
-                D_80085458[voice_slot].unk1A = 1;
-                D_80085458[voice_slot].unk14 = program->unk01;
-                D_80085458[voice_slot].unk16 = program->unk04;
-                D_80085458[voice_slot].unk15 = tone->unk02;
-                D_80085458[voice_slot].unk17 = tone->unk03;
-                D_80085458[voice_slot].unk5C = bank_id;
-                pan = ((D_80086A40[(s16) bank_id].unk1B + D_80085458[voice_slot].unk16) + D_80085458[voice_slot].unk17)
+                audio_voice_records[voice_slot].unk22 = tone->unk04;
+                audio_voice_records[voice_slot].unk23 = tone->unk05;
+                audio_voice_records[voice_slot].unk21 = tone->unk0C;
+                audio_voice_records[voice_slot].unk20 = tone->unk0D;
+                audio_voice_records[voice_slot].unk00 = voice_slot;
+                audio_voice_records[voice_slot].unk04 = program_id;
+                audio_voice_records[voice_slot].unk08 = tone_id;
+                audio_voice_records[voice_slot].unk0A = note_pitch >> 8;
+                audio_voice_records[voice_slot].unk06 = 0x11;
+                audio_voice_records[voice_slot].unk1A = 1;
+                audio_voice_records[voice_slot].unk14 = program->unk01;
+                audio_voice_records[voice_slot].unk16 = program->unk04;
+                audio_voice_records[voice_slot].unk15 = tone->unk02;
+                audio_voice_records[voice_slot].unk17 = tone->unk03;
+                audio_voice_records[voice_slot].unk5C = bank_id;
+                pan = ((audio_bank_slots[(s16) bank_id].unk1B + audio_voice_records[voice_slot].unk16) + audio_voice_records[voice_slot].unk17)
                 - 0x80;
                 if (pan < 0) {
                     pan = 0;
@@ -254,9 +254,9 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
                 if (pan >= 0x80) {
                     pan = 0x7F;
                 }
-                D_80085458[voice_slot].unk18 = pan;
+                audio_voice_records[voice_slot].unk18 = pan;
                 volume =
-                    ((D_80086A40[(s16) bank_id].unk18 * D_80085458[voice_slot].unk14) * D_80085458[voice_slot].unk15)
+                    ((audio_bank_slots[(s16) bank_id].unk18 * audio_voice_records[voice_slot].unk14) * audio_voice_records[voice_slot].unk15)
                 >> 7;
                 if (pan >= 0x40) {
                     right_volume = volume;
@@ -266,14 +266,14 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
                     left_volume = volume;
                     right_volume = (pan * (left_volume << 1)) >> 7;
                 }
-                left_volume = (left_volume * D_80086A40[(s16) bank_id].unk18) >> 7;
-                right_volume = (right_volume * D_80086A40[(s16) bank_id].unk18) >> 7;
+                left_volume = (left_volume * audio_bank_slots[(s16) bank_id].unk18) >> 7;
+                right_volume = (right_volume * audio_bank_slots[(s16) bank_id].unk18) >> 7;
                 scaled_left = left_volume * left_scale;
                 scaled_right = right_volume * right_scale;
-                D_80085458[voice_slot].unk10 = scaled_left >> 7;
-                D_80085458[voice_slot].unk12 = scaled_right >> 7;
-                voice_req.f08 = (u16) D_80085458[voice_slot].unk10;
-                voice_req.f0a = D_80085458[voice_slot].unk12;
+                audio_voice_records[voice_slot].unk10 = scaled_left >> 7;
+                audio_voice_records[voice_slot].unk12 = scaled_right >> 7;
+                voice_req.f08 = (u16) audio_voice_records[voice_slot].unk10;
+                voice_req.f0a = audio_voice_records[voice_slot].unk12;
                 voice_req.f16 = note_pitch;
                 if (tone->unk05 != 0) {
                     voice_req.f18 = ((tone->unk04 - 1) << 8) | (0x7F - tone->unk05);
@@ -281,17 +281,17 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
                 else {
                     voice_req.f18 = (tone->unk04 << 8) | tone->unk05;
                 }
-                func_8005EC0C(&voice_req);
+                apply_voice_attributes_and_key_on(&voice_req);
                 if ((tone->unk01 & 4) || (force_effect != 0)) {
-                    func_8005E4A0(1, D_80073740[voice_slot]);
+                    update_spu_register_pair_cc_cd(1, audio_voice_masks[voice_slot]);
                 }
                 else {
-                    func_8005E4A0(0, D_80073740[voice_slot]);
+                    update_spu_register_pair_cc_cd(0, audio_voice_masks[voice_slot]);
                 }
             }
         }
         tone_id += 1;
     }
     while (tone_id < ((s32) program->unk00));
-    D_80085F98[0] = 0;
+    audio_update_guard[0] = 0;
 }

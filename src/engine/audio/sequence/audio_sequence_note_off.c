@@ -14,9 +14,9 @@ typedef struct {
     u8 pad1E[0x78 - 0x1E];
 } S_80085458;
 
-extern s32 D_80073734[];
-extern s32 D_80073740[];
-extern S_80085458 D_80085458[];
+extern s32 audio_voice_count[];
+extern s32 audio_voice_masks[];
+extern S_80085458 audio_voice_records[];
 
 extern s32 sound_apply_indexed_voice_envelope();
 extern s32 func_8005E97C();
@@ -38,9 +38,9 @@ void audio_sequence_note_off(s32 first_key, s32 second_key) {
     if (ACTIVE_COUNT > 0) {
         first_byte = first_key & 0xFF;
         second_byte = second_key & 0xFF;
-        mask_entry = D_80073740;
+        mask_entry = audio_voice_masks;
         do {
-            record = &D_80085458[record_index];
+            record = &audio_voice_records[record_index];
             if ((first_byte == record->field06) &&
                 (second_byte == record->field0A)) {
                 if (record->field1D == 0) {

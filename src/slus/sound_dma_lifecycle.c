@@ -3,7 +3,7 @@
 #include "slus/sound_dma_lifecycle.h"
 
 /* Initialize the SPU, resetting voice settings on a cold start. */
-s32 func_8005CC04(s32 warm)
+s32 initialize_spu_registers_and_voices(s32 warm)
 {
     s32 entry_index;
     s32 result;
@@ -11,52 +11,52 @@ s32 func_8005CC04(s32 warm)
     volatile u16 *clear_entry;
     SoundTransferRegisters *spu_regs;
 
-    *D_80079968 |= 0xB0000;
-    D_80079974 = 0;
+    *spu_dma_priority_register |= 0xB0000;
+    spu_transfer_uses_fifo = 0;
     D_80079978 = 0;
-    D_80079970 = 0;
-    D_80079958->mvoll = 0;
-    D_80079958->mvolr = 0;
-    D_80079958->control = 0;
+    spu_transfer_address_units = 0;
+    spu_registers->mvoll = 0;
+    spu_registers->mvolr = 0;
+    spu_registers->control = 0;
     delay_multiply_loop();
-    D_80079958->mvoll = 0;
-    D_80079958->mvolr = 0;
+    spu_registers->mvoll = 0;
+    spu_registers->mvolr = 0;
     status_polls = 0;
-    while (D_80079958->status.ordered & 0x7FF) {
+    while (spu_registers->status.ordered & 0x7FF) {
         if (++status_polls >= 0xF01) {
-            printf(D_800331F4, D_80033204);
+            printf(spu_timeout_format, spu_init_timeout_label);
             break;
         }
     }
-    D_8007997C = 2;
-    D_80079980 = 3;
-    D_80079984 = 8;
-    D_80079988 = 7;
-    D_80079958->transfer_control = 4;
-    D_80079958->rvoll = 0;
-    D_80079958->rvolr = 0;
-    D_80079958->keyoff_lo = 0xFFFF;
-    D_80079958->keyoff_hi = 0xFFFF;
-    D_80079958->rev_lo = 0;
-    D_80079958->rev_hi = 0;
+    spu_address_alignment_enabled = 2;
+    spu_address_unit_shift = 3;
+    spu_address_alignment = 8;
+    spu_address_alignment_mask = 7;
+    spu_registers->transfer_control = 4;
+    spu_registers->rvoll = 0;
+    spu_registers->rvolr = 0;
+    spu_registers->keyoff_lo = 0xFFFF;
+    spu_registers->keyoff_hi = 0xFFFF;
+    spu_registers->rev_lo = 0;
+    spu_registers->rev_hi = 0;
     entry_index = 0;
-    clear_entry = D_80086D58;
+    clear_entry = spu_keyon_shadow;
     for (; entry_index < 10; entry_index++) {
         *clear_entry = 0;
         clear_entry++;
     }
     if (warm == 0) {
-        D_80079970 = 0x200;
-        D_80079958->fm_lo = 0;
-        D_80079958->fm_hi = 0;
-        D_80079958->noise_lo = 0;
-        D_80079958->noise_hi = 0;
-        D_80079958->cdvoll = 0;
-        D_80079958->cdvolr = 0;
-        D_80079958->extvoll = 0;
-        D_80079958->extvolr = 0;
-        func_8005CE98(D_80079998, 0x10);
-        spu_regs = D_80079958;
+        spu_transfer_address_units = 0x200;
+        spu_registers->fm_lo = 0;
+        spu_registers->fm_hi = 0;
+        spu_registers->noise_lo = 0;
+        spu_registers->noise_hi = 0;
+        spu_registers->cdvoll = 0;
+        spu_registers->cdvolr = 0;
+        spu_registers->extvoll = 0;
+        spu_registers->extvolr = 0;
+        write_spu_transfer_fifo_in_chunks(spu_cold_start_sample, 0x10);
+        spu_regs = spu_registers;
         for (entry_index = 0; entry_index < 24; entry_index++) {
             spu_regs->voice[entry_index].voll = 0;
             spu_regs->voice[entry_index].volr = 0;
@@ -65,30 +65,30 @@ s32 func_8005CC04(s32 warm)
             spu_regs->voice[entry_index].adsr1 = 0;
             spu_regs->voice[entry_index].adsr2 = 0;
         }
-        D_80079958->keyon_lo = 0xFFFF;
-        D_80079958->keyon_hi = 0xFF;
+        spu_registers->keyon_lo = 0xFFFF;
+        spu_registers->keyon_hi = 0xFF;
         delay_multiply_loop();
         delay_multiply_loop();
         delay_multiply_loop();
         delay_multiply_loop();
-        D_80079958->keyoff_lo = 0xFFFF;
-        D_80079958->keyoff_hi = 0xFF;
+        spu_registers->keyoff_lo = 0xFFFF;
+        spu_registers->keyoff_hi = 0xFF;
         delay_multiply_loop();
         delay_multiply_loop();
         delay_multiply_loop();
         delay_multiply_loop();
     }
     result = 0;
-    D_8007998C = 1;
-    D_80079958->control = 0xC000;
-    D_80079990 = 0;
+    spu_transfer_complete = 1;
+    spu_registers->control = 0xC000;
+    spu_transfer_callback = 0;
     D_80079994 = 0;
     return result;
 }
 #include "slus/sound_dma_lifecycle.h"
 
 /* Writes source data to SPU RAM through the transfer FIFO and waits for completion. */
-void func_8005CE98(u16 *src, u32 bytes_left)
+void write_spu_transfer_fifo_in_chunks(u16 *src, u32 bytes_left)
 {
     u16 *src_pos;
     u16 initial_status;
@@ -100,8 +100,8 @@ void func_8005CE98(u16 *src, u32 bytes_left)
     u16 control;
 
     src_pos = src;
-    initial_status = D_80079958->status.value;
-    D_80079958->transfer_address.value = D_80079970;
+    initial_status = spu_registers->status.value;
+    spu_registers->transfer_address.value = spu_transfer_address_units;
     saved_status = initial_status & 0x7FF;
     delay_multiply_loop();
 
@@ -111,16 +111,16 @@ void func_8005CE98(u16 *src, u32 bytes_left)
             chunk_bytes = bytes_left;
         }
         for (byte_offset = 0; byte_offset < chunk_bytes; byte_offset += 2) {
-            D_80079958->transfer_fifo = *src_pos++;
+            spu_registers->transfer_fifo = *src_pos++;
         }
-        control = D_80079958->control;
+        control = spu_registers->control;
         control = (control & 0xFFCF) | 0x10;
-        D_80079958->control = control;
+        spu_registers->control = control;
         delay_multiply_loop();
         poll_count = 0;
-        while (D_80079958->status.value & 0x400) {
+        while (spu_registers->status.value & 0x400) {
             if (++poll_count >= 0xF01) {
-                printf(D_800331F4, D_80033214);
+                printf(spu_timeout_format, spu_fifo_busy_timeout_label);
                 break;
             }
         }
@@ -131,12 +131,12 @@ void func_8005CE98(u16 *src, u32 bytes_left)
 
     expected_status = saved_status;
     poll_count = 0;
-    control = D_80079958->control;
+    control = spu_registers->control;
     control &= 0xFFCF;
-    D_80079958->control = control;
-    while ((D_80079958->status.value & 0x7FF) != expected_status) {
+    spu_registers->control = control;
+    while ((spu_registers->status.value & 0x7FF) != expected_status) {
         if (++poll_count >= 0xF01) {
-            printf(D_800331F4, D_80033228);
+            printf(spu_timeout_format, spu_fifo_status_timeout_label);
             break;
         }
     }
@@ -144,17 +144,17 @@ void func_8005CE98(u16 *src, u32 bytes_left)
 #include "slus/sound_dma_lifecycle.h"
 
 /* Clears the SPU transfer mode, waits for it to clear, and signals completion. */
-void func_8005D064(void)
+void complete_spu_dma_and_signal_event(void)
 {
     u32 poll_count;
     u32 event_class;
     SoundTransferRegisters *spu_regs;
 
-    if (D_800799A8 == 0) {
+    if (spu_dma_read_direction == 0) {
         delay_multiply_loop();
     }
 
-    spu_regs = D_80079958;
+    spu_regs = spu_registers;
     spu_regs->control &= 0xFFCF;
     poll_count = 0;
     while (spu_regs->control & 0x30) {
@@ -166,8 +166,8 @@ void func_8005D064(void)
 
     event_class = 0xF0000000 + (u32)spu_regs;
     event_class -= (u32)spu_regs;
-    if (D_80079990 != 0) {
-        D_80079990(event_class);
+    if (spu_transfer_callback != 0) {
+        spu_transfer_callback(event_class);
     } else {
         DeliverEvent(event_class | 9, 0x20);
     }
@@ -175,18 +175,18 @@ void func_8005D064(void)
 #include "slus/sound_dma_lifecycle.h"
 
 /* Starts a DMA transfer from SPU RAM to main RAM. */
-void func_8005D124(s32 ram_address, s16 spu_address, s32 block_count)
+void submit_spu_dma_read_blocks(s32 ram_address, s16 spu_address, s32 block_count)
 {
-    D_80079958->transfer_address.ordered = spu_address;
+    spu_registers->transfer_address.ordered = spu_address;
     delay_multiply_loop();
-    D_80079958->control |= 0x30;
+    spu_registers->control |= 0x30;
     delay_multiply_loop();
-    func_8005D704();
+    select_spu_dma_read_channel_flags();
 
-    *D_8007995C = ram_address;
-    *D_80079960 = ((u32)block_count << 16) | 0x10;
-    D_800799A8 = 1;
-    *D_80079964 = 0x01000200;
+    *spu_dma_ram_address_register = ram_address;
+    *spu_dma_block_control_register = ((u32)block_count << 16) | 0x10;
+    spu_dma_read_direction = 1;
+    *spu_dma_channel_control_register = 0x01000200;
 }
 /* func_8005D1D0 -- BYTE-EXACT, gcc 2.7.2 -O2 -G0, aspsx 2.56.
  *
@@ -214,7 +214,7 @@ typedef char *va_list_t;
 #define VA_ARG(ap, T)      (ap += sizeof(T), *(T *)(ap - sizeof(T)))
 
 /* Sets the SPU transfer address or direction, or starts a DMA transfer. */
-s32 func_8005D1D0(s32 command, ...)
+s32 dispatch_spu_dma_transfer_command(s32 command, ...)
 {
     va_list_t args;
     u16 expected_addr;
@@ -233,68 +233,68 @@ s32 func_8005D1D0(s32 command, ...)
     switch (command) {
     case 2:
         transfer_arg = VA_ARG(args, s32);
-        spu_addr = (u32)transfer_arg >> D_80079980;
-        D_80079970 = spu_addr;
-        D_80079958->transfer_address.ordered = spu_addr;
+        spu_addr = (u32)transfer_arg >> spu_address_unit_shift;
+        spu_transfer_address_units = spu_addr;
+        spu_registers->transfer_address.ordered = spu_addr;
         break;
 
     case 1:
-        D_800799A8 = 0;
-        expected_addr = D_80079970;
+        spu_dma_read_direction = 0;
+        expected_addr = spu_transfer_address_units;
         poll_count = 0;
-        while ((D_80079958->transfer_address.ordered & 0xFFFF) != expected_addr) {
+        while ((spu_registers->transfer_address.ordered & 0xFFFF) != expected_addr) {
             if (++poll_count >= 0xF01) {
                 return -2;
             }
         }
-        spu_control = D_80079958->control;
+        spu_control = spu_registers->control;
         spu_control = (spu_control & 0xFFCF) | 0x20;
-        D_80079958->control = spu_control;
+        spu_registers->control = spu_control;
         break;
 
     case 0:
-        D_800799A8 = 1;
-        expected_addr = D_80079970;
+        spu_dma_read_direction = 1;
+        expected_addr = spu_transfer_address_units;
         poll_count = 0;
-        while ((D_80079958->transfer_address.ordered & 0xFFFF) != expected_addr) {
+        while ((spu_registers->transfer_address.ordered & 0xFFFF) != expected_addr) {
             if (++poll_count >= 0xF01) {
                 return -2;
             }
         }
-        spu_control = D_80079958->control;
+        spu_control = spu_registers->control;
         spu_control |= 0x30;
-        D_80079958->control = spu_control;
+        spu_registers->control = spu_control;
         break;
 
     case 3:
         transfer_mode = 0x20;
-        if (D_800799A8 == 1) {
+        if (spu_dma_read_direction == 1) {
             transfer_mode = 0x30;
         }
         poll_count = 0;
-        while ((D_80079958->control & 0x30) != (transfer_mode & 0xFFFF)) {
+        while ((spu_registers->control & 0x30) != (transfer_mode & 0xFFFF)) {
             if (++poll_count >= 0xF01) {
                 return -2;
             }
         }
-        if (D_800799A8 == 1) {
-            func_8005D704();
+        if (spu_dma_read_direction == 1) {
+            select_spu_dma_read_channel_flags();
         } else {
-            func_8005D6D8();
+            select_spu_dma_write_channel_flags();
         }
         transfer_arg = VA_ARG(args, s32);
-        *(s32 *)&D_800799AC = transfer_arg;
+        *(s32 *)&spu_dma_ram_address = transfer_arg;
         transfer_arg = VA_ARG(args, s32);
         block_count = (u32)transfer_arg >> 6;
         partial_block = ((u32)transfer_arg & 0x3F) != 0;
-        D_800799B0 = block_count + partial_block;
-        *D_8007995C = D_800799AC;
-        **(s32 **)&D_80079960 = (D_800799B0 << 16) | 0x10;
+        spu_dma_block_count = block_count + partial_block;
+        *spu_dma_ram_address_register = spu_dma_ram_address;
+        **(s32 **)&spu_dma_block_control_register = (spu_dma_block_count << 16) | 0x10;
         dma_control = 0x1000201;
-        if (D_800799A8 == 1) {
+        if (spu_dma_read_direction == 1) {
             dma_control = 0x1000200;
         }
-        *D_80079964 = dma_control;
+        *spu_dma_channel_control_register = dma_control;
         break;
     }
     return 0;

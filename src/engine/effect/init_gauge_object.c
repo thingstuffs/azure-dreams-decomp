@@ -9,12 +9,12 @@ typedef struct {
 
 extern void set_gauge_context(void *a0, void *a1);
 extern void init_gauge_blocks(void *a0, void *a1, void *a2, void *a3);
-extern void func_800506BC(void *a0, void *a1, void *a2);
+extern void initialize_gauge_menu_display_rows(void *a0, void *a1, void *a2);
 
 /* Reinitializes the object, sets up its sub-objects, and initializes its linked object. */
 void init_gauge_object(S_80050A00 *object, void *context)
 {
     set_gauge_context(object, context);
     init_gauge_blocks(object, (u8 *)object + 0x58, (u8 *)object + 0x30, (u8 *)object + 0x40);
-    func_800506BC(object->field_68, object, context);
+    initialize_gauge_menu_display_rows(object->field_68, object, context);
 }

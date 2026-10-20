@@ -9,7 +9,7 @@ typedef struct S_80050640 {
 } S_80050640;
 
 extern void set_color_components_and_scaled_fields(void *a0, s32 a1, s32 a2);
-extern void func_800505BC(void *a0, s32 a1, s32 a2, s32 a3);
+extern void advance_gauge_color_then_decay(void *a0, s32 a1, s32 a2, s32 a3);
 extern void handle_object_input(void *a0);
 
 /* Starts the ratio ramp using the current counter, advances it, and updates the object. */
@@ -17,6 +17,6 @@ void start_gauge_ramp(S_80050640 *obj)
 {
     set_color_components_and_scaled_fields(&obj->buf58, obj->counter++, 3);
 
-    obj->vtable = (void (*)(void *, s32, s32, s32))func_800505BC;
+    obj->vtable = (void (*)(void *, s32, s32, s32))advance_gauge_color_then_decay;
     handle_object_input(obj);
 }

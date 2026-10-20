@@ -5,7 +5,7 @@
 extern int D_800814A0;
 
 /* Sets bit 0x8000 in the object's preceding flags and global flags if non-NULL. */
-void func_8004B530(unsigned short *object)
+void mark_object_removal_for_inner_release(unsigned short *object)
 {
     unsigned short *flags;
     if (object != 0) {
@@ -18,24 +18,24 @@ void func_8004B530(unsigned short *object)
 /* --- wave-60 --- */
 
 /* Ring-buffer size accumulator. */
-extern int D_80080A7C;
+extern int gpu_scratch_ring_size;
 
 /* Adds the amount to the global accumulator. */
-void func_8004066C(int amount)
+void adjust_resource_decode_buffer_capacity(int amount)
 {
-    D_80080A7C = D_80080A7C + amount;
+    gpu_scratch_ring_size = gpu_scratch_ring_size + amount;
 }
 
 
 extern void file_load_com(void *arg);
 
 typedef struct { u32 word; } PackedLoc;
-extern PackedLoc D_80080B9C;
+extern PackedLoc scene_texture_data_resource;
 
 /* Passes the global buffer to file_load_com. */
 void func_80050FCC(void)
 {
-    file_load_com(&D_80080B9C);
+    file_load_com(&scene_texture_data_resource);
 }
 
 extern int D_800814A0;

@@ -27,14 +27,14 @@ void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head)
     }
 
     {
-        extern ObjectNodeHeader *D_80081490;
-        free_node = D_80081490;
+        extern ObjectNodeHeader *free_node_list_head;
+        free_node = free_node_list_head;
     }
     if (free_node != 0) {
         node = free_node;
         {
-            extern ObjectNodeHeader *D_80081490;
-            D_80081490 = node->next;
+            extern ObjectNodeHeader *free_node_list_head;
+            free_node_list_head = node->next;
         }
         zero_words((int *)node, 0x49);
 

@@ -31,7 +31,7 @@ extern void CompMatrix(MATRIX *m0, MATRIX *m1, MATRIX *m2);
 extern void advance_timed_entity_motion(MATRIX *m);
 
 /* Build and install the combined rotation and translation from global transform state. */
-void func_8004D4AC(void)
+void compose_and_install_camera_transform(void)
 {
     GameView *transform = (GameView *)(&g_game_work.view);
     GteTranslationVector rotated_pos;

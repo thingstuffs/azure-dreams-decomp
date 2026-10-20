@@ -14,10 +14,10 @@ typedef struct {
     s8 pad40[0x10];
 } Entity;
 
-extern s32 D_800869B4[3];
-extern Entity D_80085FA8[];
-extern s32 D_800737C4[4];
-extern s32 D_800737C8[4];
+extern s32 audio_sequence_track_count[3];
+extern Entity audio_sequence_tracks[];
+extern s32 audio_sequence_timing_word[4];
+extern s32 audio_sequence_format[4];
 extern void dispatch_sequence_event(Entity *);
 extern s32 audio_read_compact_sequence_event(Entity *);
 extern s32 read_base_128_vlq(Entity *);
@@ -33,11 +33,11 @@ s32 audio_tick_sequence_tracks(void)
     s32 step_or_count;
 
     entity_index = 0;
-    if (D_800869B4[0] == 0) {
+    if (audio_sequence_track_count[0] == 0) {
         return 0;
     }
     do {
-        entity = &D_80085FA8[entity_index];
+        entity = &audio_sequence_tracks[entity_index];
         if (entity->f2c == 0) {
             step_or_count = entity->f24;
             tick_total = entity->f3c;
@@ -48,7 +48,7 @@ s32 audio_tick_sequence_tracks(void)
                 entity->f3c = tick_total & 0xFF;
                 if (delay_ticks == 0) {
                     do {
-                        if (D_800737C8[0] != 2) {
+                        if (audio_sequence_format[0] != 2) {
                             dispatch_sequence_event(entity);
                             if (entity->f2c != 0) {
                                 break;
@@ -62,7 +62,7 @@ s32 audio_tick_sequence_tracks(void)
                         } else if (entity->f2c != 0) {
                             break;
                         }
-                        if (entity->f10 != 0 && D_800737C4[0] != 0) {
+                        if (entity->f10 != 0 && audio_sequence_timing_word[0] != 0) {
                             scale_value_with_remainder(entity);
                         }
                     } while (entity->f10 == 0);
@@ -74,7 +74,7 @@ s32 audio_tick_sequence_tracks(void)
                 }
             }
         }
-        step_or_count = D_800869B4[0];
+        step_or_count = audio_sequence_track_count[0];
         entity_index++;
     } while (entity_index < (unsigned int)step_or_count);
     return 0;

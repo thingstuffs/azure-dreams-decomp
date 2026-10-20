@@ -6,7 +6,7 @@ typedef struct S_80081490 {
     /* 0x1E */ u16 unk1E;
 } S_80081490;
 
-extern S_80081490 *D_80081490;
+extern S_80081490 *free_node_list_head;
 extern S_80081490 *D_80081498;
 
 /* Returns whether free nodes plus active nodes flagged 0x200 reach the limit. */
@@ -15,7 +15,7 @@ s32 has_enough_available_runtime_nodes(s32 limit) {
     s32 count;
 
     count = 0;
-    node = D_80081490;
+    node = free_node_list_head;
     while (node != 0) {
         count++;
         if (!(count < limit)) {

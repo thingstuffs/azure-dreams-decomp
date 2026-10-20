@@ -1,9 +1,9 @@
 #ifndef SLUS_SAVED_VALUE_B98_H
 #define SLUS_SAVED_VALUE_B98_H
 #include "common.h"
-extern s32 D_80080B94;
-extern s32 D_80080B98;
-extern void func_80050BA4(s32 value);
+extern s32 saved_value_output_enabled;
+extern s32 selection_menu_saved_value;
+extern void create_gauge_with_selection_menu(s32 value);
 struct S_8004FE78_a0;
 extern void destroy_animated_selection_menu(struct S_8004FE78_a0 *entity);
 #endif

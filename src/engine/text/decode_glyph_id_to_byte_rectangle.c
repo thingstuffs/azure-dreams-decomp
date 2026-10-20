@@ -12,7 +12,7 @@ typedef struct S_8004D98C {
 extern void decode_glyph_id_to_byte_rectangle(u32 a0, u8 *a1);
 
 /* Initializes an effect record with a style-selected ID and data derived from the low input byte. */
-void func_8004D98C(s32 data_id, s32 style_flags, S_8004D98C *effect)
+void initialize_styled_glyph_rectangle(s32 data_id, s32 style_flags, S_8004D98C *effect)
 {
     s32 style_index = style_flags & 0xF;
 

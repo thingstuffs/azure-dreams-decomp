@@ -1046,9 +1046,9 @@ void *initialize_available_object(s16 initialValue) {
     if (object != NULL) {
         object->unk_10 = (void *)initialize_children_or_shutdown;
         object->unk_46 = initialValue;
-        func_8004DCE0(2);
+        set_message_mode(2);
         runtime_call_selected_mode_handler();
-        func_8004DD2C(&D_80027160);
+        submit_script_with_registered_context(&D_80027160);
     }
     return object;
 }

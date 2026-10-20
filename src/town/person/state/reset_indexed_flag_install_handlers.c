@@ -29,7 +29,7 @@ typedef struct S_800C5C70_1 {
 void reset_indexed_flag_install_handlers(void *object, s32 context, void *input) {
     if (((SpriteFrameState *)input)->flags & 0x6000) {
         initialize_object_entries(object, input, &D_800D5518);
-        D_80082660[((S_800C5C70_1 *)object)->unk_60].unk_00 = 0;
+        object_index_slots[((S_800C5C70_1 *)object)->unk_60].unk_00 = 0;
         ((S_800C5C70_1 *)object)->unk_58 = &D_800D5654;
         ((S_800C5C70_1 *)object)->unk_5C = &D_800D5658;
         ((S_800C5C70_1 *)object)->unk_7C = &D_800D5624;

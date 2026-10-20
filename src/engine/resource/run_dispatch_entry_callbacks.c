@@ -25,7 +25,7 @@ typedef struct S_8006CE80 {
     void *unk8;
 } S_8006CE80;
 
-extern S_8006CE80 D_8006CE80[];
+extern S_8006CE80 dispatch_resource_records[];
 
 
 /* Runs an entry's callbacks, returning 1 if the flag at D_80082E60.unk_0E is set after a call, otherwise 0. */
@@ -34,7 +34,7 @@ s32 run_dispatch_entry_callbacks(u16 entry_id)
     S_8006CE80 *entry;
     S_8006CE80_Handler *handler;
 
-    entry = D_8006CE80 + entry_id;
+    entry = dispatch_resource_records + entry_id;
     handler = entry->handler;
     if (handler != 0) {
         S_8006CE80_FuncPtr *callback = handler->funcs;

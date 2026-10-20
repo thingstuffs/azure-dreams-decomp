@@ -15,7 +15,7 @@ extern void set_color_components_and_scaled_fields(void *arg, s32 numerator, s32
 extern void decay_gauge_counters(S_800505BC *state, s32 callback_arg1, s32 callback_arg2);
 
 /* Advances the ratio ramp, switches callbacks at count three, and decays the counters. */
-void func_800505BC(S_800505BC *state, s32 callback_arg1, s32 callback_arg2) {
+void advance_gauge_color_then_decay(S_800505BC *state, s32 callback_arg1, s32 callback_arg2) {
     state->counter += 1;
     set_color_components_and_scaled_fields(&state->unk58, state->counter, 3);
 

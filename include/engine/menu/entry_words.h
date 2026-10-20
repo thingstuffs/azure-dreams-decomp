@@ -19,8 +19,8 @@ typedef struct S_800508F0 {
     /* 0xB */ u8 fieldB;
 } S_800508F0; /* size 0xC */
 
-extern s32 D_80080B84;
-extern s32 D_80080B80;
+extern s32 primitive_pair_primary_color;
+extern s32 primitive_pair_secondary_color;
 
 /* Fills two entries from a template with distinct handler words and returns the next entry. */
 

@@ -12,7 +12,7 @@ void initialize_indexed_object_and_lookup_value(void *object, s32 lookup_arg, s3
 
     call_the_handler_selects_nonzero_entry(D_800D0128, object, handler_param);
     saved_lookup_arg = lookup_arg;
-    D_80082660[*(s32 *)((s8 *)object + 0x40)].unk_00 = 0;
+    object_index_slots[*(s32 *)((s8 *)object + 0x40)].unk_00 = 0;
     *(s32 **)((s8 *)object + 4) = &forward_player_motion_state;
     *(s16 *)((s8 *)object + 0x10) = clamp_transform_coordinate_deltas(*(s16 *)((s8 *)object + 0x36), *(s16 *)((s8 *)object + 0x38),
         saved_lookup_arg);

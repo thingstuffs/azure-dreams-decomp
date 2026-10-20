@@ -22,14 +22,14 @@ void set_player_travel_timing(void *actor, void *motion, s32 context)
     s32 speed_modifier;
     s32 modifier_magnitude;
     s8 *movement_state;
-    *(((*((s32 *) (((s8 *) actor) + 0x40))) * 8) + ((u8 *)D_80082660)) = 0;
+    *(((*((s32 *) (((s8 *) actor) + 0x40))) * 8) + ((u8 *)object_index_slots)) = 0;
     *((s32 **) (((s8 *) actor) + 4)) = &advance_player_position_and_angle;
     distance = runtime_estimate_vector_length(((*((s16 *) (((s8 *) actor) + 0x36))) << 0x10) - (*((s32 *) (((s8 *) motion) + 0))),
         ((*((s16 *) (((s8 *) actor) + 0x38))) << 0x10) - (*((s32 *) (((s8 *) motion) + 4))));
     if (distance < 0) {
         distance += 0x1FFFF;
     }
-    movement_state = (s8 *) (((*((s32 *) (((s8 *) actor) + 0x40))) * 8) + ((u8 *)D_80082660));
+    movement_state = (s8 *) (((*((s32 *) (((s8 *) actor) + 0x40))) * 8) + ((u8 *)object_index_slots));
     base_ticks = distance >> 0x11;
     *((s16 *) (((s8 *) actor) + 0xA)) = (s16) base_ticks;
     speed_modifier = *((s8 *) (movement_state + 2));

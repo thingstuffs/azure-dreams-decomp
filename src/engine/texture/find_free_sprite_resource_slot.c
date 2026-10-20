@@ -8,14 +8,14 @@ typedef struct {
     s32 unk4; /* covers D8Elem.flags4/id6 */
 } S_80047B80;
 
-extern S_80047B80 D_80083D08[6];
+extern S_80047B80 sprite_resource_slots[6];
 
 /* Returns the first free slot index in D_80083D08, or -1 if all slots are occupied. */
 s32 find_free_sprite_resource_slot(void)
 {
     s32 free_index = -1;
     s32 slot_index = 0;
-    S_80047B80 *slot = D_80083D08;
+    S_80047B80 *slot = sprite_resource_slots;
 
     for (; slot_index < 6; slot_index++, slot++) {
         if (slot->unk0 == 0) {

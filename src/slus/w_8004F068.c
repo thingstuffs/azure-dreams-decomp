@@ -23,9 +23,9 @@ typedef struct S_8004F068_b {
 
 /* Each is a single hi/lo-addressed word; padded >8B so gcc doesn't use %gp_rel */
 typedef struct { s32 v; s32 pad[2]; } S_8004F068_word;
-extern S_8004F068_word D_80071678;
-extern S_8004F068_word D_8007167C;
-extern S_8004F068_word D_80071680;
+extern S_8004F068_word object_header_c_default_word_08;
+extern S_8004F068_word object_header_c_default_word_0c;
+extern S_8004F068_word object_header_c_default_word_04;
 
 /* Initializes two adjacent headers with flags and global values, then returns the next field. */
 void *func_8004F068(void *cursor)
@@ -35,10 +35,10 @@ void *func_8004F068(void *cursor)
     s32 word_04, word_08, word_0c;
 
     first_header->unk01 = 0xB0;
-    word_08 = D_80071678.v;
+    word_08 = object_header_c_default_word_08.v;
     first_header->unk08 = word_08;
-    word_04 = D_80071680.v;
-    word_0c = D_8007167C.v;
+    word_04 = object_header_c_default_word_04.v;
+    word_0c = object_header_c_default_word_0c.v;
     first_header->unk01 |= 2;
     first_header->unk00 |= 0x61;
     first_header->unk04 = word_04;

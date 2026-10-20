@@ -44,7 +44,7 @@ s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, item);
         if (apply_actor_food_preference(target,
-                          D_800DDE84[((u8 *)target)[0x13]] & 3,
+                          entity_action_selectors[((u8 *)target)[0x13]] & 3,
                           item) == 0) {
             apply_item_effect_at_entity_position(target, item);
             return 1;

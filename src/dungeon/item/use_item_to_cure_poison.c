@@ -58,7 +58,7 @@ s32 use_item_to_cure_poison(void *entity, s32 item, s16 action) {
         display_item_status_message(entity, item, action);
         call_entity = entity;
         type_id = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
-        if (apply_actor_food_preference(call_entity, (D_800DDE84[type_id] >> 6) & 3, 0) == 0) {
+        if (apply_actor_food_preference(call_entity, (entity_action_selectors[type_id] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(entity, item);
             return 1;
         }

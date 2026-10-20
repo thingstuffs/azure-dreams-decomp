@@ -9,7 +9,7 @@ typedef struct Node {
 } Node;
 
 #include "modules/main_server_ship_interfaces.h"
-extern void func_8003AD08(s32 value, void *out);
+extern void format_unsigned_double_byte_decimal(s32 value, void *out);
 extern void decode_note_text(void *entries, void *text, s32 initial_octave);
 extern void strcat(void *dest, void *src);
 extern void strcpy(void *dest, void *src);
@@ -77,7 +77,7 @@ void card_boot_format_empty_slot_guidance(void *context)
                 selection = mode_one << 2;
                 decode_note_text(first_buffer, *(void **)((u8 *)table + selection), 1);
             }
-            func_8003AD08(state / 3, number_buf);
+            format_unsigned_double_byte_decimal(state / 3, number_buf);
             strcpy(text_buf, number_buf);
             strcat(text_buf, D_800283FC);
             text_buffer = context + 0x204;

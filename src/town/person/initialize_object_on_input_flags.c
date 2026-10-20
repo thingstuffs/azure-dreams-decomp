@@ -21,7 +21,7 @@ extern u8 D_800D5CD0[];
 void initialize_object_on_input_flags(Obj *object, s32 unused, Arg2 *event) {
     if (event->unk14 & 0x6000) {
         initialize_object_entries(object, event, D_800D5CD0);
-        D_80082660[object->unk60].unk_00 = 0;
+        object_index_slots[object->unk60].unk_00 = 0;
         object->unk54 = D_800C3C28;
     }
 }

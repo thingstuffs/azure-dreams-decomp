@@ -5,24 +5,24 @@
  * so gcc addresses these plain scalars via independent lui/%hi + lw/sw/%lo
  * pairs (no materialised/reused base register), instead of via $gp or an
  * oversized-struct hi/lo forcing trick. */
-extern s32 D_8008148C; /* base address of the streaming/scratch ring buffer */
-extern s32 D_80080A7C; /* ring buffer's total size */
-extern s32 D_80081480; /* running write pointer into the ring buffer */
+extern s32 gpu_scratch_buffer_base; /* base address of the streaming/scratch ring buffer */
+extern s32 gpu_scratch_ring_size; /* ring buffer's total size */
+extern s32 gpu_scratch_write_pointer; /* running write pointer into the ring buffer */
 
 extern void DrawSync(s32 a0);
 
 /* Allocates ring buffer space, wrapping and syncing the GPU when the request reaches the buffer end. */
 void *alloc_gpu_scratch_ring(s32 size)
 {
-    s32 buffer_base = D_8008148C;
+    s32 buffer_base = gpu_scratch_buffer_base;
 
-    if ((u32)(buffer_base + D_80080A7C) <= (u32)(D_80081480 + size)) {
-        D_80081480 = buffer_base;
+    if ((u32)(buffer_base + gpu_scratch_ring_size) <= (u32)(gpu_scratch_write_pointer + size)) {
+        gpu_scratch_write_pointer = buffer_base;
         DrawSync(0);
     }
     {
-        void *allocation = (void *)D_80081480;
-        D_80081480 = D_80081480 + size;
+        void *allocation = (void *)gpu_scratch_write_pointer;
+        gpu_scratch_write_pointer = gpu_scratch_write_pointer + size;
         return allocation;
     }
 }

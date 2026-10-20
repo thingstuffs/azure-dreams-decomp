@@ -67,21 +67,21 @@ extern void func_800375C0(void *, void *);
 extern void func_800350B0(void *, void *);
 
 extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);
-extern void func_800359FC(void);
+extern void dispatch_window_fade_and_update_extents(void);
 extern void set_window_handler(void);
 extern void func_80035AAC(void);
 extern void draw_window_rects(void);
 extern void func_80037714(void);
 
 extern u8 D_80082BC0[12];
-extern u8 D_8006A9E8[12];
-extern s16 D_8006A90C[];
-extern u8 D_8007386C[12];
-extern s32 D_800809B8;
-extern s32 D_800809BC;
+extern u8 attached_node_default_parameters[12];
+extern s16 attached_node_variant_data[];
+extern u8 attached_node_default_render_data[12];
+extern s32 attached_node_initial_word_14;
+extern s32 attached_node_initial_word_18;
 
 /* Initializes a list node with callbacks, attached objects, and rendering state. */
 
-void func_80035888(void *node_storage, void *attached_object, s32 *init_data, s16 object_id, void *owner);
+void initialize_attached_message_window_node(void *node_storage, void *attached_object, s32 *init_data, s16 object_id, void *owner);
 
 #endif

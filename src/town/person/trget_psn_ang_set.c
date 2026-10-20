@@ -49,7 +49,7 @@ void trget_psn_ang_set(s8 object_slot, s8 angle_index)
     S_800C4D80_2 *child;
     S_800C4D80_0 *object_data;
 
-    table = D_80082660;
+    table = object_index_slots;
     object_index = object_slot;
     object = table[object_index].object;
     if (object != 0) {

@@ -5,7 +5,7 @@
 typedef struct { s16 x, y, w, h; } RECT;
 
 extern int LoadImage(RECT *rect, void *p);
-extern s32 D_80082EC0[128];
+extern s32 vram_row_upload_cache[128];
 
 /* Uploads a VRAM strip and records its source and width in the cache. */
 void upload_vram_row_and_cache(s32 src_addr, s32 vram_addr, s32 block_count, s32 skip_flags)
@@ -27,10 +27,10 @@ void upload_vram_row_and_cache(s32 src_addr, s32 vram_addr, s32 block_count, s32
         LoadImage(&rect, (void *)src_addr);
     }
     if (!(flags & 2)) {
-        D_80082EC0[slot] = (src_addr & 0xFFFFFF) | (width_blocks << 24);
+        vram_row_upload_cache[slot] = (src_addr & 0xFFFFFF) | (width_blocks << 24);
     }
     if (slot < 0x40 && width_blocks >= 0x11) {
-        cache = D_80082EC0;
+        cache = vram_row_upload_cache;
         cache[slot + 0x40] = 0;
     }
 }

@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-extern u8 *D_80081540;
+extern u8 *current_sort_rank_table;
 extern s32 compare_mapped_leading_bytes(u8 **left, u8 **right);
 
 #endif

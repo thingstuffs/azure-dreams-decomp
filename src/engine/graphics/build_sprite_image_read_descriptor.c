@@ -6,7 +6,7 @@
 
 
 void pack_tagged_resource_descriptor(int tag, int id, int *record, int value);
-extern M2C_UNK D_800814F8;
+extern M2C_UNK sprite_image_read_descriptor;
 
 /* Selects an entry offset and requests data in the shared buffer. */
 s32 *build_sprite_image_read_descriptor(s16 entry_id, s32 request_arg) {
@@ -19,6 +19,6 @@ s32 *build_sprite_image_read_descriptor(s16 entry_id, s32 request_arg) {
     } else {
         entry_offset = ((entry_id - 1) * 0x2B) + 0x56F0;
     }
-    pack_tagged_resource_descriptor(0x11, request_arg, &D_800814F8, entry_offset);
-    return &D_800814F8;
+    pack_tagged_resource_descriptor(0x11, request_arg, &sprite_image_read_descriptor, entry_offset);
+    return &sprite_image_read_descriptor;
 }

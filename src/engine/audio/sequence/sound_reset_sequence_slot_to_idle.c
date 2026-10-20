@@ -11,9 +11,9 @@ typedef struct S_80086C00 {
     /* 0x0A */ u16 field_A;
 } S_80086C00; /* size 0xC (12) */
 
-extern S_80086C00 D_80086C00[8];
-extern s32 D_800737A4[4]; /* forced hi/lo access via size > 8 */
-extern s32 D_80085F98[4]; /* forced hi/lo access via size > 8 */
+extern S_80086C00 audio_sequence_slots[8];
+extern s32 audio_sequence_active[4]; /* forced hi/lo access via size > 8 */
+extern s32 audio_update_guard[4]; /* forced hi/lo access via size > 8 */
 
 extern void activate_entries_and_clear_state(void);
 extern void audio_reset_sequence_tracks_and_channels(void);
@@ -24,14 +24,14 @@ void sound_reset_sequence_slot_to_idle(s16 slot_index)
     S_80086C00 *slots;
     int zero;
 
-    D_80085F98[0] = 1;
+    audio_update_guard[0] = 1;
     zero = 0;
-    D_800737A4[0] = zero;
+    audio_sequence_active[0] = zero;
     activate_entries_and_clear_state();
     audio_reset_sequence_tracks_and_channels();
-    slots = D_80086C00;
+    slots = audio_sequence_slots;
     slots[slot_index].field_A = 0x7F;
     slots[slot_index].field_8 = 0x7F;
     slots[slot_index].field_2 = 2;
-    D_80085F98[zero] = 0;
+    audio_update_guard[zero] = 0;
 }

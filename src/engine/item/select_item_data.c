@@ -41,7 +41,7 @@ typedef struct
     u8 pad[0xF];
 }
 S_80082E6A;
-extern S_80082E6A D_80082E6A;
+extern S_80082E6A runtime_dispatch_mode_alias;
 extern S_8004AC3C_CategoryEntry itemCategoryTable[];
 extern s32 resolve_record_value(S_8004AC3C_Item *);
 extern s32 get_item_category_flags(S_8004AC3C_Item *);
@@ -54,7 +54,7 @@ s32 select_item_data(S_8004AC3C_Item *item, s32 *out_mode)
     s32 data_addr;
     u8 kind;
     *out_mode = 0;
-    if (D_80082E6A.f0 != 1) {
+    if (runtime_dispatch_mode_alias.f0 != 1) {
         if (item->unk1 == 0x13) {
             data_addr = resolve_record_value(item) + 0x34;
         }

@@ -10,16 +10,16 @@ typedef struct {
     void *field4;
     void *field8;
 } S_8006E61C;
-extern S_8006E61C D_8006E61C[];
+extern S_8006E61C sound_effect_bank_descriptors[];
 
 /* Per-id "last processed" byte counter, indexed by field0-1. */
-extern u8 D_80080AF0[];
+extern u8 sound_effect_loaded_record_ids[];
 
-extern s32 D_80081480;
-extern s32 D_8008148C;
+extern s32 gpu_scratch_write_pointer;
+extern s32 gpu_scratch_buffer_base;
 
 /* switch dispatcher on pad events; takes no arguments (matched, gcc 2.7.2, code.c) */
-extern void func_800542BC(void);
+extern void drain_audio_commands_and_service_channels(void);
 
 extern void DrawSync(s32 a0);
 
@@ -30,7 +30,7 @@ extern s32 Control_CD(s32 a0, void *a1, void *a2);
 extern void drain_cd_command_queue(void);
 
 /* setter for D_800814C8 (matched, gcc 2.7.2, code.c) */
-extern void func_8003F5E0(s32 a0);
+extern void set_sound_payload_slot(s32 a0);
 
 /* masks a0 to 16 bits and forwards to func_80055778, sign-extends result (matched, code.c) */
 extern short SD_Call(s32 a0);
@@ -49,25 +49,25 @@ void audio_load_sound_effect_bank(s16 record_id)
 
     {
         s32 record_offset = (s32)record_id * sizeof(S_8006E61C);
-        record = (S_8006E61C *)((char *)D_8006E61C + record_offset);
+        record = (S_8006E61C *)((char *)sound_effect_bank_descriptors + record_offset);
     }
     slot = (s16)((u16)record->field0 - 1);
-    processed_id = &D_80080AF0[slot];
+    processed_id = &sound_effect_loaded_record_ids[slot];
     if (*processed_id != record_id + 1) {
-        func_800542BC();
+        drain_audio_commands_and_service_channels();
         *processed_id = (u8)(record_id + 1);
         DrawSync(0);
         {
             void *callback = record->field8;
-            D_80081480 = D_8008148C;
+            gpu_scratch_write_pointer = gpu_scratch_buffer_base;
             Control_CD(6, callback, 0);
         }
         Control_CD(6, record->field4, 0);
         drain_cd_command_queue();
         ready_value = 1;
-        func_8003F5E0(D_8008148C);
+        set_sound_payload_slot(gpu_scratch_buffer_base);
         SD_Call(((2 << slot) | 0x10) & 0xFFFF);
-        func_800542BC();
+        drain_audio_commands_and_service_channels();
         do {
             available = (s16)test_sound_channel_availability(record->field0);
         } while (available != ready_value);

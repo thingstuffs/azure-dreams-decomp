@@ -3,7 +3,7 @@
 extern s32 generate_random_value(void);
 
 /* Shuffle a byte array in place using generate_random_value() for random swap indices. */
-void func_8004A9B0(u8 *bytes, s32 length) {
+void shuffle_byte_array(u8 *bytes, s32 length) {
     s32 index;
     s32 swap_index;
     u8 saved_byte;

@@ -8,7 +8,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-s32 func_8004383C();                 /* extern */
+s32 lookup_level_experience_threshold();                 /* extern */
 void begin_deferred_item_action(void *, void *, void *, void *); /* extern */
 void clear_slot_and_update_linked_state();                         /* extern */
 void apply_item_effect_at_entity_position();                 /* extern */
@@ -25,13 +25,13 @@ s32 use_level_gain_item(void *entity, s32 item, s16 action_id) {
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, item, action_id);
-        if (apply_actor_food_preference(entity, (D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+        if (apply_actor_food_preference(entity, (entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(entity, item);
             return 1;
         }
     }
     if ((u8) (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 1)) < 0x63U) {
-        ((EntityRec *)entity)->unk_18 = func_8004383C(entity, 0);
+        ((EntityRec *)entity)->unk_18 = lookup_level_experience_threshold(entity, 0);
         ((EntityRec *)entity)->unk_42 = 0;
         ((EntityRec *)entity)->unk_41 = 0;
         D_800E296C |= 0x100000;

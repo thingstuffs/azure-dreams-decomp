@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-extern u8 D_800816C0[];
+extern u8 runtime_object_pool[];
 
 /* --- port/hal accessor shims (mechanical, no HAL dependency) --- */
 #define U8AT(b, o)  (*(u8  *)((u8 *)(b) + (o)))
@@ -19,7 +19,7 @@ extern u8 D_800816C0[];
 /* Returns the first unused slot in the twenty-entry pool, or NULL if full. */
 void *runtime_find_unused_pool_slot(void)
 {
-    u8 *slot = D_800816C0;
+    u8 *slot = runtime_object_pool;
     s32 slot_index;
 
     for (slot_index = 0; slot_index < 20; slot_index++, slot += 100) {

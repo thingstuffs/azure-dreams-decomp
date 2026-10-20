@@ -41,7 +41,7 @@ extern s32 D_800891F4;
 extern u8 D_800AF96C[];
 
 extern s32 advance_index_with_directional_clamp(s32, s32, s32);
-extern void func_80049490(s32);
+extern void get_item_name_with_shared_text_table(s32);
 extern void sort_entries_by_category(void *);
 extern void SD_Call(s32);
 extern void set_item_menu_data_pointer(s32);
@@ -96,7 +96,7 @@ void update_item_menu_selection(TownObject *obj)
         sort_entries_by_category((void *)0x8001029C);
         update_item_menu_record(obj);
         action_inner = obj->inner;
-        func_80049490(action_inner->table[action_inner->position]);
+        get_item_name_with_shared_text_table(action_inner->table[action_inner->position]);
         return;
     }
 
@@ -145,7 +145,7 @@ void update_item_menu_selection(TownObject *obj)
     next_band = obj->inner->position / 10;
     set_item_menu_entry_coordinates(obj);
     refreshed_inner = obj->inner;
-    func_80049490(refreshed_inner->table[refreshed_inner->position]);
+    get_item_name_with_shared_text_table(refreshed_inner->table[refreshed_inner->position]);
     if (next_band == obj->inner->band) {
         return;
     }

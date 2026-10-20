@@ -32,8 +32,8 @@ s32 func_8005EB78(s32 voice_mask)
     }
 
     voice_mask = voice << 4;
-    result = (s32)D_80079958;
-    voice_index = D_800794F0;
+    result = (s32)spu_registers;
+    voice_index = spu_active_voice_mask;
     voice_mask = voice_mask + result;
     result = 1;
     result = result << voice;
@@ -75,15 +75,15 @@ void func_8005F134(SpuVoiceAttr_ *attr)
         if (attr->voice & (1 << voice)) {
             reg_base = voice * 8;
             if (set_all || (mask & 0x10)) {
-                D_80079958[voice * 8 + 2] = attr->pitch;
+                spu_registers[voice * 8 + 2] = attr->pitch;
             }
             if (set_all || (mask & 0x40)) {
-                D_80079520[voice] = attr->sample_note;
+                spu_voice_sample_notes[voice] = attr->sample_note;
             }
             if (set_all || (mask & 0x20)) {
-                sample_note = D_80079520[voice];
+                sample_note = spu_voice_sample_notes[voice];
                 note = attr->note;
-                D_80079958[reg_base + 2] =
+                spu_registers[reg_base + 2] =
                     func_8005F7D0(sample_note >> 8, sample_note & 0xFF, note >> 8, note & 0xFF);
             }
             if (set_all || (mask & 0x1)) {
@@ -126,7 +126,7 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                         left_volume = 0;
                     }
                 }
-                D_80079958[reg_base + 0] = left_volume | volume_mode;
+                spu_registers[reg_base + 0] = left_volume | volume_mode;
             }
             if (set_all || (mask & 0x2)) {
                 volume_mode = 0;
@@ -168,7 +168,7 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                         right_volume = 0;
                     }
                 }
-                D_80079958[reg_base + 1] = right_volume | volume_mode;
+                spu_registers[reg_base + 1] = right_volume | volume_mode;
             }
             if (set_all || (mask & 0x80)) {
                 audio_handle_optionally_aligns_shifts_stores_returns_result(reg_base + 3, attr->addr);
@@ -177,10 +177,10 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                 audio_handle_optionally_aligns_shifts_stores_returns_result(reg_base + 7, attr->loop_addr);
             }
             if (set_all || (mask & 0x20000)) {
-                D_80079958[reg_base + 4] = attr->adsr1;
+                spu_registers[reg_base + 4] = attr->adsr1;
             }
             if (set_all || (mask & 0x40000)) {
-                D_80079958[reg_base + 5] = attr->adsr2;
+                spu_registers[reg_base + 5] = attr->adsr2;
             }
             if (set_all || (mask & 0x800)) {
                 env_value = attr->ar;
@@ -193,18 +193,18 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                         env_mode = 0x80;
                     }
                 }
-                adsr = D_80079958[reg_base + 4];
+                adsr = spu_registers[reg_base + 4];
                 adsr = (adsr & 0xFF) | ((env_value | env_mode) << 8);
-                D_80079958[reg_base + 4] = adsr;
+                spu_registers[reg_base + 4] = adsr;
             }
             if (set_all || (mask & 0x1000)) {
                 env_value = attr->dr;
                 if (env_value >= 0x10) {
                     env_value = 0xF;
                 }
-                adsr = D_80079958[reg_base + 4];
+                adsr = spu_registers[reg_base + 4];
                 adsr = (adsr & 0xFF0F) | (env_value << 4);
-                D_80079958[reg_base + 4] = adsr;
+                spu_registers[reg_base + 4] = adsr;
             }
             if (set_all || (mask & 0x2000)) {
                 env_value = attr->sr;
@@ -225,9 +225,9 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                         break;
                     }
                 }
-                adsr = D_80079958[reg_base + 5];
+                adsr = spu_registers[reg_base + 5];
                 adsr = (adsr & 0x3F) | ((env_value | env_mode) << 6);
-                D_80079958[reg_base + 5] = adsr;
+                spu_registers[reg_base + 5] = adsr;
             }
             if (set_all || (mask & 0x4000)) {
                 env_value = attr->rr;
@@ -245,18 +245,18 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                         break;
                     }
                 }
-                adsr = D_80079958[reg_base + 5];
+                adsr = spu_registers[reg_base + 5];
                 adsr = (adsr & 0xFFC0) | (env_value | env_mode);
-                D_80079958[reg_base + 5] = adsr;
+                spu_registers[reg_base + 5] = adsr;
             }
             if (set_all || (mask & 0x8000)) {
                 env_value = attr->sl;
                 if (env_value >= 0x10) {
                     env_value = 0xF;
                 }
-                adsr = D_80079958[reg_base + 4];
+                adsr = spu_registers[reg_base + 4];
                 adsr = (adsr & 0xFFF0) | env_value;
-                D_80079958[reg_base + 4] = adsr;
+                spu_registers[reg_base + 4] = adsr;
             }
         }
     }
@@ -298,7 +298,7 @@ void func_8005FA34(SpuVoiceAttr_ *voice_attr)
     }
     left_mode = 0;
     voice_offset = voice_index * 16;
-    voice_regs = (S_8005FA34_ent *)D_80079958;
+    voice_regs = (S_8005FA34_ent *)spu_registers;
     volume_word = voice_index * 2;
     voice_word = voice_index * 8;
     voice = (S_8005FA34_ent *)(voice_offset + (u32)voice_regs);
@@ -394,13 +394,13 @@ void func_8005FA34(SpuVoiceAttr_ *voice_attr)
         voice_attr->volume.right = (volume_bits < 0x4000U) ? right_volume : (volume_bits - sign_bias);
     }
     voice_attr->volmode.right = right_mode;
-    pitch_regs = (u16 *) D_80079958;
+    pitch_regs = (u16 *) spu_registers;
     voice_attr->volmode.left = left_mode;
     voice_attr->volumex.left = pitch_regs[volume_word + 0x100];
     voice_attr->volumex.right = pitch_regs[volume_word + 0x101];
     pitch = pitch_regs[voice_word + 2];
     voice_attr->pitch = pitch;
-    volume_or_note = D_80079520[voice_index];
+    volume_or_note = spu_voice_sample_notes[voice_index];
     note = sound_convert_pitch_to_packed_note(volume_or_note >> 8, volume_or_note & 0xFF, pitch);
     if (note >= 0) {
         voice_attr->note = (u16) note;
@@ -408,9 +408,9 @@ void func_8005FA34(SpuVoiceAttr_ *voice_attr)
     else {
         voice_attr->note = 0;
     }
-    voice_attr->sample_note = D_80079520[voice_index];
-    envelope_regs = (u16 *) D_80079958;
-    address_shift = D_80079980;
+    voice_attr->sample_note = spu_voice_sample_notes[voice_index];
+    envelope_regs = (u16 *) spu_registers;
+    address_shift = spu_address_unit_shift;
     voice_attr->envx = envelope_regs[voice_word + 6];
     voice_attr->addr = ((s32) envelope_regs[voice_word + 3]) << address_shift;
     voice_attr->loop_addr = ((s32) envelope_regs[voice_word + 7]) << address_shift;

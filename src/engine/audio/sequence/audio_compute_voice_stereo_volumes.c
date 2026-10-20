@@ -44,17 +44,17 @@ typedef struct {
     s32 unk2C;
 } S_800561D8_Arg1;
 
-extern S_800561D8_D80086A40 D_80086A40[16];
-extern S_800561D8_D80086C00 D_80086C00[8];
-extern s16 D_80086D50[8];
-extern u8 D_8007382A[16];
-extern S_800561D8_D80073738 D_80073738;
+extern S_800561D8_D80086A40 audio_bank_slots[16];
+extern S_800561D8_D80086C00 audio_sequence_slots[8];
+extern s16 audio_current_bank_slot[8];
+extern u8 audio_force_center_pan[16];
+extern S_800561D8_D80073738 audio_master_level;
 
 /* Compute voice pan and stereo volumes from channel gains and sound parameters. */
 void audio_compute_voice_stereo_volumes(S_800561D8_Arg0 *voice_arg, S_800561D8_Arg1 *sound_params)
 {
     S_800561D8_Arg0 *voice = voice_arg;
-    S_800561D8_D80086A40 *channels = D_80086A40;
+    S_800561D8_D80086A40 *channels = audio_bank_slots;
     S_800561D8_D80086A40 *channel;
     s32 pan_value;
     s32 pan_value_2;
@@ -64,13 +64,13 @@ void audio_compute_voice_stereo_volumes(S_800561D8_Arg0 *voice_arg, S_800561D8_A
     s32 scale;
     s32 pan_sum;
 
-    channel = &channels[((s32)(D_80086D50[0]))];
+    channel = &channels[((s32)(audio_current_bank_slot[0]))];
     pan_sum = channel->unk1B + voice->unk16;
     pan_sum += voice->unk17;
     pan_value_2 = sound_params->unk4;
     pan_sum += pan_value_2;
     pan_value = pan_sum - 0xC0;
-    if (D_8007382A[0] != 0) {
+    if (audio_force_center_pan[0] != 0) {
         pan_value = 0x40;
     }
     if (pan_value < 0) {
@@ -81,7 +81,7 @@ void audio_compute_voice_stereo_volumes(S_800561D8_Arg0 *voice_arg, S_800561D8_A
     }
     voice->unk18 = pan_value;
 
-    product = channel->unk18 * D_80073738.f0;
+    product = channel->unk18 * audio_master_level.f0;
     product *= sound_params->unk14;
     product *= sound_params->unkC;
     product = (u32)product >> 0xE;
@@ -106,9 +106,9 @@ void audio_compute_voice_stereo_volumes(S_800561D8_Arg0 *voice_arg, S_800561D8_A
     }
 
     {
-        S_800561D8_D80086C00 *channel_gains = D_80086C00;
+        S_800561D8_D80086C00 *channel_gains = audio_sequence_slots;
         S_800561D8_D80086C00 *gain_entry;
-        gain_entry = &channel_gains[((s32)(D_80086D50[0]))];
+        gain_entry = &channel_gains[((s32)(audio_current_bank_slot[0]))];
         product = left_volume * gain_entry->unk8;
         scale = gain_entry->unkA;
         pan_value = right_volume * scale;

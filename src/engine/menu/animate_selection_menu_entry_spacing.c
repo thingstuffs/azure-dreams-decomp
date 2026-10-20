@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8004F67C(void);
+extern void noop_selection_menu_animation_idle(void);
 typedef struct S_8004F9AC_L3
 {
     char pad0[8];
@@ -37,7 +37,7 @@ void animate_selection_menu_entry_spacing(S_8004F9AC_Obj *obj)
     S_8004F9AC_L1 **entry;
     if (spacing >= 0x21) {
         spacing = 0x20;
-        obj->func = func_8004F67C;
+        obj->func = noop_selection_menu_animation_idle;
         index = 0;
     } else {
         index = 0;

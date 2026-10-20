@@ -18,7 +18,7 @@ typedef struct S_80037030_1 {
 
 
 extern void create_blinking_cursor_object(s32, void *, s32 *, s16, s32, s32);
-extern void func_80037090(void *, void *, void *);
+extern void update_blinking_cursor_with_dark_idle(void *, void *, void *);
 
 /* Initialize the object, install its color update callback, and run it once. */
 void init_cursor_color_object(void *object, void *model, s32 *data, s16 index, s16 table_index, s32 list) {
@@ -30,7 +30,7 @@ void init_cursor_color_object(void *object, void *model, s32 *data, s16 index, s
     state = (s8_local *)object + 0x20;
     context = ((S_80037030_0 *)object)->unk_08;
     output = ((S_80037030_0 *)object)->unk_0C;
-    ((S_80037030_0 *)object)->unk_10 = (void *)&func_80037090;
+    ((S_80037030_0 *)object)->unk_10 = (void *)&update_blinking_cursor_with_dark_idle;
     output->unk_0C = 0;
-    func_80037090(state, context, output);
+    update_blinking_cursor_with_dark_idle(state, context, output);
 }

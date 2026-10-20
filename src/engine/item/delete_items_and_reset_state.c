@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-void func_8003B7C8(void);
+void clear_selected_scene_entry_flags(void);
 void delete_all_town_items(void);
 void reset_entry_flags();                            /* extern */
 
@@ -10,5 +10,5 @@ void reset_entry_flags();                            /* extern */
 void delete_items_and_reset_state(void) {
     reset_entry_flags();
     delete_all_town_items();
-    func_8003B7C8();
+    clear_selected_scene_entry_flags();
 }

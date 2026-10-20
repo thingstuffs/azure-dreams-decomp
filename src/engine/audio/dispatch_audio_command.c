@@ -20,7 +20,7 @@ void dispatch_audio_command(s32 code)
     case 0x8000:
     case 0x9000:
     {
-        SoundPlaybackState *state = &D_800847D0;
+        SoundPlaybackState *state = &sound_playback_state;
         s32 low_byte = packed_code & 0xFF;
 
         state->unk_26 = (s16)low_byte;
@@ -28,8 +28,8 @@ void dispatch_audio_command(s32 code)
         if (code != 0) {
             state->unk_26 = (s16)(low_byte | code);
         }
-        if (D_800847D0.flags00 & 0x100) {
-            set_sound_task_priority(0xB1, &D_800848F8);
+        if (sound_playback_state.flags00 & 0x100) {
+            set_sound_task_priority(0xB1, &sound_sequence_task);
             return;
         }
     }

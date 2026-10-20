@@ -6,9 +6,9 @@
  * the load into one scheduled unit, matching retail's split (the %hi
  * computation is hoisted early to fill an unrelated load's delay slot,
  * while the %lo-folded load itself stays at its later point of use). */
-extern s32 D_80071660[4];
-extern u32 D_80071664[4];
-extern s32 D_80071668[4];
+extern s32 object_header_a_default_word_08[4];
+extern u32 object_header_a_default_word_0c[4];
+extern s32 object_header_a_default_word_04[4];
 
 typedef struct S_8004EF90_sub {
     u8 unk0;
@@ -40,10 +40,10 @@ void *func_8004EF90(void *cursor)
     s32 initial_word_c;
 
     object->unk1 = 0xB0;
-    object->unk8 = D_80071660[0];
+    object->unk8 = object_header_a_default_word_08[0];
     sub_init_value = 0x81;
-    initial_word_4 = D_80071668[0];
-    initial_word_c = D_80071664[0];
+    initial_word_4 = object_header_a_default_word_04[0];
+    initial_word_c = object_header_a_default_word_0c[0];
     object->unk1 = 2 | object->unk1;
     object->unk4 = initial_word_4;
     object->unkC = initial_word_c;

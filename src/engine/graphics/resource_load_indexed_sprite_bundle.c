@@ -18,7 +18,7 @@ s32 relocate_sprite_metadata_pointers();                      /* extern */
 void mark_palette_colors_with_high_bit();    /* extern */
 void texture_mark_unprocessed_type_n_2_node_sequences_set_low_six_bits_n_14();                      /* extern */
 extern u8 D_80071210[];
-extern s8 D_80080A89;
+extern s8 shared_sprite_resource_loaded;
 
 /* Loads and initializes a resource, registers its payload in two VRAM cache slots, and returns its table slot. */
 void *resource_load_indexed_sprite_bundle(s32 resource_id) {
@@ -43,6 +43,6 @@ void *resource_load_indexed_sprite_bundle(s32 resource_id) {
     relocate_sprite_metadata_pointers(resource);
     entry3 = (u8 *)entry2 + 4;
     texture_mark_unprocessed_type_n_2_node_sequences_set_low_six_bits_n_14(resource);
-    D_80080A89 = 0;
+    shared_sprite_resource_loaded = 0;
     return entry3;
 }

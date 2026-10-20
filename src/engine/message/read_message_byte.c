@@ -9,10 +9,10 @@ typedef struct {
     u8 *buffer;
 } Func80039AF0State;
 
-extern u8 D_8007216C[];
+extern u8 message_mode_default_bytes[];
 
 /* Reads a stream byte into the buffer and stores its table lookup result. */
 void read_message_byte(Func80039AF0State *state) {
     state->buffer[1] = *state->stream++;
-    state->buffer[0x3C] = D_8007216C[state->buffer[1]];
+    state->buffer[0x3C] = message_mode_default_bytes[state->buffer[1]];
 }

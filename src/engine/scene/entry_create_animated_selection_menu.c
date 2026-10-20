@@ -26,14 +26,14 @@ typedef struct S_80050BA4_sub
 }
 S_80050BA4_sub;
 
-extern s32 func_80050AF0(void *a0, s32 a1);
-extern void *func_80050B7C(void *a0);
+extern s32 allocate_selection_menu_entry_buffers(void *a0, s32 a1);
+extern void *link_seventeen_indexed_entries(void *a0);
 extern void init_gauge_object(void *a0, void *a1);
 extern void *create_animated_selection_menu(void *a0);
 extern void func_8004E130(void);
 extern void register_node(void *a0, void *a1);
 extern void release_null_terminated_entries(u16 **a0);
-extern void func_80050694(void *a0);
+extern void invoke_leading_object_callback(void *a0);
 extern int draw_tinted_node_sprites_scratch(void *a0, int a1, void *a2);
 
 /* Retail materializes a fresh %hi(D_800814A0) for the store after the |= load
@@ -43,7 +43,7 @@ extern int draw_tinted_node_sprites_scratch(void *a0, int a1, void *a2);
 extern s32 D_800814A0_abs __attribute__((section(".data")));
 
 /* Creates an owner and its companion object, flagging failed setup for cleanup. */
-void *func_80050BA4(s32 context)
+void *create_gauge_with_selection_menu(s32 context)
 {
     void *owner;
     S_80050BA4_s1 *object;
@@ -58,11 +58,11 @@ void *func_80050BA4(s32 context)
     if (object != 0) {
         state = (S_80050BA4_sub *) (((u8 *) object) + 0x20);
         state->field_0xA0 = owner;
-        if (func_80050AF0(state, 0x11) != 0) {
+        if (allocate_selection_menu_entry_buffers(state, 0x11) != 0) {
             object->field_0xC = &object->field_0x78;
-            state->field_0x64 = func_80050B7C(state->field_0x68);
+            state->field_0x64 = link_seventeen_indexed_entries(state->field_0x68);
             init_gauge_object(state, (void *) context);
-            object->field_0x10 = (void *) func_80050694;
+            object->field_0x10 = (void *) invoke_leading_object_callback;
             resource = create_animated_selection_menu((void *) 2);
             state->field_0x28 = resource;
             if (resource != 0) {

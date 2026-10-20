@@ -8,7 +8,7 @@ static inline s32 movie_skip_requested(s32 buttons,s32 previous) {
     return requested;
 }
 
-s32 func_8017719C(s32 unused,s32 frame_limit,s32 stream,s32 mode) {
+s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 mode) {
     MovieDisplayEnv display;
     MovieDrawEnv draw;
     s32 fade_started = 0;
@@ -21,10 +21,10 @@ s32 func_8017719C(s32 unused,s32 frame_limit,s32 stream,s32 mode) {
     D_801781D0 = 0;
     D_80189390 = (MovieState *)D_80189398;
     func_8006124C(stream,D_80189398);
-    if (mode) func_80176BEC((MovieBuffer *)((u8 *)D_80189390 + 4),0,0,0,240);
-    else func_80176BEC((MovieBuffer *)((u8 *)D_80189390 + 4),0,0,0,224);
-    func_80176B60(D_80189390,func_80176CA8);
-    if (func_80176E90((u8 *)D_80189390 + 4)) {
+    if (mode) initialize_movie_frame_buffers((MovieBuffer *)((u8 *)D_80189390 + 4),0,0,0,240);
+    else initialize_movie_frame_buffers((MovieBuffer *)((u8 *)D_80189390 + 4),0,0,0,224);
+    initialize_movie_decoder_and_start_stream(D_80189390,upload_movie_strip_and_advance_buffer);
+    if (decode_next_movie_frame((u8 *)D_80189390 + 4)) {
         func_80066F78(1);
         if (D_80189390->height >= 225) {
             func_80066424(&display,D_80189390->screen[1].x,D_80189390->screen[1].y,D_80189390->screen[1].w,D_80189390->screen[1].h);
@@ -45,8 +45,8 @@ s32 func_8017719C(s32 unused,s32 frame_limit,s32 stream,s32 mode) {
         while (1) {
             configure_decoder_command_flags(D_80189390->frame_buffers[D_80189390->frame_buffer_index],(D_801781E0 & 1) | 2);
             request_decoder_output_dma((s32)D_80189390->output,(D_80189390->strip.w * D_80189390->strip.h) / 2);
-            if (!func_80176E90((u8 *)D_80189390 + 4)) break;
-            func_801770BC((MovieEntity *)((u8 *)D_80189390 + 4),0);
+            if (!decode_next_movie_frame((u8 *)D_80189390 + 4)) break;
+            wait_for_movie_strip_completion((MovieEntity *)((u8 *)D_80189390 + 4),0);
             func_8005FE18(2);
             if (D_80189390->height >= 225) {
                 s32 index = !D_80189390->screen_index;

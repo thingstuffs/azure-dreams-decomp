@@ -5,12 +5,12 @@
 
 typedef volatile u16 SoundRegister16;
 
-extern u16 *D_80079958;
-extern volatile s32 *D_80079968;
-extern s32 D_8007997C;
-extern s32 D_80079980;
-extern s32 D_80079984;
-extern s32 D_80079988;
+extern u16 *spu_registers;
+extern volatile s32 *spu_dma_priority_register;
+extern s32 spu_address_alignment_enabled;
+extern s32 spu_address_unit_shift;
+extern s32 spu_address_alignment;
+extern s32 spu_address_alignment_mask;
 
 void store_u16_table_entry(s32 index, u32 value, s32 apply_shift);
 s32 audio_handle_optionally_aligns_shifts_stores_returns_result(s32 index, u32 value);

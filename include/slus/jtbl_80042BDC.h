@@ -41,21 +41,21 @@ typedef struct S_80042BDC_child {
 
 extern void *D_800E3DF0[32];
 
-extern char D_800E1D55[];
-extern char D_800E1D61[];
-extern char D_800E1D80[];
-extern char D_800E1D9F[];
-extern char D_800E1DCF[];
-extern char D_800E1DEE[];
-extern char D_800E1E0D[];
-extern char D_800E1E32[];
-extern char D_800E1E4B[];
-extern char D_800E1E6A[];
-extern char D_800E1E8C[];
-extern char D_800E1EC1[];
-extern char D_800E1EF7[];
-extern char D_800E1F1C[];
-extern char D_800E1F41[];
+extern char status_end_action_1_text[];
+extern char status_end_action_2_text[];
+extern char status_end_action_3_text[];
+extern char status_end_action_4_text[];
+extern char status_end_action_5_text[];
+extern char status_end_action_6_text[];
+extern char status_end_action_7_text[];
+extern char status_end_action_9_text[];
+extern char status_end_action_10_text[];
+extern char status_end_action_12_text[];
+extern char status_end_action_32_text[];
+extern char status_end_action_21_to_23_text[];
+extern char status_end_action_18_text[];
+extern char status_end_action_19_text[];
+extern char status_end_action_20_text[];
 
 typedef S_80042BDC *(*Ctor_80042BDC)(int a0, int a1, int a2, int a3);
 

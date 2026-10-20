@@ -37,7 +37,7 @@ typedef struct GlobalGeometry_80046884 {
 
 extern s32 ReadGeomScreen(void);
 extern void world_to_local_position(UVec4_80046884 *, SVec4_80046884 *);
-extern s16 func_80046AFC(
+extern s16 intersect_view_ray_with_depth_plane(
     SVec4_80046884 *, SVec4_80046884 *, SVec4_80046884 *, s16);
 extern s32 rsin(s32);
 extern s32 rcos(s32);
@@ -91,7 +91,7 @@ void build_screen_outline(
 
     for (corner_index = 3; corner_index >= 0; corner_index--) {
         world_to_local_position(&corners[corner_index], &transformed_corners[corner_index]);
-        if (func_80046AFC(&geometry->vectors[5], &transformed_corners[corner_index],
+        if (intersect_view_ray_with_depth_plane(&geometry->vectors[5], &transformed_corners[corner_index],
                           &geometry->vectors[corner_index], depth)) {
             use_fallback = 1;
         }

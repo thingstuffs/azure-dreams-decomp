@@ -1,6 +1,6 @@
 #include "modules/ovmovie_game.h"
 
-void func_80176CA8(void) {
+void upload_movie_strip_and_advance_buffer(void) {
     MovieRect rectangle;
     MovieState *movie;
     if (D_801781E0 & 1) {

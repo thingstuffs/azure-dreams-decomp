@@ -12,7 +12,7 @@ void apply_item_effect_at_entity_position();
 void display_item_status_message();
 s32 apply_actor_food_preference();
 s32 try_apply_effect_four_by_chance();
-extern u16 D_800DDE84[];
+extern u16 entity_action_selectors[];
 
 /* Handle item use on a target, deferring the player action or consuming the item. */
 s32 apply_paralysis_item(EntityRec *target, s32 item, s16 use_type) {
@@ -24,7 +24,7 @@ s32 apply_paralysis_item(EntityRec *target, s32 item, s16 use_type) {
     if ((s32)target <= 0x9FFFFFFFU) {
         display_item_status_message(target, item, use_type);
         if (apply_actor_food_preference(target,
-                          (D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] >> 6) & 3,
+                          (entity_action_selectors[(*(u8 *)((u8 *)&target->unk_10 + 3))] >> 6) & 3,
                           0) == 0) {
             apply_item_effect_at_entity_position(target, item);
             return 1;

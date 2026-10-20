@@ -4,7 +4,7 @@
 
 extern s32 cache_value_at_offset_0x24(s32, s32, s32, s32, s32);
 extern void reorder_and_interpolate_selection_menu_entries(void *);
-extern u8 D_80071784[];
+extern u8 selection_menu_animation_keys[];
 
 /* Initializes items using the selected table row, then activates and updates the state. */
 s32 create_animated_selection_menu_entries(void *state) {
@@ -17,7 +17,7 @@ s32 create_animated_selection_menu_entries(void *state) {
 
     item_index = 0;
     if (*(s32 *)((u8 *)state + 0x24) > 0) {
-        table = D_80071784;
+        table = selection_menu_animation_keys;
         slot = state;
 
         do {

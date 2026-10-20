@@ -9,18 +9,18 @@ typedef struct S_80084918 {
     /* 0xE */ s16 fieldE;
 } S_80084918;
 
-extern S_80084918 D_80084918;
-extern s32 D_80073740[];
+extern S_80084918 audio_voice_request;
+extern s32 audio_voice_masks[];
 
 extern s32 func_8005F134(S_80084918 *arg);
 
 /* Fills D_80084918 with an indexed table value and two parameters, then dispatches it. */
 s32 sound_set_indexed_voice_volumes(s32 table_index, s16 field_8_value, s16 field_a_value) {
-    S_80084918 *record = &D_80084918;
+    S_80084918 *record = &audio_voice_request;
     s32 table_value;
 
     record->field4 = 15;
-    table_value = D_80073740[table_index];
+    table_value = audio_voice_masks[table_index];
     record->field8 = field_8_value;
     record->fieldA = field_a_value;
     record->fieldC = 0;

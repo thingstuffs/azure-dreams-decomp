@@ -27,7 +27,7 @@ s32 use_item_to_lower_attack(void *entity, s32 item, s16 action)
 
     if ((u32)entity <= 0x9FFFFFFF) {
         display_item_status_message(entity, item, action);
-        if (apply_actor_food_preference(entity, (D_800DDE84[*((u8 *)entity + 0x13)] >> 6) & 3, 0) == 0) {
+        if (apply_actor_food_preference(entity, (entity_action_selectors[*((u8 *)entity + 0x13)] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(entity, item);
             return 1;
         }

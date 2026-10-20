@@ -14,7 +14,7 @@ void runtime_upload_image_blocks_vram_offsets_selected_tile_block_indices(s32 im
     block_index = 0;
     block_count = num_blocks;
     if ((block_count & 0xFFFF) != 0) {
-        rect = (RECT *)&D_80080B00[4];
+        rect = (RECT *)&sound_idle_vsync_frame_alias[4];
         tile = tile_id & 0xFFFF;
         tile_y_bits = tile << 4;
 loop_0:
@@ -23,13 +23,13 @@ loop_0:
             if ((block_index / 2) != 0) {
                 x += 0x20;
             }
-            D_80080B08 = x;
+            image_block_upload_x = x;
             {
                 s32 y = tile_y_bits & 0x100;
                 if ((block_index & 1) != 0) {
                     y += 0x80;
                 }
-                D_80080B0A = y;
+                image_block_upload_y = y;
             }
             LoadImage(rect, (void *)image_data);
             block_index += 1;
@@ -39,5 +39,5 @@ loop_0:
             goto loop_0;
     }
 }
-s16 D_80080B08 = 0;
-s16 D_80080B0A = 0;
+s16 image_block_upload_x = 0;
+s16 image_block_upload_y = 0;

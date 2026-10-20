@@ -60,7 +60,7 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
     entry_or_body = NULL;
     entry_data = entry_or_body;
     if (entry_index != 0) {
-        entry = D_80082660[entry_index].object;
+        entry = object_index_slots[entry_index].object;
         if (entry != NULL) {
             entry_or_body = entry;
             entry_data = entry->unk_08;

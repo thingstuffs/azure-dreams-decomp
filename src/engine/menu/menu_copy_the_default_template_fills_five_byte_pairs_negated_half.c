@@ -14,7 +14,7 @@ typedef struct {
     u32 words[4];
 } __attribute__((packed)) UnalignedCopy16;
 
-extern Template96 D_8007136C;
+extern Template96 menu_record_default_template;
 
 /* Copies the default template and fills five byte pairs with the value and its negated half. */
 void menu_copy_the_default_template_fills_five_byte_pairs_negated_half(void *unused_ptr, Template96 *dst, u32 value, u32 unused_word) {
@@ -25,16 +25,16 @@ void menu_copy_the_default_template_fills_five_byte_pairs_negated_half(void *unu
     u32 half_value;
 
     dst_bytes = base->bytes;
-    src_bytes = D_8007136C.bytes;
+    src_bytes = menu_record_default_template.bytes;
     if (((u32)base | (u32)src_bytes) & 3) {
-        src_end = src_bytes + sizeof(D_8007136C);
+        src_end = src_bytes + sizeof(menu_record_default_template);
         do {
             *(UnalignedCopy16 *)dst_bytes = *(UnalignedCopy16 *)src_bytes;
             src_bytes += sizeof(UnalignedCopy16);
             dst_bytes += sizeof(UnalignedCopy16);
         } while (src_bytes != src_end);
     } else {
-        src_end = src_bytes + sizeof(D_8007136C);
+        src_end = src_bytes + sizeof(menu_record_default_template);
         do {
             *(Copy16 *)dst_bytes = *(Copy16 *)src_bytes;
             src_bytes += sizeof(Copy16);

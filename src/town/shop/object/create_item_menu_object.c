@@ -3,7 +3,7 @@
 
 
 extern void *allocate_list_node(s32 flags, s32 list_head);
-extern void func_8004DCE0(s32 value);
+extern void set_message_mode(s32 value);
 extern void runtime_call_selected_mode_handler(void);
 extern void start_item_menu_object_processing(void *parameters);
 extern s32 create_item_menu_child_object(void *init_value);
@@ -52,7 +52,7 @@ s32 create_item_menu_object(s32 selector) {
         if (count != 0) {
             state->unk_14 = (count - 1) / 10;
         }
-        func_8004DCE0(1);
+        set_message_mode(1);
         runtime_call_selected_mode_handler();
         result = create_item_menu_child_object(object);
         ((S_800AE324_1 *)object)->unk_20 = result;

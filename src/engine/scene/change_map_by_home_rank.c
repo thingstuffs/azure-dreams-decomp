@@ -7,9 +7,9 @@ typedef struct InputRecord InputRecord;
 
 void change_map(InputRecord *input);
 s32 get_player_homerank();                                /* extern */
-extern M2C_UNK D_8006AFE8[];
+extern M2C_UNK home_rank_primary_map_table[];
 
 /* Pass the selected table entry to change_map. */
 void change_map_by_home_rank(void) {
-    change_map(D_8006AFE8[get_player_homerank()]);
+    change_map(home_rank_primary_map_table[get_player_homerank()]);
 }

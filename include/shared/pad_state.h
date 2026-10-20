@@ -8,7 +8,7 @@ typedef struct PadState {
     /* 0x04 */ int unk_04;
     /* 0x08 */ int pressed;
 } PadState;
-extern PadState D_801379A8;
+extern PadState boot_pad_state;
 
 /* Exact access views shared across registered binary consumers. */
 /* Current, previous and newly pressed controller words rooted at GameWork.buttons. */

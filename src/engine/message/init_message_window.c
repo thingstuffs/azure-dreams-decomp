@@ -2,10 +2,10 @@
 
 #include "common.h"
 
-extern u8 D_8006A86C[];
-extern u8 D_800809C0[];
+extern u8 message_window_object_template[];
+extern u8 message_window_state_data[];
 
-extern void func_8003AB14(void *dest, void *source);
+extern void copy_four_halfword_coordinates(void *dest, void *source);
 extern void update_text_row_scale(u8 *state, u8 value);
 extern void update_message_window(void);
 
@@ -46,13 +46,13 @@ void init_message_window(RuntimeInput *input, u8 mode) {
     u8 initial_value;
 
     object->field80 = (u8 *)input;
-    func_8003AB14(object, D_8006A86C);
+    copy_four_halfword_coordinates(object, message_window_object_template);
     object->field2A = 1;
     object->field24 = 0x20;
     object->field0C = (s16)0xFC;
     object->field08 = 0;
     object->field0A = 0;
-    object->field1C = D_800809C0;
+    object->field1C = message_window_state_data;
     object->field22 = 0;
     object->field20 = 0;
     ((u8 *)object)[0x2E] = 0;

@@ -7,7 +7,7 @@ typedef struct {
     u16 value;
 } State;
 
-extern void func_8003C4C0(void);
+extern void noop_after_fade_ramp_completion(void);
 
 /* Increases the state value by 0x200, clamps it to 0x1000, and switches callbacks at the limit. */
 void ramp_fade_up_slow(Callback *callback, void *unused, State *state) {
@@ -16,5 +16,5 @@ void ramp_fade_up_slow(Callback *callback, void *unused, State *state) {
         return;
     }
     state->value = 0x1000;
-    *callback = func_8003C4C0;
+    *callback = noop_after_fade_ramp_completion;
 }

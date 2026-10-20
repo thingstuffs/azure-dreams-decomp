@@ -1,6 +1,6 @@
 #include "modules/ovmovie_game.h"
 
-s32 func_80176F2C(u8 *display) {
+s32 poll_movie_frame_and_update_dimensions(u8 *display) {
     s32 data;
     FrameInfo *info;
     s32 polls_left = 0x800000;

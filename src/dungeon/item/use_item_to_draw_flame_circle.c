@@ -52,7 +52,7 @@ s32 use_item_to_draw_flame_circle(void *object, s32 value, s16 operation, s32 co
     }
     if ((u32) object <= 0x9FFFFFFFU) {
         display_actor_item_status_message(object, value, operation);
-        if (apply_actor_food_preference(object, D_800DDE84[((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_27] & 3, value) == 0) {
+        if (apply_actor_food_preference(object, entity_action_selectors[((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_27] & 3, value) == 0) {
             apply_item_effect_at_entity_position(object, value);
             return 1;
         }

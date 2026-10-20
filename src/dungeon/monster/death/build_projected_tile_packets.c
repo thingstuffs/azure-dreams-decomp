@@ -114,7 +114,7 @@ void advance_effect_toward_target(void *effect, void *position) {
     }
 }
 
-void func_80170BFC(FadeEffect *effect,EffectMotion *motion) {
+void advance_damped_motion_and_fade_effect(FadeEffect *effect,EffectMotion *motion) {
  s32 red,green,blue;
  s16 remaining;
  motion->x+=motion->dx;
@@ -213,7 +213,7 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
 
     effect = allocate_list_node(0x211, parent);
     if (effect != NULL) {
-        ((S_80BC172C_0 *)effect)->unk_10 = func_80170BFC;
+        ((S_80BC172C_0 *)effect)->unk_10 = advance_damped_motion_and_fade_effect;
         do {
             parent_x = ((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->unk_02;
             ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_02 = (s16) (parent_x + offset_x);

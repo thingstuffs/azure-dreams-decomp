@@ -16,7 +16,7 @@ extern void SetRotMatrix(void *m);
 extern void SetTransMatrix(void *m);
 extern void RotTransSV(void *in, void *out, void *flag);
 extern void DrawPrim(void *p);
-extern u8 D_800777AC[];
+extern u8 scene_sprite_draw_list[];
 
 /* Draw the sprite list as textured quads with optional horizontal and vertical flips. */
 void draw_sprite_list(void)
@@ -48,7 +48,7 @@ void draw_sprite_list(void)
     U16_AT(scratch, 0x74) = 0;
     PushMatrix();
 
-    sprite = D_800777AC;
+    sprite = scene_sprite_draw_list;
     U32_AT(scratch, 0x40) = 0x100;
     U32_AT(scratch, 0x44) = 0xB0;
     U16_AT(scratch, 0x28) = 0;

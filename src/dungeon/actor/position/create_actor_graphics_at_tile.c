@@ -13,7 +13,7 @@ void cycle_map_cell_flags();             /* extern */
 s8 find_active_rect_containing_point();                           /* extern */
 void set_record_integer_tile_center();              /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
-void func_800D2E9C(void *object, void *motion, void *entity);
+void dispatch_actor_actions_and_integrate_gravity(void *object, void *motion, void *entity);
 void advance_actor_status_turn_second(s32 dispatch_arg0, s32 dispatch_arg1, s32 dispatch_arg2, u8 *state);
 s32 process_actor_state_chain(void *state_base, s32 entry_data, Entry *entry);
 extern M2C_UNK D_800DEF08;
@@ -94,7 +94,7 @@ void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16
         graphics->flags = (u16) (graphics->flags | 0xC);
         graphics->tpage_abr = (u16) (graphics->tpage_abr | 0x20);
         graphics->flags = (u16) (graphics->flags | 0x100);
-        ((S_800D2CB4_1 *)object)->unk_10 = &func_800D2E9C;
+        ((S_800D2CB4_1 *)object)->unk_10 = &dispatch_actor_actions_and_integrate_gravity;
         state->unk_8C = &advance_actor_status_turn_second;
         graphics->unk_26 = find_active_rect_containing_point(graphics->unk_24, graphics->unk_25);
         set_record_integer_tile_center(position, graphics->unk_24, graphics->unk_25);

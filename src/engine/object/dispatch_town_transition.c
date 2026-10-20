@@ -38,11 +38,11 @@ extern void load_resource_data(void);
 extern void process_enabled_entries(void);
 extern void town_sd_se_load_init(void);
 
-extern u8 D_800717D0[0x18];
-extern u8 D_800717E8[0x18];
+extern u8 town_movie_callback_list[0x18];
+extern u8 town_transition_callback_list[0x18];
 extern s32 D_8006ADBC[3];
-extern u8 D_8006AEC4[12];
-extern u32 D_80080EA0;
+extern u8 town_transition_map_descriptor[12];
+extern u32 town_scene_resource;
 
 
 /* Handles change_map / chg_map_second_house_sel setup and clears the handled runtime flags. */
@@ -51,8 +51,8 @@ void dispatch_town_transition(void)
     u16 runtime_flags;
     MainMemoryPage *page;
 
-    clear_town_movie_object_field(D_800717D0);
-    clear_town_movie_object_field(D_800717E8);
+    clear_town_movie_object_field(town_movie_callback_list);
+    clear_town_movie_object_field(town_transition_callback_list);
     initialize_circular_list_head();
     initialize_pointer_table_self_links();
     clear_entry_table();
@@ -66,7 +66,7 @@ void dispatch_town_transition(void)
         chg_map_second_house_sel();
         reserve_twch_load(1);
         reserve_tw_mon_load(1);
-        file_load_com(&D_80080EA0);
+        file_load_com(&town_scene_resource);
     } else if (runtime_flags & 0x8000) {
         set_resident_mode_flags(1);
         add_counter_increment_capped();
@@ -80,12 +80,12 @@ void dispatch_town_transition(void)
         }
         reserve_twch_load(1);
         reserve_tw_mon_load(1);
-        file_load_com(&D_80080EA0);
+        file_load_com(&town_scene_resource);
     } else if (runtime_flags & 4) {
         chg_map_second_house_sel();
         reserve_twch_load(1);
         reserve_tw_mon_load(1);
-        file_load_com(&D_80080EA0);
+        file_load_com(&town_scene_resource);
     } else {
         page = (MainMemoryPage *)0x80010000;
         if (runtime_flags & 2) {
@@ -100,13 +100,13 @@ void dispatch_town_transition(void)
             }
             reserve_twch_load(1);
             reserve_tw_mon_load(1);
-            file_load_com(&D_80080EA0);
+            file_load_com(&town_scene_resource);
         } else {
             reset_state_defaults();
             page->red_collar_status = 1;
             copy_record_tail_bytes();
             page->word_2D5C = 0;
-            change_map(D_8006AEC4);
+            change_map(town_transition_map_descriptor);
             reserve_twch_load(0);
             reserve_tw_mon_load(0);
         }

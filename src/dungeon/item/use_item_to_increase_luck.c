@@ -26,7 +26,7 @@ s32 use_item_to_increase_luck(void *entity, s32 event, s16 event_type) {
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, event, event_type);
-        if (apply_actor_food_preference(entity, (D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+        if (apply_actor_food_preference(entity, (entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(entity, event);
             return 1;
         }

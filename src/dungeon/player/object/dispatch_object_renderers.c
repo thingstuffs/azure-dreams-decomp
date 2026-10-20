@@ -20,8 +20,8 @@ typedef struct Entry {
 
 extern s32 is_frame_packet_arena_overflowed(s32);
 
-extern Callback D_80083360[0x20];
-extern Entry *D_800833E0[0x20];
+extern Callback registered_draw_callbacks[0x20];
+extern Entry *registered_draw_objects[0x20];
 extern Callback D_800DCF80[];
 extern u8 D_800E0000[];
 
@@ -38,10 +38,10 @@ void dispatch_object_renderers(void)
 
         register Entry **entry_slot;
 
-        callback_base = D_80083360;
+        callback_base = registered_draw_callbacks;
         special_start = D_800DCF80 + 9;
         callback_slot = callback_base;
-        entry_slot = D_800833E0;
+        entry_slot = registered_draw_objects;
         do {
             callback = *callback_slot;
             if (callback != 0) {
@@ -80,9 +80,9 @@ first_scan:
         for (i = 0; i < 0x20; i++) {
             Callback *special_start = D_800DCF80;
 
-            callback = D_80083360[i];
+            callback = registered_draw_callbacks[i];
             if (callback != 0) {
-                entry_m = D_800833E0[i];
+                entry_m = registered_draw_objects[i];
                 if (entry_m != 0) {
                     if (!(entry_m->flags & 0x800)) {
                         special_scan = special_start + 1;
@@ -108,7 +108,7 @@ first_scan:
                         }
                     }
                 } else {
-                    D_80083360[i] = 0;
+                    registered_draw_callbacks[i] = 0;
                 }
             }
         }
@@ -124,8 +124,8 @@ first_scan:
         s32 stop_dispatch;
 
         slot_index = 0;
-        callback_slot = (Callback *)D_80083360;
-        entry_slot = (Entry **)D_800833E0;
+        callback_slot = (Callback *)registered_draw_callbacks;
+        entry_slot = (Entry **)registered_draw_objects;
 loop_third:
         callback = *callback_slot;
         if (callback != 0) {

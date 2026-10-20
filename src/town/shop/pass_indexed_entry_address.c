@@ -11,5 +11,5 @@ typedef struct S_800ADB30_0 {
 
 /* Pass the indexed four-byte entry address to func_800494B4. */
 void pass_indexed_entry_address(S_800ADB30_0 *entry_table) {
-    func_800494B4(entry_table->unk_20 + (entry_table->unk_04 * 4));
+    select_item_name_table_from_pair_check(entry_table->unk_20 + (entry_table->unk_04 * 4));
 }

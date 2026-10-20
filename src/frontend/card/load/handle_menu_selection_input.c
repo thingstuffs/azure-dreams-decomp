@@ -1,7 +1,7 @@
 #include "common.h"
 
 
-extern s32 D_801379A8;
+extern s32 boot_pad_state;
 extern s32 D_801379B0;
 
 extern s32 func_80058FF0(s32 value, s32 direction, s32 amount);
@@ -33,7 +33,7 @@ void handle_menu_selection_input(void *object)
     s32 repeat_buttons;
     s32 *buttons;
 
-    buttons = &D_801379A8;
+    buttons = &boot_pad_state;
         held_buttons = buttons[0];
     direction = 0;
     if (held_buttons != 0) {
@@ -63,7 +63,7 @@ void handle_menu_selection_input(void *object)
                 repeat_ticks = ((S_80406DA0_0 *)object)->unk_30;
                 if (repeat_ticks >= 13) {
                     (*(s32 *)((u8 *)object + (0x30))) = repeat_ticks - 4;
-                    buttons = &D_801379A8;
+                    buttons = &boot_pad_state;
         repeat_buttons = buttons[0];
                     if (repeat_buttons & 0x1000) {
                         direction = -1;

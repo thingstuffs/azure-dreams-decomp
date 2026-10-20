@@ -16,6 +16,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+from contextlib import contextmanager
 
 from layout_apply import path, rows, plan
 from layout_dependencies import consumer_paths, include_parents
@@ -62,14 +63,21 @@ def recipes(root):
                                       'cell': cell, 'flags': list(flags), 'asflags': []}
         # An inlined member's source is the physical TU itself, not a separate native fragment.
         member_paths.update(x['source'] for x in G.all_members(module) if x['source'] != module['source'])
+    from slus_module_context import module_anchor, partition_context
+    from slus_partitions import load_plan
+    partition_plan = load_plan(root / 'config/slus_partitions.json')
+    partition_parents = {p['id']: p for p in partition_plan}
+    partition_owners = {part['module'] for p in partition_plan for part in p['parts']}
     for module in slus_modules(root):
-        if not module['members']:
-            continue
         source = slus_source(module['source'], root).relative_to(root).as_posix()
-        row = reg[module['members'][0]['id']]
+        row = reg[module_anchor(module, root)['id']]
+        recipe = module['recipe']
         physical[source] = {'kind': 'slus_module', 'container': 'slus', 'cell': row['cell'],
                             'flags': row['flags'].split(), 'asflags': (row.get('row_asflags') or '').split(),
                             'row_id': row['id']}
+        if module['name'] in partition_owners:
+            physical[source].update(cell=recipe['ccver'], flags=recipe['ccflags'].split(),
+                                    asflags=recipe['asflags'].split(), slus_unit=module['source'])
         member_paths.update(slus_source(x['source'], root).relative_to(root).as_posix()
                             for x in module['members']
                             if slus_source(x['source'], root).relative_to(root).as_posix() != source)
@@ -82,7 +90,31 @@ def recipes(root):
         physical[source] = {'kind': 'row', 'container': row['container'], 'cell': row['cell'],
                             'flags': row['flags'].split(), 'asflags': (row.get('row_asflags') or '').split(),
                             'row_id': rid}
+        if rid in partition_parents:
+            physical[source]['slus_unit'] = partition_parents[rid]['source']
     return physical, member_paths
+
+
+@contextmanager
+def compilation_input(root, rel, recipe, workspace):
+    """Select the registered physical stream, including generated SLUS partitions."""
+    root = Path(root).resolve()
+    if 'slus_unit' not in recipe:
+        yield root / rel
+        return
+    from slus_module_context import compilation_sources
+    row = registry(root)[recipe['row_id']]
+    # A partition-only destination is anchored by its real logical parent.
+    candidate = root / row_relative(row, root)
+    units = compilation_sources(row, candidate, workspace, root)
+    selected = [u for u in units if u['source'] == recipe['slus_unit']]
+    if len(selected) != 1:
+        raise ValueError('missing or ambiguous physical partition: ' + rel)
+    unit = selected[0]
+    expected = dict(ccver=recipe['cell'], ccflags=' '.join(recipe['flags']), asflags=' '.join(recipe['asflags']))
+    if unit['recipe'] != expected:
+        raise ValueError('physical partition recipe drift: ' + rel)
+    yield unit['cfile']
 
 
 def command(args, *, cwd, data=None, env=None):
@@ -105,7 +137,10 @@ def capture_one(root, rel, recipe):
         if recipe['container'] == 'slus':
             import verify
             row = registry(root)[recipe['row_id']]
-            out, error = verify._compile_slus_source(row, source, workspace / 'raw', root / 'include', root)
+            row = dict(row, cell=recipe['cell'], flags=' '.join(recipe['flags']),
+                       row_asflags=' '.join(recipe['asflags']))
+            with compilation_input(root, rel, recipe, workspace / 'context') as cfile:
+                out, error = verify._compile_slus_source(row, cfile, workspace / 'raw', root / 'include', root)
             if error:
                 raise ValueError(rel + ': ' + error)
             raw = out.read_bytes()

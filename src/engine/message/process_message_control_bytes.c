@@ -11,8 +11,8 @@ typedef struct RuntimeContext {
 } RuntimeContext;
 
 extern void vm_op_22_return(RuntimeContext *);
-extern void func_8003AD08(s32, u8 *);
-extern u8 *D_8006A944[];
+extern void format_unsigned_double_byte_decimal(s32, u8 *);
+extern u8 *message_control_string_table[];
 
 /* Processes stream control bytes until the next data byte. */
 void process_message_control_bytes(RuntimeContext *ctx) {
@@ -34,7 +34,7 @@ void process_message_control_bytes(RuntimeContext *ctx) {
             call_ptr = ctx->read_ptr;
             ctx->return_ptr++;
             ctx->read_ptr = call_ptr + 1;
-            func_8003AD08(*(s32 *)(base + (call_ptr[1] * 4) + 0x48),
+            format_unsigned_double_byte_decimal(*(s32 *)(base + (call_ptr[1] * 4) + 0x48),
                           ctx->base + 0x14);
             ctx->read_ptr = ctx->base + 0x14;
         } else if (signed_opcode == -2) {
@@ -42,7 +42,7 @@ void process_message_control_bytes(RuntimeContext *ctx) {
             command_ptr = ctx->read_ptr;
             ctx->return_ptr++;
             ctx->read_ptr = command_ptr + 1;
-            ctx->read_ptr = D_8006A944[command_ptr[1]];
+            ctx->read_ptr = message_control_string_table[command_ptr[1]];
         } else if (signed_opcode == -1) {
             *ctx->return_ptr = command_ptr + 5;
             command_ptr = ctx->read_ptr;

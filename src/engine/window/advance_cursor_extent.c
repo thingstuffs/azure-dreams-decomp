@@ -17,7 +17,7 @@ typedef struct S_80036900 {
     void (*handler)(void);
 } S_80036900;
 
-extern void func_80036980(void);
+extern void noop_after_cursor_extent_completion(void);
 extern void unlink_node(void *node);
 
 /* Advances the sub-value, then unlinks the task, switches handlers, and sets its indexed flag past the threshold. */
@@ -26,7 +26,7 @@ void advance_cursor_extent(S_80036900 *state)
     state->sub->value += 0x100;
     if ((s16)state->sub->value >= 0x401) {
         unlink_node((u8 *)state - 0x20);
-        state->handler = func_80036980;
+        state->handler = noop_after_cursor_extent_completion;
         {
             u8 *base;
             u8 *flag;

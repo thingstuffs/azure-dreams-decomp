@@ -25,7 +25,7 @@ s32 feed_egg_to_monster(void *target, s32 item) {
 
     if ((u32) target <= 0x9FFFFFFFU) {
         display_actor_item_status_message(target);
-        type_flags = D_800DDE84[((u8 *) target)[0x13]];
+        type_flags = entity_action_selectors[((u8 *) target)[0x13]];
         if (apply_actor_food_preference(target, (type_flags >> 2) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(target, item);
             return 1;

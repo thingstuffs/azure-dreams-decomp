@@ -3,7 +3,7 @@
 extern s32 DrawSync(s32 mode);
 extern void upload_vram_row_and_cache(void *data, s32 vram, s32 palette, s32 flags);
 
-extern u8 D_8007162C[];
+extern u8 gradient_palette_weights[];
 
 /* Builds and uploads a palette blending three RGB colors. */
 void upload_three_color_gradient_palette(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s32 blend_row, s32 semitrans_end)
@@ -24,7 +24,7 @@ void upload_three_color_gradient_palette(s32 palette_slot, u8 *rgb_start, u8 *rg
     color_index = 1;
     colors[0] = 0;
     weight_scale = 4;
-    weights = &D_8007162C[blend_row * 8];
+    weights = &gradient_palette_weights[blend_row * 8];
     do {
         packed_color = (color_index < semitrans_end) << 15;
         if (color_index < 5) {

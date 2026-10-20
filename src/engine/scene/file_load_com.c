@@ -1,8 +1,8 @@
 #include "common.h"
 
 
-extern s32 D_80081480;
-extern s32 D_8008148C;
+extern s32 gpu_scratch_write_pointer;
+extern s32 gpu_scratch_buffer_base;
 
 typedef struct { u32 word; } PackedLoc;
 
@@ -22,14 +22,14 @@ void file_load_com(void *packed_data)
     DrawSync(0);
     id_or_base = ((PackedLoc *)packed_data)->word & 0x7FFFFF;
     if (id_or_base == 0) {
-        offset_base = D_8008148C;
-        D_80081480 = offset_base;
+        offset_base = gpu_scratch_buffer_base;
+        gpu_scratch_write_pointer = offset_base;
         id_or_base = offset_base;
         target_time = id_or_base + ((((PackedLoc *)packed_data)->word & 0xFF800000) >> 12);
     } else {
-        id_base = D_8008148C;
+        id_base = gpu_scratch_buffer_base;
         id_or_base = id_or_base | 0x80000000;
-        D_80081480 = id_base;
+        gpu_scratch_write_pointer = id_base;
         target_time = id_base;
     }
     Control_CD(6, packed_data, 0);

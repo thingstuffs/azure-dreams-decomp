@@ -12,8 +12,8 @@ typedef struct {
 
 extern void Control_CD(s32 command_code, void *command_ptr, s32 value);
 extern void drain_cd_command_queue(void);
-extern s32 D_80081568;
-extern s32 D_8008156C;
+extern s32 cd_read_command_words;
+extern s32 cd_read_command_second_word;
 
 /* Builds and submits a command from the source fields and packed value. */
 

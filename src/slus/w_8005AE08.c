@@ -9,10 +9,10 @@ typedef struct S_80086C00 {
     u16 field_A;   /* 0xA */
 } S_80086C00;
 
-extern S_80086C00 D_80086C00[8];
+extern S_80086C00 audio_sequence_slots[8];
 
 /* Registers a recognized sequence header in the first free slot, returning its index or -1 on failure. */
-s16 func_8005AE08(void *header, s32 sequence_id)
+s16 allocate_sequence_bank_slot(void *header, s32 sequence_id)
 {
     u32 magic = *(u32 *)header;
     S_80086C00 *slot;
@@ -24,7 +24,7 @@ s16 func_8005AE08(void *header, s32 sequence_id)
     }
     slot_index = 0;
     free_id = -1;
-    slot = D_80086C00;
+    slot = audio_sequence_slots;
     while (slot_index < 8) {
         if (slot->field_0 == free_id) {
             slot->field_4 = (s32)header;

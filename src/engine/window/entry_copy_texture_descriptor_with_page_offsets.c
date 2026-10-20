@@ -21,25 +21,25 @@ typedef struct {
 extern s32 unlink_cursor_when_finished(Func37090Input *);
 extern void copy_texture_descriptor_with_page_offsets(u8 *, u8 *, u8 *);
 
-extern u32 D_8006A958[3];
-extern u32 D_8006A964[3];
-extern u32 D_8006A970[3];
-extern u32 D_8006A97C[32];
-extern u8 D_80082B50[16];
-extern u8 D_80082B60[16];
-extern u8 D_80082B70[16];
+extern u32 blinking_cursor_texture_template_0[3];
+extern u32 blinking_cursor_texture_template_1[3];
+extern u32 blinking_cursor_texture_template_2[3];
+extern u32 texture_descriptor_variant_values[32];
+extern u8 blinking_cursor_texture_descriptor_0[16];
+extern u8 blinking_cursor_texture_descriptor_1[16];
+extern u8 blinking_cursor_texture_descriptor_2[16];
 
 /* Updates lookup data and selects the current entry's table value and blinking color. */
-void func_80037090(Func37090Input *state, void *context, Func37090Output *output) {
+void update_blinking_cursor_with_dark_idle(Func37090Input *state, void *context, Func37090Output *output) {
     u8 entry;
 
     if (unlink_cursor_when_finished(state) != 0) {
         return;
     }
 
-    copy_texture_descriptor_with_page_offsets(state->base + 0xC, (u8 *)D_8006A958, D_80082B50);
-    copy_texture_descriptor_with_page_offsets(state->base + 0xC, (u8 *)D_8006A964, D_80082B60);
-    copy_texture_descriptor_with_page_offsets(state->base + 0xC, (u8 *)D_8006A970, D_80082B70);
+    copy_texture_descriptor_with_page_offsets(state->base + 0xC, (u8 *)blinking_cursor_texture_template_0, blinking_cursor_texture_descriptor_0);
+    copy_texture_descriptor_with_page_offsets(state->base + 0xC, (u8 *)blinking_cursor_texture_template_1, blinking_cursor_texture_descriptor_1);
+    copy_texture_descriptor_with_page_offsets(state->base + 0xC, (u8 *)blinking_cursor_texture_template_2, blinking_cursor_texture_descriptor_2);
 
     {
         u8 *entries = state->base + 0x4C;
@@ -61,5 +61,5 @@ void func_80037090(Func37090Input *state, void *context, Func37090Output *output
         output->color = 0;
     }
 
-    output->table_value = D_8006A97C[((entry & 0x7F) + state->table_index)];
+    output->table_value = texture_descriptor_variant_values[((entry & 0x7F) + state->table_index)];
 }

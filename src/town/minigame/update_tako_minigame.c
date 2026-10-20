@@ -33,7 +33,7 @@ extern void clear_resident_bit(s32);
 extern void set_resident_bit(s32);
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void clear_alternate_texture_regions(s32);
-extern void func_80048568(s32);
+extern void load_default_object_palette(s32);
 extern void SD_Call(s32);
 extern s32 rand(void);
 extern void initialize_global_player_object(void);
@@ -60,7 +60,7 @@ void update_tako_minigame(TownState *state)
         break;
 
     case 0:
-        func_80048568(5);
+        load_default_object_palette(5);
         initialize_global_player_object();
         state->state = 1;
         /* Fall through to the camera phase. */

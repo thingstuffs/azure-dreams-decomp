@@ -839,7 +839,7 @@ s32 func_801721B4(void *entity_arg, void *primary_context_arg, void *secondary_c
     return result;
 }
 
-void func_801722F8(void *state, s32 unused, s32 source, s32 target) {
+void finish_actor_tile_move_then_dispatch_transition(void *state, s32 unused, s32 source, s32 target) {
     if (update_actor_movement_to_tile() != 0) {
         reduce_actor_food_meter(target, 4);
         advance_status_timers(target);
@@ -854,7 +854,7 @@ void func_801722F8(void *state, s32 unused, s32 source, s32 target) {
     }
 }
 
-void func_8017238C(Resource16CallbackState *state, void *entity, void *position, void *graphic)
+void finish_linked_actor_motion_and_floor_trap_then_dispatch_transition(Resource16CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
@@ -1211,7 +1211,7 @@ void func_80172CF8(void *state, void *motion, void *position, void *actor)
     advance_actor_removal(state, motion, position, actor);
 }
 
-void func_80172D18(Resource16CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_hop_and_grow_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
         state->callback = update_actor_state_and_dispatch_transition;
@@ -1452,7 +1452,7 @@ void func_80173468(R16_80173468_Actor *actor, s32 action, R16_80173468_Entity *e
     }
 }
 
-void func_80173530(Resource16CallbackState *state, void *entity, void *position, void *graphic)
+void finish_thrown_actor_travel_and_floor_trap_then_dispatch_transition(Resource16CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
@@ -1461,35 +1461,35 @@ void func_80173530(Resource16CallbackState *state, void *entity, void *position,
     }
 }
 
-void func_80173594(Resource16CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_terrain_interpolation_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
         state->callback = update_actor_state_and_dispatch_transition;
     }
 }
 
-void func_801735CC(Resource16CallbackState *state, void *motion, void *position, void *actor)
+void finish_spinning_actor_fall_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
         state->callback = update_actor_state_and_dispatch_transition;
     }
 }
 
-void func_80173604(Resource16CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_action_flag_propagation_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor)) {
         state->callback = update_actor_state_and_dispatch_transition;
     }
 }
 
-void func_8017363C(Resource16CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_fade_in_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
         state->callback = update_actor_state_and_dispatch_transition;
     }
 }
 
-void func_80173674(Resource16CallbackState *state, void *motion, void *position, void *actor)
+void finish_actor_floor_trap_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
         state->callback = update_actor_state_and_dispatch_transition;

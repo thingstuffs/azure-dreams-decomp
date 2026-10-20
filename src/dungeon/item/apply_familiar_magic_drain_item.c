@@ -42,7 +42,7 @@ s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_pa
     if (((u32) ((*(u8 *)((u8 *)&entity->unk_10 + 3)) - 1) < 0x2EU) && ((u32) entity <= 0x9FFFFFFFU)) {
         display_item_status_message(entity, action, action_param);
         saved_flag = ((u32) ((u32)entity->flags1C) >> 3) & 1;
-        if (apply_actor_food_preference(entity, (D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+        if (apply_actor_food_preference(entity, (entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(entity, action);
             return 1;
         }

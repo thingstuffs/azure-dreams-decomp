@@ -7,7 +7,7 @@
 #include "records/Rec_func_8008D024_arg0.h"
 
 extern u8 D_800DCFB0[8];
-extern s16 D_800814E8;
+extern s16 transition_runtime_slot_index;
 extern s16 get_entity_effect_value(void *, s32);
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
 extern s16 lookup_definition_pair_value(u8, u8);
@@ -31,8 +31,8 @@ void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, Sp
     tile_type = lookup_definition_pair_value(entity->unk_24, entity->unk_25);
     if (tile_type == 3) {
         slot_index = reserve_runtime_slot(6, 0x20);
-        D_800814E8 = slot_index;
-        D_80083120[slot_index].unk_6 = 1;
+        transition_runtime_slot_index = slot_index;
+        runtime_transition_slots[slot_index].unk_6 = 1;
         state->unk_9B.as_s8 = 0x10;
         return;
     }

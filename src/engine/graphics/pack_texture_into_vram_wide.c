@@ -8,11 +8,11 @@ void pack_texture_into_vram_wide(S_80047338_hdr *texture, S_80047338_rec *record
     u32 unsigned_width;
     s32 width_words;
 
-    if (g_game_work.unk_004 != D_8008151E) {
-        D_8008151C = 0;
-        D_8008151A = 0;
-        D_80081518 = 0;
-        D_8008151E = g_game_work.unk_004;
+    if (g_game_work.unk_004 != wide_texture_pack_generation) {
+        wide_texture_pack_column_width = 0;
+        wide_texture_pack_y = 0;
+        wide_texture_pack_x = 0;
+        wide_texture_pack_generation = g_game_work.unk_004;
     }
 
     width_words = (texture->unkA + 3) / 4;
@@ -20,38 +20,38 @@ void pack_texture_into_vram_wide(S_80047338_hdr *texture, S_80047338_rec *record
 
     rect.unk06 = (s16)(texture->unkB + 1);
 
-    if ((D_8008151A + rect.unk06) >= 0x100) {
-        D_8008151A = 0;
-        D_80081518 += D_8008151C;
+    if ((wide_texture_pack_y + rect.unk06) >= 0x100) {
+        wide_texture_pack_y = 0;
+        wide_texture_pack_x += wide_texture_pack_column_width;
     }
 
     unsigned_width = (u32)width_words;
 
-    if ((D_80081518 + width_words) >= 0x40) {
-        if (D_8008151C) {
-            D_8008151C = 0;
-            D_8008151A = 0;
-            D_80081518 = 0;
+    if ((wide_texture_pack_x + width_words) >= 0x40) {
+        if (wide_texture_pack_column_width) {
+            wide_texture_pack_column_width = 0;
+            wide_texture_pack_y = 0;
+            wide_texture_pack_x = 0;
         } else {
-            D_8008151C = 0;
-            D_8008151A = 0;
-            D_80081518 = 0;
+            wide_texture_pack_column_width = 0;
+            wide_texture_pack_y = 0;
+            wide_texture_pack_x = 0;
         }
     }
-    if (D_8008151C < unsigned_width) {
-        D_8008151C = (u16)width_words;
+    if (wide_texture_pack_column_width < unsigned_width) {
+        wide_texture_pack_column_width = (u16)width_words;
     }
 
-    rect.unk00 = D_80081518 + ((texture->unk4 << 6) & 0x3C0);
-    rect.unk02 = D_8008151A + ((texture->unk4 << 4) & 0x100);
+    rect.unk00 = wide_texture_pack_x + ((texture->unk4 << 6) & 0x3C0);
+    rect.unk02 = wide_texture_pack_y + ((texture->unk4 << 4) & 0x100);
 
-    texture->unk8 = *(u8 *)&D_80081518 << 2;
-    texture->unk9 = *(u8 *)&D_8008151A;
-    D_8008151A += rect.unk06;
+    texture->unk8 = *(u8 *)&wide_texture_pack_x << 2;
+    texture->unk9 = *(u8 *)&wide_texture_pack_y;
+    wide_texture_pack_y += rect.unk06;
 
-    func_80047270((void *)((u8 *)record->unkC + data_offset), &rect);
+    decode_upload_image_from_wrapping_buffer((void *)((u8 *)record->unkC + data_offset), &rect);
 }
-u16 D_80081518 = 0;
-u16 D_8008151A = 0;
-u16 D_8008151C = 0;
-u16 D_8008151E = 0;
+u16 wide_texture_pack_x = 0;
+u16 wide_texture_pack_y = 0;
+u16 wide_texture_pack_column_width = 0;
+u16 wide_texture_pack_generation = 0;

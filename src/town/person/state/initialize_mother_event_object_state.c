@@ -9,7 +9,7 @@ extern u8 D_800D6110[];
 void initialize_mother_event_object_state(void *object, s32 unused, s32 initializationArg) {
     *(s32 *)((u8 *)object + 0xA0) = 0;
     initialize_object_entries(object, initializationArg, D_800D6110);
-    D_80082660[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
+    object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
     *(void **)((u8 *)object + 0x54) = D_800C81E4;
     *(s16 *)((u8 *)object + 0x6C) = 0x62;
 }

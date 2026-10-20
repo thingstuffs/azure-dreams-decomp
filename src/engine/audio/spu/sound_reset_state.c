@@ -3,59 +3,59 @@
 
 
 /* Resets SPU playback state and initializes voice sentinels for the master channel. */
-void func_8005CA90(s32 channel)
+void reset_spu_runtime_and_start_event_service(s32 channel)
 {
     s32 saved_channel = channel;
     s32 channel_value;
     s32 voice_index;
 
     ResetCallback(channel);
-    func_8005CC04(saved_channel);
+    initialize_spu_registers_and_voices(saved_channel);
 
     if (saved_channel == 0) {
         u16 sentinel = 0xC000;
         for (voice_index = 23; voice_index >= 0; voice_index--) {
-            D_80079520[voice_index] = sentinel;
+            spu_voice_sample_notes[voice_index] = sentinel;
         }
     }
 
-    func_8005CB88();
+    start_spu_dma_event_service();
 
-    channel_value = D_800799C0[0];
+    channel_value = spu_reverb_start_addresses[0];
 
-    D_800794F8 = 0;
-    D_800794FC = 0;
-    D_80079508 = 0;
-    D_8007950C = 0;
-    D_8007950E = 0;
-    D_80079510 = 0;
-    D_80079514 = 0;
-    D_80079500 = (u32)channel_value;
+    spu_reverb_enabled = 0;
+    spu_reverb_range_override = 0;
+    spu_reverb_mode = 0;
+    spu_reverb_depth_left = 0;
+    spu_reverb_depth_right = 0;
+    spu_reverb_delay = 0;
+    spu_reverb_feedback = 0;
+    spu_reverb_start_address = (u32)channel_value;
 
     store_u16_table_entry(0xD1, channel_value, 0);
 
-    D_800799B4 = 0;
+    spu_ram_block_record_count = 0;
     D_800799B8 = 0;
-    D_800799BC = 0;
-    D_800794F4 = 0;
-    D_80079974 = 0;
-    D_800794F0 = 0;
-    D_8007951C = 0;
-    D_80079518 = 0;
-    D_80079950 = 0;
+    spu_ram_block_records = 0;
+    spu_transfer_completion_override = 0;
+    spu_transfer_uses_fifo = 0;
+    spu_active_voice_mask = 0;
+    spu_register_dirty_flags = 0;
+    spu_buffered_voice_mask = 0;
+    spu_register_buffer_flags = 0;
 }
 
 /* Records and returns whether enabled and the stored pointer has no matching entry. */
-s32 func_8005E450(s32 enabled) {
+s32 set_reverb_address_available(s32 enabled) {
     s32 check_result;
 
     if (enabled != 0) {
-        check_result = func_8005D9DC(D_80079500);
+        check_result = func_8005D9DC(spu_reverb_start_address);
         if (check_result == 0) {
-            D_800794FC = 1;
+            spu_reverb_range_override = 1;
             return 1;
         }
     }
-    D_800794FC = 0;
+    spu_reverb_range_override = 0;
     return 0;
 }

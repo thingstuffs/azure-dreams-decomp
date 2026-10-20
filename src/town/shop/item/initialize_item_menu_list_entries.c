@@ -65,7 +65,7 @@ int func_80049E6C(int);
 s32 func_8004DC14();
 s32 get_item_menu_table_entry(s32);
 void animate_item_menu_cursor_transition(void *);
-extern u8 D_80077E84[12];
+extern u8 menu_leaf_template_6[12];
 extern u8 D_80077EF0[12];
 extern u8 D_80077EFC[12];
 
@@ -99,7 +99,7 @@ void initialize_item_menu_list_entries(void *list) {
     s32 row_slot;
     s32 row_index;
 
-    *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_04 = &D_80077E84;
+    *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_04 = &menu_leaf_template_6;
     row_index = 0;
     *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00 = func_80049E6C(((S_800AECA4_0 *)list)->unk_28);
     ((SignedWidgetYView *)(((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00))->unk_04))->unk_0A =

@@ -27,13 +27,13 @@ typedef struct {
     s16 unk06;
 } S_80047270_hdr;
 
-extern void func_80047270(void *a0, S_80047270_hdr *a1);
+extern void decode_upload_image_from_wrapping_buffer(void *a0, S_80047270_hdr *a1);
 
 
-extern u16 D_80081518;
-extern u16 D_8008151A;
-extern u16 D_8008151C;
-extern u16 D_8008151E;
+extern u16 wide_texture_pack_x;
+extern u16 wide_texture_pack_y;
+extern u16 wide_texture_pack_column_width;
+extern u16 wide_texture_pack_generation;
 
 /* Packs a texture into the atlas, decodes its data, and uploads it to VRAM. */
 

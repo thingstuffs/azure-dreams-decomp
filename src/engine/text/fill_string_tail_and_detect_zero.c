@@ -13,7 +13,7 @@ typedef struct Pattern3 {
     s8 b2;
 } Pattern3;
 
-extern PatternSource D_80080B70;
+extern PatternSource string_tail_fill_pattern;
 
 /* Fill from the first zero byte with overlapping patterns; return whether a zero was found. */
 s32 fill_string_tail_and_detect_zero(u8 *buffer, s32 pair_count)
@@ -32,7 +32,7 @@ s32 fill_string_tail_and_detect_zero(u8 *buffer, s32 pair_count)
                 found_zero = 1;
                 if (offset < fill_end) {
                     do {
-                        *(Pattern3 *)(buffer + offset) = *(Pattern3 *)&D_80080B70;
+                        *(Pattern3 *)(buffer + offset) = *(Pattern3 *)&string_tail_fill_pattern;
                         offset += 2;
                     } while (offset < fill_end);
                     found_zero = 1;

@@ -52,7 +52,7 @@ s32 identify_selected_item(EntityRec *entity, s32 action_id, s16 action_type, s3
 
     if ((u32)entity <= 0x9FFFFFFF) {
         display_actor_item_status_message(entity, action_id);
-        if (apply_actor_food_preference(entity, D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, action_id) == 0) {
+        if (apply_actor_food_preference(entity, entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, action_id) == 0) {
             apply_item_effect_at_entity_position(entity, action_id);
             return 1;
         }

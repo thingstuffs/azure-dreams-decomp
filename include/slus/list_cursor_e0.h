@@ -4,7 +4,7 @@
 #include "common.h"
 
 /* Word view of external storage; its complete extent is not established. */
-extern s32 D_80083C68[];
+extern s32 runtime_callback_entries[];
 extern s32 *D_800814E0;
 
 void reset_scene_frame_callback_list(void);

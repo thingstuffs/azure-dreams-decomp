@@ -16,30 +16,30 @@ extern void activate_sequence_slot(s16 a0);
 void handle_audio_status_code(u8 code) {
     switch (code) {
     case 0x71:
-        if (D_800847D0.flags00 & 0x1100) {
-            D_800848F8.unk_08 = 0;
-            func_800552C8();
-            sound_reset_sequence_slot_to_idle(D_800847D0.unk_22);
-            sound_free_sequence_slot(D_800847D0.unk_22);
+        if (sound_playback_state.flags00 & 0x1100) {
+            sound_sequence_task.unk_08 = 0;
+            apply_scaled_sound_slot_volume();
+            sound_reset_sequence_slot_to_idle(sound_playback_state.unk_22);
+            sound_free_sequence_slot(sound_playback_state.unk_22);
         }
-        D_800848F8.unk_04 = 0;
-        D_800847D0.flags00 &= ~0x100;
-        D_800847D0.flags00 &= ~0x1000;
-        D_800847D0.flags04 &= ~2;
-        if (D_800847D0.unk_26 != -1) {
+        sound_sequence_task.unk_04 = 0;
+        sound_playback_state.flags00 &= ~0x100;
+        sound_playback_state.flags00 &= ~0x1000;
+        sound_playback_state.flags04 &= ~2;
+        if (sound_playback_state.unk_26 != -1) {
             start_pending_selection();
         }
         break;
     case 0xE1:
-        if (D_800847D0.flags00 & 0x100) {
-            suspend_sequence_slot(D_800847D0.unk_22);
-            D_800847D0.flags00 = (D_800847D0.flags00 & ~0x100) | 0x1000;
+        if (sound_playback_state.flags00 & 0x100) {
+            suspend_sequence_slot(sound_playback_state.unk_22);
+            sound_playback_state.flags00 = (sound_playback_state.flags00 & ~0x100) | 0x1000;
         }
         break;
     case 0xF1:
-        if (D_800847D0.flags00 & 0x1000) {
-            activate_sequence_slot(D_800847D0.unk_22);
-            D_800847D0.flags00 = (D_800847D0.flags00 & ~0x1000) | 0x100;
+        if (sound_playback_state.flags00 & 0x1000) {
+            activate_sequence_slot(sound_playback_state.unk_22);
+            sound_playback_state.flags00 = (sound_playback_state.flags00 & ~0x1000) | 0x100;
         }
         break;
     }

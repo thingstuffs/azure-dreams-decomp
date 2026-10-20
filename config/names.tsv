@@ -7106,3 +7106,779 @@
 0x80053CFC	func_80053CFC	start_cd_read	owner decisions 65+68; shard:slus_main; src/slus/w_80053CFC_owned.c
 0x80054F9C	func_80054F9C	set_sound_task_priority	owner decisions 65+68; shard:slus_main; src/slus/w_80054F9C_jtbl_owned.c
 0x80057A94	func_80057A94	apply_tone_parameter_command	owner decisions 65+68; shard:slus_main; src/slus/w_80057A94_jtbl_owned.c
+0x80082660	D_80082660	object_index_slots	include/shared/object_index_slots.h: documented resident table of ObjectIndexSlot records indexed by object slot; no length change
+0x800DDE84	D_800DDE84	entity_action_selectors	include/shared/entity_action_selectors.h: halfwords contain the documented two-bit action selectors; no individual selector meanings asserted
+0x80073740	D_80073740	audio_voice_masks	src/engine/audio/sequence/audio_reset_sequence_tracks_and_channels.c: per-voice flags passed to SPU key control and combined across voice walks
+0x800847D0	D_800847D0	sound_playback_state	include/shared/sound_state.h: SoundPlaybackState aggregate shared by request and activation routines
+0x80079958	D_80079958	spu_registers	src/engine/audio/spu/audio_handle_optionally_aligns_shifts_stores_returns_result.c: pointer to the documented SPU register bank; scalar and struct declarations retain their original shapes
+0x80073734	D_80073734	audio_voice_count	src/engine/audio/sequence/audio_reset_sequence_tracks_and_channels.c: bounds the voice reset loop and other active voice walks
+0x80085458	D_80085458	audio_voice_records	src/engine/audio/sequence/audio_reset_sequence_tracks_and_channels.c: voice records traversed with 0x78-byte stride by activation and voice configuration
+0x80079980	D_80079980	spu_address_unit_shift	src/engine/audio/spu/audio_handle_optionally_aligns_shifts_stores_returns_result.c: right shift converts byte addresses to SPU address units; initialized to three
+0x80085F98	D_80085F98	audio_update_guard	src/engine/audio/sequence/open_timer_update_event.c: prevents timer reentry and brackets voice/sequence update operations
+0x80086A40	D_80086A40	audio_bank_slots	src/engine/audio/slots/reset_sound_slots.c: 16 sound bank records reset with marker -1 and freed through sound RAM block operations
+0x80084960	D_80084960	audio_channel_controls	src/engine/audio/sequence/audio_reset_sequence_tracks_and_channels.c: sixteen channel records selected by MIDI channel index
+0x80082E6A	D_80082E6A	runtime_dispatch_mode_alias	include/shared/runtime_dispatch.h: independent symbol for the resource/CD mode at shared dispatch state +0x0A; no absorption into the aggregate
+0x80086C00	D_80086C00	audio_sequence_slots	src/engine/audio/slots/reset_sound_slots.c: independent 12-byte sound slot table reset here and activated by slot index
+0x80079970	D_80079970	spu_transfer_address_units	src/slus/w_8005D1D0.c: latched SPU address compared with the transfer-address register
+0x80080A7C	D_80080A7C	gpu_scratch_ring_size	src/engine/graphics/reset_callbacks_and_clear_vram.c: initialized to 0x38000 and used as the buffer span in scratch allocation bounds
+0x80083D08	D_80083D08	sprite_resource_slots	src/engine/texture/clear_marked_slot_entries.c: six eight-byte resource slots tested and cleared by flags
+0x80084858	D_80084858	sound_stream_task	include/shared/sound_state.h: SoundTask passed by audio stream request routines and scaled with volume_scale[2]
+0x80085FA8	D_80085FA8	audio_sequence_tracks	src/engine/audio/sequence/audio_reset_sequence_tracks_and_channels.c: 32 sequence stream records reset here and consumed by the MIDI/track decoder
+0x80083120	D_80083120	runtime_transition_slots	include/shared/transition_slots.h: eight independent TransitionSlot records allocated by type and serviced by transition callbacks
+0x800848F8	D_800848F8	sound_sequence_task	include/shared/sound_state.h: separate SoundTask used by sequence event dispatch and scaled with volume_scale[1]
+0x800869B4	D_800869B4	audio_sequence_track_count	src/engine/audio/sequence/init_sequence_playback.c: read from sequence header and bounds track state save/restore loops
+0x80079974	D_80079974	spu_transfer_uses_fifo	src/engine/audio/spu/submit_driver_transfer_with_fallback.c: nonzero selects the FIFO transfer routine instead of the DMA command sequence
+0x80079990	D_80079990	spu_transfer_callback	src/slus/w_8005D064.c: callback invoked on transfer completion; all legacy declarations preserved
+0x80085FA4	D_80085FA4	audio_sequence_data_base	src/engine/audio/sequence/audio_initialize_resident_sequence.c: initialized to the resident sequence byte stream base; decoder follows word zero
+0x8006B200	D_8006B200	runtime_resource_directory	src/engine/resource/konami_runtime_gp_count.c: eight-byte pointer pairs selected by resource entry index
+0x8006CE80	D_8006CE80	dispatch_resource_records	src/engine/resource/load_dispatch_entry_files.c: index-selected records shared by file loads, callbacks, audio and VRAM upload
+0x800737A4	D_800737A4	audio_sequence_active	src/engine/audio/sequence/audio_initialize_resident_sequence.c: set after sequence initialization and slot activation
+0x800794EC	D_800794EC	spu_transfer_event_handle	src/engine/audio/spu/sound_event_start.c: OpenEvent result used by completion polling and shutdown
+0x800794F0	D_800794F0	spu_active_voice_mask	src/slus/w_8005E97C.c: ORed on immediate key-on and cleared on immediate key-off
+0x800814D0	D_800814D0	cd_command_read_index	src/slus/w_8003E758.c: queue head incremented modulo 32 after processing command records
+0x800869B0	D_800869B0	audio_sequence_stream_limit	src/engine/audio/sequence/audio_initialize_resident_sequence.c: initialized to 0xC000 and used as the stream bound by marker scanning
+0x801379A8	D_801379A8	boot_pad_state	include/shared/pad_state.h: PadState aggregate whose held and pressed words drive menu repeat; interior pressed-word alias remains distinct
+0x8007382B	D_8007382B	sound_ram_reserve_mode	src/engine/audio/slots/reserve_sound_ram_block.c: byte selects the reserved-size table entry used by sound RAM allocation
+0x80079950	D_80079950	spu_register_buffer_flags	src/slus/w_8005E97C.c: bit zero selects shadow-register writes instead of hardware writes
+0x80079988	D_80079988	spu_address_alignment_mask	src/engine/audio/spu/audio_handle_optionally_aligns_shifts_stores_returns_result.c: bits cleared when rounding the transfer address; initialized to seven
+0x8007998C	D_8007998C	spu_transfer_complete	src/engine/audio/spu/clamp_and_submit_driver_parameter.c: completion polling stores success and subsequent calls test the latched value
+0x80080AD4	D_80080AD4	cd_retry_counters_pending	src/slus/w_8003E758.c: set on recovery work and checked by cd_inc_retry_counters before accounting
+0x80082D58	D_80082D58	fade_manager_state	src/engine/effect/begin_fade_to_black.c: fade manager record receives step callbacks and is unlinked/cleared by clear_fade_manager
+0x800833E0	D_800833E0	registered_draw_objects	src/engine/graphics/dispatch_registered_draw_callbacks.c: 32 object pointers paired with the registered draw callbacks
+0x80084918	D_80084918	audio_voice_request	src/engine/audio/sequence/audio_update_voice_pitch.c: request record filled with voice, command and pitch/volume values before driver submission
+0x80079500	D_80079500	spu_reverb_start_address	src/engine/audio/spu/inline_fn.c: currently selected entry from the reverb start-address table
+0x8007951C	D_8007951C	spu_register_dirty_flags	src/slus/w_8005E97C.c: marks shadow key and register pairs for deferred submission
+0x800799C0	D_800799C0	spu_reverb_start_addresses	src/engine/audio/spu/inline_fn.c: mode-indexed SPU address units used for reverb range and transfer setup
+0x80080A6C	D_80080A6C	runtime_directory_entry_count	src/slus/konami_runtime_directory.c: bounds the key search; initialized to four or one by runtime directory reset
+0x80080B98	D_80080B98	selection_menu_saved_value	src/slus/w_80050E20.c: restored from the selection object during menu destruction
+0x80083958	D_80083958	cd_driver_prefix	include/engine/scene/cd_cohort_types.h: SlusCdDriverPrefix view contains the driver retry counters and flags
+0x80083968	D_80083968	cd_command_records	include/engine/scene/cd_cohort_types.h: 32 queue records indexed by the CD command read/write cursors
+0x80083D98	D_80083D98	script_message_command_words	src/slus/w_8004DCA8.c: command words appended and passed by address to the script record buffer
+0x800869C0	D_800869C0	audio_ram_blocks	src/engine/audio/slots/reset_sound_slots.c: address and size pairs registered by reserve_sound_ram_block
+0x800714A4	D_800714A4	message_mode_handlers	include/slus/message_mode_81550.h: MessageModeHandler array indexed by the message mode word
+0x80073738	D_80073738	audio_master_level	src/engine/audio/sequence/audio_reset_sequence_tracks_and_channels.c: initialized to 127 and read as the master factor by stereo volume calculation
+0x800737C8	D_800737C8	audio_sequence_format	src/engine/audio/sequence/init_sequence_playback.c: switch selects the three sequence header formats
+0x8007382C	D_8007382C	sound_slot_transfer_cursor	src/engine/audio/slots/read_sound_slot_chunk.c: offset into the selected sound slot data; advances after each transferred chunk
+0x800794F4	D_800794F4	spu_transfer_completion_override	src/engine/audio/spu/clamp_and_submit_driver_parameter.c: value one makes completion polling return success without consulting the completion event
+0x800794F8	D_800794F8	spu_reverb_enabled	src/engine/audio/spu/spu_attr.c: mirrors SPU control bit seven and is returned by the reverb enable routine
+0x800794FC	D_800794FC	spu_reverb_range_override	src/engine/audio/spu/spu_attr.c: latched override permits reverb enabling despite the range occupancy check
+0x80079518	D_80079518	spu_buffered_voice_mask	src/slus/w_8005E97C.c: ORed and cleared by buffered key-on/key-off requests
+0x80079520	D_80079520	spu_voice_sample_notes	src/engine/audio/spu/jtbl.c: per-voice sample-note values stored and read by SPU voice attribute routines
+0x80079968	D_80079968	spu_dma_priority_register	src/engine/audio/spu/sound_register_helpers.c: dereferenced DMA priority bits for SPU channel setup
+0x8007997C	D_8007997C	spu_address_alignment_enabled	src/engine/audio/spu/audio_handle_optionally_aligns_shifts_stores_returns_result.c: nonzero selects pre-shift address alignment
+0x80079984	D_80079984	spu_address_alignment	src/engine/audio/spu/audio_handle_optionally_aligns_shifts_stores_returns_result.c: divisor and increment used to align transfer addresses; initialized to eight
+0x800799A8	D_800799A8	spu_dma_read_direction	src/slus/w_8005D1D0.c: one selects SPU-to-RAM control and zero selects RAM-to-SPU control
+0x80080ADC	D_80080ADC	cd_event_payload	src/slus/w_8003E4FC.c: event pointer or event field +4 latched by the CD event callback
+0x80081450	D_80081450	cd_command_result	include/engine/scene/cd_state.h: SlusCdResult byte/word union passed to CdSync and CdControl
+0x800814D3	D_800814D3	cd_command_phase	src/slus/w_8003E758.c: dispatcher state byte with idle sentinel 255 and command-specific transition states
+0x800814D4	D_800814D4	cd_command_mode_byte	src/slus/w_8003E758.c: separate mode byte supplied to CD mode commands; values 0x80 and 0x84
+0x80081540	D_80081540	current_sort_rank_table	src/slus/w_8004B08C.c: global pointer assigned the rank table used by the record sorting operation
+0x80083360	D_80083360	registered_draw_callbacks	src/engine/graphics/dispatch_registered_draw_callbacks.c: 32 callbacks invoked with the corresponding object payload and callback arguments
+0x80083C68	D_80083C68	runtime_callback_entries	src/engine/resource/run_runtime_callbacks.c: callback-entry array traversed by runtime callback servicing
+0x800869A8	D_800869A8	audio_sequence_timing_division	src/engine/audio/sequence/init_sequence_playback.c: sequence header timing word used to scale playback timing
+0x80086D4C	D_80086D4C	audio_slot_service_word	src/engine/audio/slots/reset_sound_slots.c: reset to 4096 here; service_audio_timer tests values 1 through 3 before event setup
+0x80086D50	D_80086D50	audio_current_bank_slot	src/engine/audio/sequence/sound_activate_loaded_sequence_slot.c: selected bank index copied from the active sequence slot and used by tone/volume lookup
+0x80086D58	D_80086D58	spu_keyon_shadow	src/slus/w_8005E97C.c: two halfwords queue low/high key-on masks; preserves the larger existing declaration
+0x800331F4	D_800331F4	spu_timeout_format	src/slus/w_8005CC04.c: format argument shared by initialization and FIFO timeout diagnostics
+0x8006A958	D_8006A958	blinking_cursor_texture_template_0	src/engine/window/create_blinking_cursor_object.c: first of three separate source descriptors for the blinking cursor
+0x8006A964	D_8006A964	blinking_cursor_texture_template_1	src/engine/window/create_blinking_cursor_object.c: second blinking-cursor source descriptor
+0x8006A970	D_8006A970	blinking_cursor_texture_template_2	src/engine/window/create_blinking_cursor_object.c: third blinking-cursor source descriptor
+0x8006CD50	D_8006CD50	dispatch_entry_resource_values	src/engine/movie/load_dispatch_entry_files.c: table supplies resource values selected by movie and script dispatch indices
+0x80071784	D_80071784	selection_menu_animation_keys	src/engine/runtime/create_animated_selection_menu_entries.c: three-byte rows shared by selection coordinate and shade interpolation
+0x800737C0	D_800737C0	audio_timer_setup_guard	src/engine/audio/sequence/open_timer_update_event.c: set while root-counter event setup runs and cleared on completion
+0x800737C4	D_800737C4	audio_sequence_timing_word	src/engine/audio/sequence/init_sequence_playback.c: receives the decoded timing division; preserves all existing integer views
+0x80073824	D_80073824	audio_timer_update_enabled	src/engine/audio/sequence/sound_tick_guarded_periodic_update.c: checked before timer work and set by service_audio_timer
+0x8007382A	D_8007382A	audio_force_center_pan	src/engine/audio/sequence/audio_compute_voice_stereo_volumes.c: nonzero overrides the accumulated pan value with 64
+0x80077E84	D_80077E84	menu_leaf_template_6	src/engine/menu/reset_six_object_leaf_records_second.c: separate twelve-byte template assigned to the leaf at object +0x24
+0x80079508	D_80079508	spu_reverb_mode	src/engine/audio/spu/inline_fn.c: mode selects the reverb parameter table and start-address table
+0x8007950C	D_8007950C	spu_reverb_depth_left	src/engine/audio/spu/inline_fn.c: mirrors the depth halfword written to SPU register +0x184
+0x8007950E	D_8007950E	spu_reverb_depth_right	src/engine/audio/spu/inline_fn.c: mirrors the independent depth halfword written to SPU register +0x186
+0x80079510	D_80079510	spu_reverb_delay	src/engine/audio/spu/inline_fn.c: latched delay argument used to compute selected reverb delay parameters
+0x80079514	D_80079514	spu_reverb_feedback	src/engine/audio/spu/inline_fn.c: latched feedback argument used to compute reverb feedback parameters
+0x80079954	D_80079954	spu_event_service_active	src/engine/audio/spu/sound_event_start.c: guards one-time DMA callback registration and event creation
+0x8007995C	D_8007995C	spu_dma_ram_address_register	src/slus/w_8005D1D0.c: dereferenced to program the DMA RAM address
+0x80079960	D_80079960	spu_dma_block_control_register	src/slus/w_8005D1D0.c: dereferenced to write block count and 0x10 block size
+0x80079964	D_80079964	spu_dma_channel_control_register	src/slus/w_8005D1D0.c: dereferenced to start DMA with 0x01000200 or 0x01000201
+0x800799B4	D_800799B4	spu_ram_block_record_count	src/engine/audio/spu/audio_get_whether_non_skipped_block_contains_address_starts_beyond.c: positive count stored when the RAM range-record array is initialized
+0x800799BC	D_800799BC	spu_ram_block_records	src/engine/audio/spu/audio_get_whether_non_skipped_block_contains_address_starts_beyond.c: published head of the flagged SPU RAM range-record array
+0x8008099C	D_8008099C	object_render_cancel_switch	src/engine/object/obj_cancel_sw_set.c: setter argument is stored here and rendering/registration checks read it
+0x80080AD2	D_80080AD2	cd_command_poll_ticks	src/slus/w_8003E758.c: increments while polling and low two bits control periodic CD work
+0x80080AD8	D_80080AD8	cd_read_sync_result	src/slus/w_8003E758.c: receives CdReadSync result and is tested for pending, complete and error values
+0x800814CC	D_800814CC	cd_read_tail_word_address	src/slus/w_8003E758.c: last word address of the CD sector range; checked for the 0x1012 high-halfword marker
+0x800814D1	D_800814D1	cd_command_write_index	src/engine/cd/enqueue_cd_command_record.c: next free ring index; increments modulo 32 after queue insertion
+0x8008152C	D_8008152C	runtime_texture_resource_handle	src/engine/texture/runtime_no_op_callback.c: stores the upload result or resource pointer and is returned by address
+0x80082040	D_80082040	menu_choice_display_data	src/engine/window/init_menu_choice_object.c: shared display-data argument to the cursor display/color constructors
+0x80082538	D_80082538	menu_choice_cursor_storage	src/engine/window/init_menu_choice_object.c: shared cursor storage supplied to the menu choice constructors
+0x80082B50	D_80082B50	blinking_cursor_texture_descriptor_0	src/engine/window/create_blinking_cursor_object.c: destination paired with the first blinking-cursor source descriptor
+0x80082B60	D_80082B60	blinking_cursor_texture_descriptor_1	src/engine/window/create_blinking_cursor_object.c: second destination descriptor also assigned to the blinking sprite
+0x80082B70	D_80082B70	blinking_cursor_texture_descriptor_2	src/engine/window/create_blinking_cursor_object.c: third destination descriptor
+0x80082EC0	D_80082EC0	vram_row_upload_cache	src/engine/graphics/upload_vram_row_and_cache.c: 128-word cache stores packed source addresses and row widths; reset clears all 128 entries
+0x80083858	D_80083858	scene_sprite_x_history	src/engine/scene/shared_slot_state.c: 64 halfword X positions shifted each frame and interpolated for sprite drawing
+0x800838D8	D_800838D8	scene_sprite_y_history	src/engine/scene/shared_slot_state.c: separate 64 halfword Y-position history
+0x80084778	D_80084778	audio_command_queue	src/engine/audio/pop_audio_queue.c: halfword zero holds the bounded queue count and subsequent halfwords hold queued entries
+0x80084864	D_80084864	sound_stream_task_word	include/shared/sound_state.h: independent unsized word alias at SoundTask +12; retains its own relocation identity
+0x80126804	D_80126804	gpu_scratch_ring_buffer	src/engine/graphics/reset_callbacks_and_clear_vram.c: reset installs this same buffer as both ring base and current cursor
+0x80176800	D_80176800	movie_decoder_option_format	src/ovmovie/modules/ovmovie_libpress_storage.c: existing first-byte macro for the bad-option diagnostic string
+0x8017681C	D_8017681C	movie_decoder_input_sync_label	src/ovmovie/modules/ovmovie_libpress_storage.c: existing first-byte macro for the MDEC input-sync diagnostic
+0x8017682C	D_8017682C	movie_decoder_output_sync_label	src/ovmovie/modules/ovmovie_libpress_storage.c: existing first-byte macro for the MDEC output-sync diagnostic
+0x8017683C	D_8017683C	movie_decoder_dma_format	src/ovmovie/modules/ovmovie_libpress_storage.c: existing first-byte macro for the DMA diagnostic format
+0x80176864	D_80176864	movie_decoder_fifo_format	src/ovmovie/modules/ovmovie_libpress_storage.c: existing first-byte macro for the FIFO/status diagnostic format
+0x8017689C	D_8017689C	movie_decoder_timeout_format	src/ovmovie/modules/ovmovie_libpress_storage.c: existing first-byte macro for the timeout diagnostic format
+0x8017823C	D_8017823C	movie_iq_table_header	src/ovmovie/modules/ovmovie_libpress_storage.c: existing byte lvalue macro for the independent inverse-quantization table command
+0x80178240	D_80178240	movie_iq_luma_bytes	src/ovmovie/modules/ovmovie_libpress_storage.c: existing byte-pointer macro for the first quantization matrix
+0x80178280	D_80178280	movie_iq_chroma_bytes	src/ovmovie/modules/ovmovie_libpress_storage.c: existing byte-pointer macro for the second quantization matrix
+0x801782C0	D_801782C0	movie_coefficient_table_header	src/ovmovie/modules/ovmovie_libpress_storage.c: existing byte lvalue macro for the coefficient table command
+0x801782C4	D_801782C4	movie_coefficient_table_bytes	src/ovmovie/modules/ovmovie_libpress_storage.c: existing byte lvalue macro for the coefficient data following its command
+0x8017834C	D_8017834C	movie_mdec_input_dma_address	src/ovmovie/modules/ovmovie_libpress_storage.c: static pointer initialized to DMA channel zero RAM address register
+0x80178350	D_80178350	movie_mdec_input_dma_blocks	src/ovmovie/modules/ovmovie_libpress_storage.c: static pointer initialized to DMA channel zero block control register
+0x80178354	D_80178354	movie_mdec_input_dma_control	src/ovmovie/modules/ovmovie_libpress_storage.c: static pointer initialized to DMA channel zero channel control register
+0x80178358	D_80178358	movie_mdec_output_dma_address	src/ovmovie/modules/ovmovie_libpress_storage.c: static pointer initialized to DMA channel one RAM address register
+0x8017835C	D_8017835C	movie_mdec_output_dma_blocks	src/ovmovie/modules/ovmovie_libpress_storage.c: static pointer initialized to DMA channel one block control register
+0x80178360	D_80178360	movie_mdec_output_dma_control	src/ovmovie/modules/ovmovie_libpress_storage.c: static pointer initialized to DMA channel one channel control register
+0x8017837C	D_8017837C	movie_mdec_data_register	src/ovmovie/modules/ovmovie_libpress_storage.c: static pointer initialized to MDEC command/data register
+0x80178380	D_80178380	movie_mdec_status_register	src/ovmovie/modules/ovmovie_libpress_storage.c: static pointer initialized to MDEC status/control register
+0x80178384	D_80178384	movie_dma_priority_register	src/ovmovie/modules/ovmovie_libpress_storage.c: static pointer initialized to the DMA priority control register
+0x8002D594	D_8002D594	runtime_directory_defaults	src/slus/konami_runtime_w_8003C920.c: 32-byte default directory copied into the live resource directory
+0x80033204	D_80033204	spu_init_timeout_label	src/slus/w_8005CC04.c: diagnostic argument printed when the initialization status poll times out
+0x80033214	D_80033214	spu_fifo_busy_timeout_label	src/slus/w_8005CE98.c: diagnostic argument for the FIFO busy-status polling timeout
+0x80033228	D_80033228	spu_fifo_status_timeout_label	src/slus/w_8005CE98.c: separate diagnostic argument for restoring the pre-transfer status
+0x8006A86C	D_8006A86C	message_window_object_template	src/engine/message/init_message_window.c: template passed with the embedded object to the initialization helper
+0x8006A8B4	D_8006A8B4	message_row_heights	src/engine/message/scroll_message_rows.c: indexed halfword table supplies row height and scaled text row spacing
+0x8006A8F0	D_8006A8F0	window_variant_render_data	src/engine/window/create_window_object.c: variant-indexed pointer table assigned to window appearance data
+0x8006A90C	D_8006A90C	attached_node_variant_data	src/engine/object/initialize_attached_render_node.c: configuration variant selects the render node data pointer
+0x8006A93C	D_8006A93C	window_variant_model_values	src/engine/window/create_window_object.c: halfword values copied into the window model by configuration variant
+0x8006A944	D_8006A944	message_control_string_table	src/engine/message/process_message_control_bytes.c: bytecode operand indexes this table to replace the message read pointer
+0x8006A97C	D_8006A97C	texture_descriptor_variant_values	src/engine/graphics/copy_texture_descriptor_with_page_offsets.c: lookup indexed by descriptor offset plus low seven variant bits
+0x8006A988	D_8006A988	cursor_texture_template_0	src/engine/window/init_cursor_sprite_object.c: first of six distinct source descriptors copied into cursor textures
+0x8006A994	D_8006A994	cursor_texture_template_1	src/engine/window/init_cursor_sprite_object.c: second distinct source descriptor used by cursor initialization and blinking
+0x8006A9A0	D_8006A9A0	cursor_texture_template_2	src/engine/window/init_cursor_sprite_object.c: third distinct source descriptor used by cursor initialization and blinking
+0x8006A9AC	D_8006A9AC	cursor_texture_template_3	src/engine/window/init_cursor_sprite_object.c: fourth distinct source descriptor used by cursor initialization and blinking
+0x8006A9B8	D_8006A9B8	cursor_texture_template_4	src/engine/window/init_cursor_sprite_object.c: fifth distinct source descriptor used by cursor initialization and blinking
+0x8006A9C4	D_8006A9C4	cursor_texture_template_5	src/engine/window/init_cursor_sprite_object.c: sixth distinct source descriptor used by cursor initialization and blinking
+0x8006A9E8	D_8006A9E8	attached_node_default_parameters	src/engine/object/initialize_attached_render_node.c: parameter template copied into an attached render node
+0x8006ADE8	D_8006ADE8	map_change_pending	src/engine/object/change_map.c: set to one and cleared during map change; fallback status reader checks word zero
+0x8006ADEC	D_8006ADEC	map_change_state	src/engine/object/change_map.c: state record receives new map pair and preserves previous pair during transition
+0x8006CDB8	D_8006CDB8	scene_sprite_glyph_ids	src/engine/scene/shared_slot_state.c: 14 identifiers copied into the glyph builder input
+0x8006E6F4	D_8006E6F4	sound_set_resources	src/engine/audio/sound_stream_load.c: table supplies the two resource entries loaded for a sound set
+0x8006E7F0	D_8006E7F0	resource_type_list_layouts	src/engine/effect/runtime_set_list_pointers_from_type_offsets.c: per-type records supply count and four word-scaled list offsets
+0x800714B0	D_800714B0	glyph_code_flags	src/engine/text/decode_glyph_fields.c: byte flags indexed by glyph code; also used to remap flagged string bytes
+0x80071A68	D_80071A68	fade_effect_visual_table	src/engine/effect/init_fade_in_out_effect.c: effect state index selects the visual data word also used during fade updates
+0x8007216C	D_8007216C	message_mode_default_bytes	src/engine/message/read_message_byte.c: message mode indexes the byte installed at buffer +0x3C
+0x80073828	D_80073828	audio_voice_drain_suppressed	src/slus/w_8005ACDC.c: nonzero suppresses the active-voice counter and key-off drain loop
+0x80073830	D_80073830	sound_ram_reserved_sizes	src/engine/audio/slots/reserve_sound_ram_block.c: reserved-size lookup subtracted from SPU RAM upper limit before allocation
+0x8007386C	D_8007386C	attached_node_default_render_data	src/engine/object/initialize_attached_render_node.c: default appearance data assigned before variant selection
+0x80073B54	D_80073B54	window_default_render_data	src/engine/window/create_window_object.c: initial appearance pointer before variant-specific render data is selected
+0x80079550	D_80079550	spu_reverb_clear_buffer	src/slus/w_8005E7E0.c: buffer supplied to repeated DMA writes while clearing a reverb work area
+0x80079998	D_80079998	spu_cold_start_sample	src/slus/w_8005CC04.c: 16 bytes uploaded at SPU cold initialization before voice address setup
+0x800799AC	D_800799AC	spu_dma_ram_address	src/slus/w_8005D1D0.c: latched DMA RAM pointer argument; original volatile declaration and casts retained
+0x800799B0	D_800799B0	spu_dma_block_count	src/slus/w_8005D1D0.c: rounded-up byte count divided by 64 and written to block control
+0x800809B8	D_800809B8	attached_node_initial_word_14	src/engine/object/initialize_attached_render_node.c: initialized packed word copied to attached node state +0x14
+0x800809BC	D_800809BC	attached_node_initial_word_18	src/engine/object/initialize_attached_render_node.c: separate initialized packed word copied to state +0x18
+0x800809C0	D_800809C0	message_window_state_data	src/engine/message/init_message_window.c: shared state-data pointer installed in message and runtime window tasks
+0x80080A85	D_80080A85	scene_skip_vsync	src/engine/scene/render_scene_frame_with_timing.c: zero enables VSync waiting; the alternate frame renderer reads the same flag
+0x80080A89	D_80080A89	shared_sprite_resource_loaded	src/engine/scene/load_shared_resource_once.c: zero permits shared resource loading then changes to one
+0x80080A8C	D_80080A8C	image_load_data_base	src/engine/graphics/run_image_load_commands.c: base added to image-load command offsets to form source addresses
+0x80080AA4	D_80080AA4	scene_sprite_wave_tick	src/engine/scene/shared_slot_state.c: increments each rendered field and drives sine/cosine animation phase
+0x80080AA6	D_80080AA6	scene_sprite_cached_mode	src/engine/scene/shared_slot_state.c: cached mode compared with the shared mode word before starting a fade
+0x80080AA8	D_80080AA8	scene_sprite_fade_ticks	src/engine/scene/shared_slot_state.c: countdown initialized to eight and controls sprite colour fading
+0x80080AAA	D_80080AAA	scene_sprite_last_field	src/engine/scene/shared_slot_state.c: cached VSync field byte prevents drawing twice in one field
+0x80080AAC	D_80080AAC	scene_sprite_list_initialized	src/engine/scene/shared_slot_state.c: zero triggers one-time sprite construction then increments
+0x80080AB0	D_80080AB0	scene_sprite_list_base	src/engine/scene/shared_slot_state.c: holds the first constructed sprite and supplies the drawing loop base
+0x80080ABC	D_80080ABC	camera_shoulder_hold_ticks	src/engine/camera/update_shoulder_button_angle.c: accumulates frame steps while shoulder input is held and is bounded/reset
+0x80080ABE	D_80080ABE	camera_shoulder_repeat_latch	src/engine/camera/update_shoulder_button_angle.c: set on shoulder transitions and cleared after repeat handling
+0x80080AFE	D_80080AFE	cached_vsync_frame_id	src/engine/graphics/update_vsync_frame_id.c: cached frame identifier compared with and updated from the newly sampled value
+0x80080B08	D_80080B08	image_block_upload_x	src/engine/graphics/upload_image_blocks.c: records the X argument supplied to image block upload
+0x80080B0A	D_80080B0A	image_block_upload_y	src/engine/graphics/upload_image_blocks.c: records the separate Y upload argument
+0x80080B10	D_80080B10	sprite_pack_row_cursor	src/engine/sprite/sound_advance_shared_scroll_coordinates.c: row cursor advanced by the maximum row step and used for sprite coordinates
+0x80080B12	D_80080B12	sprite_pack_column_cursor	src/engine/sprite/sound_advance_shared_scroll_coordinates.c: column cursor wraps at 256 and advances by column step
+0x80080B14	D_80080B14	sprite_pack_max_row_step	src/engine/sprite/sound_advance_shared_scroll_coordinates.c: maximum row step accumulated before advancing the row cursor
+0x80080B30	D_80080B30	menu_element_order	src/engine/menu/sound_initialize_ordered_elements.c: four-byte initialized order 1,3,2,4 used to select menu elements
+0x80080B58	D_80080B58	camera_default_rotation_xy	src/engine/camera/state_defaults.c: packed default copied into the view rotation X/Y halfwords at +0xAC
+0x80080B5C	D_80080B5C	camera_default_rotation_tail	src/engine/camera/state_defaults.c: default word copied into view rotation Z and its trailing halfword at +0xB0
+0x80080B60	D_80080B60	camera_default_origin_xy	src/engine/camera/state_defaults.c: packed default copied into view origin X/Y halfwords at +0x94
+0x80080B64	D_80080B64	camera_default_origin_tail	src/engine/camera/state_defaults.c: default word copied into view origin Z and its trailing halfword at +0x98
+0x80080B70	D_80080B70	string_tail_fill_pattern	src/engine/text/fill_string_tail_and_detect_zero.c: small source pattern copied into the padded string tail by both text fillers
+0x80080B80	D_80080B80	primitive_pair_secondary_color	src/engine/graphics/fill_primitive_pair.c: initialized packed colour word copied into the second primitive
+0x80080B84	D_80080B84	primitive_pair_primary_color	src/engine/graphics/fill_primitive_pair.c: separate initialized packed colour word copied into the first primitive
+0x80080B9C	D_80080B9C	scene_texture_data_resource	src/engine/graphics/scene_load_texture_and_data_pair.c: resource descriptor passed to CD control and file_load_com
+0x80080EA0	D_80080EA0	town_scene_resource	src/engine/town/setup_town_scene.c: descriptor passed to file_load_com by town setup and transition dispatch
+0x80081440	D_80081440	current_window_object	src/engine/window/create_window_object.c: receives the object returned by window object allocation
+0x80081448	D_80081448	current_message_window_state	src/engine/message/update_message_window.c: global pointer assigned to the currently serviced message window state
+0x80081460	D_80081460	runtime_resource_load_target	src/engine/resource/konami_runtime_gp_count.c: receives the data pointer immediately before file_load_com
+0x80081500	D_80081500	secondary_transition_slot_index	src/engine/scene/slot_transition_secondary.c: stores the runtime slot allocator result and indexes the transition table
+0x80081518	D_80081518	wide_texture_pack_x	src/engine/graphics/pack_texture_into_vram_wide.c: horizontal placement cursor used to form the upload rectangle and texture U
+0x8008151A	D_8008151A	wide_texture_pack_y	src/engine/graphics/pack_texture_into_vram_wide.c: vertical placement cursor advanced by uploaded rectangle height
+0x8008151C	D_8008151C	wide_texture_pack_column_width	src/engine/graphics/pack_texture_into_vram_wide.c: maximum uploaded word width used when moving to the next column
+0x8008151E	D_8008151E	wide_texture_pack_generation	src/engine/graphics/pack_texture_into_vram_wide.c: cached game work generation; a change resets wide packing cursors
+0x80081520	D_80081520	narrow_texture_pack_x	src/engine/graphics/pack_texture_into_vram_narrow.c: independent narrow-page horizontal placement cursor
+0x80081522	D_80081522	narrow_texture_pack_y	src/engine/graphics/pack_texture_into_vram_narrow.c: independent narrow-page vertical placement cursor
+0x80081524	D_80081524	narrow_texture_pack_column_width	src/engine/graphics/pack_texture_into_vram_narrow.c: maximum uploaded word width for narrow-page column advancement
+0x80081526	D_80081526	narrow_texture_pack_generation	src/engine/graphics/pack_texture_into_vram_narrow.c: cached game work generation; a change resets narrow packing cursors
+0x80081528	D_80081528	loaded_cd_resource_handle	src/engine/cd/load_cd_resource.c: receives the image/resource upload return value and is returned by address
+0x8008154C	D_8008154C	message_output_control_word	src/slus/w_8004DF8C.c: independent output control word set to 0x2300040C before message processing
+0x80081568	D_80081568	cd_read_command_words	src/engine/cd/start_cd_read.c: command buffer receives the source record and is passed to the CD operation
+0x8008156C	D_8008156C	cd_read_command_second_word	src/engine/cd/start_cd_read.c: independently defined second word of the command buffer initialized by start_cd_read
+0x800816C0	D_800816C0	runtime_object_pool	src/engine/object/runtime_find_unused_pool_slot.c: base of the slot walk used to locate an unused runtime object
+0x80081E90	D_80081E90	cursor_texture_descriptor_4	src/engine/window/init_cursor_sprite_object.c: destination paired with cursor_texture_template_4
+0x80081EA0	D_80081EA0	cursor_texture_descriptor_5	src/engine/window/init_cursor_sprite_object.c: destination paired with cursor_texture_template_5
+0x80082B80	D_80082B80	cursor_texture_descriptor_0	src/engine/window/init_cursor_sprite_object.c: destination paired with cursor_texture_template_0
+0x80082B90	D_80082B90	cursor_texture_descriptor_1	src/engine/window/init_cursor_sprite_object.c: destination paired with cursor_texture_template_1 and installed in the sprite
+0x80082BA0	D_80082BA0	cursor_texture_descriptor_2	src/engine/window/init_cursor_sprite_object.c: destination paired with cursor_texture_template_2
+0x80082BB0	D_80082BB0	cursor_texture_descriptor_3	src/engine/window/init_cursor_sprite_object.c: destination paired with cursor_texture_template_3
+0x800830C0	D_800830C0	controller_port_one_reply	src/engine/scene/read_combined_controller_buttons.c: first controller response validated before packing the low button halfword
+0x800830E8	D_800830E8	controller_port_two_reply	src/engine/scene/read_combined_controller_buttons.c: second response independently supplies the high button halfword
+0x80083798	D_80083798	scene_sprite_object_storage	src/engine/scene/shared_slot_state.c: storage advances by 12 bytes per constructed scene glyph sprite
+0x80083960	D_80083960	scene_sprite_mode_word	src/engine/scene/shared_slot_state.c: shared mode word compared with the cached mode to start an eight-tick fade
+0x80083CA8	D_80083CA8	timed_entity_motion_state	src/engine/resource/advance_timed_entity_motion.c: contains countdown and accumulator updated by the timed motion routine
+0x80083E18	D_80083E18	message_conversion_buffer	src/slus/w_8004DF8C.c: character work buffer used as the conversion output and cursor base
+0x80084478	D_80084478	shaded_line_render_templates	src/engine/graphics/init_sixteen_packed_templates.c: 16 initialized render templates also selected by shaded-line effect initialization
+0x80084538	D_80084538	audio_staging_destinations	src/engine/audio/init_audio_staging_buffers.c: four buffer destinations initialized to offsets from the staging arena
+0x80084758	D_80084758	audio_bank_owner_payloads	src/engine/audio/sound_load_pending_bank_slot.c: indexed pointers passed to bind_sound_slot_owner for pending bank entries
+0x800847C0	D_800847C0	audio_staging_spu_offsets	src/engine/audio/init_audio_staging_buffers.c: four SPU offsets paired with staging destinations
+0x80084850	D_80084850	audio_stream_request_count	src/engine/audio/audio_dispatch_stream_request_second.c: increments per dispatched request and is cleared by reset_audio_status
+0x80084878	D_80084878	audio_selection_record_pointers	src/engine/audio/build_record_pointer_table.c: pointer table populated here and indexed by selection and entry during playback
+0x800848FC	D_800848FC	audio_sequence_task_phase	src/engine/audio/start_pending_selection.c: independent task +4 word set to three on pending selection and compared with two by status query
+0x80084904	D_80084904	audio_sequence_task_mode	src/engine/audio/audio_handle_stream_control_event.c: independent task +12 word set to one or two by audio control/setup routines
+0x80085F9C	D_80085F9C	audio_timer_event_handle	src/engine/audio/sequence/open_timer_update_event.c: receives OpenEvent result subsequently passed to EnableEvent and CloseEvent
+0x800869B8	D_800869B8	audio_sequence_multitrack_mode	src/engine/audio/sequence/init_sequence_playback.c: controls whether MIDI repeat operations apply to all tracks
+0x80086BD0	D_80086BD0	spu_register_shadow	src/slus/w_8005E4C4.c: halfword shadow bank read and updated when register buffering is enabled
+0x80086D5C	D_80086D5C	spu_keyoff_low_shadow	src/slus/w_8005E97C.c: low-halfword mask queued for key-off
+0x80086D5E	D_80086D5E	spu_keyoff_high_shadow	src/slus/w_8005E97C.c: high-halfword mask queued for key-off
+0x800E1D55	D_800E1D55	status_end_action_1_text	src/engine/message/end_status_effect_message.c: text-control stream displayed by status-end action one; no guessed status meaning
+0x800E1D61	D_800E1D61	status_end_action_2_text	src/engine/message/end_status_effect_message.c: separate message selected by status-end action two
+0x800E1D80	D_800E1D80	status_end_action_3_text	src/engine/message/end_status_effect_message.c: separate message selected by status-end action three
+0x800E1D9F	D_800E1D9F	status_end_action_4_text	src/engine/message/end_status_effect_message.c: separate message selected by status-end action four
+0x800E1DCF	D_800E1DCF	status_end_action_5_text	src/engine/message/end_status_effect_message.c: separate message selected by status-end action five
+0x800E1DEE	D_800E1DEE	status_end_action_6_text	src/engine/message/end_status_effect_message.c: separate message selected by status-end action six
+0x800E1E0D	D_800E1E0D	status_end_action_7_text	src/engine/message/end_status_effect_message.c: separate message selected by status-end action seven
+0x800E1E32	D_800E1E32	status_end_action_9_text	src/engine/message/end_status_effect_message.c: separate message selected by status-end action nine
+0x800E1E4B	D_800E1E4B	status_end_action_10_text	src/engine/message/end_status_effect_message.c: message selected by status-end action ten after its actor replacement work
+0x800E1E6A	D_800E1E6A	status_end_action_12_text	src/engine/message/end_status_effect_message.c: separate message selected by status-end action twelve
+0x800E1E8C	D_800E1E8C	status_end_action_32_text	src/engine/message/end_status_effect_message.c: separate message selected by status-end action thirty-two
+0x800E1EC1	D_800E1EC1	status_end_action_21_to_23_text	src/engine/message/end_status_effect_message.c: same text-control stream intentionally shared by actions 21 through 23
+0x800E1EF7	D_800E1EF7	status_end_action_18_text	src/engine/message/end_status_effect_message.c: separate message selected by status-end action eighteen
+0x800E1F1C	D_800E1F1C	status_end_action_19_text	src/engine/message/end_status_effect_message.c: separate message selected by status-end action nineteen
+0x800E1F41	D_800E1F41	status_end_action_20_text	src/engine/message/end_status_effect_message.c: separate message selected by status-end action twenty
+0x80119000	D_80119000	cd_resource_primary_buffer	src/engine/cd/load_cd_resource.c: first buffer of the descriptor pair queued for resource loading
+0x80126000	D_80126000	cd_resource_secondary_buffer	src/engine/cd/load_cd_resource.c: separate second buffer passed to descriptor-pair and image upload routines
+0x801DA784	D_801DA784	alternate_frame_ordering_table	src/engine/graphics/init_frame_buffers.c: ordering table cleared independently from the primary frame ordering table
+0x8002D000	D_8002D000	message_window_primary_sync_data	src/engine/message/sync_message_window_state.c: first static data block supplied to message window synchronization
+0x8002D010	D_8002D010	message_window_tail_sync_data	src/engine/message/sync_message_window_state.c: separate static block supplied with state +0xA8
+0x8002D020	D_8002D020	message_window_detail_sync_data	src/engine/message/sync_message_window_state.c: separate static block supplied with state +0x9C
+0x8002D030	D_8002D030	message_window_audio_sync_data	src/engine/message/sync_message_window_data.c: static block paired with the selector-four audio status result
+0x8002D5B4	D_8002D5B4	session_reset_default_block	src/engine/scene/reset_game_state_preserving_session_fields.c: ten-byte template copied into the preserved session state reset destination
+0x8002E950	D_8002E950	menu_object_pointer_order	src/engine/menu/initialize_seventeen_object_pointers.c: index table selects the seventeen menu object pointers initialized by this routine
+0x800330FC	D_800330FC	audio_sequence_header_tag	src/engine/audio/sequence/entry_compare_byte_span.c: four-byte tag compared with sequence bytes during header lookup
+0x80033104	D_80033104	audio_sequence_track_tag	src/engine/audio/sequence/find_sequence_tag.c: separate four-byte tag searched for by the sequence tag scanner
+0x8006A83E	D_8006A83E	sprite_depth_amplitude_table	src/engine/object/runtime_render_linked_textured_sprites.c: table address supplies the amplitude used by the linked textured sprite renderer
+0x8006A847	D_8006A847	sprite_transform_copy_flags	src/engine/object/runtime_render_linked_textured_sprites.c: per-copy byte flags control matrix copying in the sprite renderer
+0x8006A84C	D_8006A84C	sprite_fixed_transform_matrix	src/engine/object/runtime_render_linked_textured_sprites.c: matrix supplied to CompMatrix with each sprite fixed transform
+0x8006A8C8	D_8006A8C8	glyph_vram_column_steps	src/engine/graphics/get_glyph_vram_rectangle.c: spacing-indexed table scales glyph grid X to destination X
+0x8006A8DC	D_8006A8DC	glyph_vram_row_steps	src/engine/graphics/get_glyph_vram_rectangle.c: independent spacing-indexed table scales glyph grid Y
+0x8006A8FC	D_8006A8FC	window_overlay_render_variants	src/engine/window/create_window_overlay_object.c: configuration variant indexes render data for overlay windows
+0x8006A908	D_8006A908	message_mode_row_scale	src/engine/message/update_text_row_scale.c: mode-indexed byte assigned to the text row scale
+0x8006A914	D_8006A914	window_overlay_model_values	src/engine/window/create_window_overlay_object.c: configuration variant selects the value copied into the overlay model at +0x34
+0x8006A934	D_8006A934	cursor_variant_values	src/engine/window/create_cursor_object.c: halfword variant table read while initializing the cursor object
+0x8006A94C	D_8006A94C	resident_bitmap_key_map	src/engine/object/entry_set_resident_bitmap_bit.c: ResidentBitmapEntry table maps a signed key to a bitmap bit value
+0x8006A9D0	D_8006A9D0	cursor_blink_variant_values	src/engine/window/update_cursor_blink_colors.c: lookup indexed by cursor state and descriptor flags during blink updates
+0x8006AA3C	D_8006AA3C	window_overlay_parameter_template	src/engine/window/create_window_overlay_object.c: default window parameters copied into the overlay node
+0x8006AA90	D_8006AA90	script_opcode_handlers	src/slus/konami_runtime_w_80038AB8.c: dispatch table selected by the script bytecode interpreter
+0x8006AC5C	D_8006AC5C	resident_bitmap_words	src/engine/object/entry_test_resident_bitmap_bit.c: indexed words tested by the resident bitmap lookup routine
+0x8006ADB8	D_8006ADB8	user_name_window_value	src/engine/window/set_user_name_win.c: word zero receives the argument in the named user-name window operation
+0x8006AE10	D_8006AE10	map_change_callback	src/engine/object/change_map.c: optional callback invoked with transition state and callback data
+0x8006AE1C	D_8006AE1C	town_movie_descriptor_0	src/engine/town/queue_town_movie_first.c: first distinct descriptor appended by the first movie queue operation
+0x8006AE34	D_8006AE34	town_movie_descriptor_1	src/engine/town/queue_town_movie_second.c: second distinct movie descriptor appended to the shared queue
+0x8006AE4C	D_8006AE4C	town_movie_descriptor_2	src/engine/town/queue_town_movie_third.c: third distinct movie descriptor appended to the shared queue
+0x8006AE64	D_8006AE64	town_movie_descriptor_3	src/engine/town/queue_town_movie_fourth.c: fourth distinct movie descriptor appended to the shared queue
+0x8006AE7C	D_8006AE7C	town_movie_descriptor_4	src/engine/town/queue_town_movie_fifth.c: fifth distinct movie descriptor appended to the shared queue
+0x8006AE94	D_8006AE94	town_movie_resource_descriptor	src/engine/town/queue_town_movie_and_load_resources.c: movie descriptor appended by the resource-loading queue operation
+0x8006AEAC	D_8006AEAC	town_movie_descriptor_5	src/engine/town/queue_town_movie_sixth.c: sixth distinct movie descriptor appended to the shared queue
+0x8006AEC4	D_8006AEC4	town_transition_map_descriptor	src/engine/object/dispatch_town_transition.c: descriptor supplied to change_map by the town transition dispatcher
+0x8006AFDC	D_8006AFDC	second_house_rank_map_table	src/engine/scene/chg_map_second_house_sel.c: home rank indexes the descriptor passed to change_map
+0x8006AFE8	D_8006AFE8	home_rank_primary_map_table	src/engine/scene/change_map_by_home_rank.c: primary home-rank descriptor table passed to change_map
+0x8006AFF4	D_8006AFF4	home_rank_secondary_map_table	src/engine/scene/change_map_by_home_rank_secondary.c: independent secondary home-rank descriptor table
+0x8006B000	D_8006B000	home_rank_tertiary_map_table	src/engine/scene/change_map_by_home_rank_tertiary.c: independent tertiary home-rank descriptor table
+0x8006B008	D_8006B008	runtime_mode_two_values	src/engine/resource/runtime_get_mode_indexed_value.c: three-word value table returned by index when the dispatch mode is two
+0x8006B1A8	D_8006B1A8	resource_sentinel_values	src/engine/resource/find_sentinel_table_value.c: value table queried by the sentinel-based resource lookup
+0x8006B1EC	D_8006B1EC	resource_sentinel_keys	src/engine/resource/runtime_find_sentinel_table_value.c: lookup keys terminated by minus one
+0x8006B220	D_8006B220	resource_directory_upload_rectangles	src/engine/resource/move_entry_to_front.c: two distinct rectangles paired with resource directory image pointers
+0x8006B230	D_8006B230	runtime_pool_service_script	src/engine/object/entry_runtime_store_value_in_shifted_slot_pool.c: script pointer compared with controller state and passed to call_script
+0x8006CD4C	D_8006CD4C	sprite_scaled_depth_word	src/engine/object/runtime_render_linked_textured_sprites.c: receives the sprite depth value scaled left by two
+0x8006CDC8	D_8006CDC8	indexed_resource_packages	src/engine/scene/load_indexed_resource_package.c: table entries passed by index to file_load_com
+0x8006CE44	D_8006CE44	scene_resource_group_records	src/engine/scene/load_scene_resource_group.c: per-type records supply dispatch state and resource data
+0x8006CE6C	D_8006CE6C	scene_resource_group_counts	src/engine/scene/load_scene_resource_group.c: per-type block counts bound the resource loading loop
+0x8006D160	D_8006D160	entity_class_lookup	src/engine/entity/get_entity_class.c: byte table supplying the entity class lookup result
+0x8006E7B4	D_8006E7B4	node_registration_ids	src/engine/node/register_node.c: nonzero registration identifiers compared while searching the registration slots
+0x800710D4	D_800710D4	alternate_texture_clear_rect_0	src/engine/graphics/clear_alternate_texture_regions.c: first rectangle supplied to LoadImage with the zero-filled clear buffer
+0x800710DC	D_800710DC	alternate_texture_clear_rect_1	src/engine/graphics/clear_alternate_texture_regions.c: separate second texture clear rectangle
+0x800710E4	D_800710E4	palette_resource_descriptors	src/engine/scene/load_resource_and_mirror_palette.c: two-dimensional descriptor table indexed before file_load_com
+0x800712AC	D_800712AC	primary_packet_limit_indices	src/engine/entity/is_frame_packet_arena_overflowed.c: indices into the packet-limit value lookup
+0x800712B0	D_800712B0	secondary_packet_limit_indices	src/engine/entity/is_frame_packet_arena_overflowed.c: separate lookup indices into the same packet-limit values
+0x800712FC	D_800712FC	menu_mask_value_records	src/engine/menu/lookup_first_mask_value.c: record table searched for the first matching mask value
+0x8007136C	D_8007136C	menu_record_default_template	src/engine/menu/menu_copy_the_default_template_fills_five_byte_pairs_negated_half.c: complete template copied before menu pair and halfword initialization
+0x800713CC	D_800713CC	item_value_multipliers	src/engine/item/calc_item_value.c: category multiplier index selects this value before item valuation
+0x800713E4	D_800713E4	record_sort_key_weights	src/engine/util/table_handle_compares_two_records_subtracting_key_indexed_table_values.c: record keys index weights whose difference determines sort order
+0x800713F8	D_800713F8	item_name_suffix_texts	src/engine/item/get_item_name_text.c: string table supplies the suffix copied near the item text terminator
+0x80071404	D_80071404	message_appended_suffix	src/slus/w_8004DF8C.c: text passed to strcat after message construction
+0x80071410	D_80071410	glyph_code_values	src/engine/text/decode_glyph_fields.c: word lookup copied into decoded glyph record at +8
+0x8007142C	D_8007142C	resident_byte_lookup_keys	src/engine/util/runtime_lookup_byte_by_key.c: zero-terminated keys matched against the lookup argument
+0x8007147C	D_8007147C	resident_byte_lookup_values	src/engine/util/runtime_lookup_byte_by_key.c: parallel byte values returned at the matching key index
+0x8007162C	D_8007162C	gradient_palette_weights	src/engine/graphics/upload_three_color_gradient_palette.c: eight-entry blend rows selected while constructing a three-colour gradient
+0x80071644	D_80071644	transition_data_resource	src/engine/scene/scene_begin_transition_data_read.c: descriptor supplied to the transition data CD read
+0x8007164C	D_8007164C	transition_texture_resource	src/engine/graphics/scene_begin_transition_texture_read.c: separate descriptor supplied to the transition texture CD read
+0x80071654	D_80071654	effect_state_callbacks	src/engine/effect/pad_both_key_states_clear.c: index-selected callbacks invoked with the effect object header
+0x80071660	D_80071660	object_header_a_default_word_08	src/slus/w_8004EF90.c: constructor A copies this separate default word into object header +8
+0x80071664	D_80071664	object_header_a_default_word_0c	src/slus/w_8004EF90.c: constructor A copies this default word into header +12
+0x80071668	D_80071668	object_header_a_default_word_04	src/slus/w_8004EF90.c: constructor A copies this default word into header +4
+0x8007166C	D_8007166C	object_header_b_default_word_08	src/slus/w_8004EFF4.c: constructor B copies this independent default word into header +8
+0x80071670	D_80071670	object_header_b_default_word_0c	src/slus/w_8004EFF4.c: constructor B copies this independent default word into header +12
+0x80071674	D_80071674	object_header_b_default_word_04	src/slus/w_8004EFF4.c: constructor B copies this independent default word into header +4
+0x80071678	D_80071678	object_header_c_default_word_08	src/slus/w_8004F068.c: constructor C copies this default word into header +8
+0x8007167C	D_8007167C	object_header_c_default_word_0c	src/slus/w_8004F068.c: constructor C copies this default word into header +12
+0x80071680	D_80071680	object_header_c_default_word_04	src/slus/w_8004F068.c: constructor C copies this default word into header +4
+0x80071790	D_80071790	selection_menu_shade_keys	src/engine/menu/interpolate_selection_menu_entry_shade.c: start/end shade values indexed by the selected animation key rows
+0x8007179C	D_8007179C	menu_state_callbacks	src/engine/menu/call_state_callback.c: function pointers invoked with the object header and callback argument
+0x800717B4	D_800717B4	menu_state_callback_flags	src/engine/menu/call_state_callback.c: parallel state-indexed flags checked before callback handling
+0x80071A84	D_80071A84	sixteen_sprite_sequence_source	src/engine/audio/scene_initialize_sixteen_sprite_sequence.c: source pointer installed in the sequence sprite render data
+0x80071E44	D_80071E44	cd_cue_effect_visual_data	src/engine/effect/create_cd_cue_effect.c: visual-data pointer installed into the CD cue effect record
+0x80071FF0	D_80071FF0	color_fade_visual_data	src/engine/effect/init_color_fade_effect.c: visual-data pointer installed into the colour-fade effect settings
+0x80072044	D_80072044	arc_motion_sprite_source	src/engine/graphics/scene_initialize_arc_motion_sprite.c: sprite source passed to the render-state initializer for arc motion
+0x800720AC	D_800720AC	orbit_motion_sprite_source	src/engine/graphics/scene_initialize_orbit_motion_sprite.c: separate sprite source passed to orbit-motion render initialization
+0x800721C0	D_800721C0	script_command_resource_indices	src/engine/script/opcode_29_dispatch_command.c: script table index maps to the dispatch resource directory entry
+0x800737A8	D_800737A8	audio_maintenance_ticks	src/engine/audio/sequence/sound_tick_guarded_periodic_update.c: increments each enabled update and resets after the periodic maintenance threshold
+0x800737D0	D_800737D0	audio_sequence_entry_marker	src/engine/audio/sequence/scan_stream_for_three_byte_marker.c: three bytes compared while finding sequence entries
+0x800737DC	D_800737DC	audio_event_data_counts	src/engine/audio/sequence/dispatch_sequence_event.c: status nibble indexes the number of data bytes consumed for an event
+0x80073AAC	D_80073AAC	window_overlay_default_render_data	src/engine/window/create_window_overlay_object.c: initial appearance-data pointer installed before the configuration variant is applied
+0x80073DC4	D_80073DC4	cursor_sprite_source	src/engine/window/create_cursor_object.c: source record supplied to cursor render initialization
+0x800776FC	D_800776FC	flagged_effect_source_0	src/engine/effect/set_destination_flag_from_source.c: first explicitly recognized SpriteSourceEntry identity that enables the destination flag
+0x80077784	D_80077784	flagged_effect_source_1	src/engine/effect/set_destination_flag_from_source.c: separate recognized SpriteSourceEntry identity checked for the same destination flag
+0x800777AC	D_800777AC	scene_sprite_draw_list	src/engine/graphics/draw_sprite_list.c: base of the sprite list traversed by the scene sprite draw operation
+0x80077E3C	D_80077E3C	menu_leaf_template_0	src/engine/menu/reset_six_object_leaf_records_second.c: first twelve-byte template assigned to one of five indexed leaf records
+0x80077E48	D_80077E48	menu_leaf_template_1	src/engine/menu/reset_six_object_leaf_records_second.c: second independent twelve-byte leaf template
+0x80077E54	D_80077E54	menu_leaf_template_2	src/engine/menu/reset_six_object_leaf_records_second.c: third independent twelve-byte leaf template
+0x80077E60	D_80077E60	menu_leaf_template_3	src/engine/menu/reset_six_object_leaf_records_second.c: fourth independent twelve-byte leaf template
+0x80077E6C	D_80077E6C	menu_leaf_template_4	src/engine/menu/reset_six_object_leaf_records_second.c: fifth independent twelve-byte leaf template
+0x80077E78	D_80077E78	menu_leaf_template_5	src/engine/menu/reset_six_object_leaf_records_second.c: separate twelve-byte template assigned to the leaf at object +0x20
+0x80077F80	D_80077F80	menu_leaf_variant_template_0	src/engine/menu/reset_six_object_leaf_records_second.c: first twelve-byte variant template selected for the leaf at +0x18
+0x80077F8C	D_80077F8C	menu_leaf_variant_template_1	src/engine/menu/reset_six_object_leaf_records_second.c: second twelve-byte variant template selected by the mode condition
+0x80079A10	D_80079A10	spu_reverb_parameter_tables	src/engine/audio/spu/inline_fn.c: per-mode source tables copied before mode, delay and feedback programming
+0x80080994	D_80080994	object_render_rotation_angles	src/engine/object/obj_cancel_sw_set.c: angle vector supplied to RotMatrix in the render cancellation handler
+0x800809A8	D_800809A8	graphics_clear_rectangle_0	src/engine/graphics/reset_graphics_state.c: first independent rectangle cleared with black during graphics reset
+0x800809B0	D_800809B0	graphics_clear_rectangle_1	src/engine/graphics/reset_graphics_state.c: separate second rectangle cleared during graphics reset
+0x80080AB4	D_80080AB4	session_reset_default_pair	src/engine/scene/reset_game_state_preserving_session_fields.c: six-byte initial block copied into the session reset destination
+0x80080AC0	D_80080AC0	primary_mode_resource_table	src/engine/scene/queue_mode_selected_resource_table.c: first resource table selected before queuing mode-specific resources
+0x80080AC8	D_80080AC8	secondary_mode_resource_table	src/engine/scene/queue_mode_selected_resource_table.c: separate alternate table selected by the mode condition
+0x80080B20	D_80080B20	texture_masked_byte_values	src/engine/texture/lookup_masked_byte_table.c: eight-byte lookup copied locally before masked indexing
+0x80080B28	D_80080B28	gradient_rectangle_edge_color	src/engine/graphics/build_tinted_gradient_rect.c: four-byte edge colour copied before constructing the gradient primitive
+0x80080B2C	D_80080B2C	gradient_rectangle_center_color	src/engine/graphics/build_tinted_gradient_rect.c: separate four-byte centre colour template
+0x80080B34	D_80080B34	item_text_checked_fallback_pair	src/engine/sprite/check_fixed_value_pairs.c: fallback string pair selected when check_fixed_value_pairs returns nonzero
+0x80080B40	D_80080B40	item_text_default_fallback_pair	src/engine/sprite/check_fixed_value_pairs.c: separate fallback string pair selected when the check returns zero
+0x80080B68	D_80080B68	script_message_default_record	src/slus/w_8004DCA8.c: default pointer registered into the script message command word stream
+0x80080B6C	D_80080B6C	message_mode_work_buffer	src/slus/w_8004DCEC.c: shared character buffer passed to the selected message-mode handler
+0x80080B88	D_80080B88	panel_primary_primitive_template	src/engine/graphics/init_panel_prims.c: template shared by primitive-pair and gradient-rectangle initialization
+0x80080B90	D_80080B90	panel_gradient_primitive_template	src/engine/graphics/init_panel_prims.c: separate template passed to panel gradient construction
+0x80080BAC	D_80080BAC	scene_paired_texture_resource	src/engine/graphics/scene_load_texture_and_data_pair.c: separate second CD resource descriptor in the texture/data pair loader
+0x80080BB4	D_80080BB4	scene_common_texture_resource_0	src/engine/graphics/scene_load_variant_texture_set.c: first unconditional resource descriptor read by the variant texture-set loader
+0x80080BBC	D_80080BBC	scene_common_texture_resource_1	src/engine/graphics/scene_load_variant_texture_set.c: second unconditional resource descriptor read by that loader
+0x80080BC4	D_80080BC4	scene_common_texture_resource_2	src/engine/graphics/scene_load_variant_texture_set.c: third unconditional resource descriptor read by that loader
+0x80080BCC	D_80080BCC	scene_common_texture_resource_3	src/engine/graphics/scene_load_variant_texture_set.c: fourth unconditional resource descriptor read by that loader
+0x80080BD4	D_80080BD4	scene_variant_texture_resource_0	src/engine/graphics/scene_load_variant_texture_set.c: first separately addressed variant resource descriptor
+0x80080BDC	D_80080BDC	scene_variant_texture_resource_1	src/engine/graphics/scene_load_variant_texture_set.c: second separately addressed variant resource descriptor
+0x80080BE4	D_80080BE4	scene_variant_texture_resource_2	src/engine/graphics/scene_load_variant_texture_set.c: third separately addressed variant resource descriptor
+0x80080BEC	D_80080BEC	scene_variant_texture_resource_3	src/engine/graphics/scene_load_variant_texture_set.c: fourth separately addressed variant resource descriptor
+0x80080BF4	D_80080BF4	scene_variant_texture_resource_4	src/engine/graphics/scene_load_variant_texture_set.c: fifth separately addressed variant resource descriptor
+0x80080BFC	D_80080BFC	scene_variant_texture_resource_5	src/engine/graphics/scene_load_variant_texture_set.c: sixth separately addressed variant resource descriptor
+0x80080C04	D_80080C04	scene_variant_texture_resource_6	src/engine/graphics/scene_load_variant_texture_set.c: seventh separately addressed variant resource descriptor
+0x80080C0C	D_80080C0C	scene_variant_texture_resource_7	src/engine/graphics/scene_load_variant_texture_set.c: eighth separately addressed variant resource descriptor
+0x80080C14	D_80080C14	scene_variant_texture_resource_8	src/engine/graphics/scene_load_variant_texture_set.c: ninth separately addressed variant resource descriptor
+0x80080C50	D_80080C50	shared_sprite_resource_descriptor	src/engine/scene/load_shared_resource_once.c: descriptor read only when the shared resource-loaded flag is clear
+0x80080ED0	D_80080ED0	town_movie_primary_resource	src/engine/town/queue_town_movie_and_load_resources.c: first descriptor supplied to file_load_com after the movie is queued
+0x80080ED8	D_80080ED8	town_movie_secondary_resource	src/engine/town/queue_town_movie_and_load_resources.c: separate second descriptor loaded by the same operation
+0x80080F40	D_80080F40	town_initial_object_resource_0	src/engine/town/init_town_runtime_objects.c: first resource-directory key resolved while creating initial town objects
+0x80080F60	D_80080F60	town_initial_object_resource_1	src/engine/town/init_town_runtime_objects.c: separate second resource-directory key resolved for initial town objects
+0x80081010	D_80081010	town_initial_object_resource_2	src/engine/town/init_town_runtime_objects.c: third resource-directory key resolved by initial town object creation
+0x80081018	D_80081018	town_scene_setup_resource	src/engine/town/setup_town_scene.c: resource-directory key resolved during town scene setup
+0x80081451	D_80081451	cd_location_second_byte_alias	src/slus/w_8003F368.c: independent result-byte alias copied into local CD location byte one; declaration and relocation remain distinct
+0x80081452	D_80081452	cd_location_third_byte_alias	src/slus/w_8003F368.c: independent result-byte alias copied into local CD location byte two
+0x800814B8	D_800814B8	cd_sector_position_result	src/engine/cd/cd_poll_and_get_sector.c: CD Getloc result buffer subsequently passed to CdPosToInt
+0x800814D8	D_800814D8	cd_read_status_bytes	src/slus/w_8003E758.c: result bytes passed to CdReadSync while the command queue advances
+0x80084768	D_80084768	audio_staging_sizes	src/engine/audio/init_audio_staging_buffers.c: four transfer sizes paired with staging destinations
+0x80178364	D_80178364	movie_gpu_dma_address	src/ovmovie/modules/ovmovie_libpress_storage.c: distinct static DMA channel two RAM address register pointer
+0x80178368	D_80178368	movie_gpu_dma_blocks	src/ovmovie/modules/ovmovie_libpress_storage.c: distinct static DMA channel two block control register pointer
+0x8017836C	D_8017836C	movie_gpu_dma_control	src/ovmovie/modules/ovmovie_libpress_storage.c: distinct static DMA channel two channel control register pointer
+0x80178370	D_80178370	movie_cd_dma_address	src/ovmovie/modules/ovmovie_libpress_storage.c: distinct static DMA channel three RAM address register pointer
+0x80178374	D_80178374	movie_cd_dma_blocks	src/ovmovie/modules/ovmovie_libpress_storage.c: distinct static DMA channel three block control register pointer
+0x80178378	D_80178378	movie_cd_dma_control	src/ovmovie/modules/ovmovie_libpress_storage.c: distinct static DMA channel three channel control register pointer
+0x80081480	D_80081480	gpu_scratch_write_pointer	src/engine/resource/reserve_gpu_scratch_tail.c: reset to the buffer base on overlap; reserves against the current write pointer
+0x8008148C	D_8008148C	gpu_scratch_buffer_base	src/engine/resource/reserve_gpu_scratch_tail.c: base address used to reset the write pointer and compute tail reservations
+0x800717D0	D_800717D0	town_movie_callback_list	src/engine/town/queue_town_movie_first.c: list supplied to append_town_movie_list_node; src/slus/code.c passes it to run_deferred_callbacks
+0x80081490	D_80081490	free_node_list_head	src/engine/node/allocate_list_node.c: pop the free head; runtime_reset_object_pool.c initializes the same head
+0x801BEE40	D_801BEE40	sound_stream_primary_marker_address	src/engine/audio/select_marker_table.c: address passed to build_record_pointer_table for marker type 0x21; independently packed into stream resource descriptors
+0x801C4640	D_801C4640	sound_stream_secondary_marker_address	src/engine/audio/select_marker_table.c: separate marker address for type 0x22; retain independent declaration and relocation
+0x8006E704	D_8006E704	sound_stream_resource_entries	src/engine/audio/sound_stream_load.c: entry pointers compared to the two buffered entries and submitted to Control_CD
+0x80080A94	D_80080A94	saved_cd_playback_volume_scale	src/engine/camera/update_shoulder_button_angle.c: saved setting passed to sound_set_cd_playback_volume_scale
+0x80080A98	D_80080A98	saved_sequence_volume_scale	src/engine/camera/update_shoulder_button_angle.c: value passed to sound_set_sequence_volume_scale during the reset combination
+0x80080A9C	D_80080A9C	saved_voice_gain_scale	src/engine/camera/update_shoulder_button_angle.c: value passed to sound_set_voice_gain_scale during the reset combination
+0x80080AF3	D_80080AF3	sound_stream_state_index	src/engine/audio/sound_stream_load.c: signed current state index compared with the requested mode before load_sound_set updates it
+0x80080AF4	D_80080AF4	sound_stream_buffer_entries	include/slus/gp_af3_pair.h: documented two-entry pointer array selected by the toggled stream buffer index
+0x80080AFC	D_80080AFC	sound_stream_buffer_index	src/engine/audio/sound_stream_load.c: selector toggles with XOR one and indexes the two stream buffer entries
+0x800717E8	D_800717E8	town_transition_callback_list	src/engine/object/dispatch_town_transition.c: separately cleared callback list; src/slus/code.c separately runs its deferred callbacks
+0x80081478	D_80081478	frame_packet_limit_pointers	src/engine/entity/is_frame_packet_arena_overflowed.c: buffer-selected pointers supply the packet arena limit checked against current packets
+0x800814E8	D_800814E8	transition_runtime_slot_index	src/engine/scene/slot_transition.c: result of reserve_runtime_slot indexes runtime slot records until the transition completes
+0x8006A91C	D_8006A91C	window_overlay_field_12_values	src/engine/window/create_window_overlay_object.c: independent variant-indexed lookup copied into the render data halfword at +0x12; field meaning unproved
+0x8006A924	D_8006A924	window_overlay_field_2e_values	src/engine/window/create_window_overlay_object.c: independent variant-indexed lookup copied into the render data halfword at +0x2e; field meaning unproved
+0x8006A92C	D_8006A92C	window_overlay_field_36_values	src/engine/window/create_window_overlay_object.c: independent variant-indexed lookup copied into the render data halfword at +0x36; field meaning unproved
+0x8006A948	D_8006A948	resident_bitmap_special_value	src/engine/object/entry_test_resident_bitmap_bit.c: returned for the special bitmap entry index two
+0x8006E61C	D_8006E61C	sound_effect_bank_descriptors	src/engine/audio/audio_load_sound_effect_bank.c: record selected by bank id supplies the load slot and resource descriptor
+0x80080AF0	D_80080AF0	sound_effect_loaded_record_ids	src/engine/audio/audio_load_sound_effect_bank.c: per-slot record id plus one prevents reloading the same sound effect bank
+0x80080B18	D_80080B18	indexed_count_byte_table	src/slus/code2.c: count selects the returned byte after updating the two associated counter bytes
+0x80080B1B	D_80080B1B	indexed_byte_table_count_plus_five	src/slus/code2.c: byte receives count plus five before the indexed byte lookup
+0x80080B1C	D_80080B1C	indexed_byte_table_double_count_plus_five	src/slus/code2.c: separate byte receives twice count plus five before the indexed byte lookup
+0x80080B94	D_80080B94	saved_value_output_enabled	src/slus/code.c: nonzero guard permits passing the saved value instead of zero to func_80050BA4
+0x80080C1C	D_80080C1C	direct_load_resource_descriptor	src/slus/code.c: dedicated descriptor supplied to file_load_com by the no-argument resource-load wrapper
+0x800814F0	D_800814F0	sprite_metadata_read_descriptor	src/engine/graphics/build_sprite_metadata_read_descriptor.c: shared output of pack_tagged_resource_descriptor returned to the caller
+0x800814F8	D_800814F8	sprite_image_read_descriptor	src/engine/graphics/build_sprite_image_read_descriptor.c: independent shared image descriptor returned after packing
+0x80081530	D_80081530	shared_scroll_frame_id	src/engine/sprite/sound_advance_shared_scroll_coordinates.c: stored frame word compared with GameWork frame id before clearing the shared scroll coordinates
+0x80081EB0	D_80081EB0	default_window_model_storage	src/engine/window/create_default_window_object.c: fixed model-storage argument to create_window_object
+0x80081F14	D_80081F14	attached_window_object_storage	src/engine/window/init_window_object.c: fixed attached-object buffer passed to the runtime render-node constructor
+0x80081F78	D_80081F78	scrolling_window_display_storage	src/engine/window/scroll_window_x.c: display buffer passed when constructing the scrolling window overlay
+0x80081FDC	D_80081FDC	triggered_cursor_record_storage	src/engine/window/entry_runtime_reset_state_on_trigger_bits.c: fixed cursor render-record buffer supplied to create_cursor_object
+0x800820A8	D_800820A8	default_window_node_storage	src/engine/window/create_default_window_object.c: independent fixed node-storage argument to create_window_object
+0x800821CC	D_800821CC	attached_window_node_storage	src/engine/window/init_window_object.c: fixed node buffer passed to the runtime render-node constructor
+0x800822F0	D_800822F0	scrolling_window_node_storage	src/engine/window/scroll_window_x.c: independent node buffer passed when constructing the scrolling window overlay
+0x80082414	D_80082414	triggered_cursor_node_storage	src/engine/window/entry_runtime_reset_state_on_trigger_bits.c: independent task buffer supplied to create_cursor_object
+0x80082B4B	D_80082B4B	message_skip_disabled	src/engine/message/mes_skip_disable_set.c: byte receives the skip-disabled argument of mes_skip_disable_set
+0x80082D38	D_80082D38	callback_node_storage	src/engine/effect/create_callback_node.c: storage passed to initialize_scene_object_in_buffer before installing its callback handler
+0x80083CAE	D_80083CAE	timed_entity_motion_delta_alias	src/engine/resource/advance_timed_entity_motion.c: signed motion amount shifted by two and added or subtracted by direction
+0x80083D38	D_80083D38	item_name_suffix_buffer	src/engine/item/get_item_name_text.c: item name copied here before its suffix is replaced and the resulting pointer returned
+0x80084138	D_80084138	menu_backdrop_node_storage	src/engine/menu/create_or_reset_seven_entry_menu_backdrop.c: node body initialized as the seven-entry menu backdrop
+0x8008475C	D_8008475C	sequence_payload_slot_18	src/engine/audio/sound_assign_sequence_payload_slot.c: selector 18 stores the fetched sequence payload into this separate word view
+0x80084760	D_80084760	sequence_payload_slot_20	src/engine/audio/sound_assign_sequence_payload_slot.c: selector 20 stores the fetched sequence payload into this separate word view
+0x80084764	D_80084764	sequence_payload_slot_24	src/engine/audio/sound_assign_sequence_payload_slot.c: selector 24 stores the fetched sequence payload into this separate word view
+0x800847D4	D_800847D4	audio_pending_channel_flags_alias	src/engine/audio/service_audio_channels.c: independent word alias tests the pending channel high-byte flags before processing; preserve standalone declaration
+0x800847DC	D_800847DC	cd_stream_end_sector	src/engine/audio/check_cd_stream_end.c: target compared against sound_get_cd_sector_position before stream end event 0x74
+0x800847EE	D_800847EE	primary_voice_volume_scale_alias	src/engine/audio/sound_start_scaled_primary_and_secondary_voices.c: standalone halfword view multiplied by the global volume scale for the primary voice
+0x800847F0	D_800847F0	sound_stream_marker_index	src/engine/audio/select_marker_table.c: halfword set to zero or one for the two stream marker types
+0x80084810	D_80084810	pending_sound_selection_entries	src/engine/audio/start_pending_selection.c: mode and entry index select the pending sound entry value
+0x80084920	D_80084920	voice_tremolo_left_volume_alias	src/engine/audio/sequence/audio_update_voice_tremolo.c: independent halfword alias receives clamped left volume; preserve its original standalone array declaration
+0x80085014	D_80085014	audio_reset_channel_control_alias	src/engine/audio/sequence/audio_reset_all_voices.c: standalone channel-control view initialized by voice reset; retain independent symbol from audio_channel_controls
+0x80086CC0	D_80086CC0	spu_allocation_record_storage	src/engine/audio/sequence/audio_reset_sequence_subsystem.c: storage passed with count 16 to the SPU block-list initializer func_8005D838
+0x80086D48	D_80086D48	audio_active_sequence_sub_id	src/engine/audio/sequence/sound_activate_loaded_sequence_slot.c: receives the requested sequence sub-id when an occupied slot is activated
+0x8001F584	D_8001F584	floor_generation_track_variant	src/dungeon/func_802864C4.c: resource byte +0x40 chooses the track variant used by setup_run_and_load_track; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F586	D_8001F586	floor_layout_loaded	src/dungeon/func_80285464.c: set after loading a fixed layout; setup_run_and_load_track skips random elevators when this flag is set; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F588	D_8001F588	floor_track_resource_descriptors	src/dungeon/func_80285A70.c: track table_index selects the descriptor supplied to file_load_com; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F594	D_8001F594	floor_variant_resource_descriptors	src/dungeon/func_80285A70.c: variant index selects the resource descriptor supplied to file_load_com; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F604	D_8001F604	floor_layout_resource_descriptors	src/dungeon/func_80285464.c: layout index selects the descriptor passed to Control_CD before decoding the room data; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F62C	D_8001F62C	floor_track_configuration_records	src/dungeon/func_80285A70.c: selected track record supplies track, resource table index, kind, layout argument and special callback index; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F660	D_8001F660	generation_room_columns	src/dungeon/func_80286AF8.c: randomized grid width bounds the room-column loop and supplies the row-major room stride; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F664	D_8001F664	generation_room_rows	src/dungeon/func_80286AF8.c: randomized grid height bounds room-row loops and total room count; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F668	D_8001F668	generation_room_link_count	src/dungeon/func_80286AF8.c: halfword cleared before generation and incremented after storing each linked room pair; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F66A	D_8001F66A	generation_unflagged_room_count	src/dungeon/func_80286AF8.c: counts active generated rooms whose flags field equals zero; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F66C	D_8001F66C	generation_search_turn_offsets	src/dungeon/func_80287768.c: side-indexed signed offsets added to the forward direction during outward search; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F670	D_8001F670	generation_special_feature_placed	src/dungeon/func_8028A4AC.c: guard prevents placing more than one of the selected special room features; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F6A0	D_8001F6A0	generation_search_forward_limit	src/dungeon/func_80287768.c: reduced to the failed radius and bounds forward search steps; reset from room-column count; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F6A4	D_8001F6A4	generation_blocked_direction_marks	src/dungeon/func_80287768.c: per-direction byte marks failed searches; reset_generation_link_scratch clears all four bytes; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F6A8	D_8001F6A8	generation_room_link_pairs	src/dungeon/func_80286AF8.c: independent pair-table view records source and destination room indices for each link; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x8001F6E8	D_8001F6E8	generation_search_side_marks_alias	src/dungeon/func_80287768.c: independent side-and-step-indexed byte view tracks blocked searches; keep its overlap with the link-pair table independent; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x800E2C40	D_800E2C40	generation_region_cell_entries	src/dungeon/func_80285464.c: each room receives a 64-byte slice holding its decoded cell entries; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x800E9FFA	D_800E9FFA	generation_border_cell_base_alias	src/dungeon/func_8028A9CC.c: independent six-byte-cell base used to write rectangular borders; retain its offset from the normal cell-grid base; current native import map: docs/evidence/dungeon_floor_generate.imports.json
+0x80080B00	D_80080B00	sound_idle_vsync_frame_alias	src/engine/audio/wait_until_sound_idle.c: stored VSync frame value updated while waiting; retain the independent larger upload-rectangle view at base plus eight
+0x80080A8A	D_80080A8A	runtime_state_restore_requested	src/engine/entity/runtime_save_or_restore_state.c: nonzero selects restoration of saved state and is cleared after consumption
+0x80081494	D_80081494	runtime_saved_state_word	src/engine/entity/runtime_save_or_restore_state.c: saves and restores the word at runtime page offset 0x3180
+0x800814AC	D_800814AC	runtime_saved_state_byte_04_alias	src/engine/entity/runtime_save_or_restore_state.c: saves and restores the byte at runtime page offset 0x3184; independent larger CD argument view retained
+0x800814A4	D_800814A4	runtime_saved_state_byte_06	src/engine/entity/runtime_save_or_restore_state.c: saves and restores the byte at runtime page offset 0x3186
+0x80081548	D_80081548	message_primary_output_control_word	src/slus/w_8004DF8C.c: first control-word address embedded in the dispatched text and reset to 0x2300030C after the handler
+0x80083D88	D_80083D88	message_embedded_control_words	src/slus/w_8004DE88.c: two consecutive control-word addresses embedded in text and initialized after dispatch
+0x800814B0	D_800814B0	cd_queue_buffered_argument_word_0	src/slus/w_8003F2A4.c: first word copied from a type-six queue argument pair into resident storage before repointing the queue entry
+0x800814B4	D_800814B4	cd_queue_buffered_argument_word_1	src/slus/w_8003F2A4.c: independent second word copied from the same queue argument pair
+0x800D2C70	func_800D2C70	fade_actor_removal_and_decrement_event	(medium) src/dungeon/actor/run_actor_removal_fade.c:6: Runs fade_actor_to_removal; on completion decrements the event counter, otherwise clears the actor halfword at offset 0x12.
+0x800D2E9C	func_800D2E9C	dispatch_actor_actions_and_integrate_gravity	(high) src/dungeon/actor/update_actor_gravity_motion.c:45: Dispatches actor callbacks/state, advances animation and horizontal motion, integrates accelerating fall offset, clips to terrain and updates grounded/render flags.
+0x80024AE8	func_80024AE8	create_shrinking_entry_particle_effect	(medium) src/dungeon/effect/particle/impact.c:745: Allocates a copied-position effect with thirty-tick counters and shrink_effect_and_spawn_particles; the full caller creates it once for matching entries in the selected coordinate/height range.
+0x80025088	func_80025088	advance_rotating_ballistic_particle_and_expire	(high) src/dungeon/effect/particle/impact.c:1078: Advances animation every other tick, rotates the selected axis, integrates fixed-point velocity with vertical acceleration, and removes on sprite end or timer expiry.
+0x800F6070	func_800F6070	update_sprite_from_third_argument	(high) src/dungeon/func_807AE800.c:4: Ignores the first two arguments and forwards the third to the sprite step/texture update helper func_800478B8.
+0x80172694	func_80172694	finish_actor_tile_move_then_initialize_destination	(medium) src/dungeon/func_80A48E94.c:3: Finishes movement, consumes four food and status time, restores destination initialization after positive trap check, and sets the dungeon override halfword to -0x20.
+0x80172728	func_80172728	finish_linked_actor_motion_and_floor_trap_then_initialize_destination	(medium) src/dungeon/func_80A48F28.c:3: Calls update_linked_actor_motion and requires a positive floor-trap check before replacing the handler with initialize_destination_state.
+0x80173D60	func_80173D60	finish_actor_terrain_interpolation_then_initialize_destination	(medium) src/dungeon/func_80A4A560.c:3: Calls interpolate_actor_to_terrain_tile; on a nonzero result replaces the stored handler with initialize_destination_state.
+0x80173D98	func_80173D98	finish_spinning_actor_fall_then_initialize_destination	(medium) src/dungeon/func_80A4A598.c:3: Calls update_spinning_actor_fall; on a nonzero result replaces the stored handler with initialize_destination_state.
+0x80173DD0	func_80173DD0	finish_actor_fade_in_then_initialize_destination	(medium) src/dungeon/func_80A4A5D0.c:3: Calls update_actor_fade_in; on a nonzero result replaces the stored handler with initialize_destination_state.
+0x8017489C	func_8017489C	project_textured_quad_chain	(medium) src/dungeon/func_80A4B09C.c:3: Projects each node with project_and_queue_textured_quad, following next pointer and loading motion/sprite at +8/+C; returns zero at list end.
+0x801757FC	func_801757FC	finish_actor_floor_trap_then_initialize_destination	(medium) src/dungeon/func_80A4BFFC.c:3: Calls resolve_actor_floor_trap_once; on a positive result replaces the stored handler with initialize_destination_state.
+0x80175834	func_80175834	finish_actor_action_flag_propagation_then_initialize_destination	(medium) src/dungeon/func_80A4C034.c:3: Calls propagate_actor_action_flag; on a positive result replaces the stored handler with initialize_destination_state.
+0x801723C4	func_801723C4	finish_actor_tile_move_then_resume_effect_behavior	(medium) src/dungeon/func_80A9CBC4.c:3: On completed movement reduces food by four and advances status timers; a positive floor-trap check restores effect behavior and clears state, with a dungeon flag reset.
+0x801736E8	func_801736E8	finish_actor_hop_and_grow_then_resume_effect_behavior	(medium) src/dungeon/func_80A9DEE8.c:3: Calls update_actor_hop_and_grow; on a nonzero result replaces the stored handler with update_actor_behavior_and_effect.
+0x80173BE4	func_80173BE4	resume_actor_effect_behavior_after_status_animation	(medium) src/dungeon/func_80A9E3E4.c:3: Waits for sprite completion, changes directional status animations and active counts, services pending/movement states, then clears status bits and restores update_actor_behavior_and_effect.
+0x80173FE8	func_80173FE8	finish_thrown_actor_travel_and_floor_trap_then_resume_effect_behavior	(medium) src/dungeon/func_80A9E7E8.c:3: Calls update_thrown_actor_travel and requires a positive floor-trap check before replacing the handler with update_actor_behavior_and_effect.
+0x8017404C	func_8017404C	finish_actor_terrain_interpolation_then_resume_effect_behavior	(medium) src/dungeon/func_80A9E84C.c:3: Calls interpolate_actor_to_terrain_tile; on a nonzero result replaces the stored handler with update_actor_behavior_and_effect.
+0x801740BC	func_801740BC	finish_actor_fade_in_then_resume_effect_behavior	(medium) src/dungeon/func_80A9E8BC.c:3: Calls update_actor_fade_in; on a nonzero result replaces the stored handler with update_actor_behavior_and_effect.
+0x80174BBC	func_80174BBC	finish_actor_floor_trap_then_resume_effect_behavior	(medium) src/dungeon/func_80A9F3BC.c:3: Calls resolve_actor_floor_trap_once; on a positive result replaces the stored handler with update_actor_behavior_and_effect.
+0x80174BF4	func_80174BF4	finish_actor_action_flag_propagation_then_resume_effect_behavior	(medium) src/dungeon/func_80A9F3F4.c:3: Calls propagate_actor_action_flag; on a positive result replaces the stored handler with update_actor_behavior_and_effect.
+0x80160FD8	func_80160FD8	advance_attack_with_delayed_sprite_flash	(medium) src/dungeon/func_80AD97D8.c:32: Runs staged attack animation with delayed damage and sound, temporarily toggles sprite flash flag 0x800, then consumes food/status time and restores the stored actor behavior.
+0x801721F8	func_801721F8	finish_actor_tile_move_then_select_target	(medium) src/dungeon/func_80B449F8.c:3: On completed movement reduces food by four and advances status timers; a positive floor-trap check restores target selection and clears state, with a dungeon flag reset.
+0x80172FE8	func_80172FE8	apply_knockback_then_restore_target_selection	(medium) src/dungeon/func_80B457E8.c:3: Starts and decelerates motion along the stored impact direction, waits for the action, interpolates back to tile center and restores target selection while clearing tracked-actor state.
+0x80173654	func_80173654	finish_actor_hop_and_grow_then_select_target	(medium) src/dungeon/func_80B45E54.c:3: Calls update_actor_hop_and_grow; on a nonzero result replaces the stored handler with update_actor_state_and_select_target.
+0x80173A28	func_80173A28	resume_actor_target_selection_after_status_animation	(medium) src/dungeon/func_80B46228.c:3: Waits for sprite completion, changes directional status animations and active counts, services pending/movement states, then clears status bits and restores update_actor_state_and_select_target.
+0x80173E2C	func_80173E2C	finish_thrown_actor_travel_and_floor_trap_then_select_target	(medium) src/dungeon/func_80B4662C.c:3: Calls update_thrown_actor_travel and requires a positive floor-trap check before replacing the handler with update_actor_state_and_select_target.
+0x80173E90	func_80173E90	finish_actor_terrain_interpolation_then_select_target	(medium) src/dungeon/func_80B46690.c:3: Calls interpolate_actor_to_terrain_tile before replacing the handler with update_actor_state_and_select_target.
+0x80173EC8	func_80173EC8	finish_spinning_actor_fall_then_select_target	(medium) src/dungeon/func_80B466C8.c:3: Calls update_spinning_actor_fall; on a nonzero result replaces the stored handler with update_actor_state_and_select_target.
+0x80173F00	func_80173F00	finish_actor_fade_in_then_select_target	(medium) src/dungeon/func_80B46700.c:3: Calls update_actor_fade_in; on a nonzero result replaces the stored handler with update_actor_state_and_select_target.
+0x80174954	func_80174954	queue_line_packets_for_node_chain	(medium) src/dungeon/func_80B47154.c:3: Calls transform_and_queue_line_packets for each node, following next pointer and loading motion/sprite at +8/+C; returns zero at list end.
+0x801759DC	func_801759DC	finish_actor_floor_trap_then_select_target	(medium) src/dungeon/func_80B481DC.c:3: Calls resolve_actor_floor_trap_once before replacing the handler with update_actor_state_and_select_target.
+0x80175A14	func_80175A14	finish_actor_action_flag_propagation_then_select_target	(medium) src/dungeon/func_80B48214.c:3: Calls propagate_actor_action_flag; on a positive result replaces the stored handler with update_actor_state_and_select_target.
+0x80170BFC	func_80170BFC	advance_damped_motion_and_fade_effect	(high) src/dungeon/func_80BC13FC.c:3: Adds dx/dy/dz to position, halves all three deltas, computes RGB from remaining/total lifetime, and marks removal when remaining reaches zero.
+0x801722F8	func_801722F8	finish_actor_tile_move_then_dispatch_transition	(medium) src/dungeon/func_80BECAF8.c:3: Finishes movement, consumes four food and status time, restores transition dispatcher after positive trap check, and sets the dungeon override halfword to -0x20.
+0x8017238C	func_8017238C	finish_linked_actor_motion_and_floor_trap_then_dispatch_transition	(medium) src/dungeon/func_80BECB8C.c:3: Calls update_linked_actor_motion and requires a positive floor-trap check before replacing the handler with update_actor_state_and_dispatch_transition.
+0x80172D18	func_80172D18	finish_actor_hop_and_grow_then_dispatch_transition	(medium) src/dungeon/func_80BED518.c:3: Calls update_actor_hop_and_grow before replacing the handler with update_actor_state_and_dispatch_transition.
+0x80173530	func_80173530	finish_thrown_actor_travel_and_floor_trap_then_dispatch_transition	(medium) src/dungeon/func_80BEDD30.c:3: Calls update_thrown_actor_travel and requires a positive floor-trap check before replacing the handler with update_actor_state_and_dispatch_transition.
+0x80173594	func_80173594	finish_actor_terrain_interpolation_then_dispatch_transition	(medium) src/dungeon/func_80BEDD94.c:3: Calls interpolate_actor_to_terrain_tile before replacing the handler with update_actor_state_and_dispatch_transition.
+0x801735CC	func_801735CC	finish_spinning_actor_fall_then_dispatch_transition	(medium) src/dungeon/func_80BEDDCC.c:3: Calls update_spinning_actor_fall before replacing the handler with update_actor_state_and_dispatch_transition.
+0x80173604	func_80173604	finish_actor_action_flag_propagation_then_dispatch_transition	(medium) src/dungeon/func_80BEDE04.c:3: Calls propagate_actor_action_flag before replacing the handler with update_actor_state_and_dispatch_transition.
+0x8017363C	func_8017363C	finish_actor_fade_in_then_dispatch_transition	(medium) src/dungeon/func_80BEDE3C.c:3: Calls update_actor_fade_in; on a nonzero result replaces the stored handler with update_actor_state_and_dispatch_transition.
+0x80173674	func_80173674	finish_actor_floor_trap_then_dispatch_transition	(medium) src/dungeon/func_80BEDE74.c:3: Calls resolve_actor_floor_trap_once before replacing the handler with update_actor_state_and_dispatch_transition.
+0x80172608	func_80172608	finish_actor_tile_move_then_resume_ground_movement	(medium) src/dungeon/func_80C16E08.c:3: Finishes movement, consumes four food and status time, restores ground-movement handler after positive trap check, and sets the dungeon override halfword to -0x20.
+0x8017269C	func_8017269C	finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement	(medium) src/dungeon/func_80C16E9C.c:3: Calls update_linked_actor_motion and requires a positive floor-trap check before replacing the handler with update_entity_movement_and_ground_height.
+0x801738A8	func_801738A8	finish_actor_hop_and_grow_then_resume_ground_movement	(medium) src/dungeon/func_80C180A8.c:3: Calls update_actor_hop_and_grow; on a nonzero result replaces the stored handler with update_entity_movement_and_ground_height.
+0x8017437C	func_8017437C	finish_actor_terrain_interpolation_then_resume_ground_movement	(medium) src/dungeon/func_80C18B7C.c:3: Calls interpolate_actor_to_terrain_tile before replacing the handler with update_entity_movement_and_ground_height.
+0x801743B4	func_801743B4	finish_spinning_actor_fall_then_resume_ground_movement	(medium) src/dungeon/func_80C18BB4.c:3: Calls update_spinning_actor_fall; on a nonzero result replaces the stored handler with update_entity_movement_and_ground_height.
+0x8017445C	func_8017445C	finish_actor_action_flag_propagation_then_resume_ground_movement	(medium) src/dungeon/func_80C18C5C.c:3: Calls propagate_actor_action_flag before replacing the handler with update_entity_movement_and_ground_height.
+0x80171190	func_80171190	create_actor_with_direction_behavior	(medium) src/dungeon/func_80D11990.c:4: Creates actor payload kind 0x17 with flags/variant/height, initializes animation and optional status, installs update_actor_behavior_and_direction and tries a valid spawn position.
+0x8017321C	func_8017321C	finish_actor_hop_and_grow_then_resume_facing_animation	(medium) src/dungeon/func_80DE5A1C.c:3: Calls update_actor_hop_and_grow; on a nonzero result replaces the stored handler with update_actor_behavior_facing_and_animation_2.
+0x80173908	func_80173908	finish_actor_terrain_interpolation_then_resume_facing_animation	(medium) src/dungeon/func_80DE6108.c:3: Calls interpolate_actor_to_terrain_tile; on a nonzero result replaces the stored handler with update_actor_behavior_facing_and_animation_2.
+0x80173940	func_80173940	finish_spinning_actor_fall_then_resume_facing_animation	(medium) src/dungeon/func_80DE6140.c:3: Calls update_spinning_actor_fall; on a nonzero result replaces the stored handler with update_actor_behavior_facing_and_animation_2.
+0x80173978	func_80173978	finish_actor_fade_in_then_resume_facing_animation	(medium) src/dungeon/func_80DE6178.c:3: Calls update_actor_fade_in; on a nonzero result replaces the stored handler with update_actor_behavior_facing_and_animation_2.
+0x801739B0	func_801739B0	finish_actor_floor_trap_then_resume_facing_animation	(medium) src/dungeon/func_80DE61B0.c:3: Calls resolve_actor_floor_trap_once; on a positive result replaces the stored handler with update_actor_behavior_facing_and_animation_2.
+0x801739E8	func_801739E8	finish_actor_action_flag_propagation_then_resume_facing_animation	(medium) src/dungeon/func_80DE61E8.c:3: Calls propagate_actor_action_flag; on a nonzero result replaces the stored handler with update_actor_behavior_facing_and_animation_2.
+0x801744B8	func_801744B8	display_entity_action_message	(medium) src/dungeon/func_80DE6CB8.c:3: Appends entity display text and an expanded fixed action template to a scratch text buffer, terminates it and displays it with fullwidth adjustment; the caller invokes it when actor action animation completes.
+0x80024A00	func_80024A00	advance_sprite_on_alternate_ticks_until_complete	(medium) src/dungeon/func_81881200.c:12: Increments counters, advances the sprite on odd ticks and marks removal on sprite flag 0x4000.
+0x80028648	func_80028648	mark_menu_object_ready	(high) src/dungeon/menu/entries.c:853: Sets the ready byte to one; both complete menu initializer callers invoke it before installing their update handler.
+0x80B85054	func_80B85054	create_battnel_actor	(medium) src/dungeon/monster/battnel/battnel.c:61: The battnel module factory initializes payload kind 0xD, spawn flags/variant/height, animation and optional status, sets private state to -1 and tries a valid spawn position.
+0x8016DC20	func_8016DC20	forward_defeat_removal_callback	(high) src/dungeon/monster/death/death.c:6: Forwards all four callback arguments and the return value to update_actor_defeat_removal; this home is in monster/death/death.c.
+0x800253A0	func_800253A0	allocate_item_without_data_override	(high) src/dungeon/system/overlay.c:6: Forwards the owner/context/mode/item ID to allocate_item_object with a zero data override; its direct callers were reviewed in pass one.
+0x800A6D98	func_800A6D98	restore_dungeon_random_seed	(high) src/dungeon/system/util.c:1434: Assigns g_game_work.randSeed; floor setup and item-category shuffle callers restore saved seed values before random generation.
+0x800542BC	func_800542BC	drain_audio_commands_and_service_channels	(high) src/engine/audio/audio_dispatch_stream_request_second.c:17: Drains the audio command FIFO, dispatches by command group, services channels, and clears the queue count.
+0x800544A4	func_800544A4	update_cd_stream_ramp_and_completion	(medium) src/engine/audio/audio_handle_stream_control_event_second.c:15: Services pending CD stream flags; advances the active volume ramp and submits completion event 0x74 at state three, otherwise checks stream end.
+0x80055BD8	func_80055BD8	release_sound_channel_and_mark_pending	(high) src/engine/audio/entry_release_enabled_sound_channel.c:11: Releases the supplied sound channel, optionally reports status 0x71 for channel zero, and marks bit 24 plus channel in the pending flags.
+0x80054A7C	func_80054A7C	dispatch_audio_mix_action	(high) src/engine/audio/entry_set_cd_audio_mix_mode.c:8: Dispatches low-byte actions one/two to CD mixing, three to command-state reset and four to voice reinitialization; other actions return.
+0x8003ADB4	func_8003ADB4	dispatch_sound_word_unless_disabled	(high) src/engine/audio/play_sound_unless_mode_two.c:9: Forwards the low unsigned halfword to SD_Call unless mode byte is two; the script interpreter uses it for its fallback sound command.
+0x80058850	func_80058850	find_sequence_magic_after_offset	(high) src/engine/audio/sequence/entry_compare_byte_span.c:18: Scans bytes from the supplied offset through the end limit for a four-byte marker and returns the position just after it, or minus one.
+0x800597A8	func_800597A8	seek_sequence_tag_and_schedule_step	(medium) src/engine/audio/sequence/playback_set_next.c:22: Finds a sequence tag, updates position, reads a big-endian step word and schedules playback; returns one if no tag is found.
+0x8005497C	func_8005497C	assign_sound_payload_and_release_channel	(high) src/engine/audio/sequence/sound_assign_sequence_payload_slot.c:7: Assigns the payload slot then maps events 0x11,0x12,0x14,0x18 to release channel zero through three.
+0x8005B4D0	func_8005B4D0	start_sound_effect_program_voices	(medium) src/engine/audio/sequence/sound_reset_indexed_voice_envelope_second.c:107: Walks the selected bank/program tones covering the requested note, allocates voices, computes sample offsets/stereo gain/pitch/envelope attributes and applies each voice's effect flag; sound_start_scaled_primary_and_secondary_voices is its sole caller.
+0x800552C8	func_800552C8	apply_scaled_sound_slot_volume	(high) src/engine/audio/slots/set_sound_slot_byte_pair.c:18: When slot playback flag 0x100 is set, multiplies volume by the global scale and task gain, clamps to seven bits and writes both slot channels.
+0x8005D7BC	func_8005D7BC	stop_spu_dma_event_service	(high) src/engine/audio/spu/SpuQuit.c:17: Inside a critical section clears SPU callback state, removes DMA channel four callback, closes/disables the event, then exits the section when the service is active.
+0x8005D838	func_8005D838	initialize_sound_transfer_range	(high) src/engine/audio/spu/audio_get_whether_non_skipped_block_contains_address_starts_beyond.c:6: For a positive count initializes the range record flags/size and publishes count, pointer and zero cursor; returns zero for a nonpositive count.
+0x8005CB88	func_8005CB88	start_spu_dma_event_service	(high) src/engine/audio/spu/sound_event_start.c:6: Starts once: marks service active, installs DMA channel four callback, opens event 0xF0000009 with mode 0x2000, enables it in a critical section.
+0x8005CA90	func_8005CA90	reset_spu_runtime_and_start_event_service	(high) src/engine/audio/spu/sound_reset_state.c:6: Resets callbacks/voice sentinels, starts the DMA event service, initializes reverb address and clears independent SPU runtime state words.
+0x8005E450	func_8005E450	set_reverb_address_available	(high) src/engine/audio/spu/sound_reset_state.c:49: When enabled tests the reverb address against the range owner; stores and returns one only for an accepted address, otherwise zero; docs/evidence/slus_r120_sound_reset_state.md.
+0x8005D88C	func_8005D88C	set_spu_reverb_enabled_if_available	(high) src/engine/audio/spu/spu_attr.c:11: Toggles SPUCNT bit 0x80 and reverb enable state, rejecting enable when range/address availability checks fail.
+0x80054D64	func_80054D64	apply_scaled_cd_stream_volume	(high) src/engine/audio/submit_scaled_driver_halfword_pair_second.c:16: If CD stream playback flag 0x400 is active, scales ramp level by volume scale two and gain, then submits equal left/right driver volumes.
+0x8004D880	func_8004D880	map_fullwidth_character_to_glyph_byte	(high) src/engine/camera/lookup_byte_by_key.c:6: Maps encoded fullwidth digit/uppercase/lowercase ranges to ASCII bytes, otherwise uses the fallback byte lookup; both text-rendering callers use the result to select a glyph rectangle.
+0x8004D614	func_8004D614	reset_camera_transition_fields	(high) src/engine/camera/state_defaults.c:10: Clears view transition accumulators, copies four default words, clears motion counters and binds the default triplet source.
+0x8004B7D0	func_8004B7D0	finish_cd_load_and_initialize_target	(medium) src/engine/cd/drain_cd_command_queue_second.c:11: Copies the global load result, submits/drains command six, then initializes the supplied target from the saved result with zero mode arguments.
+0x8003C128	func_8003C128	create_marked_callback_node	(medium) src/engine/effect/create_callback_node.c:18: Allocates scene object type 0x15, installs run_node_callback_and_set_marker and clears its state word.
+0x8004ED5C	func_8004ED5C	schedule_deferred_resource_transition	(medium) src/engine/effect/create_deferred_resource_transition_task.c:12: Creates the deferred transition task with delay 0x1E; only on success installs the data-read callback in the owner.
+0x8004EC20	func_8004EC20	dispatch_after_controller_release	(high) src/engine/effect/pad_both_key_states_clear.c:16: When both enable bytes are set, waits for both controller key states to clear, yielding frames, then invokes the indexed handler on the owning object.
+0x80050EA8	func_80050EA8	release_selection_menu_and_preserve_pending_value	(high) src/engine/effect/release_animated_selection_menu.c:20: Moves a pending outer value to saved state, unlinks the node, destroys the selection menu and clears the menu handle.
+0x80050EF8	func_80050EF8	ensure_selection_menu_and_register_draw	(high) src/engine/effect/resolve_animated_selection_menu.c:22: Creates the selection menu when absent, restores a saved pending value, registers the scratch sprite draw callback and returns the menu handle.
+0x8003C160	func_8003C160	initialize_shared_sprite_fade_display	(medium) src/engine/effect/set_destination_flag_from_source.c:55: Initializes the shared sprite source, scale, color, position and source-specific flags, installs ramp_fade_up_fast and applies source flags.
+0x80046AFC	func_80046AFC	intersect_view_ray_with_depth_plane	(high) src/engine/effect/shallow.c:14: Interpolates x/y on the requested z plane, clamps coordinates and rejects short depth spans or intersections beyond the allowed source range; build_screen_outline uses rejection for its fallback.
+0x80055778	func_80055778	enqueue_audio_command	(high) src/engine/entity/is_frame_packet_arena_overflowed.c:10: Rejects when the halfword command queue count reaches 32; otherwise increments the count and appends the narrowed command, returning zero; SD_Call is its sole source caller.
+0x80055750	func_80055750	clamp_sound_value_to_seven_bits	(high) src/engine/entity/is_frame_packet_arena_overflowed.c:34: Returns zero for negative signed halfwords, 127 for values at least 128, otherwise the input; audio voice callers use the result.
+0x8004383C	func_8004383C	lookup_level_experience_threshold	(medium) src/engine/entity/is_frame_packet_arena_overflowed.c:52: Indexes the shared threshold table by the entity level byte plus signed offset; level-gain and gauge callers use adjacent thresholds to set progress and compute fill.
+0x800498EC	func_800498EC	lookup_patterned_display_icon	(medium) src/engine/entity/is_frame_packet_arena_overflowed.c:60: Maps the icon index through D_800712AC into D_8007361C; display-row and initial-display callers select this table for enabled/patterned flag icons.
+0x80049918	func_80049918	lookup_unpatterned_display_icon	(medium) src/engine/entity/is_frame_packet_arena_overflowed.c:68: Maps the icon index through D_800712B0 into D_8007361C; the full display-row caller selects this mapping when runtime_test_table_byte_pattern is false.
+0x8005845C	func_8005845C	set_audio_channel_program	(high) src/engine/entity/is_frame_packet_arena_overflowed.c:106: Stores the supplied program byte into the indexed channel entry; audio_dispatch_midi_event invokes it for program-change status 0xC0.
+0x8004AA44	func_8004AA44	sort_signed_word_array	(high) src/engine/entity/is_frame_packet_arena_overflowed.c:114: Calls the selection-sort wrapper with four-byte elements and subtract_pointed_int_values as comparator.
+0x8003B034	func_8003B034	load_alternate_sprite_bundle_and_clear_textures	(high) src/engine/graphics/clear_alternate_texture_regions_second.c:10: Loads sprite bundle one into the global handle then clears both alternate texture regions.
+0x80036F24	func_80036F24	update_blinking_cursor_with_bright_idle	(high) src/engine/graphics/copy_texture_descriptor_with_page_offsets.c:31: Copies three texture descriptors, selects the cursor image and alternates gray/black when blinking; idle entries retain gray. The cursor-display initializer calls this body.
+0x80052C10	func_80052C10	clear_and_draw_paired_text_rows	(high) src/engine/graphics/draw_double_byte_text.c:23: Clears two 64 by 16 VRAM rectangles at x 0x380 and 0x3C0, then draws the two supplied double-byte strings into them.
+0x8003AB44	func_8003AB44	move_glyph_to_grid_position	(high) src/engine/graphics/get_glyph_vram_rectangle.c:12: Decodes the double-byte glyph, gets its VRAM rectangle and moves it to spacing-table-derived grid coordinates when x lies in range.
+0x80044C54	func_80044C54	project_and_draw_sprite_node_chain	(high) src/engine/graphics/is_frame_packet_arena_overflowed.c:18: Walks linked nodes, skips hidden sprites, projects high-half coordinates through RotTransPers and draws sprite parts, stopping on packet arena overflow or list end.
+0x8003BFE4	func_8003BFE4	copy_and_scale_screen_outline_points	(medium) src/engine/graphics/scale_four_points_about_center.c:10: Copies six three-halfword outline vectors from game work into the shared draw buffer and scales them; update_active_nodes runs it after build_screen_outline.
+0x800505BC	func_800505BC	advance_gauge_color_then_decay	(high) src/engine/graphics/set_color_components_and_scaled_fields_second.c:18: Advances a three-tick color interpolation, resets the counter and switches callback at tick three, then runs gauge decay on every call.
+0x8003B820	func_8003B820	remove_monster_items_with_negative_status	(high) src/engine/item/entry_del_t_item_w_ptr.c:9: Scans the item pointer list and calls del_t_item_w_ptr for kind 0x13 entries whose indexed creature status byte is negative; the run-update caller performs this before refreshing survivors.
+0x8004A9B0	func_8004A9B0	shuffle_byte_array	(high) src/engine/item/generate_random_value.c:6: Walks backward through the byte array and swaps each byte with a random index in its remaining prefix.
+0x8004A10C	func_8004A10C	read_terminal_tagged_entry_value	(high) src/engine/menu/count_tagged_records.c:13: Returns zero for a null table; otherwise counts tagged records and returns the terminal twelve-byte record's signed byte plus 0x80.
+0x800506BC	func_800506BC	initialize_gauge_menu_display_rows	(high) src/engine/menu/reset_six_object_leaf_records_second.c:44: Assigns fixed and mode-selected display resources, resets six gauge leaf records, and positions six shared rows plus five fixed entries; the gauge initializer calls it.
+0x80039470	func_80039470	accept_message_motion_request	(medium) src/engine/message/entry_ms_mot_accpt_ow.c:25: Accepts an idle nonzero message motion slot through ms_mot_accpt_ow, records the packed request, and writes coordinates to type-dependent record offsets.
+0x80038240	func_80038240	play_message_confirmation_sound	(medium) src/engine/message/entry_sd_call.c:8: Mode zero does nothing; mode one plays sound 0xB4 and returns zero; other modes play 0x74 and return one.
+0x8003832C	func_8003832C	consume_message_byte_and_start_countdown	(high) src/engine/message/init_message_countdown.c:23: Consumes one message byte, initializes a five-tick countdown and installs decrement_countdown_and_switch_b.
+0x8003AFE0	func_8003AFE0	play_movie_with_fixed_display_flag	(high) src/engine/movie/load_dispatch_entry_files.c:13: Loads the indexed movie stream value, forces flags bit 0x40000000, plays the selected movie and reloads dispatch entry files.
+0x80033C8C	func_80033C8C	clear_twenty_runtime_records	(high) src/engine/object/entry_runtime_clear_value.c:10: Walks twenty records of stride 0x64 beginning at D_800816C0 and calls runtime_clear_value on each.
+0x80034FFC	func_80034FFC	test_runtime_handler_or_fallback_status	(high) src/engine/object/entry_runtime_is_record_handler_changed.c:10: Outside mode two returns whether the runtime handler changed or the fallback halfword is nonzero; mode two returns only the handler query.
+0x80035164	func_80035164	prepare_script_controller_and_set_cursor	(medium) src/engine/object/entry_runtime_set_record_value_and_buffer.c:9: Reinitializes the message controller if list/mode/selector requires it, then sets the script value/buffer; call_script, start_script and set_script_address pass their selector modes.
+0x80035D4C	func_80035D4C	set_resident_bits_for_matching_key	(high) src/engine/object/entry_set_resident_bitmap_bit.c:11: Walks a zero-key-terminated table and sets every resident bitmap bit whose entry key matches the signed-halfword input.
+0x80035DBC	func_80035DBC	select_resident_resource_table_value	(medium) src/engine/object/entry_test_resident_bitmap_bit.c:14: Sets bitmap bits for the key, returns special slots for keys one/two/ten with a flag condition, otherwise returns the indexed default table value.
+0x80035888	func_80035888	initialize_attached_message_window_node	(medium) src/engine/object/initialize_attached_render_node.c:11: Initializes an attached render node, links it to the owner and sets window parameters, source handlers, texture/color and linked window state; init_window_object supplies its storage.
+0x8004D4AC	func_8004D4AC	compose_and_install_camera_transform	(high) src/engine/resource/entry_advance_timed_entity_motion.c:34: Builds camera and negative-offset rotation/translation matrices, applies the timed transform update, composes the matrices and installs the GTE rotation/translation; both camera callers were read.
+0x80047270	func_80047270	decode_upload_image_from_wrapping_buffer	(high) src/engine/resource/entry_decode_or_copy_resource_pixels.c:25: Computes image byte size, wraps and synchronizes the shared decode buffer when full, decodes/copies pixels, uploads with LoadImage and advances the buffer cursor; both texture packer callers were read.
+0x8004B530	func_8004B530	mark_object_removal_for_inner_release	(high) src/engine/resource/entry_file_load_com.c:8: For non-null pointers sets the preceding object removal bit and the global removal bit; flag_object_and_release_inner calls this clone for its two nested object handles.
+0x8004066C	func_8004066C	adjust_resource_decode_buffer_capacity	(high) src/engine/resource/entry_file_load_com.c:24: Adds the supplied amount to D_80080A7C, the capacity used by the decoder upload helper to wrap its resource staging buffer.
+0x8004ED00	func_8004ED00	load_transition_image_and_begin_data_read	(medium) src/engine/resource/entry_scene_begin_transition_data_read.c:22: When source state is nonzero, runs image load commands at 0x80020000, synchronizes drawing, begins transition data read and installs the follow-up callback.
+0x80041AB0	func_80041AB0	begin_scene_dispatch_resource_loading	(medium) src/engine/resource/entry_set_scene_phase_callback.c:13: Copies the scene buffer base and installs func_80041AE4, whose complete body uploads dispatch images/VRAM/files, runs callbacks and reserves the next scene slot.
+0x8003C5F0	func_8003C5F0	lookup_sentinel_resource_value_or_zero	(high) src/engine/resource/find_sentinel_table_value.c:9: Resolves the lookup key through runtime_find_sentinel_table_value; returns zero for a negative index or the indexed resource table word.
+0x8003C6F8	func_8003C6F8	bind_and_load_indexed_resource_record	(high) src/engine/resource/konami_runtime_gp_count.c:5: Updates the indexed resource pair, publishes both global pointers, submits the file command and marks control status minus two in mode two.
+0x8003C7D8	func_8003C7D8	activate_indexed_resource_and_upload_images	(high) src/engine/resource/move_entry_to_front.c:20: Validates indexed group entry, loads its key, moves it to front and uploads two VRAM images; returns minus one for absent data.
+0x80050BA4	func_80050BA4	create_gauge_with_selection_menu	(medium) src/engine/scene/entry_create_animated_selection_menu.c:46: Allocates gauge and owner objects, initializes gauge resources and an animated selection menu, registers drawing on success and marks partial allocation cleanup on failure.
+0x8003B7C8	func_8003B7C8	clear_selected_scene_entry_flags	(high) src/engine/scene/entry_find_target_byte_index_in_list.c:7: Uses the selected table's count to clear one byte in each scene record at stride 0x54.
+0x8003B714	func_8003B714	refresh_monster_items_from_creature_records	(high) src/engine/scene/entry_itm_mon_koyaw_set.c:16: Scans kind-0x13 item entries and refreshes nonnegative indexed creature records through itm_mon_koyaw_set; the counter-update caller first removes negative entries.
+0x8003CB08	func_8003CB08	render_cd_wait_animation_on_new_field	(high) src/engine/scene/shared_slot_state.c:5: On a new VSync field in the loading mode swaps display/draw buffers, advances sine/cosine trail history, draws four layers and synchronizes; drain_cd_command_queue calls it while commands remain.
+0x80041B98	func_80041B98	render_scene_until_runtime_slot_idle	(high) src/engine/scene/slot_transition.c:30: Renders the timed scene frame and advances phase to the confirmation callback when the active runtime slot type becomes zero.
+0x80041BE4	func_80041BE4	await_scene_confirmation_and_reserve_slot	(high) src/engine/scene/slot_transition.c:39: Renders frames; while unconfirmed updates shoulder-button angle, then conditionally reserves a slot and selects the exit callback.
+0x80041C64	func_80041C64	finish_scene_when_runtime_slot_idle	(high) src/engine/scene/slot_transition.c:53: Renders frames until the current slot type is zero, then sets the scene-exit bit and saves previous mode while resetting callbacks.
+0x80043DB8	func_80043DB8	render_object_scene_until_slot_idle	(high) src/engine/scene/slot_transition_secondary.c:30: Renders the object scene and selects the confirmation callback when the secondary runtime slot becomes idle.
+0x80043E04	func_80043E04	await_object_scene_confirmation	(high) src/engine/scene/slot_transition_secondary.c:38: Renders object-scene frames; on confirmation reserves a runtime slot and selects exit callback, otherwise updates shoulder-button angle.
+0x80043E60	func_80043E60	finish_object_scene_when_slot_idle	(high) src/engine/scene/slot_transition_secondary.c:49: Renders object-scene frames until the secondary slot becomes idle, then sets the exit bit and saves/restores scene callback state.
+0x8003AB14	func_8003AB14	copy_four_halfword_coordinates	(high) src/engine/script/vm/command.c:23: Copies four consecutive halfwords from source offsets four through ten to destination offsets zero through six.
+0x80035D38	func_80035D38	noop_after_window_shrink	(medium) src/engine/script/vm/vm_op_noop.c:8: Installed when the window reaches its closed extent and the linked completion byte is set.
+0x800368F8	func_800368F8	noop_after_menu_slot_release	(medium) src/engine/script/vm/vm_op_noop.c:12: Installed by mark_menu_slot_used after storing 0xFF in the linked slot marker.
+0x80036980	func_80036980	noop_after_cursor_extent_completion	(medium) src/engine/script/vm/vm_op_noop.c:16: Installed after cursor extent reaches its limit, the node is unlinked, and completion is signaled.
+0x80038A00	func_80038A00	noop_runtime_record_idle	(medium) src/engine/script/vm/vm_op_noop.c:20: Empty sentinel used by runtime_is_record_handler_changed and installed after VM sound opcode completion; menu initialization also recognizes this action.
+0x80039AE8	func_80039AE8	noop_script_terminator_action	(medium) src/engine/script/vm/vm_op_noop.c:60: Empty sentinel installed by the terminator opcode and explicitly recognized by the interpreter before clearing the action and following the next script.
+0x8003C4C0	func_8003C4C0	noop_after_fade_ramp_completion	(medium) src/engine/script/vm/vm_op_noop.c:104: Installed by ramp_fade_up_slow when its value reaches the clamped full scale.
+0x800488F0	func_800488F0	process_sprite_scroll_and_texture_uploads	(high) src/engine/sprite/advance_scroll_and_upload_images.c:9: Walks twelve-byte sprite records, conditionally advances scroll and uploads tile textures based on operation flags, skips disabled records and stops at the terminal bit.
+0x800494B4	func_800494B4	select_item_name_table_from_pair_check	(high) src/engine/sprite/check_fixed_value_pairs.c:10: Chooses one of two global lookup arrays according to check_fixed_value_pairs, then returns get_item_name_text for that array.
+0x80048FBC	func_80048FBC	allocate_and_append_callback_payload	(high) src/engine/sprite/count_nonzero_word_prefix.c:7: Finds the word-array insertion index, creates a default 0x104-byte callback payload, stores it at that index and returns it.
+0x80050AF0	func_80050AF0	allocate_selection_menu_entry_buffers	(medium) src/engine/sprite/initialize_seventeen_object_pointers.c:17: Allocates twelve-byte pointer buffers, nine entry slots and one callback payload, initializes seventeen object pointers and returns success.
+0x8004D98C	func_8004D98C	initialize_styled_glyph_rectangle	(high) src/engine/text/decode_glyph_id_to_byte_rectangle.c:15: Sets glyph metadata, selects a style palette using low four bits plus flag 0x10 and decodes the glyph ID's low byte into its rectangle.
+0x8004EA70	func_8004EA70	pad_double_byte_field_and_append_marker	(high) src/engine/text/fill_string_tail_and_detect_zero_second.c:19: Pads the supplied field, advances by width times two, copies a fixed two-byte marker and returns the marker position.
+0x8004E884	func_8004E884	set_style_for_tagged_glyph_entries	(high) src/engine/text/set_glyph_style_index.c:6: Walks twelve-byte entries until high-bit terminator and applies set_glyph_style_index to each; null input is ignored.
+0x8004ECAC	func_8004ECAC	propagate_linked_removal_request	(high) src/engine/text/set_object_and_global_removal_flag_second.c:11: When local flag 0x2000 is set, clears it, marks the linked entity and sets object/global removal flags on the owner.
+0x80047D44	func_80047D44	load_and_publish_texture_resource_pair	(medium) src/engine/texture/runtime_no_op_callback.c:5: Queues paired descriptors, drains CD commands, uploads image tiles with fixed parameters and returns the published resource handle address.
+0x8003AD08	func_8003AD08	format_unsigned_double_byte_decimal	(high) src/engine/town/reverse_town_movie_buffer_bytes.c:8: Extracts base-ten digits, reverses them, emits each as byte pair 0x82 followed by digit plus 0x4F, null-terminates and returns the terminator pointer.
+0x80059E94	func_80059E94	reserve_sound_ram_region	(high) src/engine/util/entry_sort_entries_by_key.c:14: Reserves a block above 0x1010 within SPU RAM minus configured reserve space, stores/sorts the allocation descriptor and returns an offset or -1; init_sound_slot supplies the sample size.
+0x80037E58	func_80037E58	initialize_message_window_runtime_task	(high) src/engine/window/create_runtime_task.c:52: Creates the synchronization task, clears 107 runtime blocks and sixteen slots, sets message data/controller state, and initializes the message window.
+0x80037090	func_80037090	update_blinking_cursor_with_dark_idle	(high) src/engine/window/entry_copy_texture_descriptor_with_page_offsets.c:33: Copies three texture descriptors, selects the cursor image and alternates gray/black when blinking; idle entries remain black. The color-cursor initializer installs this callback.
+0x80036154	func_80036154	select_menu_initializer_from_message_handler	(medium) src/engine/window/entry_copy_window_offset_rectangle.c:39: Maps the source message handler to the matching menu initializer, copies the window rectangle, and marks the source message record ready.
+0x80036210	func_80036210	create_window_cursor_and_install_reset	(medium) src/engine/window/entry_runtime_reset_state_on_trigger_bits.c:21: Creates the cursor using the object's resource pointer, clears the cursor state and installs runtime_reset_state_on_trigger_bits.
+0x80036350	func_80036350	handle_wrapping_menu_cursor_input	(high) src/engine/window/entry_sd_call.c:27: Handles up/down with modulo item count and navigation sound, then confirms the menu choice on button 0x40.
+0x80035AF8	func_80035AF8	display_sound_selection_and_prepare_playback	(medium) src/engine/window/grow_window_extent.c:29: Reads the selected sound ID, clears and draws its UI row, then uses the sound table and availability check to select delayed playback or window growth.
+0x800359FC	func_800359FC	dispatch_window_fade_and_update_extents	(medium) src/engine/window/shrink_window_and_signal_linked_record.c:32: When the cursor remains active, marker 0xFE begins fade-to-black and installs the shrink callback; dispatches the current callback and updates window extents.
+0x80035C80	func_80035C80	fade_and_shrink_window_on_value_change	(high) src/engine/window/shrink_window_extent.c:25: Compares the current and selected values; on change marks the indexed record, begins fade to black and installs the shrink callback.
+0x800366F4	func_800366F4	handle_two_column_menu_input	(high) src/engine/window/update_two_column_cursor.c:25: Toggles column, wraps rows using the child item count, plays the move sound on cursor change, and confirms on button 0x40.
+0x801768AC	func_801768AC	play_selected_movie_and_restore_display	(medium) src/ovmovie/func_800400AC.c:4: Clears playback flags, initializes audio and movie display, plays selected stream, stops CD playback and restores both display buffers; town_movie_exe and play_scene_movie call it.
+0x80176AD8	func_80176AD8	clear_movie_display_area	(high) src/ovmovie/func_800402D8.c:4: Clears a black rectangle of width 480 and height 448 or 480, bracketed by synchronization; called by the movie playback wrapper.
+0x80176B3C	func_80176B3C	set_movie_strip_offsets	(high) src/ovmovie/func_8004033C.c:4: Stores two signed offsets used by the strip callback to adjust the output rectangle.
+0x80176B60	func_80176B60	initialize_movie_decoder_and_start_stream	(medium) src/ovmovie/func_80040360.c:4: Resets decoder mode and completion state, installs the supplied callback, initializes ring storage and starts the stream; called by the movie playback loop.
+0x80176BEC	func_80176BEC	initialize_movie_frame_buffers	(high) src/ovmovie/func_800403EC.c:4: Partitions movie workspace into two input buffers and output storage; initializes two rectangles and strip widths for 16-bit or 24-bit playback.
+0x80176CA8	func_80176CA8	upload_movie_strip_and_advance_buffer	(high) src/ovmovie/func_800404A8.c:3: Uploads the decoded strip, advances strip x, requests another decoder DMA until the row completes, then marks ready and flips the screen index; installed as callback by func_8017719C.
+0x80176E90	func_80176E90	decode_next_movie_frame	(medium) src/ovmovie/func_80040690.c:4: Polls for a nonzero stream record with timeout, flips the input buffer, decodes and releases a negative frame handle, and returns whether a frame was decoded.
+0x80176F2C	func_80176F2C	poll_movie_frame_and_update_dimensions	(high) src/ovmovie/func_8004072C.c:3: Polls stream data with an error/timeout exit, records frame number and completion threshold, and updates frame width, height and rounded height.
+0x801770BC	func_801770BC	wait_for_movie_strip_completion	(medium) src/ovmovie/func_800408BC.c:4: Waits on the strip completion flag; timeout flips the screen index and resets strip position, then consumes the completion flag.
+0x80177154	func_80177154	start_movie_cd_stream_and_wait_ready	(medium) src/ovmovie/func_80040954.c:4: Issues Control_CD command 0x15 with the current stream location, drains the command queue and waits for readiness mask 0x1C0.
+0x8017719C	func_8017719C	play_movie_frames_with_skip_fade	(high) src/ovmovie/func_8004099C.c:11: Runs the decode/DMA/display loop, handles a newly pressed skip button, fades audio volume, and exits at frame/end/volume limits.
+0x8003F534	func_8003F534	read_sound_stream_cue_pointer	(medium) src/slus/code.c:89: Returns D_8006CE34; audio_dispatch_stream_request reads cue mode, base and endpoint words from this pointer.
+0x8003F5D4	func_8003F5D4	read_sound_payload_slot	(high) src/slus/code.c:94: Returns the global word D_800814C8 used as sequence payload slot state.
+0x8003F5E0	func_8003F5E0	set_sound_payload_slot	(high) src/slus/code.c:100: Stores the supplied value to the same global word returned by func_8003F5D4.
+0x80040418	func_80040418	mark_resource_list_flags_ten_and_eleven	(high) src/slus/code.c:144: Walks the linked resource list and ORs mask 0xC00 into every node's flags.
+0x80044234	func_80044234	set_cd_cue_and_submit_sound_command	(high) src/slus/code.c:211: Forwards four parameters to sound_set_cd_cue_parameters then submits sound command 0x300.
+0x80046398	func_80046398	draw_linked_lit_meshes	(high) src/slus/code.c:238: Draws each lit mesh then follows the object's preceding linked record for the next mesh/value pair; terminates at a null record and returns zero.
+0x80047714	func_80047714	draw_linked_sprites_and_narrow_result	(high) src/slus/code.c:261: Calls draw_linked_sprites and returns its result narrowed to a signed halfword.
+0x800479AC	func_800479AC	clear_sprite_work_table	(high) src/slus/code.c:280: Clears exactly 0x30 bytes of D_80083D08 using bzero; no source direct caller.
+0x80047AA4	func_80047AA4	get_image_palette_address	(high) src/slus/code.c:298: Returns image base plus 0x8000; upload_image_tiles uses this value as the source palette address for both palette uploads.
+0x80048374	func_80048374	select_sprite_entry_with_flag	(high) src/slus/code.c:319: Sets bit 0x400 in the sprite flags and forwards the sprite index and offset to select_sprite_entry.
+0x80048568	func_80048568	load_default_object_palette	(medium) src/slus/code.c:327: Forwards the signed resource index to load_resource_and_mirror_palette with fixed mode zero.
+0x80048590	func_80048590	load_equipment_palette_for_category_sixteen	(medium) src/slus/code.c:335: Returns the palette resource from array one; equip_item_and_update_status selects this path specifically for item category 0x10.
+0x800485B8	func_800485B8	load_equipment_change_palette	(medium) src/slus/code.c:343: Forwards the signed resource index to load_resource_and_mirror_palette with mode two; change_equipped_item_and_notify calls it.
+0x80048D00	func_80048D00	load_dungeon_sprite_bundle	(medium) src/slus/code.c:351: Returns resource_load_indexed_sprite_bundle with fixed index zero; used by dungeon initialization.
+0x80048D20	func_80048D20	load_town_sprite_bundle	(medium) src/slus/code.c:359: Returns resource_load_indexed_sprite_bundle with fixed index one; used when initializing alternate texture regions.
+0x80048D40	func_80048D40	load_alternate_town_sprite_bundle	(medium) src/slus/code.c:367: Returns resource_load_indexed_sprite_bundle with fixed index two; synchronize_mode_and_pending_callback selects this branch.
+0x80048DCC	func_80048DCC	read_display_spacing_word	(medium) src/slus/code.c:373: Returns indexed s32 from D_80071250; update_mode_display_spacing uses it for display coordinates.
+0x80048DE8	func_80048DE8	read_display_spacing_byte	(medium) src/slus/code.c:379: Returns indexed volatile byte from D_80071298; update_mode_display_spacing uses it alongside the spacing word table.
+0x80049280	func_80049280	is_type_twenty	(high) src/slus/code.c:416: Returns exactly whether the input type equals 0x14.
+0x8004928C	func_8004928C	record_has_type_twenty	(high) src/slus/code.c:431: Masks the record's fourth byte to five bits and applies the type-0x14 predicate.
+0x80049490	func_80049490	get_item_name_with_shared_text_table	(medium) src/slus/code.c:441: Forwards the item record and shared D_800713FC text table to get_item_name_text; all complete callers request the currently selected menu item name.
+0x800494FC	func_800494FC	read_item_category_flag_ten	(high) src/slus/code.c:448: Returns only mask 0x400 from get_item_category_flags.
+0x80049DC8	func_80049DC8	initialize_packet_pair_from_record	(medium) src/slus/code.c:497: Forwards both arguments to init_paired_packet_records with no other effects.
+0x8004A4C4	func_8004A4C4	read_second_argument_scaled_byte	(medium) src/slus/code.c:526: Ignores the first argument and returns get_scaled_byte_value of the second argument.
+0x8004A918	func_8004A918	clear_floor_resource_state_table	(high) src/slus/code.c:547: Clears exactly 0x50 bytes at 0x80013564; initialize_dungeon_floor_state calls this reset.
+0x8004AE3C	func_8004AE3C	count_pointer_list_entries	(high) src/slus/code.c:558: Counts consecutive non-null pointers up to the first null entry and returns that count.
+0x8004AFC8	func_8004AFC8	forward_selection_sort_request	(high) src/slus/code.c:588: Direct thunk to selection_sort_elements; all three callers supply arrays, element counts, element sizes and comparators for selection-menu/category sorting.
+0x8004B3DC	func_8004B3DC	create_single_callback_payload	(medium) src/slus/code.c:596: Calls create_callback_pair_payload with fixed leading arguments zero and one followed by the supplied object.
+0x8004B634	func_8004B634	submit_global_cd_command_six	(high) src/slus/code.c:633: Calls Control_CD with command six, D_80080B48 and mode zero; view-opening wrappers invoke it.
+0x8004B8BC	func_8004B8BC	create_item_view_without_event	(medium) src/slus/code.c:649: Returns create_item_view_for_entry for the supplied object and value with event parameter zero.
+0x8004D064	func_8004D064	advance_packed_record_by_type	(high) src/slus/code.c:679: Returns the pointer advanced by 0x18 for type nibble 0x30 and by 0x0C for type nibble 0x20 or all other values.
+0x8004DCE0	func_8004DCE0	set_message_mode	(high) src/slus/code.c:711: Stores the supplied word into D_80081550; existing field evidence identifies the message mode word.
+0x8004DDB4	func_8004DDB4	clear_message_command_words	(high) src/slus/code.c:717: Clears both D_80081554 and D_80081558 with no other effects.
+0x8004DDC4	func_8004DDC4	clear_resident_bitmap_bit_two	(high) src/slus/code.c:726: Calls clear_resident_bitmap_bit with fixed index two.
+0x8004EB30	func_8004EB30	clear_vram_callback_state	(high) src/slus/code.c:780: Clears the first word of D_80084130; reset_callbacks_and_clear_vram calls it before its callback and VRAM reset.
+0x8004EE30	func_8004EE30	create_resource_transition_for_descriptor_check	(medium) src/slus/code.c:787: Creates a scene resource transition for the supplied owner with task context zero.
+0x8004EE50	func_8004EE50	create_resource_transition_card	(medium) src/slus/code.c:795: Creates a scene resource transition with task context one; mcard_func_set is its source caller.
+0x8004F3D0	func_8004F3D0	set_menu_backdrop_initial_value	(high) src/slus/code.c:834: Stores the supplied word through the destination pointer; initialize_menu_backdrop_layout uses this to set its leading initial-value word.
+0x8004F67C	func_8004F67C	noop_selection_menu_animation_idle	(medium) src/slus/code.c:840: Installed by both selection-menu spacing and index-transition animations when those animations complete.
+0x8004FF00	func_8004FF00	read_selected_menu_entry_word	(high) src/slus/code.c:881: Loads the selection index at object plus 0x50 and returns the indexed word starting at object plus 0x30.
+0x800502E0	func_800502E0	resolve_selected_menu_entry	(high) src/slus/code.c:893: Reads the selected menu entry word through func_8004FF00 and returns its func_80021300 resolution; handle_object_input consumes this selected value.
+0x80050494	func_80050494	forward_object_input_handler	(medium) src/slus/code.c:901: Forwards its sole argument to handle_object_input with no other effects.
+0x80050694	func_80050694	invoke_leading_object_callback	(high) src/slus/code.c:911: Calls the object's leading function pointer and passes that same object as its argument.
+0x80050B7C	func_80050B7C	link_seventeen_indexed_entries	(high) src/slus/code.c:921: Calls build_reverse_indexed_chain with D_800717BC and limit 0x11.
+0x80050CAC	func_80050CAC	submit_enabled_saved_display_value	(medium) src/slus/code.c:931: Passes D_80080B98 to func_80050BA4 when D_80080B94 is set, otherwise passes zero.
+0x80051528	func_80051528	mark_staged_motion_effect_complete	(high) src/slus/code.c:977: Writes one at offset 0x2C only when the object's callback is update_staged_motion_effect.
+0x800517AC	func_800517AC	mark_sine_motion_effect_complete	(high) src/slus/code.c:993: Writes one at offset 0x2C only when the object's callback is update_sine_motion_effect.
+0x80051CA4	func_80051CA4	mark_fade_in_out_effect_complete	(high) src/slus/code.c:1010: Writes one at offset 0x2C only when the object's callback is update_fade_in_out_effect.
+0x80051F38	func_80051F38	mark_color_fade_effect_complete	(high) src/slus/code.c:1026: Writes one at offset 0x2C only when the object's callback is update_color_fade_effect.
+0x800530A4	func_800530A4	mark_timed_animation_sequence_complete	(high) src/slus/code.c:1045: Writes one at offset 0x2A only when the object's callback is play_timed_animation_sequence.
+0x80053C3C	func_80053C3C	submit_cd_command_six_and_drain	(high) src/slus/code.c:1055: Submits command six with the supplied record and mode zero, then drains the CD command queue.
+0x80054AF0	func_80054AF0	select_audio_mode_attenuation	(high) src/slus/code.c:1091: Returns 0x5F for mode one and 0x7F for all other modes; audio stream control callers use it.
+0x80055730	func_80055730	stop_matching_effect_voices	(medium) src/slus/code.c:1110: Calls audio_stop_matching_effect_voices without arguments or other effects.
+0x800557BC	func_800557BC	clear_audio_command_queue	(high) src/slus/code.c:1116: Clears the halfword command queue count at D_80084778; the SD_Call enqueue and pop_audio_queue consumer establish its command FIFO role.
+0x80055990	func_80055990	initialize_audio_ramp_defaults	(high) src/slus/code.c:1122: Initializes the audio ramp gain to 0x80, state to three, active field to zero and both ten-tick ramp parameters to 0xA.
+0x800584E4	func_800584E4	tick_enabled_sequence_tracks	(medium) src/slus/code.c:1162: Calls audio_tick_sequence_tracks only while the sequence enable byte D_800737A4 is nonzero.
+0x80058E50	func_80058E50	add_to_sequence_counter	(high) src/slus/code.c:1194: Adds the supplied signed delta through a word pointer and returns the updated counter.
+0x8005A37C	func_8005A37C	service_audio_timer_callback	(medium) src/slus/code.c:1207: Forwards to service_audio_timer without arguments or other effects; init_audio_subsystem invokes it.
+0x8005A39C	func_8005A39C	set_audio_timer_state	(medium) src/slus/code.c:1213: Stores the supplied value in D_80086D4C; init_audio_subsystem supplies the initial state.
+0x8005A3A8	func_8005A3A8	run_enabled_sound_sequence_update	(medium) src/slus/code.c:1222: Calls sound_run_guarded_sequence_update only while D_80073824 is nonzero.
+0x8005A3D4	func_8005A3D4	clear_cd_audio_mix_mode	(medium) src/slus/code.c:1232: Clears D_8007382A; set_cd_audio_mix_mode invokes it before updating CD mixing state.
+0x8005A4B8	func_8005A4B8	reset_voices_slots_and_stop_spu_service	(medium) src/slus/code.c:1245: Resets all audio voices, resets sound slots, then stops the SPU DMA event service through func_8005D7BC.
+0x8005ACD0	func_8005ACD0	set_sound_flag_update_suppression	(medium) src/slus/code.c:1253: Stores a signed halfword in D_80073828; func_8005ACDC advances voice counters and drains ready flags only when this value is zero.
+0x8005B300	func_8005B300	flush_pending_sound_voice_flags	(medium) src/slus/code.c:1260: Calls func_8005ACDC, which advances voice readiness counters and drains ready flags; reinit_audio_voices invokes this wrapper.
+0x8005B320	func_8005B320	enable_available_spu_reverb	(medium) src/slus/code.c:1269: Checks reverb address availability with one, then enables the SPU reverb control with one; initialization and voice reinitialization invoke it.
+0x8005B3D8	func_8005B3D8	submit_shifted_stereo_sound_parameters	(high) src/slus/code.c:1287: Builds a type-six sound parameter record with each signed halfword shifted left eight and submits it to func_8005DA88.
+0x8005C88C	func_8005C88C	set_audio_channel_volume_control	(high) src/slus/code.c:1310: Masks value to seven bits and applies channel control seven for the supplied halfword index.
+0x8005C8EC	func_8005C8EC	set_audio_channel_pan_control	(high) src/slus/code.c:1318: Masks value to seven bits and applies channel control ten for the supplied halfword index.
+0x8005C9A8	func_8005C9A8	set_spu_master_volume_pair	(medium) src/slus/code.c:1346: Forwards the two signed halfword values to sound_set_spu_master_volume.
+0x8005C9D4	func_8005C9D4	reset_and_release_audio_sequence_banks	(medium) src/slus/code.c:1353: Forwards to audio_reset_and_release_sequence_banks with no other effects.
+0x8005C9F4	func_8005C9F4	submit_audio_driver_byte_command	(medium) src/slus/code.c:1361: Forwards three words to submit_tagged_driver_byte with no other effects.
+0x8005CA1C	func_8005CA1C	submit_audio_driver_scaled_pair	(medium) src/slus/code.c:1369: Forwards byte command and two signed halfwords to submit_scaled_driver_halfword_pair.
+0x8005CA4C	func_8005CA4C	dispatch_audio_driver_halfword_flags	(high) src/slus/code.c:1377: Narrows the supplied word to a signed halfword before dispatch_combined_driver_flags.
+0x8005CA70	func_8005CA70	reset_audio_sequence_state_default	(medium) src/slus/code.c:1385: Calls the sequence-state reset func_8005CA90 with mode zero; audio_reset_sequence_subsystem invokes it.
+0x8005D6D8	func_8005D6D8	select_spu_dma_write_channel_flags	(medium) src/slus/code.c:1393: Clears bits 24 through 27 and sets bit 29 in the DMA flags; the transfer dispatcher selects this helper when D_800799A8 is zero and uses DMA control 0x01000201.
+0x8005D704	func_8005D704	select_spu_dma_read_channel_flags	(medium) src/slus/code.c:1403: Clears bits 24 through 27 and sets bits 25 and 29 in the DMA flags; the transfer dispatcher selects this helper with DMA control 0x01000200.
+0x8005DA68	func_8005DA68	is_tone_parameter_flag_set	(high) src/slus/code.c:1431: Returns whether bit 0x80 is set in the sound record's field at offset 0x1AA; tone parameter command caller tests it.
+0x8005E4A0	func_8005E4A0	update_spu_register_pair_cc_cd	(medium) src/slus/code.c:1440: Returns the SPU pair-update helper with the supplied values and fixed register indices 0xCC and 0xCD.
+0x8005E78C	func_8005E78C	read_spu_register_pair_cc_cd	(high) src/slus/code.c:1447: Calls read_spu_register_pair with register indices 0xCC and 0xCD.
+0x8005EC0C	func_8005EC0C	apply_voice_attributes_and_key_on	(medium) src/slus/code.c:1456: Applies the supplied voice-attribute record through func_8005F134 then calls the key service in mode one with its first-word voice mask; explicit-voice caller first keys that mask off.
+0x8004D0C8	func_8004D0C8	bind_view_triplet_source	(high) src/slus/code2.c:66: Stores the source pointer in runtime slot zero and selects copy_view_halfword_triplet as its callback.
+0x8004D110	func_8004D110	bind_global_triplet_source	(high) src/slus/code2.c:98: Stores the supplied pointer in runtime slot zero and selects copy_global_short_triplet as its callback.
+0x80050F74	func_80050F74	set_current_and_previous_menu_selection	(high) src/slus/code2.c:150: Writes the supplied value to the menu object's current and previous selection words at outer offsets 0x3C and 0x38.
+0x800499BC	func_800499BC	invalidate_four_sprite_resource_slots	(high) src/slus/code2.c:181: Sets all four words of D_80083D78 to minus one; movie and dungeon reset callers invoke it.
+0x80048DA0	func_80048DA0	select_display_spacing_table_entry	(high) src/slus/code2.c:282: Writes count-derived selector bytes count plus five and twice count plus five, then reads the indexed byte from the spacing lookup table.
+0x80034EC4	func_80034EC4	initialize_script_cursor_and_defaults	(medium) src/slus/konami_runtime_w_80034EC4.c:25: Sets script mode two, points both cursors at the inline buffer, and copies two default configuration words; its initialization caller was reviewed.
+0x80038AB8	func_80038AB8	interpret_script_opcodes_until_action_changes	(high) src/slus/konami_runtime_w_80038AB8.c:31: Dispatches positive script opcodes until action changes or a terminator; handles active-script transitions and fallback owner setup, returning whether context state is two.
+0x80038C40	func_80038C40	is_message_byte_in_lookup_set	(high) src/slus/konami_runtime_w_80038C40.c:14: Searches all nine signed bytes of the fixed local table copy and returns whether the input matches any of them.
+0x8003C758	func_8003C758	find_or_load_runtime_resource_key	(high) src/slus/konami_runtime_w_8003C758.c:5: Finds the key unless blocked by mode/control status; for missing keys binds and loads the last runtime entry and returns its index.
+0x8003C920	func_8003C920	initialize_runtime_resource_directory	(high) src/slus/konami_runtime_w_8003C920.c:5: Outside mode two copies the default runtime directory and sets count four; mode two clears the first word, installs the fixed resource pointer and sets count one.
+0x8003E34C	func_8003E34C	reset_cd_command_retry_state	(high) src/slus/w_8003E34C.c:4: Initializes command status bytes to two/minus one and clears command words, retry counters and both queued result words.
+0x8003F368	func_8003F368	query_validated_cd_sector_with_retry	(medium) src/slus/w_8003F368.c:15: Waits for CD sync, retries the position command with mode/reset recovery, validates location components and returns a positive CdPosToInt sector or zero.
+0x80049E88	func_80049E88	select_mapped_object_status_code	(medium) src/slus/w_80049E88.c:10: Scans query priorities from the fixed status table, handles the special query-seven result and returns the mapped code; get_mapped_object_code uses it when the species byte is zero.
+0x8004DD2C	func_8004DD2C	submit_script_with_registered_context	(high) src/slus/w_8004DD2C.c:4: Builds fixed script header and terminator words in the ring buffer, registers the supplied context between them and submits that buffer through set_script_record_buffer.
+0x8004DDE4	func_8004DDE4	build_object_registration_script	(high) src/slus/w_8004DDE4.c:4: Wraps the script cursor to sixteen slots, emits command words and object registration data, then publishes the constructed script record pointer.
+0x80050DA8	func_80050DA8	begin_selection_menu_teardown_and_fade	(high) src/slus/w_80050DA8.c:12: Saves the selection value, installs fade_effect_parts, destroys the attached animated selection menu, marks its companion child for removal and clears the attachment.
+0x80050E20	func_80050E20	destroy_selection_menu_and_release_owner	(high) src/slus/w_80050E20.c:33: Destroys the menu, saves its selection, releases the null-terminated payload array and marks both owner and object for removal.
+0x8005ACDC	func_8005ACDC	drain_ready_sound_voice_flags	(high) src/slus/w_8005ACDC.c:26: When not suppressed advances ready voice counters, repeatedly clears flags until hardware state is zero/two, and applies the combined cleared voice mask.
+0x8005AE08	func_8005AE08	allocate_sequence_bank_slot	(high) src/slus/w_8005AE08.c:15: Accepts three recognized sequence-header magic words, finds the first of eight free slots, stores header/ID with state two and returns its index or minus one.
+0x8005CC04	func_8005CC04	initialize_spu_registers_and_voices	(high) src/slus/w_8005CC04.c:4: Mutes/resets SPU registers, waits for status clear, clears transfer/reverb state and on cold initialization resets all twenty-four voice registers before enabling control 0xC000.
+0x8005CE98	func_8005CE98	write_spu_transfer_fifo_in_chunks	(high) src/slus/w_8005CE98.c:4: Transfers halfwords to the SPU FIFO in up-to-0x40-byte chunks, starts each transfer and polls completion, then restores transfer control/status with bounded timeout diagnostics.
+0x8005D064	func_8005D064	complete_spu_dma_and_signal_event	(high) src/slus/w_8005D064.c:4: Clears SPU transfer control bits, polls until idle or timeout, then invokes the installed completion callback or delivers event 0xF0000009 with spec 0x20.
+0x8005D124	func_8005D124	submit_spu_dma_read_blocks	(high) src/slus/w_8005D124.c:4: Sets SPU transfer address, selects read direction, writes RAM address and block count, and triggers DMA control 0x01000200.
+0x8005D1D0	func_8005D1D0	dispatch_spu_dma_transfer_command	(high) src/slus/w_8005D1D0.c:27: Variadic command dispatcher sets transfer address/direction, polls SPU state with timeout and submits rounded 64-byte DMA blocks.
+0x8005E4C4	func_8005E4C4	modify_spu_register_bit_pair	(high) src/slus/w_8005E4C4.c:4: Reads a 24-bit low/high register pair from hardware or cache; modes zero/one/eight clear/set/replace bits and mark dirty cached pairs.
+0x80099920	func_80099920	step_actor_positive_y_until_timer_expires	(high) src/town/func_8009C1C0.c:10: Refreshes transformed z, decrements the signed timer and either reinitializes the handler or adds 0x20000 to y.
+0x800999AC	func_800999AC	step_actor_negative_x_until_timer_expires	(high) src/town/func_8009C24C.c:10: Refreshes transformed z, decrements the signed timer and either reinitializes the handler or subtracts 0x20000 from x.
+0x80099A38	func_80099A38	step_actor_positive_x_until_timer_expires	(high) src/town/func_8009C2D8.c:10: Refreshes transformed z, decrements the signed timer and either reinitializes the handler or adds 0x20000 to x.
+0x80016784	func_80016784	check_result_predicate_success	(medium) src/town/func_80500784.c:4: Returns whether check_result_not_minus_one itself returns a value other than -1; it preserves the actual outer test.
+0x80016970	func_80016970	check_event_dispatch_success	(medium) src/town/func_806C9970.c:4: Passes both arguments to the event dispatcher and tests its result against -1.
+0x80016778	func_80016778	check_run_operation_result_success	(medium) src/town/func_806CF778.c:4: Passes both arguments to store_run_operation_result and tests its result against -1.
+0x800BB688	func_800BB688	initialize_object_appearance_with_delay	(medium) src/town/map/initialize_object_state_and_appearance.c:8: Installs the fixed object callback, runs initialize_object_state_and_appearance, then sets state word 2 to a thirty-tick delay.
+0x800C5864	func_800C5864	initialize_two_value_adjustment_action	(medium) src/town/person/adjust_two_state_values.c:12: Initializes the actor entries, sets a forty-tick delay and installs adjust_two_state_values after its countdown caller expires.
+0x800C5100	func_800C5100	accelerate_object_coordinates_to_lower_limits	(high) src/town/person/apply_object_setup_and_update.c:8: Applies acceleration and velocity clamps to two fixed-point coordinates, clamps both to -0x08000000, and delegates to apply_object_setup_and_update once z reaches its lower limit.
+0x800C88AC	func_800C88AC	initialize_object_with_supplied_state_handlers	(medium) src/town/person/run_object_handlers_supplied_state.c:10: Initializes through func_800C4804 and installs run_object_handlers_supplied_state in the object callback field.
+0x80097D2C	func_80097D2C	invoke_object_state_callback	(high) src/town/player/anim.c:11: Passes the object itself to its stored state callback at +4; the complete body is a direct callback thunk.

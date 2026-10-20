@@ -12,14 +12,14 @@ void process_first_pending_sound_channel(void) {
     u32 channel;
     u32 channel_bit;
     u32 lock_bit;
-    u32 lock_flags = D_800847D0.flags04 & 0xFF000000;
+    u32 lock_flags = sound_playback_state.flags04 & 0xFF000000;
 
     for (channel = 0; channel < 4; channel++) {
         channel_bit = 0x1000000 << channel;
         lock_bit = channel_bit & 0xF000000;
         if (lock_flags & lock_bit) {
             sound_load_pending_bank_slot((s16) channel);
-            D_800847D0.flags04 &= ~lock_bit;
+            sound_playback_state.flags04 &= ~lock_bit;
             break;
         }
     }

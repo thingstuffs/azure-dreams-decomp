@@ -11,7 +11,7 @@ typedef struct {
     u16 counter2;
     u16 flags;
 } SlusCdDriverPrefix;
-extern SlusCdDriverPrefix D_80083958[];
+extern SlusCdDriverPrefix cd_driver_prefix[];
 
 typedef struct {
     u8 unk00;
@@ -19,5 +19,5 @@ typedef struct {
     u8 unk08[15];
     u8 unk17;
 } SlusCdQueueEntry;
-extern SlusCdQueueEntry D_80083968[32];
+extern SlusCdQueueEntry cd_command_records[32];
 #endif

@@ -7,7 +7,7 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 extern s32 map_angle_to_cardinal_direction(s16 angle);
-extern u8 D_80082660;
+extern u8 object_index_slots;
 extern s32 D_80082A38[];
 /* player_now_ang_get: Store the current player angle when the player slot is available. */
 void player_now_ang_get(void)
@@ -19,7 +19,7 @@ void player_now_ang_get(void)
     int slot_index;
     slot_index = 8;
     script_values = D_80082A38;
-    player_slot = (&D_80082660) + slot_index;
+    player_slot = (&object_index_slots) + slot_index;
     if ((*((s8 *) (player_slot + 1))) == 0) {
         player = *((void **) (player_slot + 4));
         if (player != 0) {

@@ -13,7 +13,7 @@ extern void initialize_memory_card_services(s32 a0);
 extern void sound_set_cd_playback_volume_scale(s16 volume_scale);
 extern void sound_set_voice_gain_scale(s16 a0);
 
-extern void func_8003E34C(void);
+extern void reset_cd_command_retry_state(void);
 extern void init_audio_subsystem(void);
 extern void sound_set_sequence_volume_scale(s16 a0);
 extern void StartPAD(void);
@@ -33,8 +33,8 @@ extern u32 D_80083208[3];
  * hi/lo read immediately consumed as a call arg). */
 
 /* pad-buffer arrays passed to InitPAD */
-extern u8 D_800830C0[0x22];
-extern u8 D_800830E8[0x22];
+extern u8 controller_port_one_reply[0x22];
+extern u8 controller_port_two_reply[0x22];
 
 extern u8 D_80081468[8];
 extern u8 D_80082E6B[];
@@ -49,7 +49,7 @@ extern u8 D_80082E6B[];
 
 /* mirror/shadow copies of the same three D_80013180-group fields */
 
-extern u32 D_80081478[3];
+extern u32 frame_packet_limit_pointers[3];
 extern u8 D_801D8D7A[12];
 extern u8 D_801E964E[12];
 
@@ -62,7 +62,7 @@ void initialize_hardware_and_game_state(void)
 
     SetVideoMode(0);
     CdInit();
-    func_8003E34C();
+    reset_cd_command_retry_state();
     ResetGraph(0);
     init_audio_subsystem();
 
@@ -71,10 +71,10 @@ void initialize_hardware_and_game_state(void)
     sound_set_voice_gain_scale(*(s16 *)0x80080A9C);
 
     for (pad_byte = 0; pad_byte < 0x22; pad_byte++) {
-        D_800830C0[pad_byte] = 0xFF;
-        D_800830E8[pad_byte] = 0xFF;
+        controller_port_one_reply[pad_byte] = 0xFF;
+        controller_port_two_reply[pad_byte] = 0xFF;
     }
-    InitPAD(D_800830C0, 0x22, D_800830E8, 0x22);
+    InitPAD(controller_port_one_reply, 0x22, controller_port_two_reply, 0x22);
 
     StartPAD();
     initialize_memory_card_services(1);
@@ -115,7 +115,7 @@ void initialize_hardware_and_game_state(void)
     initialize_runtime_table_defaults();
 
     {
-        u32 *buffer_ptrs = D_80081478;
+        u32 *buffer_ptrs = frame_packet_limit_pointers;
         *buffer_ptrs = (u32)D_801D8D7A;
         buffer_ptrs[1] = (u32)D_801E964E;
     }

@@ -17,7 +17,7 @@ extern void unlink_node(S_80050EA8 *a0);
 extern void destroy_animated_selection_menu(void *a0);
 
 /* Saves the pending value, unlinks the object, and releases and clears its attachment. */
-void func_80050EA8(S_80050EA8 *object)
+void release_selection_menu_and_preserve_pending_value(S_80050EA8 *object)
 {
     s32 pending_value = object->unk10;
     S_80050EA8_sub *object_state = &object->unk20;

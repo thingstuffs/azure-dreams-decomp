@@ -1431,7 +1431,7 @@ void save_or_restore_random_seed(s32 save_seed) {
 
 /* Restore the saved dungeon RNG seed before the SLUS category shuffle.
  * randSeed is the resident 32-bit RNG state at g_game_work + 0x1FC. */
-void func_800A6D98(s32 saved_seed) {
+void restore_dungeon_random_seed(s32 saved_seed) {
     g_game_work.randSeed = saved_seed;
 }
 #include "common.h"

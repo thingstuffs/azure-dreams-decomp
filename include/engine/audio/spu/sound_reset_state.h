@@ -3,28 +3,28 @@
 
 #include "engine/audio/spu/sound_range_records.h"
 
-extern s32 D_800799C0[10];
-extern s16 D_80079520[24];
-extern s32 D_800794F8;
-extern s32 D_800794FC;
-extern s32 D_80079508;
-extern u16 D_8007950C;
-extern u16 D_8007950E;
-extern s32 D_80079510;
-extern s32 D_80079514;
-extern u32 D_80079500;
-extern s32 D_800794F4;
-extern s32 D_80079974;
-extern s32 D_800794F0;
-extern s32 D_8007951C;
-extern s32 D_80079518;
-extern s32 D_80079950;
+extern s32 spu_reverb_start_addresses[10];
+extern s16 spu_voice_sample_notes[24];
+extern s32 spu_reverb_enabled;
+extern s32 spu_reverb_range_override;
+extern s32 spu_reverb_mode;
+extern u16 spu_reverb_depth_left;
+extern u16 spu_reverb_depth_right;
+extern s32 spu_reverb_delay;
+extern s32 spu_reverb_feedback;
+extern u32 spu_reverb_start_address;
+extern s32 spu_transfer_completion_override;
+extern s32 spu_transfer_uses_fifo;
+extern s32 spu_active_voice_mask;
+extern s32 spu_register_dirty_flags;
+extern s32 spu_buffered_voice_mask;
+extern s32 spu_register_buffer_flags;
 void ResetCallback(s32 channel);
-s32 func_8005CC04(s32 warm);
-void func_8005CB88(void);
+s32 initialize_spu_registers_and_voices(s32 warm);
+void start_spu_dma_event_service(void);
 void store_u16_table_entry(s32 index, u32 value, s32 apply_shift);
 
-void func_8005CA90(s32 channel);
-s32 func_8005E450(s32 enabled);
+void reset_spu_runtime_and_start_event_service(s32 channel);
+s32 set_reverb_address_available(s32 enabled);
 
 #endif

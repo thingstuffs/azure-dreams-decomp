@@ -2,21 +2,21 @@
 
 
 
-void func_8003CB08(void)
+void render_cd_wait_animation_on_new_field(void)
 {
     void **draw_buffer = &D_80083160[0];
 
     if ((D_80082E60.field_0 & 3) == 1) {
         u8 field_id = (u8)((u32)VSync(1) >> 8);
 
-        if (field_id != D_80080AAA) {
+        if (field_id != scene_sprite_last_field) {
             u8 *next_buffer;
             s32 layer;
             s32 trig_value;
             s32 wave_offset;
             s32 center_offset;
 
-            D_80080AAA = field_id;
+            scene_sprite_last_field = field_id;
             PutDispEnv((u8 *)D_80083160[0] + 0x5C);
             PutDrawEnv(*draw_buffer);
 
@@ -27,17 +27,17 @@ void func_8003CB08(void)
             D_80083160[0] = next_buffer;
             *(u32 *)(next_buffer + 0x8D0) = (u32)next_buffer + 0x8D4;
 
-            if (D_80080AA6 != D_80083960[0]) {
-                D_80080AA6 = D_80083960[0];
-                D_80080AA8 = 8;
+            if (scene_sprite_cached_mode != scene_sprite_mode_word[0]) {
+                scene_sprite_cached_mode = scene_sprite_mode_word[0];
+                scene_sprite_fade_ticks = 8;
             }
 
             layer = 63;
             {
-                s16 *y_history = D_800838D8;
+                s16 *y_history = scene_sprite_y_history;
                 s16 *y_dst = y_history + 63;
                 s16 *y_src = y_history + 62;
-                s16 *x_history = D_80083858;
+                s16 *x_history = scene_sprite_x_history;
                 s16 *x_dst = x_history + 63;
                 s16 *x_src = x_history + 62;
 
@@ -53,17 +53,17 @@ void func_8003CB08(void)
             }
 
             layer = 3;
-            trig_value = rcos(D_80080AA4 * 80);
+            trig_value = rcos(scene_sprite_wave_tick * 80);
             {
-                s16 *x_head = D_80083858;
+                s16 *x_head = scene_sprite_x_history;
                 wave_offset = trig_value >> 7;
                 center_offset = shift10(trig_value) + 0x100;
                 *x_head = (s16)(wave_offset + center_offset);
             }
 
-            trig_value = rsin(D_80080AA4 * 80);
+            trig_value = rsin(scene_sprite_wave_tick * 80);
             {
-                s16 *y_head = D_800838D8;
+                s16 *y_head = scene_sprite_y_history;
                 s32 center_offset;
                 wave_offset = trig_value >> 7;
                 center_offset = shift10(trig_value) + 0xB0;
@@ -75,11 +75,11 @@ void func_8003CB08(void)
                 func_8003CCB0(layer);
             }
 
-            if (D_80080AA8 != 0) {
-                D_80080AA8--;
+            if (scene_sprite_fade_ticks != 0) {
+                scene_sprite_fade_ticks--;
             }
             DrawSync(0);
-            D_80080AA4++;
+            scene_sprite_wave_tick++;
         }
     }
 }
@@ -106,15 +106,15 @@ void func_8003CCB0(s32 blend_step)
     scratch = (u8 *)0x1F800000;
     render_state = (u8 **)D_80083160;
 
-    if (D_80080AAC == 0) {
+    if (scene_sprite_list_initialized == 0) {
         u8 *sprite_slot;
         s32 origin_offset;
         u8 *sprite_ids;
         sprite_index = 0;
-        sprite_ids = D_8006CDB8;
+        sprite_ids = scene_sprite_glyph_ids;
         origin_offset = -4;
-        sprite_slot = D_80083798;
-        D_80080AAC = D_80080AAC + 1;
+        sprite_slot = scene_sprite_object_storage;
+        scene_sprite_list_initialized = scene_sprite_list_initialized + 1;
         sprite_key[1] = 0;
         do {
             sprite_key[0] = *(u8 *)(sprite_index + (u32)sprite_ids);
@@ -122,7 +122,7 @@ void func_8003CCB0(s32 blend_step)
             S8_AT((u8 *)colour, 3) = origin_offset;
             S8_AT((u8 *)colour, 2) = origin_offset;
             if (sprite_index == 0) {
-                D_80080AB0 = (u8 *)colour;
+                scene_sprite_list_base = (u8 *)colour;
             }
             sprite_index++;
             sprite_slot += 0xC;
@@ -139,7 +139,7 @@ void func_8003CCB0(s32 blend_step)
     U16_AT(scratch, 0x74) = 0;
     PushMatrix();
     {
-        colour = (s32)((u8 *)D_80080AB0);
+        colour = (s32)((u8 *)scene_sprite_list_base);
         sprite_base = ((u8 *)colour) + 4;
     }
     U16_AT(scratch, 0x28) = 0;
@@ -151,13 +151,13 @@ void func_8003CCB0(s32 blend_step)
         sprite_uv = sprite_base + sprite_index * 12;
         path_offset = sprite_index << 2;
         {
-            s32 start_x = *(s16 *)((u8 *)D_80083858 + path_offset);
-            s32 end_x = *(s16 *)((u8 *)D_80083858 + 4 + path_offset);
+            s32 start_x = *(s16 *)((u8 *)scene_sprite_x_history + path_offset);
+            s32 end_x = *(s16 *)((u8 *)scene_sprite_x_history + 4 + path_offset);
             U32_AT(scratch, 0x40) = start_x + ((end_x - start_x) * blend_step) / 8;
         }
         {
-            s32 start_y = *(s16 *)((u8 *)D_800838D8 + path_offset);
-            s32 end_y = *(s16 *)((u8 *)D_800838D8 + 4 + path_offset);
+            s32 start_y = *(s16 *)((u8 *)scene_sprite_y_history + path_offset);
+            s32 end_y = *(s16 *)((u8 *)scene_sprite_y_history + 4 + path_offset);
             U32_AT(scratch, 0x44) = start_y + ((end_y - start_y) * blend_step) / 8;
         }
         TransMatrix(scratch + 0x50, scratch + 0x40);
@@ -232,13 +232,13 @@ void func_8003CCB0(s32 blend_step)
         packet->code = 0x2C;
 
         {
-            s32 pulse = (rsin((D_80080AA4 << 8) + (sprite_index << 6)) >> 6) + 0x80;
+            s32 pulse = (rsin((scene_sprite_wave_tick << 8) + (sprite_index << 6)) >> 6) + 0x80;
             s32 fade_shift = blend_step / 2;
             shade = pulse >> fade_shift;
         }
         packet->r = shade;
         colour = 0;
-        if (D_80080AA8 == 0) {
+        if (scene_sprite_fade_ticks == 0) {
             colour = shade;
         }
         {
@@ -258,9 +258,9 @@ void func_8003CCB0(s32 blend_step)
         *(u8 **)(render_state[0] + 0x8D0) = quad;
     }
 }
-s16 D_80080AA4 = 0;
-u16 D_80080AA6 = 0;
-u16 D_80080AA8 = 0;
-u8 D_80080AAA = 0;
-s16 D_80080AAC = 0;
-void * D_80080AB0 = 0;
+s16 scene_sprite_wave_tick = 0;
+u16 scene_sprite_cached_mode = 0;
+u16 scene_sprite_fade_ticks = 0;
+u8 scene_sprite_last_field = 0;
+s16 scene_sprite_list_initialized = 0;
+void * scene_sprite_list_base = 0;

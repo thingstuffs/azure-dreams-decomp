@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_8004D880();                             /* extern */
+s32 map_fullwidth_character_to_glyph_byte();                             /* extern */
 void get_glyph_vram_rectangle(s32 rect_id, s16 *vram_rect);              /* extern */
 void func_800673A0(void *, s32, s32);         /* extern */
 
@@ -24,7 +24,7 @@ void draw_vram_glyph_text(u8 *text, s16 start_x, s16 y) {
             code_hi = ((S_80123928_0 *)cursor)->unk_00;
             code_lo = ((S_80123928_0 *)cursor)->unk_01;
             cursor += 2;
-            get_glyph_vram_rectangle(func_8004D880(code_lo | (code_hi << 8)) & 0xFF, &glyph);
+            get_glyph_vram_rectangle(map_fullwidth_character_to_glyph_byte(code_lo | (code_hi << 8)) & 0xFF, &glyph);
             func_800673A0(&glyph, x, y);
             x += 2;
         } while (*cursor != 0);

@@ -367,7 +367,7 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
         }
         coord = (u8 *)obj + 0x20;
         *(void **)((u8 *)obj + 0x10) = update_effect_and_spawn_fragments;
-        register_node(obj, func_80046398);
+        register_node(obj, draw_linked_lit_meshes);
         render = *(void **)((u8 *)obj + 8);
         ((S_8195EF44_4 *)render)->unk_02 = world_x;
         ((S_8195EF44_5 *)coord)->unk_38 = world_x;

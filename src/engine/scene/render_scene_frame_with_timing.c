@@ -17,14 +17,14 @@ extern void func_8003E758(void);
 extern void tick_screen_fade_slots(void);
 extern void run_runtime_callbacks(void);
 extern void dispatch_and_clear_four_pointer_slots(void);
-extern void func_800542BC(void);
+extern void drain_audio_commands_and_service_channels(void);
 extern void update_active_nodes_and_render_frame(void);
 
 extern u8 D_80080A84;
-extern u8 D_80080A85;
+extern u8 scene_skip_vsync;
 extern s8 D_80080A87;
-extern s32 D_80081480;
-extern s32 D_8008148C;
+extern s32 gpu_scratch_write_pointer;
+extern s32 gpu_scratch_buffer_base;
 extern u8 D_801C9E40[];
 extern u16 D_80013714[];
 
@@ -44,9 +44,9 @@ void render_scene_frame_with_timing(void)
         DrawOTag((u8 *)g_game_work.draw_buffer + 0x8CC);
     }
     func_8003E758();
-    func_800542BC();
-    copied_value = D_8008148C;
-    D_80081480 = copied_value;
+    drain_audio_commands_and_service_channels();
+    copied_value = gpu_scratch_buffer_base;
+    gpu_scratch_write_pointer = copied_value;
     run_runtime_callbacks();
     update_controller_buttons_and_triggers();
 
@@ -72,7 +72,7 @@ void render_scene_frame_with_timing(void)
     frame_ticks >>= 8;
     D_80080A87 = (s8)frame_ticks;
     if (!(sync_flags & 2)) {
-        if (D_80080A85 == 0) {
+        if (scene_skip_vsync == 0) {
             VSync((D_80080A84 != 1) * 2);
         }
     }

@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void clear_alternate_texture_regions(s32);
-extern void func_800485B8(s32);
+extern void load_equipment_change_palette(s32);
 extern u8 *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s16 flag);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
@@ -111,7 +111,7 @@ void change_equipped_item_and_notify(S_80098614_0 *actor, u8 *requested_item)
     text_end = item_id;
     actor->unk_86 = D_800DD2EC[text_end];
     if (text_end != 0) {
-        func_800485B8(text_end);
+        load_equipment_change_palette(text_end);
         return;
     }
     clear_alternate_texture_regions(0);

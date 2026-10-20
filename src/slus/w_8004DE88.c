@@ -1,7 +1,7 @@
 #include "slus/message_mode_81550.h"
 
-extern u32 D_80083D88[0x24];
-extern char D_80083E18[0x100];
+extern u32 message_embedded_control_words[0x24];
+extern char message_conversion_buffer[0x100];
 
 /* Builds and dispatches a message with control codes and two embedded addresses. */
 void runtime_dispatch_control_coded_message(char *message)
@@ -10,17 +10,17 @@ void runtime_dispatch_control_coded_message(char *message)
     u32 address;
     char *buffer;
 
-    cursor = D_80083E18;
+    cursor = message_conversion_buffer;
     *cursor++ = 8;
     strcpy(cursor, message);
 
-    buffer = D_80083E18;
+    buffer = message_conversion_buffer;
     cursor = strrchr(buffer, 0);
     *cursor++ = 0x19;
     *cursor++ = 2;
     *cursor++ = 0x1A;
 
-    address = (u32)D_80083D88;
+    address = (u32)message_embedded_control_words;
     cursor[1] = address >> 8;
     cursor[2] = address >> 16;
     cursor[0] = address;
@@ -33,7 +33,7 @@ void runtime_dispatch_control_coded_message(char *message)
     cursor[2] = address >> 16;
     cursor[3] = address >> 24;
 
-    D_800714A4[D_80081550](buffer);
-    D_80083D88[0] = 0x2300030C;
-    D_80083D88[1] = 0x2300040C;
+    message_mode_handlers[D_80081550](buffer);
+    message_embedded_control_words[0] = 0x2300030C;
+    message_embedded_control_words[1] = 0x2300040C;
 }

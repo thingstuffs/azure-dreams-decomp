@@ -5,13 +5,13 @@ typedef struct {
     s32 unk04;
 } S_800869C0;
 
-extern S_800869C0 D_800869C0[16];
-extern u8 D_8007382B[9];
-extern s32 D_80073830[9];
+extern S_800869C0 audio_ram_blocks[16];
+extern u8 sound_ram_reserve_mode[9];
+extern s32 sound_ram_reserved_sizes[9];
 extern void sort_entries_by_key(void);
 
 /* Reserves space in the entry table and returns its offset, or -1 if it exceeds the limit. */
-s32 func_80059E94(s32 size)
+s32 reserve_sound_ram_region(s32 size)
 {
     s32 alloc_size;
     s32 offset;
@@ -27,14 +27,14 @@ s32 func_80059E94(s32 size)
 
     alloc_size = size;
     offset = 0x1010;
-    first_entry = &D_800869C0[0];
+    first_entry = &audio_ram_blocks[0];
     if (first_entry->unk00 != 0) {
         goto loop_start;
     }
     initial_end = alloc_size + 0x1010;
     {
-        u8 initial_reserve_index = D_8007382B[0];
-        s32 *initial_reserve_sizes = D_80073830;
+        u8 initial_reserve_index = sound_ram_reserve_mode[0];
+        s32 *initial_reserve_sizes = sound_ram_reserved_sizes;
 
         alloc_limit = 0x80000 - initial_reserve_sizes[initial_reserve_index];
     }
@@ -58,12 +58,12 @@ loop_start:
         entry_index = 0;
         memory_end = 0x80000;
         entry = first_entry;
-        reserve_index = D_8007382B[0];
+        reserve_index = sound_ram_reserve_mode[0];
         for (; 16 > entry_index; entry_index++, entry++) {
             if (entry->unk04 != 0) {
                 continue;
             }
-            reserved_size = (reserve_sizes = D_80073830)[reserve_index];
+            reserved_size = (reserve_sizes = sound_ram_reserved_sizes)[reserve_index];
             offset = entry->unk00;
             end_offset = offset + alloc_size;
             if ((u32)end_offset >= (u32)(memory_end - reserved_size)) {

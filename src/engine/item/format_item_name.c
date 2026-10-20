@@ -32,7 +32,7 @@ typedef struct
 S_80082E6A;
 
 extern S_8004951C_CatEntry itemCategoryTable[];
-extern S_80082E6A D_80082E6A;
+extern S_80082E6A runtime_dispatch_mode_alias;
 extern void *memset(void *, s32, s32);
 extern s32 get_item_category_flags(void *);
 extern s32 get_scaled_byte_value(void *);
@@ -51,7 +51,7 @@ s32 format_item_name(s32 text_target, S_8004951C_Item *item)
     memset(text, 0x20, 0x20);
     text[0x1F] = 0;
 
-    if ((D_80082E6A.unk0 == 2) && (get_item_category_flags(item) != 0)) {
+    if ((runtime_dispatch_mode_alias.unk0 == 2) && (get_item_category_flags(item) != 0)) {
         return 0;
     }
 
@@ -63,7 +63,7 @@ s32 format_item_name(s32 text_target, S_8004951C_Item *item)
 
     if (kind == 3) {
         s32 subtype = item->unk3 & 0x1F;
-        if ((subtype < 0x14) && (D_80082E6A.unk0 != 1)) {
+        if ((subtype < 0x14) && (runtime_dispatch_mode_alias.unk0 != 1)) {
             if (resolve_indexed_value(subtype)->unk28 == 0) {
                 text[0] = 0x7A;
             }
@@ -71,7 +71,7 @@ s32 format_item_name(s32 text_target, S_8004951C_Item *item)
     }
     else {
         if (item->unk1 == 18) {
-            if (D_80082E6A.unk0 != 1) {
+            if (runtime_dispatch_mode_alias.unk0 != 1) {
                 func_8004E5A0(0x64 - item->unk2, 3, &text[9]);
                 remap_flagged_string_bytes(&text[9]);
                 text[0xC] = 0xA;

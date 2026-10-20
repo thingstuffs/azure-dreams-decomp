@@ -43,10 +43,10 @@ typedef struct {
     s32 f94;
 } S_80056C30_85014;
 
-extern s32 D_80073734[4];
-extern s32 D_80073740[64];
-extern S_80056C30_85458 D_80085458[64];
-extern S_80056C30_85014 D_80085014;
+extern s32 audio_voice_count[4];
+extern s32 audio_voice_masks[64];
+extern S_80056C30_85458 audio_voice_records[64];
+extern S_80056C30_85014 audio_reset_channel_control_alias;
 
 extern void audio_reset_sequence_tracks_and_channels(void);
 extern s32 sound_reset_indexed_voice_envelope(s32 request_index);
@@ -61,27 +61,27 @@ void audio_reset_all_voices(void) {
     audio_reset_sequence_tracks_and_channels();
 
     all_flags = 0;
-    for (slot = 0; slot < D_80073734[0]; slot++) {
-        D_80085458[slot].f00 = slot;
-        D_80085458[slot].f1a = 0;
-        D_80085458[slot].f18 = 0x40;
-        D_80085458[slot].f70 = 0x40;
-        D_80085458[slot].f74 = 0x40;
-        slot_flags = D_80073740[slot];
+    for (slot = 0; slot < audio_voice_count[0]; slot++) {
+        audio_voice_records[slot].f00 = slot;
+        audio_voice_records[slot].f1a = 0;
+        audio_voice_records[slot].f18 = 0x40;
+        audio_voice_records[slot].f70 = 0x40;
+        audio_voice_records[slot].f74 = 0x40;
+        slot_flags = audio_voice_masks[slot];
         sound_reset_indexed_voice_envelope(slot);
         all_flags |= slot_flags;
         func_8005E97C(0, slot_flags);
     }
 
-    D_80085014.f0c = 0x7F;
-    D_80085014.f04 = 0x40;
-    D_80085014.f18 = 0;
-    D_80085014.f1c = 0x40;
-    D_80085014.f14 = 0x7F;
-    D_80085014.f20 = 0x7F;
-    D_80085014.f24 = 0x7F;
-    D_80085014.f08 = 0;
-    D_80085014.f94 = 0;
-    D_80085014.f50 = 0;
+    audio_reset_channel_control_alias.f0c = 0x7F;
+    audio_reset_channel_control_alias.f04 = 0x40;
+    audio_reset_channel_control_alias.f18 = 0;
+    audio_reset_channel_control_alias.f1c = 0x40;
+    audio_reset_channel_control_alias.f14 = 0x7F;
+    audio_reset_channel_control_alias.f20 = 0x7F;
+    audio_reset_channel_control_alias.f24 = 0x7F;
+    audio_reset_channel_control_alias.f08 = 0;
+    audio_reset_channel_control_alias.f94 = 0;
+    audio_reset_channel_control_alias.f50 = 0;
     func_8005E97C(0, all_flags);
 }

@@ -9,13 +9,13 @@ typedef struct {
     u16 field_A;
 } S_80086C00;
 
-extern S_80086C00 D_80086C00[8];
+extern S_80086C00 audio_sequence_slots[8];
 extern s32 get_sequence_play_state(void);
 
 /* Advances an entry's state from 1 to 3 when get_sequence_play_state returns 3, then returns the state. */
 s16 update_sequence_slot_state(s16 entry_index)
 {
-    S_80086C00 *entries = D_80086C00;
+    S_80086C00 *entries = audio_sequence_slots;
     S_80086C00 *entry = &entries[entry_index];
 
     if (entry->field_2 == 1) {
@@ -24,5 +24,5 @@ s16 update_sequence_slot_state(s16 entry_index)
             entry->field_2 = (s16)next_state;
         }
     }
-    return D_80086C00[entry_index].field_2;
+    return audio_sequence_slots[entry_index].field_2;
 }

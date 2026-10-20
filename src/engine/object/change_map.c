@@ -52,9 +52,9 @@ extern void func_80041094(u16, s16, s16, s32, s32);
 extern s32 runtime_is_record_handler_changed(void *);
 
 extern RuntimeState D_8006ADBC;
-extern RuntimeState D_8006ADEC;
-extern s16 D_8006ADE8[5];
-extern RuntimeCallback D_8006AE10[3];
+extern RuntimeState map_change_state;
+extern s16 map_change_pending[5];
+extern RuntimeCallback map_change_callback[3];
 extern s16 D_8006AE18[5];
 extern u8 D_80080A88;
 extern u8 D_800812F8;
@@ -81,12 +81,12 @@ void change_map(InputRecord *input)
 
     process_unlinked_type_four_entries();
     D_8006ADBC.field_28 = D_8006ADBC.field_18;
-    D_8006ADEC.field_28 = D_8006ADBC.field_18;
+    map_change_state.field_28 = D_8006ADBC.field_18;
     D_8006ADBC.field_2A = D_8006ADBC.field_1A;
-    D_8006ADEC.field_2A = D_8006ADBC.field_1A;
-    D_8006ADEC.field_18 = input->field_00;
+    map_change_state.field_2A = D_8006ADBC.field_1A;
+    map_change_state.field_18 = input->field_00;
     entry_index = input->field_02;
-    D_8006ADEC.field_1A = entry_index;
+    map_change_state.field_1A = entry_index;
     D_800D381A = entry_index;
     do {
     } while (0);
@@ -99,14 +99,14 @@ void change_map(InputRecord *input)
                                (input->field_02 << 5));
     }
 
-    pair = build_four_value_entry_result(D_8006ADEC.field_18,
-                         D_8006ADEC.field_1A);
+    pair = build_four_value_entry_result(map_change_state.field_18,
+                         map_change_state.field_1A);
     if (pair->field_04 == D_800D426C &&
         pair->field_06 == D_800D426E) {
         D_80080A88 = 1;
     }
 
-    state = &D_8006ADEC;
+    state = &map_change_state;
     state_data = input->field_0C;
     state->field_10 = entry;
     state->field_24 = state_data;
@@ -123,8 +123,8 @@ void change_map(InputRecord *input)
         }
     }
 
-    if (D_8006AE10[0] != 0) {
-        D_8006AE10[0](state, callback_data);
+    if (map_change_callback[0] != 0) {
+        map_change_callback[0](state, callback_data);
     }
 
     func_80041094(input->field_00,
@@ -138,9 +138,9 @@ void change_map(InputRecord *input)
     {
         s32 check_result = runtime_is_record_handler_changed(D_80082A38);
         if (check_result != 0) {
-            D_8006ADE8[0] = 1;
+            map_change_pending[0] = 1;
         } else {
-            D_8006ADE8[0] = 0;
+            map_change_pending[0] = 0;
         }
         D_8006AE18[0] = 0;
     }

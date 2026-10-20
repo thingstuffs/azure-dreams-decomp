@@ -33,7 +33,7 @@ s32 service_script_controller(void);
 s32 func_800352FC(void);
 s32 func_80064584(s32 angle);
 s32 rand(void);
-s32 func_80046398(void *group_data, void *position, void *render_data, s32 unused);
+s32 draw_linked_lit_meshes(void *group_data, void *position, void *render_data, s32 unused);
 void randomize_paired_object_motion(void *pair);
 void advance_motion_and_flag_zero_velocity(void *actor, void *motion, s32 actor_id);
 void *memcpy(void *dst, const void *src, u32 n);

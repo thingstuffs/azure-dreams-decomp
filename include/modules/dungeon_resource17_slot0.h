@@ -494,8 +494,8 @@ s32 func_801721E0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
 void func_801723A4(Rec_func_800A9E70_arg0 *action_state, void *context, Rec_D_80082E80 *animation,
     EntityRec *entity);
 s32 func_801724C4(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void func_80172608(void *state, s32 unused, s32 source, s32 target);
-void func_8017269C(Resource17CallbackState *state, void *entity, void *position, void *graphic);
+void finish_actor_tile_move_then_resume_ground_movement(void *state, s32 unused, s32 source, s32 target);
+void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(Resource17CallbackState *state, void *entity, void *position, void *graphic);
 void update_staged_movement_and_direction(void *action, void *motion, void *sprite, void *actor);
 void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80172C18_Actor *actor, R17_80172C18_Entity *ent);
 void func_80173244(void *action, void *motion, void *sprite, void *actor);
@@ -503,14 +503,14 @@ void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, Mo
     R17_80173614_S_func_80C17E14_3 *entity);
 void func_80173868(void *state, void *motion, void *position, void *actor);
 void func_80173888(void *state, void *motion, void *position, void *actor);
-void func_801738A8(Resource17CallbackState *state, void *motion, void *position, void *actor);
+void finish_actor_hop_and_grow_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor);
 void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *entity_arg);
 void func_80173F10(void *action, void *context, void *sprite, void *entity);
 void func_80174250(R17_80174250_Actor *actor, s32 action, R17_80174250_Entity *entity, R17_80174250_MapObject *map_object);
 void update_timed_effect_and_expire(Resource17CallbackState *state, void *entity, void *position, void *graphic);
-void func_8017437C(Resource17CallbackState *state, void *motion, void *position, void *actor);
-void func_801743B4(Resource17CallbackState *state, void *motion, void *position, void *actor);
+void finish_actor_terrain_interpolation_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor);
+void finish_spinning_actor_fall_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor);
 void update_effect_trajectory_and_sprite(Resource17CallbackState *state, void *motion, void *position, void *actor);
 void blend_animation_palette_and_complete(Resource17CallbackState *state, void *motion, void *position, void *actor);
-void func_8017445C(Resource17CallbackState *state, void *motion, void *position, void *actor);
+void finish_actor_action_flag_propagation_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor);
 #endif

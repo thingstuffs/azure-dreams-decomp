@@ -13,8 +13,8 @@ s32 clamp_and_submit_driver_parameter(s32 voice, u32 rate)
 
     submit_driver_transfer_with_fallback(voice, clamped_rate);
 
-    if (D_80079990 == 0) {
-        D_8007998C = 0;
+    if (spu_transfer_callback == 0) {
+        spu_transfer_complete = 0;
     }
 
     return clamped_rate;
@@ -30,8 +30,8 @@ s32 lookup_and_scale_driver_address(s32 address)
     }
 
     shift_input = (u16)audio_handle_optionally_aligns_shifts_stores_returns_result(-1, address);
-    D_80079970 = shift_input;
-    return (s32)shift_input << D_80079980;
+    spu_transfer_address_units = shift_input;
+    return (s32)shift_input << spu_address_unit_shift;
 }
 
 /* Polls or waits for SPU transfer completion and latches the completion status. */
@@ -39,14 +39,14 @@ s32 poll_driver_completion_event(s32 wait_for_completion)
 {
     s32 event_status;
 
-    if (D_800794F4 == 1 || D_8007998C == 1) {
+    if (spu_transfer_completion_override == 1 || spu_transfer_complete == 1) {
         return 1;
     }
 
-    event_status = TestEvent(D_800794EC);
+    event_status = TestEvent(spu_transfer_event_handle);
     if (wait_for_completion == 1) {
         if (event_status == 0) {
-            while (TestEvent(D_800794EC) == 0) {
+            while (TestEvent(spu_transfer_event_handle) == 0) {
             }
         }
         event_status = 1;
@@ -56,6 +56,6 @@ s32 poll_driver_completion_event(s32 wait_for_completion)
         }
     }
 
-    D_8007998C = event_status;
+    spu_transfer_complete = event_status;
     return event_status;
 }

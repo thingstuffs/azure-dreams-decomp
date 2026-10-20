@@ -16,5 +16,5 @@ void initialize_object_handlers(void *object) {
     *(s8 *) ((u8 *) object + 0x92) = 1;
     *(void **) ((u8 *) object + 0x54) = &D_800C3988[0];
     *(s8 *) ((u8 *) object + 0x15) = 0;
-    D_80082660[*(s32 *) ((u8 *) object + 0x60)].unk_01 = 0;
+    object_index_slots[*(s32 *) ((u8 *) object + 0x60)].unk_01 = 0;
 }

@@ -8,8 +8,8 @@ typedef struct CueRecord {
     u32 second;
 } CueRecord;
 
-extern CueRecord *func_8003F534(void);
-extern int func_80054AF0(int);
+extern CueRecord *read_sound_stream_cue_pointer(void);
+extern int select_audio_mode_attenuation(int);
 extern void activate_pending_playback(void);
 extern void sound_begin_cd_playback_setup(void);
 extern void audio_handle_stream_control_event(s32);
@@ -26,9 +26,9 @@ void audio_dispatch_stream_request(s32 message)
         CueRecord *record;
         u32 offset_base;
         u32 flags;
-        record = func_8003F534();
+        record = read_sound_stream_cue_pointer();
         record_value = record->value;
-        status = &D_800847D0;
+        status = &sound_playback_state;
         status->unk_1C = record_value;
         offset_base = record->base;
         status->unk_10 = record->first;
@@ -45,19 +45,19 @@ void audio_dispatch_stream_request(s32 message)
         flags = status->flags00;
         if (flags & 0x400) {
             status->flags00 = flags | 0x4000;
-            D_80084864[0] = 2;
+            sound_stream_task_word[0] = 2;
             break;
         }
         if (status->flags04 & 0x200) {
             break;
         }
         {
-            SoundTask *update_state = &D_80084858;
+            SoundTask *update_state = &sound_stream_task;
             s16 signed_value;
             int initial_value;
             update_state->unk_04 = 0;
             signed_value = (s16)record_value;
-            initial_value = func_80054AF0(signed_value);
+            initial_value = select_audio_mode_attenuation(signed_value);
             update_state->unk_08 = initial_value;
             update_state->unk_0A = initial_value;
         }

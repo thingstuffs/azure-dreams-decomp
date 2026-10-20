@@ -26,7 +26,7 @@ typedef struct S_800525D4_obj {
     S_800525D4_sub sub;           /* 0x20 */
 } S_800525D4_obj;
 
-extern u8 D_80071E44[0x10];
+extern u8 cd_cue_effect_visual_data[0x10];
 
 extern void sound_set_cd_cue_parameters(int a0, int a1, int a2, int a3);
 extern short SD_Call(int a0);
@@ -58,7 +58,7 @@ void create_cd_cue_effect(void)
         slots->f2 = 0;
         slots->count = 0;
         slots->f6 = 0;
-        slots->f8 = D_80071E44;
+        slots->f8 = cd_cue_effect_visual_data;
         slots->fC = 0;
         slots->f10 = 0;
         slots->f14 = 0;

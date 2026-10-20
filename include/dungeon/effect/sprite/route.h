@@ -344,7 +344,7 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern s32 func_80065420(void *, void *, void *, void *);
 s32 check_left_tile_and_center_height();
 extern void try_apply_confusion_status();
-extern void func_800542BC();
+extern void drain_audio_commands_and_service_channels();
 extern s32 generate_random_value();
 extern s32 try_trigger_target_record_effect();
 extern s32 check_adjacent_tile_height_clearance();

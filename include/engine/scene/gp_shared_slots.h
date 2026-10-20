@@ -8,13 +8,13 @@
 
 extern void *D_80083160[3];
 extern u8 D_801C9E40[2][0x108D4];
-extern u16 D_80083960[5];
-extern s16 D_80080AA4;
-extern u16 D_80080AA6;
-extern u16 D_80080AA8;
-extern u8 D_80080AAA;
-extern s16 D_80083858[64];
-extern s16 D_800838D8[64];
+extern u16 scene_sprite_mode_word[5];
+extern s16 scene_sprite_wave_tick;
+extern u16 scene_sprite_cached_mode;
+extern u16 scene_sprite_fade_ticks;
+extern u8 scene_sprite_last_field;
+extern s16 scene_sprite_x_history[64];
+extern s16 scene_sprite_y_history[64];
 extern s32 VSync(s32 mode);
 extern void PutDispEnv(void *env);
 extern void PutDrawEnv(void *env);
@@ -52,14 +52,14 @@ extern void DrawPrim(void *p);
 extern s32 rsin(s32);
 extern void *build_positioned_text_glyphs(void *a0, void *a1, s32 a2);
 
-extern s16 D_80080AAC;
-extern void *D_80080AB0;
-extern s16 D_80080AA4;
-extern u16 D_80080AA8;
-extern u8 D_8006CDB8[14];
-extern u8 D_80083798[];
-extern s16 D_80083858[64];
-extern s16 D_800838D8[64];
+extern s16 scene_sprite_list_initialized;
+extern void *scene_sprite_list_base;
+extern s16 scene_sprite_wave_tick;
+extern u16 scene_sprite_fade_ticks;
+extern u8 scene_sprite_glyph_ids[14];
+extern u8 scene_sprite_object_storage[];
+extern s16 scene_sprite_x_history[64];
+extern s16 scene_sprite_y_history[64];
 extern void *D_80083160[3];
 
 typedef union { struct { u8 u, v; } c; u16 word; } UVPair;
@@ -82,7 +82,7 @@ typedef struct {
 
 /* Draw fourteen sprites with interpolated positions and pulsing color. */
 
-void func_8003CB08(void);
+void render_cd_wait_animation_on_new_field(void);
 void func_8003CCB0(s32 blend_step);
 
 #endif
