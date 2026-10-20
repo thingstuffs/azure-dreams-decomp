@@ -66,7 +66,15 @@
       "vma": 2147776388,
       "foff": 110468,
       "map": "slus_load",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 110468,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "source_clients": [
         "src/dungeon/func_8105A724.c"
       ],
@@ -76,7 +84,15 @@
       "vma": 2148124988,
       "foff": 750044,
       "map": "dungeon_resident",
-      "first_word": "d0ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 750044,
+          "length": 4,
+          "sha256": "07efcfb5b6bb510eb64fcae32e1e38906cd8f6df72b9f4bf5449a2084382259c"
+        },
+        "format": "hex"
+      },
       "source_clients": [
         "src/dungeon/func_8105A724.c"
       ],
@@ -86,7 +102,15 @@
       "vma": 2148139316,
       "foff": 764372,
       "map": "dungeon_resident",
-      "first_word": "88008294",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 764372,
+          "length": 4,
+          "sha256": "8193c1229d2a586d2c5a08a204ecca820a8b0f1bde26cc7390d06aac89125be8"
+        },
+        "format": "hex"
+      },
       "source_clients": [
         "src/dungeon/func_8105A724.c"
       ],
@@ -96,7 +120,15 @@
       "vma": 2148140272,
       "foff": 765328,
       "map": "dungeon_resident",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 765328,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "source_clients": [
         "src/dungeon/func_8105A724.c"
       ],
@@ -106,7 +138,15 @@
       "vma": 2148150108,
       "foff": 775164,
       "map": "dungeon_resident",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 775164,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "source_clients": [
         "src/dungeon/func_8105A724.c"
       ],
@@ -116,7 +156,15 @@
       "vma": 2148150456,
       "foff": 775512,
       "map": "dungeon_resident",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 775512,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "source_clients": [
         "src/dungeon/func_8105A724.c"
       ],
@@ -126,7 +174,15 @@
       "vma": 2148301104,
       "foff": 926160,
       "map": "dungeon_resident",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 926160,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "source_clients": [
         "src/dungeon/func_8105A724.c"
       ],

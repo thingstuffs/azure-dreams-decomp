@@ -102,8 +102,34 @@
               "2463e704"
             ],
             "retail": [
-              "3c028007",
-              "2442e704"
+              {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 2778804,
+                  "length": 4,
+                  "sha256": "a85e0333bff9d36375ed5f5ba0e790327b6f533c59109375c7f2f973b5117cef"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "",
+                  "width": 8,
+                  "uppercase": false
+                }
+              },
+              {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 2778808,
+                  "length": 4,
+                  "sha256": "6dfa3fbb9ba24dfc0480cc0f02fbe6e27c7b8176ed0bc30e098b7695d15b1aa7"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "",
+                  "width": 8,
+                  "uppercase": false
+                }
+              }
             ]
           },
           {
@@ -127,8 +153,34 @@
               "8c220af4"
             ],
             "retail": [
-              "00451021",
-              "8c420000"
+              {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 56440,
+                  "length": 4,
+                  "sha256": "cd1c2fcb5d875a190840278fbbf442cc796cbd496dff03a6b4e7de5880bfa8f2"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "",
+                  "width": 8,
+                  "uppercase": false
+                }
+              },
+              {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 56444,
+                  "length": 4,
+                  "sha256": "15cbfccf4e65710ce9988c5bcb3d0ed67944777a55004c3ab50ba53b22b98744"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "",
+                  "width": 8,
+                  "uppercase": false
+                }
+              }
             ]
           },
           {
@@ -176,8 +228,34 @@
             "retail_word_offset": 73,
             "built": [],
             "retail": [
-              "3c048008",
-              "24840af4"
+              {
+                "$retail": {
+                  "file": "SLUS_006.14",
+                  "offset": 97440,
+                  "length": 4,
+                  "sha256": "219bb7aa6b8323267473712eeb3219a5838ac3a514f6c7839b38c8c3f31a43d4"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "",
+                  "width": 8,
+                  "uppercase": false
+                }
+              },
+              {
+                "$retail": {
+                  "file": "SLUS_006.14",
+                  "offset": 97444,
+                  "length": 4,
+                  "sha256": "ac886531b1ec4137ceceaf0aea21432b9a4d0e09a6450f92c7443297a82c3ccf"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "",
+                  "width": 8,
+                  "uppercase": false
+                }
+              }
             ]
           },
           {

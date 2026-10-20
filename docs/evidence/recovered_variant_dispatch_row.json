@@ -74,11 +74,76 @@
             "lui_foff": 972360,
             "owner": "dungeon/func_800CD554",
             "words": [
-              "0x3c02800d",
-              "0x24422e9c",
-              "0xa6030014",
-              "0xae620010",
-              "0x3c02800d"
+              {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 972360,
+                  "length": 4,
+                  "sha256": "9876565b896a9d99c14e7439feb6a4a6fba59b8338f3e3a3d91d91b9e1f43129"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "0x",
+                  "width": 8,
+                  "uppercase": false
+                }
+              },
+              {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 972364,
+                  "length": 4,
+                  "sha256": "2301d95ae274b72009757678822dab5530aaa698f848b3c18aeb74a2c84dce37"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "0x",
+                  "width": 8,
+                  "uppercase": false
+                }
+              },
+              {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 972368,
+                  "length": 4,
+                  "sha256": "c53ce4eea9cc80bafa4600b1603766a9bcf6c7aac95690b1bc413bc94c0a74de"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "0x",
+                  "width": 8,
+                  "uppercase": false
+                }
+              },
+              {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 972372,
+                  "length": 4,
+                  "sha256": "4d9e433f39dc96438bb0abcff77b700c99478ae5bb3205035fff9a58f2acb36f"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "0x",
+                  "width": 8,
+                  "uppercase": false
+                }
+              },
+              {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 972376,
+                  "length": 4,
+                  "sha256": "9876565b896a9d99c14e7439feb6a4a6fba59b8338f3e3a3d91d91b9e1f43129"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "0x",
+                  "width": 8,
+                  "uppercase": false
+                }
+              }
             ]
           }
         ]

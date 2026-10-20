@@ -24,7 +24,20 @@
         {
           "offset": "0x24",
           "opcode": "jal",
-          "word": "0xc0222f4",
+          "word": {
+            "$retail": {
+              "file": "MAIN/MAIN.BIN",
+              "offset": 137620,
+              "length": 4,
+              "sha256": "b3840db7e50c0f9e9dfd70bde6d7a5142c94d3057ba6f3292d83465f63f50614"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target": "0x80088bd0"
         }
       ],
@@ -52,7 +65,20 @@
         {
           "offset": "0x10",
           "opcode": "jal",
-          "word": "0xc013b8c",
+          "word": {
+            "$retail": {
+              "file": "MAIN/MAIN.BIN",
+              "offset": 137696,
+              "length": 4,
+              "sha256": "9f439f4c114d297393a3659469531e00f315dda1320799d1d796104da9b58e6c"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target": "0x8004ee30"
         }
       ],
@@ -195,13 +221,39 @@
         {
           "offset": "0x2c",
           "opcode": "jal",
-          "word": "0xc00ff19",
+          "word": {
+            "$retail": {
+              "file": "MAIN/MAIN.BIN",
+              "offset": 138444,
+              "length": 4,
+              "sha256": "6da47e86fe963e35dfc68b539b65966d0add68aac8cf71b17f9b39ac11e3e176"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target": "0x8003fc64"
         },
         {
           "offset": "0x60",
           "opcode": "jal",
-          "word": "0xc011247",
+          "word": {
+            "$retail": {
+              "file": "MAIN/MAIN.BIN",
+              "offset": 138484,
+              "length": 4,
+              "sha256": "854c88b370c6ad33f793179c51c79665ba24818911a0224cb8ada0c3df2201ca"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target": "0x8004491c"
         }
       ],
@@ -306,13 +358,39 @@
         {
           "offset": "0x18",
           "opcode": "jal",
-          "word": "0xc00ff19",
+          "word": {
+            "$retail": {
+              "file": "MAIN/MAIN.BIN",
+              "offset": 138444,
+              "length": 4,
+              "sha256": "6da47e86fe963e35dfc68b539b65966d0add68aac8cf71b17f9b39ac11e3e176"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target": "0x8003fc64"
         },
         {
           "offset": "0x7c",
           "opcode": "jal",
-          "word": "0xc011247",
+          "word": {
+            "$retail": {
+              "file": "MAIN/MAIN.BIN",
+              "offset": 138484,
+              "length": 4,
+              "sha256": "854c88b370c6ad33f793179c51c79665ba24818911a0224cb8ada0c3df2201ca"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target": "0x8004491c"
         }
       ],
@@ -341,13 +419,39 @@
         {
           "offset": "0x18",
           "opcode": "jal",
-          "word": "0xc00ff19",
+          "word": {
+            "$retail": {
+              "file": "MAIN/MAIN.BIN",
+              "offset": 138444,
+              "length": 4,
+              "sha256": "6da47e86fe963e35dfc68b539b65966d0add68aac8cf71b17f9b39ac11e3e176"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target": "0x8003fc64"
         },
         {
           "offset": "0x6c",
           "opcode": "jal",
-          "word": "0xc011247",
+          "word": {
+            "$retail": {
+              "file": "MAIN/MAIN.BIN",
+              "offset": 138484,
+              "length": 4,
+              "sha256": "854c88b370c6ad33f793179c51c79665ba24818911a0224cb8ada0c3df2201ca"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target": "0x8004491c"
         }
       ],

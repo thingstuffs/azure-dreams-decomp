@@ -79,7 +79,15 @@
     {
       "binary": "main",
       "file_offset": 2561796,
-      "word": 202383912,
+      "word": {
+        "$retail": {
+          "file": "MAIN/MAIN.BIN",
+          "offset": 2561796,
+          "length": 4,
+          "sha256": "0547dca6719b6e6a79f5864f8cdcb7d4b3fecbe4ab4fce7c68dcc391a70e6109"
+        },
+        "format": "u32le"
+      },
       "mnemonic": "jal",
       "low_28_target": 4229280,
       "decoded_target_if_mapped": 2151712928,
@@ -105,7 +113,15 @@
     {
       "binary": "main",
       "file_offset": 2561804,
-      "word": 202383958,
+      "word": {
+        "$retail": {
+          "file": "MAIN/MAIN.BIN",
+          "offset": 2561804,
+          "length": 4,
+          "sha256": "b97a4b7c2061f01193875714b86e9143d5f91bf292afcc1c857bbfb8472e598c"
+        },
+        "format": "u32le"
+      },
       "mnemonic": "jal",
       "low_28_target": 4229464,
       "decoded_target_if_mapped": 2151713112,
@@ -131,7 +147,15 @@
     {
       "binary": "main",
       "file_offset": 2561912,
-      "word": 202383958,
+      "word": {
+        "$retail": {
+          "file": "MAIN/MAIN.BIN",
+          "offset": 2561912,
+          "length": 4,
+          "sha256": "b97a4b7c2061f01193875714b86e9143d5f91bf292afcc1c857bbfb8472e598c"
+        },
+        "format": "u32le"
+      },
       "mnemonic": "jal",
       "low_28_target": 4229464,
       "decoded_target_if_mapped": 2151713112,
@@ -157,7 +181,15 @@
     {
       "binary": "main",
       "file_offset": 2561920,
-      "word": 202383858,
+      "word": {
+        "$retail": {
+          "file": "MAIN/MAIN.BIN",
+          "offset": 2561920,
+          "length": 4,
+          "sha256": "847c32fb84d142006805b246d2bc808f98a26af0ddef3eb460c19172906ef5a9"
+        },
+        "format": "u32le"
+      },
       "mnemonic": "jal",
       "low_28_target": 4229064,
       "decoded_target_if_mapped": 2151712712,
@@ -183,7 +215,15 @@
     {
       "binary": "town",
       "file_offset": 2561796,
-      "word": 202383912,
+      "word": {
+        "$retail": {
+          "file": "MAIN/MAIN.BIN",
+          "offset": 2561796,
+          "length": 4,
+          "sha256": "0547dca6719b6e6a79f5864f8cdcb7d4b3fecbe4ab4fce7c68dcc391a70e6109"
+        },
+        "format": "u32le"
+      },
       "mnemonic": "jal",
       "low_28_target": 4229280,
       "decoded_target_if_mapped": 2151712928,
@@ -218,7 +258,15 @@
     {
       "binary": "town",
       "file_offset": 2561804,
-      "word": 202383958,
+      "word": {
+        "$retail": {
+          "file": "MAIN/MAIN.BIN",
+          "offset": 2561804,
+          "length": 4,
+          "sha256": "b97a4b7c2061f01193875714b86e9143d5f91bf292afcc1c857bbfb8472e598c"
+        },
+        "format": "u32le"
+      },
       "mnemonic": "jal",
       "low_28_target": 4229464,
       "decoded_target_if_mapped": 2151713112,
@@ -253,7 +301,15 @@
     {
       "binary": "town",
       "file_offset": 2561912,
-      "word": 202383958,
+      "word": {
+        "$retail": {
+          "file": "MAIN/MAIN.BIN",
+          "offset": 2561912,
+          "length": 4,
+          "sha256": "b97a4b7c2061f01193875714b86e9143d5f91bf292afcc1c857bbfb8472e598c"
+        },
+        "format": "u32le"
+      },
       "mnemonic": "jal",
       "low_28_target": 4229464,
       "decoded_target_if_mapped": 2151713112,
@@ -288,7 +344,15 @@
     {
       "binary": "town",
       "file_offset": 2561920,
-      "word": 202383858,
+      "word": {
+        "$retail": {
+          "file": "MAIN/MAIN.BIN",
+          "offset": 2561920,
+          "length": 4,
+          "sha256": "847c32fb84d142006805b246d2bc808f98a26af0ddef3eb460c19172906ef5a9"
+        },
+        "format": "u32le"
+      },
       "mnemonic": "jal",
       "low_28_target": 4229064,
       "decoded_target_if_mapped": 2151712712,
@@ -330,15 +394,15 @@
       "target": "func_80021958",
       "spelling": "main_boot_derived_vma",
       "context_offset": 7985284,
-      "context_words": [
-        2147620388,
-        2147620712,
-        2147620804,
-        2147621208,
-        2147621468,
-        2147621664,
-        2147622292
-      ],
+      "context_words": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 7985284,
+          "length": 28,
+          "sha256": "b21760f7ff0c688dc70e174fe99842ae69eb171871555def420f76f7ff975daf"
+        },
+        "format": "u32le_list"
+      },
       "location": {
         "split_rows": [
           {

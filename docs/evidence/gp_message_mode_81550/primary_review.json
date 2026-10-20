@@ -6,12 +6,36 @@
     "len_g": 156,
     "missing": []
   },
-  "section_sdata": "0000000000000000",
+  "section_sdata": {
+    "$retail": {
+      "file": "DUNGEON/DUNGEON.BIN",
+      "offset": 77,
+      "length": 8,
+      "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+    },
+    "format": "hex"
+  },
   "complete_function_sets_equal": true,
-  "retail_script_prefix": "23000000",
+  "retail_script_prefix": {
+    "$retail": {
+      "file": "DUNGEON/DUNGEON.BIN",
+      "offset": 169183,
+      "length": 4,
+      "sha256": "d2d27d69fc0a2c6cc0aabec462ce665aa8a92766844f081b672588acdf8a2c71"
+    },
+    "format": "hex"
+  },
   "opcode23_table_entry": "80039B84",
   "installed_noop": "80038A08",
-  "noop_retail": "0800e00300000000",
+  "noop_retail": {
+    "$retail": {
+      "file": "DUNGEON/DUNGEON.BIN",
+      "offset": 31212,
+      "length": 8,
+      "sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1"
+    },
+    "format": "hex"
+  },
   "script_view_bytes": 2,
   "historical_allocation_size_claimed": false,
   "b6c_storage_owned": false,

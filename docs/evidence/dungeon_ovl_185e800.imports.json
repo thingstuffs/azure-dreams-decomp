@@ -89,7 +89,15 @@
       "foff": 71256,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "d0ffbd272400b3af219880002000b2af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 71256,
+          "length": 16,
+          "sha256": "1cba5441694eb0c64982c2421b7152339655146a27aa2f0489398950fdce05c9"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "1cba5441694eb0c64982c2421b7152339655146a27aa2f0489398950fdce05c9",
       "kind": "external_code_entry_view"
     },
@@ -98,7 +106,15 @@
       "foff": 79204,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "0180023c14374294e0ffbd271400b1af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 79204,
+          "length": 16,
+          "sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a",
       "kind": "external_code_entry_view"
     },
@@ -107,7 +123,15 @@
       "foff": 98588,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "21388000ffff08242148000021202001",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 98588,
+          "length": 16,
+          "sha256": "40f6255d7ae4fada30b446f687fe666aceabe87ffd6717ae1b737d459e8f3bff"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "40f6255d7ae4fada30b446f687fe666aceabe87ffd6717ae1b737d459e8f3bff",
       "kind": "external_code_entry_view"
     },
@@ -116,7 +140,15 @@
       "foff": 101184,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "e0ffbd271000b0af218080001400b1af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 101184,
+          "length": 16,
+          "sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2",
       "kind": "external_code_entry_view"
     },
@@ -125,7 +157,15 @@
       "foff": 110776,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "e8ffbd271000b0af1400bfaffd1d010c",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 110776,
+          "length": 16,
+          "sha256": "d9ad27780e8cd7534567007bb5685be652d7b7ad1b3a601909cc7b45b970548d"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "d9ad27780e8cd7534567007bb5685be652d7b7ad1b3a601909cc7b45b970548d",
       "kind": "external_code_entry_view"
     },
@@ -134,7 +174,15 @@
       "foff": 251640,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "a0000a24080040012f00092400000000",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 251640,
+          "length": 16,
+          "sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de",
       "kind": "external_code_entry_view"
     },
@@ -143,7 +191,15 @@
       "foff": 751292,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "c0ffbd273400b7af5400b78f3000b6af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 751292,
+          "length": 16,
+          "sha256": "d6e3e827466049e69feeff7a35380694e705e6b88ace5ea4960a9053c423e315"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "d6e3e827466049e69feeff7a35380694e705e6b88ace5ea4960a9053c423e315",
       "kind": "external_code_entry_view"
     },
@@ -152,7 +208,15 @@
       "foff": 765508,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "b0ffbd274800beaf21f080003800b4af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 765508,
+          "length": 16,
+          "sha256": "687b33a718f9f37b64aeabc8f853100fdb4cbabe2e7dabebb07cad301cd4d12d"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "687b33a718f9f37b64aeabc8f853100fdb4cbabe2e7dabebb07cad301cd4d12d",
       "kind": "external_code_entry_view"
     },
@@ -161,7 +225,15 @@
       "foff": 778432,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "00240400032404008010040021104400",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 778432,
+          "length": 16,
+          "sha256": "177c94f31d7f2f1d8b1ea73707a56b0a3f6b2d0c7619b208e05d6508e4df397e"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "177c94f31d7f2f1d8b1ea73707a56b0a3f6b2d0c7619b208e05d6508e4df397e",
       "kind": "external_code_entry_view"
     },
@@ -170,7 +242,15 @@
       "foff": 786304,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "0180023c14374294e8ffbd2702004230",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 786304,
+          "length": 16,
+          "sha256": "bf39d895f79df6a233839115df30299b60b9797b745388731dd9d2335bc15195"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "bf39d895f79df6a233839115df30299b60b9797b745388731dd9d2335bc15195",
       "kind": "external_code_entry_view"
     },
@@ -179,7 +259,15 @@
       "foff": 881572,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "d8ffbd271000b0af801f103c3f008230",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 881572,
+          "length": 16,
+          "sha256": "34b37c615f56d11896c496c5151034bd8cd189ed845d0fa79c67f9a71ecb2d9d"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "34b37c615f56d11896c496c5151034bd8cd189ed845d0fa79c67f9a71ecb2d9d",
       "kind": "external_code_entry_view"
     }
@@ -188,17 +276,41 @@
   "reviewer": null,
   "retail_views": {
     "D_800DE990": {
-      "bytes": "0800020084e00d80",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 1020464,
+          "length": 8,
+          "sha256": "848d384a7a72e45175305a6b038445eea829a8e949c60c03a0a99552aa23ea0d"
+        },
+        "format": "hex"
+      },
       "sha256": "848d384a7a72e45175305a6b038445eea829a8e949c60c03a0a99552aa23ea0d",
       "basis": "Observed view width only, not the allocation extent. Pointer-only imports are conservatively bounded external address views."
     },
     "D_800DEA68": {
-      "bytes": "02000200b0e10d80",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 1020680,
+          "length": 8,
+          "sha256": "7cffebbf0798138a86e9098d99ab843dc6307470d1b5128736ca12aa1cc19366"
+        },
+        "format": "hex"
+      },
       "sha256": "7cffebbf0798138a86e9098d99ab843dc6307470d1b5128736ca12aa1cc19366",
       "basis": "Observed view width only, not the allocation extent. Pointer-only imports are conservatively bounded external address views."
     },
     "D_800DECF8": {
-      "bytes": "02000200ece40d80",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 1021336,
+          "length": 8,
+          "sha256": "c120623a8ac980e710242107c43fb34d43fab34c6666a6a07b2efcb9a42d367c"
+        },
+        "format": "hex"
+      },
       "sha256": "c120623a8ac980e710242107c43fb34d43fab34c6666a6a07b2efcb9a42d367c",
       "basis": "Observed view width only, not the allocation extent. Pointer-only imports are conservatively bounded external address views."
     }

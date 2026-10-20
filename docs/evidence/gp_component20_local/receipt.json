@@ -77,7 +77,20 @@
     {
       "function": "w_8003E34C",
       "instruction": "8003E384",
-      "word": "a380013c",
+      "word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 72580,
+          "length": 4,
+          "sha256": "305e5b561c53e9470f00f1caea4ced5ad00b10708d50a96c83520da2e844b789"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "op": "sb",
       "operands": "zero,316(gp)",
       "vram": "80080AD0",
@@ -86,7 +99,20 @@
     {
       "function": "w_8003E34C",
       "instruction": "8003E388",
-      "word": "af800148",
+      "word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 72584,
+          "length": 4,
+          "sha256": "9d8d057d0f5a6d83dc18b4cea27788732aeb4f174eb164ba61c82892c0f63134"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "op": "sw",
       "operands": "zero,328(gp)",
       "vram": "80080ADC",
@@ -95,7 +121,20 @@
     {
       "function": "w_8003E34C",
       "instruction": "8003E38C",
-      "word": "a7800140",
+      "word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 72588,
+          "length": 4,
+          "sha256": "d79c34dd621d81cfee9a5b8cece99afea390f7e5f8f746ddedcd4a8dcceac239"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "op": "sh",
       "operands": "zero,320(gp)",
       "vram": "80080AD4",
@@ -104,7 +143,20 @@
     {
       "function": "w_8003E4FC",
       "instruction": "8003E64C",
-      "word": "af820148",
+      "word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 73292,
+          "length": 4,
+          "sha256": "af8b40166de3c7f97c623bef948bf4dd92515f01a9f8fa015b9cb7d26408e13c"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "op": "sw",
       "operands": "v0,328(gp)",
       "vram": "80080ADC",
@@ -113,7 +165,20 @@
     {
       "function": "w_8003E4FC",
       "instruction": "8003E66C",
-      "word": "a7800140",
+      "word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 72588,
+          "length": 4,
+          "sha256": "d79c34dd621d81cfee9a5b8cece99afea390f7e5f8f746ddedcd4a8dcceac239"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "op": "sh",
       "operands": "zero,320(gp)",
       "vram": "80080AD4",
@@ -122,7 +187,20 @@
     {
       "function": "w_8003E4FC",
       "instruction": "8003E6A4",
-      "word": "af900148",
+      "word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 73380,
+          "length": 4,
+          "sha256": "bccaa9a996e09faf9bfce56e8966ff0a013f4bb423cfc0725e96b598d007d167"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "op": "sw",
       "operands": "s0,328(gp)",
       "vram": "80080ADC",
@@ -131,7 +209,20 @@
     {
       "function": "w_8003E758",
       "instruction": "8003EEE0",
-      "word": "9382013c",
+      "word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 75488,
+          "length": 4,
+          "sha256": "8f8655664e0153d0ab5bb474d1e70a38ffd4427ec2b9b47e9096ef85ba39b7de"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "op": "lbu",
       "operands": "v0,316(gp)",
       "vram": "80080AD0",
@@ -140,7 +231,20 @@
     {
       "function": "w_8003E758",
       "instruction": "8003F154",
-      "word": "a7820140",
+      "word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 76116,
+          "length": 4,
+          "sha256": "de371139e64c3f980719c1d64608ea7a9572d66a026c67ba6dc811151afb9553"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "op": "sh",
       "operands": "v0,320(gp)",
       "vram": "80080AD4",
@@ -149,7 +253,20 @@
     {
       "function": "w_8003F5AC",
       "instruction": "8003F5B0",
-      "word": "97830140",
+      "word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 77232,
+          "length": 4,
+          "sha256": "1e26d7c9cc9844071a50d3e649ec440e1cb1a79432cb962aa79ab7ba966110d3"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "op": "lhu",
       "operands": "v1,320(gp)",
       "vram": "80080AD4",
@@ -160,7 +277,20 @@
     {
       "function": "w_8003E758",
       "instruction": "8003EECC",
-      "word": "af820144",
+      "word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 75468,
+          "length": 4,
+          "sha256": "6846d3ffb004470055398236126497c5653e660fb0abbab33fb5f86437f712ae"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "op": "sw",
       "operands": "v0,324(gp)",
       "vram": "80080AD8",
@@ -169,7 +299,20 @@
     {
       "function": "w_8003E758",
       "instruction": "8003EF18",
-      "word": "9782013e",
+      "word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 75544,
+          "length": 4,
+          "sha256": "0db15db49191fe70616b1f2a80abc31a96015d14cb40b41009eb1aaa667ac583"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "op": "lhu",
       "operands": "v0,318(gp)",
       "vram": "80080AD2",
@@ -178,7 +321,20 @@
     {
       "function": "w_8003E758",
       "instruction": "8003EF2C",
-      "word": "a782013e",
+      "word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 75564,
+          "length": 4,
+          "sha256": "78383f9610d961492f4e45db28d0f461c6d0e6bce66a42cd44635dafee8fca33"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "op": "sh",
       "operands": "v0,318(gp)",
       "vram": "80080AD2",
@@ -189,7 +345,15 @@
     "80080AD0": {
       "width_bytes_observed": 1,
       "retail_file_offset": "0542D0",
-      "initial_bytes": "00"
+      "initial_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 6,
+          "length": 1,
+          "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+        },
+        "format": "hex"
+      }
     },
     "80080AD2": {
       "width_bytes_observed": 2,

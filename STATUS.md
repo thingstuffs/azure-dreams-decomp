@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-20T10:21:43Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-20T11:08:24Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -10,10 +10,10 @@ Generated 2026-10-20T10:21:43Z. Baseline: first-pass text frozen 2026-09-07.
 | | |
 |---|---|
 | **Matched** | 21,432 functions and data rows, 8,028,304 bytes, in 5 containers (`slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town` = TOWN overlays, `dungeon` = DUNGEON overlays, `ovmovie` = OVMOVIE overlay) |
-| **Byte-identical to retail** | 21,392 of 21,432 rows (99.8%), 8,018,768 bytes; 0 unverified |
+| **Byte-identical to retail** | 21,432 of 21,432 rows (100.0%), 8,028,304 bytes; 0 unverified |
 | **Code that is C** | 99.0% as C; 99.5% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
-| **Readability** | L3 90.4%, L4 0.0%, L5 0.0% of bytes (levels below) |
+| **Readability** | L3 90.5%, L4 0.0%, L5 0.0% of bytes (levels below) |
 | **Module certificates** | 0 of 300 current, 229 stale, 71 not certified yet |
 
 **Current proof state.** 300 of 300 module certificates are not current; L4 and L5, which need the module certificate, read 0.0% and 0.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
@@ -47,35 +47,35 @@ Code bytes per binary: `slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town
 |---|---:|---:|---:|---:|---:|
 | slus | 884 | 473,788 | 884 | 473,788 | 0 |
 | main | 469 | 66,260 | 469 | 66,260 | 0 |
-| town | 5,935 | 813,136 | 5,899 | 809,616 | 0 |
-| dungeon | 14,116 | 6,669,604 | 14,112 | 6,663,588 | 0 |
+| town | 5,935 | 813,136 | 5,935 | 813,136 | 0 |
+| dungeon | 14,116 | 6,669,604 | 14,116 | 6,669,604 | 0 |
 | ovmovie | 28 | 5,516 | 28 | 5,516 | 0 |
-| ALL | 21,432 | 8,028,304 | 21,392 | 8,018,768 | 0 |
+| ALL | 21,432 | 8,028,304 | 21,432 | 8,028,304 | 0 |
 
 Data rows: 363 (13,132 B); stale-image residue DATA: 1 (488 B).
 
 Placement unproven (excluded from L4 module placement): 6 rows (1,688 B): town/D_802F100C, town/D_802F1074, town/D_802F11AC, dungeon/D_808CB000, dungeon/D_80921000, dungeon/func_80921000
 
 
-Baseline NOT exact: 40 rows: town/func_80035C0C, town/func_8003705C, town/func_800371A8, town/func_80046B64, town/func_80046BC8, town/func_80046CF0, town/func_80046EE4, town/func_80047E30, town/func_80047E78, town/func_80048C2C, town/func_80048C74, town/func_80049BFC, town/func_8004BA94, town/func_8004CE5C, town/func_8004CF44, town/func_8004D174, town/func_8004D1D0, town/func_8004D22C, town/func_8004D288, town/func_8004D818
+Baseline NOT exact: 0 rows
 
 
 ## Readability levels (bytes at or above each level)
 
 | level | bytes | % |
 |---|---:|---:|
-| L0 | 8,018,768 | 99.9% |
-| L1 | 8,018,768 | 99.9% |
-| L2 | 8,018,768 | 99.9% |
-| L3 | 7,255,040 | 90.4% |
+| L0 | 8,028,304 | 100.0% |
+| L1 | 8,028,304 | 100.0% |
+| L2 | 8,028,304 | 100.0% |
+| L3 | 7,264,576 | 90.5% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 3619 rows, 2,304,644 bytes (28.7%); records used: 98.
+On shared record headers (T7, `include/records/`): 3621 rows, 2,304,812 bytes (28.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 21,392 rows (8,018,768 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 21,432 rows (8,028,304 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -483,6 +483,9 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 </details>
 
 Placement alone does not override any lower-level or source-residue guard.
+
+
+Portable overlay proof summaries: 0 bound to their certificates; 0 inputs current, 0 inputs changed, 0 inputs not checked here; 1 invalid, 226 absent. Full private proofs are not replayed by this summary check; these records do not change certificate placement or L4/L5 counts.
 
 
 

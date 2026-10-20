@@ -75,12 +75,35 @@ def _segment(row, source, gate):
     match = matches.get((row['foff'], row['size']))
     if match is None or match.source_kind != 'c' or match.config != row['cfg']:
         raise ValueError('no production C match at the registered recipe')
-    match = dataclasses.replace(match, source=source)
+    # The production path's stem is the registered row ID used by link-list
+    # rebinding. Keep it when measuring that same canonical file: resolving a
+    # readable-name symlink would turn the segment ID into the readable name.
+    # A distinct candidate still replaces the source, as before.
+    if Path(source).resolve() != match.source.resolve():
+        match = dataclasses.replace(match, source=source)
     segs = gate.build_segments(selected, {(row['foff'], row['size']): match},
                                row['foff'], row['foff'] + row['size'], vram - start)
     if len(segs) != 1 or segs[0].kind != 'c':
         raise ValueError('row does not produce exactly one C segment')
     return cfg, sb, family, segs[0]
+
+
+def text_link_base(row, seg, gate, family):
+    """Use a proven rowbase, or an existing placement at the window's address.
+
+    Legacy link-list placements are linked directly in the production window;
+    load_matches deliberately leaves their link_vram unset. This measurement
+    uses that same address without promoting their placement confidence.
+    """
+    if seg.match.link_vram is not None:
+        return seg.match.link_vram
+    import linklist
+    entry = linklist.placement(gate.ROOT, family, row['foff'], row=row['id'])
+    if (entry is None or entry['home'] == entry['row']
+            or entry['size'] != row['size'] or entry['vma'] != seg.vram
+            or row.get('true_name') != 'func_%08X' % entry['vma']):
+        raise ValueError('text refresh requires proven rowbase or matching production link-list placement')
+    return seg.vram
 
 
 def _measure(row, source, view, out):
@@ -117,17 +140,17 @@ def _measure(row, source, view, out):
         generated = gate.rodata_first_link(obj, seg, owner, gp, symbol_files, out / 'linked')
         base = gate.rodata_link_base(obj, seg, owner)
     else:
-        # Decision-40 refresh: a former composite is now a text-only row.
-        # Use precisely the rowbase mini-link path; any other shape fails closed.
-        if is_data or seg.match.link_vram is None:
-            raise ValueError('text refresh requires proven rowbase placement')
+        # Use the production mini-link, including the direct window address of
+        # a registered legacy link-list placement. No placement grant is added.
+        if is_data:
+            raise ValueError('data row requires exact rodata ownership')
+        base = text_link_base(row, seg, gate, family)
         match = gate._match_mod()
         placements = match._local_section_placements(str(obj), seg.match.func,
-                                                      seg.match.link_vram, target)
-        if gate.local_table_mismatches(obj, placements, seg, seg.match.link_vram,
+                                                      base, target)
+        if gate.local_table_mismatches(obj, placements, seg, base,
                                       container, gp, symbol_files, out / 'tables', seg.match.func):
             raise ValueError('compiler-local data differs from retail')
-        base = seg.match.link_vram
         mini = dataclasses.replace(seg, index=0, vram=base)
         ld, elf, binary = (out / ('linked.' + ext) for ext in ('ld', 'elf', 'bin'))
         gate.write_linker_script([mini], objects, gp, symbol_files, ld,
@@ -140,6 +163,8 @@ def _measure(row, source, view, out):
         generated = generated[:seg.size]  # production gate permits a zero section-end tail
     if source_sha != hashlib.sha256(source.read_bytes()).hexdigest():
         raise ValueError('source changed during measurement')
+    if seg.match.source.resolve() != source:
+        raise ValueError('production source path changed during measurement')
     (out / 'generated.bin').write_bytes(generated)
     (out / 'retail.bin').write_bytes(target)
     return dict(word_comparison(generated, target), status='ok',

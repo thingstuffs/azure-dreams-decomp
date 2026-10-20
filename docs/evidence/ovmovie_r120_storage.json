@@ -47,8 +47,34 @@
   "diagnostic_strings_exact_bytes": 169,
   "identification_pair": {
     "retail": [
-      "0x150e7350",
-      "0x40ae9c"
+      {
+        "$retail": {
+          "file": "OVMOVIE.BIN",
+          "offset": 6980,
+          "length": 4,
+          "sha256": "d5217213f185d04d0125f2edc5bcd4481abd56712553188580e54dd6132a3ddc"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": false
+        }
+      },
+      {
+        "$retail": {
+          "file": "OVMOVIE.BIN",
+          "offset": 6984,
+          "length": 4,
+          "sha256": "6672f11579502f9f74dcb701dc0a3d0c66d513582700b7ca5bfdfe64b6fe9ab6"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 6,
+          "uppercase": false
+        }
+      }
     ],
     "sdk41_410": [
       "0x190e7350",

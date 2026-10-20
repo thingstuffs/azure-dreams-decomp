@@ -12,7 +12,20 @@
   "proof": "target 0x80024190 = dungeon foff 0x1924990, outside the row; retail reaches it by jal from 1 site(s) (1 inside a registered row, the rest in un-split code of the same module; e.g. 0x80024c44) -- a returning function, so a noreturn/sibcall membership for it is a false member",
   "at": "2026-10-09T14:16:38",
   "byte_verified": true,
-  "retail_word": "0xc009064",
+  "retail_word": {
+    "$retail": {
+      "file": "DUNGEON/DUNGEON.BIN",
+      "offset": 26367044,
+      "length": 4,
+      "sha256": "002193500d2d28c4552beb2001655d788b179ad819eef587c59d097212ba5d9d"
+    },
+    "format": {
+      "kind": "int_hex",
+      "prefix": "0x",
+      "width": 7,
+      "uppercase": false
+    }
+  },
   "file_offset": "0x1925444",
   "basis": "Existing r108 extern-jal audit checked against the copied retail word; the callee returns. Current load-region census already excludes this false member.",
   "review": "pending",

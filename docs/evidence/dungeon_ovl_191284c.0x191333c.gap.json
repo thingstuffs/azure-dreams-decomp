@@ -13,6 +13,14 @@
   "basis": "Complete control flow from prologue to jr-ra and delay slot; adjacent factory/update callback contracts; C matches every retail and genuine byte.",
   "logical_row": "dungeon/func_818F333C",
   "raw_source": "raw/dungeon/func_818F333C.c",
-  "retail_hex": "e8ffbd271000bfafbea7010c00000000010042300200401400000000ffff02241000bf8f1800bd270800e00300000000",
+  "retail_hex": {
+    "$retail": {
+      "file": "DUNGEON/DUNGEON.BIN",
+      "offset": 26293052,
+      "length": 48,
+      "sha256": "6aa87c5b1768e5dfafc30636fdf3149457802335adf605e517201e1772937a09"
+    },
+    "format": "hex"
+  },
   "review": "pending"
 }

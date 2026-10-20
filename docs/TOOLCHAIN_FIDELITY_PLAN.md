@@ -1,148 +1,44 @@
-# Toolchain fidelity plan (owner-approved direction, 2026-09-24)
+# Toolchain fidelity work
 
-Status: **Compiler investigation complete; SLUS small-data repair and module pilots in progress.**
-Current goal: `docs/GOAL_TOOLCHAIN_AND_MODULES.md`. The first isolated measurements
-are in `docs/evidence/fidelity_gp_repair_progress.md`: a generic assembler candidate,
-59 affected TUs, 69 globals requiring data-ownership recovery, and five independently
-verified natural-C candidates. Production toolchain defaults remain unchanged.
-The [ownership wave](evidence/gp_ownership_wave.md) repaired 18 more GP rows;
-[runtime count and shared slots](evidence/gp_count_and_slots.md) repair another
-three. [Split storage for 48660](evidence/gp_split_storage.md) repairs one more.
-The [81510 group](evidence/gp_shared_state_81510.md) repairs another two.
-The [8099C group](evidence/gp_shared_8099c.md) repairs two more GP rows while
-retaining the renderer's accepted epilogue-model dependency. The
-[AFE cache](evidence/gp_cache_afe.md) repairs another with an unchanged recipe.
-The current production checkpoint has 21 GP rows and 189 total dependency records,
-with 23 ownership units, 869 physical C inputs and the same 884 logical rows.
-Integrated data-piece tooling and shared CD declarations preserve all production
-objects. The [private CD group](evidence/gp_cd_cohort.md) now matches eight functions
-at one common recipe and passes a full retail-exact placement trial. The combined
-transition gates remain pending. No compatibility pass has been removed.
-The interrupted wave has now landed 11 CDK moves (74 pins removed; 9 newly
-pin-free), all genuine-ASPSX exact. See `docs/evidence/r77_h28_recovery.md` for the
-recovery receipt and remaining work. The dated log below retains the investigation
-and owner decisions.
+The build uses pinned stock compiler drops and a function-blind assembler front
+end. Source shape, compiler recipe, assembler behavior and storage ownership
+must be diagnosed separately when a candidate differs from retail. See
+[FIDELITY.md](FIDELITY.md) for the dependency categories.
 
-Goal (owner): byte accuracy AND cleanliness for every row. Principle: a row's recipe is the toolchain the original
-was built with (compiler cell + flags + assembler version), and its C is what that toolchain needs to reproduce
-retail. Pins or page constants that imitate a different toolchain are not clean, even when byte-exact.
+## Evidence and current workflow
 
-Trigger: the round-77 Fable sceptic disproved the split-address "toolchain gap"
-(`docs/evidence/r77_splitaddr_verdict.md`, lane `work/native_lane/r77_fable_splitaddr`): retail's split
-`lui %hi / ... / addiu %lo` pairs come from the `2.7.2-cdk` cell, rows registered at non-splitting cells carry
-page-constant pins imitating it, and maspsx has passes that imitate it in the assembler stage.
+1. Reproduce the difference at the registered recipe and determine its scope:
+   instruction selection/order, relocation target, data ownership or placement.
+2. Where needed, compare the compiler stream through genuine ASPSX and the free
+   pipeline, resolving relocations against retail in both cases. Equality between
+   two assemblers at a trial recipe is not evidence that either equals retail.
+3. Use the compiler fingerprint, complete TU and linked storage evidence before
+   changing a recipe. One function's success does not establish its siblings.
+4. Prove the proposed repair through the affected window or full executable
+   image, then refresh dependency records and certificates binding changed inputs.
+5. Remove a compatibility pass only after all consumers are accounted for and
+   the required gates pass.
 
-## Steps (in order)
+The [lost-compiler investigation](evidence/fidelity_lost_compiler_case.md)
+records the accepted historical-compiler model and its limits. Reopen it when
+new relevant evidence exists; an unsupported compiler download or a speculative
+flag search does not settle the source question.
 
-### 1. Genuine-ASPSX differential over the whole tree (CPU, measurement only)
-For every landed TU: the cc1 output of its registered recipe, assembled by maspsx (as the pipeline does) AND by
-genuine ASPSX 2.56 / 2.67 / 2.77 (sibling repo `toolchain/psyq/psyq4.x/ASPSX.EXE` under `toolchain/bin/wibo`,
-`-q -o OUT.OBJ IN.S`, CRLF, `.include`/`#APP` stripped; 2.56 cannot parse %hi/%lo). Relocation-resolved word
-comparison (start from `work/native_lane/r77_fable_splitaddr/cands/pipe.py`, `aspsx_run.py`).
-Output: per TU, which assembler version(s) reproduce retail, and every maspsx-vs-genuine difference attributed to the
-maspsx pass that made it. Answers decisions 1-3 below with data instead of one row.
+The [small-data production transition](evidence/gp_partition_only/production_transition/README.md)
+supersedes the earlier pending transition plan. Other compiler-model rules and
+assembler dependencies remain measured separately. Do not infer their retirement
+from that one completed correction. The current counts belong in generated status.
 
-### 2. Split-fingerprint census in every container (CPU, measurement only)
-Retail words showing cc1-level address splitting (HIGH and LO_SUM separated by other insns, LO_SUM into a register
-other than its HIGH, a `lui` half in a delay slot, one `lui` shared by several accesses) cannot come from 2.6.3/2.7.2
-non-split cells (their mips.c has no split_addresses path) nor from genuine ASPSX (never splits `la`). Scan slus AND
-the overlays (the sceptic scanned slus only: 185/317 pin-free cdk rows show it, 6/364 pin-free 2.7.2 rows, all
-maspsx-made). Add the fingerprint as an evidence column of `ledger/module_recipe_census.jsonl`.
+## Required inputs
 
-### 3. Decisions (owner signs; recommendations as agreed 2026-09-24)
-1. **maspsx cdk-imitating passes** (`_sink_call_separated_la`, `_split_funcaddr_la`, plus whatever step 1 finds):
-   keep for now (removing them breaks exact rows); list dependents per pass; re-recipe the dependents (step 4);
-   delete a pass once it fires on zero landed rows (byte-neutral, as the casesi patch was).
-2. **ASPSX version per TU**: record the assembler version in each TU's recipe, as the compiler cell is, set to the
-   version step 1 shows reproduces it (cdk output implies >= 2.67, the PsyQ 4.1 pairing). One global
-   `--aspsx-version=2.56` cannot be right for a binary that mixes cells.
-3. **Small-extern `$gp` model**: fix maspsx to genuine ASPSX behaviour (every `.extern` absolute; only TU-defined small
-   `.comm`/`.sbss` `$gp`-relative); gate on the TUs step 1 shows affected; rows that shift go to step 4.
-4. **Recipe route for the page-constant class** (~50 rows / ~125 sites at non-splitting cells; 150 rows / 332 sites
-   on `0x8XXX0000` locals overall): charter amendment needed - a coherence repair toward the recipe the RETAIL BYTES
-   prove (step 2's fingerprint), not only toward the module census recipe.
+Free-tool provisioning is described by `tools/setup.sh` and
+`tools/toolchain.lock.json`. Retail gates require the contributor's own disc.
+Complete overlay-module comparison additionally requires the pinned genuine
+assembler in [TOOLCHAIN_PSYQ.md](TOOLCHAIN_PSYQ.md). The repository does not supply
+the proprietary SDK. Historical experiments with other Psy-Q versions do not
+extend the normal setup requirement.
 
-### 4. Re-recipe with natural C
-After the step-3 decisions: CPU sweep `t86_symaddr`-style natural symbol spellings, cellscored at the evidenced recipe,
-over the class; exact rows land as coherence trades (ledger/recipe_trades.jsonl); the rest go to Opus port-style
-lanes (cheap: ~150k tokens a lane in round 77). Fix the wrong ADDR_ALIAS comment in `src/slus/w_8003D92C.c` when
-that row lands.
-
-### 5. Retire maspsx passes
-Delete each imitation pass once step 4 leaves it firing on zero landed rows; re-gate the tree.
-
-## Owner sign-off needed
-- Charter amendment for decision 4 (coherence toward the retail-proven recipe).
-- Any change to what "exact" means: the ASPSX version in the recipe (decision 2), the maspsx `$gp` fix (decision 3),
-  deleting a maspsx pass (step 5).
-Steps 1 and 2 are measurements and need no sign-off.
-
-## Log
-- 2026-09-24: plan recorded (round 77, after the sceptic's verdict). Pins at the time: 3,316 in 817 rows.
-- 2026-09-24 ~03:30Z: round-77 lanes all landed (3,512 -> 3,207, incl. the NON_MATCHING arm-retirement ruling). Steps 1 and 2 launched in parallel as Opus agents; outputs tools/fidelity/, work/fidelity/, docs/evidence/fidelity_step{1,2}_*.md.
-- 2026-09-24: STEP 2 done (docs/evidence/fidelity_step2_split_fingerprint.md). Pin-free rows at splitting cells 81% fingerprint vs 4.4% at non-splitting cells; 345/365 modules agree with the census (1 contradiction: dungeon/ovl_10a30bc.c); step-4 candidates 70 strict + 2 weak (docs/evidence/fidelity_step4_candidates.tsv): 48 toward an already-splitting census recipe (existing clause 4b), 22 need the amendment (17 slus, 5 dungeon).
-- 2026-09-24: owner decisions after step 2: (1) amendment granted (charter 'Rulings 2026-09-24 (later)'); (2) hidden scaffolding goes on the ladder - whole-function asm = L0 (done, w_8005A1D0), `cell_imitation`/`maspsx_dependent` L4 residue after step 1; (3) weak tier waits for step 1; (4) fingerprint to be built into the module census TOOL as a constraint (module summary in ledger/, per-row data regenerable in work/).
-- 2026-09-24 04:10Z: slus/w_8005A1D0 (the only whole-function asm row, a 39-word .word paste) written in C by lane r77_opus_asmfn and landed at 2.7.2-cdk (retail-proven splitting cell, neighbours' cell); SLUS SHA-1 MATCH. First slus recipe change: slus recipes live in tools/build/configure.py CC_VER + ledger/splits/slus.build.ninja (pinned), not in set_row_cfg (no slus split records) - step 4 needs a slus path in the lander. verify.py's cached reference for this row (ledger cache slus_obj.json/slus_dis, built from the raw .word text) no longer matches compiled C; the SLUS gate is the proof of record - re-baseline the slus cache when step 4 touches slus rows.
-- 2026-09-24: STEP 1 done (docs/evidence/fidelity_step1_aspsx_diff.md; tool tools/fidelity/aspsx_diff.py, 13 min full run, genuine toolchain via the local link toolchain/genuine). All 6,767 rows exact through maspsx; 6,157 (91.0%) exact under a genuine ASPSX; 610 maspsx-dependent (836 pins; 439 pin-free), every one attributed by ablation: _maybe_unfill_return_delay 459 + _unfill_via_load_delay 37 (both faithful ASPSX-filler models applied to cc1 output with a pre-filled noreorder return - a reorder-mode epilogue lets genuine 2.79 reproduce 496/511: a CC1 question, not maspsx), $gp small externs 59 (slus), per-row --aspsx-version 2.40/2.34 22 (town), cdk-imitating passes ~30. One global ASPSX (2.77/2.79/2.81) covers all 6,157; 2.56 cannot assemble 4,690 rows; the per-TU switch that matters is -0 (div checks).
-- 2026-09-24: owner: "go down this rabbit hole ... even if it takes us backwards in terms of numbers". Launched in parallel (Opus agents, briefs docs/evidence/fidelity_{step1b,step_asv,step4}_brief.md): STEP 1b (which compiler/options emitted the 2.8-era reorder-mode epilogues - 511 rows), the ASPSX version trial (maspsx 2.56 -> 2.79/2.77, whole tree), STEP 4 preparation (recipe-move lander for overlay AND slus rows, slus verify-cache re-baseline, natural-C measurement of the 72 candidates at their evidenced recipe). Ladder refinement proposed: cell_imitation -> L4 residue (source/recipe), maspsx_dependent (filler/$gp model) -> L5 residue (toolchain model, not the row's C).
-- 2026-09-24: STEP 1b done (docs/evidence/fidelity_step1b_epilogue.md, tools/fidelity/epilogue_model.py). The 2.8-era rows' epilogues are gcc 2.7.2's text-epilogue decision (function_epilogue + mips_epilogue_delay_slots) on 2.8-era codegen; gcc deleted it on 1997-07-11 (2.8.0 ChangeLog, Jeffrey A Law; verified by the orchestrator in the 2.8.0 tarball). No compiler we hold (our 2.8.0/2.8.1/2.91.66/2.95.2, genuine SN psyq 4.3-4.6 CC1PSX incl. an SN egcs-2.91.66 PSX cc1, CCPSX driver) emits it with any option. Model t272 + genuine ASPSX 2.79 alone: 580/601 rows at 2.8-era cells (496/496 epilogue-dependent, 84/84 controls; the 21 others carry a second maspsx behaviour). The original compiler is a pre-July-1997 gcc2 snapshot with 2.8-era codegen; the four 2.8-era cells are stand-ins for it. Incident: the job deleted the shared work/fidelity/tmp during the ASPSX trial (10 rows errored; re-run requested).
-- 2026-09-24: check of the 30 rows registered at 2.91.66/2.95.2 (current text scored at the same flags on 2.8.1/2.8.0): 1/30 exact (town/func_800C4508); distances 3-111 elsewhere (5 not scorable). They do not collapse into the 2.8.x cells as written; one row needs -fno-gcse (gcse is egcs-lineage). Open: whether the lost pre-July-1997 compiler had egcs-era passes, or retail mixes compilers here - a natural-C re-derivation at 2.8.x would be the test, not a relabel.
-- 2026-09-24 07:20Z: STEP 4 first landing (tools/fidelity/land_recipe_move.py, lane r77_step4): 9 rows moved to the retail-proven splitting cell (6 recipe-switch with rule 2, 3 coherence; 4 with text unchanged), 9 pins + 1 inline-asm statement removed, 9 windows + SLUS MATCH; pins -> 3,196 / 791. Held: town/func_8032C8B8 (weak tier, awaiting evidence). Not stageable yet: 6 slus rows (8 pins) exact only under genuine-ASPSX small-extern $gp handling (decision 3); 61 rows without an exact natural text (9 dungeon clones at 12 words = one parameter-copy prologue order: one lane on one clone).
-- 2026-09-24: ASPSX version trial done (docs/evidence/fidelity_asv_trial.md): global maspsx --aspsx-version 2.56 -> 2.79 (or 2.77) is byte-identical on all 6,767 rows (same .o sha256; maspsx maps the version to 8 dials, 2.77 = 2.79); 2.81 breaks 85 rows (gp_allow_la stops _expand_smalldata_la, the same small-extern model fault as decision 3 - genuine 2.81 reproduces 68 of them). Per-row: 22 town rows at 2.40/2.34 need expand_li (keep); town/func_80614B88's 2.60 dial is redundant at 2.79. The literal 2.56 lives in tools/build/cc.sh, tools/verify.py, tools/gate/{overlay_func_compare,residue_class,match}.py (+ build_ovl mirrors) and tools/fidelity/aspsx_diff.py. Switch awaits owner sign-off + one full gate.
-- 2026-09-24: owner asked whether every compiler we hold has been tested - not yet: step 1b missed the old project's JP-4.3 `2.8.0 SN32 4.0.0007` (recorded recovered, location unknown), the DOS 2.7.2.SN16.3.7.0003 (dosemu2), pre-4.0/legacy cc1s, the Psy-Q 4.7 / RuntimeLibrary archives, and the 2.7.90/2.7.91 beta hunt outcome. STEP 1c launched (brief docs/evidence/fidelity_step1c_brief.md). Owner is less keen on a reconstructed (patched) compiler; default route = relabel the two maspsx epilogue rules as a model of the original compiler + L5 residue. ASPSX 2.79 switch made (owner OK), full forced gate running.
-- 2026-09-24: ASPSX version switch DONE (owner OK): maspsx --aspsx-version 2.56 -> 2.79 in tools/build/cc.sh, tools/verify.py, tools/gate/{residue_class,overlay_func_compare,match}.py, tools/fidelity/aspsx_diff.py; the redundant 2.60 dial of town/func_80614B88 removed. Full forced gate (gate_all.py --all, new flag: inputs_sha does not cover tools): 2,175/2,175 windows MATCH + SLUS MATCH with all 884 objects rebuilt.
-- 2026-09-24: STEP 4 second landing (lane r77_opus_s4clone): the 9 dungeon spawn clones (families 15/23) moved to their census cell (7 -> 2.7.2-cdk-G0, 2 -> 2.8.0-G0), 1 -> 0 pins each, coherence trades. Mechanism: at cdk/2.8.0, cse's notreg_cost folds the s8 parameter copies away, leaving sched1 unable to move the entry parameter moves (the 12-word residue); declaring the two byte parameters s16 keeps the copies and gives retail's order. Pins -> 3,187 / 782.
-- 2026-09-24: ladder markers implemented (tools/levels.py): cell_imitation 53 rows + maspsx_pass 33 rows (block L4), maspsx_dependent 583 rows (block L5); no level changed today (every row is L3). Inputs committed: ledger/split_fingerprint_rows.jsonl (4,187 strict-fingerprint rows), ledger/maspsx_dependence.jsonl (610 rows; refresh with tools/fidelity/aspsx_diff.py).
-- 2026-09-24: STEP 1c done (docs/evidence/fidelity_step1c_compiler_inventory.md): every compiler we hold now tested (21 historical/rebuilt + 13 patched research builds, incl. the JP-4.3 SN 2.8.0 Build 4.0.0007 and the 970802/970821/971023 trunk rebuilds); none gives 2.8-era codegen + unfilled return (all post-1997-07-11). NEW: the genuine 970404 Cygnus snapshot (= our 2.7.2-cdk) with genuine ASPSX 2.79 is retail-exact on 424/593 rows at 2.8-era cells, 360 of the 491 epilogue-helper rows (docs/evidence/fidelity_step1c_cdk_exact_rows.tsv, 362 rows). Only ~131 rows need post-970404 codegen + the text epilogue (the unheld 1997-04-12..07-11 window). No in-window gcc source is held offline.
-- 2026-09-24 08:30Z: 211 rows moved from 2.8.x to 2.7.2-cdk (the genuine 970404 compiler; lane r77_cdk362), text unchanged, rule 2 holding on every row (byte-neutral recipe-switch), all census-consistent (74 in cdk-census modules, 137 without census); 133 windows + SLUS MATCH. Re-run of the genuine-ASPSX differential: all 211 now exact under genuine ASPSX with no maspsx help, so they left ledger/maspsx_dependence.jsonl. HELD: 150 rows exact at cdk but in modules whose census best recipe is 2.8.0/2.8.1/2.7.2 (work/native_lane/r77_cdk362/held/) - re-derive those modules' census with genuine-ASPSX exactness first.
-- 2026-09-24: census re-derivation (owner OK) for the 23 modules holding the 150 held rows, using genuine-ASPSX exactness at 2.7.2-cdk: 22 modules have EVERY row genuine-exact at cdk -> census best_recipe re-derived to cdk (best_recipe_was kept, `rederived` evidence field); town/ovl_3fe0d0.c stays (1 of 12 rows needs post-970404 codegen; one compiler per TU). 153 rows of the 22 modules moved to cdk (lane r77_cdkmod, byte-neutral, 104 windows MATCH), all now genuine-exact. Census contradictions: 0. maspsx_dependent rows 583 -> 226. OPEN: 35 rows in those modules are genuine-exact at cdk but NOT through maspsx at cdk (work/fidelity/census_redo_needdial.json) - a maspsx-vs-genuine difference at cdk to attribute (aspsx_diff ablations at the cdk cfg) before they can move.
-- 2026-09-24: web search for the 1997-04..07 compiler (docs/evidence/fidelity_websearch_1997_compiler.md): no public binary from the window. Leads: (1) FSF gcc2 trunk snapshots via gcc-mirror codeload tarballs (~8 MB each; 473 commits 04-04..07-11; Law's epilogue deletion = 1f2d8f51 r14412, parent 7a49a4fd r14410 is the last text-epilogue trunk; 05-01 -m[no-]split-addresses added - 6 of our rows use that flag); (2) SN N64 build 0006 'cygnus' (1.67 MB, decompme/compilers) - the only surviving SN build between PSX 0004 (970404) and 2.8.0, version string unpublished; (3) US Run-time Library 4.0 Release 2.0 disc (1997-06-20, 392 MB). SN's own BBS (where interim builds lived) has no surviving captures. Awaiting owner approval for downloads.
-- 2026-09-24 CORRECTION (orchestrator error): the census re-derivation above read aspsx_diff's `exact_versions` (= genuine-ASPSX object equals the maspsx object) as retail-exactness at a TRIAL cell. At a row's registered recipe the two coincide (maspsx is gated exact), at a trial cell they do not. Re-checked (docs/evidence/fidelity_cdk35.md, tools/fidelity/cell_retail_check.py): the 35 'genuine-only' rows are NOT retail-exact at cdk under either assembler (cc1 codegen differs: classes A-E). Only 6 of the 22 modules are all-exact at cdk; the 16 others' census re-derivation is WITHDRAWN (best_recipe restored, `rederive_withdrawn` records it). All 364 rows moved to cdk today were re-verified: maspsx retail-exact AND genuine == maspsx - they stand. 16 of the 35 have natural-C candidates exact at cdk (work/fidelity/cdk35/cands/). Standing rule: judge retail-exactness at a trial cell with cell_retail_check.py, never with exact_versions.
-- 2026-09-24: 16 natural-C candidates from docs/evidence/fidelity_cdk35.md landed at 2.7.2-cdk (lane r77_cdk16; 29 windows MATCH; all 16 retail-exact under genuine ASPSX; maspsx_dependence 253 -> 237). Census re-derived with the CORRECT test (every row registered at cdk and gate-exact) for 10 more modules -> 16 modules re-derived in total, 0 contradictions. Still mixed: ovl_7804.c (11 rows exact only at 2.6.3/2.7.2, no split fingerprint - the 2 cdk rows are the odd ones out), 7f7db800, 7f709800, 7f565800, 7f493800, 18ca83c, town/ovl_3fe0d0.c. Follow-ups: the ItemDef20 record typedef is copied into 8 files (move to a shared header); class C (3 rows) small lanes; class E (4 rows) post-970404 codegen.
-- 2026-09-24: lost-compiler hunt A done (docs/evidence/fidelity_lostcc_A_sn_binaries.md): SN N64 build 0006 = `cygnus-2.7.2-970404 SN32.3.7.0006` (linked 1997-11-26) - asm identical to PSX 0004 on 1,403 rows with PSX options, 0 new retail-exact rows, text epilogue, rejects -mno-split-addresses; the US Run-time Library 4.0 Release 2.0 disc (1997-06-20) carries the 0002 tools we hold (+ a DOS SN16 0002 identical in codegen). New: a Saturn SN cc1 `2.7-97r1a SOA-971029 SN32.3.8.0006` (1997-11-25) - a second SN Cygnus line (97r1a) with no known MIPS build. 135 rows (115 epilogue-helper + 20 controls at 2.8-era cells) remain reproduced by no held or public binary. Binaries + sha256 under work/fidelity/lostcc/A/bin (git-ignored).
-- 2026-09-24: lost-compiler hunt B done (docs/evidence/fidelity_lostcc_B_trunk_bisect.md) and the case consolidated (docs/evidence/fidelity_lost_compiler_case.md): the production compiler = a post-July-1997 gcc2 snapshot with an unfilled return slot, not held (needs r14536 07-27 codegen + the text epilogue deleted 07-11; no FSF state has both). Literal r14412 revert NOT rock solid (loses 11 rows, breaks 6/13 controls); two-condition patch 172/174 - not adopted. Model of record = the two maspsx rules, docstrings relabelled (byte-neutral, docstring-only). NEXT: the 78 pinned H28 rows in natural C at cdk; the 17 egcs-cell rows as a separate proxy question.
-- 2026-09-24: H28 wave launched (owner: "wrap up the remaining 78"): 67 pinned epilogue-dependent rows at 2.8.0/2.8.1 (the 13 at egcs cells kept separate per hunt B) in 16 Opus recipe-fidelity lanes r77_opus_h1..h16 (docs/evidence/r77_h28_lanes.json): natural C exact at cdk first (staged in cells/ + cells.jsonl, landed with tools/fidelity/land_recipe_move.py), fewer pins at the registered cell second (out/, landed by land_finished2). h1-h8 running; h9-h16 queued.
-- 2026-09-24: H28 interrupted-wave recovery (Codex, owner requested continuation): ten exact candidates recovered from h1-h8 plus a new natural-C solution for town/func_800B7CEC; all eleven landed at CDK through `land_recipe_move.py` (tags r77_h28_recovery/r77_h28_final), 74 pins removed, 9 newly pin-free, 2 partial reductions. Nine affected windows MATCH, SLUS MATCH, row database OK. Fresh genuine-ASPSX verification: all eleven exact, no compatibility passes firing; dependence ledger 237 -> 226. All 40 queued rows calibrated and erased-text scored at CDK (0 exact from erasure alone); one subsequently solved. Evidence and next actions: docs/evidence/r77_h28_recovery.md. The original cohort retains 58 pinned rows, including 2 now at CDK; 56 remain at their original proxy recipes.
-
-- 2026-09-25: owner explicitly approved the reviewed GP correction and sink-pass
-  retirement. Production activation, all retail gates, ownership/placement proofs,
-  fresh six-version census and live dependency/level/status refresh completed.
-  Dependencies 189 -> 167 (22 removed, none added). See
-  [production transition evidence](evidence/gp_partition_only/production_transition/README.md).
-  The retained split pass still has a required consumer; accepted model rules and
-  old-ASPSX dials remain. Earlier sign-off-pending entries are historical.
-
-## Genuine ASPSX 2.34 (PsyQ 3.5 / 3.6) and 2.21 (PsyQ 3.3): the old DOS assemblers (2026-10-15, r120)
-
-`tools/fidelity/aspsx_diff.py` carries two more genuine Sony ASPSX versions beside the WIBO 2.56 .. 2.86 set:
-**2.34** (the `ASPSX.EXE` of PsyQ 3.5 and 3.6, byte-identical, 75,849 B) and **2.21** (PsyQ 3.3). They are 16-bit DOS programs,
-so they run under dosemu2 (headless) instead of wibo, from the SAME prepared stream (CRLF, `.include`/`#APP`/`.size`/`.type`
-stripped, equates dropped, `-q [-G0] [-0]` modes) and are read by the SAME LNK reader (`objread.read_lnk`):
-
-    nice dosemu -dumb -K <dir> -E "ASPSX.EXE -q [-G0] [-0] -o OUT.OBJ IN.S" </dev/null      # <dir> holds ASPSX.EXE + IN.S (8.3 names); dosemu writes out.obj
-
-- Binaries: `toolchain/genuine/psyq_old/psyq3.3/psyq3.3/ASPSX.EXE` (2.21) and `psyq3.5/psyq3.5/ASPSX.EXE` (2.34), git-ignored with the
-  rest of `toolchain/genuine` (override with `GENUINE_OLD_TOOLCHAIN`; tarballs `psyq3.3|3.5|3.6.tar.gz` from github.com/mkst/esa release
-  `psyq-binaries`). dosemu2 is `dosemu` on PATH (override `AZURE_DOSEMU`); ~0.6 s per assembly, parallel jobs need separate directories.
-- Opt-in: `aspsx_diff.py --old-aspsx {off,auto,on}` (env `AZURE_OLD_ASPSX`; `cell_retail_check.py` takes the same flag). `off` (default) changes
-  nothing for existing users. `auto` runs the old versions when dosemu and the EXEs exist, else skips them and records the reason in
-  `rec["old_aspsx"]["skipped"]`. `on` fails clearly (SystemExit / a `status=error` record) when either is absent. Enabled runs record the
-  EXE sha256 in `rec["old_aspsx"]["exe_sha256"]` and add the EXEs to `tool_fingerprint()`.
-- A row is retail-exact under an old version by exactly the existing rule (`cell_retail_check.genuine_retail_exact`: 0 differing, 0 masked
-  words vs retail, or masked-only with maspsx scorer-exact and genuine == maspsx). `exact_versions` / `genuine[v]` carry `"2.21"` / `"2.34"`.
-- Behaviour that distinguishes them: `li $2,0` -> `ori $v0,$zero,0` (0x34020000) under 2.21 and 2.34, `addiu` (0x24020000) under >= 2.56
-  (`toolchain/maspsx/aspsx/ASM/EXPND_LI.S`; test `tools/tests/test_aspsx_old.py`). maspsx's `--aspsx-version` dial (2.40 / 2.34, threshold
-  `expand_li` below 2.50) is only the maspsx reproduction of this assembler.
-
-The town "dial" island was assembled with it: all 22 rows below are retail-exact (0 differing words, 0 masked) under genuine ASPSX 2.34
-at their registered recipe (ASPSX 2.21 is exact on 11 of 22; the WIBO versions differ by 1-6 words). 21 rows carry `--aspsx-version=2.40`,
-town/func_80878924 carries `--aspsx-version=2.34`. Evidence: `docs/evidence/r120_mdep_oldaspsx.jsonl` and `docs/evidence/r120_mdep_oldaspsx/` (installed by the r120 oldaspsx retire package).
-
-- town cfg 2.6.3 (11 rows, `town/func_<hex>`): 80874D84, 80874E18, 80874F4C, 80875060, 80875124, 8087514C, 80875238, 808752CC, 80875364, 808755AC, 808757A0
-- town cfg 2.7.2-G0 (3 rows): 80878924, 80878974, 80878A78
-- town cfg 2.6.3-G0 (8 rows): 8087FD58, 8087FDA4, 8087FE98, 8088116C, 8088124C, 808813CC, 80881478, 808816D8
-
-Rodata-owner rows: `prepare_overlay` now honours `config/overlays/<family>.rodata_owners.jsonl` as `overlay_func_compare` does (target = the
-owner's function, built with `rodata_first`, compared against the whole retail row; the measured unit is then the function only, retail
-`[rodata_size:]`, link vram + rodata_size). `dungeon/func_8197C800` is measured this way (maspsx scorer-exact; 2.67 .. 2.86 equal and
-retail-exact with 2 masked jump-table relocations).
+Record the measured input hashes, scope, failures and remaining dependencies.
+Keep compiled objects, extracted assets and SDK files out of Git. Use the
+[toolchain/module overview](GOAL_TOOLCHAIN_AND_MODULES.md) and
+[decision history](evidence/r97_decisions.md) for related work and original rulings.

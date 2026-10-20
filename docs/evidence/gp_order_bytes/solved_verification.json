@@ -8,7 +8,15 @@
   "compiler_assembly_sha256": "554f57563988d080cc37d6ad451b37e3026c62280d038048ada36fc73e5fb1d4",
   "real_data": {
     "symbol": "D_80080B30",
-    "bytes": "01030204",
+    "bytes": {
+      "$retail": {
+        "file": "SLUS_006.14",
+        "offset": 344880,
+        "length": 4,
+        "sha256": "ac49441bd928148d4c95ef73c583afd9eb85a9c7c9546b1d7221cfdd95dfaed3"
+      },
+      "format": "hex"
+    },
     "symbol_record": [
       ".sdata",
       0,

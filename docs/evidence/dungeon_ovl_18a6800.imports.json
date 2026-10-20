@@ -272,7 +272,15 @@
       "foff": 70548,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "00140600431302002110a200000082ac",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 70548,
+          "length": 16,
+          "sha256": "0f610f588532ba54cf2447c2fcf8fbfd4c05e26ed058c6adeda561a27f5fec1d"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "0f610f588532ba54cf2447c2fcf8fbfd4c05e26ed058c6adeda561a27f5fec1d",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -282,7 +290,15 @@
       "foff": 71540,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "c8ffbd272c00b3af219880002800b2af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 71540,
+          "length": 16,
+          "sha256": "947829a8a4189604dca5135da6fe6cf80ddb1ffa37d7826b69ce64e6e44134c0"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "947829a8a4189604dca5135da6fe6cf80ddb1ffa37d7826b69ce64e6e44134c0",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -292,7 +308,15 @@
       "foff": 78948,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "0180023c14374294e0ffbd271400b1af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 78948,
+          "length": 16,
+          "sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -302,7 +326,15 @@
       "foff": 79204,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "0180023c14374294e0ffbd271400b1af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 79204,
+          "length": 16,
+          "sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -312,7 +344,15 @@
       "foff": 98588,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "21388000ffff08242148000021202001",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 98588,
+          "length": 16,
+          "sha256": "40f6255d7ae4fada30b446f687fe666aceabe87ffd6717ae1b737d459e8f3bff"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "40f6255d7ae4fada30b446f687fe666aceabe87ffd6717ae1b737d459e8f3bff",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -322,7 +362,15 @@
       "foff": 101184,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "e0ffbd271000b0af218080001400b1af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 101184,
+          "length": 16,
+          "sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -332,7 +380,15 @@
       "foff": 110776,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "e8ffbd271000b0af1400bfaffd1d010c",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 110776,
+          "length": 16,
+          "sha256": "d9ad27780e8cd7534567007bb5685be652d7b7ad1b3a601909cc7b45b970548d"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "d9ad27780e8cd7534567007bb5685be652d7b7ad1b3a601909cc7b45b970548d",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -342,7 +398,15 @@
       "foff": 228536,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "e8ffbd27050080041000bfaf3d91010c",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 228536,
+          "length": 16,
+          "sha256": "2e47e9e7d584c14b7f05171ca4db4c86651a5f94700b8a300a1b89355851a64f"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "2e47e9e7d584c14b7f05171ca4db4c86651a5f94700b8a300a1b89355851a64f",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -352,7 +416,15 @@
       "foff": 228740,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "020081040000000023200400ff0f8430",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 228740,
+          "length": 16,
+          "sha256": "0a8d6c9350f43e90fdcd477819d062e754cee1dd93d51f8c4839e9e30e2a1bdf"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "0a8d6c9350f43e90fdcd477819d062e754cee1dd93d51f8c4839e9e30e2a1bdf",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -362,7 +434,15 @@
       "foff": 229792,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "08800e3c6cbcce8d000000008002c129",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 229792,
+          "length": 16,
+          "sha256": "761a781d4b99c5053e9f7c8afb72f314c13550d9bee4c027f560387988ca1a07"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "761a781d4b99c5053e9f7c8afb72f314c13550d9bee4c027f560387988ca1a07",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -372,7 +452,15 @@
       "foff": 229952,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "08800e3c6cbcce8d000000000a00c01d",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 229952,
+          "length": 16,
+          "sha256": "0f195d47028adfa7e95901ab6cd84892a518a54aaf584ea9f6068a944d0271ad"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "0f195d47028adfa7e95901ab6cd84892a518a54aaf584ea9f6068a944d0271ad",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -382,7 +470,15 @@
       "foff": 230640,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "0000888c0400898c08008a8c0c008b8c",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 230640,
+          "length": 16,
+          "sha256": "a658c4700b52e05019fc5aa201cba0da21b352b6da289f256b393eb2b4123aa0"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "a658c4700b52e05019fc5aa201cba0da21b352b6da289f256b393eb2b4123aa0",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -392,7 +488,15 @@
       "foff": 230784,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "1400888c1800898c1c008a8c0028c848",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 230784,
+          "length": 16,
+          "sha256": "a0c070b6f372ef64afdbcd25bcf07ac71050b66a8e7ebc7539b9dba6494910fb"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "a0c070b6f372ef64afdbcd25bcf07ac71050b66a8e7ebc7539b9dba6494910fb",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -402,7 +506,15 @@
       "foff": 232224,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "000080c8040081c8000000001200484a",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 232224,
+          "length": 16,
+          "sha256": "f81fddb7d4dcfc944fa767691958f160293e9fdee9d3e43874c8c6eeca1b9dcc"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "f81fddb7d4dcfc944fa767691958f160293e9fdee9d3e43874c8c6eeca1b9dcc",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -412,7 +524,15 @@
       "foff": 232480,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "000080c8040081c8000000000100184a",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 232480,
+          "length": 16,
+          "sha256": "5ed8b1e3aa5976dc28627d2b9c270d5e667f681bfc289095cf3cb6b034e82a2c"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "5ed8b1e3aa5976dc28627d2b9c270d5e667f681bfc289095cf3cb6b034e82a2c",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -422,7 +542,15 @@
       "foff": 232624,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "000080c8040081c80000a2c80400a3c8",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 232624,
+          "length": 16,
+          "sha256": "87ed88b13bf767714c5f0905d8ee4bb684c07bba5dc55372d56058cf8e9f69ea"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "87ed88b13bf767714c5f0905d8ee4bb684c07bba5dc55372d56058cf8e9f69ea",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -432,7 +560,15 @@
       "foff": 233504,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "00008f842110a0000e00e105ff0ff931",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 233504,
+          "length": 16,
+          "sha256": "410b8d9d46120f010b28fa78d6ee54fb3a21e32de662ba326e8bea37c65a200c"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "410b8d9d46120f010b28fa78d6ee54fb3a21e32de662ba326e8bea37c65a200c",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -442,7 +578,15 @@
       "foff": 235408,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "213000000300a1042138000001000624",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 235408,
+          "length": 16,
+          "sha256": "3c8f3a35758cf1f8417acbb2569cfbe62af7814690aeed1cb07e9a572803ebc2"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "3c8f3a35758cf1f8417acbb2569cfbe62af7814690aeed1cb07e9a572803ebc2",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -452,7 +596,15 @@
       "foff": 236640,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "03008230c01102000300a53040290500",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 236640,
+          "length": 16,
+          "sha256": "5cea361dc5c9f0e81b17f4da7ac9dd92f80e6b513fc85620d27083290f98e663"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "5cea361dc5c9f0e81b17f4da7ac9dd92f80e6b513fc85620d27083290f98e663",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -462,7 +614,15 @@
       "foff": 236940,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "ff00063cffffc63400ff073c0000a38c",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 236940,
+          "length": 16,
+          "sha256": "26f136f00dab80b36566ed3b508af50b48982c0bdeb2a780e56fd818484ebe0b"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "26f136f00dab80b36566ed3b508af50b48982c0bdeb2a780e56fd818484ebe0b",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -472,7 +632,15 @@
       "foff": 237320,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "08000224030082a0380002240800e003",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 237320,
+          "length": 16,
+          "sha256": "4e736cd55f958b95e2c9ee871b7fbb35f682bd559c3d3e0f39d87e2d05c99833"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "4e736cd55f958b95e2c9ee871b7fbb35f682bd559c3d3e0f39d87e2d05c99833",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -482,7 +650,15 @@
       "foff": 243488,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "e0ffbd271000b0af218080002120a000",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 243488,
+          "length": 16,
+          "sha256": "72c09695d62d432399c0316c2277eaa0498b25eeb1baba0d9d58f536b1362cc8"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "72c09695d62d432399c0316c2277eaa0498b25eeb1baba0d9d58f536b1362cc8",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -492,7 +668,15 @@
       "foff": 251640,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "a0000a24080040012f00092400000000",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 251640,
+          "length": 16,
+          "sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -502,7 +686,15 @@
       "foff": 737508,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "e0ffbd271000b0af218080001400b1af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 737508,
+          "length": 16,
+          "sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -512,7 +704,15 @@
       "foff": 752312,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "e0ffbd271000b0af218080001400b1af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 752312,
+          "length": 16,
+          "sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -522,7 +722,15 @@
       "foff": 763280,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "ff00c630ff0084302330c4000200c104",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 763280,
+          "length": 16,
+          "sha256": "1fb8b70ff29599dd11a0dbaf0226bc37f07280b3fcb567b82d0b82a2502869e2"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "1fb8b70ff29599dd11a0dbaf0226bc37f07280b3fcb567b82d0b82a2502869e2",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -532,7 +740,15 @@
       "foff": 781944,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "d8ffbd272000b2af2190c000ffff8230",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 781944,
+          "length": 16,
+          "sha256": "ea7ee88301d4a2ac3fe881dfc02fc5e8d8cc39e8ddc4ddbd9cd7b9c73004a9a7"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "ea7ee88301d4a2ac3fe881dfc02fc5e8d8cc39e8ddc4ddbd9cd7b9c73004a9a7",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -542,7 +758,15 @@
       "foff": 782736,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "d0ffbd271c00b3af219880002400b5af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 782736,
+          "length": 16,
+          "sha256": "70109c02299f731b6aaacdd1b51ef3da38d74c7a28cd5c99303cb4747da78560"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "70109c02299f731b6aaacdd1b51ef3da38d74c7a28cd5c99303cb4747da78560",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -552,7 +776,15 @@
       "foff": 786304,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "0180023c14374294e8ffbd2702004230",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 786304,
+          "length": 16,
+          "sha256": "bf39d895f79df6a233839115df30299b60b9797b745388731dd9d2335bc15195"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "bf39d895f79df6a233839115df30299b60b9797b745388731dd9d2335bc15195",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -562,7 +794,15 @@
       "foff": 863228,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "c0ffbd273400b7af21b880002000b2af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 863228,
+          "length": 16,
+          "sha256": "4506545dac3447ad6c782b55eab7999144b4ddbda27d96dbf9825e347fc14276"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "4506545dac3447ad6c782b55eab7999144b4ddbda27d96dbf9825e347fc14276",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
@@ -572,7 +812,15 @@
       "foff": 251640,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "a0000a24080040012f00092400000000",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 251640,
+          "length": 16,
+          "sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de",
       "kind": "external_code_entry_view",
       "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."

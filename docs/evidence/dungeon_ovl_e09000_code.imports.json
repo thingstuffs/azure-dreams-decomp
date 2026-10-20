@@ -68,63 +68,135 @@
       "vma": 2147745124,
       "foff": 79204,
       "map": "slus_load",
-      "bytes_hex": "0180023c14374294e0ffbd271400b1af218880001800b2af2190a0001c00bfaf",
+      "bytes_hex": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 79204,
+          "length": 32,
+          "sha256": "53e350d71ef74ba5439eb3f531cbc19291655ec3bd76b9efb3997e22d560870c"
+        },
+        "format": "hex"
+      },
       "basis": "Direct resident call or bank code callback stored in object +0x10/state +0x8C. No foreign switch labels are imported by this constructor."
     },
     "func_8004491C": {
       "vma": 2147764508,
       "foff": 98588,
       "map": "slus_load",
-      "bytes_hex": "21388000ffff08242148000021202001215000010880023ce03343240880023c",
+      "bytes_hex": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 98588,
+          "length": 32,
+          "sha256": "a2a976c0ae37179daa34d97b0c96e6f047e63dc6171ed92afd4ed8bbcd2e6271"
+        },
+        "format": "hex"
+      },
       "basis": "Direct resident call or bank code callback stored in object +0x10/state +0x8C. No foreign switch labels are imported by this constructor."
     },
     "func_80045340": {
       "vma": 2147767104,
       "foff": 101184,
       "map": "slus_load",
-      "bytes_hex": "e0ffbd271000b0af218080001400b1af0880113c1800bfaf7c0b80af801f013c",
+      "bytes_hex": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 101184,
+          "length": 32,
+          "sha256": "8f75c27506a398c55a0904dce13be5e4682aae77cc408f4e40d48e11d9f33d62"
+        },
+        "format": "hex"
+      },
       "basis": "Direct resident call or bank code callback stored in object +0x10/state +0x8C. No foreign switch labels are imported by this constructor."
     },
     "func_800A6D30": {
       "vma": 2148166960,
       "foff": 792016,
       "map": "dungeon_resident",
-      "bytes_hex": "c641043c0880033c60316324fc01628c6d4e843418004400122800003930a224",
+      "bytes_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 792016,
+          "length": 32,
+          "sha256": "6b99722d75db323f987b46b684ee67e6f98cf68566d9b43dc0aa0a5cbfe881a6"
+        },
+        "format": "hex"
+      },
       "basis": "Direct resident call or bank code callback stored in object +0x10/state +0x8C. No foreign switch labels are imported by this constructor."
     },
     "func_800A48F0": {
       "vma": 2148157680,
       "foff": 782736,
       "map": "dungeon_resident",
-      "bytes_hex": "d0ffbd271c00b3af219880002400b5af21a8a0001800b2af2190c00000010724",
+      "bytes_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 782736,
+          "length": 32,
+          "sha256": "412a710ca415746f6cca77fcf9f14a0f9d26d8ea522401d8186f171d52da8b44"
+        },
+        "format": "hex"
+      },
       "basis": "Direct resident call or bank code callback stored in object +0x10/state +0x8C. No foreign switch labels are imported by this constructor."
     },
     "func_800A9C18": {
       "vma": 2148178968,
       "foff": 804024,
       "map": "dungeon_resident",
-      "bytes_hex": "d8ffbd271c00b3af219880001800b2af2190a0001400b1af2188c0001000b0af",
+      "bytes_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 804024,
+          "length": 32,
+          "sha256": "2a138d3b489bc098b0bf9a728e425bd7f4b9362972e7df609037f5272bf6fb56"
+        },
+        "format": "hex"
+      },
       "basis": "Direct resident call or bank code callback stored in object +0x10/state +0x8C. No foreign switch labels are imported by this constructor."
     },
     "func_800AA36C": {
       "vma": 2148180844,
       "foff": 805900,
       "map": "dungeon_resident",
-      "bytes_hex": "d0ffbd272400b5af21a880002800b6af21b0a0001400b1af2188c0001000b0af",
+      "bytes_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 805900,
+          "length": 32,
+          "sha256": "282a3e7a02c926b6421888c6aa366d4132309fd33656d83f09e925f2d5f0b8ef"
+        },
+        "format": "hex"
+      },
       "basis": "Direct resident call or bank code callback stored in object +0x10/state +0x8C. No foreign switch labels are imported by this constructor."
     },
     "func_8016AA58": {
       "vma": 2148969048,
       "foff": 14717528,
       "map": "native_bank",
-      "bytes_hex": "0880023c62344294d0ffbd271800b2af219080002000b4af21a0a0001c00b3af",
+      "bytes_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 14717528,
+          "length": 32,
+          "sha256": "5fd73da9c4ffaefcaf29a5382db1600f1cbd66b193687e1bb77cbdbe3fe54b04"
+        },
+        "format": "hex"
+      },
       "basis": "Direct resident call or bank code callback stored in object +0x10/state +0x8C. No foreign switch labels are imported by this constructor."
     },
     "func_8016AE5C": {
       "vma": 2148970076,
       "foff": 14718556,
       "map": "native_bank",
-      "bytes_hex": "0880023c62344294c8ffbd272400b1af218880002c00b3af2198a0002800b2af",
+      "bytes_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 14718556,
+          "length": 32,
+          "sha256": "8863748c528e9ddbc997f2cb5287042b74cb4ffeeda12d32974cd89d1f41da60"
+        },
+        "format": "hex"
+      },
       "basis": "Direct resident call or bank code callback stored in object +0x10/state +0x8C. No foreign switch labels are imported by this constructor."
     }
   },
@@ -132,7 +204,15 @@
     "D_8016E510": {
       "view_bytes": 8,
       "sha256": "29646f7cd23978782271a3939205ea1bb361bcd7d793803c04c5131b8758fbd5",
-      "bytes_hex": "0201000102030403",
+      "bytes_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 337744,
+          "length": 8,
+          "sha256": "29646f7cd23978782271a3939205ea1bb361bcd7d793803c04c5131b8758fbd5"
+        },
+        "format": "hex"
+      },
       "sources": [
         "src/dungeon/func_80DE9000.c"
       ],
@@ -141,7 +221,15 @@
     "D_8016E538": {
       "view_bytes": 8,
       "sha256": "9a3e76a2ffaa160ee5f50d9bf09b2f8b3bb8273c0c4261127dd69615fe3f1ed7",
-      "bytes_hex": "1b1a191a1b1c1d1c",
+      "bytes_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 337896,
+          "length": 8,
+          "sha256": "9a3e76a2ffaa160ee5f50d9bf09b2f8b3bb8273c0c4261127dd69615fe3f1ed7"
+        },
+        "format": "hex"
+      },
       "sources": [
         "src/dungeon/func_80DE9000.c"
       ],

@@ -1832,7 +1832,15 @@
     {
       "container": "town",
       "foff": 9268680,
-      "bytes": "0280023c643e4224",
+      "bytes": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 9268680,
+          "length": 8,
+          "sha256": "93f8d1b5a0e39a8ac14b9660c4f8ae9b65b506b7e711d2ae61ae3e0e61b0ddae"
+        },
+        "format": "hex"
+      },
       "target": 2147630692,
       "target_foff": 9268836,
       "delta": 2138361856,
@@ -1841,7 +1849,15 @@
     {
       "container": "town",
       "foff": 9268964,
-      "bytes": "0280023ca83f4224",
+      "bytes": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 9268964,
+          "length": 8,
+          "sha256": "71bec77109b82cfde6b9ee9400ce0ee45d56bd48f949b21de9b71149f5ce826b"
+        },
+        "format": "hex"
+      },
       "target": 2147631016,
       "target_foff": 9269160,
       "delta": 2138361856,
@@ -2188,18 +2204,25 @@
       "table_vram": 2147631144,
       "table_foff": 25602088,
       "count": 8,
-      "table_bytes": "0c5102805c5102807456028030570280705702802458028078580280b0580280",
+      "table_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 25602088,
+          "length": 32,
+          "sha256": "bb1253ccd102e8d453486dfd5c46cdcccdac6b0ba86ee52984d5420189af3a2d"
+        },
+        "format": "hex"
+      },
       "table_sha256": "bb1253ccd102e8d453486dfd5c46cdcccdac6b0ba86ee52984d5420189af3a2d",
-      "targets": [
-        2147635468,
-        2147635548,
-        2147636852,
-        2147637040,
-        2147637104,
-        2147637284,
-        2147637368,
-        2147637424
-      ],
+      "targets": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 25602088,
+          "length": 32,
+          "sha256": "bb1253ccd102e8d453486dfd5c46cdcccdac6b0ba86ee52984d5420189af3a2d"
+        },
+        "format": "u32le_list"
+      },
       "accessor_hi": 2147635436,
       "accessor_lo": 2147635440,
       "m2c_exit": 0,
@@ -2214,16 +2237,25 @@
       "table_vram": 2147631112,
       "table_foff": 25946120,
       "count": 6,
-      "table_bytes": "5445028000460280744a0280e84a0280c84b0280004c0280",
+      "table_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 25946120,
+          "length": 24,
+          "sha256": "9f3b64e886fe2017e737da9689cfbc88e42f2b9a83cf1c731316323cd0388792"
+        },
+        "format": "hex"
+      },
       "table_sha256": "9f3b64e886fe2017e737da9689cfbc88e42f2b9a83cf1c731316323cd0388792",
-      "targets": [
-        2147632468,
-        2147632640,
-        2147633780,
-        2147633896,
-        2147634120,
-        2147634176
-      ],
+      "targets": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 25946120,
+          "length": 24,
+          "sha256": "9f3b64e886fe2017e737da9689cfbc88e42f2b9a83cf1c731316323cd0388792"
+        },
+        "format": "u32le_list"
+      },
       "accessor_hi": 2147632436,
       "accessor_lo": 2147632440,
       "m2c_exit": 0,
@@ -2238,18 +2270,25 @@
       "table_vram": 2147631112,
       "table_foff": 25970696,
       "count": 8,
-      "table_bytes": "8c480280d4480280f04d0280304f0280b04f0280d84f0280e050028018510280",
+      "table_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 25970696,
+          "length": 32,
+          "sha256": "09c4c61680ceb63b359eb966171f61440073d372097d8f9af093741f71c6839c"
+        },
+        "format": "hex"
+      },
       "table_sha256": "09c4c61680ceb63b359eb966171f61440073d372097d8f9af093741f71c6839c",
-      "targets": [
-        2147633292,
-        2147633364,
-        2147634672,
-        2147634992,
-        2147635120,
-        2147635160,
-        2147635424,
-        2147635480
-      ],
+      "targets": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 25970696,
+          "length": 32,
+          "sha256": "09c4c61680ceb63b359eb966171f61440073d372097d8f9af093741f71c6839c"
+        },
+        "format": "u32le_list"
+      },
       "accessor_hi": 2147633260,
       "accessor_lo": 2147633264,
       "m2c_exit": 0,
@@ -2264,19 +2303,25 @@
       "table_vram": 2147631216,
       "table_foff": 26265712,
       "count": 9,
-      "table_bytes": "a85602806c570280345a0280105c0280645f0280f462028018630280b06302804c630280",
+      "table_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 26265712,
+          "length": 36,
+          "sha256": "8a99fe92d4f960313292843bbb9e7d6e1718acdc264a8d805889f62db6a0fa66"
+        },
+        "format": "hex"
+      },
       "table_sha256": "8a99fe92d4f960313292843bbb9e7d6e1718acdc264a8d805889f62db6a0fa66",
-      "targets": [
-        2147636904,
-        2147637100,
-        2147637812,
-        2147638288,
-        2147639140,
-        2147640052,
-        2147640088,
-        2147640240,
-        2147640140
-      ],
+      "targets": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 26265712,
+          "length": 36,
+          "sha256": "8a99fe92d4f960313292843bbb9e7d6e1718acdc264a8d805889f62db6a0fa66"
+        },
+        "format": "u32le_list"
+      },
       "accessor_hi": 2147636872,
       "accessor_lo": 2147636876,
       "m2c_exit": 0,
@@ -2291,19 +2336,25 @@
       "table_vram": 2147631144,
       "table_foff": 26290216,
       "count": 9,
-      "table_bytes": "90500280505102801854028098570280cc57028074580280b058028048590280e4580280",
+      "table_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 26290216,
+          "length": 36,
+          "sha256": "8dae8ebb3614b5745fdf958da4c432e7173d646c21af4b1eafc9757e0fc62315"
+        },
+        "format": "hex"
+      },
       "table_sha256": "8dae8ebb3614b5745fdf958da4c432e7173d646c21af4b1eafc9757e0fc62315",
-      "targets": [
-        2147635344,
-        2147635536,
-        2147636248,
-        2147637144,
-        2147637196,
-        2147637364,
-        2147637424,
-        2147637576,
-        2147637476
-      ],
+      "targets": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 26290216,
+          "length": 36,
+          "sha256": "8dae8ebb3614b5745fdf958da4c432e7173d646c21af4b1eafc9757e0fc62315"
+        },
+        "format": "u32le_list"
+      },
       "accessor_hi": 2147635312,
       "accessor_lo": 2147635316,
       "m2c_exit": 0,
@@ -2318,15 +2369,25 @@
       "table_vram": 2147631192,
       "table_foff": 26486872,
       "count": 5,
-      "table_bytes": "c05602801457028060570280e4590280ac5a0280",
+      "table_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 26486872,
+          "length": 20,
+          "sha256": "c9554c7c51d485bb330b7930fbd03f244e59b32b5ede7cf33db7998b64c62a8a"
+        },
+        "format": "hex"
+      },
       "table_sha256": "c9554c7c51d485bb330b7930fbd03f244e59b32b5ede7cf33db7998b64c62a8a",
-      "targets": [
-        2147636928,
-        2147637012,
-        2147637088,
-        2147637732,
-        2147637932
-      ],
+      "targets": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 26486872,
+          "length": 20,
+          "sha256": "c9554c7c51d485bb330b7930fbd03f244e59b32b5ede7cf33db7998b64c62a8a"
+        },
+        "format": "u32le_list"
+      },
       "accessor_hi": 2147636896,
       "accessor_lo": 2147636900,
       "m2c_exit": 0,

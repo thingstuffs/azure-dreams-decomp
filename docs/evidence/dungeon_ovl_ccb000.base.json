@@ -9,72 +9,24 @@
   "method": "relocated jump/callback-table fingerprint",
   "reference_image": 13316096,
   "reference_delta": 2135676928,
-  "table_entries": [
-    2148895324,
-    2148895780,
-    2148897808,
-    2148897808,
-    2148897808,
-    2148897852,
-    2148897724,
-    2148897724,
-    2148897724,
-    2148897668,
-    2148897668,
-    2148897852,
-    2148897852,
-    2148897792,
-    2148904176,
-    2148904168,
-    2148904160,
-    2148904184,
-    2148904096,
-    2148904088,
-    2148904080,
-    0,
-    2148912500,
-    2148912512,
-    2148912564,
-    2148912804,
-    2148913016,
-    2148913284,
-    2148913336,
-    2148913464,
-    2148913600
-  ],
-  "reference_entries": [
-    2148993628,
-    2148994084,
-    2148996112,
-    2148996112,
-    2148996112,
-    2148996156,
-    2148996028,
-    2148996028,
-    2148996028,
-    2148995972,
-    2148995972,
-    2148996156,
-    2148996156,
-    2148996096,
-    2149002480,
-    2149002472,
-    2149002464,
-    2149002488,
-    2149002400,
-    2149002392,
-    2149002384,
-    0,
-    2149010804,
-    2149010816,
-    2149010868,
-    2149011108,
-    2149011320,
-    2149011588,
-    2149011640,
-    2149011768,
-    2149011904
-  ],
+  "table_entries": {
+    "$retail": {
+      "file": "DUNGEON/DUNGEON.BIN",
+      "offset": 13414400,
+      "length": 124,
+      "sha256": "2c7ee6f30c4e0b9c95118fff62fc625fc2f09fa20d29a0ce275db8788b584ae3"
+    },
+    "format": "u32le_list"
+  },
+  "reference_entries": {
+    "$retail": {
+      "file": "DUNGEON/DUNGEON.BIN",
+      "offset": 13316096,
+      "length": 124,
+      "sha256": "1ae590cdbd153ebc47d21c76f1123d60f0b45bee8d8520ed760eff43f6068334"
+    },
+    "format": "u32le_list"
+  },
   "nonzero_entries": 30,
   "uniform_pointer_delta": -98304,
   "target_code_matches": [
@@ -83,91 +35,195 @@
       "vma": 2148895324,
       "foff": 13415004,
       "reference_foff": 13316700,
-      "head16": "c8ffbd271c00b3af219880001000b0af"
+      "head16": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 13415004,
+          "length": 16,
+          "sha256": "a1dffbfa3ead9c0344199b8dfe432f16a53ccfacc76a003046ceb33d6c4b6e91"
+        },
+        "format": "hex"
+      }
     },
     {
       "entry": 1,
       "vma": 2148895780,
       "foff": 13415460,
       "reference_foff": 13317156,
-      "head16": "0880023c62344294d0ffbd271400b1af"
+      "head16": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 13415460,
+          "length": 16,
+          "sha256": "cf0a6f30bcc5d4a0e557facdda7be2ac0ea8b26c7c35752ad367da0959e4ef93"
+        },
+        "format": "hex"
+      }
     },
     {
       "entry": 6,
       "vma": 2148897724,
       "foff": 13417404,
       "reference_foff": 13319100,
-      "head16": "24000492250005921800a2271000a2af"
+      "head16": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 13417404,
+          "length": 16,
+          "sha256": "859de02d41b5e02cd1423da3b2f93e155cb597f2cd76fb54db3149447f448ac7"
+        },
+        "format": "hex"
+      }
     },
     {
       "entry": 7,
       "vma": 2148897724,
       "foff": 13417404,
       "reference_foff": 13319100,
-      "head16": "24000492250005921800a2271000a2af"
+      "head16": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 13417404,
+          "length": 16,
+          "sha256": "859de02d41b5e02cd1423da3b2f93e155cb597f2cd76fb54db3149447f448ac7"
+        },
+        "format": "hex"
+      }
     },
     {
       "entry": 8,
       "vma": 2148897724,
       "foff": 13417404,
       "reference_foff": 13319100,
-      "head16": "24000492250005921800a2271000a2af"
+      "head16": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 13417404,
+          "length": 16,
+          "sha256": "859de02d41b5e02cd1423da3b2f93e155cb597f2cd76fb54db3149447f448ac7"
+        },
+        "format": "hex"
+      }
     },
     {
       "entry": 17,
       "vma": 2148904184,
       "foff": 13423864,
       "reference_foff": 13325560,
-      "head16": "2188000000002292000000003f004010"
+      "head16": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 13423864,
+          "length": 16,
+          "sha256": "ec166ba8dbee5b40ba7e0888ca0af0871527d227f18fc6f4507854e2af30ad09"
+        },
+        "format": "hex"
+      }
     },
     {
       "entry": 24,
       "vma": 2148912564,
       "foff": 13432244,
       "reference_foff": 13333940,
-      "head16": "0880023c283242842a00438600000000"
+      "head16": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 13432244,
+          "length": 16,
+          "sha256": "f3a1a75972b634ffa8f0bcbd189e6d9a53a64edb1bdda32ff24126f657e01161"
+        },
+        "format": "hex"
+      }
     },
     {
       "entry": 25,
       "vma": 2148912804,
       "foff": 13432484,
       "reference_foff": 13334180,
-      "head16": "9600239600000000ffff6224960022a6"
+      "head16": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 13432484,
+          "length": 16,
+          "sha256": "ba3a997ddc8a76a3849b3f69f3d22067c3fbca8bdce84a8d8736751a6528aeff"
+        },
+        "format": "hex"
+      }
     },
     {
       "entry": 26,
       "vma": 2148913016,
       "foff": 13432696,
       "reference_foff": 13334392,
-      "head16": "19ff000c1200042421804000a4000012"
+      "head16": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 13432696,
+          "length": 16,
+          "sha256": "7d2e4a57e1a6b3270034f33efa32bf15cb47d030b3f7f4c9c7e79b077208d304"
+        },
+        "format": "hex"
+      }
     },
     {
       "entry": 27,
       "vma": 2148913284,
       "foff": 13432964,
       "reference_foff": 13334660,
-      "head16": "ac00308e000000000c00108e00000000"
+      "head16": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 13432964,
+          "length": 16,
+          "sha256": "dac8890e1be5999b258207e3d35efc75663cf126c8dd85b54ad2fd2d11f5bd30"
+        },
+        "format": "hex"
+      }
     },
     {
       "entry": 28,
       "vma": 2148913336,
       "foff": 13433016,
       "reference_foff": 13334712,
-      "head16": "9b002392060002245500621421206002"
+      "head16": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 13433016,
+          "length": 16,
+          "sha256": "7349c93d830bdfc8c2a49358da036835936120c2664d25b93b896fb2eabcdcb1"
+        },
+        "format": "hex"
+      }
     },
     {
       "entry": 29,
       "vma": 2148913464,
       "foff": 13433144,
       "reference_foff": 13334840,
-      "head16": "212080021394020c2128400234004010"
+      "head16": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 13433144,
+          "length": 16,
+          "sha256": "f34a663108a78a3367dbda1e81b6f1b050141a0c6da357f689e329d6e93a9d6f"
+        },
+        "format": "hex"
+      }
     },
     {
       "entry": 30,
       "vma": 2148913600,
       "foff": 13433280,
       "reference_foff": 13334976,
-      "head16": "9600229600000000ffff4224960022a6"
+      "head16": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 13433280,
+          "length": 16,
+          "sha256": "c166059ffecae7079014316f34928f70850c18a82fa82b82f5570055eefc4d66"
+        },
+        "format": "hex"
+      }
     }
   ],
   "members": [

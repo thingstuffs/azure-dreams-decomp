@@ -1150,7 +1150,7 @@ for cfile in cfiles:
             if module else "")
     piece_module = DATA_PIECE_MODULES.get(cfile)
     if piece_module:
-        deps += " tools/slus_data_pieces.py tools/slus_modules.py"
+        deps += " tools/slus_data_pieces.py tools/slus_modules.py tools/retail_spans.py"
     rodata_module = RODATA_MODULES.get(cfile)
     if rodata_module:
         deps += " tools/slus_rodata_trim.py"
@@ -1172,7 +1172,7 @@ for cfile in cfiles:
             # makes a missing sidecar dirty even after the verification stamp exists.
             out.append(f"build {sidecar}: phony\n")
         out.append(f"build {stamp}: data_piece_verify {o} | {' '.join(sidecars)}"
-                   f" tools/slus_data_pieces.py tools/slus_modules.py {MODULE_MANIFEST}\n"
+                   f" tools/slus_data_pieces.py tools/slus_modules.py {MODULE_MANIFEST} tools/retail_spans.py\n"
                    f"  module_name = {piece_module['name']}\n")
         data_piece_stamps.append(stamp)
     objs.append(o)
@@ -1193,7 +1193,7 @@ chunk_slots = [slot for plan in carve_plans for slot in plan["slots"] if slot["k
 if chunk_slots:
     chunk_inputs = " ".join(slot["input"] for slot in chunk_slots)
     source_assets = " ".join(plan["asset"] for plan in carve_plans)
-    out.append(f"build {chunk_inputs}: module_assets {source_assets} | tools/slus_modules.py {MODULE_MANIFEST}\n")
+    out.append(f"build {chunk_inputs}: module_assets {source_assets} | tools/slus_modules.py {MODULE_MANIFEST} tools/retail_spans.py\n")
 for b in sorted(glob.glob("assets/**/*.bin", recursive=True)):
     if b in carved_assets:
         for slot in carved_assets[b]["slots"]:
@@ -1207,9 +1207,10 @@ for b in sorted(glob.glob("assets/**/*.bin", recursive=True)):
 
 out.append(f"build {BUILDDIR}/{BASE}_ordered.ld: orderld {LD}"
            + (f" | tools/slus_modules.py {MODULE_MANIFEST}"
-              + "".join(f" {plan['asset']}" for plan in carve_plans) if MODULES else "") + "\n")
+              + "".join(f" {plan['asset']}" for plan in carve_plans)
+              + " tools/retail_spans.py" if MODULES else "") + "\n")
 if MODULES:
-    out.append(f"build {MODULE_SYMS}: module_syms {US} | tools/slus_modules.py {MODULE_MANIFEST}\n")
+    out.append(f"build {MODULE_SYMS}: module_syms {US} | tools/slus_modules.py {MODULE_MANIFEST} tools/retail_spans.py\n")
 if PARTITIONS:
     physical_sources = {parent["source"] for parent in PARTITIONS}
     module_by_name = {module["name"]: module for module in MODULES}
@@ -1218,7 +1219,7 @@ if PARTITIONS:
     coverage_objects = sorted(f"{BUILDDIR}/" + source[:-2] + ".o"
                               for source in physical_sources)
     out.append(f"build {PARTITION_COVERAGE_STAMP}: partition_coverage " + " ".join(coverage_objects)
-               + f" | tools/slus_partitions.py tools/slus_modules.py {PARTITION_PLAN_FILE} {MODULE_MANIFEST} config/names.tsv\n")
+               + f" | tools/slus_partitions.py tools/slus_modules.py {PARTITION_PLAN_FILE} {MODULE_MANIFEST} config/names.tsv tools/retail_spans.py\n")
 out.append(f"build {BUILDDIR}/{BASE}.elf: link " + " ".join(objs)
            + f" | {BUILDDIR}/{BASE}_ordered.ld " + " ".join(LDSCRIPTS)
            + (f" {PARTITION_COVERAGE_STAMP}" if PARTITIONS else "")

@@ -2322,8 +2322,24 @@
       "exact": false,
       "target_sha256": "81db658d100661fc70078817c233ded432145d110bb1ceb6c106e56e88cf6101",
       "generated_sha256": "824253a23b4923f7db08697bc13bbd8f6bbad90ce31b15bf09438eee93d1976f",
-      "word210_hex": "0100a226",
-      "target_word210_hex": "9b98000c",
+      "word210_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 874312,
+          "length": 4,
+          "sha256": "dedc69c411a21b2bbb177b3d98c27a38bac0085b416c9218569a16d58a1f8ccc"
+        },
+        "format": "hex"
+      },
+      "target_word210_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 27135840,
+          "length": 4,
+          "sha256": "f9f5730664fda31bb78e03355c02db297f46e87c2d0ac17783c6c273e50f0d69"
+        },
+        "format": "hex"
+      },
       "noreturn_census_sha256": "d42e1b11d44e74bf940e87567a4ac96d952687a1b750ce135cd6e0676b8cd17a"
     },
     "root_positive_guard_without_stale_member": {
@@ -2334,8 +2350,24 @@
       "exact": false,
       "target_sha256": "81db658d100661fc70078817c233ded432145d110bb1ceb6c106e56e88cf6101",
       "generated_sha256": "837b309bc0b1a0ed0c2603172173eb279fc22be62ecf546c374a4d1ee3407b87",
-      "word210_hex": "0100a226",
-      "target_word210_hex": "9b98000c",
+      "word210_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 874312,
+          "length": 4,
+          "sha256": "dedc69c411a21b2bbb177b3d98c27a38bac0085b416c9218569a16d58a1f8ccc"
+        },
+        "format": "hex"
+      },
+      "target_word210_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 27135840,
+          "length": 4,
+          "sha256": "f9f5730664fda31bb78e03355c02db297f46e87c2d0ac17783c6c273e50f0d69"
+        },
+        "format": "hex"
+      },
       "noreturn_census_sha256": "c10d25447d2c26af4d63c3cc2adf449d5c857c8c767de9ea8588db12141ed2d4"
     }
   },

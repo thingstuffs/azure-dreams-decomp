@@ -85,11 +85,35 @@
       "section": ".data",
       "start": 214
     },
-    "adjacent_raw_80080B2C": "bcbc9c00",
-    "asset_bytes": "01030204",
+    "adjacent_raw_80080B2C": {
+      "$retail": {
+        "file": "SLUS_006.14",
+        "offset": 344876,
+        "length": 4,
+        "sha256": "bcc62419a51efaedd0f7153c201bd4aa9134e7a00600143514f16d2be8a78f39"
+      },
+      "format": "hex"
+    },
+    "asset_bytes": {
+      "$retail": {
+        "file": "SLUS_006.14",
+        "offset": 344880,
+        "length": 4,
+        "sha256": "ac49441bd928148d4c95ef73c583afd9eb85a9c7c9546b1d7221cfdd95dfaed3"
+      },
+      "format": "hex"
+    },
     "asset_offset": 240,
     "exact": true,
-    "image_bytes": "01030204",
+    "image_bytes": {
+      "$retail": {
+        "file": "SLUS_006.14",
+        "offset": 344880,
+        "length": 4,
+        "sha256": "ac49441bd928148d4c95ef73c583afd9eb85a9c7c9546b1d7221cfdd95dfaed3"
+      },
+      "format": "hex"
+    },
     "linked_symbol": [
       {
         "address": 2148010800,
@@ -97,7 +121,15 @@
         "size": 0
       }
     ],
-    "object_sdata": "01030204",
+    "object_sdata": {
+      "$retail": {
+        "file": "SLUS_006.14",
+        "offset": 344880,
+        "length": 4,
+        "sha256": "ac49441bd928148d4c95ef73c583afd9eb85a9c7c9546b1d7221cfdd95dfaed3"
+      },
+      "format": "hex"
+    },
     "object_symbol": [
       ".sdata",
       0,

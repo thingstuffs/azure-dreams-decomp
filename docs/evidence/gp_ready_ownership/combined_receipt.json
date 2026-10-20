@@ -123,7 +123,15 @@
   "data": [
     {
       "module": "address_slot",
-      "sdata_hex": "00000000",
+      "sdata_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 29,
+          "length": 4,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        "format": "hex"
+      },
       "section_exact": true,
       "symbols": [
         {
@@ -147,7 +155,15 @@
     },
     {
       "module": "command_words",
-      "sdata_hex": "0000000000000000",
+      "sdata_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 77,
+          "length": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        "format": "hex"
+      },
       "section_exact": true,
       "symbols": [
         {
@@ -188,7 +204,15 @@
     },
     {
       "module": "gp_shared_8152c",
-      "sdata_hex": "00000000",
+      "sdata_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 29,
+          "length": 4,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        "format": "hex"
+      },
       "section_exact": true,
       "symbols": [
         {
@@ -212,7 +236,15 @@
     },
     {
       "module": "gp_d92c_owned",
-      "sdata_hex": "00000000",
+      "sdata_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 29,
+          "length": 4,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        "format": "hex"
+      },
       "section_exact": true,
       "symbols": [
         {

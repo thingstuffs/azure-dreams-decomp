@@ -1,4 +1,8 @@
-# Complete native module placements (LL5 v1)
+# Complete overlay module placements
+
+This is a maintainer reference for complete translation-unit (TU) placement
+proofs. See [link lists](LINK_LISTS.md) for the basic model and
+[source locations](SOURCE_LAYOUT.md) for editable paths.
 
 `config/overlays/module_placements.json` is an intended placement index. Its
 schema is `azure-clean.module-placements.v1`; every descriptor has exactly:
@@ -100,37 +104,26 @@ complete artifact and every window. Its producer/reader rediscover all inputs.
 The lander inventories/preserves placement proofs and can adopt their exact
 windows. Scratch certificates cannot be exported as production shard authority.
 
-## Commands
+## Producing or renewing a proof
 
-Regenerate the physical graph and exported build view after descriptor edits:
+**Requires the user-owned disc, provisioned toolchain and pinned genuine Psy-Q
+assembler** described in [TOOLCHAIN_PSYQ.md](TOOLCHAIN_PSYQ.md). This is a
+reviewed maintainer operation: a descriptor, completed destination review and
+fresh canonical gate receipts must exist before production issuance.
 
-```sh
-python3 tools/gate/overlay_module_gate.py --root "$ROOT" --graph
-bash tools/build/mk_ovl_root.sh
-```
-
-Gate the union of home/destination windows once. With the selected production
-configs repeated as `--only-window`, use canonical fresh receipt publication:
-
-```sh
-python3 tools/build/gate_all.py --workers 4 --all \
-  --receipts "$RECEIPTS" --transaction "$TRANSACTION" \
-  --only-window config/overlays/<touched>.overlay.yaml
-```
-
-Issue from the immutable fresh snapshots, without an implicit extra gate:
+Regenerate the physical graph/build view after descriptor edits. Gate the union
+of home and destination windows, retain the fresh immutable receipts and their
+transaction identity, then certify the selected complete module placement.
+The public producers document their accepted arguments:
 
 ```sh
-python3 tools/fidelity/certify_overlay_module.py <module> \
-  --root "$ROOT/build_ovl" --reviewer <recorded-reviewer> \
-  --placement <placement-key> --gate-receipts "$RECEIPTS" \
-  --transaction "$TRANSACTION"
+python3 tools/gate/overlay_module_gate.py --help
+python3 tools/fidelity/certify_overlay_module.py --help
 ```
 
-For a pending review, add `--scratch-output <lane>/scratch/<key>.json`.
-Its kind is `overlay_module_link_placement_scratch`; production readers reject it.
-Use `certificate_reason(..., scratch=True)` only for computational rehearsal.
-
-Portable production shards use `tools/lanes/proof_receipts.py --root "$ROOT"
-export-placement <key> <new-directory>`. Gate-tool changes still require the
-normal consolidation gate; a scoped lane proof is not a whole-tree certificate.
+Those help commands need no disc. A pending review may be measured with the
+certificate producer's `--scratch-output`; its scratch kind grants no production
+authority. Exporting a receipt never replaces review, input freshness or the
+complete affected window checks. Refresh the generated level/status views only
+after the proof is current. Module placement alone grants neither L4 nor L5;
+see [the level definitions](PLAN.md).

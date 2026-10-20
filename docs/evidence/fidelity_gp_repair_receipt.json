@@ -326,7 +326,15 @@
     "asset_carve": {
       "source": "assets/54240.bin",
       "prefix_bytes": 44,
-      "removed_bytes": "04000000",
+      "removed_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 58047,
+          "length": 4,
+          "sha256": "fb5e512425fc9449316ec95969ebe71e2d576dbab833d61e2a5b9330fd70ee02"
+        },
+        "format": "hex"
+      },
       "suffix_bytes": 179600
     },
     "image": {
@@ -343,7 +351,15 @@
       "section_index": "2",
       "raw": "4115: 80080a6c     0 NOTYPE  GLOBAL DEFAULT    2 D_80080A6C"
     },
-    "data_bytes_at_vma": "04000000",
+    "data_bytes_at_vma": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 58047,
+        "length": 4,
+        "sha256": "fb5e512425fc9449316ec95969ebe71e2d576dbab833d61e2a5b9330fd70ee02"
+      },
+      "format": "hex"
+    },
     "functions": {
       "func_8003C634": {
         "pristine": {

@@ -95,77 +95,165 @@
       "vma": 2147632916,
       "foff": 26193684,
       "map": "bank_tail",
-      "first_word": "68ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 26193684,
+          "length": 4,
+          "sha256": "2fef7891b6ac2162fb7602c19fdce5e79ee17f64551b7a99ff8568d9c765956f"
+        },
+        "format": "hex"
+      },
       "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
     },
     "func_8003FD64": {
       "vma": 2147745124,
       "foff": 79204,
       "map": "slus_load",
-      "first_word": "0180023c",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 79204,
+          "length": 4,
+          "sha256": "337c4e1a747121fd6af2f146dfb613c8b5b3416ad3c14b5c91e1b47c5d888f6f"
+        },
+        "format": "hex"
+      },
       "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
     },
     "func_8004491C": {
       "vma": 2147764508,
       "foff": 98588,
       "map": "slus_load",
-      "first_word": "21388000",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 98588,
+          "length": 4,
+          "sha256": "e18f4f9b3eeaceffd50e5bceb3b329bf51f74b33f4db5cfed9965bd430a87131"
+        },
+        "format": "hex"
+      },
       "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
     },
     "func_80045340": {
       "vma": 2147767104,
       "foff": 101184,
       "map": "slus_load",
-      "first_word": "e0ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 101184,
+          "length": 4,
+          "sha256": "f0b20bc0158003436e3763ca5edb6e4174ca0c77296a4b0a1b30c0546a0bb355"
+        },
+        "format": "hex"
+      },
       "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
     },
     "func_800478B8": {
       "vma": 2147776696,
       "foff": 110776,
       "map": "slus_load",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 110776,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
     },
     "func_8009D218": {
       "vma": 2148127256,
       "foff": 752312,
       "map": "dungeon_resident",
-      "first_word": "e0ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 752312,
+          "length": 4,
+          "sha256": "f0b20bc0158003436e3763ca5edb6e4174ca0c77296a4b0a1b30c0546a0bb355"
+        },
+        "format": "hex"
+      },
       "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
     },
     "func_800A05A4": {
       "vma": 2148140452,
       "foff": 765508,
       "map": "dungeon_resident",
-      "first_word": "b0ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 765508,
+          "length": 4,
+          "sha256": "7041d470bdb7f26e42d1c8acaec6096d5427370c17f8b24645b1b57af6788034"
+        },
+        "format": "hex"
+      },
       "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
     },
     "func_800A3820": {
       "vma": 2148153376,
       "foff": 778432,
       "map": "dungeon_resident",
-      "first_word": "00240400",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 778432,
+          "length": 4,
+          "sha256": "96fefa96ded19ce2f422a4d7b7ddc999e5a19d7fdf66a7cfcd9ca0e50ad9dec9"
+        },
+        "format": "hex"
+      },
       "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
     },
     "func_800A56E0": {
       "vma": 2148161248,
       "foff": 786304,
       "map": "dungeon_resident",
-      "first_word": "0180023c",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 786304,
+          "length": 4,
+          "sha256": "337c4e1a747121fd6af2f146dfb613c8b5b3416ad3c14b5c91e1b47c5d888f6f"
+        },
+        "format": "hex"
+      },
       "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
     },
     "func_800BCB04": {
       "vma": 2148256516,
       "foff": 881572,
       "map": "dungeon_resident",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 881572,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
     },
     "func_800C8900": {
       "vma": 2148305152,
       "foff": 930208,
       "map": "dungeon_resident",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 930208,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
     }
   },

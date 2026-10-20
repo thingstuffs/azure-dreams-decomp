@@ -511,6 +511,10 @@ def main():
                 out.extend(_details(f"{word} - {len(g)} modules, {sum(x[1] for x in g):,} rows", ["| module | rows |", "|---|---:|"],
                                     [f"| {n} | {r} |" for n, r in g]))
         out.append("\nPlacement alone does not override any lower-level or source-residue guard.\n")
+    from certificate_summaries import status_text as certificate_summary_text
+    summary_text = certificate_summary_text(ROOT)
+    if summary_text:
+        out.append("\n" + summary_text + "\n")
     out = sec["shape"]
     shape_full = ["| defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |", "|---|---:|---:|---:|---:|---:|---:|"]
     shape_now = ["| defect still in the clean tree | files | bytes | % of bytes |", "|---|---:|---:|---:|"]

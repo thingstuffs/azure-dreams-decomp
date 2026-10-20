@@ -436,14 +436,15 @@
       144,
       152
     ],
-    "target_vmas": [
-      2148158116,
-      2148158136,
-      2148158156,
-      2148158176,
-      2148158184,
-      2148158192
-    ],
+    "target_vmas": {
+      "$retail": {
+        "file": "TOWN/TOWN.BIN",
+        "offset": 47536,
+        "length": 24,
+        "sha256": "e7d5cd8bed4346e49c41fc3a2c3110056cffefbeafad74f802925b3de3854615"
+      },
+      "format": "u32le_list"
+    },
     "sha256": "e7d5cd8bed4346e49c41fc3a2c3110056cffefbeafad74f802925b3de3854615",
     "section": ".rodata",
     "kind": "jump_table",

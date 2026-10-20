@@ -102,11 +102,76 @@
               "lui_foff": 925036,
               "register": 5,
               "window_words": [
-                "0x3c05800d",
-                "0x24a50774",
-                "0x3c08800c",
-                "0x2508b14c",
-                "0xc011247"
+                {
+                  "$retail": {
+                    "file": "DUNGEON/DUNGEON.BIN",
+                    "offset": 925036,
+                    "length": 4,
+                    "sha256": "a07a344fad678e56b1dd6956196363bb925f6f774293469cff2883b33a57aaa1"
+                  },
+                  "format": {
+                    "kind": "int_hex",
+                    "prefix": "0x",
+                    "width": 8,
+                    "uppercase": false
+                  }
+                },
+                {
+                  "$retail": {
+                    "file": "DUNGEON/DUNGEON.BIN",
+                    "offset": 925040,
+                    "length": 4,
+                    "sha256": "ca1ecbed7bd1edd8fe688e621afda86e9625f680788eed9ef99643b637730090"
+                  },
+                  "format": {
+                    "kind": "int_hex",
+                    "prefix": "0x",
+                    "width": 8,
+                    "uppercase": false
+                  }
+                },
+                {
+                  "$retail": {
+                    "file": "DUNGEON/DUNGEON.BIN",
+                    "offset": 925044,
+                    "length": 4,
+                    "sha256": "eb985278ee3e4432dec9af71b67f8c7d50c962e9e0481bdda8faf847bc854fab"
+                  },
+                  "format": {
+                    "kind": "int_hex",
+                    "prefix": "0x",
+                    "width": 8,
+                    "uppercase": false
+                  }
+                },
+                {
+                  "$retail": {
+                    "file": "DUNGEON/DUNGEON.BIN",
+                    "offset": 925048,
+                    "length": 4,
+                    "sha256": "2b186f807d4c8e0b77fabcfc24d13948e130dbe00a25f1fec0f1b2b087dcc4aa"
+                  },
+                  "format": {
+                    "kind": "int_hex",
+                    "prefix": "0x",
+                    "width": 8,
+                    "uppercase": false
+                  }
+                },
+                {
+                  "$retail": {
+                    "file": "DUNGEON/DUNGEON.BIN",
+                    "offset": 925052,
+                    "length": 4,
+                    "sha256": "854c88b370c6ad33f793179c51c79665ba24818911a0224cb8ada0c3df2201ca"
+                  },
+                  "format": {
+                    "kind": "int_hex",
+                    "prefix": "0x",
+                    "width": 7,
+                    "uppercase": false
+                  }
+                }
               ],
               "gate_config": "config/overlays/dungeon_deep_t8b_0e1c20.overlay.yaml",
               "registered_row_source": "src/dungeon/func_800C1C20.c",
@@ -150,11 +215,76 @@
               "lui_foff": 988968,
               "register": 5,
               "window_words": [
-                "0x3c05800d",
-                "0x24a567b0",
-                "0x96630014",
-                "0x24020020",
-                "0xa6620010"
+                {
+                  "$retail": {
+                    "file": "DUNGEON/DUNGEON.BIN",
+                    "offset": 988968,
+                    "length": 4,
+                    "sha256": "a07a344fad678e56b1dd6956196363bb925f6f774293469cff2883b33a57aaa1"
+                  },
+                  "format": {
+                    "kind": "int_hex",
+                    "prefix": "0x",
+                    "width": 8,
+                    "uppercase": false
+                  }
+                },
+                {
+                  "$retail": {
+                    "file": "DUNGEON/DUNGEON.BIN",
+                    "offset": 988972,
+                    "length": 4,
+                    "sha256": "350cfc6ce8d235d882d2b80b2645bf92e1b09fb2ec573767f166af6dd8f18321"
+                  },
+                  "format": {
+                    "kind": "int_hex",
+                    "prefix": "0x",
+                    "width": 8,
+                    "uppercase": false
+                  }
+                },
+                {
+                  "$retail": {
+                    "file": "DUNGEON/DUNGEON.BIN",
+                    "offset": 988976,
+                    "length": 4,
+                    "sha256": "86f3f4e435b3f6faca855d19d41ce5c2b909bbda689c7a3c69eac7ad224c91df"
+                  },
+                  "format": {
+                    "kind": "int_hex",
+                    "prefix": "0x",
+                    "width": 8,
+                    "uppercase": false
+                  }
+                },
+                {
+                  "$retail": {
+                    "file": "DUNGEON/DUNGEON.BIN",
+                    "offset": 988980,
+                    "length": 4,
+                    "sha256": "9a321d84e42fa1c15c56ba2875581d2dd3ec30039356b22650fdb0f8ebd9e10c"
+                  },
+                  "format": {
+                    "kind": "int_hex",
+                    "prefix": "0x",
+                    "width": 8,
+                    "uppercase": false
+                  }
+                },
+                {
+                  "$retail": {
+                    "file": "DUNGEON/DUNGEON.BIN",
+                    "offset": 988984,
+                    "length": 4,
+                    "sha256": "2c41bdb4ecab689088225eafd8c70a1caf568fe3d373ecf70be3d9eb91220a97"
+                  },
+                  "format": {
+                    "kind": "int_hex",
+                    "prefix": "0x",
+                    "width": 8,
+                    "uppercase": false
+                  }
+                }
               ],
               "gate_config": "config/overlays/dungeon_engine.overlay.yaml",
               "registered_row_source": "src/dungeon/func_800D1660.c",

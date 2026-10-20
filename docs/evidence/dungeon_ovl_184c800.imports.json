@@ -122,7 +122,15 @@
       "foff": 71256,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "bytes": "d0ffbd272400b3af219880002000b2af",
+      "bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 71256,
+          "length": 16,
+          "sha256": "1cba5441694eb0c64982c2421b7152339655146a27aa2f0489398950fdce05c9"
+        },
+        "format": "hex"
+      },
       "sha256": "1cba5441694eb0c64982c2421b7152339655146a27aa2f0489398950fdce05c9",
       "basis": "External callable entry view."
     },
@@ -131,7 +139,15 @@
       "foff": 79204,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "bytes": "0180023c14374294e0ffbd271400b1af",
+      "bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 79204,
+          "length": 16,
+          "sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a"
+        },
+        "format": "hex"
+      },
       "sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a",
       "basis": "External callable entry view."
     },
@@ -140,7 +156,15 @@
       "foff": 98588,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "bytes": "21388000ffff08242148000021202001",
+      "bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 98588,
+          "length": 16,
+          "sha256": "40f6255d7ae4fada30b446f687fe666aceabe87ffd6717ae1b737d459e8f3bff"
+        },
+        "format": "hex"
+      },
       "sha256": "40f6255d7ae4fada30b446f687fe666aceabe87ffd6717ae1b737d459e8f3bff",
       "basis": "External callable entry view."
     },
@@ -149,7 +173,15 @@
       "foff": 101184,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "bytes": "e0ffbd271000b0af218080001400b1af",
+      "bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 101184,
+          "length": 16,
+          "sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2"
+        },
+        "format": "hex"
+      },
       "sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2",
       "basis": "External callable entry view."
     },
@@ -158,7 +190,15 @@
       "foff": 110776,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "bytes": "e8ffbd271000b0af1400bfaffd1d010c",
+      "bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 110776,
+          "length": 16,
+          "sha256": "d9ad27780e8cd7534567007bb5685be652d7b7ad1b3a601909cc7b45b970548d"
+        },
+        "format": "hex"
+      },
       "sha256": "d9ad27780e8cd7534567007bb5685be652d7b7ad1b3a601909cc7b45b970548d",
       "basis": "External callable entry view."
     },
@@ -167,7 +207,15 @@
       "foff": 251640,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "bytes": "a0000a24080040012f00092400000000",
+      "bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 251640,
+          "length": 16,
+          "sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de"
+        },
+        "format": "hex"
+      },
       "sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de",
       "basis": "External callable entry view."
     },
@@ -176,7 +224,15 @@
       "foff": 751292,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "bytes": "c0ffbd273400b7af5400b78f3000b6af",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 751292,
+          "length": 16,
+          "sha256": "d6e3e827466049e69feeff7a35380694e705e6b88ace5ea4960a9053c423e315"
+        },
+        "format": "hex"
+      },
       "sha256": "d6e3e827466049e69feeff7a35380694e705e6b88ace5ea4960a9053c423e315",
       "basis": "External callable entry view."
     },
@@ -185,7 +241,15 @@
       "foff": 765508,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "bytes": "b0ffbd274800beaf21f080003800b4af",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 765508,
+          "length": 16,
+          "sha256": "687b33a718f9f37b64aeabc8f853100fdb4cbabe2e7dabebb07cad301cd4d12d"
+        },
+        "format": "hex"
+      },
       "sha256": "687b33a718f9f37b64aeabc8f853100fdb4cbabe2e7dabebb07cad301cd4d12d",
       "basis": "External callable entry view."
     },
@@ -194,7 +258,15 @@
       "foff": 778432,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "bytes": "00240400032404008010040021104400",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 778432,
+          "length": 16,
+          "sha256": "177c94f31d7f2f1d8b1ea73707a56b0a3f6b2d0c7619b208e05d6508e4df397e"
+        },
+        "format": "hex"
+      },
       "sha256": "177c94f31d7f2f1d8b1ea73707a56b0a3f6b2d0c7619b208e05d6508e4df397e",
       "basis": "External callable entry view."
     },
@@ -203,7 +275,15 @@
       "foff": 782120,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "bytes": "d0ffbd271c00b1af2188c000ffff8430",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 782120,
+          "length": 16,
+          "sha256": "e29f6954d1086d4de82b4f06489482faa50f72347fc53a9da1a553e109f87e65"
+        },
+        "format": "hex"
+      },
       "sha256": "e29f6954d1086d4de82b4f06489482faa50f72347fc53a9da1a553e109f87e65",
       "basis": "External callable entry view."
     },
@@ -212,7 +292,15 @@
       "foff": 786304,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "bytes": "0180023c14374294e8ffbd2702004230",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 786304,
+          "length": 16,
+          "sha256": "bf39d895f79df6a233839115df30299b60b9797b745388731dd9d2335bc15195"
+        },
+        "format": "hex"
+      },
       "sha256": "bf39d895f79df6a233839115df30299b60b9797b745388731dd9d2335bc15195",
       "basis": "External callable entry view."
     },
@@ -221,7 +309,15 @@
       "foff": 881572,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "bytes": "d8ffbd271000b0af801f103c3f008230",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 881572,
+          "length": 16,
+          "sha256": "34b37c615f56d11896c496c5151034bd8cd189ed845d0fa79c67f9a71ecb2d9d"
+        },
+        "format": "hex"
+      },
       "sha256": "34b37c615f56d11896c496c5151034bd8cd189ed845d0fa79c67f9a71ecb2d9d",
       "basis": "External callable entry view."
     },
@@ -230,7 +326,15 @@
       "foff": 1008432,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "bytes": "a8ffbd275000b2af219080005400bfaf",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 1008432,
+          "length": 16,
+          "sha256": "a7e20b92b5825dab8e5bdf505ce5e3d4c7afe2a858b6e20d307e0034b1fbdbd7"
+        },
+        "format": "hex"
+      },
       "sha256": "a7e20b92b5825dab8e5bdf505ce5e3d4c7afe2a858b6e20d307e0034b1fbdbd7",
       "basis": "External callable entry view."
     },
@@ -239,7 +343,15 @@
       "foff": 251640,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "bytes": "a0000a24080040012f00092400000000",
+      "bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 251640,
+          "length": 16,
+          "sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de"
+        },
+        "format": "hex"
+      },
       "sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de",
       "basis": "External callable entry view."
     }
@@ -250,7 +362,15 @@
       "foff": 263384,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "bytes": "010001000000ffffffffffff00000100",
+      "bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 263384,
+          "length": 16,
+          "sha256": "4371bd43481f6a8812bc1693246ffc102d94eb8a66f92bb59fdb264a201198f1"
+        },
+        "format": "hex"
+      },
       "sha256": "4371bd43481f6a8812bc1693246ffc102d94eb8a66f92bb59fdb264a201198f1",
       "basis": "Observed bounded prefix/array view only: direction halfwords or descriptor word at +4. No allocation, initialization or original storage ownership claim."
     },
@@ -259,7 +379,15 @@
       "foff": 263400,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "bytes": "00000100010001000000ffffffffffff",
+      "bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 263400,
+          "length": 16,
+          "sha256": "b829d92687b7ab07e3d91ebe5db905b2fb5fbc0360d02ca59bb629435d71d3c0"
+        },
+        "format": "hex"
+      },
       "sha256": "b829d92687b7ab07e3d91ebe5db905b2fb5fbc0360d02ca59bb629435d71d3c0",
       "basis": "Observed bounded prefix/array view only: direction halfwords or descriptor word at +4. No allocation, initialization or original storage ownership claim."
     },
@@ -268,7 +396,15 @@
       "foff": 1020944,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "bytes": "0400020018e30d80",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 1020944,
+          "length": 8,
+          "sha256": "a315ed69f68e488b6ef585dd199730f2ba2c0a7196f0122ecbde2e1c071e29ee"
+        },
+        "format": "hex"
+      },
       "sha256": "a315ed69f68e488b6ef585dd199730f2ba2c0a7196f0122ecbde2e1c071e29ee",
       "basis": "Observed bounded prefix/array view only: direction halfwords or descriptor word at +4. No allocation, initialization or original storage ownership claim."
     },
@@ -277,7 +413,15 @@
       "foff": 1021048,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "bytes": "02000200a8e30d80",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 1021048,
+          "length": 8,
+          "sha256": "44cc31b59fb6034a01e4e1442a61ba0168a1affc9abe61bc345d4d33692b6155"
+        },
+        "format": "hex"
+      },
       "sha256": "44cc31b59fb6034a01e4e1442a61ba0168a1affc9abe61bc345d4d33692b6155",
       "basis": "Observed bounded prefix/array view only: direction halfwords or descriptor word at +4. No allocation, initialization or original storage ownership claim."
     },
@@ -286,7 +430,15 @@
       "foff": 1021088,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "bytes": "02000200d8e30d80",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 1021088,
+          "length": 8,
+          "sha256": "d2a87946640304ad05ddde706e5ec061927990c1142d16b2aff790bd1b128119"
+        },
+        "format": "hex"
+      },
       "sha256": "d2a87946640304ad05ddde706e5ec061927990c1142d16b2aff790bd1b128119",
       "basis": "Observed bounded prefix/array view only: direction halfwords or descriptor word at +4. No allocation, initialization or original storage ownership claim."
     },
@@ -295,7 +447,15 @@
       "foff": 1021128,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "bytes": "02000200cce30d80",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 1021128,
+          "length": 8,
+          "sha256": "760f9033d876e03186148e00d8d34810a9d4032c8e14cc4586b679ddbc22cdc6"
+        },
+        "format": "hex"
+      },
       "sha256": "760f9033d876e03186148e00d8d34810a9d4032c8e14cc4586b679ddbc22cdc6",
       "basis": "Observed bounded prefix/array view only: direction halfwords or descriptor word at +4. No allocation, initialization or original storage ownership claim."
     }

@@ -9,7 +9,15 @@
       "words_diff": 108593,
       "image_sha1": "715fbdb7ce5ecdb5a1bd4da05c1a55da08aa9d17"
     },
-    "sdata_hex": "00000000",
+    "sdata_hex": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 29,
+        "length": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      "format": "hex"
+    },
     "sdata_exact": true,
     "definitions": {
       "D_80080ABC": [
@@ -676,7 +684,15 @@
       "words_diff": 0,
       "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
     },
-    "sdata_hex": "00000000",
+    "sdata_hex": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 29,
+        "length": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      "format": "hex"
+    },
     "sdata_exact": true,
     "definitions": {
       "D_80080ABC": [

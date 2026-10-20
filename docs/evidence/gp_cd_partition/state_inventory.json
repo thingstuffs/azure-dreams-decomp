@@ -14,7 +14,15 @@
       "used_end_exclusive": "0x80080AD1",
       "observed_width_bytes": 1,
       "asset_offset": "0x90",
-      "initial_bytes": "00",
+      "initial_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 8,
+          "length": 1,
+          "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+        },
+        "format": "hex"
+      },
       "retail_bytes_equal": true,
       "module_data_owner": null,
       "declarations": [
@@ -33,7 +41,15 @@
       "used_end_exclusive": "0x80080AD4",
       "observed_width_bytes": 2,
       "asset_offset": "0x92",
-      "initial_bytes": "0000",
+      "initial_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 8,
+          "length": 2,
+          "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+        },
+        "format": "hex"
+      },
       "retail_bytes_equal": true,
       "module_data_owner": null,
       "declarations": [
@@ -50,7 +66,15 @@
       "used_end_exclusive": "0x80080AD6",
       "observed_width_bytes": 2,
       "asset_offset": "0x94",
-      "initial_bytes": "0000",
+      "initial_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 8,
+          "length": 2,
+          "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+        },
+        "format": "hex"
+      },
       "retail_bytes_equal": true,
       "module_data_owner": null,
       "declarations": [
@@ -71,7 +95,15 @@
       "used_end_exclusive": "0x80080ADC",
       "observed_width_bytes": 4,
       "asset_offset": "0x98",
-      "initial_bytes": "00000000",
+      "initial_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 8,
+          "length": 4,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        "format": "hex"
+      },
       "retail_bytes_equal": true,
       "module_data_owner": null,
       "declarations": [
@@ -88,7 +120,15 @@
       "used_end_exclusive": "0x80080AE0",
       "observed_width_bytes": 4,
       "asset_offset": "0x9C",
-      "initial_bytes": "00000000",
+      "initial_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 8,
+          "length": 4,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        "format": "hex"
+      },
       "retail_bytes_equal": true,
       "module_data_owner": null,
       "declarations": [
@@ -107,7 +147,15 @@
       "used_end_exclusive": "0x80081454",
       "observed_width_bytes": 4,
       "asset_offset": "0xA10",
-      "initial_bytes": "00000000",
+      "initial_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 8,
+          "length": 4,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        "format": "hex"
+      },
       "retail_bytes_equal": true,
       "module_data_owner": null,
       "declarations": [
@@ -126,7 +174,15 @@
       "used_end_exclusive": "0x800814B4",
       "observed_width_bytes": 4,
       "asset_offset": "0xA70",
-      "initial_bytes": "00000000",
+      "initial_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 8,
+          "length": 4,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        "format": "hex"
+      },
       "retail_bytes_equal": true,
       "module_data_owner": null,
       "declarations": [
@@ -143,7 +199,15 @@
       "used_end_exclusive": "0x800814B8",
       "observed_width_bytes": 4,
       "asset_offset": "0xA74",
-      "initial_bytes": "00000000",
+      "initial_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 8,
+          "length": 4,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        "format": "hex"
+      },
       "retail_bytes_equal": true,
       "module_data_owner": null,
       "declarations": [
@@ -160,7 +224,15 @@
       "used_end_exclusive": "0x800814D0",
       "observed_width_bytes": 4,
       "asset_offset": "0xA8C",
-      "initial_bytes": "00000000",
+      "initial_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 8,
+          "length": 4,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        "format": "hex"
+      },
       "retail_bytes_equal": true,
       "module_data_owner": null,
       "declarations": [
@@ -177,7 +249,15 @@
       "used_end_exclusive": "0x800814D1",
       "observed_width_bytes": 1,
       "asset_offset": "0xA90",
-      "initial_bytes": "00",
+      "initial_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 8,
+          "length": 1,
+          "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+        },
+        "format": "hex"
+      },
       "retail_bytes_equal": true,
       "module_data_owner": null,
       "declarations": [
@@ -199,7 +279,15 @@
       "used_end_exclusive": "0x800814D5",
       "observed_width_bytes": 1,
       "asset_offset": "0xA94",
-      "initial_bytes": "00",
+      "initial_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 8,
+          "length": 1,
+          "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+        },
+        "format": "hex"
+      },
       "retail_bytes_equal": true,
       "module_data_owner": null,
       "declarations": [
@@ -217,7 +305,15 @@
       "used_end_exclusive": "0x80081554",
       "observed_width_bytes": 4,
       "asset_offset": "0xB10",
-      "initial_bytes": "00000000",
+      "initial_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 8,
+          "length": 4,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        "format": "hex"
+      },
       "retail_bytes_equal": true,
       "module_data_owner": null,
       "declarations": [

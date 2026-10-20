@@ -15,7 +15,15 @@
       "vma": 2147901328,
       "foff": 235408,
       "map": "slus_load",
-      "first_word": "21300000",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 235408,
+          "length": 4,
+          "sha256": "f21ce9a8548968d13220643d5a3a4c9a64e02c46817d3dd9850fc0a75d90a974"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     }
   },

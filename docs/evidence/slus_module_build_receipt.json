@@ -35,7 +35,15 @@
     "vma": "80080a6c",
     "section_index": "2",
     "object_section": ".sdata",
-    "bytes": "04000000",
+    "bytes": {
+      "$retail": {
+        "file": "SLUS_006.14",
+        "offset": 32455,
+        "length": 4,
+        "sha256": "fb5e512425fc9449316ec95969ebe71e2d576dbab833d61e2a5b9330fd70ee02"
+      },
+      "format": "hex"
+    },
     "readelf": "4103: 80080a6c     0 NOTYPE  GLOBAL DEFAULT    2 D_80080A6C"
   },
   "functions": {

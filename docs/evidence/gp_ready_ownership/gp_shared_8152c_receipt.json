@@ -10,7 +10,15 @@
       "words_diff": 100789,
       "image_sha1": "e299b0c59f62635a31124581c31dac0a66c4614d"
     },
-    "sdata_hex": "00000000",
+    "sdata_hex": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 29,
+        "length": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      "format": "hex"
+    },
     "sdata_exact": true,
     "definition": [
       ".sdata",
@@ -130,7 +138,15 @@
       "words_diff": 0,
       "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
     },
-    "sdata_hex": "00000000",
+    "sdata_hex": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 29,
+        "length": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      "format": "hex"
+    },
     "sdata_exact": true,
     "definition": [
       ".sdata",

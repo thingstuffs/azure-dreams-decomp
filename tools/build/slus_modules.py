@@ -155,7 +155,14 @@ def load_manifest(path) -> list[dict]:
     path = Path(path)
     if not path.exists():
         return []
-    doc = json.loads(path.read_text())
+    from retail_spans import load_json
+    try:
+        doc = load_json(path)
+    except ValueError as error:
+        raise ModuleError(f"{path.name}: {error}") from error
+    except OSError as error:
+        raise ModuleError(f"{path.name}: retail spans need baserom/slus_006.14 or the disc image "
+                          f"(bin/ or AZURE_CLEAN_DISC): {error}") from error
     _keys(doc, ("version", "modules"), "manifest")
     if type(doc["version"]) is not int or doc["version"] != 1 or not isinstance(doc["modules"], list):
         raise ModuleError("manifest: expected version 1 and a modules list")

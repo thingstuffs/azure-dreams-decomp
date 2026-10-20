@@ -169,7 +169,15 @@
           "size": 1,
           "asset_offset": 144,
           "linked_kind": "T",
-          "bytes": "00"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 1,
+              "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_80080AD2",
@@ -177,7 +185,15 @@
           "size": 2,
           "asset_offset": 146,
           "linked_kind": "T",
-          "bytes": "0000"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_80080AD4",
@@ -185,7 +201,15 @@
           "size": 2,
           "asset_offset": 148,
           "linked_kind": "T",
-          "bytes": "0000"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_80080AD8",
@@ -193,7 +217,15 @@
           "size": 4,
           "asset_offset": 152,
           "linked_kind": "T",
-          "bytes": "00000000"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_80081450",
@@ -201,7 +233,15 @@
           "size": 8,
           "asset_offset": 2576,
           "linked_kind": "T",
-          "bytes": "0000000000000000"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 77,
+              "length": 8,
+              "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_800814CC",
@@ -209,7 +249,15 @@
           "size": 4,
           "asset_offset": 2700,
           "linked_kind": "T",
-          "bytes": "00000000"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_800814D0",
@@ -217,7 +265,15 @@
           "size": 1,
           "asset_offset": 2704,
           "linked_kind": "T",
-          "bytes": "00"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 1,
+              "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_800814D4",
@@ -225,7 +281,15 @@
           "size": 1,
           "asset_offset": 2708,
           "linked_kind": "T",
-          "bytes": "00"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 1,
+              "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+            },
+            "format": "hex"
+          }
         }
       ],
       "payload_bytes": 23,
@@ -251,7 +315,15 @@
           "size": 1,
           "asset_offset": 144,
           "linked_kind": "T",
-          "bytes": "00"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 1,
+              "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_80080AD2",
@@ -259,7 +331,15 @@
           "size": 2,
           "asset_offset": 146,
           "linked_kind": "T",
-          "bytes": "0000"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_80080AD4",
@@ -267,7 +347,15 @@
           "size": 2,
           "asset_offset": 148,
           "linked_kind": "T",
-          "bytes": "0000"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_80080AD8",
@@ -275,7 +363,15 @@
           "size": 4,
           "asset_offset": 152,
           "linked_kind": "T",
-          "bytes": "00000000"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_80081450",
@@ -283,7 +379,15 @@
           "size": 8,
           "asset_offset": 2576,
           "linked_kind": "T",
-          "bytes": "0000000000000000"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 77,
+              "length": 8,
+              "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_800814CC",
@@ -291,7 +395,15 @@
           "size": 4,
           "asset_offset": 2700,
           "linked_kind": "T",
-          "bytes": "00000000"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_800814D0",
@@ -299,7 +411,15 @@
           "size": 1,
           "asset_offset": 2704,
           "linked_kind": "T",
-          "bytes": "00"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 1,
+              "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+            },
+            "format": "hex"
+          }
         },
         {
           "symbol": "D_800814D4",
@@ -307,7 +427,15 @@
           "size": 1,
           "asset_offset": 2708,
           "linked_kind": "T",
-          "bytes": "00"
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 1,
+              "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+            },
+            "format": "hex"
+          }
         }
       ],
       "payload_bytes": 23,

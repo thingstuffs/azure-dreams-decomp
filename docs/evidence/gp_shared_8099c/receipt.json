@@ -141,15 +141,39 @@
     "layout_exact": true
   },
   "data": {
-    "object_sdata": "00000000",
+    "object_sdata": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 29,
+        "length": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      "format": "hex"
+    },
     "object_symbol": [
       ".sdata",
       0,
       "global",
       0
     ],
-    "asset_bytes": "00000000",
-    "image_bytes": "00000000",
+    "asset_bytes": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 29,
+        "length": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      "format": "hex"
+    },
+    "image_bytes": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 29,
+        "length": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      "format": "hex"
+    },
     "linked_symbol": [
       {
         "address": 2148010396,

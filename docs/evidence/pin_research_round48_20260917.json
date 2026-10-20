@@ -694,14 +694,118 @@
       "file_offset": "0x18D0808",
       "vram": "0x80024008",
       "table_words": [
-        "0x80024e54",
-        "0x80024e54",
-        "0x80024e54",
-        "0x80024e54",
-        "0x80024e2c",
-        "0x80024e3c",
-        "0x80024e4c",
-        "0x80024e54"
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 26019848,
+            "length": 4,
+            "sha256": "f87f7411d295a22bc4a6000e5dbdd96851af683cdc6e8abe209ad2d677c43657"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 26019852,
+            "length": 4,
+            "sha256": "f87f7411d295a22bc4a6000e5dbdd96851af683cdc6e8abe209ad2d677c43657"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 26019856,
+            "length": 4,
+            "sha256": "f87f7411d295a22bc4a6000e5dbdd96851af683cdc6e8abe209ad2d677c43657"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 26019860,
+            "length": 4,
+            "sha256": "f87f7411d295a22bc4a6000e5dbdd96851af683cdc6e8abe209ad2d677c43657"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 26019864,
+            "length": 4,
+            "sha256": "df318a0fa616b399c44f49b54d702c48215a96eafcb42fb5cbff851bcebe80c0"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 26019868,
+            "length": 4,
+            "sha256": "483192555b504fdc9e19fdfd34b8cacb1928b3e24c665f9177b6a236bc392fcb"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 26019872,
+            "length": 4,
+            "sha256": "1ea38c137741a6bf7815b510c6db3c83be9f611031710462dce27a67989becfa"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 26019876,
+            "length": 4,
+            "sha256": "f87f7411d295a22bc4a6000e5dbdd96851af683cdc6e8abe209ad2d677c43657"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        }
       ],
       "sha256": "ef6c2a9e1a535e36b3614901b45a2b1694990ca1e230fdabd136d0c992dba756",
       "method": "Relink the full-window object using the identical rowbase script with NOLOAD removed, then compare the emitted .rodata section to the retail container slice. Table lies before the gated window."

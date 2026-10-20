@@ -4,8 +4,9 @@ Readable C source for *Azure Dreams* (PlayStation, NTSC-U, `SLUS-006.14`) that c
 function by function, to the same bytes as the retail game.
 
 *Azure Dreams* is (c) Konami. This is an independent fan research and preservation project, not
-affiliated with or endorsed by Konami. **No game data is included**: you need your own copy of the
-disc to build or verify anything. See [NOTICE](NOTICE) and [Legal](#legal).
+affiliated with or endorsed by Konami. **No disc images or extracted binaries are included**:
+you need your own copy of the disc to build or compare against retail. See
+[NOTICE](NOTICE) and [Legal](#legal).
 
 ## Status
 
@@ -31,73 +32,103 @@ named locals and functions, no compiler-driven contortions.
 
 ## Quick start
 
-You need Linux, `python3` (3.x with PyYAML), `git`, `curl`, `cmake`, `ninja` and
-`mipsel-linux-gnu-as` (binutils). `tools/setup.sh` checks for them and says which are missing.
+Clone this repository using its GitHub **Code** button and run the following
+commands from the clone's root. You need Linux, Python 3.10 or later with PyYAML
+and venv support, `git`, `curl`, `cmake`, `ninja`, a host C/C++ build toolchain and
+`mipsel-linux-gnu-as` (binutils). The host packages are listed in
+`tools/toolchain.lock.json`; `tools/setup.sh` reports missing prerequisites.
+
+**Requires your own NTSC-U disc image and cue sheet.** Replace the example paths
+with your files; the destination filenames below are the setup defaults.
 
 ```sh
-git clone <this repository> azure-dreams-decomp && cd azure-dreams-decomp
-mkdir -p bin && cp "/path/to/Azure Dreams.bin" "/path/to/Azure Dreams.cue" bin/   # your own disc
-tools/setup.sh            # venv, stock compilers (hash-checked downloads), assembler front end, mkpsxiso, disc extract
-tools/setup.sh --check    # verify the set-up only
+mkdir -p bin
+cp "/path/to/Azure Dreams.bin" "/path/to/Azure Dreams.cue" bin/
+bash tools/setup.sh            # venv, stock compilers, assembler front end, mkpsxiso, disc extraction
+bash tools/setup.sh --check    # report setup gaps
 ```
 
-The disc image's SHA-1 and every downloaded piece are pinned in `tools/toolchain.lock.json`;
-set-up refuses anything that does not match.
+The lock records the disc SHA-1, compiler hashes, mkpsxiso commit and Python
+dependency versions. Setup checks those identities; host packages are supplied
+by your system.
 
-Optional: the overlay-module windows (677 of 3,207 window configs) also check against Sony's genuine
-ASPSX 2.79 assembler from the Psy-Q 4.4 SDK, which cannot be redistributed. If you own the SDK,
-`tools/setup.sh --psyq /path/to/psyq` copies and hash-checks it. Without it, the SLUS executable and every
-other window still build and verify. See [docs/TOOLCHAIN_PSYQ.md](docs/TOOLCHAIN_PSYQ.md).
+Complete overlay proof also requires Sony's genuine ASPSX 2.79 assembler from
+your own Psy-Q SDK. Setup copies and hash-checks the pinned file; the repository
+does not supply it. SLUS and windows without native module placements can be
+checked without that SDK. See [docs/TOOLCHAIN_PSYQ.md](docs/TOOLCHAIN_PSYQ.md)
+for installation and scope.
 
-Then prove a function matches:
+Find the current source for a stable row ID. This lookup needs no disc:
 
 ```sh
-python3 tools/verify.py town/func_8008D54C src/town/func_8008D54C.c   # one function (per-row scorer)
-tools/build/build_slus.sh                                              # whole SLUS executable, SHA-1 checked
-bash tools/build/mk_ovl_root.sh && python3 tools/build/gate_all.py     # every overlay window
-python3 tools/build/container_check.py --rebuild-disc                  # containers, then the disc itself
+python3 tools/source_layout.py path town/func_8008D54C
 ```
 
-A full run takes a long time (hours of CPU); the per-function scorer takes seconds. The window gate's
-compile command is the only compile command of record; the scorer is a development shortcut.
+After setup, check that source. **Requires the extracted disc and provisioned
+toolchain; requested module-window checks may also require Psy-Q.**
+
+```sh
+python3 tools/verify.py town/func_8008D54C src/town/scene/copy_words_backward_from_offset.c --gate
+```
+
+The verifier reports whether a window ran or whether registered address
+evidence makes its scorer equivalent to the window check for that row. A
+passing row score does not refresh every affected module certificate.
+
+For the full build, run these in order. **Requires your disc, provisioned tools
+and the pinned Psy-Q assembler/loader for module windows.**
+
+```sh
+bash tools/build/build_slus.sh -j 4
+bash tools/build/mk_ovl_root.sh
+python3 tools/build/gate_all.py --workers 4
+python3 tools/build/container_check.py --rebuild-disc
+```
+
+A full run can take hours. The final container/disc check reports compiled C,
+gated window bytes and retail fill separately; byte-identical output does not
+mean every byte was compiled from C. See [the proof guide](docs/PLAN.md).
 
 ## Layout
 
 | path | what |
 |---|---|
-| `src/<container>/` | the current C source, one function (or data object) per file, named by its retail address (`func_8008D54C.c`) or its recovered name. The only tree the gates compile |
+| `src/` | editable C organized under `engine/`, `frontend/`, `town/`, `dungeon/` and `movie/`; a translation unit may contain several rows. Use [the source resolver](docs/SOURCE_LAYOUT.md) to find it |
 | `include/` | headers: shared types (`include/shared/`, `include/records/`), module headers, compat macros |
-| `raw/` | the frozen starting point: the byte-matching sources as imported at `PIN`. Never edited; kept as byte provenance |
-| `config/` | the SLUS split and symbols, 2,000+ overlay window definitions, compiler/assembler flags per region, `names.tsv` (renames), noreturn lists |
-| `ledger/` | machine-readable project state: the row database (`splits/`), `rows.jsonl`, `baseline.jsonl`, gate verdicts, promotions, levels, names |
-| `tools/` | provisioning (`setup.sh`, `toolchain.lock.json`), the gates and build scripts (`build/`, `gate/`), the vendored assembler front end (`maspsx/`), analysis and transform tools, tests (`tools/tests/`) |
-| `docs/` | reference documentation; start at [docs/README.md](docs/README.md). `docs/evidence/` holds the research notes behind individual names and decisions; `docs/history/` is the project's working journal |
+| `config/` | split/symbol tables, overlay windows, compiler/assembler recipes, `names.tsv` aliases and frozen source hashes |
+| `ledger/` | current row database, layout, baseline, proof and quality records; the public export omits the internal event history |
+| `tools/` | setup, gates, build scripts, the vendored assembler front end (`maspsx/`) and analysis tools |
+| `docs/` | reference documentation; start at [docs/README.md](docs/README.md). `docs/evidence/` records the reasoning behind names, types and decisions |
 | `STATUS.md` | generated progress report |
 | `LICENSE`, `NOTICE` | licence scope and legal notice |
 
 Not committed: the disc image (`bin/`), its extract (`work/disc/`), the toolchain (`toolchain/`), the
-virtualenv, and the build roots (`build_slus/`, `build_ovl/`). They are created by `tools/setup.sh`.
+virtualenv, and the build roots (`build_slus/`, `build_ovl/`). Setup provisions the
+disc and tools; the build scripts create the build roots.
 
 ## Cleanliness levels
 
 | level | meaning |
 |---|---|
-| L0 | verified byte-exact against retail through the stock compilers |
-| L1 | no m2c boilerplate, no scaffolding left to erase |
-| L2 | no raw offset access: typed structs with explicit `unk_XX` members and padding |
-| L3 | locals named, one-line summary written, accepted refined body landed |
-| L4 | in a module with a shared header; zero pins; no tail-jump dependency |
-| L5 | strict: no fidelity site of any audit class, no computed-goto table, no inline asm, no `NON_MATCHING` guard |
+| L0 | recorded byte-exact baseline at the registered recipe |
+| L1 | no decompiler boilerplate or blocking fidelity spelling |
+| L2 | typed accesses replace raw field macros; unknown fields may remain |
+| L3 | recorded refinement and an acceptable audit for each tail-jump dependency |
+| L4 | current reviewed module placement, no pins or tail-jump dependencies, and no source-driven assembler imitation or contradictory compiler fingerprint |
+| L5 | no blocking fidelity site, computed goto, inline assembly, `NON_MATCHING` guard or recorded compiler-model dependency |
 
-Definitions are in [docs/PLAN.md](docs/PLAN.md) and `tools/levels.py`.
+Requirements accumulate. Full definitions and exceptions are in
+[docs/PLAN.md](docs/PLAN.md) and `tools/levels.py`.
 
 ## How it is proven
 
-Every function is compiled with the original compiler generation (gcc 2.7.2-era Psy-Q/Cygnus
-builds) and Sony-compatible assembler behaviour (`tools/maspsx`), then compared with the bytes read
-from your disc. Mismatches are refused; nothing is accepted on a guess. Transforms and edits go
-through `tools/promote.py` / the window gate, which re-verify before anything lands, and
-`tools/reverify.py` re-proves every row. [CONTRIBUTING.md](CONTRIBUTING.md) describes the workflow.
+Registered C is compiled with the recorded stock compiler recipe and
+Sony-compatible assembler behaviour (`tools/maspsx`). The linked window or SLUS
+image is compared against your disc. Native overlay modules additionally need
+the genuine assembler comparison. Certificates bind source, headers, recipe,
+ownership, tools and affected placements; changed inputs make old proof stale.
+[CONTRIBUTING.md](CONTRIBUTING.md) describes how to check a change, and
+[docs/PLAN.md](docs/PLAN.md) explains each proof's scope.
 
 ## Row database
 
@@ -108,16 +139,16 @@ and assigns each row its gate window. `tools/row_db.py check` verifies the table
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md). In short: a change is good if the byte-exact check still
-passes and the C is closer to what a person would write. Names and types are tracked in
-`config/names.tsv` and `ledger/names.jsonl`.
+passes and the C is closer to what a person would write. `config/names.tsv`
+tracks function/global aliases and evidence; shared types live under `include/`.
 
 ## Legal
 
 - *Azure Dreams* and its code, data and trademarks are (c) Konami. This project is not affiliated
   with or endorsed by Konami, and grants no rights in Konami's material.
-- No game data is included. You must supply your own copy of the game. The reconstructed C
-  describes the behaviour of Konami's program, and a few files express small tables as C; those
-  tables remain Konami's.
+- No disc images or extracted binaries are included. You must supply your own
+  copy of the game. The reconstructed C describes the behaviour of Konami's
+  program, and a few files express small tables as C; those tables remain Konami's.
 - The project's own original work (tools, build scripts, docs, recovered names and annotations, and
   the contributors' own expression in the C to the extent they hold rights) is released under
   [The Unlicense](LICENSE). Third-party parts keep their own licences: `tools/maspsx/` is MIT.

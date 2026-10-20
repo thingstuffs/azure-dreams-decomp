@@ -30,7 +30,15 @@
               "offset": 2696,
               "size": 4,
               "vram": 2148013256,
-              "bytes": "00000000",
+              "bytes": {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 29,
+                  "length": 4,
+                  "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+                },
+                "format": "hex"
+              },
               "section": ".sdata",
               "object_offset": 0,
               "object_binding": "global",
@@ -52,7 +60,15 @@
               "offset": 219,
               "size": 1,
               "vram": 2148010779,
-              "bytes": "00",
+              "bytes": {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 6,
+                  "length": 1,
+                  "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+                },
+                "format": "hex"
+              },
               "section": ".sdata.D_80080B1B",
               "object_offset": 0,
               "object_binding": "global",
@@ -70,7 +86,15 @@
               "offset": 220,
               "size": 1,
               "vram": 2148010780,
-              "bytes": "00",
+              "bytes": {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 6,
+                  "length": 1,
+                  "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+                },
+                "format": "hex"
+              },
               "section": ".sdata.D_80080B1C",
               "object_offset": 0,
               "object_binding": "global",
@@ -139,7 +163,15 @@
               "new_section": ".sdata.D_80080B1B",
               "new_section_index": 15,
               "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
-              "content_hex": "00",
+              "content_hex": {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 6,
+                  "length": 1,
+                  "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+                },
+                "format": "hex"
+              },
               "old_symbol_size": 0
             },
             {
@@ -152,7 +184,15 @@
               "new_section": ".sdata.D_80080B1C",
               "new_section_index": 16,
               "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
-              "content_hex": "00",
+              "content_hex": {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 6,
+                  "length": 1,
+                  "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+                },
+                "format": "hex"
+              },
               "old_symbol_size": 0
             }
           ],
@@ -2349,7 +2389,15 @@
                   "new_section": ".sdata.D_800814D0",
                   "new_section_index": 31,
                   "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
-                  "content_hex": "00",
+                  "content_hex": {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 8,
+                      "length": 1,
+                      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+                    },
+                    "format": "hex"
+                  },
                   "old_symbol_size": 0
                 },
                 {
@@ -2362,7 +2410,15 @@
                   "new_section": ".sdata.D_800814D4",
                   "new_section_index": 32,
                   "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
-                  "content_hex": "00",
+                  "content_hex": {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 8,
+                      "length": 1,
+                      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+                    },
+                    "format": "hex"
+                  },
                   "old_symbol_size": 0
                 },
                 {
@@ -2375,7 +2431,15 @@
                   "new_section": ".sdata.D_800814CC",
                   "new_section_index": 33,
                   "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
-                  "content_hex": "00000000",
+                  "content_hex": {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 8,
+                      "length": 4,
+                      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+                    },
+                    "format": "hex"
+                  },
                   "old_symbol_size": 0
                 },
                 {
@@ -2388,7 +2452,15 @@
                   "new_section": ".sdata.D_80081450",
                   "new_section_index": 34,
                   "content_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
-                  "content_hex": "0000000000000000",
+                  "content_hex": {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 8,
+                      "length": 8,
+                      "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+                    },
+                    "format": "hex"
+                  },
                   "old_symbol_size": 0
                 },
                 {
@@ -2401,7 +2473,15 @@
                   "new_section": ".sdata.D_80080AD0",
                   "new_section_index": 35,
                   "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
-                  "content_hex": "00",
+                  "content_hex": {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 8,
+                      "length": 1,
+                      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+                    },
+                    "format": "hex"
+                  },
                   "old_symbol_size": 0
                 },
                 {
@@ -2414,7 +2494,15 @@
                   "new_section": ".sdata.D_80080AD2",
                   "new_section_index": 36,
                   "content_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
-                  "content_hex": "0000",
+                  "content_hex": {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 8,
+                      "length": 2,
+                      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+                    },
+                    "format": "hex"
+                  },
                   "old_symbol_size": 0
                 },
                 {
@@ -2427,7 +2515,15 @@
                   "new_section": ".sdata.D_80080AD4",
                   "new_section_index": 37,
                   "content_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
-                  "content_hex": "0000",
+                  "content_hex": {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 8,
+                      "length": 2,
+                      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+                    },
+                    "format": "hex"
+                  },
                   "old_symbol_size": 0
                 },
                 {
@@ -2440,7 +2536,15 @@
                   "new_section": ".sdata.D_80080AD8",
                   "new_section_index": 38,
                   "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
-                  "content_hex": "00000000",
+                  "content_hex": {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 8,
+                      "length": 4,
+                      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+                    },
+                    "format": "hex"
+                  },
                   "old_symbol_size": 0
                 },
                 {
@@ -2453,7 +2557,15 @@
                   "new_section": ".sdata.D_80080ADC",
                   "new_section_index": 39,
                   "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
-                  "content_hex": "00000000",
+                  "content_hex": {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 8,
+                      "length": 4,
+                      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+                    },
+                    "format": "hex"
+                  },
                   "old_symbol_size": 0
                 },
                 {
@@ -2466,7 +2578,15 @@
                   "new_section": ".sdata.D_800814B0",
                   "new_section_index": 40,
                   "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
-                  "content_hex": "00000000",
+                  "content_hex": {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 8,
+                      "length": 4,
+                      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+                    },
+                    "format": "hex"
+                  },
                   "old_symbol_size": 0
                 },
                 {
@@ -2479,7 +2599,15 @@
                   "new_section": ".sdata.D_800814B4",
                   "new_section_index": 41,
                   "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
-                  "content_hex": "00000000",
+                  "content_hex": {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 8,
+                      "length": 4,
+                      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+                    },
+                    "format": "hex"
+                  },
                   "old_symbol_size": 0
                 }
               ],
@@ -2666,7 +2794,15 @@
                   "new_section": ".sdata.D_80080B1B",
                   "new_section_index": 15,
                   "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
-                  "content_hex": "00",
+                  "content_hex": {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 8,
+                      "length": 1,
+                      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+                    },
+                    "format": "hex"
+                  },
                   "old_symbol_size": 0
                 },
                 {
@@ -2679,7 +2815,15 @@
                   "new_section": ".sdata.D_80080B1C",
                   "new_section_index": 16,
                   "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
-                  "content_hex": "00",
+                  "content_hex": {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 8,
+                      "length": 1,
+                      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+                    },
+                    "format": "hex"
+                  },
                   "old_symbol_size": 0
                 }
               ],

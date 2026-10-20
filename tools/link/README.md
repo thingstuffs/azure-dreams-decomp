@@ -91,3 +91,79 @@ descriptor, and the adapter requires exact agreement with the fresh module gate
 receipt. All allocations use one qualified ET_REL object. The final map receipt
 summarizes source/import byte origins and hashes the private map; it contains no
 retail payloads.
+
+The expanded adapter selects all 60 town views at `0x80016000`, every
+`dungeon/bank_*` view, and the two resident engine views. Diagnostic per-row
+views are not extra load images. Prepare the existing SLUS and overlay build
+views first, as above. Then:
+
+```sh
+python3 tools/link/combined.py --output work/one-link/out \
+    --scratch work/one-link/scratch --all-images --extend-ovmovie --plan
+# Run the command in out/gate_plan.json with its environment (at most 60 windows).
+python3 tools/link/combined.py --output work/one-link/out \
+    --scratch work/one-link/scratch --all-images --extend-ovmovie --prepare
+```
+
+`prepare.py` calls the existing production home-recipe APIs for source selection,
+compiler and assembler flags, frozen home evidence, placement rebinding and
+complete native-module preparation. Repeated home compiles are reused only
+inside one invocation, before placement rebinding, with source/recipe/evidence
+keys. Link-list and module tables are validated once and held constant during
+preparation, with input hashes checked afterward. No gate implementation is
+edited. A private hash-bound preparation index supports rerunning the combined
+link without `--prepare`; changed inputs or objects invalidate it.
+
+The bounded production gate is a representative window proof. Every linked
+image also receives its own full retail byte comparison. An image whose objects
+were only prepared is marked `NOT_GATED` in the window-comparison column; this
+never claims a fresh production window verdict. `images.tsv` distinguishes linked
+images from preparation holds. Source-row holds remain explicit even if retail
+imports fill the corresponding gaps. `provenance.tsv` counts imported bytes
+separately from original-object spans, so byte identity does not imply complete
+source reconstruction.
+
+Resident resolution requires both a witnessed address and a real definition in
+an original input object. Absolute catalogues and local symbols cannot become
+resident owners. Same-family engine definitions may satisfy bank references;
+other bank definitions are never selected as resident owners. `binding_changes.tsv`
+records each removed absolute binding and its defining object. Counts compare
+the same expanded image scope with those recorded owner substitutions withheld
+and applied. A separately reproduced baseline supplies the original-scope count.
+Receipts larger than 2 MB stay in ignored scratch storage; output contains their
+size, record count and SHA-256 summary. The global script and map likewise stay
+private, with hash summaries in the output directory.
+
+`--image <view>` may be repeated with `--all-images` for incremental global-link
+proofs; the original baseline outputs remain included. Ordinary ELF32 metadata
+is read directly to avoid spawning three binutils processes per original input.
+Unexpected ELF bindings use binutils; neither object bytes nor relocations are
+changed by this metadata reader.
+
+Interior resident references use a real original-input definition plus an offset
+strictly inside its explicit ELF symbol size. Extents are never inferred from
+the next symbol. `LD_FEATURE("SANE_EXPR")` keeps those expressions attached to
+the defining section; tests prove they retain NOCROSSREFS protection. Absolute
+catalogue aliases and zero-size labels do not grant interior ownership.
+
+For a large window whose repeated catalogue lookups dominate the production
+gate, the same checks can run with validated immutable recipe tables:
+
+```sh
+python3 tools/link/gate_snapshot.py --window dungeon_deep_t8_0d07 \
+    --output work/one-link/scratch/window-proof
+```
+
+This calls the unchanged `GateAll.run_window` and `worker_output`, compiles the
+complete window, retains the ordinary pre/post input digest checks and catalogue
+stamp checks, and additionally brackets the run with full preparation-input
+hashes. The receipt records its wrapper hash and method. It edits no gate source
+or authority files; each selected window still counts toward the 60-window cap.
+
+A mismatched recipe VMA normally holds the source row. A loader-bound view may
+instead accept a strict invariant-placement witness: independently link the
+unchanged original object at both the recipe and selected VMAs, require both
+complete code slices to equal retail, and reject NOLOAD/table/allocation moves.
+`placement_bridges.json` records both hashes and the bound loader record. Tests
+reject self-address relocations and missing loader evidence. No registry or
+source correction is implied by this experimental placement.

@@ -244,10 +244,15 @@
     "start": 13316096,
     "end": 13335212,
     "next_frame_data": 13335212,
-    "tail_callbacks": [
-      2149012028,
-      2149012084
-    ],
+    "tail_callbacks": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 13335440,
+        "length": 8,
+        "sha256": "cdfdff2ca482f3674267a40ff34a0ab3e0ee266835a76497d92e58916c3a8ecf"
+      },
+      "format": "u32le_list"
+    },
     "callback_table_vma": 2149012284,
     "callback_entries": 24
   },

@@ -169,140 +169,300 @@
       "vma": 2147827112,
       "foff": 161192,
       "map": "slus_load",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 161192,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_80090E78": {
       "vma": 2148077176,
       "foff": 79640,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 79640,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_80090F00": {
       "vma": 2148077312,
       "foff": 79776,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 79776,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_80091F64": {
       "vma": 2148081508,
       "foff": 83972,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 83972,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_8009204C": {
       "vma": 2148081740,
       "foff": 84204,
       "map": "xfer_town_B000",
-      "first_word": "e0ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 84204,
+          "length": 4,
+          "sha256": "f0b20bc0158003436e3763ca5edb6e4174ca0c77296a4b0a1b30c0546a0bb355"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_800920F4": {
       "vma": 2148081908,
       "foff": 84372,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 84372,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_8009221C": {
       "vma": 2148082204,
       "foff": 84668,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 84668,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_80092320": {
       "vma": 2148082464,
       "foff": 84928,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 84928,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_800924EC": {
       "vma": 2148082924,
       "foff": 85388,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 85388,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_80092698": {
       "vma": 2148083352,
       "foff": 85816,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 85816,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_800927EC": {
       "vma": 2148083692,
       "foff": 86156,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 86156,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_80092A84": {
       "vma": 2148084356,
       "foff": 86820,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 86820,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_80092CD4": {
       "vma": 2148084948,
       "foff": 87412,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 87412,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_80092DA8": {
       "vma": 2148085160,
       "foff": 87624,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 87624,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_80092ECC": {
       "vma": 2148085452,
       "foff": 87916,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 87916,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_80092FF0": {
       "vma": 2148085744,
       "foff": 88208,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 88208,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_800930E4": {
       "vma": 2148085988,
       "foff": 88452,
       "map": "xfer_town_B000",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 88452,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_800948DC": {
       "vma": 2148092124,
       "foff": 94588,
       "map": "xfer_town_B000",
-      "first_word": "0d80023c",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 94588,
+          "length": 4,
+          "sha256": "9876565b896a9d99c14e7439feb6a4a6fba59b8338f3e3a3d91d91b9e1f43129"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_80094984": {
       "vma": 2148092292,
       "foff": 94756,
       "map": "xfer_town_B000",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 94756,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     },
     "func_80094C1C": {
       "vma": 2148092956,
       "foff": 95420,
       "map": "xfer_town_B000",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 95420,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
     }
   },

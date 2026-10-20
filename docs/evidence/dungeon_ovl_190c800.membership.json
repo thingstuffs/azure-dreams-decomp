@@ -55,7 +55,20 @@
     "after_foff": 26265748,
     "after_size": 2504,
     "separated_raw_storage": 148,
-    "first_instruction": "0x27bdff48",
+    "first_instruction": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 26265748,
+        "length": 4,
+        "sha256": "2fd1d41c809a1f3f618f9b27635e30572acfd882e0e2522f4b3fb914ccdaaa40"
+      },
+      "format": {
+        "kind": "int_hex",
+        "prefix": "0x",
+        "width": 8,
+        "uppercase": false
+      }
+    },
     "call_target": "0x80024094",
     "removed_sections": "three unused arrays pinned into .text.func_818EC800",
     "native_storage_claim": false

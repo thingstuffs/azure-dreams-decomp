@@ -212,98 +212,210 @@
       "vma": 2147695588,
       "foff": 29668,
       "map": "slus_load",
-      "first_word": "0880023c",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 29668,
+          "length": 4,
+          "sha256": "2ed3561c68bb654f8e2ad2ad487bde2c12f773777e92956e1ff0e7f27ad6b1d9"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_80033C1C": {
       "vma": 2147695644,
       "foff": 29724,
       "map": "slus_load",
-      "first_word": "01000224",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 29724,
+          "length": 4,
+          "sha256": "271f0d4590251a3a66ab427dff6defb99c59ed2985a073296a22b3fa5b9b8e60"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_80033C84": {
       "vma": 2147695748,
       "foff": 29828,
       "map": "slus_load",
-      "first_word": "0800e003",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 29828,
+          "length": 4,
+          "sha256": "4ea0954debe12aa88cdafc66eb7e57fab8f80d338da3c9a6a15c0efc2687d1fb"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_80033D08": {
       "vma": 2147695880,
       "foff": 29960,
       "map": "slus_load",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 29960,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_80035208": {
       "vma": 2147701256,
       "foff": 35336,
       "map": "slus_load",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 35336,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_800375C0": {
       "vma": 2147710400,
       "foff": 44480,
       "map": "slus_load",
-      "first_word": "0000838c",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 44480,
+          "length": 4,
+          "sha256": "fbaac0d3c45dff09d9bde558846212ff7392545454194e16038913d4d62ec9dd"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_8003DB94": {
       "vma": 2147736468,
       "foff": 70548,
       "map": "slus_load",
-      "first_word": "00140600",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 70548,
+          "length": 4,
+          "sha256": "5a0e464b8ba4e2ea8a4cd4549b329e9a247a152de5071d12ff9463921e83d4ab"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_8003FC64": {
       "vma": 2147744868,
       "foff": 78948,
       "map": "slus_load",
-      "first_word": "0180023c",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 78948,
+          "length": 4,
+          "sha256": "337c4e1a747121fd6af2f146dfb613c8b5b3416ad3c14b5c91e1b47c5d888f6f"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_8003FFF0": {
       "vma": 2147745776,
       "foff": 79856,
       "map": "slus_load",
-      "first_word": "1e008294",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 79856,
+          "length": 4,
+          "sha256": "c3c62ebe2e05c8e9fbe7911c338476ef1077c45bd31d738576dad5a1fad41d9a"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_80040044": {
       "vma": 2147745860,
       "foff": 79940,
       "map": "slus_load",
-      "first_word": "0880023c",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 79940,
+          "length": 4,
+          "sha256": "2ed3561c68bb654f8e2ad2ad487bde2c12f773777e92956e1ff0e7f27ad6b1d9"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_8004491C": {
       "vma": 2147764508,
       "foff": 98588,
       "map": "slus_load",
-      "first_word": "21388000",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 98588,
+          "length": 4,
+          "sha256": "e18f4f9b3eeaceffd50e5bceb3b329bf51f74b33f4db5cfed9965bd430a87131"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_800478B8": {
       "vma": 2147776696,
       "foff": 110776,
       "map": "slus_load",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 110776,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_80047E78": {
       "vma": 2147778168,
       "foff": 112248,
       "map": "slus_load",
-      "first_word": "d8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 112248,
+          "length": 4,
+          "sha256": "a12dc8de7a6d5f0ddb41cb754b491f97a9ff77b8a3e1188f90a6d747be8a16b5"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_80067014": {
       "vma": 2147905556,
       "foff": 239636,
       "map": "slus_load",
-      "first_word": "0880023c",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 239636,
+          "length": 4,
+          "sha256": "2ed3561c68bb654f8e2ad2ad487bde2c12f773777e92956e1ff0e7f27ad6b1d9"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     }
   },

@@ -1,55 +1,92 @@
-# Documentation index
+# Documentation
 
-Start with the [top-level README](../README.md) and [STATUS.md](../STATUS.md). The files below are
-the current reference material; everything under `history/` and most of `evidence/` is a record of
-how the project got here and is not needed to use or contribute to it.
+This project reconstructs Azure Dreams for PlayStation as readable C and checks
+the result against a user-supplied NTSC-U disc (`SLUS-006.14`). Start with the
+[repository README](../README.md) for setup and [generated status](../STATUS.md)
+for measured coverage and remaining limitations. The
+[contribution guide](../CONTRIBUTING.md) describes submitting a change.
 
-## Current reference
+## What to read first
 
-| doc | what it is |
+| Your goal | Read |
 |---|---|
-| [PLAN.md](PLAN.md) | strategy, the cleanliness levels L0-L5 and what each requires |
-| [SYMBOLS.md](SYMBOLS.md) | the names the game itself gives us (assertion strings, tables, identifiers) and how the repo uses them |
-| [EVIDENCE.md](EVIDENCE.md) | index of the naming and module evidence carried per row and how each level uses it |
-| [STRUCT_CENSUS.md](STRUCT_CENSUS.md) | cross-function struct census (groundwork for shared types) |
-| [TYPE_CONSOLIDATION.md](TYPE_CONSOLIDATION.md) | how per-function struct views are merged into shared game types |
-| [FIDELITY.md](FIDELITY.md) | what "fidelity debt" means: C shapes that match only because of compiler quirks, how they are measured |
-| [SLUS_MODULES.md](SLUS_MODULES.md) | how the main executable is grouped into source modules |
-| [SLUS_PARTITIONS.md](SLUS_PARTITIONS.md) | function partitions of the executable and their ownership certificates |
-| [SWAPOVER.md](SWAPOVER.md) | how this tree came to own all of its sources (the pin and the swap-over) |
-| [TOOLCHAIN_FIDELITY_PLAN.md](TOOLCHAIN_FIDELITY_PLAN.md) | plan for making the toolchain reproduce the original build faithfully |
-| [GOAL_TOOLCHAIN_AND_MODULES.md](GOAL_TOOLCHAIN_AND_MODULES.md) | goal statement: toolchain repairs and module cleanup |
-| [OPEN_ITEMS.md](OPEN_ITEMS.md) | open questions and unfinished work |
-| [../CONTRIBUTING.md](../CONTRIBUTING.md) | how to make and prove a change |
-| [../NOTICE](../NOTICE) | legal notice, credits, what is and is not in this repository |
+| Find a function after the source reorganization | [Source locations](SOURCE_LAYOUT.md) |
+| Understand what a successful match proves | [Proof and quality levels](PLAN.md), then [fidelity limitations](FIDELITY.md) |
+| Improve a function or field name | [Naming evidence](EVIDENCE.md) and [symbol conventions](SYMBOLS.md) |
+| Improve a shared type | [Type consolidation](TYPE_CONSOLIDATION.md) and [struct census](STRUCT_CENSUS.md) |
+| Understand repeated code and disc coverage | [Link lists and byte maps](LINK_LISTS.md) |
+| Build all overlay module windows | [Psy-Q requirement](TOOLCHAIN_PSYQ.md) |
+| Review compilation boundaries | [Executable modules](SLUS_MODULES.md), [function partitions](SLUS_PARTITIONS.md), [overlay module placements](LL5_MODULE_PLACEMENTS.md) |
+| Choose further work | [Open work](OPEN_ITEMS.md) |
 
-Tool-level notes live next to the tools: [tools/maspsx/README.md](../tools/maspsx/README.md),
-[tools/learnings/](../tools/learnings/) (short write-ups of compiler behaviour found while matching).
+## How the proof works
 
-## Evidence
+A **row** is a stable record of a function or data extent. Its ID can retain an
+old container name or address even when its source file has moved. A **translation
+unit** (TU) is one C compiler input; several rows can share it. A **placement**
+reuses a TU in another load image. These are different counts.
 
-`evidence/` holds the individual research notes, measurements and receipts behind names, module
-boundaries and decisions. Files are named by topic, function address or date. Modules and the
-naming levels cite them by path, so they are kept as they are; browse by searching for an address.
+The per-row verifier helps assess a candidate. The overlay **window gate** links
+the surrounding region and compares its bytes to the extracted retail container;
+the executable gate compares the complete linked SLUS image. Module certificates
+add reviewed membership, storage ownership, genuine-assembler comparison and
+input freshness where required. An unchanged object or a zero scorer distance
+alone does not establish all of these claims. See [PLAN.md](PLAN.md).
 
-## History
+The byte maps also describe library code, data, padding and unresolved spans.
+Matching every registered C row does not mean that every byte on the disc is C.
+Use the separate coverage and quality tables in generated status.
 
-`history/` is the project's working journal: handover notes, round-by-round research on the
-"pin" cleanup campaign (`PIN_*`), the agent/lane workflow documents, the early reports. It is
-accurate for its date and was not rewritten for outside readers; numbers in it are old.
+## Contribute a better name, type or shape
 
-| doc | what it is |
-|---|---|
-| [history/HANDOVER.md](history/HANDOVER.md) | long running handover log (latest state, rulings, landing procedures) |
-| [history/handover_archive/](history/handover_archive/) | earlier parts of the handover log |
-| [history/PIN_CAMPAIGN_CHARTER.md](history/PIN_CAMPAIGN_CHARTER.md) | the charter and rulings of the pin-removal campaign |
-| [history/PIN_GOAL_PROGRESS.md](history/PIN_GOAL_PROGRESS.md) | pin-removal research progress summary |
-| [history/PIN_MECHANISMS_20260912.md](history/PIN_MECHANISMS_20260912.md), [PIN_PATTERNS.md](history/PIN_PATTERNS.md), [PIN_ATLAS_20260912.md](history/PIN_ATLAS_20260912.md), [PIN_FAMILIES.md](history/PIN_FAMILIES.md), [PIN_CENSUS.md](history/PIN_CENSUS.md) | what the scaffolding was, why the compiler needed it, censuses |
-| [history/PIN_RESEARCH_ROUND39.md](history/PIN_RESEARCH_ROUND39.md) .. ROUND62 | per-round research notes of the campaign |
-| [history/PIN_SEARCH.md](history/PIN_SEARCH.md), PIN_SEARCH_*, PIN_WAVE_*, PIN_RECOVERY_*, PIN_CLEANUP_REVIEW_* | search tooling and wave reports |
-| [history/L0_BLOCKED_PLAN_20260922.md](history/L0_BLOCKED_PLAN_20260922.md) | classification of the last blocked rows |
-| [history/LANE_KIT.md](history/LANE_KIT.md), [AGENT_EFFICIENCY_HANDOVER.md](history/AGENT_EFFICIENCY_HANDOVER.md), [CLAUDE_CODEX_RESTART_PLAN_20260927.md](history/CLAUDE_CODEX_RESTART_PLAN_20260927.md), [BAKEOFF.md](history/BAKEOFF.md) | how AI-assisted work lanes were set up and measured |
-| [history/REPORT_20260907.md](history/REPORT_20260907.md) | day-one report |
+Run these lookup commands from the repository root; they do not need a disc:
 
-Paths such as `docs/PIN_*.md` quoted in tool docstrings and comments predate the move into
-`history/`.
+```sh
+python3 tools/source_layout.py check
+python3 tools/source_layout.py path town/func_8008D54C
+python3 tools/evidence.py show town/func_8032F844
+```
+
+The path command finds the current file rather than assuming a filename from
+the row ID. Edit the physical TU when several rows share it.
+
+* **Name:** cite the assertion, developer string, dispatch table or call-site
+  evidence supporting it. Use snake_case for new function and global names;
+  keep proven original developer spellings. Function/global aliases belong in
+  `config/names.tsv`. Review the meaning separately from the byte proof.
+* **Type:** establish field offsets, access widths, signedness, alignment and
+  ownership across users. Put shared definitions under `include/`; retain
+  unknown fields when the evidence is incomplete. Check every affected user.
+* **Shape:** explain the control flow or data lifetime that replaces a cast,
+  pin or other workaround. Keep the evidenced compiler recipe and compare
+  against retail after the change. Record a precise limitation when it remains.
+
+For example, after setup, verify the current source and request the additional
+overlay gate when the verifier requires it.
+**Requires your disc and provisioned tools; native module windows also require
+the genuine assembler described in [TOOLCHAIN_PSYQ.md](TOOLCHAIN_PSYQ.md).**
+
+```sh
+python3 tools/verify.py town/func_8008D54C src/town/scene/copy_words_backward_from_offset.c --gate
+```
+
+The verifier reports whether it ran a window or used proven scorer/gate
+equivalence for a registered true-name row. Use the path resolver again if that
+file moves. A shared-header or TU change
+needs all affected rows/windows and any stale module certificates refreshed.
+[Rename proof](RENAME_PROOF.md) explains why spelling-only changes still need
+object, relocation and retail checks. Keep generated `STATUS.md` and source
+indexes generated, and submit source, explanation and compact proof receipts
+together. Do not submit disc images, extracted assets or compiled objects.
+
+## Evidence and project history
+
+[Evidence records](evidence/) contain the detailed reasoning and measurements.
+The [decision record](evidence/r97_decisions.md) includes the source-layout,
+naming and publication rules (decisions 60–68). Earlier entries are historical;
+later rulings may supersede them.
+
+The public export omits the working journals. Dated evidence and any archived
+workflow notes may describe old totals, source paths and removed tools. Use
+the current reference pages above for contribution instructions and generated
+status for current measurements.

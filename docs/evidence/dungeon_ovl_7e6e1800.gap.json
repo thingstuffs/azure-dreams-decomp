@@ -13,6 +13,14 @@
   "basis": "Complete frame entry through jr-ra delay slot, first render call, -8 linked-node walk, +0x20 work subrecord, position/appearance at +8/+12; one natural C loop.",
   "raw_source": "raw/dungeon/func_81922E70.c",
   "logical_row": "dungeon/func_81922E70",
-  "retail_hex": "e8ffbd271000b0af218080001400bfaf212000026690000c21380000f8ff068e000000000500c0102000d0240800c58c0c00c68ca191000821200002211000001400bf8f1000b08f1800bd270800e00300000000",
+  "retail_hex": {
+    "$retail": {
+      "file": "DUNGEON/DUNGEON.BIN",
+      "offset": 26488432,
+      "length": 84,
+      "sha256": "86985e5304ff1de088583069b6f99ee5fdde3b7afc4729b84a78c8c484ae80d7"
+    },
+    "format": "hex"
+  },
   "review": "pending"
 }

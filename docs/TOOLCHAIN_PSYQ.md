@@ -1,16 +1,19 @@
-# The genuine Psy-Q assembler (optional)
+# Psy-Q requirement for complete overlay proof
 
-Everything in this repository builds with free tools: the stock gcc drops, the vendored `maspsx`, GNU `as`,
-splat and mkpsxiso, all provisioned by `tools/setup.sh`. One part of the proof also needs a proprietary
-file that cannot be redistributed: the SN Systems / Sony **ASPSX** assembler from the PlayStation Psy-Q SDK.
-It is never downloaded or committed here. If you own the SDK, `tools/setup.sh` copies the one file it
-needs from your copy.
+Most build tools are free: `tools/setup.sh` provisions the stock gcc drops,
+vendored `maspsx`, splat and mkpsxiso; your system supplies GNU `as` and the host
+build tools. Complete native-overlay
+proof additionally uses the proprietary SN Systems / Sony **ASPSX** assembler
+from the PlayStation Psy-Q SDK. The repository does not supply or download it.
+If you own the SDK, setup can copy the pinned file from your installation.
+The retail disc is a separate required input for retail-byte gates.
 
 ## What needs it
 
 The **overlay-module windows** need it: the windows that contain a whole-translation-unit module listed in
-`config/overlays/modules.json`. At this snapshot that is 244 modules (dungeon 193, town 45, main 5,
-ovmovie 1) touching 677 of the 3,207 window configs (dungeon 611, town 64, plus `main_boot` and `ovmovie`).
+`config/overlays/modules.json`, including affected complete-module placements.
+The current manifest and its affected windows determine the scope; it is not a
+fixed count that can be carried forward from an old snapshot.
 For these windows the gate assembles the module once with maspsx + GNU `as` and once with genuine ASPSX,
 and it requires both results to equal the retail bytes (`tools/gate/overlay_module_gate.py`,
 `overlay_native_allocations.py`).
@@ -18,28 +21,33 @@ and it requires both results to equal the retail bytes (`tools/gate/overlay_modu
 These do **not** need it:
 
 * the SLUS executable (`tools/build/build_slus.sh`, SHA-1 gate);
-* every other overlay window (2,530 configs);
-* the per-function scorer (`tools/verify.py`);
+* overlay windows without a native module/placement requiring genuine comparison;
+* ordinary per-function scoring (a requested module/window proof may additionally need it);
 * the census (`tools/census/regenerate.py`);
 * `tools/row_db.py`.
 
-Without the assembler, `gate_all.py` reports the module windows as `ERROR ... toolchain/genuine/bin/wibo`
-missing. All other windows rebuild and match.
+Without the pinned assembler/loader, module-window proof fails with a missing
+toolchain input. Successful free-tool windows do not discharge that requirement.
 
-The window input hash (`inputs_sha`) covers the identity of these two files, so without them no window's hash
-equals the committed `ledger/gate.jsonl` record. The gate then rebuilds every window instead of reusing it.
+The window input hash (`inputs_sha`) includes these tool identities. Missing or
+changed tools can invalidate cached receipts; a cached journal entry is not a
+substitute for a reproducible proof.
 
-To list the module windows:
+To list current home modules and their physical sources (no disc or SDK needed):
 
 ```sh
 python3 - <<'EOF'
-import sys; from pathlib import Path; sys.path[:0] = ['tools', 'tools/gate']
-from gate.overlay_module_gate import load_modules
-from gate.overlay_module_placements import affected_windows
-for m in load_modules(Path('.')):
-    for w in sorted(affected_windows(m, Path('.'))): print(m['key'], w)
+import json
+from pathlib import Path
+manifest = json.loads(Path('config/overlays/modules.json').read_text())
+for module in manifest['modules']:
+    print(module['key'], module['source'])
 EOF
 ```
+
+The gate computes affected windows, including destinations listed in
+`config/overlays/module_placements.json`; listing home sources alone is not that
+complete dependency calculation.
 
 ## Exactly which files
 
@@ -71,11 +79,14 @@ ASPSX builds from other SDK releases have different hashes and are refused:
 
 ## Installing it
 
+**Requires your disc for setup and your own Psy-Q SDK for the genuine assembler.**
+Replace the example SDK/loader paths with files you own:
+
 ```sh
 tools/setup.sh --psyq /path/to/your/psyq            # searches the directory (5 levels) for ASPSX.EXE with the pinned sha256
 tools/setup.sh --psyq /path/to/psyq --wibo /path/to/wibo   # use a local wibo instead of downloading it
 AZURE_CLEAN_PSYQ=/path/to/psyq tools/setup.sh        # same, via the environment (like AZURE_CLEAN_DISC)
-tools/setup.sh --check                               # verifies the two files when present; their absence is not a gap
+tools/setup.sh --check                               # verifies the two files when present; an absent optional SDK is allowed, but other setup gaps still fail
 ```
 
 How setup handles the files:
@@ -85,5 +96,16 @@ How setup handles the files:
 * It checks the sha256 of the copy, and of anything already there, on every run.
 * A file with any other hash is refused. Install the one from the SDK listed above.
 
-Once the files are installed, `bash tools/build/mk_ovl_root.sh && python3 tools/build/gate_all.py` gates every window,
-module windows included.
+After disc extraction and provisioning, build the executable first so that its
+assembly/assets exist for overlay consumers, then create the overlay view and
+run the windows. **This full sequence requires the disc and the pinned Psy-Q
+assembler/loader for module windows.**
+
+```sh
+bash tools/build/build_slus.sh -j 4
+bash tools/build/mk_ovl_root.sh
+python3 tools/build/gate_all.py --workers 4
+```
+
+Inspect the individual failures if any window refuses; the existence of a
+generated view or an old receipt is not a successful gate.

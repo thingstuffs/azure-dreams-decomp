@@ -4,7 +4,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "04000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 58047,
+              "length": 4,
+              "sha256": "fb5e512425fc9449316ec95969ebe71e2d576dbab833d61e2a5b9330fd70ee02"
+            },
+            "format": "hex"
+          },
           "offset": 44,
           "section": ".sdata",
           "size": 4,
@@ -52,7 +60,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "b8b89800",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 92153,
+              "length": 4,
+              "sha256": "bba5c50c579c67b211bdb157ee604e7cc55c5e48b6f406d0ce707032a5a36719"
+            },
+            "format": "hex"
+          },
           "offset": 320,
           "section": ".sdata",
           "size": 4,
@@ -61,7 +77,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "68685800",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 92158,
+              "length": 4,
+              "sha256": "f826c68135752a79d63489cca2370df1569f69e6e8c075d38fdc772cfe9c10f0"
+            },
+            "format": "hex"
+          },
           "offset": 324,
           "section": ".sdata",
           "size": 4,
@@ -97,7 +121,15 @@
       "data": [
         {
           "asset": "assets/3E018.bin",
-          "bytes": "e003de01",
+          "bytes": {
+            "$retail": {
+              "file": "SLUS_006.14",
+              "offset": 344496,
+              "length": 4,
+              "sha256": "33349dae2e2d1db5ce6f7ff407182bad9a060bbb9167a3ec4fd16346a4027c96"
+            },
+            "format": "hex"
+          },
           "offset": 90528,
           "section": ".sdata",
           "size": 4,
@@ -106,7 +138,15 @@
         },
         {
           "asset": "assets/3E018.bin",
-          "bytes": "30001000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 189323,
+              "length": 4,
+              "sha256": "9838de001b3ffb980b8f1e07106096101cf8092026194e851572606c403ac2ed"
+            },
+            "format": "hex"
+          },
           "offset": 90532,
           "section": ".sdata",
           "size": 4,
@@ -143,7 +183,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 2560,
           "section": ".sdata",
           "size": 4,
@@ -179,7 +227,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 2568,
           "section": ".sdata",
           "size": 4,
@@ -215,7 +271,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 192,
           "section": ".sdata",
           "size": 2,
@@ -251,7 +315,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 2760,
           "section": ".sdata",
           "size": 4,
@@ -287,7 +359,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 200,
           "section": ".sdata",
           "size": 2,
@@ -296,7 +376,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 202,
           "section": ".sdata",
           "size": 2,
@@ -332,7 +420,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 2776,
           "section": ".sdata",
           "size": 2,
@@ -341,7 +437,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 2778,
           "section": ".sdata",
           "size": 2,
@@ -350,7 +454,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 2780,
           "section": ".sdata",
           "size": 2,
@@ -359,7 +471,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 2782,
           "section": ".sdata",
           "size": 2,
@@ -395,7 +515,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 2784,
           "section": ".sdata",
           "size": 2,
@@ -404,7 +532,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 2786,
           "section": ".sdata",
           "size": 2,
@@ -413,7 +549,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 2788,
           "section": ".sdata",
           "size": 2,
@@ -422,7 +566,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 2790,
           "section": ".sdata",
           "size": 2,
@@ -458,7 +610,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "80fd0000",
+          "bytes": {
+            "$retail": {
+              "file": "SLUS_006.14",
+              "offset": 344920,
+              "length": 4,
+              "sha256": "0fb1a8f919af2dd6006e0c40f4bcf71e78c19711c874efc5d25123cc6a00a25c"
+            },
+            "format": "hex"
+          },
           "offset": 280,
           "section": ".sdata",
           "size": 4,
@@ -467,7 +627,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 284,
           "section": ".sdata",
           "size": 4,
@@ -476,7 +644,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 288,
           "section": ".sdata",
           "size": 4,
@@ -485,7 +661,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00040000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 19840,
+              "length": 4,
+              "sha256": "6e1ae50c2c807c6630b5a02ea29761a723e422e503100fc2ee23f2d715d3a001"
+            },
+            "format": "hex"
+          },
           "offset": 292,
           "section": ".sdata",
           "size": 4,
@@ -521,7 +705,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 2728,
           "section": ".sdata",
           "size": 2,
@@ -579,7 +771,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 2752,
           "section": ".sdata",
           "size": 2,
@@ -637,7 +837,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 2592,
           "section": ".sdata",
           "size": 4,
@@ -673,7 +881,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 100,
           "section": ".sdata",
           "size": 2,
@@ -682,7 +898,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 102,
           "section": ".sdata",
           "size": 2,
@@ -691,7 +915,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 104,
           "section": ".sdata",
           "size": 2,
@@ -700,7 +932,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 106,
           "section": ".sdata",
           "size": 2,
@@ -709,7 +949,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 108,
           "section": ".sdata",
           "size": 4,
@@ -718,7 +966,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 112,
           "section": ".sdata",
           "size": 4,
@@ -761,7 +1017,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 208,
           "section": ".sdata",
           "size": 2,
@@ -770,7 +1034,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 210,
           "section": ".sdata",
           "size": 2,
@@ -779,7 +1051,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 212,
           "section": ".sdata",
           "size": 2,
@@ -788,7 +1068,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 2800,
           "section": ".sbss",
           "size": 2,
@@ -824,7 +1112,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 2768,
           "section": ".sdata",
           "size": 4,
@@ -868,7 +1164,15 @@
       "data": [
         {
           "asset": "assets/3E018.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 90500,
           "section": ".sdata",
           "size": 4,
@@ -912,7 +1216,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 190,
           "section": ".sdata",
           "size": 2,
@@ -948,7 +1260,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 2720,
           "section": ".sdata",
           "size": 4,
@@ -985,7 +1305,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "01000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 16,
+              "length": 4,
+              "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+            },
+            "format": "hex"
+          },
           "offset": 340,
           "section": ".sdata",
           "size": 4,
@@ -994,7 +1322,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 344,
           "section": ".sdata",
           "size": 4,
@@ -1035,7 +1371,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 2816,
           "section": ".sdata",
           "size": 4,
@@ -1069,7 +1413,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 2836,
           "section": ".sdata",
           "size": 4,
@@ -1078,7 +1430,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 2840,
           "section": ".sdata",
           "size": 4,
@@ -1133,7 +1493,15 @@
       "data": [
         {
           "asset": "assets/54240.bin",
-          "bytes": "00",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 1,
+              "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+            },
+            "format": "hex"
+          },
           "offset": 2704,
           "section": ".sdata.D_800814D0",
           "size": 1,
@@ -1142,7 +1510,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 1,
+              "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+            },
+            "format": "hex"
+          },
           "offset": 2708,
           "section": ".sdata.D_800814D4",
           "size": 1,
@@ -1151,7 +1527,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 2700,
           "section": ".sdata.D_800814CC",
           "size": 4,
@@ -1160,7 +1544,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000000000000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 77,
+              "length": 8,
+              "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+            },
+            "format": "hex"
+          },
           "offset": 2576,
           "section": ".sdata.D_80081450",
           "size": 8,
@@ -1169,7 +1561,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 1,
+              "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+            },
+            "format": "hex"
+          },
           "offset": 144,
           "section": ".sdata.D_80080AD0",
           "size": 1,
@@ -1178,7 +1578,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 146,
           "section": ".sdata.D_80080AD2",
           "size": 2,
@@ -1187,7 +1595,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "offset": 148,
           "section": ".sdata.D_80080AD4",
           "size": 2,
@@ -1196,7 +1612,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 152,
           "section": ".sdata.D_80080AD8",
           "size": 4,
@@ -1205,7 +1629,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 156,
           "section": ".sdata.D_80080ADC",
           "size": 4,
@@ -1214,7 +1646,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 2672,
           "section": ".sdata.D_800814B0",
           "size": 4,
@@ -1223,7 +1663,15 @@
         },
         {
           "asset": "assets/54240.bin",
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "offset": 2676,
           "section": ".sdata.D_800814B4",
           "size": 4,

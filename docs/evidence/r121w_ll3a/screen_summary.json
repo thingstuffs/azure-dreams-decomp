@@ -15,7 +15,20 @@
     "symbol": "D_800E3548",
     "paired_binding": "0x800E3548",
     "wrong_binding": "0x80113548",
-    "elf_addend": "0x00000000",
+    "elf_addend": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 29,
+        "length": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      "format": {
+        "kind": "int_hex",
+        "prefix": "0x",
+        "width": 8,
+        "uppercase": false
+      }
+    },
     "retail_hi16": 32782,
     "retail_lo16": 13640,
     "wrong_hi16": 32785,

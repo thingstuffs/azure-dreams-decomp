@@ -48,44 +48,148 @@
       "entry": [
         {
           "vma": 2147609268,
-          "word": "0x3c028001",
+          "word": {
+            "$retail": {
+              "file": "TOWN/TOWN.BIN",
+              "offset": 130840,
+              "length": 4,
+              "sha256": "337c4e1a747121fd6af2f146dfb613c8b5b3416ad3c14b5c91e1b47c5d888f6f"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
           "instruction": "lui $v0, 0x8001"
         },
         {
           "vma": 2147609272,
-          "word": "0x8c426000",
+          "word": {
+            "$retail": {
+              "file": "TOWN/TOWN.BIN",
+              "offset": 2800228,
+              "length": 4,
+              "sha256": "5489aa96bb1a7647b9013a24b19e3847bf63e16403406851ef6e7207fd6b58c9"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
           "instruction": "lw $v0, 0x6000($v0)"
         },
         {
           "vma": 2147609276,
-          "word": "0x27bdffe8",
+          "word": {
+            "$retail": {
+              "file": "TOWN/TOWN.BIN",
+              "offset": 55800,
+              "length": 4,
+              "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
           "instruction": "addiu $sp, $sp, -0x18"
         },
         {
           "vma": 2147609280,
-          "word": "0xafbf0010",
+          "word": {
+            "$retail": {
+              "file": "TOWN/TOWN.BIN",
+              "offset": 56972,
+              "length": 4,
+              "sha256": "547f0e7d0018f8f6895df01208f0f33554f905dca239d7732c9b49287fe49bb0"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
           "instruction": "sw $ra, 0x10($sp)"
         }
       ],
       "exit": [
         {
           "vma": 2147609308,
-          "word": "0x8fbf0010",
+          "word": {
+            "$retail": {
+              "file": "TOWN/TOWN.BIN",
+              "offset": 57008,
+              "length": 4,
+              "sha256": "ae6c23c7b15102f1ff7326a5f6b5f77da12a865e5a44aec871024df44b00febe"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
           "instruction": "lw $ra, 0x10($sp)"
         },
         {
           "vma": 2147609312,
-          "word": "0x27bd0018",
+          "word": {
+            "$retail": {
+              "file": "TOWN/TOWN.BIN",
+              "offset": 56016,
+              "length": 4,
+              "sha256": "184bb13c35b23903142b44fa80a101860f8e29c6b6891a5b83bd269664963cfc"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
           "instruction": "addiu $sp, $sp, 0x18"
         },
         {
           "vma": 2147609316,
-          "word": "0x03e00008",
+          "word": {
+            "$retail": {
+              "file": "TOWN/TOWN.BIN",
+              "offset": 54596,
+              "length": 4,
+              "sha256": "4ea0954debe12aa88cdafc66eb7e57fab8f80d338da3c9a6a15c0efc2687d1fb"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
           "instruction": "jr $ra"
         },
         {
           "vma": 2147609320,
-          "word": "0x00000000",
+          "word": {
+            "$retail": {
+              "file": "TOWN/TOWN.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
           "instruction": "nop "
         }
       ]

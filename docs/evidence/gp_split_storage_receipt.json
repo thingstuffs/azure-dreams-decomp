@@ -28,7 +28,15 @@
               "offset": 208,
               "size": 2,
               "vram": 2148010768,
-              "bytes": "0000",
+              "bytes": {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 6,
+                  "length": 2,
+                  "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+                },
+                "format": "hex"
+              },
               "section": ".sdata",
               "object_offset": 0,
               "object_binding": "global",
@@ -40,7 +48,15 @@
               "offset": 210,
               "size": 2,
               "vram": 2148010770,
-              "bytes": "0000",
+              "bytes": {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 6,
+                  "length": 2,
+                  "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+                },
+                "format": "hex"
+              },
               "section": ".sdata",
               "object_offset": 2,
               "object_binding": "global",
@@ -52,7 +68,15 @@
               "offset": 212,
               "size": 2,
               "vram": 2148010772,
-              "bytes": "0000",
+              "bytes": {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 6,
+                  "length": 2,
+                  "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+                },
+                "format": "hex"
+              },
               "section": ".sdata",
               "object_offset": 4,
               "object_binding": "global",
@@ -70,7 +94,15 @@
               "offset": 2800,
               "size": 2,
               "vram": 2148013360,
-              "bytes": "0000",
+              "bytes": {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 6,
+                  "length": 2,
+                  "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+                },
+                "format": "hex"
+              },
               "section": ".sbss",
               "object_offset": 0,
               "object_binding": "local",

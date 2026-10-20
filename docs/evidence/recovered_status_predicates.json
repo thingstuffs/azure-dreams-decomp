@@ -22,7 +22,20 @@
           "call_offsets": [
             15528408
           ],
-          "jal_word": "0xc0320c4",
+          "jal_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 15380952,
+              "length": 4,
+              "sha256": "10df08fcdfba935d3bbe1582519e9e1670c28fc4d7aba9f0942f332dfce633b1"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target_vma": "0x800c8310"
         },
         {
@@ -35,7 +48,20 @@
           "call_offsets": [
             15479256
           ],
-          "jal_word": "0xc0320c4",
+          "jal_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 15380952,
+              "length": 4,
+              "sha256": "10df08fcdfba935d3bbe1582519e9e1670c28fc4d7aba9f0942f332dfce633b1"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target_vma": "0x800c8310"
         },
         {
@@ -48,7 +74,20 @@
           "call_offsets": [
             15454680
           ],
-          "jal_word": "0xc0320c4",
+          "jal_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 15380952,
+              "length": 4,
+              "sha256": "10df08fcdfba935d3bbe1582519e9e1670c28fc4d7aba9f0942f332dfce633b1"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target_vma": "0x800c8310"
         },
         {
@@ -61,7 +100,20 @@
           "call_offsets": [
             15405528
           ],
-          "jal_word": "0xc0320c4",
+          "jal_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 15380952,
+              "length": 4,
+              "sha256": "10df08fcdfba935d3bbe1582519e9e1670c28fc4d7aba9f0942f332dfce633b1"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target_vma": "0x800c8310"
         }
       ]
@@ -84,7 +136,20 @@
             {
               "caller_file": 931032,
               "caller_vma": 2148305976,
-              "instruction": "0x0c0320e3",
+              "instruction": {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 931032,
+                  "length": 4,
+                  "sha256": "c5cf7793b5cdee1b065aa13823c96c124f80911794417bec9a2b3385c0d7b11f"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "0x",
+                  "width": 8,
+                  "uppercase": false
+                }
+              },
               "operation": "jal",
               "target_file": 928812,
               "target_vma": 2148303756,
@@ -113,7 +178,20 @@
             {
               "caller_file": 930680,
               "caller_vma": 2148305624,
-              "instruction": "0x0c032102",
+              "instruction": {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 930680,
+                  "length": 4,
+                  "sha256": "599f88ae13480de65808243b3b16e5f39d9b23f23ef3f3bb85995eff5a32a8be"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "0x",
+                  "width": 8,
+                  "uppercase": false
+                }
+              },
               "operation": "jal",
               "target_file": 928936,
               "target_vma": 2148303880,
@@ -142,7 +220,20 @@
             {
               "caller_file": 930364,
               "caller_vma": 2148305308,
-              "instruction": "0x0c032121",
+              "instruction": {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 930364,
+                  "length": 4,
+                  "sha256": "287011f175fb00472c858afaac4a0868e47b69a4a4bd9d28fa2a23a62d008308"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "0x",
+                  "width": 8,
+                  "uppercase": false
+                }
+              },
               "operation": "jal",
               "target_file": 929060,
               "target_vma": 2148304004,
@@ -171,7 +262,20 @@
             {
               "caller_file": 929340,
               "caller_vma": 2148304284,
-              "instruction": "0x0c032140",
+              "instruction": {
+                "$retail": {
+                  "file": "DUNGEON/DUNGEON.BIN",
+                  "offset": 929340,
+                  "length": 4,
+                  "sha256": "7c930ab4c4296ed8ff549f2d6d0a97f98c620dbf438d9891aa875b115980abaf"
+                },
+                "format": {
+                  "kind": "int_hex",
+                  "prefix": "0x",
+                  "width": 8,
+                  "uppercase": false
+                }
+              },
               "operation": "jal",
               "target_file": 929184,
               "target_vma": 2148304128,

@@ -312,9 +312,48 @@
                   "a4200ad4"
                 ],
                 "retail": [
-                  "a380013c",
-                  "af800148",
-                  "a7800140"
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 72580,
+                      "length": 4,
+                      "sha256": "305e5b561c53e9470f00f1caea4ced5ad00b10708d50a96c83520da2e844b789"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 72584,
+                      "length": 4,
+                      "sha256": "9d8d057d0f5a6d83dc18b4cea27788732aeb4f174eb164ba61c82892c0f63134"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 72588,
+                      "length": 4,
+                      "sha256": "d79c34dd621d81cfee9a5b8cece99afea390f7e5f8f746ddedcd4a8dcceac239"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  }
                 ]
               }
             ]
@@ -387,9 +426,48 @@
                     "a4200ad4"
                   ],
                   "retail": [
-                    "a380013c",
-                    "af800148",
-                    "a7800140"
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 72580,
+                        "length": 4,
+                        "sha256": "305e5b561c53e9470f00f1caea4ced5ad00b10708d50a96c83520da2e844b789"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 72584,
+                        "length": 4,
+                        "sha256": "9d8d057d0f5a6d83dc18b4cea27788732aeb4f174eb164ba61c82892c0f63134"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 72588,
+                        "length": 4,
+                        "sha256": "d79c34dd621d81cfee9a5b8cece99afea390f7e5f8f746ddedcd4a8dcceac239"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    }
                   ]
                 }
               ]
@@ -1508,8 +1586,34 @@
                   "ac220adc"
                 ],
                 "retail": [
-                  "00000000",
-                  "af820148"
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 73288,
+                      "length": 4,
+                      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 73292,
+                      "length": 4,
+                      "sha256": "af8b40166de3c7f97c623bef948bf4dd92515f01a9f8fa015b9cb7d26408e13c"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  }
                 ]
               },
               {
@@ -1550,8 +1654,34 @@
                   "12000011"
                 ],
                 "retail": [
-                  "a7800140",
-                  "12000010"
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 73324,
+                      "length": 4,
+                      "sha256": "d79c34dd621d81cfee9a5b8cece99afea390f7e5f8f746ddedcd4a8dcceac239"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 73328,
+                      "length": 4,
+                      "sha256": "83f0d2d766f3b97e73c29b04015262a91c70450dfbc280840edf2628236fd7b6"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  }
                 ]
               },
               {
@@ -1566,8 +1696,34 @@
                   "0800f9c0"
                 ],
                 "retail": [
-                  "af900148",
-                  "0800f9be"
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 73380,
+                      "length": 4,
+                      "sha256": "bccaa9a996e09faf9bfce56e8966ff0a013f4bb423cfc0725e96b598d007d167"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 73384,
+                      "length": 4,
+                      "sha256": "4f877b03477b0ac74146abeedc3ae947acd3499f6f3a58f2566b6a6e8cf14d78"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  }
                 ]
               },
               {
@@ -1895,8 +2051,34 @@
                     "ac220adc"
                   ],
                   "retail": [
-                    "00000000",
-                    "af820148"
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 73288,
+                        "length": 4,
+                        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 73292,
+                        "length": 4,
+                        "sha256": "af8b40166de3c7f97c623bef948bf4dd92515f01a9f8fa015b9cb7d26408e13c"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    }
                   ]
                 },
                 {
@@ -1937,8 +2119,34 @@
                     "12000011"
                   ],
                   "retail": [
-                    "a7800140",
-                    "12000010"
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 73324,
+                        "length": 4,
+                        "sha256": "d79c34dd621d81cfee9a5b8cece99afea390f7e5f8f746ddedcd4a8dcceac239"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 73328,
+                        "length": 4,
+                        "sha256": "83f0d2d766f3b97e73c29b04015262a91c70450dfbc280840edf2628236fd7b6"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    }
                   ]
                 },
                 {
@@ -1953,8 +2161,34 @@
                     "0800f9c0"
                   ],
                   "retail": [
-                    "af900148",
-                    "0800f9be"
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 73380,
+                        "length": 4,
+                        "sha256": "bccaa9a996e09faf9bfce56e8966ff0a013f4bb423cfc0725e96b598d007d167"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 73384,
+                        "length": 4,
+                        "sha256": "4f877b03477b0ac74146abeedc3ae947acd3499f6f3a58f2566b6a6e8cf14d78"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    }
                   ]
                 },
                 {
@@ -6121,8 +6355,34 @@
                   "0800fc38"
                 ],
                 "retail": [
-                  "93820b3c",
-                  "0800fc1f"
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 74136,
+                      "length": 4,
+                      "sha256": "6891169f8f51447f343e7be858c4e1208c4122b7fe7e75bcf82b5ce13dec0c8f"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 74140,
+                      "length": 4,
+                      "sha256": "f89945116ed7b363fcc50268058cea09a792761accdf637773da036ad0e60cea"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  }
                 ]
               },
               {
@@ -6640,8 +6900,34 @@
                   "0800fc38"
                 ],
                 "retail": [
-                  "93820b3c",
-                  "0800fc1f"
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 74136,
+                      "length": 4,
+                      "sha256": "6891169f8f51447f343e7be858c4e1208c4122b7fe7e75bcf82b5ce13dec0c8f"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 74140,
+                      "length": 4,
+                      "sha256": "f89945116ed7b363fcc50268058cea09a792761accdf637773da036ad0e60cea"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  }
                 ]
               },
               {
@@ -6656,8 +6942,34 @@
                   "0800fc38"
                 ],
                 "retail": [
-                  "93820b3c",
-                  "0800fc1f"
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 74136,
+                      "length": 4,
+                      "sha256": "6891169f8f51447f343e7be858c4e1208c4122b7fe7e75bcf82b5ce13dec0c8f"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 74140,
+                      "length": 4,
+                      "sha256": "f89945116ed7b363fcc50268058cea09a792761accdf637773da036ad0e60cea"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  }
                 ]
               },
               {
@@ -6738,8 +7050,34 @@
                   "1c4000d4"
                 ],
                 "retail": [
-                  "af820144",
-                  "1c4000c9"
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 75468,
+                      "length": 4,
+                      "sha256": "6846d3ffb004470055398236126497c5653e660fb0abbab33fb5f86437f712ae"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 75472,
+                      "length": 4,
+                      "sha256": "460f93d0aecfc0038b30b92044987f935b88cea25e2373f1316275200152be2e"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  }
                 ]
               },
               {
@@ -7020,8 +7358,34 @@
                   "0800fc9d"
                 ],
                 "retail": [
-                  "a3820b3c",
-                  "0800fc7f"
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 75900,
+                      "length": 4,
+                      "sha256": "7773aa7c1388bf3ea877426f2672a7e87c3115cb7f4519e3ae31c4fc97802752"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 75904,
+                      "length": 4,
+                      "sha256": "018a551a795951ce9c44d7823368ed1d90036c9c5e0edce3a72417e11fb1a861"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  }
                 ]
               },
               {
@@ -7725,8 +8089,34 @@
                     "0800fc38"
                   ],
                   "retail": [
-                    "93820b3c",
-                    "0800fc1f"
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 74136,
+                        "length": 4,
+                        "sha256": "6891169f8f51447f343e7be858c4e1208c4122b7fe7e75bcf82b5ce13dec0c8f"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 74140,
+                        "length": 4,
+                        "sha256": "f89945116ed7b363fcc50268058cea09a792761accdf637773da036ad0e60cea"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    }
                   ]
                 },
                 {
@@ -8244,8 +8634,34 @@
                     "0800fc38"
                   ],
                   "retail": [
-                    "93820b3c",
-                    "0800fc1f"
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 74136,
+                        "length": 4,
+                        "sha256": "6891169f8f51447f343e7be858c4e1208c4122b7fe7e75bcf82b5ce13dec0c8f"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 74140,
+                        "length": 4,
+                        "sha256": "f89945116ed7b363fcc50268058cea09a792761accdf637773da036ad0e60cea"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    }
                   ]
                 },
                 {
@@ -8260,8 +8676,34 @@
                     "0800fc38"
                   ],
                   "retail": [
-                    "93820b3c",
-                    "0800fc1f"
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 74136,
+                        "length": 4,
+                        "sha256": "6891169f8f51447f343e7be858c4e1208c4122b7fe7e75bcf82b5ce13dec0c8f"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 74140,
+                        "length": 4,
+                        "sha256": "f89945116ed7b363fcc50268058cea09a792761accdf637773da036ad0e60cea"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    }
                   ]
                 },
                 {
@@ -8342,8 +8784,34 @@
                     "1c4000d4"
                   ],
                   "retail": [
-                    "af820144",
-                    "1c4000c9"
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 75468,
+                        "length": 4,
+                        "sha256": "6846d3ffb004470055398236126497c5653e660fb0abbab33fb5f86437f712ae"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 75472,
+                        "length": 4,
+                        "sha256": "460f93d0aecfc0038b30b92044987f935b88cea25e2373f1316275200152be2e"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    }
                   ]
                 },
                 {
@@ -8624,8 +9092,34 @@
                     "0800fc9d"
                   ],
                   "retail": [
-                    "a3820b3c",
-                    "0800fc7f"
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 75900,
+                        "length": 4,
+                        "sha256": "7773aa7c1388bf3ea877426f2672a7e87c3115cb7f4519e3ae31c4fc97802752"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 75904,
+                        "length": 4,
+                        "sha256": "018a551a795951ce9c44d7823368ed1d90036c9c5e0edce3a72417e11fb1a861"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    }
                   ]
                 },
                 {
@@ -9204,8 +9698,34 @@
                   "ac2214b0"
                 ],
                 "retail": [
-                  "00000000",
-                  "af820b1c"
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 76528,
+                      "length": 4,
+                      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 76532,
+                      "length": 4,
+                      "sha256": "59574a9339f163ad861f00768d70d9fa1a0908eb1a44044415fb1c1a3816620f"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  }
                 ]
               },
               {
@@ -9219,8 +9739,34 @@
                   "ac2214b4"
                 ],
                 "retail": [
-                  "00000000",
-                  "af820b20"
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 76548,
+                      "length": 4,
+                      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 76552,
+                      "length": 4,
+                      "sha256": "326bef53875dd1ddbfb8c47daf618916b0341f6fcb8bd7c5495c2ec7aaa3a837"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  }
                 ]
               }
             ]
@@ -9315,8 +9861,34 @@
                     "ac2214b0"
                   ],
                   "retail": [
-                    "00000000",
-                    "af820b1c"
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 76528,
+                        "length": 4,
+                        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 76532,
+                        "length": 4,
+                        "sha256": "59574a9339f163ad861f00768d70d9fa1a0908eb1a44044415fb1c1a3816620f"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    }
                   ]
                 },
                 {
@@ -9330,8 +9902,34 @@
                     "ac2214b4"
                   ],
                   "retail": [
-                    "00000000",
-                    "af820b20"
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 76548,
+                        "length": 4,
+                        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 76552,
+                        "length": 4,
+                        "sha256": "326bef53875dd1ddbfb8c47daf618916b0341f6fcb8bd7c5495c2ec7aaa3a837"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    }
                   ]
                 }
               ]
@@ -10151,8 +10749,34 @@
                   "0800fd1c"
                 ],
                 "retail": [
-                  "a3820b3c",
-                  "0800fd18"
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 76880,
+                      "length": 4,
+                      "sha256": "7773aa7c1388bf3ea877426f2672a7e87c3115cb7f4519e3ae31c4fc97802752"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 76884,
+                      "length": 4,
+                      "sha256": "86917222be3c663b94d5e92172de0d4554a54f9026a85f952ed65d3227e6915c"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  }
                 ]
               },
               {
@@ -10208,8 +10832,34 @@
                   "0800fcfd"
                 ],
                 "retail": [
-                  "af920abc",
-                  "0800fcfb"
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 76928,
+                      "length": 4,
+                      "sha256": "22766638cd6818cd5a3ddf856011e31ecb1126c3a2493f0ff1574f2fdaec2ce0"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  },
+                  {
+                    "$retail": {
+                      "file": "SLUS_006.14",
+                      "offset": 76932,
+                      "length": 4,
+                      "sha256": "ddde94ed86b82c68b88aa0dd7022f10cf1b1fe8a27d832b85052fcef87cef7b8"
+                    },
+                    "format": {
+                      "kind": "int_hex",
+                      "prefix": "",
+                      "width": 8,
+                      "uppercase": false
+                    }
+                  }
                 ]
               },
               {
@@ -10400,8 +11050,34 @@
                     "0800fd1c"
                   ],
                   "retail": [
-                    "a3820b3c",
-                    "0800fd18"
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 76880,
+                        "length": 4,
+                        "sha256": "7773aa7c1388bf3ea877426f2672a7e87c3115cb7f4519e3ae31c4fc97802752"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 76884,
+                        "length": 4,
+                        "sha256": "86917222be3c663b94d5e92172de0d4554a54f9026a85f952ed65d3227e6915c"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    }
                   ]
                 },
                 {
@@ -10457,8 +11133,34 @@
                     "0800fcfd"
                   ],
                   "retail": [
-                    "af920abc",
-                    "0800fcfb"
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 76928,
+                        "length": 4,
+                        "sha256": "22766638cd6818cd5a3ddf856011e31ecb1126c3a2493f0ff1574f2fdaec2ce0"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    },
+                    {
+                      "$retail": {
+                        "file": "SLUS_006.14",
+                        "offset": 76932,
+                        "length": 4,
+                        "sha256": "ddde94ed86b82c68b88aa0dd7022f10cf1b1fe8a27d832b85052fcef87cef7b8"
+                      },
+                      "format": {
+                        "kind": "int_hex",
+                        "prefix": "",
+                        "width": 8,
+                        "uppercase": false
+                      }
+                    }
                   ]
                 },
                 {

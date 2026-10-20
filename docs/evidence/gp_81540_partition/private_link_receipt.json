@@ -68,7 +68,15 @@
     "retail_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
   },
   "data": {
-    "section": "00000000",
+    "section": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 29,
+        "length": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      "format": "hex"
+    },
     "symbols": [
       {
         "symbol": "D_80081540",
@@ -86,8 +94,24 @@
         ],
         "asset_offset": 2816,
         "vram": 2148013376,
-        "asset_bytes": "00000000",
-        "image_bytes": "00000000"
+        "asset_bytes": {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 29,
+            "length": 4,
+            "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+          },
+          "format": "hex"
+        },
+        "image_bytes": {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 29,
+            "length": 4,
+            "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+          },
+          "format": "hex"
+        }
       }
     ],
     "slot": {

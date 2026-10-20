@@ -57,7 +57,15 @@
       "vma": 2147776388,
       "foff": 110468,
       "map": "slus_load",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 110468,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "source_clients": [
         "src/dungeon/func_80D12E64.c"
       ],
@@ -68,7 +76,15 @@
     "D_80174EA0": {
       "view_bytes": 9,
       "sha256": "6c5a8be8130ca8c7bc856cc53321c0a7728cd45b28492d656588658461abaafc",
-      "bytes_hex": "0c0b0a0b0c0d0e0d11",
+      "bytes_hex": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 1035264,
+          "length": 9,
+          "sha256": "6c5a8be8130ca8c7bc856cc53321c0a7728cd45b28492d656588658461abaafc"
+        },
+        "format": "hex"
+      },
       "sources": [
         "src/dungeon/func_80D12E64.c"
       ],

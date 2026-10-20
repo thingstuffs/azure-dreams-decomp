@@ -158,7 +158,15 @@
       "foff": 70548,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "00140600431302002110a200000082ac",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 70548,
+          "length": 16,
+          "sha256": "0f610f588532ba54cf2447c2fcf8fbfd4c05e26ed058c6adeda561a27f5fec1d"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "0f610f588532ba54cf2447c2fcf8fbfd4c05e26ed058c6adeda561a27f5fec1d",
       "kind": "external_code_entry_view"
     },
@@ -167,7 +175,15 @@
       "foff": 71540,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "c8ffbd272c00b3af219880002800b2af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 71540,
+          "length": 16,
+          "sha256": "947829a8a4189604dca5135da6fe6cf80ddb1ffa37d7826b69ce64e6e44134c0"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "947829a8a4189604dca5135da6fe6cf80ddb1ffa37d7826b69ce64e6e44134c0",
       "kind": "external_code_entry_view"
     },
@@ -176,7 +192,15 @@
       "foff": 78948,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "0180023c14374294e0ffbd271400b1af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 78948,
+          "length": 16,
+          "sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a",
       "kind": "external_code_entry_view"
     },
@@ -185,7 +209,15 @@
       "foff": 79204,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "0180023c14374294e0ffbd271400b1af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 79204,
+          "length": 16,
+          "sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a",
       "kind": "external_code_entry_view"
     },
@@ -194,7 +226,15 @@
       "foff": 98588,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "21388000ffff08242148000021202001",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 98588,
+          "length": 16,
+          "sha256": "40f6255d7ae4fada30b446f687fe666aceabe87ffd6717ae1b737d459e8f3bff"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "40f6255d7ae4fada30b446f687fe666aceabe87ffd6717ae1b737d459e8f3bff",
       "kind": "external_code_entry_view"
     },
@@ -203,7 +243,15 @@
       "foff": 101184,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "e0ffbd271000b0af218080001400b1af",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 101184,
+          "length": 16,
+          "sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2",
       "kind": "external_code_entry_view"
     },
@@ -212,7 +260,15 @@
       "foff": 110776,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "e8ffbd271000b0af1400bfaffd1d010c",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 110776,
+          "length": 16,
+          "sha256": "d9ad27780e8cd7534567007bb5685be652d7b7ad1b3a601909cc7b45b970548d"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "d9ad27780e8cd7534567007bb5685be652d7b7ad1b3a601909cc7b45b970548d",
       "kind": "external_code_entry_view"
     },
@@ -221,7 +277,15 @@
       "foff": 161520,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "01000224050082100400022410008210",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 161520,
+          "length": 16,
+          "sha256": "ffa7d58c6918890cd40a871e8972b304ca4531ac06c6de4b782e33cdddb066e2"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "ffa7d58c6918890cd40a871e8972b304ca4531ac06c6de4b782e33cdddb066e2",
       "kind": "external_code_entry_view"
     },
@@ -230,7 +294,15 @@
       "foff": 229440,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "0000888c0400898c08008a8c0c008b8c",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 229440,
+          "length": 16,
+          "sha256": "a658c4700b52e05019fc5aa201cba0da21b352b6da289f256b393eb2b4123aa0"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "a658c4700b52e05019fc5aa201cba0da21b352b6da289f256b393eb2b4123aa0",
       "kind": "external_code_entry_view"
     },
@@ -239,7 +311,15 @@
       "foff": 229792,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "08800e3c6cbcce8d000000008002c129",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 229792,
+          "length": 16,
+          "sha256": "761a781d4b99c5053e9f7c8afb72f314c13550d9bee4c027f560387988ca1a07"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "761a781d4b99c5053e9f7c8afb72f314c13550d9bee4c027f560387988ca1a07",
       "kind": "external_code_entry_view"
     },
@@ -248,7 +328,15 @@
       "foff": 229952,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "08800e3c6cbcce8d000000000a00c01d",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 229952,
+          "length": 16,
+          "sha256": "0f195d47028adfa7e95901ab6cd84892a518a54aaf584ea9f6068a944d0271ad"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "0f195d47028adfa7e95901ab6cd84892a518a54aaf584ea9f6068a944d0271ad",
       "kind": "external_code_entry_view"
     },
@@ -257,7 +345,15 @@
       "foff": 230112,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "000048480008494800104a4800184b48",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 230112,
+          "length": 16,
+          "sha256": "64568c909e0e74b07aafbdf3895ff7a2db7f13aeb7e491a386915bdc6b6a63b0"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "64568c909e0e74b07aafbdf3895ff7a2db7f13aeb7e491a386915bdc6b6a63b0",
       "kind": "external_code_entry_view"
     },
@@ -266,7 +362,15 @@
       "foff": 230336,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "0000888c0000ab8cffff0931004c0900",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 230336,
+          "length": 16,
+          "sha256": "6653151f0fa1ca409f771977f95229d28812021a5deed8710b9beacd17fd94d1"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "6653151f0fa1ca409f771977f95229d28812021a5deed8710b9beacd17fd94d1",
       "kind": "external_code_entry_view"
     },
@@ -275,7 +379,15 @@
       "foff": 230640,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "0000888c0400898c08008a8c0c008b8c",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 230640,
+          "length": 16,
+          "sha256": "a658c4700b52e05019fc5aa201cba0da21b352b6da289f256b393eb2b4123aa0"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "a658c4700b52e05019fc5aa201cba0da21b352b6da289f256b393eb2b4123aa0",
       "kind": "external_code_entry_view"
     },
@@ -284,7 +396,15 @@
       "foff": 230784,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "1400888c1800898c1c008a8c0028c848",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 230784,
+          "length": 16,
+          "sha256": "a0c070b6f372ef64afdbcd25bcf07ac71050b66a8e7ebc7539b9dba6494910fb"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "a0c070b6f372ef64afdbcd25bcf07ac71050b66a8e7ebc7539b9dba6494910fb",
       "kind": "external_code_entry_view"
     },
@@ -293,7 +413,15 @@
       "foff": 232480,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "000080c8040081c8000000000100184a",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 232480,
+          "length": 16,
+          "sha256": "5ed8b1e3aa5976dc28627d2b9c270d5e667f681bfc289095cf3cb6b034e82a2c"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "5ed8b1e3aa5976dc28627d2b9c270d5e667f681bfc289095cf3cb6b034e82a2c",
       "kind": "external_code_entry_view"
     },
@@ -302,7 +430,15 @@
       "foff": 232848,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "000080c8040081c80000a2c80400a3c8",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 232848,
+          "length": 16,
+          "sha256": "87ed88b13bf767714c5f0905d8ee4bb684c07bba5dc55372d56058cf8e9f69ea"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "87ed88b13bf767714c5f0905d8ee4bb684c07bba5dc55372d56058cf8e9f69ea",
       "kind": "external_code_entry_view"
     },
@@ -311,7 +447,15 @@
       "foff": 233504,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "00008f842110a0000e00e105ff0ff931",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 233504,
+          "length": 16,
+          "sha256": "410b8d9d46120f010b28fa78d6ee54fb3a21e32de662ba326e8bea37c65a200c"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "410b8d9d46120f010b28fa78d6ee54fb3a21e32de662ba326e8bea37c65a200c",
       "kind": "external_code_entry_view"
     },
@@ -320,7 +464,15 @@
       "foff": 236640,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "03008230c01102000300a53040290500",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 236640,
+          "length": 16,
+          "sha256": "5cea361dc5c9f0e81b17f4da7ac9dd92f80e6b513fc85620d27083290f98e663"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "5cea361dc5c9f0e81b17f4da7ac9dd92f80e6b513fc85620d27083290f98e663",
       "kind": "external_code_entry_view"
     },
@@ -329,7 +481,15 @@
       "foff": 243488,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "e0ffbd271000b0af218080002120a000",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 243488,
+          "length": 16,
+          "sha256": "72c09695d62d432399c0316c2277eaa0498b25eeb1baba0d9d58f536b1362cc8"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "72c09695d62d432399c0316c2277eaa0498b25eeb1baba0d9d58f536b1362cc8",
       "kind": "external_code_entry_view"
     },
@@ -338,7 +498,15 @@
       "foff": 251640,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "a0000a24080040012f00092400000000",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 251640,
+          "length": 16,
+          "sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de",
       "kind": "external_code_entry_view"
     },
@@ -347,7 +515,15 @@
       "foff": 786304,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "0180023c14374294e8ffbd2702004230",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 786304,
+          "length": 16,
+          "sha256": "bf39d895f79df6a233839115df30299b60b9797b745388731dd9d2335bc15195"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "bf39d895f79df6a233839115df30299b60b9797b745388731dd9d2335bc15195",
       "kind": "external_code_entry_view"
     },
@@ -356,7 +532,15 @@
       "foff": 881572,
       "map": "dungeon_resident",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "entry_bytes": "d8ffbd271000b0af801f103c3f008230",
+      "entry_bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 881572,
+          "length": 16,
+          "sha256": "34b37c615f56d11896c496c5151034bd8cd189ed845d0fa79c67f9a71ecb2d9d"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "34b37c615f56d11896c496c5151034bd8cd189ed845d0fa79c67f9a71ecb2d9d",
       "kind": "external_code_entry_view"
     },
@@ -365,7 +549,15 @@
       "foff": 251640,
       "map": "slus_load",
       "asset": "baserom/slus_006.14",
-      "entry_bytes": "a0000a24080040012f00092400000000",
+      "entry_bytes": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 251640,
+          "length": 16,
+          "sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de"
+        },
+        "format": "hex"
+      },
       "entry_sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de",
       "kind": "external_code_entry_view"
     }
@@ -374,32 +566,80 @@
   "reviewer": null,
   "retail_views": {
     "D_80025FD0": {
-      "bytes": "c02ce0e01a00cf7d00c04040",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 26814416,
+          "length": 12,
+          "sha256": "8de0d7221e7cf60cebfe75cee76f52a9d71c91655c1363afd1d5748e8099ed2b"
+        },
+        "format": "hex"
+      },
       "sha256": "8de0d7221e7cf60cebfe75cee76f52a9d71c91655c1363afd1d5748e8099ed2b",
       "basis": "Observed view or bounded byte-index table; remains external storage, not native TU allocation."
     },
     "D_80025FDC": {
-      "bytes": "c02ce0e01a00ca7d40804040",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 26814428,
+          "length": 12,
+          "sha256": "f5e5b15d772feca834e43e8a2f134a853b25ddd908814e7a4f95ac33af5fb2ee"
+        },
+        "format": "hex"
+      },
       "sha256": "f5e5b15d772feca834e43e8a2f134a853b25ddd908814e7a4f95ac33af5fb2ee",
       "basis": "Observed view or bounded byte-index table; remains external storage, not native TU allocation."
     },
     "D_80025FE8": {
-      "bytes": "c02cf4f07c00ce7d00001820",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 26814440,
+          "length": 12,
+          "sha256": "387d9227d5dbf76de8ba25451a486ba7ed94d39889c553cd3d216d1d245277d4"
+        },
+        "format": "hex"
+      },
       "sha256": "387d9227d5dbf76de8ba25451a486ba7ed94d39889c553cd3d216d1d245277d4",
       "basis": "Observed view or bounded byte-index table; remains external storage, not native TU allocation."
     },
     "D_80025FF4": {
-      "bytes": "0000",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 26814452,
+          "length": 2,
+          "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+        },
+        "format": "hex"
+      },
       "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
       "basis": "Observed view or bounded byte-index table; remains external storage, not native TU allocation."
     },
     "D_800DDC40": {
-      "bytes": "6036365a3e5c3658385424583654547c5a3a506a34163844406a2c4e42603a463a40542e56542c505a5e604660742020404040404040404040360000150115011501150115011501150115011501150115011501150115011501150115151515151515151515151515151515151515151515151515151515151515150d0e0800001610001413120004111e00140e1400001210001113140000121600141314000812130015120e00001315001911140000120f001312150000141200131219000014100017131600001411001611160000140f001416150000110f001214140000100e00141411000013120013131300000f0e00121212000013100011121200",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 1017056,
+          "length": 256,
+          "sha256": "e87f656039eaab805bc0350ab07962169b8f99a694e76f9de2598b887b3adf2a"
+        },
+        "format": "hex"
+      },
       "sha256": "e87f656039eaab805bc0350ab07962169b8f99a694e76f9de2598b887b3adf2a",
       "basis": "Observed view or bounded byte-index table; remains external storage, not native TU allocation."
     },
     "D_800DECF8": {
-      "bytes": "02000200ece40d80",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 1021336,
+          "length": 8,
+          "sha256": "c120623a8ac980e710242107c43fb34d43fab34c6666a6a07b2efcb9a42d367c"
+        },
+        "format": "hex"
+      },
       "sha256": "c120623a8ac980e710242107c43fb34d43fab34c6666a6a07b2efcb9a42d367c",
       "basis": "Observed view or bounded byte-index table; remains external storage, not native TU allocation."
     }

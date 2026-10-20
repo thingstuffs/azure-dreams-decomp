@@ -428,6 +428,7 @@ def emit_global(slus_script, standalone, banks, symbols=(), noloads=()):
         groups.setdefault(base, []).append((image, size, lines))
     out = ['/* Generated experimental graph projection. No production authority switch. */',
            '/* LMAs are extraction coordinates; file-only VMAs are diagnostic. */',
+           'LD_FEATURE("SANE_EXPR")',
            'OUTPUT_FORMAT("elf32-tradlittlemips")', 'OUTPUT_ARCH(mips)', slus_script,
            *sorted(set(symbols)), 'SECTIONS', '{', *standalone]
     lma = 0x10000000

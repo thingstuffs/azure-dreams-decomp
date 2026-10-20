@@ -274,7 +274,15 @@
     "function_count": 38,
     "code_bytes": 15548,
     "first_frame_data_vma": 2149008656,
-    "first_frame_bytes": "020100010203040307060506070809080c0b0a0b0c0d0e0d11100f101112131216151415161718171b1a191a1b1c1d1c201f1e1f2021222125242324252627262a2928292a2b2c2b2f2e2d2e2f3031303433323334353635",
+    "first_frame_bytes": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 14707984,
+        "length": 88,
+        "sha256": "dbd0be6eb2ac96d3afc969514abe00cb07de80423520b2472d6d2c6fe8b4feb2"
+      },
+      "format": "hex"
+    },
     "head_bytes": 84,
     "head_sha256": "2244b8511bd7a2b12d56b2af5f40bc2cd067636e28a16e29606298873d2d557f"
   },

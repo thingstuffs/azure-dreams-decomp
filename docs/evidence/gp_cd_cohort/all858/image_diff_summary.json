@@ -1,7 +1,20 @@
 {
   "method": "direct byte comparison before accounting for shifted downstream layout",
   "first_different_offset": 29936,
-  "first_different_offset_hex": "0x74F0",
+  "first_different_offset_hex": {
+    "$retail": {
+      "file": "DUNGEON/DUNGEON.BIN",
+      "offset": 23720046,
+      "length": 4,
+      "sha256": "7eb17d77069822803240fa1c16b4590ceeadecba28c0cae0354951935b6a53d9"
+    },
+    "format": {
+      "kind": "int_hex",
+      "prefix": "0x",
+      "width": 4,
+      "uppercase": true
+    }
+  },
   "trial_bytes": 524304,
   "retail_bytes": 524288,
   "trial_minus_retail_bytes": 16,

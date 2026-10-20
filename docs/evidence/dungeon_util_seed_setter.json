@@ -26,7 +26,20 @@
       "caller": "slus/w_8004AB7C",
       "file_offset": 123816,
       "vma": 2147789736,
-      "word": "0c029b66",
+      "word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 123816,
+          "length": 4,
+          "sha256": "a5f1c8e201f1ad116f0b6ea371c69e42cd735f0dd15b2aa1cee386a325d11247"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "target": 2148167064
     }
   ],

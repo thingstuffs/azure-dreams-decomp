@@ -10,8 +10,34 @@
     "area": 12,
     "room": 8,
     "record_ptr": "0x8001c214",
-    "word0": "0x02016000",
-    "word1": "0x000014e5",
+    "word0": {
+      "$retail": {
+        "file": "DUNGEON/DUNGEON.BIN",
+        "offset": 355352,
+        "length": 4,
+        "sha256": "3f1eec92edf955bef188bc049de2c1ca7f2d902a079b774a12fb9140d7abea19"
+      },
+      "format": {
+        "kind": "int_hex",
+        "prefix": "0x",
+        "width": 8,
+        "uppercase": false
+      }
+    },
+    "word1": {
+      "$retail": {
+        "file": "TOWN/TOWN.BIN",
+        "offset": 2824728,
+        "length": 4,
+        "sha256": "beb78411395cb766723a586ad228183edc2103a25aeaf2cbf111b2139f89e770"
+      },
+      "format": {
+        "kind": "int_hex",
+        "prefix": "0x",
+        "width": 8,
+        "uppercase": false
+      }
+    },
     "sectors": 4,
     "dest": "0x80016000",
     "lba": "0x14e5",
@@ -24,232 +50,1467 @@
   "local_jumps": [
     {
       "foff": 4653596,
-      "word": "0x08005896",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4653596,
+          "length": 4,
+          "sha256": "9ce01feec7b959390cde9642c7ef836f320b60aa28943ff05ebe95342438127f"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "target": 2147574360,
       "target_foff": 4653656,
       "target_words": [
-        "0x8FBF001C",
-        "0x8FB20018",
-        "0x8FB10014",
-        "0x8FB00010"
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31192,
+            "length": 4,
+            "sha256": "7bcffbd0f9a5543bc6668d57837bddbfede857bed759123d004b9e6f42bfac0c"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31196,
+            "length": 4,
+            "sha256": "259defdd7d2c7796d30317c0ffbd5a90b9b468270ceef3c8a8de87824ef23bce"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31200,
+            "length": 4,
+            "sha256": "fda344c4ee669018878c11b7531f1cd406a2eac27b46140bd571736c858df658"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31204,
+            "length": 4,
+            "sha256": "cef273a00f37dc86912ac074c5a9c22c6f3465ff74ee7010dd69e951ee31c814"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        }
       ]
     },
     {
       "foff": 4653608,
-      "word": "0x08005896",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4653608,
+          "length": 4,
+          "sha256": "9ce01feec7b959390cde9642c7ef836f320b60aa28943ff05ebe95342438127f"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "target": 2147574360,
       "target_foff": 4653656,
       "target_words": [
-        "0x8FBF001C",
-        "0x8FB20018",
-        "0x8FB10014",
-        "0x8FB00010"
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31192,
+            "length": 4,
+            "sha256": "7bcffbd0f9a5543bc6668d57837bddbfede857bed759123d004b9e6f42bfac0c"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31196,
+            "length": 4,
+            "sha256": "259defdd7d2c7796d30317c0ffbd5a90b9b468270ceef3c8a8de87824ef23bce"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31200,
+            "length": 4,
+            "sha256": "fda344c4ee669018878c11b7531f1cd406a2eac27b46140bd571736c858df658"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31204,
+            "length": 4,
+            "sha256": "cef273a00f37dc86912ac074c5a9c22c6f3465ff74ee7010dd69e951ee31c814"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        }
       ]
     },
     {
       "foff": 4653620,
-      "word": "0x08005896",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4653620,
+          "length": 4,
+          "sha256": "9ce01feec7b959390cde9642c7ef836f320b60aa28943ff05ebe95342438127f"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "target": 2147574360,
       "target_foff": 4653656,
       "target_words": [
-        "0x8FBF001C",
-        "0x8FB20018",
-        "0x8FB10014",
-        "0x8FB00010"
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31192,
+            "length": 4,
+            "sha256": "7bcffbd0f9a5543bc6668d57837bddbfede857bed759123d004b9e6f42bfac0c"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31196,
+            "length": 4,
+            "sha256": "259defdd7d2c7796d30317c0ffbd5a90b9b468270ceef3c8a8de87824ef23bce"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31200,
+            "length": 4,
+            "sha256": "fda344c4ee669018878c11b7531f1cd406a2eac27b46140bd571736c858df658"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31204,
+            "length": 4,
+            "sha256": "cef273a00f37dc86912ac074c5a9c22c6f3465ff74ee7010dd69e951ee31c814"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        }
       ]
     },
     {
       "foff": 4653632,
-      "word": "0x08005896",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4653632,
+          "length": 4,
+          "sha256": "9ce01feec7b959390cde9642c7ef836f320b60aa28943ff05ebe95342438127f"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "target": 2147574360,
       "target_foff": 4653656,
       "target_words": [
-        "0x8FBF001C",
-        "0x8FB20018",
-        "0x8FB10014",
-        "0x8FB00010"
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31192,
+            "length": 4,
+            "sha256": "7bcffbd0f9a5543bc6668d57837bddbfede857bed759123d004b9e6f42bfac0c"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31196,
+            "length": 4,
+            "sha256": "259defdd7d2c7796d30317c0ffbd5a90b9b468270ceef3c8a8de87824ef23bce"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31200,
+            "length": 4,
+            "sha256": "fda344c4ee669018878c11b7531f1cd406a2eac27b46140bd571736c858df658"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31204,
+            "length": 4,
+            "sha256": "cef273a00f37dc86912ac074c5a9c22c6f3465ff74ee7010dd69e951ee31c814"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        }
       ]
     },
     {
       "foff": 4653644,
-      "word": "0x08005896",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4653644,
+          "length": 4,
+          "sha256": "9ce01feec7b959390cde9642c7ef836f320b60aa28943ff05ebe95342438127f"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "target": 2147574360,
       "target_foff": 4653656,
       "target_words": [
-        "0x8FBF001C",
-        "0x8FB20018",
-        "0x8FB10014",
-        "0x8FB00010"
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31192,
+            "length": 4,
+            "sha256": "7bcffbd0f9a5543bc6668d57837bddbfede857bed759123d004b9e6f42bfac0c"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31196,
+            "length": 4,
+            "sha256": "259defdd7d2c7796d30317c0ffbd5a90b9b468270ceef3c8a8de87824ef23bce"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31200,
+            "length": 4,
+            "sha256": "fda344c4ee669018878c11b7531f1cd406a2eac27b46140bd571736c858df658"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 31204,
+            "length": 4,
+            "sha256": "cef273a00f37dc86912ac074c5a9c22c6f3465ff74ee7010dd69e951ee31c814"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        }
       ]
     },
     {
       "foff": 4654588,
-      "word": "0x08005983",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4654588,
+          "length": 4,
+          "sha256": "4773dac2b0b09641b9d814fd8253b66e83dffe7c89552104d6c77af5f09b2815"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": false
+        }
+      },
       "target": 2147575308,
       "target_foff": 4654604,
       "target_words": [
-        "0x9223FFED",
-        "0x24020080",
-        "0x1462FFE5",
-        "0x02002021"
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2813988,
+            "length": 4,
+            "sha256": "b065a91cbb6ce5a4d631d5fb8a9d6c25fa8a77b76a1c45b8cd54a448ce4a5181"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2813992,
+            "length": 4,
+            "sha256": "e1bac797e2fcb9bb8380e2fd15fda66de9a304a4934cc9d2384579bb3722e49d"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2813996,
+            "length": 4,
+            "sha256": "8e2967fb29f153af51c64ec1124433904a433e03a1d275483319186d984321f3"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2814000,
+            "length": 4,
+            "sha256": "d6398cc7da20133e65ad60d53d283e3cf22f50b5a5a3c6fd41e03f6993c21326"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        }
       ]
     },
     {
       "foff": 4654748,
-      "word": "0x080059AD",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4654748,
+          "length": 4,
+          "sha256": "26078b550b9cc23b0427d9d205666b5768c705725d4158be87e8ba3d0fab5405"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": true
+        }
+      },
       "target": 2147575476,
       "target_foff": 4654772,
       "target_words": [
-        "0x0C005CFD",
-        "0x00042403",
-        "0x8FBF0020",
-        "0x8FB3001C"
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4654772,
+            "length": 4,
+            "sha256": "274dadbf9234780bfc14834f5fed114b3dd1582f4578dbb861cb3bcb376ed9cf"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4654776,
+            "length": 4,
+            "sha256": "f5287296a83650f7b444edfec3820e0c30804a80e3b8f6302ea67dcca333787f"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4654780,
+            "length": 4,
+            "sha256": "aa87b674d178693727a9455323698835a54eb982d1809c6d73a45092767b7563"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4654784,
+            "length": 4,
+            "sha256": "009b6e49bff5b3ffd5a16ee4736551ace28f3eb40bb3e2e2ee952a11a6567f62"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        }
       ]
     },
     {
       "foff": 4655384,
-      "word": "0x08005A4D",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4655384,
+          "length": 4,
+          "sha256": "7e84321fdd311830f1c9fe607945a9ea2091eff11b0b9831cccaed97ebd25bc3"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": true
+        }
+      },
       "target": 2147576116,
       "target_foff": 4655412,
       "target_words": [
-        "0x03E00008",
-        "0x01001021",
-        "0x27BDFFE0",
-        "0xAFBF0018"
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2814796,
+            "length": 4,
+            "sha256": "4ea0954debe12aa88cdafc66eb7e57fab8f80d338da3c9a6a15c0efc2687d1fb"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2814800,
+            "length": 4,
+            "sha256": "155ba5887d4007c923785ad4aa25bc09c62ebd39f79adda09a2d50a9e4234525"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2814804,
+            "length": 4,
+            "sha256": "f0b20bc0158003436e3763ca5edb6e4174ca0c77296a4b0a1b30c0546a0bb355"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2814808,
+            "length": 4,
+            "sha256": "fc03ff480e0a202d6b04045af0c06672a8cada652ca4db59e30fffd12f88fb7e"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        }
       ]
     },
     {
       "foff": 4655456,
-      "word": "0x08005A64",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4655456,
+          "length": 4,
+          "sha256": "7bed84140a5bc2f6f299075be1cef834814c67d1b28116991ff736b2deb2e72f"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": true
+        }
+      },
       "target": 2147576208,
       "target_foff": 4655504,
       "target_words": [
-        "0x8FBF0018",
-        "0x8FB10014",
-        "0x8FB00010",
-        "0x27BD0020"
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 93340,
+            "length": 4,
+            "sha256": "6abd40b84adf76013abf6a5136b0fa9dc7ad2ed9a8b9a4e9f8d0672d5ce74d1d"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 93344,
+            "length": 4,
+            "sha256": "fda344c4ee669018878c11b7531f1cd406a2eac27b46140bd571736c858df658"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 93348,
+            "length": 4,
+            "sha256": "cef273a00f37dc86912ac074c5a9c22c6f3465ff74ee7010dd69e951ee31c814"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 93352,
+            "length": 4,
+            "sha256": "6f83eaf1c6b95902fea942b9a420d1ac024e4fd725f9ecf761a5e6880950fed2"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        }
       ]
     },
     {
       "foff": 4655736,
-      "word": "0x08005AAA",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4655736,
+          "length": 4,
+          "sha256": "6977dafd94118315255d3cd6b9d30fa98f9fc5151298db03f71e9fc3a9f2f608"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": true
+        }
+      },
       "target": 2147576488,
       "target_foff": 4655784,
       "target_words": [
-        "0x8FBF0018",
-        "0x8FB10014",
-        "0x8FB00010",
-        "0x27BD0020"
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 93340,
+            "length": 4,
+            "sha256": "6abd40b84adf76013abf6a5136b0fa9dc7ad2ed9a8b9a4e9f8d0672d5ce74d1d"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 93344,
+            "length": 4,
+            "sha256": "fda344c4ee669018878c11b7531f1cd406a2eac27b46140bd571736c858df658"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 93348,
+            "length": 4,
+            "sha256": "cef273a00f37dc86912ac074c5a9c22c6f3465ff74ee7010dd69e951ee31c814"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 93352,
+            "length": 4,
+            "sha256": "6f83eaf1c6b95902fea942b9a420d1ac024e4fd725f9ecf761a5e6880950fed2"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        }
       ]
     },
     {
       "foff": 4656380,
-      "word": "0x08005B4B",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4656380,
+          "length": 4,
+          "sha256": "464199abfebfbc8afac9d922e8d5e6d2932f285b45ea472de4be80813a7738a1"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": true
+        }
+      },
       "target": 2147577132,
       "target_foff": 4656428,
       "target_words": [
-        "0x00521021",
-        "0x84440000",
-        "0x0C005D1B",
-        "0x26310001"
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4656428,
+            "length": 4,
+            "sha256": "5ec3ac09ee606366bd5f6cddab9160463f82127af8c670312d1ac7bb81590261"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4656432,
+            "length": 4,
+            "sha256": "1b93720703d7b584d9a3eeed6367470b2a839cc23fa0dddf7212548e965cfe81"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4656436,
+            "length": 4,
+            "sha256": "bac22938ca04a4f00b99be597b3fd5c97b158ffc78c8c374b8f18e539e0a4e9c"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4656440,
+            "length": 4,
+            "sha256": "5bdf522cea9972a0e8b3854336d7bd1dc26c70d8d0a60258cf71458a7d642ad8"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        }
       ]
     },
     {
       "foff": 4656628,
-      "word": "0x08005B6C",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4656628,
+          "length": 4,
+          "sha256": "4e77eabf99e0a533042d800448481a884b5bb1176176387e86844ae4c0a84072"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": true
+        }
+      },
       "target": 2147577264,
       "target_foff": 4656560,
       "target_words": [
-        "0x8E420010",
-        "0x00118100",
-        "0x02021021",
-        "0x8444000C"
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2815944,
+            "length": 4,
+            "sha256": "81f1c3a90c6983ea63d718bf379bff5574b2c78d71da910547a7026cee1f315a"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2815948,
+            "length": 4,
+            "sha256": "19c167fc2017f7ea049056ba8231aed1d356ef2abafa7bc403f27ea02fc8e1c7"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2815952,
+            "length": 4,
+            "sha256": "fb85e0a7896570a7ca844903803c8e30fc787990643846a68197bcf04c55bedd"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2815956,
+            "length": 4,
+            "sha256": "7e20b6a2547f267646e1be119bb81c018051ef5dd2f225cbb571d04cf73b8f53"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        }
       ]
     },
     {
       "foff": 4656988,
-      "word": "0x08005BE3",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4656988,
+          "length": 4,
+          "sha256": "11dd95fbf19167ab606f26ff65ed7f1145691c11e593127a1dc3f04798232fc8"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": true
+        }
+      },
       "target": 2147577740,
       "target_foff": 4657036,
       "target_words": [
-        "0x26310001",
-        "0x001110C0",
-        "0x00511023",
-        "0x00021080"
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2813432,
+            "length": 4,
+            "sha256": "5bdf522cea9972a0e8b3854336d7bd1dc26c70d8d0a60258cf71458a7d642ad8"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2813436,
+            "length": 4,
+            "sha256": "d2c582acb2bb7f1023bb32c5e0416fd52816ef2d155a2113887907f520d4e9db"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2813440,
+            "length": 4,
+            "sha256": "710eb8c7088f938f71d2a2aff4ff47683d0a0cda9ef6392d26dc001a1de660bb"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2813444,
+            "length": 4,
+            "sha256": "96e366060e7a0827e96e8363b1486276db8d6cae49aff1d4fe5e53046f733016"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        }
       ]
     },
     {
       "foff": 4658108,
-      "word": "0x08005CF6",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4658108,
+          "length": 4,
+          "sha256": "56d109bb92c6997b09c1bbd391a9fca7a1eb70a422dca1f1eca1c07bbffda04b"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": true
+        }
+      },
       "target": 2147578840,
       "target_foff": 4658136,
       "target_words": [
-        "0x90A20000",
-        "0x00000000",
-        "0x1440FFF8",
-        "0x00000000"
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2813128,
+            "length": 4,
+            "sha256": "f6e5fd745f70ff849e94c0ebcfa31b84727df4b3176f54e7f0710a1423e39e9a"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2813132,
+            "length": 4,
+            "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2813136,
+            "length": 4,
+            "sha256": "343c6b94ebbe0d25e8cb5c5f34724d057ab95d599686a109f2f98d507920e1a6"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2813140,
+            "length": 4,
+            "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        }
       ]
     },
     {
       "foff": 4658496,
-      "word": "0x08005D55",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4658496,
+          "length": 4,
+          "sha256": "3bc9fdb0dd3b69d5eed1265eb7ed3abf71e7f26da0c75fadfe32c2316ff36e27"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": true
+        }
+      },
       "target": 2147579220,
       "target_foff": 4658516,
       "target_words": [
-        "0x03E00008",
-        "0x00000000",
-        "0x05220521",
-        "0x00000000"
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658516,
+            "length": 4,
+            "sha256": "4ea0954debe12aa88cdafc66eb7e57fab8f80d338da3c9a6a15c0efc2687d1fb"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658520,
+            "length": 4,
+            "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658524,
+            "length": 4,
+            "sha256": "8b41086fa3307f7d00c71880e1714c9b311e94ab642dd993c18d30ccdc25c54c"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658528,
+            "length": 4,
+            "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        }
       ]
     },
     {
       "foff": 4658504,
-      "word": "0x08005D55",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4658504,
+          "length": 4,
+          "sha256": "3bc9fdb0dd3b69d5eed1265eb7ed3abf71e7f26da0c75fadfe32c2316ff36e27"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": true
+        }
+      },
       "target": 2147579220,
       "target_foff": 4658516,
       "target_words": [
-        "0x03E00008",
-        "0x00000000",
-        "0x05220521",
-        "0x00000000"
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658516,
+            "length": 4,
+            "sha256": "4ea0954debe12aa88cdafc66eb7e57fab8f80d338da3c9a6a15c0efc2687d1fb"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658520,
+            "length": 4,
+            "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658524,
+            "length": 4,
+            "sha256": "8b41086fa3307f7d00c71880e1714c9b311e94ab642dd993c18d30ccdc25c54c"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658528,
+            "length": 4,
+            "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        }
       ]
     }
   ],
   "shared_epilogue_anchors": [
     {
       "foff": 4655384,
-      "word": "0x08005A4D",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4655384,
+          "length": 4,
+          "sha256": "7e84321fdd311830f1c9fe607945a9ea2091eff11b0b9831cccaed97ebd25bc3"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": true
+        }
+      },
       "target": 2147576116,
       "target_foff": 4655412,
       "target_words": [
-        "0x03E00008",
-        "0x01001021",
-        "0x27BDFFE0",
-        "0xAFBF0018"
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2814796,
+            "length": 4,
+            "sha256": "4ea0954debe12aa88cdafc66eb7e57fab8f80d338da3c9a6a15c0efc2687d1fb"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2814800,
+            "length": 4,
+            "sha256": "155ba5887d4007c923785ad4aa25bc09c62ebd39f79adda09a2d50a9e4234525"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2814804,
+            "length": 4,
+            "sha256": "f0b20bc0158003436e3763ca5edb6e4174ca0c77296a4b0a1b30c0546a0bb355"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 2814808,
+            "length": 4,
+            "sha256": "fc03ff480e0a202d6b04045af0c06672a8cada652ca4db59e30fffd12f88fb7e"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        }
       ]
     },
     {
       "foff": 4658496,
-      "word": "0x08005D55",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4658496,
+          "length": 4,
+          "sha256": "3bc9fdb0dd3b69d5eed1265eb7ed3abf71e7f26da0c75fadfe32c2316ff36e27"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": true
+        }
+      },
       "target": 2147579220,
       "target_foff": 4658516,
       "target_words": [
-        "0x03E00008",
-        "0x00000000",
-        "0x05220521",
-        "0x00000000"
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658516,
+            "length": 4,
+            "sha256": "4ea0954debe12aa88cdafc66eb7e57fab8f80d338da3c9a6a15c0efc2687d1fb"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658520,
+            "length": 4,
+            "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658524,
+            "length": 4,
+            "sha256": "8b41086fa3307f7d00c71880e1714c9b311e94ab642dd993c18d30ccdc25c54c"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658528,
+            "length": 4,
+            "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        }
       ]
     },
     {
       "foff": 4658504,
-      "word": "0x08005D55",
+      "word": {
+        "$retail": {
+          "file": "TOWN/TOWN.BIN",
+          "offset": 4658504,
+          "length": 4,
+          "sha256": "3bc9fdb0dd3b69d5eed1265eb7ed3abf71e7f26da0c75fadfe32c2316ff36e27"
+        },
+        "format": {
+          "kind": "int_hex",
+          "prefix": "0x",
+          "width": 8,
+          "uppercase": true
+        }
+      },
       "target": 2147579220,
       "target_foff": 4658516,
       "target_words": [
-        "0x03E00008",
-        "0x00000000",
-        "0x05220521",
-        "0x00000000"
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658516,
+            "length": 4,
+            "sha256": "4ea0954debe12aa88cdafc66eb7e57fab8f80d338da3c9a6a15c0efc2687d1fb"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": true
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658520,
+            "length": 4,
+            "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658524,
+            "length": 4,
+            "sha256": "8b41086fa3307f7d00c71880e1714c9b311e94ab642dd993c18d30ccdc25c54c"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        },
+        {
+          "$retail": {
+            "file": "TOWN/TOWN.BIN",
+            "offset": 4658528,
+            "length": 4,
+            "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+          },
+          "format": {
+            "kind": "int_hex",
+            "prefix": "0x",
+            "width": 8,
+            "uppercase": false
+          }
+        }
       ]
     }
   ],

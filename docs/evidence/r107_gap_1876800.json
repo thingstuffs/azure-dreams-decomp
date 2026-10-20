@@ -9,7 +9,15 @@
     "size": 27813888,
     "directory_lba": 12309,
     "record_offset": 96,
-    "record_hex": "3c0016300000000030160068a80101a86800620306111f0424000000010000010d44554e47454f4e2e42494e3b31000000000d555841000000000000"
+    "record_hex": {
+      "$retail": {
+        "file": "DUNGEON/",
+        "offset": 96,
+        "length": 60,
+        "sha256": "1b0e70dbbcf57e41f63bc6e0c9b37fbc6bd831a047aeb6f393135fa166852728"
+      },
+      "format": "hex"
+    }
   },
   "lba": "0x6103",
   "load_span": [
@@ -54,22 +62,100 @@
       "differences": [
         {
           "offset": 144,
-          "target_word": "0x8009269",
-          "template_word": "0x8009376",
+          "target_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 25653472,
+              "length": 4,
+              "sha256": "ac969e19346557274f4b39346d944fd66d0739e25162002ccecba0e43dd84e74"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
+          "template_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 25580820,
+              "length": 4,
+              "sha256": "ad34829903e8f35c7800dd84029045d26b3e0b808f293bef5520db4cf697f41a"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target": "0x800249a4",
           "template_target": "0x80024dd8"
         },
         {
           "offset": 204,
-          "target_word": "0x8009269",
-          "template_word": "0x8009376",
+          "target_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 25653472,
+              "length": 4,
+              "sha256": "ac969e19346557274f4b39346d944fd66d0739e25162002ccecba0e43dd84e74"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
+          "template_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 25580820,
+              "length": 4,
+              "sha256": "ad34829903e8f35c7800dd84029045d26b3e0b808f293bef5520db4cf697f41a"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target": "0x800249a4",
           "template_target": "0x80024dd8"
         },
         {
           "offset": 304,
-          "target_word": "0x8009269",
-          "template_word": "0x8009376",
+          "target_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 25653472,
+              "length": 4,
+              "sha256": "ac969e19346557274f4b39346d944fd66d0739e25162002ccecba0e43dd84e74"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
+          "template_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 25580820,
+              "length": 4,
+              "sha256": "ad34829903e8f35c7800dd84029045d26b3e0b808f293bef5520db4cf697f41a"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 7,
+              "uppercase": false
+            }
+          },
           "target": "0x800249a4",
           "template_target": "0x80024dd8"
         }
@@ -79,18 +165,70 @@
         {
           "row": "dungeon/func_81856800",
           "lui_foff": "0x1876898",
-          "lui_word": "0x3c088002",
+          "lui_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 25355764,
+              "length": 4,
+              "sha256": "478ea778c6b907ff8fa5505d4c3372be0ae4ba89555a9309cf5b3504aa3074b2"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
           "lo_foff": "0x187689c",
-          "lo_word": "0x25084850",
+          "lo_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 25651356,
+              "length": 4,
+              "sha256": "b193a78927db8332ff0c8a05e2388c4df649e636efcc78a8a9ca91e838447bd4"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
           "constructed": "0x80024850",
           "basis": "Explicit local address construction; no control-flow execution claim."
         },
         {
           "row": "dungeon/func_81856800",
           "lui_foff": "0x1876ec8",
-          "lui_word": "0x3c028002",
+          "lui_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 703252,
+              "length": 4,
+              "sha256": "ec0a2c66538f99079402a8d86be82ecf5570a15abab3a400c081f90505943c9e"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
           "lo_foff": "0x1876ed0",
-          "lo_word": "0x24424850",
+          "lo_word": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 10105488,
+              "length": 4,
+              "sha256": "5373134a546d2badd14aa7626b0e19d2e32ce814797d7246edad8d42f6d7eac8"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
           "constructed": "0x80024850",
           "basis": "Explicit local address construction; no control-flow execution claim."
         }

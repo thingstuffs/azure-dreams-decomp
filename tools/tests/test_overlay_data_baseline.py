@@ -54,6 +54,22 @@ class RegisteredWindow(unittest.TestCase):
     def test_uses_production_match_with_candidate_source(self):
         cfg,sb,family,seg=D._segment(self.row,Path('candidate.c'),self.gate)
         self.assertEqual((family,seg.match.source),('dungeon',Path('candidate.c')))
+    def test_canonical_readable_source_keeps_registered_placement_identity(self):
+        self.row['func']='func_80000008';self.gate.split['func_vram']=self.row['func']
+        with tempfile.TemporaryDirectory() as td:
+            source=Path(td)/'readable_name.c';source.write_text('void readable_name(void) {}\n')
+            production=Path(td)/'func_80000008.c';production.symlink_to(source)
+            self.gate.match=dataclasses.replace(self.gate.match,source=production)
+            _,_,_,seg=D._segment(self.row,source.resolve(),self.gate)
+            self.assertEqual(seg.match.source,production)
+            self.assertEqual(seg.match.source.stem,self.row['func'])
+    def test_identical_candidate_copy_still_substitutes_its_own_file(self):
+        with tempfile.TemporaryDirectory() as td:
+            production=Path(td)/'func_80000008.c';production.write_text('int value;\n')
+            candidate=Path(td)/'candidate.c';candidate.write_bytes(production.read_bytes())
+            self.gate.match=dataclasses.replace(self.gate.match,source=production)
+            _,_,_,seg=D._segment(self.row,candidate.resolve(),self.gate)
+            self.assertEqual(seg.match.source,candidate.resolve())
     def test_missing_window(self):
         self.row['gate_config']=None
         with self.assertRaisesRegex(ValueError,'production window'):D._segment(self.row,Path('x'),self.gate)
@@ -91,6 +107,29 @@ class WorkerIsolation(unittest.TestCase):
         result=types.SimpleNamespace(returncode=1,stdout='',stderr='compile failed')
         with patch.object(D.subprocess,'run',return_value=result):
             self.assertFalse(D.measure_object_row({},Path('x.c'),Path('view'))['exact'])
+
+class PlacementLinkBase(unittest.TestCase):
+    def setUp(self):
+        self.row=dict(id='dungeon/func_81000008',foff=8,size=4,true_name='func_80100008')
+        self.seg=types.SimpleNamespace(vram=0x80100008,match=types.SimpleNamespace(link_vram=None))
+        self.gate=types.SimpleNamespace(ROOT=Path('view'))
+        self.entry=dict(row=self.row['id'],home='dungeon/func_81000004',size=4,vma=self.seg.vram)
+    def link_base(self,entry):
+        with patch.dict(sys.modules,linklist=types.SimpleNamespace(placement=lambda *a,**kw:entry)):
+            return D.text_link_base(self.row,self.seg,self.gate,'dungeon')
+    def test_legacy_placement_uses_its_exact_production_window_address(self):
+        self.assertEqual(self.link_base(self.entry),self.seg.vram)
+        self.assertIsNone(self.seg.match.link_vram)
+    def test_wrong_extent_address_and_true_name_refused(self):
+        for field,value in [('size',8),('vma',0x8010000C),('home',self.row['id'])]:
+            with self.assertRaises(ValueError):self.link_base(dict(self.entry,**{field:value}))
+        self.row['true_name']='func_8010000C'
+        with self.assertRaises(ValueError):self.link_base(self.entry)
+    def test_ordinary_unproven_row_still_refused(self):
+        with self.assertRaises(ValueError):self.link_base(None)
+    def test_proven_rowbase_remains_authority(self):
+        self.seg.match.link_vram=0x80100004
+        self.assertEqual(self.link_base(None),0x80100004)
 
 class DispatchAndAppend(unittest.TestCase):
     def test_data_only_preserves_existing_non_exact_text_baseline(self):

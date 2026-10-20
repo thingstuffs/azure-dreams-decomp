@@ -9,7 +9,15 @@
   "owned_data": {
     "symbol": "D_800814E0",
     "section": ".sdata",
-    "bytes": "00000000",
+    "bytes": {
+      "$retail": {
+        "file": "SLUS_006.14",
+        "offset": 8,
+        "length": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      "format": "hex"
+    },
     "object_offset": 0,
     "object_binding": "global",
     "linked_vram": "800814e0",

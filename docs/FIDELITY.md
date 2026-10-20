@@ -1,189 +1,54 @@
-# Fidelity debt: what is mechanical, measured (2026-09-08)
+# Fidelity limitations
 
-The baseline audit (`config/decomp_audit_baseline.json`, byte-derived at the pin) lists 3,018
-LABEL_AS_CALL and 809 PASSTHRU_NO_ARGS sites, the two classes the plan calls blocking (L1 requires
-none). Both were measured on this tree through the window gate before anything was built:
-`work/exp_lac/REPORT.md`, `work/exp_passthru/REPORT.md`.
+Matching bytes and recovering natural source are separate goals. A function
+can match while relying on register pins, pseudo-calls, assembler rewrites or
+a model of an unavailable compiler. The [quality levels](PLAN.md) and
+[generated status](../STATUS.md) keep these dependencies visible.
 
-## What the classes are
+## What to examine
 
-- **LABEL_AS_CALL**: the C "calls" a pseudo-function that is a label, almost always the function's
-  own tail (with true-space names 1,390 epilogue sites and 1,554 mid-row sites lie inside their
-  row; only 88 target another row). m2c spelled the retail `j` as a call declared noreturn.
-- **PASSTHRU_NO_ARGS**: `f()` written with no arguments while the caller still holds argument
-  registers live at the call site (the audit's `need`): a caller-side label of which of a0-a3
-  still carry their entry value, not a claim about what the callee reads -- `need` varies between
-  sites of one callee inside one caller, so it cannot be callee-derived. Byte-exact, semantically
-  silent. A site whose callee is defined `(void)` in the tree and whose row verifies byte-exact is
-  not a fidelity site (owner ruling 2026-09-22, `tools/census.py:void_exact_targets`,
-  docs/L0_BLOCKED_PLAN_20260922.md sec 5).  The same exemption reaches a callee the tree never
-  defines (library / other-module code) through `config/void_callees.txt`
-  (`tools/census.py:declared_void_callees`), which lists only symbols whose **retail instructions**
-  were read and show no `a0`-`a3` read before a write -- or, for one symbol whose image is not on
-  the disc, every retail **call site** instead (tier B in that file); the per-symbol evidence, including how each
-  address was located from the row's rowbase delta, is `docs/evidence/void_callees_20260922.md`.
+| Residue | Question to resolve |
+|---|---|
+| Register, keep or scheduling pin | Which real source lifetime, dependency or declaration explains the required emission? |
+| Call spelling used for a jump | Is it a real call, an inter-image transfer or a mis-split block inside one function? |
+| Empty argument list | Which argument registers does the callee actually read? Caller-side register liveness alone is not a signature. |
+| Address/page constant | Is the declared storage, compiler recipe and aggregate base supported by retail address formation? |
+| Assembler compatibility pass | Does genuine ASPSX produce this expansion, or is the pass compensating for source/compiler differences? |
+| Computed goto, inline assembly or `NON_MATCHING` | What behavior remains to be reconstructed in ordinary C? |
 
-## Measured (20 rows each, window gate)
+Do not add unused computations or false prototypes just to influence register
+allocation. A successful scorer result does not prove the inferred signature
+or storage owner. Preserve measured limitations until a supported replacement
+passes the relevant retail gate.
 
-| class / shape | pass | mechanism |
-|---|---:|---|
-| PASSTHRU_NO_ARGS, caller's own parameters | 13/20 (65 %) | `f(arg0..argK)` + prototype; predictor = filler positions the callee never reads (≤1: 11/12; ≥2: 2/8); the per-row scorer agreed with the gate 20/20 |
-| LABEL_AS_CALL mid-row (B1) | 8/10 | `if (c) { A; tail(); return; } B; T` → `if (c) { A' } else { B' } T`, rejoining at the shared tail; needs a reader for the data flow (merged locals), one row needed a local widened; scorer agreed with the gate 24/24 (`linked-target` class catches the wrong-target case) |
-| LABEL_AS_CALL epilogue (A1) | 2/10 | `return;` fails three ways: retail's `j` carries a filled delay slot gcc's own epilogue jump does not get (row grows a word), frameless rows get an inline `jr ra`, and one row's honest fix is deleting the statement (fall into the tail). Not mechanical. |
+## Compiler and assembler evidence
 
-## Built and landed
+`ledger/split_fingerprint_rows.jsonl` records compiler address-formation evidence;
+`ledger/maspsx_dependence.jsonl` records compatibility dependencies. The evaluator
+distinguishes source-driven imitation (an L4 blocker) from an accepted model of
+an unavailable historical compiler (an L5 blocker). These are not permissions
+to call all exact rows fully reconstructed.
 
-- `tools/xform/t8_passthru.py` (sweep `t8_passthru`): the local rule exactly as measured, plus one
-  relocation rule (a prototype naming a type typedef'd below it moves before the definition).
-  Eligibility: one audited site per file, the caller declares the needed parameters and does not
-  reassign them. Dry run 109 exact of 129 eligible; the sweep landed **109 rows**, every touched
-  window re-gated byte-identical (46/46), SLUS gate MATCH. The other 680 sites need argument
-  values the caller does not hold in its own parameters (174 rows), share a file with other
-  sites (341), or are ordinal-ambiguous (162): reader work.
-- **`tools/xform/t8c_passthru_joint.py`** (sweep `t8c_passthru_joint`), the same rule applied
-  **jointly** to every PASSTHRU_NO_ARGS site of a row at once — one argument list and one
-  prototype per distinct target (K = the highest `need` index over all of that target's sites, so
-  the rewrite does not depend on which call is which ordinal), the caller's parameter list
-  extended once, parsing on a comment-blanked copy of the text. Built because t8/t8b refuse every
-  multi-site row, so no candidate had ever been offered on the 122 rows of
-  `docs/L0_BLOCKED_PLAN_20260922.md` (PT-C1/PT-C2). Measured 2026-09-22: **89 of 89 PT-C1 rows
-  (47,376 B) plan cleanly, 89 candidates verified, 0 exact, 0 landed.** The residue is not a near
-  miss — hold-set 59 rows, li-expansion 28, addressing 1, length-drift 1, aligned distance 18–126
-  (median 70) where the current text scores 0 — and every diff shows one mechanism: the sites of a
-  target are separated by a call, so the caller must hold its incoming `a0..a3` in saved registers
-  to pass them again; the frame grows (−48/−40, −72/−56 on the hold-set rows, −40/−24 with four
-  saved registers against retail's none on the li-expansion ones) and the prologue gains `sw sN` /
-  `move sN,aM` pairs retail does not have — the two class names are the same move, scored where
-  the drift lands. That is structural: a second pass-through of the *same*
-  incoming registers can never be free, with or without the parameter widening (the three rows
-  that need no widening fail the same way). Behind it sits a measurement question, not a source
-  shape: the hub targets of the class — `func_800A6D30` (190 grandfathered sites), `func_800990FC`
-  (28), `func_800352FC`, `func_800A6508` — are each defined `(void)` in the tree and verify exact
-  (the three overlay rows at scorer total 0, the SLUS row by object identity), so they read no
-  argument at all and their `need` cannot be an input. The caller side says the same: the `need`
-  varies **between sites of one callee inside one caller** (`town/func_800C0840`:
-  `func_800352FC` as `a3,a2,a1 / a3,a2 / a3,a2 / a3`), which a callee-derived need never would.
-  Size of the artefact, over all 295 evidence rows: **155 rows / 90,780 B** have every live
-  pass-through site on a callee defined `(void)` in the tree (123 rows / 78,672 B on the four
-  verified above), against **8 rows / 5,384 B** whose callee really declares parameters — and it
-  runs through every sub-class, PT-A3 23 of 32, PT-C2 23 of 28, PT-D 7 of 8, so the model lanes
-  built on those sub-classes are chasing the same phantom. PT-C2 (the 16 rows outside the
-  `l0_pt_ord1` lane) reaches no candidate: 12 refuse because an earlier pass already gave the same
-  target a call of another arity in the same file (`func_800A6D30(obj)` beside `func_800A6D30()`),
-  4 because the target is called empty-paren more often than the audit lists sites.
-- The fidelity census is now **live**: `tools/census.py::live_audit` keeps a baseline site only
-  while the current text still spells it (a `target(` call, an asm-aliased call, an empty-paren
-  call for PASSTHRU_NO_ARGS); `levels.py` and STATUS use it, so a removed site stops blocking
-  the row. Twenty rows turned out to have been structured already at the pin (the byte-derived
-  audit still lists their `j`); they are no longer counted.
+The [compiler investigation](evidence/fidelity_lost_compiler_case.md) explains
+the accepted model and the evidence limits. The
+[small-data production transition](evidence/gp_partition_only/production_transition/README.md)
+records the completed correction that superseded earlier pending plans.
+Neither result proves that every remaining compatibility pass can be removed.
 
-## Classification through the shipped toolchain (2026-09-08, `work/exp_psyq/REPORT.md`)
+Genuine-assembler measurements require the contributor's own Psy-Q installation;
+the current module proof uses the pinned version documented in
+[TOOLCHAIN_PSYQ.md](TOOLCHAIN_PSYQ.md). Historical investigations of other
+assembler versions are evidence, not additional setup requirements.
 
-The genuine Psy-Q levels 4.0–4.6 (CC1PSX.EXE + ASPSX.EXE under wibo) are on this box, so the
-question "what does a pin stand for" was measured instead of argued:
+## Tail transfers and split audits
 
-- **gcc-facing pins → source shape.** 15/15 rows with load-bearing pins: the shipped SN cc1 and
-  the decompals rebuild are byte-identical with the pins and byte-identical without them (same
-  words wrong at the same positions). No compiler difference hides under any pin.
-- **maspsx markers → source shape too.** Genuine ASPSX (2.56/2.67/2.79/2.86) never fills a
-  branch or jump delay slot from a neighbouring instruction (always `nop`), on hand-written
-  assembly and on genuine cc1 output alike; the fills the markers encode can only come from
-  cc1's delay-branch pass on a different source shape. 0/12 marker rows match through the genuine
-  pipeline with the markers no-op'd.
-- **The noreturn tail-call spelling has no producer in the shipped toolchain.** Genuine cc1
-  emits `jal` for a `__attribute__((noreturn))` call and genuine ASPSX leaves it; maspsx's
-  `jal`→`j` conversion and frame elision are ours. 9/12 rows diverge by up to six words for that
-  reason alone. This is the same population as the intra-row label-as-call sites, and the reason
-  the mid-row `if/else` rewrite works (the real source jumped to a shared block inside the
-  function and gcc filled the slot itself).
+A jump to an address-named symbol does not automatically prove a separate
+function. `ledger/split_audit.jsonl` records the reviewed boundary. Unresolved
+or intra-function pseudo-call dependencies block L3. L4 requires no remaining
+tail-jump scaffolding. A byte-verified real `jal` with no assembler rewrite may
+be counted as a real call when its audit supports that conclusion.
 
-Consequence (in `docs/PLAN.md`): pins, markers and the tail-call spelling are one class of
-scaffolding debt with one remedy — find the shape, prove it through the window gate, delete the
-scaffolding — attempted at L1 (mechanical sweeps), by every L3 lane (`tools/agent_task.py`
-journals pins/sites before and after) and in a dedicated L5 pass; `STATUS.md` carries the two
-new shape lines (tail-call spelling, marker pins). The end state retires maspsx's tail-jump and
-frame-elision passes.
-
-**The check, since 2026-09-22 evening:** the owner's ruling that a retail `j` to a "function" symbol may mean the
-row was split wrong (never rewritten by official ASPSX) is now enforced by a level, not just a pin: `tools/levels.py`
-requires every tail-jump dependency (a noreturn pseudo-call, or a call to a `config/sibcall_syms*.txt`/
-`noreturn_syms*.txt` symbol) to carry a `ledger/split_audit.jsonl` record before a row can reach L3, and none at all
-before L4 — `docs/PIN_CAMPAIGN_CHARTER.md`'s "Rulings 2026-09-22 (evening)" section has the exact rule.
-
-## Pins: what a shape search finds (2026-09-08, `work/exp_pins/REPORT.md`)
-
-20 rows, 29 load-bearing sites, 205 scorer probes, window-gated: **4 rows (5 sites) pin-free,
-0 pin-reduced, 16 unchanged**. The census class predicts tractability: `reg-rename` 3/4 rows,
-`length-drift` 1/4, `addressing` / `block-order` / `code-motion` / `reorder-only` 0/3 each. The
-four shapes that worked: a reassigned parameter used as a loop counter moved into a fresh local;
-one reused local split into two; an inner-block declaration hoisted to function scope; a loop
-increment sunk to the end of the loop body (a barrier). What never worked, and is dropped from
-any menu: declaration-order permutation (0/9), explicit temporaries (0/9), statement reorder
-other than the increment sink (0/13), polarity flips (0/8). Three mechanisms explain 14 of the
-16 failures — cse deleting a copy retail keeps, a dead value retail parks in a delay slot, a
-fence position no statement boundary reproduces — none reached from C within the budget. A
-transform for the tractable class, `tools/xform/t9_regpins.py`, is built from those four shapes.
-Astra's lanes now attempt removal on every refined row and journal the counts (first 16 rows:
-10 pins removed).
-
-## Lanes and transforms landed (2026-09-08, later)
-
-- **Epilogue (A1) pilot, 15/15** (`work/lac_lane/epi_pilot/`, Opus): the mechanism behind the earlier
-  2/10 is gcc ≥ 2.8.0 collapsing a jump-to-return into an inline `jr ra` when the function is
-  frameless (frame 0, no ra save); the 2.7.2 family keeps the jump in every shape. Framed rows and
-  2.7.2-family rows take `return;` / `return N;` / `return call(...)` or the deleted statement; a
-  frameless row pinned to a 2.8.x cell is byte-exact from pin-free C at a 2.7.2-family cell — its
-  pinned cell was an artefact of the label-as-call spelling (our assembler front end elided the
-  frame, so the config search never saw the contradiction). 15 rows landed (13 as-is, 2 with the
-  cell corrected: `common.set_row_cfg`, recorded in the split table as `config_was`); the sweep
-  now accepts a stock-cell correction from a plugin (`verify_fn(cand, cfg=...)`, `info["cfg"]`).
-  The audit's `v0=imm:N` is unreliable (two rows are void).
-- **`tools/xform/t10_epilogue.py`** (sweep `t10_epilogue`), built from that recipe: menu per site
-  drop-before-return → `return;` → `return N;` → `return <preceding expression>;` → fall into the
-  tail → the same C at a 2.7.2-family cell for frameless 2.8.x rows. Dry run and sweep agree:
-  **453 rows applied, 979 of 1,418 epilogue sites removed, 13 rows with the cell corrected (all to
-  2.7.2-cdk / 2.7.2-cdk-G0)**, 342 touched windows byte-identical, SLUS gate MATCH. Refusals: 133
-  rows with no exact candidate (large rows whose residue is other scaffolding — re-run after pin
-  work), 36 whose target is no longer spelled, 12 with the target outside the row, 12 inside
-  `#ifndef NON_MATCHING`. The old `t3_epilogue` plugin is retired (its in-row test used the wrong
-  address space and matched no row).
-- **Mid-row (B1) pilot, 10/15** (`work/lac_lane/pilot/`, Sonnet): the if/else rejoin, with the
-  split point found from the target address minus the row's true address. Failures: two rows
-  without a rowbase record (the gate links the new jump at the synthetic base — a data fix under
-  `config/overlays/*.rowbase.jsonl`), two where retail keeps a redundant `j` to the next
-  instruction that gcc eliminates, one delay-slot dead value. 10 rows landed through
-  `tools/apply_candidates.py` (journal `t11_midrow`).
-- **Register pins, `tools/xform/t9_regpins.py`** (sweep `t9_regpins`): the four shapes from the
-  experiment, gated on the T2 journal (the live text is what T2 left, not the census's original).
-  Live tractable class: 91 rows (every live pin colouring-only); 8 rows changed (7 pin-free, 1
-  reduced), 11 pins removed. The tractable seam is small; the bulk of the 13,600 load-bearing
-  pins needs a reader per row (the lanes now attempt it).
-
-## Markers after the tail calls are gone (2026-09-08)
-
-With the tail-call spelling removed from 453 rows, the dead-pin erasure (`t2_pins`) was re-run
-on every row the burn-down changed (592 rows): 57 rows lost 72 gcc-facing pins (KEEP 26,
-SCHED_BARRIER 24, REG 17, ...), all re-gated byte-identical, but **no marker pin became dead**:
-on the 73 changed rows that still carry `ASM_TAILSLOT_PIN` / `_TIED` / `ASM_PAGEBASE_PIN`, every
-marker erasure broke the delay slot (census class `delay-slot`). Read with the Psy-Q result
-(genuine ASPSX fills no slot; gcc's own delay-branch pass does), the markers now stand purely for
-the source shape that made gcc park that value in the slot of its own `j` — the same kind of
-debt as `ASM_KEEP`, and reader work per row (the L3 lanes attempt it; a shape menu for it needs
-a pilot of its own).
-
-## Next
-
-- **Mid-row rows:** the reader lane (Sonnet, `work/lac_lane/<batch>/rows.tsv` + the brief in the
-  pilot report) runs at 10–13 of 15 per batch; three batches landed 36 rows (journal
-  `t11_midrow`). Left: ~105 single-site rows with a proven rowbase region, 15 without one
-  (add the `config/overlays/*.rowbase.jsonl` record first — the gate links a new jump at the
-  synthetic base otherwise), then the multi-site and mixed rows (about 380). Dead ends the lane
-  should skip: a retail `j` to the next instruction; a dead value retail parks in the jump's
-  delay slot (needs the marker shape).
-- **Epilogue rows:** 133 refusals are large rows whose residue is other scaffolding; re-run
-  `t10_epilogue` after each pin pass. 36 rows spell the target some other way (asm alias): a
-  small extension of the plugin.
-- **Pins and markers:** `t9_regpins` covers the colouring-only seam; everything else is a reader
-  per row — the L3 lanes attempt it on every refined row (journal `pins_in/out`), and a dedicated
-  L5 pass with a marker pilot (the delay-slot shape) is the next experiment.
-- `INCLUDE_ASM` plumbing cleanup after the above (no C row uses it).
+For a proposed repair, state the source mechanism, compile at the evidenced
+recipe, compare the affected object/retail bytes and run its window or image
+gate. Recheck shared TU siblings and placements. Current residue fields and
+status supply the counts; historical pilot yields are not current coverage.

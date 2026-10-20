@@ -22,7 +22,15 @@
     "konami_runtime_gp_count": {
       "section": ".sdata",
       "size": 4,
-      "bytes": "00000000",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 29,
+          "length": 4,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        "format": "hex"
+      },
       "symbols": [
         {
           "symbol": "D_80081460",
@@ -30,7 +38,15 @@
           "offset": 2592,
           "size": 4,
           "vram": 2148013152,
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "section": ".sdata",
           "object_offset": 0,
           "linked_kind": "T"
@@ -40,7 +56,15 @@
     "gp_shared_slots": {
       "section": ".sdata",
       "size": 16,
-      "bytes": "00000000000000000000000000000000",
+      "bytes": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 77,
+          "length": 16,
+          "sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb"
+        },
+        "format": "hex"
+      },
       "symbols": [
         {
           "symbol": "D_80080AA4",
@@ -48,7 +72,15 @@
           "offset": 100,
           "size": 2,
           "vram": 2148010660,
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "section": ".sdata",
           "object_offset": 0,
           "linked_kind": "T"
@@ -59,7 +91,15 @@
           "offset": 102,
           "size": 2,
           "vram": 2148010662,
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "section": ".sdata",
           "object_offset": 2,
           "linked_kind": "T"
@@ -70,7 +110,15 @@
           "offset": 104,
           "size": 2,
           "vram": 2148010664,
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "section": ".sdata",
           "object_offset": 4,
           "linked_kind": "T"
@@ -81,7 +129,15 @@
           "offset": 106,
           "size": 2,
           "vram": 2148010666,
-          "bytes": "0000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 6,
+              "length": 2,
+              "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+            },
+            "format": "hex"
+          },
           "section": ".sdata",
           "object_offset": 6,
           "linked_kind": "T"
@@ -92,7 +148,15 @@
           "offset": 108,
           "size": 4,
           "vram": 2148010668,
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "section": ".sdata",
           "object_offset": 8,
           "linked_kind": "T"
@@ -103,7 +167,15 @@
           "offset": 112,
           "size": 4,
           "vram": 2148010672,
-          "bytes": "00000000",
+          "bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "section": ".sdata",
           "object_offset": 12,
           "linked_kind": "T"

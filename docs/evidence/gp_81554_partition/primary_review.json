@@ -14,7 +14,15 @@
     "func_8004DDE4": 41,
     "func_8004E130": 22
   },
-  "actual_sdata": "0000000000000000",
+  "actual_sdata": {
+    "$retail": {
+      "file": "DUNGEON/DUNGEON.BIN",
+      "offset": 77,
+      "length": 8,
+      "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+    },
+    "format": "hex"
+  },
   "stock_generic_objects_identical": true,
   "large_unpinned_control": {
     "base": "0x8004dca8",
@@ -34,7 +42,20 @@
           "14a00004"
         ],
         "retail_words": [
-          "14a00003"
+          {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 14705518,
+              "length": 4,
+              "sha256": "81bc4d93dfe539c74f281611c9f533e479a2eca773329a8befc19a333ba78de0"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "",
+              "width": 8,
+              "uppercase": false
+            }
+          }
         ]
       },
       {
@@ -49,8 +70,34 @@
           "3c028008"
         ],
         "retail_words": [
-          "3c058008",
-          "24a50b68"
+          {
+            "$retail": {
+              "file": "SLUS_006.14",
+              "offset": 136372,
+              "length": 4,
+              "sha256": "a9e31cffe9c2d7c8d40c872b764dbe7f1f74aebe8536b7c01d316347ecc48935"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "",
+              "width": 8,
+              "uppercase": false
+            }
+          },
+          {
+            "$retail": {
+              "file": "SLUS_006.14",
+              "offset": 136376,
+              "length": 4,
+              "sha256": "00eb2e6547a2fe774cacfbc9d8e42e93ff4a2e1ddab2a930ab1e7833a96a4d56"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "",
+              "width": 8,
+              "uppercase": false
+            }
+          }
         ]
       }
     ]

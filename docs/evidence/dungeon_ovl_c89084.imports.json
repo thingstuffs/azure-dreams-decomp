@@ -16,7 +16,15 @@
       "vma": 2147898400,
       "foff": 232480,
       "map": "slus_load",
-      "first_word": "000080c8",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 232480,
+          "length": 4,
+          "sha256": "edc2e25adbcc6de3602c5e76f2a701bd938c2426fb0a09770393392eb9bb3110"
+        },
+        "format": "hex"
+      },
       "source_clients": [
         "src/dungeon/func_80C69084.c"
       ]
@@ -25,7 +33,15 @@
       "vma": 2147902560,
       "foff": 236640,
       "map": "slus_load",
-      "first_word": "03008230",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 236640,
+          "length": 4,
+          "sha256": "3ee54eb0e08c2e5ffd9450c8e7cb6ba288ab895ee52422ffe8aebb428da6aa91"
+        },
+        "format": "hex"
+      },
       "source_clients": [
         "src/dungeon/func_80C69084.c"
       ]
@@ -34,7 +50,15 @@
       "vma": 2147909408,
       "foff": 243488,
       "map": "slus_load",
-      "first_word": "e0ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 243488,
+          "length": 4,
+          "sha256": "f0b20bc0158003436e3763ca5edb6e4174ca0c77296a4b0a1b30c0546a0bb355"
+        },
+        "format": "hex"
+      },
       "source_clients": [
         "src/dungeon/func_80C69084.c"
       ]

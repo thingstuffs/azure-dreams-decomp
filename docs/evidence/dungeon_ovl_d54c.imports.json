@@ -45,35 +45,75 @@
       "vma": 2147701256,
       "foff": 35336,
       "map": "slus_load",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 35336,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_80040574": {
       "vma": 2147747188,
       "foff": 81268,
       "map": "slus_load",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 81268,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_80053CFC": {
       "vma": 2147826940,
       "foff": 161020,
       "map": "slus_load",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 161020,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_80069ED8": {
       "vma": 2147917528,
       "foff": 251608,
       "map": "slus_load",
-      "first_word": "a0000a24",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 251608,
+          "length": 4,
+          "sha256": "89c249800d4484330dc1b684f61e6132e7c1cd85d904dc63c3765a54f469b8f5"
+        },
+        "format": "hex"
+      },
       "basis": "Encoded canonical function address; resolved through the proven load map."
     },
     "func_8008AC84": {
       "vma": 2148052100,
       "foff": 54564,
       "map": "town_link_capture_context",
-      "first_word": "c0200400",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 54564,
+          "length": 4,
+          "sha256": "28d5b66deb18bf737bb51745a8250299fa26fdd18fd1c3c53e320273d0ee907d"
+        },
+        "format": "hex"
+      },
       "bytes": 40,
       "sha256": "f66c3ba40a0e5326b2128f5617942e5fbdadd22cf1468ffbfb466d1928668cc1",
       "basis": "Complete external cache-entry reset helper immediately before the native cohort. Its three scalar fields and word at offsets 0/1/2/4 address D_800CF720 + index*8; runtime capture context proves the same delta. It remains external and unregistered; native ownership is not claimed."

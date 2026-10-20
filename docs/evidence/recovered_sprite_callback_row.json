@@ -75,19 +75,123 @@
         "lui_foff": 14178836,
         "register": 2,
         "window_words": [
-          "0x3c02800d",
-          "0x2442707c",
-          "0xae220010",
-          "0x8e020008",
-          "0x8e230008"
+          {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 14178836,
+              "length": 4,
+              "sha256": "9876565b896a9d99c14e7439feb6a4a6fba59b8338f3e3a3d91d91b9e1f43129"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
+          {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 14178840,
+              "length": 4,
+              "sha256": "db0c3bb99b1b43584955976ba7a1f36796b2481667ac43652e80b0320989a069"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
+          {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 14178844,
+              "length": 4,
+              "sha256": "4a2a422e52414616fb8726c53bc3f18c77e61fbc2d3fd27c1d3d2f72db6eb58b"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
+          {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 14178848,
+              "length": 4,
+              "sha256": "82e2b9a70aa0af09e3fbb2869d1f06e3bcecb3452b8c850bdd2dee9bad893435"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
+          {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 14178852,
+              "length": 4,
+              "sha256": "abaf5c79f5bf380daadb4d569b0f49d9b67bbfaa7c2359bdbb3d246616901145"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          }
         ],
         "gate_config": "config/overlays/dungeon_deep_t8b_d84b74.overlay.yaml",
         "registered_source": "src/dungeon/func_80D659DC.c",
         "source_sha256": "d38fba858bc3aa466682e555a87be0242dc81eeb2a90a4b319125684425db71b",
         "actual_callback_store_words": [
-          "0x3c02800d",
-          "0x2442707c",
-          "0xae220010"
+          {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 14178836,
+              "length": 4,
+              "sha256": "9876565b896a9d99c14e7439feb6a4a6fba59b8338f3e3a3d91d91b9e1f43129"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
+          {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 14178840,
+              "length": 4,
+              "sha256": "db0c3bb99b1b43584955976ba7a1f36796b2481667ac43652e80b0320989a069"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          },
+          {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 14178844,
+              "length": 4,
+              "sha256": "4a2a422e52414616fb8726c53bc3f18c77e61fbc2d3fd27c1d3d2f72db6eb58b"
+            },
+            "format": {
+              "kind": "int_hex",
+              "prefix": "0x",
+              "width": 8,
+              "uppercase": false
+            }
+          }
         ],
         "alloc_flags": "0x211: active node callback eligibility bit0x400 clear"
       },

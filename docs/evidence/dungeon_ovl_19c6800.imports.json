@@ -102,126 +102,270 @@
       "vma": 2147737176,
       "foff": 71256,
       "map": "slus_load",
-      "first_word": "d0ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 71256,
+          "length": 4,
+          "sha256": "07efcfb5b6bb510eb64fcae32e1e38906cd8f6df72b9f4bf5449a2084382259c"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_8003FD64": {
       "vma": 2147745124,
       "foff": 79204,
       "map": "slus_load",
-      "first_word": "0180023c",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 79204,
+          "length": 4,
+          "sha256": "337c4e1a747121fd6af2f146dfb613c8b5b3416ad3c14b5c91e1b47c5d888f6f"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_8004491C": {
       "vma": 2147764508,
       "foff": 98588,
       "map": "slus_load",
-      "first_word": "21388000",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 98588,
+          "length": 4,
+          "sha256": "e18f4f9b3eeaceffd50e5bceb3b329bf51f74b33f4db5cfed9965bd430a87131"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_80045340": {
       "vma": 2147767104,
       "foff": 101184,
       "map": "slus_load",
-      "first_word": "e0ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 101184,
+          "length": 4,
+          "sha256": "f0b20bc0158003436e3763ca5edb6e4174ca0c77296a4b0a1b30c0546a0bb355"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_800478B8": {
       "vma": 2147776696,
       "foff": 110776,
       "map": "slus_load",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 110776,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_80053EF0": {
       "vma": 2147827440,
       "foff": 161520,
       "map": "slus_load",
-      "first_word": "01000224",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 161520,
+          "length": 4,
+          "sha256": "271f0d4590251a3a66ab427dff6defb99c59ed2985a073296a22b3fa5b9b8e60"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_800644B8": {
       "vma": 2147894456,
       "foff": 228536,
       "map": "slus_load",
-      "first_word": "e8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 228536,
+          "length": 4,
+          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_80065420": {
       "vma": 2147898400,
       "foff": 232480,
       "map": "slus_load",
-      "first_word": "000080c8",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 232480,
+          "length": 4,
+          "sha256": "edc2e25adbcc6de3602c5e76f2a701bd938c2426fb0a09770393392eb9bb3110"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_80066460": {
       "vma": 2147902560,
       "foff": 236640,
       "map": "slus_load",
-      "first_word": "03008230",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 236640,
+          "length": 4,
+          "sha256": "3ee54eb0e08c2e5ffd9450c8e7cb6ba288ab895ee52422ffe8aebb428da6aa91"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_8006649C": {
       "vma": 2147902620,
       "foff": 236700,
       "map": "slus_load",
-      "first_word": "80110500",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 236700,
+          "length": 4,
+          "sha256": "8f488a52cb79f49d163cef32f18825fbf9aafad89fab18a7b59b7b4edec2460c"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_80066640": {
       "vma": 2147903040,
       "foff": 237120,
       "map": "slus_load",
-      "first_word": "0400a010",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 237120,
+          "length": 4,
+          "sha256": "2a288becadfb453db237ae7fbb24ccd7ec42a697bdcb9bb406730bb9cc9cc470"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_800666F4": {
       "vma": 2147903220,
       "foff": 237300,
       "map": "slus_load",
-      "first_word": "09000224",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 237300,
+          "length": 4,
+          "sha256": "020f8674040e0ecbfa2197110685f6923d8a53734800f7bde3a1bafbfea18724"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_80069EF8": {
       "vma": 2147917560,
       "foff": 251640,
       "map": "slus_load",
-      "first_word": "a0000a24",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 251640,
+          "length": 4,
+          "sha256": "89c249800d4484330dc1b684f61e6132e7c1cd85d904dc63c3765a54f469b8f5"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_8009CE1C": {
       "vma": 2148126236,
       "foff": 751292,
       "map": "dungeon_resident",
-      "first_word": "c0ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 751292,
+          "length": 4,
+          "sha256": "837792cfa277dc0ca0266860b57bc2597dc8e18c93c3ca2aeae5b0a6974f3c0a"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_800A05A4": {
       "vma": 2148140452,
       "foff": 765508,
       "map": "dungeon_resident",
-      "first_word": "b0ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 765508,
+          "length": 4,
+          "sha256": "7041d470bdb7f26e42d1c8acaec6096d5427370c17f8b24645b1b57af6788034"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_800A56E0": {
       "vma": 2148161248,
       "foff": 786304,
       "map": "dungeon_resident",
-      "first_word": "0180023c",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 786304,
+          "length": 4,
+          "sha256": "337c4e1a747121fd6af2f146dfb613c8b5b3416ad3c14b5c91e1b47c5d888f6f"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "func_800DBA90": {
       "vma": 2148383376,
       "foff": 1008432,
       "map": "dungeon_resident",
-      "first_word": "a8ffbd27",
+      "first_word": {
+        "$retail": {
+          "file": "DUNGEON/DUNGEON.BIN",
+          "offset": 1008432,
+          "length": 4,
+          "sha256": "00e93e29fb4f80364df4c14a0d51152b392ef6473bcf76ea358d179b4ea6b800"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     },
     "rand": {
       "vma": 2147917560,
       "foff": 251640,
       "map": "slus_load",
-      "first_word": "a0000a24",
+      "first_word": {
+        "$retail": {
+          "file": "SLUS_006.14",
+          "offset": 251640,
+          "length": 4,
+          "sha256": "89c249800d4484330dc1b684f61e6132e7c1cd85d904dc63c3765a54f469b8f5"
+        },
+        "format": "hex"
+      },
       "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
     }
   },

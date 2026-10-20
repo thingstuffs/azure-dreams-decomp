@@ -44,7 +44,15 @@
         "offset": 190,
         "size": 2,
         "vram": 2148010750,
-        "bytes": "0000",
+        "bytes": {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 6,
+            "length": 2,
+            "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+          },
+          "format": "hex"
+        },
         "section": ".sdata"
       }
     ],

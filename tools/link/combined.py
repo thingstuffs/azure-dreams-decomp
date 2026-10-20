@@ -12,6 +12,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import struct
 try:
     from .graph import Graph, number, digest, qualification, emit_global
 except ImportError:
@@ -23,10 +24,19 @@ WINDOWS = []
 
 
 def tsv(name, header, rows):
-    with (HERE/name).open('w', newline='') as stream:
+    target = HERE/name
+    with target.open('w', newline='') as stream:
         writer = csv.writer(stream, delimiter='\t', lineterminator='\n')
         writer.writerow(header)
         writer.writerows(rows)
+    if target.stat().st_size > 2_000_000:
+        receipts = SCRATCH/'receipts'
+        receipts.mkdir(exist_ok=True)
+        blob = target.read_bytes()
+        target.replace(receipts/name)
+        (HERE/(name+'.summary.json')).write_text(json.dumps(dict(
+            bytes=len(blob), sha256=digest(blob), records=len(rows),
+            private_receipt=relative(receipts/name)), indent=2)+'\n')
 
 
 def relative(path):
@@ -48,6 +58,100 @@ def nm(path):
             values.append((fields[0], fields[1], int(fields[2], 16) if len(fields) > 2 else 0))
     return values
 
+
+
+def object_metadata(path):
+    """Read ordinary ELF32 MIPS section/symbol metadata without three subprocesses.
+
+    Unexpected bindings/section types use the existing binutils path. Relocations
+    and object bytes are untouched; GNU ld remains the relocation authority.
+    """
+    data = Path(path).read_bytes()
+    if len(data) < 52 or data[:7] != b'\x7fELF\x01\x01\x01':
+        return None
+    etype, machine = struct.unpack_from('<HH', data, 16)
+    shoff = struct.unpack_from('<I', data, 32)[0]
+    entsize, count, strings = struct.unpack_from('<HHH', data, 46)
+    if etype != 1 or machine != 8 or entsize != 40 or not 0 < strings < count or shoff + count*40 > len(data):
+        return None
+    sections = [struct.unpack_from('<10I', data, shoff + n*40) for n in range(count)]
+    def payload(section):
+        offset, size = section[4:6]
+        if offset + size > len(data):
+            raise ValueError('truncated ELF metadata')
+        return data[offset:offset+size]
+    def string(table, offset):
+        return table[offset:table.index(b'\0', offset)].decode('ascii')
+    try:
+        names = [string(payload(sections[strings]), section[0]) for section in sections]
+        symbols, values, symbol_sizes = [], [], {}
+        for section in sections:
+            if section[1] != 2:
+                continue
+            if section[9] != 16 or section[5] % 16:
+                return None
+            strings_table = payload(sections[section[6]])
+            raw = payload(section)
+            for off in range(0, len(raw), 16):
+                name, value, size, info, other, index = struct.unpack_from('<IIIBBH', raw, off)
+                if not name or info & 15 in (3, 4):
+                    continue
+                if info & 15 not in (0, 1, 2):
+                    return None
+                name = string(strings_table, name)
+                bind = info >> 4
+                if bind not in (0, 1):
+                    return None
+                if index == 0:
+                    kind, section_name = 'U', None
+                elif index == 0xfff1:
+                    kind, section_name = 'A', None
+                elif index == 0xfff2:
+                    kind, section_name = 'C', None
+                elif 0 < index < count:
+                    section_name = names[index]
+                    target = sections[index]
+                    if not target[2] & 2:
+                        return None
+                    kind = ('S' if section_name == '.sbss' else 'G' if section_name == '.sdata'
+                            else 'B' if target[1] == 8 else 'T' if target[2] & 4
+                            else 'D' if target[2] & 1 else 'R' if target[2] & 2 else 'N')
+                else:
+                    return None
+                if bind == 0 and kind not in ('U', 'C', 'N'):
+                    kind = kind.lower()
+                values.append((name, kind, value))
+                symbols.append((name, section_name, value))
+                symbol_sizes[name] = size
+        return dict(values=sorted(values), symbols=symbols, symbol_sizes=symbol_sizes,
+                    sections=[(name, section[5]) for name, section in zip(names, sections)])
+    except (IndexError, ValueError, UnicodeError, struct.error):
+        return None
+
+
+def qualified_redefinitions(prefix, renames, symbols):
+    """Keep convergent undefined aliases distinct; bind them to real owner symbols.
+
+    objcopy refuses two source symbols with the same rename target, even when
+    both are undefined. Symbolic ld assignments preserve their owning section
+    and therefore the NOCROSSREFS contract; no numeric address is substituted.
+    """
+    targets = collections.Counter(target for name,kind,target in renames)
+    lines = []
+    for name, kind, target in renames:
+        if kind == 'U' and targets[target] > 1:
+            alias = prefix + name
+            symbols.append(f'{alias} = {target};')
+            target = alias
+        lines.append(f'{name} {target}\n')
+    return ''.join(lines)
+
+
+def unique_owner(candidates):
+    """Aliases in one emitting instance agree; distinct equal-address instances do not."""
+    if not candidates or len({peer['prefix'] for name,peer in candidates}) != 1:
+        return None
+    return min(candidates, key=lambda pair:(not pair[0].startswith(('func_', 'D_')),pair[0]))
 
 def assignments(text):
     return {name: int(value, 16) for name, value in re.findall(
@@ -83,6 +187,129 @@ def slus_origins(map_text, output_sections, size):
     return dict(counts)
 
 
+
+def selected_images(documents):
+    """Complete town load views and dungeon banks; exclude diagnostic row views."""
+    return sorted(image for image, doc in documents.items()
+                  if image in ('town/engine', 'dungeon/engine') or image.startswith('dungeon/bank_') or
+                  (image.startswith('town/') and number(doc.get('vma') or 0) == 0x80016000))
+
+
+def select_windows(root, documents, images, initial, limit):
+    """Bounded, deterministic coverage of actual placement rows in production windows."""
+    if not 1 <= limit <= 60:
+        raise ValueError('gate limit must be between 1 and 60')
+    selected = list(dict.fromkeys(initial))
+    if len(selected) > limit:
+        raise ValueError('gate limit cannot omit the baseline windows')
+    registry = {r['id']: r for r in map(json.loads, (root/'ledger/rows.jsonl').read_text().splitlines())}
+    candidates = collections.defaultdict(set)
+    for image in images:
+        for entry in documents[image]['entries']:
+            row = registry.get(entry.get('row'), {})
+            config = row.get('gate_config')
+            if config and (root/config).is_file():
+                window = Path(config).name.removesuffix('.overlay.yaml')
+                candidates[window].add(image)
+    covered = set().union(*(candidates.get(w, set()) for w in selected))
+    while len(selected) < limit and candidates:
+        window = min(candidates, key=lambda w: (-len(candidates[w] - covered), w))
+        hits = candidates.pop(window)
+        if window not in selected:
+            selected.append(window)
+            covered.update(hits)
+    return selected
+
+
+def owned_resident(elf, spec):
+    """Only emitted global definitions with an actual original SLUS input owner.
+
+    Linker-script aliases, absolute catalogue witnesses and local/static names
+    cannot become owners. Equal-address aliases must resolve to a real defining
+    input object, including emitted data beyond the old prototype text cutoff.
+    """
+    ninja = (ROOT/spec['ninja']).read_text()
+    inputs = [ROOT/'build_slus'/p for line in ninja.splitlines() if ': link ' in line
+              for p in line.split(': link ', 1)[1].split() if p.endswith('.o')]
+    definitions = collections.defaultdict(set)
+    for line in run(['mipsel-linux-gnu-nm', '-A', '-g', '--defined-only', '-P', *inputs]).splitlines():
+        match = re.match(r'^(.*?\.o):\s+(\S+)\s+([A-Za-z])\s+', line)
+        if match and match[3] in 'TDBRSGVWC':
+            definitions[match[2]].add(relative(match[1]))
+    owners = {name: next(iter(paths)) for name, paths in definitions.items() if len(paths) == 1}
+    resident = {name: value for name, kind, value in nm(elf)
+                if kind in 'TDBRSGVW' and name in owners and not name.startswith('_binary_')
+                and not owners[name].startswith(('build_slus/build/assets/', 'build_slus/build/module_assets/'))}
+    return resident, {name: owners[name] for name in resident}
+
+
+
+def resident_spans(elf, resident, owners):
+    """Only explicit ELF symbol sizes on real original-input definitions grant extents."""
+    spans, metadata_cache = [], {}
+    for line in run(['mipsel-linux-gnu-nm','-g','-S','-P',elf]).splitlines():
+        fields = line.split()
+        if len(fields) >= 4 and fields[0] in resident and fields[1] in 'TDBRSGVW':
+            size = int(fields[3], 16)
+            name = fields[0]
+            owner = owners[name]
+            if owner not in metadata_cache:
+                metadata_cache[owner] = object_metadata(ROOT/owner)
+            metadata = metadata_cache[owner]
+            if not metadata or metadata['symbol_sizes'].get(name) != size:
+                continue
+            section_sizes = dict(metadata['sections'])
+            definitions = [(section, value) for symbol,section,value in metadata['symbols'] if symbol == name]
+            if size > 0 and len(definitions) == 1:
+                section, value = definitions[0]
+                if section not in section_sizes or value + size > section_sizes[section]:
+                    continue
+                start = resident[name]
+                spans.append((start, start+size, name))
+    return spans
+
+
+def containing_owner(address, spans):
+    """An interior address needs an explicit nonzero extent; never infer the next boundary."""
+    candidates = [span for span in spans if address is not None and span[0] < address < span[1]]
+    return min(candidates, key=lambda span:(span[1]-span[0], span[2])) if candidates else None
+
+def preparation_digest(root, graph):
+    """Bind reusable private preparation to source, recipes, headers and evidence."""
+    paths = set()
+    for directory in ('src', 'include', 'tools/gate', 'tools/build', 'tools/fidelity',
+                      'config/overlays', 'config/link', 'config/link_graph', 'ledger/splits'):
+        paths.update(p for p in (root/directory).rglob('*') if p.is_file() and
+                     p.suffix in ('.c', '.h', '.py', '.sh', '.txt', '.json', '.jsonl', '.yaml', '.ninja'))
+    for directory in ('config', 'ledger'):
+        paths.update(p for p in (root/directory).iterdir() if p.is_file() and
+                     p.suffix in ('.json', '.jsonl', '.txt', '.tsv'))
+    paths.update(root/p for p in ('tools/source_layout.py', 'tools/overlay_module_evidence.py', 'tools/link/prepare.py'))
+    hashes = [(p.relative_to(root).as_posix(), digest(p.read_bytes())) for p in sorted(paths)]
+    return digest(json.dumps(hashes, separators=(',', ':')).encode())
+
+
+def prepared_digest(prepared):
+    hashes = [(str(p), digest(p.read_bytes())) for work in prepared.values()
+              for p in sorted(work.rglob('*')) if p.is_file() and p.suffix in ('.o', '.ld', '.json')]
+    return digest(json.dumps(hashes, separators=(',', ':')).encode())
+
+
+def save_prepared(root, graph, path, prepared, holds, stats):
+    path.write_text(json.dumps(dict(prepared={k: v.relative_to(root).as_posix() for k,v in prepared.items()},
+        holds=holds, stats=stats, inputs_sha256=preparation_digest(root, graph),
+        artifacts_sha256=prepared_digest(prepared)), indent=2)+'\n')
+
+
+def load_prepared(root, graph, path):
+    data = json.loads(path.read_text())
+    prepared = {k: root/v for k,v in data['prepared'].items()}
+    if any(not p.resolve().is_relative_to(root) for p in prepared.values()):
+        raise ValueError('prepared object path escapes private root')
+    if data['inputs_sha256'] != preparation_digest(root, graph) or data['artifacts_sha256'] != prepared_digest(prepared):
+        raise ValueError('prepared objects or their inputs changed; rerun --prepare')
+    return prepared, data['holds'], data['stats']
+
 def plan():
     # Every raw object or linked image is private; none is a delivery.
     SCRATCH.mkdir(exist_ok=True)
@@ -106,6 +333,10 @@ def main():
     parser.add_argument('--scratch', type=Path, required=True)
     parser.add_argument('--extend-ovmovie', action='store_true')
     parser.add_argument('--plan', action='store_true')
+    parser.add_argument('--all-images', action='store_true', help='all 60 town load views and every dungeon bank')
+    parser.add_argument('--image', action='append', default=[], help='restrict expansion to named load images for incremental proofs')
+    parser.add_argument('--prepare', action='store_true', help='prepare the additional images through production home recipes')
+    parser.add_argument('--gate-limit', type=int, default=60, help='maximum distinct production proof windows (1..60)')
     args = parser.parse_args()
     ROOT, HERE, SCRATCH = args.root.resolve(), args.output.resolve(), args.scratch.resolve()
     for path in (HERE, SCRATCH):
@@ -118,15 +349,44 @@ def main():
     SLICES = [(r['view'], r['window']) for r in GRAPH.manifest['build']['slice']]
     if args.extend_ovmovie:
         SLICES += [(r['view'], r['window']) for r in GRAPH.manifest['build']['extensions']]
-    WINDOWS = [window for _, window in SLICES]
+    documents = GRAPH.documents(validate=True)
+    additional = selected_images(documents) if args.all_images else []
+    if args.image:
+        if not args.all_images or set(args.image) - set(additional):
+            raise ValueError('--image requires --all-images and known load images')
+        additional = [image for image in additional if image in args.image]
+    additional = [image for image in additional if image not in dict(SLICES)]
+    baseline_images = {image for image, _ in SLICES}
+    scope_images = sorted(set(additional) | (set(selected_images(documents)) & baseline_images)) if args.all_images else []
+    WINDOWS = select_windows(ROOT, documents, scope_images, [w for _, w in SLICES], args.gate_limit)
     plan()
     if args.plan:
         return
+    prepared, preparation_holds, preparation_stats = {}, [], {}
+    if additional:
+        try:
+            from .prepare import prepare_images, load_gate
+        except ImportError:
+            from prepare import prepare_images, load_gate
+        if args.prepare:
+            prepared, preparation_holds, preparation_stats = prepare_images(ROOT, GRAPH, additional, SCRATCH/'prepared')
+            save_prepared(ROOT, GRAPH, SCRATCH/'prepared_index.json', prepared, preparation_holds, preparation_stats)
+        else:
+            prepared, preparation_holds, preparation_stats = load_prepared(ROOT, GRAPH, SCRATCH/'prepared_index.json')
+        accounted = set(prepared) | {image for image, _ in preparation_holds}
+        missing = set(additional) - accounted
+        if missing:
+            raise ValueError('preparation index omits requested images: ' + ', '.join(sorted(missing)))
+        load_gate(ROOT)
+        SLICES += [(image, image.replace('/', '_')) for image in additional if image in prepared]
     slus_spec = GRAPH.manifest['build']['slus']
     slus_elf = ROOT / slus_spec['elf']
     # Absolute catalog assignments in the baseline ELF are still imports, not
     # SLUS-owned definitions. Static/local names cannot satisfy a new global ref.
     resident = {n: v for n, kind, v in nm(slus_elf) if kind in ['T','D','B','R','S','G','V','W']}
+    legacy_resident = dict(resident)
+    resident, resident_owners = owned_resident(slus_elf, slus_spec)
+    resident_intervals = resident_spans(slus_elf, resident, resident_owners)
     resident_by_address = collections.defaultdict(list)
     for name, value in resident.items():
         if not name.startswith(('$', '__')):
@@ -172,34 +432,51 @@ def main():
         rows_by_extent[(row['container'], row.get('foff'), row['size'])].append(row)
 
     object_rows, provenance, holds = [], [], []
+    placement_bridges = []
     symbols, objects, noloads, bank_fragments, standalone = [], list(slus_inputs), [], {}, []
     needed_resident, fallback_bindings, local_links = [], [], []
+    binding_changes = []
     comparison_rows, image_sections, spec_counts = [], {}, {}
     next_lma = 0x1000000
+    image_work = {}
     for image, window, start, size, base in image_specs:
         tag = image.replace('/', '_')
-        work = ROOT/'build_ovl/work/s3_splat'/window
-        manifest = json.loads((work/f'{window}_manifest.json').read_text())
-        window_script = (work/'build'/f'{window}.ld').read_text()
+        work = prepared.get(image, ROOT/'build_ovl/work/s3_splat'/window)
+        prepared_window = image.replace('/', '_') if image in prepared else window
+        manifest = json.loads((work/f'{prepared_window}_manifest.json').read_text())
+        window_script = (work/'build'/f'{prepared_window}.ld').read_text()
         window_assignments = assignments(window_script)
         segments = []
         seen_modules = set()
+        prepared_allocations = {}
         for seg in manifest['c_segments'] + manifest.get('platform_asm_segments', []) + manifest.get('game_asm_segments', []):
             off = number(seg['file_start'])
             if not (start <= off and off+seg['size'] <= start+size):
                 continue
             module_dir = None
             allocations = []
+            original_override = None
+            rules_override = None
             if seg.get('module'):
-                if seg['module'] in seen_modules:
+                module_id = seg.get('module_placement') or seg['module']
+                if module_id in seen_modules:
                     continue
-                seen_modules.add(seg['module'])
-                module_dir = work/'build/modules'/seg['module']
+                seen_modules.add(module_id)
+                module_dir = work/'build/modules'/module_id
                 receipt = json.loads((module_dir/'receipt.json').read_text())
                 if receipt['gate']['result'] != 'MATCH':
                     raise RuntimeError('module baseline failed')
-                allocations = GRAPH.tus['module/' + seg['module']].get('allocations', [])
-                if allocations:
+                if seg.get('module_placement'):
+                    import overlay_module_placements as module_placements
+                    placement = next(p for p in module_placements.load(ROOT/'build_ovl') if p['key'] == seg['module_placement'])
+                    first = placement['projected'][0]
+                    receipt = dict(receipt, gate=dict(receipt['gate'], foff=first['foff'], vma=first['vma']))
+                    allocations = placement.get('allocations', [])
+                    original_override = module_dir/'artifact/module.o'
+                    rules_override = module_dir/'placement.ld'
+                else:
+                    allocations = GRAPH.tus['module/' + seg['module']].get('allocations', [])
+                if allocations and not seg.get('module_placement'):
                     witnessed = [{k:a[k] for k in ('section','foff','vma','size','link_alignment')}
                                  for a in receipt['physical'].get('allocations', [])]
                     if allocations != witnessed:
@@ -213,34 +490,70 @@ def main():
                 if not (start <= off and off+seg['size'] <= start+size):
                     holds.append([image,seg['func'],hex(off),seg['size'],'complete module exceeds selected image'])
                     continue
-                matches = [module_dir/'module.o']
+                matches = [original_override or module_dir/'module.o']
+                if not allocations and receipt.get('physical', {}).get('owned_data'):
+                    prefix_size = sum(d['size'] for d in receipt['physical']['owned_data'])
+                    aoff, avma = receipt['gate']['foff'], receipt['gate']['vma']
+                    allocations = [dict(section='.rodata', foff=aoff, vma=avma, size=prefix_size, link_alignment=4),
+                        dict(section='.text.*', foff=aoff+prefix_size, vma=avma+prefix_size,
+                             size=receipt['gate']['bytes']-prefix_size, link_alignment=4)]
             else:
-                matches = list((work/'build/obj').glob(seg['func']+'*.o'))
+                exact = work/'build/obj'/f"{seg['func']}__{off:06X}.o"
+                plain = work/'build/obj'/(seg['func']+'.o')
+                matches = [exact] if exact.is_file() else [plain] if plain.is_file() else list((work/'build/obj').glob(seg['func']+'*.o'))
                 if not matches:
                     matches = list((work/'build/obj').glob('*_'+seg['func']+'_*.o'))
+            if allocations and any(not (start <= a['foff'] and a['foff'] + a['size'] <= start + size) for a in allocations):
+                holds.append([image,seg['func'],hex(off),seg['size'],'complete module allocation exceeds selected image'])
+                continue
             if len(matches) != 1:
                 holds.append([image, seg['func'], f'0x{off:X}', seg['size'], f'original object lookup returned {len(matches)} candidates'])
                 continue
             original = matches[0]
-            mini = module_dir/'module.ld' if module_dir else work/'build'/f'rowbase_{original.stem}.ld'
+            mini = rules_override or (module_dir/'module.ld' if module_dir else work/'build'/f'rowbase_{original.stem}.ld')
             rules = mini.read_text() if mini.exists() else window_script
             defs = assignments(rules)
             defs.update({k:v for k,v in window_assignments.items() if k not in defs})
             vma = number(seg.get('rowbase_link_vram', seg['vram']))
             if base is not None and vma != base+off-start:
-                holds.append([image, seg['func'], f'0x{off:X}', seg['size'], 'compile VMA differs from selected load image; retain import'])
-                continue
-            values = nm(original)
+                try:
+                    from .placement import prove_invariant_placement
+                except ImportError:
+                    from placement import prove_invariant_placement
+                wanted = containers[image.split('/')[0]][off:off+seg['size']]
+                bridge = None if allocations or module_dir else prove_invariant_placement(
+                    ROOT, documents[image], original, rules, vma, base+off-start, wanted,
+                    SCRATCH/f'placement_{tag}_{off:x}')
+                if bridge is None:
+                    holds.append([image, seg['func'], f'0x{off:X}', seg['size'], 'compile VMA differs from selected load image; no invariant placement proof; retain import'])
+                    continue
+                placement_bridges.append(dict(bridge,image=image,foff=hex(off)))
+                vma = base+off-start
+                seg = dict(seg,rowbase_link_vram=hex(vma))
+            metadata = object_metadata(original)
+            values = metadata['values'] if metadata else nm(original)
             # rodata-first modules have a dedicated mini-link description: retain their
             # baseline bytes until the complete module can be placed faithfully.
+            if not allocations and mini.exists() and '.out_' in rules and any(k.upper() in ['R','D'] and k != 'U' for _, k, _ in values):
+                # Production rodata-owner recipe: load the validated prefix and
+                # text from one original ET_REL object at their declared VMAs.
+                rodata = re.search(r'^\s*(\.(?:rodata|rdata)) 0x([0-9a-fA-F]+) :', rules, re.M)
+                text = re.search(r'^\s*\.out_\w+ 0x([0-9a-fA-F]+)', rules, re.M)
+                if rodata and text:
+                    rbase, tbase = int(rodata[2], 16), int(text[1], 16)
+                    allocations = [dict(section=rodata[1], foff=off, vma=rbase, size=tbase-rbase, link_alignment=1),
+                        dict(section='.text.*', foff=off+tbase-rbase, vma=tbase, size=seg['size']-(tbase-rbase), link_alignment=4)]
             if not allocations and any(k.upper() in ['R','D'] and k != 'U' for _, k, _ in values) and mini.exists() and '.out_' not in rules:
                 holds.append([image, seg['func'], f'0x{off:X}', seg['size'], 'rodata-first original object needs dedicated placement'])
                 continue
-            sections = run(['mipsel-linux-gnu-objdump', '-h', original])
-            text_sections = re.findall(r'^\s*\d+\s+(\.text(?:\.[^\s]+)?)\s+([0-9a-fA-F]+)', sections, re.M)
+            sections = '' if metadata else run(['mipsel-linux-gnu-objdump', '-h', original])
+            all_sections = [(name, f'{size:x}') for name,size in metadata['sections']] if metadata else re.findall(
+                r'^\s*\d+\s+(\.[^\s]+)\s+([0-9a-fA-F]+)', sections, re.M)
+            text_sections = [(name, size) for name,size in all_sections if name == '.text' or name.startswith('.text.')]
+
             mode = '.text.*' if any(n.startswith('.text.') and int(nbytes,16) for n,nbytes in text_sections) else '.text'
             text_size = sum(int(nbytes,16) for n,nbytes in text_sections if (n.startswith('.text.') if mode=='.text.*' else n=='.text'))
-            if text_size > seg['size']:
+            if text_size > seg['size'] and not allocations:
                 holds.append([image, seg['func'], f'0x{off:X}', seg['size'], f'object text {text_size} exceeds registered extent; dedicated composite layout needed'])
                 continue
             family = image.split('/')[0]
@@ -268,7 +581,6 @@ def main():
                     at += int(nbytes,16)
             if allocations:
                 offsets = {}
-                all_sections = re.findall(r'^\s*\d+\s+(\.[^\s]+)\s+([0-9a-fA-F]+)', sections, re.M)
                 for allocation in allocations:
                     at = 0
                     for sect, nbytes in all_sections:
@@ -280,23 +592,42 @@ def main():
                     if at != allocation['size']:
                         raise ValueError('object allocation size disagrees with graph')
             symbol_offsets = {}
-            for line in run(['mipsel-linux-gnu-objdump','-t',original]).splitlines():
-                fields=line.split()
-                if len(fields)>=5 and fields[-3] in offsets:
-                    symbol_offsets[fields[-1]]=offsets[fields[-3]]+int(fields[0],16)
+            section_sizes = {name:int(size,16) for name,size in all_sections}
+            if metadata:
+                symbol_offsets = {name: offsets[section]+value for name,section,value in metadata['symbols'] if section in offsets and 0 <= value < section_sizes[section]}
+            else:
+                for line in run(['mipsel-linux-gnu-objdump','-t',original]).splitlines():
+                    fields=line.split()
+                    if len(fields)>=5 and fields[-3] in offsets and int(fields[0],16) < section_sizes[fields[-3]]:
+                        symbol_offsets[fields[-1]]=offsets[fields[-3]]+int(fields[0],16)
             if seg.get('source') and Path(seg['source']).is_absolute():
                 seg = dict(seg, source=relative(seg['source']))
             segment = dict(seg=seg, off=off, vma=vma, original=original, placed=placed,
                            rules=rules, defs=defs, values=values, prefix=prefix, mode=mode, text_size=text_size,
                            symbol_offsets=symbol_offsets, tu_id=tu_id, allocations=allocations)
             segments.append(segment)
+        image_work[image] = (work, manifest, window_script, segments)
+    engine_defs = collections.defaultdict(list)
+    for image in ('town/engine', 'dungeon/engine'):
+        if image not in image_work:
+            continue
+        for segment in image_work[image][3]:
+            for name, kind, value in segment['values']:
+                if kind in 'TDBRSGVW' and name in segment['symbol_offsets']:
+                    engine_defs[image.split('/')[0]].append((name, segment['vma']+segment['symbol_offsets'][name], segment))
+    for image, window, start, size, base in image_specs:
+        tag = image.replace('/', '_')
+        work, manifest, window_script, segments = image_work[image]
         # Preserve exactly the per-object proven address for every relocation. Resolve
         # to a real definition only if its linked address agrees with that witness.
         local_defs = collections.defaultdict(list)
+        local_by_address = collections.defaultdict(list)
         for s in segments:
             for name, kind, value in s['values']:
-                if kind.isupper() and kind not in ['U', 'A', 'N']:
-                    local_defs[name].append((s, s['vma']+s['symbol_offsets'].get(name,value)))
+                if kind in 'TDBRSGVW' and name in s['symbol_offsets']:
+                    address = s['vma']+s['symbol_offsets'][name]
+                    local_defs[name].append((s, address))
+                    local_by_address[address].append((name, s))
         for s in segments:
             renames = []
             for name, kind, value in s['values']:
@@ -307,23 +638,54 @@ def main():
                         match = re.fullmatch(r'(?:func|D)_([0-9a-fA-F]{8})', name)
                         expected = int(match[1],16) if match else None
                     candidates = [(peer, addr) for peer,addr in local_defs[name] if addr == expected]
+                    if len({peer['prefix'] for peer,addr in candidates}) > 1:
+                        candidates = []
+                    interior = containing_owner(expected, resident_intervals)
+                    local_owner = unique_owner(local_by_address.get(expected, []))
+                    engine_candidates = [(owner_name, peer) for owner_name, addr, peer in engine_defs[image.split('/')[0]]
+                                         if addr == expected and peer is not s]
+                    engine_owner = unique_owner(engine_candidates)
                     if name in resident and resident[name] == expected:
                         renamed = name
-                        needed_resident.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}', 'actual SLUS definition'])
+                        needed_resident.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}', 'actual SLUS definition in '+resident_owners[name]])
                     elif candidates:
                         renamed = candidates[0][0]['prefix']+name
                         local_links.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}', candidates[0][0]['seg']['func']])
-                    elif expected in resident_by_address and 0x8002d000 <= expected < 0x80081800:
+                    elif expected in resident_by_address:
                         renamed = sorted(resident_by_address[expected], key=lambda n:(not n.startswith(('func_', 'D_')),n))[0]
-                        needed_resident.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}', 'SLUS definition selected by equal address: '+renamed])
+                        needed_resident.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}', 'SLUS defining TU selected by equal witnessed address: '+renamed+' in '+resident_owners[renamed]])
+                    elif local_owner:
+                        owner_name, peer = local_owner
+                        renamed = peer['prefix'] + owner_name
+                        local_links.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}',
+                                            'actual same-image definition selected by equal address: '+owner_name])
+                        binding_changes.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}', renamed, relative(peer['original'])])
+                    elif engine_owner:
+                        owner_name, peer = engine_owner
+                        renamed = peer['prefix'] + owner_name
+                        needed_resident.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}',
+                                                'actual resident engine definition in '+relative(peer['original'])])
+                        binding_changes.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}', renamed, relative(peer['original'])])
+                    elif interior:
+                        begin, end, owner_name = interior
+                        renamed = s['prefix'] + name
+                        expression = owner_name + f' + 0x{expected-begin:X}'
+                        symbols.append(f'{renamed} = {expression};')
+                        needed_resident.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}',
+                            'SLUS emitted symbol extent: '+expression+' in '+resident_owners[owner_name]])
+                        binding_changes.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}', expression, resident_owners[owner_name]])
                     elif expected is not None:
                         symbols.append(f'{renamed} = 0x{expected:08X};')
-                        fallback_bindings.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}', 'per-window address witness; owner object outside prototype'])
-                    else:
+                        fallback_bindings.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}', 'address witness; no unique agreeing emitted global resident or same-image definition'])
+                    if expected is not None and renamed in resident and not (
+                            name in legacy_resident and legacy_resident[name] == expected or
+                            candidates or expected in legacy_resident.values() and 0x8002d000 <= expected < 0x80081800):
+                        binding_changes.append([image, f"0x{s['off']:X}", name, f'0x{expected:08X}', renamed, resident_owners[renamed]])
+                    if expected is None:
                         raise RuntimeError(f'unresolved {image} {s["seg"]["func"]} {name}')
-                renames.append(f'{name} {renamed}\n')
+                renames.append((name, kind, renamed))
             rename_file = SCRATCH/(s['placed'].stem+'.rename.txt')
-            rename_file.write_text(''.join(renames))
+            rename_file.write_text(qualified_redefinitions(s['prefix'], renames, symbols))
             run(['mipsel-linux-gnu-objcopy', '--redefine-syms='+relative(rename_file), s['original'], s['placed']])
             objects.append(s['placed'])
             # Table placement mirrors the original NOLOAD address witness. Table
@@ -396,7 +758,6 @@ def main():
             '/* AT addresses pack outputs for comparison; they are not retail CD sectors. */',
             '/* MAIN file-only spans use diagnostic VMAs; overlap checks retain baseline policy. */',
             *slus_script.splitlines()]
-    slus_defined = set(resident)
     slus_undef = {}
     for path in [ROOT/'build_slus/config/generated/slus_006.14.undefined_funcs.txt',
                  ROOT/'build_slus/build/slus_006.14.undefined_syms.modules.txt', ROOT/'config/slus_006.14.c_syms.txt']:
@@ -411,17 +772,23 @@ def main():
     banks = [(tag.replace('_', '/', 1), base, spec_counts[tag.replace('_', '/', 1)]['size'], fragments)
              for tag, (base, lma, fragments) in bank_fragments.items()]
     script = emit_global('\n'.join(head), standalone, banks, symbols, noloads)
-    (HERE/'global.ld').write_text(script)
+    script_path = SCRATCH/'global.ld'
+    script_path.write_text(script)
+    (HERE/'global_script_summary.json').write_text(json.dumps(dict(
+        bytes=len(script.encode()), sha256=digest(script.encode()),
+        lines=script.count('\n'), private_script=relative(script_path)), indent=2)+'\n')
     response = SCRATCH/'objects.rsp'
     response.write_text('\n'.join(relative(obj) for obj in objects)+'\n')
     elf = SCRATCH/'onelink.elf'
-    argv = ['mipsel-linux-gnu-ld','-EL','--no-check-sections','-T',relative(HERE/'global.ld'),
+    argv = ['mipsel-linux-gnu-ld','-EL','--no-check-sections','-T',relative(script_path),
             '-Map',relative(SCRATCH/'onelink.map'),'-o',relative(elf),'@'+relative(response)]
     (HERE/'link_command.json').write_text(json.dumps(dict(argv=argv, original_slus_objects=len(slus_inputs),
                                                        input_objects=len(objects)),indent=2)+'\n')
     result = subprocess.run(argv,cwd=ROOT,capture_output=True,text=True)
     (SCRATCH/'link.log').write_text(result.stdout+result.stderr)
     if result.returncode:
+        tsv('prototype_holds.tsv',['image','row','foff','size','reason'],holds)
+        tsv('preparation_holds.tsv',['image','reason'],preparation_holds)
         raise RuntimeError(result.stderr[-7000:])
     map_blob = (SCRATCH/'onelink.map').read_bytes()
     slus_counts = slus_origins(map_blob.decode(), slus_spec['sections'], GRAPH.files['slus']['size'])
@@ -449,6 +816,11 @@ def main():
         diffs = differences(got, want)
         window = c['window']
         import yaml
+        if image in prepared and image not in baseline_images:
+            comparison_rows.append([image,c['size'],'MATCH' if diffs==0 else 'DIFF',diffs,c['compiled_bytes'],c['imported_bytes'],
+                                    0,'NOT_GATED',0,digest(got),digest(want),'full retail comparison; object preparation is not a production window gate'])
+            c.update(differing_bytes=diffs,sha256=digest(got),window_compared_bytes=0,window_differing_bytes=0)
+            continue
         w = yaml.safe_load((ROOT/'config/overlays'/f'{window}.overlay.yaml').read_text())['standalone_build']['window']
         baseline = (ROOT/'build_ovl/work/s3_splat'/window/'build'/f'{window}.window.bin').read_bytes()
         if len(baseline) != number(w['file_end']) - number(w['file_start']):
@@ -477,14 +849,29 @@ def main():
     tsv('prototype_holds.tsv',['image','row','foff','size','reason'],holds)
     for name,rows in [('resident_bindings',needed_resident),('remaining_bindings',fallback_bindings),('local_bindings',local_links)]:
         tsv(name+'.tsv',['image','caller_foff','original_symbol','vma','authority'],rows)
+    tsv('binding_changes.tsv', ['image','caller_foff','original_symbol','vma','owner_symbol','owner_object'], binding_changes)
+    tsv('preparation_holds.tsv', ['image','reason'], preparation_holds)
+    row_holds = collections.Counter(row[0] for row in holds)
+    tsv('images.tsv', ['image','status','retail_result','different_bytes','compiled_bytes','imported_bytes','source_row_holds','reason'],
+        [[r[0], 'DIFF' if r[2] != 'MATCH' else 'LINKED_WITH_HOLDS' if row_holds[r[0]] else 'LINKED' if r[4] else 'IMPORT_ONLY',
+          r[2], r[3], r[4], r[5], row_holds[r[0]], r[11]] for r in comparison_rows] +
+        [[image,'HELD','NOT_LINKED','','','','',reason] for image,reason in preparation_holds])
+    (HERE/'placement_bridges.json').write_text(json.dumps(placement_bridges,indent=2)+'\n')
     summary = dict(images=spec_counts, slus_bytes=len(got), slus_differing_bytes=diffs,
                    original_slus_objects=len(slus_inputs), original_overlay_objects=len(object_rows), graph_schema=GRAPH.manifest['schema'], graph_base=GRAPH.manifest['base'], symbol_qualification='stable image, graph TU home and placement row (assembly uses stable container/row identity)',
                    resident_bindings=len(needed_resident), local_bindings=len(local_links),
                    fallback_bindings=len(fallback_bindings), held_rows=len(holds),
+                   placement_bridges=len(placement_bridges),
+                   linked_images=len(comparison_rows), byte_exact_images=sum(r[2] == 'MATCH' for r in comparison_rows),
+                   import_only_images=sum(not r[4] for r in comparison_rows),
+                   preparation_stats=preparation_stats, preparation_held_images=len(preparation_holds),
+                   symbolic_owner_aliases=len(symbols)-len(fallback_bindings),
+                   reduced_bindings=len(binding_changes), fallback_bindings_before_owner_resolution=len(fallback_bindings)+len(binding_changes),
+                   slus_sha1=hashlib.sha1(got).hexdigest(), scoped_windows=len(WINDOWS),
                    final_link_invocations=1, note='baseline links are prerequisites, not counted as final combined invocation')
     (HERE/'prototype_summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     print(json.dumps(summary,indent=2))
-    if holds or any(r[2] != 'MATCH' or r[7] != 'MATCH' for r in comparison_rows):
+    if holds or preparation_holds or any(r[2] != 'MATCH' or r[7] not in ('MATCH', 'NOT_GATED') for r in comparison_rows):
         raise RuntimeError('combined proof has held source objects or byte differences')
 
 

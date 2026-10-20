@@ -339,7 +339,15 @@
     },
     "data": {
       "address_slot": {
-        "object_sdata": "00000000",
+        "object_sdata": {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 29,
+            "length": 4,
+            "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+          },
+          "format": "hex"
+        },
         "expected": "00000000",
         "symbols": {
           "D_80081528": [
@@ -356,13 +364,37 @@
           "object_offset": 0,
           "linked_vram": 2148013352,
           "linked_section": "2",
-          "image_bytes": "00000000",
+          "image_bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "exact": true
         }
       },
       "command_words": {
-        "object_sdata": "0000000000000000",
-        "expected": "0000000000000000",
+        "object_sdata": {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 77,
+            "length": 8,
+            "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+          },
+          "format": "hex"
+        },
+        "expected": {
+          "$retail": {
+            "file": "DUNGEON/DUNGEON.BIN",
+            "offset": 77,
+            "length": 8,
+            "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+          },
+          "format": "hex"
+        },
         "symbols": {
           "D_80081568": [
             {
@@ -386,14 +418,30 @@
           "object_offset": 0,
           "linked_vram": 2148013416,
           "linked_section": "2",
-          "image_bytes": "00000000",
+          "image_bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "exact": true
         },
         "D_8008156C": {
           "object_offset": 4,
           "linked_vram": 2148013420,
           "linked_section": "2",
-          "image_bytes": "00000000",
+          "image_bytes": {
+            "$retail": {
+              "file": "DUNGEON/DUNGEON.BIN",
+              "offset": 29,
+              "length": 4,
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            },
+            "format": "hex"
+          },
           "exact": true
         }
       }
