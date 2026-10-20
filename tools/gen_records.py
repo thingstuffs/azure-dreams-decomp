@@ -26,8 +26,23 @@ import argparse, collections, hashlib, json, re, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER
-sys.path.insert(0, str(ROOT / "tools/xform"))
-from t4_fields import width, member_decl
+# width/member_decl were imported from tools/xform/t4_fields.py (the transform pass that introduced the records);
+# kept here so the generator has no dependency on the transform tooling.
+WIDTH = {"u8": 1, "s8": 1, "char": 1, "u16": 2, "s16": 2, "short": 2, "u32": 4, "s32": 4, "int": 4, "f32": 4, "M2C_UNK": 4,
+         "s64": 8, "u64": 8, "f64": 8, "M2C_UNK8": 1, "M2C_UNK16": 2, "M2C_UNK32": 4, "M2C_UNK64": 8}
+
+
+def member_decl(t, name):
+    m = re.match(r"^(.*?)\s*\(\*\)\((.*)\)$", t)
+    if m:
+        return f"{m.group(1)} (*{name})({m.group(2)});"
+    return f"{t} {name};"
+
+
+def width(t):
+    if t.endswith("*") or "(*)" in t:
+        return 4
+    return WIDTH.get(re.sub(r"\b(volatile|const)\b", "", t).strip())
 
 OUT = ROOT / "include/records"
 

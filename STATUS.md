@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-19T09:05:09Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-20T04:14:04Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -13,10 +13,10 @@ Generated 2026-10-19T09:05:09Z. Baseline: first-pass text frozen 2026-09-07.
 | **Byte-identical to retail** | 21,392 of 21,432 rows (99.8%), 8,018,768 bytes; 0 unverified |
 | **Code that is C** | 99.0% as C; 99.5% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
-| **Readability** | L3 90.3%, L4 0.0%, L5 0.0% of bytes (levels below) |
-| **Module certificates** | 0 of 300 current, 197 stale, 103 not certified yet |
+| **Readability** | L3 90.4%, L4 9.2%, L5 8.9% of bytes (levels below) |
+| **Module certificates** | 227 of 300 current, 2 stale, 71 not certified yet |
 
-**Current proof state.** 300 of 300 module certificates are not current; L4 and L5, which need the module certificate, read 0.0% and 0.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
+**Current proof state.** 73 of 300 module certificates are not current; L4 and L5, which need the module certificate, read 9.2% and 8.9%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
 
 
 ## Not yet C
@@ -67,15 +67,15 @@ Baseline NOT exact: 40 rows: town/func_80035C0C, town/func_8003705C, town/func_8
 | L0 | 8,018,768 | 99.9% |
 | L1 | 8,018,768 | 99.9% |
 | L2 | 8,018,768 | 99.9% |
-| L3 | 7,251,872 | 90.3% |
-| L4 | 0 | 0.0% |
-| L5 | 0 | 0.0% |
+| L3 | 7,255,040 | 90.4% |
+| L4 | 738,280 | 9.2% |
+| L5 | 713,392 | 8.9% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
 On shared record headers (T7, `include/records/`): 3623 rows, 2,305,216 bytes (28.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 21,392 rows (8,018,768 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 19,828 rows (7,280,312 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -84,15 +84,15 @@ Defects still present in the current tree (files = source files, bytes = image b
 | defect still in the clean tree | files | bytes | % of bytes |
 |---|---:|---:|---:|
 | m2c local names | 35 | 36,004 | 0.4% |
-| goto | 181 | 400,472 | 5.0% |
+| goto | 452 | 510,072 | 6.4% |
 | computed-goto jump table | 1 | 16 | 0.0% |
-| inline asm outside macros | 7 | 8,984 | 0.1% |
+| inline asm outside macros | 49 | 15,020 | 0.2% |
 | any fidelity site | 2 | 23,708 | 0.3% |
 | any live audit site, unnarrowed | 1,643 | 2,290,572 | 28.5% |
-| do{}while(0) scheduling barrier | 83 | 129,728 | 1.6% |
+| do{}while(0) scheduling barrier | 180 | 175,196 | 2.2% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 3,009 | 3,657,100 | 45.6% |
-| clean shape | 9,526 | 7,591,828 | 94.6% |
+| local address-named struct | 3,418 | 3,809,960 | 47.5% |
+| clean shape | 9,255 | 7,482,228 | 93.2% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
 
@@ -102,18 +102,18 @@ Defects still present in the current tree (files = source files, bytes = image b
 | M2C_FIELD raw offsets | 2950 | 1,449,308 | 18.1% | 0 | 0 | 0.0% |
 | m2c local names | 5181 | 2,162,116 | 26.9% | 35 | 36,004 | 0.4% |
 | ASM_ pins | 2135 | 1,456,292 | 18.1% | 0 | 0 | 0.0% |
-| goto | 1545 | 1,312,068 | 16.3% | 181 | 400,472 | 5.0% |
+| goto | 1545 | 1,312,068 | 16.3% | 452 | 510,072 | 6.4% |
 | computed-goto jump table | 317 | 436,504 | 5.4% | 1 | 16 | 0.0% |
-| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 3.0% | 7 | 8,984 | 0.1% |
+| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 3.0% | 49 | 15,020 | 0.2% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 8.4% | 0 | 0 | 0.0% |
 | any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 16.0% | 2 | 23,708 | 0.3% |
 | any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 16.0% | 1643 | 2,290,572 | 28.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 489,140 | 6.1% | 0 | 0 | 0.0% |
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.3% | 0 | 0 | 0.0% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 83 | 129,728 | 1.6% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 180 | 175,196 | 2.2% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.3% | 3009 | 3,657,100 | 45.6% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 9526 | 7,591,828 | 94.6% |
+| local address-named struct | 633 | 346,824 | 4.3% | 3418 | 3,809,960 | 47.5% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 9255 | 7,482,228 | 93.2% |
 
 </details>
 
@@ -143,8 +143,8 @@ Pin sites now: 0 in 0 rows; none left.  At the pin: 25,918; REG 12,816, KEEP 6,9
 
 | module | logical rows | shared headers (under include/) |
 |---|---:|---|
-| entry_words | 1 | `slus/entry_words.h` |
-| render_words | 1 | `records/Rec_func_80034F58_arg0.h`, `slus/render_words.h` |
+| entry_words | 1 | `engine/menu/entry_words.h` |
+| render_words | 1 | `records/Rec_func_80034F58_arg0.h`, `engine/object/render_words.h` |
 | owned_80035484 | 1 | `slus/owned_80035484.h` |
 | owned_80038A10 | 1 | `slus/owned_80038A10.h` |
 | owned_80044698 | 1 | `slus/owned_80044698.h` |
@@ -152,26 +152,26 @@ Pin sites now: 0 in 0 rows; none left.  At the pin: 25,918; REG 12,816, KEEP 6,9
 | owned_8004713C | 1 | `slus/owned_8004713C.h` |
 | owned_80047338 | 1 | `slus/owned_80047338.h` |
 | owned_80047468 | 1 | `slus/owned_80047468.h` |
-| state_defaults | 1 | `slus/state_defaults.h` |
-| slot_transition | 4 | `slus/slot_transition.h` |
-| slot_transition_secondary | 4 | `slus/slot_transition.h` |
-| konami_runtime_gp_count | 1 | `slus/konami_runtime_gp_count.h` |
-| gp_shared_slots | 2 | `slus/gp_shared_slots.h` |
-| gp_split_storage | 1 | `slus/gp_split_storage.h` |
+| state_defaults | 1 | `engine/util/state_defaults.h` |
+| slot_transition | 4 | `engine/scene/slot_transition.h` |
+| slot_transition_secondary | 4 | `engine/scene/slot_transition.h` |
+| konami_runtime_gp_count | 1 | `engine/resource/konami_runtime_gp_count.h` |
+| gp_shared_slots | 2 | `engine/scene/gp_shared_slots.h` |
+| gp_split_storage | 1 | `engine/texture/gp_split_storage.h` |
 | gp_shared_81510 | 2 | `slus/gp_shared_81510.h`, `shared/scratchpad.h` |
 | gp_shared_8099c | 2 | `slus/gp_shared_8099c.h` |
-| cache_afe | 1 | `slus/cache_afe.h` |
+| cache_afe | 1 | `engine/effect/cache_afe.h` |
 | saved_value_b98 | 2 | `slus/saved_value_b98.h` |
 | sort_rank_81540 | 1 | `slus/sort_rank_81540.h` |
 | command_slots_81554 | 4 | `slus/command_slots_81554.h` |
-| address_slot | 1 | `slus/address_slot.h` |
-| command_words | 1 | `slus/command_words.h` |
+| address_slot | 1 | `engine/scene/address_slot.h` |
+| command_words | 1 | `engine/scene/command_words.h` |
 | gp_shared_8152c | 3 | `slus/gp_shared_8152c.h` |
 | gp_d92c_owned | 1 | `slus/gp_d92c_owned.h` |
-| gp_order_bytes_owner | 1 | `slus/gp_order_bytes_owner.h` |
+| gp_order_bytes_owner | 1 | `engine/menu/gp_order_bytes_owner.h` |
 | gp_af3_pair | 2 | `slus/gp_af3_pair.h` |
 | message_mode_81550 | 3 | `slus/message_mode_81550.h` |
-| cd_command_state | 7 | `slus/cd_state.h`, `slus/cd_cohort_types.h` |
+| cd_command_state | 7 | `engine/scene/cd_state.h`, `engine/scene/cd_cohort_types.h` |
 | jtbl_80054F9C | 1 | `slus/jtbl_80054F9C.h` |
 | jtbl_80041344 | 1 | `slus/jtbl_80041344.h` |
 | jtbl_80057A94 | 1 | `slus/jtbl_80057A94.h` |
@@ -185,18 +185,18 @@ Pin sites now: 0 in 0 rows; none left.  At the pin: 25,918; REG 12,816, KEEP 6,9
 | jtbl_80057D20 | 1 | `slus/jtbl_80057D20.h` |
 | jtbl_80041588 | 1 | - |
 | jtbl_800595C0 | 1 | - |
-| sound_pitch_conversions | 3 | `slus/sound_pitch_conversions.h` |
-| sound_register_helpers | 3 | `slus/sound_register_helpers.h` |
-| sound_range_records | 3 | `slus/sound_range_records.h` |
-| sound_transfer_helpers | 3 | `slus/sound_transfer_helpers.h` |
+| sound_pitch_conversions | 3 | `engine/audio/sound_pitch_conversions.h` |
+| sound_register_helpers | 3 | `engine/audio/spu/sound_register_helpers.h` |
+| sound_range_records | 3 | `engine/audio/spu/sound_range_records.h` |
+| sound_transfer_helpers | 3 | `engine/audio/spu/sound_transfer_helpers.h` |
 | sound_streaming_transfer | 1 | `slus/sound_streaming_transfer.h` |
 | sound_key_buffer | 2 | `slus/sound_key_buffer.h` |
 | sound_dma_lifecycle | 6 | `slus/sound_dma_lifecycle.h` |
-| sound_reset_state | 2 | `slus/sound_reset_state.h`, `slus/sound_range_records.h` |
-| sound_transfer_frontends | 2 | `slus/sound_transfer_frontends.h` |
-| sound_event_start | 1 | `slus/sound_event_service.h`, `slus/sound_dma_lifecycle.h` |
-| sound_register_value | 1 | `slus/sound_register_helpers.h` |
-| sound_reverb_writer | 1 | `slus/sound_dma_lifecycle.h`, `slus/sound_reverb.h` |
+| sound_reset_state | 2 | `engine/audio/spu/sound_reset_state.h`, `engine/audio/spu/sound_range_records.h` |
+| sound_transfer_frontends | 2 | `engine/audio/spu/sound_transfer_frontends.h` |
+| sound_event_start | 1 | `engine/audio/spu/sound_event_service.h`, `slus/sound_dma_lifecycle.h` |
+| sound_register_value | 1 | `engine/audio/spu/sound_register_helpers.h` |
+| sound_reverb_writer | 1 | `slus/sound_dma_lifecycle.h`, `engine/audio/spu/sound_reverb.h` |
 
 </details>
 
@@ -220,11 +220,10 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | state | modules | rows | meaning |
 |---|---:|---:|---|
-| current | 0 | 0 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
-| stale: inputs changed | 195 | 1,487 | a certificate exists but a source, recipe, header, tool or review it covers has changed since; it needs renewing |
-| not certified yet | 49 | 342 | no certificate has been issued for this module |
+| current | 227 | 1,552 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
+| not certified yet | 17 | 277 | no certificate has been issued for this module |
 
-<details><summary>stale: inputs changed - 195 modules, 1,487 rows</summary>
+<details><summary>current - 227 modules, 1,552 rows</summary>
 
 | module | rows |
 |---|---:|
@@ -423,30 +422,6 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_7f511800_p04 | 4 |
 | dungeon_ovl_1829800 | 12 |
 | town_ovl_6f48d0 | 1 |
-
-</details>
-
-<details><summary>not certified yet - 49 modules, 342 rows</summary>
-
-| module | rows |
-|---|---:|
-| dungeon_town_map | 16 |
-| dungeon_ovl_d54c | 10 |
-| dungeon_dungeon_setup | 14 |
-| dungeon_ovl_16b08_f6a8 | 1 |
-| dungeon_ovl_1831370 | 23 |
-| dungeon_ovl_1831cd8 | 50 |
-| dungeon_ovl_1830850 | 26 |
-| dungeon_ovl_9c32d4 | 5 |
-| dungeon_ovl_19a332c | 19 |
-| dungeon_ovl_1930844 | 10 |
-| dungeon_ovl_18d0850 | 12 |
-| dungeon_ovl_188898c | 9 |
-| dungeon_ovl_188298c | 7 |
-| dungeon_ovl_18ca83c | 4 |
-| dungeon_ovl_18b8824 | 9 |
-| dungeon_floor_spawns | 12 |
-| dungeon_floor_generate | 50 |
 | dungeon_item_slot_search | 3 |
 | main_card_slot_refresh | 2 |
 | main_card_slot_records | 2 |
@@ -479,6 +454,30 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | town_paged_entry_brightness | 2 |
 | town_paired_entry_update | 2 |
 | town_grid_rectangle_preset | 2 |
+
+</details>
+
+<details><summary>not certified yet - 17 modules, 277 rows</summary>
+
+| module | rows |
+|---|---:|
+| dungeon_town_map | 16 |
+| dungeon_ovl_d54c | 10 |
+| dungeon_dungeon_setup | 14 |
+| dungeon_ovl_16b08_f6a8 | 1 |
+| dungeon_ovl_1831370 | 23 |
+| dungeon_ovl_1831cd8 | 50 |
+| dungeon_ovl_1830850 | 26 |
+| dungeon_ovl_9c32d4 | 5 |
+| dungeon_ovl_19a332c | 19 |
+| dungeon_ovl_1930844 | 10 |
+| dungeon_ovl_18d0850 | 12 |
+| dungeon_ovl_188898c | 9 |
+| dungeon_ovl_188298c | 7 |
+| dungeon_ovl_18ca83c | 4 |
+| dungeon_ovl_18b8824 | 9 |
+| dungeon_floor_spawns | 12 |
+| dungeon_floor_generate | 50 |
 
 </details>
 
@@ -543,7 +542,7 @@ Choices the tree keeps on purpose and tracks; none is an assembler pin. The comp
 | one-trip barrier rows | 2 | `ledger/onetrip_barrier_rows.jsonl` |
 | load-bearing one-trip rows | 85 | `ledger/onetrip_loadbearing.jsonl` |
 | carve debt: composite rows | 0 statements in 0 rows | `tools/pin_census.py composite_asm_spans` |
-| hidden scaffolding (not pins) | 9 sites (7 symbol aliases) | `pin_census.hidden_asm` |
+| hidden scaffolding (not pins) | 51 sites (49 symbol aliases) | `pin_census.hidden_asm` |
 | per-row optimization flags | 2,010 rows with one, 0 with two or more | `ledger/rows.jsonl` |
 | site-for-pin trades | 27 | `ledger/recipe_trades.jsonl` |
 | dead-initializer trades | 24 | `ledger/recipe_trades.jsonl` |
@@ -558,7 +557,7 @@ Choices the tree keeps on purpose and tracks; none is an assembler pin. The comp
 
 Tracked, not pins (owner 2026-10-06): oddities 0 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: -); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 0 statements in 0 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 7 (a second typed name for one symbol: a missing type); file-scope asm directives 2; file-scope global register variables 0 (`register T g asm("$R")`).
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 49 (a second typed name for one symbol: a missing type); file-scope asm directives 2; file-scope global register variables 0 (`register T g asm("$R")`).
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 2,010 rows carry one flag, 0 carry two or more.
 
@@ -566,7 +565,7 @@ Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_
 
 Dead-initializer trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"dead_init","id":row,"site":pins,"init":decl,"lane":lane,"at":iso,"note":str}` -- a never-read `= 0` at a declaration makes the variable multi-set; ordinary C by the owner ruling 2026-09-23, tracked as a spelling trade, informational, the pin count is unchanged; appended by tools/apply_candidates.py at landing): 24.
 
-Union trades (`ledger/union_trades.jsonl`, owner 2026-10-13: kept as nicer-than-a-pin but TRACKED - their plausibility as original 1997 code is unproven; census work/native_lane/_r118/union_census): zero-init one-member idiom (accepted trade): 30 sites in 6 rows (6 rows still carry a union; most: func_8180B064 16, func_80098378 9, func_808119EC 2, func_809A38E4 1); host-merge levers (int/pointer share one union variable; owner ruling pending): 11 sites in 10 rows (9 rows still carry a union; most: func_81983138 2, func_800C7F80 1, func_80EF3FB0 1, func_80EF9FB0 1). Resolved by re-spells (original-C shapes, byte-exact): 11 of 52 recorded sites. Refused union levers (float launders, dead-value keepers) are recorded in the hard basket.
+Union trades (`ledger/union_trades.jsonl`, owner 2026-10-13: kept as nicer-than-a-pin but TRACKED - their plausibility as original 1997 code is unproven; census work/native_lane/_r118/union_census): zero-init one-member idiom (accepted trade): 30 sites in 6 rows (6 rows still carry a union; most: func_8180B064 16, func_80098378 9, func_808119EC 2, func_809A38E4 1); host-merge levers (int/pointer share one union variable; owner ruling pending): 11 sites in 10 rows (10 rows still carry a union; most: func_81983138 2, func_800C7F80 1, func_80EF3FB0 1, func_80EF9FB0 1). Resolved by re-spells (original-C shapes, byte-exact): 11 of 52 recorded sites. Refused union levers (float launders, dead-value keepers) are recorded in the hard basket.
 
 Dead-branch trades (decision 45, owner 2026-10-13; `ledger/recipe_trades.jsonl` kind dead_branch - a one-arm `if (value) { local = 0; }` over a retail-evidenced value whose arm sets a never-read local, reconstructing a set-but-unused leftover that jump2 deletes while delete_computation keeps the load): 4 rows (func_800A3D40, func_80B467DC, func_8105A724, func_81339F68).
 

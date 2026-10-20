@@ -3,6 +3,7 @@
 #
 #   tools/setup.sh            # provision what is missing, verify what is present
 #   tools/setup.sh --check    # verify only (exit 1 on any gap)
+#   tools/setup.sh --psyq DIR # also install the genuine Psy-Q assembler from YOUR SDK (optional; docs/TOOLCHAIN_PSYQ.md)
 #
 # Pieces (all under this tree, nothing borrowed):
 #   .venv/                     splat64 (the SLUS split) and its deps, pinned in the lock
@@ -10,13 +11,26 @@
 #   toolchain/maspsx           -> tools/maspsx (vendored, function-blind assembler front end)
 #   toolchain/bin/mkpsxiso,dumpsxiso   built from the pinned commit + tools/patches/ (disc round trip)
 #   bin/<disc image>           supplied by the user, SHA-1 checked; work/disc/ extracted from it (tools/disc.py)
+#   toolchain/genuine/         OPTIONAL: ASPSX.EXE 2.79 copied from the user's own Psy-Q SDK (--psyq DIR or
+#                              $AZURE_CLEAN_PSYQ, sha256-checked, copied, never symlinked) + wibo 1.1.0 (downloaded,
+#                              or --wibo FILE / $AZURE_CLEAN_WIBO).  Without it SLUS and every non-module window
+#                              still build; the overlay-module windows need it (docs/TOOLCHAIN_PSYQ.md).
 # Seed: if $AZURE_CLEAN_SEED names a directory with toolchain/compilers, toolchain/src/mkpsxiso or bin/
 # already in place, they are copied from there instead of downloaded (still hash-checked).
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LOCK="$ROOT/tools/toolchain.lock.json"
 TC="$ROOT/toolchain"
-CHECK=0; [ "${1:-}" = "--check" ] && CHECK=1
+CHECK=0; PSYQ="${AZURE_CLEAN_PSYQ:-}"; WIBO="${AZURE_CLEAN_WIBO:-}"
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --check) CHECK=1;;
+    --psyq) PSYQ="${2:?--psyq needs the directory of your Psy-Q SDK}"; shift;;
+    --wibo) WIBO="${2:?--wibo needs a wibo executable}"; shift;;
+    *) echo "usage: tools/setup.sh [--check] [--psyq DIR] [--wibo FILE]" >&2; exit 2;;
+  esac
+  shift
+done
 fail=0
 say() { printf '%s\n' "$*"; }
 gap() { say "  GAP: $*"; fail=1; }
@@ -84,6 +98,7 @@ EOF
 )" && say "  maspsx: $maspsx_line" || gap "maspsx carries executable function-name literals: $maspsx_line"
 
 if [ -x "$ROOT/.venv/bin/python" ] && "$ROOT/.venv/bin/python" -c 'import pytest' 2>/dev/null; then
+  mkdir -p "$ROOT/work"   # a fresh clone has no work/ yet (tools/disc.py extract creates it later)
   (cd "$ROOT/tools/maspsx" && "$ROOT/.venv/bin/python" -m pytest tests -q --no-header -p no:cacheprovider > "$ROOT/work/maspsx_tests.log" 2>&1) \
     && say "  maspsx tests: $(tail -1 "$ROOT/work/maspsx_tests.log")" || gap "maspsx tests failed (work/maspsx_tests.log)"
 fi
@@ -106,6 +121,51 @@ if [ ! -x "$TC/bin/mkpsxiso" ] || [ ! -x "$TC/bin/dumpsxiso" ]; then
   fi
 fi
 [ -x "$TC/bin/mkpsxiso" ] && say "  $("$TC/bin/mkpsxiso" -h 2>&1 | head -1)"
+
+say "== genuine Psy-Q assembler (optional; docs/TOOLCHAIN_PSYQ.md) =="
+G="$TC/genuine"
+genuine_src() {   # $1 = aspsx|wibo: print the first user/seed file whose sha256 is the locked one
+  local want f; local -a cands=(); want="$(j genuine/$1/sha256)"
+  if [ "$1" = aspsx ]; then
+    [ -n "$PSYQ" ] && while IFS= read -r f; do cands+=("$f"); done < <(find -L "$PSYQ" -maxdepth 5 -type f -iname 'aspsx.exe' 2>/dev/null || true)
+  else
+    [ -n "$WIBO" ] && cands+=("$WIBO")
+    [ -n "$PSYQ" ] && while IFS= read -r f; do cands+=("$f"); done < <(find -L "$PSYQ" -maxdepth 5 -type f -name 'wibo*' 2>/dev/null || true)
+  fi
+  [ -n "${AZURE_CLEAN_SEED:-}" ] && cands+=("$AZURE_CLEAN_SEED/toolchain/genuine/$(j genuine/$1/path)")
+  for f in "${cands[@]}"; do
+    [ -f "$f" ] && [ "$(sha256sum "$f" | cut -d' ' -f1)" = "$want" ] && { echo "$f"; return 0; }
+  done
+  return 0
+}
+if [ -L "$G" ] || [ -L "$G/bin" ] || [ -L "$G/psyq" ] || [ -L "$G/psyq/psyq4.4" ]; then
+  [ -n "$PSYQ$WIBO" ] && gap "toolchain/genuine is a symlink: not copying through it (replace it with a directory first)"
+elif [ $CHECK = 0 ] && [ -n "$PSYQ$WIBO" ]; then
+  for k in aspsx wibo; do
+    dest="$G/$(j genuine/$k/path)"
+    [ -f "$dest" ] && continue
+    src="$(genuine_src $k)"
+    if [ -z "$src" ] && [ $k = wibo ]; then
+      mkdir -p "$(dirname "$dest")"; curl -fsSL "$(j genuine/wibo/url)" -o "$dest.part" && mv "$dest.part" "$dest"
+    elif [ -z "$src" ]; then
+      gap "no ASPSX.EXE with sha256 $(j genuine/aspsx/sha256) under $PSYQ ($(j genuine/aspsx/version), see docs/TOOLCHAIN_PSYQ.md)"; continue
+    else
+      mkdir -p "$(dirname "$dest")"; cp --dereference "$src" "$dest"
+    fi
+    [ -f "$dest" ] && chmod 0755 "$dest"
+  done
+fi
+for k in aspsx wibo; do
+  rel="$(j genuine/$k/path)"; dest="$G/$rel"
+  if [ -f "$dest" ]; then
+    got="$(sha256sum "$dest" | cut -d' ' -f1)"
+    [ "$got" = "$(j genuine/$k/sha256)" ] && say "  genuine/$rel OK ($(j genuine/$k/version))" || gap "genuine/$rel sha256 $got != lock $(j genuine/$k/sha256)"
+  elif [ -n "$PSYQ$WIBO" ]; then
+    gap "genuine/$rel missing"
+  else
+    say "  genuine/$rel absent: optional; SLUS and non-module windows build without it, overlay-module windows need it (tools/setup.sh --psyq DIR)"
+  fi
+done
 
 say "== disc =="
 DISC="${AZURE_CLEAN_DISC:-$ROOT/bin/$(j disc/name)}"

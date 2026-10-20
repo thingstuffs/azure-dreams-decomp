@@ -16,6 +16,7 @@ SPEC.loader.exec_module(SDK)
 
 class MainSdkAsm(unittest.TestCase):
     def setUp(self):
+        (ROOT/'tmp').mkdir(exist_ok=True)
         self.temp = tempfile.TemporaryDirectory(dir=os.environ.get('TMPDIR', ROOT/'tmp'))
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)

@@ -40,7 +40,14 @@ tools/setup.sh --check    # verify the set-up only
 ```
 
 The disc image's SHA-1 and every downloaded piece are pinned in `tools/toolchain.lock.json`;
-set-up refuses anything that does not match. Then prove a function matches:
+set-up refuses anything that does not match.
+
+Optional: the overlay-module windows (677 of 3,207 window configs) also check against Sony's genuine
+ASPSX 2.79 assembler from the Psy-Q 4.4 SDK, which cannot be redistributed. If you own the SDK,
+`tools/setup.sh --psyq /path/to/psyq` copies and hash-checks it. Without it, the SLUS executable and every
+other window still build and verify. See [docs/TOOLCHAIN_PSYQ.md](docs/TOOLCHAIN_PSYQ.md).
+
+Then prove a function matches:
 
 ```sh
 python3 tools/verify.py town/func_8008D54C src/town/func_8008D54C.c   # one function (per-row scorer)

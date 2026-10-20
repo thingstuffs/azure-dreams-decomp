@@ -31,8 +31,14 @@ are already excluded by L4).  A row that cannot reach L5 stays at L4 with its re
 2026-09-22 (afternoon, goal round)".
 """
 import re, collections, sys, hashlib
-from row_cache import RowCache, FactInputs, text_key
 from pathlib import Path
+# A spawned accounting worker (certify_batch, multiprocessing "spawn") re-imports the main script as
+# __mp_main__ with the parent's sys.path, where tools/gate/ already precedes tools/.  Keep tools/ first so
+# `source_layout` is this directory's facade (own_source, ...) exactly as in the parent process.
+_TOOLS_DIR = str(Path(__file__).resolve().parent)
+if sys.path[:1] != [_TOOLS_DIR]:
+    sys.path.insert(0, _TOOLS_DIR)
+from row_cache import RowCache, FactInputs, text_key
 from common import ROOT, LEDGER, rows, read_jsonl, write_jsonl, raw_path, sha_file
 from frozen_raw import entry as frozen_entry
 from source_layout import row_path as layout_row_path, own_source as layout_own_source

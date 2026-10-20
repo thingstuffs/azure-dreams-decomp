@@ -13,7 +13,7 @@ from build import gate_all as A
 
 class FreshReceiptTests(unittest.TestCase):
     def setUp(self):
-        self.temp=tempfile.TemporaryDirectory(dir=os.environ.get('TMPDIR',str(REPO/'tmp')));self.addCleanup(self.temp.cleanup)
+        (REPO/'tmp').mkdir(exist_ok=True);self.temp=tempfile.TemporaryDirectory(dir=os.environ.get('TMPDIR',str(REPO/'tmp')));self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name);self.view=self.root/'build_ovl_gate';self.view.mkdir()
         (self.root/'ledger').mkdir();(self.view/'ledger').symlink_to(self.root/'ledger',target_is_directory=True)
         (self.root/'tools/build').mkdir(parents=True);(self.root/'tools/build/gate_all.py').write_text('gate tool')

@@ -59,6 +59,24 @@
   "maspsx": "vendored at tools/maspsx (MIT, base github.com/mkst/maspsx; carries the delay-slot store scheduling and %lo-fold fixes the matches depend on; function-blind: no name tables, no per-function options); toolchain/maspsx is a symlink to it",
   "gnu_as": "mipsel-linux-gnu-as from the host binutils-mipsel-linux-gnu package (2.42 observed); invoked by maspsx --run-assembler and by tools/build/as.sh"
  },
+ "genuine": {
+  "_comment": "OPTIONAL. Only the overlay-module windows need these (docs/TOOLCHAIN_PSYQ.md). ASPSX.EXE is proprietary Sony/SN Systems software and is never downloaded or committed: tools/setup.sh --psyq DIR copies it from the user's own Psy-Q SDK after the sha256 check. wibo is open source (MIT) and is downloaded. toolchain/genuine/ is not committed.",
+  "aspsx": {
+   "path": "psyq/psyq4.4/ASPSX.EXE",
+   "sha256": "fcb987495ba18f9d8b5dc29696f7e6650091d3d86471c60b2a8aa00396888992",
+   "size": 89600,
+   "version": "SDevTC ASPSX version 2.79",
+   "source": "PlayStation Programmer Tool Runtime Library 4.4 (DTL-S2350), PSYQ\\BIN\\ASPSX.EXE; the 4.5 SDK ships the identical file"
+  },
+  "wibo": {
+   "path": "bin/wibo",
+   "sha256": "b9ab9f2c5eb014bc79a97f1a2bee9a7ab177d905a7d2f637da5735820021c40c",
+   "size": 6985552,
+   "version": "wibo 1.1.0 (Linux x86_64)",
+   "url": "https://github.com/decompals/wibo/releases/download/1.1.0/wibo-x86_64",
+   "license": "MIT"
+  }
+ },
  "mkpsxiso": {
   "repo": "https://github.com/Lameguy64/mkpsxiso.git",
   "commit": "633adc6778b7a7c677eecaebc7da41bd19068048",

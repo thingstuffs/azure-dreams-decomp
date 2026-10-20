@@ -15,3 +15,9 @@ __pycache__/
 /baserom/
 .pytest_cache/
 /build_ovl_*/
+# not part of the tree: retail disassembly from the SLUS split, test scratch, local receipts and logs
+/asm/
+/tmp/
+/receipts/
+/SCRATCH_HEAD
+/mk_ovl_root.log

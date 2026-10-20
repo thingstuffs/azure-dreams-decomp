@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """Generate STATUS.md from the ledger (rows, baseline, census, levels)."""
-import collections, json, re, time
+import collections, json, re, sys, time
 from pathlib import Path
+# A spawned accounting worker (certify_batch, multiprocessing "spawn") re-imports the main script as
+# __mp_main__ with the parent's sys.path, where tools/gate/ already precedes tools/.  Keep tools/ first so
+# `source_layout` is this directory's facade (own_source, ...) exactly as in the parent process.
+_TOOLS_DIR = str(Path(__file__).resolve().parent)
+if sys.path[:1] != [_TOOLS_DIR]:
+    sys.path.insert(0, _TOOLS_DIR)
 from common import LEDGER, ROOT, rows, read_jsonl, PARKED_CONTAINERS
 from source_layout import row_path as layout_row_path
 from pin_census import sites_of, hidden_asm, strip_composite_asm, composite_asm_spans

@@ -82,6 +82,7 @@ class PlacementContract(unittest.TestCase):
             self.assertEqual(facade.physical_owner(rid,self.root)['key'],self.m['key'])
         self.assertEqual(P.valid_placements(self.root),{})
 
+    @unittest.skipUnless((TOOLS / 'lanes/native_package.py').exists(), 'lane tooling is not part of this tree')
     def test_unadmitted_fileless_staging_is_rejected_before_ordinary_deferral(self):
         from lanes import native_package as NP
         lane=self.root/'lane';out=lane/'out/dungeon';out.mkdir(parents=True)

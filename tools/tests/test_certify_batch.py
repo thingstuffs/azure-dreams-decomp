@@ -14,7 +14,7 @@ REPO=Path(__file__).resolve().parents[2];HELPER=REPO/'tools/lanes/certify_batch.
 
 class CertifyBatchTests(unittest.TestCase):
     def setUp(self):
-        self.temp=tempfile.TemporaryDirectory(dir=os.environ.get('TMPDIR',str(REPO/'tmp')));self.addCleanup(self.temp.cleanup)
+        (REPO/'tmp').mkdir(exist_ok=True);self.temp=tempfile.TemporaryDirectory(dir=os.environ.get('TMPDIR',str(REPO/'tmp')));self.addCleanup(self.temp.cleanup)
         self.base=Path(self.temp.name);self.root=self.base/'repo';(self.root/'ledger/modules').mkdir(parents=True)
         (self.root/'tools/fidelity').mkdir(parents=True)
         for key in ('a','b','c','d'):

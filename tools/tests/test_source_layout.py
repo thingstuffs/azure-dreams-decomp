@@ -52,6 +52,7 @@ class LayoutTest(unittest.TestCase):
             self.assertEqual(L.materialize_flat(self.root / "projection", self.root), self.root / "src")
             self.assertFalse((self.root / "projection").exists())
 
+    @unittest.skipUnless((ROOT / 'tools/lanes/ledger.py').exists(), 'lane tooling is not part of this tree')
     def test_moved_file_live_projection_and_scans(self):
         new = self.move()
         self.assertEqual(L.row_path(self.rows[0], self.root), new)
@@ -69,6 +70,7 @@ class LayoutTest(unittest.TestCase):
         from lanes.ledger import tree_path
         self.assertEqual(tree_path(self.root, self.rows[0]), new)
 
+    @unittest.skipUnless((ROOT / 'tools/lanes/ledger.py').exists(), 'lane tooling is not part of this tree')
     def test_inverse_and_lane_cache_follow_layout_revision(self):
         from lanes.ledger import row_paths
         old = L.row_path(self.rows[0], self.root)
@@ -81,6 +83,7 @@ class LayoutTest(unittest.TestCase):
                          [self.rows[0]["id"]])
         self.assertEqual(L.row_ids_for_paths(["src/dungeon/modules/aux.c"], self.root), [])
 
+    @unittest.skipUnless((ROOT / 'tools/lanes/lanekit/context_oracle.py').exists(), 'lane tooling is not part of this tree')
     def test_context_oracle_reads_the_supplied_roots_layout(self):
         from lanes.lanekit.context_oracle import Oracle
         new = self.move()
