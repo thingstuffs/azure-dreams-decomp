@@ -2,6 +2,7 @@
 #define MODULE_DUNGEON_OVL_9950E8_H
 
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -14,10 +15,8 @@ typedef struct S_809750E8_0 {
     s16 unk_AC;
 } S_809750E8_0;   /* arg0 in func_801708E8; pointer addresses record offset 0x2 */
 
-
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
-
 
 /* Applies countdown-scaled intensity and sets completion flags when the countdown expires. */
 
@@ -36,9 +35,7 @@ typedef struct S_80975170_0 {
 
    /* src in func_80170970 */
 
-
 extern void func_800478B8(void *render_state);
-
 
 /* Copy the source transform, advance and fade the effect, and flag completion when its timer expires. */
 #include "shared/object_node.h"
@@ -60,7 +57,7 @@ extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void func_80047784(void *, u8, s32);
-void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform, Rec_D_80082E80 *render_state);
+void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform, SpriteFrameState *render_state);
 extern u8 D_80174128[8];
 
 typedef struct S_80975244_0 {
@@ -78,24 +75,6 @@ typedef struct S_80975244_1 {
     void * unk_0C;
     M2C_UNK * unk_10;
 } S_80975244_1;   /* temp_v0 in func_80170A44 */
-
-typedef struct S_80975244_2 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x2];
-    u16 unk_22;
-    u8 pad_24[0x8];
-    M2C_UNK * unk_2C;
-} S_80975244_2;   /* temp_s0 in func_80170A44 */
 
 typedef struct S_80975244_3 {
     u8 pad_00[0x2A];

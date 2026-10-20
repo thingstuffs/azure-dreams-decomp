@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 
 typedef struct S_818C32F4_0 {
@@ -15,18 +16,6 @@ typedef struct S_818C32F4_1 {
     s16 unk_04;
     s16 unk_06;
 } S_818C32F4_1;
-
-typedef struct S_818C32F4_2 {
-    u8 pad_00[0xC];
-    union { struct { s32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    u16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818C32F4_2;
 
 typedef struct S_818C32F4_3 {
     u8 pad_00[0xC];
@@ -53,8 +42,6 @@ typedef struct S_818C32F4_5 {
     s32 unk_14;
 } S_818C32F4_5;
 
-
-
 extern s32 func_8003DB94();
 extern s32 register_node();
 extern u8 D_80024A08[9];
@@ -65,7 +52,7 @@ extern u8 D_80045C34[9];
 s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *visual_template) {
     u16 angle;
     void *init_data;
-    S_818C32F4_2 *visual;
+    SpriteFrameState *visual;
     void *object;
     S_818C32F4_1 *object_state;
     S_818C32F4_5 *object_data;
@@ -78,24 +65,24 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
         object_state->unk_04 = 0;
         object_state->unk_06 = 0;
         visual = ((S_818C32F4_0 *)object)->unk_0C;
-        visual->unk_0C.at00.v = ((S_818C32F4_3 *)(visual_template))->unk_0C;
-        if ((u8)visual->unk_0C.at00.v != 0) {
-            visual->unk_0C.at00u.v = 0xC0;
+        visual->color.word = ((S_818C32F4_3 *)(visual_template))->unk_0C;
+        if ((u8)visual->color.word != 0) {
+            visual->color.c.r = 0xC0;
         }
-        if (visual->unk_0C.at01.v != 0) {
-            visual->unk_0C.at01.v = 0xC0;
+        if (visual->color.c.g != 0) {
+            visual->color.c.g = 0xC0;
         }
-        if (visual->unk_0C.at02.v != 0) {
-            visual->unk_0C.at02.v = 0xC0;
+        if (visual->color.c.b != 0) {
+            visual->color.c.b = 0xC0;
         }
-        visual->unk_14 = visual->unk_14 | 0xC;
-        visual->unk_10 = visual->unk_10 | 0x60;
+        visual->flags = visual->flags | 0xC;
+        visual->tpage_abr = visual->tpage_abr | 0x60;
         func_8003DB94(visual, D_80025B38, 0);
         init_data = D_80045C34;
         angle = ((S_818C32F4_3 *)(visual_template))->unk_1A;
-        visual->unk_1E = 0x1400;
-        visual->unk_1C = 0x1400;
-        visual->unk_1A = angle;
+        visual->scale_y = 0x1400;
+        visual->scale_x = 0x1400;
+        visual->angle_z = angle;
         register_node(object, init_data);
         object_data = ((S_818C32F4_0 *)object)->unk_08;
         *object_data = *(S_818C32F4_5 *)source_data;

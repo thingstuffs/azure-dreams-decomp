@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 
 #ifndef NULL
@@ -57,7 +58,7 @@ void *create_linked_actor_fade_effect(EntityFields *source) {
     EntityFields *entity;
     CopyFields *source_fields;
     CopyFields *entity_fields;
-    ConfigFields *config;
+    SpriteFrameState *config;
     TailFields *entity_tail;
     TailFields *source_tail;
     u16 size;
@@ -76,14 +77,14 @@ void *create_linked_actor_fade_effect(EntityFields *source) {
         entity_fields->fieldA = source_fields->fieldA;
 
         config = entity->fieldC;
-        config->field10 = 0x20;
-        config->field8 = D_800DF4A4;
+        config->tpage_abr = 0x20;
+        config->source = D_800DF4A4;
         size = 0x1000;
-        config->field1E = size;
-        config->fieldC = 0x808080;
-        config->field1C = size;
+        config->scale_y = size;
+        config->color.word = 0x808080;
+        config->scale_x = size;
         source_tail = &source->tail;
-        config->field14 |= 0xC;
+        config->flags |= 0xC;
         entity_tail = &entity->tail;
         entity_tail->field4C = 0x10;
         entity_tail->field68 = source_tail;

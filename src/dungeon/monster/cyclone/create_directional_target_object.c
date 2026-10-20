@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
@@ -37,7 +38,7 @@ void *create_directional_target_object(void *emitter, Copy24 *position, void *so
     void *object;
     void *transform;
     void *source_copy;
-    void *render;
+    SpriteFrameState *render;
     void *result;
     position_data = position;
     source_copy = source;
@@ -54,12 +55,12 @@ void *create_directional_target_object(void *emitter, Copy24 *position, void *so
         *((void **) (((u8 *) object) + 0x10)) = &D_80175978;
         register_node(object, project_sprite_chain);
         render = *((void **) (((u8 *) object) + 0xC));
-        *((s32 *) (((u8 *) render) + 0x28)) = *((s32 *) (((u8 *) source_copy) + 0x28));
-        *((s16 *) (((u8 *) render) + 0x1E)) = 0x800;
-        *((s16 *) (((u8 *) render) + 0x1C)) = 0x800;
-        *((u32 *) (((u8 *) render) + 0xC)) = 0x00808080;
-        *((u16 *) (((u8 *) render) + 0x14)) |= 0xC;
-        *((u16 *) (((u8 *) render) + 0x10)) |= 0x20;
+        render->unk_28 = *((s32 *) (((u8 *) source_copy) + 0x28));
+        render->scale_y = 0x800;
+        render->scale_x = 0x800;
+        render->color.word = 0x00808080;
+        render->flags |= 0xC;
+        render->tpage_abr |= 0x20;
         select_sprite_entry(render, 0x47, 0);
         transform = *((void **) (((u8 *) object) + 8));
         *((Copy24 *) (((u8 *) object) + 0x24)) = *position_data;

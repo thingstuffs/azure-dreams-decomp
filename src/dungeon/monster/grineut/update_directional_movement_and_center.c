@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_80161238_1 {
     u8 pad_00[0x8C];
@@ -14,7 +14,6 @@ typedef struct S_80161238_1 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_80161238_1;   /* arg0 in update_directional_movement_and_center */
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
@@ -49,7 +48,7 @@ void update_directional_movement_and_center(void *action, EntityRec *motion, voi
             begin_actor_display_action(action, motion, actor, D_80162178);
             break;
         }
-        if (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)actor)->flags & 0x8000) {
             ((S_80161238_1 *)action)->unk_96.s = 0;
             ((S_80161238_1 *)action)->unk_9B = 3;
             break;
@@ -71,7 +70,7 @@ void update_directional_movement_and_center(void *action, EntityRec *motion, voi
 
         if (((S_80161238_1 *)action)->unk_96.s > 0) {
             ((S_80161238_1 *)action)->unk_96.s = ((S_80161238_1 *)action)->unk_96.u - 1;
-        } else if (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x6000) {
+        } else if (((SpriteFrameState *)actor)->flags & 0x6000) {
             ((S_80161238_1 *)action)->unk_96.s = 0;
         }
 
@@ -85,7 +84,7 @@ void update_directional_movement_and_center(void *action, EntityRec *motion, voi
             begin_actor_display_action(action, motion, actor, D_80162178);
             break;
         }
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80162150;
+        ((SpriteFrameState *)actor)->frameTable = D_80162150;
         select_sprite_entry(
             actor,
             D_80162150[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -96,11 +95,11 @@ void update_directional_movement_and_center(void *action, EntityRec *motion, voi
     case 2:
         motion->unk_0C -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         motion->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
-        if (!(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)actor)->flags & 0x6000)) {
             break;
         }
 
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80162150;
+        ((SpriteFrameState *)actor)->frameTable = D_80162150;
         select_sprite_entry(
             actor,
             D_80162150[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -113,12 +112,12 @@ void update_directional_movement_and_center(void *action, EntityRec *motion, voi
         timer = ((S_80161238_1 *)action)->unk_96.s;
         if (timer != 0) {
             {
-                s32 tile_x = ((Rec_D_80082E80 *)actor)->unk_24 << 6;
+                s32 tile_x = ((SpriteFrameState *)actor)->unk_24 << 6;
                 s32 offset_x = motion->x.w.i - 0x20;
                 motion->unk_0C = ((tile_x - offset_x) << 15) / timer;
             }
             {
-                s32 tile_y = ((Rec_D_80082E80 *)actor)->unk_25 << 6;
+                s32 tile_y = ((SpriteFrameState *)actor)->unk_25 << 6;
                 s32 offset_y = motion->y.w.i - 0x20;
                 motion->unk_10 =
                     ((tile_y - offset_y) << 15) / ((S_80161238_1 *)action)->unk_96.s;
@@ -134,9 +133,9 @@ void update_directional_movement_and_center(void *action, EntityRec *motion, voi
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        motion->x.v = ((((Rec_D_80082E80 *)actor)->unk_24 << 6) + 0x20) << 16;
-        motion->y.v = ((((Rec_D_80082E80 *)actor)->unk_25 << 6) + 0x20) << 16;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
+        motion->x.v = ((((SpriteFrameState *)actor)->unk_24 << 6) + 0x20) << 16;
+        motion->y.v = ((((SpriteFrameState *)actor)->unk_25 << 6) + 0x20) << 16;
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25);
 
         tracked_entity = ((s32)g_dungeon_status.unk_10);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {

@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_7ce800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -27,29 +28,6 @@ typedef struct S_807B040C_1 {
     u8 unk_B8;
 } S_807B040C_1;   /* entity in update_special_actor_transition */
 
-typedef struct S_807B040C_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_807B040C_2;   /* state_room in update_special_actor_transition */
-
-typedef struct S_807B040C_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_807B040C_3;   /* target in update_special_actor_transition */
-
-typedef struct S_807B040C_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_807B040C_4;   /* room in update_special_actor_transition */
-
-typedef struct S_807B040C_5 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_807B040C_5;   /* collision in update_special_actor_transition */
-
 typedef struct S_807B040C_6 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -67,11 +45,6 @@ typedef struct S_807B040C_7 {
     u8 pad_08[0xE];
     u16 unk_16;
 } S_807B040C_7;   /* motion in update_special_actor_transition */
-
-
-
-
-
 
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void get_offset_map_cell_value_and_flags(u8, u8, s16, u16 *);
@@ -118,12 +91,12 @@ s32 update_special_actor_transition(void) {
             room_page = (u8 *)0x80080000;
             nearby_room = &D_80082E80;
             dx = nearby_room->tileX;
-            target_coord = ((S_807B040C_3 *)target)->unk_24;
+            target_coord = ((SpriteFrameState *)target)->unk_24;
             dx -= target_coord;
             dx = abs(dx);
             if (dx < 3) {
                 room_distance_y = nearby_room->tileY;
-                target_coord = ((S_807B040C_3 *)target)->unk_25;
+                target_coord = ((SpriteFrameState *)target)->unk_25;
                 room_distance_y -= target_coord;
                 room_distance_y = abs(room_distance_y);
                 if (room_distance_y < 3) {
@@ -172,8 +145,8 @@ s32 update_special_actor_transition(void) {
             s32 y_is_farther;
 
             distance_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
-            delta_y = ((S_807B040C_3 *)target)->unk_24;
-            target_y = ((S_807B040C_3 *)target)->unk_25;
+            delta_y = ((SpriteFrameState *)target)->unk_24;
+            target_y = ((SpriteFrameState *)target)->unk_25;
             distance_x -= delta_y;
             delta_y = ((S_807B040C_1 *)entity)->unk_AE.s16;
             if (distance_x < 0) {
@@ -191,8 +164,8 @@ s32 update_special_actor_transition(void) {
             ((S_807B040C_1 *)entity)->unk_96.s = move_ticks;
 
             entity_flags = ((S_807B040C_6 *)entity_aux)->unk_1C;
-            tile_x = ((S_807B040C_3 *)target)->unk_24;
-            tile_y = ((S_807B040C_3 *)target)->unk_25;
+            tile_x = ((SpriteFrameState *)target)->unk_24;
+            tile_y = ((SpriteFrameState *)target)->unk_25;
             tile_flags = 0x3000;
             if (entity_flags & 0x2000) {
                 tile_flags = 0x300;
@@ -260,21 +233,21 @@ s32 update_special_actor_transition(void) {
         break;
 
     case 2:
-        ((S_807B040C_3 *)target)->unk_24 = ((S_807B040C_1 *)entity)->unk_AA.u8;
-        ((S_807B040C_3 *)target)->unk_25 = ((S_807B040C_1 *)entity)->unk_AE.u8;
-        motion[0] = ((((S_807B040C_3 *)target)->unk_24 << 6) + 0x20) << 16;
-        motion[1] = ((((S_807B040C_3 *)target)->unk_25 << 6) + 0x20) << 16;
+        ((SpriteFrameState *)target)->unk_24 = ((S_807B040C_1 *)entity)->unk_AA.u8;
+        ((SpriteFrameState *)target)->unk_25 = ((S_807B040C_1 *)entity)->unk_AE.u8;
+        motion[0] = ((((SpriteFrameState *)target)->unk_24 << 6) + 0x20) << 16;
+        motion[1] = ((((SpriteFrameState *)target)->unk_25 << 6) + 0x20) << 16;
         motion[5] = 0;
         motion[4] = 0;
         motion[3] = 0;
         ((S_807B040C_1 *)entity)->unk_88 = (s16)sample_terrain_surface_height(((S_807B040C_7 *)motion)->unk_02,
                                                  ((S_807B040C_7 *)motion)->unk_06, -0x400);
-        set_record_integer_tile_center(motion, ((S_807B040C_3 *)target)->unk_24, ((S_807B040C_3 *)target)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)target)->unk_24, ((SpriteFrameState *)target)->unk_25);
         {
 
             entity_flags = ((S_807B040C_1 *)entity)->unk_1C;
-            tile_x = ((S_807B040C_3 *)target)->unk_24;
-            tile_y = ((S_807B040C_3 *)target)->unk_25;
+            tile_x = ((SpriteFrameState *)target)->unk_24;
+            tile_y = ((SpriteFrameState *)target)->unk_25;
             tile_flags = 0x3000;
             if (entity_flags & 0x2000) {
                 tile_flags = 0x300;

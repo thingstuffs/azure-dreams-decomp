@@ -30,20 +30,6 @@ typedef struct S_80D3B0B8_2 {
     u8 unk_B0;
 } S_80D3B0B8_2;   /* saved_arg0 in func_801708B8 */
 
-typedef struct S_80D3B0B8_3 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0xC];
-    u8 * unk_2C;
-} S_80D3B0B8_3;   /* temp_s1 in func_801708B8 */
-
 typedef struct S_80D3B0B8_5 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -68,11 +54,9 @@ typedef struct S_80D3B0B8_7 {
     u16 unk_1E;
 } S_80D3B0B8_7;   /* saved_arg2 in func_801708B8 */
 
-
 typedef struct Copy16 {
     s32 word[4];
 } Copy16;
-
 
 typedef struct { Copy16 block[3]; } Copy48;
 

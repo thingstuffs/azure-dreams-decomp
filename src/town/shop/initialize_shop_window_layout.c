@@ -87,11 +87,11 @@ typedef struct S_800B1188_14 {
    /* ((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_04))->unk_04 in initialize_shop_window_layout */
 
 
-extern void func_8004CBFC();
-extern void process_shop_record_and_subrecord();
-extern void position_shop_row_widgets();
-extern void position_shop_child_elements();
-extern void populate_shop_item_rows();
+struct S8004CBFC_a0; struct S8004CBFC_a1; void func_8004CBFC(struct S8004CBFC_a0 *, struct S8004CBFC_a1 *, int *);
+void process_shop_record_and_subrecord(s32);
+struct Rec_func_800B0C68_arg0; void position_shop_row_widgets(struct Rec_func_800B0C68_arg0 *);
+struct Rec_func_800B0C68_arg0; void position_shop_child_elements(struct Rec_func_800B0C68_arg0 *);
+struct S_800B0FD4_0; void populate_shop_item_rows(struct S_800B0FD4_0 *);
 extern M2C_UNK D_800788E0;
 extern M2C_UNK D_800792DC;
 extern M2C_UNK D_800D15F4;
@@ -111,9 +111,9 @@ void initialize_shop_window_layout(void *ui) {
     *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04 = header;
     ((SignedWidgetYView *)(((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04))->unk_04))->unk_0A =
         0x2F;
-    process_shop_record_and_subrecord(header);
+    process_shop_record_and_subrecord((s32)(header));
     position_shop_row_widgets(ui);
-    func_8004CBFC(ui + 0x28, &D_800792DC, ((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_08);
+    func_8004CBFC(ui + 0x28, (struct S8004CBFC_a1 *)(&D_800792DC), (int *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_08));
     row = 4;
     lower_y = 0xC8;
     right_y = 0x55;

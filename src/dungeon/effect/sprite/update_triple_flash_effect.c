@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -17,15 +18,12 @@ typedef struct S_818BD0C0_1 {
     u16 unk_14;
 } S_818BD0C0_1;   /* p in update_triple_flash_effect */
 
-
-
-
 extern void func_8003DB94();
 extern void func_800478B8();
 extern u8 D_80025E04[];
 
 /* Update state counters and cycle the primitive color for up to three flagged updates. */
-void update_triple_flash_effect(void *state, s32 unused, Rec_D_80082E80 *primitive)
+void update_triple_flash_effect(void *state, s32 unused, SpriteFrameState *primitive)
 {
     S_818BD0C0_1 *shared_state;
     u16 cycle_count;
@@ -35,7 +33,7 @@ void update_triple_flash_effect(void *state, s32 unused, Rec_D_80082E80 *primiti
     ((S_818BD0C0_0 *)state)->unk_06++;
     func_800478B8(primitive);
 
-    if (primitive->unk_14.at00_u16.v & 0x6000) {
+    if (primitive->flags & 0x6000) {
         cycle_count = ((S_818BD0C0_0 *)state)->unk_04 + 1;
         ((S_818BD0C0_0 *)state)->unk_04 = cycle_count;
         if ((s16)cycle_count >= 3) {
@@ -45,17 +43,17 @@ void update_triple_flash_effect(void *state, s32 unused, Rec_D_80082E80 *primiti
         }
 
         func_8003DB94(primitive, D_80025E04, 0);
-        if (primitive->unk_0C.at00_u8.v != 0) {
-            primitive->unk_0C.at00_u8.v = 0;
-            primitive->unk_0C.at01_u8.v = 0x80;
+        if (primitive->color.c.r != 0) {
+            primitive->color.c.r = 0;
+            primitive->color.c.g = 0x80;
             return;
         }
-        if (primitive->unk_0C.at01_u8.v != 0) {
-            primitive->unk_0C.at01_u8.v = 0;
-            primitive->unk_0C.at02_u8.v = 0x80;
+        if (primitive->color.c.g != 0) {
+            primitive->color.c.g = 0;
+            primitive->color.c.b = 0x80;
             return;
         }
-        primitive->unk_0C.at02_u8.v = 0;
-        primitive->unk_0C.at00_u8.v = 0x80;
+        primitive->color.c.b = 0;
+        primitive->color.c.r = 0x80;
     }
 }

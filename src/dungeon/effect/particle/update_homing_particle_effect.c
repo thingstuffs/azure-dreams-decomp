@@ -1,4 +1,6 @@
 #include "modules/dungeon_ovl_1852800.h"
+#include "shared/sprite_frame_state.h"
+#include "modules/dungeon_ovl_1852800.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -103,9 +105,6 @@ typedef struct S_func_81832800_7 {
     s32 unk_04;
 } S_func_81832800_7;
 
-
-
-
 void (*const dungeon_1852800_entry)(S_func_81832800_1 *, S_func_81832800_4 *, void *) = decrement_flagged_item_parameters;
 
 void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite);
@@ -148,7 +147,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
     S_func_81832800_4 *burst_position_y;
     S_func_81832800_4 *target_position;
     S_func_81832800_5 *source_sprite;
-    S_func_81832800_5 *sprite;
+    SpriteFrameState *sprite;
     S_func_81832800_6 *particle_data;
     EntityRec *source;
     S_func_81832800_3 *object;
@@ -221,19 +220,19 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 color = 0xC0C0C0;
                 {
                     s32 scale = 0x1400;
-                    sprite_flags = sprite->unk_14;
-                    sprite->unk_1E.as_s16 = (s16) scale;
-                    sprite->unk_1C.as_s16 = (s16) scale;
-                    sprite->unk_10 = 0;
-                    sprite->unk_0C = color;
+                    sprite_flags = sprite->flags;
+                    sprite->scale_y = (s16) scale;
+                    sprite->scale_x = (s16) scale;
+                    sprite->tpage_abr = 0;
+                    sprite->color.word = color;
                     sprite->unk_00 = particle_texture;
                     sprite_flags |= 0xC;
-                    sprite->unk_14 = sprite_flags;
+                    sprite->flags = sprite_flags;
                     texture_word = particle_texture->unk_04;
                 }
                 sprite->unk_04 = 0;
                 sprite->unk_05 = 0;
-                sprite->unk_08 = texture_word;
+                sprite->source = texture_word;
                 particle_data->unk_00 = effect;
                 particle_data->unk_4C = 0;
             }
@@ -252,7 +251,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 source->unk_73 = (u8) source_sprite->unk_25;
             } else {
                 sprite = ((S_func_81832800_3 *) ((u8 *) found_target - 0x20))->unk_0C;
-                if (!(sprite->unk_14 & 0x8000) || !(((S_func_81832800_5 *) effect_sprite)->unk_14 & 0x8000)) {
+                if (!(sprite->flags & 0x8000) || !(((S_func_81832800_5 *) effect_sprite)->unk_14 & 0x8000)) {
                     source->unk_72 = (u8) sprite->unk_24;
                     source->unk_73 = (u8) sprite->unk_25;
                 } else {
@@ -345,18 +344,18 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 burst_position->unk_08.parts.unk_0A.as_s16 = (s16) ((ground_height + (random_height - ((rounded_height
                     >> 6) << 6))) - 0x80);
                 color = 0x101010;
-                sprite_flags = sprite->unk_14;
-                sprite->unk_1E.as_s16 = 0x1000;
-                sprite->unk_1C.as_s16 = 0x1000;
-                sprite->unk_10 = 0x20;
-                sprite->unk_0C = color;
+                sprite_flags = sprite->flags;
+                sprite->scale_y = 0x1000;
+                sprite->scale_x = 0x1000;
+                sprite->tpage_abr = 0x20;
+                sprite->color.word = color;
                 sprite->unk_00 = D_800DED70;
                 sprite_flags |= 0xC;
-                sprite->unk_14 = sprite_flags;
+                sprite->flags = sprite_flags;
                 texture_word = (s32) ((S_func_81832800_7 *) D_800DED70)->unk_04;
                 sprite->unk_04 = 0;
                 sprite->unk_05 = 0;
-                sprite->unk_08 = texture_word;
+                sprite->source = texture_word;
                 object->unk_20 = effect;
                 particle_data->unk_4C = 0;
             }
@@ -370,15 +369,15 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
         target_position->unk_08.parts.unk_0A.as_s16 = (s16) ((u16) target_position->unk_08.parts.unk_0A.as_s16
             + height_step);
         sprite = object->unk_0C;
-        if ((u16) sprite->unk_1C.as_u16 >= 0x21C1U) {
-            sprite->unk_1C.as_u16 = 0x2000U;
+        if ((u16) sprite->scale_x >= 0x21C1U) {
+            sprite->scale_x = 0x2000U;
         }
         scale_random = func_80069EF8();
-        sprite->unk_1C.as_u16 = (u16) (sprite->unk_1C.as_u16 + ((scale_random & 0x1FF) + 0x100));
-        if ((u16) sprite->unk_1E.as_u16 < 0x76CU) {
-            sprite->unk_1E.as_u16 = 0x800U;
+        sprite->scale_x = (u16) (sprite->scale_x + ((scale_random & 0x1FF) + 0x100));
+        if ((u16) sprite->scale_y < 0x76CU) {
+            sprite->scale_y = 0x800U;
         }
-        sprite->unk_1E.as_u16 = (u16) (sprite->unk_1E.as_u16 - ((func_80069EF8() & 0xFF) + 0x80));
+        sprite->scale_y = (u16) (sprite->scale_y - ((func_80069EF8() & 0xFF) + 0x80));
         if ((s16) effect->unk_50 > 0) {
             return;
         }
@@ -393,13 +392,13 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
 
     case 0xF0:
         sprite = ((S_func_81832800_3 *) ((u8 *) source->target - 0x20))->unk_0C;
-        scale_x = sprite->unk_1C.as_u16;
-        scale_y = sprite->unk_1E.as_u16;
-        sprite->unk_1C.as_u16 = (u16) (scale_x + ((s32) (0x1000 - scale_x) >> 2));
-        sprite->unk_1E.as_u16 = (u16) (scale_y + ((s32) (0x1000 - scale_y) >> 2));
+        scale_x = sprite->scale_x;
+        scale_y = sprite->scale_y;
+        sprite->scale_x = (u16) (scale_x + ((s32) (0x1000 - scale_x) >> 2));
+        sprite->scale_y = (u16) (scale_y + ((s32) (0x1000 - scale_y) >> 2));
         if ((s16) effect->unk_50 <= 0) {
-            sprite->unk_1E.as_u16 = 0x1000U;
-            sprite->unk_1C.as_u16 = 0x1000U;
+            sprite->scale_y = 0x1000U;
+            sprite->scale_x = 0x1000U;
             effect->unk_0A = 0xFFU;
             ((EntityRec *) source->target)->flags14 &= ~0x100000;
             return;
@@ -481,10 +480,6 @@ void update_shrinking_effect_sprite(StructA0 *owner, void *unused, StructA2 *sta
     }
 }
 
-
-
-
-
 typedef struct S_818330F0_1 {
     void * unk_00;
     u8 pad_04[0x8];
@@ -493,16 +488,14 @@ typedef struct S_818330F0_1 {
     s16 unk_10;
 } S_818330F0_1;   /* arg0 in update_homing_brightening_effect */
 
-
 typedef struct S_818330F0_3 {
     u8 pad_00[0x52];
     u16 unk_52;
 } S_818330F0_3;
 
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 /* Ease the position toward its target, brighten the primitive, and flag completion. */
-void update_homing_brightening_effect(void *effect, void *position, void *primitive) {
+void update_homing_brightening_effect(void *effect, void *position, SpriteFrameState *primitive) {
     s16 target_z;
     s16 current_z;
     void *owner;
@@ -515,12 +508,12 @@ void update_homing_brightening_effect(void *effect, void *position, void *primit
     current_z = ((SignedPositionView *)position)->unk_0A;
     ((SignedPositionView *)position)->unk_0A = (s16) ((u16) ((SignedPositionView *)position)->unk_0A + ((target_z
         - current_z) / 10));
-    ((Rec_D_80082E80 *)primitive)->unk_0C.at00_s32.v = (s32) (((Rec_D_80082E80 *)primitive)->unk_0C.at00_s32.v
+    primitive->color.word = (s32) (primitive->color.word
         + 0xC0C0C);
     owner = ((S_818330F0_1 *)effect)->unk_00;
     ((S_818330F0_3 *)owner)->unk_52 = (u16) (((S_818330F0_3 *)owner)->unk_52 | 0x8000);
     func_800478B8(primitive);
-    if ((u8) ((Rec_D_80082E80 *)primitive)->unk_0C.at00_s32.v >= 0x91U) {
+    if ((u8) primitive->color.word >= 0x91U) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((u16 *)effect)[-1] | 0x8000);
         object_flag_block.flags |= 0x8000;
     }

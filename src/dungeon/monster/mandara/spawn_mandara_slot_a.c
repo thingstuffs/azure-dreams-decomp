@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -37,25 +38,11 @@ typedef struct S_80FD5000_2 {
     s16 unk_0A;
 } S_80FD5000_2;
 
-typedef struct S_80FD5000_3 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 pad_0C[0x6];
-    u16 unk_12;
-    u8 pad_14[0x10];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    s32 * unk_2C;
-} S_80FD5000_3;
-
-
 typedef struct S_80FD5000_4 {
     u8 unk_00;
     u8 pad_01[0x5];
     u16 unk_06;
 } S_80FD5000_4;
-
 
 void *allocate_list_node();
 s32 register_node();
@@ -91,7 +78,7 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
     S_80FD5000_1 *actor_state;
     S_80FD5000_0 *created;
     S_80FD5000_2 *position;
-    S_80FD5000_3 *monster;
+    SpriteFrameState *monster;
     S_80FD5000_1 *actor;
     Rect palette_strip;
     s32 appearance_id;
@@ -118,7 +105,7 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
         kind = spawn_flags & 3;
         monster->unk_25 = tile_y;
         actor = actor_state;
-        monster->unk_2C = &D_80151258;
+        monster->frameTable = &D_80151258;
         monster->unk_24 = tile_x;
 
         if (kind == 1) {
@@ -132,22 +119,21 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
                 if ((generate_random_value() & 1) != 0) {
                     actor_state->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(actor_state, 1, (generate_random_value() & 0x3F) | 0x20);
-                    monster->unk_2C = &D_80151298;
+                    monster->frameTable = &D_80151298;
                 }
             }
         }
 
-
         initialize_actor_sprite_and_animation(created, position, monster, spawn_flags);
 
         entry_index = 0;
-        appearance_id = monster->unk_12;
+        appearance_id = monster->clut;
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &update_creature_action_and_animation;
         actor->unk_AE = appearance_id;
 
-        entry = (S_80FD5000_4 *)monster->unk_08;
+        entry = (S_80FD5000_4 *)*(u8 * *)&monster->source;
         while (1) {
             twice_index = entry_index << 1;
             if (!(entry->unk_00 & 0x20)) {
@@ -160,7 +146,7 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
         palette_rect = &palette_strip;
         selected = (S_80FD5000_4 *)(twice_index + entry_index);
         selected2 = (S_80FD5000_4 *)((s32)selected * 4);
-        selected3 = (S_80FD5000_4 *)((u8 *)selected2 + (s32)monster->unk_08);
+        selected3 = (S_80FD5000_4 *)((u8 *)selected2 + (s32)*(u8 * *)&monster->source);
         palette_y = selected3->unk_06 >> 6;
         palette_strip.x = 0;
         palette_strip.y = palette_y;

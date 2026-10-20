@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -23,18 +24,6 @@ typedef struct S_80F2D000_2 {
     s16 unk_0A;
 } S_80F2D000_2;   /* part_a in spawn_effect_object */
 
-typedef struct S_80F2D000_3 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0xE];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80F2D000_3;   /* part_b in spawn_effect_object */
-
 typedef struct S_80F2D000_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -46,7 +35,6 @@ typedef struct S_80F2D000_4 {
     s16 unk_A4;
     s16 unk_A6;
 } S_80F2D000_4;   /* work_copy in spawn_effect_object */
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *allocate_list_node();                 /* extern */
@@ -61,8 +49,6 @@ extern M2C_UNK D_8014CF74;
 extern M2C_UNK D_8014FD30;
 extern M2C_UNK D_8014FD78;
 
-
-
 void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
@@ -70,7 +56,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     s32 kind;
     s32 variant;
     void *obj_alt;
-    S_80F2D000_3 *part_b;
+    SpriteFrameState *part_b;
     S_80F2D000_2 *part_a;
     void *work_copy;
     void *object;
@@ -90,7 +76,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
         part_b = ((S_80F2D000_0 *)object)->unk_0C;
         part_b->unk_25 = attr_b;
         work_copy = work;
-        part_b->unk_2C = &D_8014FD30;
+        part_b->frameTable = &D_8014FD30;
         kind = spawn_flags & 3;
         part_b->unk_24 = attr_a;
         if (kind == 1) {
@@ -104,7 +90,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
                 if (generate_random_value() & 1) {
                     work->unk_1C = (s32) (work->unk_1C | 0x200);
                     set_or_clear_actor_status_slot(work, 1, (generate_random_value() & 0x3F) | 0x20);
-                    part_b->unk_2C = &D_8014FD78;
+                    part_b->frameTable = &D_8014FD78;
                 }
             }
             variant = generate_random_value() & 3;
@@ -119,9 +105,9 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
         } else {
             obj_alt = work_copy - 0x20;
             ((S_80F2D000_4 *)work_copy)->unk_A6 = 1;
-            part_b->unk_10 = 0x60;
-            part_b->unk_14 = (u16) (part_b->unk_14 | 0xC);
-            part_b->unk_12 = (u16) (part_b->unk_12 - 0x80);
+            part_b->tpage_abr = 0x60;
+            part_b->flags = (u16) (part_b->flags | 0xC);
+            part_b->clut = (u16) (part_b->clut - 0x80);
             unlink_node(obj_alt);
             retire_tracked_effect_by_id(obj_alt);
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -8,13 +9,12 @@ typedef struct S_8017573C_0 {
     s16 unk_04;
 } S_8017573C_0;   /* arg0 in grow_object_after_delay */
 
-
 extern void select_sprite_entry(void *, u8, s32);
 extern void func_800478B8(void *);
 extern u8 D_80176460[8];
 
 /* Updates object direction and grows it to full scale after an eight-tick delay. */
-void grow_object_after_delay(S_8017573C_0 *animation, s32 unused, Rec_D_80082E80 *object) {
+void grow_object_after_delay(S_8017573C_0 *animation, s32 unused, SpriteFrameState *object) {
     s32 direction_index;
     s16 phase;
     u16 phase_u;
@@ -22,7 +22,7 @@ void grow_object_after_delay(S_8017573C_0 *animation, s32 unused, Rec_D_80082E80
 
     animation->unk_02.s = animation->unk_02.s + 1;
     func_800478B8(object);
-    if (object->unk_14.at00_u16.v & 0x6000) {
+    if (object->flags & 0x6000) {
         direction_index = g_game_work.view.viewAngle;
         direction_index += animation->unk_04;
         direction_index += 0x100;
@@ -46,12 +46,12 @@ void grow_object_after_delay(S_8017573C_0 *animation, s32 unused, Rec_D_80082E80
         animation->unk_00.u = phase_u + 1;
         return;
     }
-    scale = object->unk_1C.at02_u16.v + 0x100;
-    object->unk_1C.at02_u16.v = scale;
-    object->unk_1C.at00_u16.v = scale;
-    if ((u16)scale >= 0x1000U || object->unk_1C.at02_u16.v >= 0x1000U) {
-        object->unk_1C.at02_u16.v = 0x1000;
-        object->unk_1C.at00_u16.v = 0x1000;
+    scale = object->scale_y + 0x100;
+    object->scale_y = scale;
+    object->scale_x = scale;
+    if ((u16)scale >= 0x1000U || object->scale_y >= 0x1000U) {
+        object->scale_y = 0x1000;
+        object->scale_x = 0x1000;
         animation->unk_00.u = animation->unk_00.u + 1;
     }
 }

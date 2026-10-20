@@ -1,11 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/transition_slots.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "records/Rec_func_8008D024_arg0.h"
-
-
 
 extern u8 D_800DCFB0[8];
 extern s16 D_800814E8;
@@ -15,10 +14,9 @@ extern s16 lookup_definition_pair_value(u8, u8);
 extern s16 reserve_runtime_slot(s16 slot_id, s16 slot_value);
 extern void mark_category_items_flag_400(s32);
 
-
 extern void clear_player_linked_action_flags(void);
 /* Initializes action state and animation, then handles the current tile type. */
-void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, Rec_D_80082E80 *entity, EntityRec *actor) {
+void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, SpriteFrameState *entity, EntityRec *actor) {
     s16 tile_type;
     s16 slot_index;
 
@@ -27,7 +25,7 @@ void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, Re
     state->unk_8C = 0;
     clear_player_linked_action_flags();
     if (get_entity_effect_value(actor, 0xA) == 0) {
-        entity->unk_2C.as_pu8 = D_800DCFB0;
+        entity->frameTable = D_800DCFB0;
         set_sprite_animation_frame(entity, D_800DCFB0[((s32)(g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
     }
     tile_type = lookup_definition_pair_value(entity->unk_24, entity->unk_25);

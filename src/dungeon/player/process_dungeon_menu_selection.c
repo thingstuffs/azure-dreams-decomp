@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
@@ -8,13 +9,11 @@
 #include "records/Rec_func_8008D024_arg0.h"
 #include "records/Rec_D_80082EB0.h"
 
-
 typedef struct S_80090C10_1 {
     union { s32 s; void * (*u)(s32, s32); } unk_00;   /* accessed as both */
     s32 unk_04;
     s32 unk_08;
 } S_80090C10_1;   /* &D_800E4938 in process_dungeon_menu_selection */
-
 
 typedef struct S_80090C10_4 {
     u8 pad_00[0x4];
@@ -32,7 +31,6 @@ typedef struct S_80090C10_6 {
     u8 pad_02[0x1];
     u8 unk_03;
 } S_80090C10_6;   /* (*(void **)&D_80082EB0) in process_dungeon_menu_selection */
-
 
 typedef struct S_80090C10_8 {
     u8 pad_00[0x1C];
@@ -75,7 +73,6 @@ typedef struct S_80090C10_14 {
     u8 pad_00[0xAC];
     void * unk_AC;
 } S_80090C10_14;   /* (((s32) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv * 4) + arg0) in process_dungeon_menu_selection */
-
 
 typedef struct DdcbcEntry {
     u8 pad[7];
@@ -160,7 +157,7 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Enti
         read_vram_blocks_to_buffer();
         if (((S_80090C10_1 *)(&D_800E4938))->unk_00.s != &D_8004F5F4) {
             if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
-                (*(s32 **)((u8 *)sprite + 0x2C)) = &D_800DD274;
+                ((SpriteFrameState *)sprite)->frameTable = &D_800DD274;
                 func_8003DB94(sprite, *(s32 *)(D_800DD274 + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
                     >> 7) & 0x1C)), 0);
             } else {
@@ -169,7 +166,7 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Enti
                 } else {
                     anim_table = D_800DCFB0;
                 }
-                (*(s32 **)((u8 *)sprite + 0x2C)) = anim_table;
+                ((SpriteFrameState *)sprite)->frameTable = anim_table;
                 set_sprite_animation_frame(sprite, *(anim_table + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                     0, 1);
             }
@@ -270,8 +267,8 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Enti
             break;
         }
         direction = ((u16) actor->facing >> 9) & 7;
-        if ((find_valid_nearby_position(0, (s16) (((Rec_D_80082E80 *)sprite)->unk_24 + dir_step_x[direction]),
-            (s16) (((Rec_D_80082E80 *)sprite)->unk_25 + dir_step_y[direction]), &tile_x, &tile_y) << 0x10) == 0) {
+        if ((find_valid_nearby_position(0, (s16) (((SpriteFrameState *)sprite)->unk_24 + dir_step_x[direction]),
+            (s16) (((SpriteFrameState *)sprite)->unk_25 + dir_step_y[direction]), &tile_x, &tile_y) << 0x10) == 0) {
             text_buffer = get_unused_text_buffer();
             text_end = append_entity_display_text(D_800E3DF0[((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x1F],
                 expand_text_control_codes(&D_800E069D, text_buffer));

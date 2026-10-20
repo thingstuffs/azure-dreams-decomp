@@ -1,8 +1,7 @@
 #include "modules/dungeon_ovl_7ce800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
-
-
 
 typedef struct Bank7ce_18_Pair {
     s32 first;
@@ -20,14 +19,6 @@ typedef struct S_807B004C_0 {
     u8 pad_14[0xC];
     void * unk_20;
 } S_807B004C_0;
-
-typedef struct S_807B004C_1 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 pad_0C[0x10];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_807B004C_1;
 
 typedef struct S_807B004C_2 {
     u8 pad_00[0xA];
@@ -47,7 +38,7 @@ void func_800F784C(void *parent_data) {
     s32 rect_size;
     Bank7ce_18_Pair *rect_ptr;
     void *child;
-    S_807B004C_1 *render_state;
+    SpriteFrameState *render_state;
     S_807B004C_2 *child_data;
 
     child = allocate_list_node(2, (u8 *)parent_data - 0x20);
@@ -58,9 +49,9 @@ void func_800F784C(void *parent_data) {
         rect_size = 0x200020;
         rect_ptr = &texture_rect;
         render_state = ((S_807B004C_0 *)child)->unk_0C;
-        render_state->unk_08 = D_800FBE30;
-        render_state->unk_1C = 0x1000;
-        render_state->unk_1E = 0x800;
+        render_state->source = D_800FBE30;
+        render_state->scale_x = 0x1000;
+        render_state->scale_y = 0x800;
         child_data = (u8 *)child + 0x20;
         ((S_807B004C_0 *)child)->unk_20 = parent_data;
         child_data->unk_0A = ((S_807B004C_3 *)parent_data)->unk_2A;

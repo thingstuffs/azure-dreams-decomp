@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -23,22 +24,6 @@ typedef struct S_818BD1C4_1 {
     s16 unk_08;
 } S_818BD1C4_1;
 
-typedef struct S_818BD1C4_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818BD1C4_2;
-
-
 typedef struct Copy24 {
     s32 words[6];
 } Copy24;
@@ -59,7 +44,7 @@ s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index
     void *transform_ptr;
     s32 object_result;
     void *unused_ptr;
-    S_818BD1C4_2 *visual;
+    SpriteFrameState *visual;
     void *object;
     S_818BD1C4_1 *state;
     s32 saved_y_offset;
@@ -76,35 +61,35 @@ s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index
         color_channel = color_index % 3;
         switch (color_channel) {
         case 0:
-            visual->unk_0C = 0x80;
-            visual->unk_0E = 0;
-            visual->unk_0D = 0;
+            visual->color.c.r = 0x80;
+            visual->color.c.b = 0;
+            visual->color.c.g = 0;
             break;
         case 1:
-            visual->unk_0D = 0x80;
-            visual->unk_0E = 0;
-            visual->unk_0C = 0;
+            visual->color.c.g = 0x80;
+            visual->color.c.b = 0;
+            visual->color.c.r = 0;
             break;
         case 2:
-            visual->unk_0E = 0x80;
-            visual->unk_0D = 0;
-            visual->unk_0C = 0;
+            visual->color.c.b = 0x80;
+            visual->color.c.g = 0;
+            visual->color.c.r = 0;
             break;
         }
         data_ptr = visual;
-        visual->unk_12 = 0x7DCF;
-        visual->unk_14 = (u16) (visual->unk_14 | 0xC);
-        visual->unk_10 = (u16) (visual->unk_10 | 0x60);
-        visual->unk_14 = (u16) (visual->unk_14 | 0x100);
+        visual->clut = 0x7DCF;
+        visual->flags = (u16) (visual->flags | 0xC);
+        visual->tpage_abr = (u16) (visual->tpage_abr | 0x60);
+        visual->flags = (u16) (visual->flags | 0x100);
         func_8003DB94(data_ptr, &D_80025E04, 0);
         phase_rounded = func_80069EF8();
         phase_value = phase_rounded;
         if (phase_value < 0) {
             phase_rounded = phase_value + 0xFFF;
         }
-        visual->unk_1A = (s16) (phase_value % 4096);
-        visual->unk_1E = 0x2000;
-        visual->unk_1C = 0x2000;
+        visual->angle_z = (s16) (phase_value % 4096);
+        visual->scale_y = 0x2000;
+        visual->scale_x = 0x2000;
         register_node(object, project_sprite_chain);
         transform_ptr = ((S_818BD1C4_0 *)object)->unk_08;
         (*(Copy24 *)((u8 *)transform_ptr + 0)) =

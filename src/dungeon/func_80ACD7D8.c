@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -36,9 +37,9 @@ void advance_sequence_action(void *sequence, void *motion, void *sprite, EntityR
     state = ((AnimationSequenceState *)sequence)->phase;
     switch (state) {
     case 0:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((AnimationSequenceState *)sequence)->phase = 4;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
+            ((SpriteFrameState *)sprite)->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
@@ -51,8 +52,8 @@ void advance_sequence_action(void *sequence, void *motion, void *sprite, EntityR
 
     case 1:
         if ((s16)++((AnimationSequenceState *)sequence)->timer.unsignedTicks == 4 ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = D_8016EE1C;
+            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
+            ((SpriteFrameState *)sprite)->frameTable = D_8016EE1C;
             select_sprite_entry(sprite,
                 D_8016EE1C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
@@ -64,7 +65,7 @@ void advance_sequence_action(void *sequence, void *motion, void *sprite, EntityR
 
     case 2:
         if ((s16)++((AnimationSequenceState *)sequence)->timer.unsignedTicks == 9 ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             ((AnimationSequenceState *)sequence)->timer.unsignedTicks = 0;
             ((AnimationSequenceState *)sequence)->phase++;
@@ -77,11 +78,11 @@ void advance_sequence_action(void *sequence, void *motion, void *sprite, EntityR
 
     case 3:
         if ((s16)++((AnimationSequenceState *)sequence)->timer.unsignedTicks == 6) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
+            ((SpriteFrameState *)sprite)->flags |= 0x0800;
         }
         if (((AnimationSequenceState *)sequence)->timer.signedTicks == 15 ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
+            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
             ((AnimationSequenceState *)sequence)->timer.unsignedTicks = 0;
             ((AnimationSequenceState *)sequence)->phase++;
             return;
@@ -89,7 +90,7 @@ void advance_sequence_action(void *sequence, void *motion, void *sprite, EntityR
         return;
 
     case 4:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x100);
             ((AnimationSequenceState *)sequence)->nextBehavior = &D_8016B728;
             g_dungeon_status.unk_0C = 0;

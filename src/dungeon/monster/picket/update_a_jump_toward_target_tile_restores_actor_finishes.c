@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
-
 
 typedef struct S_80172540_0 {
     u8 pad_00[0x8C];
@@ -18,7 +18,6 @@ typedef struct S_80172540_0 {
     u8 pad_9C[0x4];
     s32 unk_A0;
 } S_80172540_0;   /* arg0 in update_a_jump_toward_target_tile_restores_actor_finishes */
-
 
 void select_sprite_entry();
 s16 get_rounded_facing_and_rounding_flag();
@@ -43,10 +42,10 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
     state = ((S_80172540_0 *)jump_state)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((Rec_D_80082E80 *)map_entity)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)map_entity)->flags & 0x6000)) {
             break;
         }
-        (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_80174F20;
+        ((SpriteFrameState *)map_entity)->frameTable = D_80174F20;
         select_sprite_entry(
             map_entity,
             D_80174F20[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -61,13 +60,13 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
         ((S_80172540_0 *)jump_state)->unk_90 -= ((S_80172540_0 *)jump_state)->unk_A0;
         if (frames_left != 0) {
             {
-                s32 target_x = ((Rec_D_80082E80 *)map_entity)->unk_24 << 6;
+                s32 target_x = ((SpriteFrameState *)map_entity)->unk_24 << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
                 motion->unk_0C = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = ((Rec_D_80082E80 *)map_entity)->unk_25 << 6;
+                s32 target_y = ((SpriteFrameState *)map_entity)->unk_25 << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->unk_10 = ((target_y - current_y) << 16) /
@@ -89,8 +88,8 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
-            (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_80174F28;
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
+            ((SpriteFrameState *)map_entity)->frameTable = D_80174F28;
             select_sprite_entry(
                 map_entity,
                 D_80174F28[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -105,7 +104,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
         reduce_actor_food_meter(actor, 3);
         advance_status_timers(actor);
         {
@@ -124,7 +123,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
             if (actor_flags & 0x20000) {
 
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25,
+                    ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &distance);
             }
         }

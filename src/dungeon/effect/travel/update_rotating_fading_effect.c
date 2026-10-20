@@ -1,5 +1,5 @@
 #include "dungeon/effect/travel/update_rotating_fading_effect.h"
-
+#include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_18ca83c_entry)(void) = (void (*)(void))advance_target_travel_effect;
 
 void func_8002403C(void *target, s32 amount_input, void *owner) {
@@ -122,7 +122,7 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
     s32 angle_y;
     void *obj;
     ovl_18ca83c_818AABB8_S_800243B8_1 *data;
-    ovl_18ca83c_818AABB8_S_800243B8_5 *sprite;
+    SpriteFrameState *sprite;
     ovl_18ca83c_818AABB8_S_800243B8_6 *position;
     register s32 start_z;
 
@@ -183,17 +183,17 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
         data->unk_30 = data->unk_24 - start->unk_08;
 
         sprite = ((ovl_18ca83c_818AABB8_S_800243B8_0 *)obj)->unk_0C;
-        sprite->unk_0E = 0xFF;
-        sprite->unk_0D = 0xFF;
-        sprite->unk_0C = 0xFF;
-        sprite->unk_1E = 0x300;
-        sprite->unk_1C = 0x300;
-        sprite->unk_1A = func_80069EF8() % 0x1000;
-        sprite->unk_12 = 0x7E06;
-        sprite->unk_08 = D_800777DC;
-        sprite->unk_14 |= 0x100;
-        sprite->unk_10 |= 0x60;
-        sprite->unk_14 |= 0xC;
+        sprite->color.c.b = 0xFF;
+        sprite->color.c.g = 0xFF;
+        sprite->color.c.r = 0xFF;
+        sprite->scale_y = 0x300;
+        sprite->scale_x = 0x300;
+        sprite->angle_z = func_80069EF8() % 0x1000;
+        sprite->clut = 0x7E06;
+        sprite->source = D_800777DC;
+        sprite->flags |= 0x100;
+        sprite->tpage_abr |= 0x60;
+        sprite->flags |= 0xC;
 
         position = ((ovl_18ca83c_818AABB8_S_800243B8_0 *)obj)->unk_08;
         position->unk_00 = start->unk_00;

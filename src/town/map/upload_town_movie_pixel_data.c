@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void upload_town_movie_pixel_data(); /* extern */
+void upload_town_movie_pixel_data(s16, s16, s16, s16, const void *); /* extern */
 extern s32 D_8006ADD4;
 extern u8 D_800FC428;
 

@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource10_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void advance_actor_transition_and_restore_facing(void *transition, void *position, Rec_D_80082E80 *record, void *actor) {
     u8 *object_data = ((u8 *)(&g_game_work));
@@ -104,7 +105,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
             }
             func_8003DB94(object_data, ((u8 *)D_8014A000) + ((s32 *)D_80175A00)[resource_index], 0);
         }
-        record->unk_14.at00_u16.v |= 0x80;
+        ((SpriteFrameState *)record)->flags |= 0x80;
         ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = 0;
         next_state = ((R10_80175398_S_80175398_0 *)transition)->unk_9B + 1;
         ((R10_80175398_S_80175398_0 *)transition)->unk_9B = next_state;
@@ -138,7 +139,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
         ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = 0x10;
         ((R10_80175398_S_80175398_0 *)transition)->unk_9B++;
         decrement_monster_entry_count(((R10_80175398_S_80175398_1 *)actor)->unk_13, 3);
-        update_map_cell_flags_with_item_limit(record->unk_24, record->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(((SpriteFrameState *)record)->unk_24, ((SpriteFrameState *)record)->unk_25, 0x300);
         unlink_entity_node(actor);
         object_data = (u8 *)actor - 0x20;
         ((R10_80175398_S_80175398_2 *)object_data)->unk_10 |= 0x80000000;

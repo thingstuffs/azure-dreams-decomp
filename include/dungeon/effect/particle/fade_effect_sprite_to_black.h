@@ -40,14 +40,6 @@ typedef struct S_8182C800_3 {
     s32 unk_08;
 } S_8182C800_3;   /* temp_a1_2 in func_8002401C */
 
-typedef struct S_8182C800_4 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_8182C800_4;   /* temp_fp in func_8002401C */
-
 typedef struct S_8182C800_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -86,14 +78,6 @@ typedef struct S_8182C800_8 {
     void * unk_20;
 } S_8182C800_8;   /* temp_s4 in func_8002401C */
 
-typedef struct S_8182C800_9 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_8182C800_9;   /* temp_s0_2 in func_8002401C */
-
 typedef struct S_8182C800_10 {
     s32 unk_00;
 } S_8182C800_10;   /* temp_a1_3 in func_8002401C */
@@ -107,21 +91,6 @@ typedef struct S_8182C800_12 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_8182C800_12;   /* temp_a0_7 in func_8002401C */
-
-typedef struct S_8182C800_13 {
-    u8 * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8182C800_13;   /* temp_s0_3 in func_8002401C */
 
 typedef struct S_8182C800_14 {
     u8 pad_00[0x4];
@@ -158,21 +127,6 @@ typedef struct S_8182C800_19 {
     u8 pad_08[0x8];
     s32 unk_10;
 } S_8182C800_19;   /* temp_a0_12 in func_8002401C */
-
-typedef struct S_8182C800_20 {
-    u8 * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8182C800_20;   /* temp_s0_4 in func_8002401C */
 
 typedef struct S_8182C800_21 {
     u8 pad_00[0x4];

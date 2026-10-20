@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -18,8 +19,6 @@ typedef struct S_800CB82C_0 {
     u16 unk_1E;
 } S_800CB82C_0;
 
-
-
 typedef struct S_800CB82C_2 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -27,16 +26,6 @@ typedef struct S_800CB82C_2 {
     u16 unk_06;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
 } S_800CB82C_2;   /* arg0 in create_owner_linked_pulsing_effect */
-
-typedef struct S_800CB82C_3 {
-    u8 pad_00[0x8];
-    M2C_UNK * unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    s8 unk_24;
-    s8 unk_25;
-} S_800CB82C_3;
 
 typedef struct S_800CB82C_4 {
     u8 pad_00[0x8];
@@ -67,10 +56,6 @@ typedef struct S_800CB82C_5 {
 
    /* the 0x14 bytes before arg2 in create_owner_linked_pulsing_effect, addressed as arg2[-1] */
 
-
-
-
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 register_node();                /* extern */
 void clear_entry_flag_and_link_owner();                      /* extern */
@@ -83,7 +68,7 @@ extern u8 D_800E3CC8;
 void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_state, void *owner) {
     u16 object_flags;
     s32 global_flags;
-    void *map_data;
+    SpriteFrameState *map_data;
     void *object_state;
     MovingPosition *position;
     void *object;
@@ -99,10 +84,10 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
         position->unk_06 = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_06;
         position->unk_0A = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_08.at02.v;
         map_data = ((S_800CB82C_0 *)object)->unk_0C;
-        ((S_800CB82C_3 *)map_data)->unk_08 = &D_800E03BC;
-        ((S_800CB82C_3 *)map_data)->unk_14 = (u16) (((S_800CB82C_3 *)map_data)->unk_14 | 0xC);
-        ((S_800CB82C_3 *)map_data)->unk_24 = (s8) ((u16) position->unk_02 >> 6);
-        ((S_800CB82C_3 *)map_data)->unk_25 = (s8) ((u16) position->unk_06 >> 6);
+        map_data->source = &D_800E03BC;
+        map_data->flags = (u16) (map_data->flags | 0xC);
+        map_data->unk_24 = (s8) ((u16) position->unk_02 >> 6);
+        map_data->unk_25 = (s8) ((u16) position->unk_06 >> 6);
         object_state = object + 0x20;
         (*(s16 *)((u8 *)object_state + 0x96)) = 0x10;
         ((S_800CB82C_4 *)object_state)->unk_08 = (u8) D_800E3CC8;

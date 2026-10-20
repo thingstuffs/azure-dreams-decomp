@@ -1,4 +1,5 @@
 #include "modules/main_title_callbacks.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -36,22 +37,6 @@ typedef struct S_80089608_3 {
     s16 unk_28;
 } S_80089608_3;
 
-typedef struct S_80089608_4 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80089608_4;
-
 typedef struct S_80089608_5 {
     s32 unk_00;
     u8 pad_04[0x3C];
@@ -69,7 +54,6 @@ typedef struct S_80089608_7 {
     u8 pad_04[0x2];
     s16 unk_06;
 } S_80089608_7;
-
 
 s32 register_node();           /* extern */
 s32 func_800644B8();                             /* extern */
@@ -122,7 +106,7 @@ void update_settings_effect(void *effect) {
     s32 y_product;
     void *element;
     void *element_state;
-    void *sprite;
+    SpriteFrameState *sprite;
     void *owner;
     void *callback;
 
@@ -206,19 +190,19 @@ void update_settings_effect(void *effect) {
             axis_offset = y_product >> 0xC;
             ((S_80089608_7 *)(((S_80089608_2 *)element)->unk_08))->unk_06 =
                 (s16) ((axis_offset + (y_product >> 0xE)) + 0x78);
-            ((S_80089608_4 *)sprite)->unk_1E = 0x1000;
-            ((S_80089608_4 *)sprite)->unk_1C = 0x1000;
+            sprite->scale_y = 0x1000;
+            sprite->scale_x = 0x1000;
             if (color_step_or_index == 0) {
-                ((S_80089608_4 *)sprite)->unk_1A = ((S_80089608_0 *)effect)->unk_0E.u;
+                sprite->angle_z = ((S_80089608_0 *)effect)->unk_0E.u;
             } else if (color_step_or_index == 1) {
-                ((S_80089608_4 *)sprite)->unk_1A = (s16) (0 - (u16) ((S_80089608_0 *)effect)->unk_0E.u);
+                sprite->angle_z = (s16) (0 - (u16) ((S_80089608_0 *)effect)->unk_0E.u);
             }
-            ((S_80089608_4 *)sprite)->unk_10 = 0x60;
-            ((S_80089608_4 *)sprite)->unk_14 = (u16) (((S_80089608_4 *)sprite)->unk_14 | 0xC);
-            ((S_80089608_4 *)sprite)->unk_08 = (s32) ((S_80089608_5 *)(effect_tables + color_step_or_index * 4))->unk_00;
-            ((S_80089608_4 *)sprite)->unk_04 = 0;
-            ((S_80089608_4 *)sprite)->unk_05 = 0;
-            ((S_80089608_4 *)sprite)->unk_0C =
+            sprite->tpage_abr = 0x60;
+            sprite->flags = (u16) (sprite->flags | 0xC);
+            sprite->source = (s32) ((S_80089608_5 *)(effect_tables + color_step_or_index * 4))->unk_00;
+            sprite->unk_04 = 0;
+            sprite->unk_05 = 0;
+            sprite->color.word =
                 (s32) (((S_80089608_0 *)effect)->unk_04 & ((S_80089608_5 *)(effect_tables + color_step_or_index * 4))->unk_40);
             ((S_80089608_6 *)element_state)->unk_0C = color_step_or_index;
         }

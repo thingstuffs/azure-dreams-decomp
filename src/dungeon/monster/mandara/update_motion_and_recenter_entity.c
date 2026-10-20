@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_801732B4_1 {
     u8 pad_00[0x8C];
@@ -14,7 +14,6 @@ typedef struct S_801732B4_1 {
     u8 unk_9B;
 } S_801732B4_1;   /* arg0 in update_motion_and_recenter_entity */
 
-
 extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
@@ -22,9 +21,8 @@ extern void apply_clamped_actor_value_delta();
 extern s32 D_80170F6C;
 extern s32 D_80175268;
 
-
 /* Updates directional motion, then recenters the entity on its tile and finishes the action. */
-void update_motion_and_recenter_entity(S_801732B4_1 *action, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity)
+void update_motion_and_recenter_entity(S_801732B4_1 *action, EntityRec *motion, SpriteFrameState *tile, EntityRec *entity)
 {
     s16 timer;
     s32 tracked_entity;
@@ -46,7 +44,7 @@ void update_motion_and_recenter_entity(S_801732B4_1 *action, EntityRec *motion, 
             begin_actor_display_action(action, motion, tile, &D_80175268);
             return;
         }
-        if (tile->unk_14.at00_u16.v & 0x8000) {
+        if (tile->flags & 0x8000) {
             action->unk_96.s = 0;
             action->unk_9B = 2;
             return;
@@ -67,7 +65,7 @@ void update_motion_and_recenter_entity(S_801732B4_1 *action, EntityRec *motion, 
         motion->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
-        } else if (tile->unk_14.at00_u16.v & 0x6000) {
+        } else if (tile->flags & 0x6000) {
             action->unk_96.s = 0;
         }
         if (action->unk_96.s != 0) {

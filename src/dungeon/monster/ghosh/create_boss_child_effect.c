@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -28,27 +29,6 @@ typedef struct S_80172B00_2 {
     u8 unk_B0;
 } S_80172B00_2;   /* arg0 in create_boss_child_effect */
 
-typedef struct S_80172B00_3 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0xC];
-    u8 * unk_2C;
-} S_80172B00_3;
-
-typedef struct S_80172B00_4 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} S_80172B00_4;   /* base_83160 in create_boss_child_effect */
-
-
-
    /* arg1 in create_boss_child_effect */
 
 typedef struct S_80172B00_7 {
@@ -56,7 +36,6 @@ typedef struct S_80172B00_7 {
     u16 unk_1C;
     u16 unk_1E;
 } S_80172B00_7;   /* arg2 in create_boss_child_effect */
-
 
 void *allocate_list_node();                  /* extern */
 s32 register_node(); /* extern */
@@ -102,7 +81,7 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         copy_dst = (CopyBlock *) sprite;
         *(Copy48 *)copy_dst = *(Copy48 *)copy_src;
         register_node(effect_object, project_sprite_chain);
-        ((S_80172B00_3 *)sprite)->unk_2C = D_80174C74;
+        ((SpriteFrameState *)sprite)->frameTable = D_80174C74;
         select_sprite_entry(sprite, D_80174C74[((s32) (g_game_work.view.viewAngle
             + (s16) ((S_80172B00_2 *)parent_data)->unk_2A.s + 0x100) >> 9) & 7], 0);
         effect_pos = ((S_80172B00_1 *)effect_object)->unk_08;
@@ -110,11 +89,11 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         effect_pos->unk_06 = (u16) source_pos->unk_06;
         effect_pos->unk_0A = (u16) source_pos->unk_0A;
         template_1c = ((S_80172B00_7 *)sprite_template)->unk_1C;
-        ((S_80172B00_3 *)sprite)->unk_1C = template_1c;
-        ((S_80172B00_3 *)sprite)->unk_1E = (u16) ((S_80172B00_7 *)sprite_template)->unk_1E;
-        ((S_80172B00_3 *)sprite)->unk_0E = 0x80;
-        ((S_80172B00_3 *)sprite)->unk_0D = 0x80;
-        ((S_80172B00_3 *)sprite)->unk_0C = 0x80;
+        ((SpriteFrameState *)sprite)->scale_x = template_1c;
+        ((SpriteFrameState *)sprite)->scale_y = (u16) ((S_80172B00_7 *)sprite_template)->unk_1E;
+        ((SpriteFrameState *)sprite)->color.c.b = 0x80;
+        ((SpriteFrameState *)sprite)->color.c.g = 0x80;
+        ((SpriteFrameState *)sprite)->color.c.r = 0x80;
         direction_index = g_game_work.view.viewAngle;
         parent_angle = ((S_80172B00_2 *)parent_data)->unk_2A.u;
         setup_mode = 0;
@@ -122,7 +101,7 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         direction_index += 0x100;
         direction_index >>= 9;
         direction_index &= 7;
-        ((S_80172B00_3 *)sprite)->unk_06 = (s16) (D_800DCECC[direction_index] * 4);
+        ((SpriteFrameState *)sprite)->unk_06 = (s16) (D_800DCECC[direction_index] * 4);
         ((S_80172B00_2 *)parent_data)->unk_B0 = (u8) (((S_80172B00_2 *)parent_data)->unk_B0 + 1);
         create_tracked_effect(effect_object, setup_mode, sprite + 0x2C, effect_data + 0x2A);
     }

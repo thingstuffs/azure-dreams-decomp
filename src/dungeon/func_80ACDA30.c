@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/object_node.h"
@@ -213,7 +214,7 @@ void update_three_action_records(void *action, EntityRec *motion, void *sprite, 
                     s32 dy;
 
                     dx = (s32)scan_monster_along_heading(
-                        actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                        actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                         ((ActorActionBytesView *)actor)->facing, 0x10);
                     ((ActorActionBytesView *)actor)->target = (void *)dx;
                     dx = abs(((EntityRec *)actor)->unk_72);
@@ -234,7 +235,7 @@ void update_three_action_records(void *action, EntityRec *motion, void *sprite, 
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.unk_0C = 0;
         ((PlayerActionCountView *)D_800814A8)->remainingActions--;
         advance_status_timers(actor);
@@ -247,10 +248,10 @@ void update_three_action_records(void *action, EntityRec *motion, void *sprite, 
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            ((SpriteFrameState *)sprite)->flags |= 0x800;
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         ((ItemEffectActionState *)action)->phase++;
         play_sound_if_enabled(0x703);
 
@@ -260,7 +261,7 @@ void update_three_action_records(void *action, EntityRec *motion, void *sprite, 
 
             timer = ((ItemEffectActionState *)action)->timer.unsignedTicks - 1;
             ((ItemEffectActionState *)action)->timer.unsignedTicks = timer;
-            if (timer == 0xB || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            if (timer == 0xB || (((SpriteFrameState *)sprite)->flags & 0xE000)) {
                 effect_handle = (s32)allocate_list_node(0x112, ((u8 *)(&D_80083498)));
                 if (effect_handle != 0) {
                     void *actor_model;
@@ -301,15 +302,15 @@ void update_three_action_records(void *action, EntityRec *motion, void *sprite, 
             }
 
             if (((ItemEffectActionState *)action)->timer.signedTicks == 0xB ||
-                (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+                (((SpriteFrameState *)sprite)->flags & 0xE000)) {
+                ((SpriteFrameState *)sprite)->flags |= 0x800;
             }
             if (((ItemEffectActionState *)action)->timer.signedTicks == 0 ||
-                (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+                (((SpriteFrameState *)sprite)->flags & 0xE000)) {
+                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
             }
             if (((ItemEffectActionState *)action)->timer.signedTicks <= 0 ||
-                (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+                (((SpriteFrameState *)sprite)->flags & 0xE000)) {
                 next_state = ((ItemEffectActionState *)action)->phase + 1;
                 ((ItemEffectActionState *)action)->phase = next_state;
             }
@@ -317,15 +318,15 @@ void update_three_action_records(void *action, EntityRec *motion, void *sprite, 
         return;
 
     case 3:
-        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3 &&
-             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+        if ((((SpriteFrameState *)sprite)->unk_04 == 3 &&
+             (((SpriteFrameState *)sprite)->flags & 0x1000)) ||
+            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
+            ((SpriteFrameState *)sprite)->flags |= 0x800;
             ((ItemEffectActionState *)action)->timer.unsignedTicks = 0x14;
             ((ItemEffectActionState *)action)->flags |= 0x80;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x100;
-            ((ItemEffectActionState *)action)->savedDrawAttributes = ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;
-            ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v = 0x7E80;
+            ((SpriteFrameState *)sprite)->flags |= 0x100;
+            ((ItemEffectActionState *)action)->savedDrawAttributes = ((SpriteFrameState *)sprite)->clut;
+            ((SpriteFrameState *)sprite)->clut = 0x7E80;
             ((ItemEffectActionState *)action)->phase++;
         }
 
@@ -340,32 +341,32 @@ void update_three_action_records(void *action, EntityRec *motion, void *sprite, 
             ((ItemEffectActionState *)action)->timer.unsignedTicks = timer;
             if (timer <= 0) {
                 ((ItemEffectActionState *)action)->timer.unsignedTicks = 0;
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
             }
             if (((ItemEffectActionState *)action)->timer.signedTicks == 0x12) {
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFEFF;
-                ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v = ((ItemEffectActionState *)action)->savedDrawAttributes;
+                ((SpriteFrameState *)sprite)->flags &= 0xFEFF;
+                ((SpriteFrameState *)sprite)->clut = ((ItemEffectActionState *)action)->savedDrawAttributes;
             }
-            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
                 return;
             }
 
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFEFF;
-            ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v = ((ItemEffectActionState *)action)->savedDrawAttributes;
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            ((SpriteFrameState *)sprite)->flags &= 0xFEFF;
+            ((SpriteFrameState *)sprite)->clut = ((ItemEffectActionState *)action)->savedDrawAttributes;
 
-            if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_8016EDEC) {
+            if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_8016EDEC) {
                 u8 *animations;
                 s32 direction;
 
                 animations = D_8016EDEC;
-                ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = animations;
+                ((SpriteFrameState *)sprite)->frameTable = animations;
                 direction = ((g_game_work.view.viewAngle + ((ActorActionBytesView *)actor)->facing + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, animations[direction], 0);
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
             }
             if (((s32)g_dungeon_status.unk_0C) != 0) {
                 return;

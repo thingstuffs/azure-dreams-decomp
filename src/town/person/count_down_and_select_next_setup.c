@@ -4,7 +4,7 @@
 s32 scale_random_to_unsigned_halfword_limit();                         /* extern */
 s32 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes();              /* extern */
 s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param);                                /* extern */
-void initialize_object_and_data_pointer();    /* extern */
+struct Rec_func_80094268_arg0; void initialize_object_and_data_pointer(struct Rec_func_80094268_arg0 *, s32, s32);    /* extern */
 void func_800CDE4C(void *, s32, s32);    /* extern */
 #include "records/Rec_D_800CFCB4.h"
 extern Rec_D_800CFCB4 D_800CFCB4;

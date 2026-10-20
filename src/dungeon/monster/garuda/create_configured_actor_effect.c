@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-
 
 typedef struct S_8017088C_0 {
     u8 pad_00[0x8];
@@ -23,14 +23,6 @@ typedef struct S_8017088C_2 {
     s16 unk_0A;
 } S_8017088C_2;   /* part_a in create_configured_actor_effect */
 
-typedef struct S_8017088C_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8017088C_3;   /* part_b in create_configured_actor_effect */
-
 typedef struct S_8017088C_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -41,7 +33,6 @@ typedef struct S_8017088C_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_8017088C_4;   /* actor in create_configured_actor_effect */
-
 
 extern void *allocate_list_node();
 extern void register_node();
@@ -59,7 +50,7 @@ void *create_configured_actor_effect(s16 mask, s16 value_24, s16 value_25, s16 v
     s32 kind;
     void *obj;
     S_8017088C_2 *part_a;
-    S_8017088C_3 *part_b;
+    SpriteFrameState *part_b;
     S_8017088C_1 *work;
     S_8017088C_4 *actor;
     s32 left;
@@ -86,7 +77,7 @@ void *create_configured_actor_effect(s16 mask, s16 value_24, s16 value_25, s16 v
         kind = mask & 3;
         part_b->unk_25 = saved_arg2;
         actor = work;
-        part_b->unk_2C = D_80174880;
+        part_b->frameTable = D_80174880;
         part_b->unk_24 = saved_arg1;
 
         if (kind == 1) {
@@ -107,7 +98,7 @@ void *create_configured_actor_effect(s16 mask, s16 value_24, s16 value_25, s16 v
                     work->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_801748E0;
+                    part_b->frameTable = D_801748E0;
                 }
             }
         }

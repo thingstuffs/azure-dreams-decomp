@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -24,18 +25,6 @@ typedef struct S_80027070_1 {
     s16 unk_0A;
 } S_80027070_1;
 
-typedef struct S_80027070_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80027070_2;
-
 typedef struct S_80027070_3 {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -45,7 +34,7 @@ typedef struct S_80027070_3 {
 
 /* Creates an object with the given position, graphic index, and state value. */
 void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value) {
-    S_80027070_2 *graphics;
+    SpriteFrameState *graphics;
     void *object;
     S_80027070_1 *position;
     S_80027070_3 *state;
@@ -59,11 +48,11 @@ void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s
         position->unk_06 = y;
         position->unk_0A = z;
         graphics = ((S_80027070_0 *)object)->unk_0C;
-        graphics->unk_08 = (void *) ((graphic_index * 0xC) + &D_80028808);
-        graphics->unk_1E = 0x1000;
-        graphics->unk_1C = 0x1000;
-        graphics->unk_10 = 0x20;
-        graphics->unk_14 = (u16) (graphics->unk_14 | 0xC);
+        graphics->source = (void *) ((graphic_index * 0xC) + &D_80028808);
+        graphics->scale_y = 0x1000;
+        graphics->scale_x = 0x1000;
+        graphics->tpage_abr = 0x20;
+        graphics->flags = (u16) (graphics->flags | 0xC);
         state = object + 0x20;
         state->unk_04 = state_value;
         state->unk_66 = 0x1C;

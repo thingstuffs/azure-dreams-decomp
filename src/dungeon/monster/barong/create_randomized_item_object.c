@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -106,7 +107,7 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
 {
     Entity *entity;
     EntityWork *work;
-    EntityRender *render;
+    SpriteFrameState *render;
     EntityPosition *position;
     DungeonGroup *item_category_table;
     DungeonGroup *item_category;
@@ -142,9 +143,9 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
     work->mode = (object->mode >> 9) & 7;
 
     render = entity->render;
-    render->scale_x = 0x1000;
     render->scale_y = 0x1000;
-    render->height = D_801755E0[(object->mode >> 9) & 7].y * 6;
+    render->scale_x = 0x1000;
+    render->unk_06 = D_801755E0[(object->mode >> 9) & 7].y * 6;
 
     *(u16 *)((u8 *)owner + 0xA2) = 0x4D;
     work->x_cell = (s16)source_pos->x / 0x40;
@@ -152,9 +153,9 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
 
     results = D_8007361C;
     item_category_table = D_80073414;
-    render->blue = 0x80;
-    render->green = 0x80;
-    render->red = 0x80;
+    render->color.c.b = 0x80;
+    render->color.c.g = 0x80;
+    render->color.c.r = 0x80;
 
     item_category = &item_category_table[work->arg.group];
     if (item_category->active == 0) {
@@ -162,5 +163,5 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
     } else {
         entry_index = work->arg.index * 3;
     }
-    render->result = results[item_category->entries[entry_index].height];
+    render->source = results[item_category->entries[entry_index].height];
 }

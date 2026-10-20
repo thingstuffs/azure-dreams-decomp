@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -48,8 +49,6 @@ typedef struct S_800C035C_3 {
     union { s16 s; s16 u; u16 p; } unk_C8;   /* accessed as both */
 } S_800C035C_3;
 
-
-
 typedef struct S_800C035C_5 {
     u8 pad_00[0x30];
     u16 unk_30;
@@ -65,12 +64,10 @@ typedef struct S_800C035C_7 {
     u16 unk_30;
 } S_800C035C_7;
 
-
 typedef struct S_800C035C_10 {
     u8 pad_00[0x30];
     s16 unk_30;
 } S_800C035C_10;
-
 
 typedef struct {
     s32 w[6];
@@ -95,11 +92,11 @@ s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 void reserve_tw_mon_load(s32 reservation_value);     /* extern */
 void add_motion_deltas_to_position();                      /* extern */
-void apply_the_enabled_movement_offsets_adding_z_offset_only_positive();                      /* extern */
-void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2();                      /* extern */
-void update_the_s_field_10_using_callee_8008_fe_90();                   /* extern */
-void copy_entity_record_fields();           /* extern */
-void spawn_person_radial_effects();                      /* extern */
+struct IntVector3; void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(struct IntVector3 *);                      /* extern */
+#include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"                      /* extern */
+struct Rec_D_800FE490; void update_the_s_field_10_using_callee_8008_fe_90(struct Rec_D_800FE490 *);                   /* extern */
+struct EntityRec; struct S_800A48B0_0; void copy_entity_record_fields(struct S_800A48B0_0 *, struct EntityRec *);           /* extern */
+void spawn_person_radial_effects(void *);                      /* extern */
 s16 query_lowered_transform_position();                      /* extern */
 extern s32 D_800135B4;
 extern u8 D_8006CCF8[];
@@ -111,7 +108,7 @@ extern Rec_D_800FE490 D_800FE490;
 extern Rec_D_80100D98 D_80100D98;
 
 /* Updates movement, jumping, course progress, and sprite orientation from player input. */
-void update_player_minigame_motion(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
+void update_player_minigame_motion(void *actor, S_800C035C_1 *motion, SpriteFrameState *sprite) {
     Blk24 ground_probe;
     Blk20 event_params;
     s32 prev_stage;
@@ -140,7 +137,7 @@ void update_player_minigame_motion(void *actor, S_800C035C_1 *motion, Rec_D_8008
     controls = ((s32 *)&g_game_work.unk_000);
     course = ((S_800C035C_0 *)actor)->unk_54;
     progress = (s8 *)actor + 0x50;
-    apply_the_enabled_movement_offsets_adding_z_offset_only_positive(motion);
+    apply_the_enabled_movement_offsets_adding_z_offset_only_positive((struct IntVector3 *)(motion));
     update_the_s_field_10_using_callee_8008_fe_90(&D_800FE490);
     add_motion_deltas_to_position(motion);
     motion->unk_00 = (s32) (motion->unk_00 + ((S_800C035C_0 *)actor)->unk_58);
@@ -258,7 +255,7 @@ void update_player_minigame_motion(void *actor, S_800C035C_1 *motion, Rec_D_8008
     }
     if (D_800CFCEE != 0) {
         motion->unk_14 = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(motion);
+        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(motion));
     }
     if (motion->unk_08.at02.v > ground_height) {
         motion->unk_08.at02.v = ground_height;
@@ -347,17 +344,17 @@ void update_player_minigame_motion(void *actor, S_800C035C_1 *motion, Rec_D_8008
     }
     ((S_800C035C_0 *)actor)->unk_10.s = (u16) ((((S_800C035C_0 *)actor)->unk_10.s + 0x2000) & 0xFFF);
     if (((S_800C035C_0 *)actor)->unk_12 != angle_delta) {
-        if (sprite->unk_2C.as_s32 != 0) {
-            texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(sprite, ((u8 *)((S_800C035C_0 *)actor)->unk_1C)[angle_delta], sprite->unk_04.as_s8, 0);
+        if (*(s32 *)&sprite->frameTable != 0) {
+            texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(sprite, ((u8 *)((S_800C035C_0 *)actor)->unk_1C)[angle_delta], sprite->unk_04, 0);
         }
         ((S_800C035C_0 *)actor)->unk_12 = (s16) angle_delta;
     }
     if (((u8 *)&D_8006CCF8)[angle_delta] != 0) {
-        sprite->unk_14.at00_u16.v |= 1;
+        sprite->flags |= 1;
     } else {
-        sprite->unk_14.at00_u16.v &= 0xFFFE;
+        sprite->flags &= 0xFFFE;
     }
     step_actor_animation(sprite, 0);
-    copy_entity_record_fields(&D_80100D98, motion);
+    copy_entity_record_fields((struct S_800A48B0_0 *)(&D_80100D98), (struct EntityRec *)(motion));
     ((Rec_D_80100D98 *)(&D_80100D98))->unk_08 = 0;
 }

@@ -1,4 +1,5 @@
 #include "dungeon/level/generate.h"
+#include "shared/sprite_frame_state.h"
 
 s32 load_generation_resource_slot(s16 resource_index) {
     s16 slot_index;
@@ -20,11 +21,11 @@ s32 load_generation_resource_slot(s16 resource_index) {
     func_80067014(0);
     func_8005FE18(0);
     cd_data = resource->unk_08;
-    (*(s32 *)D_80081480) = ((Rec_D_80082E80 *)(&(*(s32 *)D_8008148C)))->unk_00;
+    (*(s32 *)D_80081480) = ((Rec_D_80082E80 *)(&*(s32 *)&((SpriteFrameState *)D_8008148C)->unk_00))->unk_00;
     Control_CD(6, cd_data, 0);
     Control_CD(6, resource->unk_04, 0);
     drain_cd_command_queue();
-    func_8003F5E0((*(s32 *)D_8008148C));
+    func_8003F5E0(*(s32 *)&((SpriteFrameState *)D_8008148C)->unk_00);
     SD_Call(((2 << slot_index) | 0x10) & 0xFFFF);
     func_800542BC();
     do {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
@@ -6,14 +7,13 @@
 
    /* arg0 in advance_actor_timed_transition */
 
-
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 extern s32 D_80171CE8;
 
 /* Advance a timed entity state transition, clearing motion and updating its handler. */
-void advance_actor_timed_transition(ActorActionTimerView *controller, EntityRec *motion, Rec_D_80082E80 *actor, EntityRec *entity_data)
+void advance_actor_timed_transition(ActorActionTimerView *controller, EntityRec *motion, SpriteFrameState *actor, EntityRec *entity_data)
 {
     s32 state;
     s32 timer_signed;
@@ -36,7 +36,7 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, EntityRec 
             begin_actor_display_action(controller, motion, actor, 0);
             return;
         }
-        if (actor->unk_14.at00_u16.v & 0x8000) {
+        if (actor->flags & 0x8000) {
             controller->unk_96.u = 0;
             controller->unk_9B = 2;
             return;
@@ -52,7 +52,7 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, EntityRec 
         timer_unsigned = controller->unk_96.u;
         if (timer_signed > 0) {
             controller->unk_96.u = timer_unsigned - 1;
-        } else if (actor->unk_14.at00_u16.v & 0x6000) {
+        } else if (actor->flags & 0x6000) {
             controller->unk_96.u = 0;
         }
 

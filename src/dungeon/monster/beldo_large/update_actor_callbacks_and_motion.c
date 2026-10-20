@@ -13,14 +13,14 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void func_800353F4();
+s32 func_800353F4(void *);
 extern void clear_slots_of_type();
-extern void select_indirect_table_entry();
+#include "engine/texture/select_indirect_table_entry_api.h"
 extern void func_800478B8();
-extern void apply_monster_koyaw_data();
-extern void set_or_clear_actor_status_slot();
-extern s32 refresh_actor_facing_and_lifecycle();
-extern void try_move_actor_to_valid_position();
+void apply_monster_koyaw_data(s32, s8 *);
+struct Owner_800A48F0; s16 set_or_clear_actor_status_slot(struct Owner_800A48F0 *, s8, s8);
+struct EntityRec; struct Rec_func_800A9E70_arg0; struct S_800A9E70_2; s32 refresh_actor_facing_and_lifecycle(struct Rec_func_800A9E70_arg0 *, s32, struct S_800A9E70_2 *, struct EntityRec *);
+s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s32 sample_terrain_surface_height();
 extern void D_8016A36C();
 
@@ -130,7 +130,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
         void *call_data = data;
 
         initial_state = (s8)((S_80169EC0_3 *)actor)->unk_6D.u;
-        if (refresh_actor_facing_and_lifecycle(call_owner, call_motion, call_data, actor) != 0) {
+        if (refresh_actor_facing_and_lifecycle(call_owner, (s32)(call_motion), call_data, actor) != 0) {
             return;
         }
     }

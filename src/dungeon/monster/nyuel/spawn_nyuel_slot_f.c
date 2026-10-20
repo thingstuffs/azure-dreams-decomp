@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_bbd094.h"
-
+#include "shared/sprite_frame_state.h"
+#include "modules/dungeon_ovl_bbd094.h"
 
 u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
 {
@@ -32,27 +33,27 @@ u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
             *(void (**)(void))(result + 140) = func_8016AE9C;
             *(u32 *)(result + 20) |= 0x6000;
             *(u32 *)(result + 28) |= 0x6000;
-            *(void (**)(void))(part_b + 44) = func_8016EED8;
+            ((SpriteFrameState *)part_b)->frameTable = func_8016EED8;
         } else {
             if ((flags & 3) >= 2) {
                 *(void (**)(void))(result + 140) = func_8016AE9C;
                 *(u32 *)(result + 20) |= 0x2000;
                 *(u32 *)(result + 28) |= 0x2000;
-                *(void (**)(void))(part_b + 44) = func_8016EED8;
+                ((SpriteFrameState *)part_b)->frameTable = func_8016EED8;
             } else {
                 if ((s16)(flags & -4) == 0) {
                     if ((*(u32 *)(result + 20) & 0x200) == 0) {
                         if ((generate_random_value() & 1) != 0) {
                             set_or_clear_actor_status_slot(result, 1,
                                           (generate_random_value() & 0x3F) | 0x20);
-                            *(void (**)(void))(part_b + 44) = func_8016EF00;
+                            ((SpriteFrameState *)part_b)->frameTable = func_8016EF00;
                         }
                     }
                     *(void (**)(void))(secondary + 140) = func_8016AE9C;
-                    *(void (**)(void))(part_b + 44) = func_8016EED8;
+                    ((SpriteFrameState *)part_b)->frameTable = func_8016EED8;
                 } else {
                     *(void (**)(void))(result + 140) = func_8016AE9C;
-                    *(void (**)(void))(part_b + 44) = func_8016EED8;
+                    ((SpriteFrameState *)part_b)->frameTable = func_8016EED8;
                 }
             }
         }

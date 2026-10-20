@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_18a0800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -9,21 +10,7 @@ typedef struct S_80024FD8_0 {
     void * unk_10;
 } S_80024FD8_0;
 
-
-
    /* arg0 in create_effect_render_object */
-
-typedef struct S_80024FD8_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x4];
-    s16 unk_16;
-    s16 unk_18;
-    u8 pad_1A[0x2];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80024FD8_3;
 
 typedef struct S_80024FD8_4 {
     u8 pad_00[0x14];
@@ -34,16 +21,13 @@ typedef struct S_80024FD8_4 {
     s16 unk_24;
 } S_80024FD8_4;
 
-
-
-
 /* Creates a render object at the supplied position and initializes its effect state. */
 void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, s16 size)
 {
     s32 signed_size;
     s32 render_code;
     u16 object_count;
-    S_80024FD8_3 *render_state;
+    SpriteFrameState *render_state;
     void *object;
     MovingPosition *position;
     S_80024FD8_4 *effect_state;
@@ -57,17 +41,17 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
         position->unk_06 = source_pos->unk_06;
         position->unk_0A = source_pos->unk_0A;
         render_state = ((S_80024FD8_0 *)object)->unk_0C;
-        render_state->unk_0C = 0x808080;
-        render_state->unk_1C = 0x400;
-        render_state->unk_1E = 0x1CCC;
+        render_state->color.word = 0x808080;
+        render_state->scale_x = 0x400;
+        render_state->scale_y = 0x1CCC;
         func_8003DB94(render_state, D_80025854, 0);
         signed_size = (s16)size;
-        render_state->unk_18 = (signed_size << 8) - 0x400;
+        render_state->angle_y = (signed_size << 8) - 0x400;
         render_code = 0x60;
         effect_state = (u8 *)object + 0x20;
-        render_state->unk_10 = render_code;
+        render_state->tpage_abr = render_code;
         object_count = (*(u16 *)D_800257CC);
-        render_state->unk_16 = 0x400;
+        render_state->angle_x = 0x400;
         effect_state->unk_24 = size;
         effect_state->unk_14 = effect_param;
         effect_state->unk_1E = signed_size * 2;
@@ -75,5 +59,4 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
     }
     return object;
 }
-
 

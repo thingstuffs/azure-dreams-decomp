@@ -96,15 +96,15 @@ typedef struct SignedHeight {
     s16 integer;
 } SignedHeight;
 
-void select_sprite_entry();
-void cycle_map_cell_flags();
-s32 func_8009A2B8();
-void update_map_cell_flags_with_item_limit();
-s32 advance_status_timers();
-s32 select_dungeon_spawn_tile();
+#include "engine/graphics/select_sprite_entry_api.h"
+void cycle_map_cell_flags(s16, s16, u16);
+s32 func_8009A2B8(s16, s16, s32);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+#include "dungeon/actor/state/advance_status_timers_api.h"
+s32 select_dungeon_spawn_tile(u8 *, u8 *);
 s32 play_sound_if_enabled();
-void refresh_actor_proximity_state();
-void reduce_actor_food_meter();
+void refresh_actor_proximity_state(u8 *);
+struct S_800AD594_0; void reduce_actor_food_meter(struct S_800AD594_0 *, s32);
 s16 sample_terrain_surface_height();
 extern s16 D_8008146E;
 extern s32 D_8016B058;
@@ -266,7 +266,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, ActorSp
         sprite->directionFrames = anim_table0;
         launch_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         launch_anim = launch_anim + (u32) anim_table0;
-        select_sprite_entry(sprite, ((AnimationFrame *) launch_anim)->frame, 0);
+        select_sprite_entry((struct S_80047784 *)(sprite), ((AnimationFrame *) launch_anim)->frame, 0);
         actor->phase = (u8) (actor->phase + 1);
     case 1:
         launch_ticks = (u16) actor->ticks - 1;
@@ -296,7 +296,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, ActorSp
         sprite->directionFrames = anim_table1;
         fall_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         fall_anim = fall_anim + (u32) anim_table1;
-        select_sprite_entry(sprite, ((AnimationFrame *) fall_anim)->frame, 0);
+        select_sprite_entry((struct S_80047784 *)(sprite), ((AnimationFrame *) fall_anim)->frame, 0);
         actor->phase = actor->phase + 1;
         return;
     case 2:
@@ -378,9 +378,9 @@ commit_tile_positions:
         *(u8 **)((u8 *)sprite + (u32)&((ActorSprite *)0)->directionFrames) = anim_table2;
         rise_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         rise_anim = rise_anim + (u32) anim_table2;
-        select_sprite_entry(sprite, ((AnimationFrame *) rise_anim)->frame, 0);
+        select_sprite_entry((struct S_80047784 *)(sprite), ((AnimationFrame *) rise_anim)->frame, 0);
         refresh_actor_proximity_state(entity);
-        refresh_actor_proximity_state(partner);
+        refresh_actor_proximity_state((u8 *)(partner));
         actor->phase = actor->phase + 1;
         return;
     case 3:
@@ -493,7 +493,7 @@ commit_tile_positions:
         sprite->directionFrames = anim_table3;
         idle_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         idle_anim = idle_anim + (u32) anim_table3;
-        select_sprite_entry(sprite, ((AnimationFrame *) idle_anim)->frame, 0);
+        select_sprite_entry((struct S_80047784 *)(sprite), ((AnimationFrame *) idle_anim)->frame, 0);
         ((CreatureState *)entity)->actionsLeft = 0;
         ((CreatureState *)entity)->action = (u16) (((CreatureState *)entity)->action & 0x7FFF);
         actor->phase = actor->phase + 1;

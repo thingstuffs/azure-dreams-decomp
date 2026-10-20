@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
@@ -17,7 +18,6 @@ typedef struct S_80172C10_0 {
     u8 unk_A8;
 } S_80172C10_0;   /* arg0 in slow_motion_and_switch_behavior */
 
-
 extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
@@ -28,7 +28,7 @@ extern u8 D_80176318[];
 extern u8 D_80176378[];
 
 /* Slows directional motion, returns the entity to its tile, and switches behavior. */
-void slow_motion_and_switch_behavior(S_80172C10_0 *state, EntityRec *motion, Rec_D_80082E80 *tile, void *entity)
+void slow_motion_and_switch_behavior(S_80172C10_0 *state, EntityRec *motion, SpriteFrameState *tile, void *entity)
 {
     s32 mark_value;
     s32 tracked_entity;
@@ -64,7 +64,7 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, EntityRec *motion, Rec
             return;
         }
 
-        if (tile->unk_14.at00_u16.v & 0x8000) {
+        if (tile->flags & 0x8000) {
             state->unk_96.s = 0;
             state->unk_9B = 2;
             return;
@@ -79,7 +79,7 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, EntityRec *motion, Rec
 
         if (state->unk_96.s > 0) {
             state->unk_96.s = state->unk_96.u - 1;
-        } else if (tile->unk_14.at00_u16.v & 0x6000) {
+        } else if (tile->flags & 0x6000) {
             state->unk_96.s = 0;
         }
 

@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/sprite_source.h"
 #include "common.h"
 #include "m2c_compat.h"
@@ -233,7 +234,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
             {
                 s32 scale;
                 ParticleObjectView *effect_object;
-                ParticleSpriteView *effect_sprite;
+                SpriteFrameState *effect_sprite;
                 ParticlePositionView *effect_position;
                 u32 color;
                 u32 height_word;
@@ -263,17 +264,17 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
                     height_word = motion->z.v;
                     color = 0x00800000;
                     effect_position->z = height_word;
-                    effect_sprite->scaleY = 0x1000;
-                    effect_sprite->scaleX = 0x1000;
-                    effect_sprite->angle = 0;
-                    effect_sprite->source = D_800DEA68;
+                    effect_sprite->scale_y = 0x1000;
+                    effect_sprite->scale_x = 0x1000;
+                    effect_sprite->tpage_abr = 0;
+                    effect_sprite->unk_00 = D_800DEA68;
                     effect_sprite->flags |= 0xC;
                     texture = ((u32)((SpriteSourceEntry *)D_800DEA68)->unk_04);
                     color |= 0x8080;
-                    effect_sprite->sourceIndex = 0;
-                    effect_sprite->sourceFrame = 0;
-                    effect_sprite->color = color;
-                    effect_sprite->texture = texture;
+                    effect_sprite->unk_04 = 0;
+                    effect_sprite->unk_05 = 0;
+                    effect_sprite->color.word = color;
+                    effect_sprite->source = texture;
                     effect_object->phase = 0;
                 }
 

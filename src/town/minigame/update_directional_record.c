@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -12,14 +13,13 @@ typedef struct S_800211C4_0 {
     u16 unk_2A;
 } S_800211C4_0;   /* arg0 in update_directional_record */
 
-
 typedef struct S_800211C4_2 {
     u8 pad_00[0x20];
     s16 unk_20;
 } S_800211C4_2;   /* arg1_hold in update_directional_record */
 
 /* Update the record for its current direction and set its direction flag. */
-void update_directional_record(S_800211C4_0 *orientation, void *state_ptr, Rec_D_80082E80 *record) {
+void update_directional_record(S_800211C4_0 *orientation, void *state_ptr, SpriteFrameState *record) {
     u8 *flags_page;
     s32 flags_base;
     s32 direction;
@@ -33,15 +33,15 @@ void update_directional_record(S_800211C4_0 *orientation, void *state_ptr, Rec_D
     orientation->unk_2A = angle;
     angle_sector = (s32)(g_game_work.view.viewAngle + angle + 0x100) >> 9;
     direction = angle_sector & 7;
-    if (record->unk_14.at00_u16.v & 0x6000) {
-        select_sprite_entry(record, *((u8 *)record->unk_2C.as_s32 + direction), 0);
+    if (record->flags & 0x6000) {
+        select_sprite_entry(record, *((u8 *)*(s32 *)&record->frameTable + direction), 0);
     }
     if (state->unk_20 == direction) {
         flags_page = (u8 *)0x80070000;
     } else {
-        direction_data = (u8 *)record->unk_2C.as_s32;
+        direction_data = (u8 *)*(s32 *)&record->frameTable;
         if (direction_data != 0) {
-            select_indirect_table_entry(record, direction_data[direction], record->unk_04.as_s8);
+            select_indirect_table_entry(record, direction_data[direction], record->unk_04);
         }
         state->unk_20 = direction;
         flags_page = (u8 *)0x80070000;
@@ -49,9 +49,9 @@ void update_directional_record(S_800211C4_0 *orientation, void *state_ptr, Rec_D
     flags_base = (s32)flags_page - 0x3308;
     direction_data = dir_sprite_flag + direction;
     if (direction_data[0] != 0) {
-        flags = record->unk_14.at00_u16.v | 1;
+        flags = record->flags | 1;
     } else {
-        flags = record->unk_14.at00_u16.v & 0xFFFE;
+        flags = record->flags & 0xFFFE;
     }
-    record->unk_14.at00_u16.v = flags;
+    record->flags = flags;
 }

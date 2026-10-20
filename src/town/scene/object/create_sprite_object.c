@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/vector.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
-
 
 typedef struct FiveWords {
     s32 words[5];
@@ -22,29 +22,12 @@ extern u8 D_8003C558[12];
 extern u8 D_8052F2C8[];
 extern u8 D_8028E170[];
 
-
-
-
-typedef struct S_808139C8_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_808139C8_1;
-
 /* Creates an object and initializes its position and sprite data. */
 void create_sprite_object(FiveWords *init_data, s32 y_position)
 {
     IntVector3 *position;
     u8 *object;
-    u8 *sprite;
+    SpriteFrameState *sprite;
 
     object = func_800373DC(0x136);
     if (object != NULL) {
@@ -56,12 +39,12 @@ void create_sprite_object(FiveWords *init_data, s32 y_position)
         position->x = 0x05380000;
         position->y = y_position;
         position->z = 0xFFE00000;
-        ((S_808139C8_1 *)sprite)->unk_1E = 0x1000;
-        ((S_808139C8_1 *)sprite)->unk_1C = 0x1000;
-        ((S_808139C8_1 *)sprite)->unk_08 = (s32)D_8028E170;
-        ((S_808139C8_1 *)sprite)->unk_04 = 0;
-        ((S_808139C8_1 *)sprite)->unk_05 = 0;
-        ((S_808139C8_1 *)sprite)->unk_0C = 0x808080;
-        ((S_808139C8_1 *)sprite)->unk_14 = ((S_808139C8_1 *)sprite)->unk_14 | 0x80;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->source = (s32)D_8028E170;
+        sprite->unk_04 = 0;
+        sprite->unk_05 = 0;
+        sprite->color.word = 0x808080;
+        sprite->flags = sprite->flags | 0x80;
     }
 }

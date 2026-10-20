@@ -1,10 +1,10 @@
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/menu/panel.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_node.h"
-
 
 void *allocate_list_node();
 extern s32 register_node();
@@ -44,17 +44,17 @@ void *create_panel_effect_object(void *owner)
     s32 *color_ptr;
     void *entity;
     void *panel;
-    void *transform;
+    SpriteFrameState *transform;
     entity = owner;
     panel = allocate_list_node(0x12, ((u8 *)(&D_80083498)));
     if (panel != 0) {
         color_or_addr = 0x808080;
         transform = *((void **) (((s8 *) panel) + 0xC));
         panel_pos = *((void **) (((s8 *) panel) + 8));
-        *((s16 *) (((s8 *) transform) + 0x1C)) = 0x1000;
-        *((s16 *) (((s8 *) transform) + 0x1E)) = 0x1000;
-        *((s32 *) (((s8 *) transform) + 0xC)) = color_or_addr;
-        *((u16 *) (((s8 *) transform) + 0x18)) = 0xFC00;
+        transform->scale_x = 0x1000;
+        transform->scale_y = 0x1000;
+        transform->color.word = color_or_addr;
+        transform->angle_y = 0xFC00;
         owner_pos = *((void **) (((s8 *) entity) + (-0x18)));
         *((u16 *) (((s8 *) panel_pos) + 2)) = (u16) (*((u16 *) (((s8 *) owner_pos) + 2)));
         *((u16 *) (((s8 *) panel_pos) + 6)) = (u16) (*((u16 *) (((s8 *) owner_pos) + 6)));
@@ -324,7 +324,6 @@ s8 *find_first_ended_record(s8 *record) {
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-
 /* Returns whether the global record's unk_104 field is zero. */
 s32 check_global_record_field_zero(void) {
     return D_800E3D7C->unk_104 == 0;
@@ -341,7 +340,6 @@ s32 check_global_data_byte_zero(void) {
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
-
 
 /* Return whether the current record's unk_9A value differs from 0x29. */
 s32 check_current_record_value_not_29(void) {
@@ -380,7 +378,6 @@ typedef struct S_800B14FC_2 {
 typedef struct S_800B14FC_3_pre {
     u16 unk_00;
 } S_800B14FC_3_pre;   /* the 0x2 bytes before object in update_fading_effect_scale, addressed as object[-1] */
-
 
 extern s32 (*D_800DF030[])(void);
 
@@ -605,7 +602,7 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
     s16 style_byte;
     AcObject *obj;
     AcHeader *header;
-    AcMeta *meta;
+    SpriteFrameState *meta;
     AcSub *sub;
     s32 *table_entry;
     u8 *base;
@@ -625,7 +622,7 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
         header = obj->header;
         sub = &obj->sub;
         if ((compact << 0x10) != 0) {
-            meta->field14 |= 1;
+            meta->flags |= 1;
         }
         header->field02 = value_a;
         sub->field0A = value_a;
@@ -633,8 +630,8 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
         sub->field0C = value_b;
         header->field0A = 0;
         sub->field08 = 1;
-        meta->field1C = 0x1000;
-        meta->field0C = 0;
+        meta->scale_x = 0x1000;
+        meta->color.word = 0;
         obj->field10 = update_fading_effect_scale;
         base = (u8 *)&sub->field38;
         register_node(obj, transform_linked_quad_batches);
@@ -799,13 +796,6 @@ typedef struct S_800B1B10_2 {
     s32 unk_30;
 } S_800B1B10_2;   /* sub in build_owned_floating_number_widget */
 
-typedef struct S_800B1B10_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-} S_800B1B10_3;   /* meta in build_owned_floating_number_widget */
-
 typedef struct S_800B1B10_4 {
     u8 unk_00;
     u8 unk_01;
@@ -839,7 +829,6 @@ typedef struct S_800B1B10_7 {
     u8 pad_00[0x50];
     s32 unk_50;
 } S_800B1B10_7;   /* ((style_held * 4) + sub) in build_owned_floating_number_widget */
-
 
 extern void * allocate_list_node();
 extern s32 register_node();
@@ -881,7 +870,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     s32 *slots;
     S_800B1B10_1 *header;
     void *part;
-    S_800B1B10_3 *meta;
+    SpriteFrameState *meta;
 
     call_kind = 0x12;
     subroutine_arg4 = flags_held;
@@ -895,8 +884,8 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
         header->unk_02 = a_held;
         header->unk_06 = b_held;
         ((S_800B1B10_2 *)sub)->unk_08 = 1;
-        meta->unk_1C = 0x1000;
-        meta->unk_0C = 0;
+        meta->scale_x = 0x1000;
+        meta->color.word = 0;
         ((S_800B1B10_0 *)obj)->unk_10 = update_fading_effect_scale;
         register_node(obj, transform_linked_quad_batches);
         call_kind = 3;
@@ -1070,7 +1059,6 @@ typedef struct S_800B1F34_2 {
     s32 unk_1C;
 } S_800B1F34_2;   /* global in advance_timed_panel_motion */
 
-
 /* Advances timed motion phases, updates the output offset, and sets the global update flag. */
 void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
 {
@@ -1127,13 +1115,6 @@ struct S_800B1F34_0;
 struct S_800B1F34_1;
 extern void advance_timed_panel_motion(struct S_800B1F34_0 *animation, struct S_800B1F34_1 *motion);
 
-typedef struct S_800B2074_0 {
-    u8 pad_00[0x1DC];
-    s32 unk_1DC;
-    u8 pad_1E0[0x10];
-    s16 unk_1F0;
-} S_800B2074_0;
-
 typedef struct S_800B2074_1 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -1142,16 +1123,6 @@ typedef struct S_800B2074_1 {
     u8 pad_14[0xC];
     u16 * unk_20;
 } S_800B2074_1;
-
-typedef struct S_800B2074_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-    s16 unk_20;
-} S_800B2074_2;
 
 typedef struct S_800B2074_3 {
     u8 pad_00[0x2];
@@ -1190,7 +1161,7 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
     S_800B2074_5 *state_fields;
     u16 inherited_value;
     S_800B2074_3 *transform;
-    S_800B2074_2 *render_state;
+    SpriteFrameState *render_state;
 
     pos_x = world_x;
     pos_z = world_z;
@@ -1206,10 +1177,10 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
         }
         render_state = ((S_800B2074_1 *)object)->unk_0C;
         render_state->unk_20 = 0x1000;
-        render_state->unk_1E = 0x1000;
-        render_state->unk_1C = 0x1000;
-        render_state->unk_08 = 2;
-        render_state->unk_0C = 0x808080;
+        render_state->scale_y = 0x1000;
+        render_state->scale_x = 0x1000;
+        render_state->source = 2;
+        render_state->color.word = 0x808080;
         transform = ((S_800B2074_1 *)object)->unk_08;
         transform->unk_16 = 6;
         transform->unk_02 = pos_x;
@@ -1279,7 +1250,7 @@ extern u8 D_800DEC70[16];
 void create_rendered_panel_object(CopyBlock *source)
 {
     Object *object;
-    RenderPart *part;
+    SpriteFrameState *part;
 
     object = (Object *)func_8003FC64(0x212);
     if (object != 0) {
@@ -1288,7 +1259,7 @@ void create_rendered_panel_object(CopyBlock *source)
         *object->copy_dst = *source;
 
         part = object->part;
-        part->color = 0x00808080;
+        part->color.word = 0x00808080;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
         func_8003DB94(part, D_800DEC70, 0);

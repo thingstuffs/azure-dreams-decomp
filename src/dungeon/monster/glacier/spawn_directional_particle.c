@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_801744DC_arg1.h"
@@ -23,25 +24,7 @@ typedef struct S_801744DC_1 {
     void * unk_10;
 } S_801744DC_1;   /* node in spawn_directional_particle */
 
-typedef struct S_801744DC_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_801744DC_2;   /* part in spawn_directional_particle */
-
    /* coords in spawn_directional_particle */
-
 
 typedef struct {
     s16 x;
@@ -61,7 +44,7 @@ void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744D
 {
     void *effect;
     S_801744DC_0 *motion;
-    S_801744DC_2 *sprite;
+    SpriteFrameState *sprite;
     MovingPosition *position;
     s32 velocity_bias;
 
@@ -73,9 +56,9 @@ void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744D
         register_node(effect, project_sprite_chain);
 
         sprite = ((S_801744DC_1 *)effect)->unk_0C;
-        sprite->unk_10 = 0x20;
-        sprite->unk_14 |= 0xC;
-        sprite->unk_1A = (rand() & 7) << 9;
+        sprite->tpage_abr = 0x20;
+        sprite->flags |= 0xC;
+        sprite->angle_z = (rand() & 7) << 9;
         sprite->unk_06 = 0;
 
         position = ((S_801744DC_1 *)effect)->unk_08;
@@ -97,13 +80,13 @@ void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744D
         motion->unk_58 = (motion->unk_58 + velocity_bias) + ((rand() & 0x3FFF) << 6);
 
         sprite = ((S_801744DC_1 *)effect)->unk_0C;
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
-        sprite->unk_14 |= 0x100;
-        sprite->unk_12 = 0x7DCE;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->flags |= 0x100;
+        sprite->clut = 0x7DCE;
         func_8003DB94(sprite, D_800DEC70, 0);
     }
 }

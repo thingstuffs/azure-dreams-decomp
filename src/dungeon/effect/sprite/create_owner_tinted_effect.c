@@ -1,15 +1,12 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 
-
-
 #ifndef NULL
 #define NULL 0
 #endif
-
-
 
 extern s32 register_node();
 extern s32 rand();
@@ -36,22 +33,6 @@ typedef struct S_818BDD8C_2 {
     u8 pad_00[0x12];
     u16 unk_12;
 } S_818BDD8C_2;   /* arg0 in create_owner_tinted_effect */
-
-typedef struct S_818BDD8C_3 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818BDD8C_3;
 
 typedef struct S_818BDD8C_4 {
     s32 unk_00;
@@ -80,7 +61,7 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data
     s32 copy_word_1;
     s32 draw_flags;
     s16 render_flags;
-    S_818BDD8C_3 *render;
+    SpriteFrameState *render;
     void *object;
     S_818BDD8C_1 *state;
     S_818BDD8C_5 *object_data;
@@ -93,23 +74,23 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data
         state->unk_10 = 0;
         state->unk_14 = (u16)owner->unk_12;
         render = ((S_818BDD8C_0 *)object)->unk_0C;
-        render->unk_0E = 0x80;
-        render->unk_0D = 0x80;
-        render->unk_0C = 0x80;
-        render->unk_12 = 0x7E01;
-        render->unk_08 = &D_80025DF8;
-        render->unk_14 |= 0xC;
-        render->unk_10 |= 0x20;
-        render->unk_14 |= 0x100;
+        render->color.c.b = 0x80;
+        render->color.c.g = 0x80;
+        render->color.c.r = 0x80;
+        render->clut = 0x7E01;
+        render->source = &D_80025DF8;
+        render->flags |= 0xC;
+        render->tpage_abr |= 0x20;
+        render->flags |= 0x100;
         {
             void *call_obj;
             s32 scale;
 
-            render->unk_1A = (s16)(rand() % 0x1000);
+            render->angle_z = (s16)(rand() % 0x1000);
             call_obj = object;
             scale = 0x400;
-            render->unk_1E = scale;
-            render->unk_1C = scale;
+            render->scale_y = scale;
+            render->scale_x = scale;
             register_node(call_obj, project_sprite_chain);
         }
         object_data = ((S_818BDD8C_0 *)object)->unk_08;

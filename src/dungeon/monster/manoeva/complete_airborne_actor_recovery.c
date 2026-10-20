@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -18,7 +19,6 @@ typedef struct S_801722BC_0 {
     union { u16 s; s16 u; } unk_9E;   /* accessed as both */
     s32 unk_A0;
 } S_801722BC_0;   /* arg0 in complete_airborne_actor_recovery */
-
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 func_800644B8(s32);
@@ -54,7 +54,7 @@ void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *spr
             break;
         }
 
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765F0;
+        ((SpriteFrameState *)sprite)->frameTable = D_801765F0;
         select_sprite_entry(
             sprite,
             D_801765F0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -70,14 +70,14 @@ void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *spr
         ((S_801722BC_0 *)action)->unk_90 -= ((S_801722BC_0 *)action)->unk_A0;
         move_ticks = ((S_801722BC_0 *)action)->unk_9E.u;
         if (move_ticks != 0) {
-            tile_delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+            tile_delta = ((SpriteFrameState *)sprite)->unk_24 << 6;
             axis_pos = motion->x.w.i;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
             motion->unk_0C = (tile_delta << 16) / move_ticks;
 
             axis_pos = motion->y.w.i;
-            tile_delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+            tile_delta = ((SpriteFrameState *)sprite)->unk_25 << 6;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
             motion->unk_10 =
@@ -103,10 +103,10 @@ void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *spr
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24,
-                          ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24,
+                          ((SpriteFrameState *)sprite)->unk_25);
 
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765F8;
+            ((SpriteFrameState *)sprite)->frameTable = D_801765F8;
             select_sprite_entry(
                 sprite,
                 D_801765F8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -122,8 +122,8 @@ void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *spr
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24,
-                      ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24,
+                      ((SpriteFrameState *)sprite)->unk_25);
         reduce_actor_food_meter(actor, 4);
         advance_status_timers(actor);
 
@@ -140,8 +140,8 @@ void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *spr
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 actor->facing =
-                    get_rounded_facing_and_rounding_flag(((Rec_D_80082E80 *)sprite)->unk_24,
-                                  ((Rec_D_80082E80 *)sprite)->unk_25,
+                    get_rounded_facing_and_rounding_flag(((SpriteFrameState *)sprite)->unk_24,
+                                  ((SpriteFrameState *)sprite)->unk_25,
                                   D_80082E80.tileX, D_80082E80.tileY, &target_distance);
             }
         }

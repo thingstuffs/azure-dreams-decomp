@@ -1,5 +1,6 @@
 #include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 
 void project_and_queue_shaded_quad(void *quad, void *position, void *render_state, s16 depth_bias)
 {
@@ -164,7 +165,7 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
     s32 random_value;
     void *effect;
     Row_81922FB8_S_800247B8_0 *state;
-    Row_81922FB8_S_800247B8_2 *sprite;
+    SpriteFrameState *sprite;
     Row_81922FB8_S_800247B8_4 *position;
 
     effect = func_8003FC64(0x212);
@@ -194,8 +195,8 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
         register_node(effect, D_80024670);
 
         sprite = ((Row_81922FB8_S_800247B8_1 *)effect)->unk_0C;
-        sprite->unk_10 = 0x20;
-        sprite->unk_14 |= 0xC;
+        sprite->tpage_abr = 0x20;
+        sprite->flags |= 0xC;
         elevation = rand() & 0xFFF;
         planar_radius = (source->unk_56 * func_80064584(elevation)) >> 12;
         state->unk_24.s = (source->unk_56 * func_800644B8(elevation)) >> 12;
@@ -220,11 +221,11 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
         position->unk_0A = origin->unk_0A;
 
         sprite = ((Row_81922FB8_S_800247B8_1 *)effect)->unk_0C;
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
     }
 }
 
@@ -343,8 +344,8 @@ void advance_radial_effect_state(void *entity_data, s32 unused, Row_8192340C_Dun
 void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, void *unused_sprite)
 {
     s32 flags;
-    Row_81923534_S_80024D34_2 *render_control;
-    Row_81923534_S_80024D34_5 *render_style;
+    SpriteFrameState *render_control;
+    SpriteFrameState *render_style;
     Row_81923534_S_80024D34_3 *position;
     void *effect;
     Row_81923534_S_80024D34_0 *effect_data;
@@ -359,9 +360,9 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
         register_node(effect, project_sprite_chain);
 
         render_control = ((Row_81923534_S_80024D34_1 *)effect)->unk_0C;
-        render_control->unk_14 |= 0xC;
-        render_control->unk_10 = 0x60;
-        render_control->unk_14 |= 2;
+        render_control->flags |= 0xC;
+        render_control->tpage_abr = 0x60;
+        render_control->flags |= 2;
 
         position = ((Row_81923534_S_80024D34_1 *)effect)->unk_08;
         random_value = rand();
@@ -372,13 +373,13 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
         position->unk_0A = origin->unk_0A + ((random_value & 0x1F) - 0x10);
 
         render_style = ((Row_81923534_S_80024D34_1 *)effect)->unk_0C;
-        render_style->unk_1E = 0xC00;
-        render_style->unk_1C = 0xC00;
-        render_style->unk_0E = 0x80;
-        render_style->unk_0D = 0x80;
-        render_style->unk_0C = 0x80;
-        render_style->unk_12 = 0x7DCF;
-        render_style->unk_14 = render_style->unk_14 | 0x100;
+        render_style->scale_y = 0xC00;
+        render_style->scale_x = 0xC00;
+        render_style->color.c.b = 0x80;
+        render_style->color.c.g = 0x80;
+        render_style->color.c.r = 0x80;
+        render_style->clut = 0x7DCF;
+        render_style->flags = render_style->flags | 0x100;
         func_8003DB94(render_style, D_800DE870, 0);
     }
 }

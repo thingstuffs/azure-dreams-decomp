@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -14,7 +15,6 @@ typedef struct S_80174764_0 {
     u8 unk_9B;
 } S_80174764_0;   /* arg0 in advance_target_interaction */
 
-
 typedef struct S_80174764_3 {
     u8 pad_00[0x14];
     s32 unk_14;
@@ -24,7 +24,6 @@ typedef struct S_80174764_4 {
     u8 pad_00[0x14];
     s32 unk_14;
 } S_80174764_4;   /* ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in advance_target_interaction */
-
 
 extern void select_sprite_entry(void *, s16, s16);
 extern void set_record_integer_tile_center(void *, u8, u8);
@@ -49,9 +48,9 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
 
     switch (((S_80174764_0 *)action)->unk_9B) {
     case 0:
-        sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
+        sprite_flags = ((SpriteFrameState *)sprite)->flags;
         if (sprite_flags & 0x8000) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = sprite_flags | 0x6000;
+            ((SpriteFrameState *)sprite)->flags = sprite_flags | 0x6000;
             if (((EntityRec *)actor)->flags14 & 0x4000) {
                 target = ((EntityRec *)actor)->target;
                 if (check_object_code_19(target)) {
@@ -75,7 +74,7 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
             return;
         }
 
-        if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 1) {
+        if (((SpriteFrameState *)sprite)->unk_04 == 1) {
             if (!(sprite_flags & 0x1000)) {
                 if (!(sprite_flags & 0x6000)) {
                     break;
@@ -100,7 +99,7 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
     case 1:
         timer = ((S_80174764_0 *)action)->unk_96 - 1;
         ((S_80174764_0 *)action)->unk_96 = timer;
-        if ((timer << 16) == 0 || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        if ((timer << 16) == 0 || (((SpriteFrameState *)sprite)->flags & 0x8000)) {
             if (((EntityRec *)actor)->flags14 & 0x4000) {
                 target = ((EntityRec *)actor)->target;
                 if (check_object_code_19(target)) {
@@ -128,9 +127,9 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
     case 2:
         timer = ((S_80174764_0 *)action)->unk_96 - 1;
         ((S_80174764_0 *)action)->unk_96 = timer;
-        if ((timer << 16) == 0 || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if ((timer << 16) == 0 || (((SpriteFrameState *)sprite)->flags & 0xE000)) {
             reduce_actor_food_meter(actor, 0x400);
-            set_record_integer_tile_center(scene, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(scene, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             ((S_80174764_0 *)action)->unk_8C = &D_80171094;
             g_dungeon_status.unk_0C = 0;
             (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
@@ -138,10 +137,10 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
         break;
     }
 
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+    if (((SpriteFrameState *)sprite)->flags & 0xE000) {
         s32 direction;
 
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_80176460;
+        ((SpriteFrameState *)sprite)->frameTable = D_80176460;
         direction = (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_80176460[direction & 7], 0);
         ((S_80174764_0 *)action)->unk_98 &= 0xFFF7;

@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_193C848_H
 #define DUNGEON_OVL_193C848_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
@@ -65,20 +66,6 @@ typedef struct Row_8191C938_S_8191C938_1 {
     s16 unk_08;
     s16 unk_0A;
 } Row_8191C938_S_8191C938_1;   /* temp_s0 in func_80024138 */
-
-typedef struct Row_8191C938_S_8191C938_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_8191C938_S_8191C938_2;   /* temp_s0_2 in func_80024138 */
 
 typedef struct Row_8191C938_S_8191C938_3 {
     u8 pad_00[0x16];
@@ -155,22 +142,6 @@ typedef struct Row_8191CBCC_S_8191CBCC_2 {
     union { u16 s; s16 u; } unk_10;   /* accessed as both */
     u16 unk_12;
 } Row_8191CBCC_S_8191CBCC_2;   /* held_arg0 in func_800243CC */
-
-typedef struct Row_8191CBCC_S_8191CBCC_3 {
-    u8 pad_00[0x8];
-    M2C_UNK * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_8191CBCC_S_8191CBCC_3;   /* temp_s0 in func_800243CC */
 
 typedef struct Row_8191CBCC_S_8191CBCC_4 {
     u8 pad_00[0x14];
@@ -390,7 +361,7 @@ extern u8 D_800DED70[];
 extern M2C_UNK D_80024288;
 extern M2C_UNK D_80024F74;
 extern M2C_UNK D_80045C34;
-void func_80024048(void *motion, Row_8191C848_S_8191C848_3 *position, Rec_D_80082E80 *status);
+void func_80024048(void *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status);
 void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source);
 void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect);
 s32 create_scaled_rotating_effect(void *params_input, void *transform_input);

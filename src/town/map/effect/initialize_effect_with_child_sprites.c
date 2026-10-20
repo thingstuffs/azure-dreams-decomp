@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
-
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -17,7 +17,6 @@ extern u8 D_800B9F74[];
 extern void *D_800D1BCC[];
 extern u8 D_800F8A1C[];
 extern u8 D_800F8A28[];
-
 
 typedef struct S_800BA00C_0_pre {
     void * unk_00;
@@ -39,21 +38,6 @@ typedef struct S_800BA00C_1 {
     u8 * unk_0C;
     void * unk_10;
 } S_800BA00C_1;   /* obj in initialize_effect_with_child_sprites */
-
-typedef struct S_800BA00C_2 {
-    u8 pad_00[0x8];
-    union { s32 i; void * p; } unk_08;   /* accessed as both */
-    union { u8 u; s8 s; } unk_0C;   /* accessed as both */
-    union { u8 u; s8 s; } unk_0D;   /* accessed as both */
-    union { u8 u; s8 s; } unk_0E;   /* accessed as both */
-    u8 pad_0F[0x7];
-    s16 unk_16;
-    s16 unk_18;
-    union { s16 s; u16 u; } unk_1A;   /* accessed as both */
-    s16 unk_1C;
-    s16 unk_1E;
-    s16 unk_20;
-} S_800BA00C_2;   /* sprite in initialize_effect_with_child_sprites */
 
 typedef struct S_800BA00C_3 {
     s32 unk_00;
@@ -95,7 +79,7 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
     s32 quadrant;
     s32 part_index;
     void **part_params;
-    u8 *sprite;
+    SpriteFrameState *sprite;
     void *parent_obj;
 
     ((S_800BA00C_0_pre *)parent)[-1].unk_00 = D_800B9CB8;
@@ -129,14 +113,14 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
             (*(s8 *)((u8 *)entity + 0x97)) = part_index;
             (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
             sprite = ((S_800BA00C_1 *)obj)->unk_0C;
-            ((S_800BA00C_2 *)sprite)->unk_1C = 0x1000;
-            ((S_800BA00C_2 *)sprite)->unk_1E = 0x1000;
-            ((S_800BA00C_2 *)sprite)->unk_20 = 0xAAA;
-            ((S_800BA00C_2 *)sprite)->unk_0C.u = work->view.unk_090;
-            ((S_800BA00C_2 *)sprite)->unk_0D.u = work->view.unk_091;
+            sprite->scale_x = 0x1000;
+            sprite->scale_y = 0x1000;
+            sprite->unk_20 = 0xAAA;
+            sprite->color.c.r = work->view.unk_090;
+            sprite->color.c.g = work->view.unk_091;
             blue = work->view.unk_092;
-            ((S_800BA00C_2 *)sprite)->unk_08.i = part_index + 0x1A;
-            ((S_800BA00C_2 *)sprite)->unk_0E.u = blue;
+            sprite->source = part_index + 0x1A;
+            sprite->color.c.b = blue;
             obj = ((S_800BA00C_1 *)obj)->unk_08.p;
             ((S_800BA00C_1 *)obj)->unk_00 = position->unk_00;
             ((S_800BA00C_1 *)obj)->unk_04 = position->unk_04;
@@ -169,19 +153,19 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
             (*(s8 *)((u8 *)entity + 0x97)) = part_index;
             (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
             sprite = ((S_800BA00C_1 *)obj)->unk_0C;
-            ((S_800BA00C_2 *)sprite)->unk_08.p = sprite_texture;
-            ((S_800BA00C_2 *)sprite)->unk_0E.s = brightness;
-            ((S_800BA00C_2 *)sprite)->unk_0D.s = brightness;
-            ((S_800BA00C_2 *)sprite)->unk_0C.s = brightness;
-            ((S_800BA00C_2 *)sprite)->unk_16 = 0x370;
-            ((S_800BA00C_2 *)sprite)->unk_18 = 0;
+            sprite->source = sprite_texture;
+            sprite->color.c.b = brightness;
+            sprite->color.c.g = brightness;
+            sprite->color.c.r = brightness;
+            sprite->angle_x = 0x370;
+            sprite->angle_y = 0;
             sprite_angle = ((S_800BA00C_0 *)parent)->unk_66.u;
             scale = 0x1000;
-            ((S_800BA00C_2 *)sprite)->unk_1E = scale;
-            ((S_800BA00C_2 *)sprite)->unk_1C = scale;
+            sprite->scale_y = scale;
+            sprite->scale_x = scale;
             angle_offset = part_index << 10;
             sprite_angle += angle_offset;
-            ((S_800BA00C_2 *)sprite)->unk_1A.s = sprite_angle;
+            sprite->angle_z = sprite_angle;
             obj = ((S_800BA00C_1 *)obj)->unk_08.p;
             depth = position->unk_00;
             ((S_800BA00C_1 *)obj)->unk_00 = depth;
@@ -205,17 +189,17 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
         (*(void * *)((u8 *)entity + 0x9C)) = parent;
         (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
         sprite = ((S_800BA00C_1 *)obj)->unk_0C;
-        ((S_800BA00C_2 *)sprite)->unk_08.p = D_800F8A28;
-        ((S_800BA00C_2 *)sprite)->unk_0E.u = 0x80;
-        ((S_800BA00C_2 *)sprite)->unk_0D.u = 0x80;
-        ((S_800BA00C_2 *)sprite)->unk_0C.u = 0x80;
-        ((S_800BA00C_2 *)sprite)->unk_16 = 0x370;
-        ((S_800BA00C_2 *)sprite)->unk_18 = 0;
+        sprite->source = D_800F8A28;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->angle_x = 0x370;
+        sprite->angle_y = 0;
         sprite_angle = ((S_800BA00C_0 *)parent)->unk_66.u;
         scale = 0x1000;
-        ((S_800BA00C_2 *)sprite)->unk_1E = scale;
-        ((S_800BA00C_2 *)sprite)->unk_1C = scale;
-        ((S_800BA00C_2 *)sprite)->unk_1A.u = sprite_angle;
+        sprite->scale_y = scale;
+        sprite->scale_x = scale;
+        sprite->angle_z = sprite_angle;
         obj = ((S_800BA00C_1 *)obj)->unk_08.p;
         depth = position->unk_00;
         ((S_800BA00C_1 *)obj)->unk_00 = depth;
@@ -236,18 +220,18 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
         (*(void * *)((u8 *)entity + 0x9C)) = parent;
         (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
         sprite = ((S_800BA00C_1 *)obj)->unk_0C;
-        ((S_800BA00C_2 *)sprite)->unk_1C = 0x1000;
-        ((S_800BA00C_2 *)sprite)->unk_1E = 0x1000;
-        ((S_800BA00C_2 *)sprite)->unk_20 = 0x1000;
-        ((S_800BA00C_2 *)sprite)->unk_1A.u = ((S_800BA00C_0 *)parent)->unk_66.u;
+        sprite->scale_x = 0x1000;
+        sprite->scale_y = 0x1000;
+        sprite->unk_20 = 0x1000;
+        sprite->angle_z = ((S_800BA00C_0 *)parent)->unk_66.u;
         palette_red = g_game_work.view.unk_090;
-        ((S_800BA00C_2 *)sprite)->unk_0C.u = palette_red;
+        sprite->color.c.r = palette_red;
         palette_green = g_game_work.view.unk_091;
-        ((S_800BA00C_2 *)sprite)->unk_0D.u = palette_green;
+        sprite->color.c.g = palette_green;
         palette_blue = g_game_work.view.unk_092;
-        ((S_800BA00C_2 *)sprite)->unk_0E.u = palette_blue;
+        sprite->color.c.b = palette_blue;
         obj = ((S_800BA00C_1 *)obj)->unk_08.p;
-        ((S_800BA00C_2 *)sprite)->unk_08.i = 0x19;
+        sprite->source = 0x19;
         ((S_800BA00C_1 *)obj)->unk_00 = position->unk_00;
         position_y = position->unk_04;
         ((S_800BA00C_1 *)obj)->unk_08.i = 0;

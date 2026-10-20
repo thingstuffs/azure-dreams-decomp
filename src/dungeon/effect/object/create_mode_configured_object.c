@@ -1,9 +1,8 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
-
-
 
 typedef struct S_800B23F8_0 {
     u8 pad_00[0x8];
@@ -25,21 +24,12 @@ typedef struct S_800B23F8_2 {
     s16 unk_0A;
 } S_800B23F8_2;   /* part_a in create_mode_configured_object */
 
-typedef struct S_800B23F8_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x18];
-    s8 unk_24;
-    s8 unk_25;
-} S_800B23F8_3;   /* (void *)reg_s2 in create_mode_configured_object */
-
 typedef struct S_800B23F8_4 {
     u8 pad_00[0x9A];
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_800B23F8_4;   /* (void *)reg_s3 in create_mode_configured_object */
-
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -82,9 +72,9 @@ void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byt
         ((S_800B23F8_2 *)part_a)->unk_0A = part_a_s16;
         value_or_part_b = (long)((S_800B23F8_0 *)obj)->unk_0C;
         kind_test = 1;
-        ((S_800B23F8_3 *)((void *)value_or_part_b))->unk_25 = byte_25;
+        ((SpriteFrameState *)value_or_part_b)->unk_25 = byte_25;
         byte_or_work = (long)work;
-        ((S_800B23F8_3 *)((void *)value_or_part_b))->unk_24 = saved_byte_24;
+        ((SpriteFrameState *)value_or_part_b)->unk_24 = saved_byte_24;
 
         kind = mode & 3;
         if (kind == kind_test) {
@@ -106,7 +96,7 @@ post_kind:
         ((S_800B23F8_4 *)((void *)byte_or_work))->unk_9A = 0xFF;
         ((S_800B23F8_4 *)((void *)byte_or_work))->unk_9C = -1;
         (*(s32 * *)((u8 *)((void *)byte_or_work) + 0x8C)) = &D_800B2A60;
-        ((S_800B23F8_3 *)((void *)value_or_part_b))->unk_08 = part_b_value;
+        ((SpriteFrameState *)value_or_part_b)->source = part_b_value;
     }
     return work;
 }

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_effect_views.h"
 
@@ -10,7 +11,6 @@ typedef struct S_800A47A8_4 {
     u8 pad_00[0xC];
     void * unk_0C;
 } S_800A47A8_4;
-
 
 s32 register_node();
 extern s32 D_800A3918[];
@@ -42,12 +42,6 @@ typedef struct S_800A47A8_1 {
     u8 unk_0E;
 } S_800A47A8_1;
 
-typedef struct S_800A47A8_2 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800A47A8_2;
-
 typedef struct S_800A47A8_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -63,20 +57,20 @@ void create_resource_display_object(s16 resource_index) {
     void *object;
     S_800A47A8_3 *object_state;
     S_800A47A8_1 *component;
-    S_800A47A8_2 *scale;
+    SpriteFrameState *scale;
 
     object = func_8003FC64(0x12);
     if (object != NULL) {
         ((S_800A47A8_0 *)object)->unk_10 = D_800A3918;
         register_node(object, D_800A3B1C);
-        ((EffectPrimitiveValueView *)(((S_800A47A8_4 *)object)->unk_0C))->unk_08 = D_800D0C40[resource_index];
+        ((SpriteFrameState *)((S_800A47A8_4 *)object)->unk_0C)->source = D_800D0C40[resource_index];
         component = ((S_800A47A8_0 *)object)->unk_0C;
         component->unk_0E = 0xE0;
         component->unk_0D = 0xE0;
         component->unk_0C = 0xE0;
         scale = ((S_800A47A8_0 *)object)->unk_0C;
-        scale->unk_1E = 0x1000;
-        scale->unk_1C = 0x1000;
+        scale->scale_y = 0x1000;
+        scale->scale_x = 0x1000;
         component = ((S_800A47A8_0 *)object)->unk_08;
         D_80100D88.value = 0;
         component->unk_02 = 0;

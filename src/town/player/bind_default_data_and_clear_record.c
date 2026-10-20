@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void clear_entity_record_fields();                     /* extern */
+#include "town/player/object/entity_record_fields.h"                     /* extern */
 extern M2C_UNK D_80098078;
 
 typedef struct S_80098B70_0 {
@@ -12,5 +12,5 @@ typedef struct S_80098B70_0 {
 /* Sets the object's data pointer and forwards the argument to clear_entity_record_fields. */
 void bind_default_data_and_clear_record(S_80098B70_0 *object, s32 forwarded_arg) {
     object->unk_04 = &D_80098078;
-    clear_entity_record_fields(forwarded_arg);
+    clear_entity_record_fields((struct EntityRec *)(forwarded_arg));
 }

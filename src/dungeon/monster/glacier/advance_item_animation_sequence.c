@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
 extern u8 D_80080000[];
@@ -11,7 +12,6 @@ typedef struct S_80172F04_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_80172F04_0;   /* arg0 in advance_item_animation_sequence */
-
 
 typedef struct S_80172F04_2 {
     u8 pad_00[0x2A];
@@ -35,7 +35,6 @@ typedef struct S_80172F04_4 {
     s32 unk_346C;
 } S_80172F04_4;   /* (u8 *)work in advance_item_animation_sequence */
 
-
 extern void select_sprite_entry(void *, u8, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
@@ -46,7 +45,7 @@ extern u8 D_801714B8[];
 extern u8 D_801760CC[];
 
 /* Advances a timed actor animation sequence and resets its action on completion. */
-void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion, Rec_D_80082E80 *animation, void *actor_ptr)
+void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion, SpriteFrameState *animation, void *actor_ptr)
 {
     void *actor;
     s32 state;
@@ -59,9 +58,9 @@ void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion,
     actor = actor_ptr;
     switch (state) {
     case 0:
-        if (animation->unk_14.at00_u16.v & 0x8000) {
+        if (animation->flags & 0x8000) {
             action->unk_9B = 3;
-            animation->unk_14.at00_u16.v |= 0x6000;
+            animation->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
             return;
         }
@@ -75,8 +74,8 @@ void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion,
     case 1:
         timer = action->unk_96 + 1;
         action->unk_96 = timer;
-        if (((s16)timer == 4) || (animation->unk_14.at00_u16.v & 0x8000)) {
-            animation->unk_2C.as_pu8 = D_801760CC;
+        if (((s16)timer == 4) || (animation->flags & 0x8000)) {
+            animation->frameTable = D_801760CC;
             work = g_game_work.view.viewAngle + ((S_80172F04_2 *)actor)->unk_2A + 0x100;
             work = ((s32)work >> 9) & 7;
             work += (u32)D_801760CC;
@@ -93,7 +92,7 @@ void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion,
     case 2:
         timer = action->unk_96 + 1;
         action->unk_96 = timer;
-        if (((s16)timer == 4) || (animation->unk_14.at00_u16.v & 0x8000)) {
+        if (((s16)timer == 4) || (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
             current_state = action->unk_9B;
             action->unk_96 = 0;
@@ -102,7 +101,7 @@ void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion,
         }
         return;
     case 3:
-        if (animation->unk_14.at00_u16.v & 0xE000) {
+        if (animation->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x140);
             call_actor = actor;
             action->unk_8C = (u8 *)((u32)D_801714B8);

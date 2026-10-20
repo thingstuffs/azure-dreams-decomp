@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -11,7 +12,6 @@ typedef struct S_8009402C_0 {
     u8 pad_2C[0xF8];
     void * unk_124;
 } S_8009402C_0;   /* arg0 in check_familiar_deployment_placement */
-
 
 typedef struct S_8009402C_2 {
     u8 pad_00[0x13];
@@ -67,8 +67,8 @@ s32 check_familiar_deployment_placement(void *actor, void *unused, void *positio
             return blocked_result;
         }
         direction_offset = ((u16) ((S_8009402C_0 *)actor)->unk_2A >> 8) & 0xE;
-        next_x = ((Rec_D_80082E80 *)position)->unk_24 + *(u16 *)(((s8 *)dir_step_x) + direction_offset);
-        next_y = ((Rec_D_80082E80 *)position)->unk_25 + *(u16 *)(((s8 *)dir_step_y) + direction_offset);
+        next_x = ((SpriteFrameState *)position)->unk_24 + *(u16 *)(((s8 *)dir_step_x) + direction_offset);
+        next_y = ((SpriteFrameState *)position)->unk_25 + *(u16 *)(((s8 *)dir_step_y) + direction_offset);
         if (((shifted_result = find_valid_nearby_position(0, next_x, next_y, x_coord, out_y) << 0x10) == 0) ||
             ((((S_8009402C_0 *)actor)->unk_1C & 0x100000) &&
              (status = ((S_8009402C_0 *)actor)->unk_124, (status != NULL)) &&

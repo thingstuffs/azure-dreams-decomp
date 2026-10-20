@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -28,7 +29,6 @@ typedef struct S_80175CD8_0 {
     u8 pad_A4[0x10];
     union { s16 s; u16 u; } unk_B4;   /* accessed as both */
 } S_80175CD8_0;   /* arg0 in update_actor_approach_descent_return */
-
 
 typedef struct S_80175CD8_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -60,7 +60,6 @@ typedef struct S_80175CD8_6 {
     u8 pad_18[0x7A];
     s16 unk_92;
 } S_80175CD8_6;   /* global_ptr in update_actor_approach_descent_return */
-
 
 typedef struct WorldStatePage {
     u8 pad_0000[0x2090];
@@ -134,8 +133,8 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             effect_actor = actor;
             effect_flags = 0x2000;
             target_tile_x = D_80082E80.tileX;
-            sprite_tile_x = ((Rec_D_80082E80 *)sprite)->unk_24;
-            sprite_tile_y = ((Rec_D_80082E80 *)sprite)->unk_25;
+            sprite_tile_x = ((SpriteFrameState *)sprite)->unk_24;
+            sprite_tile_y = ((SpriteFrameState *)sprite)->unk_25;
             tile_dx = target_tile_x - sprite_tile_x;
             target_tile_y = D_80082E80.tileY;
             tile_dx = __builtin_abs(tile_dx);
@@ -146,21 +145,21 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             reduce_actor_food_meter(effect_actor, effect_flags);
         }
 
-            if (D_80082E80.tileX == ((Rec_D_80082E80 *)sprite)->unk_24) {
-                if (D_80082E80.tileY > ((Rec_D_80082E80 *)sprite)->unk_25) {
+            if (D_80082E80.tileX == ((SpriteFrameState *)sprite)->unk_24) {
+                if (D_80082E80.tileY > ((SpriteFrameState *)sprite)->unk_25) {
                     direction = 2;
                 } else {
                     direction = 6;
                 }
-            } else if (D_80082E80.tileY == ((Rec_D_80082E80 *)sprite)->unk_25) {
-                direction = (((Rec_D_80082E80 *)sprite)->unk_24 >= D_80082E80.tileX) * 4;
-            } else if (((Rec_D_80082E80 *)sprite)->unk_24 < D_80082E80.tileX) {
-                if (((Rec_D_80082E80 *)sprite)->unk_25 < D_80082E80.tileY) {
+            } else if (D_80082E80.tileY == ((SpriteFrameState *)sprite)->unk_25) {
+                direction = (((SpriteFrameState *)sprite)->unk_24 >= D_80082E80.tileX) * 4;
+            } else if (((SpriteFrameState *)sprite)->unk_24 < D_80082E80.tileX) {
+                if (((SpriteFrameState *)sprite)->unk_25 < D_80082E80.tileY) {
                     direction = 1;
                 } else {
                     direction = 7;
                 }
-            } else if (((Rec_D_80082E80 *)sprite)->unk_25 < D_80082E80.tileY) {
+            } else if (((SpriteFrameState *)sprite)->unk_25 < D_80082E80.tileY) {
                 direction = 3;
             } else {
                 direction = 5;
@@ -228,7 +227,7 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             return;
 
         case 2:
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2368;
+            ((SpriteFrameState *)sprite)->frameTable = D_800E2368;
             facing = (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
             select_sprite_entry(sprite, D_800E2368[facing & 7], 0);
             ((S_80175CD8_0 *)action)->unk_96.s = 0;
@@ -361,8 +360,8 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             display_text_with_fullwidth_adjustment(text_start);
 
         case 8:
-            target_x = ((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16;
-            target_y = ((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16;
+            target_x = ((((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20) << 16;
+            target_y = ((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 16;
             target_z = (((S_80175CD8_0 *)action)->unk_B4.s - 0x20) << 16;
             return_ticks = ((S_80175CD8_0 *)action)->unk_96.s;
             if (return_ticks >= 0xE) {
@@ -415,16 +414,16 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             g_dungeon_status.unk_0C = 0;
             ((EntityRec *)actor)->flags1C |= 0x40000;
             (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2348;
+            ((SpriteFrameState *)sprite)->frameTable = D_800E2348;
             facing = (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
             select_sprite_entry(sprite, D_800E2348[facing & 7], 0);
-            ((Rec_D_80082E80 *)sprite)->unk_05.as_u8 = 1;
+            ((SpriteFrameState *)sprite)->unk_05 = 1;
             ((S_80175CD8_0 *)action)->unk_A2.s = 0;
             ((S_80175CD8_0 *)action)->unk_9E = 0;
             ((S_80175CD8_0 *)action)->unk_90.at02.v = -0x20;
             ((EntityRec *)actor)->unk_88 = ((S_80175CD8_0 *)action)->unk_B4.u;
-            ((S_80175CD8_3 *)motion)->unk_00.at02.v = (((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20;
-            ((S_80175CD8_3 *)motion)->unk_04.at02.v = (((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20;
+            ((S_80175CD8_3 *)motion)->unk_00.at02.v = (((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20;
+            ((S_80175CD8_3 *)motion)->unk_04.at02.v = (((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20;
             ((S_80175CD8_3 *)motion)->unk_0A = ((u16)((EntityRec *)actor)->unk_88) +
                 ((S_80175CD8_0 *)action)->unk_90.at02u.v - ((S_80175CD8_0 *)action)->unk_A2.u;
 

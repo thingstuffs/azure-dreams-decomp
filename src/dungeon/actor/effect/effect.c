@@ -1,5 +1,6 @@
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/actor/effect/effect.h"
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_engine_entity_effects_storage.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
@@ -13,8 +14,6 @@ typedef struct {
     s8 kind;
 } Entity;
 
-
-
 typedef struct {
     u8 x;
     u8 y;
@@ -22,7 +21,6 @@ typedef struct {
 } RegionPos;
 
 s32 find_active_rect_containing_point();
-
 
 /* Finds the nearest matching entry in the entity's region and writes its coordinates. */
 u32 find_nearest_floor_item_in_room(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
@@ -76,7 +74,6 @@ typedef struct {
     u8 pad[10];
 } Entry;
 
-
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 
 /* Clear active entries at the target coordinates and update their map tile. */
@@ -114,8 +111,6 @@ void remove_floor_items_at_tile(s16 target_x, s16 target_y) {
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 
-
-
 typedef struct {
     u8 x;
     u8 y;
@@ -125,7 +120,6 @@ typedef struct {
 } PositionEntry;
 
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-
 
 /* Finds an active entry at the given tile within 64 height units if the left tile has flag 0x800. */
 s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z) {
@@ -390,7 +384,6 @@ DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s3
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void select_position_data_and_update_owner(void *entity, void *search_state);
 
@@ -402,7 +395,6 @@ typedef struct {
     u16 pad6;
     s32 value8;
 } D_800E36C8_Entry;
-
 
 typedef struct {
     u8 pad0[0x98];
@@ -571,7 +563,6 @@ typedef struct {
     s32 value;
 } DungeonRecord;
 
-
 extern s32 D_800E0B54;
 
 extern s32 get_unused_text_buffer(void);
@@ -647,19 +638,9 @@ typedef struct S_800A7C64_0 {
     s32 unk_10;
 } S_800A7C64_0;
 
-typedef struct S_800A7C64_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800A7C64_1;
-
 /* Create an object and initialize its render data to neutral color and unit scale. */
 void create_floor_item_renderer(void) {
-    S_800A7C64_1 *render_data;
+    SpriteFrameState *render_data;
     S_800A7C64_0 *object;
 
     object = func_8003FC64(2);
@@ -667,11 +648,11 @@ void create_floor_item_renderer(void) {
         render_data = object->unk_0C;
         object->unk_10 = 0;
         register_node(object, &D_800A7CC4);
-        render_data->unk_0E = 0x80;
-        render_data->unk_0D = 0x80;
-        render_data->unk_0C = 0x80;
-        render_data->unk_1E = 0x1000;
-        render_data->unk_1C = 0x1000;
+        render_data->color.c.b = 0x80;
+        render_data->color.c.g = 0x80;
+        render_data->color.c.r = 0x80;
+        render_data->scale_y = 0x1000;
+        render_data->scale_x = 0x1000;
     }
 }
 #include "modules/dungeon_engine_entity_effects_storage.h"
@@ -694,7 +675,6 @@ extern void func_800666F4();
 extern u8 D_8006CD30[];
 typedef struct { u8 b0, b1, b2, b3; } Ent4;
 typedef struct { u8 b0, b1; u16 h2, h4; u8 *p8; } Ent12;
-
 
 #define U8(p, o)  (*(u8  *)((u8 *)(p) + (o)))
 #define S8(p, o)  (*(s8  *)((u8 *)(p) + (o)))
@@ -969,7 +949,7 @@ extern void create_tracked_effect(void *, s32, s32, s32);
 /* Create a sprite object with the supplied position and default color and scale. */
 void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z) {
     void *object;
-    void *sprite;
+    SpriteFrameState *sprite;
     void *position;
 
     object = allocate_list_node(0x12, (void *)parent);
@@ -980,12 +960,12 @@ void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16
         F(position, s16 *, 6) = y;
         F(position, s16 *, 0xA) = z;
         register_node(object, project_sprite_chain);
-        F(sprite, u8 *, 0xE) = 0x80;
-        F(sprite, u8 *, 0xD) = 0x80;
-        F(sprite, u8 *, 0xC) = 0x80;
-        F(sprite, s16 *, 0x1E) = 0x1000;
-        F(sprite, s16 *, 0x1C) = 0x1000;
-        F(sprite, s32 *, 8) = get_item_category_value((void *)sprite_source);
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->source = get_item_category_value((void *)sprite_source);
         create_tracked_effect(object, 0, 0, 0);
     }
     return object;
@@ -1040,7 +1020,6 @@ extern u8 D_800DD7DC[];
 extern s32 D_800E3540;
 
 #define DUNGEON_FLAGS_PAGE ((s8 *)0x80080000)
-
 
 typedef struct S_800A871C_0 {
     u8 pad_00[0x1];
@@ -1496,7 +1475,6 @@ typedef struct {
 
 extern u8 D_800A871C[];
 
-
 extern void * allocate_list_node(s32 flags, void **list_head);
 extern s32 register_node(void *entry, s32 registration_id);
 extern s32 clear_entry_flag_and_link_owner(void *);
@@ -1509,7 +1487,7 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
     DungeonObject *object;
     DungeonData *data;
     DungeonCoords *coords;
-    DungeonState *state;
+    SpriteFrameState *state;
     DungeonTile *tiles;
     s32 init_value;
 
@@ -1535,13 +1513,13 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
             data->field88 = source_data->field88;
         }
         register_node(object, project_sprite_chain);
-        state->fieldE = 0x80;
-        state->fieldD = 0x80;
-        state->fieldC = 0x80;
-        state->field1E = 0x1000;
-        state->field1C = 0x1000;
-        state->field6 = 2;
-        state->field8 = get_item_category_value(init_data);
+        state->color.c.b = 0x80;
+        state->color.c.g = 0x80;
+        state->color.c.r = 0x80;
+        state->scale_y = 0x1000;
+        state->scale_x = 0x1000;
+        state->unk_06 = 2;
+        state->source = get_item_category_value(init_data);
         data->field8C = *(s32 *)((u8 *)source_data - 0x18);
         data->field90 = *(s32 *)((u8 *)source_data - 0x14);
         init_value = *init_data;
@@ -1555,9 +1533,6 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
 }
 #include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
 #include "common.h"
-
-
-
 
 /* Sets flag 0x400 and bitmap bits for items without flag 0x200 in selected item categories. */
 void mark_category_items_flag_400(s32 group_bit) {
@@ -1610,8 +1585,6 @@ typedef struct {
     u8 group;
 } DungeonArg;
 
-
-
 extern void item_clear_recorded_category_pair(u8, u8);
 
 /* Updates the selected item through item_clear_recorded_category_pair and clears its flag 0x400 in the item category table. */
@@ -1633,14 +1606,10 @@ typedef struct S_800A9160_1 {
     u8 unk_5720;
 } S_800A9160_1;
 
-
-
-
 typedef struct {
     u8 pad00[0x5720];
     u8 bits[1];
 } RamPage;
-
 
 /* Packs item flag 0x400 into a RAM bitset for each item category. */
 void pack_item_flag_400_bitmap(void)

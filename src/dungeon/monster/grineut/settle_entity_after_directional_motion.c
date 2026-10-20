@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_80155238_1 {
     u8 pad_00[0x8C];
@@ -23,7 +23,6 @@ typedef struct S_80155238_2 {
     s32 unk_10;
     s32 unk_14;
 } S_80155238_2;   /* arg1 in settle_entity_after_directional_motion */
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
@@ -58,7 +57,7 @@ void settle_entity_after_directional_motion(void *action, void *motion, void *sp
             begin_actor_display_action(action, motion, sprite, D_80156178);
             return;
         }
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((S_80155238_1 *)action)->unk_96.s = 0;
             ((S_80155238_1 *)action)->unk_9B = 3;
             return;
@@ -80,7 +79,7 @@ void settle_entity_after_directional_motion(void *action, void *motion, void *sp
 
         if (((S_80155238_1 *)action)->unk_96.s > 0) {
             ((S_80155238_1 *)action)->unk_96.s = ((S_80155238_1 *)action)->unk_96.u - 1;
-        } else if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        } else if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             ((S_80155238_1 *)action)->unk_96.s = 0;
         }
 
@@ -94,7 +93,7 @@ void settle_entity_after_directional_motion(void *action, void *motion, void *sp
             begin_actor_display_action(action, motion, sprite, D_80156178);
             return;
         } else {
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156150;
+            ((SpriteFrameState *)sprite)->frameTable = D_80156150;
             select_sprite_entry(
                 sprite,
                 D_80156150[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
@@ -106,11 +105,11 @@ void settle_entity_after_directional_motion(void *action, void *motion, void *sp
     case 2:
         ((S_80155238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         ((S_80155238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
             return;
         }
 
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156150;
+        ((SpriteFrameState *)sprite)->frameTable = D_80156150;
         select_sprite_entry(
             sprite,
             D_80156150[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
@@ -123,12 +122,12 @@ void settle_entity_after_directional_motion(void *action, void *motion, void *sp
         timer = ((S_80155238_1 *)action)->unk_96.s;
         if (timer != 0) {
             {
-                s32 tile_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+                s32 tile_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
                 s32 offset_x = ((S_80155238_2 *)motion)->unk_00.at02.v - 0x20;
                 ((S_80155238_2 *)motion)->unk_0C = ((tile_x - offset_x) << 15) / timer;
             }
             {
-                s32 tile_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+                s32 tile_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
                 s32 offset_y = ((S_80155238_2 *)motion)->unk_04.at02.v - 0x20;
                 ((S_80155238_2 *)motion)->unk_10 =
                     ((tile_y - offset_y) << 15) / ((S_80155238_1 *)action)->unk_96.s;
@@ -144,9 +143,9 @@ void settle_entity_after_directional_motion(void *action, void *motion, void *sp
         ((S_80155238_2 *)motion)->unk_14 = 0;
         ((S_80155238_2 *)motion)->unk_10 = 0;
         ((S_80155238_2 *)motion)->unk_0C = 0;
-        ((S_80155238_2 *)motion)->unk_00.at00.v = ((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16;
-        ((S_80155238_2 *)motion)->unk_04.at00.v = ((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        ((S_80155238_2 *)motion)->unk_00.at00.v = ((((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20) << 16;
+        ((S_80155238_2 *)motion)->unk_04.at00.v = ((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 16;
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
         tracked_addr = ((s32)g_dungeon_status.unk_10);
         if (tracked_addr == (s32)((u8 *)entity - 0x20)) {

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_80172EF4_1 {
     u8 pad_00[0x8C];
@@ -14,7 +14,6 @@ typedef struct S_80172EF4_1 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_80172EF4_1;   /* arg0 in decelerate_and_center_actor_on_tile */
-
 
 extern void select_sprite_entry();
 extern void set_record_integer_tile_center();
@@ -64,7 +63,7 @@ void decelerate_and_center_actor_on_tile(void *action, EntityRec *motion, void *
             begin_actor_display_action(action, motion, sprite, &D_80173D24);
             return;
         }
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((S_80172EF4_1 *)action)->unk_96.s = 0;
             ((S_80172EF4_1 *)action)->unk_9B = 2;
             return;
@@ -97,7 +96,7 @@ void decelerate_and_center_actor_on_tile(void *action, EntityRec *motion, void *
 
         if (((S_80172EF4_1 *)action)->unk_96.s > 0) {
             ((S_80172EF4_1 *)action)->unk_96.s = ((S_80172EF4_1 *)action)->unk_96.u - 1;
-        } else if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        } else if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             ((S_80172EF4_1 *)action)->unk_96.s = 0;
         }
         if (((S_80172EF4_1 *)action)->unk_96.s != 0) {
@@ -116,10 +115,10 @@ void decelerate_and_center_actor_on_tile(void *action, EntityRec *motion, void *
 
     case 2:
         if (((S_80172EF4_1 *)action)->unk_96.s != 0) {
-            target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+            target_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
             offset_x = motion->x.w.i - 0x20;
             motion->unk_0C = (target_x - offset_x) << 0x10 >> 1;
-            target_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+            target_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
             offset_y = motion->y.w.i - 0x20;
             motion->unk_10 = (target_y - offset_y) << 0x10 >> 1;
         }
@@ -133,9 +132,9 @@ void decelerate_and_center_actor_on_tile(void *action, EntityRec *motion, void *
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_80173D0C;
+        ((SpriteFrameState *)sprite)->frameTable = D_80173D0C;
         select_sprite_entry(sprite,
             D_80173D0C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct {
     u8 pad0[0xC];
@@ -37,22 +38,22 @@ extern void register_node(void *, void (*)(void));
 /* Initialize object rendering and copy the three supplied parameter fields. */
 void initialize_object_rendering_and_params(Obj *object, s32 state_value, Sub2 *source_params)
 {
-    Sub1 *render_state;
+    SpriteFrameState *render_state;
     Sub2 *dest_params;
 
     object->field48 = state_value;
     register_node(object, D_80045340);
     render_state = object->sub1;
-    render_state->field10 = 0x20;
-    render_state->field14 |= 0xC;
+    render_state->tpage_abr = 0x20;
+    render_state->flags |= 0xC;
     dest_params = object->sub2;
     dest_params->field2 = source_params->field2;
     dest_params->field6 = source_params->field6;
     dest_params->fieldA = source_params->fieldA;
     render_state = object->sub1;
-    render_state->field1E = 0x1000;
-    render_state->field1C = 0x1000;
-    render_state->b = 0x80;
-    render_state->g = 0x80;
-    render_state->r = 0x80;
+    render_state->scale_y = 0x1000;
+    render_state->scale_x = 0x1000;
+    render_state->color.c.b = 0x80;
+    render_state->color.c.g = 0x80;
+    render_state->color.c.r = 0x80;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -57,7 +58,7 @@ extern void func_800478B8(Sub *);
 void update_encounter_retreat_fade(void) {
     Extra *effect;
     Vec3 *position;
-    Sub *sprite;
+    SpriteFrameState *sprite;
     Extra *direction_data;
     Node *node;
     s32 intensity;
@@ -87,9 +88,9 @@ void update_encounter_retreat_fade(void) {
             create_offset_animation_sprite(effect, position, sprite);
             play_sound_if_enabled(0x601);
             position->field_0C = -0x200000;
-            sprite->field_10 = 0x20;
-            sprite->field_2C = D_80174B30;
-            sprite->flags_14 |= 0xC;
+            sprite->tpage_abr = 0x20;
+            sprite->frameTable = D_80174B30;
+            sprite->flags |= 0xC;
             select_sprite_entry(sprite, D_80174B30[((g_game_work.view.viewAngle + direction_data->field_2A + 0x100) >> 9) & 7],
                 0);
         }
@@ -101,9 +102,9 @@ void update_encounter_retreat_fade(void) {
         duration = effect->field_9E;
         intensity = ((s32)(s16)(effect->field_96 - 1) << 7) / duration;
         effect->field_96--;
-        sprite->field_0E = (s8)intensity;
-        sprite->field_0D = (s8)intensity;
-        sprite->field_0C = (s8)intensity;
+        sprite->color.c.b = (s8)intensity;
+        sprite->color.c.g = (s8)intensity;
+        sprite->color.c.r = (s8)intensity;
         if ((s16)effect->field_96 <= 0) {
             func_80170CE0();
         }

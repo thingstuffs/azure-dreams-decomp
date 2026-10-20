@@ -1,11 +1,12 @@
 #include "modules/dungeon_resource16_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void *func_80170878(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 {
     void *result = 0;
     void *created;
     void *position;
-    R16_80170878_S_80170878_3 *part_b;
+    SpriteFrameState *part_b;
     R16_80170878_S_80170878_4 *actor;
     s16 held_a;
     s32 held_c;
@@ -33,7 +34,7 @@ void *func_80170878(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
         kind = spawn_flags & 3;
         part_b->unk_25 = held_b;
         actor = result;
-        part_b->unk_2C = ((u8 *)D_8017420C);
+        part_b->frameTable = ((u8 *)D_8017420C);
         part_b->unk_24 = held_a;
 
         if (kind == 1) {
@@ -50,7 +51,7 @@ void *func_80170878(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
                     if (generate_random_value() & 1) {
                         set_or_clear_actor_status_slot(result, 1,
                             (generate_random_value() & 0x3F) | 0x20);
-                        part_b->unk_2C = ((u8 *)D_8017425C);
+                        part_b->frameTable = ((u8 *)D_8017425C);
                     }
                 }
             }

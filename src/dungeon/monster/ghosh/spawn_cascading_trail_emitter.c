@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
@@ -6,7 +7,6 @@
 
 struct Dst;
 struct Elem;
-
 
 typedef struct S_801722F0_1 {
     u8 pad_00[0x16];
@@ -21,20 +21,6 @@ typedef struct S_801722F0_2 {
     s32 * unk_10;
 } S_801722F0_2;
 
-typedef struct S_801722F0_3 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_801722F0_3;
-
 typedef struct S_801722F0_4 {
     s32 unk_00;
     s32 unk_04;
@@ -47,7 +33,6 @@ typedef struct S_801722F0_5 {
     s32 unk_08;
 } S_801722F0_5;
 
-
 s32 register_node();
 extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 s32 play_sound_if_enabled();
@@ -56,7 +41,7 @@ extern Rec_D_80174CD8 *D_80174CD8;
 
 /* Create an effect at the source position and play its sound. */
 void spawn_cascading_trail_emitter(void) {
-    S_801722F0_3 *sprite;
+    SpriteFrameState *sprite;
     void *setup_data;
     S_801722F0_5 *source_pos;
     void *effect;
@@ -79,12 +64,12 @@ void spawn_cascading_trail_emitter(void) {
         effect_pos->unk_04 = (s32) source_pos->unk_04;
         effect_pos->unk_08 = (s32) source_pos->unk_08;
         sprite = ((S_801722F0_2 *)effect)->unk_0C;
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0x80);
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->flags = (u16) (sprite->flags | 0x80);
         func_8003DB94(sprite, D_800DE870, 0);
         play_sound_if_enabled(0x703);
     }

@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource10_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void func_80172C54(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
@@ -18,10 +19,10 @@ void func_80172C54(void *action, EntityRec *motion, void *sprite, EntityRec *act
     state = ((R10_80172C54_S_80172C54_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
             break;
         }
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801759A8);
+        ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_801759A8);
         select_sprite_entry(
             sprite,
             ((u8 *)D_801759A8)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -36,7 +37,7 @@ void func_80172C54(void *action, EntityRec *motion, void *sprite, EntityRec *act
         move_ticks = ((R10_80172C54_S_80172C54_0 *)action)->unk_9E.s;
         ((R10_80172C54_S_80172C54_0 *)action)->unk_90 -= ((R10_80172C54_S_80172C54_0 *)action)->unk_A4;
         if (move_ticks != 0) {
-            target_x = ((Rec_D_80082E80 *)sprite)->unk_24;
+            target_x = ((SpriteFrameState *)sprite)->unk_24;
             pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -46,7 +47,7 @@ void func_80172C54(void *action, EntityRec *motion, void *sprite, EntityRec *act
             pos_y = motion->y.w.i;
             pos_y -= 0x20;
             motion->unk_10 =
-                (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - pos_y) << 16) /
+                (((((SpriteFrameState *)sprite)->unk_25 << 6) - pos_y) << 16) /
                 ((R10_80172C54_S_80172C54_0 *)action)->unk_9E.s;
 
             ((R10_80172C54_S_80172C54_0 *)action)->unk_A4 =
@@ -72,8 +73,8 @@ void func_80172C54(void *action, EntityRec *motion, void *sprite, EntityRec *act
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801759B8);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_801759B8);
             select_sprite_entry(
                 sprite,
                 ((u8 *)D_801759B8)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -83,10 +84,10 @@ void func_80172C54(void *action, EntityRec *motion, void *sprite, EntityRec *act
         break;
 
     case 3:
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == ((u8 *)D_80175988)) {
+        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable == ((u8 *)D_80175988)) {
             break;
         }
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80175988);
+        ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80175988);
         select_sprite_entry(
             sprite,
             ((u8 *)D_80175988)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -102,7 +103,7 @@ void func_80172C54(void *action, EntityRec *motion, void *sprite, EntityRec *act
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
     reduce_actor_food_meter(actor, 4);
     advance_status_timers(actor);
 
@@ -118,7 +119,7 @@ void func_80172C54(void *action, EntityRec *motion, void *sprite, EntityRec *act
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            actor->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(((Rec_D_80082E80 *)sprite)->unk_24),(s16)(((Rec_D_80082E80 *)sprite)->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+            actor->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite)->unk_24,(s16)((SpriteFrameState *)sprite)->unk_25,(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
                 &facing_aux));
         }
     }

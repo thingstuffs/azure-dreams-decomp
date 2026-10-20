@@ -11,7 +11,7 @@ typedef struct S_800AF520_4 {
     s32 unk_10;
 } S_800AF520_4;   /* ((S_800AF520_3 *)ctx)->unk_00 in populate_item_menu_lower_entries */
 
-extern s32 lookup_item_category_mapped_value();
+s32 lookup_item_category_mapped_value(s32, s32);
 
 typedef struct S_800AF520_0 {
     void * unk_00;

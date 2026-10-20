@@ -1,16 +1,11 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
-
-typedef struct S_8125414C_0 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_8125414C_0;   /* entity in reposition_global_effect_entity */
 
 typedef struct S_8125414C_1 {
     u8 pad_00[0x1C];
     u32 unk_1C;
 } S_8125414C_1;   /* state in reposition_global_effect_entity */
-
 
 extern u8 *D_80174710;
 
@@ -34,7 +29,7 @@ void reposition_global_effect_entity(s32 offset_index)
     entity = *(u8 **)(object + 0xC);
     motion = *(void **)(object + 8);
 
-    ((S_8125414C_0 *)entity)->unk_14 &= 0xFF7F;
+    ((SpriteFrameState *)entity)->flags &= 0xFF7F;
 
     update_map_cell_flags_with_item_limit(entity[0x24], entity[0x25],
                   (((S_8125414C_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);

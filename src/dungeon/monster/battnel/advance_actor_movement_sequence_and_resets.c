@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -22,7 +23,6 @@ typedef struct S_801725D0_1 {
     s16 unk_A6;
 } S_801725D0_1;   /* arg0 in advance_actor_movement_sequence_and_resets */
 
-
 typedef struct S_801725D0_3_pre {
     void * unk_00;
     u8 pad_04[0x14];
@@ -32,7 +32,6 @@ typedef struct S_801725D0_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_801725D0_4;   /* entry in advance_actor_movement_sequence_and_resets */
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
@@ -66,14 +65,14 @@ void advance_actor_movement_sequence_and_resets(void *action, EntityRec *motion,
 
     switch (state) {
     case 0:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((S_801725D0_1 *)action)->unk_9B = 0xFF;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
+            ((SpriteFrameState *)sprite)->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
 
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173D34;
+        ((SpriteFrameState *)sprite)->frameTable = D_80173D34;
         select_sprite_entry(
             sprite,
             D_80173D34[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -86,8 +85,8 @@ void advance_actor_movement_sequence_and_resets(void *action, EntityRec *motion,
         } else {
             ((S_801725D0_1 *)action)->unk_A6 =
                 sample_terrain_surface_height(
-                    ((((Rec_D_80082E80 *)sprite)->unk_24 + x_step) << 6) & 0xFFC0,
-                    ((((Rec_D_80082E80 *)sprite)->unk_25 + y_step) << 6) & 0xFFC0,
+                    ((((SpriteFrameState *)sprite)->unk_24 + x_step) << 6) & 0xFFC0,
+                    ((((SpriteFrameState *)sprite)->unk_25 + y_step) << 6) & 0xFFC0,
                     (s16)(((u16)actor->unk_88) - 0xA0)) - 0x34;
         }
         ((S_801725D0_1 *)action)->unk_96.s = 2;
@@ -143,7 +142,7 @@ void advance_actor_movement_sequence_and_resets(void *action, EntityRec *motion,
 
     case 0xFF:
         motion->flags14 += 0x18000;
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         motion->flags14 = 0;
@@ -152,12 +151,12 @@ void advance_actor_movement_sequence_and_resets(void *action, EntityRec *motion,
         ((S_801725D0_1 *)action)->unk_98 &= 0xFFF7;
         actor->flags1C |= 0x08000000;
         ((S_801725D0_1 *)action)->unk_90.at00.v = 0;
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173D04;
+        ((SpriteFrameState *)sprite)->frameTable = D_80173D04;
         select_sprite_entry(
             sprite,
             D_80173D04[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         reduce_actor_food_meter(actor, 0x100);
         ((S_801725D0_1 *)action)->unk_8C = &D_80170E5C;
         g_dungeon_status.unk_0C = 0;

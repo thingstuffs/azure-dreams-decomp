@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
@@ -20,12 +21,10 @@ typedef struct S_80170D44_0 {
 
    /* src in expand_fade_effect_and_expire */
 
-
 extern void func_800478B8(void *primitive);
 
-
 /* Copy the effect position, expand and fade its primitive, and flag expiration. */
-void expand_fade_effect_and_expire(void *effect, MovingPosition *position, Rec_D_80082E80 *primitive)
+void expand_fade_effect_and_expire(void *effect, MovingPosition *position, SpriteFrameState *primitive)
 {
     s16 ticks_left;
     s32 shade;
@@ -37,16 +36,16 @@ void expand_fade_effect_and_expire(void *effect, MovingPosition *position, Rec_D
     position->unk_06 = source_position->unk_06;
     position->unk_0A = source_position->unk_0A;
 
-    extent = primitive->unk_1C.at02_u16.v + 0x320;
-    primitive->unk_1C.at02_u16.v = extent;
-    primitive->unk_1C.at00_u16.v = extent;
+    extent = primitive->scale_y + 0x320;
+    primitive->scale_y = extent;
+    primitive->scale_x = extent;
 
     ticks_left = ((S_80170D44_0 *)effect)->unk_96.s - 1;
     shade = (s32)(ticks_left * 0x50) / (s16)((S_80170D44_0 *)effect)->unk_A8;
     ((S_80170D44_0 *)effect)->unk_96.s = (u16)ticks_left;
-    primitive->unk_0C.at02_s8.v = (s8)shade;
-    primitive->unk_0C.at01_s8.v = (s8)shade;
-    primitive->unk_0C.at00_s8.v = (s8)shade;
+    primitive->color.c.b = (s8)shade;
+    primitive->color.c.g = (s8)shade;
+    primitive->color.c.r = (s8)shade;
     func_800478B8(primitive);
 
     if (((S_80170D44_0 *)effect)->unk_96.u <= 0) {

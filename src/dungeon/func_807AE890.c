@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_7ce800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -13,17 +14,6 @@ typedef struct S_800F6090_0 {
     s32 * unk_10;
 } S_800F6090_0;
 
-typedef struct S_800F6090_1 {
-    u8 pad_00[0xC];
-    u32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    s16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800F6090_1;
-
 typedef struct S_800F6090_2 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -35,7 +25,7 @@ typedef struct S_800F6090_2 {
 
 /* Creates and initializes an object at the given coordinates with adjusted height. */
 void create_positioned_view_marker(s16 x, s16 y) {
-    S_800F6090_1 *render_state;
+    SpriteFrameState *render_state;
     S_800F6090_2 *position;
     S_800F6090_0 *object;
     u32 render_config;
@@ -46,12 +36,12 @@ void create_positioned_view_marker(s16 x, s16 y) {
         register_node(object, project_sprite_chain);
         render_state = object->unk_0C;
         render_config = (u32) *((u32 *)(&g_game_work.view.unk_090));
-        render_state->unk_1E = 0x1000;
-        render_state->unk_1C = 0x1000;
-        render_state->unk_0C = render_config;
+        render_state->scale_y = 0x1000;
+        render_state->scale_x = 0x1000;
+        render_state->color.word = render_config;
         func_8003DB94(render_state, D_800DEAE0, 0);
-        render_state->unk_10 = 0x20;
-        render_state->unk_14 = 0xC;
+        render_state->tpage_abr = 0x20;
+        render_state->flags = 0xC;
         position = object->unk_08;
         position->unk_02 = x;
         position->unk_06 = y;

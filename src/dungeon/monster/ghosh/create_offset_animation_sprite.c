@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
@@ -6,7 +7,6 @@
 typedef struct RegistrationNode RegistrationNode;
 struct Dst;
 struct Elem;
-
 
 typedef struct {
     s32 x;
@@ -44,28 +44,28 @@ void func_80170D60(void *destination, s32 unused, void *source);
 /* Creates and configures a node at a fixed offset from the given position. */
 void create_offset_animation_sprite(void *unused, void *origin) {
     Node *node;
-    Sub *node_sub;
+    SpriteFrameState *node_sub;
     Vec3 *position;
-    Sub *display_sub;
+    SpriteFrameState *display_sub;
 
     node = (Node *)func_8003FC64(0x212);
     if (node != 0) {
         node->callback = &func_80170D60;
         register_node(node, project_sprite_chain);
         node_sub = node->sub;
-        node_sub->field_10 = 0x20;
-        node_sub->field_06 = 6;
-        node_sub->flags_14 |= 0xC;
+        node_sub->tpage_abr = 0x20;
+        node_sub->unk_06 = 6;
+        node_sub->flags |= 0xC;
         position = node->position;
         position->x = ((Vec3 *)origin)->x + 0x180000;
         position->y = ((Vec3 *)origin)->y;
         position->z = ((Vec3 *)origin)->z + 0xFFF00000;
         display_sub = node->sub;
-        display_sub->field_1E = 0x1400;
-        display_sub->field_1C = 0x1400;
-        display_sub->field_0E = 0x80;
-        display_sub->field_0D = 0x80;
-        display_sub->field_0C = 0x80;
+        display_sub->scale_y = 0x1400;
+        display_sub->scale_x = 0x1400;
+        display_sub->color.c.b = 0x80;
+        display_sub->color.c.g = 0x80;
+        display_sub->color.c.r = 0x80;
         func_8003DB94(display_sub, D_800DE870, 0);
     }
 }

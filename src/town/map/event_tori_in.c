@@ -1,4 +1,5 @@
 #include "modules/town_map_props.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -15,7 +16,6 @@ typedef struct {
     s32 words[2];
 } Copy8;
 
-
 typedef struct S_800BD980_0 {
     u8 pad_00[0xC];
     u16 unk_0C;
@@ -29,14 +29,6 @@ typedef struct S_800BD980_1 {
     s32 unk_08;
     s32 unk_0C;
 } S_800BD980_1;
-
-typedef struct S_800BD980_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800BD980_2;
 
 typedef struct LinkedMotionObject {
     u8 pad_00[0x10];
@@ -59,7 +51,7 @@ s32 event_tori_in(void *source) {
     void *source_data;
     s32 child_index;
     s32 x_step;
-    S_800BD980_2 *render_state;
+    SpriteFrameState *render_state;
     S_800BD980_1 *transform;
     void *object;
     S_800BD980_0 *origin;
@@ -115,9 +107,9 @@ s32 event_tori_in(void *source) {
             z_offset = (child_index << 0x13) + 0xFF800000;
             transform->unk_08 = (s32) (((EntityRec *)source_data)->z.v + z_offset);
             transform->unk_0C = (s32) (motion_base - (child_index << 0x10));
-            render_state->unk_1E = 0x1000;
-            render_state->unk_1C = 0x1000;
-            render_state->unk_0C = color;
+            render_state->scale_y = 0x1000;
+            render_state->scale_x = 0x1000;
+            render_state->color.word = color;
             func_8003DB94(render_state, &D_800E9E14, 0);
         }
         x_step += 0xFFD00000;

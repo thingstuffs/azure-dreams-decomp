@@ -1,5 +1,5 @@
 #include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
-
+#include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_1930844_entry)(void) = (void (*)(void))update_movement_toward_target_along_direction_advances_action_phases;
 
 void func_80024044(void *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual) {
@@ -52,7 +52,7 @@ s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *ow
     s32 random_value;
     s32 initial_z;
     s32 rounded_random;
-    ovl_1930844_81910970_S_80024170_3 *sprite;
+    SpriteFrameState *sprite;
     ovl_1930844_81910970_S_80024170_1 *effect_state;
     void *effect;
     ovl_1930844_81910970_S_80024170_4 *position;
@@ -65,20 +65,20 @@ s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *ow
         effect_state->unk_06 = 0;
         effect_state->unk_08 = owner->unk_12.as_u16;
         sprite = ((ovl_1930844_81910970_S_80024170_0 *)effect)->unk_0C;
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
-        sprite->unk_08 = D_800DE720;
-        sprite->unk_12 = 0x7E00;
-        sprite->unk_14 |= 0x100;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->source = D_800DE720;
+        sprite->clut = 0x7E00;
+        sprite->flags |= 0x100;
         rounded_random = rand();
         random_value = rounded_random;
         if (random_value < 0) {
             rounded_random = random_value + 0xFFF;
         }
-        sprite->unk_1A = (random_value % 4096);
-        sprite->unk_1E = 0x400;
-        sprite->unk_1C = 0x400;
+        sprite->angle_z = (random_value % 4096);
+        sprite->scale_y = 0x400;
+        sprite->scale_x = 0x400;
         register_node(effect, project_sprite_chain);
         position = ((ovl_1930844_81910970_S_80024170_0 *)effect)->unk_08;
         *(ovl_1930844_81910970_Copy6 *)position = *(ovl_1930844_81910970_Copy6 *)source_position;
@@ -624,7 +624,7 @@ void create_object_hex_212_initialize_data_pointer_mode(s32 *initial_value) {
     object = func_8003FC64(0x212);
     if (object != NULL) {
         object->unk_10 = (void *)draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends;
-        ((ovl_1930844_81911B9C_S_81911B9C_2 *)(((ovl_1930844_81911B9C_S_81911B9C_1 *)object)->unk_0C))->unk_05 = 0x10;
+        ((SpriteFrameState *)((ovl_1930844_81911B9C_S_81911B9C_1 *)object)->unk_0C)->unk_05 = 0x10;
         object->unk_20 = (s32) *initial_value;
     }
 }

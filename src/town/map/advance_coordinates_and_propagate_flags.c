@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -12,9 +13,7 @@ typedef struct S_800BC6CC_0 {
     s32 unk_10;
 } S_800BC6CC_0;   /* arg1 in advance_coordinates_and_propagate_flags */
 
-
    /* the 0x2 bytes before arg0 in advance_coordinates_and_propagate_flags, addressed as arg0[-1] */
-
 
 extern int func_800478B8();
 
@@ -23,7 +22,7 @@ void advance_coordinates_and_propagate_flags(void *object_data, void *motion, vo
     func_800478B8(status);
     ((S_800BC6CC_0 *)motion)->unk_00 = (s32) (((S_800BC6CC_0 *)motion)->unk_00 + ((S_800BC6CC_0 *)motion)->unk_0C);
     ((S_800BC6CC_0 *)motion)->unk_04 = (s32) (((S_800BC6CC_0 *)motion)->unk_04 + ((S_800BC6CC_0 *)motion)->unk_10);
-    if (((Rec_D_80082E80 *)status)->unk_14.at00_u16.v & 0x6000) {
+    if (((SpriteFrameState *)status)->flags & 0x6000) {
         (*(u16 *)((u8 *)object_data + -2)) = (u16) (((ObjectStatusPrefix16 *)object_data)[-1].unk_00 | 0x8000);
         object_flag_block.flags |= 0x8000;
     }

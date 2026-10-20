@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -44,21 +45,6 @@ typedef struct S_80170F84_2 {
     s16 unk_16;
 } S_80170F84_2;
 
-typedef struct S_80170F84_3 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0x4];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    s32 * unk_2C;
-} S_80170F84_3;
-
 /* Create a dungeon entity and initialize its state and placement. */
 void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height) {
     S_80170F84_1 *entity_state = NULL;
@@ -67,7 +53,7 @@ void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile
     s16 saved_tile_y;
     u16 saved_tile_1c;
     u16 saved_tile_1e;
-    S_80170F84_3 *tile_state;
+    SpriteFrameState *tile_state;
     S_80170F84_2 *world_state;
     void *entity;
 
@@ -86,28 +72,28 @@ void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile
         tile_state = ((S_80170F84_0 *)entity)->unk_0C;
         tile_state->unk_24 = saved_tile_x;
         tile_state->unk_25 = saved_tile_y;
-        tile_state->unk_2C = &D_80173E8C;
+        tile_state->frameTable = &D_80173E8C;
         entity_state->unk_9E = 0;
         initialize_actor_sprite_and_animation(entity, world_state, tile_state, entity_id);
         entity_state->unk_9A = 0xFF;
         entity_state->unk_9C = -1;
         entity_state->unk_8C = &update_object_animation;
         entity_state->unk_1C = (s32) (entity_state->unk_1C | 0x40000);
-        tile_state->unk_10 = 0x20;
-        tile_state->unk_14 = (u16) (tile_state->unk_14 | 0xC);
+        tile_state->tpage_abr = 0x20;
+        tile_state->flags = (u16) (tile_state->flags | 0xC);
         try_move_actor_to_valid_position(entity_state, world_state, tile_state, entity_state);
         world_state->unk_0A = (u16) ((u16)D_80083780.z.w.i);
         world_state->unk_16 = (s16) (world_state->unk_0A - 0x20);
         world_state->unk_0A = (u16) (world_state->unk_0A - 0x190);
-        saved_tile_1c = tile_state->unk_1C;
-        saved_tile_1e = tile_state->unk_1E;
-        tile_state->unk_1C = 0U;
-        tile_state->unk_1E = 0U;
-        tile_state->unk_14 = (u16) (tile_state->unk_14 | 0x80);
+        saved_tile_1c = tile_state->scale_x;
+        saved_tile_1e = tile_state->scale_y;
+        tile_state->scale_x = 0U;
+        tile_state->scale_y = 0U;
+        tile_state->flags = (u16) (tile_state->flags | 0x80);
         create_attached_sprite_with_offset(entity_state, world_state, tile_state, 1);
         create_attached_sprite_with_offset(entity_state, world_state, tile_state, 2);
-        tile_state->unk_1C = saved_tile_1c;
-        tile_state->unk_1E = saved_tile_1e;
+        tile_state->scale_x = saved_tile_1c;
+        tile_state->scale_y = saved_tile_1e;
         func_80173C30();
     }
     return entity_state;

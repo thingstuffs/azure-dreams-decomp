@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -14,7 +15,6 @@ typedef struct S_800D5DCC_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } S_800D5DCC_0;
-
 
 typedef struct S_800D5DCC_2 {
     u8 pad_00[0x2];
@@ -65,12 +65,6 @@ typedef struct S_800D5DCC_8 {
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_randomized_directional_effect */
 
-typedef struct S_800D5DCC_10 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_800D5DCC_10;
-
-
 extern void *allocate_list_node();
 extern void register_node();
 extern s32 rand();
@@ -104,7 +98,7 @@ void spawn_randomized_directional_effect(EntityRec *source, s16 angle, s32 effec
         pos_x->unk_02 += direction->unk_00 * 0x10;
         pos_y = ((S_800D5DCC_0 *)effect)->unk_08;
         pos_y->unk_06 += direction->unk_02 * 0x10;
-        ((S_800D5DCC_10 *)(((S_800D5DCC_0 *)effect)->unk_0C))->unk_06 = 6;
+        ((SpriteFrameState *)((S_800D5DCC_0 *)effect)->unk_0C)->unk_06 = 6;
         ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_0C =
             ((rand() & 0x7FFF) - 0x4000) << 6;
         ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_10 =

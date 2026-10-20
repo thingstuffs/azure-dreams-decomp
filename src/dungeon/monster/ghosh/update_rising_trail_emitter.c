@@ -14,7 +14,7 @@ typedef struct S_801720D0_1 {
 } S_801720D0_1;   /* arg0 in update_rising_trail_emitter; pointer addresses record offset 0x2 */
 
 
-void spawn_jittered_trail_particle(); /* extern */
+struct S_80171F30_1; void spawn_jittered_trail_particle(struct S_80171F30_1 *, s32, s16, s16); /* extern */
 
 /* Advance the countdown, update every other tick, and flag completion when it expires. */
 void update_rising_trail_emitter(void *record_data, S_801720D0_0 *state) {

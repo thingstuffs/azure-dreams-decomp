@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
-
 
 extern s32 get_cd_command_queue_depth(void);
 extern void select_sprite_entry(void *, s32, s32);
@@ -18,7 +18,6 @@ extern void create_actor_linked_effect(void *);
 
 extern u8 D_80170E9C[];
 extern u8 D_80174EE0[];
-
 
 typedef struct S_8017293C_0 {
     u8 pad_00[0x8C];
@@ -40,7 +39,6 @@ typedef struct S_8017293C_2 {
     u8 unk_24;
     u8 unk_25;
 } S_8017293C_2;   /* linked in run_selected_item_action */
-
 
 typedef struct S_8017293C_5 {
     u8 pad_00[0xA];
@@ -134,7 +132,7 @@ void run_selected_item_action(void *action, EntityRec *motion, void *sprite, voi
                         s32 dy;
 
                         dx = (s32)scan_monster_along_heading(
-                            actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                            actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                             (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
                         (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
                         dx = (*(s8 *)((u8 *)actor + 0x72));
@@ -164,7 +162,7 @@ void run_selected_item_action(void *action, EntityRec *motion, void *sprite, voi
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(actor);
@@ -177,17 +175,17 @@ void run_selected_item_action(void *action, EntityRec *motion, void *sprite, voi
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            ((SpriteFrameState *)sprite)->flags |= 0x800;
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         ((S_8017293C_0 *)action)->unk_9B++;
 
     case 2:
-        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3 &&
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+        if ((((SpriteFrameState *)sprite)->unk_04 == 3 &&
+            (((SpriteFrameState *)sprite)->flags & 0x1000)) ||
+            (((SpriteFrameState *)sprite)->flags & 0xE000)) {
+            ((SpriteFrameState *)sprite)->flags |= 0x800;
             ((S_8017293C_0 *)action)->unk_96 = 1;
             ((S_8017293C_0 *)action)->unk_98 |= 0x80;
         }
@@ -198,22 +196,22 @@ void run_selected_item_action(void *action, EntityRec *motion, void *sprite, voi
             ((S_8017293C_0 *)action)->unk_96 = wait_ticks;
             if (wait_ticks <= 0) {
                 ((S_8017293C_0 *)action)->unk_96 = 0;
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
             }
         }
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_80174EE0) {
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_80174EE0) {
             u8 *direction_frames;
             s32 direction;
 
             direction_frames = D_80174EE0;
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_frames;
+            ((SpriteFrameState *)sprite)->frameTable = direction_frames;
             direction = ((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, direction_frames[direction], 0);
         }

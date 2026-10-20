@@ -1,11 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-
-
-
 
 extern void select_sprite_entry();
 extern u8 D_801710EC[];
@@ -32,21 +30,13 @@ typedef struct S_80172480_1 {
     u16 unk_2A;
 } S_80172480_1;   /* arg3 in advance_turn_animation_and_restore_heading */
 
-typedef struct S_80172480_2 {
-    u8 pad_00[0x8];
-    u16 unk_08;
-    u8 pad_0A[0xBE];
-    u16 unk_C8;
-} S_80172480_2;   /* base_83160 in advance_turn_animation_and_restore_heading */
-
-
 typedef struct S_80172480_4 {
     u8 pad_00[0x9A];
     u8 unk_9A;
 } S_80172480_4;   /* D_800E3D7C[0] in advance_turn_animation_and_restore_heading */
 
 /* Advances an actor's turn-and-animation sequence and restores its saved heading. */
-void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S_80172480_1 *transform_in) {
+void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused, SpriteFrameState *animation, S_80172480_1 *transform_in) {
     S_80172480_1 *transform = transform_in;
     s32 heading;
     u8 phase;
@@ -68,7 +58,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
         if (actor->unk_92 == 0) {
             {
                 u8 *animation_table = D_80175EC8;
-                animation->unk_2C.as_pm = animation_table;
+                animation->frameTable = animation_table;
                 {
                     unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
                         + (s16) transform->unk_2A + 0x100) >> 9) & 7);
@@ -80,12 +70,12 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
             actor->unk_9B = phase;
             return;
         }
-        if ((animation->unk_14.at00_u16.v & 0x8000) == 0) {
+        if ((animation->flags & 0x8000) == 0) {
             return;
         }
         {
             u8 *animation_table = D_80175EC8;
-            animation->unk_2C.as_pm = animation_table;
+            animation->frameTable = animation_table;
             {
                 unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
                     + (s16) transform->unk_2A + 0x100) >> 9) & 7);
@@ -97,11 +87,11 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
         actor->unk_9B = phase;
         return;
     case 2:
-        if (animation->unk_14.at00_u16.v & 0xE000) {
+        if (animation->flags & 0xE000) {
             {
                 u8 *animation_table;
                 animation_table = (u8 *)D_80175ED0;
-                animation->unk_2C.as_pm = animation_table;
+                animation->frameTable = animation_table;
                 {
                     unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
                         + (s16) transform->unk_2A + 0x100) >> 9) & 7);
@@ -120,7 +110,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
         if (scene_status != 0) {
             {
                 u8 *animation_table = D_80175EC8;
-                animation->unk_2C.as_pm = animation_table;
+                animation->frameTable = animation_table;
                 {
                     unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
                         + (s16) transform->unk_2A + 0x100) >> 9) & 7);
@@ -135,7 +125,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
         if (((S_80172480_4 *)(((u8 *)D_800E3D7C)))->unk_9A != 0x17) {
             {
                 u8 *animation_table = D_80175EC8;
-                animation->unk_2C.as_pm = animation_table;
+                animation->frameTable = animation_table;
                 {
                     unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
                         + (s16) transform->unk_2A + 0x100) >> 9) & 7);
@@ -153,11 +143,11 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
         actor->unk_9B = phase;
         return;
     case 4:
-        if (animation->unk_14.at00_u16.v & 0xE000) {
+        if (animation->flags & 0xE000) {
             transform->unk_1C = (s32) (transform->unk_1C | 0x40000);
             {
                 u8 *animation_table = D_80175EB8;
-                animation->unk_2C.as_pm = animation_table;
+                animation->frameTable = animation_table;
                 select_sprite_entry(animation, animation_table[((s32) (g_game_work.view.viewAngle + (s16) transform->unk_2A
                     + 0x100) >> 9) & 7], 0);
             }

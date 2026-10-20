@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -49,22 +50,6 @@ typedef struct S_func_81331914_1 {
     void *unk_10;
 } S_func_81331914_1;
 
-typedef struct S_func_81331914_2 {
-    u8 pad_00[6];
-    s16 unk_06;
-    u8 pad_08[4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[1];
-    u16 unk_10;
-    u8 pad_12[2];
-    u16 unk_14;
-    u8 pad_16[6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_func_81331914_2;
-
 typedef struct S_func_81331914_3 {
     s32 unk_00;
     s32 unk_04;
@@ -95,7 +80,7 @@ void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_
     s32 segment_index;
     S_func_81331914_1 *object;
     ObjectPayload *payload;
-    S_func_81331914_2 *sprite;
+    SpriteFrameState *sprite;
     S_func_81331914_3 *object_position;
     ColorEntry *vertex_color;
     u16 ticks_left;
@@ -134,8 +119,8 @@ void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_
             register_node(object, D_80166914);
 
             sprite = object->unk_0C;
-            sprite->unk_10 = 0x20;
-            sprite->unk_14 |= 0xC;
+            sprite->tpage_abr = 0x20;
+            sprite->flags |= 0xC;
 
             object_position = object->unk_08;
             object_position->unk_00 = position[0];
@@ -144,8 +129,8 @@ void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_
             object_position->unk_08 = position[2];
 
             sprite = object->unk_0C;
-            sprite->unk_1C = sprite->unk_1E = 0x1000;
-            sprite->unk_0C = sprite->unk_0D = sprite->unk_0E = 0x80;
+            sprite->scale_x = sprite->scale_y = 0x1000;
+            sprite->color.c.r = sprite->color.c.g = sprite->color.c.b = 0x80;
 
             for (step = 0; step < 4; step++) {
                 vertex_color[step].red = colors->unk_0C;

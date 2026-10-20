@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -33,7 +34,6 @@ typedef struct S_8017558C_0 {
     u16 unk_BA;
 } S_8017558C_0;   /* arg0 in update_actor_timed_effect_action */
 
-
 typedef struct S_8017558C_4 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -48,24 +48,6 @@ typedef struct S_8017558C_5 {
     void * unk_40;
     void * unk_44;
 } S_8017558C_5;
-
-typedef struct S_8017558C_6 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8017558C_6;
-
-
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_800E2438[];
@@ -86,11 +68,11 @@ M2C_UNK create_owner_linked_directional_object();      /* extern */
 void update_actor_movement_history(); /* extern */
 
 /* Update the actor action sequence, including its effect, animations, and position restoration. */
-void update_actor_timed_effect_action(void *action, EntityRec *position, Rec_D_80082E80 *sprite, EntityRec *actor) {
+void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteFrameState *sprite, EntityRec *actor) {
     s16 height_delta;
     s16 height;
     s16 view_dir;
-    s32 *effect_sprite;
+    SpriteFrameState *effect_sprite;
     u16 timer;
     u16 finish_timer;
     u16 effect_timer;
@@ -111,7 +93,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, Rec_D_8
     phase = ((S_8017558C_0 *)action)->unk_9B;
     switch (phase) {
     case 0:
-        if (sprite->unk_14.at00_u16.v & 0x8000) {
+        if (sprite->flags & 0x8000) {
             {
                 s32 finish_phase;
                 pack_and_submit_cell_height_levels();
@@ -121,7 +103,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, Rec_D_8
                 D_800E296C = global_flags | 0x800000;
                 ((S_8017558C_0 *)action)->unk_9B = finish_phase;
             }
-            sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v | 0x6000);
+            sprite->flags = (u16) (sprite->flags | 0x6000);
             return;
         }
         position->flags14 = 0;
@@ -140,12 +122,12 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, Rec_D_8
             }
         }
         if (((S_8017558C_0 *)action)->unk_92.s == 0) {
-            sprite->unk_2C.as_pu8 = D_800E2438;
+            sprite->frameTable = D_800E2438;
             select_sprite_entry(sprite, D_800E2438[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             play_sound_if_enabled(0x800);
             ((S_8017558C_0 *)action)->unk_96 = 2U;
             ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
-            sprite->unk_06.as_s16 = 6;
+            sprite->unk_06 = 6;
             ((S_8017558C_0 *)action)->unk_A6 = (u16) actor->facing;
         }
         effect_timer = ((S_8017558C_0 *)action)->unk_96 + 1;
@@ -165,29 +147,29 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, Rec_D_8
         effect_state->unk_40 = action;
         effect_state->unk_44 = position;
         effect_sprite = ((S_8017558C_4 *)effect)->unk_0C;
-        ((S_8017558C_6 *)effect_sprite)->unk_10 = 0x40;
-        ((S_8017558C_6 *)effect_sprite)->unk_14 = (u16) (((S_8017558C_6 *)effect_sprite)->unk_14 | 0xC);
+        effect_sprite->tpage_abr = 0x40;
+        effect_sprite->flags = (u16) (effect_sprite->flags | 0xC);
         effect_position = ((S_8017558C_4 *)effect)->unk_08;
         effect_position->unk_02 = (u16) ((u16)position->x.w.i);
         effect_position->unk_06 = (u16) ((u16)position->y.w.i);
         effect_position->unk_0A = (u16) ((u16)actor->unk_88);
         effect_sprite = ((S_8017558C_4 *)effect)->unk_0C;
-        ((S_8017558C_6 *)effect_sprite)->unk_1E = 0xA00;
-        ((S_8017558C_6 *)effect_sprite)->unk_1C = 0xA00;
-        ((S_8017558C_6 *)effect_sprite)->unk_0E = 0;
-        ((S_8017558C_6 *)effect_sprite)->unk_0D = 0;
-        ((S_8017558C_6 *)effect_sprite)->unk_0C = 0;
-        ((S_8017558C_6 *)effect_sprite)->unk_08 = D_800E2488;
+        effect_sprite->scale_y = 0xA00;
+        effect_sprite->scale_x = 0xA00;
+        effect_sprite->color.c.b = 0;
+        effect_sprite->color.c.g = 0;
+        effect_sprite->color.c.r = 0;
+        effect_sprite->source = D_800E2488;
         return;
     case 1:
         start_timer = ((S_8017558C_0 *)action)->unk_96 - 1;
         ((S_8017558C_0 *)action)->unk_96 = start_timer;
         if ((start_timer << 0x10) > 0) {
-            if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
+            if (!(sprite->flags & 0xE000)) {
                 return;
             }
         }
-        sprite->unk_2C.as_pu8 = D_800E2440;
+        sprite->frameTable = D_800E2440;
         select_sprite_entry(sprite, D_800E2440[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_8017558C_0 *)action)->unk_96 = 3U;
         ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
@@ -227,7 +209,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, Rec_D_8
                 saved_angle = ((S_8017558C_0 *)action)->unk_A6;
                 actor->facing = (s16) saved_angle;
                 view_dir = ((s32) (g_game_work.view.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
-                select_indirect_table_entry(sprite, sprite->unk_2C.as_pu8[view_dir], sprite->unk_04.as_s8);
+                select_indirect_table_entry(sprite, (*(u8 * *)&sprite->frameTable)[view_dir], sprite->unk_04);
                 ((S_8017558C_0 *)action)->unk_94 = view_dir;
             }
             if ((s16) ((S_8017558C_0 *)action)->unk_96 < 0x10) {
@@ -235,7 +217,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, Rec_D_8
             }
             ((S_8017558C_0 *)action)->unk_96 = 0U;
             ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
-            sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v & 0x9F7F);
+            sprite->flags = (u16) (sprite->flags & 0x9F7F);
             return;
         case 1:
             pause_timer = ((S_8017558C_0 *)action)->unk_96;
@@ -245,13 +227,13 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, Rec_D_8
             }
             ((S_8017558C_0 *)action)->unk_96 = 0U;
             ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
-            sprite->unk_2C.as_pu8 = D_800E2448;
+            sprite->frameTable = D_800E2448;
             select_sprite_entry(sprite, D_800E2448[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-            sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v & 0x9F7F);
+            sprite->flags = (u16) (sprite->flags & 0x9F7F);
             play_sound_if_enabled(0x801);
             return;
         case 2:
-            if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
+            if (!(sprite->flags & 0xE000)) {
                 return;
             }
             position->flags14 = 0;
@@ -260,10 +242,10 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, Rec_D_8
             set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
             actor->flags1C = (s32) (actor->flags1C | 0x40000);
             ((S_8017558C_0 *)action)->unk_98 = (u16) (((S_8017558C_0 *)action)->unk_98 | 8);
-            if (sprite->unk_2C.as_pu8 == D_800E23E0) {
+            if (*(u8 * *)&sprite->frameTable == D_800E23E0) {
                 return;
             }
-            sprite->unk_2C.as_pu8 = D_800E23E0;
+            sprite->frameTable = D_800E23E0;
             select_sprite_entry(sprite, D_800E23E0[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             ((S_8017558C_0 *)action)->unk_96 = 5U;
             ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
@@ -280,7 +262,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, Rec_D_8
         if ((finish_timer << 0x10) > 0) {
             return;
         }
-        sprite->unk_06.as_s16 = 0;
+        sprite->unk_06 = 0;
         reduce_actor_food_meter(actor, 0x1000);
         ((S_8017558C_0 *)action)->unk_8C = D_80171A80;
         g_dungeon_status.unk_0C = 0;

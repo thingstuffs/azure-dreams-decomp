@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/vector.h"
@@ -12,20 +13,7 @@ typedef struct S_80022C8C_0 {
     void * unk_20;
 } S_80022C8C_0;   /* (void *)state in initialize_gym_minigame */
 
-typedef struct S_80022C8C_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    void * unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80022C8C_1;   /* record in initialize_gym_minigame */
-
    /* ((S_80022C8C_0 *)((void *)state))->unk_08 in initialize_gym_minigame */
-
 
 #define NULL ((void *)0)
 
@@ -46,7 +34,7 @@ s32 initialize_gym_minigame(void)
     s32 position[6];
     s32 object_or_slot;
     void *parent_link;
-    S_80022C8C_1 *render_record;
+    SpriteFrameState *render_record;
     void *shared_data;
     void *object_data;
     s32 left_x;
@@ -118,12 +106,12 @@ loop_0:
         register_node((void *)object_or_slot, project_sprite_chain);
 
         render_record = ((S_80022C8C_0 *)((void *)object_or_slot))->unk_0C;
-        render_record->unk_1E = 0x1000;
-        render_record->unk_1C = 0x1000;
-        render_record->unk_08 = &D_800F9B40;
+        render_record->scale_y = 0x1000;
+        render_record->scale_x = 0x1000;
+        render_record->source = &D_800F9B40;
         render_record->unk_04 = 0;
         render_record->unk_05 = 0;
-        render_record->unk_0C = 0x00808080;
+        render_record->color.word = 0x00808080;
         object_data = (u8 *)object_or_slot + 0x20;
         (*(void * volatile *)((u8 *)object_data + 0x4C)) = shared_data;
 

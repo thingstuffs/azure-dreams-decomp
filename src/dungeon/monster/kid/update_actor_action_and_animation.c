@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
-
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -27,7 +27,6 @@ extern u8 D_80175140[];
 extern u8 D_80175188[];
 extern u8 D_80175190[];
 
-
 typedef struct S_80173A2C_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -41,7 +40,6 @@ typedef struct S_80173A2C_0 {
     s16 unk_A8;
 } S_80173A2C_0;   /* arg0 in update_actor_action_and_animation */
 
-
 /* Updates an actor's action state and animation before restoring its default callback. */
 void update_actor_action_and_animation(void *controller_in, EntityRec *motion, void *sprite, EntityRec *actor)
 {
@@ -49,16 +47,14 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, v
     u16 ticks_left;
     s32 state;
 
-
-
     state = ((S_80173A2C_0 *)controller_in)->unk_9B;
     switch (state) {
     case 0:
         ((S_80173A2C_0 *)controller_in)->unk_90 += 0x100000;
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_80175188;
+        ((SpriteFrameState *)sprite)->frameTable = D_80175188;
         actor = (EntityRec *)((u8 *)actor + 0x2A);
         select_sprite_entry(sprite,
             D_80175188[((g_game_work.view.viewAngle + *(s16 *)actor + 0x100) >> 9) & 7],
@@ -72,13 +68,13 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, v
 
     case 1:
         if ((get_entity_effect_value(actor, 1) << 16) == 0) {
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_80175190;
+            ((SpriteFrameState *)sprite)->frameTable = D_80175190;
             select_sprite_entry(sprite,
                 D_80175190[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             actor_flags = actor->flags1C | 0x40000;
             actor->flags1C = actor_flags;
-            if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+            if (((SpriteFrameState *)sprite)->flags & 0x8000) {
                 actor->flags1C = actor_flags & ~0x200;
                 controller_in = (u8 *)controller_in + 0x8C;
                 *(void **)controller_in = D_80171400;
@@ -129,7 +125,7 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, v
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 TileObject *origin = &D_80082E80;
-                s8 tile = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
+                s8 tile = *(s8 *)&((SpriteFrameState *)sprite)->unk_26;
 
                 if (((tile == origin->unk_026) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
@@ -141,13 +137,13 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, v
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 return;
             }
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_80175190;
+            ((SpriteFrameState *)sprite)->frameTable = D_80175190;
             select_sprite_entry(sprite,
                 D_80175190[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             actor_flags = actor->flags1C | 0x40000;
             actor->flags1C = actor_flags;
-            if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+            if (((SpriteFrameState *)sprite)->flags & 0x8000) {
                 actor->flags1C = actor_flags & ~0x200;
                 controller_in = (u8 *)controller_in + 0x8C;
                 *(void **)controller_in = D_80171400;
@@ -170,12 +166,12 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, v
             ((S_80173A2C_0 *)controller_in)->unk_98 |= 0x4000;
             motion->flags14 = 0xFFEC0000;
         }
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         motion->flags14 = 0;
         ((S_80173A2C_0 *)controller_in)->unk_A8 = 0;
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_80175140;
+        ((SpriteFrameState *)sprite)->frameTable = D_80175140;
         select_sprite_entry(sprite,
             D_80175140[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);

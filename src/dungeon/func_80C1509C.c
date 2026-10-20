@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource17_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 {
@@ -13,7 +14,7 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
     void *outer;
     void *stable_object;
     s32 kind_copy;
-    void *part;
+    SpriteFrameState *part;
     void *allocated;
     s32 allocation_size;
     ObjectNodeHeader *allocation_pool;
@@ -50,10 +51,10 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             ((R17_8017089C_S_8017089C_2 *)copy)->unk_08.at02.v = saved_copy_value;
             stable_object = object;
             part = ((R17_8017089C_S_8017089C_2 *)root)->unk_0C;
-            ((R17_8017089C_S_8017089C_3 *)part)->unk_2C = part_callback;
+            part->frameTable = part_callback;
         }
-        ((R17_8017089C_S_8017089C_3 *)part)->unk_24 = saved_tile_x;
-        ((R17_8017089C_S_8017089C_3 *)part)->unk_25 = saved_tile_y;
+        part->unk_24 = saved_tile_x;
+        part->unk_25 = saved_tile_y;
 
         {
             s32 object_flags;
@@ -77,7 +78,7 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
                             ((R17_8017089C_S_8017089C_1 *)object)->unk_1C |= 0x200;
                             set_or_clear_actor_status_slot(object, 1,
                                 (generate_random_value() & 0x3F) | 0x20);
-                            ((R17_8017089C_S_8017089C_3 *)part)->unk_2C = ((u8 *)D_801744FC);
+                            part->frameTable = ((u8 *)D_801744FC);
                         }
                     }
                 }
@@ -124,7 +125,7 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 
                     item = (u8 *)(void *)saved_kind + item_offset;
                     ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_04 |= 0x8000;
-                    part_value = ((R17_8017089C_S_8017089C_3 *)part)->unk_28;
+                    part_value = part->unk_28;
                     ((R17_8017089C_S_8017089C_7 *)item)->unk_10 = 0x20;
                     ((R17_8017089C_S_8017089C_7 *)item)->unk_0C = 0x00808080;
                     ((R17_8017089C_S_8017089C_7 *)item)->unk_28 = part_value;

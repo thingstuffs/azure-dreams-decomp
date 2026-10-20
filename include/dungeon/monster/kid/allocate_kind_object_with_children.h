@@ -27,15 +27,6 @@ typedef struct S_801588DC_2 {
     void * unk_0C;
 } S_801588DC_2;   /* (void *)temp_t0 in func_801588DC */
 
-typedef struct S_801588DC_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x2];
-    s32 unk_28;
-    void * unk_2C;
-} S_801588DC_3;   /* part in func_801588DC */
-
 typedef struct S_801588DC_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -83,7 +74,6 @@ typedef struct S_801588DC_9 {
     u8 pad_00[0x10];
     void * unk_10;
 } S_801588DC_9;   /* outer_child in func_801588DC */
-
 
 extern void *allocate_list_node(s32, void *);
 extern void *func_8003FD64(s32, void *);

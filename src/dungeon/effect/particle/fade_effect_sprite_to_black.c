@@ -1,5 +1,5 @@
 #include "dungeon/effect/particle/fade_effect_sprite_to_black.h"
-
+#include "shared/sprite_frame_state.h"
 /* Loader entry pointer; gcc emits the five-state switch table after alignment. */
 void (*const dungeon_184c800_entry)(void *, void *, void *) = update_directional_actor_effect;
 
@@ -41,8 +41,6 @@ typedef struct EffectFrame {
     s16 vel_z;
     s16 pad66;
 } EffectFrame;
-
-
 
 /* Updates a projectile effect through launch, flight, impact particles, and fading. */
 void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
@@ -102,12 +100,12 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
     S_8182C800_18 *burst_motion_x;
     S_8182C800_19 *burst_motion_y;
     S_8182C800_12 *trail_pos_z;
-    S_8182C800_3 *target_x;
+    SpriteFrameState *target_x;
     S_8182C800_10 *trail_pos_x;
     S_8182C800_11 *trail_pos_y;
-    S_8182C800_4 *owner_sprite;
+    SpriteFrameState *owner_sprite;
     s32 sprite_work;
-    S_8182C800_20 *burst_sprite;
+    SpriteFrameState *burst_sprite;
     S_8182C800_15 *particle;
     void *object;
     void *owner;
@@ -130,11 +128,11 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
     case 0:
         if (*(*(u16 * *)&((EntityRec *)effect)->y) & 0x80) {
             target_x = owner_object->unk_0C;
-            if (resolve_record_orientation_or_fallback(target_x->unk_08, target_x, &frame.launch_x, 0) == 0) {
+            if (resolve_record_orientation_or_fallback(*(s32 *)&target_x->source, target_x, &frame.launch_x, 0) == 0) {
                 frame.launch_y = 0;
                 frame.launch_x = 0;
                 height_offset = 0;
-                if (owner_sprite->unk_14 & 0x8000) {
+                if (owner_sprite->flags & 0x8000) {
                     height_offset = -0x30;
                 }
                 frame.launch_z = height_offset;
@@ -187,14 +185,14 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
             } else {
                 object = target - 0x20;
                 sprite_work = (s32)((S_8182C800_8 *)object)->unk_0C;
-                if ((((S_8182C800_9 *)sprite_work)->unk_14 & 0x8000) && (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x8000)) {
+                if ((((SpriteFrameState *)sprite_work)->flags & 0x8000) && (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x8000)) {
                     apply_attack_power_and_element_effects(((S_8182C800_1 *)owner)->unk_60, 8, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2,
                         (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
                     ((EntityRec *)effect)->z.w.i = 4;
                     return;
                 }
-                ((S_8182C800_1 *)owner)->unk_72.s = (u8) ((S_8182C800_9 *)sprite_work)->unk_24;
-                ((S_8182C800_1 *)owner)->unk_73.s = (u8) ((S_8182C800_9 *)sprite_work)->unk_25;
+                ((S_8182C800_1 *)owner)->unk_72.s = (u8) ((SpriteFrameState *)sprite_work)->unk_24;
+                ((S_8182C800_1 *)owner)->unk_73.s = (u8) ((SpriteFrameState *)sprite_work)->unk_25;
             }
             target_tile = ((S_8182C800_1 *)owner)->unk_72.u;
 
@@ -326,15 +324,15 @@ spawn_trail:
                 (s32) ((s32) ((S_8182C800_5 *)motion)->unk_10 >> 3);
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_14 =
                 (s32) ((s32) ((S_8182C800_5 *)motion)->unk_14 >> 3);
-            ((S_8182C800_13 *)sprite_work)->unk_1E = 0x800;
-            ((S_8182C800_13 *)sprite_work)->unk_1C = 0x800;
-            ((S_8182C800_13 *)sprite_work)->unk_10 = 0x60;
-            ((S_8182C800_13 *)sprite_work)->unk_00 = trail_texture;
-            ((S_8182C800_13 *)sprite_work)->unk_14 = (u16) (((S_8182C800_13 *)sprite_work)->unk_14 | 0xC);
-            ((S_8182C800_13 *)sprite_work)->unk_08 = (s32) ((S_8182C800_14 *)trail_texture)->unk_04;
-            ((S_8182C800_13 *)sprite_work)->unk_04 = 0;
-            ((S_8182C800_13 *)sprite_work)->unk_05 = 0;
-            ((S_8182C800_13 *)sprite_work)->unk_0C = 0x808080;
+            ((SpriteFrameState *)sprite_work)->scale_y = 0x800;
+            ((SpriteFrameState *)sprite_work)->scale_x = 0x800;
+            ((SpriteFrameState *)sprite_work)->tpage_abr = 0x60;
+            ((SpriteFrameState *)sprite_work)->unk_00 = trail_texture;
+            ((SpriteFrameState *)sprite_work)->flags = (u16) (((SpriteFrameState *)sprite_work)->flags | 0xC);
+            ((SpriteFrameState *)sprite_work)->source = (s32) ((S_8182C800_14 *)trail_texture)->unk_04;
+            ((SpriteFrameState *)sprite_work)->unk_04 = 0;
+            ((SpriteFrameState *)sprite_work)->unk_05 = 0;
+            ((SpriteFrameState *)sprite_work)->color.word = 0x808080;
             particle->unk_00 = effect;
             particle->unk_48 = (s16) ((sprite_work = func_80069EF8()) & 3);
             particle->unk_4C = 0;
@@ -429,17 +427,17 @@ spawn_trail:
                             - burst_motion_y->unk_04) >> 3);
                         ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_14 =
                             (s32) (0 - (((sprite_work = func_80069EF8()) & 0x3FF) << 9));
-                        burst_sprite->unk_1E = 0x800;
-                        burst_sprite->unk_1C = 0x800;
-                        burst_sprite->unk_10 = 0x20;
+                        burst_sprite->scale_y = 0x800;
+                        burst_sprite->scale_x = 0x800;
+                        burst_sprite->tpage_abr = 0x20;
                         burst_texture = D_800DEC28;
                         burst_sprite->unk_00 = burst_texture;
-                        burst_sprite->unk_14 = (u16) (burst_sprite->unk_14 | 0xC);
+                        burst_sprite->flags = (u16) (burst_sprite->flags | 0xC);
                         burst_tpage = ((S_8182C800_21 *)burst_texture)->unk_04;
                         burst_sprite->unk_04 = 0;
                         burst_sprite->unk_05 = 0;
-                        burst_sprite->unk_0C = 0x808080;
-                        burst_sprite->unk_08 = burst_tpage;
+                        burst_sprite->color.word = 0x808080;
+                        burst_sprite->source = burst_tpage;
                         ((S_8182C800_8 *)object)->unk_20 = effect;
                         particle = object + 0x20;
                         particle->unk_48 = (s16) ((motion_extent = func_80069EF8()) & 3);
@@ -471,7 +469,6 @@ spawn_trail:
         return;
     }
 }
-
 
 /* Move the effect, count down its timer, then fade its sprite to black. */
 void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)

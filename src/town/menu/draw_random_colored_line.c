@@ -8,7 +8,7 @@ extern void func_80066640();
 extern void func_800667D0();
 extern void func_80067F20();
 extern s32 rand();
-extern void copy_odd_halfwords_3();
+struct MovingPosition; struct S_800A130C_0; void copy_odd_halfwords_3(struct S_800A130C_0 *, struct MovingPosition *);
 
 typedef struct
 {
@@ -60,8 +60,8 @@ void draw_random_colored_line(s32 end_point, s32 start_point)
     func_800667D0(line);
     func_80066640(line, 1);
 
-    copy_odd_halfwords_3(scratch->start, start_pos);
-    copy_odd_halfwords_3(scratch->end, end_pos);
+    copy_odd_halfwords_3((struct S_800A130C_0 *)(scratch->start), (struct MovingPosition *)(start_pos));
+    copy_odd_halfwords_3((struct S_800A130C_0 *)(scratch->end), (struct MovingPosition *)(end_pos));
     scratch->depth = func_80065420(
         scratch->start, &scratch->start_x, &scratch->interp, &scratch->flag);
     func_80065420(

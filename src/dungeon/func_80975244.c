@@ -1,7 +1,8 @@
 #include "dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.h"
+#include "shared/sprite_frame_state.h"
 
 void create_directional_template_effect(void *unused, MovingPosition *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
-    S_80975244_2 *sprite;
+    SpriteFrameState *sprite;
     void *effect;
     S_80975244_0 *effect_state;
     MovingPosition *effect_pos;
@@ -27,17 +28,17 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
             src++;
             dst++;
         } while (src != end);
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_0E = 0x50;
-        sprite->unk_0D = 0x50;
-        sprite->unk_0C = 0x50;
-        sprite->unk_10 = 0x20;
-        sprite->unk_12 = 0xFF80;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->color.c.b = 0x50;
+        sprite->color.c.g = 0x50;
+        sprite->color.c.r = 0x50;
+        sprite->tpage_abr = 0x20;
+        sprite->clut = 0xFF80;
         sprite->unk_22 = 0xFFF1;
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        sprite->flags = (u16) (sprite->flags | 0xC);
         register_node(effect, project_sprite_chain);
-        sprite->unk_2C = &D_80174128;
+        sprite->frameTable = &D_80174128;
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + D_80174128), 0);
         effect_pos = ((S_80975244_1 *)effect)->unk_08;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -21,7 +22,6 @@ typedef struct S_801623C4_1 {
     s32 unk_10;
     s32 unk_14;
 } S_801623C4_1;   /* arg1 in advance_timed_action_and_effects */
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
@@ -51,33 +51,33 @@ void advance_timed_action_and_effects(void *action, void *motion, void *animatio
         ((S_801623C4_1 *)motion)->unk_0C = 0;
         ((S_801623C4_0 *)action)->unk_96.s = 0;
         ((S_801623C4_0 *)action)->unk_9B++;
-        if (!(((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
+        if (!(((SpriteFrameState *)animation)->flags & 0x8000)) {
             return;
         }
 
     case 1:
         timer = ((S_801623C4_0 *)action)->unk_96.s + 1;
         ((S_801623C4_0 *)action)->unk_96.s = timer;
-        if ((timer != 4) && !(((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
+        if ((timer != 4) && !(((SpriteFrameState *)animation)->flags & 0x8000)) {
             return;
         }
         ((S_801623C4_0 *)action)->unk_96.s = 0;
         ((S_801623C4_0 *)action)->unk_9B++;
         switch (actor->unk_48) {
         case 13:
-            (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DDC;
+            ((SpriteFrameState *)animation)->frameTable = D_80163DDC;
             select_sprite_entry(animation,
                 D_80163DDC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 14:
-            (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DE4;
+            ((SpriteFrameState *)animation)->frameTable = D_80163DE4;
             select_sprite_entry(animation,
                 D_80163DE4[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 15:
-            (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DEC;
+            ((SpriteFrameState *)animation)->frameTable = D_80163DEC;
             select_sprite_entry(animation,
                 D_80163DEC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
@@ -91,7 +91,7 @@ void advance_timed_action_and_effects(void *action, void *motion, void *animatio
     case 2:
         timer = ((S_801623C4_0 *)action)->unk_96.s + 1;
         ((S_801623C4_0 *)action)->unk_96.s = timer;
-        if ((timer == 5) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
+        if ((timer == 5) || (((SpriteFrameState *)animation)->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             ((S_801623C4_0 *)action)->unk_96.s = 0;
             ((S_801623C4_0 *)action)->unk_9B++;
@@ -103,7 +103,7 @@ void advance_timed_action_and_effects(void *action, void *motion, void *animatio
         return;
 
     case 3:
-        if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
+        if (((SpriteFrameState *)animation)->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x100);
             ((S_801623C4_0 *)action)->unk_8C = D_801604BC;
             g_dungeon_status.unk_0C = 0;
@@ -115,22 +115,22 @@ void advance_timed_action_and_effects(void *action, void *motion, void *animatio
     case 5:
         timer = ((S_801623C4_0 *)action)->unk_96.s + 1;
         ((S_801623C4_0 *)action)->unk_96.s = timer;
-        if ((timer == 10) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
-            ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v |= 0x0800;
+        if ((timer == 10) || (((SpriteFrameState *)animation)->flags & 0x8000)) {
+            ((SpriteFrameState *)animation)->flags |= 0x0800;
             play_sound_if_enabled(0x804);
             func_8015F21C(action, motion, animation, actor);
             func_8015F4FC(action, motion, animation, actor);
         }
         if ((((S_801623C4_0 *)action)->unk_96.u == 12) ||
-            (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
+            (((SpriteFrameState *)animation)->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing,
                 ((S_801623C4_0 *)action)->unk_AA);
         }
         if ((((S_801623C4_0 *)action)->unk_96.u != 20) &&
-            !(((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
+            !(((SpriteFrameState *)animation)->flags & 0x8000)) {
             break;
         }
-        ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v &= 0xF7FF;
+        ((SpriteFrameState *)animation)->flags &= 0xF7FF;
         ((S_801623C4_0 *)action)->unk_96.s = 0;
         ((S_801623C4_0 *)action)->unk_9B = 3;
 

@@ -45,7 +45,7 @@ typedef struct S_800BFB8C_3 {
 
 
 s32 test_resident_bit();
-void *allocate_list_node();
+struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 void register_node(void *, void *);
 s32 rand(void);
 extern M2C_UNK D_800BFD14;
@@ -79,7 +79,7 @@ void spawn_randomized_timed_objects(void *source)
     if (spawn_count >= 0) {
         kind = (u8 *)&D_800BFD14;
         do {
-            new_object = allocate_list_node((void *)0x202, ((s32 *)&D_80083498.next));
+            new_object = allocate_list_node((s32)((void *)0x202), (struct ObjectNodeHeader * *)(((s32 *)&D_80083498.next)));
             if (new_object != NULL) {
                 object = new_object;
                 callback = &D_800BFFF4;

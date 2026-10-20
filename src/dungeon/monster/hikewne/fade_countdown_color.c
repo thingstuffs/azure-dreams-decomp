@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -11,26 +12,24 @@ typedef struct S_8014C8E8_0 {
     s16 unk_AC;
 } S_8014C8E8_0;   /* arg0 in fade_countdown_color; pointer addresses record offset 0x2 */
 
-
 typedef struct S_8014C8E8_2 {
     s32 unk_00;
 } S_8014C8E8_2;   /* D_800814A0 in fade_countdown_color */
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 extern void func_800478B8(void *color);
 /* Scale the color by the remaining countdown, then decrement it and flag completion. */
-void fade_countdown_color(void *record_data, void *unused, Rec_D_80082E80 *color)
+void fade_countdown_color(void *record_data, void *unused, SpriteFrameState *color)
 {
     s16 ticks_left;
     s32 intensity;
 
     intensity = (s32) (((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_98
         << 7) / (s16) ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_AC;
-    color->unk_0C.at02_s8.v = (s8) intensity;
-    color->unk_0C.at01_s8.v = (s8) intensity;
-    color->unk_0C.at00_s8.v = (s8) intensity;
+    color->color.c.b = (s8) intensity;
+    color->color.c.g = (s8) intensity;
+    color->color.c.r = (s8) intensity;
     func_800478B8(color);
     ticks_left = (u16) ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_98 - 1;
     ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_98 = ticks_left;

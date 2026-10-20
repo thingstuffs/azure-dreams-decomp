@@ -50,7 +50,7 @@ typedef struct Grid80090320 {
 
 extern s32 D_800FE480;
 extern s32 D_800FE484;
-extern s32 check_scratch_quad_half_turn_gaps();
+struct ScratchQuad; s32 check_scratch_quad_half_turn_gaps(struct ScratchQuad *);
 
 
 typedef struct S_8008DA80_1 {
@@ -208,7 +208,7 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
                         scratch->d7 = ((S_8008DA80_8 *)(((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices))->unk_04
                             - scratch->origin_z;
 
-                        if (check_scratch_quad_half_turn_gaps(scratch) != 0) {
+                        if (check_scratch_quad_half_turn_gaps((struct ScratchQuad *)(scratch)) != 0) {
                             plane = (u8 *)(((S_8008DA80_1 *)entry)->unk_10 * 8 +
                                            (u32)scratch->height_data);
                             vertex = (u8 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 +

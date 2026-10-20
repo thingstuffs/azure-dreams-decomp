@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -19,13 +20,6 @@ typedef struct S_801721B0_0 {
     union { s16 s; u16 u; } unk_9E;   /* accessed as both */
     s32 unk_A0;
 } S_801721B0_0;   /* arg0 in animate_hop_to_actor_tile */
-
-
-typedef struct S_801721B0_4 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_801721B0_4;   /* global in animate_hop_to_actor_tile */
-
 
 extern void select_sprite_entry(void *, s16, s16);
 extern s32 func_800644B8(s32);
@@ -55,8 +49,8 @@ void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *a
     phase = ((S_801721B0_0 *)action)->unk_9B;
     switch (phase) {
     case 0:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_801762D8;
+        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+            ((SpriteFrameState *)sprite)->frameTable = D_801762D8;
             select_sprite_entry(
                 sprite,
                 D_801762D8[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
@@ -79,12 +73,12 @@ void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *a
             ((S_801721B0_0 *)action)->unk_90 - ((S_801721B0_0 *)action)->unk_A0;
         if (hop_frames != 0) {
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C =
-                (((((Rec_D_80082E80 *)sprite)->unk_24 << 6) -
+                (((((SpriteFrameState *)sprite)->unk_24 << 6) -
                   ({ ((Rec_func_800A5DFC_arg1 *)motion)->unk_02 - 0x20; })) <<
                  0x10) /
                 hop_frames;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 =
-                (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) -
+                (((((SpriteFrameState *)sprite)->unk_25 << 6) -
                   (tile_origin_y = ((Rec_func_800A5DFC_arg1 *)motion)->unk_06 - 0x20)) <<
                  0x10) /
                 ((S_801721B0_0 *)action)->unk_9E.s;
@@ -110,9 +104,9 @@ void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *a
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_14 = 0;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24,
-                          ((Rec_D_80082E80 *)sprite)->unk_25);
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_801762E0;
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24,
+                          ((SpriteFrameState *)sprite)->unk_25);
+            ((SpriteFrameState *)sprite)->frameTable = D_801762E0;
             select_sprite_entry(
                 sprite,
                 D_801762E0[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
@@ -130,8 +124,8 @@ void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *a
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_14 = 0;
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24,
-                      ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24,
+                      ((SpriteFrameState *)sprite)->unk_25);
         reduce_actor_food_meter(actor, 4);
         advance_status_timers(actor);
         if (g_dungeon_status.unk_08 != 0) {
@@ -148,7 +142,7 @@ void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *a
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
-                    ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                    ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &target_distance);
             }
         }

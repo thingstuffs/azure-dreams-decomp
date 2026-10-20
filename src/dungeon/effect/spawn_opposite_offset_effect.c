@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
@@ -29,21 +30,6 @@ typedef struct S_800B653C_1 {
     s32 unk_0C;
     s32 unk_10;
 } S_800B653C_1;   /* held_arg0 in spawn_opposite_offset_effect */
-
-typedef struct S_800B653C_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800B653C_2;
-
 
 typedef struct {
     u8 pad0[8];
@@ -79,7 +65,7 @@ void spawn_opposite_offset_effect(void *source_data, u32 direction_bits) {
     s16 *y_offset;
     s16 *x_offsets;
     u32 direction;
-    S_800B653C_2 *sprite;
+    SpriteFrameState *sprite;
     S_800B653C_0 *motion;
     SubObject *effect_params;
     Object *effect;
@@ -108,13 +94,13 @@ void spawn_opposite_offset_effect(void *source_data, u32 direction_bits) {
             0 - (source->unk_10 * ((rand() & 1) + 2));
         motion->unk_14 = (~rand() & 1) << 0xF;
         func_8003DB94(sprite, &D_800DEA68, 0);
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_10 = 0x60;
-        sprite->unk_14 |= 0xC;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->tpage_abr = 0x60;
+        sprite->flags |= 0xC;
         effect_params->unk18 = 0x10;
         effect_params->unk16 = 0x10;
         effect_params->unk14 = 0x10;

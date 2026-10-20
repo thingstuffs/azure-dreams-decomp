@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -28,22 +29,6 @@ typedef struct S_818BDB44_2 {
     s32 unk_18;
 } S_818BDB44_2;   /* arg0 in create_random_spin_effect */
 
-typedef struct S_818BDB44_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818BDB44_3;   /* part in create_random_spin_effect */
-
 typedef struct S_818BDB44_4 {
     u8 pad_00[0x10];
     s32 unk_10;
@@ -55,8 +40,6 @@ typedef struct S_818BDB44_5 {
     s32 unk_10;
     s32 unk_14;
 } S_818BDB44_5;   /* dst in create_random_spin_effect */
-
-
 
 typedef struct {
     s32 words[6];
@@ -73,7 +56,7 @@ s32 create_random_spin_effect(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
 {
     void *object;
     S_818BDB44_1 *payload;
-    S_818BDB44_3 *part;
+    SpriteFrameState *part;
     s32 variant_random;
     s32 random_value;
     s32 scale;
@@ -95,23 +78,23 @@ s32 create_random_spin_effect(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
         payload->unk_18 = source->unk_18;
 
         part = ((S_818BDB44_0 *)object)->unk_0C;
-        part->unk_0E = 0x80;
-        part->unk_0D = 0x80;
-        part->unk_0C = 0x80;
-        part->unk_12 = 0x7E01;
-        part->unk_08 = D_80025DF8;
-        part->unk_14 = part->unk_14 | 0xC;
-        part->unk_10 = part->unk_10 | 0x20;
-        part->unk_14 = part->unk_14 | 0x100;
+        part->color.c.b = 0x80;
+        part->color.c.g = 0x80;
+        part->color.c.r = 0x80;
+        part->clut = 0x7E01;
+        part->source = D_80025DF8;
+        part->flags = part->flags | 0xC;
+        part->tpage_abr = part->tpage_abr | 0x20;
+        part->flags = part->flags | 0x100;
 
         random_value = rand();
         {
             void *setup_object = object;
 
-            part->unk_1A = random_value % 0x1000;
+            part->angle_z = random_value % 0x1000;
             scale = 0x400;
-            part->unk_1E = scale;
-            part->unk_1C = scale;
+            part->scale_y = scale;
+            part->scale_x = scale;
             register_node(setup_object, project_sprite_chain);
         }
 

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
@@ -38,20 +39,6 @@ typedef struct S_81814EDC_1 {
     s16 unk_22;
 } S_81814EDC_1;
 
-typedef struct S_81814EDC_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    union { u8 s; s8 u; } unk_0C;   /* accessed as both */
-    union { u8 s; s8 u; } unk_0D;   /* accessed as both */
-    union { u8 s; s8 u; } unk_0E;   /* accessed as both */
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_81814EDC_2;
-
    /* source in update_spark_emitter_effect */
 
 typedef struct S_81814EDC_4 {
@@ -76,14 +63,10 @@ typedef struct S_81814EDC_5 {
     s32 unk_60;
 } S_81814EDC_5;
 
-
-
 typedef struct S_81814EDC_7_pre {
     void * unk_00;
     u8 pad_04[0x14];
 } S_81814EDC_7_pre;   /* the 0x18 bytes before source_owner in update_spark_emitter_effect, addressed as source_owner[-1] */
-
-
 
 typedef struct S_81814EDC_8 {
     u8 pad_00[0x1C];
@@ -139,7 +122,7 @@ void update_spark_emitter_effect(void *effect, void *position) {
     void *owner;
     S_81814EDC_11 *owner_flags;
     S_81814EDC_9 *owner_sprite;
-    S_81814EDC_2 *sprite;
+    SpriteFrameState *sprite;
     S_81814EDC_5 *debris;
     MovingPosition *owner_position;
     void *particle;
@@ -157,7 +140,7 @@ void update_spark_emitter_effect(void *effect, void *position) {
             ((S_81814EDC_1 *)particle)->unk_10 = &D_80024280;
             register_node(particle, project_sprite_chain);
             sprite = ((S_81814EDC_1 *)particle)->unk_0C;
-            sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+            sprite->flags = (u16) (sprite->flags | 0xC);
             debris = ((S_81814EDC_1 *)particle)->unk_08;
             {
                 s32 random_offset = func_80069EF8() & 0x1F;
@@ -187,11 +170,11 @@ void update_spark_emitter_effect(void *effect, void *position) {
                 ((S_81814EDC_4 *)debris)->unk_0A.s = (s16) coordinate;
             }
             sprite = ((S_81814EDC_1 *)particle)->unk_0C;
-            sprite->unk_1C = 0x2000;
-            sprite->unk_1E = 0x1000;
-            sprite->unk_0E.s = 0x80;
-            sprite->unk_0D.s = 0x80;
-            sprite->unk_0C.s = 0x80;
+            sprite->scale_x = 0x2000;
+            sprite->scale_y = 0x1000;
+            sprite->color.c.b = 0x80;
+            sprite->color.c.g = 0x80;
+            sprite->color.c.r = 0x80;
             func_8003DB94(sprite, D_800DE938, 0);
             func_800478B8(sprite);
             func_800478B8(sprite);
@@ -223,7 +206,7 @@ loop_effects:
                         ((S_81814EDC_1 *)particle)->unk_10 = &D_80024280;
                         register_node(particle, project_sprite_chain);
                         sprite = ((S_81814EDC_1 *)particle)->unk_0C;
-                        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+                        sprite->flags = (u16) (sprite->flags | 0xC);
                         debris->unk_58 = (s32) (((func_80069EF8() & 0x7FFF) << 5) + 0xFFF80000);
                         debris->unk_5C = (s32) (((func_80069EF8() & 0x7FFF) << 5) + 0xFFF80000);
                         debris->unk_60 = (s32) (((func_80069EF8() & 0x3FFF) << 5) + 0xFFF80000);
@@ -240,11 +223,11 @@ loop_effects:
                         debris->unk_06 = (s16) coordinate;
                         debris->unk_0A = (s16) (owner_position->unk_0A - 0x20);
                         sprite = ((S_81814EDC_1 *)particle)->unk_0C;
-                        sprite->unk_1E = 0x1000;
-                        sprite->unk_1C = 0x1000;
-                        sprite->unk_0E.s = 0x80;
-                        sprite->unk_0D.s = 0x80;
-                        sprite->unk_0C.s = 0x80;
+                        sprite->scale_y = 0x1000;
+                        sprite->scale_x = 0x1000;
+                        sprite->color.c.b = 0x80;
+                        sprite->color.c.g = 0x80;
+                        sprite->color.c.r = 0x80;
                         func_8003DB94(sprite, D_800DE870, 0);
                     }
                     effect_index += 1;
@@ -264,7 +247,7 @@ loop_effects:
                         ((S_81814EDC_1 *)particle)->unk_10 = &D_80024280;
                         register_node(particle, project_sprite_chain);
                         sprite = ((S_81814EDC_1 *)particle)->unk_0C;
-                        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+                        sprite->flags = (u16) (sprite->flags | 0xC);
                         debris = ((S_81814EDC_1 *)particle)->unk_08;
                         random_offset = func_80069EF8() & 0xF;
                         coordinate = owner_position->unk_02;
@@ -278,17 +261,17 @@ loop_effects:
                         ((S_81814EDC_4 *)debris)->unk_06 = (s16) coordinate;
                         ((S_81814EDC_4 *)debris)->unk_0A.u = (u16) owner_position->unk_0A;
                         sprite = ((S_81814EDC_1 *)particle)->unk_0C;
-                        sprite->unk_0E.u = neutral_color;
-                        sprite->unk_0D.u = neutral_color;
-                        sprite->unk_0C.u = neutral_color;
+                        sprite->color.c.b = neutral_color;
+                        sprite->color.c.g = neutral_color;
+                        sprite->color.c.r = neutral_color;
                         sprite->unk_06 = 7;
                         if (effect_index == 0) {
-                            sprite->unk_1C = unit_scale;
-                            sprite->unk_1E = double_scale;
+                            sprite->scale_x = unit_scale;
+                            sprite->scale_y = double_scale;
                             ((S_81814EDC_4 *)debris)->unk_0A.u -= 0x14;
                         } else {
-                            sprite->unk_1C = double_scale;
-                            sprite->unk_1E = unit_scale;
+                            sprite->scale_x = double_scale;
+                            sprite->scale_y = unit_scale;
                         }
                         func_8003DB94(sprite, D_800DE938, 0);
                     }

@@ -35,12 +35,10 @@ typedef struct S_81809800_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
 } S_81809800_4;   /* temp_a2 in func_80025014 */
 
-
 typedef struct S_81809800_6 {
     u8 pad_00[0x14];
     u16 unk_14;
 } S_81809800_6;   /* arg2 in func_80025014 */
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -53,17 +51,6 @@ typedef struct S_80025170_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } S_80025170_0;   /* temp_v0 in func_80025170 */
-
-typedef struct S_80025170_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80025170_1;   /* temp_s0 in func_80025170 */
 
 /* Allocates an object and initializes its sprite and user data. */
 
@@ -88,7 +75,6 @@ typedef struct S_8002520C_25 {
     u8 pad_00[0xB6];
     s16 unk_B6;
 } S_8002520C_25;   /* ((S_8002520C_24 *)(((((S_8002520C_0 *)arg0)->unk_26 * 4) + arg0)))->unk_0C in func_8002520C */
-
 
 typedef struct S_8002520C_0_pre {
     u16 unk_00;
@@ -131,7 +117,6 @@ typedef struct S_8002520C_2 {
     u16 unk_1C;
     u16 unk_1E;
 } S_8002520C_2;   /* arg2_local in func_8002520C */
-
 
 typedef struct S_8002520C_4 {
     u8 pad_00[0x10];
@@ -235,8 +220,6 @@ typedef struct S_8002520C_21 {
     s32 unk_14A0;
 } S_8002520C_21;   /* (s32 *) slot_v0 in func_8002520C */
 
-
-
 /* Update the selection menu animation, side positions, and facing directions. */
 
 typedef struct S_80025A14_0 {
@@ -293,8 +276,6 @@ typedef struct S_80025A14_4 {
     u8 pad_00[0x1A];
     u16 unk_1A;
 } S_80025A14_4;   /* p in func_80025A14 */
-
-
 
 /* Updates the object fade and selects its animation and render flags by direction. */
 
@@ -377,8 +358,6 @@ typedef struct S_80025C94_7 {
     s16 unk_26;
 } S_80025C94_7;   /* ((S_80025C94_0 *)temp_s0)->unk_58 in func_80025C94 */
 
-
-
 /* Updates an object's fade and position, draws it, and restores its color. */
 
 typedef struct S_800260C8_4 {
@@ -401,12 +380,10 @@ typedef struct S_800260C8_7 {
     void * unk_0C;
 } S_800260C8_7;   /* ((S_800260C8_5 *)(((temp_v0 * 4) + ((S_800260C8_1 *)arg0)->unk_20)))->unk_0C in func_800260C8 */
 
-
 typedef struct ResidentPage {
     u8 pad0[0x2094];
     u16 table[1];
 } ResidentPage;
-
 
 typedef struct S_800260C8_0 {
     u8 pad_00[0x26];
@@ -559,21 +536,10 @@ typedef struct S_80026190_17 {
     s16 unk_88;
 } S_80026190_17;   /* work in func_80026190 */
 
-typedef struct S_80026190_18 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-    u8 pad_14[0x10];
-    u8 unk_24;
-    u8 unk_25;
-} S_80026190_18;   /* parent in func_80026190 */
-
 typedef struct S_80026190_19 {
     u8 pad_00[0x12];
     u16 unk_12;
 } S_80026190_19;   /* ((S_80026190_10_pre *)source)[-1].unk_00 in func_80026190 */
-
-
-
 
 /* Initializes child objects and copies source entities, or requests their shutdown. */
 
@@ -733,8 +699,6 @@ typedef struct {
     u8 pad10[0x24];
     s32 clear;
 } Scratch;
-
-
 
 /* Render a 3x3 grid of terrain faces and its associated objects. */
 

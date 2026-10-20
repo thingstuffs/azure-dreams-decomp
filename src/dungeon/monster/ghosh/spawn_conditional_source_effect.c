@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -37,20 +38,6 @@ typedef struct S_8016ECE4_2 {
     s32 * unk_10;
 } S_8016ECE4_2;
 
-typedef struct S_8016ECE4_3 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    s32 * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8016ECE4_3;
-
 typedef struct S_8016ECE4_4 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -76,7 +63,6 @@ typedef struct S_8016ECE4_6 {
     s16 unk_AA;
 } S_8016ECE4_6;
 
-
 typedef struct {
     s16 field0;
     s16 field2;
@@ -89,7 +75,6 @@ extern u8 D_8016E528;
 extern void *D_80174704[];
 extern TableEntry D_80174708[];
 
-
 /* Spawn and initialize an effect at the source position when its mode and status allow it. */
 void spawn_conditional_source_effect(void) {
     s32 rounded_x;
@@ -97,7 +82,7 @@ void spawn_conditional_source_effect(void) {
     u8 high_byte;
     u8 low_byte;
     u16 count;
-    register S_8016ECE4_3 *sprite;
+    register SpriteFrameState *sprite;
     S_8016ECE4_1 *effect_state;
     S_8016ECE4_5 *source_pos;
     S_8016ECE4_6 *source_state;
@@ -122,7 +107,7 @@ void spawn_conditional_source_effect(void) {
             ((S_8016ECE4_2 *)effect)->unk_10 = &D_8016E528;
             register_node(effect, project_sprite_chain);
             sprite = ((S_8016ECE4_2 *)effect)->unk_0C;
-            sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFF3);
+            sprite->flags = (u16) (sprite->flags & 0xFFF3);
             effect_state->unk_24 = source_state;
             effect_pos = ((S_8016ECE4_2 *)effect)->unk_08;
             effect_pos->unk_02 = (u16) source_pos->unk_02.s;
@@ -134,19 +119,19 @@ void spawn_conditional_source_effect(void) {
             effect_state->unk_60 = 0;
             effect_state->unk_18 = (s16) (((u16) source_state->unk_2A >> 9) & 7);
             sprite = ((S_8016ECE4_2 *)effect)->unk_0C;
-            sprite->unk_1E = 0x1000;
-            sprite->unk_1C = 0x1000;
+            sprite->scale_y = 0x1000;
+            sprite->scale_x = 0x1000;
             sprite->unk_06 = (s16) (D_80174708[((u16) source_state->unk_2A >> 9) & 7].field2 * 6);
             source_state->unk_AA = 0x4D;
             rounded_x = source_pos->unk_02.u;
             effect_state->unk_48 = (s8) (rounded_x / 64);
             rounded_y = source_pos->unk_06.u;
             effect_state->unk_49 = (s8) (rounded_y / 64);
-            sprite->unk_0E = 0x80;
-            sprite->unk_0D = 0x80;
-            sprite->unk_0C = 0x80;
-            sprite->unk_08 = &D_800777F4;
-            sprite->unk_14 = (u16) (sprite->unk_14 | 0x80);
+            sprite->color.c.b = 0x80;
+            sprite->color.c.g = 0x80;
+            sprite->color.c.r = 0x80;
+            sprite->source = &D_800777F4;
+            sprite->flags = (u16) (sprite->flags | 0x80);
             effect_state->unk_44 = 3;
             effect_state->unk_45 = 6;
             effect_state->unk_46 = 0;

@@ -1,0 +1,8 @@
+#ifndef TOWN_PLAYER_CLEAR_GLOBAL_SLOT_N_5_COPY_SOURCE_SLOT_N_2_GLOBAL_SLOT_N_2_API_H
+#define TOWN_PLAYER_CLEAR_GLOBAL_SLOT_N_5_COPY_SOURCE_SLOT_N_2_GLOBAL_SLOT_N_2_API_H
+
+#include "common.h"
+
+void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(s32 *);
+
+#endif

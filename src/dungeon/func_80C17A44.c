@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource17_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void func_80173244(void *action, void *motion, void *sprite, void *actor)
 {
@@ -22,7 +23,7 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
             return;
         }
 
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((R17_80173244_S_80173354_1 *)action)->unk_96.s = 0;
             ((R17_80173244_S_80173354_1 *)action)->unk_9B = 2;
             return;
@@ -59,7 +60,7 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
 
         if (((R17_80173244_S_80173354_1 *)action)->unk_96.s > 0) {
             ((R17_80173244_S_80173354_1 *)action)->unk_96.u--;
-        } else if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        } else if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             ((R17_80173244_S_80173354_1 *)action)->unk_96.s = 0;
         }
         if (((R17_80173244_S_80173354_1 *)action)->unk_96.s != 0) {
@@ -83,13 +84,13 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
             s32 tile_delta;
             s32 position;
 
-            tile_delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+            tile_delta = ((SpriteFrameState *)sprite)->unk_24 << 6;
             position = ((EntityRec *)motion)->x.w.i;
             position -= 0x20;
             tile_delta -= position;
             tile_delta <<= 15;
             ((EntityRec *)motion)->unk_0C = tile_delta >> 1;
-            tile_delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+            tile_delta = ((SpriteFrameState *)sprite)->unk_25 << 6;
             position = ((EntityRec *)motion)->y.w.i;
             position -= 0x20;
             tile_delta -= position;
@@ -111,13 +112,13 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion,(u8)(((Rec_D_80082E80 *)sprite)->unk_24),(u8)(((Rec_D_80082E80 *)sprite)->unk_25));
+        set_record_integer_tile_center(motion,(u8)((SpriteFrameState *)sprite)->unk_24,(u8)((SpriteFrameState *)sprite)->unk_25);
 
         ((R17_80173244_S_80173354_1 *)action)->unk_90 = 0;
         ((R17_80173244_S_80173354_1 *)action)->unk_98 &= 0xFFF7;
         ((EntityRec *)actor)->flags1C |= 0x08000000;
         ((EntityRec *)actor)->flags1C |= 0x00040000;
-        (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_8017449C);
+        ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_8017449C);
         select_sprite_entry(sprite,(u8)(((u8 *)D_8017449C)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7]),
             0);
 

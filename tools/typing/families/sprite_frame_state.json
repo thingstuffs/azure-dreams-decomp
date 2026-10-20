@@ -1,0 +1,54 @@
+{
+ "type": "SpriteFrameState",
+ "header": "shared/sprite_frame_state.h",
+ "labels": [
+  "ObjectNodeHeader->[0xc]",
+  "SpriteFrameState",
+  "view:include/records/Rec_D_80082E80.h:Rec_D_80082E80"
+ ],
+ "fields": {
+  "0x0:4": "unk_00:p",
+  "0x4:1": "unk_04:s",
+  "0x5:1": "unk_05:u",
+  "0x6:2": "unk_06:s",
+  "0x8:4": "source:p",
+  "0xc:4": "color.word:s",
+  "0xc:1": "color.c.r:u",
+  "0xd:1": "color.c.g:u",
+  "0xe:1": "color.c.b:u",
+  "0xf:1": "color.c.code:u",
+  "0x10:2": "tpage_abr:u",
+  "0x12:2": "clut:u",
+  "0x14:2": "flags:u",
+  "0x16:2": "angle_x:u",
+  "0x18:2": "angle_y:u",
+  "0x1a:2": "angle_z:u",
+  "0x1c:2": "scale_x:u",
+  "0x1e:2": "scale_y:u",
+  "0x20:2": "unk_20:u",
+  "0x22:2": "unk_22:u",
+  "0x24:1": "unk_24:u",
+  "0x25:1": "unk_25:u",
+  "0x26:1": "unk_26:u",
+  "0x28:4": "unk_28:s",
+  "0x2c:4": "frameTable:p"
+ },
+ "constants": {
+  "scale_x": {
+   "0x1000": "ONE"
+  },
+  "scale_y": {
+   "0x1000": "ONE"
+  }
+ },
+ "preserve_accesses": [
+  "0x0:48",
+  "0x0:16",
+  "0xc:3"
+ ],
+ "reinterpret_fields": {
+  "0x24:2": "unk_24",
+  "0x14:4": "flags",
+  "0x1c:4": "scale_x"
+ }
+}

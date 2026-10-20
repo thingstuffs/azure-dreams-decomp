@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -19,7 +20,6 @@ typedef struct S_800974DC_0 {
     u8 unk_102;
 } S_800974DC_0;   /* arg0 in update_airborne_actor_motion */
 
-
 typedef struct S_800974DC_4_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -30,13 +30,12 @@ typedef struct S_800974DC_6 {
     s32 unk_0C;
 } S_800974DC_6;
 
-
 void func_8003DB94();
 void process_unflagged_linked_entries(); /* extern */
 s32 resolve_attack_damage_and_effects();
 void set_record_integer_tile_center(); /* extern */
 s32 select_nearby_target_and_initialize_slot(); /* extern */
-void handle_actor_commands_and_facing(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor_data);
+void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameState *sprite, EntityRec *actor_data);
 extern void *D_800DD274[];
 extern u8 D_800DD294[8];
 
@@ -52,7 +51,7 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
     switch (phase) {
     case 0:
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, motion, 8, 0x300);
-        (*(s32 **)((u8 *)sprite + 0x2C)) = D_800DD294;
+        ((SpriteFrameState *)sprite)->frameTable = D_800DD294;
         func_8003DB94(sprite, *(s32 *)((u8 *)D_800DD294 + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         dir_offset = ((u16) actor->facing >> 8) & 0xE;
@@ -65,7 +64,7 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
         ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
         return;
     case 1:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((S_800974DC_0 *)action)->unk_96.s = 0U;
         } else {
             ((S_800974DC_0 *)action)->unk_96.s = (u16) (((S_800974DC_0 *)action)->unk_96.s - 1);
@@ -84,8 +83,8 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
             }
         }
         if ((s16) ((S_800974DC_0 *)action)->unk_96.s <= 0) {
-            if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-                (*(s32 **)((u8 *)sprite + 0x2C)) = D_800DD274;
+            if (((SpriteFrameState *)sprite)->flags & 0xE000) {
+                ((SpriteFrameState *)sprite)->frameTable = D_800DD274;
                 func_8003DB94(sprite, *(s32 *)((u8 *)D_800DD274 + (((s32) (g_game_work.view.viewAngle + actor->facing
                     + 0x100) >> 7) & 0x1C)), 0);
                 ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
@@ -101,7 +100,7 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
         if ((s16) ((S_800974DC_0 *)action)->unk_96.s > 0) {
             return;
         }
-        (*(s32 **)((u8 *)sprite + 0x2C)) = D_800DD274;
+        ((SpriteFrameState *)sprite)->frameTable = D_800DD274;
         func_8003DB94(sprite, *(s32 *)((u8 *)D_800DD274 + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         ((S_800974DC_0 *)action)->unk_9B = 3U;
@@ -110,17 +109,17 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
     {
         s32 coord;
         u32 delta;
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         motion->flags14 = 0;
         ((S_800974DC_0 *)action)->unk_96.s = 2U;
-        delta = (u32)((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+        delta = (u32)((SpriteFrameState *)sprite)->unk_24 << 6;
         coord = motion->x.w.i - 0x20;
         delta -= (u32)coord;
         motion->unk_0C = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
         coord = motion->y.w.i - 0x20;
-        delta = ((u32)((Rec_D_80082E80 *)sprite)->unk_25 << 6) - (u32)coord;
+        delta = ((u32)((SpriteFrameState *)sprite)->unk_25 << 6) - (u32)coord;
         motion->unk_10 = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
         ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
         return;
@@ -128,13 +127,13 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
     case 4:
         ticks_left = ((S_800974DC_0 *)action)->unk_96.s - 1;
         ((S_800974DC_0 *)action)->unk_96.s = ticks_left;
-        if ((ticks_left << 0x10) > 0 && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        if ((ticks_left << 0x10) > 0 && !(((SpriteFrameState *)sprite)->flags & 0x8000)) {
             return;
         }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         process_unflagged_linked_entries(actor->unk_5C);
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x412);
         ((S_800974DC_0 *)action)->unk_8C = &handle_actor_commands_and_facing;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_8102F348_0 {
@@ -31,12 +32,11 @@ typedef struct S_8102F348_1 {
     s32 unk_64;
 } S_8102F348_1;   /* arg0 in func_8102F348 */
 
-
 extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void func_800478B8(void *);
 /* Updates effect motion and collision, grows its sprite, and flags expired effects. */
-void func_8102F348(void *effect, S_8102F348_0 *position, Rec_D_80082E80 *sprite) {
+void func_8102F348(void *effect, S_8102F348_0 *position, SpriteFrameState *sprite) {
     s32 height;
 
     position->unk_00.at00.v += ((S_8102F348_1 *)effect)->unk_50;
@@ -78,14 +78,14 @@ void func_8102F348(void *effect, S_8102F348_0 *position, Rec_D_80082E80 *sprite)
         func_800478B8(sprite);
     }
 
-    sprite->unk_1C.at00_u16.v += 100;
-    if (sprite->unk_1C.at00_u16.v > 0x1000) {
-        sprite->unk_1C.at00_u16.v = 0x1000;
+    sprite->scale_x += 100;
+    if (sprite->scale_x > 0x1000) {
+        sprite->scale_x = 0x1000;
     }
 
-    sprite->unk_1C.at02_u16.v += 100;
-    if (sprite->unk_1C.at02_u16.v > 0x1000) {
-        sprite->unk_1C.at02_u16.v = 0x1000;
+    sprite->scale_y += 100;
+    if (sprite->scale_y > 0x1000) {
+        sprite->scale_y = 0x1000;
     }
 
     ((S_8102F348_1 *)effect)->unk_1E.u = ((S_8102F348_1 *)effect)->unk_1E.u - 1;
@@ -95,7 +95,7 @@ void func_8102F348(void *effect, S_8102F348_0 *position, Rec_D_80082E80 *sprite)
         status_page[0x14A0 / 4] |= 0x8000;
     }
 
-    if (sprite->unk_14.at00_u16.v & 0x8000) {
+    if (sprite->flags & 0x8000) {
         s32 *status_page = (s32 *)0x80080000;
         ((S_8102F348_1_pre *)effect)[-1].unk_00 |= 0x8000;
         status_page[0x14A0 / 4] |= 0x8000;

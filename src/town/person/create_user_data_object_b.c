@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 
 #ifndef NULL
@@ -13,25 +14,6 @@ typedef struct S_800C5214_0 {
     s32 unk_BC;
 } S_800C5214_0;   /* object in create_user_data_object_b */
 
-typedef struct S_800C5214_1 {
-    s32 unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    s16 unk_06;
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800C5214_1;   /* part in create_user_data_object_b */
-
-
 extern s32 register_node();
 extern u8 D_800345B8[];
 extern u8 D_800C52D0[];
@@ -40,7 +22,7 @@ extern u8 D_800F148C[];
 /* Allocates an object and initializes its display part and user data. */
 void *create_user_data_object_b(s32 user_data)
 {
-    S_800C5214_1 *part;
+    SpriteFrameState *part;
     S_800C5214_0 *object;
 
     object = func_8003FC64(0x136);
@@ -56,22 +38,22 @@ void *create_user_data_object_b(s32 user_data)
         object->unk_10 = D_800C52D0;
         object->unk_BC = user_data;
         part = object->unk_0C;
-        part->unk_1E = 0x1800;
-        part->unk_1C = 0x1800;
-        part->unk_0E = 0x4C;
-        part->unk_0D = 0x4C;
-        part->unk_0C = 0x4C;
-        part->unk_08 = D_800F148C;
+        part->scale_y = 0x1800;
+        part->scale_x = 0x1800;
+        part->color.c.b = 0x4C;
+        part->color.c.g = 0x4C;
+        part->color.c.r = 0x4C;
+        part->source = D_800F148C;
         part->unk_00 = 0;
         part->unk_04 = 0;
         part->unk_05 = 0;
         part->unk_06 = -0x10;
         register_node(object, D_800345B8);
         return_object = object;
-        flags = part->unk_14;
+        flags = part->flags;
         part_value = 0x20;
-        part->unk_10 = part_value;
-        part->unk_14 = flags | 0x1C;
+        part->tpage_abr = part_value;
+        part->flags = flags | 0x1C;
         return return_object;
     }
 }

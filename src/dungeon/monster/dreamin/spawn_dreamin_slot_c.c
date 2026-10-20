@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -24,14 +25,6 @@ typedef struct S_80DA7000_2 {
     s16 unk_0A;
 } S_80DA7000_2;
 
-typedef struct S_80DA7000_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80DA7000_3;
-
 typedef struct S_80DA7000_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -40,9 +33,6 @@ typedef struct S_80DA7000_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_80DA7000_4;
-
-
-
 
 void *allocate_list_node();
 s32 register_node(); /* extern */
@@ -60,7 +50,7 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
     s32 global_byte;
     s32 unused_stack;
     s32 init_mode;
-    S_80DA7000_3 *data_0c;
+    SpriteFrameState *data_0c;
     S_80DA7000_2 *data_08;
     void *object;
     S_80DA7000_4 *extended_state;
@@ -87,7 +77,7 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
         init_mode = init_flags & 3;
         data_0c->unk_25 = saved_value_25;
         extended_state = state;
-        data_0c->unk_2C = &D_8015B86C;
+        data_0c->frameTable = &D_8015B86C;
         data_0c->unk_24 = saved_value_24;
         if (init_mode == 1) {
             state->unk_14 = (s32) (state->unk_14 | 0x6000);

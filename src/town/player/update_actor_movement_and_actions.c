@@ -26,19 +26,19 @@ extern s32 D_80100E20;
 extern u8 D_800A5DF8;
 
 extern s32 scale_random_to_unsigned_halfword_limit();
-extern s32 runtime_estimate_vector_length();
+s32 runtime_estimate_vector_length(s32, s32);
 extern void SD_Call();
-extern s32 read_map_cell_at_world_position();
+s32 read_map_cell_at_world_position(s16, s16);
 extern void add_a_directional_step_vector_scale_down_exceeds_length_limit();
-extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();
+#include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"
 extern void add_hex_20000_s_signed_offset_hex_14();
-extern void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2();
+#include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"
 extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
-extern void compute_and_clamps_vector_based_adjustment_updates_town();
-extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
-extern void spawn_directional_effects();
-extern s32 compute_height_based_offset();
-extern s32 check_masked_value_in_current_range();
+#include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
+#include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
+void spawn_directional_effects(void *, s32);
+struct EntityRec; s32 compute_height_based_offset(struct EntityRec *);
+s32 check_masked_value_in_current_range(s32);
 
 
 /* Update actor movement, height, turning, and action state from input. */
@@ -51,7 +51,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     s32 sound_period;
 
     input = &g_game_work;
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(actor);
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((struct EntityRec *)(actor));
 
     state->timer--;
     if ((s16)state->timer <= 0) {
@@ -68,25 +68,25 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     }
 
     if (((u32)input->buttons) & 0x10) {
-        move_both_components_toward_zero_direction_dependent_steps_clamping_zero(actor);
+        move_both_components_toward_zero_direction_dependent_steps_clamping_zero((struct EntityRec *)(actor));
         if ((((u32)input->buttons) & 0x30) == 0x20) {
-            move_both_components_toward_zero_direction_dependent_steps_clamping_zero(actor);
+            move_both_components_toward_zero_direction_dependent_steps_clamping_zero((struct EntityRec *)(actor));
         }
     } else {
-        move_both_components_toward_zero_direction_dependent_steps_clamping_zero(actor);
+        move_both_components_toward_zero_direction_dependent_steps_clamping_zero((struct EntityRec *)(actor));
     }
     height_limit = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, ((u8 *)&D_800FE488));
     if (actor->height >= height_limit) {
-        compute_and_clamps_vector_based_adjustment_updates_town(actor, height_limit, ((u8 *)&D_800FE488));
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), height_limit, (struct TownVec * *)(((u8 *)&D_800FE488)));
     } else if ((&D_800CFCEE)[1] != 0) {
         actor->value = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(actor);
+        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(actor));
     } else {
         add_hex_20000_s_signed_offset_hex_14(actor);
     }
     world_value = read_map_cell_at_world_position(D_80083780.x.w.i, D_80083780.y.w.i);
     if (check_masked_value_in_current_range((u16)world_value) != 0) {
-        actor->value -= compute_height_based_offset(actor);
+        actor->value -= compute_height_based_offset((struct EntityRec *)(actor));
     }
 
     speed = runtime_estimate_vector_length(actor->x, actor->y);

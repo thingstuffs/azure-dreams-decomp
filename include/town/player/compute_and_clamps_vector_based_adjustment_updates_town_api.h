@@ -1,0 +1,11 @@
+#ifndef TOWN_PLAYER_COMPUTE_AND_CLAMPS_VECTOR_BASED_ADJUSTMENT_UPDATES_TOWN_API_H
+#define TOWN_PLAYER_COMPUTE_AND_CLAMPS_VECTOR_BASED_ADJUSTMENT_UPDATES_TOWN_API_H
+
+#include "common.h"
+
+struct TownObj;
+struct TownVec;
+
+void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *, s32, struct TownVec * *);
+
+#endif

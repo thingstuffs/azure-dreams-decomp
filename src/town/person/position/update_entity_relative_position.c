@@ -6,8 +6,8 @@
 void unlink_node_if_registered(void *block_data);
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-void clear_object_slot_and_mark_removed();                      /* extern */
-s32 is_default_object_data();                          /* extern */
+void clear_object_slot_and_mark_removed(void *);                      /* extern */
+struct S_800CB7D0_0; s32 is_default_object_data(struct S_800CB7D0_0 *);                          /* extern */
 
 typedef struct S_800CB9B8_1 {
     u8 pad_00[0x8];

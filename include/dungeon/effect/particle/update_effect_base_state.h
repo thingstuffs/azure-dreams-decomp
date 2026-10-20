@@ -57,24 +57,6 @@ typedef struct S_81844800_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
 } S_81844800_3;   /* arg1_reg in func_80024020 */
 
-typedef struct S_81844800_4 {
-    void * unk_00;
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[0x2];
-    u32 unk_08;
-    u32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-} S_81844800_4;   /* render in func_80024020 */
-
 typedef struct S_81844800_5 {
     u8 pad_00[0x4];
     u32 unk_04;

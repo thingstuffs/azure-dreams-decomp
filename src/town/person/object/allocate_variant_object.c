@@ -19,9 +19,9 @@ typedef struct S_800CBB68_2 {
 } S_800CBB68_2;
 
 
-extern void *create_town_effect_object();
+struct IntVector3; void * create_town_effect_object(s32, struct IntVector3 *, s32, s32);
 extern s16 query_lowered_transform_position();
-extern void initialize_record_from_table_index();
+struct Rec_D_80082E80; void initialize_record_from_table_index(void *, s32, struct Rec_D_80082E80 *);
 
 /* Allocate and initialize an object with the given coordinates and variant. */
 void allocate_variant_object(s32 variant, s32 x, s32 y) {
@@ -40,6 +40,6 @@ void allocate_variant_object(s32 variant, s32 x, s32 y) {
         position->unk_08.at00.v = 0xFF000000;
         position->unk_08.at02.v = query_lowered_transform_position(position);
         state->unk_96 = variant;
-        initialize_record_from_table_index(state, position, setup_arg);
+        initialize_record_from_table_index(state, (s32)(position), (struct Rec_D_80082E80 *)(setup_arg));
     }
 }

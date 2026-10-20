@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -13,7 +14,6 @@ typedef struct S_80155234_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_80155234_0;   /* arg0 in update_actor_directional_movement */
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
@@ -46,7 +46,7 @@ void update_actor_directional_movement(void *action, EntityRec *motion, void *sp
             begin_actor_display_action(action, motion, sprite, D_80156C74);
             return;
         }
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((S_80155234_0 *)action)->unk_96.s = 0;
             ((S_80155234_0 *)action)->unk_9B = 3;
             return;
@@ -62,7 +62,6 @@ void update_actor_directional_movement(void *action, EntityRec *motion, void *sp
         motion->unk_0C -= motion->unk_0C / 4;
         motion->unk_10 -= motion->unk_10 / 4;
 
-
     case 1:
         motion->unk_0C +=
             ((s16 *)((s8 *)dir_step_x))[(actor->unk_6A >> 9) & 7] << 14;
@@ -71,7 +70,7 @@ void update_actor_directional_movement(void *action, EntityRec *motion, void *sp
 
         if (((S_80155234_0 *)action)->unk_96.s > 0) {
             ((S_80155234_0 *)action)->unk_96.s = ((S_80155234_0 *)action)->unk_96.u - 1;
-        } else if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        } else if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             ((S_80155234_0 *)action)->unk_96.s = 0;
         }
 
@@ -84,7 +83,7 @@ void update_actor_directional_movement(void *action, EntityRec *motion, void *sp
             motion->unk_0C = 0;
             begin_actor_display_action(action, motion, sprite, D_80156C74);
         } else {
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156C44;
+            ((SpriteFrameState *)sprite)->frameTable = D_80156C44;
             select_sprite_entry(
                 sprite,
                 D_80156C44[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -98,11 +97,11 @@ void update_actor_directional_movement(void *action, EntityRec *motion, void *sp
             ((s16 *)((s8 *)dir_step_x))[(actor->unk_6A >> 9) & 7] << 14;
         motion->unk_10 +=
             ((s16 *)((s8 *)dir_step_y))[(actor->unk_6A >> 9) & 7] << 14;
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
             return;
         }
 
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156C44;
+        ((SpriteFrameState *)sprite)->frameTable = D_80156C44;
         select_sprite_entry(
             sprite,
             D_80156C44[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -115,12 +114,12 @@ void update_actor_directional_movement(void *action, EntityRec *motion, void *sp
         timer = ((S_80155234_0 *)action)->unk_96.s;
         if (timer != 0) {
             {
-                s32 target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+                s32 target_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
                 s32 current_x = motion->x.w.i - 0x20;
                 motion->unk_0C = ((target_x - current_x) << 15) / timer;
             }
             {
-                s32 target_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+                s32 target_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->unk_10 =
                     ((target_y - current_y) << 15) / ((S_80155234_0 *)action)->unk_96.s;
@@ -136,9 +135,9 @@ void update_actor_directional_movement(void *action, EntityRec *motion, void *sp
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        motion->x.v = ((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16;
-        motion->y.v = ((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        motion->x.v = ((((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20) << 16;
+        motion->y.v = ((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 16;
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
         tracked_actor = ((s32)g_dungeon_status.unk_10);
         if (tracked_actor == (s32)((u8 *)actor - 0x20)) {

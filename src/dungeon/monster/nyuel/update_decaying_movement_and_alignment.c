@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
@@ -13,7 +14,6 @@ typedef struct S_80172DB4_0 {
     u8 unk_9B;
 } S_80172DB4_0;   /* arg0 in update_decaying_movement_and_alignment */
 
-
 extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
@@ -21,9 +21,8 @@ extern void apply_clamped_actor_value_delta();
 extern s32 D_80170E9C;
 extern s32 D_80174F18;
 
-
 /* Updates decaying movement and tile alignment before advancing or finishing the action. */
-void update_decaying_movement_and_alignment(S_80172DB4_0 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, EntityRec *actor_data)
+void update_decaying_movement_and_alignment(S_80172DB4_0 *action, EntityRec *motion, SpriteFrameState *tile_state, EntityRec *actor_data)
 {
     s16 timer;
     s32 tracked_actor;
@@ -46,7 +45,7 @@ void update_decaying_movement_and_alignment(S_80172DB4_0 *action, EntityRec *mot
             begin_actor_display_action(action, motion, tile_state, &D_80174F18);
             return;
         }
-        if (tile_state->unk_14.at00_u16.v & 0x8000) {
+        if (tile_state->flags & 0x8000) {
             action->unk_96.s = 0;
             action->unk_9B = 2;
             return;
@@ -70,7 +69,7 @@ void update_decaying_movement_and_alignment(S_80172DB4_0 *action, EntityRec *mot
         }
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
-        } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
+        } else if (tile_state->flags & 0x6000) {
             action->unk_96.s = 0;
         }
         if (action->unk_96.s != 0) {
@@ -108,7 +107,7 @@ void update_decaying_movement_and_alignment(S_80172DB4_0 *action, EntityRec *mot
         if ((s32)(timer << 16) > 0) {
             return;
         }
-        if ((tile_state->unk_14.at00_u16.v & 0x6000) &&
+        if ((tile_state->flags & 0x6000) &&
             ((EntityRec *)actor_data)->unk_28 == 0) {
             motion->flags14 = 0;
             motion->unk_10 = 0;

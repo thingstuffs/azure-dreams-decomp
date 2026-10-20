@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/object_index_slots.h"
 #include "records/Rec_D_80082E80.h"
-
 
 extern void initialize_object_entries(void *state, s32 output, void *entries);
 extern void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_context);
@@ -11,7 +11,6 @@ extern M2C_UNK D_800D5624;
 extern M2C_UNK D_800D562C;
 extern M2C_UNK D_800D5654;
 extern M2C_UNK D_800D5658;
-
 
 typedef struct S_800C5C70_1 {
     u8 pad_00[0x58];
@@ -28,7 +27,7 @@ typedef struct S_800C5C70_1 {
 
 /* Reset the indexed flag, install handlers, and update the object on input flags 0x6000. */
 void reset_indexed_flag_install_handlers(void *object, s32 context, void *input) {
-    if (((Rec_D_80082E80 *)input)->unk_14.at00_u16.v & 0x6000) {
+    if (((SpriteFrameState *)input)->flags & 0x6000) {
         initialize_object_entries(object, input, &D_800D5518);
         D_80082660[((S_800C5C70_1 *)object)->unk_60].unk_00 = 0;
         ((S_800C5C70_1 *)object)->unk_58 = &D_800D5654;

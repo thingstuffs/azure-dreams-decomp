@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 
 void register_node(void *, void *);
@@ -62,12 +63,12 @@ spawn:
         *(s32 *)(effect_state + 0x14) = func_800644B8(sample_angle) << ((group_index >> 1) + 7);
         sprite = *(u8 **)((u8 *)effect + 0xC);
         data = (void *)0x808080;
-        *(s16 *)(sprite + 0x1E) = 0x400;
-        *(s16 *)(sprite + 0x1C) = 0x400;
-        *(void **)(sprite + 8) = D_80028880;
-        *(s16 *)(sprite + 0x10) = 0x20;
-        *(s32 *)(sprite + 0xC) = (s32)data;
-        *(u16 *)(sprite + 0x14) |= 0xC;
+        ((SpriteFrameState *)sprite)->scale_y = 0x400;
+        ((SpriteFrameState *)sprite)->scale_x = 0x400;
+        ((SpriteFrameState *)sprite)->source = D_80028880;
+        ((SpriteFrameState *)sprite)->tpage_abr = 0x20;
+        ((SpriteFrameState *)sprite)->color.word = (s32)data;
+        ((SpriteFrameState *)sprite)->flags |= 0xC;
         *(s16 *)(effect_state + 0x66) = 0xC;
         *(u16 *)(effect_state + 0x74) = facing;
     }

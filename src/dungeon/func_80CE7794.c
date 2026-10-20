@@ -1,4 +1,5 @@
 #include "dungeon/monster/troll/troll_flash_effects.h"
+#include "shared/sprite_frame_state.h"
 
 /* Updates effect motion, handles collisions, grows the sprite, and flags expiration. */
 void update_growing_bouncing_effect(void *effect, void *position, void *sprite)
@@ -52,16 +53,16 @@ void update_growing_bouncing_effect(void *effect, void *position, void *sprite)
         func_800478B8(sprite);
     }
 
-    scale_x = ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v + 100;
-    ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = scale_x;
+    scale_x = ((SpriteFrameState *)sprite)->scale_x + 100;
+    ((SpriteFrameState *)sprite)->scale_x = scale_x;
     if (scale_x > 0x1000) {
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = 0x1000;
+        ((SpriteFrameState *)sprite)->scale_x = 0x1000;
     }
 
-    scale_y = ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v + 100;
-    ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = scale_y;
+    scale_y = ((SpriteFrameState *)sprite)->scale_y + 100;
+    ((SpriteFrameState *)sprite)->scale_y = scale_y;
     if (scale_y > 0x1000) {
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = 0x1000;
+        ((SpriteFrameState *)sprite)->scale_y = 0x1000;
     }
 
     ticks_left = ((T_80170F94_S_80170F94_1 *)effect)->unk_18.u - 1;
@@ -71,7 +72,7 @@ void update_growing_bouncing_effect(void *effect, void *position, void *sprite)
         object_flag_block.flags |= 0x8000;
     }
 
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+    if (((SpriteFrameState *)sprite)->flags & 0x8000) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }

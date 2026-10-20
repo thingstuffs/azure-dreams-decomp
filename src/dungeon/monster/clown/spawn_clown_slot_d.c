@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -23,14 +24,6 @@ typedef struct S_80BFD000_2 {
     s16 unk_0A;
 } S_80BFD000_2;
 
-typedef struct S_80BFD000_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    s32 * unk_2C;
-} S_80BFD000_3;
-
 typedef struct S_80BFD000_4 {
     u8 pad_00[0x8C];
     s32 * unk_8C;
@@ -41,11 +34,6 @@ typedef struct S_80BFD000_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_80BFD000_4;   /* actor in spawn_clown_slot_d */
-
-
-
-
-
 
 extern u8 D_8015EA58[];
 void *allocate_list_node();
@@ -65,7 +53,7 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
     s32 kind_or_bits;
     S_80BFD000_1 *actor_state = NULL;
     void *object;
-    S_80BFD000_3 *placement;
+    SpriteFrameState *placement;
     S_80BFD000_2 *attributes;
     S_80BFD000_4 *actor;
     s8 saved_x;
@@ -93,7 +81,7 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
         placement = ((S_80BFD000_0 *)object)->unk_0C;
         kind_or_bits = spawn_flags & 3;
         placement->unk_25 = saved_y;
-        placement->unk_2C = &D_8016220C;
+        placement->frameTable = &D_8016220C;
         placement->unk_24 = saved_x;
         if (kind_or_bits == 1) {
             flags_14 = actor_state->unk_14 | 0x6000;
@@ -113,7 +101,7 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
                     kind_or_bits = generate_random_value();
                     if (kind_or_bits & 1) {
                         set_or_clear_actor_status_slot(actor_state, 1, (generate_random_value() & 0x3F) | 0x20);
-                        placement->unk_2C = &D_8016225C;
+                        placement->frameTable = &D_8016225C;
                     }
                 }
             }

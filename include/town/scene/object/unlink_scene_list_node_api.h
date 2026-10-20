@@ -1,0 +1,10 @@
+#ifndef TOWN_SCENE_OBJECT_UNLINK_SCENE_LIST_NODE_API_H
+#define TOWN_SCENE_OBJECT_UNLINK_SCENE_LIST_NODE_API_H
+
+#include "common.h"
+
+struct Rec_func_80094268_arg0;
+
+void unlink_scene_list_node(struct Rec_func_80094268_arg0 *);
+
+#endif

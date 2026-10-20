@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -13,20 +14,6 @@ typedef struct S_func_8133A3F0_0 {
     s16 unk_38;
 } S_func_8133A3F0_0;
 
-typedef struct S_func_8133A3F0_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_func_8133A3F0_1;
-
-
-
 extern s32 register_node();
 extern s32 D_80170F68;
 extern s8 D_80175DC1;
@@ -34,7 +21,7 @@ extern s8 D_80175DC1;
 /* Creates object 0x112 and initializes its position and render state. */
 void create_encounter_actor_object(void) {
     S_func_8133A3F0_0 *object;
-    S_func_8133A3F0_1 *render_state;
+    SpriteFrameState *render_state;
     MovingPosition *position;
 
     object = func_8003FC64(0x112);
@@ -44,15 +31,15 @@ void create_encounter_actor_object(void) {
         object->unk_10 = &D_80170F68;
         register_node(object, project_sprite_chain);
         position = object->unk_08;
-        render_state->unk_14 = (u16)(render_state->unk_14 | 0x80);
+        render_state->flags = (u16)(render_state->flags | 0x80);
         position->unk_02 = ((u16)D_80083780.x.w.i);
         position->unk_06 = ((u16)D_80083780.y.w.i);
         position->unk_0A = ((u16)D_80083780.z.w.i);
-        render_state->unk_1E = 0x1000;
-        render_state->unk_1C = 0x1000;
-        render_state->unk_0E = 0x80;
-        render_state->unk_0D = 0x80;
-        render_state->unk_0C = 0x80;
+        render_state->scale_y = 0x1000;
+        render_state->scale_x = 0x1000;
+        render_state->color.c.b = 0x80;
+        render_state->color.c.g = 0x80;
+        render_state->color.c.r = 0x80;
         D_80175DC1 = 0;
     }
 }

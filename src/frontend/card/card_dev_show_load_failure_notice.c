@@ -1,6 +1,6 @@
 #include "common.h"
 
-u8 *init_card_message_object();   /* extern */
+#include "frontend/card/message_object.h"   /* extern */
 
 /* Invoke operation 0xb for the target with both options cleared. */
 void card_dev_show_load_failure_notice(s32 target) {

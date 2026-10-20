@@ -69,10 +69,10 @@ typedef struct S_80023600_12 {
 } S_80023600_12;
 
 
-void card_boot_bind_command_panel_resources();                      /* extern */
-void card_boot_reset_three_row_highlight();       /* extern */
+void card_boot_bind_command_panel_resources(void *);                      /* extern */
+void card_boot_reset_three_row_highlight(void *);       /* extern */
 void card_boot_format_command_panel_labels(void *);                            /* extern */
-s32 card_boot_set_centered_rectangle();    /* extern */
+s32 card_boot_set_centered_rectangle(s32, s32, s32);    /* extern */
 
 
 /* Initialize the panel and position its elements in three rows. */
@@ -88,7 +88,7 @@ void card_boot_layout_three_row_command_panel(void *panel) {
     ((Rec_func_800233D0_arg0 *)panel)->unk_80 = 1;
     ((Rec_func_800233D0_arg0 *)panel)->unk_84 = 1;
     card_boot_format_command_panel_labels(panel);
-    card_boot_set_centered_rectangle(panel + 4, 0x36, 0x10);
+    card_boot_set_centered_rectangle((s32)(panel + 4), 0x36, 0x10);
     card_boot_bind_command_panel_resources(panel);
     row_index = 0;
     lower_x = 0x8E;

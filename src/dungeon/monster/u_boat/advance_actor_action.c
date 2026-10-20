@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -18,7 +19,6 @@ typedef struct S_801743DC_0 {
     u8 pad_A0[0x2];
     u16 unk_A2;
 } S_801743DC_0;   /* arg0 in advance_actor_action */
-
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -51,10 +51,10 @@ void advance_actor_action(void *action, void *context, void *sprite, EntityRec *
     phase = ((S_801743DC_0 *)action)->unk_9B;
     switch (phase) {
     case 0:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2428;
+        ((SpriteFrameState *)sprite)->frameTable = D_800E2428;
         select_sprite_entry(sprite,
             D_800E2428[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
@@ -115,7 +115,7 @@ void advance_actor_action(void *action, void *context, void *sprite, EntityRec *
         on_actor_status_updated(entity);
         if ((get_entity_effect_value(entity, 1) << 16) != 0) {
             TileObject *origin = &D_80082E80;
-            s8 tile = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
+            s8 tile = *(s8 *)&((SpriteFrameState *)sprite)->unk_26;
 
             if (((tile == origin->unk_026) && (tile >= 0)) ||
                 ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
@@ -127,12 +127,12 @@ void advance_actor_action(void *action, void *context, void *sprite, EntityRec *
         if ((get_entity_effect_value(entity, 1) << 16) != 0) {
             return;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2430;
+        ((SpriteFrameState *)sprite)->frameTable = D_800E2430;
         select_sprite_entry(sprite,
             D_800E2430[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&entity->flags1C) |= 0x40000;
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((S_801743DC_0 *)action)->unk_8C = D_80171A80;
             return;
         }
@@ -144,7 +144,7 @@ void advance_actor_action(void *action, void *context, void *sprite, EntityRec *
         }
         return;
     case 2:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         g_dungeon_status.unk_0A--;

@@ -4,7 +4,6 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-
 typedef s32 M2C_UNK;
 
 typedef struct S_8014C870_0 {
@@ -24,16 +23,6 @@ typedef struct S_8014C870_2 {
     s16 unk_0A;
 } S_8014C870_2;   /* part_a in func_8014C870 */
 
-typedef struct S_8014C870_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8014C870_3;   /* part_b in func_8014C870 */
-
 typedef struct S_8014C870_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -42,7 +31,6 @@ typedef struct S_8014C870_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_8014C870_4;   /* actor in func_8014C870 */
-
 
 typedef struct Work {
     u8 pad14[0x14];

@@ -45,14 +45,6 @@ typedef struct R17_8017089C_S_8017089C_2 {
     union { struct { void * v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   
     void * unk_0C;
 } R17_8017089C_S_8017089C_2;
-typedef struct R17_8017089C_S_8017089C_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x2];
-    s32 unk_28;
-    void * unk_2C;
-} R17_8017089C_S_8017089C_3;
 typedef struct R17_8017089C_S_8017089C_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -149,7 +141,6 @@ typedef struct R17_801718D0_S_801718D0_0 {
     u8 pad_72[0x18];
     union { s16 s; u16 u; } unk_8A;   
 } R17_801718D0_S_801718D0_0;
-
 
 typedef struct R17_80171A98_S_80171C34_1 {
     u8 pad_00[0x12];

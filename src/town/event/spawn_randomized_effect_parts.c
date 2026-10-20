@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_effect_views.h"
 
@@ -6,7 +7,6 @@ typedef struct S_8009C648_6 {
     u8 pad_00[0xC];
     void * unk_0C;
 } S_8009C648_6;
-
 
 extern s32 rand(void);
 typedef struct S_8009C390_3 S_8009C390_3;
@@ -77,7 +77,7 @@ void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg) {
         }
         velocity = ((S_8009C648_1 *)part_object)->unk_08;
         part_data = (u8 *)part_object + 0x20;
-        ((EffectPrimitiveValueView *)(((S_8009C648_6 *)part_object)->unk_0C))->unk_08 =
+        ((SpriteFrameState *)((S_8009C648_6 *)part_object)->unk_0C)->source =
             ((s32 *)((S_8009C648_2 *)source_data)->unk_80)[part_indices[part_index]];
         part_data->unk_60 = part_index;
         velocity->unk_0C = (s32)((rand() * 0x10) + velocity_bias);

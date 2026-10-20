@@ -1,7 +1,8 @@
 #include "dungeon/monster/unicorn/update_directional_motion_and_recenter_actor.h"
+#include "shared/sprite_frame_state.h"
 
 /* Updates directional movement, decelerates it, and recenters the actor on its tile. */
-void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, EntityRec *motion, Rec_D_80082E80 *actor, void *source)
+void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, EntityRec *motion, SpriteFrameState *actor, void *source)
 {
     s16 timer;
     s32 direction;
@@ -24,7 +25,7 @@ void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, 
             begin_actor_display_action(action, motion, actor, &D_80174D5C);
             return;
         }
-        if (actor->unk_14.at00_u16.v & 0x8000) {
+        if (actor->flags & 0x8000) {
             action->unk_96.s = 0;
             action->unk_9B = 2;
             return;
@@ -46,7 +47,7 @@ void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, 
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
-        } else if (actor->unk_14.at00_u16.v & 0x6000) {
+        } else if (actor->flags & 0x6000) {
             action->unk_96.s = 0;
         }
         if (action->unk_96.s != 0) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 
 extern s32 set_record_integer_tile_center();
@@ -8,7 +9,7 @@ s32 update_linked_actor_motion(void *state, void *transform, void *config, void 
     s16 ticks_left;
     void *linked_transform;
 
-    if (*(u16 *)((u8 *)config + 0x14) & 0x8000) {
+    if (((SpriteFrameState *)config)->flags & 0x8000) {
         *(s16 *)((u8 *)state + 0x96) = 0;
     }
     if (*(s16 *)((u8 *)state + 0x96) != 0) {

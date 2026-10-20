@@ -3,11 +3,11 @@
 
 
 
-void set_resident_bitmap_bit();
-void clear_resident_bitmap_bit();
+void set_resident_bitmap_bit(s32);
+void clear_resident_bitmap_bit(s32);
 s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 void drain_cd_command_queue(void);
-void apply_building_tile_entry();
+void apply_building_tile_entry(s16, s16, u8);
 extern M2C_UNK D_800D1BF4;
 extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];

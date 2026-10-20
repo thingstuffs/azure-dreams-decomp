@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -14,7 +15,6 @@ typedef struct S_81977E0C_0 {
     u16 unk_0A;
 } S_81977E0C_0;   /* arg0 in update_expanding_fade_effect */
 
-
 typedef struct S_81977E0C_2 {
     s32 unk_00;
     s32 unk_04;
@@ -26,7 +26,6 @@ typedef struct S_81977E0C_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_81977E0C_3;   /* D_80026208 in update_expanding_fade_effect */
-
 
 extern void func_800478B8(void *);
 s32 func_800644B8();
@@ -44,22 +43,22 @@ void update_expanding_fade_effect(void *effect, void *position, void *sprite) {
     age = ((S_81977E0C_0 *)effect)->unk_04 + 1;
     ((S_81977E0C_0 *)effect)->unk_04 = age;
     if ((s16) age >= 0xA) {
-        brightness = ((Rec_D_80082E80 *)sprite)->unk_0C.at02_u8.v - 0x10;
-        ((Rec_D_80082E80 *)sprite)->unk_0C.at02_u8.v = brightness;
-        ((Rec_D_80082E80 *)sprite)->unk_0C.at01_u8.v = brightness;
-        ((Rec_D_80082E80 *)sprite)->unk_0C.at00_u8.v = brightness;
+        brightness = ((SpriteFrameState *)sprite)->color.c.b - 0x10;
+        ((SpriteFrameState *)sprite)->color.c.b = brightness;
+        ((SpriteFrameState *)sprite)->color.c.g = brightness;
+        ((SpriteFrameState *)sprite)->color.c.r = brightness;
     }
     ((S_81977E0C_0 *)effect)->unk_08 = (u16) (((S_81977E0C_0 *)effect)->unk_08 + 0x100);
     ((S_81977E0C_0 *)effect)->unk_06 = (u16) (((S_81977E0C_0 *)effect)->unk_06 + 1);
     height_offset = (u16) (((S_81977E0C_0 *)effect)->unk_0A - 8) - (rand() % 9);
     ((S_81977E0C_0 *)effect)->unk_0A = height_offset;
-    if ((u16) ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v < 0x400U) {
-        scale = ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v + 0x40;
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = scale;
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = scale;
+    if ((u16) ((SpriteFrameState *)sprite)->scale_x < 0x400U) {
+        scale = ((SpriteFrameState *)sprite)->scale_y + 0x40;
+        ((SpriteFrameState *)sprite)->scale_y = scale;
+        ((SpriteFrameState *)sprite)->scale_x = scale;
     }
     func_800478B8(sprite);
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+    if (((SpriteFrameState *)sprite)->flags & 0x6000) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_81977E0C_0_pre *)effect)[-1].unk_00 | 0x8000);
         object_flag_block.flags |= 0x8000;
         return;

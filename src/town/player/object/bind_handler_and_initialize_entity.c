@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 
-void clear_entity_record_fields();                      /* extern */
+#include "town/player/object/entity_record_fields.h"                      /* extern */
 void adjust_object_motion_at_threshold(s32 context, EntityRec *record, s32 action_data);
 
 typedef struct S_80098B30_0 {

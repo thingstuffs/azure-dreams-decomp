@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_effect_views.h"
 #include "shared/vector.h"
@@ -13,7 +14,6 @@ typedef struct S_800BA930_0_pre {
 } S_800BA930_0_pre;   /* the 0x10 bytes before arg0 in initialize_effect_with_random_angle, addressed as arg0[-1] */
 
    /* particlePrim in initialize_effect_with_random_angle */
-
 
 typedef struct Primitive {
     u8 pad0[8];
@@ -78,8 +78,8 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
     Object *child_obj;
     Core *child_core;
     void *parent_obj;
-    Primitive *particle_prim;
-    Primitive *texture_prim;
+    SpriteFrameState *particle_prim;
+    SpriteFrameState *texture_prim;
     IntVector3 *child_pos;
 
     ((S_800BA930_0_pre *)effect)[-1].unk_00 = D_800B9CB8;
@@ -104,14 +104,14 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
             child_core->index = child_index;
             child_core->value = child_value;
             particle_prim = child_obj->primitive;
-            particle_prim->scaleX = 0x1000;
-            particle_prim->scaleY = 0x1000;
-            particle_prim->scaleZ = 0xAAA;
-            particle_prim->red = g_game_work.view.unk_090;
-            particle_prim->green = g_game_work.view.unk_091;
+            particle_prim->scale_x = 0x1000;
+            particle_prim->scale_y = 0x1000;
+            particle_prim->unk_20 = 0xAAA;
+            particle_prim->color.c.r = g_game_work.view.unk_090;
+            particle_prim->color.c.g = g_game_work.view.unk_091;
             particle_blue = g_game_work.view.unk_092;
-            ((EffectPrimitiveValueView *)particle_prim)->unk_08 = child_index + 0x1A;
-            particle_prim->blue = particle_blue;
+            particle_prim->source = child_index + 0x1A;
+            particle_prim->color.c.b = particle_blue;
             child_pos = child_obj->position;
             child_pos->x = origin->x;
             particle_y = origin->y;
@@ -134,15 +134,15 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
             child_core->index = child_index;
             child_core->value = child_value;
             texture_prim = child_obj->primitive;
-            texture_prim->image = D_800F8A1C;
-            texture_prim->blue = 0x80;
-            texture_prim->green = 0x80;
-            texture_prim->red = 0x80;
-            texture_prim->unk16 = 0x370;
-            texture_prim->unk18 = 0;
-            texture_prim->angle = effect->angle + (child_index << 10);
-            texture_prim->scaleY = 0x1000;
-            texture_prim->scaleX = 0x1000;
+            texture_prim->source = D_800F8A1C;
+            texture_prim->color.c.b = 0x80;
+            texture_prim->color.c.g = 0x80;
+            texture_prim->color.c.r = 0x80;
+            texture_prim->angle_x = 0x370;
+            texture_prim->angle_y = 0;
+            texture_prim->angle_z = effect->angle + (child_index << 10);
+            texture_prim->scale_y = 0x1000;
+            texture_prim->scale_x = 0x1000;
             child_pos = child_obj->position;
             child_pos->x = origin->x;
             sprite_y = origin->y;
@@ -163,15 +163,15 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
         child_core->parent = effect;
         child_core->value = child_value;
         texture_prim = child_obj->primitive;
-        texture_prim->image = D_800F8A28;
-        texture_prim->blue = 0x80;
-        texture_prim->green = 0x80;
-        texture_prim->red = 0x80;
-        texture_prim->unk16 = 0x370;
-        texture_prim->unk18 = 0;
-        texture_prim->angle = effect->angle;
-        texture_prim->scaleY = 0x1000;
-        texture_prim->scaleX = 0x1000;
+        texture_prim->source = D_800F8A28;
+        texture_prim->color.c.b = 0x80;
+        texture_prim->color.c.g = 0x80;
+        texture_prim->color.c.r = 0x80;
+        texture_prim->angle_x = 0x370;
+        texture_prim->angle_y = 0;
+        texture_prim->angle_z = effect->angle;
+        texture_prim->scale_y = 0x1000;
+        texture_prim->scale_x = 0x1000;
         child_pos = child_obj->position;
         child_pos->x = origin->x;
         overlay_y = origin->y;
@@ -189,15 +189,15 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
         child_core->parent = effect;
         child_core->value = child_value;
         particle_prim = child_obj->primitive;
-        particle_prim->scaleX = 0x1000;
-        particle_prim->scaleY = 0x1000;
-        particle_prim->scaleZ = 0x1000;
-        particle_prim->angle = effect->angle;
-        particle_prim->red = g_game_work.view.unk_090;
-        particle_prim->green = g_game_work.view.unk_091;
-        particle_prim->blue = g_game_work.view.unk_092;
+        particle_prim->scale_x = 0x1000;
+        particle_prim->scale_y = 0x1000;
+        particle_prim->unk_20 = 0x1000;
+        particle_prim->angle_z = effect->angle;
+        particle_prim->color.c.r = g_game_work.view.unk_090;
+        particle_prim->color.c.g = g_game_work.view.unk_091;
+        particle_prim->color.c.b = g_game_work.view.unk_092;
         child_pos = child_obj->position;
-        ((EffectPrimitiveValueView *)particle_prim)->unk_08 = 0x19;
+        particle_prim->source = 0x19;
         child_pos->x = origin->x;
         center_y = origin->y;
         child_pos->z = 0;

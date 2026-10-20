@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-
 
 typedef struct S_80FB7000_0 {
     u8 pad_00[0x8];
@@ -24,18 +24,6 @@ typedef struct S_80FB7000_2 {
     s16 unk_0A;
 } S_80FB7000_2;   /* pin_part_a in create_actor_with_parts_and_flags */
 
-typedef struct S_80FB7000_3 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 pad_0C[0x6];
-    u16 unk_12;
-    u8 pad_14[0x10];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80FB7000_3;   /* part_b in create_actor_with_parts_and_flags */
-
 typedef struct S_80FB7000_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -46,7 +34,6 @@ typedef struct S_80FB7000_4 {
     u8 pad_9D[0x11];
     u16 unk_AE;
 } S_80FB7000_4;   /* pin_actor in create_actor_with_parts_and_flags */
-
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -61,8 +48,6 @@ extern u8 D_8016AF6C[];
 extern u8 D_8016F258[];
 extern u8 D_8016F298[];
 
-
-
 void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 
 ;
@@ -74,7 +59,7 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
     void *obj;
     s32 object_type;
     ObjectNodeHeader *object_pool;
-    S_80FB7000_3 *part_b;
+    SpriteFrameState *part_b;
     void *part_a;
     s16 saved_flags;
     s32 kind;
@@ -108,7 +93,7 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
         kind = spawn_flags & 3;
         part_b->unk_25 = pos_y;
         pin_actor = work;
-        part_b->unk_2C = D_8016F258;
+        part_b->frameTable = D_8016F258;
         part_b->unk_24 = pos_x;
 
         if (kind == 1) {
@@ -132,7 +117,7 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
                             set_or_clear_actor_status_slot(work, 1,
                                           (generate_random_value() & 0x3F) |
                                           0x20);
-                            part_b->unk_2C = D_8016F298;
+                            part_b->frameTable = D_8016F298;
                         }
                     }
                 }
@@ -142,13 +127,13 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
         initialize_actor_sprite_and_animation(obj, pin_part_a, part_b, saved_flags);
 
         entry_index = 0;
-        actor_value = part_b->unk_12;
+        actor_value = part_b->clut;
         ((S_80FB7000_4 *)pin_actor)->unk_9A = 0xFF;
         ((S_80FB7000_4 *)pin_actor)->unk_9C = -1;
         ((S_80FB7000_4 *)pin_actor)->unk_8C = D_8016AF6C;
         ((S_80FB7000_4 *)pin_actor)->unk_AE = actor_value;
 
-        entry = part_b->unk_08;
+        entry = *(u8 * *)&part_b->source;
         while (1) {
             twice_index = entry_index << 1;
             if (!(*entry & 0x20)) {
@@ -158,7 +143,7 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
             entry_index += 1;
         }
 
-        entry_count = ((CountView *)(part_b->unk_08 + (twice_index + entry_index) * 4))->count >> 6;
+        entry_count = ((CountView *)(*(u8 * *)&part_b->source + (twice_index + entry_index) * 4))->count >> 6;
         rect[0] = 0;
         rect[1] = entry_count;
         rect[2] = 0x100;

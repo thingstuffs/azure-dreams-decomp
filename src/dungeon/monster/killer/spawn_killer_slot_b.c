@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -23,14 +24,6 @@ typedef struct S_80FF9000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
 } S_80FF9000_2;   /* part_a in spawn_killer_slot_b */
-
-typedef struct S_80FF9000_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    s32 * unk_2C;
-} S_80FF9000_3;   /* part_b in spawn_killer_slot_b */
 
 typedef struct S_80FF9000_4 {
     u8 pad_00[0x8C];
@@ -61,8 +54,6 @@ extern M2C_UNK D_80152EA8;
 extern M2C_UNK D_80156038;
 extern M2C_UNK D_80156088;
 
-
-
 void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) ;
 
 /* Allocates an actor and initializes its parts, position, and spawn flags. */
@@ -78,7 +69,7 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
     s32 kind;
     s32 flags_14;
     s32 flags_1c;
-    S_80FF9000_3 *part_b;
+    SpriteFrameState *part_b;
     S_80FF9000_2 *part_a;
     void *obj;
     S_80FF9000_4 *actor;
@@ -102,7 +93,7 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
         kind = spawn_flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;
-        part_b->unk_2C = &D_80156038;
+        part_b->frameTable = &D_80156038;
         part_b->unk_24 = saved_x;
 
         if (kind == 1) {
@@ -123,7 +114,7 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
                     if (random_bits & 1) {
                         work->unk_1C = (s32) (work->unk_1C | 0x200);
                         set_or_clear_actor_status_slot(work, 1, (generate_random_value() & 0x3F) | 0x20);
-                        part_b->unk_2C = &D_80156088;
+                        part_b->frameTable = &D_80156088;
                     }
                 }
             }

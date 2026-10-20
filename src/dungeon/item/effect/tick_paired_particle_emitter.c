@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -70,7 +71,7 @@ void tick_paired_particle_emitter(FuncArg *source) {
     s32 effect_index;
     FuncSub *effect_state;
     FuncItem *effect_item;
-    FuncBlock *effect_block;
+    SpriteFrameState *effect_block;
     FuncData *effect_pos;
     FuncData *source_pos;
     FuncMeta *source_meta;
@@ -109,12 +110,12 @@ void tick_paired_particle_emitter(FuncArg *source) {
                 - (random_values[2] & 0xF);
             effect_state->field1C = source->data;
             effect_block = effect_item->block;
-            effect_block->field14 = 0xC;
-            effect_block->field8 = tile_data;
+            effect_block->flags = 0xC;
+            effect_block->source = tile_data;
             if (effect_index != 0) {
-                effect_block->field10 = 0x20;
+                effect_block->tpage_abr = 0x20;
             } else {
-                effect_block->field10 = 0x60;
+                effect_block->tpage_abr = 0x60;
             }
             effect_state->field2 = 8;
             effect_state->field18 = effect_index;

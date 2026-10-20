@@ -4,7 +4,6 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-
 extern s32 D_8014CA58;
 extern s32 D_8014D014;
 extern s32 D_8015020C;
@@ -18,7 +17,6 @@ extern void set_or_clear_actor_status_slot();
 extern s32 generate_random_value();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
-
 
 typedef struct S_8014C878_0 {
     u8 pad_00[0x8];
@@ -39,14 +37,6 @@ typedef struct S_8014C878_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
 } S_8014C878_2;   /* temp_s4 in func_8014C878 */
-
-typedef struct S_8014C878_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    s32 * unk_2C;
-} S_8014C878_3;   /* temp_s2 in func_8014C878 */
 
 typedef struct S_8014C878_4 {
     u8 pad_00[0x8C];

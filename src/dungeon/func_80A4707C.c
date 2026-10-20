@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource06_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
@@ -8,7 +9,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     R06_8017087C_S_8017087C_5 *slot_base;
     R06_8017087C_S_8017087C_8 *child_slot;
     s32 entry_id_fixed;
-    void *part_b;
+    SpriteFrameState *part_b;
     void *work;
     s8 saved_x;
     s16 saved_part_id;
@@ -39,9 +40,9 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
         part_b = ((R06_8017087C_S_8017087C_0 *)obj)->unk_0C;
         slot_base = work;
         kind = kind_flags & 3;
-        ((R06_8017087C_S_8017087C_3 *)part_b)->unk_2C = ((u8 *)D_8017586C);
-        ((R06_8017087C_S_8017087C_3 *)part_b)->unk_24 = saved_x;
-        ((R06_8017087C_S_8017087C_3 *)part_b)->unk_25 = saved_y;
+        part_b->frameTable = ((u8 *)D_8017586C);
+        part_b->unk_24 = saved_x;
+        part_b->unk_25 = saved_y;
 
         if (kind == 1) {
             setup_value = ((R06_8017087C_S_8017087C_1 *)work)->unk_14 | 0x6000;
@@ -61,7 +62,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
                         ((R06_8017087C_S_8017087C_1 *)work)->unk_1C |= 0x200;
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        ((R06_8017087C_S_8017087C_3 *)part_b)->unk_2C = ((u8 *)D_80175894);
+                        part_b->frameTable = ((u8 *)D_80175894);
                     }
                 }
             }
@@ -104,7 +105,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
                         R06_8017087C_S_8017087C_9 *callback_obj;
                         s32 field_value;
 
-                        field_value = ((R06_8017087C_S_8017087C_3 *)part_b)->unk_28;
+                        field_value = part_b->unk_28;
                         ((R06_8017087C_S_8017087C_7 *)entry)->unk_0C = 0x00C0C0C0;
                         alloc_or_entry = entry;
                         entry_id = child_id_fixed >> 16;
@@ -118,7 +119,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
                         select_sprite_entry(alloc_or_entry, entry_id, entry_mode);
                         entry_offset += 48;
                         ((R06_8017087C_S_8017087C_7 *)entry)->unk_10 = 96;
-                        ((R06_8017087C_S_8017087C_7 *)entry)->unk_12 = ((R06_8017087C_S_8017087C_3 *)part_b)->unk_12 - 128;
+                        ((R06_8017087C_S_8017087C_7 *)entry)->unk_12 = part_b->clut - 128;
                         ((R06_8017087C_S_8017087C_6 *)child_work)->unk_06 = child_index + 1;
                         texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part_b, ((u8 *)D_800D71A8), ((R06_8017087C_S_8017087C_6 *)child_work)->unk_06);
                         ((R06_8017087C_S_8017087C_6 *)child_work)->unk_98 = (u8 *)obj + 30;

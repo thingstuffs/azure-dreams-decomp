@@ -1,4 +1,5 @@
 #include "shared/entity_height_offsets.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "records/Rec_D_80082E80.h"
@@ -7,7 +8,6 @@
 #ifndef NULL
 #define NULL 0
 #endif
-
 
 typedef struct {
     s32 words[3];
@@ -22,7 +22,6 @@ extern s32 register_node();
 extern s32 D_80026680[3];
 extern TableEntry D_80028820[];
 extern s32 D_800CEEFC[3];
-
 
 typedef struct S_80026A84_1 {
     u8 pad_00[0x8];
@@ -49,16 +48,6 @@ typedef struct S_80026A84_3 {
     u8 pad_14[0x2];
     u16 unk_16;
 } S_80026A84_3;
-
-typedef struct S_80026A84_4 {
-    u8 pad_00[0x8];
-    TableEntry * unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80026A84_4;
 
 typedef struct S_80026A84_5 {
     u8 pad_00[0x4];
@@ -96,7 +85,7 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
     s32 point_index;
     u16 coord_xz;
     u16 coord_y;
-    void *render_data;
+    SpriteFrameState *render_data;
     S_80026A84_3 *effect_pos;
     S_80026A84_5 *effect_data;
     void *effect;
@@ -128,10 +117,10 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
             effect_pos->unk_0A = coord_xz;
             effect_pos->unk_16 = coord_xz;
             render_data = ((S_80026A84_1 *)effect)->unk_0C;
-            ((S_80026A84_4 *)render_data)->unk_08 = effect_entry;
-            ((S_80026A84_4 *)render_data)->unk_1E = 0x1000;
-            ((S_80026A84_4 *)render_data)->unk_1C = 0x1000;
-            ((S_80026A84_4 *)render_data)->unk_14 = ((S_80026A84_4 *)render_data)->unk_14 | 0xC;
+            render_data->source = effect_entry;
+            render_data->scale_y = 0x1000;
+            render_data->scale_x = 0x1000;
+            render_data->flags = render_data->flags | 0xC;
             ((S_80026A84_1 *)effect)->unk_20 = target_pos;
             effect_data->unk_04 = effect_param;
             effect_data->unk_66 = 0x20;

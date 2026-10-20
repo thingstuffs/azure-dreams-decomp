@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource16_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *position, Rec_D_80082E80 *primitive) {
     s16 life;
@@ -19,14 +20,14 @@ void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *positio
     position->unk08 = (s32) (position->unk08 + z_step);
     position->unk04 = (s32) (base_y + (y_offset * 0x10));
     func_800478B8(primitive_dst);
-    if (primitive->unk_14.at00_u16.v & 0x4000) {
+    if (((SpriteFrameState *)primitive)->flags & 0x4000) {
         func_8003DB94(primitive, ((s32 *)D_800DEC70), 0);
     }
     life = ((R16_80173738_S_80173738_0 *)effect)->unk_1A;
     if (life < 0xA) {
-        primitive->unk_0C.at00_s8.v = (s8) ((((R16_80173738_S_80173738_0 *)effect)->unk_00 * life) / 9);
-        primitive->unk_0C.at01_s8.v = (s8) ((((R16_80173738_S_80173738_0 *)effect)->unk_01 * ((R16_80173738_S_80173738_0 *)effect)->unk_1A) / 9);
-        primitive->unk_0C.at02_s8.v = (s8) ((((R16_80173738_S_80173738_0 *)effect)->unk_02 * ((R16_80173738_S_80173738_0 *)effect)->unk_1A) / 9);
+        ((SpriteFrameState *)primitive)->color.c.r = (s8) ((((R16_80173738_S_80173738_0 *)effect)->unk_00 * life) / 9);
+        ((SpriteFrameState *)primitive)->color.c.g = (s8) ((((R16_80173738_S_80173738_0 *)effect)->unk_01 * ((R16_80173738_S_80173738_0 *)effect)->unk_1A) / 9);
+        ((SpriteFrameState *)primitive)->color.c.b = (s8) ((((R16_80173738_S_80173738_0 *)effect)->unk_02 * ((R16_80173738_S_80173738_0 *)effect)->unk_1A) / 9);
     }
     next_life = (u16) ((R16_80173738_S_80173738_0 *)effect)->unk_1A - 1;
     ((R16_80173738_S_80173738_0 *)effect)->unk_1A = next_life;

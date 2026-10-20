@@ -1,6 +1,7 @@
 #include "modules/dungeon_resource12_slot0.h"
+#include "shared/sprite_frame_state.h"
 
-void func_80172FE8(R12_80172FE8_S_801730B8_1 *action, EntityRec *motion, Rec_D_80082E80 *entity, void *source)
+void func_80172FE8(R12_80172FE8_S_801730B8_1 *action, EntityRec *motion, SpriteFrameState *entity, void *source)
 {
     s16 timer;
     s32 direction;
@@ -23,7 +24,7 @@ void func_80172FE8(R12_80172FE8_S_801730B8_1 *action, EntityRec *motion, Rec_D_8
             begin_actor_display_action(action, motion, entity, ((s32 *)D_80175A94));
             return;
         }
-        if (entity->unk_14.at00_u16.v & 0x8000) {
+        if (entity->flags & 0x8000) {
             action->unk_96.s = 0;
             action->unk_9B = 2;
             return;
@@ -45,7 +46,7 @@ void func_80172FE8(R12_80172FE8_S_801730B8_1 *action, EntityRec *motion, Rec_D_8
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
-        } else if (entity->unk_14.at00_u16.v & 0x6000) {
+        } else if (entity->flags & 0x6000) {
             action->unk_96.s = 0;
         }
         if (action->unk_96.s != 0) {

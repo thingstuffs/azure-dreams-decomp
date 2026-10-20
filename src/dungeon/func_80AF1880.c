@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource10_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void advance_timed_attack_animation_and_damage(void *action, void *motion, void *sprite, EntityRec *actor)
 {
@@ -8,9 +9,9 @@ void advance_timed_attack_animation_and_damage(void *action, void *motion, void 
     state = ((R10_80173080_S_80173080_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((R10_80173080_S_80173080_0 *)action)->unk_9B = 3;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
+            ((SpriteFrameState *)sprite)->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
             return;
         }
@@ -23,10 +24,10 @@ void advance_timed_attack_animation_and_damage(void *action, void *motion, void 
     case 1:
         timer = ((R10_80173080_S_80173080_0 *)action)->unk_96.u + 1;
         ((R10_80173080_S_80173080_0 *)action)->unk_96.u = timer;
-        if (((s16)timer == 4) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        if (((s16)timer == 4) || (((SpriteFrameState *)sprite)->flags & 0x8000)) {
             u8 *direction_table = ((u8 *)D_801759C0);
 
-            (*(u8 * *)((u8 *)sprite + (0x2C))) = direction_table;
+            ((SpriteFrameState *)sprite)->frameTable = direction_table;
             select_sprite_entry(sprite,
                           direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                           0);
@@ -38,7 +39,7 @@ void advance_timed_attack_animation_and_damage(void *action, void *motion, void 
     case 2:
         timer = ((R10_80173080_S_80173080_0 *)action)->unk_96.u + 1;
         ((R10_80173080_S_80173080_0 *)action)->unk_96.u = timer;
-        if (((s16)timer == 7) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        if (((s16)timer == 7) || (((SpriteFrameState *)sprite)->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
             ((R10_80173080_S_80173080_0 *)action)->unk_96.u = 0;
             ((R10_80173080_S_80173080_0 *)action)->unk_9B++;
@@ -49,7 +50,7 @@ void advance_timed_attack_animation_and_damage(void *action, void *motion, void 
         }
         return;
     case 3:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x100);
             ((R10_80173080_S_80173080_0 *)action)->unk_8C = ((u8 *)func_801717F4);
             g_dungeon_status.unk_0C = 0;

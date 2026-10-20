@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct {
     u8 before_sprite[8];
@@ -35,15 +36,15 @@ Effect *create_positioned(void *source, s32 x, s32 y, s32 z, Position *position,
         *(s16 *)(sprite + 0x16) = z;
         *(s16 *)(work + 0x1C) = z;
         render = effect->render;
-        *(s32 *)(render + 8) = texture;
-        *(s16 *)(render + 0x1E) = 0x1000;
-        *(s16 *)(render + 0x1C) = 0x1000;
-        *(s32 *)(render + 0xC) = 0x808080;
+        ((SpriteFrameState *)render)->source = texture;
+        ((SpriteFrameState *)render)->scale_y = 0x1000;
+        ((SpriteFrameState *)render)->scale_x = 0x1000;
+        ((SpriteFrameState *)render)->color.word = 0x808080;
         {
         s32 index = frame;
         if (index != 0) {
-            *(s16 *)(render + 0x10) = (index - 1) << 5;
-            *(u16 *)(render + 0x14) |= 0xC;
+            ((SpriteFrameState *)render)->tpage_abr = (index - 1) << 5;
+            ((SpriteFrameState *)render)->flags |= 0xC;
         }
         }
         *(s16 *)(work + 0x2E) = 8;

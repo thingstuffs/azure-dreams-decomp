@@ -1,5 +1,6 @@
 #include "dungeon/monster/u_boat/create_owner_linked_directional_object.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/u_boat/create_owner_linked_directional_object.h"
 
 void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
     u8 *object;
@@ -22,7 +23,7 @@ void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position,
 
         register_node(object, project_sprite_chain);
         direction_table = D_800E23F0;
-        ((S_80D3B0B8_3 *)sprite)->unk_2C = direction_table;
+        ((SpriteFrameState *)sprite)->frameTable = direction_table;
         select_sprite_entry(sprite,
             direction_table[((g_game_work.view.viewAngle +
                 ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7], 0);
@@ -36,14 +37,14 @@ void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position,
             u16 sprite_field_1e;
 
             sprite_field_1c = ((S_80D3B0B8_7 *)source_sprite)->unk_1C;
-            ((S_80D3B0B8_3 *)sprite)->unk_1C = sprite_field_1c;
+            ((SpriteFrameState *)sprite)->scale_x = sprite_field_1c;
             sprite_field_1e = ((S_80D3B0B8_7 *)source_sprite)->unk_1E;
-            ((S_80D3B0B8_3 *)sprite)->unk_0E = 0x80;
-            ((S_80D3B0B8_3 *)sprite)->unk_0D = 0x80;
-            ((S_80D3B0B8_3 *)sprite)->unk_0C = 0x80;
-            ((S_80D3B0B8_3 *)sprite)->unk_1E = sprite_field_1e;
+            ((SpriteFrameState *)sprite)->color.c.b = 0x80;
+            ((SpriteFrameState *)sprite)->color.c.g = 0x80;
+            ((SpriteFrameState *)sprite)->color.c.r = 0x80;
+            ((SpriteFrameState *)sprite)->scale_y = sprite_field_1e;
         }
-        ((S_80D3B0B8_3 *)sprite)->unk_06 =
+        ((SpriteFrameState *)sprite)->unk_06 =
             D_800DCECC[((g_game_work.view.viewAngle +
                 ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7] * 4;
         ((S_80D3B0B8_2 *)owner_data)->unk_B0++;

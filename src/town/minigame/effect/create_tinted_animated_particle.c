@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/slus_callbacks.h"
 
@@ -17,7 +18,7 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
 {
     s32 resource_word;
     void *sprite;
-    void *sprite_alias;
+    SpriteFrameState *sprite_alias;
     void *object;
     object = func_8003FC64(0x136);
     if (object != 0) {
@@ -35,7 +36,7 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
         *((s8 *) (((s8 *) sprite) + 5)) = 0;
         *((s32 *) (((s8 *) sprite) + 0xC)) = color;
         sprite_alias = sprite;
-        *((s32 *) (((s8 *) sprite_alias) + 8)) = (s32) resource_word;
+        sprite_alias->source = (s32) resource_word;
         if (color == 0x808080) {
             *((u16 *) (((s8 *) sprite) + 0x14)) = (u16) ((*((u16 *) (((s8 *) sprite) + 0x14))) | 0xC);
         } else if (color == 0xF0F0F0) {

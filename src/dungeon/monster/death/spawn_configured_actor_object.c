@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-
 
 typedef struct S_801711D0_0 {
     u8 pad_00[0x8];
@@ -23,14 +23,6 @@ typedef struct S_801711D0_2 {
     s16 unk_0A;
 } S_801711D0_2;   /* part_a in spawn_configured_actor_object */
 
-typedef struct S_801711D0_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_801711D0_3;   /* part_b in spawn_configured_actor_object */
-
 typedef struct S_801711D0_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -39,7 +31,6 @@ typedef struct S_801711D0_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_801711D0_4;   /* actor in spawn_configured_actor_object */
-
 
 extern void *allocate_list_node();
 extern void register_node();
@@ -57,7 +48,7 @@ void *spawn_configured_actor_object(s16 flags, s16 value_24, s16 value_25, s16 v
     s32 kind;
     void *obj;
     S_801711D0_2 *part_a;
-    S_801711D0_3 *part_b;
+    SpriteFrameState *part_b;
     S_801711D0_1 *work;
     S_801711D0_4 *actor;
     s32 left;
@@ -83,7 +74,7 @@ void *spawn_configured_actor_object(s16 flags, s16 value_24, s16 value_25, s16 v
         kind = flags & 3;
         part_b->unk_25 = saved_arg2;
         actor = work;
-        part_b->unk_2C = D_80174634;
+        part_b->frameTable = D_80174634;
         part_b->unk_24 = saved_arg1;
 
         if (kind == 1) {
@@ -100,7 +91,7 @@ void *spawn_configured_actor_object(s16 flags, s16 value_24, s16 value_25, s16 v
             if (generate_random_value() & 1) {
                 set_or_clear_actor_status_slot(work, 1,
                               (generate_random_value() & 0x3F) | 0x20);
-                part_b->unk_2C = D_80174684;
+                part_b->frameTable = D_80174684;
             }
         }
         initialize_actor_sprite_and_animation(((void *)(obj)), part_a, part_b, flags);

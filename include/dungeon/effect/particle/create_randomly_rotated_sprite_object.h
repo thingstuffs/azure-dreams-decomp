@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_18B2800_H
 #define DUNGEON_OVL_18B2800_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dir_step.h"
@@ -252,15 +253,6 @@ typedef struct B22_81892AF0_S_81892AF0_1 {
     s16 unk_04;
     s16 unk_06;
 } B22_81892AF0_S_81892AF0_1;
-typedef struct B22_81892AF0_S_81892AF0_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} B22_81892AF0_S_81892AF0_2;
 typedef struct B22_81892AF0_S_81892AF0_3 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -322,7 +314,7 @@ void func_800243F8(void *counterState);
 s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center);
 void *func_80024824(s32 object_arg, void *source_data, s16 initial_value, s16 field_delta);
 void func_800248F8(void *state, M2C_UNK draw_context, M2C_UNK update_context);
-void func_800249B8(void *entry, B22_818931B8_S_818931B8_2 *source, Rec_D_80082E80 *target);
+void func_800249B8(void *entry, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target);
 void func_80024A44(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param);
 void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect_state, B22_81893474_Motion *effect_motion, B22_81893474_ColorPart *color_part);
 void func_8003DB94(void *, void *, s32);

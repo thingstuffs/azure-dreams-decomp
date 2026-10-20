@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -19,15 +20,6 @@ typedef struct S_80024578_0 {
 
    /* arg0 in update_actor_effect_sequence */
 
-typedef struct S_80024578_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x10];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80024578_3;   /* effect in update_actor_effect_sequence */
-
-
 extern s32 draw_textured_ellipse();
 extern u8 D_800243C4[9];
 extern u8 D_80028208[9];
@@ -38,7 +30,7 @@ void *update_actor_effect_sequence(MovingPosition *source_part, s32 offset_base)
     s32 init_data[2];
     void *object;
     MovingPosition *part;
-    S_80024578_3 *effect;
+    SpriteFrameState *effect;
     void *result;
 
     object = func_8003FC64(0x12);
@@ -54,9 +46,9 @@ void *update_actor_effect_sequence(MovingPosition *source_part, s32 offset_base)
         part->unk_0A = source_part->unk_0A;
 
         effect = ((S_80024578_0 *)object)->unk_0C;
-        effect->unk_08 = D_80028208;
-        effect->unk_1E = 0xC00;
-        effect->unk_1C = 0xC00;
+        effect->source = D_80028208;
+        effect->scale_y = 0xC00;
+        effect->scale_x = 0xC00;
         ((S_80024578_0 *)object)->unk_28 = offset_base - 0x20;
     }
 

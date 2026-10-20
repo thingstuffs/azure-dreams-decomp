@@ -1,11 +1,10 @@
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
+#include "shared/sprite_frame_state.h"
 void (*const dungeon_18d6800_entry)(B28_818B7F38_S_80025738_0 *, B28_818B7F38_S_80025738_5 *, B28_818B7F38_S_80025738_2 *) = advance_movement_toward_reachable_tile;
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
-
-
 
 /* Adds a computed gain to the target's stored value, doubling it when flagged. */
 void interpolate_view_parameters(EntityRec *target, s32 gain_param, s32 ignored_context) {
@@ -35,15 +34,10 @@ void interpolate_view_parameters(EntityRec *target, s32 gain_param, s32 ignored_
 
    /* arg0 in func_800240B8 */
 
-
-
    /* arg1 in func_800240B8 */
 
-
-
-
 /* Increment counters, reduce the stored value, and propagate status flags. */
-void func_800240B8(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, Rec_D_80082E80 *status) {
+void func_800240B8(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status) {
     B28_818B68B8_S_818B68B8_1 *linked_counter;
 
     linked_counter = ((B28_818B68B8_S_818B68B8_0 *)counter_state)->unk_00;
@@ -51,7 +45,7 @@ void func_800240B8(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, 
     ((B28_818B68B8_S_818B68B8_0 *)counter_state)->unk_04 = (u16) (((B28_818B68B8_S_818B68B8_0 *)counter_state)->unk_04 + 1);
     value_state->unk_08 = (s32) (value_state->unk_08 + 0xFFF60000);
     func_800478B8(status);
-    if (status->unk_14.at00_u16.v & 0x6000) {
+    if (status->flags & 0x6000) {
         ((B28_818B68B8_S_818B68B8_0_pre *)counter_state)[-1].unk_00 = (u16) (((B28_818B68B8_S_818B68B8_0_pre *)counter_state)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
@@ -65,16 +59,6 @@ void func_800240B8(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, 
 #define NULL 0
 #endif
 
-
-
-
-
-
-
-
-
-
-
 extern s32 rand();
 
 extern u8 D_800DEC70[];
@@ -82,7 +66,7 @@ extern u8 D_800DEC70[];
 /* Create an object with randomized rotation and a radial position offset. */
 s32 func_80024154(s32 context_value, void *source_state, s32 render_param, s32 ignored_context) {
     s16 offset_angle;
-    B28_818B6954_S_818B6954_2 *render_state;
+    SpriteFrameState *render_state;
     s32 *object_state;
     void *object;
     B28_818B6954_S_818B6954_1 *object_data;
@@ -95,15 +79,15 @@ s32 func_80024154(s32 context_value, void *source_state, s32 render_param, s32 i
         object_data->unk_04 = 0;
         object_data->unk_06 = 0;
         render_state = ((B28_818B6954_S_818B6954_0 *)object)->unk_0C;
-        render_state->unk_0C = render_param;
-        render_state->unk_12 = 0x7DCF;
-        render_state->unk_14 |= 0xC;
-        render_state->unk_10 |= 0x20;
-        render_state->unk_14 |= 0x100;
+        render_state->color.word = render_param;
+        render_state->clut = 0x7DCF;
+        render_state->flags |= 0xC;
+        render_state->tpage_abr |= 0x20;
+        render_state->flags |= 0x100;
         func_8003DB94(render_state, D_800DEC70, 0);
-        render_state->unk_1A = rand() % 0x1000;
-        render_state->unk_1E = 0xC00;
-        render_state->unk_1C = 0xC00;
+        render_state->angle_z = rand() % 0x1000;
+        render_state->scale_y = 0xC00;
+        render_state->scale_x = 0xC00;
         register_node(object, project_sprite_chain);
         object_state = ((B28_818B6954_S_818B6954_0 *)object)->unk_08;
         *(B28_818B6954_Copy24 *)object_state = *(B28_818B6954_Copy24 *)source_state;
@@ -118,9 +102,6 @@ s32 func_80024154(s32 context_value, void *source_state, s32 render_param, s32 i
 #include "common.h"
 #include "shared/object_flags.h"
    /* the 0x14 bytes before the target, addressed as target[-1] */
-
-
-
 
 /* Cycle through seven colors with fade-in and fade-out, then mark the effect finished. */
 void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_818B6AFC_FxColorOut *color_out) {
@@ -268,9 +249,6 @@ void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_8
 #include "common.h"
 #include "shared/game_work.h"
 
-
-
-
    /* scratch in func_80024790 */
 
    /* base in func_80024790 */
@@ -394,9 +372,6 @@ s32 func_80024790(s32 texture_index, u8 *color_source)
    /* arg1 in draw_two_radial_effect_bands */
 
    /* sc in draw_two_radial_effect_bands */
-
-
-
 
 /* Builds and draws two eight-segment radial bands around the effect center. */
 s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, s32 draw_arg) {
@@ -603,14 +578,6 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"
 
-
-
-
-
-
-
-
-
 extern s32 rand(void);
 
 /* Creates an object from source data and payload, initializing two fields randomly. */
@@ -639,15 +606,6 @@ void draw_chained_object_records(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-
-
-
-
-
-
-
-
-
 
 /* Per-frame update for the four-phase spark effect: drift, tint ramp, hold, then mark the owner finished. */
 void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, B28_818B78E8_S818B78E8_State *gfx) {
@@ -771,7 +729,6 @@ void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8
 
    /* dst in spawn_owner_random_variant_effect */
 
-
 /* Spawn a 0x212 effect object for the owner with a random variant and spin, and copy the transform into it. */
 s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B7BD0_S_818B7BD0_3 *transform) {
     s32 roll;
@@ -780,7 +737,7 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
     s32 result;
     void *model;
     void *update_handler;
-    B28_818B7BD0_S_818B7BD0_1 *render;
+    SpriteFrameState *render;
     B28_818B7BD0_S_818B7BD0_1 *part;
     void *obj;
     B28_818B7BD0_S_818B7BD0_4 *dst;
@@ -799,20 +756,20 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
         part->unk_14 = (u16) owner->unk_12;
         part->unk_18.at00.v = (s32) owner->unk_18;
         render = ((B28_818B7BD0_S_818B7BD0_0 *)obj)->unk_0C;
-        render->unk_0E.u8 = 0x80;
-        render->unk_0D = 0x80;
-        render->unk_0C = 0x80;
-        render->unk_12 = 0x7E00;
-        render->unk_14 = (u16) (render->unk_14 | 0x100);
+        render->color.c.b = 0x80;
+        render->color.c.g = 0x80;
+        render->color.c.r = 0x80;
+        render->clut = 0x7E00;
+        render->flags = (u16) (render->flags | 0x100);
         func_8003DB94(render, model, 0);
         adjusted = func_80069EF8();
         random = adjusted;
         if (random < 0) {
             adjusted = random + 0xFFF;
         }
-        render->unk_18.at02.v = (s16) (random % 4096);
-        render->unk_1E = 0x400;
-        render->unk_1C = 0x400;
+        render->angle_z = (s16) (random % 4096);
+        render->scale_y = 0x400;
+        render->scale_x = 0x400;
         register_node(obj, draw_linked_sprites_clipped);
         dst = ((B28_818B7BD0_S_818B7BD0_0 *)obj)->unk_08;
         result = (s32) obj;
@@ -824,15 +781,6 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"
 #include "shared/object_flags.h"
-
-
-
-
-
-
-
-
-
 
 /* Advance counters, rotation, and position, and set flags when the counter exceeds its limit. */
 void func_8002553C(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, B28_818B7D3C_EntityState *entity)
@@ -855,14 +803,7 @@ void func_8002553C(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, B
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"
 
-
-
-
-
-
-
 extern s32 rand(void);
-
 
 /* Spawn a 0x212 effect object owned by `owner`, give it a random 12-bit spin and copy the source transform into it. */
 s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *source)
@@ -870,7 +811,7 @@ s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *sour
     s32 random;
     s32 adjusted;
     B28_818B7E14_DungeonObject *obj;
-    B28_818B7E14_DungeonRenderData *render;
+    SpriteFrameState *render;
     u8 *sub;
     B28_818B7E14_DungeonSource *dst;
     s32 copy0;
@@ -888,17 +829,17 @@ s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *sour
         *(s16 *)(sub + 0x10) = 0;
         *(u16 *)(sub + 0x14) = *(u16 *)((u8 *)owner + 0x12);
         render = obj->render;
-        render->color_b = 0x80;
-        render->color_g = 0x80;
-        render->color_r = 0x80;
-        render->f12 = 0x7E00;
-        render->f14 |= 0x100;
+        render->color.c.b = 0x80;
+        render->color.c.g = 0x80;
+        render->color.c.r = 0x80;
+        render->clut = 0x7E00;
+        render->flags |= 0x100;
         func_8003DB94(render, D_80025EE4, 0);
         random = rand();
         adjusted = random;
-        render->f1A = (random % 4096);
-        render->f1E = 0x400;
-        render->f1C = 0x400;
+        render->angle_z = (random % 4096);
+        render->scale_y = 0x400;
+        render->scale_x = 0x400;
         register_node(obj, draw_linked_sprites_clipped);
         dst = (B28_818B7E14_DungeonSource *)obj->data;
 
@@ -917,38 +858,11 @@ extern int abs(int);
 
    /* arg0 in advance_movement_toward_reachable_tile */
 
-
-
    /* arg2 in advance_movement_toward_reachable_tile */
-
-
-
-
 
    /* arg1 in advance_movement_toward_reachable_tile */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* cfail-repair: tf7-phase1-cache-v3 */
-
-
 
 /* Advance movement toward a target or a reachable tile, then finish the timed action. */
 void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *render) {

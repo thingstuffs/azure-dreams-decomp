@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_18EE800_H
 #define DUNGEON_OVL_18EE800_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dir_step.h"
@@ -323,7 +324,7 @@ void func_8002428C(void *object_data, void *source_data);
 void func_80024358( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void func_80024478(void *state, void *position, void *object);
 void update_actor_effect_sequence(void *record);
-void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, Rec_D_80082E80 *sprite);
+void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite);
 void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_818CF0E8_3 *gfx);
 void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic);
 ObjectNodeHeader *allocate_list_node(s32, ObjectNodeHeader **);

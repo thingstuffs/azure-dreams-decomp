@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/vector.h"
@@ -18,7 +19,6 @@ typedef struct S_800A71F0_1 {
     s32 unk_10;
 } S_800A71F0_1;
 
-
 typedef struct S_800A71F0_3 {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -31,18 +31,11 @@ typedef struct S_800A71F0_4 {
     s16 unk_90;
 } S_800A71F0_4;
 
-typedef struct S_800A71F0_5 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800A71F0_5;
 void register_node_if_unregistered(void *block_data, s32 registration_id);
 struct Dst;
 struct Elem;
 void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
-void *allocate_list_node();
+struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 void copy_indexed_motion_value_and_advance();
 typedef struct S_800A7338_0 S_800A7338_0;
 void invoke_emote_object_callback(S_800A7338_0 *object);
@@ -53,9 +46,9 @@ s32 create_positioned_sprite_object(IntVector3 *position, s32 state_value, s32 g
     void *object;
     void *object_state;
     void *transform;
-    void *sprite;
+    SpriteFrameState *sprite;
 
-    object = allocate_list_node(0x136, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x136, (struct ObjectNodeHeader * *)(((s32 *)&D_80083498.next)));
     if (object == 0) {
         return 0;
     }
@@ -71,9 +64,9 @@ s32 create_positioned_sprite_object(IntVector3 *position, s32 state_value, s32 g
     ((S_800A71F0_4 *)object_state)->unk_54 = state_value;
     ((S_800A71F0_4 *)object_state)->unk_90 = 2;
     copy_indexed_motion_value_and_advance(object_state, transform, sprite);
-    ((S_800A71F0_5 *)sprite)->unk_1E = 0x1000;
-    ((S_800A71F0_5 *)sprite)->unk_1C = 0x1000;
-    ((S_800A71F0_5 *)sprite)->unk_0C = 0x808080;
+    sprite->scale_y = 0x1000;
+    sprite->scale_x = 0x1000;
+    sprite->color.word = 0x808080;
     func_8003DB94(sprite, graphic_id, 0);
     register_node_if_unregistered(object_state, project_sprite_chain);
     return (s32) object;

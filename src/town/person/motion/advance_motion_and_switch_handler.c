@@ -11,7 +11,7 @@ typedef struct S_800C3F44_3 {
 
 
 void add_hex_20000_s_signed_offset_hex_14();                      /* extern */
-void initialize_object_entries();        /* extern */
+#include "town/person/object/initialize_object_entries_api.h"        /* extern */
 extern M2C_UNK D_800C3EAC;
 
 
@@ -20,7 +20,7 @@ void advance_motion_and_switch_handler(Rec_func_80094268_arg0 *object, EntityRec
     motion->z.v = (s32) (motion->z.v + motion->flags14);
     add_hex_20000_s_signed_offset_hex_14(motion);
     if (motion->flags14 >= 0) {
-        initialize_object_entries(object, context, ((S_800C3F44_3 *)(((Rec_func_80094268_arg0 *)object)->unk_80))->unk_20);
+        initialize_object_entries((Struct800C5724 *)(object), (s8 *)(context), (s32 *)(((S_800C3F44_3 *)(((Rec_func_80094268_arg0 *)object)->unk_80))->unk_20));
         object->unk_54 = &D_800C3EAC;
     }
 }

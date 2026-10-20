@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -29,14 +30,12 @@ typedef struct S_800CABA8_0 {
     s16 unk_B8;
 } S_800CABA8_0;   /* arg0 in advance_damage_effect_and_particles */
 
-
 typedef struct S_800CABA8_2 {
     u8 pad_00[0x2A];
     s16 unk_2A;
     u8 pad_2C[0x1A];
     u16 unk_46;
 } S_800CABA8_2;
-
 
 void *resolve_attack_damage_and_effects();
 void set_record_integer_tile_center();
@@ -81,7 +80,7 @@ void advance_damage_effect_and_particles(void *effect, s32 context, void *record
     switch (phase) {
     case 0:
         ((S_800CABA8_0 *)effect)->unk_B8 = 1;
-        if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)record)->flags & 0x8000) {
             resolve_attack_damage_and_effects(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
             ((S_800CABA8_0 *)effect)->unk_9B = 4U;
             return;
@@ -168,7 +167,7 @@ void advance_damage_effect_and_particles(void *effect, s32 context, void *record
         ((S_800CABA8_0 *)effect)->unk_9B = (u8) (((S_800CABA8_0 *)effect)->unk_9B + 1);
     case 4:
         ((S_800CABA8_0 *)effect)->unk_A0.at02.v = 0U;
-        set_record_integer_tile_center(context, ((Rec_D_80082E80 *)record)->unk_24, ((Rec_D_80082E80 *)record)->unk_25);
+        set_record_integer_tile_center(context, ((SpriteFrameState *)record)->unk_24, ((SpriteFrameState *)record)->unk_25);
         g_dungeon_status.unk_0C = 0;
         ((S_800CABA8_2 *)actor_state)->unk_46 = (u16) ((((S_800CABA8_2 *)actor_state)->unk_46) & 0x7FFF);
         advance_status_timers(actor_state);

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -78,7 +79,7 @@ void create_cylindrical_effect(Source *source, Vec3i *origin)
         Entity *entity;
         Sub *sub;
         Vec3i *position;
-        Prim *prim;
+        SpriteFrameState *prim;
         s32 angle;
         s32 next_angle;
         s16 radial_offset;
@@ -103,9 +104,9 @@ void create_cylindrical_effect(Source *source, Vec3i *origin)
         register_node(init_entity, project_sprite_chain);
 
         prim = entity->prim;
-        prim->field_14 |= 0xC;
-        prim->field_10 = base_color;
-        prim->field_14 |= 0x80;
+        prim->flags |= 0xC;
+        prim->tpage_abr = base_color;
+        prim->flags |= 0x80;
 
         position = entity->vec;
         position->x = origin->x;
@@ -143,15 +144,15 @@ void create_cylindrical_effect(Source *source, Vec3i *origin)
         sub->field_6C = radial_offset;
 
         prim = entity->prim;
-        prim->field_0C = base_color;
+        prim->color.c.r = base_color;
         color_copy = base_color;
         unit_scale = 4096;
-        prim->field_1E = unit_scale;
-        prim->field_1C = unit_scale;
-        prim->field_0D = 128;
-        prim->field_0E = base_color;
-        sub->field_04 = prim->field_0C;
-        sub->field_05 = prim->field_0D;
-        sub->field_06 = prim->field_0E;
+        prim->scale_y = unit_scale;
+        prim->scale_x = unit_scale;
+        prim->color.c.g = 128;
+        prim->color.c.b = base_color;
+        sub->field_04 = prim->color.c.r;
+        sub->field_05 = prim->color.c.g;
+        sub->field_06 = prim->color.c.b;
     }
 }

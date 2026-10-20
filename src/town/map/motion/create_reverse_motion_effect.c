@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
@@ -41,20 +42,6 @@ typedef struct S_800A878C_2 {
     s32 unk_10;
 } S_800A878C_2;   /* arg0 in create_reverse_motion_effect */
 
-typedef struct S_800A878C_3 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800A878C_3;
-
 typedef struct S_800A878C_4 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -71,7 +58,7 @@ void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
     s32 velocity_x;
     s32 velocity_y;
     u32 direction;
-    S_800A878C_3 *sprite;
+    SpriteFrameState *sprite;
     S_800A878C_1 *motion;
     S_800A878C_4 *launch;
     void *effect;
@@ -95,13 +82,13 @@ void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
         motion->unk_10 = (s32) (velocity_y / 16);
         motion->unk_14 = (s32) ((~rand() & 1) << 0xF);
         func_8003DB94(sprite, &D_800F15AC, 0);
-        sprite->unk_0E = 0xFF;
-        sprite->unk_0D = 0xFF;
-        sprite->unk_0C = 0xFF;
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_10 = 0x60;
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        sprite->color.c.b = 0xFF;
+        sprite->color.c.g = 0xFF;
+        sprite->color.c.r = 0xFF;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->tpage_abr = 0x60;
+        sprite->flags = (u16) (sprite->flags | 0xC);
         speed_roll = scale_random_to_unsigned_halfword_limit(7);
         launch_speed = speed_roll + scale_random_to_unsigned_halfword_limit(7);
         launch->unk_02 = launch_speed;

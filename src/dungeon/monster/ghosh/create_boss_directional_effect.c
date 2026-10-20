@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct
 {
@@ -6,7 +7,7 @@ typedef struct
 }
 DungeonTable;
 extern u8 D_80171704[];
-void *allocate_list_node();
+struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 s32 register_node();
 s32 func_80069EF8();
 extern DungeonTable D_8016A894;
@@ -45,7 +46,7 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
         y_position = *((void **) (((s8 *) effect) + 8));
         *((u16 *) (((s8 *) y_position) + 6)) = (u16) ((*((u16 *) (((s8 *) y_position) + 6)))
             + (((s32) ((*((u16 *) (entry + 2))) << 0x10)) >> 0xC));
-        *((s16 *) (((s8 *) (*((void **) (((s8 *) effect) + 0xC)))) + 6)) = 6;
+        ((SpriteFrameState *)*((void **) (((s8 *) effect) + 0xC)))->unk_06 = 6;
         source = effect + 0x20;
         if (spread_mode == 0) {
             *((s32 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 0xC)) =

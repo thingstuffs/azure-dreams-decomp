@@ -1,10 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
-
-
 
 typedef struct S_80A2F000_0 {
     u8 pad_00[0x8];
@@ -26,14 +25,6 @@ typedef struct S_80A2F000_2 {
     s16 unk_0A;
 } S_80A2F000_2;   /* part_a in queue_linked_render_packets */
 
-typedef struct S_80A2F000_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80A2F000_3;   /* part_b in queue_linked_render_packets */
-
 typedef struct S_80A2F000_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -42,7 +33,6 @@ typedef struct S_80A2F000_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_80A2F000_4;   /* actor in queue_linked_render_packets */
-
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -58,14 +48,13 @@ extern M2C_UNK D_8015EE84;
 
 /* The row begins with a 132-byte data bank; the executable body follows it. */
 
-
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *queue_linked_render_packets(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     void *obj;
     S_80A2F000_2 *part_a;
-    S_80A2F000_3 *part_b;
+    SpriteFrameState *part_b;
     S_80A2F000_1 *work;
     S_80A2F000_4 *actor;
     s32 left;
@@ -91,7 +80,7 @@ void *queue_linked_render_packets(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 a
         kind = spawn_flags & 3;
         part_b->unk_25 = held_b;
         actor = work;
-        part_b->unk_2C = D_80162820;
+        part_b->frameTable = D_80162820;
         part_b->unk_24 = held_a;
 
         if (kind == 1) {
@@ -112,7 +101,7 @@ void *queue_linked_render_packets(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 a
                         work->unk_1C |= 0x200;
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->unk_2C = D_80162860;
+                        part_b->frameTable = D_80162860;
                     }
                 }
             }

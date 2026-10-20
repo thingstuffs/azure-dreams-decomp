@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -20,7 +21,6 @@ typedef struct S_8017360C_0 {
     u8 pad_A0[0x2];
     u16 unk_A2;
 } S_8017360C_0;   /* arg0 in advance_actor_state_sequence */
-
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -44,7 +44,6 @@ extern u8 D_80174150[];
 extern u8 D_80174158[];
 extern u8 D_80174160[];
 
-
 /* Advances the actor state sequence and selects effects for its facing direction. */
 void advance_actor_state_sequence(void *action, void *context, void *entity, EntityRec *actor)
 {
@@ -59,13 +58,13 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
         u8 *local_table_0;
         {
             DungeonGlobalStatus *dungeon_state;
-            if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {
+            if ((((SpriteFrameState *)entity)->flags & 0xE000) == 0) {
                 return;
             }
 
             local_table_0 = D_801740F8;
 
-            (*(void * *)((u8 *)entity + 0x2C)) = local_table_0;
+            ((SpriteFrameState *)entity)->frameTable = local_table_0;
             effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
             effect_entry &= 7;
             effect_entry += (s32)local_table_0;
@@ -87,7 +86,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
         }
         local_table_1 = D_80174150;
 
-        (*(void * *)((u8 *)entity + 0x2C)) = local_table_1;
+        ((SpriteFrameState *)entity)->frameTable = local_table_1;
         effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_1;
@@ -107,7 +106,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
         }
         local_table_2 = D_80174158;
 
-        (*(void * *)((u8 *)entity + 0x2C)) = local_table_2;
+        ((SpriteFrameState *)entity)->frameTable = local_table_2;
         effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_2;
@@ -186,7 +185,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 TileObject *room_base = &D_80082E80;
-                s8 room_id = ((Rec_D_80082E80 *)entity)->unk_26.as_s8;
+                s8 room_id = *(s8 *)&((SpriteFrameState *)entity)->unk_26;
 
                 if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)get_tile_chebyshev_distance(room_base, entity) < 2) {
                     if ((generate_random_value() & 7) == 0) {
@@ -201,12 +200,12 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
 
         local_table_3 = D_80174160;
 
-        (*(void * *)((u8 *)entity + 0x2C)) = local_table_3;
+        ((SpriteFrameState *)entity)->frameTable = local_table_3;
         effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_3;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
-        if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000) != 0) {
+        if ((((SpriteFrameState *)entity)->flags & 0x8000) != 0) {
             break;
         }
         ((S_8017360C_0 *)action)->unk_9B++;
@@ -224,7 +223,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
         u32 phase_flag = 0x40000;
         u32 phase_flags;
 
-        if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {
+        if ((((SpriteFrameState *)entity)->flags & 0xE000) == 0) {
             return;
         }
 
@@ -233,7 +232,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
 
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
-        (*(void * *)((u8 *)entity + 0x2C)) = local_table_4;
+        ((SpriteFrameState *)entity)->frameTable = local_table_4;
         effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_4;
@@ -253,7 +252,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
 
         local_table_5 = D_801740F0;
 
-        (*(void * *)((u8 *)entity + 0x2C)) = local_table_5;
+        ((SpriteFrameState *)entity)->frameTable = local_table_5;
         effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_5;

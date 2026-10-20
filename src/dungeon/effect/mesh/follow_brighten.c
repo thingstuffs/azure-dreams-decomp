@@ -1,5 +1,5 @@
 #include "dungeon/effect/mesh/follow_brighten.h"
-
+#include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_18d0850_entry)(void) = (void (*)(void))update_movement_toward_child_terrain_target_animates_associated_effects;
 
 void follow_brighten(EntityRec *entity, s32 value_id) {
@@ -55,7 +55,7 @@ void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void 
 
 ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec) {
     ovl_18d0850_818B09F8_MainObj *obj = (ovl_18d0850_818B09F8_MainObj *)func_8003FC64(530);
-    ovl_18d0850_818B09F8_SubObj *sub;
+    SpriteFrameState *sub;
     ovl_18d0850_818B09F8_VecObj *vec;
     ovl_18d0850_818B09F8_MainObj *result;
 
@@ -63,15 +63,15 @@ ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32
         obj->callback = (void *)advance_owner_effect_counter;
         sub = obj->sub;
         obj->source_state = object_value;
-        sub->b = 128;
-        sub->g = 128;
-        sub->r = 128;
+        sub->color.c.b = 128;
+        sub->color.c.g = 128;
+        sub->color.c.r = 128;
         func_8003DB94(sub, D_800DEC70, 0);
 
-        sub->unk1E = 4096;
-        sub->unk1C = 4096;
-        sub->unk12 = 0x7E09;
-        sub->unk14 |= 0x100;
+        sub->scale_y = 4096;
+        sub->scale_x = 4096;
+        sub->clut = 0x7E09;
+        sub->flags |= 0x100;
         register_node(obj, project_sprite_chain);
 
         vec = obj->vec;
@@ -114,7 +114,7 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
     s32 *node_type;
     u16 position_z;
     s32 angle;
-    ovl_18d0850_818B0C3C_S_8002443C_3 *sprite;
+    SpriteFrameState *sprite;
     s32 result;
     u8 *position;
     u8 *node;
@@ -135,16 +135,16 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
         sprite_mode = 0x7E09;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0C = (u16)node_type;
         sprite = ((ovl_18d0850_818B0C3C_S_8002443C_0 *)node)->unk_0C;
-        sprite->unk_0E = 0;
-        sprite->unk_0D = 0;
-        sprite->unk_0C = 0;
-        sprite->unk_12 = (s16)sprite_mode;
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
-        sprite->unk_10 = (u16) (sprite->unk_10 | 0x20);
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
+        sprite->color.c.b = 0;
+        sprite->color.c.g = 0;
+        sprite->color.c.r = 0;
+        sprite->clut = (s16)sprite_mode;
+        sprite->flags = (u16) (sprite->flags | 0xC);
+        sprite->tpage_abr = (u16) (sprite->tpage_abr | 0x20);
+        sprite->flags = (u16) (sprite->flags | 0x100);
         func_8003DB94(sprite, &D_800DEC70, (s16)frame_index % 16, (s16)frame_index);
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
         register_node(node, project_sprite_chain);
         position = ((ovl_18d0850_818B0C3C_S_8002443C_0 *)node)->unk_08;
         angle = func_80069EF8() % 0x1000;

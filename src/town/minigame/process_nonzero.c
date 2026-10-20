@@ -11,18 +11,16 @@ typedef struct S_80023A00_0 {
     u16 unk_2A;
 } S_80023A00_0;   /* arg0 in process_nonzero */
 
-
 typedef struct S_80023A00_3 {
     u8 pad_00[0x2A];
     s16 unk_2A;
 } S_80023A00_3;   /* caller_obj in process_nonzero */
 
-
 typedef struct {
     s32 words[6];
 } Copy24;
 
-extern void update_directional_record(void *, void *, void *);
+extern void update_directional_record(void *, void *, SpriteFrameState *);
 extern void select_sprite_entry(void *, s32, s32);
 extern void func_800478B8(void *);
 

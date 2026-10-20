@@ -1,4 +1,5 @@
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
@@ -47,7 +48,7 @@ typedef struct FadeSettings {
 ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(FadeEndpoints *endpoints, FadeSettings *settings) {
     FadeTransition *transition;
     ObjectNodeHeader *object;
-    FadeSettings *object_settings;
+    SpriteFrameState *object_settings;
 
     object = func_8003FC64(0x202);
     if (object != NULL) {
@@ -61,11 +62,11 @@ ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_upda
         transition->delta[1].value = endpoints->start[1].value - endpoints->end[1].value;
         transition->delta[2].value = endpoints->start[2].value - endpoints->end[2].value;
         object_settings = object->unk_0C;
-        object_settings->unk_1C = settings->unk_1C;
-        object_settings->unk_1E = settings->unk_1E;
-        object_settings->unk_0C = settings->unk_0C;
-        object_settings->unk_08 = settings->unk_08;
-        object_settings->unk_14 = settings->unk_14;
+        object_settings->scale_x = settings->unk_1C;
+        object_settings->scale_y = settings->unk_1E;
+        object_settings->color.word = settings->unk_0C;
+        object_settings->source = settings->unk_08;
+        object_settings->flags = settings->unk_14;
     }
     return object;
 }

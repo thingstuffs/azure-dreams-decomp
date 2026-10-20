@@ -21,16 +21,16 @@ typedef struct S_800A58CC_2 {
 } S_800A58CC_2;   /* arg0 in update_object_view_transition */
 
 
-s32 read_map_cell_at_world_position();                        /* extern */
+s32 read_map_cell_at_world_position(s16, s16);                        /* extern */
 s16 step_angle_12_toward();               /* extern */
-void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();                      /* extern */
+#include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
 void add_hex_20000_s_signed_offset_hex_14();                 /* extern */
-void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2();                 /* extern */
+#include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"                 /* extern */
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
-void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      /* extern */
-s32 compute_height_based_offset();                          /* extern */
-s32 check_masked_value_in_current_range();                             /* extern */
+#include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
+#include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
+struct EntityRec; s32 compute_height_based_offset(struct EntityRec *);                          /* extern */
+s32 check_masked_value_in_current_range(s32);                             /* extern */
 extern s32 D_800A5A98;
 extern u8 D_800D0000[];
 extern int abs(int);
@@ -54,7 +54,7 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, void *object) {
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((void *) object_ref);
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated((void *) object_ref, &D_800FE488);
     if (((S_800A58CC_0 *)((void *) object_ref))->unk_0A >= threshold) {
-        compute_and_clamps_vector_based_adjustment_updates_town((void *) object_ref, threshold, &D_800FE488);
+        compute_and_clamps_vector_based_adjustment_updates_town((void *) object_ref, threshold, (struct TownVec * *)(&D_800FE488));
     } else {
         if (D_800D0000[-0x311] != 0) {
             ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = 0;

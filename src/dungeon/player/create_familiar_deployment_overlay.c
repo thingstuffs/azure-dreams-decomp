@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -21,28 +22,9 @@ typedef struct S_80093D8C_0 {
     s16 unk_26;
 } S_80093D8C_0;
 
-
-
-
-typedef struct S_80093D8C_3 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    s32 unk_28;
-} S_80093D8C_3;
-
-
 /* Create a sprite effect at the supplied position and attach it to its owner. */
 void create_familiar_deployment_overlay(s32 sort_order, EntityRec *source_pos, Rec_D_80082E80 *owner) {
-    S_80093D8C_3 *sprite;
+    SpriteFrameState *sprite;
     S_80093D8C_0 *effect;
     MovingPosition *position;
 
@@ -55,13 +37,13 @@ void create_familiar_deployment_overlay(s32 sort_order, EntityRec *source_pos, R
         position->unk_0A = (u16) ((u16)source_pos->z.w.i);
         sprite = effect->unk_0C;
         sprite->unk_28 = (s32) owner->unk_28.at00_s32.v;
-        sprite->unk_1E = 0x1000;
-        sprite->unk_14 = 0xCU;
-        sprite->unk_10 = 0x20;
-        sprite->unk_0C = 0xF8F8F8;
-        sprite->unk_1C = 0;
+        sprite->scale_y = 0x1000;
+        sprite->flags = 0xCU;
+        sprite->tpage_abr = 0x20;
+        sprite->color.word = 0xF8F8F8;
+        sprite->scale_x = 0;
         sprite->unk_06 = 4;
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0x200);
+        sprite->flags = (u16) (sprite->flags | 0x200);
         set_sprite_animation_frame(sprite, 0xD0, 0, 2);
         register_node(effect, project_sprite_chain);
         effect->unk_20 = owner;

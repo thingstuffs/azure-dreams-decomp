@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 
 typedef struct S_800262AC_0 {
@@ -23,19 +24,6 @@ typedef struct S_800262AC_1 {
     s16 unk_16;
 } S_800262AC_1;   /* coords in create_effect_object_groups */
 
-typedef struct S_800262AC_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    u8 pad_0C[0x4];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    s16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    union { u16 s; u16 u; } unk_1E;   /* accessed as both */
-} S_800262AC_2;   /* render in create_effect_object_groups */
-
 typedef struct S_800262AC_3 {
     u8 pad_00[0x1A];
     s16 unk_1A;
@@ -49,7 +37,6 @@ typedef struct S_800262AC_3 {
     u8 pad_62[0x2];
     s16 unk_64;
 } S_800262AC_3;   /* state in create_effect_object_groups */
-
 
 extern s32 has_enough_available_runtime_nodes(s32);
 extern void register_node(void *, void *);
@@ -68,7 +55,7 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
     u16 render_flags;
     void *object;
     S_800262AC_1 *coords;
-    S_800262AC_2 *render;
+    SpriteFrameState *render;
     S_800262AC_3 *state;
     void *callback;
     void *texture;
@@ -102,17 +89,17 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
                 render = ((S_800262AC_0 *)object)->unk_0C;
                 render->unk_06 = 0x10;
                 if (group_index != 0) {
-                    render->unk_1E.s = 0x100;
+                    render->scale_y = 0x100;
                 } else {
-                    render->unk_1E.s = 0x800;
+                    render->scale_y = 0x800;
                 }
-                render_flags = render->unk_1E.u;
-                render->unk_14 = 0xC;
-                render->unk_10 = 0x20;
+                render_flags = render->scale_y;
+                render->flags = 0xC;
+                render->tpage_abr = 0x20;
                 state = (u8 *)object + 0x20;
                 init_value = 8;
-                render->unk_08 = texture;
-                render->unk_1C = render_flags;
+                render->source = texture;
+                render->scale_x = render_flags;
                 state->unk_1A = init_value;
                 state->unk_64 = init_value;
                 state->unk_22 = object_index;

@@ -1,4 +1,5 @@
 #include "town/menu/window.h"
+#include "shared/sprite_frame_state.h"
 
 /* Create an object, initialize its position and render state, and invoke its callback. */
 s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, s32 state_98)
@@ -7,7 +8,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
     void *object;
     void *position;
     void *object_state;
-    void *render_data;
+    SpriteFrameState *render_data;
     u16 angle;
     void *state;
     u32 color;
@@ -79,9 +80,9 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
         }
     }
     ((func_8009FCC4_S_8009D424_3 *)state)->unk_86 = ((func_8009FCC4_S_8009D424_1 *)position)->unk_06;
-    ((func_8009FCC4_S_8009D424_4 *)render_data)->unk_1E = 0x1000;
-    ((func_8009FCC4_S_8009D424_4 *)render_data)->unk_1C = 0x1000;
-    ((func_8009FCC4_S_8009D424_4 *)render_data)->unk_0C = color;
+    render_data->scale_y = 0x1000;
+    render_data->scale_x = 0x1000;
+    render_data->color.word = color;
     angle = D_800D5070[saved_angle_index & 3];
     ((func_8009FCC4_S_8009D424_3 *)state)->unk_94 = saved_state_94;
     ((func_8009FCC4_S_8009D424_3 *)state)->unk_95 = state_95;

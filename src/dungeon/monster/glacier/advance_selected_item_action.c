@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
@@ -38,7 +39,6 @@ typedef struct {
     u8 pad_00[0xA6];
     u16 field_A6;
 } ActiveFieldView_810318E4;
-
 
 typedef struct Copy48 {
     u32 words[12];
@@ -212,7 +212,7 @@ void advance_selected_item_action_2(void *action, EntityRec *position, void *spr
                             s32 target_y;
 
                             target_x = (s32)scan_monster_along_heading(
-                                actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                                actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                                 (((ActorFieldView_810318E4 *)actor)->field_2A.s16), 0x10);
                             (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)target_x;
                             target_x = (((ActorFieldView_810318E4 *)actor)->field_72.s8);
@@ -241,7 +241,7 @@ void advance_selected_item_action_2(void *action, EntityRec *position, void *spr
         position->flags14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
-        set_record_integer_tile_center(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(position, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         {
             void *active;
 
@@ -259,10 +259,10 @@ void advance_selected_item_action_2(void *action, EntityRec *position, void *spr
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            ((SpriteFrameState *)sprite)->flags |= 0x800;
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         ((S_801730E4_0 *)action)->unk_96 = 10;
         ((S_801730E4_0 *)action)->unk_9B++;
         {
@@ -314,7 +314,7 @@ void advance_selected_item_action_2(void *action, EntityRec *position, void *spr
 
             timer = ((S_801730E4_0 *)action)->unk_96 - 1;
             ((S_801730E4_0 *)action)->unk_96 = timer;
-            if ((s16)timer > 0 && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            if ((s16)timer > 0 && !(((SpriteFrameState *)sprite)->flags & 0xE000)) {
                 return;
             }
         }
@@ -323,10 +323,10 @@ void advance_selected_item_action_2(void *action, EntityRec *position, void *spr
         return;
 
     case 3:
-        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2 &&
-             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+        if ((((SpriteFrameState *)sprite)->unk_04 == 2 &&
+             (((SpriteFrameState *)sprite)->flags & 0x1000)) ||
+            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
+            ((SpriteFrameState *)sprite)->flags |= 0x800;
             ((S_801730E4_0 *)action)->unk_96 = 0x14;
         }
         {
@@ -339,23 +339,23 @@ void advance_selected_item_action_2(void *action, EntityRec *position, void *spr
             ((S_801730E4_0 *)action)->unk_96 = timer;
             if ((s16)timer <= 0) {
                 ((S_801730E4_0 *)action)->unk_96 = 0;
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
             }
-            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
                 return;
             }
 
             position->flags14 = 0;
             position->unk_10 = 0;
             position->unk_0C = 0;
-            set_record_integer_tile_center(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-            if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_8017609C) {
+            set_record_integer_tile_center(position, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_8017609C) {
                 s32 direction_index;
 
-                (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8) = D_8017609C;
+                ((SpriteFrameState *)sprite)->frameTable = D_8017609C;
                 direction_index = ((g_game_work.view.viewAngle + (((ActorFieldView_810318E4 *)actor)->field_2A.s16) + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, D_8017609C[direction_index], 0);
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
             }
             if (((s32)g_dungeon_status.unk_0C) != 0) {
                 return;

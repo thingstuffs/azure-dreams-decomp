@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -57,20 +58,11 @@ typedef struct S_80020DF0_6 {
     void * unk_10;
 } S_80020DF0_6;   /* particle in update_snowball_minigame_actor */
 
-typedef struct S_80020DF0_7 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80020DF0_7;   /* part in update_snowball_minigame_actor */
-
 typedef struct S_80020DF0_8 {
     u8 pad_00[0x2];
     s16 unk_02;
     void * unk_04;
 } S_80020DF0_8;   /* link in update_snowball_minigame_actor */
-
 
 extern volatile u16 D_800135C0;
 extern u8 D_80022B80[];
@@ -342,15 +334,15 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
 
                     particle = allocate_list_node(0x136, ((u8 *)(&D_80083498)));
                     if (particle != NULL) {
-                        void *part;
+                        SpriteFrameState *part;
                         void *link;
 
                         part = ((S_80020DF0_6 *)particle)->unk_0C;
                         register_node(particle, project_sprite_chain);
                         link = (u8 *)particle + 0x20;
-                        ((S_80020DF0_7 *)part)->unk_0C = 0x00808080;
-                        ((S_80020DF0_7 *)part)->unk_1E = scale;
-                        ((S_80020DF0_7 *)part)->unk_1C = scale;
+                        part->color.word = 0x00808080;
+                        part->scale_y = scale;
+                        part->scale_x = scale;
                         ((S_80020DF0_8 *)link)->unk_04 = motion;
                         ((S_80020DF0_8 *)link)->unk_02 = 0x78;
                         ((S_80020DF0_6 *)particle)->unk_10 = particle_data;

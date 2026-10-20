@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 #include "shared/entity.h"
-
 
 typedef struct S_FUNC_80A23000_BODY_0 {
     u8 pad_00[0x8];
@@ -42,7 +42,6 @@ typedef struct S_FUNC_80A23000_BODY_4 {
     s8 unk_9C;
 } S_FUNC_80A23000_BODY_4;   /* actor in queue_projected_point_primitives_2 */
 
-
 extern void *allocate_list_node();
 extern void register_node();
 extern s32 generate_random_value(void);
@@ -55,14 +54,12 @@ extern u8 D_8016E820[];
 extern u8 D_8016E860[];
 void func_8016AE84(void *controller, void *context, void *entity, EntityRec *actor_state);
 
-
-
 void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value_25_input, s16 value_0A_input)
 {
     s32 kind;
     void *object;
     S_FUNC_80A23000_BODY_2 *part_a;
-    S_FUNC_80A23000_BODY_3 *part_b;
+    SpriteFrameState *part_b;
     S_FUNC_80A23000_BODY_1 *work;
     S_FUNC_80A23000_BODY_4 *actor;
     s32 value_14;
@@ -84,7 +81,7 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
         kind = mask & 3;
         part_b->unk_25 = value_25_input;
         actor = work;
-        part_b->unk_2C = D_8016E820;
+        part_b->frameTable = D_8016E820;
         part_b->unk_24 = value_24_input;
 
         if (kind == 1) {
@@ -104,7 +101,7 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
                     work->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_8016E860;
+                    part_b->frameTable = D_8016E860;
                 }
             }
         }

@@ -41,7 +41,7 @@ typedef struct S_800B5174_7 {
 } S_800B5174_7;   /* ((S_800B5174_4 *)(((S_800B5174_1 *)arg1)->unk_08))->unk_04 in layout_three_display_elements */
 
 
-void *set_complementary_entry_bytes();               /* extern */
+void * set_complementary_entry_bytes(void *, s16);               /* extern */
 extern M2C_UNK D_80077FBC;
 extern u8 D_800D1794;
 

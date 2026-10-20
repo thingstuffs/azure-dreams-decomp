@@ -1,4 +1,5 @@
 #include "dungeon/effect/particle/project_textured_quad_or_callback.h"
+#include "shared/sprite_frame_state.h"
 struct S_800259D8_2;
 void update_animated_effect_sprite(void *, void *, struct S_800259D8_2 *);
 void (*const dungeon_1894800_entry)(void *, void *, struct S_800259D8_2 *) = update_animated_effect_sprite;
@@ -9,7 +10,6 @@ const u8 D_80024034[4] = { 0x81, 0x44, 0x00, 0x00 };
 #include "common.h"
 
 typedef s32 M2C_UNK;
-
 
 extern const u8 D_80024004[48];
 extern const u8 D_80024034[4];
@@ -55,7 +55,6 @@ void func_80024098(void *entity, s32 direction, void *unused)
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
-
 
 typedef struct {
     s16 m[3][3];
@@ -117,18 +116,6 @@ typedef struct S_81874988_1 {
 
    /* global_value in project_textured_quad_or_callback */
 
-typedef struct S_81874988_3 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_0C;   /* overlapping accesses */
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-} S_81874988_3;   /* arg2 in project_textured_quad_or_callback */
-
 typedef struct S_81874988_4 {
     u8 pad_00[0x50];
     u16 unk_50;
@@ -169,7 +156,6 @@ typedef struct S_81874988_5 {
     } unk_24;   /* overlapping accesses */
 } S_81874988_5;   /* packet in project_textured_quad_or_callback */
 
-
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -181,7 +167,7 @@ extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern void func_80065820(void *, void *);
 
 /* Projects a textured quad and queues it for drawing, or invokes its texture callback. */
-void project_textured_quad_or_callback(void *quad, void *position, void *material, s16 depth_bias)
+void project_textured_quad_or_callback(void *quad, void *position, SpriteFrameState *material, s16 depth_bias)
 {
     u8 *render_state = g_game_work.unk_000;
     u8 *scratch = (u8 *)0x1F800000;
@@ -203,15 +189,15 @@ void project_textured_quad_or_callback(void *quad, void *position, void *materia
     packet = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = packet + 0x28;
 
-    ((S_81874988_3 *)material)->unk_14 |= 0x8000;
+    material->flags |= 0x8000;
     func_800649A0();
 
     ((S_81874988_0 *)scratch)->unk_3C = 0x2000;
     ((S_81874988_0 *)scratch)->unk_38 = 0x2000;
     ((S_81874988_0 *)scratch)->unk_34 = 0x2000;
-    ((S_81874988_0 *)scratch)->unk_A4 = ((S_81874988_3 *)material)->unk_16;
-    ((S_81874988_0 *)scratch)->unk_A8 = ((S_81874988_3 *)material)->unk_1A;
-    ((S_81874988_0 *)scratch)->unk_A6 = ((S_81874988_3 *)material)->unk_18;
+    ((S_81874988_0 *)scratch)->unk_A4 = material->angle_x;
+    ((S_81874988_0 *)scratch)->unk_A8 = material->angle_z;
+    ((S_81874988_0 *)scratch)->unk_A6 = material->angle_y;
     func_80065820(scratch + 0xA4, scratch + 0x74);
     func_80064AE0(&view_matrix);
     func_80064840(&view_matrix, scratch + 0x74, scratch + 0x54);
@@ -219,8 +205,8 @@ void project_textured_quad_or_callback(void *quad, void *position, void *materia
     func_80064D80(scratch + 0x54);
     func_80064CF0(scratch + 0x54);
 
-    texture = ((S_81874988_3 *)material)->unk_08;
-    ((S_81874988_0 *)scratch)->unk_28 = ((S_81874988_3 *)material)->unk_14;
+    texture = *(u8 * *)&material->source;
+    ((S_81874988_0 *)scratch)->unk_28 = material->flags;
 
     if (!(texture[0] & 0x20)) {
         ((S_81874988_0 *)scratch)->unk_0C = texture[8];
@@ -261,7 +247,7 @@ void project_textured_quad_or_callback(void *quad, void *position, void *materia
                 ) {
                 ((S_81874988_5 *)packet)->unk_00.at03.v = 9;
                 ((S_81874988_5 *)packet)->unk_04.at03.v = 0x2C;
-                ((S_81874988_3 *)material)->unk_14 &= 0x7FFF;
+                material->flags &= 0x7FFF;
 
                 ((S_81874988_0 *)scratch)->unk_14 += ((S_81874988_0 *)scratch)->unk_0C;
                 if (((S_81874988_0 *)scratch)->unk_14 & 0x100) {
@@ -274,7 +260,7 @@ void project_textured_quad_or_callback(void *quad, void *position, void *materia
                 ((S_81874988_0 *)scratch)->unk_10 <<= 8;
                 ((S_81874988_0 *)scratch)->unk_18 <<= 8;
 
-                tex_adjust = ((S_81874988_3 *)material)->unk_12;
+                tex_adjust = material->clut;
                 if (tex_adjust) {
                     if (((S_81874988_0 *)scratch)->unk_28 & 0x100) {
                         ((S_81874988_5 *)packet)->unk_0E = tex_adjust;
@@ -291,7 +277,7 @@ void project_textured_quad_or_callback(void *quad, void *position, void *materia
                 ((S_81874988_5 *)packet)->unk_14.u16 = (*(u16 *)(scratch + 0x10)) +
                                            (*(u16 *)(scratch + 0x14));
 
-                tex_adjust = ((S_81874988_3 *)material)->unk_10;
+                tex_adjust = material->tpage_abr;
                 if (tex_adjust) {
                     (*(u16 *)((u8 *)packet + 0x16)) = tex_adjust +
                                    ((*(u16 *)((u8 *)texture + 4)) & 0xFF9F);
@@ -314,14 +300,14 @@ void project_textured_quad_or_callback(void *quad, void *position, void *materia
                 }
 
                 tex_flags = texture[1];
-                ((S_81874988_3 *)material)->unk_0C.at03.v = tex_flags;
+                material->color.c.code = tex_flags;
                 draw_flags = ((S_81874988_0 *)scratch)->unk_28;
                 if (draw_flags & 8) {
-                    ((S_81874988_3 *)material)->unk_0C.at03.v = (draw_flags & 4) ?
+                    material->color.c.code = (draw_flags & 4) ?
                         (tex_flags | 2) : (tex_flags & 0xFD);
                 }
 
-                ((S_81874988_5 *)packet)->unk_04.at00.v = ((S_81874988_3 *)material)->unk_0C.at00.v;
+                ((S_81874988_5 *)packet)->unk_04.at00.v = *(u32 *)&material->color.word;
                 ((S_81874988_5 *)packet)->unk_00.at00.v = (((S_81874988_5 *)packet)->unk_00.at00.v & 0xFF000000) |
                     ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2)
                         + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
@@ -344,7 +330,7 @@ void project_textured_quad_or_callback(void *quad, void *position, void *materia
 #include "common.h"
 #include "shared/object_node.h"
 
-extern void project_textured_quad_or_callback(void *record, void *context, void *data, s16 depth_bias);
+extern void project_textured_quad_or_callback(void *record, void *context, SpriteFrameState *data, s16 depth_bias);
 
 /* Retail 81874F04 (project_linked_quad_record).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the
@@ -371,9 +357,6 @@ typedef struct {
     u32 addr : 24;
     u32 len : 8;
 } P_TAG;
-
-
-
 
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
@@ -734,8 +717,6 @@ s32 project_colored_point(u8 *render_data, u8 *source_vertex)
 #include "common.h"
 #include "shared/object_flags.h"
 
-
-
 /* Adjust height conditionally and set flags when the countdown reaches zero or below. */
 void func_80025278(void *state, s16 *position)
 {
@@ -775,8 +756,6 @@ typedef struct S_func_81875B38_2 {
     s32 unk_10;
 } S_func_81875B38_2;
 
-
-
 typedef struct S_func_81875B38_4 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -799,8 +778,6 @@ typedef struct S_func_81875B38_5 {
 } S_func_81875B38_5;
 
 extern s32 rand();
-
-
 
 static __inline__ S_func_81875B38_2 *effect_offset_32(void *p) {
     return (S_func_81875B38_2 *)((u8 *)p + 0x20);
@@ -1085,7 +1062,6 @@ typedef struct S_81876014_6 {
     u8 unk_0D;
     u8 unk_0E;
 } S_81876014_6;   /* ((S_81876014_0 *)arg0)->unk_48 in update_effect_quad_and_completion */
-
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);

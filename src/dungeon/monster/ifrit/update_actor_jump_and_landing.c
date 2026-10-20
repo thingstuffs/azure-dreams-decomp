@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -17,7 +18,6 @@ typedef struct S_80172288_0 {
     u8 pad_9C[0x4];
     s32 unk_A0;
 } S_80172288_0;   /* arg0 in update_actor_jump_and_landing */
-
 
 typedef struct {
     u16 x;
@@ -104,7 +104,7 @@ void update_actor_jump_and_landing(u8 *motion, EntityRec *position, u8 *sprite, 
             position->unk_10 = 0;
             position->unk_0C = 0;
             set_record_integer_tile_center(position, sprite[0x24], sprite[0x25]);
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174820;
+            ((SpriteFrameState *)sprite)->frameTable = D_80174820;
             select_sprite_entry(
                 sprite,
                 D_80174820[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -124,7 +124,6 @@ void update_actor_jump_and_landing(u8 *motion, EntityRec *position, u8 *sprite, 
         set_record_integer_tile_center(position, sprite[0x24], sprite[0x25]);
         reduce_actor_food_meter(actor, 4);
         advance_status_timers(actor);
-
 
         global_counter = &g_dungeon_status;
         if (global_counter->unk_08 != 0) {
@@ -150,6 +149,6 @@ void update_actor_jump_and_landing(u8 *motion, EntityRec *position, u8 *sprite, 
         ((S_80172288_0 *)motion)->unk_8C = &D_80170E84;
         on_actor_status_updated(actor);
     }
-    ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = frame_path.point[((S_80172288_0 *)motion)->unk_96].x;
-    ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = frame_path.point[((S_80172288_0 *)motion)->unk_96].y;
+    ((SpriteFrameState *)sprite)->scale_x = frame_path.point[((S_80172288_0 *)motion)->unk_96].x;
+    ((SpriteFrameState *)sprite)->scale_y = frame_path.point[((S_80172288_0 *)motion)->unk_96].y;
 }

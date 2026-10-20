@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_18a0800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -24,17 +25,6 @@ typedef struct S_80024D90_2 {
     s16 unk_0A;
 } S_80024D90_2;
 
-typedef struct S_80024D90_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x6];
-    s16 unk_16;
-    s16 unk_18;
-    u8 pad_1A[0x2];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80024D90_3;   /* component in spawn_ring_effects */
-
 typedef struct S_80024D90_4 {
     u8 pad_00[0x14];
     s16 unk_14;
@@ -43,9 +33,6 @@ typedef struct S_80024D90_4 {
     u8 pad_20[0x4];
     s16 unk_24;
 } S_80024D90_4;
-
-
-
 
 /* Spawns sixteen effects in a ring around the source position. */
 void *spawn_ring_effects(void *source_pos, s16 effect_param) {
@@ -59,7 +46,7 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
     S_80024D90_2 *position;
     register s32 angle;
     s32 value;
-    register void *component;
+    register SpriteFrameState *component;
 
     do {
         effect = func_8003FC64(0x202);
@@ -75,14 +62,14 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
             position->unk_0A =
                 (s16)(origin->unk_0A - 0x100);
             component = ((S_80024D90_0 *)effect)->unk_0C;
-            ((S_80024D90_3 *)component)->unk_1C = 0x800;
-            ((S_80024D90_3 *)component)->unk_1E = 0x1CCC;
-            ((S_80024D90_3 *)component)->unk_0C = 0;
+            component->scale_x = 0x800;
+            component->scale_y = 0x1CCC;
+            component->color.word = 0;
             func_8003DB94(component, D_80025854, 0);
             value = counter_page[0x57CC / 2];
             source_pos = (u8 *)effect + 0x20;
-            ((S_80024D90_3 *)component)->unk_16 = 0x400;
-            ((S_80024D90_3 *)component)->unk_18 = component_offset;
+            component->angle_x = 0x400;
+            component->angle_y = component_offset;
             ((S_80024D90_4 *)source_pos)->unk_24 = effect_index;
             ((S_80024D90_4 *)source_pos)->unk_14 = state_param;
             ((S_80024D90_4 *)source_pos)->unk_1E = (s16)(effect_index * 2);
@@ -94,5 +81,4 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
     } while (effect_index < 0x10);
     return effect;
 }
-
 

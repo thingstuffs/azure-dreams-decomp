@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_e0365c.h"
+#include "shared/sprite_frame_state.h"
 
 void create_four_directional_effects(void *owner_arg, void *motion_arg, void *origin_arg) {
     u16 offsets[3];
@@ -7,7 +8,7 @@ void create_four_directional_effects(void *owner_arg, void *motion_arg, void *or
     s32 *effect_data;
     E_80174084_S_80DE6884_0 *origin;
     void *render_config;
-    E_80174084_S_80DE6884_2 *render_data;
+    SpriteFrameState *render_data;
     E_80174084_S_80DE6884_4 *motion;
     E_80174084_S_80DE6884_1 *effect;
 
@@ -25,16 +26,16 @@ void create_four_directional_effects(void *owner_arg, void *motion_arg, void *or
             render_config = &D_800DEA68;
             render_data = effect->unk_0C;
             effect->unk_10 = effect_data;
-            render_data->unk_0E = 0x60;
-            render_data->unk_0D = 0x60;
-            render_data->unk_0C = 0x60;
-            render_data->unk_14 = set_flags(render_data->unk_14, 0xC);
-            render_data->unk_10 = set_flags(render_data->unk_10, 0x20);
+            render_data->color.c.b = 0x60;
+            render_data->color.c.g = 0x60;
+            render_data->color.c.r = 0x60;
+            render_data->flags = set_flags(render_data->flags, 0xC);
+            render_data->tpage_abr = set_flags(render_data->tpage_abr, 0x20);
             func_8003DB94(render_data, render_config, 0);
             func_800478B8(render_data);
-            render_data->unk_1A = rand() % 0x1000;
-            render_data->unk_1E = 0x1000;
-            render_data->unk_1C = 0x1000;
+            render_data->angle_z = rand() % 0x1000;
+            render_data->scale_y = 0x1000;
+            render_data->scale_x = 0x1000;
             register_node(effect, project_sprite_chain);
             motion = effect->unk_08;
             *(E_80174084_S_80DE6884_3 *)motion = *(E_80174084_S_80DE6884_3 *)motion_arg;

@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_19c6800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -87,31 +88,10 @@ typedef struct S_func_819A6800_7 {
     u16 unk_4C;
 } S_func_819A6800_7;
 
-typedef struct S_func_819A6800_8 {
-    void *unk_00;
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[2];
-    u32 unk_08;
-    u32 unk_0C;
-    u16 unk_10;
-    u8 pad_12[2];
-    u16 unk_14;
-    u8 pad_16[6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_func_819A6800_8;
-
 typedef struct S_func_819A6800_9 {
     u8 pad_00[4];
     u32 unk_04;
 } S_func_819A6800_9;
-
-typedef struct S_func_819A6800_10 {
-    u8 pad_00[0x0A];
-    u16 unk_0A;
-    u32 unk_0C;
-} S_func_819A6800_10;
 
 extern u8 D_800814A8[16];
 struct S_800244BC_2;
@@ -152,7 +132,7 @@ void func_80024020(void *sequence, void *out_position)
     S_func_819A6800_4 *counter_object;
     s16 position_offset[3];
     S_func_819A6800_7 *effect_data;
-    S_func_819A6800_8 *sprite;
+    SpriteFrameState *sprite;
     u8 *global_slot;
     S_func_819A6800_4 *global_object;
     S_func_819A6800_4 *reloaded_object;
@@ -183,8 +163,8 @@ void func_80024020(void *sequence, void *out_position)
             owner->unk_73 = record->unk_25;
         } else {
             sprite = ((S_func_819A6800_2 *)((u8 *)new_object - 0x20))->unk_0C;
-            owner->unk_72 = ((S_func_819A6800_2 *)sprite)->unk_24;
-            owner->unk_73 = ((S_func_819A6800_2 *)sprite)->unk_25;
+            owner->unk_72 = sprite->unk_24;
+            owner->unk_73 = sprite->unk_25;
         }
 
         SELF->unk_0A.u++;
@@ -222,15 +202,15 @@ void func_80024020(void *sequence, void *out_position)
             effect_data->unk_0E = ((S_func_819A6800_5 *)(record->unk_08))->unk_04.h.unk_06;
             effect_data->unk_10 = ((S_func_819A6800_5 *)(record->unk_08))->unk_08.h.unk_0A;
 
-            sprite->unk_1E = 0x1000;
-            sprite->unk_1C = 0x1000;
-            sprite->unk_10 = 0x20;
-            sprite->unk_14 |= 0x0C;
+            sprite->scale_y = 0x1000;
+            sprite->scale_x = 0x1000;
+            sprite->tpage_abr = 0x20;
+            sprite->flags |= 0x0C;
             sprite->unk_00 = D_800DEE38;
-            sprite->unk_08 = ((S_func_819A6800_9 *)(D_800DEE38))->unk_04;
+            sprite->source = ((S_func_819A6800_9 *)(D_800DEE38))->unk_04;
             sprite->unk_04 = 0;
             sprite->unk_05 = 0;
-            sprite->unk_0C = 0x00606060;
+            sprite->color.word = 0x00606060;
             record->unk_20 = SELF;
             effect_data->unk_4C = 0;
         }
@@ -385,7 +365,6 @@ typedef struct S_800244BC_4 {
     s16 unk_40;
 } S_800244BC_4;
 
-
 typedef struct {
     u8 pad[0xC];
     u32 word0;
@@ -491,9 +470,6 @@ typedef struct S_80024810_2 {
     void * unk_08;
 } S_80024810_2;
 
-
-
-
 typedef struct S_80024810_0_pre {
     u16 unk_00;
 } S_80024810_0_pre;   /* the 0x2 bytes before arg0 in update_jittered_effect_points, addressed as arg0[-1] */
@@ -521,7 +497,6 @@ typedef struct S_80024810_1 {
     u8 pad_00[0x52];
     u16 unk_52;
 } S_80024810_1;
-
 
 /* micro-lane E 2026-08-14: true base 0x80024810 (delta 0x7E65D800) */
 s32 resolve_record_orientation_or_fallback();       /* extern */
@@ -774,11 +749,6 @@ typedef struct S_819A764C_2 {
     s16 unk_06;
     s16 unk_08;
 } S_819A764C_2;   /* dst in func_819A764C */
-
-typedef struct S_819A764C_3 {
-    u8 pad_00[0x14A0];
-    u32 unk_14A0;
-} S_819A764C_3;   /* (void *)page_base in func_819A764C */
 
 s32 update_segment(void *);
 extern u16 func_8006649C(s32, s32);

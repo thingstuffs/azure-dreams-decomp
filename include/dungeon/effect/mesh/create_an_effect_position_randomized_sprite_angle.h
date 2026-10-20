@@ -58,20 +58,6 @@ typedef struct ovl_1930844_81910970_S_80024170_1 {
     u8 pad_0A[0x2];
     s32 unk_0C;
 } ovl_1930844_81910970_S_80024170_1;
-typedef struct ovl_1930844_81910970_S_80024170_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x3];
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} ovl_1930844_81910970_S_80024170_3;
 typedef struct ovl_1930844_81910970_S_80024170_4 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -220,10 +206,6 @@ typedef struct ovl_1930844_81911B9C_S_81911B9C_1 {
     u8 pad_00[0xC];
     void * unk_0C;
 } ovl_1930844_81911B9C_S_81911B9C_1;
-typedef struct ovl_1930844_81911B9C_S_81911B9C_2 {
-    u8 pad_00[0x5];
-    s8 unk_05;
-} ovl_1930844_81911B9C_S_81911B9C_2;
 typedef struct ovl_1930844_81911B9C_S_81911B9C_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;

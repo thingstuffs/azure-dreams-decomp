@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -10,19 +11,16 @@ typedef struct S_8016A8E8_0 {
     s16 unk_AC;
 } S_8016A8E8_0;   /* arg0 in update_lifetime_output_components; pointer addresses record offset 0x2 */
 
-
-
-
 /* Updates three output components from the remaining lifetime and flags expiry. */
-void update_lifetime_output_components(void *record_data, void *unused, Rec_D_80082E80 *output) {
+void update_lifetime_output_components(void *record_data, void *unused, SpriteFrameState *output) {
     s16 ticks_left;
     s32 fade_level;
 
     fade_level = (s32) (((S_8016A8E8_0 *)((u8 *)record_data - 0x2))->unk_98
         << 7) / (s16) ((S_8016A8E8_0 *)((u8 *)record_data - 0x2))->unk_AC;
-    output->unk_0C.at02_s8.v = (s8) fade_level;
-    output->unk_0C.at01_s8.v = (s8) fade_level;
-    output->unk_0C.at00_s8.v = (s8) fade_level;
+    output->color.c.b = (s8) fade_level;
+    output->color.c.g = (s8) fade_level;
+    output->color.c.r = (s8) fade_level;
     func_800478B8(output);
     ticks_left = (u16) ((S_8016A8E8_0 *)((u8 *)record_data - 0x2))->unk_98 - 1;
     ((S_8016A8E8_0 *)((u8 *)record_data - 0x2))->unk_98 = ticks_left;

@@ -1,5 +1,6 @@
 #include "dungeon/effect/shade/update_directional_actor_effect.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/effect/shade/update_directional_actor_effect.h"
 
 void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
                    s16 end_z, s16 *angles)
@@ -160,7 +161,7 @@ void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s3
     int color;
     void *effect;
     void *state;
-    void *sprite;
+    SpriteFrameState *sprite;
     effect = allocate_list_node(0x12, ((s32 *)&D_80083498.next));
     if (effect != 0) {
         *((s32 **) (((s8 *) effect) + 0x10)) = &D_800240F0;
@@ -172,15 +173,15 @@ void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s3
         *((s32 **) (((s8 *) state) + 4)) = ((s32 *)&D_80083498.next);
         *((s32 *) (((s8 *) state) + 8)) = effect_param;
         sprite = *((void **) (((s8 *) effect) + 0xC));
-        *((s8 *) (((s8 *) sprite) + 0xE)) = color;
-        *((s8 *) (((s8 *) sprite) + 0xD)) = color;
-        *((s8 *) (((s8 *) sprite) + 0xC)) = color;
-        *((s16 *) (((s8 *) sprite) + 0x1E)) = 0x1000;
-        *((s16 *) (((s8 *) sprite) + 0x1C)) = 0x1000;
-        *((s16 *) (((s8 *) sprite) + 0x12)) = 0x7E00;
-        *((s32 *) (((s8 *) sprite) + 8)) = render_param;
-        *((u16 *) (((s8 *) sprite) + 0x10)) = (u16) ((*((u16 *) (((s8 *) sprite) + 0x10))) | 0x20);
-        *((u16 *) (((s8 *) sprite) + 0x14)) = (u16) ((*((u16 *) (((s8 *) sprite) + 0x14))) | 0x10C);
+        sprite->color.c.b = color;
+        sprite->color.c.g = color;
+        sprite->color.c.r = color;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->clut = 0x7E00;
+        sprite->source = render_param;
+        sprite->tpage_abr = (u16) (sprite->tpage_abr | 0x20);
+        sprite->flags = (u16) (sprite->flags | 0x10C);
     }
 }
 
@@ -212,14 +213,14 @@ void update_rotating_effect_and_fade(void *effect, void *position, void *sprite)
     if (((Row_8194CD5C_S_8002455C_0 *)effect)->unk_30 != 0) {
         ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_30 = 0U;
     }
-    brightness = ((Rec_D_80082E80 *)sprite)->unk_0C.at02_u8.v - 8;
-    ((Rec_D_80082E80 *)sprite)->unk_0C.at02_u8.v = brightness;
-    ((Rec_D_80082E80 *)sprite)->unk_0C.at01_u8.v = brightness;
-    ((Rec_D_80082E80 *)sprite)->unk_0C.at00_u8.v = brightness;
-    if (!(brightness & 0xFF) || (scale = ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v - 0x100,
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = scale, ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = scale,
-        ((Rec_D_80082E80 *)sprite)->unk_1A.as_u16 = (u16) ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E, func_800478B8(sprite),
-        ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) != 0))) {
+    brightness = ((SpriteFrameState *)sprite)->color.c.b - 8;
+    ((SpriteFrameState *)sprite)->color.c.b = brightness;
+    ((SpriteFrameState *)sprite)->color.c.g = brightness;
+    ((SpriteFrameState *)sprite)->color.c.r = brightness;
+    if (!(brightness & 0xFF) || (scale = ((SpriteFrameState *)sprite)->scale_y - 0x100,
+        ((SpriteFrameState *)sprite)->scale_y = scale, ((SpriteFrameState *)sprite)->scale_x = scale,
+        ((SpriteFrameState *)sprite)->angle_z = (u16) ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E, func_800478B8(sprite),
+        ((((SpriteFrameState *)sprite)->flags & 0x6000) != 0))) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((Row_8194CD5C_S_8002455C_0_pre *)effect)[-1].unk_00 | 0x8000);
         object_flag_block.flags |= 0x8000;
     }
@@ -243,7 +244,7 @@ void create_textured_offset_object(void *source_object)
     void *source = source_object;
     void *object;
     Row_8194CF00_S_80024700_0 *data;
-    void *primitive;
+    SpriteFrameState *primitive;
     void *primitive_2;
     s32 angle_or_zero;
 
@@ -265,22 +266,22 @@ void create_textured_offset_object(void *source_object)
         data->unk_2E.u = offset_angle;
 
         primitive = (*(void * *)((u8 *)object + 0xC));
-        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_0C.at02.v = 0x40;
-        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_0C.at01.v = 0x40;
-        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_0C.at00.v = 0x40;
+        primitive->color.c.b = 0x40;
+        primitive->color.c.g = 0x40;
+        primitive->color.c.r = 0x40;
         func_8003DB94(primitive, D_800DE938, angle_or_zero);
 
         value = 0x2000;
-        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_1E = value;
-        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_1C = value;
+        primitive->scale_y = value;
+        primitive->scale_x = value;
         scale_component = data->unk_24;
-        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_14.at02.v = scale_component >> 12;
+        primitive->angle_x = scale_component >> 12;
         scale_component = data->unk_26;
-        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_18 = scale_component >> 12;
+        primitive->angle_y = scale_component >> 12;
         angle_or_zero = data->unk_2E.u;
-        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_10.u16 |= 0x20;
-        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_14.at00.v |= 0xC;
-        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_1A = angle_or_zero;
+        primitive->tpage_abr |= 0x20;
+        primitive->flags |= 0xC;
+        primitive->angle_z = angle_or_zero;
         register_node(object, project_sprite_chain);
 
         primitive_2 = (*(void * *)((u8 *)object + 8));
@@ -434,7 +435,6 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
     void *target;
     EntityRec *actor_value;
     void *actor_value_2;
-
 
     state_or_heading = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s;
     ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_10 = (u16)(((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_10 + 1);

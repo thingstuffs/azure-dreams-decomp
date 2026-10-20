@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -29,7 +30,6 @@ typedef struct S_80091C64_1 {
     u8 pad_20[0xA];
     s16 unk_2A;
 } S_80091C64_1;   /* arg3 in update_actor_hop_and_return */
-
 
 void set_sprite_animation_frame();
 s32 func_800644B8();
@@ -64,7 +64,7 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, void *entity
         if ((s16) delay_left >= 9) {
             return;
         }
-        (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
+        ((SpriteFrameState *)entity)->frameTable = D_800DD038;
         set_sprite_animation_frame(entity, D_800DD038[((s32) (g_game_work.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
         ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 | 0xC);
@@ -83,7 +83,7 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, void *entity
         if ((hop_frames_left << 0x10) > 0) {
             return;
         }
-        (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
+        ((SpriteFrameState *)entity)->frameTable = D_800DD058;
         set_sprite_animation_frame(entity, D_800DD058[((s32) (g_game_work.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
         ((S_80091C64_0 *)motion)->unk_92 = 0;
@@ -93,7 +93,7 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, void *entity
         if (((s32)g_dungeon_status.unk_0C) != 0) {
             return;
         }
-        (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
+        ((SpriteFrameState *)entity)->frameTable = D_800DD038;
         set_sprite_animation_frame(entity, D_800DD038[((s32) (g_game_work.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
         return_duration = 8U;
@@ -103,10 +103,10 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, void *entity
     case 3:
         frames_left = (s16) ((S_80091C64_0 *)motion)->unk_96.s;
         if (frames_left != 0) {
-            target_x = ((Rec_D_80082E80 *)entity)->unk_24 << 6;
+            target_x = ((SpriteFrameState *)entity)->unk_24 << 6;
             current_x = position->x.w.i - 0x20;
             position->x.v = (s32) (position->x.v + ((target_x - current_x) << 0x10) / frames_left);
-            y_step = ((Rec_D_80082E80 *)entity)->unk_25;
+            y_step = ((SpriteFrameState *)entity)->unk_25;
             y_step <<= 6;
             y_origin = position->y.w.i - 0x20;
             {
@@ -125,10 +125,10 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, void *entity
         if ((return_frames_left << 0x10) > 0) {
             return;
         }
-        set_record_integer_tile_center(position, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
+        set_record_integer_tile_center(position, ((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25);
         ((S_80091C64_0 *)motion)->unk_92 = 0;
         ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
-        (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
+        ((SpriteFrameState *)entity)->frameTable = D_800DD058;
         set_sprite_animation_frame(entity, D_800DD058[((s32) (g_game_work.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
         return;

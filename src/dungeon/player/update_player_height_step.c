@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -7,7 +8,6 @@
 #include "shared/entity.h"
 
 typedef struct S_80048A44_Obj S_80048A44_Obj;
-
 
 void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 s32 collect_ground_item();  /* extern */
@@ -19,7 +19,7 @@ extern u8 D_800DD040[];
 extern u8 D_800DD058[];
 
 /* Updates movement toward a target tile and advances the actor's animation state. */
-void update_player_height_step(void *actor, EntityRec *motion, void *sprite, EntityRec *model) {
+void update_player_height_step(void *actor, EntityRec *motion, SpriteFrameState *sprite, EntityRec *model) {
     s16 ticks_left;
     s32 coord_or_ticks;
     s32 motion_value;
@@ -33,7 +33,7 @@ void update_player_height_step(void *actor, EntityRec *motion, void *sprite, Ent
     case 0:
     case 8:
     case 10:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        if (sprite->flags & 0x6000) {
             launch_state = ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8;
             if (launch_state == 0) {
                 motion->flags14 = 0xFFF00000;
@@ -50,7 +50,7 @@ void update_player_height_step(void *actor, EntityRec *motion, void *sprite, Ent
             process_unflagged_linked_entries(model->unk_5C);
             g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x812);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_98 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_98 & 0xFFF3);
-            (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD040;
+            sprite->frameTable = D_800DD040;
             set_sprite_animation_frame(sprite, D_800DD040[((s32) (g_game_work.view.viewAngle + model->facing + 0x100) >> 9) & 7], 0, 1);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 = (u8) (((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8
                 + 1);
@@ -69,13 +69,13 @@ void update_player_height_step(void *actor, EntityRec *motion, void *sprite, Ent
     case 9:
     case 11:
         if (g_dungeon_status.unk_04 != 0) {
-            motion_value = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+            motion_value = sprite->unk_24 << 6;
             coord_or_ticks = motion->x.w.i;
             coord_or_ticks -= 0x20;
             motion_value = (motion_value - coord_or_ticks) << 0x10;
             motion->unk_0C = motion_value / g_dungeon_status.unk_04;
             coord_or_ticks = motion->y.w.i;
-            motion_value = ((Rec_D_80082E80 *)sprite)->unk_25;
+            motion_value = sprite->unk_25;
             coord_or_ticks -= 0x20;
             motion_value <<= 6;
             motion_value -= coord_or_ticks;
@@ -89,9 +89,9 @@ void update_player_height_step(void *actor, EntityRec *motion, void *sprite, Ent
             g_dungeon_status.unk_04 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
             if ((u8) ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 >= 0xAU) {
-                (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD058;
+                sprite->frameTable = D_800DD058;
                 set_sprite_animation_frame(sprite, D_800DD058[((s32) (g_game_work.view.viewAngle + model->facing + 0x100) >> 9) & 7],
                     0, 1);
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 =
@@ -106,7 +106,7 @@ void update_player_height_step(void *actor, EntityRec *motion, void *sprite, Ent
         }
         return;
     case 12:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        if (sprite->flags & 0x6000) {
             g_dungeon_status.unk_04 = 0;
             if ((collect_ground_item(actor, motion, sprite, model) << 0x10) > 0) {
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = handle_player_input;

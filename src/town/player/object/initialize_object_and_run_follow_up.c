@@ -3,7 +3,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
 
-void clear_entity_record_fields();                     /* extern */
+#include "town/player/object/entity_record_fields.h"                     /* extern */
 extern s8 D_80082668;
 typedef struct S_8009803C_0 S_8009803C_0;
 void tick_countdown_and_initialize_record(S_8009803C_0 *state, s32 value, s32 mode);
@@ -15,5 +15,5 @@ void initialize_object_and_run_follow_up(Rec_func_80094268_arg0 *object, s32 fol
     D_80082668 = 0;
     object->unk_04.as_pm = &tick_countdown_and_initialize_record;
     object->unk_0A.as_s16 = 0x15;
-    clear_entity_record_fields(followUpArg);
+    clear_entity_record_fields((struct EntityRec *)(followUpArg));
 }

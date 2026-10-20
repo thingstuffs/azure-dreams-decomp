@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -17,7 +18,6 @@ typedef struct S_800D991C_0 {
     u8 pad_9C[0x8];
     s32 unk_A4;
 } S_800D991C_0;   /* arg0 in update_actor_landing */
-
 
 void func_8003DB94();        /* extern */
 s16 get_rounded_facing_and_rounding_flag();       /* extern */
@@ -56,12 +56,12 @@ void update_actor_landing(void *motion_state, EntityRec *transform, void *map_en
         ((S_800D991C_0 *)motion_state)->unk_90 = (s32) (((S_800D991C_0 *)motion_state)->unk_90
             - ((S_800D991C_0 *)motion_state)->unk_A4);
         if (frames_left != 0) {
-            target_x = ((Rec_D_80082E80 *)map_entity)->unk_24 << 6;
+            target_x = ((SpriteFrameState *)map_entity)->unk_24 << 6;
             current_x = transform->x.w.i - 0x20;
             velocity_x = (s32) ((target_x - current_x) << 0x10) / frames_left;
             current_y = transform->y.w.i - 0x20;
             transform->unk_0C = velocity_x;
-            target_y = ((Rec_D_80082E80 *)map_entity)->unk_25 << 6;
+            target_y = ((SpriteFrameState *)map_entity)->unk_25 << 6;
             transform->unk_10 = (s32) ((s32) ((target_y - current_y)
                 << 0x10) / (s16) ((S_800D991C_0 *)motion_state)->unk_96);
             ((S_800D991C_0 *)motion_state)->unk_A4 = (s32) (((S_800D991C_0 *)motion_state)->unk_A4
@@ -82,9 +82,9 @@ void update_actor_landing(void *motion_state, EntityRec *transform, void *map_en
             transform->flags14 = 0;
             transform->unk_10 = 0;
             transform->unk_0C = 0;
-            set_record_integer_tile_center(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+            set_record_integer_tile_center(transform, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
             animation_table = D_800E262C;
-            (*(void **)((u8 *)map_entity + 0x2C)) = animation_table;
+            ((SpriteFrameState *)map_entity)->frameTable = animation_table;
             func_8003DB94(map_entity, *(void **)((u8 *)animation_table + (((s32) (g_game_work.view.viewAngle
                 + actor->facing + 0x100) >> 7) & 0x1C)), 0);
             ((S_800D991C_0 *)motion_state)->unk_9B = (u8) (((S_800D991C_0 *)motion_state)->unk_9B + 1);
@@ -96,7 +96,7 @@ void update_actor_landing(void *motion_state, EntityRec *transform, void *map_en
             transform->flags14 = 0;
             transform->unk_10 = 0;
             transform->unk_0C = 0;
-            set_record_integer_tile_center(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+            set_record_integer_tile_center(transform, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
             reduce_actor_food_meter(actor, 4);
             advance_status_timers(actor);
             if (g_dungeon_status.unk_08 != 0) {
@@ -106,8 +106,8 @@ void update_actor_landing(void *motion_state, EntityRec *transform, void *map_en
             if (!(actor_flags & 0x2000)) {
                 if (!(actor_flags & 0x410)) {
                     if (actor_flags & 0x20000) {
-                        actor->facing = get_rounded_facing_and_rounding_flag(((Rec_D_80082E80 *)map_entity)->unk_24,
-                            ((Rec_D_80082E80 *)map_entity)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+                        actor->facing = get_rounded_facing_and_rounding_flag(((SpriteFrameState *)map_entity)->unk_24,
+                            ((SpriteFrameState *)map_entity)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
                     }
                 }
             }

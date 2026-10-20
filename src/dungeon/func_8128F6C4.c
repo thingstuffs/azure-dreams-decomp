@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -50,7 +51,7 @@ extern u8 D_80160EC4[];
 extern u8 D_80160ECC[];
 
 /* Advances the actor state sequence and selects effects for its facing direction. */
-void advance_actor_facing_effect_state(ActorActionWork *action, void *context, Rec_D_80082E80 *entity, EntityRec *actor)
+void advance_actor_facing_effect_state(ActorActionWork *action, void *context, SpriteFrameState *entity, EntityRec *actor)
 {
     s32 direction;
     u8 *directionFrame;
@@ -64,13 +65,13 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, R
         u8 *entryFrames;
         {
             DungeonGlobalStatus *dungeon_state;
-            if ((entity->unk_14.at00_u16.v & 0xE000) == 0) {
+            if ((entity->flags & 0xE000) == 0) {
                 return;
             }
 
             entryFrames = D_80160E94;
 
-            entity->unk_2C.as_pv = entryFrames;
+            entity->frameTable = entryFrames;
             direction = (D_80084818.view.viewAngle + actor->facing + 0x100) >> 9;
             direction &= 7;
             directionFrame = direction + entryFrames;
@@ -92,7 +93,7 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, R
         }
         waitFrames = D_80160EBC;
 
-        entity->unk_2C.as_pv = waitFrames;
+        entity->frameTable = waitFrames;
         direction = (D_80084818.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + waitFrames;
@@ -112,7 +113,7 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, R
         }
         startFrames = D_80160EC4;
 
-        entity->unk_2C.as_pv = startFrames;
+        entity->frameTable = startFrames;
         direction = (D_80084818.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + startFrames;
@@ -191,7 +192,7 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, R
             update_fading_effect_motion(actor);
             if ((func_800424C4(actor, 1) << 16) != 0) {
                 TileObject *room_base = &D_80081490;
-                s8 room_id = entity->unk_26.as_s8;
+                s8 room_id = *(s8 *)&entity->unk_26;
 
                 if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)func_8009EB30(room_base, entity) < 2) {
                     if ((func_800A59E8() & 7) == 0) {
@@ -206,12 +207,12 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, R
 
         finishFrames = D_80160ECC;
 
-        entity->unk_2C.as_pv = finishFrames;
+        entity->frameTable = finishFrames;
         direction = (D_80084818.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + finishFrames;
         func_80047320(entity, *directionFrame, 0);
-        if ((entity->unk_14.at00_u16.v & 0x8000) != 0) {
+        if ((entity->flags & 0x8000) != 0) {
             break;
         }
         action->phase++;
@@ -229,7 +230,7 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, R
         u32 phase_flag = 0x40000;
         u32 phase_flags;
 
-        if ((entity->unk_14.at00_u16.v & 0xE000) == 0) {
+        if ((entity->flags & 0xE000) == 0) {
             return;
         }
 
@@ -238,7 +239,7 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, R
 
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
-        entity->unk_2C.as_pv = restoreFrames;
+        entity->frameTable = restoreFrames;
         direction = (D_80084818.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + restoreFrames;
@@ -258,7 +259,7 @@ void advance_actor_facing_effect_state(ActorActionWork *action, void *context, R
 
         idleFrames = D_80160E94;
 
-        entity->unk_2C.as_pv = idleFrames;
+        entity->frameTable = idleFrames;
         direction = (D_80084818.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + idleFrames;

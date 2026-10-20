@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -37,7 +38,7 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
     u8 *animations;
     s32 direction_index;
     void *spawned_actor;
-    void *spawned_sprite;
+    SpriteFrameState *spawned_sprite;
     void *spawned_work;
     void *spawned_pos;
     void *direction_ptr;
@@ -72,7 +73,7 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
                 spawned_work = (u8 *)spawned_actor + 0x20;
                 register_node(spawned_actor, project_sprite_chain);
                 spawned_sprite = PTR_AT(spawned_actor, 0x0C);
-                U16_AT(spawned_sprite, 0x14) &= 0xFFF3;
+                spawned_sprite->flags &= 0xFFF3;
                 PTR_AT(spawned_work, 0x40) = action_work;
                 spawned_pos = PTR_AT(spawned_actor, 8);
                 S16_AT(spawned_pos, 2) = U16_AT(position, 2);
@@ -88,12 +89,12 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
                 S32_AT(spawned_work, 0x80) = 0x14900;
                 S16_AT(spawned_work, 0x34) = ((u16)S16_AT(actor, 0x2A) >> 9) & 7;
                 spawned_sprite = PTR_AT(spawned_actor, 0x0C);
-                S16_AT(spawned_sprite, 0x1E) = 0x1000;
-                S16_AT(spawned_sprite, 0x1C) = 0x1000;
+                spawned_sprite->scale_y = 0x1000;
+                spawned_sprite->scale_x = 0x1000;
                 direction_index = ((u16)S16_AT(actor, 0x2A) >> 7) & 0x1C;
                 direction_ptr = direction_index + (u8 *)direction_ptr;
                 direction_y = *(volatile u16 *)((u8 *)direction_ptr + 2);
-                S16_AT(spawned_sprite, 6) = direction_y * 6;
+                spawned_sprite->unk_06 = direction_y * 6;
                 S16_AT(action_work, 0xA4) = 0x4D;
                 tile_coord = S16_AT(position, 2);
                 if (tile_coord < 0) {
@@ -102,10 +103,10 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
                 S8_AT(spawned_work, 0x5C) = tile_coord >> 6;
                 tile_coord = S16_AT(position, 6);
                 S8_AT(spawned_work, 0x5D) = (tile_coord / 64);
-                U8_AT(spawned_sprite, 0x0E) = 0x80;
-                U8_AT(spawned_sprite, 0x0D) = 0x80;
-                U8_AT(spawned_sprite, 0x0C) = 0x80;
-                PTR_AT(spawned_sprite, 8) = D_80077C50;
+                spawned_sprite->color.c.b = 0x80;
+                spawned_sprite->color.c.g = 0x80;
+                spawned_sprite->color.c.r = 0x80;
+                spawned_sprite->source = D_80077C50;
             }
         }
         if ((S16_AT(action_work, 0x96) == 0x12) || (U16_AT(sprite, 0x14) & 0x8000)) {

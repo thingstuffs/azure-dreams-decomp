@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -16,7 +17,7 @@ extern void * create_animated_selection_menu_owner(void *unused, void *source);
 extern s32 D_800E4940[];
 
 /* Reset movement and dispatch actor actions based on state and input flags. */
-void handle_sleeping_player_input(Rec_func_8008ACDC_arg0 *controller, EntityRec *move_state, Rec_D_80082E80 *entity,
+void handle_sleeping_player_input(Rec_func_8008ACDC_arg0 *controller, EntityRec *move_state, SpriteFrameState *entity,
     EntityRec *actor) {
     s16 action_state;
     GameWork *input_state = &g_game_work;
@@ -26,7 +27,7 @@ void handle_sleeping_player_input(Rec_func_8008ACDC_arg0 *controller, EntityRec 
     set_record_integer_tile_center(move_state, entity->unk_24, entity->unk_25);
     action_state = actor->unk_64;
     if ((action_state < 0) || (controller->unk_10C & 1)) {
-        entity->unk_14.at00_u16.v = (u16)(entity->unk_14.at00_u16.v & 0xF7FF);
+        entity->flags = (u16)(entity->flags & 0xF7FF);
         begin_player_damage_reaction(controller, move_state, entity, actor);
         return;
     }
@@ -43,7 +44,7 @@ void handle_sleeping_player_input(Rec_func_8008ACDC_arg0 *controller, EntityRec 
         return;
     }
     if ((controller->unk_9A.as_u8 != 0xD) && (actor->flags1C & 0x200)) {
-        entity->unk_14.at00_u16.v = (u16)(entity->unk_14.at00_u16.v & 0xF7FF);
+        entity->flags = (u16)(entity->flags & 0xF7FF);
         begin_player_sleep_action(controller, move_state, entity, actor);
     }
 }

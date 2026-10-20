@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -19,7 +20,6 @@ typedef struct S_801722BC_0 {
     union { s16 s; u16 u; } unk_A4;   /* accessed as both */
 } S_801722BC_0;   /* arg0 in complete_airborne_actor_recovery */
 
-
 typedef struct S_801722BC_2 {
     u8 pad_00[0x1C];
     union { u32 s; s32 u; } unk_1C;   /* accessed as both */
@@ -28,7 +28,6 @@ typedef struct S_801722BC_2 {
     u8 pad_2C[0x1A];
     u16 unk_46;
 } S_801722BC_2;   /* arg3 in complete_airborne_actor_recovery */
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
@@ -62,10 +61,10 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
     phase = ((S_801722BC_0 *)anim)->unk_9B;
     switch (phase) {
     case 0:
-        if (!(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)entity)->flags & 0x6000)) {
             break;
         }
-        (*(u8 * *)((u8 *)entity + 0x2C)) = D_80173884;
+        ((SpriteFrameState *)entity)->frameTable = D_80173884;
         select_sprite_entry(
             entity,
             D_80173884[((g_game_work.view.viewAngle + ((S_801722BC_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -80,14 +79,14 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
         ((S_801722BC_0 *)anim)->unk_90 =
             ((S_801722BC_0 *)anim)->unk_90 - ((S_801722BC_0 *)anim)->unk_A0;
         if (move_ticks != 0) {
-            target_x = ((Rec_D_80082E80 *)entity)->unk_24 << 6;
+            target_x = ((SpriteFrameState *)entity)->unk_24 << 6;
             origin_x = ((EntityRec *)motion)->x.w.i - 0x20;
             origin_y = ((EntityRec *)motion)->y.w.i - 0x20;
             ((EntityRec *)motion)->unk_0C =
                 ((target_x - origin_x) << 16) /
                 move_ticks;
             ((EntityRec *)motion)->unk_10 =
-                (((((Rec_D_80082E80 *)entity)->unk_25 << 6) - origin_y) << 16) /
+                (((((SpriteFrameState *)entity)->unk_25 << 6) - origin_y) << 16) /
                 (s16)((S_801722BC_0 *)anim)->unk_A4.s;
             arc_ticks = ((S_801722BC_0 *)anim)->unk_A4.s;
             ((EntityRec *)motion)->flags14 += (arc_ticks << 15) + (arc_ticks << 13);
@@ -111,8 +110,8 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
-            (*(u8 * *)((u8 *)entity + 0x2C)) = D_8017388C;
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25);
+            ((SpriteFrameState *)entity)->frameTable = D_8017388C;
             select_sprite_entry(
                 entity,
                 D_8017388C[((g_game_work.view.viewAngle + ((S_801722BC_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -127,7 +126,7 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25);
         reduce_actor_food_meter(actor, 4);
         advance_status_timers(actor);
 
@@ -144,7 +143,7 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 ((S_801722BC_2 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
-                    ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25,
+                    ((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
             }
         }

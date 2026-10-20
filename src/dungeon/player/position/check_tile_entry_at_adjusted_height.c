@@ -1,13 +1,13 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 s16 find_flagged_tile_entry();    /* extern */
 u16 sample_terrain_surface_height();                   /* extern */
 
-
 /* Call find_flagged_tile_entry with a temporary tile-based value in unk_88. */
-s16 check_tile_entry_at_adjusted_height(s32 context, s32 data, Rec_D_80082E80 *tile, EntityRec *state) {
+s16 check_tile_entry_at_adjusted_height(s32 context, s32 data, SpriteFrameState *tile, EntityRec *state) {
     s16 result;
     u16 saved_value;
 

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
@@ -33,11 +34,9 @@ typedef struct S_80174B20_16 {
     u16 unk_2A;
 } S_80174B20_16;   /* ((S_80174B20_14 *)arg3)->unk_60 in advance_actor_replacement_sequence */
 
-
 typedef struct S_80174B20_0_pre {
     u16 unk_00;
 } S_80174B20_0_pre;   /* the 0x2 bytes before arg0 in advance_actor_replacement_sequence, addressed as arg0[-1] */
-
 
 typedef struct S_80174B20_1 {
     u8 pad_00[0x13];
@@ -58,13 +57,6 @@ typedef struct S_80174B20_2 {
     u8 unk_00;
 } S_80174B20_2;   /* &D_8017521D in advance_actor_replacement_sequence */
 
-typedef struct S_80174B20_3 {
-    u8 pad_00[0xA8];
-    u8 unk_A8;
-    u8 unk_A9;
-    u8 unk_AA;
-} S_80174B20_3;
-
 typedef struct S_80174B20_4 {
     u8 unk_00;
     u8 unk_01;
@@ -77,7 +69,6 @@ typedef struct S_80174B20_5 {
     void * unk_0C;
     s32 * unk_10;
 } S_80174B20_5;
-
 
 typedef struct S_80174B20_7 {
     u8 pad_00[0x14A0];
@@ -105,7 +96,6 @@ typedef struct S_80174B20_9 {
     u8 * unk_2C;
 } S_80174B20_9;
 
-
 typedef struct S_80174B20_11_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -116,29 +106,23 @@ typedef struct S_80174B20_11 {
     u16 unk_2A;
 } S_80174B20_11;
 
-typedef struct S_80174B20_12 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80174B20_12;
-
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 void func_8003DB94();     /* extern */
 s32 Control_CD(); /* extern */
-void sound_set_cd_cue_parameters(); /* extern */
-void run_cd_image_commands(); /* extern */
-int func_800445E0();                           /* extern */
+#include "slus/sound_set_cd_cue_parameters_api.h" /* extern */
+#include "engine/graphics/run_cd_image_commands_api.h" /* extern */
+int func_800445E0(void);                           /* extern */
 s32 register_node();           /* extern */
-void select_indirect_table_entry();              /* extern */
+#include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
 s32 lookup_masked_byte_table();  /* extern */
 s32 func_80069EF8();                          /* extern */
-void unlink_entity_node();                      /* extern */
-void update_map_cell_flags_with_item_limit();             /* extern */
-void decrement_monster_entry_count();                 /* extern */
-s32 advance_staged_entity_load();                /* extern */
+#include "dungeon/level/unlink_entity_node_api.h"                      /* extern */
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"             /* extern */
+#include "dungeon/item/decrement_monster_entry_count_api.h"                 /* extern */
+#include "dungeon/actor/advance_staged_entity_load_api.h"                /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 create_status_linked_render_effect();     /* extern */
-s32 select_nearby_target_and_initialize_slot(); /* extern */
+#include "dungeon/select_nearby_target_and_initialize_slot_api.h" /* extern */
 void create_randomly_rotated_offset_effect(); /* extern */
 extern s32 D_8006CD58;
 extern void *D_800DCEEC[];
@@ -186,7 +170,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
         return;
     case 1:
-        run_cd_image_commands(&D_801751F8, &D_8017521C, 0);
+        run_cd_image_commands(&D_801751F8, (u8 *)(&D_8017521C), 0);
         ((Rec_func_80174800_arg0 *)state)->unk_B0 = 0;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
         ((S_80174B20_1 *)actor)->unk_8A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
@@ -200,12 +184,12 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
             ((S_80174B20_1 *)actor)->unk_2A = (u16) (((S_80174B20_1 *)actor)->unk_2A + 0x200);
             return;
         }
-        run_cd_image_commands(&D_801751F8, &D_8017521C, 1);
+        run_cd_image_commands(&D_801751F8, (u8 *)(&D_8017521C), 1);
         sound_set_cd_cue_parameters(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         (*(s8 *)&D_8017521D) = 0;
         Control_CD(0xFF, set_byte_one, &D_8017521D);
-        select_nearby_target_and_initialize_slot(actor - 0x20, position, 8, 0x300);
+        select_nearby_target_and_initialize_slot((s32)(actor - 0x20), position, 8, 0x300);
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
     case 3:
@@ -257,7 +241,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
             style = random_value % 3;
         }
         func_8003DB94(sprite, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
-        entity->unk_14.at00_u16.v = (u16) (entity->unk_14.at00_u16.v | 0x80);
+        ((SpriteFrameState *)entity)->flags = (u16) (((SpriteFrameState *)entity)->flags | 0x80);
         ray_index = 1;
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
@@ -274,7 +258,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
             ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
             ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
             decrement_monster_entry_count(((S_80174B20_1 *)actor)->unk_13, 3);
-            update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
+            update_map_cell_flags_with_item_limit(((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25, 0x300);
             unlink_entity_node(actor);
             sprite = actor - 0x20;
             sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
@@ -289,13 +273,13 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
         decrement_monster_entry_count(((S_80174B20_1 *)actor)->unk_13, 3);
-        update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25, 0x300);
         unlink_entity_node(actor);
         sprite = actor - 0x20;
         sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
         return;
     case 7:
-        new_actor = advance_staged_entity_load(entity, actor);
+        new_actor = advance_staged_entity_load((s32)(entity), actor);
         ((S_80174B20_1 *)actor)->unk_60 = new_actor;
         if (new_actor == NULL) {
             return;
@@ -305,7 +289,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
         ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
         replacement = ((S_80174B20_1 *)actor)->unk_60;
         sprite = ((S_80174B20_11_pre *)replacement)[-1].unk_00;
-        select_indirect_table_entry(sprite, sprite->unk_2C[((s32) (g_game_work.view.viewAngle
+        select_indirect_table_entry((struct S_80047738 *)(sprite), sprite->unk_2C[((s32) (g_game_work.view.viewAngle
             + (s16) ((S_80174B20_11 *)replacement)->unk_2A + 0x100) >> 9) & 7], sprite->unk_04);
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
     case 8:

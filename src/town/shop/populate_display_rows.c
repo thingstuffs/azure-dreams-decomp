@@ -18,10 +18,10 @@ typedef struct S_800B59A4_5 {
 } S_800B59A4_5;
 
 
-s32 lookup_item_category_mapped_value();
+s32 lookup_item_category_mapped_value(s32, s32);
 s32 select_item_data();
 M2C_UNK bzero(void **, M2C_UNK);
-void set_display_entry_text_and_position();
+struct S_800B5264_0; void set_display_entry_text_and_position(struct S_800B5264_0 *, s32, s32, s16, s32);
 M2C_UNK func_800B53BC();
 void collect_selected_record_values(void **, s32);
 s32 format_optional_signed_value();
@@ -61,7 +61,7 @@ next_row:
     entry_slot = (void **)((s32)(row_index << 2) + (s32)&scratch[0]);
     entry = *entry_slot;
     if (entry != NULL) {
-        set_display_entry_text_and_position(((S_800B59A4_0 *)row_display)->unk_18, select_item_data(entry, &scratch[8]), scratch[8], 0x58,
+        set_display_entry_text_and_position((struct S_800B5264_0 *)(((S_800B59A4_0 *)row_display)->unk_18), select_item_data(entry, &scratch[8]), scratch[8], 0x58,
             text_y);
         func_800B53BC(((S_800B59A4_0 *)row_display)->unk_24, format_optional_signed_value(*entry_slot, &scratch[4]), 0, 0xA0, text_y);
         entry_info = *entry_slot;

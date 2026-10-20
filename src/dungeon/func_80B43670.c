@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource12_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void update_actor_state_and_select_target(void *entity, void *context, void *sprite, void *actor)
 {
@@ -19,15 +20,14 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
         return;
     }
 
-
     if (((R12_80170E70_S_80170E70_1 *)actor)->unk_25 == 0) {
         advance_actor_pending_action(entity, context, sprite, actor);
-        if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_2C == ((u8 *)D_80175A9C)) {
+        if (((SpriteFrameState *)sprite)->frameTable == ((u8 *)D_80175A9C)) {
             return;
         }
         {
             u8 *effects = ((u8 *)D_80175A94);
-            (*(void * *)((u8 *)sprite + (0x2C))) = effects;
+            ((SpriteFrameState *)sprite)->frameTable = effects;
             select_sprite_entry(
                 sprite,(u8)(effects[((g_game_work.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
                 0);
@@ -36,7 +36,7 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
     }
 
     if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x200) {
-        if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_2C == ((u8 *)D_80175A9C)) {
+        if (((SpriteFrameState *)sprite)->frameTable == ((u8 *)D_80175A9C)) {
             ((R12_80170E70_S_80170E70_0 *)entity)->unk_9A = 13;
             ((R12_80170E70_S_80170E70_0 *)entity)->unk_9B = 1;
             ((R12_80170E70_S_80170E70_0 *)entity)->unk_8C = 0;
@@ -59,8 +59,8 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
         if (current_state != next_state) {
             u8 *effect = ((u8 *)D_80175A54);
 
-            if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_2C != effect) {
-                (*(void * *)((u8 *)sprite + (0x2C))) = effect;
+            if (((SpriteFrameState *)sprite)->frameTable != effect) {
+                ((SpriteFrameState *)sprite)->frameTable = effect;
                 select_sprite_entry(
                     sprite,(u8)(effect[((g_game_work.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
                     0);
@@ -88,15 +88,15 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
         }
     }
 
-    tile_id = ((s8)find_active_rect_containing_point((u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v),(u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v)));
-    ((R12_80170E70_S_80170E70_2 *)sprite)->unk_26 = tile_id;
+    tile_id = ((s8)find_active_rect_containing_point((u8)((SpriteFrameState *)sprite)->unk_24,(u8)((SpriteFrameState *)sprite)->unk_25));
+    ((SpriteFrameState *)sprite)->unk_26 = tile_id;
 
     if (((R12_80170E70_S_80170E70_1 *)actor)->unk_6D > 0) {
         if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x20) {
             update_actor_status_and_food(actor);
             return;
         }
-        if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (*(u16 *)&((SpriteFrameState *)sprite)->unk_24 == *(u16 *)(&D_80082E80.tileX)) {
             func_8017162C(entity, context, sprite, actor);
             return;
         }
@@ -134,7 +134,7 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
         case 5:
         case 6:
             target_angle = ((s16)get_rounded_facing_and_rounding_flag(
-                ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v, ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v,
+                ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                 D_80082E80.tileX, D_80082E80.tileY, &path_distance));
             owner = D_800814A8;
             ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A = target_angle;
@@ -164,9 +164,9 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
         if ((tile_id < 0) ||
             ((D_800E2970[tile_id].flags & 2) == 0)) {
             if ((actor_flags & 0x430) == 0) {
-                if ((s16)compare_monster_neighbor_values((u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v),(u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v),(u8)(D_80082E80.tileX),(u8)(D_80082E80.tileY)) != 0) {
+                if ((s16)compare_monster_neighbor_values((u8)((SpriteFrameState *)sprite)->unk_24,(u8)((SpriteFrameState *)sprite)->unk_25,(u8)(D_80082E80.tileX),(u8)(D_80082E80.tileY)) != 0) {
                     ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag(
-                        ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v, ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v,
+                        ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                         D_80082E80.tileX, D_80082E80.tileY, &path_distance));
                 }
             }
@@ -176,16 +176,16 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
     if (g_dungeon_status.flags & 0x2000) {
         return;
     }
-    if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_14 & 0x40) {
+    if (((SpriteFrameState *)sprite)->flags & 0x40) {
         return;
     }
     effect_table = ((u8 *)D_80175A54);
-    if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_2C == effect_table) {
+    if (((SpriteFrameState *)sprite)->frameTable == effect_table) {
         return;
     }
     {
         u8 *effects = effect_table;
-        (*(void * *)((u8 *)sprite + (0x2C))) = effects;
+        ((SpriteFrameState *)sprite)->frameTable = effects;
         select_sprite_entry(
             sprite,(u8)(effects[((g_game_work.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
             0);

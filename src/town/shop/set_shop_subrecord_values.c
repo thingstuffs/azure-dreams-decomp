@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void populate_shop_item_rows();                      /* extern */
+struct S_800B0FD4_0; void populate_shop_item_rows(struct S_800B0FD4_0 *);                      /* extern */
 void set_shop_change_indicator_color();                      /* extern */
 
 typedef struct S_800B1778_0 {
@@ -19,5 +19,5 @@ void set_shop_subrecord_values(s32 record_address, s32 value_10, s32 value_08) {
     subrecord->unk_08 = value_08;
     set_shop_change_indicator_color(subrecord);
     subrecord->unk_10 = value_10;
-    populate_shop_item_rows(subrecord);
+    populate_shop_item_rows((struct S_800B0FD4_0 *)(subrecord));
 }

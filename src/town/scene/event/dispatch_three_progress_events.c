@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void set_script_flag_bit();                     /* extern */
+void set_script_flag_bit(s32);                     /* extern */
 
 /* Process IDs 0x1462, 0x1474, and 0xD89 in sequence. */
 void dispatch_three_progress_events(void) {

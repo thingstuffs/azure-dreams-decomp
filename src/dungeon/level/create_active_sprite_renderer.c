@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 
 /* The registered constructor initializes only this observed render prefix. */
@@ -21,16 +22,16 @@ extern s32 register_node(ObjectNodeHeader *, s32 (*)(void *, void *, void *));
 void create_active_sprite_renderer(void)
 {
     ObjectNodeHeader *node;
-    MapRenderPrefix *render;
+    SpriteFrameState *render;
 
     node = func_8003FC64(2);
     if (node != 0) {
         render = (MapRenderPrefix *)node->unk_0C;
         node->unk_10 = 0;
         register_node(node, render_active_sprite_parts_and_shadows);
-        render->blue = 0x80;
-        render->green = 0x80;
-        render->red = 0x80;
+        render->color.c.b = 0x80;
+        render->color.c.g = 0x80;
+        render->color.c.r = 0x80;
         render->scale_y = 0x1000;
         render->scale_x = 0x1000;
     }

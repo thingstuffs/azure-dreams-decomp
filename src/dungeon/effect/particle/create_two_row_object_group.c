@@ -1,5 +1,6 @@
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/effect/particle/create_two_row_object_group.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "common.h"
 
@@ -82,7 +83,6 @@ typedef struct S_800DA93C_4 {
     u8 pad_00[0xB0];
     u32 unk_B0;
 } S_800DA93C_4;   /* (u8 *)work in draw_linked_textured_quads */
-
 
 extern s32 func_80065420();
 extern void func_80066640();
@@ -202,7 +202,6 @@ typedef struct S_800DAB50_0 {
     } points[4];
 } S_800DAB50_0;
 
-
 typedef struct WorkBlock {
     s16 *unk0;
     s16 *unk4;
@@ -222,7 +221,6 @@ typedef struct WorkBlock {
     s16 unk2A;
     s16 unk2C;
 } WorkBlock;
-
 
 extern s32 func_800644B8();
 extern s32 func_80066460();
@@ -357,9 +355,6 @@ typedef struct S_800DAE44_3 {
     void * unk_08;
 } S_800DAE44_3;
 
-
-
-
 void *allocate_list_node();            /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
 extern void spawn_scattered_timed_objects(void *source_owner, void *spawn_params);
@@ -368,7 +363,6 @@ typedef struct S_800DAE44_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
 } S_800DAE44_0;
-
 
 typedef struct S_800DAE44_2 {
     u8 pad_00[0x10];
@@ -437,21 +431,6 @@ typedef struct S_800DAEF4_4 {
     u16 unk_48;
 } S_800DAEF4_4;   /* work in spawn_scattered_timed_objects */
 
-typedef struct S_800DAEF4_5 {
-    void * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_800DAEF4_5;   /* node in spawn_scattered_timed_objects */
-
 typedef struct S_800DAEF4_6 {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -466,11 +445,10 @@ typedef struct S_800DAEF4_7 {
     s32 unk_14;
 } S_800DAEF4_7;   /* ((S_800DAEF4_0 *)object)->unk_08 in spawn_scattered_timed_objects */
 
-
 extern void *allocate_list_node();
 extern void register_node();
 extern s32 func_80069EF8(void);
-extern void update_timed_effect_animation(void *effect, void *motion, void *visual);
+extern void update_timed_effect_animation(void *effect, void *motion, SpriteFrameState *visual);
 extern s32 D_800DEA68;
 
 /* Spawns up to 13 scattered objects and marks the owner finished when its timer expires. */
@@ -479,7 +457,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
     s32 remaining;
     u8 *link;
     void *object;
-    void *node;
+    SpriteFrameState *node;
     u8 *work;
     s32 offset_roll_a;
     s32 spread_roll_b;
@@ -525,19 +503,19 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
             height_delta -= ((S_800DAEF4_3 *)source_owner)->unk_10.u << 16;
             ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_14 = height_delta / divisor;
 
-            ((S_800DAEF4_5 *)node)->unk_14 |= 0xC;
-            ((S_800DAEF4_5 *)node)->unk_1C = 0x1000;
-            ((S_800DAEF4_5 *)node)->unk_1E = 0x200;
+            node->flags |= 0xC;
+            node->scale_x = 0x1000;
+            node->scale_y = 0x200;
             if (func_80069EF8() & 1) {
-                ((S_800DAEF4_5 *)node)->unk_14 |= 1;
+                node->flags |= 1;
             }
-            ((S_800DAEF4_5 *)node)->unk_10 = 0x60;
-            ((S_800DAEF4_5 *)node)->unk_0C = 0xC06060;
-            ((S_800DAEF4_5 *)node)->unk_00 = link;
+            node->tpage_abr = 0x60;
+            node->color.word = 0xC06060;
+            node->unk_00 = link;
             link_value = ((S_800DAEF4_6 *)link)->unk_04;
-            ((S_800DAEF4_5 *)node)->unk_04 = 0;
-            ((S_800DAEF4_5 *)node)->unk_05 = 0;
-            ((S_800DAEF4_5 *)node)->unk_08 = link_value;
+            node->unk_04 = 0;
+            node->unk_05 = 0;
+            node->source = link_value;
             target_height = ((S_800DAEF4_2 *)spawn_params)->unk_08.at02.v;
             ((S_800DAEF4_4 *)work)->unk_48 = 4;
             ((S_800DAEF4_4 *)work)->unk_10 = target_height;
@@ -571,7 +549,6 @@ typedef struct S_800DB164_0 {
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
 } S_800DB164_0;   /* arg0 in update_timed_effect_animation */
 
-
 typedef struct S_800DB164_2 {
     u8 pad_00[0x8];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
@@ -579,12 +556,11 @@ typedef struct S_800DB164_2 {
     s32 unk_14;
 } S_800DB164_2;   /* arg1 in update_timed_effect_animation */
 
-
 extern void func_800478B8();
 s32 rand();                             /* extern */
 
 /* Updates a timed effect's animation and motion, marking it for removal when finished. */
-void update_timed_effect_animation(void *effect, void *motion, void *visual) {
+void update_timed_effect_animation(void *effect, void *motion, SpriteFrameState *visual) {
     s32 phase;
     s32 ticks_left;
     s32 next_phase;
@@ -594,9 +570,9 @@ void update_timed_effect_animation(void *effect, void *motion, void *visual) {
     ((S_800DB164_0 *)effect)->unk_48 = ticks_left;
     switch (phase) {
     case 0:
-        ((Rec_D_80082E80 *)visual)->unk_1C.at00_u16.v = (u16) (((Rec_D_80082E80 *)visual)->unk_1C.at00_u16.v
+        visual->scale_x = (u16) (visual->scale_x
             - ((rand() & 0xFF) + 0x300));
-        ((Rec_D_80082E80 *)visual)->unk_1C.at02_u16.v = (u16) (((Rec_D_80082E80 *)visual)->unk_1C.at02_u16.v
+        visual->scale_y = (u16) (visual->scale_y
             + ((rand() & 0xFF) + 0x200));
         if ((s16) ((S_800DB164_0 *)effect)->unk_48 > 0) {
             break;
@@ -606,7 +582,7 @@ void update_timed_effect_animation(void *effect, void *motion, void *visual) {
         break;
 
     case 1:
-        ((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v = (s32) (((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v
+        visual->color.word = (s32) (visual->color.word
             + 0xFFF3F3F4);
         ((S_800DB164_2 *)motion)->unk_14 = (s32) (((S_800DB164_2 *)motion)->unk_14 - ((rand() & 0xFF)
             << 0xA));
@@ -637,16 +613,10 @@ void update_timed_effect_animation(void *effect, void *motion, void *visual) {
 #include "shared/object_node.h"
 #include "shared/dungeon_moving_views.h"
 
-
-
 typedef struct S_800DB2DC_6 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_800DB2DC_6;
-
-
-
-
 
 extern void *allocate_list_node();
 struct D_800DB420_Obj;
@@ -678,20 +648,6 @@ typedef struct S_800DB2DC_2 {
     s32 unk_2C;
 } S_800DB2DC_2;   /* held_arg1 in create_two_effect_groups */
 
-typedef struct S_800DB2DC_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x2];
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    s32 unk_28;
-    s32 unk_2C;
-} S_800DB2DC_3;
-
    /* held_arg0 in create_two_effect_groups */
 
 typedef struct S_800DB2DC_5 {
@@ -710,7 +666,7 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
     u16 visual_flags;
     u16 source_offset;
     s32 visual_word;
-    S_800DB2DC_3 *visual;
+    SpriteFrameState *visual;
     S_800DB2DC_5 *effect_state;
     void *effect;
 
@@ -728,15 +684,15 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
                 ((S_800DB2DC_0 *)effect)->unk_4A =
                     (u16)source_arg->unk_2A;
                 visual_word = source_visual->unk_28;
-                visual->unk_1E = scale;
-                visual->unk_1C = scale;
+                visual->scale_y = scale;
+                visual->scale_x = scale;
                 visual->unk_28 = visual_word;
                 visual_flags = source_visual->unk_14;
-                visual->unk_14 = visual_flags;
+                visual->flags = visual_flags;
                 source_offset = source_visual->unk_12;
-                visual->unk_0C = 0x808080;
-                visual->unk_14 = (u16)(visual_flags | 0xC);
-                visual->unk_12 =
+                visual->color.word = 0x808080;
+                visual->flags = (u16)(visual_flags | 0xC);
+                visual->clut =
                     (s16)(source_offset - 0x80);
                 ((S_800DB2DC_0 *)effect)->unk_20 = position;
                 ((MovingPosition *)(((S_800DB2DC_6 *)effect)->unk_08))->unk_02 =
@@ -748,7 +704,7 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
                 effect_state = effect + 0x20;
                 effect_state->unk_06 = saved_param;
                 effect_state->unk_04 = (s16)(group_step != 0);
-                visual->unk_2C =
+                visual->frameTable =
                     (s32)source_visual->unk_2C;
             }
         } while (--effects_left >= 0);
@@ -826,7 +782,6 @@ void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *pos
 }
 #include "common.h"
 #include "shared/object_flags.h"
-
 
 /* Subtracts the limit when available, otherwise marks the record and global flags. */
 void subtract_limit_or_flag_record(void *record) {

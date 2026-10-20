@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -34,14 +35,6 @@ typedef struct S_800254A4_3 {
     u8 pad_50[0x6];
     s16 unk_56;
 } S_800254A4_3;   /* part1 in initialize_tako_minigame */
-
-typedef struct S_800254A4_4 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800254A4_4;   /* draw in initialize_tako_minigame */
 
 typedef struct S_800254A4_5 {
     u8 pad_00[0x4];
@@ -79,7 +72,6 @@ typedef struct S_800254A4_7 {
     u16 unk_16;
 } S_800254A4_7;   /* final_part in initialize_tako_minigame */
 
-
 extern u8 D_8002012C[];
 extern u8 D_80020134[];
 extern u8 D_8002013C[];
@@ -116,7 +108,7 @@ s32 initialize_tako_minigame(void)
     S_800254A4_5 *left_state;
     S_800254A4_6 *right_state;
     S_800254A4_7 *final_state;
-    S_800254A4_4 *draw_state;
+    SpriteFrameState *draw_state;
     S_800254A4_2 *packet;
     void *value_ptr;
     void *row_data;
@@ -164,10 +156,10 @@ create_child:
         packet->unk_14 = 0xFFFC0000;
         ((S_800254A4_0 *)object)->unk_20 = parent_state;
         child_state->unk_56 = index;
-        draw_state->unk_1E = 0x1000;
-        draw_state->unk_1C = 0x1000;
+        draw_state->scale_y = 0x1000;
+        draw_state->scale_x = 0x1000;
         func_8003DB94(draw_state, D_800F7968, 0);
-        draw_state->unk_0C = 0x00808080;
+        draw_state->color.word = 0x00808080;
         child_state->unk_4C = child_data;
         configure_the_set_mode_n_1((u8 *)object + 0x24, ((S_800254A4_0 *)object)->unk_08, D_80026F50);
     }

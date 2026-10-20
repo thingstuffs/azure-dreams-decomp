@@ -1,5 +1,6 @@
 #include "dungeon/monster/naplass/create_actor_with_kind_parts.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/naplass/create_actor_with_kind_parts.h"
 
 /* Creates an actor and initializes its parts and flags for the requested kind. */
 void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value)
@@ -8,7 +9,7 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
     S_8014C870_1 *work;
     void *obj;
     S_8014C870_2 *part_a;
-    S_8014C870_3 *part_b;
+    SpriteFrameState *part_b;
     S_8014C870_4 *actor;
     void *init_obj;
     s8 saved_x;
@@ -34,7 +35,7 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
         kind = kind_flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;
-        part_b->unk_2C = D_80150194;
+        part_b->frameTable = D_80150194;
         part_b->unk_24 = saved_x;
 
         if (kind == 1) {
@@ -54,7 +55,7 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
                     ((Work *)work)->flags1c |= 0x200;
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_801501DC;
+                    part_b->frameTable = D_801501DC;
                 }
             }
         }
@@ -63,7 +64,7 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &dispatch_dungeon_actor_behavior_and_facing;
-        part_b->unk_14 |= 0xC;
+        part_b->flags |= 0xC;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

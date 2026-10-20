@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -8,7 +9,6 @@ extern Func4 D_800E22E0[];
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
 extern s32 sample_terrain_surface_height();
-
 
 typedef struct S_800D4158_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -31,7 +31,7 @@ typedef struct S_800D4158_2 {
 } S_800D4158_2;   /* arg0 in update_actor_motion_and_brightness */
 
 /* Updates entity callbacks, motion, ground contact, and sprite brightness. */
-void update_actor_motion_and_brightness(void *entity, S_800D4158_1 *motion, Rec_D_80082E80 *sprite) {
+void update_actor_motion_and_brightness(void *entity, S_800D4158_1 *motion, SpriteFrameState *sprite) {
     void *entity_ref = entity;
     u16 motion_flags;
     u32 entity_flags;
@@ -48,8 +48,8 @@ void update_actor_motion_and_brightness(void *entity, S_800D4158_1 *motion, Rec_
         ((Func4)(*(Func4 *)((u8 *)entity_ref + 0x8c)))(entity_ref, motion, sprite, entity_ref);
     }
     D_800E22E0[(*(u8 *)((u8 *)entity_ref + 0x9a))](entity_ref, motion, sprite, entity_ref);
-    if (!(sprite->unk_14.at00_u16.v & 0x8000)) {
-        if (!(sprite->unk_14.at00_u16.v & 0x40)) {
+    if (!(sprite->flags & 0x8000)) {
+        if (!(sprite->flags & 0x40)) {
             func_800478B8(sprite);
         }
     }
@@ -100,15 +100,15 @@ void update_actor_motion_and_brightness(void *entity, S_800D4158_1 *motion, Rec_
     if ((s16)pulse_phase < 0x19) {
         brightness = (func_800644B8((s16)pulse_phase * 0x55) >> 4) * 0x60;
         brightness = (brightness >> 8) + 0x80;
-        sprite->unk_0C.at02_u8.v = brightness;
-        sprite->unk_0C.at01_u8.v = brightness;
-        sprite->unk_0C.at00_u8.v = brightness;
+        sprite->color.c.b = brightness;
+        sprite->color.c.g = brightness;
+        sprite->color.c.r = brightness;
     } else {
-        sprite->unk_0C.at02_u8.v = 0x80;
-        sprite->unk_0C.at01_u8.v = 0x80;
-        sprite->unk_0C.at00_u8.v = 0x80;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
     }
-    sprite->unk_14.at00_u16.v |= 0x40;
+    sprite->flags |= 0x40;
     (*(u32 *)((u8 *)entity_ref + 0x1c)) |= 0x200;
     return;
 }

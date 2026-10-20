@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_index_slots.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_trail_views.h"
@@ -33,7 +34,6 @@ typedef struct S_800A75E4_4 {
     s8 unk_96;
 } S_800A75E4_4;   /* body in fukidasi_set */
 
-
 typedef struct {
     s32 unk0;
     void *value;
@@ -55,7 +55,7 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
     u8 *body;
     TrailHeightView *part;
     s32 *value_slot;
-    EffectPrimitiveValueView *part_data;
+    SpriteFrameState *part_data;
 
     entry_or_body = NULL;
     entry_data = entry_or_body;
@@ -73,7 +73,7 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
         body = (u8 *)object + 0x20;
         part = ((S_800A75E4_1 *)object)->unk_08;
         part_data = ((S_800A75E4_1 *)object)->unk_0C;
-        part_data->unk_08 = D_800D0E24[part_index];
+        part_data->source = D_800D0E24[part_index];
         register_node_if_unregistered(body, project_sprite_chain);
         part->unk_0A = part->unk_0A - 0x62;
         ((S_800A75E4_4 *)body)->unk_90 = 0xA;

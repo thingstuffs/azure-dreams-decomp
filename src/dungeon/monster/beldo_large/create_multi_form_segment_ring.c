@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
@@ -34,30 +35,11 @@ typedef struct S_8016E998_1 {
     s8 unk_20;
 } S_8016E998_1;
 
-typedef struct S_8016E998_2 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_8016E998_2;
-
 typedef struct S_8016E998_3 {
     s32 unk_00;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     s32 unk_08;
 } S_8016E998_3;
-
-
-typedef struct S_8016E998_5 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8016E998_5;
-
 
 s32 register_node();           /* extern */
 s32 func_800644B8();                             /* extern */
@@ -79,7 +61,7 @@ void create_multi_form_segment_ring(EntityRec *origin) {
     s32 segment_index;
     s32 *effect_handler;
     void **effect_slot;
-    S_8016E998_5 *appearance;
+    SpriteFrameState *appearance;
     S_8016E998_0 *effect_data;
     void *effect;
     S_8016E998_3 *position;
@@ -98,9 +80,9 @@ void create_multi_form_segment_ring(EntityRec *origin) {
             ((S_8016E998_1 *)effect)->unk_10 = effect_handler;
             register_node(effect, project_sprite_chain);
             appearance = ((S_8016E998_1 *)effect)->unk_0C;
-            ((S_8016E998_2 *)appearance)->unk_14 |= 0xC;
-            ((S_8016E998_2 *)appearance)->unk_10 = 0x20;
-            ((S_8016E998_2 *)appearance)->unk_14 |= 0x80;
+            appearance->flags |= 0xC;
+            appearance->tpage_abr = 0x20;
+            appearance->flags |= 0x80;
             position = ((S_8016E998_1 *)effect)->unk_08;
             position->unk_00 = (s32) origin->x.v;
             position->unk_04.at00.v = (s32) origin->y.v;
@@ -126,14 +108,14 @@ void create_multi_form_segment_ring(EntityRec *origin) {
             effect_data->unk_7C = (s16) unit_scale;
             appearance = ((S_8016E998_1 *)effect)->unk_0C;
             color_level = 0x40;
-            appearance->unk_0C = color_level;
-            appearance->unk_1E = 0x1000;
-            appearance->unk_1C = 0x1000;
-            appearance->unk_0D = color_level;
-            appearance->unk_0E = color_level;
-            ((S_8016E998_1 *)effect)->unk_20 = appearance->unk_0C;
-            effect_data->unk_01 = appearance->unk_0D;
-            effect_data->unk_02 = appearance->unk_0E;
+            appearance->color.c.r = color_level;
+            appearance->scale_y = 0x1000;
+            appearance->scale_x = 0x1000;
+            appearance->color.c.g = color_level;
+            appearance->color.c.b = color_level;
+            ((S_8016E998_1 *)effect)->unk_20 = *(s8 *)&appearance->color.c.r;
+            effect_data->unk_01 = appearance->color.c.g;
+            effect_data->unk_02 = appearance->color.c.b;
             *effect_slot = effect;
         }
         effect_slot = (void **)((s8 *)((void **)((s8 *)effect_slot + 4)));

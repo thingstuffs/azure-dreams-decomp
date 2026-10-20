@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
@@ -11,7 +12,7 @@ extern s32 func_8003DB94(struct Dst *state, struct Elem *entries, s32 index);  /
 extern s32 register_node();
 s32 rand();                                /* extern */
 extern s32 play_sound_if_enabled();
-extern void damp_effect_motion_and_fade(void *effect, s32 *motion, void *primitive);
+extern void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *primitive);
 
 typedef struct S_800C5BBC_0 {
     u8 pad_00[0x8];
@@ -32,17 +33,6 @@ typedef struct S_800C5BBC_1 {
     s32 unk_14;
 } S_800C5BBC_1;
 
-typedef struct S_800C5BBC_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800C5BBC_2;
-
 typedef struct S_800C5BBC_3 {
     u8 pad_00[0xC];
     s16 unk_0C;
@@ -50,18 +40,13 @@ typedef struct S_800C5BBC_3 {
     s16 unk_10;
 } S_800C5BBC_3;
 
-typedef struct S_800C5BBC_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800C5BBC_4;
-
 /* Spawn a burst of randomized particles and return the first particle. */
 void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound) {
     s32 alloc_flags;
     s32 particle_index;
     s32 remaining;
     S_800C5BBC_1 *position;
-    S_800C5BBC_2 *sprite;
+    SpriteFrameState *sprite;
     void *particle;
     S_800C5BBC_3 *particle_state;
     void *first_particle;
@@ -91,12 +76,12 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
                 position->unk_14 = (s32) ((0 - ((rand() & 0xF) + 0x18)) << 0xD);
                 sprite = ((S_800C5BBC_0 *)particle)->unk_0C;
                 func_8003DB94(sprite, &D_800DEA68, 0);
-                sprite->unk_0C = sprite_data;
-                sprite->unk_1E = 0x1000;
-                sprite->unk_1C = 0x1000;
-                sprite->unk_10 = sprite_id;
-                sprite->unk_12 = 3;
-                sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+                sprite->color.word = sprite_data;
+                sprite->scale_y = 0x1000;
+                sprite->scale_x = 0x1000;
+                sprite->tpage_abr = sprite_id;
+                sprite->clut = 3;
+                sprite->flags = (u16) (sprite->flags | 0xC);
                 particle_state = particle + 0x20;
                 particle_state->unk_10 = (s16) ((rand() & 0xF) | 0x10);
                 particle_state->unk_0C = particle_index;

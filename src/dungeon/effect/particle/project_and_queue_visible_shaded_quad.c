@@ -1,4 +1,5 @@
 #include "dungeon/effect/particle/project_and_queue_visible_shaded_quad.h"
+#include "shared/sprite_frame_state.h"
 void (* const dungeon_1990800_entry)(void *, void *, void *) = advance_effect_sequence;
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
@@ -20,8 +21,6 @@ extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern void func_80065820(void *, void *);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
-
-
 
 typedef struct S_func_81970800_1 {
     u8 pad_00[0x24];
@@ -410,7 +409,6 @@ void func_800247E8(Bank1990800_1990fe8_EffectState *state, EntityRec *position)
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
 
-
 /* The effect record (the object header precedes it). */
 typedef struct Bank1990800_19910a8_EffectRecord {
     u8 pad_00[8];
@@ -498,9 +496,6 @@ typedef struct S_819711E0_1 {
 
    /* src in func_800249E0 */
 
-
-
-
 /* Decrement the timer, update scale and position, and flag completion at zero. */
 void func_800249E0(void *state, MovingPosition *position, S_819711E0_1 *scale) {
     s32 scale_factor;
@@ -576,7 +571,6 @@ void fade_effect_color_by_quarter(Obj *effect, Motion *motion, s8 *render_data)
 #include "common.h"
 #include "shared/object_flags.h"
 
-
 typedef struct S_81971398_0 {
     u8 pad_00[0x38];
     union { u16 s; s16 u; } unk_38;   /* accessed as both */
@@ -598,9 +592,6 @@ typedef struct S_81971398_2 {
     u8 unk_1D;
     u8 unk_1E;
 } S_81971398_2;   /* p in func_80024B98 */
-
-
-
 
 /* Advance the fade, scale four vertex colors, and flag completion when the timer expires. */
 void func_80024B98(void *fade_data)
@@ -639,7 +630,6 @@ void func_80024B98(void *fade_data)
 #include "common.h"
 #include "shared/object_flags.h"
 
-
 /* Advance an effect's fade and mark it finished when its countdown expires. */
 void render_linked_jittered_effect_strips(void *effect, s32 unused, void *packet)
 {
@@ -665,11 +655,9 @@ void render_linked_jittered_effect_strips(void *effect, s32 unused, void *packet
 #include "common.h"
 #include "shared/object_flags.h"
 
-
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
 #define U8_AT(p, off) (*(u8 *)((u8 *)(p) + (off)))
-
 
 /* Advances a timed visual update and sets completion flags when the countdown expires. */
 void advance_timed_visual(void *effect, s32 unused, void *visual)
@@ -723,7 +711,6 @@ void advance_timed_visual(void *effect, s32 unused, void *visual)
     *(u32 *)(flags_page + 0x14A0) |= 0x8000;
 }
 
-
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -767,11 +754,6 @@ typedef struct S_819715D4_0 {
     s16 unk_3A;
 } S_819715D4_0;
 
-typedef struct S_819715D4_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_819715D4_1;
-
 typedef struct S_819715D4_2 {
     u8 pad_00[0x14];
     s32 unk_14;
@@ -780,8 +762,8 @@ typedef struct S_819715D4_2 {
 /* Creates a sprite object with randomized offsets from the source position. */
 void func_80024DD4(u16 *source, s32 unused_1, s32 unused_2, s16 base_x, s16 base_y, s16 base_z) {
     s32 random_value;
-    Bank1990800_19915d4_Sprite *sprite;
-    Bank1990800_19915d4_Sprite *render_sprite;
+    SpriteFrameState *sprite;
+    SpriteFrameState *render_sprite;
     u16 *position;
     Bank1990800_19915d4_Object *object;
     u8 *object_data;
@@ -794,9 +776,9 @@ void func_80024DD4(u16 *source, s32 unused_1, s32 unused_2, s16 base_x, s16 base
         object->callback = (u8 *)fade_effect_color_by_quarter;
         register_node(object, (s32)project_sprite_chain);
         sprite = object->sprite;
-        sprite->flags10 = 0x20;
-        ((S_819715D4_1 *)sprite)->unk_06 = 0;
-        sprite->flags14 |= 0xC;
+        sprite->tpage_abr = 0x20;
+        sprite->unk_06 = 0;
+        sprite->flags |= 0xC;
         position = object->dst;
         position[1] = base_x;
         position[3] = base_y;
@@ -829,11 +811,11 @@ void func_80024DD4(u16 *source, s32 unused_1, s32 unused_2, s16 base_x, s16 base
         render_sprite = object->sprite;
         render_sprite->scale_y = 0x1000;
         render_sprite->scale_x = 0x1000;
-        render_sprite->b = 0x80;
-        render_sprite->g = 0x80;
-        render_sprite->r = 0x80;
-        render_sprite->angle = 0x7DCE;
-        render_sprite->flags14 |= 0x100;
+        render_sprite->color.c.b = 0x80;
+        render_sprite->color.c.g = 0x80;
+        render_sprite->color.c.r = 0x80;
+        render_sprite->clut = 0x7DCE;
+        render_sprite->flags |= 0x100;
         func_8003DB94(render_sprite, D_800DECF8, 0);
     }
 }
@@ -879,10 +861,6 @@ typedef struct S_81971760_2 {
     s16 unk_1C;
     s16 unk_1E;
 } S_81971760_2;
-
-
-
-
 
 typedef struct {
     s32 y;
@@ -1130,7 +1108,6 @@ typedef struct {
 
 extern Data12 D_80025FD0;
 extern Data12 D_80025FDC;
-
 
 extern s32 func_80053EF0(s32);
 extern void *get_sprite_attachment_vector(void *, void *, void *, s16);

@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_80053EF0();                         /* extern */
+s32 func_80053EF0(s32);                         /* extern */
 
 /* tw_seq_end_chk: check whether sequence 1 has ended. */
 s32 tw_seq_end_chk(void) {

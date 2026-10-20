@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
@@ -29,7 +30,6 @@ typedef struct S_80166204_5 {
 
    /* ((S_80166204_4 *)arg0)->unk_08 in create_short_lived_red_spark */
 
-
 typedef struct S_80166204_0 {
     u8 pad_00[0xC];
     void * unk_0C;
@@ -48,20 +48,6 @@ typedef struct S_80166204_1 {
     u16 unk_46;
 } S_80166204_1;
 
-typedef struct S_80166204_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x3];
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80166204_2;
-
-
 M2C_UNK func_8003DB94();  /* extern */
 s32 register_node();           /* extern */
 s32 rand();                                /* extern */
@@ -72,7 +58,7 @@ void create_short_lived_red_spark(S_80166204_4 *source, s16 effect_value, s32 un
     s32 velocity_z) {
     s32 color_component;
     s32 sprite_flags;
-    S_80166204_2 *sprite;
+    SpriteFrameState *sprite;
     S_80166204_1 *effect_state;
     void *effect;
 
@@ -97,18 +83,18 @@ void create_short_lived_red_spark(S_80166204_4 *source, s16 effect_value, s32 un
         effect_state->unk_34 = 8;
         register_node(effect, project_sprite_chain);
         sprite = ((S_80166204_0 *)effect)->unk_0C;
-        sprite->unk_1E = 0x2AA;
+        sprite->scale_y = 0x2AA;
         color_component = 0x20;
-        sprite->unk_0E = color_component;
-        sprite->unk_1C = 0x2AA;
-        sprite->unk_0C = 0xFF;
-        sprite->unk_0D = color_component;
-        sprite_flags = sprite->unk_14 & 0xFFF3;
+        sprite->color.c.b = color_component;
+        sprite->scale_x = 0x2AA;
+        sprite->color.c.r = 0xFF;
+        sprite->color.c.g = color_component;
+        sprite_flags = sprite->flags & 0xFFF3;
         sprite_flags |= 2;
-        sprite->unk_14 = sprite_flags;
-        sprite->unk_12 = 0x7DCF;
+        sprite->flags = sprite_flags;
+        sprite->clut = 0x7DCF;
         sprite_flags |= 0x100;
-        sprite->unk_14 = sprite_flags;
+        sprite->flags = sprite_flags;
         func_8003DB94(sprite, D_800DE870, 0);
     }
 }

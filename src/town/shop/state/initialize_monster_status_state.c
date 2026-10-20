@@ -2,8 +2,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800B683C_arg0.h"
 
-s32 get_monster_status_type_data();                             /* extern */
-s32 invalidate_cached_state_and_queue_read();                      /* extern */
+s32 get_monster_status_type_data(s32);                             /* extern */
+s32 invalidate_cached_state_and_queue_read(void *);                      /* extern */
 extern M2C_UNK D_800B66E8;
 
 

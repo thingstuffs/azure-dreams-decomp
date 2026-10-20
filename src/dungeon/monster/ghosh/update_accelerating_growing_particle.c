@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -25,11 +26,10 @@ typedef struct S_80172DFC_1 {
     s32 unk_08;
 } S_80172DFC_1;   /* arg1 in update_accelerating_growing_particle */
 
-
 extern void func_800478B8(void *);
 
 /* Advance effect motion and animation, and flag completion when its lifetime ends. */
-void update_accelerating_growing_particle(void *effect, S_80172DFC_1 *position, Rec_D_80082E80 *animation) {
+void update_accelerating_growing_particle(void *effect, S_80172DFC_1 *position, SpriteFrameState *animation) {
     u16 frame_count;
     u16 remaining_ticks;
 
@@ -44,15 +44,15 @@ void update_accelerating_growing_particle(void *effect, S_80172DFC_1 *position, 
     if (!(frame_count & 1)) {
         func_800478B8(animation);
     }
-    animation->unk_1C.at00_u16.v = animation->unk_1C.at00_u16.v + 0x28;
-    animation->unk_1C.at02_u16.v = animation->unk_1C.at02_u16.v + 0x28;
+    animation->scale_x = animation->scale_x + 0x28;
+    animation->scale_y = animation->scale_y + 0x28;
     remaining_ticks = ((S_80172DFC_0 *)effect)->unk_16 - 1;
     ((S_80172DFC_0 *)effect)->unk_16 = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
         ((S_80172DFC_0_pre *)effect)[-1].unk_00 = ((S_80172DFC_0_pre *)effect)[-1].unk_00 | 0x8000;
         object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
-    if (animation->unk_14.at00_u16.v & 0x8000) {
+    if (animation->flags & 0x8000) {
         ((S_80172DFC_0_pre *)effect)[-1].unk_00 = ((S_80172DFC_0_pre *)effect)[-1].unk_00 | 0x8000;
         object_flag_block.flags = object_flag_block.flags | 0x8000;
     }

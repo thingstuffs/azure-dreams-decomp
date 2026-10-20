@@ -9,7 +9,7 @@ typedef struct S_80172274_0 {
 } S_80172274_0;   /* arg0 in update_cascading_trail_emitter; pointer addresses record offset 0x2 */
 
 
-void spawn_rising_trail_emitter();                            /* extern */
+void spawn_rising_trail_emitter(void);                            /* extern */
 
 /* Decrement the record counter, calling the update on even counts and setting flags at zero. */
 void update_cascading_trail_emitter(void *record_data) {

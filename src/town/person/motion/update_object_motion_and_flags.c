@@ -18,9 +18,9 @@ typedef struct {
 } TargetObj;
 
 void dispatch_object_when_idle(TargetObj *, void *, s32, s32);
-void clear_object_status_and_dispatch_target();
-s32 quantize_heading_to_sector();
-s32 check_heading_past_half_sector();
+#include "town/system/clear_object_status_and_dispatch_target_api.h"
+s32 quantize_heading_to_sector(s32, s16);
+s32 check_heading_past_half_sector(s32, s16);
 extern M2C_UNK D_800D5028;
 extern M2C_UNK D_800D5040;
 extern M2C_UNK D_800D5058;
@@ -47,7 +47,7 @@ void update_object_motion_and_flags(TargetObj *obj, s32 callback_arg, void *moti
     if (!(*(u16 *)((u8 *)obj - 2) & 0x8000)) {
         table_index = quantize_heading_to_sector(obj->field72, obj->field64);
         if (obj->field74 != table_index) {
-            clear_object_status_and_dispatch_target(obj, motion, obj->table78[table_index], *(s8 *)((u8 *)motion + 4));
+            clear_object_status_and_dispatch_target(obj, (int)(motion), (int)(obj->table78[table_index]), *(s8 *)((u8 *)motion + 4));
             obj->field74 = table_index;
         }
         if (!(obj->flags71 & 1)) {

@@ -1,5 +1,6 @@
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -16,12 +17,12 @@ void update_sine_pulse_color(s32 object_id) {
     if (object != NULL) {
         model = *(s8 **)(object + 0xC);
         initialize_object_transform_and_state(object + 0x20, model, 0x3A1);
-        *(s16 *)(model + 0x20) = 0x1800;
-        *(s16 *)(model + 0x1E) = 0x1800;
-        *(s16 *)(model + 0x1C) = 0x1800;
-        *(u8 *)(model + 0xE) = 0xFF;
-        *(u8 *)(model + 0xD) = 0xFF;
-        *(u8 *)(model + 0xC) = 0xFF;
-        *(u16 *)(model + 0x14) = (u16) (*(u16 *)(model + 0x14) | 0x1C);
+        ((SpriteFrameState *)model)->unk_20 = 0x1800;
+        ((SpriteFrameState *)model)->scale_y = 0x1800;
+        ((SpriteFrameState *)model)->scale_x = 0x1800;
+        ((SpriteFrameState *)model)->color.c.b = 0xFF;
+        ((SpriteFrameState *)model)->color.c.g = 0xFF;
+        ((SpriteFrameState *)model)->color.c.r = 0xFF;
+        ((SpriteFrameState *)model)->flags = (u16) (((SpriteFrameState *)model)->flags | 0x1C);
     }
 }

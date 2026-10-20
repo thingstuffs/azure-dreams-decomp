@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -26,16 +27,6 @@ typedef struct S_8106B000_2 {
     s16 unk_0A;
 } S_8106B000_2;
 
-typedef struct S_8106B000_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    s32 * unk_2C;
-} S_8106B000_3;
-
 typedef struct S_8106B000_4 {
     u8 pad_00[0x8C];
     s32 * unk_8C;
@@ -46,8 +37,6 @@ typedef struct S_8106B000_4 {
     u8 pad_9D[0xD];
     s16 unk_AA;
 } S_8106B000_4;
-
-
 
 void *allocate_list_node();
 s32 register_node();
@@ -60,13 +49,11 @@ extern M2C_UNK D_8015EF68;
 extern M2C_UNK D_80161FB8;
 extern M2C_UNK D_80162000;
 
-
-
 void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 input3) {
     S_8106B000_1 *record;
     s32 value;
     u16 flags98;
-    S_8106B000_3 *child_0C;
+    SpriteFrameState *child_0C;
     S_8106B000_2 *child_08;
     S_8106B000_4 *record_alias;
     void *allocation;
@@ -92,7 +79,7 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
         value = input0 & 3;
         child_0C->unk_25 = saved_input2;
         record_alias = record;
-        child_0C->unk_2C = &D_80161FB8;
+        child_0C->frameTable = &D_80161FB8;
         child_0C->unk_24 = saved_input1;
         if (value == 1) {
             flags98 = record->unk_98;
@@ -114,7 +101,7 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
                     if (value & 1) {
                         record->unk_1C = (s32) (record->unk_1C | 0x200);
                         set_or_clear_actor_status_slot(record, 1, (generate_random_value() & 0x3F) | 0x20);
-                        child_0C->unk_2C = &D_80162000;
+                        child_0C->frameTable = &D_80162000;
                     }
                 }
             }
@@ -123,7 +110,7 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
         record_alias->unk_9A = 0xFF;
         record_alias->unk_9C = -1;
         record_alias->unk_8C = &D_8015EF68;
-        child_0C->unk_14 = (u16) (child_0C->unk_14 | 0xC);
+        child_0C->flags = (u16) (child_0C->flags | 0xC);
         record_alias->unk_AA = (s16) ((u16) record->unk_14 & 7);
         try_move_actor_to_valid_position(record_alias, child_08, child_0C, record);
     }

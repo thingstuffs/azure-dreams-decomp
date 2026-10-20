@@ -5,8 +5,8 @@
 
 void add_hex_20000_s_signed_offset_hex_14();                 /* extern */
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
-void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      /* extern */
+#include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
+#include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 void bind_handler_and_initialize_entity();        /* extern */
 
 
@@ -17,7 +17,7 @@ void update_actor_and_select_ground_handler(s32 context, EntityRec *record, s32 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(record);
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(record, &D_800FE488);
     if (record->z.w.i >= threshold) {
-        compute_and_clamps_vector_based_adjustment_updates_town(record, threshold, &D_800FE488);
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(record), threshold, (struct TownVec * *)(&D_800FE488));
         bind_handler_and_initialize_entity(context, record, action_data);
         return;
     }

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 
@@ -56,7 +57,6 @@ typedef struct Obj12State {
     u16 unk_1E;
 } Obj12State;
 
-
 s32 register_node();           /* extern */
 struct ConfigWord { s32 value; };
 extern u8 D_8009E038[];
@@ -83,16 +83,16 @@ void create_inactive_type_twelve_object(void) {
                 s32 config_word;
                 s32 config_word2;
                 s32 flags;
-                void *render_data;
+                SpriteFrameState *render_data;
 
                 child = object->unk_08;
                 child->unk_0A = -1;
                 render_data = object->unk_0C;
-                ((Obj12Render *)render_data)->unk_14 = 0xC;
-                ((Obj12Render *)render_data)->unk_08 = D_800DD7E0;
+                render_data->flags = 0xC;
+                render_data->source = D_800DD7E0;
                 config_value = (void *) 0x80010000;
-                ((Obj12Render *)render_data)->unk_1E = 0;
-                ((Obj12Render *)render_data)->unk_1C = 0;
+                render_data->scale_y = 0;
+                render_data->scale_x = 0;
                 field_value_2 = ((Obj12ConfigPage *)config_value)->unk_363C;
                 object_state = (Obj12State *)((u8 *)object + 0x20);
                 object_state->unk_1E = field_value_2;
@@ -105,12 +105,12 @@ void create_inactive_type_twelve_object(void) {
                 object_state->unk_1A = 0x10;
                 object_state->unk_1C = 8;
                 color = 0x808080;
-                ((Obj12Render *)render_data)->unk_0C = color;
+                render_data->color.word = color;
                 config_word = ((struct ConfigWord *)0x80013630)->value;
-                ((Obj12Render *)render_data)->unk_18 = 0;
-                ((Obj12Render *)render_data)->unk_16 = 0;
-                ((Obj12Render *)render_data)->unk_18 = 0;
-                ((Obj12Render *)render_data)->unk_16 = 0;
+                render_data->angle_y = 0;
+                render_data->angle_x = 0;
+                render_data->angle_y = 0;
+                render_data->angle_x = 0;
                 object_state->unk_04 = (s32) config_word;
                 object_state->unk_0C = (s32) config_word;
                 config_word2 = ((struct ConfigWord *)0x80013634)->value;

@@ -1,4 +1,5 @@
 #include "dungeon/monster/noise/advance_action_and_spawn_random_effects.h"
+#include "shared/sprite_frame_state.h"
 
 /* Advance the action animation and spawn pairs of effects with randomized velocities. */
 void advance_action_and_spawn_random_effects(void *action, void *motion, void *sprite, EntityRec *actor) {
@@ -24,7 +25,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
     s32 state;
     void *owner_sprite;
     void *effect_motion;
-    void *effect_sprite;
+    SpriteFrameState *effect_sprite;
     void *effect_data;
     void *effect;
     Packed32 *direction_source = &D_80170838;
@@ -94,14 +95,14 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
                 ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_94 = (u16) actor->facing;
                 effect_sprite = ((T_80172FFC_S_80172FFC_5 *)effect)->unk_0C;
                 *(T_80172FFC_S_80172FFC_6 *)effect_sprite = *(T_80172FFC_S_80172FFC_6 *)sprite;
-                ((T_80172FFC_S_80172FFC_6 *)effect_sprite)->unk_1E = 0;
-                ((T_80172FFC_S_80172FFC_6 *)effect_sprite)->unk_1C = 0;
-                ((T_80172FFC_S_80172FFC_6 *)effect_sprite)->unk_0E = 0x80;
-                ((T_80172FFC_S_80172FFC_6 *)effect_sprite)->unk_0D = 0x80;
-                ((T_80172FFC_S_80172FFC_6 *)effect_sprite)->unk_0C = 0x80;
+                effect_sprite->scale_y = 0;
+                effect_sprite->scale_x = 0;
+                effect_sprite->color.c.b = 0x80;
+                effect_sprite->color.c.g = 0x80;
+                effect_sprite->color.c.r = 0x80;
                 register_node(effect, project_sprite_chain);
                 animation = D_80174EC0;
-                ((T_80172FFC_S_80172FFC_6 *)effect_sprite)->unk_2C = &D_80174EC0;
+                effect_sprite->frameTable = &D_80174EC0;
                 select_sprite_entry(effect_sprite, animation, 0);
                 effect_motion = ((T_80172FFC_S_80172FFC_5 *)effect)->unk_08;
                 ((T_80172FFC_S_80172FFC_7 *)effect_motion)->unk_02 = (u16) ((T_80172FFC_S_80172FFC_3 *)motion)->unk_02;
@@ -145,7 +146,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
                 position[0] = ((T_80172FFC_S_80172FFC_3 *)motion)->unk_02;
                 position[1] = ((T_80172FFC_S_80172FFC_3 *)motion)->unk_06;
                 position[2] = ((T_80172FFC_S_80172FFC_3 *)motion)->unk_0A;
-                ((T_80172FFC_S_80172FFC_6 *)effect_sprite)->unk_06 = (s16) ((effect_depth - func_80065420(position_ptr,
+                effect_sprite->unk_06 = (s16) ((effect_depth - func_80065420(position_ptr,
                     screen_pos, &projection_aux, &projection_flags))
                     - (D_800DCECC[((s32) (g_game_work.view.viewAngle + (s16) ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_94
                     + 0x100) >> 9) & 7] * 2));

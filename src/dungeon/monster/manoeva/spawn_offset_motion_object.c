@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
@@ -8,7 +9,6 @@
 #ifndef NULL
 #define NULL 0
 #endif
-
 
 typedef struct S_80175DD0_1 {
     u8 pad_00[0x8];
@@ -20,18 +20,6 @@ typedef struct S_80175DD0_1 {
     u8 pad_24[0x1C];
     s16 unk_40;
 } S_80175DD0_1;   /* object in spawn_offset_motion_object */
-
-typedef struct S_80175DD0_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x8];
-    s16 unk_18;
-    u8 pad_1A[0x2];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    s32 unk_28;
-} S_80175DD0_2;   /* object_data in spawn_offset_motion_object */
 
 typedef struct S_80175DD0_3 {
     u8 pad_00[0x2];
@@ -48,7 +36,6 @@ typedef struct S_80175DD0_3 {
 
    /* arg1 in spawn_offset_motion_object */
 
-
 extern s32 resolve_record_orientation_or_fallback();
 extern void *allocate_list_node();
 extern s32 register_node();
@@ -63,7 +50,7 @@ void spawn_offset_motion_object(void *parent_data, MovingPosition *origin, Rec_D
     u16 angle;
     s32 direction_offset;
     S_80175DD0_3 *coords;
-    S_80175DD0_2 *object_data;
+    SpriteFrameState *object_data;
     S_80175DD0_1 *object;
 
     if (resolve_record_orientation_or_fallback(source_data->unk_08, source_data, position_offset, position_index) != 0) {
@@ -72,9 +59,9 @@ void spawn_offset_motion_object(void *parent_data, MovingPosition *origin, Rec_D
             ((object_data = object->unk_0C,
               coords = object->unk_08,
               object->unk_10 = &D_80175C60,
-              object_data->unk_1E = 0x400,
-              object_data->unk_1C = 0x400,
-              object_data->unk_0C = 0x808080,
+              object_data->scale_y = 0x400,
+              object_data->scale_x = 0x400,
+              object_data->color.word = 0x808080,
               object_data->unk_28 = source_data->unk_28.at00_s32.v,
               coords->unk_02 = origin->unk_02 + position_offset[0],
               coords->unk_06 = origin->unk_06 + position_offset[1],
@@ -87,10 +74,10 @@ void spawn_offset_motion_object(void *parent_data, MovingPosition *origin, Rec_D
               select_sprite_entry(object_data, 0x45, 0),
               register_node(object, &D_80175D74),
               angle = ((((g_game_work.view.viewAngle + *object->unk_20 + 0x100) >> 9) & 7) + 2) << 9,
-              object_data->unk_18 = angle,
+              object_data->angle_y = angle,
               angle == 0x400) ||
              (angle == 0xC00))) {
-            object_data->unk_18 = angle + 0x100;
+            object_data->angle_y = angle + 0x100;
         }
     }
 }

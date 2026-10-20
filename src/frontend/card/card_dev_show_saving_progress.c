@@ -1,6 +1,6 @@
 #include "common.h"
 
-u8 *init_card_message_object();   /* extern */
+#include "frontend/card/message_object.h"   /* extern */
 
 /* Dispatch operation 6 in mode 2 with the supplied target and value. */
 void card_dev_show_saving_progress(s32 target, s32 value) {

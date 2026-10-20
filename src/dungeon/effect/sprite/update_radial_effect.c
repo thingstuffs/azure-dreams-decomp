@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -123,16 +124,16 @@ void update_radial_effect(DungeonState *effect) {
                     u16 saved_flags;
 
                     *(s32 *)((u8 *)object->unk8 + 0x14) = 0xFFFC0000;
-                    saved_flags = object_inner->unk14;
-                    object_inner->unk1E = 0x600;
-                    object_inner->unk1C = 0x600;
-                    object_inner->unk10 = 0x20;
-                    object_inner->unk0 = object_template;
-                    object_inner->unk14 = saved_flags | 0xC;
-                    object_inner->unk8 = object_template->unk4;
-                    object_inner->unk4 = 0;
-                    object_inner->unk5 = 0;
-                    object_inner->unkC = effect->unkC;
+                    saved_flags = ((SpriteFrameState *)object_inner)->flags;
+                    ((SpriteFrameState *)object_inner)->scale_y = 0x600;
+                    ((SpriteFrameState *)object_inner)->scale_x = 0x600;
+                    ((SpriteFrameState *)object_inner)->tpage_abr = 0x20;
+                    ((SpriteFrameState *)object_inner)->unk_00 = object_template;
+                    ((SpriteFrameState *)object_inner)->flags = saved_flags | 0xC;
+                    ((SpriteFrameState *)object_inner)->source = object_template->unk4;
+                    ((SpriteFrameState *)object_inner)->unk_04 = 0;
+                    ((SpriteFrameState *)object_inner)->unk_05 = 0;
+                    ((SpriteFrameState *)object_inner)->color.word = effect->unkC;
                     ((ObjectPositionView *)object)->position = ((StatePositionView *)effect)->position;
                     *(u16 *)((u8 *)object->unk8 + 0xA) = effect->z;
                     object_tail->position = (s16)((spawn_index << 9) + ((s16)effect->timer * 0x28));

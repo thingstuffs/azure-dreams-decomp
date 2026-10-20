@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 /* Selector-image function at DUNGEON file [0x1943DD0, 0x1944338), true 0x800255D0
  * (rowbase img_1942998_80024198 delta 0x7E6E1800 continued).  Five-state handler:
@@ -121,7 +122,7 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
     void *spawn_state;
     void *owner_sprite;
     void *owner_motion;
-    void *spawn_sprite;
+    SpriteFrameState *spawn_sprite;
     void *owner;
     void *source_sprite;
     void *owner_header;
@@ -193,17 +194,17 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
             (((ResolvedEffect *)effect_state)->complete) = 0;
             spawn_sprite = (((ObjectNodeHeader *)spawned)->unk_0C);
             packet_destination = spawn_sprite;
-            (((ResolvedSpriteColor *)spawn_sprite)->blue) = 0x80;
-            (((ResolvedSpriteColor *)spawn_sprite)->green) = 0x80;
-            (((ResolvedSpriteColor *)spawn_sprite)->red) = 0x80;
-            (((ResolvedSprite *)spawn_sprite)->scale_y) = 0x1000;
-            (((ResolvedSprite *)spawn_sprite)->scale_x) = 0x1000;
+            spawn_sprite->color.c.b = 0x80;
+            spawn_sprite->color.c.g = 0x80;
+            spawn_sprite->color.c.r = 0x80;
+            spawn_sprite->scale_y = 0x1000;
+            spawn_sprite->scale_x = 0x1000;
             *(Packet48 *)spawn_sprite = *(Packet48 *)source_sprite;
-            (((ResolvedSprite *)spawn_sprite)->mode) = 0x20;
-            (((ResolvedSprite *)spawn_sprite)->flags) = (u16) ((((ResolvedSprite *)spawn_sprite)->flags) | 0xC);
+            spawn_sprite->tpage_abr = 0x20;
+            spawn_sprite->flags = (u16) (spawn_sprite->flags | 0xC);
             (((ObjectNodeHeader *)spawned)->unk_10) = ((u32)D_80024E5C);
             register_node(spawned, ((u32)D_80045340));
-            (((ResolvedSprite *)spawn_sprite)->script) = ((u32)D_80025B40);
+            spawn_sprite->frameTable = ((u32)D_80025B40);
             select_sprite_entry(spawn_sprite, D_80025B40[(((s32) (g_game_work.view.viewAngle + (s16) (((ResolvedActor *)owner)->facing) + 0x100) >> 9) & 7)], 0);
             spawn_motion = (((ObjectNodeHeader *)spawned)->unk_08);
             (((ResolvedMotion *)spawn_motion)->axes[0].fixed) = (s32) (((ResolvedMotion *)motion)->axes[0].fixed);

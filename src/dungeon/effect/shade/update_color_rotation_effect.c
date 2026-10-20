@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -21,8 +22,6 @@ typedef struct S_818C3448_1 {
     u16 unk_0C;
 } S_818C3448_1;
 
-
-
 s32 advance_object_and_global_counters();
 s32 func_80024AF4();
 s32 func_80069EF8();
@@ -37,7 +36,7 @@ typedef struct {
 } Func818C3448State;
 
 /* Update the effect's color, rotation, growth, motion, and phase transitions. */
-void func_818C3448(void *effect, void *motion, Rec_D_80082E80 *visual) {
+void func_818C3448(void *effect, void *motion, SpriteFrameState *visual) {
     s16 scale;
     s32 color_bits;
     s16 color_cycle;
@@ -71,22 +70,22 @@ void func_818C3448(void *effect, void *motion, Rec_D_80082E80 *visual) {
     func_800478B8(visual);
     color_bits = (s16) color_cycle;
     color_bias = color_bits;
-    visual->unk_1A.as_u16 = (u16) (visual->unk_1A.as_u16 + 0x300);
+    visual->angle_z = (u16) (visual->angle_z + 0x300);
     if (color_bits < 0) {
         color_bias = color_bits + 3;
     }
     half_color = color_bits / 2;
-    visual->unk_0C.at00_s8.v = (s8) ((color_bias >> 2) << 7);
-    visual->unk_0C.at01_s8.v = (s8) ((s32) (((s16) half_color - (((s32) ((s16) half_color + ((u32) (half_color << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
-    visual->unk_0C.at02_s8.v = (s8) ((s32) ((color_bits - (half_color * 2)) << 0x10) >> 9);
+    visual->color.c.r = (s8) ((color_bias >> 2) << 7);
+    visual->color.c.g = (s8) ((s32) (((s16) half_color - (((s32) ((s16) half_color + ((u32) (half_color << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
+    visual->color.c.b = (s8) ((s32) ((color_bits - (half_color * 2)) << 0x10) >> 9);
     phase = ((S_818C3448_0 *)effect)->unk_0E.s;
     wait_phase = (u16) ((S_818C3448_0 *)effect)->unk_0E.s;
     switch (phase) {
     case 0:
         full_scale = 0x1400;
         scale = (full_scale / (s16) ((S_818C3448_0 *)effect)->unk_14) * (s16) ((S_818C3448_0 *)effect)->unk_10.s;
-        visual->unk_1C.at02_s16.v = scale;
-        visual->unk_1C.at00_s16.v = scale;
+        visual->scale_y = scale;
+        visual->scale_x = scale;
         position_x = ((Func818C3448State *)motion)->f0;
         velocity_x = ((Func818C3448State *)motion)->fC;
         velocity_y = ((Func818C3448State *)motion)->f10;
@@ -130,7 +129,7 @@ void func_818C3448(void *effect, void *motion, Rec_D_80082E80 *visual) {
         ((S_818C3448_0 *)effect)->unk_0E.u = (u16) (burst_phase + 1);
         return;
     case 3:
-        if (visual->unk_14.at00_u16.v & 0x6000) {
+        if (visual->flags & 0x6000) {
             ((S_818C3448_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C3448_0_pre *)effect)[-1].unk_00 | 0x8000);
             object_flag_block.flags |= 0x8000;
         }

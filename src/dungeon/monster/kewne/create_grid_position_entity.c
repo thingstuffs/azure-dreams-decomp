@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -14,7 +14,6 @@ extern void update_actor_animation_and_behavior(void);
 
 extern u8 D_80175E40[];
 extern u8 D_80175EA0[];
-
 
 typedef struct S_801708B4_0 {
     u8 pad_00[0x8];
@@ -36,14 +35,6 @@ typedef struct S_801708B4_2 {
     s16 unk_0A;
 } S_801708B4_2;   /* part_a in create_grid_position_entity */
 
-typedef struct S_801708B4_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_801708B4_3;   /* part_b in create_grid_position_entity */
-
 typedef struct S_801708B4_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -60,7 +51,7 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
 {
     void *entity;
     S_801708B4_2 *position;
-    S_801708B4_3 *placement;
+    SpriteFrameState *placement;
     S_801708B4_4 *actor;
     s32 spawn_mode;
     s16 saved_flags;
@@ -87,7 +78,7 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
         spawn_mode = spawn_flags & 3;
         placement->unk_25 = saved_y;
         actor = entity_data;
-        placement->unk_2C = D_80175E40;
+        placement->frameTable = D_80175E40;
         placement->unk_24 = saved_x;
 
         if (spawn_mode == 1) {
@@ -108,7 +99,7 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
                     random_value = generate_random_value();
 
                     set_or_clear_actor_status_slot(entity_data, 1, (random_value & 0x3F) | 0x20);
-                    placement->unk_2C = D_80175EA0;
+                    placement->frameTable = D_80175EA0;
                 }
             }
         }

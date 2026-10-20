@@ -6,10 +6,7 @@ extern u8 D_800D0078[];
 extern void *D_80097DE8[];
 extern s8 D_80082669[16];
 
-typedef struct {
-    s32 unk0;
-    void **unk4;
-} Struct8009B1C8;
+#include "town/player/initialize_record_with_handler_table_api.h"
 
 /* Initialize the record, assign its handler table, and clear the first flag. */
 void initialize_record_with_handler_table(Struct8009B1C8 *record, s32 setup_value, s32 init_value) {

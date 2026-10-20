@@ -1,4 +1,5 @@
 #include "shared/game_work.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 
 typedef unsigned char u8;
@@ -19,7 +20,7 @@ void spawn_paired_random_effects(void *source, s16 effect_param, s32 render_para
     s32 remaining;
     void *effect;
     void *effect_data;
-    void *render_data;
+    SpriteFrameState *render_data;
     remaining = 2;
     do {
         effect = allocate_list_node(0x212, source);
@@ -34,11 +35,11 @@ void spawn_paired_random_effects(void *source, s16 effect_param, s32 render_para
             *((s16 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 0xA)) =
                 ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 0xA))) + (rand() & 0x3F)) - 0x20;
             render_data = *((void **) (((u8 *) effect) + 0xC));
-            *((void **) (((u8 *) render_data) + 8)) = D_8002822C;
-            *((s16 *) (((u8 *) render_data) + 0x1E)) = 0x1000;
-            *((s16 *) (((u8 *) render_data) + 0x1C)) = 0x1000;
-            *((s32 *) (((u8 *) render_data) + 0xC)) = render_param;
-            *((s16 *) (((u8 *) render_data) + 6)) = 8;
+            render_data->source = D_8002822C;
+            render_data->scale_y = 0x1000;
+            render_data->scale_x = 0x1000;
+            render_data->color.word = render_param;
+            render_data->unk_06 = 8;
             *((s16 *) (((u8 *) effect_data) + 0x36)) = effect_param;
             *((s16 *) (((u8 *) effect_data) + 0x30)) = (rand() & 0xFF) | 0x80;
         }

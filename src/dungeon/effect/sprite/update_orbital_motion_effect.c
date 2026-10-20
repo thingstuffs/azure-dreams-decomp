@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -30,8 +31,6 @@ typedef struct S_818BD3B0_2 {
     s32 unk_14;
 } S_818BD3B0_2;   /* arg1 in update_orbital_motion_effect */
 
-
-
 s32 func_8003DB94();
 s32 func_800478B8();
 s32 func_800644B8();
@@ -39,7 +38,7 @@ s32 func_80064584();
 extern M2C_UNK D_800DEC70[3];
 
 /* Advance orbital motion, expire it at its duration, and update the object. */
-void update_orbital_motion_effect(void *motion, S_818BD3B0_2 *position, Rec_D_80082E80 *object) {
+void update_orbital_motion_effect(void *motion, S_818BD3B0_2 *position, SpriteFrameState *object) {
     s16 angle;
     s32 radius_product;
     s32 height_offset;
@@ -65,7 +64,7 @@ void update_orbital_motion_effect(void *motion, S_818BD3B0_2 *position, Rec_D_80
     position->unk_00 = (s32) (position->unk_0C + (((func_80064584(angle) >> 4) * ((S_818BD3B0_0 *)motion)->unk_08) << 8));
     position->unk_04 = (s32) (position->unk_10 + (((func_800644B8((s16) ((S_818BD3B0_0 *)motion)->unk_0C) >> 4) * ((S_818BD3B0_0 *)motion)->unk_08) << 8));
     func_800478B8(object);
-    if (object->unk_14.at00_u16.v & 0x6000) {
+    if (object->flags & 0x6000) {
         func_8003DB94(object, &D_800DEC70, 0);
     }
 }

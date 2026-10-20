@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-void apply_object_setup_and_update();    /* extern */
+void apply_object_setup_and_update(void *, s32, s32);    /* extern */
 void set_object_referenced_data_pointers(Rec_func_80094268_arg0 *);                            /* extern */
 
 

@@ -1,12 +1,13 @@
 #include "dungeon/monster/clown/allocate_object_state.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/clown/allocate_object_state.h"
 
 void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y, s16 type_id)
 {
     s32 mode;
     s32 state_flags;
     s32 update_flags;
-    S_8014C878_3 *placement;
+    SpriteFrameState *placement;
     S_8014C878_2 *config;
     void *object;
     S_8014C878_4 *extended_state;
@@ -31,7 +32,7 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
         mode = init_flags & 3;
         placement->unk_25 = saved_y;
         extended_state = state;
-        placement->unk_2C = &D_8015020C;
+        placement->frameTable = &D_8015020C;
         placement->unk_24 = saved_x;
         if (mode == 1) {
             state_flags = state->unk_14 | 0x6000;
@@ -47,7 +48,7 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
             if (!(state->unk_14 & 0x200)) {
                 if (generate_random_value() & 1) {
                     set_or_clear_actor_status_slot(state, 1, (generate_random_value() & 0x3F) | 0x20);
-                    placement->unk_2C = &D_8015025C;
+                    placement->frameTable = &D_8015025C;
                 }
             }
         }

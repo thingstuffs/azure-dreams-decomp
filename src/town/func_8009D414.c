@@ -6,16 +6,16 @@
 
 void add_hex_20000_s_signed_offset_hex_14();                 
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               
-void compute_and_clamps_vector_based_adjustment_updates_town();      
-void initialize_record_with_handler_table();        
+#include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
+#include "town/player/initialize_record_with_handler_table_api.h"
 
 void update_motion_at_ground_threshold(s32 context, EntityRec *actor, s32 action_arg) {
     s16 ground_height;
 
     ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &D_800FE488);
     if (actor->z.w.i >= ground_height) {
-        compute_and_clamps_vector_based_adjustment_updates_town(actor, ground_height, &D_800FE488);
-        initialize_record_with_handler_table(context, actor, action_arg);
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), ground_height, (struct TownVec * *)(&D_800FE488));
+        initialize_record_with_handler_table((Struct8009B1C8 *)(context), (s32)(actor), action_arg);
         return;
     }
     add_hex_20000_s_signed_offset_hex_14(actor);

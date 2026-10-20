@@ -33,13 +33,6 @@ typedef struct R12_8017087C_S_8017087C_1 {
     u8 pad_00[0xA];
     s16 unk_0A;
 } R12_8017087C_S_8017087C_1;
-typedef struct R12_8017087C_S_8017087C_2 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} R12_8017087C_S_8017087C_2;
 typedef struct R12_8017087C_Work {
     u8 pad0[0x13];
     s8 byte13;
@@ -713,17 +706,6 @@ typedef struct R12_80175180_S_80175180_2 {
     void * unk_0C;
     void * unk_10;
 } R12_80175180_S_80175180_2;
-typedef struct R12_80175180_S_80175180_3 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0xA];
-    s16 unk_1C;
-    s16 unk_1E;
-} R12_80175180_S_80175180_3;
 typedef struct R12_80175180_S_80175180_4 {
     s32 unk_00;
     s32 unk_04;
@@ -772,19 +754,6 @@ typedef struct R12_80175470_S_80175470_2 {
     u8 pad_14[0x16];
     s16 unk_2A;
 } R12_80175470_S_80175470_2;
-typedef struct R12_80175470_S_80175470_3 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0x7];
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0xC];
-    void * unk_2C;
-} R12_80175470_S_80175470_3;
 typedef struct R12_80175470_S_80175470_5_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -947,7 +916,7 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
 void check_boss_effect_threshold(Resource12CallbackState *state, void *entity, void *position, void *graphic);
 void advance_action_and_spawn_effect(void *action, void *motion, void *entity, void *actor);
 void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, EntityRec *actor);
-void func_80172FE8(R12_80172FE8_S_801730B8_1 *action, EntityRec *motion, Rec_D_80082E80 *entity, void *source);
+void func_80172FE8(R12_80172FE8_S_801730B8_1 *action, EntityRec *motion, SpriteFrameState *entity, void *source);
 void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, R12_801732EC_Entity *entity, R12_801732EC_Object *object);
 void advance_familiar_defeat_sequence(void *state, void *motion, void *position, void *actor);
 void func_80173634(void *state, void *motion, void *position, void *actor);
@@ -969,7 +938,7 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint);
 void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_context);
 void func_8017526C(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
 void fade_effect_to_neutral(void *entity_data, void *unused, void *source_data);
-void advance_effect_sequence_and_restore_actor(void *sequence, void *position, Rec_D_80082E80 *record, void *actor);
+void advance_effect_sequence_and_restore_actor(void *sequence, void *position, SpriteFrameState *record, void *actor);
 void func_801759DC(Resource12CallbackState *state, void *motion, void *position, void *actor);
 void func_80175A14(Resource12CallbackState *state, void *motion, void *position, void *actor);
 #endif

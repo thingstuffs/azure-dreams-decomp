@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -65,7 +66,7 @@ extern void select_sprite_entry(FuncInner *, s16, s16);
 s32 create_directional_effect(FuncArg0 *source, FuncArg1 *initial_motion, FuncArg2 *render_source) {
     FuncTemp *effect;
     FuncTail *direction_state;
-    FuncInner *sprite;
+    SpriteFrameState *sprite;
     FuncArg1 *motion;
     s16 angle;
     s32 biased_angle;
@@ -80,15 +81,15 @@ s32 create_directional_effect(FuncArg0 *source, FuncArg1 *initial_motion, FuncAr
         direction_state->field04 = (s16) (((angle % 4096) << 0x10) >> 0x19);
         direction_state->field06 = source->fieldB0;
         sprite = effect->inner;
-        sprite->field28 = render_source->field28;
-        sprite->field14 |= 0x100;
-        sprite->field12 = direction_state->field06 + ((direction_state->field04 + 6) % 8);
-        sprite->field0C = 0x808080;
-        sprite->field1E = 0x1000;
-        sprite->field1C = 0x1000;
-        sprite->field06 = -1;
-        sprite->field14 |= 0xC;
-        sprite->field10 |= 0x20;
+        sprite->unk_28 = ((SpriteFrameState *)render_source)->unk_28;
+        sprite->flags |= 0x100;
+        sprite->clut = direction_state->field06 + ((direction_state->field04 + 6) % 8);
+        sprite->color.word = 0x808080;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->unk_06 = -1;
+        sprite->flags |= 0xC;
+        sprite->tpage_abr |= 0x20;
         select_sprite_entry(sprite, 0x30, 0);
         motion = effect->buffer;
         *motion = *initial_motion;

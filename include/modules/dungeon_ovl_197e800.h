@@ -792,18 +792,6 @@ typedef struct {
     u8 green;
     u8 blue;
 } FadeColor;
-typedef struct S_8195EF44_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    s16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    s16 unk_20;
-} S_8195EF44_2;
 typedef struct S_8195EF44_4 {
     u8 pad_00[0x2];
     s16 unk_02;

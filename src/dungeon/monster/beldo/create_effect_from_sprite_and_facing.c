@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -34,36 +35,16 @@ typedef struct S_80170E18_1 {
     M2C_UNK * unk_10;
 } S_80170E18_1;
 
-typedef struct S_80170E18_2 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x2];
-    u16 unk_22;
-    u8 pad_24[0x8];
-    M2C_UNK * unk_2C;
-} S_80170E18_2;
-
 typedef struct S_80170E18_3 {
     u8 pad_00[0x2A];
     s16 unk_2A;
 } S_80170E18_3;   /* arg3 in create_effect_from_sprite_and_facing */
 
-
-
    /* arg1 in create_effect_from_sprite_and_facing */
 
 /* Creates an effect using the supplied sprite data, transform, and facing. */
 void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, S_80170E18_3 *facing_source) {
-    S_80170E18_2 *sprite;
+    SpriteFrameState *sprite;
     void *effect;
     S_80170E18_0 *effect_state;
     MovingPosition *transform;
@@ -89,17 +70,17 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
             src++;
             dst++;
         } while (src != end);
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_0E = 0x50;
-        sprite->unk_0D = 0x50;
-        sprite->unk_0C = 0x50;
-        sprite->unk_10 = 0x20;
-        sprite->unk_12 = 0xFF80;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->color.c.b = 0x50;
+        sprite->color.c.g = 0x50;
+        sprite->color.c.r = 0x50;
+        sprite->tpage_abr = 0x20;
+        sprite->clut = 0xFF80;
         sprite->unk_22 = 0xFFF1;
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        sprite->flags = (u16) (sprite->flags | 0xC);
         register_node(effect, project_sprite_chain);
-        sprite->unk_2C = &D_80173EB4;
+        sprite->frameTable = &D_80173EB4;
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + D_80173EB4), 0);
         transform = ((S_80170E18_1 *)effect)->unk_08;

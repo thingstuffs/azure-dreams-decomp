@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18a0800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
-
 
 typedef struct S_80025654_0 {
     u8 pad_00[0x8];
@@ -39,17 +39,6 @@ typedef struct S_80025654_2 {
     u16 unk_16;
 } S_80025654_2;   /* arg0 in create_effect_from_endpoints */
 
-typedef struct S_80025654_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80025654_3;
-
 typedef struct S_80025654_4 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -65,7 +54,7 @@ typedef struct S_80025654_4 {
 void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settings) {
     S_80025654_1 *transition;
     S_80025654_0 *object;
-    S_80025654_3 *object_settings;
+    SpriteFrameState *object_settings;
 
     object = func_8003FC64(0x202);
     if (object != 0) {
@@ -79,11 +68,11 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
         transition->unk_12 = (s16) (endpoints->unk_06 - endpoints->unk_12);
         transition->unk_16 = (s16) (endpoints->unk_0A - endpoints->unk_16);
         object_settings = object->unk_0C;
-        object_settings->unk_1C = (u16) settings->unk_1C;
-        object_settings->unk_1E = (u16) settings->unk_1E;
-        object_settings->unk_0C = (s32) settings->unk_0C;
-        object_settings->unk_08 = (s32) settings->unk_08;
-        object_settings->unk_14 = (u16) settings->unk_14;
+        object_settings->scale_x = (u16) settings->unk_1C;
+        object_settings->scale_y = (u16) settings->unk_1E;
+        object_settings->color.word = (s32) settings->unk_0C;
+        object_settings->source = (s32) settings->unk_08;
+        object_settings->flags = (u16) settings->unk_14;
     }
     return object;
 }

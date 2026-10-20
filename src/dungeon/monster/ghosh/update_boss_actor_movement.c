@@ -8,12 +8,12 @@
 typedef void (*Callback)(void *, void *, void *, void *);
 
 
-extern void func_800353F4();
-extern void select_indirect_table_entry();
+s32 func_800353F4(void *);
+#include "engine/texture/select_indirect_table_entry_api.h"
 extern void func_800478B8();
-extern void apply_monster_koyaw_data();
-extern s32 refresh_actor_facing_and_lifecycle();
-extern void try_move_actor_to_valid_position();
+void apply_monster_koyaw_data(s32, s8 *);
+struct EntityRec; struct Rec_func_800A9E70_arg0; struct S_800A9E70_2; s32 refresh_actor_facing_and_lifecycle(struct Rec_func_800A9E70_arg0 *, s32, struct S_800A9E70_2 *, struct EntityRec *);
+s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s32 sample_terrain_surface_height();
 
 extern u8 D_800F8BBC[9];
@@ -124,7 +124,7 @@ void update_boss_actor_movement(void *entity, void *motion, register void *sprit
     }
 
     old_direction = ((S_8016F2E0_3 *)actor)->unk_6D;
-    if (refresh_actor_facing_and_lifecycle(entity, motion, sprite, actor) != 0) {
+    if (refresh_actor_facing_and_lifecycle(entity, (s32)(motion), sprite, actor) != 0) {
         return;
     }
 

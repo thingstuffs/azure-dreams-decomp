@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
@@ -12,7 +13,6 @@
 #ifndef NULL
 #define NULL 0
 #endif
-
 
 extern s32 D_8006CD58[];
 extern u8 *D_800DCEEC[];
@@ -43,7 +43,6 @@ extern s32 play_sound_if_enabled();
 extern s32 create_status_linked_render_effect();
 extern s32 select_nearby_target_and_initialize_slot();
 extern void create_angular_offset_effect();
-
 
 typedef struct S_80174704_0_pre {
     u16 unk_00;
@@ -103,12 +102,10 @@ typedef struct S_80174704_4 {
     u8 unk_02;
 } S_80174704_4;   /* target in advance_actor_transition_replacement */
 
-
 typedef struct S_80174704_6 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_80174704_6;   /* repeat_dst in advance_actor_transition_replacement */
-
 
 typedef struct S_80174704_8_pre {
     u8 * unk_00;
@@ -119,11 +116,6 @@ typedef struct S_80174704_8 {
     u8 pad_00[0x2A];
     s16 unk_2A;
 } S_80174704_8;   /* linked2 in advance_actor_transition_replacement */
-
-typedef struct S_80174704_9 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80174704_9;   /* block in advance_actor_transition_replacement */
 
 typedef struct S_80174704_10 {
     s32 unk_00;
@@ -137,7 +129,7 @@ typedef struct S_80174704_11 {
 } S_80174704_11;   /* ((S_80174704_1 *)arg3)->unk_60 in advance_actor_transition_replacement */
 
 /* Updates an actor transition through turning, color fading, effects, and replacement. */
-void advance_actor_transition_replacement(void *action, EntityRec *position, Rec_D_80082E80 *entity, void *actor) {
+void advance_actor_transition_replacement(void *action, EntityRec *position, SpriteFrameState *entity, void *actor) {
     u8 *object = ((u8 *)(&g_game_work));
     u32 color;
     u8 state;
@@ -246,7 +238,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Rec
             }
             func_8003DB94(object, D_8014A000 + D_80174E2C[effect_index], 0);
         }
-        entity->unk_14.at00_u16.v |= 0x80;
+        entity->flags |= 0x80;
         ((S_80174704_0 *)action)->unk_96.u = 0;
         next_state = ((S_80174704_0 *)action)->unk_9B + 1;
         ((S_80174704_0 *)action)->unk_9B = next_state;

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
-
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
@@ -20,14 +20,12 @@ extern s32 D_80171728;
 extern u8 D_80174E4C[];
 extern u8 D_80174E54[];
 
-
 typedef struct S_801740DC_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0xB];
     u8 unk_9B;
 } S_801740DC_0;   /* arg0 in update_actor_directional_animation */
-
 
 /* Updates actor state, directional animation, and the shared transition counter. */
 void update_actor_directional_animation(void *actor_in, s32 actor_index, void *target, void *entity_in)
@@ -40,7 +38,7 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
     state = ((S_801740DC_0 *)actor_in)->unk_9B;
     switch (state) {
     case 0:
-    if (!(((Rec_D_80082E80 *)target)->unk_14.at00_u16.v & 0xE000)) {
+    if (!(((SpriteFrameState *)target)->flags & 0xE000)) {
         return;
     }
     {
@@ -49,7 +47,7 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
         shared_counter = &g_dungeon_status;
         shared_counter->unk_0A--;
     }
-    (*(void * *)((u8 *)target + 0x2C)) = D_80174E4C;
+    ((SpriteFrameState *)target)->frameTable = D_80174E4C;
     direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
     select_sprite_entry(target, D_80174E4C[direction & 7], 0);
     ((S_801740DC_0 *)actor_in)->unk_9B++;
@@ -59,7 +57,7 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
     if (entity->tileY != 0) {
         DungeonGlobalStatus *shared_counter;
 
-        (*(void * *)((u8 *)target + 0x2C)) = D_80174E54;
+        ((SpriteFrameState *)target)->frameTable = D_80174E54;
         direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(target, D_80174E54[direction & 7], 0);
         shared_counter = &g_dungeon_status;
@@ -105,7 +103,7 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
         if (entity->tileY == 0) {
             return;
         }
-        (*(void * *)((u8 *)target + 0x2C)) = D_80174E54;
+        ((SpriteFrameState *)target)->frameTable = D_80174E54;
         direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(target, D_80174E54[direction & 7], 0);
         shared_state->unk_0A++;
@@ -114,7 +112,7 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
     return;
 
     case 2:
-    if (!(((Rec_D_80082E80 *)target)->unk_14.at00_u16.v & 0xE000)) {
+    if (!(((SpriteFrameState *)target)->flags & 0xE000)) {
         return;
     }
     {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -18,7 +19,6 @@ typedef struct S_80173E50_0 {
     u8 pad_A0[0x2];
     u16 unk_A2;
 } S_80173E50_0;   /* arg0 in advance_actor_action_and_refresh_animation */
-
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -52,10 +52,10 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, void
     state = ((S_80173E50_0 *)actor)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((Rec_D_80082E80 *)render_record)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)render_record)->flags & 0xE000)) {
             return;
         }
-        ((Rec_D_80082E80 *)render_record)->unk_2C.as_pv = D_80175EA0;
+        ((SpriteFrameState *)render_record)->frameTable = D_80175EA0;
         select_sprite_entry(render_record,
             D_80175EA0[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
             0);
@@ -116,7 +116,7 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, void
             on_actor_status_updated(actor_state);
             if ((get_entity_effect_value(actor_state, 1) << 16) != 0) {
                 TileObject *origin = &D_80082E80;
-                s8 tile = ((Rec_D_80082E80 *)render_record)->unk_26.as_s8;
+                s8 tile = *(s8 *)&((SpriteFrameState *)render_record)->unk_26;
 
                 if (((tile == origin->unk_026) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, render_record) < 2)) {
@@ -129,12 +129,12 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, void
                 return;
             }
         }
-        ((Rec_D_80082E80 *)render_record)->unk_2C.as_pv = D_80175EC0;
+        ((SpriteFrameState *)render_record)->frameTable = D_80175EC0;
         select_sprite_entry(render_record,
             D_80175EC0[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&actor_state->flags1C) |= 0x40000;
-        if (((Rec_D_80082E80 *)render_record)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)render_record)->flags & 0x8000) {
             ((S_80173E50_0 *)actor)->unk_8C = D_801710EC;
             return;
         }
@@ -143,7 +143,7 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, void
         return;
 
     case 2:
-        if (!(((Rec_D_80082E80 *)render_record)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)render_record)->flags & 0xE000)) {
             return;
         }
         g_dungeon_status.unk_0A--;

@@ -39,13 +39,6 @@ typedef struct R08_8017087C_S_8017087C_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
 } R08_8017087C_S_8017087C_2;
-typedef struct R08_8017087C_S_8017087C_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} R08_8017087C_S_8017087C_3;
 typedef struct R08_8017087C_S_8017087C_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -361,17 +354,6 @@ typedef struct R08_801743BC_S_801743BC_0 {
     s16 unk_3A;
 } R08_801743BC_S_801743BC_0;
 
-typedef struct R08_801743BC_S_801743BC_3 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} R08_801743BC_S_801743BC_3;
 typedef struct {
     u8 pad0[2];
     u16 flags;
@@ -585,11 +567,11 @@ extern u8 D_80174D19[];
 void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id);
 void func_80170A50(void *entity, R08_80170A50_S_80170A28_2 *motion, void *part);
 void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFrameState *object, EntityRec *actor_data);
-void func_801715B4(void *action, s32 action_id, void *entity, void *move_state);
+void func_801715B4(void *action, s32 action_id, SpriteFrameState *entity, void *move_state);
 void func_801717F8(void *move_data, void *context, void *position_data, void *actor_data);
 void func_80171F40(void *object, void *unused, void *display, void *orientation);
 s32 update_actor_animation_behavior_and_facing(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, EntityRec *actor);
-void func_80172168(void *action_state, void *action_context, void *sprite, EntityRec *actor);
+void func_80172168(void *action_state, void *action_context, SpriteFrameState *sprite, EntityRec *actor);
 s32 func_80172280(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void func_801723C4(R08_801723C4_S_801724A8_0 *state, s32 context, s32 source, s32 target);
 void func_8017245C(void *action, void *motion, void *sprite, void *actor);
@@ -615,7 +597,7 @@ void update_timed_effect_and_expire(void *effect, s32 x, s32 y);
 void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void *unused_context);
 void func_80174470(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
 void func_8017451C(u8 *task, void *context, u8 *input);
-void advance_effect_and_child_animation(void *effect_state, EntityRec *position, Rec_D_80082E80 *entity, void *actor);
+void advance_effect_and_child_animation(void *effect_state, EntityRec *position, SpriteFrameState *entity, void *actor);
 void func_80174BBC(Resource08CallbackState *state, void *motion, void *position, void *actor);
 void func_80174BF4(Resource08CallbackState *state, void *motion, void *position, void *actor);
 #endif

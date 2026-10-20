@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_800C5A64_1 {
     u8 pad_00[0xC];
@@ -13,16 +13,10 @@ typedef struct S_800C5A64_1 {
     s16 unk_1C;
 } S_800C5A64_1;   /* arg0 in damp_effect_motion_and_fade */
 
-typedef struct S_800C5A64_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800C5A64_2;   /* counter_base in damp_effect_motion_and_fade */
-
-
 extern void func_800478B8();
 
 /* Advance and damp effect motion, fade its primitive, and mark it expired when its lifetime ends. */
-void damp_effect_motion_and_fade(void *effect, s32 *motion, void *primitive)
+void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *primitive)
 {
     s16 remaining;
 
@@ -34,9 +28,9 @@ void damp_effect_motion_and_fade(void *effect, s32 *motion, void *primitive)
 
     func_800478B8(primitive);
 
-    ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v -= ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v / ((S_800C5A64_1 *)effect)->unk_10.s;
-    ((Rec_D_80082E80 *)primitive)->unk_0C.at01_u8.v -= ((Rec_D_80082E80 *)primitive)->unk_0C.at01_u8.v / ((S_800C5A64_1 *)effect)->unk_10.s;
-    ((Rec_D_80082E80 *)primitive)->unk_0C.at02_u8.v -= ((Rec_D_80082E80 *)primitive)->unk_0C.at02_u8.v / ((S_800C5A64_1 *)effect)->unk_10.s;
+    primitive->color.c.r -= primitive->color.c.r / ((S_800C5A64_1 *)effect)->unk_10.s;
+    primitive->color.c.g -= primitive->color.c.g / ((S_800C5A64_1 *)effect)->unk_10.s;
+    primitive->color.c.b -= primitive->color.c.b / ((S_800C5A64_1 *)effect)->unk_10.s;
 
     remaining = ((S_800C5A64_1 *)effect)->unk_10.u - 1;
     ((S_800C5A64_1 *)effect)->unk_10.s = remaining;

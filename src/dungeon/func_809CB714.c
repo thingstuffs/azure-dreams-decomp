@@ -1,6 +1,7 @@
 #include "modules/dungeon_resource03_slot0.h"
+#include "shared/sprite_frame_state.h"
 
-void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, EntityRec *motion, Rec_D_80082E80 *entity, void *source)
+void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, EntityRec *motion, SpriteFrameState *entity, void *source)
 {
     s16 timer;
     s32 direction;
@@ -25,7 +26,7 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, En
             begin_actor_display_action(controller, motion, entity, ((s32 *)D_80173CC4));
             return;
         }
-        if (entity->unk_14.at00_u16.v & 0x8000) {
+        if (entity->flags & 0x8000) {
             controller->unk_96.s = 0;
             controller->unk_9B = 2;
             return;
@@ -73,7 +74,7 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, En
         if (controller->unk_96.s > 0) {
             controller->unk_96.s = controller->unk_96.u - 1;
         } else {
-            if (entity->unk_14.at00_u16.v & 0x6000) {
+            if (entity->flags & 0x6000) {
                 controller->unk_96.s = 0;
             }
 

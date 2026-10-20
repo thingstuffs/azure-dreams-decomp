@@ -21,7 +21,7 @@ typedef struct S_800AF674_0 {
 
 s32 select_item_data();
 s32 func_8004DC14();
-void clear_item_menu_entry_groups();
+void clear_item_menu_entry_groups(s32);
 
 /* Initialize the output and fill up to ten slots with converted entries from the current page. */
 void populate_current_item_menu_page(S_800AF674_0 *state) {

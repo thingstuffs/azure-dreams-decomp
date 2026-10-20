@@ -6,21 +6,21 @@
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-s32 test_resident_bitmap_bit();                         /* extern */
+#include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
 void func_80094088(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
-void initialize_actor_action_state();     /* extern */
+struct Rec_func_80094268_arg0; struct S_800942B0_0; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct S_800942B0_0 *, s32);     /* extern */
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
-void initialize_action_object_and_play_sound();     /* extern */
+void initialize_action_object_and_play_sound(s32 * *, s32, s32);     /* extern */
 void initialize_action_handler_with_count_six(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
 void initialize_action_object_with_counter(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
-void store_the_valid_shared_angle_in_offset_hex_10();                      /* extern */
-void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();                      /* extern */
+#include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
+#include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
 s32 select_an_available_entry_matching_direction_returns_status(void *);            /* extern */
-s32 select_an_eligible_source_entry_stores_pointer_in_destination();               /* extern */
+s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *);               /* extern */
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
-void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      /* extern */
+#include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
+#include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 extern M2C_UNK D_800CFCB4;
 
 
@@ -51,16 +51,16 @@ void update_actor_movement_actions(Rec_func_80094268_arg0 *action, EntityRec *ac
             return;
         }
     } else if (((S_80092320_1 *)(&D_800CFCEF))->unk_00 == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town(actor, reference_value, &D_800FE488);
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), reference_value, (struct TownVec * *)(&D_800FE488));
     }
     if (((s32)state->unk_010) & 0x10) {
-        initialize_actor_action_state(action, actor, context);
+        initialize_actor_action_state(action, (struct S_800942B0_0 *)(actor), context);
         return;
     }
     ticks_left = action->unk_0A.as_u16 - 1;
     action->unk_0A.as_u16 = ticks_left;
     if ((s16) ticks_left < 0) {
-        initialize_action_object_and_play_sound(action, actor, context);
+        initialize_action_object_and_play_sound((s32 * *)(action), (s32)(actor), context);
         return;
     }
     if (((s32)state->unk_010) & 0x40) {

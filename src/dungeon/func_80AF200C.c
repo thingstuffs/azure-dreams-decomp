@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource10_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void func_8017380C(void *action, EntityRec *motion, void *entity, EntityRec *actor)
 {
@@ -17,7 +18,7 @@ void func_8017380C(void *action, EntityRec *motion, void *entity, EntityRec *act
             begin_actor_display_action(action, motion, entity, ((u8 *)D_801759C8));
             return;
         }
-        if (!(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
+        if (!(((SpriteFrameState *)entity)->flags & 0x8000)) {
             return;
         }
         ((R10_8017380C_S_8017380C_0 *)action)->unk_96.s = 0;
@@ -69,10 +70,10 @@ void func_8017380C(void *action, EntityRec *motion, void *entity, EntityRec *act
             return_frames = ((R10_8017380C_S_8017380C_0 *)action)->unk_96.s;
             if (return_frames != 0) {
                 motion->unk_0C =
-                    (((((Rec_D_80082E80 *)entity)->unk_24 << 6) - ({ motion->x.w.i - 0x20; })) << 16) / return_frames;
+                    (((((SpriteFrameState *)entity)->unk_24 << 6) - ({ motion->x.w.i - 0x20; })) << 16) / return_frames;
                 origin_y = motion->y.w.i - 0x20;
                 motion->unk_10 =
-                    (((((Rec_D_80082E80 *)entity)->unk_25 << 6) - origin_y) << 16) /
+                    (((((SpriteFrameState *)entity)->unk_25 << 6) - origin_y) << 16) /
                     ((R10_8017380C_S_8017380C_0 *)action)->unk_96.s;
             }
             previous_frames = ((R10_8017380C_S_8017380C_0 *)action)->unk_96.u;
@@ -91,12 +92,12 @@ void func_8017380C(void *action, EntityRec *motion, void *entity, EntityRec *act
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
-        if (((Rec_D_80082E80 *)entity)->unk_2C.as_pv == ((u8 *)D_80175998)) {
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25);
+        if (((SpriteFrameState *)entity)->frameTable == ((u8 *)D_80175998)) {
             u8 *direction_table;
 
             direction_table = ((u8 *)D_80175988);
-            (*(void * *)((u8 *)entity + 0x2C)) = direction_table;
+            ((SpriteFrameState *)entity)->frameTable = direction_table;
             select_sprite_entry(entity,
                 direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);

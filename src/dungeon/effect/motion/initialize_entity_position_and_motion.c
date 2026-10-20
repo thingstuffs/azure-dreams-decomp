@@ -1,5 +1,5 @@
 #include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
-
+#include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_19a332c_entry)(void) = (void (*)(void))func_80024064;
 
 void func_80024064(void *transition) {
@@ -243,7 +243,7 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
             s32 angle_offset;
             s32 move_angle;
             ovl_19a332c_81982F0C_S_8002470C_0 *motion;
-            ovl_19a332c_81982F0C_S_8002470C_1 *sprite;
+            SpriteFrameState *sprite;
             u8 *extra;
 
             particle->callback = move_fade_and_expand_effect;
@@ -262,9 +262,9 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
                 (rand() & 0x1FFFF) - 0x10000;
 
             sprite = particle->sprite;
-            sprite->unk_1E = 0x1000;
-            sprite->unk_1C = 0x1000;
-            sprite->unk_0C = 0x808080;
+            sprite->scale_y = 0x1000;
+            sprite->scale_x = 0x1000;
+            sprite->color.word = 0x808080;
             func_8003DB94(sprite, D_80026AB0, rand() & 7);
 
             extra = (u8 *)particle + 0x20;
@@ -311,7 +311,7 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
     s32 ring_angle;
     s32 direction_angle;
     s32 particle_index;
-    ovl_19a332c_81983138_S_80024938_2 *sprite;
+    SpriteFrameState *sprite;
     ovl_19a332c_81983138_S_80024938_1 *motion;
     void *particle;
     union { ovl_19a332c_81983138_S_80024938_3 * pointer; s32 value; } effect_state;
@@ -337,14 +337,14 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
             effect_state.value = 0x808080;
             sprite = ((ovl_19a332c_81983138_S_80024938_0 *)particle)->unk_0C;
             size_texture.value = 0x400;
-            sprite->unk_1E = size_texture.value;
-            sprite->unk_1C = size_texture.value;
+            sprite->scale_y = size_texture.value;
+            sprite->scale_x = size_texture.value;
             size_texture.pointer = &D_800269EC;
-            sprite->unk_0C = effect_state.value;
-            effect_state.value = sprite->unk_14;
-            sprite->unk_08 = size_texture.pointer;
-            sprite->unk_10 = 0x20;
-            sprite->unk_14 = (u16) (effect_state.value | 0xC);
+            sprite->color.word = effect_state.value;
+            effect_state.value = sprite->flags;
+            sprite->source = size_texture.pointer;
+            sprite->tpage_abr = 0x20;
+            sprite->flags = (u16) (effect_state.value | 0xC);
             effect_state.pointer = particle + 0x20;
             effect_state.pointer->unk_30 = 0xC;
             effect_state.pointer->unk_36 = (u16) angle;
@@ -377,7 +377,7 @@ void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, ovl_19a332c_8198
 void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
     ovl_19a332c_8198332C_Actor *actor;
     ovl_19a332c_8198332C_Coord *coord;
-    ovl_19a332c_8198332C_Prim *prim;
+    SpriteFrameState *prim;
     s16 step_x;
     s16 step_y;
     s16 step_z;
@@ -397,12 +397,12 @@ void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spa
             coord->y = y;
             coord->z = z;
             prim = actor->prim;
-            prim->unk1E = 2048;
-            prim->unk1C = 2048;
-            prim->unk8 = D_800269EC;
-            prim->color = 0x808080;
-            prim->unk10 = 96;
-            prim->unk14 |= 0xC;
+            prim->scale_y = 2048;
+            prim->scale_x = 2048;
+            prim->source = D_800269EC;
+            prim->color.word = 0x808080;
+            prim->tpage_abr = 96;
+            prim->flags |= 0xC;
             actor->unk50 = 16;
         }
     } else {
@@ -1180,11 +1180,11 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
         pos->z = spawn_z;
 
         part = (*object_slot)->part;
-        part->f16 = 0x400;
-        part->f1A = spawn_angle - 0x400;
-        part->table = D_80026B2C + (object_index * 0x10);
-        part->f10 = 0x60;
-        part->flags |= 0xC;
+        ((SpriteFrameState *)part)->angle_x = 0x400;
+        ((SpriteFrameState *)part)->angle_z = spawn_angle - 0x400;
+        ((SpriteFrameState *)part)->source = D_80026B2C + (object_index * 0x10);
+        ((SpriteFrameState *)part)->tpage_abr = 0x60;
+        ((SpriteFrameState *)part)->flags |= 0xC;
 
         entity = &(*object_slot)->entity;
         if (object_index != 0) {
@@ -1254,7 +1254,7 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
         } while (history_index >= 0);
 
         inventory_select_entry_and_reset_object(part, 0);
-        inventory_copy_and_sign_extend_record_fields(entity, part->unk0);
+        inventory_copy_and_sign_extend_record_fields(entity, ((SpriteFrameState *)part)->unk_00);
         prev_entity = entity;
         object_slot++;
         object_index++;

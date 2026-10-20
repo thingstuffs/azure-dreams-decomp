@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -24,10 +25,7 @@ typedef struct S_80174B90_7 {
     s32 unk_28;
 } S_80174B90_7;
 
-
-
    /* ((S_80174B90_6 *)arg0)->unk_08 in create_terrain_scaled_actor_effect */
-
 
 void *allocate_list_node();               /* extern */
 s32 register_node();           /* extern */
@@ -60,21 +58,9 @@ typedef struct S_80174B90_2 {
     void * unk_0C;
 } S_80174B90_2;   /* arg0 in create_terrain_scaled_actor_effect */
 
-typedef struct S_80174B90_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u8 pad_14[0x8];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    s32 unk_28;
-} S_80174B90_3;
-
 /* Create an effect using the source object's rendering and transform data. */
 void create_terrain_scaled_actor_effect(S_80174B90_2 *source, s32 state_00, s32 state_04, s32 state_08) {
-    S_80174B90_3 *render_data;
+    SpriteFrameState *render_data;
     S_80174B90_1 *effect_state;
     void *effect;
 
@@ -85,11 +71,11 @@ void create_terrain_scaled_actor_effect(S_80174B90_2 *source, s32 state_00, s32 
         ((S_80174B90_0 *)effect)->unk_10 = &D_8017474C;
         effect_state->unk_14 = (void *) source->unk_0C;
         effect_state->unk_18 = (void *) source->unk_08;
-        render_data->unk_1E = 0x1000;
-        render_data->unk_1C = 0x1000;
-        render_data->unk_0C = 0x808080;
+        render_data->scale_y = 0x1000;
+        render_data->scale_x = 0x1000;
+        render_data->color.word = 0x808080;
         render_data->unk_28 = (s32) ((S_80174B90_7 *)(((S_80174B90_4 *)effect_state)->unk_14))->unk_28;
-        render_data->unk_12 = (u16) ((S_80174B90_7 *)(((S_80174B90_4 *)effect_state)->unk_14))->unk_12;
+        render_data->clut = (u16) ((S_80174B90_7 *)(((S_80174B90_4 *)effect_state)->unk_14))->unk_12;
         ((MovingPosition *)(((S_80174B90_5 *)effect)->unk_08))->unk_02 =
             (u16) ((MovingPosition *)(((S_80174B90_6 *)source)->unk_08))->unk_02;
         ((MovingPosition *)(((S_80174B90_5 *)effect)->unk_08))->unk_06 =

@@ -1,4 +1,5 @@
 #include "dungeon/effect/particle/draw_linked_sprite_effect_quads.h"
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/object_node.h"
@@ -80,12 +81,6 @@ typedef struct S_func_819B2800_6 {
     u8 pad_00[8];
     s32 unk_08;
 } S_func_819B2800_6;
-
-typedef struct S_func_819B2800_7 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_func_819B2800_7;
 
 typedef struct S_func_819B2800_8 {
     u16 unk_00;
@@ -447,34 +442,6 @@ typedef struct S_8002466C_1 {
     u16 unk_52;
 } S_8002466C_1;   /* owner in update_animated_target_effect */
 
-typedef struct S_8002466C_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_8002466C_2;   /* ctx1 in update_animated_target_effect */
-
-typedef struct S_8002466C_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8002466C_3;   /* coords1 in update_animated_target_effect */
-
-typedef struct S_8002466C_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_8002466C_4;   /* ctx2 in update_animated_target_effect */
-
-typedef struct S_8002466C_5 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8002466C_5;   /* coords2 in update_animated_target_effect */
-
 typedef struct S_8002466C_6 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -483,21 +450,6 @@ typedef struct S_8002466C_6 {
     u8 pad_14[0xC];
     void * unk_20;
 } S_8002466C_6;   /* obj in update_animated_target_effect */
-
-typedef struct S_8002466C_7 {
-    void * unk_00;
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8002466C_7;   /* draw in update_animated_target_effect */
 
 typedef struct S_8002466C_8 {
     u8 pad_00[0x4];
@@ -514,7 +466,6 @@ typedef struct S_8002466C_10 {
     s32 unk_04;
     s32 unk_08;
 } S_8002466C_10;   /* ((S_8002466C_6 *)obj)->unk_08 in update_animated_target_effect */
-
 
 extern s16 GetTPage(s32, s32, s32, s32);
 extern s16 GetClut(s32, s32);
@@ -538,7 +489,7 @@ void update_animated_target_effect(void *effect)
     TileObject *follow_target;
     void *particle;
     void *particle_state;
-    void *sprite;
+    SpriteFrameState *sprite;
     void *particle_data;
     void *display;
 
@@ -639,16 +590,16 @@ void update_animated_target_effect(void *effect)
                 ((S_8002466C_10 *)(((S_8002466C_6 *)particle)->unk_08))->unk_08 =
                     ((S_8002466C_0 *)effect)->unk_24.at00.v +
                     (((rand() & 0x3FF) - 0x1FF) << 11);
-                ((S_8002466C_7 *)sprite)->unk_1E = 0x1000;
-                ((S_8002466C_7 *)sprite)->unk_1C = 0x1000;
-                ((S_8002466C_7 *)sprite)->unk_10 = 0x60;
-                ((S_8002466C_7 *)sprite)->unk_00 = display;
-                ((S_8002466C_7 *)sprite)->unk_14 |= 0xC;
+                sprite->scale_y = 0x1000;
+                sprite->scale_x = 0x1000;
+                sprite->tpage_abr = 0x60;
+                sprite->unk_00 = display;
+                sprite->flags |= 0xC;
                 display_link = ((S_8002466C_8 *)display)->unk_04;
-                ((S_8002466C_7 *)sprite)->unk_04 = 0;
-                ((S_8002466C_7 *)sprite)->unk_05 = 0;
-                ((S_8002466C_7 *)sprite)->unk_0C = 0x808080;
-                ((S_8002466C_7 *)sprite)->unk_08 = display_link;
+                sprite->unk_04 = 0;
+                sprite->unk_05 = 0;
+                sprite->color.word = 0x808080;
+                sprite->source = display_link;
                 ((S_8002466C_6 *)particle)->unk_20 = ((S_8002466C_0 *)effect)->unk_00;
                 ((S_8002466C_9 *)particle_state)->unk_4C = 0;
             }
@@ -690,8 +641,6 @@ typedef struct SpriteEntry {
     u16 status;
 } SpriteEntry;
 
-
-
 /* Retail 819B32CC (build_and_queue_interpolated_vertical_quads_around_five_perimeter_points): marks the owner, and once the sprite reaches status 0x6000 marks the
  * effect's own header and the global object flags too. */
 void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(EffectRecord *effect, void *unused, SpriteEntry *sprite) {
@@ -711,7 +660,6 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(Ef
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-
 typedef struct S_80024B48_0_pre {
     u16 unk_00;
 } S_80024B48_0_pre;   /* the 0x2 bytes before arg0 in update_actor_movement_animation_collision, addressed as arg0[-1] */
@@ -728,7 +676,6 @@ typedef struct S_80024B48_0 {
     u8 pad_4A[0x2];
     s16 unk_4C;
 } S_80024B48_0;   /* arg0 in update_actor_movement_animation_collision */
-
 
 typedef struct S_80024B48_2 {
     u8 pad_00[0x52];

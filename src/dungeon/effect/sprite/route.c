@@ -1,4 +1,5 @@
 #include "dungeon/effect/sprite/route.h"
+#include "shared/sprite_frame_state.h"
 void (*const dungeon_18ee800_entry)(void *, void *, void *) = follow_entity_effect_and_cleanup;
 const B32_818CFB74_PackedOffsets D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 #include "dungeon/effect/sprite/route.h"
@@ -18,10 +19,6 @@ const B32_818CFB74_PackedOffsets D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{
 #include "common.h"
 #include "shared/game_work.h"
 
-
-
-
-
    /* state in func_8002403C */
 
    /* scratch in func_8002403C */
@@ -37,8 +34,6 @@ const B32_818CFB74_PackedOffsets D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{
    /* previous in func_8002403C */
 
    /* final_state in func_8002403C */
-
-
 
 /* Project linked nodes and enqueue shaded point primitives with their draw modes. */
 s32 func_8002403C(void *start_node, void *start_coords)
@@ -155,7 +150,6 @@ s32 func_8002403C(void *start_node, void *start_coords)
 #include "common.h"
 #include "shared/object_flags.h"
 
-
 extern s32 rand(void);
 
 /* Raises the source toward its height limit and flags the object when its counter expires. */
@@ -194,8 +188,6 @@ void func_8002428C(void *object_data, void *source_data)
 #define NULL 0
 #endif
 
-
-
    /* held_arg0 in func_80024358 */
 
    /* dest1 in func_80024358 */
@@ -207,8 +199,6 @@ void func_8002428C(void *object_data, void *source_data)
    /* dest3 in func_80024358 */
 
    /* ((B32_818CEB58_S_818CEB58_1 *)held_arg0)->unk_08 in func_80024358 */
-
-
 
 extern s32 rand(void);
 
@@ -283,7 +273,6 @@ void func_80024358(
 #include "common.h"
 #include "shared/object_flags.h"
 
-
 /* Advance position and object state, then flag completion on timeout or object status. */
 void func_80024478(void *state, void *position, void *object)
 {
@@ -318,7 +307,6 @@ void func_80024478(void *state, void *position, void *object)
 #include "common.h"
 #include "shared/object_flags.h"
 
-
 /* Decrement the record counter and set completion flags when it reaches zero. */
 void update_actor_effect_sequence(void *record)
 {
@@ -350,12 +338,10 @@ void update_actor_effect_sequence(void *record)
 
    /* arg0 in func_800245C8 */
 
-
-
 s32 rand();
 
 /* Updates effect motion, collisions, animation, scale, and expiration. */
-void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, Rec_D_80082E80 *sprite) {
+void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite) {
     s32 current_z;
     u16 frame_count;
     u16 scale_x;
@@ -401,15 +387,15 @@ void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, Rec_D_80082
     if (!(frame_count & 3)) {
         func_800478B8(sprite);
     }
-    scale_x = sprite->unk_1C.at00_u16.v + 0x64;
-    sprite->unk_1C.at00_u16.v = scale_x;
+    scale_x = sprite->scale_x + 0x64;
+    sprite->scale_x = scale_x;
     if ((u32) (scale_x & 0xFFFF) >= 0x1001U) {
-        sprite->unk_1C.at00_u16.v = 0x1000U;
+        sprite->scale_x = 0x1000U;
     }
-    scale_y = sprite->unk_1C.at02_u16.v + 0x64;
-    sprite->unk_1C.at02_u16.v = scale_y;
+    scale_y = sprite->scale_y + 0x64;
+    sprite->scale_y = scale_y;
     if ((u32) (scale_y & 0xFFFF) >= 0x1001U) {
-        sprite->unk_1C.at02_u16.v = 0x1000U;
+        sprite->scale_y = 0x1000U;
     }
     life_left = ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_02 - 1;
     ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_02 = life_left;
@@ -417,7 +403,7 @@ void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, Rec_D_80082
         ((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 = (u16) (((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 | 0x8000);
         object_flag_block.flags |= 0x8000;
     }
-    if (sprite->unk_14.at00_u16.v & 0x8000) {
+    if (sprite->flags & 0x8000) {
         ((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 = (u16) (((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 | 0x8000);
         object_flag_block.flags |= 0x8000;
     }
@@ -451,12 +437,6 @@ extern int abs(int);
    /* the 0x18 bytes before ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30 in update_chasing_star_effect, addressed as ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30[-1] */
 
    /* ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34 in update_chasing_star_effect */
-
-
-
-
-
-
 
 extern B32_818CF0E8_Vec12 D_8002590C;
 extern B32_818CF0E8_Vec12 D_80025918;
@@ -863,37 +843,8 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 extern u8 D_800DEC00[12];
 extern B32_818CFB74_PackedTemplate D_80025900;
-
 
 /* Spawns and follows an entity effect, then completes its delayed cleanup. */
 void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic)

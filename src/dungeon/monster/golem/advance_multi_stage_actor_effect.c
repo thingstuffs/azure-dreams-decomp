@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -9,7 +10,6 @@ typedef struct {
     u8 pad_00[0x8C];
     void *field_8C;
 } StateWorkFieldView_81085DBC;
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
@@ -64,7 +64,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         if ((s16)timer > 0) {
             return;
         }
-        (((Rec_D_80082E80 *)object)->unk_2C.as_pu8) = D_80175F40;
+        ((SpriteFrameState *)object)->frameTable = D_80175F40;
         select_sprite_entry(object,
             D_80175F40[((g_game_work.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
@@ -75,17 +75,17 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         return;
 
     case 1:
-        flags = ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v;
+        flags = ((SpriteFrameState *)object)->flags;
         if (flags & 0x8000) {
             ((S_801735BC_0 *)state_work)->unk_9B = 4;
-            ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v |= 0x6000;
+            ((SpriteFrameState *)object)->flags |= 0x6000;
             if (((S_801735BC_0 *)state_work)->unk_AE != 2) {
                 return;
             }
             resolve_attack_damage_and_effects(actor, object, ((S_801735BC_1 *)actor)->unk_2A, 1);
             return;
         }
-        if (((Rec_D_80082E80 *)object)->unk_04.as_s8 != 2) {
+        if (((SpriteFrameState *)object)->unk_04 != 2) {
             return;
         }
         if (!(flags & 0x1000)) {
@@ -97,31 +97,31 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         return;
 
     case 2:
-        if (!(((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)object)->flags & 0xE000)) {
             return;
         }
-        (((Rec_D_80082E80 *)object)->unk_2C.as_pu8) = D_80175F68;
+        ((SpriteFrameState *)object)->frameTable = D_80175F68;
         select_sprite_entry(object,
             D_80175F68[((g_game_work.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v |= 0x0800;
+        ((SpriteFrameState *)object)->flags |= 0x0800;
         ((S_801735BC_0 *)state_work)->unk_9B++;
         return;
 
     case 3:
-        flags3 = ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v;
+        flags3 = ((SpriteFrameState *)object)->flags;
         if (flags3 & 0x8000) {
-            (((Rec_D_80082E80 *)object)->unk_2C.as_pu8) = D_80175F68;
+            ((SpriteFrameState *)object)->frameTable = D_80175F68;
             select_sprite_entry(object,
                 D_80175F68[((g_game_work.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v |= 0x0800;
+            ((SpriteFrameState *)object)->flags |= 0x0800;
             return;
         }
         if (!(flags3 & 0x6000)) {
             return;
         }
-        (((Rec_D_80082E80 *)object)->unk_2C.as_pu8) = D_80175F10;
+        ((SpriteFrameState *)object)->frameTable = D_80175F10;
         select_sprite_entry(object,
             D_80175F10[((g_game_work.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
@@ -130,7 +130,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         entity->flags14 = 0;
         entity->unk_10 = 0;
         entity->unk_0C = 0;
-        set_record_integer_tile_center(entity, ((Rec_D_80082E80 *)object)->unk_24, ((Rec_D_80082E80 *)object)->unk_25);
+        set_record_integer_tile_center(entity, ((SpriteFrameState *)object)->unk_24, ((SpriteFrameState *)object)->unk_25);
         reduce_actor_food_meter(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
         (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &D_80170E94;
@@ -138,10 +138,10 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         break;
 
     case 4:
-        if (!(((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)object)->flags & 0xE000)) {
             return;
         }
-        (((Rec_D_80082E80 *)object)->unk_2C.as_pu8) = D_80175F10;
+        ((SpriteFrameState *)object)->frameTable = D_80175F10;
         select_sprite_entry(object,
             D_80175F10[((g_game_work.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
@@ -150,7 +150,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         entity->flags14 = 0;
         entity->unk_10 = 0;
         entity->unk_0C = 0;
-        set_record_integer_tile_center(entity, ((Rec_D_80082E80 *)object)->unk_24, ((Rec_D_80082E80 *)object)->unk_25);
+        set_record_integer_tile_center(entity, ((SpriteFrameState *)object)->unk_24, ((SpriteFrameState *)object)->unk_25);
         reduce_actor_food_meter(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
         (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &D_80170E94;

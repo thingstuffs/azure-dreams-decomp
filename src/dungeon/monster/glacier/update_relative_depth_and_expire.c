@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
@@ -19,16 +20,12 @@ typedef struct S_8102F0D4_1 {
     void * unk_A8;
 } S_8102F0D4_1;   /* arg0 in update_relative_depth_and_expire */
 
-
-
-
-
 extern s8 D_800DCECC[];
 s32 func_80065420();
 extern s32 func_800478B8();
 
 /* Updates relative depth with a direction offset and flags expiration when the countdown ends. */
-void update_relative_depth_and_expire(void *state, MovingPosition *position, Rec_D_80082E80 *entity) {
+void update_relative_depth_and_expire(void *state, MovingPosition *position, SpriteFrameState *entity) {
     u16 coords[3];
     M2C_S64 transform_result;
     s16 transform_aux;
@@ -50,7 +47,7 @@ void update_relative_depth_and_expire(void *state, MovingPosition *position, Rec
     reference_depth = func_80065420(coords, &transform_result, &transform_aux, &transform_flags);
     direction_offset = &D_800DCECC[((s32) (g_game_work.view.viewAngle + ((S_8102F0D4_1 *)state)->unk_94 + 0x100)
         >> 9) & 7];
-    entity->unk_06.as_s16 = (s16) ((position_depth - reference_depth) - (*direction_offset * 2));
+    entity->unk_06 = (s16) ((position_depth - reference_depth) - (*direction_offset * 2));
     func_800478B8(entity);
     ticks_left = ((S_8102F0D4_1 *)state)->unk_96 - 1;
     ((S_8102F0D4_1 *)state)->unk_96 = ticks_left;

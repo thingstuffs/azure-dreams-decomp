@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void link_typed_list_node();
+struct S_80044AAC; void link_typed_list_node(struct S_80044AAC *, struct S_80044AAC *);
 extern u8 D_800D162C[];
 extern u8 D_800D1630[];
 

@@ -26,11 +26,11 @@ typedef struct {
     s32 value;
 } __attribute__((packed)) PackedItemWord;
 
-s32 get_mode_value_or_default();
-void remove_selected_entry_from_list();
-u32 find_unused_pool_slot();
-void get_zero_based_group_index();
-s32 count_nonzero_entries();
+s32 get_mode_value_or_default(s32);
+void remove_selected_entry_from_list(s32, s32);
+u32 find_unused_pool_slot(s32 *, s32, s32);
+struct TownB4C60; void get_zero_based_group_index(struct TownB4C60 *);
+s32 count_nonzero_entries(s32 *);
 
 
 typedef struct S_800B2400_1 {
@@ -103,10 +103,10 @@ s32 move_item_to_list(void *state) {
                 result = 3;
             } else {
                 dest_slot = ((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C
-                    + (count_nonzero_entries(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4)
-                    + state)))->unk_3C) * 4);
-                new_item = find_unused_pool_slot(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4)
-                    + state)))->unk_3C, ((Rec_func_800B1DCC_arg0 *)state)->unk_18, dest_capacity);
+                    + (count_nonzero_entries((s32 *)(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4)
+                    + state)))->unk_3C)) * 4);
+                new_item = find_unused_pool_slot((s32 *)(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4)
+                    + state)))->unk_3C), ((Rec_func_800B1DCC_arg0 *)state)->unk_18, dest_capacity);
                 *(PackedItemWord *)new_item = *(PackedItemWord *)selected_item;
                 dest_slot->unk_00 = new_item;
                 dest_slot->unk_04 = 0;

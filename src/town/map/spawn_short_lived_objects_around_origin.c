@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -9,7 +10,6 @@
 #endif
 
    /* the 0x2 bytes before self in spawn_short_lived_objects_around_origin, addressed as self[-1] */
-
 
 typedef struct {
     s32 word[6];
@@ -71,7 +71,7 @@ void spawn_short_lived_objects_around_origin(Self *self, Copy24 *origin) {
             Object *object = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
 
             if (object != NULL) {
-                Primitive *primitive;
+                SpriteFrameState *primitive;
 
                 object->callback = callback;
                 register_node(object, project_sprite_chain);
@@ -83,18 +83,18 @@ void spawn_short_lived_objects_around_origin(Self *self, Copy24 *origin) {
                 object->position->word[1] +=
                     ((rand() % 255) - 0x80) * 0x40000;
 
-                primitive->scale_x = 0x1000;
                 primitive->scale_y = 0x1000;
+                primitive->scale_x = 0x1000;
                 object = (Object *)((u8 *)object + 0x20);
                 if (origin->word[3] < 0) {
                     primitive->flags |= 1;
                 }
                 resource = D_800F162C;
-                primitive->resource = resource;
-                primitive->resource_word = resource->word;
-                primitive->x = 0;
-                primitive->y = 0;
-                primitive->color = 0x808080;
+                primitive->unk_00 = resource;
+                primitive->source = resource->word;
+                primitive->unk_04 = 0;
+                primitive->unk_05 = 0;
+                primitive->color.word = 0x808080;
                 ((Motion *)object)->lifetime = 10;
             }
             remaining--;

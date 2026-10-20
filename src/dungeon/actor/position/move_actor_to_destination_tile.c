@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -10,7 +11,7 @@ void set_record_integer_tile_center();              /* extern */
 extern M2C_UNK D_80096384;
 
 /* Move the actor toward the destination tile and finish movement when the timer expires. */
-void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, EntityRec *motion, Rec_D_80082E80 *destination, s32 context) {
+void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, EntityRec *motion, SpriteFrameState *destination, s32 context) {
     s16 frames_left;
     u16 actor_flags;
     s32 saved_context;
@@ -37,7 +38,7 @@ void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, EntityRec *mo
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, destination->unk_24, destination->unk_25);
-        destination->unk_14.at00_u16.v = (u16) (destination->unk_14.at00_u16.v | 0x4000);
+        destination->flags = (u16) (destination->flags | 0x4000);
         if (actor->unk_100 >= 0) {
             begin_player_trap_trigger(actor, motion, destination, saved_context);
             return;

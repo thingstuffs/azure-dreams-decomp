@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
@@ -12,7 +12,6 @@ extern void reduce_actor_food_meter(void *, s32);
 
 extern u8 D_801714D4[];
 extern u8 D_80174108[];
-
 
 typedef struct S_80172864_0 {
     u8 pad_00[0x8C];
@@ -27,7 +26,6 @@ typedef struct S_80172864_0 {
     s16 unk_A2;
 } S_80172864_0;   /* s0 in advance_timed_action_and_cleanup */
 
-
 typedef struct S_80172864_2 {
     u8 pad_00[0x2A];
     s16 unk_2A;
@@ -36,7 +34,7 @@ typedef struct S_80172864_2 {
 } S_80172864_2;   /* s1 in advance_timed_action_and_cleanup */
 
 /* Advances a timed action through animation setup, execution, and cleanup. */
-void advance_timed_action_and_cleanup(void *action_data, void *unused, Rec_D_80082E80 *sprite, void *actor_data)
+void advance_timed_action_and_cleanup(void *action_data, void *unused, SpriteFrameState *sprite, void *actor_data)
 {
     register void *action = action_data;
     register void *actor = actor_data;
@@ -51,7 +49,7 @@ void advance_timed_action_and_cleanup(void *action_data, void *unused, Rec_D_800
     case 0:
         timer = ((S_80172864_0 *)action)->unk_96.u;
         ((S_80172864_0 *)action)->unk_96.u = timer + 1;
-        if ((s16)timer < 4 && !(sprite->unk_14.at00_u16.v & 0x8000)) {
+        if ((s16)timer < 4 && !(sprite->flags & 0x8000)) {
             return;
         }
         state = ((S_80172864_0 *)action)->unk_9B.v;
@@ -61,10 +59,10 @@ void advance_timed_action_and_cleanup(void *action_data, void *unused, Rec_D_800
 
     case 1:
         if (((S_80172864_0 *)action)->unk_A2 != 0 &&
-            !(sprite->unk_14.at00_u16.v & 0x8000)) {
+            !(sprite->flags & 0x8000)) {
             return;
         }
-        sprite->unk_2C.as_pu8 = D_80174108;
+        sprite->frameTable = D_80174108;
         select_sprite_entry(
             sprite,
             D_80174108[((g_game_work.view.viewAngle + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -79,7 +77,7 @@ void advance_timed_action_and_cleanup(void *action_data, void *unused, Rec_D_800
     case 2:
         timer = ((S_80172864_0 *)action)->unk_96.u + 1;
         ((S_80172864_0 *)action)->unk_96.u = timer;
-        if ((s16)timer == 9 || (sprite->unk_14.at00_u16.v & 0x8000)) {
+        if ((s16)timer == 9 || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, ((S_80172864_2 *)actor)->unk_2A, 1);
             ((S_80172864_0 *)action)->unk_96.u = 0;
             ((S_80172864_0 *)action)->unk_9B.n++;
@@ -95,7 +93,7 @@ void advance_timed_action_and_cleanup(void *action_data, void *unused, Rec_D_800
         ((S_80172864_0 *)action)->unk_96.u = 0;
         ((S_80172864_0 *)action)->unk_9B.n = state + 1;
     case 4:
-        if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         reduce_actor_food_meter(actor, 0x100);

@@ -43,16 +43,6 @@ typedef struct R06_8017087C_S_8017087C_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
 } R06_8017087C_S_8017087C_2;
-typedef struct R06_8017087C_S_8017087C_3 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-    u8 pad_14[0x10];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x2];
-    s32 unk_28;
-    void * unk_2C;
-} R06_8017087C_S_8017087C_3;
 typedef struct R06_8017087C_S_8017087C_4 {
     u8 pad_00[0x9A];
     u8 unk_9A;
@@ -985,13 +975,13 @@ void initialize_destination_state(void *actor, void *actor_context, void *sprite
 void update_actor_object_motion();
 void func_80171B1C(void *move_data, void *context, void *position_data, void *actor_data);
 s32 func_80172264(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, EntityRec *actor);
-void update_actor_action_and_direction(void *action_state, void *context, void *sprite, EntityRec *actor);
+void update_actor_action_and_direction(void *action_state, void *context, SpriteFrameState *sprite, EntityRec *actor);
 s32 func_80172550(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void func_80172694(void *state, s32 unused, s32 source, s32 target);
 void func_80172728(Resource06CallbackState *state, void *entity, void *position, void *graphic);
-void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, EntityRec *motion, Rec_D_80082E80 *sprite, void *actor);
+void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, EntityRec *motion, SpriteFrameState *sprite, void *actor);
 void start_selected_move_and_reset_action(void *action, EntityRec *position, void *sprite, EntityRec *actor);
-void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, EntityRec *entity);
+void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, SpriteFrameState *tile_state, EntityRec *entity);
 void fade_sprites_and_remove_entity(void *actor, s32 unused, void *sprite, void *entity);
 void reset_record_motion_field_b(Rec_func_800AB538_arg0 *record, void *motion, void *scale, void *render);
 void func_80173458(void *state, void *motion, void *position, void *actor);

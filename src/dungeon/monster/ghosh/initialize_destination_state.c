@@ -17,7 +17,7 @@ typedef struct {
 extern S_80174CF0 D_80174CF0;
 extern S_800DCE60 D_800DCE60;
 extern void queue_view_slot(s32);
-extern void set_camera_targets();
+void set_camera_targets(void *, void *, s32);
 
 /* Initializes the destination state from the source and submits it for processing. */
 void initialize_destination_state(void)

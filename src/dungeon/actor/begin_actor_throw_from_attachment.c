@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct LocalResult {
     s32 unk0;
@@ -13,7 +13,6 @@ typedef struct LocalResult {
 extern s32 resolve_record_orientation_or_fallback(void *, void *, LocalResult *, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
-
 
 typedef struct S_800AACA4_1 {
     u8 pad_00[0x1C];
@@ -50,7 +49,6 @@ typedef struct S_800AACA4_5 {
     void * unk_04;
 } S_800AACA4_5;   /* entry in begin_actor_throw_from_attachment */
 
-
 typedef struct S_800AACA4_8 {
     u8 pad_00[0x2A];
     u16 unk_2A;
@@ -73,7 +71,7 @@ typedef struct S_800AACA4_11 {
 } S_800AACA4_11;   /* ((S_800AACA4_2_pre *)root)[-1].unk_00 in begin_actor_throw_from_attachment */
 
 /* Initialize movement from the source object, set vertical speed, and advance the tile. */
-void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, EntityRec *motion, Rec_D_80082E80 *tile, S_800AACA4_1 *entity) {
+void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, EntityRec *motion, SpriteFrameState *tile, S_800AACA4_1 *entity) {
     LocalResult height_adjustment;
     S_800AACA4_3 *source_object;
     void *entity_data;

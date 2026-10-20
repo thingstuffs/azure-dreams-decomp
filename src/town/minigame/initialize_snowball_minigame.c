@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -99,7 +100,7 @@ s32 initialize_snowball_minigame(void)
     TownPart *root_part;
     TownObject *object;
     TownPart *object_part;
-    TownData *object_data;
+    SpriteFrameState *object_data;
     s16 *filled_entry;
     s16 *zero_entry;
     void **images;
@@ -130,10 +131,10 @@ s32 initialize_snowball_minigame(void)
         object->transform->value[1] = 0x01E00000;
         object->transform->value[2] = 0x00200000;
         object_part->root = root_part;
-        object_data->angle1E = 0x1000;
-        object_data->angle1C = 0x1000;
+        object_data->scale_y = 0x1000;
+        object_data->scale_x = 0x1000;
         func_8003DB94(object_data, D_800F2F28, 0);
-        object_data->color = 0x00808080;
+        object_data->color.word = 0x00808080;
         configure_the_set_mode_n_2(object_part, object->transform, D_80026DC8);
     }
 

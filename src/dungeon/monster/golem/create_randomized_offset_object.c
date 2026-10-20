@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
@@ -6,7 +7,6 @@
 #ifndef NULL
 #define NULL 0
 #endif
-
 
 typedef struct {
     u32 words[6];
@@ -18,7 +18,6 @@ extern s32 rand(void);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern u8 D_80175018;
-
 
 typedef struct S_8017589C_0 {
     u8 pad_00[0x8];
@@ -41,23 +40,6 @@ typedef struct S_8017589C_1 {
     s32 unk_4C;
 } S_8017589C_1;   /* work in create_randomized_offset_object */
 
-typedef struct S_8017589C_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    s32 unk_28;
-} S_8017589C_2;   /* node in create_randomized_offset_object */
-
-
 typedef struct S_8017589C_4 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -72,7 +54,7 @@ void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data
     s32 random_value;
     void *object;
     S_8017589C_1 *work;
-    S_8017589C_2 *node;
+    SpriteFrameState *node;
     S_8017589C_4 *source;
     Copy24 *copy;
 
@@ -95,13 +77,13 @@ void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data
 
         node = ((S_8017589C_0 *)object)->unk_0C;
         node->unk_28 = source_node->unk_28.at00_s32.v;
-        node->unk_0E = 0x80;
-        node->unk_0D = 0x80;
-        node->unk_0C = 0x80;
-        node->unk_1E = 0x1000;
-        node->unk_1C = 0x1000;
-        node->unk_14 |= 0xC;
-        node->unk_10 |= 0x20;
+        node->color.c.b = 0x80;
+        node->color.c.g = 0x80;
+        node->color.c.r = 0x80;
+        node->scale_y = 0x1000;
+        node->scale_x = 0x1000;
+        node->flags |= 0xC;
+        node->tpage_abr |= 0x20;
         select_sprite_entry(node, 0x3F, 0);
 
         copy = ((S_8017589C_0 *)object)->unk_08;

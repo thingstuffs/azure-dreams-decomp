@@ -472,3 +472,16 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     stay (behaviour token evidence); entry_/runtime_ prefixes, numeric ids (opcode/script/callback ids) and long names
     stay, marked low; engine folder clean-up and dungeon/floor -> dungeon/level accepted; Konami file names wait for a
     complete TU; headers stay per collector until type consolidation (61f).
+
+69. **(r121, delegated 2026-10-20) Typed-field recovery names (types_design owner review list).** Field and type
+    names are byte-neutral (D0 rename proofs), so they are decided on evidence under the delegated-decisions rule and stay
+    cheap to change if the owner prefers others. (A) `SpriteFrameState` (kept; the object behind the node's sprite
+    pointer): +0x0C `color` (union `word` / r,g,b,code), +0x10 `tpage_abr`, +0x12 `clut`, +0x16/18/1A `angle_x/y/z`,
+    +0x1C/1E `scale_x/scale_y`; +0x08 keeps `source` (the projection walks it as a command list: medium evidence only);
+    +0x20/22 stay `unk_20/unk_22` (1-3 readers). `ONE` (4096) is the libgte constant and may be used for fixed-point
+    one. (B) `ObjectNodeHeader`: +0x08 `position`, +0x0C `sprite`, +0x10 `update` (view authors already used these
+    names 104/107/97 times). (C) New `ObjectPosition` (0x18 bytes, pointee of `position`): `Fixed1616 x, y, z`, then
+    `velocity_x/y/z` (medium; views call them velocityX/Y/Z). (D) `Rec_D_80082E80` record views fold into
+    `SpriteFrameState` (same field layout over 582 functions). Every rewrite is proven by complete-TU object identity;
+    a site whose bytes change keeps its old spelling and is ledgered in `ledger/fields.jsonl` with the mechanism
+    (gcc 2.x MEM_IN_STRUCT_P scheduling). Design, rules and census: lane types_design (RULES.md, PLAN.md).

@@ -1,7 +1,6 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
-
-
 
 typedef struct Pair {
     s32 first;
@@ -23,14 +22,6 @@ typedef struct S_80175D7C_0 {
     void * unk_20;
 } S_80175D7C_0;
 
-typedef struct S_80175D7C_1 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 pad_0C[0x10];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80175D7C_1;
-
 typedef struct S_80175D7C_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -49,7 +40,7 @@ void create_linked_child_object(void *parent_state) {
     s32 pair_second;
     Pair *pair_ptr;
     void *child;
-    S_80175D7C_1 *visual;
+    SpriteFrameState *visual;
     S_80175D7C_2 *child_state;
 
     child = allocate_list_node(514, (u8 *)parent_state - 0x20);
@@ -60,9 +51,9 @@ void create_linked_child_object(void *parent_state) {
         pair_second = 0x200020;
         pair_ptr = &pair;
         visual = ((S_80175D7C_0 *)child)->unk_0C;
-        visual->unk_08 = D_80175FA8;
-        visual->unk_1C = 0x1000;
-        visual->unk_1E = 0x800;
+        visual->source = D_80175FA8;
+        visual->scale_x = 0x1000;
+        visual->scale_y = 0x800;
         child_state = (u8 *)child + 0x20;
         ((S_80175D7C_0 *)child)->unk_20 = parent_state;
         child_state->unk_0A = ((S_80175D7C_3 *)parent_state)->unk_2A;

@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource10_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityRec *entity_arg)
 {
@@ -7,23 +8,21 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
     u16 action_state;
     u32 initial_flags = g_dungeon_status.flags;
 
-
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xE;
         func_80171D7C(actor_arg, context_arg, sprite_arg, entity_arg);
         return;
     }
 
-
     if (entity_arg->tileY == 0) {
         u8 *animations;
 
         advance_actor_pending_action(actor_arg, context_arg, sprite_arg, entity_arg);
-        if (((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_2C == ((u8 *)D_801759E8)) {
+        if (((SpriteFrameState *)sprite_arg)->frameTable == ((u8 *)D_801759E8)) {
             return;
         }
         animations = ((u8 *)D_801759E0);
-        (*(void * *)((u8 *)sprite_arg + (0x2C))) = animations;
+        ((SpriteFrameState *)sprite_arg)->frameTable = animations;
         select_sprite_entry(sprite_arg,
             animations[((g_game_work.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
             0);
@@ -31,7 +30,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
     }
 
     if (((u32)entity_arg->flags1C) & 0x200) {
-        if (((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_2C == ((u8 *)D_801759E8)) {
+        if (((SpriteFrameState *)sprite_arg)->frameTable == ((u8 *)D_801759E8)) {
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_8C = 0;
@@ -57,8 +56,8 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
             if (current_state != next_state) {
                 u8 *animations = ((u8 *)D_80175988);
 
-                if (((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_2C != animations) {
-                    (*(void * *)((u8 *)sprite_arg + (0x2C))) = animations;
+                if (((SpriteFrameState *)sprite_arg)->frameTable != animations) {
+                    ((SpriteFrameState *)sprite_arg)->frameTable = animations;
                     select_sprite_entry(sprite_arg,
                         animations[((g_game_work.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
                         0);
@@ -80,7 +79,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
         if (((u32)entity_arg->flags1C) & 0x80000) {
             begin_actor_move_to_target_facing(actor_arg, context_arg, sprite_arg, entity_arg);
             func_80174258(actor_arg, context_arg, sprite_arg, entity_arg);
-            (*(void * *)((u8 *)sprite_arg + (0x2C))) = ((u8 *)D_80175988);
+            ((SpriteFrameState *)sprite_arg)->frameTable = ((u8 *)D_80175988);
             select_sprite_entry(sprite_arg,
                 ((u8 *)D_80175988)[((g_game_work.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
                 0);
@@ -95,16 +94,16 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
         }
     }
 
-    tile_record = find_active_rect_containing_point(((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_24.at00.v,
-        ((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_24.at01.v);
-    ((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_26 = tile_record;
+    tile_record = find_active_rect_containing_point(((SpriteFrameState *)sprite_arg)->unk_24,
+        ((SpriteFrameState *)sprite_arg)->unk_25);
+    ((SpriteFrameState *)sprite_arg)->unk_26 = tile_record;
 
     if (entity_arg->unk_6D > 0) {
         if (((u32)entity_arg->flags1C) & 0x20) {
             update_actor_status_and_food(entity_arg);
             return;
         }
-        if (((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+        if (*(u16 *)&((SpriteFrameState *)sprite_arg)->unk_24 == *(u16 *)(&D_80082E80.tileX)) {
             func_80171FE8(actor_arg, context_arg, sprite_arg, entity_arg);
             return;
         }
@@ -143,7 +142,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
                 EntityRec *player;
                 s16 direction;
 
-                direction = get_rounded_facing_and_rounding_flag((s16)(((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_24.at00.v),(s16)(((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                direction = get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite_arg)->unk_24,(s16)((SpriteFrameState *)sprite_arg)->unk_25,(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
                     &direction_aux);
                 player = D_800814A8;
                 entity_arg->facing = direction;
@@ -175,9 +174,9 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
             if (!(((u32)entity_arg->flags1C) & 0x430)) {
 
                 if ((s16)compare_monster_neighbor_values(
-                        ((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_24.at00.v, ((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_24.at01.v,
+                        ((SpriteFrameState *)sprite_arg)->unk_24, ((SpriteFrameState *)sprite_arg)->unk_25,
                         D_80082E80.tileX, D_80082E80.tileY) != 0) {
-                    entity_arg->facing = get_rounded_facing_and_rounding_flag((s16)(((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_24.at00.v),(s16)(((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                    entity_arg->facing = get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite_arg)->unk_24,(s16)((SpriteFrameState *)sprite_arg)->unk_25,(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
                         &direction_aux);
                 }
             }

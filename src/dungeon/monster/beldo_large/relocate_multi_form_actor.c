@@ -1,16 +1,11 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
-
-typedef struct S_8016EC04_0 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_8016EC04_0;   /* entity in relocate_multi_form_actor */
 
 typedef struct S_8016EC04_1 {
     u8 pad_00[0x1C];
     u32 unk_1C;
 } S_8016EC04_1;   /* state in relocate_multi_form_actor */
-
 
 extern u8 *D_80175D50;
 
@@ -34,7 +29,7 @@ void relocate_multi_form_actor(s32 offset_index)
     entity = *(u8 **)(object + 0xC);
     motion = *(void **)(object + 8);
 
-    ((S_8016EC04_0 *)entity)->unk_14 &= 0xFF7F;
+    ((SpriteFrameState *)entity)->flags &= 0xFF7F;
 
     update_map_cell_flags_with_item_limit(entity[0x24], entity[0x25],
                   (((S_8016EC04_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);

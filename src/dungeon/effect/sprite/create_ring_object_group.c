@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 void register_node(void *, void *); /* extern */
@@ -41,16 +42,6 @@ typedef struct S_81959B44_2 {
     u16 unk_3C;
 } S_81959B44_2;
 
-typedef struct S_81959B44_3 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    u8 pad_0C[0xA];
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    s16 unk_1C;
-} S_81959B44_3;
-
 /* Create sixteen objects in a ring around the given center with a scaled radius. */
 void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 radius_scale) {
     s32 call_pad_4;
@@ -70,7 +61,7 @@ void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 rad
     s32 x_fixed;
     S_81959B44_2 *state;
     S_81959B44_1 *position;
-    S_81959B44_3 *transform;
+    SpriteFrameState *transform;
     void *object;
 
     ring_index = 0;
@@ -100,13 +91,13 @@ void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 rad
             position->unk_0A = center_z;
             state->unk_20 = center_z;
             transform = ((S_81959B44_0 *)object)->unk_0C;
-            transform->unk_08 = &D_80028220;
-            transform->unk_1C = 0x1000;
-            transform->unk_1A = (u16) (angle + 0x400);
+            transform->source = &D_80028220;
+            transform->scale_x = 0x1000;
+            transform->angle_z = (u16) (angle + 0x400);
             neg_y_fixed = 0 - (func_800644B8(angle) << 0xC);
-            transform->unk_16 = (s16) ((neg_y_fixed / 6) >> 0xC);
+            transform->angle_x = (s16) ((neg_y_fixed / 6) >> 0xC);
             x_fixed = func_80064584(angle) << 0xC;
-            transform->unk_18 = (s16) ((x_fixed / 6) >> 0xC);
+            transform->angle_y = (s16) ((x_fixed / 6) >> 0xC);
             state->unk_14 = pos_x;
             state->unk_16 = pos_y;
             state->unk_18 = center_z;

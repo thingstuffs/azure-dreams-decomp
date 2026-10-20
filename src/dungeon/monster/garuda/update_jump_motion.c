@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -26,7 +27,6 @@ typedef struct S_80172834_3 {
     u8 unk_24;
     u8 unk_25;
 } S_80172834_3;   /* record in update_jump_motion_2 */
-
 
 extern s32 get_cd_command_queue_depth(void);
 extern void select_sprite_entry(void *, s32, s32);
@@ -113,8 +113,8 @@ void update_jump_motion_2(void *action_state, EntityRec *motion, void *sprite, E
             } else {
                 actor->target =
                     scan_monster_along_heading(actor,
-                                  ((Rec_D_80082E80 *)sprite)->unk_24,
-                                  ((Rec_D_80082E80 *)sprite)->unk_25,
+                                  ((SpriteFrameState *)sprite)->unk_24,
+                                  ((SpriteFrameState *)sprite)->unk_25,
                                   actor->facing, 0x10);
                 {
                     s32 abs_x = abs(actor->unk_72);
@@ -131,7 +131,7 @@ void update_jump_motion_2(void *action_state, EntityRec *motion, void *sprite, E
                               (u16 *)((u8 *)action_state + 0x98)) == 0) {
                 return;
             }
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
             create_two_row_object_group(position, (s16)(((s32)*action_data - 1) % 3));
             play_sound_if_enabled(0x703);
             ((S_80172834_0 *)action_state)->unk_9B++;
@@ -141,7 +141,7 @@ void update_jump_motion_2(void *action_state, EntityRec *motion, void *sprite, E
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(actor);
@@ -154,28 +154,28 @@ void update_jump_motion_2(void *action_state, EntityRec *motion, void *sprite, E
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            ((SpriteFrameState *)sprite)->flags |= 0x800;
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         ((S_80172834_0 *)action_state)->unk_9B++;
 
     case 2:
-        if (!((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3) &&
-              (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) &&
-            !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!((((SpriteFrameState *)sprite)->unk_04 == 3) &&
+              (((SpriteFrameState *)sprite)->flags & 0x1000)) &&
+            !(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         ((S_80172834_0 *)action_state)->unk_98 |= 0x80;
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_80174888) {
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174888;
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_80174888) {
+            ((SpriteFrameState *)sprite)->frameTable = D_80174888;
             select_sprite_entry(
                 sprite,
                 D_80174888[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -188,7 +188,7 @@ void update_jump_motion_2(void *action_state, EntityRec *motion, void *sprite, E
             }
             g_dungeon_status.unk_0A--;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         ((S_80172834_0 *)action_state)->unk_8C = D_80171058;
         advance_status_timers(actor);
         if (actor->unk_6D > 0) {

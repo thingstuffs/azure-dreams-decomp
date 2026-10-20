@@ -25,10 +25,10 @@ typedef struct S_801704A0_0 {
 void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);
 s32 func_800644B8();
 s16 get_rounded_facing_and_rounding_flag();
-void set_record_integer_tile_center();
-s32 advance_status_timers();
+#include "dungeon/player/object/set_record_integer_tile_center_api.h"
+#include "dungeon/actor/state/advance_status_timers_api.h"
 void on_actor_status_updated(void *actor);
-s32 check_actor_floor_trap();
+struct EntityRec; struct Rec_D_80082E80; s32 check_actor_floor_trap(struct Rec_D_80082E80 *, struct EntityRec *);
 typedef struct {
     u8 pad[0x24];
     u8 x;

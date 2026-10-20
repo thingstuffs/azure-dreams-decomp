@@ -19,8 +19,6 @@ extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern u8 D_800DE9D0[];
 extern u8 D_800DEC28[];
 
-
-
 typedef struct S_81850800_0 {
     void * unk_00;
     void * unk_04;
@@ -58,10 +56,6 @@ typedef struct S_81850800_2 {
     void * unk_00;
 } S_81850800_2;
 
-
-
-
-
 typedef struct S_81850800_5 {
     union {
         s32 unk_00_s32;
@@ -94,8 +88,6 @@ typedef struct S_81850800_5 {
     u8 unk_24;
     u8 unk_25;
 } S_81850800_5;
-
-
 
 typedef struct S_81850800_7 {
     union {
@@ -218,7 +210,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
     s16 ground_height;
     S_81850800_1 *caster_data;
     MovingTile *caster_sprite;
-    S_81850800_8 *work;
+    SpriteFrameState *work;
     S_81850800_9 *obj;
     S_81850800_1 *target;
     union { S_81850800_11 * pointer; s32 value; } effect_data;
@@ -348,12 +340,12 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
     case 1:
         ground_height = sample_terrain_surface_height(motion->unk_00.unk_02_view_u16.unk_02_u16,
                             motion->unk_04.unk_06_view_u16.unk_06_u16,
-                            (s16)(((S_81850800_7 *)work->unk_08.unk_08_ptr)->unk_08.unk_0A_view_u16.unk_0A_u16 -
+                            (s16)(((S_81850800_7 *)work->source)->unk_08.unk_0A_view_u16.unk_0A_u16 -
                                   0x30));
         motion->unk_08.unk_0A_view_s16.unk_0A_s16 = ground_height;
         if (ground_height >= 0x200) {
             motion->unk_08.unk_0A_view_u16.unk_0A_u16 =
-                ((S_81850800_7 *)work->unk_08.unk_08_ptr)->unk_08.unk_0A_view_u16.unk_0A_u16;
+                ((S_81850800_7 *)work->source)->unk_08.unk_0A_view_u16.unk_0A_u16;
         }
         spawn_cb = &D_80083498;
         obj = allocate_list_node(0x112, spawn_cb);
@@ -371,17 +363,17 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             copy_value = motion->unk_08.unk_08_s32;
             spawn_color = 0xC00000;
             position->unk_08.unk_08_s32 = copy_value;
-            work->unk_1E = 0x1000;
-            work->unk_1C = 0x1000;
-            work->unk_10 = 0x60;
-            work->unk_14 |= 0xC;
+            work->scale_y = 0x1000;
+            work->scale_x = 0x1000;
+            work->tpage_abr = 0x60;
+            work->flags |= 0xC;
             work->unk_00 = D_800DE9D0;
             copy_value = ((S_81850800_10 *)D_800DE9D0)->unk_04;
             spawn_color |= 0x8080;
             work->unk_04 = 0;
             work->unk_05 = 0;
-            work->unk_0C = spawn_color;
-            work->unk_08.unk_08_s32 = copy_value;
+            work->color.word = spawn_color;
+            work->source = copy_value;
             obj->unk_20 = owner;
             effect_data.pointer->unk_48.unk_48_s16 = func_80069EF8() & 3;
             effect_data.pointer->unk_4E = (func_80069EF8() & 3) + 8;
@@ -413,17 +405,17 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                     copy_value = motion->unk_08.unk_08_s32;
                     spawn_color = 0x600000;
                     position->unk_08.unk_08_s32 = copy_value;
-                    work->unk_1C = 0x2000;
-                    work->unk_1E = 0x2800;
-                    work->unk_10 = 0x20;
-                    work->unk_14 |= 0xC;
+                    work->scale_x = 0x2000;
+                    work->scale_y = 0x2800;
+                    work->tpage_abr = 0x20;
+                    work->flags |= 0xC;
                     work->unk_00 = D_800DE9D0;
                     copy_value = ((S_81850800_10 *)D_800DE9D0)->unk_04;
                     spawn_color |= 0x6060;
                     work->unk_04 = 0;
                     work->unk_05 = 0;
-                    work->unk_0C = spawn_color;
-                    work->unk_08.unk_08_s32 = copy_value;
+                    work->color.word = spawn_color;
+                    work->source = copy_value;
                     obj->unk_20 = owner;
                     timer = owner->unk_50.unk_50_u16;
                     effect_data.pointer->unk_4E = 8;
@@ -446,17 +438,17 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                         ((S_81850800_5 *)obj->unk_08)->unk_08.unk_0A_view_s16.unk_0A_s16 =
                             motion->unk_08.unk_0A_view_u16.unk_0A_u16 - (func_80069EF8() & 0x1F);
                         color = 0x800000;
-                        work->unk_1E = 0x800;
-                        work->unk_1C = 0x800;
-                        work->unk_10 = 0x60;
+                        work->scale_y = 0x800;
+                        work->scale_x = 0x800;
+                        work->tpage_abr = 0x60;
                         work->unk_00 = particle_anim;
-                        work->unk_14 |= 0xC;
+                        work->flags |= 0xC;
                         copy_value = particle_anim->unk_04;
                         color |= 0x8080;
                         work->unk_04 = 0;
                         work->unk_05 = 0;
-                        work->unk_0C = color;
-                        work->unk_08.unk_08_s32 = copy_value;
+                        work->color.word = color;
+                        work->source = copy_value;
                         ((S_81850800_5 *)obj->unk_08)->unk_0C =
                             step_x * (func_80069EF8() << 3);
                         effect_data.pointer = (S_81850800_11 *)((u8 *)obj + 0x20);

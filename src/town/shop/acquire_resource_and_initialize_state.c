@@ -2,10 +2,10 @@
 #include "m2c_compat.h"
 
 s32 create_callback_pair_default();                         /* extern */
-void get_zero_based_group_index();                      /* extern */
+struct TownB4C60; void get_zero_based_group_index(struct TownB4C60 *);                      /* extern */
 s32 get_mode_selected_value();                                /* extern */
-void collect_enabled_entry_pointers();                    /* extern */
-s32 count_nonzero_entries();                             /* extern */
+void collect_enabled_entry_pointers(s32 *, s32);                    /* extern */
+s32 count_nonzero_entries(s32 *);                             /* extern */
 
 typedef struct S_800B29D0_0 {
     u8 pad_00[0x38];
@@ -25,8 +25,8 @@ s32 acquire_resource_and_initialize_state(void *state) {
     if (resourceHandle != 0) {
         resourceConfig = get_mode_selected_value();
         ((S_800B29D0_0 *)state)->unk_44 = resourceConfig;
-        collect_enabled_entry_pointers(((S_800B29D0_0 *)state)->unk_40, resourceConfig);
-        ((S_800B29D0_0 *)state)->unk_38 = count_nonzero_entries(((S_800B29D0_0 *)state)->unk_40);
+        collect_enabled_entry_pointers((s32 *)(((S_800B29D0_0 *)state)->unk_40), resourceConfig);
+        ((S_800B29D0_0 *)state)->unk_38 = count_nonzero_entries((s32 *)(((S_800B29D0_0 *)state)->unk_40));
         get_zero_based_group_index(state + 0x2C);
     }
     return ((S_800B29D0_0 *)state)->unk_40;

@@ -1,6 +1,7 @@
 #include "modules/dungeon_resource08_slot0.h"
+#include "shared/sprite_frame_state.h"
 
-void advance_effect_and_child_animation(void *effect_state, EntityRec *position, Rec_D_80082E80 *entity, void *actor)
+void advance_effect_and_child_animation(void *effect_state, EntityRec *position, SpriteFrameState *entity, void *actor)
 {
     u8 state;
     s32 effect_id;
@@ -102,7 +103,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
                 variant = func_80069EF8() % 3;
             }
             func_8003DB94(effect_work, ((u8 *)D_8014A000) + (s32)((void * *)D_80174CFC)[variant], 0);
-            entity->unk_14.at00_u16.v |= 0x80;
+            entity->flags |= 0x80;
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0;
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
             create_positioned_sprite_effect(effect_state, position, entity);

@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F469800_P03_H
 #define DUNGEON_OVL_7F469800_P03_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -278,7 +279,7 @@ extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, void *path_state);
 void select_and_advance_actor_move(u8 *move_input, void *action_context, u8 *position, u8 *actor);
-void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused, Rec_D_80082E80 *display, T_80173678_S_80173678_1 *entity);
+void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused, SpriteFrameState *display, T_80173678_S_80173678_1 *entity);
 s32 check_and_prepare_actor_move(void *action_state, s32 facing, void *origin, void *actor);
 void prepare_actor_path_movement(void *action_input, s32 x_offset_input, void *position_input, void *actor_input);
 #endif

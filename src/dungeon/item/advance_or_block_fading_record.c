@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
-
 
 extern void func_800478B8(void *record);
 typedef struct S_80099B18_1_pre {
@@ -24,14 +24,14 @@ typedef struct S_80099B18_2 {
 } S_80099B18_2;   /* arg1 in advance_or_block_fading_record */
 
 /* Flag blocked records or advance their state, damping motion and fading color when enabled. */
-void advance_or_block_fading_record(void *state, S_80099B18_2 *motion, Rec_D_80082E80 *record)
+void advance_or_block_fading_record(void *state, S_80099B18_2 *motion, SpriteFrameState *record)
 {
     u16 update_count;
     u8 red;
     u8 blue;
     u8 green;
 
-    if (record->unk_14.at00_u16.v & 0xE000) {
+    if (record->flags & 0xE000) {
         ((S_80099B18_1_pre *)state)[-1].unk_00 =
             (s16)(((S_80099B18_1_pre *)state)[-1].unk_00 | 0x8000);
         object_flag_block.flags |= 0x8000;
@@ -40,8 +40,8 @@ void advance_or_block_fading_record(void *state, S_80099B18_2 *motion, Rec_D_800
     update_count = ((S_80099B18_1 *)state)->unk_10 + 1;
     ((S_80099B18_1 *)state)->unk_10 = update_count;
     if ((update_count << 0x10) > 0) {
-        record->unk_14.at00_u16.v =
-            (u16)(record->unk_14.at00_u16.v & 0xFF7F);
+        record->flags =
+            (u16)(record->flags & 0xFF7F);
         func_800478B8(record);
     }
     if (((S_80099B18_1 *)state)->unk_0E != 0) {
@@ -57,14 +57,14 @@ void advance_or_block_fading_record(void *state, S_80099B18_2 *motion, Rec_D_800
             (s32)(motion->unk_10 - (motion->unk_10 >> 2));
         motion->unk_14 =
             (s32)(motion->unk_14 - (motion->unk_14 >> 2));
-        red = record->unk_0C.at00_u8.v;
-        green = record->unk_0C.at01_u8.v;
-        record->unk_0C.at00_u8.v =
+        red = record->color.c.r;
+        green = record->color.c.g;
+        record->color.c.r =
             (u8)(red - (red >> 1));
-        blue = record->unk_0C.at02_u8.v;
-        record->unk_0C.at01_u8.v =
+        blue = record->color.c.b;
+        record->color.c.g =
             (u8)(green - (green >> 1));
-        record->unk_0C.at02_u8.v =
+        record->color.c.b =
             (u8)(blue - (blue >> 1));
     }
 }

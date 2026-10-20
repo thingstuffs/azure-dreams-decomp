@@ -1,14 +1,13 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-
 
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 rand(void);
-
 
 typedef struct S_800D7D30_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -36,7 +35,6 @@ typedef struct S_800D7D30_1 {
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
 } S_800D7D30_1;   /* arg0 in update_spiral_effect */
 
-
 /* Update a spiraling effect's motion and color, then retire it below its height limit. */
 void update_spiral_effect(void *effect, void *motion, void *sprite) {
     s32 radius_step;
@@ -58,9 +56,9 @@ void update_spiral_effect(void *effect, void *motion, void *sprite) {
     switch (state) {
     case 0:
         func_800478B8(sprite);
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
-            ((Rec_D_80082E80 *)sprite)->unk_04.as_s8 = 0;
-            ((Rec_D_80082E80 *)sprite)->unk_05.as_s8 = 0;
+        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+            ((SpriteFrameState *)sprite)->unk_04 = 0;
+            ((SpriteFrameState *)sprite)->unk_05 = 0;
         }
 
         ((S_800D7D30_0 *)motion)->unk_00.at02.v = (s16)(((S_800D7D30_1 *)effect)->unk_0C +
@@ -85,15 +83,15 @@ void update_spiral_effect(void *effect, void *motion, void *sprite) {
             ((S_800D7D30_1 *)effect)->unk_1C.at00.v = radius + radius_step;
         }
 
-        red = ((Rec_D_80082E80 *)sprite)->unk_0C.at00_u8.v;
-        green = ((Rec_D_80082E80 *)sprite)->unk_0C.at01_u8.v;
-        ((Rec_D_80082E80 *)sprite)->unk_0C.at00_u8.v = red - (red >> 4);
-        ((Rec_D_80082E80 *)sprite)->unk_0C.at01_u8.v = green - (green >> 4);
-        blue = ((Rec_D_80082E80 *)sprite)->unk_0C.at02_u8.v;
-        ((Rec_D_80082E80 *)sprite)->unk_0C.at02_u8.v = blue - (blue >> 4);
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
-            ((Rec_D_80082E80 *)sprite)->unk_04.as_s8 = 0;
-            ((Rec_D_80082E80 *)sprite)->unk_05.as_s8 = 0;
+        red = ((SpriteFrameState *)sprite)->color.c.r;
+        green = ((SpriteFrameState *)sprite)->color.c.g;
+        ((SpriteFrameState *)sprite)->color.c.r = red - (red >> 4);
+        ((SpriteFrameState *)sprite)->color.c.g = green - (green >> 4);
+        blue = ((SpriteFrameState *)sprite)->color.c.b;
+        ((SpriteFrameState *)sprite)->color.c.b = blue - (blue >> 4);
+        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+            ((SpriteFrameState *)sprite)->unk_04 = 0;
+            ((SpriteFrameState *)sprite)->unk_05 = 0;
         }
 
         if (((S_800D7D30_0 *)motion)->unk_08.at02.v < ((S_800D7D30_1 *)effect)->unk_10 - 0x60) {

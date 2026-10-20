@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
@@ -16,9 +17,7 @@ typedef struct S_80173F0C_0 {
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
 } S_80173F0C_0;   /* arg0 in update_bank_effect_fade */
 
-
    /* arg1 in update_bank_effect_fade */
-
 
 typedef struct {
     u8 bytes[8];
@@ -46,7 +45,7 @@ extern s32 rand(void);
 extern void transform_rotated_vertices(void *);
 
 /* Updates the effect's motion and fade, then marks it for removal. */
-void update_bank_effect_fade(void *effect, MovingPosition *position, void *visual)
+void update_bank_effect_fade(void *effect, MovingPosition *position, SpriteFrameState *visual)
 {
     CallRecord transform;
     OutputVector transformed_pos;
@@ -58,12 +57,12 @@ void update_bank_effect_fade(void *effect, MovingPosition *position, void *visua
     switch (state) {
     case 0:
         func_800478B8(visual);
-        if (((Rec_D_80082E80 *)visual)->unk_14.at00_u16.v & 0x6000) {
-            ((Rec_D_80082E80 *)visual)->unk_04.as_s8 = 0;
-            ((Rec_D_80082E80 *)visual)->unk_05.as_s8 = 0;
+        if (visual->flags & 0x6000) {
+            visual->unk_04 = 0;
+            visual->unk_05 = 0;
         }
-        ((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v += 0xFFE7E7E8;
-        if ((u8)((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v < 0x30U) {
+        visual->color.word += 0xFFE7E7E8;
+        if ((u8)visual->color.word < 0x30U) {
             ((S_80173F0C_0 *)effect)->unk_4C.u++;
         }
 

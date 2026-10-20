@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
@@ -15,7 +16,6 @@ typedef struct S_80172D04_0 {
     union { s16 s; u16 u; } unk_A8;   /* accessed as both */
 } S_80172D04_0;   /* script in update_actor_knockback */
 
-
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern s32 generate_random_value(void);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
@@ -27,7 +27,7 @@ extern u8 D_80170EE4[];
 extern u8 D_80176640[];
 
 /* Three-stage knockback script driven by the 0x9B step byte: stage 0 seeds the velocity from the facing table and picks the timer, stage 1 decays that velocity a quarter per frame, stage 2 steers back to the tile centre and ends by clearing the motion record. */
-void update_actor_knockback(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *actor)
+void update_actor_knockback(S_80172D04_0 *script, EntityRec *motion, SpriteFrameState *tile, EntityRec *actor)
 {
     s16 timer;
     s32 value;
@@ -59,7 +59,7 @@ void update_actor_knockback(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082
             return;
         }
         random = generate_random_value() & 3;
-        if (tile->unk_14.at00_u16.v & 0x8000) {
+        if (tile->flags & 0x8000) {
             if (random == 0) {
                 create_knockback_travel_object(script, motion, tile, actor);
             }
@@ -99,7 +99,7 @@ void update_actor_knockback(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082
 
         if (script->unk_96.s > 0) {
             script->unk_96.u = script->unk_96.u - 1;
-        } else if (tile->unk_14.at00_u16.v & 0x6000) {
+        } else if (tile->flags & 0x6000) {
             script->unk_96.s = 0;
         }
 

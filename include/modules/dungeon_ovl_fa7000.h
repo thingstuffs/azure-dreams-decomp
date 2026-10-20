@@ -52,7 +52,7 @@ void update_directional_sprite_state_and_signals(BankActorState *state, s32 acti
 void restore_bank_actor_callback_b(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target);
 void restore_bank_actor_callback_c(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target);
 void restore_bank_actor_callback_d(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target);
-void update_bank_effect_fade(void *effect, MovingPosition *position, void *visual);
+void update_bank_effect_fade(void *effect, MovingPosition *position, SpriteFrameState *visual);
 void start_bank_actor_hit_reaction(void *work, void *part_a, void *part_b, EntityRec *actor);
 void update_bank_timed_effect(void *state_input, void *motion_input, void *animation_input, void *actor_input);
 void create_cylindrical_effect(void *state);

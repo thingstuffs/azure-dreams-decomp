@@ -16,7 +16,7 @@ typedef struct S_80098544_1 {
 } S_80098544_1;   /* out in advance_coordinates_toward_target */
 
 
-void clear_entity_record_fields();
+#include "town/player/object/entity_record_fields.h"
 #include "shared/entity.h"
 void update_falling_actor_and_handle_ground(s32 context, EntityRec *actor, s32 action_arg);
 
@@ -42,6 +42,6 @@ void advance_coordinates_toward_target(S_80098544_0 *state, S_80098544_1 *positi
     }
     position->unk_00 = (s32) (state->unk_36 << 0x10);
     position->unk_04 = (s32) (state->unk_38 << 0x10);
-    clear_entity_record_fields(position);
+    clear_entity_record_fields((struct EntityRec *)(position));
     state->unk_04 = &update_falling_actor_and_handle_ground;
 }

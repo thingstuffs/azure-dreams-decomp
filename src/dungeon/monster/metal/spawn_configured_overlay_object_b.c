@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -22,14 +23,6 @@ typedef struct S_80171080_2 {
     s16 unk_0A;
 } S_80171080_2;   /* part0 in spawn_configured_overlay_object_b */
 
-typedef struct S_80171080_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80171080_3;   /* part1 in spawn_configured_overlay_object_b */
-
 typedef struct S_80171080_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -38,7 +31,6 @@ typedef struct S_80171080_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_80171080_4;   /* result_copy in spawn_configured_overlay_object_b */
-
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -61,7 +53,7 @@ void *spawn_configured_overlay_object_b(s16 flags, s16 kind_id, s16 variant, s32
     void *result;
     void *object;
     S_80171080_2 *part0;
-    S_80171080_3 *part1;
+    SpriteFrameState *part1;
     S_80171080_4 *result_copy;
 
     result = 0;
@@ -83,7 +75,7 @@ void *spawn_configured_overlay_object_b(s16 flags, s16 kind_id, s16 variant, s32
             kind = flags & 3;
             part1->unk_25 = variant;
             result_copy = result;
-            part1->unk_2C = handler;
+            part1->frameTable = handler;
         }
         part1->unk_24 = kind_id;
 
@@ -105,7 +97,7 @@ void *spawn_configured_overlay_object_b(s16 flags, s16 kind_id, s16 variant, s32
                    (((S_80171080_1 *)result)->unk_14 & 0x200) == 0 &&
                    (generate_random_value() & 1) != 0) {
             set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
-            part1->unk_2C = D_80174310;
+            part1->frameTable = D_80174310;
         }
 
         initialize_actor_sprite_and_animation(object, part0, part1, flags);

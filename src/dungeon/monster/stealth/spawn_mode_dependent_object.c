@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-
 
 typedef struct S_80170854_0 {
     u8 pad_00[0x8];
@@ -23,18 +23,6 @@ typedef struct S_80170854_2 {
     s16 unk_0A;
 } S_80170854_2;   /* part0 in spawn_mode_dependent_112_object */
 
-typedef struct S_80170854_3 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0xE];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80170854_3;   /* part1 in spawn_mode_dependent_112_object */
-
 typedef struct S_80170854_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -46,7 +34,6 @@ typedef struct S_80170854_4 {
     s16 unk_A4;
     s16 unk_A6;
 } S_80170854_4;   /* actor in spawn_mode_dependent_112_object */
-
 
 extern u8 D_80170A8C[];
 extern u8 D_80173D30[];
@@ -73,7 +60,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
     s32 kind;
     s32 mode;
     void *object_base;
-    S_80170854_3 *part1;
+    SpriteFrameState *part1;
     S_80170854_2 *part0;
     void *actor;
     void *object;
@@ -92,7 +79,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
         part1 = ((S_80170854_0 *)object)->unk_0C;
         part1->unk_25 = variant;
         actor = result;
-        part1->unk_2C = D_80173D30;
+        part1->frameTable = D_80173D30;
         kind = flags & 3;
         part1->unk_24 = kind_id;
         if (kind == 1) {
@@ -106,7 +93,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
                 if (generate_random_value() & 1) {
                     result->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
-                    part1->unk_2C = D_80173D78;
+                    part1->frameTable = D_80173D78;
                 }
             }
             mode = generate_random_value() & 3;
@@ -121,9 +108,9 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
         } else {
             object_base = (u8 *)actor - 0x20;
             ((S_80170854_4 *)actor)->unk_A6 = 1;
-            part1->unk_10 = 0x60;
-            part1->unk_14 |= 0xC;
-            part1->unk_12 -= 0x80;
+            part1->tpage_abr = 0x60;
+            part1->flags |= 0xC;
+            part1->clut -= 0x80;
             unlink_node(object_base);
             retire_tracked_effect_by_id(object_base);
         }

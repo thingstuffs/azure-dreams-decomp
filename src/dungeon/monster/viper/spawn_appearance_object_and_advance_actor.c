@@ -1,10 +1,10 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AD058_arg2.h"
-
 
 typedef struct S_8017390C_0 {
     u8 pad_00[0x96];
@@ -46,20 +46,9 @@ typedef struct S_8017390C_4 {
     s32 unk_14;
 } S_8017390C_4;
 
-typedef struct S_8017390C_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8017390C_5;
-
-
 typedef struct {
     s32 value;
 } __attribute__((packed)) Unaligned32;
-
 
 extern s32 register_node();
 extern s32 lookup_item_category_mapped_value();
@@ -78,7 +67,7 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
     s32 state;
     void *work_data;
     void *spawned_obj;
-    S_8017390C_5 *spawned_render;
+    SpriteFrameState *spawned_render;
     void *spawned_data;
     void *render_asset;
     S_8017390C_4 *spawned_transform;
@@ -109,18 +98,18 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
                 spawned_transform->unk_08 = pos_z;
                 angle = 0xC90;
                 register_node(init_obj, project_sprite_chain, pos_z);
-                spawned_render->unk_0C = 0x808080;
-                spawned_render->unk_1E = angle;
+                spawned_render->color.word = 0x808080;
+                spawned_render->scale_y = angle;
                 spawned_data = (u8 *)spawned_obj + 0x20;
-                spawned_render->unk_1C = angle;
+                spawned_render->scale_x = angle;
                 work_data = spawned_data;
                 if (((S_8017390C_1 *)actor_data)->unk_49 == 0x12) {
                     render_asset = &D_8006E240;
-                    spawned_render->unk_08 = render_asset;
+                    spawned_render->source = render_asset;
                 } else {
                     render_asset = (void *)lookup_item_category_mapped_value(
                         ((S_8017390C_1 *)actor_data)->unk_49, ((S_8017390C_1 *)actor_data)->unk_48);
-                    spawned_render->unk_08 = render_asset;
+                    spawned_render->source = render_asset;
                 }
                 ((S_8017390C_3 *)work_data)->unk_A8 = render->unk_24;
                 ((S_8017390C_3 *)work_data)->unk_AA = render->unk_25;

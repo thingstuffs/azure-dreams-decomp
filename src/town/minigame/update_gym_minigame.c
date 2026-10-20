@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/town_handler_entries.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -74,19 +75,6 @@ typedef struct S_80022F60_5 {
     s16 unk_54;
 } S_80022F60_5;   /* sprite in update_gym_minigame */
 
-typedef struct S_80022F60_6 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    void * unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80022F60_6;   /* image in update_gym_minigame */
-
-
 extern void clear_resident_bit(s32);
 extern s32 test_resident_bit(s32);
 extern s32 service_script_controller(void);
@@ -133,8 +121,7 @@ void update_gym_minigame(u8 *state_obj) {
     void *obj;
     u8 *sprite;
     s32 *position;
-    u8 *image;
-
+    SpriteFrameState *image;
 
     state = ((S_80022F60_0 *)state_obj)->unk_00.s;
     timer = ((S_80022F60_0 *)state_obj)->unk_02.s - 1;
@@ -286,12 +273,12 @@ loop_0:
                     ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
                     register_node(obj, project_sprite_chain);
                     image = ((S_80022F60_3 *)obj)->unk_0C;
-                    ((S_80022F60_6 *)image)->unk_1E = 0x1000;
-                    ((S_80022F60_6 *)image)->unk_1C = 0x1000;
-                    ((S_80022F60_6 *)image)->unk_08 = &D_800F9B40;
-                    ((S_80022F60_6 *)image)->unk_04 = 0;
-                    ((S_80022F60_6 *)image)->unk_05 = 0;
-                    ((S_80022F60_6 *)image)->unk_0C = 0x808080;
+                    image->scale_y = 0x1000;
+                    image->scale_x = 0x1000;
+                    image->source = &D_800F9B40;
+                    image->unk_04 = 0;
+                    image->unk_05 = 0;
+                    image->color.word = 0x808080;
                     position = ((S_80022F60_3 *)obj)->unk_08;
                     position[0] = 0x03800000;
                     position[1] = 0x03C00000;
@@ -353,12 +340,12 @@ loop_0:
                 ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
                 register_node(obj, project_sprite_chain);
                 image = ((S_80022F60_3 *)obj)->unk_0C;
-                ((S_80022F60_6 *)image)->unk_1E = 0x1000;
-                ((S_80022F60_6 *)image)->unk_1C = 0x1000;
-                ((S_80022F60_6 *)image)->unk_08 = &D_800F9B40;
-                ((S_80022F60_6 *)image)->unk_04 = 0;
-                ((S_80022F60_6 *)image)->unk_05 = 0;
-                ((S_80022F60_6 *)image)->unk_0C = 0x808080;
+                image->scale_y = 0x1000;
+                image->scale_x = 0x1000;
+                image->source = &D_800F9B40;
+                image->unk_04 = 0;
+                image->unk_05 = 0;
+                image->color.word = 0x808080;
                 random = rand();
                 ((S_80022F60_5 *)sprite)->unk_54 = random % 3;
                 ((S_80022F60_5 *)sprite)->unk_52 = (rand() & 0x1F) + 0x20;
@@ -405,12 +392,12 @@ loop_0:
                 ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
                 register_node(obj, project_sprite_chain);
                 image = ((S_80022F60_3 *)obj)->unk_0C;
-                ((S_80022F60_6 *)image)->unk_1E = 0x1000;
-                ((S_80022F60_6 *)image)->unk_1C = 0x1000;
-                ((S_80022F60_6 *)image)->unk_08 = &D_800F9B40;
-                ((S_80022F60_6 *)image)->unk_04 = 0;
-                ((S_80022F60_6 *)image)->unk_05 = 0;
-                ((S_80022F60_6 *)image)->unk_0C = 0x808080;
+                image->scale_y = 0x1000;
+                image->scale_x = 0x1000;
+                image->source = &D_800F9B40;
+                image->unk_04 = 0;
+                image->unk_05 = 0;
+                image->color.word = 0x808080;
                 ((S_80022F60_5 *)sprite)->unk_54 = 1;
                 ((S_80022F60_5 *)sprite)->unk_52 = 0x20;
                 position = ((S_80022F60_3 *)obj)->unk_08;

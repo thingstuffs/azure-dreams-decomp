@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void write_resource_command();                /* extern */
+void write_resource_command(s32, s8);                /* extern */
 extern s32 D_800CFBA0[];
 
 /* Submit the indexed table value with code 0x23. */

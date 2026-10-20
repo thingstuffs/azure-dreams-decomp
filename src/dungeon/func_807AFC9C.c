@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_7ce800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -27,20 +28,6 @@ typedef struct S_807AFC9C_1 {
 
    /* arg1 in func_800F749C */
 
-typedef struct S_807AFC9C_3 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    s32 * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_807AFC9C_3;
-
 typedef struct S_807AFC9C_4 {
     u8 pad_00[0x14];
     s32 unk_14;
@@ -55,7 +42,7 @@ typedef struct S_807AFC9C_5 {
 
 /* Spawns an effect near the origin with color channels selected by the source flags. */
 void func_800F749C(s32 spawn_arg, MovingPosition *origin, S_807AFC9C_4 *source) {
-    S_807AFC9C_3 *sprite;
+    SpriteFrameState *sprite;
     S_807AFC9C_1 *position;
     void *effect;
     S_807AFC9C_5 *effect_state;
@@ -69,21 +56,21 @@ void func_800F749C(s32 spawn_arg, MovingPosition *origin, S_807AFC9C_4 *source) 
         position->unk_06 = (s16) ((origin->unk_06 + (rand() & 0x3F)) - 0x20);
         position->unk_0A = (s16) ((origin->unk_0A + (rand() & 0x3F)) - 0x20);
         sprite = ((S_807AFC9C_0 *)effect)->unk_0C;
-        sprite->unk_08 = &D_800FBE24;
+        sprite->source = &D_800FBE24;
         if (source->unk_14 & 1) {
-            sprite->unk_0C = 0x20;
+            sprite->color.c.r = 0x20;
         }
         if (source->unk_14 & 2) {
-            sprite->unk_0E = 0x20;
+            sprite->color.c.b = 0x20;
         }
         if (source->unk_14 & 4) {
-            sprite->unk_0D = 0x20;
+            sprite->color.c.g = 0x20;
         }
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
         sprite->unk_06 = 8;
         effect_state = effect + 0x20;
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        sprite->flags = (u16) (sprite->flags | 0xC);
         effect_state->unk_0C = 0x10;
         ((S_807AFC9C_0 *)effect)->unk_20 = source;
         effect_state->unk_04 = origin;

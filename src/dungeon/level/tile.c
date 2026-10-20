@@ -1,8 +1,8 @@
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/level/tile.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
-
 
 typedef struct {
     s8 pad_00[0x14];
@@ -34,7 +34,6 @@ void apply_scaled_entity_velocity(Entity94744 *entity) {
 
 void apply_scaled_entity_velocity();                      /* extern */
 
-
 typedef struct S_80099F04_1 {
     u8 pad_00[0x14];
     s32 unk_14;
@@ -60,7 +59,6 @@ void process_unflagged_linked_entries(s32 firstEntryBase) {
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 void apply_scaled_entity_velocity();                      /* extern */
-
 
 typedef struct S_80099F70_1 {
     u8 pad_00[0x14];
@@ -103,7 +101,6 @@ typedef struct S_80099FDC_3 {
     void * unk_5C;
 } S_80099FDC_3;
 
-
 /* Clear the entry flag and link the entry into the current owner list. */
 void clear_entry_flag_and_link_owner(void *entry)
 {
@@ -126,7 +123,6 @@ void clear_entry_flag_and_link_owner(void *entry)
 #ifndef NULL
 #define NULL 0
 #endif
-
 
 extern EntityLinkNode *D_800E3DE8;
 
@@ -152,8 +148,6 @@ void unlink_entity_node(EntityLinkNode *node) {
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
-
-
 
 /* Mark and process entries without flag 0x4000, then set the global update flag. */
 void process_unflagged_entries_and_set_update(void)
@@ -192,7 +186,6 @@ extern struct {
 
 extern s32 D_80012090[];
 
-
 extern void clear_entry_flag_and_link_owner(void *entry);
 
 /* Process nodes flagged 0x1000 and clear global bit 28 when D_80012090 is not 1. */
@@ -219,7 +212,6 @@ typedef struct S_8009A180_2 {
     u8 pad_00[0x58];
     void * unk_58;
 } S_8009A180_2;
-
 
 s32 check_entity_relation(EntityRec *entry, EntityRec *anchor) {
     u32 link_bits;
@@ -273,7 +265,6 @@ typedef struct {
     s16 mapShift;
 } DungeonState;
 
-
 /* Sets map cell flags or cycles the selected flag fields. */
 void cycle_map_cell_flags(s16 x, s16 y, u16 flags)
 {
@@ -303,7 +294,6 @@ void cycle_map_cell_flags(s16 x, s16 y, u16 flags)
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
-
 
 /* Checks whether the adjacent tile has masked flags or a zero tile value. */
 s32 func_8009A2B8(s16 origin_x, s16 origin_y, s32 direction) {
@@ -340,14 +330,11 @@ s32 func_8009A2B8(s16 origin_x, s16 origin_y, s32 direction) {
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 
-
-
 typedef struct {
     s16 value;
     s16 unk2;
     u16 flags;
 } Entry;
-
 
 /* Returns the grid entry value at the selected offset and writes its flags. */
 s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags)
@@ -421,8 +408,6 @@ extern s16 D_800DCEAC[];
 
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 
-
-
 /* Checks the sides of a diagonal direction for terrain above 0x200. */
 s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height)
 {
@@ -459,8 +444,6 @@ s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
 #include "shared/dir_step.h"
 
 #define FIELD(ptr, type, offset) (*(type *)((u8 *)(ptr) + (offset)))
-
-
 
 extern s16 find_active_rect_containing_point(u16, u16);
 
@@ -568,8 +551,6 @@ s32 check_movement_clearance_and_height(u32 move_flags, FuncArg1 *position, Func
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
-
-
 
 typedef struct {
     u16 value;
@@ -753,8 +734,6 @@ typedef struct {
     s16 value6e;
 } Func95440Object;
 
-
-
 /* Checks the adjacent tile and classifies its height relative to the source height. */
 s32 classify_adjacent_tile_height(u32 direction_bits, Func95440Input *position, Func95440Actor *actor, u32 source_height,
     s32 height_offset) {
@@ -783,7 +762,7 @@ s32 classify_adjacent_tile_height(u32 direction_bits, Func95440Input *position, 
 
     x += dir_step_x[direction] << 6;
     y += dir_step_y[direction] << 6;
-    if ((get_offset_map_cell_value_and_flags(actor->x, actor->y, direction, &tile_flags) << 16) == 0) {
+    if ((get_offset_map_cell_value_and_flags(((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25, direction, &tile_flags) << 16) == 0) {
         return 0;
     }
     if (tile_flags & 0x8000) {
@@ -858,7 +837,6 @@ typedef struct S_8009ADB8_2 {
     s16 unk_14;
 } S_8009ADB8_2;   /* map_state in can_push_adjacent_actor */
 
-
 typedef struct {
     u16 type;
     u16 unk2;
@@ -929,13 +907,10 @@ typedef struct {
     s16 height;
 } PositionHeightView;
 
-
-
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 struct Node;
 s32 is_map_coordinate_out_of_bounds();                        /* extern */
 extern s8 D_800DD7DC;
-
 
 typedef struct S_8009AF18_0 {
     u8 pad_00[0x24];
@@ -1346,19 +1321,18 @@ typedef struct { CoordinateOutput first; CoordinateOutput second; } LocalBytes;
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 get_entity_effect_value();             /* extern */
 
-
 /* Updates the object's coordinates when a target passes the checks and new coordinates are found. */
 s32 update_object_coordinates_if_valid(Rec_D_80082E80 *object, EntityRec *context) {
     LocalBytes next_coords;
     s32 target;
 
-    target = find_eligible_actor_at_tile_and_height(context, object->unk_24, object->unk_25, context->unk_88);
+    target = find_eligible_actor_at_tile_and_height(context, ((SpriteFrameState *)object)->unk_24, ((SpriteFrameState *)object)->unk_25, context->unk_88);
     if (target != 0) {
         if ((get_entity_effect_value(target, 0x1B) << 0x10) == 0) {
-            if ((find_valid_nearby_position(context, object->unk_24, object->unk_25, &next_coords.first.coordinate, &next_coords.second.coordinate)
+            if ((find_valid_nearby_position(context, ((SpriteFrameState *)object)->unk_24, ((SpriteFrameState *)object)->unk_25, &next_coords.first.coordinate, &next_coords.second.coordinate)
                 << 0x10) != 0) {
-                object->unk_24 = next_coords.first.bytes.low;
-                object->unk_25 = next_coords.second.bytes.low;
+                ((SpriteFrameState *)object)->unk_24 = next_coords.first.bytes.low;
+                ((SpriteFrameState *)object)->unk_25 = next_coords.second.bytes.low;
                 return 1;
             }
             return 2;

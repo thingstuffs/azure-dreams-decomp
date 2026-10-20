@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -36,7 +37,6 @@ extern M2C_UNK D_800DB660;
 extern u8 D_80174A8C;
 extern u8 D_80174A94;
 
-
 typedef struct S_801727B4_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
@@ -53,7 +53,6 @@ typedef struct S_801727B4_0 {
     u16 unk_AE;
     u16 unk_B0;
 } S_801727B4_0;   /* arg0 in update_staged_movement_and_restore_actor */
-
 
 typedef struct S_801727B4_4 {
     u8 pad_00[0x4];
@@ -78,7 +77,7 @@ typedef struct S_801727B4_4 {
 } S_801727B4_4;
 
 /* Updates a staged movement animation, emits effects, and restores the actor at its starting position. */
-void update_staged_movement_and_restore_actor(void *action, EntityRec *motion, Rec_D_80082E80 *animation, EntityRec *actor) {
+void update_staged_movement_and_restore_actor(void *action, EntityRec *motion, SpriteFrameState *animation, EntityRec *actor) {
     Vec3sTable effect_vectors_a;
     Vec3sTable effect_vectors_b;
     s32 reverse_facing;
@@ -107,9 +106,9 @@ void update_staged_movement_and_restore_actor(void *action, EntityRec *motion, R
     case 0:
         ((S_801727B4_0 *)action)->unk_A8 = (u16) ((u16)motion->x.w.i);
         ((S_801727B4_0 *)action)->unk_AA = (u16) ((u16)motion->y.w.i);
-        if (animation->unk_14.at00_u16.v & 0x8000) {
+        if (animation->flags & 0x8000) {
             ((S_801727B4_0 *)action)->unk_9B = 5U;
-            animation->unk_14.at00_u16.v = (u16) (animation->unk_14.at00_u16.v | 0x6000);
+            animation->flags = (u16) (animation->flags | 0x6000);
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             return;
         }
@@ -122,16 +121,16 @@ void update_staged_movement_and_restore_actor(void *action, EntityRec *motion, R
         direction_index = reverse_facing - (wrapped_facing & 0x18);
         motion->unk_0C = (s32) ((s16) dir_step_x[direction_index] * 0x30000);
         motion->unk_10 = (s32) ((s16) dir_step_y[direction_index] * 0x30000);
-        animation->unk_2C.as_pu8 = &D_80174A8C;
+        animation->frameTable = &D_80174A8C;
         select_sprite_entry(animation, (&D_80174A8C)[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         previous_state = ((S_801727B4_0 *)action)->unk_9B;
         ((S_801727B4_0 *)action)->unk_9B = (u8) (previous_state + 1);
         return;
     case 1:
-        if (!(animation->unk_14.at00_u16.v & 0xE000)) {
+        if (!(animation->flags & 0xE000)) {
             return;
         }
-        animation->unk_2C.as_pu8 = &D_80174A94;
+        animation->frameTable = &D_80174A94;
         select_sprite_entry(animation, (&D_80174A94)[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_801727B4_0 *)action)->unk_90 = 0;
         ((S_801727B4_0 *)action)->unk_98 = (u16) (((S_801727B4_0 *)action)->unk_98 | 8);
@@ -143,19 +142,19 @@ void update_staged_movement_and_restore_actor(void *action, EntityRec *motion, R
         vertical_speed = motion->flags14 + 0x20000;
         motion->flags14 = vertical_speed;
         ((S_801727B4_0 *)action)->unk_90 = (s32) (((S_801727B4_0 *)action)->unk_90 + vertical_speed);
-        if (!(animation->unk_14.at00_u16.v & 0xE000)) {
+        if (!(animation->flags & 0xE000)) {
             return;
         }
         motion->unk_0C = (s32) ((s32) (0 - motion->unk_0C) >> 1);
         motion->unk_10 = (s32) ((s32) (0 - motion->unk_10) >> 1);
-        animation->unk_2C.as_pu8 = D_80174AA4;
+        animation->frameTable = D_80174AA4;
         select_sprite_entry(animation, D_80174AA4[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_801727B4_0 *)action)->unk_96 = 7;
         ((S_801727B4_0 *)action)->unk_9B = (u8) (((S_801727B4_0 *)action)->unk_9B + 1);
         return;
     case 3:
-        if (animation->unk_04.as_s8 < 3) {
-            if (resolve_record_orientation_or_fallback(animation->unk_08, animation, action + 0xAC, 0) == 0) {
+        if (animation->unk_04 < 3) {
+            if (resolve_record_orientation_or_fallback(*(s32 *)&animation->source, animation, action + 0xAC, 0) == 0) {
                 ((S_801727B4_0 *)action)->unk_B0 = 0U;
                 ((S_801727B4_0 *)action)->unk_AE = 0U;
                 ((S_801727B4_0 *)action)->unk_AC = 0U;
@@ -172,7 +171,7 @@ void update_staged_movement_and_restore_actor(void *action, EntityRec *motion, R
                 effect_data->unk_10 = (u16) ((S_801727B4_0 *)action)->unk_AC;
                 effect_data->unk_12 = (u16) ((S_801727B4_0 *)action)->unk_AE;
                 effect_data->unk_14 = (u16) ((S_801727B4_0 *)action)->unk_B0;
-                has_offset = resolve_record_orientation_or_fallback(animation->unk_08, animation, action + 0xAC, 0);
+                has_offset = resolve_record_orientation_or_fallback(*(s32 *)&animation->source, animation, action + 0xAC, 0);
                 if (has_offset == 0) {
                     ((S_801727B4_0 *)action)->unk_B0 = 0U;
                     ((S_801727B4_0 *)action)->unk_AE = 0U;
@@ -200,11 +199,11 @@ void update_staged_movement_and_restore_actor(void *action, EntityRec *motion, R
                     effect_data->unk_36 = 0x10;
                     effect_data->unk_04 = purple;
                     effect_data->unk_18 = light_gray;
-                    fade_steps = 6 - animation->unk_04.as_s8;
+                    fade_steps = 6 - animation->unk_04;
                     base_gray = 0x141414;
                     effect_data->unk_1C = (s32) ((fade_steps * 0x30303) + base_gray);
-                    (*(Vec3s *)((u8 *)effect + 0x40)) = effect_vectors_a.item[animation->unk_04.as_s8 - 3];
-                    (*(Vec3s *)((u8 *)effect + 0x46)) = effect_vectors_b.item[animation->unk_04.as_s8 - 3];
+                    (*(Vec3s *)((u8 *)effect + 0x40)) = effect_vectors_a.item[animation->unk_04 - 3];
+                    (*(Vec3s *)((u8 *)effect + 0x46)) = effect_vectors_b.item[animation->unk_04 - 3];
                     effect_data->unk_32 = func_80066460(0, 1, 0x2C0, 0x100);
                     effect_data->unk_34 = func_8006649C(0, 0x1F8);
                 }
@@ -212,25 +211,25 @@ void update_staged_movement_and_restore_actor(void *action, EntityRec *motion, R
         }
         ticks_left = ((S_801727B4_0 *)action)->unk_96 - 1;
         ((S_801727B4_0 *)action)->unk_96 = ticks_left;
-        if ((ticks_left << 0x10) == 0 || (animation->unk_14.at00_u16.v & 0x8000)) {
+        if ((ticks_left << 0x10) == 0 || (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             play_sound_if_enabled(0x808);
         }
-        if (!(animation->unk_14.at00_u16.v & 0xE000)) {
+        if (!(animation->flags & 0xE000)) {
             return;
         }
-        animation->unk_2C.as_pu8 = D_80174AAC;
+        animation->frameTable = D_80174AAC;
         select_sprite_entry(animation, D_80174AAC[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_801727B4_0 *)action)->unk_98 = (u16) (((S_801727B4_0 *)action)->unk_98 & 0xFFF7);
         ((S_801727B4_0 *)action)->unk_9B = (u8) (((S_801727B4_0 *)action)->unk_9B + 1);
         return;
     case 4:
-        if (!(animation->unk_14.at00_u16.v & 0xE000)) {
+        if (!(animation->flags & 0xE000)) {
             return;
         }
-        animation->unk_2C.as_pu8 = D_80174AAC;
+        animation->frameTable = D_80174AAC;
         select_sprite_entry(animation, D_80174AAC[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        if (animation->unk_14.at00_u16.v & 0x8000) {
+        if (animation->flags & 0x8000) {
             set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
         }
         previous_state = ((S_801727B4_0 *)action)->unk_9B;

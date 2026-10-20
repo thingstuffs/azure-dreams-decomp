@@ -29,31 +29,10 @@ typedef struct { u8 pad00[0xA]; s16 height; } E_80170854_SpawnMotion;
 typedef struct { u8 pad00[0x24]; u8 tile_x,tile_y; u8 pad26[6]; u8 *frames; } E_80170854_SpawnSprite;
 typedef struct { u8 pad00[8]; E_80170854_SpawnMotion *motion; E_80170854_SpawnSprite *sprite; void (*update)(void *,void *,void *); } E_80170854_SpawnObject;
 
-
-
-
-
-
-
-
-
-
 extern u8 D_80174510[8],D_80174538[8];
 /* Allocate an actor, initialize its action and sprite views, then apply spawn flags. */
 
 typedef void (*E_80170A58_Callback)(void *, void *, void *, void *);
-
-
-
-
-
-
-
-
-
-
-
-
 
 typedef struct E_80170A58_S_80170A58_0 {
     u8 pad_00[0x4];
@@ -128,37 +107,6 @@ typedef struct E_80170E5C_S_80170E5C_2 {
     void * unk_2C;
 } E_80170E5C_S_80170E5C_2;   /* arg2 in func_80170E5C */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Update actor actions, facing, and animation according to dungeon state. */
 
 /* Updates actor movement, recording the path and refreshing the tile position and height. */
@@ -173,7 +121,6 @@ typedef struct E_80171B68_S_80171570_0 {
     u8 pad_72[0x18];
     s16 unk_8A;
 } E_80171B68_S_80171570_0;   /* state in func_80171B68 */
-
 
 typedef struct E_80171B68_S_80171570_2 {
     u8 pad_00[0x8C];
@@ -191,16 +138,6 @@ typedef struct E_80171B68_S_80171570_3 {
     u8 unk_7C;
 } E_80171B68_S_80171570_3;   /* (u8 *)state + ((E_80171B68_S_80171570_0 *)state)->unk_8A in func_80171B68 */
 
-
-
-
-
-
-
-
-
-
-
 /* Advances the entity along its stored path and updates movement timing. */
 
 // Initialize object state and apply the table entry for its eight-way orientation.
@@ -213,7 +150,6 @@ typedef struct E_80171E10_S_80171E00_3 {
     s8 unk_9B;
 } E_80171E10_S_80171E00_3;   /* arg0 in func_80171E10 */
 
-
          /* extern */
 typedef struct E_80171E10_Ent E_80171E10_Ent;
  /* extern */
@@ -223,7 +159,6 @@ typedef struct E_80171E10_Ent E_80171E10_Ent;
                      /* extern */
  /* extern */
 
-
 /* Check movement conditions and initialize the actor action and directional animation. */
 
 typedef struct E_80171FD4_S_80171FC4_1 {
@@ -232,13 +167,11 @@ typedef struct E_80171FD4_S_80171FC4_1 {
     s8 unk_9B;
 } E_80171FD4_S_80171FC4_1;   /* arg0 in func_80171FD4 */
 
-
          /* extern */
 typedef struct E_80171FD4_Ent E_80171FD4_Ent;
  /* extern */
                           /* extern */
  /* extern */
-
 
 /* Update action state and start a directional animation if the actor passes the checks. */
 
@@ -269,19 +202,6 @@ typedef struct E_801720EC_S_801720EC_2 {
     s8 unk_9B;
 } E_801720EC_S_801720EC_2;   /* output in func_801720EC */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Checks the tile ahead and updates the entity's action when the height permits. */
 
 typedef struct E_8017236C_S_8017236C_1 {
@@ -291,13 +211,6 @@ typedef struct E_8017236C_S_8017236C_1 {
     s8 unk_9A;
     s8 unk_9B;
 } E_8017236C_S_8017236C_1;   /* arg0 in func_8017236C */
-
-
-
-
-
-
-
 
 /* Updates actor flags and starts a directional animation when the actor is ready. */
 
@@ -317,18 +230,6 @@ typedef struct E_801724E8_S_801724E8_0 {
     union { s16 s; u16 u; } unk_9E;   /* accessed as both */
     s32 unk_A0;
 } E_801724E8_S_801724E8_0;   /* arg0 in func_801724E8 */
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* Updates an actor's hop toward its tile and handles movement completion. */
 
@@ -356,7 +257,6 @@ typedef struct E_801728B4_S_801728B4_2 {
     u16 unk_46;
 } E_801728B4_S_801728B4_2;   /* actor in func_801728B4 */
 
-
  /* extern */
                       /* extern */
                      /* extern */
@@ -371,11 +271,6 @@ typedef struct E_801728B4_S_801728B4_2 {
                      /* extern */
        /* extern */
                       /* extern */
-
-
-
-
-
 
 typedef struct E_80172A58_S_80172A58_0 {
     u8 pad_00[0x8C];
@@ -458,25 +353,12 @@ typedef struct E_80172ED0_S_80172ED0_0 {
     u8 unk_9B;
 } E_80172ED0_S_80172ED0_0;   /* arg0 in func_80172ED0 */
 
-
-
-
-
-
-
-
-
 /* Damp entity movement and align it to its tile before starting an action or resetting state. */
-
-
-
-
 
 /* Forward all four bank callback arguments to the resident handler. */
 
 typedef void (*E_8017321C_ActorAction)(void *,void *,void *,void *);
 typedef struct { u8 pad00[0x8C]; E_8017321C_ActorAction handler; s32 timer; } E_8017321C_ActionState;
-
 
 /* Resume the bank action after the resident callback completes. */
 
@@ -487,7 +369,6 @@ typedef struct E_80173254_S_80173254_0 {
     u8 unk_9B;
 } E_80173254_S_80173254_0;   /* arg0 in func_80173254 */
 
-
 /* Updates the entity action state and selects its directional animation. */
 
 typedef struct E_8017357C_S_8017357C_0 {
@@ -497,21 +378,6 @@ typedef struct E_8017357C_S_8017357C_0 {
     u8 unk_9B;
 } E_8017357C_S_8017357C_0;   /* arg0 in func_8017357C */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Advance the actor state and select its directional effect. */
 
 typedef void (*E_801737DC_ActorAction)(void *,void *,void *,void *);
@@ -519,9 +385,6 @@ typedef struct { u8 pad00[0x8C]; E_801737DC_ActorAction handler; s32 timer; } E_
 
 typedef struct {u8 pad00[0x2C];u8 *frames;} E_801737DC_RenderState;
 typedef struct {u8 pad00[0x1C];s32 flags;u8 pad20[0xA];s16 facing;} E_801737DC_RenderActor;
-
-
-
 
 extern u8 D_80174518[8],D_80174538[8];
 
@@ -531,30 +394,25 @@ typedef struct { u8 pad00[0x8C]; E_801738A4_ActorAction handler; s32 timer; } E_
 typedef void (*E_80173908_ActorAction)(void *,void *,void *,void *);
 typedef struct { u8 pad00[0x8C]; E_80173908_ActorAction handler; s32 timer; } E_80173908_ActionState;
 
-
 /* Resume the bank action after the resident callback completes. */
 
 typedef void (*E_80173940_ActorAction)(void *,void *,void *,void *);
 typedef struct { u8 pad00[0x8C]; E_80173940_ActorAction handler; s32 timer; } E_80173940_ActionState;
-
 
 /* Resume the bank action after the resident callback completes. */
 
 typedef void (*E_80173978_ActorAction)(void *,void *,void *,void *);
 typedef struct { u8 pad00[0x8C]; E_80173978_ActorAction handler; s32 timer; } E_80173978_ActionState;
 
-
 /* Resume the bank action after the resident callback completes. */
 
 typedef void (*E_801739B0_ActorAction)(void *,void *,void *,void *);
 typedef struct { u8 pad00[0x8C]; E_801739B0_ActorAction handler; s32 timer; } E_801739B0_ActionState;
 
-
 /* Resume the bank action after the resident callback completes. */
 
 typedef void (*E_801739E8_ActorAction)(void *,void *,void *,void *);
 typedef struct { u8 pad00[0x8C]; E_801739E8_ActorAction handler; s32 timer; } E_801739E8_ActionState;
-
 
 /* Resume the bank action after the resident callback completes. */
 
@@ -580,18 +438,6 @@ typedef struct E_80173A20_S_80173A20_4 {
     u8 unk_29;
 } E_80173A20_S_80173A20_4;   /* object in func_80173A20 */
 
-
-
-
-
-
-
-
-
-
-
-
-
 /* Advance the actor state and spawn an adjacent object when entity flags allow. */
 
 typedef struct E_80173CE0_S_80173CE0_0 {
@@ -610,12 +456,6 @@ typedef struct E_80173CE0_S_80173CE0_1 {
     u8 unk_24;
     u8 unk_25;
 } E_80173CE0_S_80173CE0_1;   /* arg2 in func_80173CE0 */
-
-
-
-
-
-
 
 /* Advance the action state and update the entity when action flags permit. */
 
@@ -702,14 +542,6 @@ typedef struct {
 } E_80174084_Copy24;
 #define NULL 0
 
-
-
-
-
-
-
-
-
 static __inline__ u16 offset_coord(u16 coord, u16 offset) {
     return coord + offset;
 }
@@ -722,18 +554,11 @@ static __inline__ u16 set_flags(u16 value, u16 flags) {
 
 /* extern */
 
-
 /* Advances the counter, increments both fields for the first eight steps, and updates the record. */
 
 typedef s32 E_801742AC_M2C_UNK;
 
-
 #define NULL 0
-
-
-
-
-
 
 typedef struct {
     s32 words[6];
@@ -759,19 +584,6 @@ typedef struct E_801742AC_S_80DE6AAC_2 {
     u8 pad_2C[0x5C];
     u16 unk_88;
 } E_801742AC_S_80DE6AAC_2;   /* arg0 in func_801742AC */
-
-typedef struct E_801742AC_S_80DE6AAC_3 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x3];
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} E_801742AC_S_80DE6AAC_3;   /* temp_s0 in func_801742AC */
 
 typedef struct E_801742AC_S_80DE6AAC_4 {
     u8 pad_00[0x24];
@@ -888,7 +700,7 @@ extern s32 resolve_actor_floor_trap_once(void *,void *,void *,void *);
 extern s32 update_actor_hop_and_shrink(void *,void *,void *,void *);
 extern s32 advance_actor_removal(void *, s32, void *, void *);
 extern s32 update_actor_hop_and_grow(void *,void *,void *,void *);
-extern s32 update_thrown_actor_travel(void *,void *,void *,void *);
+extern s32 update_thrown_actor_travel(void *,void *,SpriteFrameState *,void *);
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
 extern s32 update_spinning_actor_fall(void *,void *,void *,void *);
 extern s32 propagate_actor_action_flag(void *,void *,void *,void *);
@@ -911,7 +723,7 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
 void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_in, void *sprite_in, void *status_in);
 void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *tile, u8 *actor);
 void advance_actor_path_step(void *action, s32 action_id, void *entity, void *move_state);
-void set_actor_directional_animation(void *object, void *unused, void *display, void *orientation);
+void set_actor_directional_animation(void *object, void *unused, SpriteFrameState *display, void *orientation);
 s32 begin_actor_directional_attack(void *action_state, void *action_ctx, void *sprite, EntityRec *actor);
 void begin_actor_attack_after_status_check(void *action_state, void *action_context, void *sprite, EntityRec *actor);
 s32 check_actor_ahead_height(void *action_state, void *source_pos, void *sprite, void *actor);
@@ -921,7 +733,7 @@ void update_actor_hop_to_tile(void *anim, EntityRec *motion, void *actor, Entity
 void update_linked_actor_motion_and_trap(E_80172850_ActionState *state,void *motion,void *sprite,void *actor);
 void resolve_actor_attack_damage(void *obj, EntityRec *record, void *entity, void *actor);
 void update_actor_spell_action(void *arg0, E_80172A58_S_80172A58_6 *arg1, E_80172A58_S_80172A58_5 *arg2, void *arg3);
-void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, void *entity);
+void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, EntityRec *motion, SpriteFrameState *tile_state, void *entity);
 void func_801731BC(void *state,void *position,void *render_state,void *entity);
 void func_801731DC(void *state,void *motion,void *sprite,void *actor);
 void advance_entity_motion_fade_and_removal(void *state, s32 action, SpriteFrameState *source, EntityRec *target);
@@ -940,7 +752,7 @@ void advance_actor_state_when_allowed(void *state_ctx, s32 entity_id, void *acti
 s32 select_actor_relation_state(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_Obj *object);
 void create_four_directional_effects(void *owner_arg, void *motion_arg, void *origin_arg);
-void advance_effect_record_counters(u16 *counter, M2C_UNK unused, Rec_D_80082E80 *record);
+void advance_effect_record_counters(u16 *counter, M2C_UNK unused, SpriteFrameState *record);
 s32 create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *initial_position, E_801742AC_S_80DE6AAC_4 *tile_origin);
 void func_80174460(void *record);
 void func_801744B8(void *record);

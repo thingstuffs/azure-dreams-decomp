@@ -8,11 +8,6 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_func_800AA258_arg2.h"
 
-
-
-
-
-
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -24,7 +19,6 @@ typedef struct T_801748D0_S_801748D0_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } T_801748D0_S_801748D0_0;   /* arg0 in func_801748D0 */
-
 
 typedef struct T_801748D0_S_801748D0_2 {
     u8 pad_00[0x14];
@@ -58,29 +52,10 @@ typedef struct T_801748D0_S_801748D0_4 {
     void * unk_10;
 } T_801748D0_S_801748D0_4;   /* obj in func_801748D0 */
 
-
 typedef struct T_801748D0_S_801748D0_6_pre {
     void * unk_00;
     u8 pad_04[0x14];
 } T_801748D0_S_801748D0_6_pre;   /* the 0x18 bytes before body_link in func_801748D0, addressed as body_link[-1] */
-
-typedef struct T_801748D0_S_801748D0_7 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0xC];
-    u8 * unk_2C;
-} T_801748D0_S_801748D0_7;   /* mesh in func_801748D0 */
 
 typedef struct T_801748D0_S_801748D0_9 {
     u8 pad_00[0x2];
@@ -100,9 +75,6 @@ typedef struct T_801748D0_S_801748D0_11 {
     u8 pad_00[0x8];
     s32 unk_08;
 } T_801748D0_S_801748D0_11;   /* link in func_801748D0 */
-
-
-
 
 typedef struct {
     s16 delta[3];

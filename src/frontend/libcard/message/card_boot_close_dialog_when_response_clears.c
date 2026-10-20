@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 card_boot_close_message_dialog();                     /* extern */
+s32 card_boot_close_message_dialog(s32);                     /* extern */
 
 typedef struct S_800226A8_0 {
     u8 pad_00[0x20];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
@@ -177,7 +178,7 @@ s32 initialize_keima_interface(void) {
         s32 sprite_index = 7;
         s32 handler_page = (s32)0x80020000;
         u8 *sprite_handler;
-        u8 *grid_sprite;
+        SpriteFrameState *grid_sprite;
         sprite_handler = D_80023158;
         sprite = (u8 *)0x1000;
         do {
@@ -186,11 +187,11 @@ s32 initialize_keima_interface(void) {
                 register_node(obj, D_80046398);
                 grid_sprite = AT(u8 *, obj, 0xC);
                 AT(void *, obj, 0x10) = sprite_handler;
-                AT(s32, grid_sprite, 0xC) = 0x808080;
-                AT(s16, grid_sprite, 0x1C) = (s16)sprite;
-                AT(s16, grid_sprite, 0x1E) = (s16)sprite;
-                AT(s16, grid_sprite, 0x20) = (s16)sprite;
-                AT(s32, grid_sprite, 8) = sprite_frames.v[sprite_index];
+                grid_sprite->color.word = 0x808080;
+                grid_sprite->scale_x = (s16)sprite;
+                grid_sprite->scale_y = (s16)sprite;
+                grid_sprite->unk_20 = (s16)sprite;
+                grid_sprite->source = sprite_frames.v[sprite_index];
                 AT(s32, AT(u8 *, obj, 8), 0) = ((sprite_index >> 2) << 22) + 0x0FE00000;
                 AT(s32, AT(u8 *, obj, 8), 4) = ((sprite_index % 4) << 22) + 0x03E00000;
                 AT(s32, AT(u8 *, obj, 8), 8) = 0;

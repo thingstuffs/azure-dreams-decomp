@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
@@ -94,31 +95,10 @@ typedef struct S_80172840_8 {
     s16 unk_4C;
 } S_80172840_8;   /* spawn_fields in advance_move_action_particles */
 
-typedef struct S_80172840_9 {
-    void * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80172840_9;   /* data in advance_move_action_particles */
-
 typedef struct S_80172840_10 {
     u8 pad_00[0x4];
     s32 unk_04;
 } S_80172840_10;   /* base in advance_move_action_particles */
-
-typedef struct S_80172840_11 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_80172840_11;   /* status in advance_move_action_particles */
 
 typedef struct S_80172840_12 {
     u8 pad_00[0x2];
@@ -308,7 +288,7 @@ void advance_move_action_particles(void *action, void *position, void *sprite, v
                 counter = 9;
                 effect_base = D_800DEA68;
                 for (; counter >= 0; counter--) {
-                    void *particle_data;
+                    SpriteFrameState *particle_data;
                     particle = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
                     if (particle != 0) {
 
@@ -351,17 +331,17 @@ void advance_move_action_particles(void *action, void *position, void *sprite, v
                         offset_z = coords[6];
                         ((S_80172840_8 *)particle_fields)->unk_48 = 4;
                         ((S_80172840_8 *)particle_fields)->unk_10 = source_z + offset_z;
-                        ((S_80172840_9 *)particle_data)->unk_1E = 0x600;
-                        ((S_80172840_9 *)particle_data)->unk_1C = 0x600;
-                        ((S_80172840_9 *)particle_data)->unk_10 = 0x60;
-                        ((S_80172840_9 *)particle_data)->unk_00 = effect_base;
-                        ((S_80172840_9 *)particle_data)->unk_14 |= 0xC;
+                        particle_data->scale_y = 0x600;
+                        particle_data->scale_x = 0x600;
+                        particle_data->tpage_abr = 0x60;
+                        particle_data->unk_00 = effect_base;
+                        particle_data->flags |= 0xC;
                         effect_value = effect_base->unk_04;
                         color |= 0x7070;
-                        ((S_80172840_9 *)particle_data)->unk_04 = 0;
-                        ((S_80172840_9 *)particle_data)->unk_05 = 0;
-                        ((S_80172840_9 *)particle_data)->unk_0C = color;
-                        ((S_80172840_9 *)particle_data)->unk_08 = effect_value;
+                        particle_data->unk_04 = 0;
+                        particle_data->unk_05 = 0;
+                        particle_data->color.word = color;
+                        particle_data->source = effect_value;
                         ((S_80172840_8 *)particle_fields)->unk_4C = 0;
                     }
                 }

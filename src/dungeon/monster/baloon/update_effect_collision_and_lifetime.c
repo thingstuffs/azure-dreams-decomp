@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -34,13 +35,12 @@ typedef struct S_80D65534_1 {
     s32 unk_40;
 } S_80D65534_1;   /* arg0 in update_effect_collision_and_lifetime */
 
-
 extern void func_800478B8(void *entity);
 extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 /* Updates effect motion, terrain collisions, visual properties, and lifetime. */
-void update_effect_collision_and_lifetime(void *effect, S_80D65534_0 *position, Rec_D_80082E80 *visual)
+void update_effect_collision_and_lifetime(void *effect, S_80D65534_0 *position, SpriteFrameState *visual)
 {
     s16 life_left;
     s32 current_z;
@@ -101,9 +101,9 @@ void update_effect_collision_and_lifetime(void *effect, S_80D65534_0 *position, 
 
     life_scale = (((S_80D65534_1 *)effect)->unk_0C.s << 7) /
             ((S_80D65534_1 *)effect)->unk_0E;
-    visual->unk_0C.at02_s8.v = life_scale;
-    visual->unk_0C.at01_s8.v = life_scale;
-    visual->unk_0C.at00_s8.v = life_scale;
+    visual->color.c.b = life_scale;
+    visual->color.c.g = life_scale;
+    visual->color.c.r = life_scale;
 
     updated_value = ((S_80D65534_1 *)effect)->unk_18 + 1;
     ((S_80D65534_1 *)effect)->unk_18 = updated_value;
@@ -112,16 +112,16 @@ void update_effect_collision_and_lifetime(void *effect, S_80D65534_0 *position, 
         ((S_80D65534_1 *)effect)->unk_18 = 0;
     }
 
-    updated_value = visual->unk_1C.at00_u16.v + 0xC8;
-    visual->unk_1C.at00_u16.v = updated_value;
+    updated_value = visual->scale_x + 0xC8;
+    visual->scale_x = updated_value;
     if (updated_value > 0x1000) {
-        visual->unk_1C.at00_u16.v = 0x1000;
+        visual->scale_x = 0x1000;
     }
 
-    updated_value = visual->unk_1C.at02_u16.v + 0xC8;
-    visual->unk_1C.at02_u16.v = updated_value;
+    updated_value = visual->scale_y + 0xC8;
+    visual->scale_y = updated_value;
     if (updated_value > 0x1000) {
-        visual->unk_1C.at02_u16.v = 0x1000;
+        visual->scale_y = 0x1000;
     }
 
     life_left = ((S_80D65534_1 *)effect)->unk_0C.u - 1;

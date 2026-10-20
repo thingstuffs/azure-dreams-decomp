@@ -44,21 +44,6 @@ typedef struct ovl_18ca83c_818AABB8_S_800243B8_4 {
     s32 unk_04;
     s32 unk_08;
 } ovl_18ca83c_818AABB8_S_800243B8_4;
-typedef struct ovl_18ca83c_818AABB8_S_800243B8_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} ovl_18ca83c_818AABB8_S_800243B8_5;
 typedef struct ovl_18ca83c_818AABB8_S_800243B8_6 {
     s32 unk_00;
     s32 unk_04;

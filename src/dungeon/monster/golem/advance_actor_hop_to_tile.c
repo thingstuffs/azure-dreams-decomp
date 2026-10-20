@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_80172998_0 {
     u8 pad_00[0x8C];
@@ -19,7 +19,6 @@ typedef struct S_80172998_0 {
     s16 unk_A4;
 } S_80172998_0;   /* arg0 in advance_actor_hop_to_tile */
 
-
 extern s32 func_800644B8(s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(void *, s32, s32);
@@ -31,7 +30,7 @@ extern s32 check_actor_floor_trap(void *, void *);
 extern M2C_UNK D_80170E94;
 
 /* Advance the actor's hop to its tile and finish the motion when its timer expires. */
-void advance_actor_hop_to_tile(S_80172998_0 *motion, EntityRec *transform, Rec_D_80082E80 *tile, EntityRec *actor)
+void advance_actor_hop_to_tile(S_80172998_0 *motion, EntityRec *transform, SpriteFrameState *tile, EntityRec *actor)
 {
     s32 coord_result;
     s32 phase;

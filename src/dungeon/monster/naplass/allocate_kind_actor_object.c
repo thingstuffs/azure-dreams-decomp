@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-
 
 typedef struct S_8016A870_0 {
     u8 pad_00[0x8];
@@ -23,16 +23,6 @@ typedef struct S_8016A870_2 {
     s16 unk_0A;
 } S_8016A870_2;   /* part_a in allocate_kind_actor_object */
 
-typedef struct S_8016A870_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8016A870_3;   /* part_b in allocate_kind_actor_object */
-
 typedef struct S_8016A870_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -41,7 +31,6 @@ typedef struct S_8016A870_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_8016A870_4;   /* actor in allocate_kind_actor_object */
-
 
 extern void *allocate_list_node();
 extern void register_node();
@@ -60,7 +49,7 @@ void *allocate_kind_actor_object(s16 spawn_flags, s16 part_b_value_24, s16 part_
     s32 kind;
     void *obj;
     S_8016A870_2 *part_a;
-    S_8016A870_3 *part_b;
+    SpriteFrameState *part_b;
     S_8016A870_1 *work;
     S_8016A870_4 *actor;
     register s32 flags_14;
@@ -86,7 +75,7 @@ void *allocate_kind_actor_object(s16 spawn_flags, s16 part_b_value_24, s16 part_
         kind = spawn_flags & 3;
         part_b->unk_25 = saved_value_25;
         actor = work;
-        part_b->unk_2C = D_8016E194;
+        part_b->frameTable = D_8016E194;
         part_b->unk_24 = saved_value_24;
 
         if (kind == 1) {
@@ -104,14 +93,14 @@ void *allocate_kind_actor_object(s16 spawn_flags, s16 part_b_value_24, s16 part_
                 work->unk_1C |= 0x200;
                 set_or_clear_actor_status_slot(work, 1,
                               (generate_random_value() & 0x3F) | 0x20);
-                part_b->unk_2C = D_8016E1DC;
+                part_b->frameTable = D_8016E1DC;
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8016AE68;
-        part_b->unk_14 |= 0xC;
+        part_b->flags |= 0xC;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

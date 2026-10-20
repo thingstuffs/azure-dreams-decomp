@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern void configure_the_set_mode_n_1();
+struct Rec_func_8008F074_arg0; void configure_the_set_mode_n_1(struct Rec_func_8008F074_arg0 *, s32, s32);
 extern M2C_UNK D_800C26C0[3];
 extern void *D_800D4F88[3];
 
@@ -19,6 +19,6 @@ typedef struct S_800C2664_0 {
 void initialize_transform_object_values(S_800C2664_0 *object, s32 setup_context, s32 unused) {
     object->unk_8C = 0x40;
     object->unk_8E = 0x40;
-    configure_the_set_mode_n_1(object, setup_context, *(object->unk_94 + D_800D4F88));
+    configure_the_set_mode_n_1((struct Rec_func_8008F074_arg0 *)(object), setup_context, (s32)(*(object->unk_94 + D_800D4F88)));
     object->unk_50 = D_800C26C0;
 }

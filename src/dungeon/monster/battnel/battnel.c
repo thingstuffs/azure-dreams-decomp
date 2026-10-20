@@ -1,10 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
-
-
 
 typedef struct S_80B85054_0 {
     u8 pad_00[0x8];
@@ -26,14 +25,6 @@ typedef struct S_80B85054_2 {
     s16 unk_0A;
 } S_80B85054_2;   /* part_a in func_80B85054 */
 
-typedef struct S_80B85054_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80B85054_3;   /* part_b in func_80B85054 */
-
 typedef struct S_80B85054_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -44,7 +35,6 @@ typedef struct S_80B85054_4 {
     u8 pad_9D[0x7];
     s16 unk_A4;
 } S_80B85054_4;   /* actor in func_80B85054 */
-
 
 extern void *allocate_list_node();
 extern void register_node();
@@ -64,7 +54,7 @@ void *func_80B85054(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, s16 par
     S_80B85054_1 *work = 0;
     void *obj;
     S_80B85054_2 *part_a;
-    S_80B85054_3 *part_b;
+    SpriteFrameState *part_b;
     S_80B85054_4 *actor;
     s32 flags_or_roll;
     s32 secondary_flags;
@@ -89,7 +79,7 @@ void *func_80B85054(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, s16 par
         kind = spawn_flags & 3;
         part_b->unk_25 = saved_byte_25;
         actor = work;
-        part_b->unk_2C = D_8015BD0C;
+        part_b->frameTable = D_8015BD0C;
         part_b->unk_24 = saved_byte_24;
 
         if (kind == 1) {
@@ -115,7 +105,7 @@ void *func_80B85054(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, s16 par
                     work->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value(obj) & 0x3F) | 0x20);
-                    part_b->unk_2C = D_8015BD4C;
+                    part_b->frameTable = D_8015BD4C;
                 }
             }
         }

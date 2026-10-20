@@ -5,7 +5,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
 
-void clear_entity_record_fields();                     /* extern */
+#include "town/player/object/entity_record_fields.h"                     /* extern */
 extern M2C_UNK D_8009AA2C;
 
 
@@ -14,6 +14,6 @@ void reset_indexed_object_and_set_handler(Rec_func_80094268_arg0 *object, s32 co
     call_the_handler_selects_nonzero_entry((s32 *) D_800D00A8, object, ptr2);
     D_80082660[object->unk_40].unk_00 = 0;
     object->unk_0A.as_s16 = 0xA;
-    clear_entity_record_fields(context);
+    clear_entity_record_fields((struct EntityRec *)(context));
     object->unk_04.as_pm = &D_8009AA2C;
 }

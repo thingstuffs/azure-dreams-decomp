@@ -15,14 +15,14 @@ typedef struct S_800A7C98_0 {
 } S_800A7C98_0;   
 
 
-extern void register_node_if_unregistered();
-extern void clear_object_status_and_dispatch_target();
+void register_node_if_unregistered(void *, s32);
+#include "town/system/clear_object_status_and_dispatch_target_api.h"
 extern s32 D_800A7DF8;
 extern s32 D_800F8F88;
 
 void func_800A7D48(void *object, s32 unused, s32 context) {
     ((S_800A7C98_0_pre *)object)[-1].unk_00 = &D_800A7DF8;
     ((S_800A7C98_0 *)object)->unk_50 = 0;
-    clear_object_status_and_dispatch_target(object, context, &D_800F8F88, 0);
-    register_node_if_unregistered(object, project_sprite_chain);
+    clear_object_status_and_dispatch_target(object, context, (int)(&D_800F8F88), 0);
+    register_node_if_unregistered(object, (s32)(project_sprite_chain));
 }

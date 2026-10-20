@@ -5,7 +5,7 @@
 #include "shared/entity.h"
 #include "shared/town_handler.h"
 
-void clear_entity_record_fields();                      /* extern */
+#include "town/player/object/entity_record_fields.h"                      /* extern */
 extern M2C_UNK D_80097EFC;
 
 

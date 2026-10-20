@@ -76,22 +76,22 @@ typedef struct S_8016B230_11 {
    /* arg3 + (((S_8016B230_1 *)arg3)->unk_71.u & 0x7F) in advance_actor_movement_step */
 
 
-extern s32 check_entity_relation();
-extern void cycle_map_cell_flags();
-extern void update_map_cell_flags_with_item_limit();
-extern s32 check_diagonal_side_height();
+struct EntityRec; s32 check_entity_relation(struct EntityRec *, struct EntityRec *);
+void cycle_map_cell_flags(s16, s16, u16);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+s32 check_diagonal_side_height(s32, s16, s16, s16);
 extern s32 check_movement_clearance_and_height();
-extern s32 compare_monster_neighbor_values();
-extern s16 get_actor_height_difference();
+s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+struct EntityRec; s16 get_actor_height_difference(struct EntityRec *, struct EntityRec *);
 extern void *find_valid_monster_neighbor();
 extern void *place_actor_at_directional_neighbor();
 extern u16 get_rounded_facing_and_rounding_flag();
-extern void rebuild_monster_reachable_tiles();
-extern void update_actor_proximity_flag();
+s32 rebuild_monster_reachable_tiles(u8 *, s32, u8 *, u16 *);
+s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *);
 extern s32 generate_random_value();
-extern void update_actor_status_and_food();
+struct EntityRec; void update_actor_status_and_food(struct EntityRec *);
 extern s16 sample_terrain_surface_height();
-extern s32 try_actor_attack();
+struct EntityRec; struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(struct Rec_func_800A9E70_arg0 *, s32, struct Rec_D_80082E80 *, struct EntityRec *);
 
 extern s16 D_8006CD00[];
 
@@ -124,8 +124,8 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
 
     if ((dungeon_flags & 0x4000) || (((S_8016B230_1 *)actor)->unk_71.s >= 0)) {
         if ((((S_8016B230_1 *)actor)->unk_12 >= 2) ||
-            ((try_actor_attack(movement_in, action_ctx, position, actor) << 16) == 0)) {
-            update_actor_status_and_food(actor);
+            ((try_actor_attack((struct Rec_func_800A9E70_arg0 *)(movement_in), (s32)(action_ctx), (struct Rec_D_80082E80 *)(position), (struct EntityRec *)(actor)) << 16) == 0)) {
+            update_actor_status_and_food((struct EntityRec *)(actor));
             return;
         }
         if (dungeon_state->unk_0C != actor) {
@@ -216,7 +216,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                     }
                 }
             } else {
-                rebuild_monster_reachable_tiles(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, movement_in + 0x98);
+                rebuild_monster_reachable_tiles(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, (u16 *)(movement_in + 0x98));
             }
         }
     } else {
@@ -224,13 +224,13 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
 
         kind = ((S_8016B230_2 *)position)->unk_26.s;
         if ((kind >= 0) && (((S_8016B230_10 *)((u8 *)D_800E2970 + kind * 0x14))->unk_0C & 2)) {
-            rebuild_monster_reachable_tiles(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, movement_in + 0x98);
+            rebuild_monster_reachable_tiles(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, (u16 *)(movement_in + 0x98));
         } else if (!(((S_8016B230_1 *)actor)->unk_46 & 0x8000)) {
             found = place_actor_at_directional_neighbor(actor, ((S_8016B230_2 *)position)->unk_24.at00.v,
                 ((S_8016B230_2 *)position)->unk_24.at01.v,
                                   ((S_8016B230_1 *)actor)->unk_2A.s);
             if ((found != NULL) && (((S_8016B230_3 *)found)->unk_1C & 0x2000) &&
-                (get_actor_height_difference(found, actor) < 0x81) &&
+                (get_actor_height_difference(found, (struct EntityRec *)(actor)) < 0x81) &&
                 ((check_diagonal_side_height(((s32)(((S_8016B230_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
                                 ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
                                 (s16)(((S_8016B230_1 *)actor)->unk_88 - 0x20)) << 16) != 0)) {
@@ -244,7 +244,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                     target->tileX, target->tileY, movement_in + 0x98);
                 if ((compare_monster_neighbor_values(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
                                    target->tileX, target->tileY) << 16) != 0) {
-                    if (get_actor_height_difference(D_800814A8, actor) < 0x81) {
+                    if (get_actor_height_difference(D_800814A8, (struct EntityRec *)(actor)) < 0x81) {
                         path_result = check_diagonal_side_height(
                             ((s32)(((S_8016B230_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
                             ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
@@ -256,7 +256,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                     }
                 }
             } else {
-                rebuild_monster_reachable_tiles(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, movement_in + 0x98);
+                rebuild_monster_reachable_tiles(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, (u16 *)(movement_in + 0x98));
             }
         }
     }
@@ -311,7 +311,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
         if (attempt == 0) {
             if ((((S_8016B230_11 *)(((s8 *)&D_80082E80.tileX)))->unk_00 != ((S_8016B230_2 *)position)->unk_24.at00u.v)
                 &&
-                ((s16)check_entity_relation(actor, ((s32)D_800814A8->unk_58) + 0x20) != 0)) {
+                ((s16)check_entity_relation((struct EntityRec *)(actor), (struct EntityRec *)(((s32)D_800814A8->unk_58) + 0x20)) != 0)) {
                 return;
             }
         }
@@ -321,7 +321,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
     if (!moved) {
         ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
         ((S_8016B230_1 *)actor)->unk_46 &= 0x7FFF;
-        update_actor_status_and_food(actor);
+        update_actor_status_and_food((struct EntityRec *)(actor));
         return;
     }
     turn_state = &g_dungeon_status;

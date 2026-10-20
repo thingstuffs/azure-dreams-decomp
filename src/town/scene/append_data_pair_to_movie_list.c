@@ -8,7 +8,7 @@ typedef unsigned int u32;
 typedef int s32;
 typedef s32 M2C_UNK;
 
-extern void append_town_movie_list_node();
+struct S_8003AF58_1; void append_town_movie_list_node(void *, struct S_8003AF58_1 *);
 extern M2C_UNK D_800717D0;
 extern s8 D_80080A88;
 extern M2C_UNK D_800D429C;
@@ -16,7 +16,7 @@ extern M2C_UNK D_800D429C;
 void append_data_pair_to_movie_list(void)
 {
     long enabled;
-    append_town_movie_list_node(&D_800717D0, &D_800D429C);
+    append_town_movie_list_node(&D_800717D0, (struct S_8003AF58_1 *)(&D_800D429C));
     enabled = 1;
     D_80080A88 = enabled;
     D_80080A88 = 1;

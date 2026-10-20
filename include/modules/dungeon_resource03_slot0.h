@@ -39,13 +39,6 @@ typedef struct R03_80170854_S_8016A854_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
 } R03_80170854_S_8016A854_2;
-typedef struct R03_80170854_S_8016A854_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} R03_80170854_S_8016A854_3;
 typedef struct R03_80170854_S_8016A854_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -248,7 +241,6 @@ typedef struct R03_80172A24_S_80172A24_0 {
     u8 unk_9B;
 } R03_80172A24_S_80172A24_0;
 
-
 typedef struct R03_80172A24_S_80172A24_7 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -411,7 +403,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
 void func_801725BC(Resource03CallbackState *state, void *entity, void *position, void *graphic);
 void advance_actor_attack_and_resolve_damage(void *action, void *transform, void *sprite, EntityRec *actor);
 void finish_timed_actor_movement(void *action_state, void *transform, void *sprite, EntityRec *actor);
-void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, EntityRec *motion, Rec_D_80082E80 *entity, void *source);
+void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, EntityRec *motion, SpriteFrameState *entity, void *source);
 void func_801732C0(void *state, void *motion, void *position, void *actor);
 void func_801732E0(void *state, void *motion, void *position, void *actor);
 void func_80173300(void *state, void *motion, void *position, void *actor);

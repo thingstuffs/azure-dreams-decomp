@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource12_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void advance_actor_path_script_step(void *controller, void *context, void *entity, void *path_state)
 {
@@ -18,16 +19,16 @@ void advance_actor_path_script_step(void *controller, void *context, void *entit
         return;
     }
 
-    if (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8 != ((u8 *)D_80175A4C)) {
-        (*(u8 * *)((u8 *)entity + (0x2C))) = ((u8 *)D_80175A4C);
+    if (*(u8 * *)&((SpriteFrameState *)entity)->frameTable != ((u8 *)D_80175A4C)) {
+        ((SpriteFrameState *)entity)->frameTable = ((u8 *)D_80175A4C);
         select_sprite_entry(
             entity,
             ((u8 *)D_80175A4C)[((g_game_work.view.viewAngle + ((R12_801713D4_S_8017139C_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
-    x = ((Rec_D_80082E80 *)entity)->unk_24;
-    y = ((Rec_D_80082E80 *)entity)->unk_25;
+    x = ((SpriteFrameState *)entity)->unk_24;
+    y = ((SpriteFrameState *)entity)->unk_25;
     move_flags = 0x3000;
     if (((R12_801713D4_S_8017139C_0 *)state)->unk_1C & 0x2000) {
         move_flags = 0x300;
@@ -42,16 +43,16 @@ void advance_actor_path_script_step(void *controller, void *context, void *entit
         (u8 *)controller + 0x98));
     move_result = ((s16)check_movement_clearance_and_height(direction, entity, state, 0x20));
 
-    ((Rec_D_80082E80 *)entity)->unk_24 =
+    ((SpriteFrameState *)entity)->unk_24 =
         ((R12_801713D4_S_8017139C_3 *)((u8 *)state + ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.s))->unk_74;
     move_flags = 0x3000;
-    ((Rec_D_80082E80 *)entity)->unk_25 =
+    ((SpriteFrameState *)entity)->unk_25 =
         ((R12_801713D4_S_8017139C_3 *)((u8 *)state + ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.s))->unk_7C;
     ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.u++;
 
     {
-        s32 next_x = ((Rec_D_80082E80 *)entity)->unk_24;
-        s32 next_y = ((Rec_D_80082E80 *)entity)->unk_25;
+        s32 next_x = ((SpriteFrameState *)entity)->unk_24;
+        s32 next_y = ((SpriteFrameState *)entity)->unk_25;
 
         if (((R12_801713D4_S_8017139C_0 *)state)->unk_1C & 0x2000) {
             move_flags = 0x300;
@@ -61,7 +62,7 @@ void advance_actor_path_script_step(void *controller, void *context, void *entit
 
     ((R12_801713D4_S_8017139C_0 *)state)->unk_2A = direction;
     if (move_result == 3) {
-        if (!(g_dungeon_status.flags & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
+        if (!(g_dungeon_status.flags & 0x80) && !(((SpriteFrameState *)entity)->flags & 0x8000)) {
             advance_linked_actor_motion_script(controller, context, entity, state);
         } else {
             ((R12_801713D4_S_8017139C_2 *)controller)->unk_9A = 0xF;

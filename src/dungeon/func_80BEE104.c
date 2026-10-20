@@ -1,11 +1,12 @@
 #include "modules/dungeon_resource16_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void create_angled_source_effect(
     s32 unused_0, R16_80173904_S_80173904_3 *origin, s32 unused_2, s32 unused_3, s16 angle, u16 depth_offset)
 {
     void *object;
     R16_80173904_S_80173904_0 *state;
-    R16_80173904_S_80173904_2 *display;
+    SpriteFrameState *display;
     R16_80173904_S_80173904_4 *transform;
     s16 wrapped_angle;
 
@@ -20,10 +21,10 @@ void create_angled_source_effect(
         register_node(object, project_sprite_chain);
 
         display = ((R16_80173904_S_80173904_1 *)object)->unk_0C;
-        display->unk_10 = 0x60;
-        display->unk_14 |= 0xC;
+        display->tpage_abr = 0x60;
+        display->flags |= 0xC;
         if (rand() & 1) {
-            display->unk_14 |= 1;
+            display->flags |= 1;
         }
 
         transform = ((R16_80173904_S_80173904_1 *)object)->unk_08;
@@ -38,16 +39,16 @@ void create_angled_source_effect(
         transform->unk_0A = origin->unk_0A + depth_offset;
 
         display = ((R16_80173904_S_80173904_1 *)object)->unk_0C;
-        display->unk_1E = 0x1000;
-        display->unk_1C = 0x1000;
-        display->unk_0C = 0x40;
-        display->unk_0E = 0x40;
-        display->unk_0D = 0xC0;
-        state->unk_00 = display->unk_0C;
-        state->unk_01 = display->unk_0D;
-        state->unk_02 = display->unk_0E;
+        display->scale_y = 0x1000;
+        display->scale_x = 0x1000;
+        display->color.c.r = 0x40;
+        display->color.c.b = 0x40;
+        display->color.c.g = 0xC0;
+        state->unk_00 = display->color.c.r;
+        state->unk_01 = display->color.c.g;
+        state->unk_02 = display->color.c.b;
         func_8003DB94(display, ((u8 *)D_800DEC70), 0);
-        display->unk_12 = 0x7DCF;
-        display->unk_14 |= 0x100;
+        display->clut = 0x7DCF;
+        display->flags |= 0x100;
     }
 }

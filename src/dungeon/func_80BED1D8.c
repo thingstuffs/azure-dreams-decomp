@@ -1,6 +1,7 @@
 #include "modules/dungeon_resource16_slot0.h"
+#include "shared/sprite_frame_state.h"
 
-void func_801729D8(R16_801729D8_S_80173294_0 *motion_state, EntityRec *motion, Rec_D_80082E80 *tile_state, void *entity)
+void func_801729D8(R16_801729D8_S_80173294_0 *motion_state, EntityRec *motion, SpriteFrameState *tile_state, void *entity)
 {
     s16 timer;
     s32 x_speed_or_entity;
@@ -27,7 +28,7 @@ void func_801729D8(R16_801729D8_S_80173294_0 *motion_state, EntityRec *motion, R
             begin_actor_display_action(motion_state, motion, tile_state, ((u8 *)D_80174244));
             return;
         }
-        if (tile_state->unk_14.at00_u16.v & 0x8000) {
+        if (tile_state->flags & 0x8000) {
             motion_state->unk_96.s = 0;
             motion_state->unk_9B = 2;
             return;
@@ -53,7 +54,7 @@ void func_801729D8(R16_801729D8_S_80173294_0 *motion_state, EntityRec *motion, R
 
         if (motion_state->unk_96.s > 0) {
             motion_state->unk_96.u = motion_state->unk_96.u - 1;
-        } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
+        } else if (tile_state->flags & 0x6000) {
             motion_state->unk_96.s = 0;
         }
 
@@ -98,7 +99,7 @@ void func_801729D8(R16_801729D8_S_80173294_0 *motion_state, EntityRec *motion, R
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion,(u8)(tile_state->unk_24),(u8)(tile_state->unk_25));
+        set_record_integer_tile_center(motion,(u8)tile_state->unk_24,(u8)tile_state->unk_25);
         {
 
             x_speed_or_entity = ((s32)g_dungeon_status.unk_10);

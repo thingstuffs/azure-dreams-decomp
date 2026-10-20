@@ -1,17 +1,9 @@
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
+#include "shared/sprite_frame_state.h"
 void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, B22_81893474_Motion *, B22_81893474_ColorPart *) = update_effect_launch_travel_impact_cleanup;
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
 #include "common.h"
 #include "shared/object_flags.h"
-
-
-
-
-
-
-
-
-
 
 /* Advance motion and rotation, then set completion flags when the timer exceeds its limit. */
 void func_80024028(B22_81892800_Entity *entity, B22_81892800_Motion *motion, B22_81892800_Aux *aux) {
@@ -39,13 +31,6 @@ void func_80024028(B22_81892800_Entity *entity, B22_81892800_Motion *motion, B22
 
    /* fields in create_randomly_rotated_sprite_object */
 
-
-
-
-
-
-
-
 extern s32 rand(void);
 
 extern u8 D_80025308[];
@@ -55,7 +40,7 @@ void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *
 {
     B22_818928F8_Object *obj;
     B22_818928F8_S_818928F8_0 *state;
-    B22_818928F8_Sprite *sprite;
+    SpriteFrameState *sprite;
     B22_818928F8_Copy24 *dst_data;
     s32 random_rotation;
     B22_818928F8_Object *sprite_obj;
@@ -69,13 +54,13 @@ void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *
         state->unk_12 = state_value;
 
         sprite = obj->sprite;
-        sprite->color[2] = 0x80;
-        sprite->color[1] = 0x80;
-        sprite->color[0] = 0x80;
-        sprite->callback = D_80025308;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->source = D_80025308;
         random_rotation = rand();
         sprite_obj = obj;
-        sprite->rotation = random_rotation % 0x1000;
+        sprite->angle_z = random_rotation % 0x1000;
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
 
@@ -90,7 +75,6 @@ void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
 #include "common.h"
 #include "shared/object_flags.h"
-
 
 /* Advance the accumulation step, update the target, and flag completion past the final step. */
 void func_8002420C(void *step_state, void *accumulator, void *target)
@@ -126,28 +110,16 @@ void func_8002420C(void *step_state, void *accumulator, void *target)
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
-
 #ifndef NULL
 #define NULL 0
 #endif
 
-
-
-
 extern s32 D_800E2178;
-
-
-
-
-
-
-
-
 
 /* Creates a sprite object with initialized state and a copied, adjusted transform. */
 void *func_800242F0(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant) {
     B22_81892AF0_Copy24 *transform;
-    B22_81892AF0_S_81892AF0_2 *sprite;
+    SpriteFrameState *sprite;
     void *object;
     B22_81892AF0_S_81892AF0_1 *state;
 
@@ -159,12 +131,12 @@ void *func_800242F0(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 
         state->unk_04 = 0;
         state->unk_06 = variant;
         sprite = ((B22_81892AF0_S_81892AF0_0 *)object)->unk_0C;
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
         func_8003DB94(sprite, &D_800E2178, 0);
-        sprite->unk_1E = 0x1800;
-        sprite->unk_1C = 0x1800;
+        sprite->scale_y = 0x1800;
+        sprite->scale_x = 0x1800;
         register_node(object, project_sprite_chain);
         transform = ((B22_81892AF0_S_81892AF0_0 *)object)->unk_08;
         *transform = *source_transform;
@@ -182,9 +154,6 @@ void *func_800242F0(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 
    /* the 0x2 bytes before arg0 in func_800243F8, addressed as arg0[-1] */
 
    /* arg0 in func_800243F8 */
-
-
-
 
 /* Increment both counters and set completion flags when the count reaches its limit. */
 void func_800243F8(void *counterState) {
@@ -220,15 +189,9 @@ void func_800243F8(void *counterState) {
 
    /* next in draw_red */
 
-
-
-
-
 #define setaddr(p, _addr) (((B22_81892C5C_P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((B22_81892C5C_P_TAG *)(p))->addr)
 #define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
-
-
 
 /* Draw a red ring around the effect center using eight projected polylines. */
 s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
@@ -361,13 +324,6 @@ s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
 #include "common.h"
 #include "m2c_compat.h"
 
-
-
-
-
-
-
-
 /* Creates an object with copied data, an adjusted field, and initialized arguments. */
 void *func_80024824(s32 object_arg, void *source_data, s16 initial_value, s16 field_delta) {
     B22_81893024_M2C_BLOCK *src;
@@ -400,10 +356,6 @@ void *func_80024824(s32 object_arg, void *source_data, s16 initial_value, s16 fi
 
    /* arg0 in func_800248F8 */
 
-
-
-
-
 /* Advance the object counters, apply the initial frame offset, and flag completion. */
 void func_800248F8(void *state, s32 draw_context, s32 update_context) {
     s16 frame;
@@ -432,21 +384,17 @@ void func_800248F8(void *state, s32 draw_context, s32 update_context) {
 
    /* arg0 in func_800249B8 */
 
-
-
    /* arg1 in func_800249B8 */
 
-
-
 /* Increment the linked counter, reduce the source value by four, and process and flag the target status. */
-void func_800249B8(void *entry, B22_818931B8_S_818931B8_2 *source, Rec_D_80082E80 *target) {
+void func_800249B8(void *entry, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target) {
     B22_818931B8_S_818931B8_1 *counter_state;
 
     counter_state = ((B22_818931B8_S_818931B8_0 *)entry)->unk_00;
     counter_state->unk_14 = (u16) (counter_state->unk_14 + 1);
     source->unk_0A = (u16) (source->unk_0A - 4);
     func_800478B8(target);
-    if (target->unk_14.at00_u16.v & 0x6000) {
+    if (target->flags & 0x6000) {
         ((B22_818931B8_S_818931B8_0_pre *)entry)[-1].unk_00 = (u16) (((B22_818931B8_S_818931B8_0_pre *)entry)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
@@ -457,25 +405,12 @@ void func_800249B8(void *entry, B22_818931B8_S_818931B8_2 *source, Rec_D_80082E8
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 extern s32 D_800E2178;
 s32 rand(void);
 extern s32 D_800253BC;
 /* Spawns a primary effect and eight randomly offset particles from the supplied data. */
 void func_80024A44(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param) {
-    B22_81893244_Func81893244Sub *sprite;
+    SpriteFrameState *sprite;
     B22_81893244_Func81893244Data *payload;
     B22_81893244_Func81893244Object *effect;
     B22_81893244_Func81893244Status *status;
@@ -489,12 +424,12 @@ void func_80024A44(s32 source, B22_81893244_Func81893244Data *initial_data, s16 
         status->field24 = 0;
         status->field26 = status_param;
         sprite = effect->fieldC;
-        sprite->uC.bytesC.fieldE = 0x80;
-        sprite->uC.bytesC.fieldD = 0x80;
-        sprite->uC.bytesC.fieldC = 0x80;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
         func_8003DB94(sprite, &D_800E2178, 0);
-        sprite->field1E = 0x1800;
-        sprite->field1C = 0x1800;
+        sprite->scale_y = 0x1800;
+        sprite->scale_x = 0x1800;
         register_node(effect, project_sprite_chain);
         payload = effect->field8;
         *payload = *initial_data;
@@ -511,14 +446,14 @@ void func_80024A44(s32 source, B22_81893244_Func81893244Data *initial_data, s16 
             status->field24 = 0;
             status->field26 = status_param;
             sprite = effect->fieldC;
-            sprite->uC.bytesC.fieldE = brightness;
-            sprite->uC.bytesC.fieldD = brightness;
-            sprite->uC.bytesC.fieldC = brightness;
+            sprite->color.c.b = brightness;
+            sprite->color.c.g = brightness;
+            sprite->color.c.r = brightness;
             func_8003DB94(sprite, &D_800253BC, 0);
-            sprite->field1E = 0x800;
-            sprite->field1C = 0x800;
-            sprite->field14 = (u16) (sprite->field14 | 0xC);
-            sprite->field10 = (u16) (sprite->field10 | 0x60);
+            sprite->scale_y = 0x800;
+            sprite->scale_x = 0x800;
+            sprite->flags = (u16) (sprite->flags | 0xC);
+            sprite->tpage_abr = (u16) (sprite->tpage_abr | 0x60);
             register_node(effect, project_sprite_chain);
             payload = effect->field8;
             *payload = *initial_data;
@@ -538,14 +473,6 @@ void func_80024A44(s32 source, B22_81893244_Func81893244Data *initial_data, s16 
 #include "shared/entity.h"
 extern int abs(int);
 
-
-
-
-
-
-
-
-
 #define U8_AT(p, n) (*(u8 *)((u8 *)(p) + (n)))
 #define S8_AT(p, n) (*(s8 *)((u8 *)(p) + (n)))
 #define U16_AT(p, n) (*(u16 *)((u8 *)(p) + (n)))
@@ -555,7 +482,6 @@ extern int abs(int);
 #define probe scratch.probe
 #define result scratch.result
 #define map_flags scratch.map_flags
-
 
 /* Updates the effect's launch, travel, impact, and cleanup states. */
 void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect_state, B22_81893474_Motion *effect_motion, B22_81893474_ColorPart *color_part)

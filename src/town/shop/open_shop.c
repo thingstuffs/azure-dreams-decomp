@@ -2,8 +2,8 @@
 #include "common.h"
 
 void refresh_paged_selection_state();                      /* extern */
-void copy_global_state_and_record_block();                      /* extern */
-void process_record_and_apply_flags();                      /* extern */
+void copy_global_state_and_record_block(s32 *);                      /* extern */
+struct FuncArg; void process_record_and_apply_flags(struct FuncArg *);                      /* extern */
 s32 allocate_paged_shop_item_list(); /* extern */
 s32 create_dual_buffer_object();        /* extern */
 void advance_dispatch_when_countdown_expires(void *state_data);
@@ -48,10 +48,10 @@ void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_p
         second_resource = create_dual_buffer_object(shop, 0x48, -0xC);
         shop_state->unk_2C = second_resource;
         if ((shop_state->unk_28 == 0) || (second_resource == 0)) {
-            process_record_and_apply_flags(shop_state);
+            process_record_and_apply_flags((struct FuncArg *)(shop_state));
             shop = 0;
         }
-        copy_global_state_and_record_block(shop_state);
+        copy_global_state_and_record_block((s32 *)(shop_state));
     }
     return shop;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -31,24 +32,6 @@ typedef struct S_80170B50_2 {
     u16 unk_3E;
 } S_80170B50_2;   /* arg0 in create_attached_sprite_with_offset; pointer addresses record offset 0x14 */
 
-typedef struct S_80170B50_3 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0xC];
-    M2C_UNK * unk_2C;
-} S_80170B50_3;
-
-
-
    /* arg1 in create_attached_sprite_with_offset */
 
 typedef struct S_80170B50_6 {
@@ -61,7 +44,6 @@ typedef struct S_80170B50_7 {
     u16 unk_1C;
     u16 unk_1E;
 } S_80170B50_7;   /* arg2 in create_attached_sprite_with_offset */
-
 
 typedef struct {
     s32 a;
@@ -84,7 +66,7 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
     s16 saved_offset_id;
     S_80170B50_6 *owner_model;
     MovingPosition *position;
-    void *sprite;
+    SpriteFrameState *sprite;
     void *object_data;
     void *object;
     void *copy_dst;
@@ -108,13 +90,13 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
             copy_dst += 0x10;
         } while (copy_src != (sprite_template + 0x30));
         register_node(object, project_sprite_chain, copy_dst, copy_src);
-        ((S_80170B50_3 *)sprite)->unk_2C = &D_80173EB4;
+        sprite->frameTable = &D_80173EB4;
         select_sprite_entry(sprite, *((u8 *)&D_80173EB4 + ((((s32) (g_game_work.view.viewAngle
             + (s16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
-        sprite_flags = ((S_80170B50_3 *)sprite)->unk_14 | 0xC;
-        ((S_80170B50_3 *)sprite)->unk_14 = sprite_flags;
-        ((S_80170B50_3 *)sprite)->unk_10 = 0x20;
-        ((S_80170B50_3 *)sprite)->unk_14 |= 0x80;
+        sprite_flags = sprite->flags | 0xC;
+        sprite->flags = sprite_flags;
+        sprite->tpage_abr = 0x20;
+        sprite->flags |= 0x80;
         position = ((S_80170B50_0 *)object)->unk_08;
         position->unk_02 = (u16) base_position->unk_02;
         position->unk_06 = (u16) base_position->unk_06;
@@ -125,11 +107,11 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
             position->unk_06 = (u16) (position->unk_06 + ((S_80170B50_1 *)object_data)->unk_B2);
             position->unk_0A = (u16) (position->unk_0A + ((S_80170B50_1 *)object_data)->unk_B4);
         }
-        ((S_80170B50_3 *)sprite)->unk_1C = (u16) ((S_80170B50_7 *)sprite_template)->unk_1C;
+        sprite->scale_x = (u16) ((S_80170B50_7 *)sprite_template)->unk_1C;
         sprite_height = (u16) ((S_80170B50_7 *)sprite_template)->unk_1E;
-        ((S_80170B50_3 *)sprite)->unk_0E = 0x80;
-        ((S_80170B50_3 *)sprite)->unk_0D = 0x80;
-        ((S_80170B50_3 *)sprite)->unk_0C = 0x80;
-        ((S_80170B50_3 *)sprite)->unk_1E = sprite_height;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->scale_y = sprite_height;
     }
 }

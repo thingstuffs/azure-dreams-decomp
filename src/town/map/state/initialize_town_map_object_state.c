@@ -1,9 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 
-void runtime_initialize_state_value();
+struct Rec_D_80081FDC; void runtime_initialize_state_value(struct Rec_D_80081FDC *, s32);
 void unlink_node_if_registered();
-void copy_window_params();
+struct Container; struct Source; void copy_window_params(struct Container *, struct Source *);
 void func_8003DB94(void *, void *, s16);
 s32 register_node();
 extern u8 D_80033D54;
@@ -21,7 +22,7 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, void *ob
     s32 type_data;
     s32 init_value;
     void *state;
-    void *render_data;
+    SpriteFrameState *render_data;
     void *transform;
     s32 *type_table;
     s32 *value_table_base;
@@ -50,18 +51,18 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, void *ob
     type_data = *type_entry;
     if (type_data != 0) {
         *((s32 **) (((s8 *) state) + 8)) = &D_80037714;
-        copy_window_params(state, type_data);
+        copy_window_params(state, (struct Source *)(type_data));
     }
     else {
         *((s32 **) (((s8 *) state) + 8)) = 0;
     }
     *((s16 *) (((s8 *) state) + 0x60)) = 0;
-    *((s32 *) (((s8 *) render_data) + 0xC)) = 0x808080;
+    render_data->color.word = 0x808080;
     if (((u32) (type_id - 9)) < 2U) {
         func_8003DB94(render_data, &D_800794AC, 0);
     }
     else {
-        *((s32 *) (((s8 *) render_data) + 8)) = 0;
+        render_data->source = 0;
     }
     if (type_id == 0) {
         *((s16 *) (((s8 *) transform) + 2)) = 0x20;

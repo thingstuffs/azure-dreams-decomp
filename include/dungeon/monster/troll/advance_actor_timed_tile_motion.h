@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F469800_P06_H
 #define DUNGEON_OVL_7F469800_P06_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
@@ -30,6 +31,6 @@ extern void apply_clamped_actor_value_delta(void *);
 extern u8 D_80175E3C[];
 extern u8 D_80175E44[];
 extern u8 D_80175E4C[];
-void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, Rec_D_80082E80 *entity, void *actor);
+void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, SpriteFrameState *entity, void *actor);
 extern void update_actor_behavior();
 #endif

@@ -1,11 +1,12 @@
 #include "modules/dungeon_ovl_7f535800.h"
+#include "shared/sprite_frame_state.h"
 
 void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
 {
     s32 init_mode;
     s32 state_flags;
     s32 update_flags;
-    S_80158878_3 *placement_data;
+    SpriteFrameState *placement_data;
     SignedHeightView *config_data;
     void *object;
     S_80158878_4 *extended_state;
@@ -30,7 +31,7 @@ void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
         init_mode = init_flags & 3;
         placement_data->unk_25 = saved_y;
         extended_state = state;
-        placement_data->unk_2C = &D_8015C20C;
+        placement_data->frameTable = &D_8015C20C;
         placement_data->unk_24 = saved_x;
         if (init_mode == 1) {
             state_flags = state->unk_14 | 0x6000;
@@ -46,7 +47,7 @@ void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
             if (!(state->unk_14 & 0x200)) {
                 if (generate_random_value() & 1) {
                     set_or_clear_actor_status_slot(state, 1, (generate_random_value() & 0x3F) | 0x20);
-                    placement_data->unk_2C = &D_8015C25C;
+                    placement_data->frameTable = &D_8015C25C;
                 }
             }
         }

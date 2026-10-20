@@ -2,9 +2,9 @@
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 
-extern void call_script();
+void call_script(s32);
 extern void func_800478B8();
-extern void send_resource_command_23();
+void send_resource_command_23(s32);
 
 extern u8 D_80072210[];
 extern u8 D_80072214[];
@@ -43,12 +43,12 @@ void handle_town_map_input(u8 *object, void *transform, void *context) {
             buttons = ((s32)input->unk_010);
             if (buttons & 0x40) {
                 D_800FC418 = 1;
-                call_script(D_80072214);
+                call_script((s32)(D_80072214));
                 return;
             }
             if (buttons & 0x20) {
                 D_800FC418 = 1;
-                call_script(D_80072210);
+                call_script((s32)(D_80072210));
                 return;
             }
         }

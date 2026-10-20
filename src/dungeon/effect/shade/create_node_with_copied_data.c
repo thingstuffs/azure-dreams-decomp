@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 
 typedef struct S_818C2E40_0 {
@@ -18,14 +19,6 @@ typedef struct S_818C2E40_1 {
     s8 unk_0A;
 } S_818C2E40_1;   /* fields in func_818C2E40 */
 
-typedef struct S_818C2E40_2 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818C2E40_2;   /* display in func_818C2E40 */
-
-
-
 typedef struct {
     s32 word[6];
 } Copy24;
@@ -39,7 +32,7 @@ void *func_818C2E40(s32 node_value, void *initial_data)
 {
     void *node;
     S_818C2E40_1 *fields;
-    S_818C2E40_2 *display;
+    SpriteFrameState *display;
     void *node_data;
 
     node = func_8003FC64(0x212);
@@ -55,8 +48,8 @@ void *func_818C2E40(s32 node_value, void *initial_data)
         fields->unk_0A = 0;
 
         display = ((S_818C2E40_0 *)node)->unk_0C;
-        display->unk_1E = 0x1000;
-        display->unk_1C = 0x1000;
+        display->scale_y = 0x1000;
+        display->scale_x = 0x1000;
 
         node_data = ((S_818C2E40_0 *)node)->unk_08;
         *(Copy24 *)node_data = *(Copy24 *)initial_data;

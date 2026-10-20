@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -27,21 +28,6 @@ typedef struct S_818BD52C_2 {
     s16 unk_0C;
 } S_818BD52C_2;   /* base in create_phase_colored_effect */
 
-typedef struct S_818BD52C_3 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818BD52C_3;   /* part in create_phase_colored_effect */
-
 typedef struct S_818BD52C_4 {
     s32 unk_00;
     s32 unk_04;
@@ -55,7 +41,6 @@ typedef struct S_818BD52C_5 {
     u8 pad_00[0x13];
     u8 unk_13;
 } S_818BD52C_5;   /* ((S_818BD52C_1 *)arg0)->unk_18 in create_phase_colored_effect */
-
 
 #define NORETURN
 
@@ -80,7 +65,7 @@ void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 
     s32 phase;
     s16 phase_bit;
     s16 phase_half_s16;
-    S_818BD52C_3 *part;
+    SpriteFrameState *part;
     S_818BD52C_2 *base;
     S_818BD52C_4 *coords;
     void *node;
@@ -105,23 +90,23 @@ void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 
         base->unk_0C = effect_param;
 
         part = ((S_818BD52C_0 *)node)->unk_0C;
-        part->unk_0C = (phase / 4) * 0x80;
+        part->color.c.r = (phase / 4) * 0x80;
         phase_half = phase / 2;
         phase_half_s16 = phase_half;
         phase_bit = phase_half_s16 % 2;
-        part->unk_0D = phase_bit * 0x80;
+        part->color.c.g = phase_bit * 0x80;
         phase_bit = phase - (phase_half * 2);
-        part->unk_0E = phase_bit * 0x80;
-        part->unk_12 = 0x7DCF;
-        part->unk_14 |= 0xC;
-        part->unk_10 |= 0x20;
-        part->unk_14 |= 0x100;
+        part->color.c.b = phase_bit * 0x80;
+        part->clut = 0x7DCF;
+        part->flags |= 0xC;
+        part->tpage_abr |= 0x20;
+        part->flags |= 0x100;
         func_8003DB94(part, D_800DEC70, 0);
 
         random_angle = rand();
-        part->unk_1A = random_angle % 0x1000;
-        part->unk_1E = 0xC00;
-        part->unk_1C = 0xC00;
+        part->angle_z = random_angle % 0x1000;
+        part->scale_y = 0xC00;
+        part->scale_x = 0xC00;
         register_node(node, project_sprite_chain);
 
         coords = ((S_818BD52C_0 *)node)->unk_08;

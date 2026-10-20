@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -24,14 +25,6 @@ typedef struct S_8100B000_2 {
     s16 unk_0A;
 } S_8100B000_2;   /* part_a in spawn_garuda_slot_f */
 
-typedef struct S_8100B000_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8100B000_3;   /* part_b in spawn_garuda_slot_f */
-
 typedef struct S_8100B000_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -43,7 +36,6 @@ typedef struct S_8100B000_4 {
     s8 unk_9C;
 } S_8100B000_4;   /* actor in spawn_garuda_slot_f */
 
-
 void *allocate_list_node();
 s32 register_node();
 s16 set_or_clear_actor_status_slot();
@@ -54,8 +46,6 @@ extern M2C_UNK D_8016AA78;
 extern M2C_UNK D_8016B058;
 extern M2C_UNK D_8016E880;
 extern M2C_UNK D_8016E8E0;
-
-
 
 void *spawn_garuda_slot_f(s16, s16, s16, s16)
 
@@ -69,7 +59,7 @@ void *spawn_garuda_slot_f(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) 
     S_8100B000_1 *work = NULL;
     void *obj;
     S_8100B000_2 *part_a;
-    S_8100B000_3 *part_b;
+    SpriteFrameState *part_b;
     S_8100B000_4 *actor;
     s8 saved_kind_id;
     s16 saved_spawn;
@@ -91,7 +81,7 @@ void *spawn_garuda_slot_f(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) 
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         actor = work;
-        part_b->unk_2C = &D_8016E880;
+        part_b->frameTable = &D_8016E880;
         part_b->unk_24 = saved_kind_id;
         if (kind == 1) {
             work->unk_14 |= 0x6000;
@@ -107,7 +97,7 @@ void *spawn_garuda_slot_f(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) 
                         work->unk_1C |= 0x200;
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->unk_2C = &D_8016E8E0;
+                        part_b->frameTable = &D_8016E8E0;
                     }
                 }
             }

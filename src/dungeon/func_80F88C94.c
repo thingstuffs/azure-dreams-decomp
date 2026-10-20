@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_fa7000.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -32,7 +33,6 @@ typedef struct S_80172494_1 {
     u8 pad_9A[0x1];
     u8 unk_9B;
 } S_80172494_1;   /* arg0 in update_bank_staged_movement */
-
 
 typedef struct S_80172494_3 {
     u8 pad_00[0x2];
@@ -69,21 +69,6 @@ typedef struct S_80172494_5 {
     s16 unk_48;
 } S_80172494_5;
 
-typedef struct S_80172494_6 {
-    void * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80172494_6;
-
 typedef struct S_80172494_7 {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -93,7 +78,6 @@ typedef struct S_80172494_8 {
     u8 pad_00[0x3DE8];
     void * unk_3DE8;
 } S_80172494_8;
-
 
 extern s32 rand(void);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
@@ -127,7 +111,7 @@ void update_bank_staged_movement(void *action, void *motion, void *map_actor, vo
     s32 index;
     s32 state;
     void *particle_motion;
-    void *particle_sprite;
+    SpriteFrameState *particle_sprite;
     void *particle;
     u8 *direction_x_table;
     u8 *direction_y_table;
@@ -145,9 +129,9 @@ void update_bank_staged_movement(void *action, void *motion, void *map_actor, vo
 
     switch (state) {
     case 0:
-        if (((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)map_actor)->flags & 0x8000) {
             ((S_80172494_1 *)action)->unk_9B = 0xFF;
-            ((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v |= 0x6000;
+            ((SpriteFrameState *)map_actor)->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
             return;
         }
@@ -188,18 +172,18 @@ void update_bank_staged_movement(void *action, void *motion, void *map_actor, vo
         ((S_80172494_3 *)motion)->unk_10 = operand_3 - (operand_3 >> 3);
         ((S_80172494_3 *)motion)->unk_14 = velocity_z - (velocity_z >> 3);
         if ((((S_80172494_1 *)action)->unk_96.u == 4) ||
-            (((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x8000)) {
+            (((SpriteFrameState *)map_actor)->flags & 0x8000)) {
             ((S_80172494_3 *)motion)->unk_0C = 0;
             ((S_80172494_3 *)motion)->unk_10 = 0;
             ((S_80172494_3 *)motion)->unk_14 = 0;
-            (((Rec_D_80082E80 *)map_actor)->unk_2C.as_pv) = D_80174AE4;
+            ((SpriteFrameState *)map_actor)->frameTable = D_80174AE4;
             direction_index = (g_game_work.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
             select_sprite_entry(map_actor, D_80174AE4[direction_index & 7], 0);
         }
         if (((S_80172494_1 *)action)->unk_96.u > 0) {
             return;
         }
-        if (!(((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)map_actor)->flags & 0xE000)) {
             return;
         }
         ((S_80172494_1 *)action)->unk_96.s = 4;
@@ -224,7 +208,7 @@ void update_bank_staged_movement(void *action, void *motion, void *map_actor, vo
 
     case 4:
         ((S_80172494_1 *)action)->unk_90 += 0x80000;
-        if (!(((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)map_actor)->flags & 0xE000)) {
             return;
         }
         ((S_80172494_3 *)motion)->unk_14 = 0;
@@ -236,16 +220,16 @@ void update_bank_staged_movement(void *action, void *motion, void *map_actor, vo
         return;
 
     case 0xFF:
-        delta_x = ((Rec_D_80082E80 *)map_actor)->unk_24 << 6;
+        delta_x = ((SpriteFrameState *)map_actor)->unk_24 << 6;
         operand = ((S_80172494_3 *)motion)->unk_02.s - 0x20;
         delta_x -= operand;
         delta_x = (delta_x << 15) >> 1;
         ((S_80172494_3 *)motion)->unk_0C = delta_x;
-        delta_z = ((Rec_D_80082E80 *)map_actor)->unk_25 << 6;
+        delta_z = ((SpriteFrameState *)map_actor)->unk_25 << 6;
         operand_2 = ((S_80172494_3 *)motion)->unk_06.s - 0x20;
         delta_z -= operand_2;
         ((S_80172494_3 *)motion)->unk_10 = (delta_z << 15) >> 1;
-        if (!(((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x8000) &&
+        if (!(((SpriteFrameState *)map_actor)->flags & 0x8000) &&
             (((S_80172494_1 *)action)->unk_96.u != 0)) {
             index = 9;
             do {
@@ -269,33 +253,33 @@ void update_bank_staged_movement(void *action, void *motion, void *map_actor, vo
                     operand = ((S_80172494_0 *)actor_arg)->unk_2A.s;
                     ((S_80172494_5 *)particle_motion)->unk_48 = 5;
                     ((S_80172494_5 *)particle_motion)->unk_18 = operand;
-                    operand_4 = ((S_80172494_6 *)particle_sprite)->unk_14;
-                    ((S_80172494_6 *)particle_sprite)->unk_1E = 0x1000;
-                    ((S_80172494_6 *)particle_sprite)->unk_1C = 0x1000;
-                    ((S_80172494_6 *)particle_sprite)->unk_10 = 0x60;
-                    ((S_80172494_6 *)particle_sprite)->unk_00 = D_800DEC28;
-                    ((S_80172494_6 *)particle_sprite)->unk_14 = operand_4 | 0xC;
+                    operand_4 = particle_sprite->flags;
+                    particle_sprite->scale_y = 0x1000;
+                    particle_sprite->scale_x = 0x1000;
+                    particle_sprite->tpage_abr = 0x60;
+                    particle_sprite->unk_00 = D_800DEC28;
+                    particle_sprite->flags = operand_4 | 0xC;
                     texture_word = ((S_80172494_7 *)D_800DEC28)->unk_04;
                     setup_value |= 0xC0C0;
-                    ((S_80172494_6 *)particle_sprite)->unk_04 = 0;
-                    ((S_80172494_6 *)particle_sprite)->unk_05 = 0;
-                    ((S_80172494_6 *)particle_sprite)->unk_0C = setup_value;
-                    ((S_80172494_6 *)particle_sprite)->unk_08 = texture_word;
+                    particle_sprite->unk_04 = 0;
+                    particle_sprite->unk_05 = 0;
+                    particle_sprite->color.word = setup_value;
+                    particle_sprite->source = texture_word;
                 }
                 index--;
             } while (index >= 0);
         }
-        if (!(((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)map_actor)->flags & 0xE000)) {
             return;
         }
         ((S_80172494_3 *)motion)->unk_10 = 0;
         ((S_80172494_3 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_actor)->unk_24,
-                      ((Rec_D_80082E80 *)map_actor)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)map_actor)->unk_24,
+                      ((SpriteFrameState *)map_actor)->unk_25);
         reduce_actor_food_meter(actor_arg, 0x100);
         ((S_80172494_1 *)action)->unk_8C = update_bank_actor_state;
         g_dungeon_status.unk_0C = 0;
-        (((Rec_D_80082E80 *)map_actor)->unk_2C.as_pv) = D_80174AD4;
+        ((SpriteFrameState *)map_actor)->frameTable = D_80174AD4;
         direction_index_2 = (g_game_work.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
         select_sprite_entry(map_actor, D_80174AD4[direction_index_2 & 7], 0);
         advance_status_timers(actor_arg);

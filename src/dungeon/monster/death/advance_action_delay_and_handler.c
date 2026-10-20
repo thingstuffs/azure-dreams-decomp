@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
@@ -12,7 +13,6 @@ typedef struct S_80173A14_0 {
     u8 unk_9B;
 } S_80173A14_0;   /* arg0 in advance_action_delay_and_handler */
 
-
 extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
@@ -20,9 +20,8 @@ extern void apply_clamped_actor_value_delta();
 extern s32 D_801719DC;
 extern s32 D_8017466C;
 
-
 /* Advance the action delay, reset motion, and select the next handler. */
-void advance_action_delay_and_handler(S_80173A14_0 *action, EntityRec *motion, Rec_D_80082E80 *action_info, EntityRec *actor_data)
+void advance_action_delay_and_handler(S_80173A14_0 *action, EntityRec *motion, SpriteFrameState *action_info, EntityRec *actor_data)
 {
     s16 delay;
     s32 tracked_actor;
@@ -41,7 +40,7 @@ void advance_action_delay_and_handler(S_80173A14_0 *action, EntityRec *motion, R
             begin_actor_display_action(action, motion, action_info, &D_8017466C);
             return;
         }
-        if (action_info->unk_14.at00_u16.v & 0x8000) {
+        if (action_info->flags & 0x8000) {
             action->unk_96.s = 0;
             action->unk_9B = 2;
             return;
@@ -59,7 +58,7 @@ void advance_action_delay_and_handler(S_80173A14_0 *action, EntityRec *motion, R
         motion->unk_0C = 0;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
-        } else if (action_info->unk_14.at00_u16.v & 0x6000) {
+        } else if (action_info->flags & 0x6000) {
             action->unk_96.s = 0;
         }
         if (action->unk_96.s != 0) {

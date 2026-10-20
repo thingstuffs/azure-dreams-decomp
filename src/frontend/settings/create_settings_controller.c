@@ -1,4 +1,5 @@
 #include "modules/main_title_callbacks.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
@@ -27,18 +28,6 @@ typedef struct S_80088BD0_2 {
     u8 pad_00[0x4];
     void * unk_04;
 } S_80088BD0_2;
-
-typedef struct S_80088BD0_3 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80088BD0_3;
 
 typedef struct S_80088BD0_4 {
     s32 unk_00;
@@ -109,7 +98,7 @@ void create_settings_controller(void) {
     s32 unit_scale;
     s32 sprite_id;
     void *child_state;
-    S_80088BD0_3 *sprite;
+    SpriteFrameState *sprite;
     void *object;
     S_80088BD0_7 *effect_state;
     void *parent_state;
@@ -146,13 +135,13 @@ void create_settings_controller(void) {
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_02 = -0x40;
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_06 = sprite_y;
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_0C = 0x150000;
-            sprite->unk_1E = unit_scale;
-            sprite->unk_1C = unit_scale;
+            sprite->scale_y = unit_scale;
+            sprite->scale_x = unit_scale;
             sprite_id = ((S_80088BD0_4 *)((s8 *)sprite_ids + (s32)id_offset))->unk_00;
             sprite->unk_04 = 0;
             sprite->unk_05 = 0;
-            sprite->unk_0C = 0x808080;
-            sprite->unk_08 = sprite_id;
+            sprite->color.word = 0x808080;
+            sprite->source = sprite_id;
             ((S_80088BD0_5 *)((s8 *)child_state - 0x20))->unk_20 = parent_state;
             ((S_80088BD0_6 *)child_state)->unk_0C = child_index;
             ((S_80088BD0_6 *)child_state)->unk_0A = start_delay;
@@ -197,9 +186,9 @@ void create_settings_controller(void) {
                 func_8003DB94(sprite, &D_8008B230, 0);
             }
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_10 = 0xFFF80000;
-            sprite->unk_1E = 0x1000;
-            sprite->unk_1C = 0x1000;
-            sprite->unk_0C = 0x808080;
+            sprite->scale_y = 0x1000;
+            sprite->scale_x = 0x1000;
+            sprite->color.word = 0x808080;
             ((S_80088BD0_6 *)child_state)->unk_00 = parent_state;
             ((S_80088BD0_6 *)child_state)->unk_0C = child_index;
         }

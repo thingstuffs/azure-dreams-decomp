@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/object_node.h"
@@ -9,7 +10,6 @@ extern int abs(int);
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
-
 
 typedef struct Copy48 {
     u32 words[12];
@@ -32,7 +32,6 @@ extern u8 D_800E23E0[];
 extern u8 D_800E2410[];
 extern u8 D_80171A80[];
 
-
 typedef struct S_80173A60_0 {
     u8 pad_00[0x2A];
     union { s16 s; u16 u; } unk_2A;   /* accessed as both */
@@ -52,7 +51,6 @@ typedef struct S_80173A60_1_pre {
     u8 pad_04[0x10];
 } S_80173A60_1_pre;   /* the 0x14 bytes before active in advance_actor_item_action, addressed as active[-1] */
 
-
 typedef struct S_80173A60_4 {
     u8 pad_00[0x2A];
     u16 unk_2A;
@@ -69,22 +67,6 @@ typedef struct S_80173A60_5 {
     u8 * unk_0C;
     void * unk_10;
 } S_80173A60_5;   /* object in advance_actor_item_action */
-
-typedef struct S_80173A60_6 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0xC];
-    void * unk_2C;
-} S_80173A60_6;   /* copy in advance_actor_item_action */
 
    /* target in advance_actor_item_action */
 
@@ -175,8 +157,8 @@ void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprit
 
                 s32 abs_x;
                 offset_x = (s32)scan_monster_along_heading(actor,
-                                       ((Rec_D_80082E80 *)sprite)->unk_24,
-                                       ((Rec_D_80082E80 *)sprite)->unk_25,
+                                       ((SpriteFrameState *)sprite)->unk_24,
+                                       ((SpriteFrameState *)sprite)->unk_25,
                                        (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
                 (*(void * *)((u8 *)actor + 0x60)) = (void *)offset_x;
                 abs_x = abs(*(s8 *)((u8 *)actor + 0x72));
@@ -197,7 +179,7 @@ void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprit
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(actor);
@@ -210,10 +192,10 @@ void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprit
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
+            ((SpriteFrameState *)sprite)->flags |= 0x0800;
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         ((S_80173A60_0 *)actor_state)->unk_9B++;
         play_sound_if_enabled(0x703);
                         /* fall through */
@@ -230,7 +212,7 @@ void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprit
             effect = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
             if (effect != 0) {
                 u8 *effect_state;
-                u8 *effect_sprite;
+                SpriteFrameState *effect_sprite;
                 MovingPosition *effect_pos;
                 u8 *anim_table;
                 u8 *anim_entry;
@@ -244,24 +226,24 @@ void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprit
                 ((S_80173A60_4 *)effect_state)->unk_94 = (*(u16 *)((u8 *)actor + 0x2A));
                 effect_sprite = ((S_80173A60_5 *)effect)->unk_0C;
                 *(Copy48 *)effect_sprite = *(Copy48 *)sprite;
-                ((S_80173A60_6 *)effect_sprite)->unk_1E = 0x1000;
-                ((S_80173A60_6 *)effect_sprite)->unk_1C = 0x1000;
-                ((S_80173A60_6 *)effect_sprite)->unk_0E = 0x80;
-                ((S_80173A60_6 *)effect_sprite)->unk_0D = 0x80;
-                ((S_80173A60_6 *)effect_sprite)->unk_0C = 0x80;
+                effect_sprite->scale_y = 0x1000;
+                effect_sprite->scale_x = 0x1000;
+                effect_sprite->color.c.b = 0x80;
+                effect_sprite->color.c.g = 0x80;
+                effect_sprite->color.c.r = 0x80;
                 register_node(effect, project_sprite_chain);
 
                 anim_table = D_800E2410;
-                ((S_80173A60_6 *)effect_sprite)->unk_2C = anim_table;
+                effect_sprite->frameTable = anim_table;
                 anim_entry = (u8 *)((u32)(((g_game_work.view.viewAngle +
                           (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7) + (u32)anim_table);
                 select_sprite_entry(effect_sprite, *anim_entry, 0);
-                ((S_80173A60_6 *)effect_sprite)->unk_14 &= 0xFFF3;
+                effect_sprite->flags &= 0xFFF3;
 
                 direction_index = ((g_game_work.view.viewAngle +
                           ((S_80173A60_0 *)actor_state)->unk_2A.s + 0x100) >> 9) & 7;
                 height_offsets = D_800DCECC;
-                ((S_80173A60_6 *)effect_sprite)->unk_06 = -(height_offsets[direction_index] * 4);
+                effect_sprite->unk_06 = -(height_offsets[direction_index] * 4);
                 ((S_80173A60_4 *)effect_state)->unk_94 =
                     (((S_80173A60_0 *)actor_state)->unk_2A.u >> 9) & 7;
                 ((S_80173A60_4 *)effect_state)->unk_2A = ((S_80173A60_0 *)actor_state)->unk_2A.u;
@@ -278,7 +260,7 @@ void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprit
             s32 direction_index;
 
             anim_table = D_800E23E0;
-            (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+            ((SpriteFrameState *)sprite)->frameTable = anim_table;
             direction_index = ((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, anim_table[direction_index], 3);
             if (((S_80173A60_0 *)actor_state)->unk_B0 == 0) {
@@ -287,13 +269,13 @@ void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprit
         }
 
         if (((S_80173A60_0 *)actor_state)->unk_96.s == 0x13 ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            (((SpriteFrameState *)sprite)->flags & 0xE000)) {
             ((S_80173A60_0 *)actor_state)->unk_98 |= 0x80;
             play_sound_if_enabled(0x81B);
         }
 
         if (((S_80173A60_0 *)actor_state)->unk_96.s < 0x19 &&
-            !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            !(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         ((S_80173A60_0 *)actor_state)->unk_9B++;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -20,7 +21,6 @@ typedef struct S_818C3898_1 {
     u16 unk_0C;
 } S_818C3898_1;
 
-
 typedef struct S_818C3898_3 {
     s32 unk_00;
     s32 unk_04;
@@ -30,11 +30,10 @@ typedef struct S_818C3898_3 {
     s32 unk_14;
 } S_818C3898_3;
 
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void func_800478B8(void *sprite);
 /* Advance effect motion, color, rotation, and size, and flag lifetime expiration. */
-void update_rotating_effect_lifetime(void *effect, void *motion_data, Rec_D_80082E80 *sprite) {
+void update_rotating_effect_lifetime(void *effect, void *motion_data, SpriteFrameState *sprite) {
     s16 size;
     s32 color_step;
     s32 color_index;
@@ -56,18 +55,18 @@ void update_rotating_effect_lifetime(void *effect, void *motion_data, Rec_D_8008
     color_step += 1;
     func_800478B8(sprite);
     color_index = (s16) color_step;
-    sprite->unk_1A.as_u16 = (u16) (sprite->unk_1A.as_u16 + 0x300);
+    sprite->angle_z = (u16) (sprite->angle_z + 0x300);
     quarter_bias = color_index;
     if (color_index < 0) {
         quarter_bias = color_index + 3;
     }
     half_color = (s32) (color_index + ((u32) (color_step << 0x10) >> 0x1F)) >> 1;
-    sprite->unk_0C.at00_s8.v = (s8) ((quarter_bias >> 2) << 7);
-    sprite->unk_0C.at01_s8.v = (s8) ((s32) (((s16) half_color - (((s32) ((s16) half_color + ((u32) (half_color << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
-    sprite->unk_0C.at02_s8.v = (s8) ((s32) ((color_index - (half_color * 2)) << 0x10) >> 9);
+    sprite->color.c.r = (s8) ((quarter_bias >> 2) << 7);
+    sprite->color.c.g = (s8) ((s32) (((s16) half_color - (((s32) ((s16) half_color + ((u32) (half_color << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
+    sprite->color.c.b = (s8) ((s32) ((color_index - (half_color * 2)) << 0x10) >> 9);
     size = (0x1400 / (s16) ((S_818C3898_0 *)effect)->unk_14) * (s16) ((S_818C3898_0 *)effect)->unk_10;
-    sprite->unk_1C.at02_s16.v = size;
-    sprite->unk_1C.at00_s16.v = size;
+    sprite->scale_y = size;
+    sprite->scale_x = size;
     motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C);
     motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10);
     motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14);

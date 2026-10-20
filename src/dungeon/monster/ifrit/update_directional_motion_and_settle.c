@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_801730B8_1 {
     u8 pad_00[0x8C];
@@ -14,7 +14,6 @@ typedef struct S_801730B8_1 {
     u8 unk_9B;
 } S_801730B8_1;   /* arg0 in update_directional_motion_and_settle */
 
-
 extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
@@ -22,9 +21,8 @@ extern void apply_clamped_actor_value_delta();
 extern s32 D_80170E84;
 extern s32 D_80174838;
 
-
 /* Updates directional motion and settles the entity at its grid position. */
-void update_directional_motion_and_settle(S_801730B8_1 *action, EntityRec *motion, Rec_D_80082E80 *entity, void *source)
+void update_directional_motion_and_settle(S_801730B8_1 *action, EntityRec *motion, SpriteFrameState *entity, void *source)
 {
     s16 timer;
     s32 direction;
@@ -47,7 +45,7 @@ void update_directional_motion_and_settle(S_801730B8_1 *action, EntityRec *motio
             begin_actor_display_action(action, motion, entity, &D_80174838);
             return;
         }
-        if (entity->unk_14.at00_u16.v & 0x8000) {
+        if (entity->flags & 0x8000) {
             action->unk_96.s = 0;
             action->unk_9B = 2;
             return;
@@ -69,7 +67,7 @@ void update_directional_motion_and_settle(S_801730B8_1 *action, EntityRec *motio
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
-        } else if (entity->unk_14.at00_u16.v & 0x6000) {
+        } else if (entity->flags & 0x6000) {
             action->unk_96.s = 0;
         }
         if (action->unk_96.s != 0) {

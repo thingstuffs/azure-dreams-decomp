@@ -66,10 +66,10 @@ extern u8 D_8016EF58[];
 extern u16 D_8016EFC4[];
 extern u16 D_8016EFD4[];
 
-extern void select_sprite_entry();
+#include "engine/graphics/select_sprite_entry_api.h"
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
-extern void set_record_integer_tile_center();
+#include "dungeon/player/object/set_record_integer_tile_center_api.h"
 extern s32 advance_status_timers(void *);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
 extern s32 play_sound_if_enabled(s32);
@@ -108,7 +108,7 @@ void update_movement_destination_and_recovery(ActorActionView *action, ActorMoti
         update_map_cell_flags_with_item_limit(sprite->tile.bytes.x, sprite->tile.bytes.y,
             (entity->flags & 0x2000) ? 0x300 : 0x3000);
         (sprite->frameTable) = D_8016EEF8;
-        select_sprite_entry(sprite,
+        select_sprite_entry((struct S_80047784 *)(sprite),
             D_8016EEF8[((g_game_work.view.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
         motion->velocityX = (x_step << 19) + (x_step << 18);
         motion->velocityY = (y_step << 19) + (y_step << 18);
@@ -126,7 +126,7 @@ void update_movement_destination_and_recovery(ActorActionView *action, ActorMoti
         motion->velocityY = 0;
         motion->velocityX = 0;
         (sprite->frameTable) = D_8016EF58;
-        select_sprite_entry(sprite,
+        select_sprite_entry((struct S_80047784 *)(sprite),
             D_8016EF58[((g_game_work.view.viewAngle +
                 entity->facing.signedValue + 0x100) >> 9) & 7], 0);
         action->timer.raw = 0;
@@ -142,7 +142,7 @@ void update_movement_destination_and_recovery(ActorActionView *action, ActorMoti
         motion->velocityY = 0;
         motion->velocityX = 0;
         (sprite->frameTable) = D_8016EF00;
-        select_sprite_entry(sprite,
+        select_sprite_entry((struct S_80047784 *)(sprite),
             D_8016EF00[((g_game_work.view.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
         if (entity->flags & 0x2000) {
             action->timer.raw = 7;
@@ -158,7 +158,7 @@ void update_movement_destination_and_recovery(ActorActionView *action, ActorMoti
             u16 angle = entity->facing.raw;
             if ((entity->facing.signedValue == 0x400) ||
                 (sprite->flags & 0x8000)) {
-                select_sprite_entry(sprite, 0x37, 0);
+                select_sprite_entry((struct S_80047784 *)(sprite), 0x37, 0);
                 action->phase++;
                 return;
             }
@@ -174,7 +174,7 @@ void update_movement_destination_and_recovery(ActorActionView *action, ActorMoti
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        select_sprite_entry(sprite, 0x38, 0);
+        select_sprite_entry((struct S_80047784 *)(sprite), 0x38, 0);
         attempts_left = 0x40;
         player_tile = &D_80082E80;
         floor_limits = D_80081468;
@@ -228,12 +228,12 @@ void update_movement_destination_and_recovery(ActorActionView *action, ActorMoti
             entity->groundHeight = height;
             sprite->frameTable = D_8016EF00;
             reduce_actor_food_meter(entity, 0x200);
-            select_sprite_entry(sprite,
+            select_sprite_entry((struct S_80047784 *)(sprite),
                 sprite->frameTable[((g_game_work.view.viewAngle + entity->facing.signedValue + 0x100)
                     >> 9) & 7], 0);
             cycle_map_cell_flags(sprite->tile.bytes.x, sprite->tile.bytes.y,
                 (entity->flags & 0x2000) ? 0x300 : 0x3000);
-            set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+            set_record_integer_tile_center((struct EntityRec *)(motion), sprite->tile.bytes.x, sprite->tile.bytes.y);
             sprite->scaleY = 0x1000;
             sprite->scaleX = 0x1000;
             action->nextBehavior = update_action_behavior_facing_and_animation;

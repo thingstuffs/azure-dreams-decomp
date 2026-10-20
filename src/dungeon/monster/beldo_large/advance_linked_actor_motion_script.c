@@ -146,22 +146,22 @@ typedef struct { s16 x; u16 y; } ScriptDirection;
 #define SP2_X_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->x)
 #define SP2_Y_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->y)
 
-void func_80041094(); /* extern */
-void select_indirect_table_entry();              /* extern */
-void select_sprite_entry();         /* extern */
+void func_80041094(s32, s16, s16, s16, s32); /* extern */
+#include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
+#include "engine/graphics/select_sprite_entry_api.h"         /* extern */
 void func_800478B8();  /* extern */
 s32 func_800644B8();                     /* extern */
 void snapshot_inventory_and_familiars();                 /* extern */
-void snapshot_inventory_familiar_records();                            /* extern */
+void snapshot_inventory_familiar_records(void);                            /* extern */
 void play_sound_if_enabled();             /* extern */
 s32 is_special_floor_entry_absent();                      /* extern */
-void create_rotating_clipped_sprite();             /* extern */
-void create_color_cycling_pulse();                      /* extern */
-void create_layered_sprite_pulse();                      /* extern */
+void create_rotating_clipped_sprite(u32 *, s16);             /* extern */
+struct S_8016738C_3; void create_color_cycling_pulse(struct S_8016738C_3 *);                      /* extern */
+struct EntityRec; void create_layered_sprite_pulse(struct EntityRec *);                      /* extern */
 void create_forward_layered_sprite_pulse();                  /* extern */
-void update_phase_driven_motion_offset();      /* extern */
-void apply_script_direction_record();      /* extern */
-void create_action_offset_object();                            /* extern */
+struct S_8016F5D8_0; struct S_8016F5D8_1; struct S_8016F5D8_2; void update_phase_driven_motion_offset(struct S_8016F5D8_1 *, struct S_8016F5D8_2 *, struct S_8016F5D8_0 *);      /* extern */
+void apply_script_direction_record(void *, u8 *, void *);      /* extern */
+void create_action_offset_object(void);                            /* extern */
 extern Table32 D_8016482C;
 extern Table32 D_80164AC0;
 extern u8 D_80173DA4[16];
@@ -329,10 +329,10 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
             ((S_80171D74_3 *)motion_in)->unk_00.at02.v = 1U;
         }
         if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 3) {
-            create_rotating_clipped_sprite(target_pos, 0);
-            create_rotating_clipped_sprite(target_pos, 1);
-            create_color_cycling_pulse(target_pos);
-            create_layered_sprite_pulse(target_pos);
+            create_rotating_clipped_sprite((u32 *)(target_pos), 0);
+            create_rotating_clipped_sprite((u32 *)(target_pos), 1);
+            create_color_cycling_pulse((struct S_8016738C_3 *)(target_pos));
+            create_layered_sprite_pulse((struct EntityRec *)(target_pos));
         }
         break;
     case 9:

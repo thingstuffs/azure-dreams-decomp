@@ -2,8 +2,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-s32 append_scene_list_node();                      /* extern */
-void unlink_scene_list_node();                      /* extern */
+struct Node; s32 append_scene_list_node(struct Node *);                      /* extern */
+#include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
 extern M2C_UNK D_8009BDC0;
 
 
@@ -17,5 +17,5 @@ void initialize_moving_object(S_8009C0D8_1 *context, Rec_func_80094268_arg0 *obj
     object->unk_15 = 1;
     context->unk_50 = &D_8009BDC0;
     unlink_scene_list_node(object);
-    append_scene_list_node(object);
+    append_scene_list_node((struct Node *)(object));
 }

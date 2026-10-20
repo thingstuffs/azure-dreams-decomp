@@ -1,4 +1,5 @@
 #include "dungeon/effect/particle/impact.h"
+#include "shared/sprite_frame_state.h"
 void (* const dungeon_19de800_entry)(void *, void *, void *) = advance_particle_fade_and_cleanup;
 typedef struct { s16 x, y; } BankDirections;
 const BankDirections D_80024004[9] = {{-1,-1},{0,-1},{1,-1},{-1,0},{0,0},{1,0},{-1,1},{0,1},{1,1}};
@@ -94,11 +95,7 @@ typedef struct S_func_80024064_9 {
     s16 unk_04;
 } S_func_80024064_9;   /* planes + ((S_func_80024064_4 *)current)->unk_10 * 8 in func_80024064 */
 
-
 extern s32 are_quad_corner_turns_within_half_revolution(void *);
-
-
-
 
 /* Finds a map polygon at the query position using containment and plane height. */
 void *func_80024064(s32 world_x, s32 world_y, s16 min_height) {
@@ -258,7 +255,6 @@ typedef struct S_80024398_2 {
     u16 unk_1E;
 } S_80024398_2;   /* node in scale_effect_by_phase */
 
-
 /* Adjusts node scale by countdown phase, restoring unity and setting completion flags at the end. */
 void scale_effect_by_phase(void *effect)
 {
@@ -363,27 +359,13 @@ typedef struct S_800244BC_3 {
     s32 unk_08;
 } S_800244BC_3;   /* arg1 in func_800244BC */
 
-typedef struct S_800244BC_4 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800244BC_4;
-
-
-
 /* Creates an object at the supplied position and initializes its state and appearance. */
 void func_800244BC(s32 state_value, S_800244BC_3 *source_pos)
 {
     void *object;
     S_800244BC_0 *state;
     S_800244BC_2 *position;
-    S_800244BC_4 *appearance;
+    SpriteFrameState *appearance;
     u16 render_flags;
 
     object = func_8003FC64(0x212);
@@ -399,13 +381,13 @@ void func_800244BC(s32 state_value, S_800244BC_3 *source_pos)
         position->unk_04 = source_pos->unk_04;
         position->unk_08 = source_pos->unk_08;
         appearance = ((S_800244BC_1 *)object)->unk_0C;
-        render_flags = appearance->unk_14;
-        appearance->unk_1E = 0x1000;
-        appearance->unk_1C = 0x1000;
-        appearance->unk_0E = 0x80;
-        appearance->unk_0D = 0x80;
-        appearance->unk_0C = 0x80;
-        appearance->unk_14 = render_flags | 0x80;
+        render_flags = appearance->flags;
+        appearance->scale_y = 0x1000;
+        appearance->scale_x = 0x1000;
+        appearance->color.c.b = 0x80;
+        appearance->color.c.g = 0x80;
+        appearance->color.c.r = 0x80;
+        appearance->flags = render_flags | 0x80;
     }
 }
 
@@ -534,20 +516,6 @@ typedef struct S_800247C0_3 {
     s32 unk_08;
 } S_800247C0_3;   /* position in shrink_effect_and_spawn_particles */
 
-typedef struct S_800247C0_4 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    union { u16 s; s16 u; } unk_1C;   /* accessed as both */
-    union { u16 s; s16 u; } unk_1E;   /* accessed as both */
-} S_800247C0_4;   /* sprite in shrink_effect_and_spawn_particles */
-
 typedef struct S_800247C0_5 {
     u8 pad_00[0x28];
     s16 unk_28;
@@ -556,8 +524,6 @@ typedef struct S_800247C0_5 {
     s32 unk_8C;
     s32 unk_90;
 } S_800247C0_5;   /* particle_state in shrink_effect_and_spawn_particles */
-
-
 
 typedef struct S_800247C0_7 {
     u8 pad_00[0x28];
@@ -573,11 +539,6 @@ typedef struct S_800247C0_8 {
     u8 pad_08[0x2];
     s16 unk_0A;
 } S_800247C0_8;   /* ((S_800247C0_1 *)object)->unk_08 in shrink_effect_and_spawn_particles */
-
-
-
-
-
 
 s32 func_80069EF8();
 s32 set_or_clear_actor_status_slot();
@@ -602,7 +563,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
     u16 timer;
     void *position;
     void *particle_state;
-    void *sprite;
+    SpriteFrameState *sprite;
     void *object;
 
     D_8002992E = 1;
@@ -616,22 +577,22 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
     ((S_800247C0_2 *)origin)->unk_04.at00.v = ((S_800247C0_3 *)position)->unk_04;
     offset_z = (random_bits & 0x3F) - 0x20;
     ((S_800247C0_2 *)origin)->unk_08.at00.v = ((S_800247C0_3 *)position)->unk_08;
-    scale_x = ((S_800247C0_4 *)sprite)->unk_1C.s;
+    scale_x = sprite->scale_x;
     object += 0x20;
     effect_state = object;
     if (scale_x >= 0x801U) {
         next_scale_x = scale_x - 0x50;
-        ((S_800247C0_4 *)sprite)->unk_1C.s = next_scale_x;
+        sprite->scale_x = next_scale_x;
         if ((u32)(next_scale_x & 0xFFFF) < 0x800U) {
-            ((S_800247C0_4 *)sprite)->unk_1C.s = 0x800U;
+            sprite->scale_x = 0x800U;
         }
     }
-    scale_y = ((S_800247C0_4 *)sprite)->unk_1E.s;
+    scale_y = sprite->scale_y;
     if (scale_y >= 0x801U) {
         next_scale_y = scale_y - 0x50;
-        ((S_800247C0_4 *)sprite)->unk_1E.s = next_scale_y;
+        sprite->scale_y = next_scale_y;
         if ((u32)(next_scale_y & 0xFFFF) < 0x800U) {
-            ((S_800247C0_4 *)sprite)->unk_1E.s = 0x800U;
+            sprite->scale_y = 0x800U;
         }
     }
     if (((S_800247C0_0 *)effect)->unk_28 >= 0xB) {
@@ -646,8 +607,8 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
             ((S_800247C0_1 *)object)->unk_10 = (void *)advance_effect_motion_and_animation;
             register_node(object, (s32)project_sprite_chain);
             sprite = ((S_800247C0_1 *)object)->unk_0C;
-            ((S_800247C0_4 *)sprite)->unk_10 = 0x20;
-            ((S_800247C0_4 *)sprite)->unk_14 |= 0xC;
+            sprite->tpage_abr = 0x20;
+            sprite->flags |= 0xC;
             position = ((S_800247C0_1 *)object)->unk_08;
             ((S_800247C0_3 *)position)->unk_00.at02.v =
                 ((S_800247C0_2 *)origin)->unk_00.at02.v + offset_x;
@@ -662,23 +623,23 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
             ((S_800247C0_5 *)particle_state)->unk_90 =
                 0 - ((s32)(offset_z << 0x10) >> 7);
             sprite = ((S_800247C0_1 *)object)->unk_0C;
-            ((S_800247C0_4 *)sprite)->unk_1E.u = 0x1000;
-            ((S_800247C0_4 *)sprite)->unk_1C.u = 0x1000;
+            sprite->scale_y = 0x1000;
+            sprite->scale_x = 0x1000;
             color_channel = update_palette_particle_transition(3);
-            ((S_800247C0_4 *)sprite)->unk_0E = 0;
-            ((S_800247C0_4 *)sprite)->unk_0D = 0;
-            ((S_800247C0_4 *)sprite)->unk_0C = 0;
+            sprite->color.c.b = 0;
+            sprite->color.c.g = 0;
+            sprite->color.c.r = 0;
             if (color_channel == 0) {
-                ((S_800247C0_4 *)sprite)->unk_0C = 0x10;
+                sprite->color.c.r = 0x10;
             }
             if (color_channel == 1) {
-                ((S_800247C0_4 *)sprite)->unk_0D = 0x10;
+                sprite->color.c.g = 0x10;
             }
             if (color_channel == 2) {
-                ((S_800247C0_4 *)sprite)->unk_0E = 0x10;
+                sprite->color.c.b = 0x10;
             }
-            ((S_800247C0_4 *)sprite)->unk_12 = 0x7DCF;
-            ((S_800247C0_4 *)sprite)->unk_14 |= 0x100;
+            sprite->clut = 0x7DCF;
+            sprite->flags |= 0x100;
             func_8003DB94(sprite, D_800DE870, 0);
         }
     }
@@ -708,7 +669,6 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
 
 extern void shrink_effect_and_spawn_particles(void *effect, void *origin);
 
-
 typedef struct S_80024AE8_0 {
     u8 pad_00[0x20];
     s32 unk_20;
@@ -736,17 +696,12 @@ typedef struct S_80024AE8_3 {
     s32 unk_08;
 } S_80024AE8_3;   /* arg1 in func_80024AE8 */
 
-typedef struct S_80024AE8_4 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80024AE8_4;
-
 /* Create and initialize an effect at the supplied position. */
 void func_80024AE8(s32 effect_value, S_80024AE8_3 *position) {
     void *effect;
     S_80024AE8_0 *effect_state;
     S_80024AE8_2 *effect_position;
-    S_80024AE8_4 *render_state;
+    SpriteFrameState *render_state;
 
     effect = func_8003FC64(0x212);
     if (effect != 0) {
@@ -761,7 +716,7 @@ void func_80024AE8(s32 effect_value, S_80024AE8_3 *position) {
         effect_position->unk_04 = (s32) position->unk_04;
         effect_position->unk_08 = (s32) position->unk_08;
         render_state = ((S_80024AE8_1 *)effect)->unk_0C;
-        render_state->unk_14 = (u16) (render_state->unk_14 | 0x80);
+        render_state->flags = (u16) (render_state->flags | 0x80);
     }
 }
 
@@ -923,7 +878,6 @@ typedef struct S_80024BF4_5 {
     u8 unk_31;
 } S_80024BF4_5;   /* packet in project_visible_textured_quad */
 
-
 typedef struct {
     s16 m[3][3];
     s16 pad;
@@ -955,16 +909,16 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, S_80024BF4_1 *position, S
     ((S_80024BF4_0 *)scratch)->unk_88 = position->unk_02;
     ((S_80024BF4_0 *)scratch)->unk_8C = position->unk_06;
     ((S_80024BF4_0 *)scratch)->unk_90 = position->unk_0A;
-    render_state->unk_14 |= 0x8000;
+    ((SpriteFrameState *)render_state)->flags |= 0x8000;
 
     func_800649A0();
 
     ((S_80024BF4_0 *)scratch)->unk_3C = 0x2000;
     ((S_80024BF4_0 *)scratch)->unk_38 = 0x2000;
     ((S_80024BF4_0 *)scratch)->unk_34 = 0x2000;
-    ((S_80024BF4_0 *)scratch)->unk_A4 = render_state->unk_16;
-    ((S_80024BF4_0 *)scratch)->unk_A8 = render_state->unk_1A;
-    ((S_80024BF4_0 *)scratch)->unk_A6 = render_state->unk_18;
+    ((S_80024BF4_0 *)scratch)->unk_A4 = ((SpriteFrameState *)render_state)->angle_x;
+    ((S_80024BF4_0 *)scratch)->unk_A8 = ((SpriteFrameState *)render_state)->angle_z;
+    ((S_80024BF4_0 *)scratch)->unk_A6 = ((SpriteFrameState *)render_state)->angle_y;
     func_80065820(scratch + 0xA4, scratch + 0x74);
     func_80064AE0(&matrix);
     func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
@@ -972,8 +926,8 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, S_80024BF4_1 *position, S
     func_80064D80(scratch + 0x54);
     func_80064CF0(scratch + 0x54);
 
-    texture = render_state->unk_08;
-    ((S_80024BF4_0 *)scratch)->unk_28 = render_state->unk_14;
+    texture = *(u8 * *)&((SpriteFrameState *)render_state)->source;
+    ((S_80024BF4_0 *)scratch)->unk_28 = ((SpriteFrameState *)render_state)->flags;
     packet = ((GpuContext *)(*(u8 **)((u8 *)(&g_game_work))))->packetCursor;
     ((GpuContext *)(*(u8 **)((u8 *)(&g_game_work))))->packetCursor = packet + 0x34;
 
@@ -1006,7 +960,7 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, S_80024BF4_1 *position, S
              ((u16)(((S_80024BF4_5 *)packet)->unk_22 + 0x20) < 0x121)) |
             (((u16)(((S_80024BF4_5 *)packet)->unk_2C + 0x20) < 0x181) &&
              ((u16)(((S_80024BF4_5 *)packet)->unk_2E + 0x20) < 0x121))) {
-            render_state->unk_14 &= 0x7FFF;
+            ((SpriteFrameState *)render_state)->flags &= 0x7FFF;
             ((S_80024BF4_5 *)packet)->unk_0E = quad->unk_3C;
             ((S_80024BF4_5 *)packet)->unk_1A = quad->unk_40;
             ((S_80024BF4_5 *)packet)->unk_0C = quad->unk_3A;
@@ -1025,14 +979,14 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, S_80024BF4_1 *position, S
             func_8006671C(packet);
 
             texture_flags = texture[1];
-            render_state->unk_0F = texture_flags;
+            ((SpriteFrameState *)render_state)->color.c.code = texture_flags;
             draw_flags = ((S_80024BF4_0 *)scratch)->unk_28;
             if (draw_flags & 8) {
-                render_state->unk_0F = (draw_flags & 4) ?
+                ((SpriteFrameState *)render_state)->color.c.code = (draw_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
-            ((S_80024BF4_5 *)packet)->unk_04.at03.v |= render_state->unk_0F;
+            ((S_80024BF4_5 *)packet)->unk_04.at03.v |= ((SpriteFrameState *)render_state)->color.c.code;
             ((S_80024BF4_5 *)packet)->unk_00 = (((S_80024BF4_5 *)packet)->unk_00 & 0xFF000000) |
                 ((*(u32 *)((u8 *)(((S_80024BF4_0 *)scratch)->unk_24.p2)
                     + ((S_80024BF4_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
@@ -1126,8 +1080,6 @@ void func_80025088(void *state, void *position, void *render_state) {
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 
-
-
 typedef struct S_800251F4_0 {
     u8 pad_00[0xC];
     u8 unk_0C;
@@ -1188,22 +1140,6 @@ typedef struct S_800251F4_1 {
     void * unk_10;
 } S_800251F4_1;   /* object in spawn_randomized_textured_particles */
 
-typedef struct S_800251F4_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800251F4_2;   /* sub in spawn_randomized_textured_particles */
-
 typedef struct S_800251F4_3 {
     u8 pad_00[0x6];
     s16 unk_06;
@@ -1232,7 +1168,6 @@ typedef struct {
 
 extern s32 func_80069EF8(void);
 
-
 /* Spawns four textured particles with randomized positions, motion, and rotation. */
 void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y, s16 center_z)
 {
@@ -1240,7 +1175,7 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
     s16 iteration;
     void *particle;
     u8 *particle_work;
-    void *transform;
+    SpriteFrameState *transform;
     void *quad_template;
     s32 tile_u;
     s32 tile_v;
@@ -1273,8 +1208,8 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             register_node(particle, (s32)draw_linked_meshes);
 
             transform = ((S_800251F4_1 *)particle)->unk_0C;
-            ((S_800251F4_2 *)transform)->unk_10 = 0x20;
-            ((S_800251F4_2 *)transform)->unk_14 |= 0xC;
+            transform->tpage_abr = 0x20;
+            transform->flags |= 0xC;
 
             position_jitter = func_80069EF8();
             min_x = saved_x - 0x20;
@@ -1341,8 +1276,8 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             ((S_800251F4_0 *)particle_work)->unk_3B = tile_min;
 
             transform = ((S_800251F4_1 *)particle)->unk_0C;
-            ((S_800251F4_2 *)transform)->unk_1E = 0x1000;
-            ((S_800251F4_2 *)transform)->unk_1C = 0x1000;
+            transform->scale_y = 0x1000;
+            transform->scale_x = 0x1000;
 
             ((S_800251F4_0 *)particle_work)->unk_4A = (func_80069EF8() & 3) - 5;
             ((S_800251F4_0 *)particle_work)->unk_4C = (func_80069EF8() & 3) - 2;
@@ -1370,18 +1305,18 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             ((S_800251F4_0 *)particle_work)->unk_19 = brightness;
             ((S_800251F4_0 *)particle_work)->unk_18 = brightness;
 
-            ((S_800251F4_2 *)transform)->unk_16 = func_80069EF8() & 0xFFF;
-            ((S_800251F4_2 *)transform)->unk_18 = func_80069EF8() & 0xFFF;
-            ((S_800251F4_2 *)transform)->unk_1A = func_80069EF8() & 0xFFF;
+            transform->angle_x = func_80069EF8() & 0xFFF;
+            transform->angle_y = func_80069EF8() & 0xFFF;
+            transform->angle_z = func_80069EF8() & 0xFFF;
             ((S_800251F4_0 *)particle_work)->unk_7C = ((func_80069EF8() & 0x7FFF) - 0x4000) << 5;
             ((S_800251F4_0 *)particle_work)->unk_80 = ((func_80069EF8() & 0x7FFF) - 0x4000) << 5;
             ((S_800251F4_0 *)particle_work)->unk_84 =
                 (((func_80069EF8() & 0x7FFF) - 0x6000) << 6) + (s32)0xFFFE0000;
             ((S_800251F4_0 *)particle_work)->unk_90 = 0x10000;
 
-            ((S_800251F4_2 *)transform)->unk_0E = brightness;
-            ((S_800251F4_2 *)transform)->unk_0D = brightness;
-            ((S_800251F4_2 *)transform)->unk_0C = brightness;
+            transform->color.c.b = brightness;
+            transform->color.c.g = brightness;
+            transform->color.c.r = brightness;
             func_8003DB94(transform, D_800DE870, 0);
         }
         tile_max = iteration + 1;
@@ -1449,7 +1384,6 @@ typedef struct S_func_80025710_3 {
     u8 unk_24;
     u8 unk_25;
 } S_func_80025710_3;
-
 
 /* Mark and process entries at the given coordinates with thresholds in the specified range. */
 void process_entries_at_coordinates(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound) {
@@ -1536,7 +1470,6 @@ typedef struct {
 
 extern void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound);
 extern void process_entries_at_coordinates(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound);
-
 
 extern s16 D_8002992C;
 
@@ -1711,8 +1644,6 @@ void update_owner_following_effect(void *effect_in, void *position_in, void *vis
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 
-
-
 typedef unsigned long uptr;
 
 typedef struct {
@@ -1738,10 +1669,8 @@ typedef struct {
 
 extern Object *allocate_list_node(s32, void *);
 
-
 extern u8 D_80028664[];
 s32 draw_linked_model_chain(void *, s32, void *);
-
 
 typedef struct S_80025CE8_0 {
     s16 unk_00;
@@ -1854,17 +1783,17 @@ u16 angle;
 
             render = (*slot)->partC;
             asset_offset = (s32)(s16)object_index * 0x10;
-            render->unk_1A = angle - 0x400;
-            render->unk_16 = 0x400;
-            render->unk_20 = 0x1000;
-            render->unk_1E = 0x1000;
-            render->unk_1C = 0x1000;
-            render->unk_08 = D_80028664 + asset_offset;
-            render_flags = render->unk_14;
-            render->unk_10 = 0x20;
-            render->unk_0C = color;
+            ((SpriteFrameState *)render)->angle_z = angle - 0x400;
+            ((SpriteFrameState *)render)->angle_x = 0x400;
+            ((SpriteFrameState *)render)->unk_20 = 0x1000;
+            ((SpriteFrameState *)render)->scale_y = 0x1000;
+            ((SpriteFrameState *)render)->scale_x = 0x1000;
+            ((SpriteFrameState *)render)->source = D_80028664 + asset_offset;
+            render_flags = ((SpriteFrameState *)render)->flags;
+            ((SpriteFrameState *)render)->tpage_abr = 0x20;
+            ((SpriteFrameState *)render)->color.word = color;
             render_flags |= 0xC;
-            render->unk_14 = render_flags;
+            ((SpriteFrameState *)render)->flags = render_flags;
             register_node(*slot, (s32)draw_linked_model_chain);
 
             current_object = *slot;
@@ -1875,9 +1804,9 @@ u16 angle;
                 alloc_page = (u8 *)&D_80028630 + 0x79D0;
                 ((S_80025CE8_3_pre *)alloc_page)[-1].unk_00 = position;
             }
-            render->unk_1E = 0;
-            render->unk_1C = 0;
-            render->unk_20 = 0;
+            ((SpriteFrameState *)render)->scale_y = 0;
+            ((SpriteFrameState *)render)->scale_x = 0;
+            ((SpriteFrameState *)render)->unk_20 = 0;
             ((S_80025CE8_0 *)data_entry)->unk_30 = 0x3C;
             ((S_80025CE8_0 *)data_entry)->unk_36 = angle;
             ((S_80025CE8_0 *)data_entry)->unk_3A = 0;
@@ -1916,12 +1845,9 @@ u16 angle;
 
 #include "common.h"
 
-
-
 typedef struct {
     s32 words[4];
 } __attribute__((packed)) Copy16;
-
 
 typedef struct S_80025FB0_0 {
     u8 pad_00[0x10];
@@ -2091,8 +2017,6 @@ typedef struct S_8002626C_4 {
     s16 unk_0A;
 } S_8002626C_4;
 
-
-
 typedef struct S_8002626C_0 {
     u8 pad_00[0x28];
     s16 unk_28;
@@ -2112,27 +2036,13 @@ typedef struct S_8002626C_1 {
     s32 * unk_10;
 } S_8002626C_1;
 
-typedef struct S_8002626C_2 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8002626C_2;
-
 /* Creates a colored effect at an offset position with velocity toward its base. */
 void create_offset_colored_effect(
     s32 unused_0, s32 unused_1, s32 unused_2, s32 unused_3,
     s32 offset_x, s32 offset_y, s32 offset_z, s32 base_x, s32 base_y, s32 base_z) {
     s16 color_channel;
     S_8002626C_0 *effect_state;
-    S_8002626C_2 *sprite;
+    SpriteFrameState *sprite;
     void *effect;
 
     effect = func_8003FC64(0x212);
@@ -2142,8 +2052,8 @@ void create_offset_colored_effect(
         ((S_8002626C_1 *)effect)->unk_10 = (void *)update_effect_motion_and_visual;
         register_node(effect, (s32)project_sprite_chain);
         sprite = ((S_8002626C_1 *)effect)->unk_0C;
-        sprite->unk_10 = 0x40;
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        sprite->tpage_abr = 0x40;
+        sprite->flags = (u16) (sprite->flags | 0xC);
         ((S_8002626C_4 *)(((S_8002626C_3 *)effect)->unk_08))->unk_02 =
             (s16) (s32) &((s8 *) base_x)[offset_x];
         ((S_8002626C_4 *)(((S_8002626C_3 *)effect)->unk_08))->unk_06 =
@@ -2156,23 +2066,23 @@ void create_offset_colored_effect(
         effect_state->unk_8C = (s32) (0 - ((s32) (offset_y << 0x10) >> 7));
         effect_state->unk_90 = (s32) (0 - ((s32) (offset_z << 0x10) >> 7));
         sprite = ((S_8002626C_1 *)effect)->unk_0C;
-        sprite->unk_1E = 0x3000;
-        sprite->unk_1C = 0x3000;
+        sprite->scale_y = 0x3000;
+        sprite->scale_x = 0x3000;
         color_channel = update_palette_particle_transition(3);
-        sprite->unk_0E = 0;
-        sprite->unk_0D = 0;
-        sprite->unk_0C = 0;
+        sprite->color.c.b = 0;
+        sprite->color.c.g = 0;
+        sprite->color.c.r = 0;
         if (color_channel == 0) {
-            sprite->unk_0C = 0x10;
+            sprite->color.c.r = 0x10;
         }
         if (color_channel == 1) {
-            sprite->unk_0D = 0x10;
+            sprite->color.c.g = 0x10;
         }
         if (color_channel == 2) {
-            sprite->unk_0E = 0x10;
+            sprite->color.c.b = 0x10;
         }
-        sprite->unk_12 = 0x7DCF;
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
+        sprite->clut = 0x7DCF;
+        sprite->flags = (u16) (sprite->flags | 0x100);
         func_8003DB94(sprite, D_800DE870, 0);
     }
 }
@@ -2190,10 +2100,6 @@ void create_offset_colored_effect(
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-
-
-
-
 
 typedef struct {
     u8 pad0[2];
@@ -2238,20 +2144,6 @@ typedef struct S_func_80026418_0 {
     union { s16 s; u16 u; } unk_28;
     u16 unk_2A;
 } S_func_80026418_0;
-
-typedef struct S_func_80026418_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_func_80026418_1;
-
-typedef struct S_func_80026418_3 {
-    u8 pad_00[0xA8];
-    u8 unk_A8;
-    u8 unk_A9;
-    u8 unk_AA;
-} S_func_80026418_3;
-
 
 extern u8 D_8006E8A0[];
 extern u8 D_8006EE50[];

@@ -3,7 +3,7 @@
 
 s32 create_an_position_initializes_graphics_state();                     /* extern */
 void *get_address_global_80100_aa_0();                              /* extern */
-void handle_shift_entries_left_until_free_entry_limit_clear_tail();                            /* extern */
+void handle_shift_entries_left_until_free_entry_limit_clear_tail(void);                            /* extern */
 
 typedef struct S_800A0504_0 {
     u8 pad_00[0x1];

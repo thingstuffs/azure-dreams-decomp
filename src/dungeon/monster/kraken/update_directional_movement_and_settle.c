@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -13,7 +14,6 @@ typedef struct S_801724F4_1 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_801724F4_1;   /* arg0 in update_directional_movement_and_settle */
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
@@ -45,21 +45,21 @@ void update_directional_movement_and_settle(void *action, EntityRec *motion, voi
 
     switch (state) {
     case 0:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((S_801724F4_1 *)action)->unk_9B = 0xFF;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
+            ((SpriteFrameState *)sprite)->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_8017419C;
+        ((SpriteFrameState *)sprite)->frameTable = D_8017419C;
         select_sprite_entry(sprite,
             D_8017419C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801724F4_1 *)action)->unk_9B++;
         return;
     case 1:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_801741A4;
+        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
+            ((SpriteFrameState *)sprite)->frameTable = D_801741A4;
             select_sprite_entry(sprite,
                 D_801741A4[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
@@ -78,20 +78,20 @@ void update_directional_movement_and_settle(void *action, EntityRec *motion, voi
         return;
     case 0xFF:
     {
-        s32 target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+        s32 target_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
         s32 current_x = motion->x.w.i - 0x20;
         motion->unk_0C = ((target_x - current_x) << 0xF) >> 1;
     }
         {
-            s32 target_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+            s32 target_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
             s32 current_y = motion->y.w.i - 0x20;
             motion->unk_10 = ((target_y - current_y) << 0xF) >> 1;
         }
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             (*(u32 *)&actor->flags1C) |= 0x40000;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             reduce_actor_food_meter(actor, 0x100);
             ((S_801724F4_1 *)action)->unk_8C = &D_801711A4;
             g_dungeon_status.unk_0C = 0;

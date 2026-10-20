@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
@@ -9,7 +10,6 @@ typedef struct S_800CB4C0_6 {
 } S_800CB4C0_6;   /* arg0 in create_source_linked_fading_effect */
 
    /* ((S_800CB4C0_6 *)arg0)->unk_08 in create_source_linked_fading_effect */
-
 
 M2C_UNK func_8003DB94();  /* extern */
 void *allocate_list_node();               /* extern */
@@ -24,31 +24,11 @@ typedef struct S_800CB4C0_0 {
     M2C_UNK * unk_10;
 } S_800CB4C0_0;
 
-typedef struct S_800CB4C0_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800CB4C0_1;
-
 typedef struct S_800CB4C0_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
 } S_800CB4C0_2;   /* arg0 in create_source_linked_fading_effect */
-
-
-
-typedef struct S_800CB4C0_4 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_800CB4C0_4;
 
 typedef struct S_800CB4C0_5 {
     u8 pad_00[0x96];
@@ -62,10 +42,10 @@ typedef struct S_800CB4C0_5 {
 /* Creates an object with shared or copied source coordinates and initializes its display state. */
 void *create_source_linked_fading_effect(void *source, s16 copy_position) {
     s32 display_value;
-    S_800CB4C0_1 *display;
+    SpriteFrameState *display;
     void *object;
     S_800CB4C0_5 *state;
-    S_800CB4C0_4 *source_display;
+    SpriteFrameState *source_display;
     MovingPosition *position;
 
     object = allocate_list_node(0x100, source);
@@ -74,10 +54,10 @@ void *create_source_linked_fading_effect(void *source, s16 copy_position) {
         register_node(object, project_sprite_chain);
         display = ((S_800CB4C0_0 *)object)->unk_0C;
         func_8003DB94(display, &D_800E02CC, 0);
-        display->unk_1E = 0x1400;
-        display->unk_1C = 0x1400;
-        display->unk_10 = 0x20;
-        display->unk_14 = (u16) (display->unk_14 | 0xC);
+        display->scale_y = 0x1400;
+        display->scale_x = 0x1400;
+        display->tpage_abr = 0x20;
+        display->flags = (u16) (display->flags | 0xC);
         if ((copy_position << 0x10) == 0) {
             ((S_800CB4C0_0 *)object)->unk_08 = ((S_800CB4C0_2 *)source)->unk_08;
         } else {
@@ -86,9 +66,9 @@ void *create_source_linked_fading_effect(void *source, s16 copy_position) {
             position->unk_06 = (u16) ((MovingPosition *)(((S_800CB4C0_6 *)source)->unk_08))->unk_06;
             position->unk_0A = (u16) ((MovingPosition *)(((S_800CB4C0_6 *)source)->unk_08))->unk_0A;
             source_display = ((S_800CB4C0_2 *)source)->unk_0C;
-            display_value = source_display->unk_0C;
-            display->unk_10 = 0x60;
-            display->unk_0C = display_value;
+            display_value = source_display->color.word;
+            display->tpage_abr = 0x60;
+            display->color.word = display_value;
         }
 
         display->unk_06 = -1;

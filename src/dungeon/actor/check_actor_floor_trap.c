@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -35,15 +36,15 @@ s32 check_actor_floor_trap(Rec_D_80082E80 *actor, EntityRec *target)
         return 1;
     }
     player = &D_80082E80;
-    if (player->unk_026 != actor->unk_26.as_s8 && get_tile_chebyshev_distance(player, actor) >= 7) {
+    if (player->unk_026 != *(s8 *)&((SpriteFrameState *)actor)->unk_26 && get_tile_chebyshev_distance(player, actor) >= 7) {
         return 1;
     }
     if (target->tileY == 0) {
         return 1;
     }
 
-    entry_index = find_entry_at_tile_coordinates(actor->unk_24,
-                                  actor->unk_25,
+    entry_index = find_entry_at_tile_coordinates(((SpriteFrameState *)actor)->unk_24,
+                                  ((SpriteFrameState *)actor)->unk_25,
                                   target->unk_88);
     result = 1;
     if (entry_index >= 0) {

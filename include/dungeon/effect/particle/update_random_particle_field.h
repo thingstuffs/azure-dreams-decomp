@@ -141,19 +141,6 @@ typedef struct S_81934C5C_2 {
     void * unk_20;
 } S_81934C5C_2;   /* temp_v0_3 in func_8002445C */
 
-typedef struct S_81934C5C_3 {
-    M2C_UNK * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_81934C5C_3;   /* temp_s1 in func_8002445C */
-
 typedef struct S_81934C5C_4 {
     u8 pad_00[0x4];
     s32 unk_04;

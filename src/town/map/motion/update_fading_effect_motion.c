@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/object_links.h"
@@ -20,11 +21,10 @@ typedef struct S_800A86BC_1 {
     s32 unk_04;
 } S_800A86BC_1;   /* arg0 in update_fading_effect_motion */
 
-
 extern void func_800478B8();
 
 /* Update effect motion, fade its primitive, and flag expiration when its timer ends. */
-void update_fading_effect_motion(void *effect, S_800A86BC_0 *motion, Rec_D_80082E80 *primitive) {
+void update_fading_effect_motion(void *effect, S_800A86BC_0 *motion, SpriteFrameState *primitive) {
     u8 shade;
     u16 ticks_left;
 
@@ -33,12 +33,12 @@ void update_fading_effect_motion(void *effect, S_800A86BC_0 *motion, Rec_D_80082
     motion->unk_04 = motion->unk_04 + motion->unk_10;
     motion->unk_08 = motion->unk_08 + motion->unk_14;
     func_800478B8(primitive);
-    shade = primitive->unk_0C.at00_u8.v;
+    shade = primitive->color.c.r;
     if (shade != 0) {
         shade -= 0x10;
-        primitive->unk_0C.at00_u8.v = shade;
-        primitive->unk_0C.at02_u8.v = shade;
-        primitive->unk_0C.at01_u8.v = shade;
+        primitive->color.c.r = shade;
+        primitive->color.c.b = shade;
+        primitive->color.c.g = shade;
     }
     ticks_left = ((S_800A86BC_1 *)effect)->unk_02 - 1;
     ((S_800A86BC_1 *)effect)->unk_02 = ticks_left;

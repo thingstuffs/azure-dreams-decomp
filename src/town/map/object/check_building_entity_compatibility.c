@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 test_resident_bitmap_bit();
+#include "engine/object/test_resident_bitmap_bit_api.h"
 extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];
 

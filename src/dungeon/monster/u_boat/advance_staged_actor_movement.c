@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 rand(void);
@@ -19,7 +19,6 @@ extern u8 D_800E23E0[];
 extern u8 D_800E2400[];
 extern u8 D_80171A80[];
 
-
 typedef struct S_80173510_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
@@ -33,7 +32,6 @@ typedef struct S_80173510_0 {
     u8 pad_9C[0x14];
     u8 unk_B0;
 } S_80173510_0;   /* arg0 in advance_staged_actor_movement */
-
 
 typedef struct S_80173510_3 {
     u8 pad_00[0x2];
@@ -55,16 +53,16 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
     switch (state) {
 
     case 0:
-        if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)record)->flags & 0x8000) {
             u8 *animation_ids;
 
             ((S_80173510_0 *)action)->unk_9B.n = 5;
             ((S_80173510_0 *)action)->unk_96.u = 0;
-            ((Rec_D_80082E80 *)record)->unk_14.at00_u16.v |= 0x6000;
+            ((SpriteFrameState *)record)->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, record, actor->facing, 1);
 
             animation_ids = D_800E23E0;
-            (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
+            ((SpriteFrameState *)record)->frameTable = animation_ids;
             select_sprite_entry(record,
                 animation_ids[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
@@ -91,7 +89,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
 
         timer = ((S_80173510_0 *)action)->unk_96.u;
         ((S_80173510_0 *)action)->unk_96.u = timer - 1;
-        if ((s16)timer > 0 && !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
+        if ((s16)timer > 0 && !(((SpriteFrameState *)record)->flags & 0x8000)) {
             return;
         }
 
@@ -126,7 +124,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
             u8 *animation_ids;
 
             animation_ids = D_800E2400;
-            (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
+            ((SpriteFrameState *)record)->frameTable = animation_ids;
             select_sprite_entry(record,
                 animation_ids[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 1);
@@ -141,7 +139,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
                   ((((u16)actor->facing) >> 8) & 0xE)) << 19;
         }
 
-        entity_kind = ((Rec_D_80082E80 *)record)->unk_04.as_s8;
+        entity_kind = ((SpriteFrameState *)record)->unk_04;
         if (entity_kind == 4 || entity_kind == eight) {
             s32 particles_left;
 
@@ -160,15 +158,15 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
 
         timer = ((S_80173510_0 *)action)->unk_96.u;
         ((S_80173510_0 *)action)->unk_96.u = timer - 1;
-        if ((s16)timer <= 0 || (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
+        if ((s16)timer <= 0 || (((SpriteFrameState *)record)->flags & 0x8000)) {
             ((S_80173510_0 *)action)->unk_96.u = 4;
             ((S_80173510_0 *)action)->unk_9B.n++;
         }
 
-        if (((Rec_D_80082E80 *)record)->unk_2C.as_pu8 != D_800E2400) {
+        if (*(u8 * *)&((SpriteFrameState *)record)->frameTable != D_800E2400) {
             return;
         }
-        ((Rec_D_80082E80 *)record)->unk_05.as_u8 = 0;
+        ((SpriteFrameState *)record)->unk_05 = 0;
         return;
     }
 
@@ -178,7 +176,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
 
         timer = ((S_80173510_0 *)action)->unk_96.u - 1;
         ((S_80173510_0 *)action)->unk_96.u = timer;
-        if (timer == 3 || (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
+        if (timer == 3 || (((SpriteFrameState *)record)->flags & 0x8000)) {
             u8 *animation_ids;
 
             ((S_80173510_3 *)motion)->unk_14 = 0;
@@ -187,7 +185,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
             resolve_attack_damage_and_effects(actor, record, actor->facing, 1);
 
             animation_ids = D_800E23E0;
-            (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
+            ((SpriteFrameState *)record)->frameTable = animation_ids;
             select_sprite_entry(record,
                 animation_ids[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
@@ -198,7 +196,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
         }
 
         if (((S_80173510_0 *)action)->unk_96.s > 0 &&
-            !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
+            !(((SpriteFrameState *)record)->flags & 0x8000)) {
             return;
         }
         ((S_80173510_0 *)action)->unk_96.u = 2;
@@ -212,7 +210,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
 
         timer = ((S_80173510_0 *)action)->unk_96.u;
         ((S_80173510_0 *)action)->unk_96.u = timer - 1;
-        if ((s16)timer > 0 && !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
+        if ((s16)timer > 0 && !(((SpriteFrameState *)record)->flags & 0x8000)) {
             return;
         }
         ((S_80173510_0 *)action)->unk_96.u = 6;
@@ -228,14 +226,14 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
 
         timer = ((S_80173510_0 *)action)->unk_96.s;
         if (timer != 0) {
-            distance = ((Rec_D_80082E80 *)record)->unk_24 << 6;
+            distance = ((SpriteFrameState *)record)->unk_24 << 6;
             axis_position = ((S_80173510_3 *)motion)->unk_02;
             axis_position -= 0x20;
             distance -= axis_position;
             ((S_80173510_3 *)motion)->unk_0C = (distance << 16) / timer;
 
             axis_position = ((S_80173510_3 *)motion)->unk_06;
-            distance = ((Rec_D_80082E80 *)record)->unk_25 << 6;
+            distance = ((SpriteFrameState *)record)->unk_25 << 6;
             axis_position -= 0x20;
             distance -= axis_position;
             ((S_80173510_3 *)motion)->unk_10 =
@@ -244,7 +242,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
 
         ((S_80173510_0 *)action)->unk_96.u--;
         if (((S_80173510_0 *)action)->unk_96.s > 0 &&
-            !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
+            !(((SpriteFrameState *)record)->flags & 0x8000)) {
             return;
         }
 
@@ -254,8 +252,8 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
         advance_status_timers(actor);
         ((S_80173510_3 *)motion)->unk_0C = 0;
         ((S_80173510_3 *)motion)->unk_10 = 0;
-        ((S_80173510_3 *)motion)->unk_02 = ((Rec_D_80082E80 *)record)->unk_24 * 0x40 + 0x20;
-        ((S_80173510_3 *)motion)->unk_06 = ((Rec_D_80082E80 *)record)->unk_25 * 0x40 + 0x20;
+        ((S_80173510_3 *)motion)->unk_02 = ((SpriteFrameState *)record)->unk_24 * 0x40 + 0x20;
+        ((S_80173510_3 *)motion)->unk_06 = ((SpriteFrameState *)record)->unk_25 * 0x40 + 0x20;
         actor->unk_46 &= 0x7FFF;
     }
     }

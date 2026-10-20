@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_80174CCC_0 {
     u8 pad_00[0xC];
@@ -29,9 +29,6 @@ typedef struct S_80174CCC_1 {
         struct { u8 pad[0x2]; u16 v; } at02u;
     } unk_08;   /* overlapping accesses */
 } S_80174CCC_1;   /* arg1 in update_knockback_travel_object */
-
-
-
 
 typedef struct S_80174CCC_5 {
     u8 pad_00[0x14A0];
@@ -93,7 +90,6 @@ typedef struct S_80174CCC_11 {
     u8 unk_29;
 } S_80174CCC_11;   /* ((S_80174CCC_0 *)arg0)->unk_10 in update_knockback_travel_object */
 
-
 extern s8 D_800E2968;
 extern u8 D_80176668[];
 
@@ -107,7 +103,7 @@ extern s32 find_or_retain_sprite_resource_slot(s32, s32);
 extern void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height);
 
 /* Advances the motion arc and creates a linked object when the arrival effect completes. */
-void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Rec_D_80082E80 *record)
+void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, SpriteFrameState *record)
 {
     s32 state;
     s32 height_offset;
@@ -177,7 +173,7 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Rec_D_
         break;
 
     case 1:
-        if ((record->unk_14.at00_u16.v & 0xE000) != 0) {
+        if ((record->flags & 0xE000) != 0) {
             if (find_or_retain_sprite_resource_slot(0x1E, 1) == 0) {
                 if (find_or_retain_sprite_resource_slot(0x1E, 3) == 0) {
                     return;

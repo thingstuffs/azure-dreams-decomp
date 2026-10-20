@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -17,9 +18,8 @@ void set_record_integer_tile_center();              /* extern */
 void begin_actor_random_warp(); /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
 
-
 /* Advance tile movement, handle object contact, and finalize the stopping position. */
-s32 update_thrown_actor_travel(void *move_state, EntityRec *motion, Rec_D_80082E80 *tile_pos, EntityRec *actor) {
+s32 update_thrown_actor_travel(void *move_state, EntityRec *motion, SpriteFrameState *tile_pos, EntityRec *actor) {
     u16 resolved_x;
     u16 resolved_y;
     s32 contact_tile_mask;
@@ -61,8 +61,8 @@ s32 update_thrown_actor_travel(void *move_state, EntityRec *motion, Rec_D_80082E
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             actor->flags1C = (s32) (actor->flags1C | 0x40000000);
-            ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26.as_u8;
-            tile_pos->unk_26.as_u8 = find_active_rect_containing_point(tile_pos->unk_24, tile_pos->unk_25);
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26;
+            tile_pos->unk_26 = find_active_rect_containing_point(tile_pos->unk_24, tile_pos->unk_25);
             update_actor_proximity_flag(tile_pos, actor, 3, 6, move_state + 0x9C);
             if ((find_valid_nearby_position(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) == 0) {
                 set_record_integer_tile_center(motion, tile_pos->unk_24, tile_pos->unk_25);
@@ -97,8 +97,8 @@ s32 update_thrown_actor_travel(void *move_state, EntityRec *motion, Rec_D_80082E
             motion->unk_0C = 0;
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 =
                 (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
-            ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26.as_u8;
-            tile_pos->unk_26.as_u8 = find_active_rect_containing_point(tile_pos->unk_24, tile_pos->unk_25);
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26;
+            tile_pos->unk_26 = find_active_rect_containing_point(tile_pos->unk_24, tile_pos->unk_25);
             update_actor_proximity_flag(tile_pos, actor, 3, 6, move_state + 0x9C);
             ground_height = sample_terrain_surface_height((tile_pos->unk_24 << 6) | 0x20, (tile_pos->unk_25 << 6) | 0x20,
                 (s16) (((u16)motion->z.w.i) - 0x20));

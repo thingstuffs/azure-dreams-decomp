@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "records/Rec_func_8008F074_arg0.h"
 #include "shared/vector.h"
@@ -8,7 +9,6 @@ typedef struct S_800BF9E4_0_pre {
     u8 pad_04[0xC];
 } S_800BF9E4_0_pre;   /* the 0x10 bytes before arg0 in create_positioned_linked_visual_child, addressed as arg0[-1] */
 
-
    /* arg1 in create_positioned_linked_visual_child */
 
 typedef struct S_800BF9E4_2 {
@@ -17,19 +17,6 @@ typedef struct S_800BF9E4_2 {
     void * unk_0C;
     u8 * unk_10;
 } S_800BF9E4_2;
-
-typedef struct S_800BF9E4_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xA];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-    s16 unk_20;
-} S_800BF9E4_3;
-
-
 
 typedef struct S_800BF9E4_5 {
     u8 pad_00[0xA0];
@@ -53,7 +40,7 @@ extern u8 D_800F9F78[];
 void create_positioned_linked_visual_child(void *object, IntVector3 *position, s32 resource_context) {
     void *child;
     S_800BF9E4_5 *child_data;
-    S_800BF9E4_3 *child_visual;
+    SpriteFrameState *child_visual;
     IntVector3 *child_position;
 
     ((S_800BF9E4_0_pre *)object)[-1].unk_00 = &D_800BF8DC[0];
@@ -71,12 +58,12 @@ void create_positioned_linked_visual_child(void *object, IntVector3 *position, s
         register_node(child, &D_80046398[0]);
         child_visual = ((S_800BF9E4_2 *)child)->unk_0C;
         ((S_800BF9E4_2 *)child)->unk_10 = &D_800BF72C[0];
-        child_visual->unk_1C = 0x1000;
-        child_visual->unk_1E = 0x1000;
+        child_visual->scale_x = 0x1000;
+        child_visual->scale_y = 0x1000;
         child_visual->unk_20 = 0x1000;
-        child_visual->unk_1A = 0;
-        child_visual->unk_0C = 0x808080;
-        child_visual->unk_08 = 0x75;
+        child_visual->angle_z = 0;
+        child_visual->color.word = 0x808080;
+        child_visual->source = 0x75;
         child_position = ((S_800BF9E4_2 *)child)->unk_08;
         child_position->x = 0x0FA00000;
         child_position->y = 0x02300000;

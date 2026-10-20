@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -43,23 +44,13 @@ typedef struct S_80169D28_2 {
     s16 unk_0A;
 } S_80169D28_2;   /* first in create_multi_form_actor */
 
-typedef struct S_80169D28_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    s32 * unk_2C;
-} S_80169D28_3;   /* second in create_multi_form_actor */
-
 u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0A) {
     u8 *result;
     s32 mode;
     u8 *obj;
     u8 *child;
     u8 *first;
-    u8 *second;
+    SpriteFrameState *second;
     s16 saved_init_flags;
     s16 saved_value24;
     s16 saved_value25;
@@ -83,9 +74,9 @@ u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0
             ((S_80169D28_2 *)first)->unk_0A = saved_value0A;
             second = ((S_80169D28_0 *)obj)->unk_0C;
             mode = saved_init_flags & 3;
-            ((S_80169D28_3 *)second)->unk_24 = saved_value24;
-            ((S_80169D28_3 *)second)->unk_2C = &D_80173980;
-            ((S_80169D28_3 *)second)->unk_25 = saved_value25;
+            second->unk_24 = saved_value24;
+            second->frameTable = &D_80173980;
+            second->unk_25 = saved_value25;
             if (mode == 1) {
                 ((S_80169D28_1 *)child)->unk_14 = ((S_80169D28_1 *)child)->unk_14 | 0x6000;
                 ((S_80169D28_1 *)child)->unk_1C = ((S_80169D28_1 *)child)->unk_1C | 0x6000;
@@ -94,13 +85,13 @@ u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0
                 ((S_80169D28_1 *)child)->unk_1C = ((S_80169D28_1 *)child)->unk_1C | 0x2000;
             }
             ((S_80169D28_1 *)child)->unk_AC = 0;
-            ((S_80169D28_3 *)second)->unk_14 = ((S_80169D28_3 *)second)->unk_14 | 0x400;
+            second->flags = second->flags | 0x400;
             initialize_actor_sprite_and_animation(obj, first, second, saved_init_flags);
             ((S_80169D28_1 *)child)->unk_9A = 0xFF;
             ((S_80169D28_1 *)child)->unk_9C = -1;
             ((S_80169D28_1 *)child)->unk_8C = D_8016A36C;
             ((S_80169D28_1 *)child)->unk_AA = 0;
-            ((S_80169D28_3 *)second)->unk_14 = ((S_80169D28_3 *)second)->unk_14 | 0x80;
+            second->flags = second->flags | 0x80;
             try_move_actor_to_valid_position(child, first, second, result);
         }
     }

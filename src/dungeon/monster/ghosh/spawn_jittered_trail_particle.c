@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
 
 typedef struct S_80171F30_0 {
@@ -22,11 +23,6 @@ typedef struct S_80171F30_2 {
     u16 unk_06;
 } S_80171F30_2;   /* data in spawn_jittered_trail_particle */
 
-typedef struct S_80171F30_3 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_80171F30_3;   /* header in spawn_jittered_trail_particle */
-
 typedef struct S_80171F30_4 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -38,7 +34,6 @@ typedef struct S_80171F30_4 {
    /* ((S_80171F30_0 *)object)->unk_08 in spawn_jittered_trail_particle */
 
    /* ((S_80171F30_1 *)arg0)->unk_08 in spawn_jittered_trail_particle */
-
 
 extern u8 D_80171704[];
 extern u8 D_80171CC0[];
@@ -53,7 +48,7 @@ extern s32 rand(void);
 void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16 mode_in)
 {
     void *object;
-    S_80171F30_3 *header;
+    SpriteFrameState *header;
     void *call_object;
     void *init_data;
     void *tail;

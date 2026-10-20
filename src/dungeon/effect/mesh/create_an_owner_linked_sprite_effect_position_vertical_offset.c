@@ -1,4 +1,5 @@
 #include "shared/entity_height_offsets.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -15,20 +16,6 @@ typedef struct S_81977D08_0 {
     u8 pad_14[0xC];
     void * unk_20;
 } S_81977D08_0;
-
-typedef struct S_81977D08_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_81977D08_1;
 
 typedef struct S_81977D08_2 {
     s32 unk_00;
@@ -52,7 +39,6 @@ typedef struct S_81977D08_5 {
     u8 unk_13;
 } S_81977D08_5;   /* ((S_81977D08_4 *)arg0)->unk_14 in create_an_owner_linked_sprite_effect_position_vertical_offset */
 
-
 extern s32 func_8003DB94();
 extern void *allocate_list_node();
 extern s32 register_node();
@@ -64,7 +50,7 @@ extern s32 D_800DEB70;
 void create_an_owner_linked_sprite_effect_position_vertical_offset(S_81977D08_4 *owner, S_81977D08_3 *position)
 {
     S_81977D08_2 *effect_pos;
-    S_81977D08_1 *sprite;
+    SpriteFrameState *sprite;
     S_81977D08_0 *effect;
 
     effect = allocate_list_node(0x212, ((s32 *)&D_80083498.next));
@@ -80,16 +66,16 @@ void create_an_owner_linked_sprite_effect_position_vertical_offset(S_81977D08_4 
                 s32 zero = 0;
 
                 effect->unk_20 = owner;
-                sprite->unk_0E = color;
-                sprite->unk_0D = color;
-                sprite->unk_0C = color;
+                sprite->color.c.b = color;
+                sprite->color.c.g = color;
+                sprite->color.c.r = color;
                 func_8003DB94(sprite, sprite_data, zero);
             }
         }
-        sprite->unk_1E = 0x1800;
-        sprite->unk_1C = 0x1800;
-        sprite->unk_14 = sprite->unk_14 | 0xC;
-        sprite->unk_10 = sprite->unk_10 | 0x20;
+        sprite->scale_y = 0x1800;
+        sprite->scale_x = 0x1800;
+        sprite->flags = sprite->flags | 0xC;
+        sprite->tpage_abr = sprite->tpage_abr | 0x20;
         effect_pos = effect->unk_08;
         effect_pos->unk_00 = position->unk_00;
         effect_pos->unk_04 = position->unk_04;

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void set_script_flag_bit();                     /* extern */
+void set_script_flag_bit(s32);                     /* extern */
 extern M2C_UNK D_8001DCD4;
 
 /* Passes two fixed IDs to set_script_flag_bit and returns the address of D_8001DCD4. */

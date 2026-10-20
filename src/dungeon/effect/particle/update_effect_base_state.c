@@ -1,8 +1,8 @@
 #include "dungeon/effect/particle/update_effect_base_state.h"
+#include "shared/sprite_frame_state.h"
 /* Normal selector 9: ordinary typed entry pointer; gcc emits the state table. */
 void (*const dungeon_1864800_entry)(void *, void *, void *) = func_80024020;
 #include "dungeon/effect/particle/update_effect_base_state.h"
-
 
 static __inline__ s16 delta_axis(s8 target, u16 start) {
     s32 t = target;
@@ -20,7 +20,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
     void *owner_sprite;
     void *spawned;
     void *particle_data;
-    void *sprite;
+    SpriteFrameState *sprite;
     s32 particles_left;
     S_81844800_5 *sprite_page;
     s16 state;
@@ -50,18 +50,18 @@ void func_80024020(void *effect, void *motion, void *source_render) {
                         ((S_81844800_3 *)motion)->unk_08.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 10);
 
                     {
-                        u16 flags = ((S_81844800_4 *)sprite)->unk_14;
-                        ((S_81844800_4 *)sprite)->unk_1E = 0x1000;
-                        ((S_81844800_4 *)sprite)->unk_1C = 0x1000;
-                        ((S_81844800_4 *)sprite)->unk_10 = 0x40;
-                        ((S_81844800_4 *)sprite)->unk_00 = sprite_page;
-                        ((S_81844800_4 *)sprite)->unk_14 = flags | 0xC;
+                        u16 flags = sprite->flags;
+                        sprite->scale_y = 0x1000;
+                        sprite->scale_x = 0x1000;
+                        sprite->tpage_abr = 0x40;
+                        sprite->unk_00 = sprite_page;
+                        sprite->flags = flags | 0xC;
                         {
                             u32 texture_page = sprite_page->unk_04;
-                            ((S_81844800_4 *)sprite)->unk_04 = 0;
-                            ((S_81844800_4 *)sprite)->unk_05 = 0;
-                            ((S_81844800_4 *)sprite)->unk_0C = 0x00404040;
-                            ((S_81844800_4 *)sprite)->unk_08 = texture_page;
+                            sprite->unk_04 = 0;
+                            sprite->unk_05 = 0;
+                            sprite->color.word = 0x00404040;
+                            sprite->source = texture_page;
                         }
                     }
                     ((S_81844800_2 *)spawned)->unk_20 = effect;
@@ -92,7 +92,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
             ((S_81844800_1 *)owner)->unk_73.s = ((S_81844800_7 *)owner_sprite)->unk_25;
         } else {
             sprite = ((S_81844800_8_pre *)target)[-1].unk_00;
-            if ((((S_81844800_4 *)sprite)->unk_14 & 0x8000) != 0) {
+            if ((sprite->flags & 0x8000) != 0) {
                 if ((((S_81844800_9 *)source_render)->unk_14 & 0x8000) != 0) {
                     apply_attack_power_and_element_effects(
                         ((S_81844800_1 *)owner)->unk_60,
@@ -106,8 +106,8 @@ void func_80024020(void *effect, void *motion, void *source_render) {
                     return;
                 }
             }
-            ((S_81844800_1 *)owner)->unk_72.s = ((S_81844800_4 *)sprite)->unk_24;
-            ((S_81844800_1 *)owner)->unk_73.s = ((S_81844800_4 *)sprite)->unk_25;
+            ((S_81844800_1 *)owner)->unk_72.s = sprite->unk_24;
+            ((S_81844800_1 *)owner)->unk_73.s = sprite->unk_25;
         }
         {
             if (resolve_record_orientation_or_fallback(
@@ -236,18 +236,18 @@ void func_80024020(void *effect, void *motion, void *source_render) {
                 ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_12 = (func_80069EF8() & 0xF) - 8;
                 ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_16 = -(func_80069EF8() & 7);
                 {
-                    u16 flags = ((S_81844800_4 *)sprite)->unk_14;
-                    ((S_81844800_4 *)sprite)->unk_1E = 0x1000;
-                    ((S_81844800_4 *)sprite)->unk_1C = 0x1000;
-                    ((S_81844800_4 *)sprite)->unk_10 = 0x60;
-                    ((S_81844800_4 *)sprite)->unk_00 = D_800DECF8;
-                    ((S_81844800_4 *)sprite)->unk_14 = flags | 0xC;
+                    u16 flags = sprite->flags;
+                    sprite->scale_y = 0x1000;
+                    sprite->scale_x = 0x1000;
+                    sprite->tpage_abr = 0x60;
+                    sprite->unk_00 = D_800DECF8;
+                    sprite->flags = flags | 0xC;
                     {
                         u32 texture_page = ((u32)((SpriteSourceEntry *)D_800DECF8)->unk_04);
-                        ((S_81844800_4 *)sprite)->unk_04 = 0;
-                        ((S_81844800_4 *)sprite)->unk_05 = 0;
-                        ((S_81844800_4 *)sprite)->unk_0C = 0x00404040;
-                        ((S_81844800_4 *)sprite)->unk_08 = texture_page;
+                        sprite->unk_04 = 0;
+                        sprite->unk_05 = 0;
+                        sprite->color.word = 0x00404040;
+                        sprite->source = texture_page;
                     }
                 }
                 ((S_81844800_2 *)spawned)->unk_20 = effect;
@@ -296,7 +296,6 @@ void func_80024020(void *effect, void *motion, void *source_render) {
     }
 }
 #include "dungeon/effect/particle/update_effect_base_state.h"
-
 
 /* Updates an effect_base's position, colors, countdown, and completion flags. */
 void update_effect_base_state(s32 effect_or_count) {
@@ -354,7 +353,6 @@ void update_effect_base_state(s32 effect_or_count) {
     }
 }
 #include "dungeon/effect/particle/update_effect_base_state.h"
-
 
 #define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
@@ -534,7 +532,6 @@ s32 func_80024868(u8 *first_node)
     return 0;
 }
 #include "dungeon/effect/particle/update_effect_base_state.h"
-
 
 /* Updates effect motion, waits for its timer, then fades its sprite to black. */
 void fade_effect_sprite_to_black(void *effect, VecState *motion, void *sprite) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -22,9 +23,8 @@ typedef struct S_8182718C_1 {
     u16 unk_52;
 } S_8182718C_1;
 
-
 /* Advance a timed two-state action and propagate target status flags. */
-void advance_two_state_action(void *state_data, void *unused, Rec_D_80082E80 *target) {
+void advance_two_state_action(void *state_data, void *unused, SpriteFrameState *target) {
     s16 state;
     u16 timer;
     u16 ticks_left;
@@ -56,7 +56,7 @@ void advance_two_state_action(void *state_data, void *unused, Rec_D_80082E80 *ta
             func_800478B8(target);
             ((S_8182718C_0 *)state_data)->unk_48 = (u16) ((S_8182718C_0 *)state_data)->unk_4E;
         }
-        if (target->unk_14.at00_u16.v & 0x6000) {
+        if (target->flags & 0x6000) {
             ((S_8182718C_0_pre *)state_data)[-1].unk_00 = (u16) (((S_8182718C_0_pre *)state_data)[-1].unk_00 | 0x8000);
             object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
         }

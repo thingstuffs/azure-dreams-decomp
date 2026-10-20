@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource16_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void update_entity_facing_and_ground(void *entity, EntityRec *motion, void *sprite)
 {
@@ -51,26 +52,26 @@ void update_entity_facing_and_ground(void *entity, EntityRec *motion, void *spri
     }
     (*(s32 *)((u8 *)entity + 0x90)) += motion->flags14;
 
-    part_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
+    part_flags = ((SpriteFrameState *)sprite)->flags;
     if (!(part_flags & 0x8000)) {
         view_dir = ((g_game_work.view.viewAngle + state->unk_2A + 0x100) >> 9) & 7;
         dir_index = view_dir;
         if ((*(s16 *)((u8 *)entity + 0x94)) != dir_index) {
-            select_indirect_table_entry(sprite,(u8)(((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[dir_index]),(s8)(((Rec_D_80082E80 *)sprite)->unk_04.as_s8));
+            select_indirect_table_entry(sprite,(u8)((*(u8 * *)&((SpriteFrameState *)sprite)->frameTable)[dir_index]),(s8)((SpriteFrameState *)sprite)->unk_04);
             (*(s16 *)((u8 *)entity + 0x94)) = view_dir;
         }
         if (dir_sprite_flag[dir_index] != 0) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 1;
+            ((SpriteFrameState *)sprite)->flags |= 1;
         } else {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;
+            ((SpriteFrameState *)sprite)->flags &= 0xFFFE;
         }
         apply_monster_koyaw_data(state->unk_1C, (u8 *)sprite + 0xC);
         if (!(state->unk_1C & 0x20)) {
-            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
+            if (!(((SpriteFrameState *)sprite)->flags & 0x40)) {
                 func_800478B8(sprite);
             }
         } else {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x7000;
+            ((SpriteFrameState *)sprite)->flags |= 0x7000;
             state->unk_1C &= 0xFFFBFFFF;
         }
 
@@ -79,8 +80,8 @@ void update_entity_facing_and_ground(void *entity, EntityRec *motion, void *spri
         state->unk_1C = entity_flags;
         entity_flags &= 0x40000;
         if (entity_flags != 0) {
-            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
-                if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == ((u8 *)D_8017420C)) {
+            if (!(((SpriteFrameState *)sprite)->flags & 0x40)) {
+                if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable == ((u8 *)D_8017420C)) {
                     u16 bob_tick = (*(u16 *)((u8 *)entity + 0x9E));
                     (*(u16 *)((u8 *)entity + 0x9E)) = bob_tick + 1;
                     (*(s32 *)((u8 *)entity + 0xA0)) += func_800644B8((s16)bob_tick * 0xAA) << 5;
@@ -115,9 +116,9 @@ void update_entity_facing_and_ground(void *entity, EntityRec *motion, void *spri
         }
     } else {
         if (!(part_flags & 0x800)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = part_flags | 0x7000;
+            ((SpriteFrameState *)sprite)->flags = part_flags | 0x7000;
         } else {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = part_flags & 0x8FFF;
+            ((SpriteFrameState *)sprite)->flags = part_flags & 0x8FFF;
         }
 
         entity_flags = state->unk_1C;
@@ -140,8 +141,8 @@ void update_entity_facing_and_ground(void *entity, EntityRec *motion, void *spri
                 }
             }
         } else {
-            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
-                if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == ((u8 *)D_8017420C)) {
+            if (!(((SpriteFrameState *)sprite)->flags & 0x40)) {
+                if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable == ((u8 *)D_8017420C)) {
                     u16 bob_tick = (*(u16 *)((u8 *)entity + 0x9E));
                     (*(u16 *)((u8 *)entity + 0x9E)) = bob_tick + 1;
                     (*(s32 *)((u8 *)entity + 0xA0)) += func_800644B8((s16)bob_tick * 0xAA) << 5;
@@ -164,8 +165,8 @@ void update_entity_facing_and_ground(void *entity, EntityRec *motion, void *spri
     entity_flags = state->unk_1C;
     if (entity_flags & 0x40000000) {
         state->unk_1C = entity_flags & 0xBFFFFFFF;
-        ground_height = sample_terrain_surface_height((((Rec_D_80082E80 *)sprite)->unk_24 << 6) | 0x20,
-                               (((Rec_D_80082E80 *)sprite)->unk_25 << 6) | 0x20,(s16)((s16)(state->unk_88 - 0x20)));
+        ground_height = sample_terrain_surface_height((((SpriteFrameState *)sprite)->unk_24 << 6) | 0x20,
+                               (((SpriteFrameState *)sprite)->unk_25 << 6) | 0x20,(s16)((s16)(state->unk_88 - 0x20)));
         if ((s16)ground_height < 0x200) {
             (*(s16 *)((u8 *)entity + 0x92)) =
                 (*(u16 *)((u8 *)entity + 0x92)) + (state->unk_88 - ground_height);
@@ -175,5 +176,5 @@ void update_entity_facing_and_ground(void *entity, EntityRec *motion, void *spri
 
     motion->z.w.i = state->unk_88 + (*(u16 *)((u8 *)entity + 0x92)) -
                             (*(u16 *)((u8 *)entity + 0xA2));
-    ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x40;
+    ((SpriteFrameState *)sprite)->flags |= 0x40;
 }

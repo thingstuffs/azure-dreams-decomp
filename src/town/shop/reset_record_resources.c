@@ -21,7 +21,7 @@ typedef struct {
     Color800497F4 *unk4; /* pointer to the object's color */
 } Struct800497F4;
 void fade_color_to_gray(Struct800497F4 *object, s32 stop_at_gray);                /* extern */
-s32 advance_timed_tagged_stream();                         /* extern */
+struct FrameState; s32 advance_timed_tagged_stream(struct FrameState *);                         /* extern */
 
 
 /* Resets the object substate and its two referenced resources. */

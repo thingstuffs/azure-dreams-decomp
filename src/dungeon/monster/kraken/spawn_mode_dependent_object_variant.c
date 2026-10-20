@@ -1,5 +1,6 @@
 #include "dungeon/monster/kraken/spawn_mode_dependent_object_variant.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/kraken/spawn_mode_dependent_object_variant.h"
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of spawn_flags select (or the random 0x20-mask variant), and run the two setup calls. */
 void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
@@ -10,7 +11,7 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
     s8 saved_variant;
     void *obj;
     S_8015886C_2 *part_a;
-    S_8015886C_3 *part_b;
+    SpriteFrameState *part_b;
     S_8015886C_4 *actor;
     s32 left;
     s32 right;
@@ -42,7 +43,7 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
         part_a->unk_0A = spawn_value;
         part_b = ((S_8015886C_0 *)obj)->unk_0C;
         kind = spawn_flags & 3;
-        part_b->unk_2C = D_8015C18C;
+        part_b->frameTable = D_8015C18C;
         part_b->unk_24 = saved_kind_id;
         part_b->unk_25 = saved_variant;
 
@@ -63,7 +64,7 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
                     ((S_8015886C_1 *)work)->unk_1C |= 0x200;
                     right = generate_random_value();
                     set_or_clear_actor_status_slot(work, 1, (right & 0x3F) | 0x20);
-                    part_b->unk_2C = D_8015C1CC;
+                    part_b->frameTable = D_8015C1CC;
                 }
             }
         }
@@ -104,7 +105,7 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
                     elem->unk_28 = child_arg;
                     elem->unk_14 = elem_flags | 0xC;
 
-                    elem->unk_12 = part_b->unk_12 - 128;
+                    elem->unk_12 = *(s16 *)&part_b->clut - 128;
                     elem->unk_0C = ((u32)(0x00C0C0C0));
                     ((S_8015886C_9 *)(base->unk_A4))->unk_10 = process_effect_block_entries;
 

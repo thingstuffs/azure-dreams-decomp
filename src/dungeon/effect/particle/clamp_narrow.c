@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/entity.h"
@@ -97,30 +98,11 @@ typedef struct S_80167C74_14 {
     u8 * unk_10;
 } S_80167C74_14;
 
-typedef struct S_80167C74_15 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_80167C74_15;
-
 typedef struct S_80167C74_16 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
 } S_80167C74_16;
-
-typedef struct S_80167C74_17 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80167C74_17;
 
 typedef struct S_80167C74_18 {
     s8 unk_00;
@@ -139,7 +121,7 @@ void func_8003DB94();
 void func_800419EC();
 s32 register_node();
 s32 play_sound_if_enabled();
-void create_jittered_child_effect();
+struct EntityRec; void create_jittered_child_effect(struct EntityRec *, s32, s16, s16, s16, s16);
 void create_ribbon_head_sprite();
 extern u8 D_800DEAE0[];
 extern void D_80166D14();
@@ -206,8 +188,8 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
     u16 *object_prev_pos;
     u16 copy_value;
     s16 phase_tick;
-    S_80167C74_15 *object_flags;
-    S_80167C74_17 *object_render;
+    SpriteFrameState *object_flags;
+    SpriteFrameState *object_render;
     S_80167C74_4 *pos_y0;
     S_80167C74_5 *pos_z0;
     S_80167C74_6 *pos_x1;
@@ -432,8 +414,8 @@ copy_pairs:
                 ((S_80167C74_14 *)object)->unk_10 = D_80167C30;
                 register_node(object, &D_80166D14);
                 object_flags = ((S_80167C74_14 *)object)->unk_0C;
-                object_flags->unk_10 = 0x20;
-                object_flags->unk_14 = (u16) (object_flags->unk_14 | 0xC);
+                object_flags->tpage_abr = 0x20;
+                object_flags->flags = (u16) (object_flags->flags | 0xC);
                 object_origin = ((S_80167C74_14 *)object)->unk_08;
                 history_index = 0;
                 object_origin->unk_00 = (s32) origin->unk_00;
@@ -441,11 +423,11 @@ copy_pairs:
                 object_origin->unk_04 = (s32) origin->unk_04;
                 object_origin->unk_08 = (s32) origin->unk_08;
                 object_render = ((S_80167C74_14 *)object)->unk_0C;
-                object_render->unk_1E = 0x1000;
-                object_render->unk_1C = 0x1000;
-                object_render->unk_0E = 0x80;
-                object_render->unk_0D = 0x80;
-                object_render->unk_0C = 0x80;
+                object_render->scale_y = 0x1000;
+                object_render->scale_x = 0x1000;
+                object_render->color.c.b = 0x80;
+                object_render->color.c.g = 0x80;
+                object_render->color.c.r = 0x80;
                 do {
                     scaled_red = (u8) color->unk_0C.at00.v * color_weight;
                     ((S_80167C74_18 *)(object_data + history_index * 4))->unk_00 = (s8) (scaled_red / 8);

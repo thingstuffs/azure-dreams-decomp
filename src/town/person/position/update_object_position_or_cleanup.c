@@ -1,9 +1,9 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
 void unlink_node_if_registered(void *block_data);                      /* extern */
-void unlink_scene_list_node();                      /* extern */
+#include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
 s32 classify_object_against_bounds(Rec_func_80094268_arg0 *, s32);                                /* extern */
-void clear_object_slot_and_mark_removed();                      /* extern */
+void clear_object_slot_and_mark_removed(void *);                      /* extern */
 void update_object_motion_and_flags();    /* extern */
 typedef struct S_800C3960_0 S_800C3960_0;
 void call_object_callback(S_800C3960_0 *object);

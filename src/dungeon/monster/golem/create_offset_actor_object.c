@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
@@ -11,27 +12,7 @@ typedef struct S_80174BC8_0 {
     void * unk_10;
 } S_80174BC8_0;   /* obj in create_offset_actor_object */
 
-typedef struct S_80174BC8_1 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    s32 unk_28;
-} S_80174BC8_1;   /* prim in create_offset_actor_object */
-
-
    /* dst in create_offset_actor_object */
-
 
 typedef struct {
     s32 w[6];
@@ -49,7 +30,7 @@ s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *
     u16 offsets[3];
     S_80174BC8_0 *object;
     MovingPosition *object_data;
-    S_80174BC8_1 *primitive;
+    SpriteFrameState *primitive;
 
     object = func_8003FC64(0x312);
     if (object != 0) {
@@ -58,14 +39,14 @@ s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *
 
         primitive = object->unk_0C;
         primitive->unk_28 = source_state->unk_28.at00_s32.v;
-        primitive->unk_0E = 0x80;
-        primitive->unk_0D = 0x80;
-        primitive->unk_0C = 0x80;
-        primitive->unk_1E = 0x1000;
-        primitive->unk_1C = 0x1000;
+        primitive->color.c.b = 0x80;
+        primitive->color.c.g = 0x80;
+        primitive->color.c.r = 0x80;
+        primitive->scale_y = 0x1000;
+        primitive->scale_x = 0x1000;
         primitive->unk_06 = 1;
-        primitive->unk_14 |= 0xC;
-        primitive->unk_10 |= 0x20;
+        primitive->flags |= 0xC;
+        primitive->tpage_abr |= 0x20;
         select_sprite_entry(primitive, 0x37, 0);
 
         object_data = object->unk_08;

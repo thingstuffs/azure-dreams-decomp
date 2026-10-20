@@ -6,7 +6,7 @@ s32 func_80064CF0(void *);
 s32 func_80064D80(void *);
 s32 func_80065450(void *, void *, s32 *);
 s32 func_80065820(void *, void *);
-void copy_even_halfwords_3();            /* extern */
+struct S_800AA044_0; struct S_800AA044_1; void copy_even_halfwords_3(struct S_800AA044_0 *, struct S_800AA044_1 *);            /* extern */
 extern s32 D_800D11C0[4];
 
 /* Apply rotation, scale, and translation to a vector and copy the result back. */

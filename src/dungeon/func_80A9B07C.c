@@ -1,11 +1,12 @@
 #include "modules/dungeon_resource08_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
     void *obj;
     R08_8017087C_S_8017087C_2 *part_a;
-    R08_8017087C_S_8017087C_3 *part_b;
+    SpriteFrameState *part_b;
     R08_8017087C_S_8017087C_1 *work;
     R08_8017087C_S_8017087C_4 *actor;
     s32 flags_or_roll;
@@ -31,7 +32,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
         kind = kind_flags & 3;
         part_b->unk_25 = saved_tile_y;
         actor = work;
-        part_b->unk_2C = ((u8 *)D_80174C3C);
+        part_b->frameTable = ((u8 *)D_80174C3C);
         part_b->unk_24 = saved_tile_x;
 
         if (kind == 1) {
@@ -50,7 +51,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
                     work->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->unk_2C = ((u8 *)D_80174C8C);
+                    part_b->frameTable = ((u8 *)D_80174C8C);
                 }
             }
         }

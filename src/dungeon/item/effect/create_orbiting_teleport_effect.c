@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
@@ -14,21 +15,11 @@ typedef struct S_800C542C_0 {
     void * unk_10;
 } S_800C542C_0;   /* object in create_orbiting_teleport_effect */
 
-typedef struct S_800C542C_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    s32 unk_0C;
-    u8 pad_10[0x10];
-    s16 unk_20;
-} S_800C542C_1;   /* display in create_orbiting_teleport_effect */
-
 typedef struct S_800C542C_2_pre {
     void * unk_00;
     s32 unk_04;
     u8 pad_08[0x10];
 } S_800C542C_2_pre;   /* the 0x18 bytes before arg0 in create_orbiting_teleport_effect, addressed as arg0[-1] */
-
 
    /* target in create_orbiting_teleport_effect */
 
@@ -49,7 +40,6 @@ typedef struct S_800C542C_5 {
     s16 unk_36;
 } S_800C542C_5;   /* record in create_orbiting_teleport_effect */
 
-
 extern u8 D_800C4F20[];
 extern u8 D_800C55A0[];
 extern u8 D_800DF630[];
@@ -62,7 +52,7 @@ extern void play_sound_if_enabled(s32);
 void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode)
 {
     void *object;
-    S_800C542C_1 *display;
+    SpriteFrameState *display;
     MovingPosition *source;
     MovingPosition *target;
     S_800C542C_5 *record;
@@ -80,8 +70,8 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
         register_node(object, D_800C55A0);
 
         display = ((S_800C542C_0 *)object)->unk_0C;
-        display->unk_0C = 0x808080;
-        display->unk_08 = D_800DF630;
+        display->color.word = 0x808080;
+        display->source = D_800DF630;
         display->unk_06 = 0xC;
 
         source = ((S_800C542C_2_pre *)owner)[-1].unk_00;

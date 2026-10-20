@@ -26,7 +26,7 @@ typedef struct S_800B61C0_3 {
 } S_800B61C0_3;
 
 
-extern s32 lookup_item_category_mapped_value();
+s32 lookup_item_category_mapped_value(s32, s32);
 extern s32 select_item_data();
 extern s32 set_display_entry_text_and_position();
 extern s32 func_800B53BC();

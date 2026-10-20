@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_8002290C_arg0.h"
 
-void card_boot_measure_five_line_message();                      /* extern */
+void card_boot_measure_five_line_message(u8 *);                      /* extern */
 extern u8 D_800280B4[];
 
 

@@ -1,4 +1,5 @@
 #include "shared/entity_height_offsets.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -24,21 +25,12 @@ typedef struct S_80027368_2 {
     u8 unk_13;
 } S_80027368_2;   /* arg3 in create_offset_sprite_object_with_z */
 
-typedef struct S_80027368_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x10];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80027368_3;   /* sprite in create_offset_sprite_object_with_z */
-
 typedef struct S_80027368_4 {
     u8 pad_00[0x4];
     void * unk_04;
     u8 pad_08[0x5E];
     s16 unk_66;
 } S_80027368_4;   /* work in create_offset_sprite_object_with_z */
-
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -51,7 +43,7 @@ void *create_offset_sprite_object_with_z(s16 pos_x, s16 pos_y, s16 pos_z, S_8002
 {
     void *object;
     S_80027368_1 *part;
-    S_80027368_3 *sprite;
+    SpriteFrameState *sprite;
     S_80027368_4 *work;
 
     object = allocate_list_node(0x12, ((s32 *)&D_80083498.next));
@@ -64,9 +56,9 @@ void *create_offset_sprite_object_with_z(s16 pos_x, s16 pos_y, s16 pos_z, S_8002
         part->unk_0A =
             pos_z - (D_800DDC40[source->unk_13] >> 1);
         sprite = ((S_80027368_0 *)object)->unk_0C;
-        sprite->unk_08 = &D_80028874;
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
+        sprite->source = &D_80028874;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
         work = (u8 *)object + 0x20;
         work->unk_04 = source;
         work->unk_66 = 0x10;

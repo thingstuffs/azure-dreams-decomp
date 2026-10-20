@@ -9,13 +9,13 @@ typedef struct S_800AE494_0 {
 } S_800AE494_0;   /* arg0 in run_item_menu_record_handlers; pointer addresses record offset 0x10 */
 
 
-void set_item_menu_record_active();                         /* extern */
-void schedule_item_menu_child_release();                         /* extern */
+struct S_800B0418_0; void set_item_menu_record_active(struct S_800B0418_0 *);                         /* extern */
+struct S_800B0700_0; void schedule_item_menu_child_release(struct S_800B0700_0 *);                         /* extern */
 
 /* Pass the record handles to their handlers and clear its secondary handle and status. */
 void run_item_menu_record_handlers(void *record_payload) {
-    schedule_item_menu_child_release(((S_800AE494_0 *)((u8 *)record_payload - 0x10))->unk_14);
+    schedule_item_menu_child_release((struct S_800B0700_0 *)(((S_800AE494_0 *)((u8 *)record_payload - 0x10))->unk_14));
     ((S_800AE494_0 *)((u8 *)record_payload - 0x10))->unk_14 = 0;
-    set_item_menu_record_active(((S_800AE494_0 *)((u8 *)record_payload - 0x10))->unk_10);
+    set_item_menu_record_active((struct S_800B0418_0 *)(((S_800AE494_0 *)((u8 *)record_payload - 0x10))->unk_10));
     ((S_800AE494_0 *)((u8 *)record_payload - 0x10))->unk_00 = 0;
 }

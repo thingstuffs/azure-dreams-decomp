@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #ifndef NULL
@@ -29,7 +30,7 @@ void create_person_object(void) {
         position = *(s8 **)(object + 8);
         render_data = *(s8 **)(object + 0xC);
         *(s8 *)(state + 0x93) = 1;
-        *(s32 *)(render_data + 0x28) = D_80081458[0];
+        ((SpriteFrameState *)render_data)->unk_28 = D_80081458[0];
         initialize_object_entries(state, render_data, D_800D1200);
         register_node_if_unregistered(state, project_sprite_chain);
         fill_person_records();

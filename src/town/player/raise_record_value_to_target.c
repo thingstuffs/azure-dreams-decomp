@@ -2,8 +2,8 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-void set_resident_bitmap_bit();                     /* extern */
-void initialize_record_with_handler_table();        /* extern */
+void set_resident_bitmap_bit(s32);                     /* extern */
+#include "town/player/initialize_record_with_handler_table_api.h"        /* extern */
 
 
 /* Move the record value toward 0x4C2 by four and invoke completion handlers on arrival. */
@@ -22,6 +22,6 @@ void raise_record_value_to_target(s32 context_id, EntityRec *record, s32 context
                lowered_value < 0x4C3)) {
         record->x.w.i = 0x4C2;
         set_resident_bitmap_bit(0x12);
-        initialize_record_with_handler_table(context_id, record, context);
+        initialize_record_with_handler_table((Struct8009B1C8 *)(context_id), (s32)(record), context);
     }
 }

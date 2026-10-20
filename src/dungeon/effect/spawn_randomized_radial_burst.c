@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
@@ -42,18 +43,6 @@ typedef struct S_800B6814_3 {
     s16 unk_18;
 } S_800B6814_3;   /* sub in spawn_randomized_radial_burst */
 
-typedef struct S_800B6814_4 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800B6814_4;   /* image in spawn_randomized_radial_burst */
-
-
 extern void register_node(void *, void *);
 extern void func_8003DB94(void *, void *, s16);
 extern s32 func_800644B8(s32);
@@ -73,7 +62,7 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
     s32 velocity_y;
     S_800B6814_1 *motion;
     void *particle;
-    S_800B6814_4 *sprite;
+    SpriteFrameState *sprite;
     S_800B6814_3 *effect_state;
 
     particle_count = (rand() & 0xF) | 8;
@@ -103,12 +92,12 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
                 effect_state->unk_08 = 0x2000;
                 effect_state->unk_04 = -velocity_y >> 6;
                 func_8003DB94(sprite, &D_800DEC00, 0);
-                sprite->unk_0C = 0x808080;
-                sprite->unk_1E = 0x400;
-                sprite->unk_1C = 0x400;
-                sprite->unk_10 = 0x60;
-                sprite->unk_12 = 0x7E80;
-                sprite->unk_14 |= 0x10C;
+                sprite->color.word = 0x808080;
+                sprite->scale_y = 0x400;
+                sprite->scale_x = 0x400;
+                sprite->tpage_abr = 0x60;
+                sprite->clut = 0x7E80;
+                sprite->flags |= 0x10C;
                 effect_state->unk_0E = (rand() & 3) | 0x10;
                 effect_state->unk_16 = 0x10;
                 effect_state->unk_14 = 0x10;

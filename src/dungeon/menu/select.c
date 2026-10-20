@@ -1,4 +1,5 @@
 #include "dungeon/menu/select.h"
+#include "shared/sprite_frame_state.h"
 #include "dungeon/menu/select.h"
 
 void func_80025014(void *motion_state, void *position, void *draw_state) {
@@ -57,7 +58,7 @@ void func_80025014(void *motion_state, void *position, void *draw_state) {
 #include "dungeon/menu/select.h"
 
 void *allocate_sprite_data_object(s32 user_data) {
-    S_80025170_1 *sprite;
+    SpriteFrameState *sprite;
     S_80025170_0 *object;
 
     object = func_8003FC64(0x12);
@@ -65,11 +66,11 @@ void *allocate_sprite_data_object(s32 user_data) {
         sprite = object->unk_0C;
         object->unk_10 = (void *)func_80025014;
         func_8003DB94(sprite, &D_80079444, 0);
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_0C = 0x2C808080;
-        sprite->unk_10 = 0x20;
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->color.word = 0x2C808080;
+        sprite->tpage_abr = 0x20;
+        sprite->flags = (u16) (sprite->flags | 0xC);
         object->unk_20 = user_data;
     }
     return object;
@@ -758,7 +759,7 @@ void initialize_children_or_shutdown(void *owner)
     u8 *cleanup_page;
     u8 *status;
     void *source;
-    void *parent;
+    SpriteFrameState *parent;
     void *main_child;
     void *aux_child;
     void *child_object;
@@ -931,10 +932,10 @@ void initialize_children_or_shutdown(void *owner)
         flags_mask &= 0x20000000;
         if (flags_mask) {
             parent_value = get_entity_class(source) << 2;
-            ((S_80026190_18 *)parent)->unk_12 = parent_value;
+            parent->clut = parent_value;
         } else {
             parent_value = ((S_80026190_19 *)(((S_80026190_10_pre *)source)[-1].unk_00))->unk_12;
-            ((S_80026190_18 *)parent)->unk_12 = parent_value;
+            parent->clut = parent_value;
         }
 
         object_or_kind = (s32)entity - 0x20;
@@ -944,7 +945,7 @@ void initialize_children_or_shutdown(void *owner)
         ((S_80026190_17 *)entity)->unk_6A = source_slot;
         unlink_node((void *)object_or_kind);
         retire_tracked_effect_by_id((void *)object_or_kind);
-        update_map_cell_flags_with_item_limit(((S_80026190_18 *)parent)->unk_24, ((S_80026190_18 *)parent)->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(parent->unk_24, parent->unk_25, 0x300);
         ((S_80026190_17 *)entity)->unk_87 = 0xFF;
         ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)draw_and_restore_fading_object;
     }

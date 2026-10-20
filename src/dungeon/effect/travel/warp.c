@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_19cc800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 void (*const dungeon_19cc800_entry)(struct EventState *event) = func_80024020;
 #include "common.h"
@@ -41,7 +42,6 @@ extern s32 D_800287A4;
 
 extern void upload_vram_row_and_cache(void *, s32, s32, s32);
 extern void decode_and_upload_image(void *, void *);
-
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
@@ -183,7 +183,6 @@ typedef struct S_819ACB28_1 {
     u16 unk_14;
 } S_819ACB28_1;   /* data_ptr in advance_effect_phases */
 
-
    /* offsets in advance_effect_phases */
 
 typedef struct S_819ACB28_4 {
@@ -197,8 +196,6 @@ typedef struct S_819ACB28_5 {
     void * unk_0C;
 } S_819ACB28_5;   /* ((S_819ACB28_0 *)object)->unk_08 in advance_effect_phases */
 
-
-
 typedef struct CounterView {
     u16 value;
     u16 pad[5];
@@ -208,7 +205,6 @@ typedef struct FlagsView {
     s32 value;
     s32 pad[2];
 } FlagsView;
-
 
 void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, S_819ACB28_4 *packed_value)
 {
@@ -272,7 +268,6 @@ void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, S_819AC
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
 
-
 /* The effect's record (the object header precedes it). */
 typedef struct EffectRecord {
     u8 pad_00[8];
@@ -280,7 +275,6 @@ typedef struct EffectRecord {
 } EffectRecord;
 
 /* The render data the header's unk_0C points at. */
-
 
 extern void draw_textured_ellipse();
 extern u8 D_8002746C[9];
@@ -290,7 +284,7 @@ void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base)
     s32 init_data[2];
     ObjectNodeHeader *object;
     EntityRec *pos;
-    EffectSprite *sprite;
+    SpriteFrameState *sprite;
     void *result;
 
     object = func_8003FC64(0x12);
@@ -306,9 +300,9 @@ void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base)
         pos->z.w.i = (u16)source_pos->z.w.i;
 
         sprite = object->unk_0C;
-        sprite->unk_08 = D_80027460;
-        sprite->size_max = 0xC00;
-        sprite->size = 0xC00;
+        sprite->source = D_80027460;
+        sprite->scale_y = 0xC00;
+        sprite->scale_x = 0xC00;
         ((EffectRecord *)(object + 1))->unk_08 = offset_base - 0x20;
     }
 
@@ -332,7 +326,6 @@ typedef struct S_819ACDA0_1 {
     u8 pad_00[0x2C];
     u16 unk_2C;
 } S_819ACDA0_1;   /* motion in func_819ACDA0 */
-
 
 typedef struct Motion {
     u8 pad0[0x14];
@@ -497,13 +490,9 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
 
-
-
 #ifndef NULL
 #define NULL 0
 #endif
-
-
 
 typedef struct S_819AD1DC_0 {
     u8 pad_00[0x8];
@@ -591,16 +580,16 @@ void *move_effect_toward_target(MovingPosition *src)
             coords->unk_16 = z;
             part->unk_20 = z;
             render = ((S_819AD1DC_0 *)obj)->unk_0C;
-            render->unk_08 = sub_handler;
+            ((SpriteFrameState *)render)->source = sub_handler;
             if (i != last_index) {
-                render->unk_1E = 0x200U;
+                ((SpriteFrameState *)render)->scale_y = 0x200U;
             } else {
-                render->unk_1E = 0x800U;
+                ((SpriteFrameState *)render)->scale_y = 0x800U;
             }
             shade = -0x80 - ((s32)((last_index - i) * 4));
-            scale = render->unk_1E;
-            render->unk_0D = (u8)shade;
-            render->unk_1C = scale;
+            scale = ((SpriteFrameState *)render)->scale_y;
+            ((SpriteFrameState *)render)->color.c.g = (u8)shade;
+            ((SpriteFrameState *)render)->scale_x = scale;
             part->unk_38 = i;
             if (i == last_index) {
                 part->unk_38 = 7;
@@ -620,14 +609,9 @@ void *move_effect_toward_target(MovingPosition *src)
 #include "shared/object_node.h"
 #include "shared/dir_step.h"
 
-
 /* 16.16 fixed-point coordinate: the whole part is the high halfword. */
 
-
-
-
 /* The effect record the callback runs on (the object header precedes it). */
-
 
 /* Update position, reduce movement speed, and flag completion when speed runs out. */
 void advance_effect_motion_and_speed(MotionRecord *motion, EntityRec *position)
@@ -663,12 +647,9 @@ extern s32 queue_linked_visible_rectangle_copies(void *, void *, s16 *);
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
 
-
 /* The effect record (the object header precedes it). */
 
-
 /* Render data the header's unk_0C points at. */
-
 
 /* Spawn two pairs of effects at random offsets around the source. */
 void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param, s32 render_param)
@@ -676,7 +657,7 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
     s32 remaining;
     ObjectNodeHeader *effect;
     MotionRecord *record;
-    EffectSprite *sprite;
+    SpriteFrameState *sprite;
     remaining = 2;
     do {
         effect = allocate_list_node(0x212, &source->next);
@@ -688,10 +669,10 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
             ((EntityRec *)effect->unk_08)->y.w.i = (((EntityRec *)source->unk_08)->y.w.i + (rand() & 0x3F)) - 0x20;
             ((EntityRec *)effect->unk_08)->z.w.i = (((EntityRec *)source->unk_08)->z.w.i + (rand() & 0x3F)) - 0x20;
             sprite = effect->unk_0C;
-            sprite->unk_08 = D_80027484;
-            sprite->size_max = 0x1000;
-            sprite->size = 0x1000;
-            sprite->shade.unk_0C = render_param;
+            sprite->source = D_80027484;
+            sprite->scale_y = 0x1000;
+            sprite->scale_x = 0x1000;
+            sprite->color.word = render_param;
             sprite->unk_06 = 8;
             record->direction = effect_param;
             record->speed = (rand() & 0xFF) | 0x80;
@@ -727,9 +708,7 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 
-
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
-
 
 /* Render data (the header's unk_0C); only the colour word is used here. */
 typedef struct RenderData {
@@ -738,7 +717,6 @@ typedef struct RenderData {
 } RenderData;
 
 /* The follower's record (the object header precedes it): it tracks the object stored at +8. */
-
 
 /* Copy the owner's position and colour; flag completion once the owner is finished. */
 void copy_follower_owner_position_and_color(FollowerRecord *record, EntityRec *position, RenderData *render)
@@ -755,7 +733,7 @@ void copy_follower_owner_position_and_color(FollowerRecord *record, EntityRec *p
         object_flag_block.flags |= 0x8000;
         return;
     }
-    render->color = ((RenderData *)owner->unk_0C)->color;
+    render->color = ((SpriteFrameState *)owner->unk_0C)->color.word;
     owner_pos = record->owner->unk_08;
     position->x.w.i = (u16)owner_pos->x.w.i;
     position->y.w.i = (u16)owner_pos->y.w.i;
@@ -770,12 +748,9 @@ void copy_follower_owner_position_and_color(FollowerRecord *record, EntityRec *p
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
 
-
 /* Render data the header's unk_0C points at. */
 
-
 /* The follower's record (the object header precedes it). */
-
 
 typedef struct Rect {
     s32 first;
@@ -791,7 +766,7 @@ extern u8 D_800274A8[12];
 void func_80024EF8(ObjectNodeHeader *owner, s16 angle) {
     Rect rect;
     ObjectNodeHeader *spawned;
-    EffectSprite *sprite;
+    SpriteFrameState *sprite;
     FollowerRecord *record;
 
     spawned = allocate_list_node(0x212, &owner->next);
@@ -802,13 +777,13 @@ void func_80024EF8(ObjectNodeHeader *owner, s16 angle) {
         ((EntityRec *)spawned->unk_08)->y.w.i = (u16)((EntityRec *)owner->unk_08)->y.w.i;
         ((EntityRec *)spawned->unk_08)->z.w.i = (u16)((EntityRec *)owner->unk_08)->z.w.i;
         sprite = spawned->unk_0C;
-        sprite->unk_08 = D_80027454;
-        sprite->size_max = 0x2800;
-        sprite->size = 0x2800;
+        sprite->source = D_80027454;
+        sprite->scale_y = 0x2800;
+        sprite->scale_x = 0x2800;
         sprite->unk_06 = 8;
-        sprite->angle = angle + 0x400;
+        sprite->angle_z = angle + 0x400;
         record = (FollowerRecord *)(spawned + 1);
-        sprite->shade.color = 0x808080;
+        sprite->color.word = 0x808080;
         record->owner = owner;
         record->angle = angle;
         rect.first = 0x01400340;
@@ -927,7 +902,6 @@ typedef struct S_819AD81C_5 {
 } S_819AD81C_5;   /* attached in func_819AD81C */
 
    /* link in func_819AD81C */
-
 
 s32 func_800644B8();
 s32 func_80064584();
@@ -1142,7 +1116,6 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
 #include "shared/tile_object.h"
 #include "shared/dir_step.h"
 
-
 typedef struct Obj Obj;
 
 typedef struct S_800255B8_0 {
@@ -1193,7 +1166,6 @@ typedef struct S_800255B8_3 {
     s16 unk_46;
     s16 unk_48;
 } S_800255B8_3;   /* tail in create_linked_sprite_pieces */
-
 
 extern u8 D_800274C0[];
 extern u8 D_80027580[];
@@ -1324,9 +1296,7 @@ void update_traveling(FrameState *dst, AnimEntry *src)
 
 /* Animation player state; entry is the current entry in the owner's table (0x16-byte AnimEntry stride). */
 
-
 /* Owner of the animation table. */
-
 
 /* Resolve the current entry, apply an index step, and enforce the index bounds. */
 void advance_animation_index_within_bounds(AnimPlayer *player, s16 *index_step, s32 min_index, s32 max_index) {
@@ -1366,9 +1336,7 @@ void advance_animation_index_within_bounds(AnimPlayer *player, s16 *index_step, 
 
 /* Animation player state (see advance_animation_index_within_bounds): the first word is the current entry in the owner's table. */
 
-
 /* Owner of the animation table. */
-
 
 /* Sets the player's current entry address using a 22-byte stride. */
 void set_animation_entry_address(AnimPlayer *player, s16 entry_index) {
@@ -1410,7 +1378,6 @@ typedef struct S_8002593C_2 {
     u16 unk_18;
     u16 unk_1A;
 } S_8002593C_2;   /* arg2 in build_install */
-
 
 typedef struct MATRIX {
     s16 m[3][3];
@@ -1456,7 +1423,6 @@ void build_install(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rota
 #include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "shared/object_flags.h"
-
 
 /* Fade RGB toward black and set flags when red falls below eight. */
 void fade_color_to_black(void *owner, s32 unused, void *color_data) {
@@ -1532,12 +1498,9 @@ return 0;
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
 
-
 #ifndef NULL
 #define NULL 0
 #endif
-
-
 
 typedef struct S_80025B78_0 {
     u8 pad_00[0x8];
@@ -1546,26 +1509,7 @@ typedef struct S_80025B78_0 {
     M2C_UNK * unk_10;
 } S_80025B78_0;
 
-
-
    /* arg1 in create_copied_effect_object */
-
-typedef struct S_80025B78_3 {
-    s32 unk_00;
-    u8 unk_04;
-    u8 pad_05[0x3];
-    s32 unk_08;
-    s32 unk_0C;
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-} S_80025B78_3;
 
 typedef struct S_80025B78_4 {
     s32 unk_00;
@@ -1593,7 +1537,7 @@ void *create_copied_effect_object(void *source_data, MovingPosition *source_trip
 {
     void *object;
     MovingPosition *triplet;
-    S_80025B78_3 *state;
+    SpriteFrameState *state;
 
     object = func_8003FC64(0x202);
     if (object != NULL) {
@@ -1604,17 +1548,17 @@ void *create_copied_effect_object(void *source_data, MovingPosition *source_trip
         triplet->unk_06 = source_triplet->unk_06;
         triplet->unk_0A = source_triplet->unk_0A;
         state = ((S_80025B78_0 *)object)->unk_0C;
-        state->unk_1C = source_state->unk_1C;
-        state->unk_1E = source_state->unk_1E;
+        state->scale_x = source_state->unk_1C;
+        state->scale_y = source_state->unk_1E;
         state->unk_20 = source_state->unk_20;
-        state->unk_16 = source_state->unk_16;
-        state->unk_18 = source_state->unk_18;
-        state->unk_1A = source_state->unk_1A;
-        state->unk_0C = source_state->unk_0C;
-        state->unk_14 = source_state->unk_14;
+        state->angle_x = source_state->unk_16;
+        state->angle_y = source_state->unk_18;
+        state->angle_z = source_state->unk_1A;
+        state->color.word = source_state->unk_0C;
+        state->flags = source_state->unk_14;
         state->unk_00 = source_state->unk_00;
-        state->unk_08 = source_state->unk_08;
-        state->unk_10 = source_state->unk_10;
+        state->source = source_state->unk_08;
+        state->tpage_abr = source_state->unk_10;
         state->unk_04 = source_state->unk_04;
         *(Block32 *)((u8 *)object + 0x20) = *(Block32 *)source_data;
     }
@@ -1625,7 +1569,6 @@ void *create_copied_effect_object(void *source_data, MovingPosition *source_trip
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_func_80025D28_arg0.h"
-
 
 typedef struct S_80025D28_1 {
     s32 unk_00;
@@ -1640,7 +1583,6 @@ typedef struct S_80025D28_2 {
     u8 pad_00[0xD];
     u8 unk_0D;
 } S_80025D28_2;   /* arg2 in initialize_inventory_packet */
-
 
 extern s32 func_800644B8();
 extern s32 func_80064584();
@@ -1719,7 +1661,6 @@ void initialize_inventory_packet(void *state, void *points, void *appearance) {
 #include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 
-
 typedef struct S_80025FCC_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -1742,20 +1683,6 @@ typedef struct S_80025FCC_1 {
     s16 unk_16;
 } S_80025FCC_1;
 
-typedef struct S_80025FCC_2 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    u8 pad_0C[0x1];
-    s8 unk_0D;
-    u8 pad_0E[0x2];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    s16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80025FCC_2;
-
 typedef struct S_80025FCC_3 {
     u8 pad_00[0x1C];
     s16 unk_1C;
@@ -1776,7 +1703,7 @@ void *func_80025FCC(s16 x, s16 y, s16 z, s16 effect_param) {
     S_80025FCC_3 *effect_state;
     void *effect;
     S_80025FCC_1 *position;
-    S_80025FCC_2 *render_state;
+    SpriteFrameState *render_state;
 
     effect = func_8003FC64(0x202);
     if (effect != NULL) {
@@ -1791,12 +1718,12 @@ void *func_80025FCC(s16 x, s16 y, s16 z, s16 effect_param) {
         position->unk_16 = z;
         position->unk_0A = z;
         render_state = ((S_80025FCC_0 *)effect)->unk_0C;
-        render_state->unk_1E = 0x200;
-        render_state->unk_1C = 0x200;
-        render_state->unk_0D = 0x20;
-        render_state->unk_14 = 0xC;
-        render_state->unk_08 = &D_80027460;
-        render_state->unk_10 = 0x20;
+        render_state->scale_y = 0x200;
+        render_state->scale_x = 0x200;
+        render_state->color.c.g = 0x20;
+        render_state->flags = 0xC;
+        render_state->source = &D_80027460;
+        render_state->tpage_abr = 0x20;
         effect_state->unk_30 = 0x20;
         effect_state->unk_3E = 0x10;
         effect_state->unk_36 = effect_param;
@@ -1813,7 +1740,6 @@ void *func_80025FCC(s16 x, s16 y, s16 z, s16 effect_param) {
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
-
 
 /* Colour bytes of the effect's render data. */
 typedef struct EffectColor {
@@ -1894,7 +1820,7 @@ extern s32 func_80064584(s32);
 void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
     Actor *actor;
     Coord *coord;
-    Prim *prim;
+    SpriteFrameState *prim;
     s16 step_x;
     s16 step_y;
     s16 step_z;
@@ -1914,12 +1840,12 @@ void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle,
             coord->y = y;
             coord->z = z;
             prim = actor->prim;
-            prim->unk1E = 1024;
-            prim->unk1C = 1024;
-            prim->unk8 = D_80027460;
-            prim->color = 0x808080;
-            prim->unk10 = 32;
-            prim->unk14 |= 0xC;
+            prim->scale_y = 1024;
+            prim->scale_x = 1024;
+            prim->source = D_80027460;
+            prim->color.word = 0x808080;
+            prim->tpage_abr = 32;
+            prim->flags |= 0xC;
             actor->unk50 = 16;
         }
     } else {

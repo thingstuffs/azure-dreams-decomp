@@ -38,13 +38,6 @@ typedef struct R16_80170878_S_80170878_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
 } R16_80170878_S_80170878_2;
-typedef struct R16_80170878_S_80170878_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} R16_80170878_S_80170878_3;
 typedef struct R16_80170878_S_80170878_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -553,7 +546,7 @@ void func_801722F8(void *state, s32 unused, s32 source, s32 target);
 void func_8017238C(Resource16CallbackState *state, void *entity, void *position, void *graphic);
 void finish_actor_action_animation(void *action, void *motion, void *anim, void *actor);
 void update_overlay_object_action(void *owner, void *motion, void *actor, void *object_in);
-void func_801729D8(R16_801729D8_S_80173294_0 *motion_state, EntityRec *motion, Rec_D_80082E80 *tile_state, void *entity);
+void func_801729D8(R16_801729D8_S_80173294_0 *motion_state, EntityRec *motion, SpriteFrameState *tile_state, void *entity);
 void func_80172CAC(void *state, void *motion, void *position, void *actor);
 void func_80172CCC(R16_80172CCC_S_80173588_0 *state, void *context, void *data);
 void func_80172CF8(void *state, void *motion, void *position, void *actor);

@@ -1,5 +1,6 @@
 #include "dungeon/monster/volcano/spawn_effect_object.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/volcano/spawn_effect_object.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
@@ -28,22 +29,22 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
         part_a = *(u8 **)(object + 8);
         *(s16 *)(part_a + 0xA) = attr_c;
         part_b = (long)*(u8 **)(object + 0xC);
-        *(u8 *)((u8 *)part_b + 0x24) = attr_a;
-        *(u8 *)((u8 *)part_b + 0x25) = attr_b;
+        ((SpriteFrameState *)part_b)->unk_24 = attr_a;
+        ((SpriteFrameState *)part_b)->unk_25 = attr_b;
         work_copy = (long)work;
 
         if ((spawn_flags & 3) == 1) {
             *(Callback *)(work + 0x8C) = func_8014CE5C;
             *(u32 *)(work + 0x14) |= 0x6000;
             *(u32 *)(work + 0x1C) |= 0x6000;
-            *(u8 **)((u8 *)part_b + 0x2C) = D_80150510;
+            ((SpriteFrameState *)part_b)->frameTable = D_80150510;
         } else if ((spawn_flags & 3) >= 2) {
             *(Callback *)(work + 0x8C) = func_8014CE5C;
             flags0 = *(u32 *)(work + 0x14) | 0x2000;
             flags1 = *(u32 *)(work + 0x1C) | 0x2000;
             *(u32 *)(work + 0x14) = flags0;
             *(u32 *)(work + 0x1C) = flags1;
-            *(u8 **)((u8 *)part_b + 0x2C) = D_80150510;
+            ((SpriteFrameState *)part_b)->frameTable = D_80150510;
         } else {
             spawn_flags = (s16)(spawn_flags & -4);
             if (spawn_flags == 0) {
@@ -51,14 +52,14 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
                     if ((generate_random_value() & 1) != 0) {
                         random = generate_random_value();
                         set_or_clear_actor_status_slot(work, 1, (random & 0x3F) | 0x20);
-                        *(u8 **)((u8 *)part_b + 0x2C) = D_80150538;
+                        ((SpriteFrameState *)part_b)->frameTable = D_80150538;
                     }
                 }
                 *(Callback *)((u8 *)work_copy + 0x8C) = func_8014CE5C;
-                *(u8 **)((u8 *)part_b + 0x2C) = D_80150510;
+                ((SpriteFrameState *)part_b)->frameTable = D_80150510;
             } else {
                 *(Callback *)(work + 0x8C) = func_8014CE5C;
-                *(u8 **)((u8 *)part_b + 0x2C) = D_80150510;
+                ((SpriteFrameState *)part_b)->frameTable = D_80150510;
             }
         }
 

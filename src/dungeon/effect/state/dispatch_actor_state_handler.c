@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -14,7 +15,7 @@ void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, s32 context, Re
 
     state_value = state->unk_64;
     if ((state_value < 0) || (actor->unk_10C & 1)) {
-        object->unk_14.at00_u16.v = (u16) (object->unk_14.at00_u16.v & 0xF7FF);
+        ((SpriteFrameState *)object)->flags = (u16) (((SpriteFrameState *)object)->flags & 0xF7FF);
         begin_player_damage_reaction(actor, context, object, state);
         return;
     }
@@ -22,7 +23,7 @@ void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, s32 context, Re
         apply_pending_byte_increase(actor, context, object, state);
     }
     if ((actor->unk_9A.as_u8 != 0xD) && (state->flags1C & 0x200)) {
-        object->unk_14.at00_u16.v = (u16) (object->unk_14.at00_u16.v & 0xF7FF);
+        ((SpriteFrameState *)object)->flags = (u16) (((SpriteFrameState *)object)->flags & 0xF7FF);
         begin_player_sleep_action(actor, context, object, state);
     }
 }

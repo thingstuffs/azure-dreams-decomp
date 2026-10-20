@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -24,18 +25,6 @@ typedef struct S_80FC9000_2 {
     s16 unk_0A;
 } S_80FC9000_2;   /* pin_part_a in func_801588A4 */
 
-typedef struct S_80FC9000_3 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 pad_0C[0x6];
-    u16 unk_12;
-    u8 pad_14[0x10];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80FC9000_3;   /* part_b in func_801588A4 */
-
 typedef struct S_80FC9000_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -46,7 +35,6 @@ typedef struct S_80FC9000_4 {
     u8 pad_9D[0x11];
     u16 unk_AE;
 } S_80FC9000_4;   /* pin_actor in func_801588A4 */
-
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -60,9 +48,6 @@ extern u8 D_80158F6C[];
 extern u8 D_8015D258[];
 extern u8 D_8015D298[];
 
-
-
-
 void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 part_a_value)
 
 ;
@@ -73,7 +58,7 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
     void *obj;
     s32 call_id;
     ObjectNodeHeader *call_target;
-    S_80FC9000_3 *part_b;
+    SpriteFrameState *part_b;
     void *part_a;
     s16 saved_arg0;
     s32 kind;
@@ -109,7 +94,7 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
         kind = input_value & 3;
         part_b->unk_25 = part_b_value2;
         pin_actor = work;
-        part_b->unk_2C = D_8015D258;
+        part_b->frameTable = D_8015D258;
         part_b->unk_24 = pin_arg1;
         if (kind == 1) {
             left = ((S_80FC9000_1 *)work)->unk_14 | 0x6000;
@@ -129,20 +114,20 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) |
                                       0x20);
-                        part_b->unk_2C = D_8015D298;
+                        part_b->frameTable = D_8015D298;
                     }
                 }
             }
         }
         initialize_actor_sprite_and_animation(obj, pin_part_a, part_b, saved_arg0);
         index = 0;
-        actor_value = part_b->unk_12;
+        actor_value = part_b->clut;
         ((S_80FC9000_4 *)pin_actor)->unk_9A = 0xFF;
         ((S_80FC9000_4 *)pin_actor)->unk_9C = -1;
         ((S_80FC9000_4 *)pin_actor)->unk_8C = D_80158F6C;
         ((S_80FC9000_4 *)pin_actor)->unk_AE = actor_value;
 
-        entry = part_b->unk_08;
+        entry = *(u8 * *)&part_b->source;
         do {
             double_index = index << 1;
             if (*entry & 0x20) {
@@ -152,7 +137,7 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
                 break;
             }
         } while (1);
-        count = ((CountView *)(part_b->unk_08 + (double_index + index) * 4))->count >> 6;
+        count = ((CountView *)(*(u8 * *)&part_b->source + (double_index + index) * 4))->count >> 6;
         values[0] = 0;
         values[1] = count;
         values[2] = 0x100;

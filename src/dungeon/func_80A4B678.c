@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource06_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, void *unused_context)
 {
@@ -13,7 +14,7 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
         R06_80174E78_Entity *entity;
         R06_80174E78_Sub *sub;
         R06_80174E78_Vec3i *position;
-        R06_80174E78_Prim *prim;
+        SpriteFrameState *prim;
         s32 angle;
         s32 next_angle;
         s16 radial_offset;
@@ -39,11 +40,11 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
         register_node(setup_entity, project_sprite_chain);
 
         prim = entity->prim;
-        prim_flags_ptr = &prim->field_14;
+        prim_flags_ptr = &prim->flags;
         prim_flags = *(u16 *)prim_flags_ptr;
         prim_flags |= 0xC;
         *prim_flags_ptr = prim_flags;
-        prim->field_10 = base_level;
+        prim->tpage_abr = base_level;
         prim_flags |= 0x80;
         *prim_flags_ptr = prim_flags;
 
@@ -83,14 +84,14 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
         sub->field_6C = radial_offset;
 
         prim = entity->prim;
-        prim->field_0C = 128;
+        prim->color.c.r = 128;
         unit_scale = 4096;
-        prim->field_1E = unit_scale;
-        prim->field_1C = unit_scale;
-        prim->field_0D = base_level;
-        prim->field_0E = base_level;
-        sub->field_04 = prim->field_0C;
-        sub->field_05 = prim->field_0D;
-        sub->field_06 = prim->field_0E;
+        prim->scale_y = unit_scale;
+        prim->scale_x = unit_scale;
+        prim->color.c.g = base_level;
+        prim->color.c.b = base_level;
+        sub->field_04 = prim->color.c.r;
+        sub->field_05 = prim->color.c.g;
+        sub->field_06 = prim->color.c.b;
     }
 }

@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -32,16 +33,6 @@ typedef struct S_func_80158898_2 {
     s16 unk_0A;
 } S_func_80158898_2;
 
-typedef struct S_func_80158898_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    s32 * unk_2C;
-} S_func_80158898_3;
-
 typedef struct S_func_80158898_4 {
     u8 pad_00[0x8C];
     s32 * unk_8C;
@@ -64,14 +55,12 @@ void func_80158F68(Rec_func_800A9E70_arg0 *action, void *context, ActorSpriteVie
 extern M2C_UNK D_8015BFB8;
 extern M2C_UNK D_8015C000;
 
-
-
 /* Allocate a dungeon object and initialize its placement, flags, and behavior. */
  void *update_variant_part_brightness(s16 spawn_flags, s16 x, s16 y, s16 config_value) {
     S_func_80158898_1 *object_state;
     s32 mode_or_roll;
     u16 state_flags;
-    S_func_80158898_3 *placement;
+    SpriteFrameState *placement;
     S_func_80158898_2 *config;
     S_func_80158898_4 *behavior;
     void *object;
@@ -96,7 +85,7 @@ extern M2C_UNK D_8015C000;
         mode_or_roll = spawn_flags & 3;
         placement->unk_25 = saved_y;
         behavior = object_state;
-        placement->unk_2C = &D_8015BFB8;
+        placement->frameTable = &D_8015BFB8;
         placement->unk_24 = saved_x;
         if (mode_or_roll == 1) {
             state_flags = object_state->unk_98;
@@ -115,7 +104,7 @@ extern M2C_UNK D_8015C000;
                 if (mode_or_roll & 1) {
                     object_state->unk_1C = (s32) (object_state->unk_1C | 0x200);
                     set_or_clear_actor_status_slot(object_state, 1, (generate_random_value() & 0x3F) | 0x20);
-                    placement->unk_2C = &D_8015C000;
+                    placement->frameTable = &D_8015C000;
                 }
             }
         }
@@ -123,7 +112,7 @@ extern M2C_UNK D_8015C000;
         behavior->unk_9A = 0xFF;
         behavior->unk_9C = -1;
         behavior->unk_8C = &func_80158F68;
-        placement->unk_14 = (u16) (placement->unk_14 | 0xC);
+        placement->flags = (u16) (placement->flags | 0xC);
         behavior->unk_AA = (s16) ((u16) object_state->unk_14 & 7);
         try_move_actor_to_valid_position(behavior, config, placement, object_state);
     }

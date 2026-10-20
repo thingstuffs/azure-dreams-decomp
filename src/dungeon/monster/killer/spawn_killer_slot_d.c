@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -55,8 +56,6 @@ extern M2C_UNK D_8015EEA8;
 extern M2C_UNK D_80162038;
 extern M2C_UNK D_80162088;
 
-
-
 void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) ;
 
 /* Allocate and initialize a dungeon node with the supplied setup and placement. */
@@ -69,7 +68,7 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
     s8 saved_grid_x;
     s32 mode;
     s32 flags;
-    DungeonSub2 *placement;
+    SpriteFrameState *placement;
     DungeonSub1 *init_state;
 
     saved_grid_x = grid_x;
@@ -89,10 +88,10 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
         *(s16 *)((u8 *)node_data + 0x0a) = saved_placement;
         placement = node->field0c;
         mode = setup_bits & 3;
-        placement->field25 = saved_grid_y;
+        placement->unk_25 = saved_grid_y;
         init_state = state;
-        placement->field2c = (void *) flags;
-        placement->field24 = saved_grid_x;
+        placement->frameTable = (void *) flags;
+        placement->unk_24 = saved_grid_x;
         if (mode == 1) {
             state->field14 |= 0x6000;
             state->field1c |= 0x6000;
@@ -106,7 +105,7 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
                     if (generate_random_value() & 1) {
                         state->field1c |= 0x200;
                         set_or_clear_actor_status_slot(state, 1, (generate_random_value() & 0x3F) | 0x20);
-                        placement->field2c = &D_80162088;
+                        placement->frameTable = &D_80162088;
                     }
                 }
             }

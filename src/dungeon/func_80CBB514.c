@@ -1,6 +1,7 @@
 #include "modules/dungeon_ovl_cd7000.h"
+#include "shared/sprite_frame_state.h"
 
-void func_80150D14(void *state, EntityRec *position, Rec_D_80082E80 *entity, void *actor) {
+void func_80150D14(void *state, EntityRec *position, SpriteFrameState *entity, void *actor) {
     s16 direction;
     u16 fade_ticks;
     u16 finish_ticks;
@@ -93,7 +94,7 @@ void func_80150D14(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
         }
         effect_data = (void *)(*((s32 *)&D_80151318 + (s16) effect_index) + (s32)&D_8014A000);
         func_8003DB94(render_obj, effect_data, 0);
-        entity->unk_14.at00_u16.v = (u16) (entity->unk_14.at00_u16.v | 0x80);
+        entity->flags = (u16) (entity->flags | 0x80);
         ((CL_CD7000_80174D14_S_80C97514_0 *)state)->unk_96 = 0U;
         next_state = ((CL_CD7000_80174D14_S_80C97514_0 *)state)->unk_9B + 1;
         ((CL_CD7000_80174D14_S_80C97514_0 *)state)->unk_9B = next_state;

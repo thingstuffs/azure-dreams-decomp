@@ -106,17 +106,6 @@ typedef struct floor_spawns_isolated_8028C354_S_8001F354_0 {
     void * unk_0C;
     s32 * unk_10;
 } floor_spawns_isolated_8028C354_S_8001F354_0;
-typedef struct floor_spawns_isolated_8028C354_S_8001F354_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} floor_spawns_isolated_8028C354_S_8001F354_1;
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s32 select_dungeon_spawn_tile(u8 *, u8 *);
 extern s16 count_matching_packed_entity_keys(s32, s32);

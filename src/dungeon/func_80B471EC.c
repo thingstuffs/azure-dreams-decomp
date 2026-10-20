@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource12_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) {
     s16 ring_angles[10];
@@ -42,9 +43,9 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
     u16 closing_progress;
     u16 opening_progress;
     u16 old_phase;
-    void *meridian_render;
+    SpriteFrameState *meridian_render;
     void *segment_start;
-    void *ring_render;
+    SpriteFrameState *ring_render;
     void *meridian_line;
     void *opening_vertex;
     void *closing_vertex;
@@ -59,7 +60,6 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
     void *meridian_origin;
     void *ring_origin;
     register void *ring_data;
-
 
     object_origin = origin;
     phase = ((R12_801749EC_S_801749EC_0 *)effect)->unk_06;
@@ -161,18 +161,18 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
             ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_10 = ((u8 *)update_turning_fade_effect_and_model);
             register_node(meridian_object, &func_80174954);
             meridian_render = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_0C;
-            ((R12_801749EC_S_801749EC_8 *)meridian_render)->unk_10 = 0x20;
-            ((R12_801749EC_S_801749EC_8 *)meridian_render)->unk_14 = (u16) (((R12_801749EC_S_801749EC_8 *)meridian_render)->unk_14 | 0xC);
+            meridian_render->tpage_abr = 0x20;
+            meridian_render->flags = (u16) (meridian_render->flags | 0xC);
             meridian_origin = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_08;
             ((R12_801749EC_S_801749EC_9 *)meridian_origin)->unk_00 = (s32) ((R12_801749EC_S_801749EC_10 *)object_origin)->unk_00;
             ((R12_801749EC_S_801749EC_9 *)meridian_origin)->unk_04 = (s32) ((R12_801749EC_S_801749EC_10 *)object_origin)->unk_04;
             ((R12_801749EC_S_801749EC_9 *)meridian_origin)->unk_08 = (s32) ((R12_801749EC_S_801749EC_10 *)object_origin)->unk_08;
             meridian_render = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_0C;
-            (*(s16 *)((u8 *)meridian_render + 0x1E)) = 0x1000;
-            (*(s16 *)((u8 *)meridian_render + 0x1C)) = 0x1000;
-            ((R12_801749EC_S_801749EC_8 *)meridian_render)->unk_0C = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0C;
-            ((R12_801749EC_S_801749EC_8 *)meridian_render)->unk_0D = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0D;
-            ((R12_801749EC_S_801749EC_8 *)meridian_render)->unk_0E = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0E;
+            meridian_render->scale_y = ONE;
+            meridian_render->scale_x = ONE;
+            meridian_render->color.c.r = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0C;
+            meridian_render->color.c.g = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0D;
+            meridian_render->color.c.b = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0E;
             segment_index = sector << 0x10;
             segment_index >>= 0x10;
             sector_offset = meridian * 6;
@@ -208,22 +208,22 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
                 {
                     u16 object_flags;
                     s32 object_width;
-                    object_flags = ((R12_801749EC_S_801749EC_16 *)ring_render)->unk_14;
+                    object_flags = ring_render->flags;
                     object_width = 0x20;
-                    ((R12_801749EC_S_801749EC_16 *)ring_render)->unk_10 = object_width;
+                    ring_render->tpage_abr = object_width;
                     object_flags |= 0xC;
-                    ((R12_801749EC_S_801749EC_16 *)ring_render)->unk_14 = object_flags;
+                    ring_render->flags = object_flags;
                 }
                 ring_origin = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_08;
                 ((R12_801749EC_S_801749EC_17 *)ring_origin)->unk_00 = (s32) ((R12_801749EC_S_801749EC_10 *)object_origin)->unk_00;
                 ((R12_801749EC_S_801749EC_17 *)ring_origin)->unk_04 = (s32) ((R12_801749EC_S_801749EC_10 *)object_origin)->unk_04;
                 ((R12_801749EC_S_801749EC_17 *)ring_origin)->unk_08 = (s32) ((R12_801749EC_S_801749EC_10 *)object_origin)->unk_08;
                 ring_render = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_0C;
-                (*(s16 *)((u8 *)ring_render + 0x1E)) = 0x1000;
-                (*(s16 *)((u8 *)ring_render + 0x1C)) = 0x1000;
-                ((R12_801749EC_S_801749EC_18 *)ring_render)->unk_0C = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0C;
-                ((R12_801749EC_S_801749EC_18 *)ring_render)->unk_0D = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0D;
-                ((R12_801749EC_S_801749EC_18 *)ring_render)->unk_0E = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0E;
+                ring_render->scale_y = ONE;
+                ring_render->scale_x = ONE;
+                ring_render->color.c.r = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0C;
+                ring_render->color.c.g = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0D;
+                ring_render->color.c.b = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0E;
                 if (meridian != 5) {
                     next_vertex = (s8 *)vertices + (((meridian + 1) * 6) + vertex_base_or_offset);
                     ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_64 = (u16) ((R12_801749EC_S_801749EC_19 *)next_vertex)->unk_00;

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -41,7 +42,6 @@ typedef struct S_818154FC_1 {
     void * unk_0C;
 } S_818154FC_1;
 
-
 typedef struct S_818154FC_3_pre {
     u8 * unk_00;
     u8 pad_04[0x10];
@@ -69,8 +69,6 @@ typedef struct S_818154FC_5 {
     u8 pad_0C[0x8];
     s32 unk_14;
 } S_818154FC_5;   /* arg1 in func_818154FC */
-
-
 
 typedef struct S_818154FC_7 {
     u8 pad_00[0x2];
@@ -112,16 +110,6 @@ typedef struct S_818154FC_11 {
     s32 unk_08;
 } S_818154FC_11;
 
-typedef struct S_818154FC_12 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818154FC_12;
-
 typedef struct S_818154FC_13 {
     s32 unk_00;
     s32 unk_04;
@@ -137,7 +125,6 @@ typedef struct S_818154FC_15_pre {
     u8 * unk_00;
     u8 pad_04[0x14];
 } S_818154FC_15_pre;
-
 
 typedef struct {
     u8 bytes[0x20];
@@ -163,7 +150,7 @@ s32 play_sound_if_enabled();                     /* extern */
 extern void func_800246DC(void *effect, void *position);
 
 /* Updates an effect through attachment, spawning, tracking, and cleanup. */
-void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite) {
+void func_818154FC(void *effect, S_818154FC_5 *position, SpriteFrameState *sprite) {
     Offset offset;
     LocalPoints points;
     LocalPoint *point_base;
@@ -177,7 +164,7 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
     void *parent;
     S_818154FC_1 *parent_node;
     MovingPosition *parent_position;
-    S_818154FC_12 *spawn_sprite;
+    SpriteFrameState *spawn_sprite;
 
     parent = ((S_818154FC_0 *)effect)->unk_00;
     point_table = (u8 *)&D_80024004;
@@ -189,9 +176,9 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
     ((S_818154FC_0 *)effect)->unk_82 = (u16) (((S_818154FC_0 *)effect)->unk_82 + 1);
     switch (state) {
     case 0:
-        sprite->unk_0C.at00_s32.v = 0x00808080;
-        sprite->unk_1C.at02_s16.v = 0x1000;
-        sprite->unk_1C.at00_s16.v = 0x1000;
+        sprite->color.word = 0x00808080;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
         func_8003DB94(sprite, D_800DEC00, 0);
         angle = ((S_818154FC_3 *)parent)->unk_2A;
         D_80025338[0] = 1;
@@ -346,11 +333,11 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
                 spawn_position->unk_04 = ((S_818154FC_0 *)effect)->unk_B4;
                 spawn_position->unk_08 = ((S_818154FC_0 *)effect)->unk_B8;
                 spawn_sprite = ((S_818154FC_10 *)node)->unk_0C;
-                spawn_sprite->unk_0E = 0x80;
-                spawn_sprite->unk_0D = 0x80;
-                spawn_sprite->unk_0C = 0x80;
-                spawn_sprite->unk_1E = 0x1000;
-                spawn_sprite->unk_1C = 0x1000;
+                spawn_sprite->color.c.b = 0x80;
+                spawn_sprite->color.c.g = 0x80;
+                spawn_sprite->color.c.r = 0x80;
+                spawn_sprite->scale_y = 0x1000;
+                spawn_sprite->scale_x = 0x1000;
                 if ((s16) ((S_818154FC_0 *)effect)->unk_84.s == 1) {
                     ((S_818154FC_0 *)effect)->unk_90 = node;
                     ((S_818154FC_0 *)effect)->unk_94.s = spawn_position;

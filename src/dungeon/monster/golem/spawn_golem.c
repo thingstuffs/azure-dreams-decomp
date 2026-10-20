@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -22,14 +23,6 @@ typedef struct S_801708BC_2 {
     s16 unk_0A;
 } S_801708BC_2;   /* part0 in func_801708BC */
 
-typedef struct S_801708BC_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_801708BC_3;   /* part1 in func_801708BC */
-
 typedef struct S_801708BC_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -38,7 +31,6 @@ typedef struct S_801708BC_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_801708BC_4;   /* result_copy in func_801708BC */
-
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -58,7 +50,7 @@ void *func_801708BC(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     void *result = 0;
     S_801708BC_0 *object;
     void *part0;
-    S_801708BC_3 *part1;
+    SpriteFrameState *part1;
     S_801708BC_4 *result_copy;
     s16 held_a;
     s32 held_c;
@@ -83,7 +75,7 @@ void *func_801708BC(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
         kind = spawn_flags & 3;
         part1->unk_25 = held_b;
         result_copy = result;
-        part1->unk_2C = D_80175F10;
+        part1->frameTable = D_80175F10;
         part1->unk_24 = held_a;
 
         if (kind == 1) {
@@ -96,7 +88,7 @@ void *func_801708BC(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
                    (((S_801708BC_1 *)result)->unk_14 & 0x200) == 0) {
             if ((generate_random_value() & 1) != 0) {
                 set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
-                part1->unk_2C = D_80175F28;
+                part1->frameTable = D_80175F28;
             }
         }
 

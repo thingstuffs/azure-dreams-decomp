@@ -1,4 +1,5 @@
 #include "shared/sprite_source.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_floor.h"
@@ -78,38 +79,15 @@ typedef struct S_80170F6C_5 {
     u32 unk_08;
 } S_80170F6C_5;   /* payload in update_long_actor_action */
 
-typedef struct S_80170F6C_6 {
-    void * unk_00;
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[0x2];
-    u32 unk_08;
-    u32 unk_0C;
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80170F6C_6;   /* part in update_long_actor_action */
-
-
 typedef struct S_80170F6C_8 {
     u8 pad_00[0x58];
     void * unk_58;
 } S_80170F6C_8;   /* D_800814A8[0] in update_long_actor_action */
 
-typedef struct S_80170F6C_9 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80170F6C_9;   /* map_base in update_long_actor_action */
-
 typedef struct S_80170F6C_10 {
     u8 pad_00[0x9A];
     u8 unk_9A;
 } S_80170F6C_10;   /* status_object in update_long_actor_action */
-
 
 typedef struct {
     u8 pad0[0xC];
@@ -165,7 +143,6 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
         func_80171910();
         return;
     }
-
 
     if (((S_80170F6C_1 *)entity)->unk_25 == 0) {
         advance_actor_pending_action(self_object, aux_entity, sprite, entity);
@@ -271,7 +248,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
             {
                 s32 scale;
                 S_80170F6C_4 *object;
-                void *part;
+                SpriteFrameState *part;
                 void *payload;
                 u32 color;
                 u32 payload_word;
@@ -301,17 +278,17 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
                     payload_word = ((S_80170F6C_3 *)aux_entity)->unk_08;
                     color = 0x00800000;
                     ((S_80170F6C_5 *)payload)->unk_08 = payload_word;
-                    ((S_80170F6C_6 *)part)->unk_1E = 0x1000;
-                    ((S_80170F6C_6 *)part)->unk_1C = 0x1000;
-                    ((S_80170F6C_6 *)part)->unk_10 = 0;
-                    ((S_80170F6C_6 *)part)->unk_00 = D_800DEA68;
-                    ((S_80170F6C_6 *)part)->unk_14 |= 0xC;
+                    part->scale_y = 0x1000;
+                    part->scale_x = 0x1000;
+                    part->tpage_abr = 0;
+                    part->unk_00 = D_800DEA68;
+                    part->flags |= 0xC;
                     texture_word = ((u32)((SpriteSourceEntry *)D_800DEA68)->unk_04);
                     color |= 0x8080;
-                    ((S_80170F6C_6 *)part)->unk_04 = 0;
-                    ((S_80170F6C_6 *)part)->unk_05 = 0;
-                    ((S_80170F6C_6 *)part)->unk_0C = color;
-                    ((S_80170F6C_6 *)part)->unk_08 = texture_word;
+                    part->unk_04 = 0;
+                    part->unk_05 = 0;
+                    part->color.word = color;
+                    part->source = texture_word;
                     object->unk_BA = 0;
                 }
 

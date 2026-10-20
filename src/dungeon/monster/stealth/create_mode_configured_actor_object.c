@@ -1,5 +1,6 @@
 #include "dungeon/monster/stealth/create_mode_configured_actor_object.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/stealth/create_mode_configured_actor_object.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
@@ -7,7 +8,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
     s32 kind;
     s32 variant;
     void *obj_alt;
-    S_8016A854_3 *part_b;
+    SpriteFrameState *part_b;
     S_8016A854_2 *part_a;
     void *work_copy;
     void *object;
@@ -26,7 +27,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
         part_b = ((S_8016A854_0 *)object)->unk_0C;
         part_b->unk_25 = attr_b;
         work_copy = work;
-        part_b->unk_2C = D_8016DD30;
+        part_b->frameTable = D_8016DD30;
         kind = spawn_flags & 3;
         part_b->unk_24 = attr_a;
         if (kind == 1) {
@@ -40,7 +41,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
                 if (generate_random_value() & 1) {
                     work->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(work, 1, (generate_random_value() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_8016DD78;
+                    part_b->frameTable = D_8016DD78;
                 }
             }
             variant = generate_random_value() & 3;
@@ -55,9 +56,9 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
         } else {
             obj_alt = (u8 *)work_copy - 0x20;
             ((S_8016A854_4 *)work_copy)->unk_A6 = 1;
-            part_b->unk_10 = 0x60;
-            part_b->unk_14 |= 0xC;
-            part_b->unk_12 -= 0x80;
+            part_b->tpage_abr = 0x60;
+            part_b->flags |= 0xC;
+            part_b->clut -= 0x80;
             unlink_node(obj_alt);
             retire_tracked_effect_by_id(obj_alt);
         }

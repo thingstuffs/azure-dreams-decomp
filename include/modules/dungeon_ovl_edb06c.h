@@ -24,17 +24,6 @@ typedef struct S_8016A86C_2 {
     s16 unk_0A;
 } S_8016A86C_2;   /* part_a in func_8016A86C */
 
-typedef struct S_8016A86C_3 {
-    u8 pad_00[0x12];
-    s16 unk_12;
-    u8 pad_14[0x10];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x2];
-    s32 unk_28;
-    void * unk_2C;
-} S_8016A86C_3;   /* part_b in func_8016A86C */
-
 typedef struct S_8016A86C_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -84,7 +73,6 @@ typedef struct S_8016A86C_9 {
     u8 pad_00[0x10];
     void * unk_10;
 } S_8016A86C_9;   /* ((S_8016A86C_8 *)base)->unk_A4 in func_8016A86C */
-
 
 extern void *allocate_list_node();
 extern void *func_8003FD64();

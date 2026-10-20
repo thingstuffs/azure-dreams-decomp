@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 extern s32 D_80174CD8[3];
 typedef struct {
@@ -14,14 +15,6 @@ typedef struct S_80171168_0 {
     s32 unk_08;
     void * unk_0C;
 } S_80171168_0;   /* *D_80174CD8 in move_boss_effect_to_offset */
-
-typedef struct S_80171168_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80171168_1;
 
 typedef struct S_80171168_2 {
     u8 pad_00[0x1C];
@@ -42,7 +35,7 @@ void move_boss_effect_to_offset(s32 offset_index) {
     u8 new_y;
     register s16 *offset_pair;
     s32 entity_id;
-    S_80171168_1 *entity;
+    SpriteFrameState *entity;
     S_80171168_2 *entity_state;
 
     offset_table = (const Config24 *)D_8016A87C;
@@ -52,7 +45,7 @@ void move_boss_effect_to_offset(s32 offset_index) {
     entity_state = *D_80174CD8 + 0x20;
     entity = ((S_80171168_0 *)(*D_80174CD8))->unk_0C;
     entity_id = ((S_80171168_0 *)(*D_80174CD8))->unk_08;
-    entity->unk_14 = (u16) (entity->unk_14 & 0xFF7F);
+    entity->flags = (u16) (entity->flags & 0xFF7F);
     old_x = entity->unk_24;
     old_y = entity->unk_25;
     if (entity_state->unk_1C & 0x2000) {

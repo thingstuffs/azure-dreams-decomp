@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -17,19 +18,6 @@ typedef struct S_80172374_0 {
     s32 unk_A4;
 } S_80172374_0;   /* arg0 in advance_jump_to_target_tile */
 
-
-typedef struct S_80172374_4 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_80172374_4;   /* global in advance_jump_to_target_tile */
-
-typedef struct S_80172374_5 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172374_5;   /* map in advance_jump_to_target_tile */
-
-
 extern s16 get_rounded_facing_and_rounding_flag();
 extern void set_record_integer_tile_center();
 extern void advance_status_timers();
@@ -40,7 +28,7 @@ extern s32 check_actor_floor_trap();
 extern u8 D_80170E54;
 
 /* Advances a jump toward the target tile and finishes movement when the timer expires. */
-void advance_jump_to_target_tile(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *target_tile, EntityRec *entity) {
+void advance_jump_to_target_tile(S_80172374_0 *motion, EntityRec *position, SpriteFrameState *target_tile, EntityRec *entity) {
     s32 direction_aux;
     s32 jump_state;
     s32 frames_left;

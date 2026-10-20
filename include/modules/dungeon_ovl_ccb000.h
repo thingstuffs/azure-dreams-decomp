@@ -1,6 +1,7 @@
 #ifndef MODULE_DUNGEON_OVL_CCB000_H
 #define MODULE_DUNGEON_OVL_CCB000_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
@@ -69,7 +70,6 @@ typedef struct CL_CCB000_80170920_S_80170920_1 {
     u16 unk_1E;
 } CL_CCB000_80170920_S_80170920_1;   /* arg2 in func_80158920 */
 
-
 /* Expands and brightens the effect, then shrinks and fades it until expiration. */
 
 typedef struct CL_CCB000_80170A5C_S_80170A5C_0 {
@@ -92,14 +92,6 @@ typedef struct CL_CCB000_80170A5C_S_80170A5C_2 {
     s16 unk_0A;
 } CL_CCB000_80170A5C_S_80170A5C_2;   /* part0 in func_80158A5C */
 
-typedef struct CL_CCB000_80170A5C_S_80170A5C_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} CL_CCB000_80170A5C_S_80170A5C_3;   /* part1 in func_80158A5C */
-
 typedef struct CL_CCB000_80170A5C_S_80170A5C_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -109,32 +101,9 @@ typedef struct CL_CCB000_80170A5C_S_80170A5C_4 {
     s8 unk_9C;
 } CL_CCB000_80170A5C_S_80170A5C_4;   /* result_copy in func_80158A5C */
 
-
-
-
-
-
-
-
-
-
-
-
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 
 typedef void (*CL_CCB000_80170C24_Callback)(void *, void *, void *, void *);
-
-
-
-
-
-
-
-
-
-
-
-
 
 typedef struct CL_CCB000_80170C24_S_80170C24_0 {
     u8 pad_00[0x4];
@@ -188,18 +157,6 @@ typedef struct CL_CCB000_80170C24_S_80170C24_2 {
  /* extern */
  /* extern */
  /* extern */
-
-
-
-
-
-
-
-
-
-
-
-
 
 typedef struct CL_CCB000_8017102C_S_8017102C_0 {
     u8 pad_00[0x8C];
@@ -294,16 +251,6 @@ typedef struct CL_CCB000_80171590_S_80171590_3 {
     u8 unk_7C;
 } CL_CCB000_80171590_S_80171590_3;   /* (u8 *)state + ((CL_CCB000_80171590_S_80171590_0 *)state)->unk_8A.s in func_80159590 */
 
-
-
-
-
-
-
-
-
-
-
 /* Advances the entity along its stored path and updates movement state. */
 
 /* Selects a movement direction and updates the actor's position and movement state.
@@ -311,9 +258,6 @@ typedef struct CL_CCB000_80171590_S_80171590_3 {
  * the actor stands on; actor_data: the actor. */
 
 /* extern */
-
-
-
 
 typedef struct CL_CCB000_80171F58_S_80171F58_0 {
     u8 pad_00[0x9A];
@@ -341,26 +285,12 @@ typedef struct CL_CCB000_80171FBC_S_80171DA0_1 {
     u8 * unk_2C;
 } CL_CCB000_80171FBC_S_80171DA0_1;   /* held_arg2 in func_80159FBC */
 
-
-
-
-
-
-
-
-
-
-
 /* Checks whether the actor can transition and starts its directional effect. */
 
 /* extern */
  /* extern */
                           /* extern */
  /* extern */
-
-
-
-
 
 typedef struct CL_CCB000_80172180_S_80172180_0 {
     u8 pad_00[0x2A];
@@ -410,8 +340,6 @@ typedef struct CL_CCB000_80172298_S_80172628_0 {
             /* extern */
                 /* extern */
 
-
-
 typedef struct S_801723DC_0 {
     u8 pad_00[0x8C];
     void (*CL_CCB000_801723DC_unk_8C)(void *,void *,void *,void *);
@@ -435,7 +363,6 @@ typedef struct CL_CCB000_80172458_S_80172458_0 {
     u16 unk_A8;
 } CL_CCB000_80172458_S_80172458_0;   /* arg0 in func_8015A458 */
 
-
             /* extern */
          /* extern */
                              /* extern */
@@ -448,14 +375,10 @@ typedef struct CL_CCB000_80172458_S_80172458_0 {
                       /* extern */
                    /* extern */
 
-
-
 /* Updates tile movement and height interpolation, then finalizes the action when its timer expires. */
 
 /* extern */
                 /* extern */
-
-
 
 typedef struct S_80172944_0 {
     u8 pad_00[0x8C];
@@ -473,22 +396,12 @@ typedef struct CL_CCB000_801729A8_S_801729A8_0 {
     u8 unk_9B;
 } CL_CCB000_801729A8_S_801729A8_0;   /* arg0 in func_8015A9A8 */
 
-
 typedef struct CL_CCB000_801729A8_S_801729A8_3 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
 } CL_CCB000_801729A8_S_801729A8_3;   /* arg1 in func_8015A9A8 */
-
-
-
-
-
-
-
-
-
 
 /* Advances a timed actor animation and performs its completion cleanup. */
 
@@ -594,19 +507,6 @@ typedef struct CL_CCB000_80172BCC_Item {
     u8 pad2;
 } CL_CCB000_80172BCC_Item;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Advance the actor's item action, spawn its effect, and restore its position when finished. */
 
 typedef struct CL_CCB000_801730E0_S_801730E0_0 {
@@ -617,14 +517,6 @@ typedef struct CL_CCB000_801730E0_S_801730E0_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } CL_CCB000_801730E0_S_801730E0_0;   /* arg0 in func_8015B0E0 */
-
-
-
-
-
-
-
-
 
 /* Advance the action wait states, then reset motion and switch scripts. */
 
@@ -641,8 +533,6 @@ typedef struct CL_CCB000_801730E0_S_801730E0_0 {
 /* Delegate this action to its resident implementation. */
 
 /* extern */
-
-
 
 typedef struct S_80173364_0 {
     u8 pad_00[0x8C];
@@ -678,26 +568,6 @@ typedef struct CL_CCB000_8017339C_S_80173D4C_2 {
     s8 unk_6D;
 } CL_CCB000_8017339C_S_80173D4C_2;   /* arg3 in func_8015B39C */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Advances the actor_in action state and updates its directional animation. */
 
 typedef struct CL_CCB000_8017372C_S_801740DC_0 {
@@ -707,17 +577,11 @@ typedef struct CL_CCB000_8017372C_S_801740DC_0 {
     u8 unk_9B;
 } CL_CCB000_8017372C_S_801740DC_0;   /* arg0 in func_8015B72C */
 
-
 /* Updates actor state, directional animation, and the shared transition counter. */
 
 /* extern */
                                 /* extern */
                   /* extern */
-
-
-
-
-
 
 typedef struct S_80173A38_0 {
     u8 pad_00[0x8C];
@@ -741,8 +605,6 @@ typedef struct CL_CCB000_80173A38_S_80173A38_2 {
 /* extern */
                 /* extern */
 
-
-
 typedef struct S_80173B00_0 {
     u8 pad_00[0x8C];
     void (*CL_CCB000_80173B00_handler)(void *,void *,void *,void *);
@@ -751,8 +613,6 @@ typedef struct S_80173B00_0 {
 /* Run this action and restore the main state CL_CCB000_80173B00_handler after completion. */
 
 /* extern */
-
-
 
 typedef struct S_80173B64_0 {
     u8 pad_00[0x8C];
@@ -763,8 +623,6 @@ typedef struct S_80173B64_0 {
 
 /* extern */
 
-
-
 typedef struct S_80173B9C_0 {
     u8 pad_00[0x8C];
     void (*CL_CCB000_80173B9C_handler)(void *,void *,void *,void *);
@@ -773,8 +631,6 @@ typedef struct S_80173B9C_0 {
 /* Run this action and restore the main state CL_CCB000_80173B9C_handler when it completes. */
 
 /* extern */
-
-
 
 typedef struct S_80173BD4_0 {
     u8 pad_00[0x8C];
@@ -788,12 +644,6 @@ typedef struct S_80173BD4_0 {
 typedef struct {
     u32 word[3];
 } __attribute__((packed)) CL_CCB000_80173CFC_Copy12;
-
-
-
-
-
-
 
 typedef struct CL_CCB000_80173CFC_S_80173CFC_0 {
     u8 pad_00[0x1];
@@ -828,7 +678,6 @@ typedef struct CL_CCB000_80173CFC_S_80173CFC_2 {
     u8 pad_08[0x2];
     s16 unk_0A;
 } CL_CCB000_80173CFC_S_80173CFC_2;   /* pos in func_8015BCFC */
-
 
 /* Creates an effect at an offset from the source position with randomized rotation. */
 
@@ -941,25 +790,11 @@ typedef struct CL_CCB000_80173E40_S_80173E40_7 {
     u8 * unk_8D0;
 } CL_CCB000_80173E40_S_80173E40_7;   /* *(u8 **)global in func_8015BE40 */
 
-
 typedef struct {
     s16 m[3][3];
     s16 pad;
     s32 t[3];
 } CL_CCB000_80173E40_MATRIX;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* Projects a quad and adds it to the ordering table when visible. */
 
@@ -982,8 +817,6 @@ typedef struct CL_CCB000_80174320_S_80174320_1 {
 #define F16(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define FU16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define F32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-
-
 
 /* Update an effect's color phases, burst, movement, and remaining lifetime. */
 
@@ -1067,20 +900,11 @@ typedef struct {
     u8 bytes[12];
 } CL_CCB000_80174724_Copy12;
 
-
-
-
-
-
-
 extern void *memcpy(void *, const void *, u32);
 
 /* Create three bands of eight effect segments around the supplied position. */
 
 /* extern */
-
-
-
 
 typedef struct CL_CCB000_80174B3C_S_80174B3C_0 {
     u8 pad_00[0x6D];
@@ -1113,7 +937,6 @@ typedef struct CL_CCB000_80174D14_S_80C97514_12 {
     void * unk_08;
 } CL_CCB000_80174D14_S_80C97514_12;   /* temp_v0_2 in func_8015CD14 */
 
-
 typedef struct CL_CCB000_80174D14_S_80C97514_14 {
     s32 unk_00;
     s32 unk_04;
@@ -1124,7 +947,6 @@ typedef struct CL_CCB000_80174D14_S_80C97514_15 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } CL_CCB000_80174D14_S_80C97514_15;   /* ((Rec_D_80082E80 *)arg3)->unk_60.as_pv in func_8015CD14 */
-
 
 typedef struct CL_CCB000_80174D14_S_80C97514_0_pre {
     u16 unk_00;
@@ -1140,7 +962,6 @@ typedef struct CL_CCB000_80174D14_S_80C97514_0 {
     u8 pad_A6[0x6];
     void * unk_AC;
 } CL_CCB000_80174D14_S_80C97514_0;   /* arg0 in func_8015CD14 */
-
 
 typedef struct CL_CCB000_80174D14_S_80C97514_2 {
     u8 unk_00;
@@ -1158,7 +979,6 @@ typedef struct CL_CCB000_80174D14_S_80C97514_5 {
     s32 * unk_10;
 } CL_CCB000_80174D14_S_80C97514_5;   /* temp_v0_2 in func_8015CD14 */
 
-
 typedef struct CL_CCB000_80174D14_S_80C97514_7 {
     u8 pad_00[0x4];
     s8 unk_04;
@@ -1173,7 +993,6 @@ typedef struct CL_CCB000_80174D14_S_80C97514_7 {
     u8 * unk_2C;
 } CL_CCB000_80174D14_S_80C97514_7;   /* temp_s0 in func_8015CD14 */
 
-
 typedef struct CL_CCB000_80174D14_S_80C97514_9_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -1183,7 +1002,6 @@ typedef struct CL_CCB000_80174D14_S_80C97514_9 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } CL_CCB000_80174D14_S_80C97514_9;   /* temp_v1_3 in func_8015CD14 */
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
      /* extern */
@@ -1204,17 +1022,6 @@ s32 Control_CD(); /* extern */
  /* extern */
       /* extern */
 
-
-
-
-
-
-
-
-
-
-
-
 /* Advances the actor transition through turning, color blending, effects, and model replacement. */
 
 typedef void (*CL_CCB000_8017523C_ActionCallback)(void *,void *,void *,void *);
@@ -1223,7 +1030,6 @@ typedef struct {
  CL_CCB000_8017523C_ActionCallback handler;
 } CL_CCB000_8017523C_CallbackState;
 
-
 /* Resume the action dispatcher after the resident action completes. */
 
 typedef void (*CL_CCB000_80175274_ActionCallback)(void *,void *,void *,void *);
@@ -1231,7 +1037,6 @@ typedef struct {
  u8 pad[0x8C];
  CL_CCB000_80175274_ActionCallback handler;
 } CL_CCB000_80175274_CallbackState;
-
 
 /* Resume the action dispatcher after the resident action completes. */
 extern s32 D_8003E140[];
@@ -1356,7 +1161,7 @@ extern s32 resolve_actor_floor_trap_once(void *,void *,void *,void *);
 extern s32 update_actor_hop_and_shrink(void *,void *,void *,void *);
 extern s32 advance_actor_removal(void *,void *,void *,void *);
 extern s32 update_actor_hop_and_grow(void *,void *,void *,void *);
-extern s32 update_thrown_actor_travel(void *,void *,void *,void *);
+extern s32 update_thrown_actor_travel(void *,void *,SpriteFrameState *,void *);
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
 extern s32 update_spinning_actor_fall(void *,void *,void *,void *);
 extern s32 propagate_actor_action_flag(void *,void *,void *,void *);
@@ -1393,7 +1198,7 @@ void func_8015A944(S_80172944_0 *state,void *position,void *render_state,void *e
 void func_8015A9A8(void *action, void *motion, void *sprite, void *actor);
 void func_8015ABCC(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CCB000_80172BCC_S_func_80C953CC_2 *position, CL_CCB000_80172BCC_S_func_80C953CC_3 *entity,
     CL_CCB000_80172BCC_S_func_80C953CC_4 *actor);
-void func_8015B0E0(CL_CCB000_801730E0_S_801730E0_0 *state, EntityRec *motion, Rec_D_80082E80 *action, EntityRec *entity);
+void func_8015B0E0(CL_CCB000_801730E0_S_801730E0_0 *state, EntityRec *motion, SpriteFrameState *action, EntityRec *entity);
 void func_8015B304(void *state,void *position,void *render_state,void *entity);
 void func_8015B324(void *state,void *position,void *render_state,void *entity);
 void func_8015B344(void *state,void *position,void *render_state,void *entity);
@@ -1413,7 +1218,7 @@ void func_8015C374(u8 *effect, s32 *position, s32 effect_param);
 void func_8015C724(CL_CCB000_80174724_S_80C96F24_0 *owner, void *origin, void *entity);
 void func_8015CB3C(S_80174B3C_1 *state, void *unused_position, void *unused_render_state, CL_CCB000_80174B3C_S_80174B3C_0 *entity);
 void func_8015CBE8(u8 *task, void *context, u8 *input);
-void func_8015CD14(void *state, EntityRec *position, Rec_D_80082E80 *entity, void *actor);
+void func_8015CD14(void *state, EntityRec *position, SpriteFrameState *entity, void *actor);
 void func_8015D23C(CL_CCB000_8017523C_CallbackState *state,void *position,void *sprite,void *entity);
 void func_8015D274(CL_CCB000_80175274_CallbackState *state,void *position,void *sprite,void *entity);
 #endif

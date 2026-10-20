@@ -3,8 +3,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-void dispatch_sound_by_global_flag();                            /* extern */
-void call_the_handler_selects_nonzero_entry();  /* extern */
+void dispatch_sound_by_global_flag(void);                            /* extern */
+#include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 extern M2C_UNK D_8009204C;
 
 typedef struct S_800942B0_0 {
@@ -17,7 +17,7 @@ typedef struct S_800942B0_0 {
 void initialize_actor_action_state(Rec_func_80094268_arg0 *object, S_800942B0_0 *state, s32 initData) {
     dispatch_sound_by_global_flag();
     state->unk_14 = 0xFFEF0000;
-    call_the_handler_selects_nonzero_entry(D_800D00B0, object, initData);
+    call_the_handler_selects_nonzero_entry(D_800D00B0, object, (void *)(initData));
     object->unk_00.as_pm = &D_8009204C;
     object->unk_0A.as_s16 = 0;
 }

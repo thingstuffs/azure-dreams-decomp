@@ -58,7 +58,7 @@ extern u8 D_800CFCAC[];
 extern s32 D_800FE480;
 extern s32 D_800FE484;
 
-extern s32 check_scratch_quad_half_turn_gaps();
+struct ScratchQuad; s32 check_scratch_quad_half_turn_gaps(struct ScratchQuad *);
 
 /* Finds the lowest qualifying surface height and plane at the query position. */
 s32 find_min_qualifying_plane_height(u32 query_x, u32 query_y, s16 query_height, void **plane_out)
@@ -192,7 +192,7 @@ s32 find_min_qualifying_plane_height(u32 query_x, u32 query_y, s16 query_height,
                         scratch->quad.words[3] = vertices[*(u16 *)(face + 4)].xy;
                         scratch->quad.halves[6] -= local_x;
                         scratch->quad.halves[7] -= local_y;
-                        if (check_scratch_quad_half_turn_gaps(scratch) != 0) {
+                        if (check_scratch_quad_half_turn_gaps((struct ScratchQuad *)(scratch)) != 0) {
                             height = ((s16)scratch->planes[*(u16 *)(face + 0x10)].xy *
                                       ((s16)vertices[*(u16 *)face].xy -
                                        (s16)scratch->origin_x) +

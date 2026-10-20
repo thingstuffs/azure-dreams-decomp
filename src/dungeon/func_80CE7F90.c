@@ -1,4 +1,5 @@
 #include "dungeon/monster/troll/troll_flash_effects.h"
+#include "shared/sprite_frame_state.h"
 
 /* Creates an effect at an offset position with randomized attributes and motion. */
 void spawn_random_color_burst_particle(void *source, void *position) {
@@ -23,25 +24,25 @@ void spawn_random_color_burst_particle(void *source, void *position) {
         ((T_80171790_S_80171790_1 *)((void *) obj_or_angle))->unk_10 = &update_saved_rgb_fade;
         register_node(init_obj, ((s32 *)update_rotating_actor_aura));
         data_or_speed = (s32) ((T_80171790_S_80171790_1 *)((void *) obj_or_angle))->unk_0C;
-        ((T_80171790_S_80171790_2 *)((void *) data_or_speed))->unk_10 = 0x60;
-        ((T_80171790_S_80171790_2 *)((void *) data_or_speed))->unk_14 =
-            (u16) (((T_80171790_S_80171790_2 *)((void *) data_or_speed))->unk_14 | 0xC);
+        ((SpriteFrameState *)data_or_speed)->tpage_abr = 0x60;
+        ((SpriteFrameState *)data_or_speed)->flags =
+            (u16) (((SpriteFrameState *)data_or_speed)->flags | 0xC);
         effect_pos = ((T_80171790_S_80171790_1 *)((void *) obj_or_angle))->unk_08;
         effect_pos->unk_02 = source_pos->unk_02;
         effect_pos->unk_06 = source_pos->unk_06;
         effect_pos->unk_0A =
             (s16) (source_pos->unk_0A - 0x50);
         data_or_speed = (s32) ((T_80171790_S_80171790_1 *)((void *) obj_or_angle))->unk_0C;
-        ((T_80171790_S_80171790_2 *)((void *) data_or_speed))->unk_1E = 0x1000;
-        ((T_80171790_S_80171790_2 *)((void *) data_or_speed))->unk_1C = 0x1000;
-        ((T_80171790_S_80171790_2 *)((void *) data_or_speed))->unk_0C = rand();
-        ((T_80171790_S_80171790_2 *)((void *) data_or_speed))->unk_0D = rand();
-        ((T_80171790_S_80171790_2 *)((void *) data_or_speed))->unk_0E = rand();
+        ((SpriteFrameState *)data_or_speed)->scale_y = 0x1000;
+        ((SpriteFrameState *)data_or_speed)->scale_x = 0x1000;
+        ((SpriteFrameState *)data_or_speed)->color.c.r = rand();
+        ((SpriteFrameState *)data_or_speed)->color.c.g = rand();
+        ((SpriteFrameState *)data_or_speed)->color.c.b = rand();
         ((T_80171790_S_80171790_1 *)((void *) obj_or_angle))->unk_20 =
-            ((T_80171790_S_80171790_2 *)((void *) data_or_speed))->unk_0C;
-        random_byte_1 = ((T_80171790_S_80171790_2 *)((void *) data_or_speed))->unk_0D;
+            ((SpriteFrameState *)data_or_speed)->color.c.r;
+        random_byte_1 = ((SpriteFrameState *)data_or_speed)->color.c.g;
         effect_state->unk_01 = random_byte_1;
-        random_byte_2 = ((T_80171790_S_80171790_2 *)((void *) data_or_speed))->unk_0E;
+        random_byte_2 = ((SpriteFrameState *)data_or_speed)->color.c.b;
         effect_state->unk_60 = 0;
         effect_state->unk_5C = 0;
         effect_state->unk_58 = 0;

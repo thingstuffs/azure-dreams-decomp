@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/vector.h"
-
 
 typedef struct State8081A3D8 {
     s16 state;
@@ -35,7 +35,6 @@ extern void register_node(void *, void *);
 extern void clear_alternate_texture_regions(s32);
 extern s32 SD_Call(s32);
 extern void tw_sd_sq_ld_call(s32, s32);
-
 
 typedef struct S_800243D8_0 {
     u8 pad_00[0x8];
@@ -81,7 +80,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
 {
     u8 *object;
     u8 *object_data;
-    u8 *inner_data;
+    SpriteFrameState *inner_data;
     u8 *callback;
     s16 spawn_interval;
     s16 spawn_rate;
@@ -127,11 +126,11 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
                     ((S_800243D8_1 *)object_tail)->unk_AC = controller;
                     ((S_800243D8_1 *)object_tail)->unk_A0 = object_phase;
                 }
-                ((S_800243D8_2 *)inner_data)->unk_1E = 0x1000;
-                ((S_800243D8_2 *)inner_data)->unk_1C = 0x1000;
-                ((S_800243D8_2 *)inner_data)->unk_04.at02.v = -0x100;
+                inner_data->scale_y = 0x1000;
+                inner_data->scale_x = 0x1000;
+                inner_data->unk_06 = -0x100;
                 func_8003DB94(inner_data, D_800F7DFC, 0);
-                ((S_800243D8_2 *)inner_data)->unk_0C.at00.v = 0x00808080;
+                inner_data->color.word = 0x00808080;
             }
             controller->flags |= 1;
             }

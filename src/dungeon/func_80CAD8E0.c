@@ -1,6 +1,7 @@
 #include "modules/dungeon_ovl_ccb000.h"
+#include "shared/sprite_frame_state.h"
 
-void func_8015B0E0(CL_CCB000_801730E0_S_801730E0_0 *state, EntityRec *motion, Rec_D_80082E80 *action, EntityRec *entity) {
+void func_8015B0E0(CL_CCB000_801730E0_S_801730E0_0 *state, EntityRec *motion, SpriteFrameState *action, EntityRec *entity) {
     s16 phase;
     u16 ticks_left;
     s16 wait_ticks;
@@ -19,7 +20,7 @@ void func_8015B0E0(CL_CCB000_801730E0_S_801730E0_0 *state, EntityRec *motion, Re
         func_800419EC(4, 6);
         state->unk_9B = state->unk_9B + 1;
         if (entity->unk_28 != 0) {
-            if (action->unk_14.at00_u16.v & 0x8000) {
+            if (action->flags & 0x8000) {
                 state->unk_96.s = 0;
                 state->unk_9B = 2;
                 return;
@@ -40,7 +41,7 @@ void func_8015B0E0(CL_CCB000_801730E0_S_801730E0_0 *state, EntityRec *motion, Re
             ticks_left = state->unk_96.s - 1;
             state->unk_96.s = ticks_left;
         } else {
-            if (action->unk_14.at00_u16.v & 0x6000)
+            if (action->flags & 0x6000)
                 state->unk_96.s = 0;
         }
         if (state->unk_96.u != 0)

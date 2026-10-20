@@ -1,5 +1,6 @@
 #include "dungeon/effect/motion/interpolate_view_parameters.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
 /* Selector entry invokes this complete native state machine. */
 void (*const D_80024000)(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual) = build_inverted;
 
@@ -102,7 +103,7 @@ void advance_motion_counters_position_set_completion_flags_past_lifetime(void *m
 
 void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void *initial_data, Row_81916AEC_S_800242EC_2 *source)
 {
-    Row_81916AEC_S_800242EC_3 *visual;
+    SpriteFrameState *visual;
     void *object;
     Row_81916AEC_S_800242EC_1 *state;
     Row_81916AEC_Copy6 *object_data;
@@ -118,16 +119,16 @@ void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void
         state->unk_08 = 8;
         state->unk_0A = source->unk_2A;
         visual = ((Row_81916AEC_S_800242EC_0 *)object)->unk_0C;
-        visual->unk_0D = 0x30;
-        visual->unk_0C = 0x30;
-        visual->unk_0E = 0xC0;
-        visual->unk_12 = 0x7DCF;
-        visual->unk_14 |= 0xC;
-        visual->unk_10 |= 0x20;
-        visual->unk_14 |= 0x100;
+        visual->color.c.g = 0x30;
+        visual->color.c.r = 0x30;
+        visual->color.c.b = 0xC0;
+        visual->clut = 0x7DCF;
+        visual->flags |= 0xC;
+        visual->tpage_abr |= 0x20;
+        visual->flags |= 0x100;
         func_8003DB94(visual, &D_800DEC70, 0);
-        visual->unk_1E = 0x1000;
-        visual->unk_1C = 0x1000;
+        visual->scale_y = 0x1000;
+        visual->scale_x = 0x1000;
         register_node(object, project_sprite_chain);
         object_data = ((Row_81916AEC_S_800242EC_0 *)object)->unk_08;
         result = object;
@@ -177,7 +178,7 @@ void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
     object = func_8003FC64(0x212);
     if (object != NULL) {
         object->unk_10 = &D_8002441C;
-        ((Row_81916D2C_S_8002452C_2 *)(((Row_81916D2C_S_8002452C_1 *)object)->unk_0C))->unk_05 = 4;
+        ((SpriteFrameState *)((Row_81916D2C_S_8002452C_1 *)object)->unk_0C)->unk_05 = 4;
         object->unk_20 = initial_value;
     }
 }
@@ -207,7 +208,7 @@ void update_the_target_records_counts_flags_status(void *object_slot, void *unus
 
 void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, Row_81916E00_Copy24 *initial_data) {
     s32 owner_value;
-    Row_81916E00_S_80024600_1 *render_state;
+    SpriteFrameState *render_state;
     Row_81916E00_S_80024600_0 *object;
     Row_81916E00_Copy24 *object_data;
 
@@ -218,14 +219,14 @@ void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, 
         render_state = object->unk_0C;
         object->unk_24 = 0;
         object->unk_20 = owner_value;
-        render_state->unk_0C = 0x808080;
-        render_state->unk_12 = 0x7DCF;
-        render_state->unk_14 = (u16) (render_state->unk_14 | 0xC);
-        render_state->unk_10 = (u16) (render_state->unk_10 | 0x60);
-        render_state->unk_14 = (u16) (render_state->unk_14 | 0x100);
+        render_state->color.word = 0x808080;
+        render_state->clut = 0x7DCF;
+        render_state->flags = (u16) (render_state->flags | 0xC);
+        render_state->tpage_abr = (u16) (render_state->tpage_abr | 0x60);
+        render_state->flags = (u16) (render_state->flags | 0x100);
         func_8003DB94(render_state, &D_800DEC50, 0);
-        render_state->unk_1E = 0x1000;
-        render_state->unk_1C = 0x1000;
+        render_state->scale_y = 0x1000;
+        render_state->scale_x = 0x1000;
         register_node(object, project_sprite_chain);
         object_data = object->unk_08;
         *object_data = *initial_data;
@@ -253,7 +254,7 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
 {
     s16 saved_step = size_step;
     void *effect;
-    Row_81917004_S_80024804_2 *part;
+    SpriteFrameState *part;
     Row_81917004_Copy24 *position;
     u8 *effect_state;
     s32 scale_step;
@@ -275,23 +276,23 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
 
         step_word = (s32)saved_step << 16;
         part = ((Row_81917004_S_80024804_0 *)effect)->unk_0C;
-        part->unk_0D = -0x60 - ((step_word >> 16) << 6);
-        part->unk_0C = -0x60 - ((step_word >> 16) << 6);
-        part->unk_0E = 0xC0;
-        part->unk_12 = 0x7DCF;
-        part->unk_08 = &D_80025B10;
+        part->color.c.g = -0x60 - ((step_word >> 16) << 6);
+        part->color.c.r = -0x60 - ((step_word >> 16) << 6);
+        part->color.c.b = 0xC0;
+        part->clut = 0x7DCF;
+        part->source = &D_80025B10;
 
-        part->unk_14 |= 0x000C;
-        part->unk_10 |= 0x0020;
-        part->unk_14 |= 0x0100;
+        part->flags |= 0x000C;
+        part->tpage_abr |= 0x0020;
+        part->flags |= 0x0100;
 
         random_value = func_80069EF8();
         effect_state = (u8 *)effect + 0x20;
-        part->unk_1A = random_value % 0x1000;
+        part->angle_z = random_value % 0x1000;
 
         part_scale = ((step_word >> 16) << 8) + 0x500;
-        part->unk_1E = part_scale;
-        part->unk_1C = part_scale;
+        part->scale_y = part_scale;
+        part->scale_x = part_scale;
         register_node(effect, project_sprite_chain);
 
         position = ((Row_81917004_S_80024804_0 *)effect)->unk_08;
@@ -316,7 +317,7 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
     return NULL;
 }
 
-void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E80 *visual) {
+void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, SpriteFrameState *visual) {
     s16 azimuth;
     s16 polar_angle;
     s32 radial_x;
@@ -350,20 +351,20 @@ void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *
         node_slot += 1;
     } while (node_index < 3);
     func_8003DB94(visual, D_800DEDB0, 0);
-    visual->unk_0C.at02_u8.v = 0xC0;
-    visual->unk_0C.at01_u8.v = 0xC0;
-    visual->unk_0C.at00_u8.v = 0xC0;
-    visual->unk_1C.at02_s16.v = 0x800;
-    visual->unk_1C.at00_s16.v = 0x800;
-    visual->unk_14.at00_u16.v = (u16) (visual->unk_14.at00_u16.v | 0xC);
-    visual->unk_10.as_u16 = (u16) (visual->unk_10.as_u16 | 0x20);
+    visual->color.c.b = 0xC0;
+    visual->color.c.g = 0xC0;
+    visual->color.c.r = 0xC0;
+    visual->scale_y = 0x800;
+    visual->scale_x = 0x800;
+    visual->flags = (u16) (visual->flags | 0xC);
+    visual->tpage_abr = (u16) (visual->tpage_abr | 0x20);
     rotation_quotient = rand();
     rotation_rand = rotation_quotient;
     if (rotation_rand < 0) {
         rotation_quotient = (s32) (rotation_rand + 0xFFF);
     }
     rotation_quotient >>= 0xC;
-    visual->unk_1A.as_s16 = (s16) (rotation_rand - (rotation_quotient << 0xC));
+    visual->angle_z = (s16) (rotation_rand - (rotation_quotient << 0xC));
     polar_rand = rand();
     polar_quotient = polar_rand;
     polar_quotient = polar_rand / 4096;
@@ -400,7 +401,7 @@ void advance_radial_effect_state(void *motion, void *position, void *effect) {
     state = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.s;
     switch (state) {
     case 0:
-        ((Rec_D_80082E80 *)effect)->unk_1A.as_u16 += 0x200;
+        ((SpriteFrameState *)effect)->angle_z += 0x200;
         sin_a = func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
         direction_scale = (sin_a >> 4) * (func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
         ((Rec_func_80024600_arg1 *)position)->unk_00 += direction_scale * 0x1C;
@@ -435,18 +436,18 @@ void advance_radial_effect_state(void *motion, void *position, void *effect) {
         ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.u++;
         break;
     case 1:
-        if (((Rec_D_80082E80 *)effect)->unk_0C.at00_u8.v != 0) {
-            intensity = ((Rec_D_80082E80 *)effect)->unk_0C.at02_u8.v - 0x20;
-            ((Rec_D_80082E80 *)effect)->unk_0C.at02_u8.v = intensity;
-            ((Rec_D_80082E80 *)effect)->unk_0C.at01_u8.v = intensity;
-            ((Rec_D_80082E80 *)effect)->unk_0C.at00_u8.v = intensity;
+        if (((SpriteFrameState *)effect)->color.c.r != 0) {
+            intensity = ((SpriteFrameState *)effect)->color.c.b - 0x20;
+            ((SpriteFrameState *)effect)->color.c.b = intensity;
+            ((SpriteFrameState *)effect)->color.c.g = intensity;
+            ((SpriteFrameState *)effect)->color.c.r = intensity;
         }
-        size = ((Rec_D_80082E80 *)effect)->unk_1C.at02_u16.v + 0x400;
-        ((Rec_D_80082E80 *)effect)->unk_1C.at02_u16.v = size;
-        ((Rec_D_80082E80 *)effect)->unk_1C.at00_u16.v = size;
+        size = ((SpriteFrameState *)effect)->scale_y + 0x400;
+        ((SpriteFrameState *)effect)->scale_y = size;
+        ((SpriteFrameState *)effect)->scale_x = size;
         func_800478B8(effect);
         func_800478B8(effect);
-        if (((Rec_D_80082E80 *)effect)->unk_14.at00_u16.v & 0x6000) {
+        if (((SpriteFrameState *)effect)->flags & 0x6000) {
             object = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_00;
             ((Row_8191740C_S_80024C0C_1 *)object)->unk_16++;
             global_flags = &object_flag_block;
@@ -460,7 +461,7 @@ void advance_radial_effect_state(void *motion, void *position, void *effect) {
 void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_80024E80_arg1 *start_pos) {
     void *effect;
     Row_81917680_S_80024E80_2 *state;
-    Row_81917680_S_80024E80_3 *render;
+    SpriteFrameState *render;
     Row_81917680_S_80024E80_4 *endpoints;
     s32 dx;
     s32 dy;
@@ -477,17 +478,17 @@ void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_800
         state->unk_04 = 0;
 
         render = ((Row_81917680_S_80024E80_0 *)effect)->unk_0C;
-        render->unk_0E = 0x80;
-        render->unk_0D = 0x80;
-        render->unk_0C = 0x80;
-        render->unk_12 = 0x7DCF;
-        render->unk_08 = D_800DE39C;
-        render->unk_14 |= 0x100;
+        render->color.c.b = 0x80;
+        render->color.c.g = 0x80;
+        render->color.c.r = 0x80;
+        render->clut = 0x7DCF;
+        render->source = D_800DE39C;
+        render->flags |= 0x100;
 
         random_angle = rand();
-        render->unk_1A = random_angle % 0x1000;
-        render->unk_1E = 0x400;
-        render->unk_1C = 0x400;
+        render->angle_z = random_angle % 0x1000;
+        render->scale_y = 0x400;
+        render->scale_x = 0x400;
 
         register_node(effect, project_sprite_chain);
 
@@ -534,7 +535,7 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void
     ((Row_81917894_S_80025094_1 *)owner)->unk_14 = (u16) (((Row_81917894_S_80025094_1 *)owner)->unk_14 + 1);
     func_800478B8(visual);
     ((Row_81917894_S_80025094_0 *)effect)->unk_06.u = (u16) (((Row_81917894_S_80025094_0 *)effect)->unk_06.u + 1);
-    ((Rec_D_80082E80 *)visual)->unk_1A.as_u16 = (u16) (((Rec_D_80082E80 *)visual)->unk_1A.as_u16 + 0x200);
+    ((SpriteFrameState *)visual)->angle_z = (u16) (((SpriteFrameState *)visual)->angle_z + 0x200);
     phase = ((Row_81917894_S_80025094_0 *)effect)->unk_04.s;
 
     switch (phase) {
@@ -549,13 +550,13 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void
         }
         ((Row_81917894_S_80025094_0 *)effect)->unk_0A = radius;
     }
-        brightness = ((Rec_D_80082E80 *)visual)->unk_0C.at02_u8.v + 3;
-        ((Rec_D_80082E80 *)visual)->unk_0C.at02_u8.v = brightness;
-        ((Rec_D_80082E80 *)visual)->unk_0C.at01_u8.v = brightness;
-        ((Rec_D_80082E80 *)visual)->unk_0C.at00_u8.v = brightness;
+        brightness = ((SpriteFrameState *)visual)->color.c.b + 3;
+        ((SpriteFrameState *)visual)->color.c.b = brightness;
+        ((SpriteFrameState *)visual)->color.c.g = brightness;
+        ((SpriteFrameState *)visual)->color.c.r = brightness;
         scale = ((Row_81917894_S_80025094_0 *)effect)->unk_06.s << 5;
-        ((Rec_D_80082E80 *)visual)->unk_1C.at02_s16.v = scale;
-        ((Rec_D_80082E80 *)visual)->unk_1C.at00_s16.v = scale;
+        ((SpriteFrameState *)visual)->scale_y = scale;
+        ((SpriteFrameState *)visual)->scale_x = scale;
         ((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v =
             (u16) (((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v - 2);
     case 1:
@@ -644,8 +645,8 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
     ObjectNodeHeader *node;
     Row_81917C08_EffectMotion *target_motion;
     Row_81917C08_EffectMotion *actor_motion;
-    Row_81917C08_ActorVisual *actor_visual;
-    Row_81917C08_ActorVisual *scan_visual;
+    SpriteFrameState *actor_visual;
+    SpriteFrameState *scan_visual;
     Row_81917C08_EffectMotion destination;
     s16 offset[3];
     s16 dest_tile_y;
@@ -669,15 +670,15 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
     case 1:
         node = (ObjectNodeHeader *)actor - 1;
         actor_visual = node->unk_0C;
-        if (!resolve_record_orientation_or_fallback(actor_visual->resource, actor_visual, offset, 0)) {
-            if (!( ((Row_81917C08_ActorVisual *)node->unk_0C)->flags & 0x8000))
+        if (!resolve_record_orientation_or_fallback(actor_visual->source, actor_visual, offset, 0)) {
+            if (!( ((SpriteFrameState *)node->unk_0C)->flags & 0x8000))
                 break;
         }
         actor_motion = node->unk_08;
         motion->x.w.i = actor_motion->x.w.i;
         motion->y.w.i = actor_motion->y.w.i;
         motion->z.w.i = actor_motion->z.w.i;
-        if (!(((Row_81917C08_ActorVisual *)node->unk_0C)->flags & 0x8000)) {
+        if (!(((SpriteFrameState *)node->unk_0C)->flags & 0x8000)) {
             motion->x.w.i += offset[0];
             motion->y.w.i += offset[1];
             motion->z.w.i += offset[2];
@@ -695,8 +696,8 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
             motion->next_z = target_motion->z.v - (D_800DDC40[((u8 *)actor->target)[0x13]] << 15);
         } else {
             scan_visual = node->unk_0C;
-            tile_x = scan_visual->tile_x;
-            tile_y = scan_visual->tile_y;
+            tile_x = scan_visual->unk_24;
+            tile_y = scan_visual->unk_25;
             dest_tile_x = tile_x;
             dest_tile_y = tile_y;
             do {

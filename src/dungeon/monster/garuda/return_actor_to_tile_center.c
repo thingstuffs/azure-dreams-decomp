@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
@@ -13,7 +14,6 @@ typedef struct S_80172CE0_0 {
     u8 unk_9B;
 } S_80172CE0_0;   /* arg0 in return_actor_to_tile_center */
 
-
 extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
@@ -22,7 +22,7 @@ extern s32 D_80171058;
 extern s32 D_801748C0;
 
 /* Applies backward motion, then returns the actor to its tile center or starts the next action. */
-void return_actor_to_tile_center(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *entity, EntityRec *actor)
+void return_actor_to_tile_center(S_80172CE0_0 *action, EntityRec *motion, SpriteFrameState *entity, EntityRec *actor)
 {
     s16 frames_left;
     s32 tracked_actor;
@@ -43,7 +43,7 @@ void return_actor_to_tile_center(S_80172CE0_0 *action, EntityRec *motion, Rec_D_
             begin_actor_display_action(action, motion, entity, &D_801748C0);
             return;
         }
-        if (entity->unk_14.at00_u16.v & 0x8000) {
+        if (entity->flags & 0x8000) {
             action->unk_96.s = 0;
             action->unk_9B = 2;
             return;
@@ -64,7 +64,7 @@ void return_actor_to_tile_center(S_80172CE0_0 *action, EntityRec *motion, Rec_D_
             ((s16 *)((s8 *)dir_step_y))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 10;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
-        } else if (entity->unk_14.at00_u16.v & 0x6000) {
+        } else if (entity->flags & 0x6000) {
             action->unk_96.s = 0;
         }
         if (action->unk_96.s != 0) {

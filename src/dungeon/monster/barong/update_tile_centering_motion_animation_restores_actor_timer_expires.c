@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -19,7 +20,6 @@ typedef struct S_80166B4C_0 {
     u8 pad_A0[0x4];
     s32 unk_A4;
 } S_80166B4C_0;   /* arg0 in update_tile_centering_motion_animation_restores_actor_timer_expires */
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_800644B8(s32);
@@ -58,15 +58,15 @@ void update_tile_centering_motion_animation_restores_actor_timer_expires(void *a
     {
         u8 *direction_anims;
 
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
             break;
         }
         direction_anims = D_80169574;
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_anims;
+        ((SpriteFrameState *)sprite)->frameTable = direction_anims;
         select_sprite_entry(sprite,
             direction_anims[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
+        ((SpriteFrameState *)sprite)->scale_y = 0x1000;
         ((S_80166B4C_0 *)action)->unk_98 |= 8;
         ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
         ((S_80166B4C_0 *)action)->unk_9E.s = 5;
@@ -77,7 +77,7 @@ void update_tile_centering_motion_animation_restores_actor_timer_expires(void *a
         move_frames = ((S_80166B4C_0 *)action)->unk_9E.s;
         ((S_80166B4C_0 *)action)->unk_90 -= ((S_80166B4C_0 *)action)->unk_A4;
         if (move_frames != 0) {
-            target_x = ((Rec_D_80082E80 *)sprite)->unk_24;
+            target_x = ((SpriteFrameState *)sprite)->unk_24;
             pos_x = ((EntityRec *)motion)->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -86,7 +86,7 @@ void update_tile_centering_motion_animation_restores_actor_timer_expires(void *a
             pos_y = ((EntityRec *)motion)->y.w.i;
             pos_y -= 0x20;
             ((EntityRec *)motion)->unk_10 =
-                (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - pos_y) << 16) /
+                (((((SpriteFrameState *)sprite)->unk_25 << 6) - pos_y) << 16) /
                 ((S_80166B4C_0 *)action)->unk_9E.s;
 
             ((S_80166B4C_0 *)action)->unk_A4 =
@@ -115,25 +115,25 @@ void update_tile_centering_motion_animation_restores_actor_timer_expires(void *a
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             direction_anims = D_8016957C;
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_anims;
+            ((SpriteFrameState *)sprite)->frameTable = direction_anims;
             select_sprite_entry(sprite,
                 direction_anims[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
-            ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0xC00;
+            ((SpriteFrameState *)sprite)->scale_y = 0xC00;
             ((S_80166B4C_0 *)action)->unk_9B++;
         }
     }
         break;
     case 3:
         idle_anims = D_80169554;
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != idle_anims) {
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = idle_anims;
+        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != idle_anims) {
+            ((SpriteFrameState *)sprite)->frameTable = idle_anims;
             select_sprite_entry(sprite,
                 idle_anims[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
-            ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
+            ((SpriteFrameState *)sprite)->scale_y = 0x1000;
         }
         break;
     }
@@ -147,8 +147,8 @@ void update_tile_centering_motion_animation_restores_actor_timer_expires(void *a
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
-    ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
-    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    ((SpriteFrameState *)sprite)->scale_y = 0x1000;
+    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
     reduce_actor_food_meter(actor, 3);
     advance_status_timers(actor);
 
@@ -165,8 +165,8 @@ void update_tile_centering_motion_animation_restores_actor_timer_expires(void *a
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
-                ((Rec_D_80082E80 *)sprite)->unk_24,
-                ((Rec_D_80082E80 *)sprite)->unk_25,
+                ((SpriteFrameState *)sprite)->unk_24,
+                ((SpriteFrameState *)sprite)->unk_25,
                 D_80082E80.tileX,
                 D_80082E80.tileY,
                 &distance);

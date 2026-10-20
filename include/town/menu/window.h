@@ -109,14 +109,6 @@ typedef struct func_8009FCC4_S_8009D424_3 {
     s32 unk_98;
 } func_8009FCC4_S_8009D424_3;
 
-typedef struct func_8009FCC4_S_8009D424_4 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} func_8009FCC4_S_8009D424_4;
-
 typedef struct func_8009FCC4_S_if_b1_0 {
     u8 pad_00[0x8];
     void * unk_08;

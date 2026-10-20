@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -56,7 +57,7 @@ typedef struct S_8016D6F0_9 {
 } S_8016D6F0_9;   /* ((S_8016D6F0_2 *)base8008)->unk_14A8 in advance_actor_action_and_animation */
 
 /* Advance the actor's action state, directional animation, and completion callback. */
-void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *entity)
+void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, SpriteFrameState *sprite, EntityRec *entity)
 {
     TileObject *reference_pos;
     DungeonGlobalStatus *counter_base;
@@ -71,12 +72,12 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Rec_D
     state = actor->unk_9B;
     switch (state) {
     case 0:
-        if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         {
             u8 *dir_table = D_801746A4;
-            sprite->unk_2C.as_pu8 = dir_table;
+            sprite->frameTable = dir_table;
             select_sprite_entry(
                 sprite,
                 dir_table[((g_game_work.view.viewAngle +
@@ -136,7 +137,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Rec_D
             on_actor_status_updated(entity);
             if ((get_entity_effect_value(entity, 1) << 0x10) != 0) {
                 reference_pos = &D_80082E80;
-                room_id = sprite->unk_26.as_s8;
+                room_id = *(s8 *)&sprite->unk_26;
                 if (((room_id == reference_pos->unk_026 && room_id >= 0) ||
                      get_tile_chebyshev_distance(reference_pos, sprite) < 2) &&
                     (generate_random_value() & 7) == 0) {
@@ -149,14 +150,14 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Rec_D
         }
         {
             u8 *dir_table = D_801746AC;
-            sprite->unk_2C.as_pu8 = dir_table;
+            sprite->frameTable = dir_table;
             select_sprite_entry(
                 sprite,
                 dir_table[((g_game_work.view.viewAngle +
                             entity->facing + 0x100) >> 9) & 7],
                 0);
         }
-        if (sprite->unk_14.at00_u16.v & 0x8000) {
+        if (sprite->flags & 0x8000) {
             actor->unk_8C = D_8016B778;
             return;
         }
@@ -167,7 +168,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Rec_D
         actor->unk_9B++;
         return;
     case 2:
-        if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         {

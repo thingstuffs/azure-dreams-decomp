@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
-
 
 extern s32 select_sprite_entry();
 extern s32 prepare_directional_attack();
@@ -28,8 +28,8 @@ s32 attempt_actor_transition(void *state, s32 action_id, void *sprite, EntityRec
     if (((u16 *)status)[1] & 0x2000) {
         return -1;
     }
-    target = place_actor_at_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
-                           ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
+    target = place_actor_at_directional_neighbor(actor, ((SpriteFrameState *)sprite)->unk_24,
+                           ((SpriteFrameState *)sprite)->unk_25, actor->facing);
     if ((check_entity_interaction_compatibility(actor, target) << 16) == 0) {
         return transitioned;
     }
@@ -73,7 +73,7 @@ s32 attempt_actor_transition(void *state, s32 action_id, void *sprite, EntityRec
         }
     }
 
-    (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8) = D_8017386C;
+    ((SpriteFrameState *)sprite)->frameTable = D_8017386C;
     select_sprite_entry(sprite,
                   D_8017386C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);

@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
-
 
 void set_sprite_animation_frame();
 s32 check_movement_clearance_and_height();
@@ -16,7 +16,7 @@ extern u8 D_80081485;
 extern u8 D_800DD0D0[];
 
 /* Updates actor state and animation when the position checks succeed. */
-void try_begin_put_down_carried_object(void *state, EntityRec *target, void *sprite, u32 actor_or_can) {
+void try_begin_put_down_carried_object(void *state, EntityRec *target, SpriteFrameState *sprite, u32 actor_or_can) {
     EntityRec *actor = (void *)actor_or_can;
     s16 probe_a;
     s16 probe_b;
@@ -30,8 +30,8 @@ void try_begin_put_down_carried_object(void *state, EntityRec *target, void *spr
         actor_or_can = animate_result > 0;
     } else if ((check_layer_offset_height(((u16)target->x.w.i), ((u16)target->y.w.i), actor->unk_88, actor->facing) << 0x10) == 0) {
         direction_offset = ((u16) actor->facing >> 8) & 0xE;
-        if ((find_valid_floor_item_position((s16) (((Rec_D_80082E80 *)sprite)->unk_24 + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
-            (s16) (((Rec_D_80082E80 *)sprite)->unk_25 + *(u16 *)(((u8 *)dir_step_y) + direction_offset)), actor->unk_88,
+        if ((find_valid_floor_item_position((s16) (sprite->unk_24 + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
+            (s16) (sprite->unk_25 + *(u16 *)(((u8 *)dir_step_y) + direction_offset)), actor->unk_88,
             &probe_a, &probe_b, &probe_c) << 0x10) != 0) {
             actor_or_can = 1;
         }
@@ -40,7 +40,7 @@ void try_begin_put_down_carried_object(void *state, EntityRec *target, void *spr
         ((Rec_func_8008ACDC_arg0 *)state)->unk_9A.as_s8 = 0x1F;
         ((Rec_func_8008ACDC_arg0 *)state)->unk_9B.as_s8 = 0;
         ((Rec_func_8008ACDC_arg0 *)state)->unk_8C.as_s32 = 0;
-        (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD0D0;
+        sprite->frameTable = D_800DD0D0;
         set_sprite_animation_frame(sprite, D_800DD0D0[(((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)) >> 9) & 7], 0, 1);
         g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) + 1;
         append_packed_action_record(actor, 0x28, 0, 0);

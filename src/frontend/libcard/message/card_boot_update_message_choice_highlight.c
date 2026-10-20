@@ -10,8 +10,8 @@ typedef struct {
 
 extern s32 D_800280B4[3];
 
-extern void card_boot_measure_dialog_choice_word();
-extern void card_boot_position_dialog_selection_marker();
+void card_boot_measure_dialog_choice_word(u8 *, s32, s32 *, s32 *, s32 *);
+void card_boot_position_dialog_selection_marker(void *, s32, s32, s32, s32);
 
 /* Processes the last word of an enabled table entry for the supplied object. */
 void card_boot_update_message_choice_highlight(void *object) {
@@ -28,7 +28,7 @@ void card_boot_update_message_choice_highlight(void *object) {
     entry = (EntryT *)(table_index * 0x18 + table_base);
     last_index = entry->count17 - 1;
     if (entry->flag14 != 0) {
-        card_boot_measure_dialog_choice_word(entry->words[last_index], *(s32 *)object, &result_first, &result_second, &result_third);
+        card_boot_measure_dialog_choice_word((u8 *)(entry->words[last_index]), *(s32 *)object, &result_first, &result_second, &result_third);
         card_boot_position_dialog_selection_marker(object, result_first, result_second, last_index, result_third);
     }
 }

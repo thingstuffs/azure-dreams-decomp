@@ -1,7 +1,8 @@
 #include "dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.h"
+#include "shared/sprite_frame_state.h"
 
 /* Animate movement to the target tile and finalize the actor when the timer expires. */
-void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *actor)
+void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, SpriteFrameState *tile, EntityRec *actor)
 {
     s32 state;
     s32 arc_ticks;

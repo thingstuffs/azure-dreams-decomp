@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
@@ -30,25 +31,10 @@ typedef struct S_800ABC00_1 {
     s32 unk_10;
 } S_800ABC00_1;   /* held_arg0 in spawn_person_offset_effect */
 
-typedef struct S_800ABC00_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800ABC00_2;
-
 typedef struct S_800ABC00_3 {
     u8 pad_00[0x2];
     s16 unk_02;
 } S_800ABC00_3;
-
 
 typedef struct {
     u8 pad0[8];
@@ -85,7 +71,7 @@ void spawn_person_offset_effect(void *source_data, u32 angle)
     s16 *y_step;
     s16 *x_steps;
     u32 direction;
-    S_800ABC00_2 *sprite;
+    SpriteFrameState *sprite;
     S_800ABC00_0 *motion;
     SubObject *effect_state;
     Object *effect;
@@ -116,13 +102,13 @@ void spawn_person_offset_effect(void *source_data, u32 angle)
                  ((rand() & 1) + 2));
         motion->unk_14 = (~rand() & 1) << 0xF;
         func_8003DB94(sprite, &D_800D1464, 0);
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_10 = 0x60;
-        sprite->unk_14 |= 0xC;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->tpage_abr = 0x60;
+        sprite->flags |= 0xC;
         ((S_800ABC00_3 *)effect_state)->unk_02 = (rand() & 3) | 4;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
@@ -6,7 +7,6 @@
 #include "shared/actor_action.h"
 
    /* arg0 in update_directional_motion_settle_entity_grid_position */
-
 
 extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
@@ -16,7 +16,7 @@ extern u8 D_801710F4[];
 extern u8 D_80174F10[];
 
 /* Update directional motion, then settle the entity at its grid position. */
-void update_directional_motion_settle_entity_grid_position(ActorActionTimerView *action, EntityRec *motion, Rec_D_80082E80 *grid_pos, EntityRec *entity)
+void update_directional_motion_settle_entity_grid_position(ActorActionTimerView *action, EntityRec *motion, SpriteFrameState *grid_pos, EntityRec *entity)
 {
     s16 *direction_y;
     s32 velocity_y;
@@ -58,7 +58,7 @@ void update_directional_motion_settle_entity_grid_position(ActorActionTimerView 
             begin_actor_display_action(action, motion, grid_pos, D_80174F10);
             return;
         }
-        if (grid_pos->unk_14.at00_u16.v & 0x8000) {
+        if (grid_pos->flags & 0x8000) {
             action->unk_96.u = 0;
             action->unk_9B = 2;
             return;

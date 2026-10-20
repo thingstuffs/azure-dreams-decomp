@@ -1,5 +1,5 @@
 #include "dungeon/effect/travel/random_rotation_sprite_effects.h"
-
+#include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_18b8824_entry)(void) = (void (*)(void))advance_launched_effect;
 
 void interpolate_view_parameters(void *state, void *motion, void *transform)
@@ -31,7 +31,7 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
 {
     ovl_18b8824_818988CC_Object *obj;
     ovl_18b8824_818988CC_S_800240CC_0 *fields;
-    ovl_18b8824_818988CC_Sprite *sprite;
+    SpriteFrameState *sprite;
     ovl_18b8824_818988CC_Copy24 *dst;
     s32 random_value;
 
@@ -44,12 +44,12 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
         fields->unk_12 = initial_value;
 
         sprite = obj->sprite;
-        sprite->color[2] = 0x80;
-        sprite->color[1] = 0x80;
-        sprite->color[0] = 0x80;
-        sprite->callback = D_80024E88;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->source = D_80024E88;
         random_value = rand();
-        sprite->rotation = random_value % 0x1000;
+        sprite->angle_z = random_value % 0x1000;
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
 
@@ -78,7 +78,7 @@ void handle_increment_entry_counters_process_target_propagate_status_flags(void 
 void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 *initial_state)
 {
     ovl_18b8824_81898A64_S_80024264_2 *state;
-    ovl_18b8824_81898A64_S_80024264_1 *appearance;
+    SpriteFrameState *appearance;
     ovl_18b8824_81898A64_S_80024264_0 *object;
 
     object = func_8003FC64(0x212);
@@ -87,13 +87,13 @@ void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 
         appearance = object->unk_0C;
         object->unk_20 = object_tag;
         object->unk_24 = 0;
-        appearance->unk_0E = 0x80;
-        appearance->unk_0D = 0x80;
-        appearance->unk_0C = 0x80;
+        appearance->color.c.b = 0x80;
+        appearance->color.c.g = 0x80;
+        appearance->color.c.r = 0x80;
         func_8003DB94(appearance, &D_80024EF4, 0);
-        appearance->unk_1C = 0x2000;
-        appearance->unk_1E = 0x1000;
-        appearance->unk_1A = 0xC00;
+        appearance->scale_x = 0x2000;
+        appearance->scale_y = 0x1000;
+        appearance->angle_z = 0xC00;
         register_node(object, project_sprite_chain);
         state = object->unk_08;
         state->unk_00 = initial_state->unk_00.at00_s32.v;
@@ -137,7 +137,7 @@ void advance_the_entry_counters_trigger_count_milestones_update_target(void *ent
 }
 
 void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_state) {
-    ovl_18b8824_81898C1C_S_8002441C_1 *display;
+    SpriteFrameState *display;
     ovl_18b8824_81898C1C_S_8002441C_0 *object;
     ovl_18b8824_81898C1C_S_8002441C_2 *state;
     void *result;
@@ -148,17 +148,17 @@ void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441
         display = object->unk_0C;
         object->unk_20 = object_id;
         object->unk_24 = 0;
-        display->unk_0E = 0x80;
-        display->unk_0D = 0x80;
-        display->unk_0C = 0x80;
-        display->unk_0E = 0xC0;
+        display->color.c.b = 0x80;
+        display->color.c.g = 0x80;
+        display->color.c.r = 0x80;
+        display->color.c.b = 0xC0;
         func_8003DB94(display, &D_80024E40, 0);
-        display->unk_1C = 0x2000;
-        display->unk_1E = 0x1000;
-        display->unk_12 = 0x7DCF;
-        display->unk_14 = (u16)(display->unk_14 | 0xC);
-        display->unk_10 = (u16)(display->unk_10 | 0x20);
-        display->unk_14 = (u16)(display->unk_14 | 0x100);
+        display->scale_x = 0x2000;
+        display->scale_y = 0x1000;
+        display->clut = 0x7DCF;
+        display->flags = (u16)(display->flags | 0xC);
+        display->tpage_abr = (u16)(display->tpage_abr | 0x20);
+        display->flags = (u16)(display->flags | 0x100);
         register_node(object, project_sprite_chain);
         state = object->unk_08;
         state->unk_00 = initial_state->unk_00;
@@ -200,8 +200,8 @@ ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32
         sprite[0xE] = 0x80;
         sprite[0xD] = 0x80;
         sprite[0xC] = 0x80;
-        *(s16 *)(sprite + 0x1E) = 0x1400;
-        *(s16 *)(sprite + 0x1C) = 0x1400;
+        ((SpriteFrameState *)sprite)->scale_y = 0x1400;
+        ((SpriteFrameState *)sprite)->scale_x = 0x1400;
         func_8003DB94(sprite, D_80024FC4, 0);
         register_node(obj, project_sprite_chain);
 

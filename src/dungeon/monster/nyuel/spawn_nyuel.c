@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -24,14 +25,6 @@ typedef struct S_80170894_2 {
     s16 unk_0A;
 } S_80170894_2;   /* part_a in func_80170894 */
 
-typedef struct S_80170894_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80170894_3;   /* part_b in func_80170894 */
-
 typedef struct S_80170894_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -40,7 +33,6 @@ typedef struct S_80170894_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_80170894_4;   /* actor in func_80170894 */
-
 
 extern void *allocate_list_node(s32, const void *);
 extern void register_node(void *, const void *);
@@ -53,7 +45,6 @@ extern void update_monster_facing_and_contact(void);
 extern void update_entity_actions_facing_and_animation(void);
 extern void func_80174ED8(void);
 extern void func_80174F00(void);
-
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
@@ -80,7 +71,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
     obj = allocate_list_node(call_id, call_target);
     flags_copy = held_flags;
     if (obj != 0) {
-        register void *part_b;
+        register SpriteFrameState *part_b;
         void *actor;
 
         work = (u8 *)obj;
@@ -92,9 +83,9 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
         ((S_80170894_2 *)part_a)->unk_0A = held_c;
         part_b = ((S_80170894_1 *)obj)->unk_0C;
         kind = held_flags & 3;
-        ((S_80170894_3 *)part_b)->unk_25 = held_b;
+        part_b->unk_25 = held_b;
         actor = work;
-        ((S_80170894_3 *)part_b)->unk_24 = held_a;
+        part_b->unk_24 = held_a;
 
         if (kind == 1) {
             s32 left_one;
@@ -105,7 +96,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             right_one = ((S_80170894_0 *)work)->unk_1C | 0x6000;
             ((S_80170894_0 *)work)->unk_14 = left_one;
             ((S_80170894_0 *)work)->unk_1C = right_one;
-            ((S_80170894_3 *)part_b)->unk_2C = func_80174ED8;
+            part_b->frameTable = func_80174ED8;
         } else if (kind >= 2) {
             s32 left_many;
             s32 right_many;
@@ -115,7 +106,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             right_many = ((S_80170894_0 *)work)->unk_1C | 0x2000;
             ((S_80170894_0 *)work)->unk_14 = left_many;
             ((S_80170894_0 *)work)->unk_1C = right_many;
-            ((S_80170894_3 *)part_b)->unk_2C = func_80174ED8;
+            part_b->frameTable = func_80174ED8;
         } else {
             s32 test;
             u8 *callback_page;
@@ -132,15 +123,15 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
                 } else {
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    ((S_80170894_3 *)part_b)->unk_2C = func_80174F00;
+                    part_b->frameTable = func_80174F00;
                     callback_page = (u8 *)0x80170000;
                 }
                 ((S_80170894_4 *)actor)->unk_8C = callback_page + 0xE9C;
-                ((S_80170894_3 *)part_b)->unk_2C = func_80174ED8;
+                part_b->frameTable = func_80174ED8;
                 goto callback_done;
             }
             ((S_80170894_0 *)work)->unk_8C = callback_page + 0xE9C;
-            ((S_80170894_3 *)part_b)->unk_2C = func_80174ED8;
+            part_b->frameTable = func_80174ED8;
         }
 callback_done:
         ((S_80170894_1 *)obj)->unk_10 = update_monster_facing_and_contact;

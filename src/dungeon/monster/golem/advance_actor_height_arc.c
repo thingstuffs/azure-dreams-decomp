@@ -1,4 +1,5 @@
 #include "shared/entity_height_offsets.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -21,7 +22,6 @@ typedef struct S_80172D08_0 {
     u8 unk_AF;
 } S_80172D08_0;   /* arg0 in advance_actor_height_arc */
 
-
 typedef struct S_80172D08_4_pre {
     void * unk_00;
     u8 pad_04[0x14];
@@ -36,7 +36,6 @@ typedef struct S_80172D08_5 {
     u8 pad_00[0x13];
     u8 unk_13;
 } S_80172D08_5;   /* ((S_80172D08_2 *)arg3)->unk_60 in advance_actor_height_arc */
-
 
 extern s32 func_800644B8(s32);
 extern s32 resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
@@ -62,9 +61,9 @@ void advance_actor_height_arc(void *action, void *motion, void *record, EntityRe
     {
         s32 direction;
 
-        if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)record)->flags & 0x8000) {
             ((S_80172D08_0 *)action)->unk_9B = 4;
-            ((Rec_D_80082E80 *)record)->unk_14.at00_u16.v |= 0x6000;
+            ((SpriteFrameState *)record)->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, record, actor->facing, 1);
             return;
         }
@@ -72,14 +71,14 @@ void advance_actor_height_arc(void *action, void *motion, void *record, EntityRe
         ((S_80172D08_0 *)action)->unk_AF = 0;
         if (actor->target == 0) {
             direction = (((u16)actor->facing) >> 9) & 7;
-            if ((s16)check_layer_offset_height(((Rec_D_80082E80 *)record)->unk_24 << 6,
-                                   ((Rec_D_80082E80 *)record)->unk_25 << 6,
+            if ((s16)check_layer_offset_height(((SpriteFrameState *)record)->unk_24 << 6,
+                                   ((SpriteFrameState *)record)->unk_25 << 6,
                                    actor->unk_88,
                                    direction << 9) == 0) {
                 terrain_height = sample_terrain_surface_height(
-                    (((((Rec_D_80082E80 *)record)->unk_24 +
+                    (((((SpriteFrameState *)record)->unk_24 +
                        ((s16 *)((s8 *)dir_step_x))[direction]) << 6) + 0x20) & 0xFFE0,
-                    (((((Rec_D_80082E80 *)record)->unk_25 +
+                    (((((SpriteFrameState *)record)->unk_25 +
                        ((s16 *)((s8 *)dir_step_y))[direction]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->unk_88) - 0x20));
                 if ((u16)(terrain_height - ((u16)actor->unk_88) + 0x3F) >= 0x7F) {
@@ -164,9 +163,9 @@ void advance_actor_height_arc(void *action, void *motion, void *record, EntityRe
 
                 direction = (((u16)actor->facing) >> 8) & 0xE;
                 terrain_height = sample_terrain_surface_height(
-                    (((((Rec_D_80082E80 *)record)->unk_24 +
+                    (((((SpriteFrameState *)record)->unk_24 +
                        ((s16 *)((s8 *)dir_step_x))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
-                    (((((Rec_D_80082E80 *)record)->unk_25 +
+                    (((((SpriteFrameState *)record)->unk_25 +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->unk_88) - 0x20));
                 arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 7);
@@ -201,18 +200,18 @@ void advance_actor_height_arc(void *action, void *motion, void *record, EntityRe
     {
         s32 direction;
 
-        if (((((Rec_D_80082E80 *)record)->unk_04.as_s8 == 0xC) &&
-             (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x1000)) ||
-            (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0xE000)) {
+        if (((((SpriteFrameState *)record)->unk_04 == 0xC) &&
+             (((SpriteFrameState *)record)->flags & 0x1000)) ||
+            (((SpriteFrameState *)record)->flags & 0xE000)) {
             if (resolve_attack_damage_and_effects(actor, record, actor->facing, 1) != 0) {
                 play_sound_if_enabled(0x809);
                 create_primitive_state_object(action, motion, record);
             }
         }
 
-        if (((((Rec_D_80082E80 *)record)->unk_04.as_s8 == 0x14) &&
-             (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x1000)) ||
-            (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0xE000)) {
+        if (((((SpriteFrameState *)record)->unk_04 == 0x14) &&
+             (((SpriteFrameState *)record)->flags & 0x1000)) ||
+            (((SpriteFrameState *)record)->flags & 0xE000)) {
             if (((S_80172D08_0 *)action)->unk_AF == 0) {
                 direction = (((u16)actor->facing) >> 8) & 0xE;
                 ((Rec_func_80172D08_arg1 *)motion)->unk_0C =
@@ -266,9 +265,9 @@ void advance_actor_height_arc(void *action, void *motion, void *record, EntityRe
 
                 direction = (((u16)actor->facing) >> 8) & 0xE;
                 terrain_height = sample_terrain_surface_height(
-                    (((((Rec_D_80082E80 *)record)->unk_24 +
+                    (((((SpriteFrameState *)record)->unk_24 +
                        ((s16 *)((s8 *)dir_step_x))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
-                    (((((Rec_D_80082E80 *)record)->unk_25 +
+                    (((((SpriteFrameState *)record)->unk_25 +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->unk_88) - 0x20));
                 arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 8);
@@ -290,12 +289,12 @@ void advance_actor_height_arc(void *action, void *motion, void *record, EntityRe
         }
 
         ((S_80172D08_0 *)action)->unk_90 += ((S_80172D08_0 *)action)->unk_A0;
-        if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0xE000) {
+        if (((SpriteFrameState *)record)->flags & 0xE000) {
             ((Rec_func_80172D08_arg1 *)motion)->unk_14 = 0;
             ((Rec_func_80172D08_arg1 *)motion)->unk_10 = 0;
             ((Rec_func_80172D08_arg1 *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)record)->unk_24,
-                          ((Rec_D_80082E80 *)record)->unk_25);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)record)->unk_24,
+                          ((SpriteFrameState *)record)->unk_25);
             reduce_actor_food_meter(actor, 0x200);
             ((S_80172D08_0 *)action)->unk_8C = &D_80170E94;
             g_dungeon_status.unk_0C = 0;

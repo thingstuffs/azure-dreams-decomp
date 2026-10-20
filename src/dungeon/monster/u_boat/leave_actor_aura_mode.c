@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_80176084_0 {
     u8 pad_00[0x8C];
@@ -20,7 +20,6 @@ typedef struct S_80176084_0 {
     u8 unk_B4;
     s8 unk_B5;
 } S_80176084_0;   /* arg0 in leave_actor_aura_mode */
-
 
 extern void clear_slots_of_type();
 extern void select_sprite_entry();
@@ -55,25 +54,25 @@ void leave_actor_aura_mode(void *state, EntityRec *motion, void *sprite, EntityR
                     ((S_80176084_0 *)state)->unk_B1 = active_step;
                 } while (0);
                 ((S_80176084_0 *)state)->unk_96 = 4U;
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = (u8 *)D_800E2448;
+                ((SpriteFrameState *)sprite)->frameTable = (u8 *)D_800E2448;
                 select_sprite_entry(sprite, D_800E2448[((s32)(g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
-                if (!((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)
-                      || (play_sound_if_enabled(0x801), ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) != 0)))) {
+                if (!((((SpriteFrameState *)sprite)->flags & 0x8000)
+                      || (play_sound_if_enabled(0x801), ((((SpriteFrameState *)sprite)->flags & 0x8000) != 0)))) {
                     return;
                 }
             }
             start_ticks = ((S_80176084_0 *)state)->unk_96;
             ((S_80176084_0 *)state)->unk_96 = (u16)(start_ticks - 1);
-            if (((start_ticks << 0x10) <= 0) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            if (((start_ticks << 0x10) <= 0) || (((SpriteFrameState *)sprite)->flags & 0xE000)) {
                 motion->flags14 = 0;
                 motion->unk_10 = 0;
                 motion->unk_0C = 0;
-                set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+                set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
                 entity->flags1C |= 0x40000;
                 ((S_80176084_0 *)state)->unk_B5 = 0;
                 ((S_80176084_0 *)state)->unk_98 |= 8;
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = (u8 *)D_800E23E0;
+                ((SpriteFrameState *)sprite)->frameTable = (u8 *)D_800E23E0;
                 select_sprite_entry(sprite, D_800E23E0[((s32)(g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
                 ((S_80176084_0 *)state)->unk_96 = 5U;
@@ -84,14 +83,14 @@ void leave_actor_aura_mode(void *state, EntityRec *motion, void *sprite, EntityR
                 }
             }
         }
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0x8000)) {
             return;
         }
     }
     finish_ticks = ((S_80176084_0 *)state)->unk_96;
     ((S_80176084_0 *)state)->unk_96 = (u16)(finish_ticks - 1);
-    if (((finish_ticks << 0x10) <= 0) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        ((Rec_D_80082E80 *)sprite)->unk_06.as_s16 = 0;
+    if (((finish_ticks << 0x10) <= 0) || (((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        ((SpriteFrameState *)sprite)->unk_06 = 0;
         ((S_80176084_0 *)state)->unk_8C = (u8 *)D_80171A80;
         clear_slots_of_type(entity, 0x1B);
         if (((S_80176084_0 *)state)->unk_B4 == 0) {

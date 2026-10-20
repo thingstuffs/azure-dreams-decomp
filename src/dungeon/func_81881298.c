@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_18a0800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
@@ -14,19 +15,6 @@ typedef struct S_80024A98_0 {
 
    /* arg0 in create_radial_effect_node */
 
-typedef struct S_80024A98_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80024A98_3;   /* part in create_radial_effect_node */
-
-
-
 extern u8 D_800DE938[];
 
 /* Creates a visual node at the supplied coordinates with 16 evenly spaced radial effects. */
@@ -34,7 +22,7 @@ void *create_radial_effect_node(MovingPosition *source_coords)
 {
     s16 angle;
     s32 effect_index;
-    S_80024A98_3 *part;
+    SpriteFrameState *part;
     MovingPosition *coords;
     S_80024A98_0 *node;
 
@@ -47,12 +35,12 @@ void *create_radial_effect_node(MovingPosition *source_coords)
         coords->unk_06 = source_coords->unk_06;
         coords->unk_0A = source_coords->unk_0A;
         part = node->unk_0C;
-        part->unk_1E = 0x1000;
-        part->unk_1C = 0x1000;
-        part->unk_0C = 0x808080;
+        part->scale_y = 0x1000;
+        part->scale_x = 0x1000;
+        part->color.word = 0x808080;
         func_8003DB94(part, D_800DE938, 0);
-        part->unk_10 = 0x20;
-        part->unk_14 |= 0xC;
+        part->tpage_abr = 0x20;
+        part->flags |= 0xC;
         effect_index = 0;
         angle = (s16)rand();
         do {

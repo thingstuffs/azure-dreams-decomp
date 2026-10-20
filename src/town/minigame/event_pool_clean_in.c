@@ -1,10 +1,10 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
-
 
 #ifndef NULL
 #define NULL 0
@@ -16,17 +16,6 @@ typedef struct S_800BEAD0_0 {
     void * unk_0C;
     s32 * unk_10;
 } S_800BEAD0_0;
-
-typedef struct S_800BEAD0_1 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800BEAD0_1;
-
-
 
 extern s32 register_node();
 short SD_Call(int flags);
@@ -41,7 +30,7 @@ s32 event_pool_clean_in(void)
     s32 *motion;
     s32 origin_z;
     void *object;
-    void *object_part;
+    SpriteFrameState *object_part;
     void *body;
 
     object = func_8003FC64(0x136);
@@ -62,10 +51,10 @@ s32 event_pool_clean_in(void)
         motion[5] = 0xFFF00000;
         motion[2] = origin_z + 0xFFA00000;
         object_part = ((S_800BEAD0_0 *)object)->unk_0C;
-        ((S_800BEAD0_1 *)object_part)->unk_1E = 0x1000;
-        ((S_800BEAD0_1 *)object_part)->unk_1C = 0x1000;
-        ((S_800BEAD0_1 *)object_part)->unk_08 = &D_8007789C;
-        ((S_800BEAD0_1 *)object_part)->unk_0C = color;
+        object_part->scale_y = 0x1000;
+        object_part->scale_x = 0x1000;
+        object_part->source = &D_8007789C;
+        object_part->color.word = color;
     }
     return 0;
 }

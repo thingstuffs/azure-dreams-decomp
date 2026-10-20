@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
@@ -13,7 +14,6 @@ s16 forward_monster_coordinate_delta();
 void draw_textured_ellipse();
 extern M2C_UNK D_80028214;
 extern M2C_UNK D_80024728;
-
 
 typedef struct S_80024ED4_1 {
     u8 pad_00[0x8];
@@ -36,14 +36,6 @@ typedef struct S_80024ED4_2 {
     u8 pad_14[0x2];
     u16 unk_16;
 } S_80024ED4_2;
-
-typedef struct S_80024ED4_3 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    u8 pad_0C[0x10];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80024ED4_3;
 
 typedef struct S_80024ED4_4 {
     u8 pad_00[0x8];
@@ -71,7 +63,7 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
     S_80024ED4_2 *coords;
     S_80024ED4_4 *segment_state;
     void *segment;
-    S_80024ED4_3 *render_state;
+    SpriteFrameState *render_state;
     void *previous_segment;
 
     previous_segment = NULL;
@@ -101,9 +93,9 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
             coords->unk_0A = z;
             coords->unk_16 = z;
             render_state = ((S_80024ED4_1 *)segment)->unk_0C;
-            render_state->unk_08 = &D_80028214;
-            render_state->unk_1E = 0x800;
-            render_state->unk_1C = 0x800;
+            render_state->source = &D_80028214;
+            render_state->scale_y = 0x800;
+            render_state->scale_x = 0x800;
             segment_state->unk_30 = 0x10;
             if (segment_index == 0) {
                 segment_state->unk_14 = (s16) (coords->unk_02 + (func_80064584(angle) >> 5));

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -74,19 +75,19 @@ void create_an_random_angle_height_offset_around_reference_position(void)
         height_quotient /= 32;
         height_or_shade = (height_quotient << 5) - height_random;
         {
-            TargetData *render_data;
+            SpriteFrameState *render_data;
             void *render_config;
             render_config = &D_80026180;
             motion->fieldA = (u16) height_or_shade;
             render_data = obj->fieldC;
-            render_data->byteE = (height_or_shade = 0x80);
-            render_data->byteD = height_or_shade;
-            render_data->byteC = height_or_shade;
+            render_data->color.c.b = (height_or_shade = 0x80);
+            render_data->color.c.g = height_or_shade;
+            render_data->color.c.r = height_or_shade;
             func_8003DB94(render_data, render_config, 0);
-            render_data->field1E = 0x200;
-            render_data->field1C = 0x200;
-            render_data->field14 = (u16) (render_data->field14 | 0xC);
-            render_data->field10 = (u16) (render_data->field10 | 0x20);
+            render_data->scale_y = 0x200;
+            render_data->scale_x = 0x200;
+            render_data->flags = (u16) (render_data->flags | 0xC);
+            render_data->tpage_abr = (u16) (render_data->tpage_abr | 0x20);
         }
         {
             TargetVec *position;

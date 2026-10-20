@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -20,7 +21,6 @@ typedef struct S_8017364C_0 {
 typedef struct S_8017364C_2 {
     u8 * unk_00;
 } S_8017364C_2;
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 get_cd_command_queue_depth(void);                 /* extern */
@@ -126,8 +126,8 @@ void update_ability_action_and_completion(void *action, EntityRec *motion, void 
                         }
                     } else {
                         {
-                            s32 x = (s32)scan_monster_along_heading(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
-                                          ((Rec_D_80082E80 *)sprite)->unk_25,
+                            s32 x = (s32)scan_monster_along_heading(actor, ((SpriteFrameState *)sprite)->unk_24,
+                                          ((SpriteFrameState *)sprite)->unk_25,
                                           actor->facing, 0x10);
                             s32 y;
 
@@ -156,7 +156,7 @@ void update_ability_action_and_completion(void *action, EntityRec *motion, void 
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             g_dungeon_status.unk_0C = 0;
             (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
             advance_status_timers(actor);
@@ -169,20 +169,20 @@ void update_ability_action_and_completion(void *action, EntityRec *motion, void 
         }
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v
+            ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags
                 | 0x800);
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
+        ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
         ((S_8017364C_0 *)action)->unk_9B = (u8) (((S_8017364C_0 *)action)->unk_9B + 1);
         play_sound_if_enabled(0x703);
     case 2:
         effect_ticks = ((S_8017364C_0 *)action)->unk_96 - 1;
         ((S_8017364C_0 *)action)->unk_96 = effect_ticks;
-        if ((effect_ticks << 0x10) <= 0 || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if ((effect_ticks << 0x10) <= 0 || (((SpriteFrameState *)sprite)->flags & 0xE000)) {
             ((S_8017364C_0 *)action)->unk_98 = (u16) (((S_8017364C_0 *)action)->unk_98 | 0x80);
             ((S_8017364C_0 *)action)->unk_9B = (u8) (((S_8017364C_0 *)action)->unk_9B + 1);
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v
+            ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags
                 | 0x800);
             ((S_8017364C_0 *)action)->unk_96 = 0xFU;
         }
@@ -204,21 +204,21 @@ void update_ability_action_and_completion(void *action, EntityRec *motion, void 
         ((S_8017364C_0 *)action)->unk_96 = finish_ticks;
         if ((finish_ticks << 0x10) <= 0) {
             ((S_8017364C_0 *)action)->unk_96 = 0U;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v =
-                (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
+            ((SpriteFrameState *)sprite)->flags =
+                (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
         }
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm != D_80174E88) {
-            (*(s32 **)((u8 *)sprite + 0x2C)) = D_80174E88;
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        if ((*(M2C_UNK * *)&((SpriteFrameState *)sprite)->frameTable) != D_80174E88) {
+            ((SpriteFrameState *)sprite)->frameTable = D_80174E88;
             select_sprite_entry(sprite, D_80174E88[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v =
-                (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
+            ((SpriteFrameState *)sprite)->flags =
+                (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
         }
         if (((s32)g_dungeon_status.unk_0C) != 0) {
             return;

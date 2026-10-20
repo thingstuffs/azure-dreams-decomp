@@ -1,10 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
-
-
 
 typedef struct S_80F45000_0 {
     u8 pad_00[0x8];
@@ -26,14 +25,6 @@ typedef struct S_80F45000_2 {
     s16 unk_0A;
 } S_80F45000_2;   /* part_a in allocate_actor_parts */
 
-typedef struct S_80F45000_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80F45000_3;   /* part_b in allocate_actor_parts */
-
 typedef struct S_80F45000_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -42,7 +33,6 @@ typedef struct S_80F45000_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_80F45000_4;   /* actor in allocate_actor_parts */
-
 
 extern void *allocate_list_node();
 extern void register_node();
@@ -56,16 +46,13 @@ extern M2C_UNK D_8015EE94;
 extern u8 D_80162A7C[];
 extern u8 D_80162AD4[];
 
-
-
-
 /* Allocate an actor and initialize its parts and behavior from the spawn flags. */
 void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
 {
     void *work = 0;
     void *obj;
     void *part_a;
-    register void *part_b;
+    register SpriteFrameState *part_b;
     S_80F45000_4 *actor;
     register s32 kind;
     s32 random_bits;
@@ -89,10 +76,10 @@ void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_val
         ((S_80F45000_2 *)part_a)->unk_0A = saved_part_value;
         part_b = ((S_80F45000_0 *)obj)->unk_0C;
         kind = spawn_flags & 3;
-        ((S_80F45000_3 *)part_b)->unk_25 = saved_y;
+        part_b->unk_25 = saved_y;
         actor = work;
-        ((S_80F45000_3 *)part_b)->unk_2C = D_80162A7C;
-        ((S_80F45000_3 *)part_b)->unk_24 = saved_x;
+        part_b->frameTable = D_80162A7C;
+        part_b->unk_24 = saved_x;
 
         if (kind == 1) {
             ((S_80F45000_1 *)work)->unk_14 |= 0x6000;
@@ -111,7 +98,7 @@ void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_val
                         ((S_80F45000_1 *)work)->unk_1C |= 0x200;
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        ((S_80F45000_3 *)part_b)->unk_2C = D_80162AD4;
+                        part_b->frameTable = D_80162AD4;
                     }
                 }
             }

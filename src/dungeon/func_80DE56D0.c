@@ -1,6 +1,7 @@
 #include "modules/dungeon_ovl_e0365c.h"
+#include "shared/sprite_frame_state.h"
 
-void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, void *entity)
+void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, EntityRec *motion, SpriteFrameState *tile_state, void *entity)
 {
     s16 timer;
     s32 tracked_entity;
@@ -23,7 +24,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, EntityRec *m
             begin_actor_display_action(action, motion, tile_state, &D_80174550);
             return;
         }
-        if (tile_state->unk_14.at00_u16.v & 0x8000) {
+        if (tile_state->flags & 0x8000) {
             action->unk_9B = 2;
             return;
         }
@@ -46,7 +47,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, EntityRec *m
         }
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
-        } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
+        } else if (tile_state->flags & 0x6000) {
             action->unk_96.s = 0;
         }
         if (action->unk_96.s != 0) {
@@ -84,7 +85,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, EntityRec *m
         if ((s32)(timer << 16) > 0) {
             return;
         }
-        if ((tile_state->unk_14.at00_u16.v & 0x6000) &&
+        if ((tile_state->flags & 0x6000) &&
             ((EntityRec *)entity)->unk_28 == 0) {
             motion->flags14 = 0;
             motion->unk_10 = 0;

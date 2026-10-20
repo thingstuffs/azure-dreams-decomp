@@ -1,10 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_8008D024_arg0.h"
 #include "records/Rec_D_80082E80.h"
-
-
 
 typedef struct {
     s8 pad_00[0x2A];
@@ -28,9 +27,8 @@ typedef struct S_8008D024_1 {
     s32 unk_1C;
 } S_8008D024_1;
 
-
 /* Selects an eligible linked target and initializes the actor's action and directional display. */
-s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, s32 context, Rec_D_80082E80 *display, s32 target_index,
+s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, s32 context, SpriteFrameState *display, s32 target_index,
     s32 action_mode) {
     s32 target_flags;
     s32 slot_offset;
@@ -66,7 +64,7 @@ s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, s32 context,
                 } else {
                     direction_frames = D_800DCFB0;
                 }
-                display->unk_2C.as_pu8 = direction_frames;
+                display->frameTable = direction_frames;
                 set_sprite_animation_frame(display, direction_frames[((s32)(g_game_work.view.viewAngle
                     + ((Arg0 *)actor_heading)->field_2A + 0x100) >> 9) & 7], 0, 1);
                 actor->unk_120 = saved_mode;

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 get_player_homerank();
+s32 get_player_homerank(void);
 extern u8 D_8008910C[];
 
 u8 *find_item_by_key_pair(s32 first_key, s32 second_key) {

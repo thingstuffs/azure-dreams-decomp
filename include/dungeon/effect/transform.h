@@ -36,21 +36,6 @@ typedef struct Row_8189E934_S_80024134_0 {
     s16 unk_20;
 } Row_8189E934_S_80024134_0;   /* temp_v0 in func_80024134 */
 
-typedef struct Row_8189E934_S_80024134_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x3];
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_8189E934_S_80024134_1;   /* temp_s0 in func_80024134 */
-
 /* Allocates an object, initializes its display data, and copies the input state. */
 typedef struct Row_8189EA64_S_80024264_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -85,20 +70,6 @@ typedef struct Row_8189EBBC_S_800243BC_1 {
     u8 pad_06[0x2];
     s32 unk_08;
 } Row_8189EBBC_S_800243BC_1;   /* temp_v1 in func_800243BC */
-
-typedef struct Row_8189EBBC_S_800243BC_2 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_8189EBBC_S_800243BC_2;   /* temp_s0 in func_800243BC */
 
 typedef struct Row_8189EBBC_S_800243BC_3 {
     s32 unk_00;

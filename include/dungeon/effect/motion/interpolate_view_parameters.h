@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_1936800_H
 #define DUNGEON_OVL_1936800_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -86,20 +87,6 @@ typedef struct Row_81916AEC_S_800242EC_2 {
     u16 unk_2A;
 } Row_81916AEC_S_800242EC_2;   /* arg2 in func_800242EC */
 
-typedef struct Row_81916AEC_S_800242EC_3 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_81916AEC_S_800242EC_3;   /* temp_s0 in func_800242EC */
-
 /* Creates an object, initializes its visual state, and copies the initial data. */
 typedef struct Row_81916C1C_Prim81916C1C {
     u8 pad0[4];
@@ -134,11 +121,6 @@ typedef struct Row_81916D2C_S_8002452C_1 {
     void * unk_0C;
 } Row_81916D2C_S_8002452C_1;   /* temp_v0 in func_8002452C */
 
-typedef struct Row_81916D2C_S_8002452C_2 {
-    u8 pad_00[0x5];
-    s8 unk_05;
-} Row_81916D2C_S_8002452C_2;   /* ((Row_81916D2C_S_8002452C_1 *)temp_v0)->unk_0C in func_8002452C */
-
 typedef struct Row_81916D2C_S_8002452C_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
@@ -168,17 +150,6 @@ typedef struct Row_81916E00_S_80024600_0 {
     s32 unk_20;
     s16 unk_24;
 } Row_81916E00_S_80024600_0;   /* temp_v0 in func_80024600 */
-
-typedef struct Row_81916E00_S_80024600_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_81916E00_S_80024600_1;   /* temp_s0 in func_80024600 */
 
 /* Creates an object with default rendering settings and copies its initial data. */
 /* extern */
@@ -227,22 +198,6 @@ typedef struct Row_81917004_S_80024804_1 {
     u16 unk_0E;
     u16 unk_10;
 } Row_81917004_S_80024804_1;   /* held_arg0 in func_80024804 */
-
-typedef struct Row_81917004_S_80024804_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_81917004_S_80024804_2;   /* part in func_80024804 */
 
 typedef struct Row_81917004_S_80024804_3 {
     u8 pad_00[0xE];
@@ -298,21 +253,6 @@ typedef struct Row_81917680_S_80024E80_2 {
     s16 unk_10;
     s16 unk_12;
 } Row_81917680_S_80024E80_2;   /* work in func_80024E80 */
-
-typedef struct Row_81917680_S_80024E80_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x3];
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_81917680_S_80024E80_3;   /* control in func_80024E80 */
 
 typedef struct Row_81917680_S_80024E80_4 {
     u8 pad_00[0xC];
@@ -421,15 +361,6 @@ typedef struct Row_81917C08_EffectVisual {
     u32 color;
 } Row_81917C08_EffectVisual;
 
-typedef struct Row_81917C08_ActorVisual {
-    u8 reserved_00[8];
-    void *resource;
-    u8 reserved_0C[8];
-    u16 flags;
-    u8 reserved_16[0xE];
-    u8 tile_x, tile_y;
-} Row_81917C08_ActorVisual;
-
 typedef struct Row_81917C08_ActionSlot { s32 value; } Row_81917C08_ActionSlot;
 
 /* Advance the seven-stage action and its attached movement/effects.
@@ -482,7 +413,7 @@ void update_the_target_records_counts_flags_status(void *object_slot, void *unus
 void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, Row_81916E00_Copy24 *initial_data);
 void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position);
 void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step);
-void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E80 *visual);
+void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, SpriteFrameState *visual);
 void advance_radial_effect_state(void *motion, void *position, void *effect);
 void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_80024E80_arg1 *start_pos);
 void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void *effect, void *transform, void *visual);

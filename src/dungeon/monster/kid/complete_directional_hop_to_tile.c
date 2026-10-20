@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_80173354_1 {
     u8 pad_00[0x8C];
@@ -16,7 +16,6 @@ typedef struct S_80173354_1 {
     u8 pad_9A[0x1];
     u8 unk_9B;
 } S_80173354_1;   /* arg0 in complete_directional_hop_to_tile */
-
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
@@ -50,7 +49,7 @@ void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, 
             return;
         }
 
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((S_80173354_1 *)action)->unk_96.s = 0;
             ((S_80173354_1 *)action)->unk_9B = 2;
             return;
@@ -87,7 +86,7 @@ void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, 
 
         if (((S_80173354_1 *)action)->unk_96.s > 0) {
             ((S_80173354_1 *)action)->unk_96.u--;
-        } else if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        } else if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             ((S_80173354_1 *)action)->unk_96.s = 0;
         }
         if (((S_80173354_1 *)action)->unk_96.s != 0) {
@@ -111,13 +110,13 @@ void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, 
             s32 tile_delta;
             s32 position;
 
-            tile_delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+            tile_delta = ((SpriteFrameState *)sprite)->unk_24 << 6;
             position = ((EntityRec *)motion)->x.w.i;
             position -= 0x20;
             tile_delta -= position;
             tile_delta <<= 15;
             ((EntityRec *)motion)->unk_0C = tile_delta >> 1;
-            tile_delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+            tile_delta = ((SpriteFrameState *)sprite)->unk_25 << 6;
             position = ((EntityRec *)motion)->y.w.i;
             position -= 0x20;
             tile_delta -= position;
@@ -139,13 +138,13 @@ void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, 
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
         ((S_80173354_1 *)action)->unk_90 = 0;
         ((S_80173354_1 *)action)->unk_98 &= 0xFFF7;
         ((EntityRec *)actor)->flags1C |= 0x08000000;
         ((EntityRec *)actor)->flags1C |= 0x00040000;
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_80175148;
+        ((SpriteFrameState *)sprite)->frameTable = D_80175148;
         select_sprite_entry(sprite,
             D_80175148[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);

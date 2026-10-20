@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-void apply_object_setup_and_update();    /* extern */
+void apply_object_setup_and_update(void *, s32, s32);    /* extern */
 void func_800CB73C(Rec_func_80094268_arg0 *);                            /* extern */
-void allocate_variant_object();                /* extern */
+void allocate_variant_object(s32, s32, s32);                /* extern */
 
 
 /* Decrement the actor's countdown and run its expiration actions when it expires. */

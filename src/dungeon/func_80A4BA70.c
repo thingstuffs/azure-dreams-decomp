@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource06_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *position, Rec_D_80082E80 *entity, void *actor)
 {
@@ -107,7 +108,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
                 asset_index = func_80069EF8() % 3;
             }
             func_8003DB94(work, ((u8 *)D_8014A000) + ((s32 *)D_80175904)[asset_index], 0);
-            entity->unk_14.at00_u16.v |= 0x80;
+            ((SpriteFrameState *)entity)->flags |= 0x80;
             ((R06_80175270_S_80175270_0 *)action)->unk_96.s = 0;
             ((R06_80175270_S_80175270_0 *)action)->unk_9B++;
             create_sixteen_segment_ring(action, position, entity);
@@ -122,7 +123,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
                 ((R06_80175270_S_80175270_0 *)action)->unk_96.s = 0x10;
                 ((R06_80175270_S_80175270_0 *)action)->unk_9B++;
                 decrement_monster_entry_count(((R06_80175270_S_80175270_1 *)actor)->unk_13, 3);
-                update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
+                update_map_cell_flags_with_item_limit(((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25, 0x300);
                 unlink_entity_node(actor);
                 work = (u8 *)actor - 0x20;
                 work->unk_10.i |= 0x80000000;
@@ -140,7 +141,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
             ((R06_80175270_S_80175270_0 *)action)->unk_96.s = 0x10;
             ((R06_80175270_S_80175270_0 *)action)->unk_9B++;
             decrement_monster_entry_count(((R06_80175270_S_80175270_1 *)actor)->unk_13, 3);
-            update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
+            update_map_cell_flags_with_item_limit(((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25, 0x300);
             unlink_entity_node(actor);
             work = (u8 *)actor - 0x20;
             work->unk_10.i |= 0x80000000;

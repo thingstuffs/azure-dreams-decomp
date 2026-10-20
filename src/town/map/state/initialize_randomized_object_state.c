@@ -4,7 +4,7 @@
 
 void register_node_if_unregistered(void *block_data, s32 registration_id);
 extern s16 scale_random_to_unsigned_halfword_limit();
-extern void write_square_position_offsets();
+struct S_800A8BBC_0; void write_square_position_offsets(s16, s16, s16, s16, struct S_800A8BBC_0 *);
 extern M2C_UNK D_800A9528[3];
 extern M2C_UNK D_800A9624[3];
 extern M2C_UNK D_800A970C[3];

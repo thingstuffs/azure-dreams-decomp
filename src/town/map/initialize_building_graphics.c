@@ -21,10 +21,10 @@ typedef struct S_800B6FB8_2 {
     void * unk_1DC;
 } S_800B6FB8_2;   /* base in initialize_building_graphics */
 
-extern void runtime_load_packed_resource_chunks();
+void runtime_load_packed_resource_chunks(s16, u8 *);
 extern void func_80067014();
 extern void func_8006733C();
-extern void update_active_building_entries();
+void update_active_building_entries(void);
 
 extern u8 D_80083160[], D_80110EC8[], D_801116C8[], D_80111EC8[], D_8012F004[], D_80162004[];
 extern u16 D_80111FA8[];

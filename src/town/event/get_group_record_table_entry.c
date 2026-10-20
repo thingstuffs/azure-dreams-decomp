@@ -2,11 +2,11 @@
 
 #define FIELD_U8(p, off) (*(u8 *)((u8 *)(p) + (off)))
 
-extern s32 test_resident_bitmap_bit();
+#include "engine/object/test_resident_bitmap_bit_api.h"
 extern s32 find_sentinel_table_value_index(s32 target_value);
 extern s32 classify_item_check_result();
-extern s32 classify_listed_entry_type();
-extern s32 filter_entry_by_kind();
+s32 classify_listed_entry_type(u8 *);
+s32 filter_entry_by_kind(s32, u8 *);
 
 extern u8 D_8006BC7A;
 extern s32 *D_800D1038[];

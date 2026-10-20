@@ -1,11 +1,12 @@
 #include "dungeon/monster/clown/create_flagged_actor_object.h"
+#include "shared/sprite_frame_state.h"
 
 void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id)
 {
     s32 mode;
     s32 flags_14;
     s32 flags_1c;
-    S_8016A878_3 *placement;
+    SpriteFrameState *placement;
     SignedHeightView *object_data;
     void *object;
     S_8016A878_4 *runtime;
@@ -30,7 +31,7 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
         mode = init_flags & 3;
         placement->unk_25 = saved_y;
         runtime = state;
-        placement->unk_2C = &D_8016E20C;
+        placement->frameTable = &D_8016E20C;
         placement->unk_24 = saved_x;
         if (mode == 1) {
             flags_14 = state->unk_14 | 0x6000;
@@ -46,7 +47,7 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
             if (!(state->unk_14 & 0x200)) {
                 if (generate_random_value() & 1) {
                     set_or_clear_actor_status_slot(state, 1, (generate_random_value() & 0x3F) | 0x20);
-                    placement->unk_2C = &D_8016E25C;
+                    placement->frameTable = &D_8016E25C;
                 }
             }
         }

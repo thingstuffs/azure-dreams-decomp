@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 
 #ifndef NULL
@@ -31,20 +32,6 @@ typedef struct S_func_81339A5C_2 {
     s8 unk_59;
 } S_func_81339A5C_2;
 
-typedef struct S_func_81339A5C_3 {
-    u8 pad_00[6];
-    s16 unk_06;
-    void *unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[5];
-    u16 unk_14;
-    u8 pad_16[6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_func_81339A5C_3;
-
 extern void *allocate_list_node();
 extern void register_node();
 extern s32 D_8006E240;
@@ -62,9 +49,9 @@ void create_linked_object_position(void)
     S_func_81339A5C_2 *object_data;
     void *source_data;
     S_func_81339A5C_0 *object;
-    S_func_81339A5C_3 *render_flags;
+    SpriteFrameState *render_flags;
     S_func_81339A5C_1 *object_pos;
-    S_func_81339A5C_3 *render_state;
+    SpriteFrameState *render_state;
 
     source_pos = ((S_func_81339A5C_0 *)D_80175D50)->unk_08;
     source_data = D_80175D50 + 0x20;
@@ -74,8 +61,8 @@ void create_linked_object_position(void)
         object_data = (S_func_81339A5C_2 *)((u8 *)object + 0x20);
         register_node(object, project_sprite_chain);
         render_flags = object->unk_0C;
-        render_flags->unk_14 =
-            (u16)(render_flags->unk_14 & 0xFFF3);
+        render_flags->flags =
+            (u16)(render_flags->flags & 0xFFF3);
         object_data->unk_24 = source_data;
         object_pos = object->unk_08;
         object_pos->unk_02.u = source_pos->unk_02.u;
@@ -89,17 +76,17 @@ void create_linked_object_position(void)
         object_pos->unk_16 = source_z;
         object_pos->unk_0A = (u16)(object_z - 0x20);
         render_state = object->unk_0C;
-        render_state->unk_1E = 0x1000;
-        render_state->unk_1C = 0x1000;
+        render_state->scale_y = 0x1000;
+        render_state->scale_x = 0x1000;
         render_state->unk_06 = 6;
         object_data->unk_58 =
             (source_pos->unk_02.s - 0x20) / 0x40;
         object_data->unk_59 =
             (source_pos->unk_06.s - 0x20) / 0x40;
-        render_state->unk_0E = 0x80;
-        render_state->unk_0D = 0x80;
-        render_state->unk_0C = 0x80;
-        render_state->unk_08 = &D_8006E240;
+        render_state->color.c.b = 0x80;
+        render_state->color.c.g = 0x80;
+        render_state->color.c.r = 0x80;
+        render_state->source = &D_8006E240;
         D_80175D68 = object;
     }
 }

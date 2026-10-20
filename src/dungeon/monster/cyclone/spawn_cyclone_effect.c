@@ -1,9 +1,9 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
-
 
 typedef struct {
     s32 word[6];
@@ -21,24 +21,10 @@ extern void select_sprite_entry();
 
 extern s32 D_80175978;
 
-
 typedef struct S_80E122F4_0 {
     u8 pad_00[0x60];
     void * unk_60;
 } S_80E122F4_0;   /* owner in func_80E122F4 */
-
-typedef struct S_80E122F4_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    s32 unk_28;
-} S_80E122F4_1;   /* child in func_80E122F4 */
 
 typedef struct S_80E122F4_2 {
     u8 pad_00[0x8];
@@ -83,7 +69,7 @@ void *func_80E122F4(S_80E122F4_0 *owner, void *transform, void *source)
     void *obj;
     S_80E122F4_2 *source_obj;
     MovingPosition *coords;
-    S_80E122F4_1 *child;
+    SpriteFrameState *child;
     S_80E122F4_3 *part;
     s32 delta;
 
@@ -96,11 +82,11 @@ void *func_80E122F4(S_80E122F4_0 *owner, void *transform, void *source)
 
         child = (*(void * *)((u8 *)obj + 0xC));
         child->unk_28 = source_obj->unk_28;
-        child->unk_1E = 0x800;
-        child->unk_1C = 0x800;
-        child->unk_0C = 0x808080;
-        child->unk_14 |= 0xC;
-        child->unk_10 |= 0x20;
+        child->scale_y = 0x800;
+        child->scale_x = 0x800;
+        child->color.word = 0x808080;
+        child->flags |= 0xC;
+        child->tpage_abr |= 0x20;
         select_sprite_entry(child, 0x47, 0);
 
         coords = (*(void * *)((u8 *)obj + 8));

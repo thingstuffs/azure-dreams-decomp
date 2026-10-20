@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 typedef struct S_800D1C70_0 {
@@ -33,26 +34,6 @@ typedef struct S_800D1C70_2 {
     s16 unk_0A;
 } S_800D1C70_2;
 
-typedef struct S_800D1C70_3 {
-    u8 pad_00[0xC];
-    union {
-        struct { u8 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-    s8 unk_26;
-} S_800D1C70_3;
-
-
 void func_8003DB94(void *, void *, s32);
 void *allocate_list_node(s32, void *);
 void register_node(void *, void *);
@@ -69,7 +50,7 @@ extern s32 D_800E2178;
 void *create_actor_at_tile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
     s32 tile_flags;
     s16 saved_kind;
-    S_800D1C70_3 *sprite;
+    SpriteFrameState *sprite;
     S_800D1C70_2 *position;
     void *object;
     S_800D1C70_0 *state;
@@ -98,21 +79,21 @@ void *create_actor_at_tile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
         position = ((S_800D1C70_1 *)object)->unk_08;
         position->unk_0A = saved_height;
         sprite = ((S_800D1C70_1 *)object)->unk_0C;
-        sprite->unk_0C.at02.v = 0x80;
-        sprite->unk_0C.at01.v = 0x80;
-        sprite->unk_0C.at00.v = 0x80;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
         sprite->unk_24 = saved_x;
         sprite->unk_25 = saved_y;
-        sprite->unk_1E = 0x1800;
-        sprite->unk_1C = 0x1800;
+        sprite->scale_y = 0x1800;
+        sprite->scale_x = 0x1800;
         func_8003DB94(sprite, &D_800E2178, 0);
         ((S_800D1C70_1 *)object)->unk_10 = &update_actor_floor_contact;
         state->unk_8C = &process_actor_status_transitions;
         sprite->unk_26 = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
         set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
         state->unk_88 = sample_terrain_surface_height(position->unk_02, position->unk_06, position->unk_0A);
-        sprite->unk_0C.at00u.v = 0x2C808080;
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0x8000);
+        sprite->color.word = 0x2C808080;
+        sprite->flags = (u16) (sprite->flags | 0x8000);
         clear_entry_flag_and_link_owner(object);
         call_x = sprite->unk_24;
         call_y = sprite->unk_25;

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 advance_index_with_single_wrap();                        /* extern */
+int advance_index_with_single_wrap(int, int, int);                        /* extern */
 extern M2C_UNK D_800AE5B8;
 
 typedef struct S_800AF1B4_0 {

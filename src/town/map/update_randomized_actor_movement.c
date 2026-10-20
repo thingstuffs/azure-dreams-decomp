@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082D58.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_800BCE78_1 {
     s32 unk_00;
@@ -12,7 +12,6 @@ typedef struct S_800BCE78_1 {
     u8 pad_10[0x4];
     s32 unk_14;
 } S_800BCE78_1;   /* arg1 in update_randomized_actor_movement */
-
 
 extern s32 service_script_controller(void);
 extern s32 check_transform_identifier_and_hook(void *);
@@ -61,7 +60,7 @@ case 0:
         register s32 vx;
 
         ((S_800BCE78_1 *)motion)->unk_08.at02.v = query_lowered_transform_position(motion);
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
             break;
         }
         action_choice = rand();
@@ -80,7 +79,7 @@ case 0:
             s32 hop_vx;
 
             ((Rec_D_80082D58 *)actor)->unk_68 = 0x20;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            ((SpriteFrameState *)sprite)->flags |= 0x800;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = (rand() & 1) + 2;
             limit = 0x1FFFFF;
             ((S_800BCE78_1 *)motion)->unk_14 = -0x30000;
@@ -102,9 +101,9 @@ case 0:
                 ((S_800BCE78_1 *)motion)->unk_0C = hop_vx;
             }
             if (((S_800BCE78_1 *)motion)->unk_0C > 0) {
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 1;
+                ((SpriteFrameState *)sprite)->flags |= 1;
             } else {
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;
+                ((SpriteFrameState *)sprite)->flags &= 0xFFFE;
             }
             break;
         }
@@ -138,9 +137,9 @@ case 0:
                 ((S_800BCE78_1 *)motion)->unk_0C = -vx;
             }
             if (((S_800BCE78_1 *)motion)->unk_0C > 0) {
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 1;
+                ((SpriteFrameState *)sprite)->flags |= 1;
             } else {
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;
+                ((SpriteFrameState *)sprite)->flags &= 0xFFFE;
             }
             ((S_800BCE78_1 *)motion)->unk_14 = -0x20000;
             break;
@@ -149,7 +148,7 @@ case 0:
         case 4:
             ((Rec_D_80082D58 *)actor)->unk_68 = 0x40;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = 0x14;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            ((SpriteFrameState *)sprite)->flags |= 0x800;
         }
         break;
     }
@@ -158,7 +157,7 @@ case 0x10:
     {
         register u16 timer;
 
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
             if ((s16)timer <= 0) {
@@ -193,7 +192,7 @@ case 0x20:
             if ((s16)timer <= 0) {
                 ((S_800BCE78_1 *)motion)->unk_14 = 0;
                 ((S_800BCE78_1 *)motion)->unk_0C = 0;
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
                 ((Rec_D_80082D58 *)actor)->unk_68 = 0;
             } else {
                 ((S_800BCE78_1 *)motion)->unk_14 = -0x30000;
@@ -216,7 +215,7 @@ case 0x30:
         y = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
         ((S_800BCE78_1 *)motion)->unk_08.at00.v = y + vy;
         ((S_800BCE78_1 *)motion)->unk_14 -= 0x4000;
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             sequence = D_800E9E34;
             ((Rec_D_80082D58 *)actor)->unk_68 = glide_state;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = 3;
@@ -238,7 +237,7 @@ case 0x31:
         vy = ((S_800BCE78_1 *)motion)->unk_14;
         ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
         ((S_800BCE78_1 *)motion)->unk_08.at00.v = y + vy;
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
             if ((s16)timer <= 0) {
@@ -270,7 +269,7 @@ case 0x32:
         vy = ((S_800BCE78_1 *)motion)->unk_14;
         ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
         ((S_800BCE78_1 *)motion)->unk_08.at00.v = y + vy;
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
             if ((s16)timer <= 0) {
@@ -278,9 +277,9 @@ case 0x32:
                 new_vx = -((S_800BCE78_1 *)motion)->unk_0C;
                 ((S_800BCE78_1 *)motion)->unk_0C = new_vx;
                 if (new_vx > 0) {
-                    ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 1;
+                    ((SpriteFrameState *)sprite)->flags |= 1;
                 } else {
-                    ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;
+                    ((SpriteFrameState *)sprite)->flags &= 0xFFFE;
                 }
                 floor = query_lowered_transform_position(motion);
                 floor_fixed = (s32)floor << 16;
@@ -309,7 +308,7 @@ case 0x33:
         vy = ((S_800BCE78_1 *)motion)->unk_14;
         ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
         ((S_800BCE78_1 *)motion)->unk_08.at00.v = y + vy;
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             sequence = D_800E9E14;
         }
         timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
@@ -331,7 +330,7 @@ case 0x34:
         floor = query_lowered_transform_position(motion);
         ((S_800BCE78_1 *)motion)->unk_08.at02.v =
             (u16)((S_800BCE78_1 *)motion)->unk_08.at02.v + ((floor - ((S_800BCE78_1 *)motion)->unk_08.at02.v) >> 1);
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             sequence = (s32 *)D_800E9E7C;
             ((Rec_D_80082D58 *)actor)->unk_68 = 0;
         }
@@ -346,7 +345,7 @@ case 0x40:
         ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
         if ((s16)timer <= 0) {
             ((Rec_D_80082D58 *)actor)->unk_68 = 0;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         }
         break;
     }

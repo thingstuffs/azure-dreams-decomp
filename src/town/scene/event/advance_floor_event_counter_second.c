@@ -18,8 +18,8 @@ typedef struct S_800161C0_2 {
 
 
 extern s32 set_indexed_entry_flag();
-extern s32 get_script_flag_mask();
-extern s32 read_script_flag_range();
+s32 get_script_flag_mask(s32);
+s32 read_script_flag_range(s32, s32);
 extern s32 write_script_flag_range();
 extern s32 func_8001DCD4();
 

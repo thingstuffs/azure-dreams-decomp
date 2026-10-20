@@ -7,7 +7,7 @@ typedef struct {
 
 extern UA32 D_80028064;
 
-s32 card_boot_build_eight_entry_presence_mask();
+s32 card_boot_build_eight_entry_presence_mask(void);
 s32 card_boot_sum_slot_lookup_values(void);
 void card_boot_build_save_description(void *record, s32 index);
 void initialize_text_editor_context(void *dest, s32 record_index);

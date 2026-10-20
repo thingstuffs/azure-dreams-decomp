@@ -6,7 +6,7 @@
 
 extern s32 func_800644B8();
 extern s32 func_80064584();
-extern s16 approach_player_value();
+s16 approach_player_value(s32, s16, s16);
 extern M2C_UNK D_8009A81C;
 
 typedef struct S_8009A724_0 {

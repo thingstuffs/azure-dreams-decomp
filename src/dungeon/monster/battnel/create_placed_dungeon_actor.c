@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-
 
 typedef struct S_80B7F054_0 {
     u8 pad_00[0x8];
@@ -24,14 +24,6 @@ typedef struct S_80B7F054_2 {
     s16 unk_0A;
 } S_80B7F054_2;   /* part_a in create_placed_dungeon_actor */
 
-typedef struct S_80B7F054_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80B7F054_3;   /* part_b in create_placed_dungeon_actor */
-
 typedef struct S_80B7F054_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -42,7 +34,6 @@ typedef struct S_80B7F054_4 {
     u8 pad_9D[0x7];
     s16 unk_A4;
 } S_80B7F054_4;   /* actor in create_placed_dungeon_actor */
-
 
 extern void *allocate_list_node(s32, const void *);
 extern void register_node(void *, const void *);
@@ -62,7 +53,7 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
     void *work;
     S_80B7F054_0 *obj;
     S_80B7F054_2 *part_a;
-    S_80B7F054_3 *part_b;
+    SpriteFrameState *part_b;
     S_80B7F054_4 *actor;
     s32 flags_or_roll;
     s32 pending_flags;
@@ -89,7 +80,7 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
         kind = spawn_flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;
-        part_b->unk_2C = D_80161D0C;
+        part_b->frameTable = D_80161D0C;
         part_b->unk_24 = saved_x;
 
         if (kind == 1) {
@@ -114,7 +105,7 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
                 ((S_80B7F054_1 *)work)->unk_1C |= 0x200;
                 set_or_clear_actor_status_slot(work, 1,
                               (generate_random_value(obj) & 0x3F) | 0x20);
-                part_b->unk_2C = D_80161D4C;
+                part_b->frameTable = D_80161D4C;
             }
         }
         saved_part_a = obj;

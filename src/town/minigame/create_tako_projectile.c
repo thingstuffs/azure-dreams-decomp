@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 typedef signed char s8;
 typedef unsigned char u8;
@@ -42,12 +43,12 @@ void create_tako_projectile(Copy20 *init_data, s32 pos_y)
         *(s32 *)(data + 0) = 0x05380000;
         *(s32 *)(data + 8) = 0xFFE00000;
         *(s32 *)(data + 4) = pos_y;
-        *(s16 *)(entity + 0x1E) = 0x1000;
-        *(s16 *)(entity + 0x1C) = 0x1000;
-        *(s32 *)(entity + 8) = (s32)D_800F7944;
-        *(s8 *)(entity + 4) = 0;
-        *(s8 *)(entity + 5) = 0;
-        *(s32 *)(entity + 0xC) = 0x00808080;
-        *(u16 *)(entity + 0x14) |= 0x80;
+        ((SpriteFrameState *)entity)->scale_y = 0x1000;
+        ((SpriteFrameState *)entity)->scale_x = 0x1000;
+        ((SpriteFrameState *)entity)->source = (s32)D_800F7944;
+        ((SpriteFrameState *)entity)->unk_04 = 0;
+        ((SpriteFrameState *)entity)->unk_05 = 0;
+        ((SpriteFrameState *)entity)->color.word = 0x00808080;
+        ((SpriteFrameState *)entity)->flags |= 0x80;
     }
 }

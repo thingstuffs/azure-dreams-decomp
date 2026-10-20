@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
@@ -26,18 +27,6 @@ typedef struct S_800264D4_2 {
     u16 unk_16;
 } S_800264D4_2;
 
-typedef struct S_800264D4_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800264D4_3;
-
 typedef struct S_800264D4_4 {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -61,7 +50,6 @@ typedef struct S_800264D4_4 {
     u8 pad_70[0x2];
     s16 unk_72;
 } S_800264D4_4;
-
 
 typedef struct {
     u8 unk00[8];
@@ -95,7 +83,7 @@ void *create_linked_objects(MovingPosition *source_pos, s32 effect_value, s16 sp
     u16 pos_z;
     u16 sprite_flags;
     s32 new_flags;
-    S_800264D4_3 *sprite;
+    SpriteFrameState *sprite;
     S_800264D4_4 *effect_state;
     S_800264D4_2 *position;
     void *object;
@@ -122,14 +110,14 @@ create_object:
         position->unk_08.at02.v = pos_z;
         position->unk_16 = pos_z;
         sprite = ((S_800264D4_0 *)object)->unk_0C;
-        sprite_flags = sprite->unk_14;
-        sprite->unk_08 = (void *) ((sprite_index * 0xC) + &D_80028808);
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_10 = 0x60;
+        sprite_flags = sprite->flags;
+        sprite->source = (void *) ((sprite_index * 0xC) + &D_80028808);
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->tpage_abr = 0x60;
         new_flags = sprite_flags;
         new_flags |= 0xC;
-        sprite->unk_14 = new_flags;
+        sprite->flags = new_flags;
         effect_state = object + 0x20;
         effect_state->unk_04 = effect_value;
         ((S_800264D4_0 *)object)->unk_20 = source_pos;

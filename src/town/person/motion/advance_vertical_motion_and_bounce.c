@@ -5,7 +5,7 @@
 
 void add_hex_20000_s_signed_offset_hex_14();                      /* extern */
 s16 query_lowered_transform_position();                          /* extern */
-void apply_object_setup_and_update();     /* extern */
+void apply_object_setup_and_update(void *, s32, s32);     /* extern */
 extern M2C_UNK D_800CE8CC;
 
 
@@ -20,7 +20,7 @@ void advance_vertical_motion_and_bounce(Rec_func_80094268_arg0 *actor, EntityRec
         actor->unk_90.as_u16 = bounces_left;
         if ((bounces_left << 0x10) <= 0) {
             motion->flags14 = 0;
-            apply_object_setup_and_update(actor, motion, context);
+            apply_object_setup_and_update(actor, (s32)(motion), context);
             return;
         }
         motion->flags14 = 0xFFF60000;

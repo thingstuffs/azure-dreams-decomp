@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_199c800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -27,7 +28,6 @@ typedef struct S_FUNC_8197C800_BODY_0 {
     union { s16 s; u16 u; } unk_52;   /* accessed as both */
 } S_FUNC_8197C800_BODY_0;   /* arg0 in update_directional_actor_effect */
 
-
 typedef struct S_FUNC_8197C800_BODY_2 {
     s32 unk_00;
     s32 unk_04;
@@ -39,7 +39,6 @@ typedef struct S_FUNC_8197C800_BODY_3 {
     void * unk_08;
     void * unk_0C;
 } S_FUNC_8197C800_BODY_3;   /* root in update_directional_actor_effect */
-
 
 typedef struct S_FUNC_8197C800_BODY_5 {
     u8 pad_00[0x8];
@@ -113,7 +112,6 @@ typedef struct S_FUNC_8197C800_BODY_17 {
     u8 unk_25;
 } S_FUNC_8197C800_BODY_17;   /* image in update_directional_actor_effect */
 
-
 typedef struct S_FUNC_8197C800_BODY_19 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -135,16 +133,12 @@ typedef struct S_FUNC_8197C800_BODY_22 {
     void * unk_08;
 } S_FUNC_8197C800_BODY_22;   /* ((S_FUNC_8197C800_BODY_3 *)root)->unk_0C in update_directional_actor_effect */
 
-
-
 typedef struct S_FUNC_8197C800_BODY_25 {
     u8 pad_00[0xA];
     s16 unk_0A;
     u8 pad_0C[0x8];
     s32 unk_14;
 } S_FUNC_8197C800_BODY_25;   /* ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08 in update_directional_actor_effect */
-
-
 
 extern u8 D_800DEDB0[];
 extern u8 D_800DE9D0[];
@@ -194,7 +188,7 @@ void update_directional_actor_effect(void *input, void *output)
     void *particle_script;
     EntityRec *scene;
     void *particle;
-    S_FUNC_8197C800_BODY_8 *sprite;
+    SpriteFrameState *sprite;
     S_FUNC_8197C800_BODY_6 *src_position;
     S_FUNC_8197C800_BODY_7 *dst_position;
     S_FUNC_8197C800_BODY_7 *dst_position_3;
@@ -273,16 +267,16 @@ void update_directional_actor_effect(void *input, void *output)
         result = src_position->unk_08 + (offset_index << 16);
         ((S_FUNC_8197C800_BODY_2 *)output)->unk_08 = result;
         dst_position_3->unk_08 = result;
-        sprite->unk_1E = 0x800;
-        sprite->unk_1C = 0x800;
-        sprite->unk_10 = 0x20;
+        sprite->scale_y = 0x800;
+        sprite->scale_x = 0x800;
+        sprite->tpage_abr = 0x20;
         sprite->unk_00 = D_800DEDB0;
-        sprite->unk_14 |= 0xC;
-        sprite->unk_08 = ((S_FUNC_8197C800_BODY_9 *)D_800DEDB0)->unk_04;
+        sprite->flags |= 0xC;
+        sprite->source = ((S_FUNC_8197C800_BODY_9 *)D_800DEDB0)->unk_04;
         random_value |= 0x8080u;
         sprite->unk_04 = 0;
         sprite->unk_05 = 0;
-        sprite->unk_0C = (void *)random_value;
+        sprite->color.word = (void *)random_value;
         ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
         ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
     }
@@ -366,20 +360,20 @@ void update_directional_actor_effect(void *input, void *output)
                     position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                     sprite_template = D_800DE9D0;
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_0A = height;
-                    sprite->unk_1C = 0x1800;
-                    sprite->unk_1E = 0x2000;
-                    sprite->unk_10 = 0x60;
+                    sprite->scale_x = 0x1800;
+                    sprite->scale_y = 0x2000;
+                    sprite->tpage_abr = 0x60;
                     {
                         u16 flags;
-                        flags = sprite->unk_14;
+                        flags = sprite->flags;
                         sprite->unk_00 = sprite_template;
                         flags |= 0xC;
-                        sprite->unk_14 = flags;
-                        sprite->unk_08 = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
+                        sprite->flags = flags;
+                        sprite->source = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
                     }
                     sprite->unk_04 = 0;
                     sprite->unk_05 = 0;
-                    sprite->unk_0C = (void *)(color | 0x6060u);
+                    sprite->color.word = (void *)(color | 0x6060u);
                     ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
                     ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
                 }
@@ -443,21 +437,21 @@ void update_directional_actor_effect(void *input, void *output)
                     color = 0x00100000u;
                     ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)particle)->unk_08))->unk_14 =
                         (s32)0xFFE60000 - (result << 2);
-                    sprite->unk_1E = 0x800;
-                    sprite->unk_1C = 0x800;
-                    sprite->unk_10 = 0x20;
+                    sprite->scale_y = 0x800;
+                    sprite->scale_x = 0x800;
+                    sprite->tpage_abr = 0x20;
                     {
                         u16 flags;
-                        flags = sprite->unk_14;
+                        flags = sprite->flags;
                         sprite_template = D_800DEC00;
                         sprite->unk_00 = sprite_template;
                         flags |= 0xC;
-                        sprite->unk_14 = flags;
-                        sprite->unk_08 = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
+                        sprite->flags = flags;
+                        sprite->source = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
                     }
                     sprite->unk_04 = 0;
                     sprite->unk_05 = 0;
-                    sprite->unk_0C = (void *)(color | 0x1010u);
+                    sprite->color.word = (void *)(color | 0x1010u);
                     ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
                     ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
                 }
@@ -685,16 +679,16 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     spawn->position->y.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);
                     z_jitter = func_80069EF8();
                     spawn->position->z.word = target->z.word + (((z_jitter & 0x3FF) - 0x1FF) << 10);
-                    state->field1E = 0x1800;
-                    state->field1C = 0x1800;
-                    state->field10 = 0x60;
-                    state->field0 = (s32)particle_data;
-                    state->flags14 = state->flags14 | 0xC;
+                    ((SpriteFrameState *)state)->scale_y = 0x1800;
+                    ((SpriteFrameState *)state)->scale_x = 0x1800;
+                    ((SpriteFrameState *)state)->tpage_abr = 0x60;
+                    ((SpriteFrameState *)state)->unk_00 = (s32)particle_data;
+                    ((SpriteFrameState *)state)->flags = ((SpriteFrameState *)state)->flags | 0xC;
                     data_word = particle_data[1];
-                    state->field4 = 0;
-                    state->field5 = 0;
-                    state->fieldC = (0xC00000 | 0x6060);
-                    state->field8 = data_word;
+                    ((SpriteFrameState *)state)->unk_04 = 0;
+                    ((SpriteFrameState *)state)->unk_05 = 0;
+                    ((SpriteFrameState *)state)->color.word = (0xC00000 | 0x6060);
+                    ((SpriteFrameState *)state)->source = data_word;
                     data_word = (s32)actor->field0;
                     child->field4C = 0;
                     child->parent = (void *)data_word;
@@ -727,8 +721,6 @@ typedef struct S_8197D3B8_2 {
     u16 unk_52;
 } S_8197D3B8_2;   /* primitive in func_80024BB8 */
 
-
-
 /* Applies motion deltas, marks the primitive, and propagates status flags. */
 void func_80024BB8(void *render_entry, void *motion_data, void *render_status)
 {
@@ -748,7 +740,7 @@ void func_80024BB8(void *render_entry, void *motion_data, void *render_status)
     primitive->unk_52 |= 0x8000;
 
     func_800478B8(status);
-    if (status->unk_14.at00_u16.v & 0x6000) {
+    if (((SpriteFrameState *)status)->flags & 0x6000) {
         ((S_8197D3B8_1_pre *)render_entry)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }
@@ -808,22 +800,6 @@ typedef struct S_8197D468_5 {
     void * unk_20;
 } S_8197D468_5;
 
-typedef struct S_8197D468_6 {
-    u8 * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8197D468_6;
-
-
 typedef struct S_8197D468_8 {
     u8 pad_00[0x4C];
     s16 unk_4C;
@@ -837,7 +813,6 @@ typedef struct S_8197D468_9 {
     s32 unk_10;
     s32 unk_14;
 } S_8197D468_9;
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -857,7 +832,7 @@ void update_rising_landing_effect(void *effect, void *motion, void *sprite) {
     s32 particle_color;
     void *sprite_frames;
     void *effect_data;
-    void *particle_sprite;
+    SpriteFrameState *particle_sprite;
     void *owner;
     void *particle;
 
@@ -949,17 +924,17 @@ void update_rising_landing_effect(void *effect, void *motion, void *sprite) {
                     ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_14 =
                         (s32) (0 - ((func_80069EF8() & 0x3FF) << 8));
                     particle_color = 0xC00000;
-                    ((S_8197D468_6 *)particle_sprite)->unk_1E = 0xC00;
-                    ((S_8197D468_6 *)particle_sprite)->unk_1C = 0xC00;
-                    ((S_8197D468_6 *)particle_sprite)->unk_10 = 0x20;
-                    ((S_8197D468_6 *)particle_sprite)->unk_00 = D_800DED70;
-                    ((S_8197D468_6 *)particle_sprite)->unk_14 = (u16) (((S_8197D468_6 *)particle_sprite)->unk_14 | 0xC);
+                    particle_sprite->scale_y = 0xC00;
+                    particle_sprite->scale_x = 0xC00;
+                    particle_sprite->tpage_abr = 0x20;
+                    particle_sprite->unk_00 = D_800DED70;
+                    particle_sprite->flags = (u16) (particle_sprite->flags | 0xC);
                     particle_frames = ((SpriteSourceEntry *)D_800DED70)->unk_04;
                     particle_color |= 0x6060;
-                    ((S_8197D468_6 *)particle_sprite)->unk_04 = 0;
-                    ((S_8197D468_6 *)particle_sprite)->unk_05 = 0;
-                    ((S_8197D468_6 *)particle_sprite)->unk_0C = particle_color;
-                    ((S_8197D468_6 *)particle_sprite)->unk_08 = particle_frames;
+                    particle_sprite->unk_04 = 0;
+                    particle_sprite->unk_05 = 0;
+                    particle_sprite->color.word = particle_color;
+                    particle_sprite->source = particle_frames;
                     effect_data = ((S_8197D468_0 *)effect)->unk_00;
                     ((S_8197D468_5 *)particle)->unk_20 = effect_data;
                     ((S_8197D468_8 *)particle_work)->unk_4C = 0;

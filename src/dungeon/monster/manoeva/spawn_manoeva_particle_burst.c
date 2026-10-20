@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
@@ -15,19 +16,6 @@ typedef struct S_80E3CC80_0 {
     u8 pad_14[0x2C];
     s16 unk_40;
 } S_80E3CC80_0;   /* object in spawn_manoeva_particle_burst */
-
-typedef struct S_80E3CC80_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    s32 unk_28;
-} S_80E3CC80_1;   /* a in spawn_manoeva_particle_burst */
 
 typedef struct S_80E3CC80_2 {
     u8 pad_00[0x12];
@@ -51,7 +39,6 @@ typedef struct S_80E3CC80_3 {
 
    /* arg0 in spawn_manoeva_particle_burst */
 
-
 extern void register_node(void *object, void *data);
 extern void select_sprite_entry(void *object, s32 table_index, s32 entry_index);
 extern s32 rand(void);
@@ -64,7 +51,7 @@ void spawn_manoeva_particle_burst(MovingPosition *origin, S_80E3CC80_2 *source_s
     u16 sprite_flags;
     u16 source_y;
     S_80E3CC80_0 *particle;
-    S_80E3CC80_1 *sprite;
+    SpriteFrameState *sprite;
     S_80E3CC80_3 *motion;
 
     remaining = 0x10;
@@ -74,16 +61,16 @@ void spawn_manoeva_particle_burst(MovingPosition *origin, S_80E3CC80_2 *source_s
             particle->unk_10 = D_801763D0;
             register_node(particle, project_sprite_chain);
             sprite = particle->unk_0C;
-            sprite->unk_1E = 0x800;
-            sprite->unk_1C = 0x800;
-            sprite->unk_0C = 0x808080;
-            sprite->unk_10 = 0x20;
-            image = source_sprite->unk_28;
+            sprite->scale_y = 0x800;
+            sprite->scale_x = 0x800;
+            sprite->color.word = 0x808080;
+            sprite->tpage_abr = 0x20;
+            image = ((SpriteFrameState *)source_sprite)->unk_28;
             sprite->unk_28 = image;
-            sprite_flags = sprite->unk_14;
-            source_y = source_sprite->unk_12;
-            sprite->unk_14 = sprite_flags | 0xC;
-            sprite->unk_12 = source_y - 0x80;
+            sprite_flags = sprite->flags;
+            source_y = ((SpriteFrameState *)source_sprite)->clut;
+            sprite->flags = sprite_flags | 0xC;
+            sprite->clut = source_y - 0x80;
             select_sprite_entry(sprite, 0x41, 0);
             motion = particle->unk_08;
             motion->unk_02 = origin->unk_02;

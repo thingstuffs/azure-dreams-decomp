@@ -1,7 +1,7 @@
 #include "common.h"
 s32 find_resource_index_by_key(s32 targetField0, s32 targetField1, s32 targetField2);                                /* extern */
-void move_resource_to_front();                         /* extern */
-s32 install_resource_descriptor_at_front();      /* extern */
+void move_resource_to_front(s32);                         /* extern */
+s32 install_resource_descriptor_at_front(s32, s32, s32, s32);      /* extern */
 
 /* Find or allocate the matching entry and move it to the front. */
 void ensure_resource_at_front(s32 kind, s32 state, s32 value) {

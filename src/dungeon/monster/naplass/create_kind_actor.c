@@ -1,5 +1,6 @@
 #include "dungeon/monster/naplass/create_kind_actor.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/naplass/create_kind_actor.h"
 
 /* Allocate an actor and initialize its parts and behavior from the kind flags. */
 void *create_kind_actor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s16 part_value_0a)
@@ -7,7 +8,7 @@ void *create_kind_actor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s1
     s32 kind;
     void *obj;
     S_80158870_2 *part_a;
-    S_80158870_3 *part_b;
+    SpriteFrameState *part_b;
     S_80158870_1 *work;
     S_80158870_4 *actor;
     register s32 flags_14;
@@ -35,7 +36,7 @@ void *create_kind_actor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s1
         kind = kind_flags & 3;
         part_b->unk_25 = saved_value_25;
         actor = work;
-        part_b->unk_2C = D_8015C194;
+        part_b->frameTable = D_8015C194;
         part_b->unk_24 = saved_value_24;
 
         if (kind == 1) {
@@ -55,7 +56,7 @@ void *create_kind_actor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s1
                 work->unk_1C |= 0x200;
                 set_or_clear_actor_status_slot(work, 1,
                               (generate_random_value() & 0x3F) | 0x20);
-                part_b->unk_2C = D_8015C1DC;
+                part_b->frameTable = D_8015C1DC;
             }
         }
         init_obj = obj;
@@ -63,7 +64,7 @@ void *create_kind_actor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s1
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &dispatch_ability_action;
-        part_b->unk_14 |= 0xC;
+        part_b->flags |= 0xC;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

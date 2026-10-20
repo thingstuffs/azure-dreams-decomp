@@ -17,7 +17,7 @@ typedef struct S_800B07D0_2 {
 
 
 void func_800497F4(Struct800497F4 *object, s32 stop_at_gray);
-s32 advance_timed_tagged_stream();                         /* extern */
+struct FrameState; s32 advance_timed_tagged_stream(struct FrameState *);                         /* extern */
 
    /* arg0 in process_shop_embedded_data */
 

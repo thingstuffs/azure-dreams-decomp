@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 test_resident_bitmap_bit();                             /* extern */
+#include "engine/object/test_resident_bitmap_bit_api.h"                             /* extern */
 extern s16 D_80028010[8];
 
 /* Return a bitmask of the eight entries for which test_resident_bitmap_bit is nonzero. */

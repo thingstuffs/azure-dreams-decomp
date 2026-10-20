@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 
 typedef struct S_81976BC0_0 {
@@ -18,23 +19,6 @@ typedef struct S_81976BC0_1 {
     s16 unk_10;
 } S_81976BC0_1;   /* fields in create_an_initialize_fields_randomized_child_state */
 
-typedef struct S_81976BC0_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_81976BC0_2;   /* child in create_an_initialize_fields_randomized_child_state */
-
-
 extern void *allocate_list_node(s32, void *);
 extern s32 rand(void);
 extern u8 D_80024050[];
@@ -44,7 +28,7 @@ extern s32 D_800261E4[];
 void create_an_initialize_fields_randomized_child_state(s32 object_value, s32 field_value)
 {
     s32 random_value;
-    S_81976BC0_2 *child;
+    SpriteFrameState *child;
     void *object;
     S_81976BC0_1 *fields;
 
@@ -59,16 +43,16 @@ void create_an_initialize_fields_randomized_child_state(s32 object_value, s32 fi
         fields->unk_04 = ((u8 *)(&D_80083498));
         fields->unk_08 = field_value;
         child = ((S_81976BC0_0 *)object)->unk_0C;
-        child->unk_08 = D_800261E4[0];
-        child->unk_0E = 0x40;
-        child->unk_0D = 0x40;
-        child->unk_0C = 0x40;
-        child->unk_1E = 0x1800;
-        child->unk_1C = 0x1800;
+        child->source = D_800261E4[0];
+        child->color.c.b = 0x40;
+        child->color.c.g = 0x40;
+        child->color.c.r = 0x40;
+        child->scale_y = 0x1800;
+        child->scale_x = 0x1800;
         random_value = rand();
-        child->unk_1A = random_value % 0x1000;
-        child->unk_12 = 0x7DCF;
-        child->unk_10 |= 0x20;
-        child->unk_14 |= 0x10C;
+        child->angle_z = random_value % 0x1000;
+        child->clut = 0x7DCF;
+        child->tpage_abr |= 0x20;
+        child->flags |= 0x10C;
     }
 }

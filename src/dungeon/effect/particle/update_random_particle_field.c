@@ -1,5 +1,6 @@
 #include "dungeon/effect/particle/update_random_particle_field.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/effect/particle/update_random_particle_field.h"
 
 /* Selector bank entry calls the complete native initialization member. */
 void (*const D_80024000)(void *, void *) = update_random_particle_field;
@@ -174,7 +175,7 @@ void draw_red(void *effect) {
     s32 surface_height;
     s16 state;
     u16 final_display_y;
-    S_81934C5C_3 *impact_sprite;
+    SpriteFrameState *impact_sprite;
     S_81934C5C_2 *impact_effect;
     S_81934C5C_1 *owner;
 
@@ -227,9 +228,9 @@ void draw_red(void *effect) {
             ((S_81934C5C_5 *)(impact_effect->unk_08))->unk_00 = (s32) ((S_81934C5C_0 *)effect)->unk_1C.at00.v;
             ((S_81934C5C_5 *)(impact_effect->unk_08))->unk_04 = (s32) ((S_81934C5C_0 *)effect)->unk_20.at00.v;
             ((S_81934C5C_5 *)(impact_effect->unk_08))->unk_08 = (s32) ((S_81934C5C_0 *)effect)->unk_24.at00.v;
-            impact_sprite->unk_1E = 0x500;
-            impact_sprite->unk_1C = 0x500;
-            impact_sprite->unk_14 = (u16) (impact_sprite->unk_14 | 0xC);
+            impact_sprite->scale_y = 0x500;
+            impact_sprite->scale_x = 0x500;
+            impact_sprite->flags = (u16) (impact_sprite->flags | 0xC);
             {
                 s32 *animation;
 
@@ -239,7 +240,7 @@ void draw_red(void *effect) {
                     animation = &D_800DEE38;
                 }
                 impact_sprite->unk_00 = animation;
-                impact_sprite->unk_08 = (s32) ((S_81934C5C_4 *)animation)->unk_04;
+                impact_sprite->source = (s32) ((S_81934C5C_4 *)animation)->unk_04;
                 impact_sprite->unk_04 = 0;
                 impact_sprite->unk_05 = 0;
             }

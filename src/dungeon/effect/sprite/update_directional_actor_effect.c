@@ -1,4 +1,5 @@
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"
+#include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -8,8 +9,6 @@
 #include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
-
-
 
 typedef struct S_81988800_0 {
     void * unk_00;
@@ -21,7 +20,6 @@ typedef struct S_81988800_0 {
     union { u16 u; s16 s; } unk_50;   /* accessed as both */
     union { s16 s; u16 u; } unk_52;   /* accessed as both */
 } S_81988800_0;   /* state in update_directional_actor_effect */
-
 
 typedef struct S_81988800_2 {
     s32 unk_00;
@@ -69,12 +67,6 @@ typedef struct S_81988800_8 {
     s16 unk_2A;
 } S_81988800_8;   /* base in update_directional_actor_effect */
 
-typedef struct S_81988800_9 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_81988800_9;   /* tail in update_directional_actor_effect */
-
 typedef struct S_81988800_10 {
     s32 unk_00;
     s32 unk_04;
@@ -89,7 +81,6 @@ typedef struct S_81988800_12 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_81988800_12;   /* ((S_81988800_3 *)work)->unk_0C in update_directional_actor_effect */
-
 
 extern M2C_UNK D_80024D58;
 
@@ -327,7 +318,6 @@ typedef struct S_81988C1C_7 {
     u32 unk_B0;
 } S_81988C1C_7;   /* (u8 *)(index + ((S_81988C1C_2 *)base)->unk_00.u) in create_counted_sprite_effect */
 
-
 typedef struct {
     u8 pad[0x1FC];
     s32 unk1FC;
@@ -530,7 +520,7 @@ void update_effect_and_spawn_fragments(MainObject *obj)
     s32 count;
     EffectObject *effect;
     volatile EffectTail *tail;
-    ChildObject *child;
+    SpriteFrameState *child;
     void *callback;
     Resource *resource;
     TileObject *call_data;
@@ -618,13 +608,13 @@ void update_effect_and_spawn_fragments(MainObject *obj)
 
             child->scale_y = 0x1000;
             child->scale_x = 0x1000;
-            child->life = 0x60;
-            child->resource = resource;
+            child->tpage_abr = 0x60;
+            child->unk_00 = resource;
             child->flags |= 0xC;
-            child->resource_data = resource->data;
-            child->byte04 = 0;
-            child->byte05 = 0;
-            child->color = 0x00808080;
+            child->source = resource->data;
+            child->unk_04 = 0;
+            child->unk_05 = 0;
+            child->color.word = 0x00808080;
             effect->owner = obj->link;
             tail = (EffectTail *)&effect->owner;
             tail->state = 0;
@@ -633,7 +623,6 @@ void update_effect_and_spawn_fragments(MainObject *obj)
 }
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"
 #include "shared/object_flags.h"
-
 
 /* Marks the referenced object and updates entry and global flags based on target status. */
 void mark_referenced_object_and_update_flags(void *entry, void *unused, void *target) {
@@ -690,7 +679,6 @@ typedef struct S_80024B20_5 {
     u8 pad_00[0x14A0];
     u32 unk_14A0;
 } S_80024B20_5;   /* page in update_segment */
-
 
 extern s32 func_800644B8();
 

@@ -1,4 +1,5 @@
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -11,8 +12,6 @@ extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 
 s32 rand();                                /* extern */
 extern M2C_UNK D_800263F8;
-
-
 
 typedef struct S_8002596C_1 {
     u8 pad_00[0x2];
@@ -29,21 +28,10 @@ typedef struct S_8002596C_1 {
     s16 unk_16;
 } S_8002596C_1;
 
-typedef struct S_8002596C_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8002596C_2;
-
 /* Create a sprite effect at the given position with a randomized rotation. */
 void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
     S_8002596C_1 *transform;
-    S_8002596C_2 *sprite;
+    SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
 
     effect = func_8003FC64(0x202);
@@ -58,12 +46,12 @@ void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
         transform->unk_12 = 0;
         transform->unk_16 = (s16) (rand() & 7);
         sprite = effect->unk_0C;
-        sprite->unk_0C = 0x808080;
+        sprite->color.word = 0x808080;
         func_8003DB94(sprite, &D_800263F8, 0);
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_10 = 0x20;
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->tpage_abr = 0x20;
+        sprite->flags = (u16) (sprite->flags | 0xC);
         ((s16 *)(effect + 1))[0x1A / 2] = 0x10;
     }
 }

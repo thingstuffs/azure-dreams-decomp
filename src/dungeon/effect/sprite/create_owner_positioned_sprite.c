@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct Sprite {
@@ -52,7 +53,7 @@ extern u8 D_80028250[12];
 void create_owner_positioned_sprite(Object *owner, s16 angle) {
     Pair rect;
     Object *spawned;
-    Node *node;
+    SpriteFrameState *node;
     ObjectTail *tail;
 
     spawned = allocate_list_node(0x212, owner);
@@ -63,13 +64,13 @@ void create_owner_positioned_sprite(Object *owner, s16 angle) {
         spawned->sprite->y = owner->sprite->y;
         spawned->sprite->z = owner->sprite->z;
         node = spawned->node;
-        node->field8 = D_800281FC;
-        node->field1E = 0x2800;
-        node->field1C = 0x2800;
-        node->field6 = 8;
-        node->field1A = angle + 0x400;
+        node->source = D_800281FC;
+        node->scale_y = 0x2800;
+        node->scale_x = 0x2800;
+        node->unk_06 = 8;
+        node->angle_z = angle + 0x400;
         tail = (ObjectTail *)((u8 *)spawned + 0x20);
-        node->fieldC = 0x808080;
+        node->color.word = 0x808080;
         tail->owner = owner;
         tail->angle = angle;
         rect.first = 0x01400340;

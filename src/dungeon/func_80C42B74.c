@@ -1,11 +1,12 @@
 #include "dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.h"
+#include "shared/sprite_frame_state.h"
 
 /* Creates a yellow effect at an angular offset from the supplied position. */
 void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unused_param_2, s32 unused_param_3,
     s16 angle, u16 height_offset) {
     void *effect;
     T_80174374_S_80174374_0 *effect_state;
-    void *sprite;
+    SpriteFrameState *sprite;
     void *position;
     s16 wrapped_angle;
 
@@ -19,8 +20,8 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
         register_node(effect, project_sprite_chain);
 
         sprite = ((T_80174374_S_80174374_1 *)effect)->unk_0C;
-        ((T_80174374_S_80174374_2 *)sprite)->unk_10 = 0x20;
-        ((T_80174374_S_80174374_2 *)sprite)->unk_14 |= 0xC;
+        sprite->tpage_abr = 0x20;
+        sprite->flags |= 0xC;
 
         position = ((T_80174374_S_80174374_1 *)effect)->unk_08;
         effect_state->unk_40 = origin->unk_00.at00_s32.v;
@@ -35,17 +36,17 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
         ((T_80174374_S_80174374_4 *)position)->unk_0A = origin->unk_0A + height_offset;
 
         sprite = ((T_80174374_S_80174374_1 *)effect)->unk_0C;
-        ((T_80174374_S_80174374_2 *)sprite)->unk_1E = 0x400;
-        ((T_80174374_S_80174374_2 *)sprite)->unk_1C = 0x400;
-        ((T_80174374_S_80174374_2 *)sprite)->unk_0E = 0x60;
-        ((T_80174374_S_80174374_2 *)sprite)->unk_0D = 0xFF;
-        ((T_80174374_S_80174374_2 *)sprite)->unk_0C = 0xFF;
+        sprite->scale_y = 0x400;
+        sprite->scale_x = 0x400;
+        sprite->color.c.b = 0x60;
+        sprite->color.c.g = 0xFF;
+        sprite->color.c.r = 0xFF;
         effect_state->unk_00 = 0xFF;
-        effect_state->unk_01 = ((T_80174374_S_80174374_2 *)sprite)->unk_0D;
-        effect_state->unk_02 = ((T_80174374_S_80174374_2 *)sprite)->unk_0E;
+        effect_state->unk_01 = sprite->color.c.g;
+        effect_state->unk_02 = sprite->color.c.b;
 
         func_8003DB94(sprite, &D_800DEC00, rand() & 1);
-        ((T_80174374_S_80174374_2 *)sprite)->unk_12 = 0x7DCF;
-        ((T_80174374_S_80174374_2 *)sprite)->unk_14 |= 0x100;
+        sprite->clut = 0x7DCF;
+        sprite->flags |= 0x100;
     }
 }

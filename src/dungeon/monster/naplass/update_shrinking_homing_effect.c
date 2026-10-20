@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -24,10 +25,9 @@ typedef struct S_80F606C0_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
 } S_80F606C0_1;   /* arg1 in update_shrinking_homing_effect */
 
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 /* Moves the effect toward its target, shrinks it, and marks completion after the countdown. */
-void update_shrinking_homing_effect(void *effect, S_80F606C0_1 *position, Rec_D_80082E80 *transform) {
+void update_shrinking_homing_effect(void *effect, S_80F606C0_1 *position, SpriteFrameState *transform) {
     s16 phase;
     s32 x_delta;
     u16 scale;
@@ -43,9 +43,9 @@ void update_shrinking_homing_effect(void *effect, S_80F606C0_1 *position, Rec_D_
     phase = ((S_80F606C0_0 *)effect)->unk_4C;
     switch (phase) {                              /* irregular */
     case 0:
-        scale = transform->unk_1C.at02_u16.v - 0x80;
-        transform->unk_1C.at02_u16.v = scale;
-        transform->unk_1C.at00_u16.v = scale;
+        scale = transform->scale_y - 0x80;
+        transform->scale_y = scale;
+        transform->scale_x = scale;
         frames_left = ((S_80F606C0_0 *)effect)->unk_48 - 1;
         ((S_80F606C0_0 *)effect)->unk_48 = frames_left;
         if ((frames_left << 0x10) <= 0) {

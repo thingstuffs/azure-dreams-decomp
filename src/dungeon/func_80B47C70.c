@@ -1,9 +1,10 @@
 #include "modules/dungeon_resource12_slot0.h"
+#include "shared/sprite_frame_state.h"
 
-void advance_effect_sequence_and_restore_actor(void *sequence, void *position, Rec_D_80082E80 *record, void *actor) {
+void advance_effect_sequence_and_restore_actor(void *sequence, void *position, SpriteFrameState *record, void *actor) {
     GameWork *scene_color = &g_game_work;
     R12_80175470_S_80175470_2 *node;
-    R12_80175470_S_80175470_3 *model;
+    SpriteFrameState *model;
     void *child;
     u8 *target_color;
     s32 direction;
@@ -90,16 +91,16 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, R
         ((s32 *)node->unk_08)[2] = ((s32 *)position)[2];
         (*(s16 *)D_80175B20) = -12;
         model = node->unk_0C;
-        model->unk_1E = 0x1000;
-        model->unk_1C = 0x1000;
-        model->unk_0C = model_color;
+        model->scale_y = 0x1000;
+        model->scale_x = 0x1000;
+        model->color.word = model_color;
         effect_choice = lookup_masked_byte_table(actor) - 1;
         effect_index = effect_choice;
         if ((s16)effect_choice < 0) {
             effect_index = func_80069EF8() % 3;
         }
         func_8003DB94(model, ((u8 *)D_8014A000) + ((s32 *)D_80175B14)[(s16)effect_index], 0);
-        record->unk_14.at00_u16.v |= 0x80;
+        record->flags |= 0x80;
         ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0;
         next_state = ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n + 1;
 store_next_state:
@@ -109,7 +110,7 @@ store_next_state:
     case 5:
         node = ((R12_80175470_S_80175470_0 *)sequence)->unk_A8;
         model = node->unk_0C;
-        if (model->unk_14 & 0xE000) {
+        if (model->flags & 0xE000) {
             ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0x10;
             ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
             decrement_monster_entry_count(((R12_80175470_S_80175470_1 *)actor)->unk_13, 3);
@@ -145,10 +146,10 @@ store_next_state:
         ((R12_80175470_S_80175470_5 *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))->unk_2A = ((R12_80175470_S_80175470_1 *)actor)->unk_2A.u;
         model = ((R12_80175470_S_80175470_5_pre *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))[-1].unk_00;
         node = ((R12_80175470_S_80175470_1 *)actor)->unk_60;
-        select_indirect_table_entry(model, ((u8 *)model->unk_2C)[
+        select_indirect_table_entry(model, ((u8 *)model->frameTable)[
                       ((g_game_work.view.viewAngle + node->unk_2A + 0x100) >> 9) & 7],
                       model->unk_04);
-        model->unk_14 &= 0xFFFE;
+        model->flags &= 0xFFFE;
 
     case 8:
         next_timer = ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u - 1;

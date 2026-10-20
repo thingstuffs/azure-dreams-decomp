@@ -47,21 +47,21 @@ extern u8 D_801746C4[];
 extern u8 D_8017467C[];
 extern u8 D_8016B778[];
 s8 find_active_rect_containing_point();
-s32 compare_monster_neighbor_values();
+s32 compare_monster_neighbor_values(s32, s32, s32, s32);
 s32 can_entity_gain_level();
-void update_actor_status_and_food();
+struct EntityRec; void update_actor_status_and_food(struct EntityRec *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 s32 begin_ready_actor_directional_action();
-void begin_actor_move_to_target_facing();
-s32 reset_actor_action_state();
-void begin_actor_spell_action();
-void advance_entity_along_path();
+struct EntityRec; struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct EntityRec *);
+s32 reset_actor_action_state(void *, s32, void *, u8 *);
+void begin_actor_spell_action(void *, s32, void *, u8 *, s32);
+void advance_entity_along_path(void *, void *, void *, void *);
 void advance_actor_path();
 s32 func_8016C720();
-void clear_actor_flag_and_advance_action();
-s32 dispatch_actor_action_phase();
+struct EntityRec; struct Rec_func_800A9E70_arg0; void clear_actor_flag_and_advance_action(struct Rec_func_800A9E70_arg0 *, s32, void *, struct EntityRec *);
+struct Rec_func_800A9E70_arg0; s32 dispatch_actor_action_phase(struct Rec_func_800A9E70_arg0 *, s32, s32, s32);
 extern void func_8016DAA4(CallbackOwner *owner, s32 unused, s32 first, s32 second);
-s32 execute_actor_script_command();
+s32 execute_actor_script_command(u8 *, s32, u8 *);
 extern M2C_UNK D_8017469C;
 extern M2C_UNK D_801746BC;
 
@@ -85,7 +85,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
     u8 *active_actor;
     if (g_dungeon_status.flags & 0x1000) {
         actor->unk_9A.as_u8 = 0xEU;
-        advance_entity_along_path(actor, context, map_actor, entity);
+        advance_entity_along_path(actor, (void *)(context), map_actor, entity);
         return;
     }
     if (entity->flags1C & 0x200) {
@@ -97,7 +97,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
             entity->flags1C &= flag_mask_hi | 0xFFFF;
             return;
         }
-        if (reset_actor_action_state(actor, context, map_actor, &D_8017469C) != 0) {
+        if (reset_actor_action_state(actor, context, map_actor, (u8 *)(&D_8017469C)) != 0) {
             return;
         }
     }
@@ -148,7 +148,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
             }
         }
         if (entity->flags1C & 0x80000) {
-            begin_actor_move_to_target_facing(actor, context, map_actor, entity);
+            begin_actor_move_to_target_facing(actor, (void *)(context), (struct Rec_func_800AA258_arg2 *)(map_actor), entity);
             func_8016DAA4(actor, context, map_actor, entity);
             map_actor->unk_2C.p = D_8017467C;
             select_sprite_entry(map_actor, D_8017467C[((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
@@ -178,13 +178,13 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
                 }
             }
             if ((u16) *((s16 *)&D_80013714) & 8) {
-                execute_actor_script_command(actor, context, map_actor);
+                execute_actor_script_command((u8 *)(actor), context, (u8 *)(map_actor));
                 entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
                 update_actor_status_and_food(entity);
                 entity->unk_46 &= 0x7FFF;
                 return;
             }
-            if ((dispatch_actor_action_phase(actor, context, map_actor, 0) << 0x10) == 0) {
+            if ((dispatch_actor_action_phase(actor, context, (s32)(map_actor), 0) << 0x10) == 0) {
                 return;
             }
             action_flags = entity->unk_46 | 0x4000;
@@ -222,7 +222,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         case 2:
         case 3:
             action_data = D_8016B778;
-            begin_actor_spell_action(actor, context, map_actor, &D_801746BC, action_data);
+            begin_actor_spell_action(actor, context, map_actor, (u8 *)(&D_801746BC), (s32)(action_data));
             return;
         case 11:
         default:

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "shared/position_views.h"
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
@@ -15,7 +15,6 @@ extern void reduce_actor_food_meter(void *, s32);
 extern s32 D_80171CE8;
 extern u8 D_80174EE0[];
 
-
 typedef struct S_80173514_0 {
     u8 pad_00[0x8C];
     s32 * unk_8C;
@@ -25,16 +24,14 @@ typedef struct S_80173514_0 {
     u8 unk_9B;
 } S_80173514_0;   /* arg0 in advance_timed_sprite_flashing_sequence */
 
-
    /* arg1 in advance_timed_sprite_flashing_sequence */
-
 
 /* Advance a timed sprite flashing sequence and clean up the actor when it finishes. */
 void advance_timed_sprite_flashing_sequence(void *action, void *motion, void *sprite, EntityRec *actor)
 {
     u8 state;
     EntityRec *call_actor;
-    void *call_sprite;
+    SpriteFrameState *call_sprite;
 
     state = ((S_80173514_0 *)action)->unk_9B;
     switch (state) {
@@ -44,17 +41,17 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, void *sp
     case 0:
     {
         call_actor = actor;
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((S_80173514_0 *)action)->unk_9B = 4;
             call_sprite = sprite;
-            ((Rec_D_80082E80 *)call_sprite)->unk_14.at00_u16.v |= 0x6000;
+            call_sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(call_actor, call_sprite, call_actor->facing, 1);
             return;
         }
         ((MotionDeltaView *)motion)->unk_14 = 0;
         ((MotionDeltaView *)motion)->unk_10 = 0;
         ((MotionDeltaView *)motion)->unk_0C = 0;
-        (*(u8 **)((u8 *)sprite + 0x2C)) = D_80174EE0;
+        ((SpriteFrameState *)sprite)->frameTable = D_80174EE0;
         select_sprite_entry(sprite,
             D_80174EE0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
@@ -67,17 +64,17 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, void *sp
         if ((s16)++((S_80173514_0 *)action)->unk_96.u == 5) {
             ((S_80173514_0 *)action)->unk_96.u = 0;
             ((S_80173514_0 *)action)->unk_9B++;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
+            ((SpriteFrameState *)sprite)->flags |= 0x0800;
             return;
         }
         return;
 
     case 2:
         if ((s16)++((S_80173514_0 *)action)->unk_96.u == 6 ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            (((SpriteFrameState *)sprite)->flags & 0xE000)) {
             ((S_80173514_0 *)action)->unk_96.u = 0;
             ((S_80173514_0 *)action)->unk_9B++;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
             play_sound_if_enabled(0x804);
             return;
         }
@@ -85,18 +82,18 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, void *sp
 
     case 3:
         if ((s16)++((S_80173514_0 *)action)->unk_96.u == 5 ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
+            (((SpriteFrameState *)sprite)->flags & 0xE000)) {
+            ((SpriteFrameState *)sprite)->flags |= 0x0800;
         }
         if (((S_80173514_0 *)action)->unk_96.s == 12 ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            (((SpriteFrameState *)sprite)->flags & 0xE000)) {
             ((S_80173514_0 *)action)->unk_96.u = 0;
             ((S_80173514_0 *)action)->unk_9B++;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         }
         call_actor = actor;
         if (((S_80173514_0 *)action)->unk_96.s == 1 ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            (((SpriteFrameState *)sprite)->flags & 0xE000)) {
             call_sprite = sprite;
             resolve_attack_damage_and_effects(call_actor, call_sprite, call_actor->facing, 1);
             return;
@@ -104,7 +101,7 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, void *sp
         return;
 
     case 4:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
             reduce_actor_food_meter(actor, 0x100);
             ((S_80173514_0 *)action)->unk_8C = &D_80171CE8;
             g_dungeon_status.unk_0C = 0;

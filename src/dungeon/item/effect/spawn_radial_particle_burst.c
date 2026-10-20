@@ -1,14 +1,13 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 
-
 #ifndef NULL
 #define NULL 0
 #endif
-
 
 extern void register_node(void *, u8 *, s32, void *);
 extern s32 func_800644B8(s32);
@@ -17,7 +16,6 @@ extern s32 func_80064584(s32);
 extern u8 D_80099B18[];
 extern s32 D_800DEDB0[3];
 extern M2C_UNK D_800DEE38;
-
 
 typedef struct S_80099C58_0 {
     u8 pad_00[0x8];
@@ -58,7 +56,7 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
     void *particle;
     S_80099C58_1 *motion;
     S_80099C58_2 *effect_state;
-    void *sprite;
+    SpriteFrameState *sprite;
     S_80099C58_3 *texture_data;
     void *texture;
     s32 spokes_left;
@@ -80,25 +78,25 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
         sprite = ((S_80099C58_0 *)particle)->unk_0C;
         if (flags & 2) {
             texture = D_800DEDB0;
-            (*(void **)((u8 *)sprite + 0)) = texture;
+            sprite->unk_00 = texture;
             color = 0x808080;
         } else if (flags & 4) {
             texture = &D_800DEE38;
-            (*(void **)((u8 *)sprite + 0)) = texture;
+            sprite->unk_00 = texture;
             color = 0x808080;
         } else {
             texture = D_800DE870;
-            (*(void **)((u8 *)sprite + 0)) = texture;
+            sprite->unk_00 = texture;
             color = 0x808080;
         }
-        texture_data = (*(void * *)((u8 *)sprite + 0));
+        texture_data = sprite->unk_00;
         texture_data = texture_data->unk_04;
-        (*(u16 *)((u8 *)sprite + 0x14)) |= 0x8C;
-        (*(s16 *)((u8 *)sprite + 0x10)) = 0x20;
-        (*(s32 *)((u8 *)sprite + 0xC)) = color;
-        (*(s16 *)((u8 *)sprite + 0x1E)) = 0x1000;
-        (*(s16 *)((u8 *)sprite + 0x1C)) = 0x1000;
-        (*(void **)((u8 *)sprite + 8)) = texture_data;
+        sprite->flags |= 0x8C;
+        sprite->tpage_abr = 0x20;
+        sprite->color.word = color;
+        sprite->scale_y = ONE;
+        sprite->scale_x = ONE;
+        sprite->source = texture_data;
         register_node(particle, project_sprite_chain, color, sprite);
     }
 
@@ -122,25 +120,25 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
             sprite = ((S_80099C58_0 *)particle)->unk_0C;
             if (flags & 2) {
                 texture = D_800DEDB0;
-                (*(void **)((u8 *)sprite + 0)) = texture;
+                sprite->unk_00 = texture;
                 color = 0x808080;
             } else if (flags & 4) {
                 texture = &D_800DEE38;
-                (*(void **)((u8 *)sprite + 0)) = texture;
+                sprite->unk_00 = texture;
                 color = 0x808080;
             } else {
                 texture = D_800DE870;
-                (*(void **)((u8 *)sprite + 0)) = texture;
+                sprite->unk_00 = texture;
                 color = 0x808080;
             }
-            texture_data = (*(void * *)((u8 *)sprite + 0));
+            texture_data = sprite->unk_00;
             texture_data = texture_data->unk_04;
-            (*(u16 *)((u8 *)sprite + 0x14)) |= 0x8C;
-            (*(s16 *)((u8 *)sprite + 0x10)) = 0x20;
-            (*(s32 *)((u8 *)sprite + 0xC)) = color;
-            (*(s16 *)((u8 *)sprite + 0x1E)) = 0x1000;
-            (*(s16 *)((u8 *)sprite + 0x1C)) = 0x1000;
-            (*(void **)((u8 *)sprite + 8)) = texture_data;
+            sprite->flags |= 0x8C;
+            sprite->tpage_abr = 0x20;
+            sprite->color.word = color;
+            sprite->scale_y = ONE;
+            sprite->scale_x = ONE;
+            sprite->source = texture_data;
             register_node(particle, project_sprite_chain, color, sprite);
         }
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -37,7 +38,6 @@ typedef struct S_80172C90_4 {
     u8 unk_25;
 } S_80172C90_4;   /* localLinked in update_the_actor_action_sequence_including_movement_landing_recovery */
 
-
 extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void play_sound_if_enabled(s32);
@@ -52,7 +52,7 @@ extern u8 D_80174EF8[];
 extern u8 D_80174F00[];
 
 /* Updates the actor action sequence, including movement, landing, and recovery. */
-void update_the_actor_action_sequence_including_movement_landing_recovery(void *action, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
+void update_the_actor_action_sequence_including_movement_landing_recovery(void *action, EntityRec *motion, SpriteFrameState *sprite, EntityRec *actor)
 {
     u32 dir_offset;
     u16 angle;
@@ -171,7 +171,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             if (!move_result) {
                 return;
             }
-            sprite->unk_14.at00_u16.v &= 0xF7FF;
+            sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_effect_groups(motion, sprite, actor, 10);
             ((S_80172C90_1 *)action)->unk_90 = 0;
@@ -217,7 +217,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         return;
 
     case 1:
-        if (sprite->unk_14.at00_u16.v & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_80172C90_1 *)action)->unk_9B = 16;
             ((S_80172C90_1 *)action)->unk_98 |= 0x80;
             return;
@@ -240,16 +240,16 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
 
     case 2:
         if (get_cd_command_queue_depth()) {
-            sprite->unk_14.at00_u16.v |= 0x0800;
+            sprite->flags |= 0x0800;
             return;
         }
-        sprite->unk_14.at00_u16.v &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         ((S_80172C90_1 *)action)->unk_9B++;
 
     case 3:
         motion->flags14 += 0x30000;
-        if (!((sprite->unk_04.as_s8 == 4 && (sprite->unk_14.at00_u16.v & 0x1000)) ||
-              (sprite->unk_14.at00_u16.v & 0xE000))) {
+        if (!((sprite->unk_04 == 4 && (sprite->flags & 0x1000)) ||
+              (sprite->flags & 0xE000))) {
             return;
         }
         {
@@ -274,10 +274,10 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             ((S_80172C90_1 *)action)->unk_96.s = 4;
-            sprite->unk_1C.at00_u16.v = 0x1400;
-            sprite->unk_1C.at02_u16.v = 0x0C00;
+            sprite->scale_x = 0x1400;
+            sprite->scale_y = 0x0C00;
             effect = D_80174F00;
-            sprite->unk_2C.as_pu8 = effect;
+            sprite->frameTable = effect;
             select_sprite_entry(sprite,
                 effect[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
@@ -294,13 +294,13 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         ticks = ((S_80172C90_1 *)action)->unk_96.u;
         ticks_squared = ticks * ticks;
         ticks = 0x1000 + ticks_squared * 300;
-        sprite->unk_1C.at00_u16.v = ticks;
-        sprite->unk_1C.at02_u16.v = 0x1000 - ticks_squared * 200;
+        sprite->scale_x = ticks;
+        sprite->scale_y = 0x1000 - ticks_squared * 200;
     }
         if (((S_80172C90_1 *)action)->unk_96.u > 0) {
             return;
         }
-        sprite->unk_2C.as_pu8 = D_80174EF8;
+        sprite->frameTable = D_80174EF8;
         select_sprite_entry(sprite,
             D_80174EF8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
@@ -340,22 +340,22 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        sprite->unk_14.at00_u16.v |= 0x6000;
+        sprite->flags |= 0x6000;
         ((S_80172C90_1 *)action)->unk_9B = 16;
         return;
 
     case 16:
     {
 
-        if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-        if (sprite->unk_2C.as_pu8 != D_80174F00) {
-            sprite->unk_2C.as_pu8 = D_80174F00;
+        if (*(u8 * *)&sprite->frameTable != D_80174F00) {
+            sprite->frameTable = D_80174F00;
             select_sprite_entry(sprite,
                 D_80174F00[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
@@ -364,7 +364,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             return;
         }
         g_dungeon_status.unk_0A--;
-        sprite->unk_14.at00_u16.v &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         ((S_80172C90_1 *)action)->unk_8C = D_801710F4;
         advance_status_timers(actor);
         if (actor->unk_6D > 0) {

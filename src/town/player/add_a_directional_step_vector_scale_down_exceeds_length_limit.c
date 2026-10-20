@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 
-s32 runtime_estimate_vector_length();                        /* extern */
+s32 runtime_estimate_vector_length(s32, s32);                        /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 

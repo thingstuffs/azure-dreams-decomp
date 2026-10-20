@@ -1,17 +1,45 @@
 #ifndef SHARED_SPRITE_FRAME_STATE_H
 #define SHARED_SPRITE_FRAME_STATE_H
-/* Sprite/frame subrecord passed to func_80047784. The object allocator with
- * flags 0x112 puts it at node+0xF4, independently of EntityRec at node+0x20.
+/* Sprite/frame subrecord passed to func_80047784: the "sprite part" an object node points at through
+ * ObjectNodeHeader.unk_0C (allocate_list_node puts it at node+0xF4 / +0x100 / +0x10C by flags).
  * The constructor and minigame selector both replace/read +2C frame tables.
  * Thus the pointer at +2C is NOT evidence for a union at EntityRec+2C.
- * Byte +24/+25 and word +28 retain offset names until their roles are proven. */
+ * Byte +24/+25 and word +28 retain offset names until their roles are proven.
+ * Named fields (r121 typed-field prototype; evidence rows in ledger/fields.jsonl, census of 2,994 sites in
+ * 330 functions reaching this object through ObjectNodeHeader.unk_0C):
+ *   color      high: the whole word is copied into the primitive's rgb+code word and +0F receives the
+ *              primitive code (engine/graphics/sprite_projection.c); r/g/b written 0x80 (neutral) by 123 sites.
+ *   tpage_abr  high: when nonzero it replaces the semi-transparency bits of the command's tpage
+ *              (`tpage_abr + (tpage & 0xFF9F)`); written 0x20/0x60 (abr 1/3 << 5).
+ *   clut       high: copied to the POLY_FT4 clut halfword; written 0x7DCF-style getClut() ids.
+ *   angle_x/y/z high: the SVECTOR passed to RotMatrix.  scale_x/y high: the VECTOR passed to ScaleMatrix
+ *              (vz = ONE); written 0x1000 (ONE) by 148 / 151 sites. */
+#ifndef ONE
+#define ONE 4096                  /* libgte fixed-point 1.0 */
+#endif
+
+typedef union SpriteColor {
+    int word;                     /* whole rgb+code word (lw/sw) */
+    struct { unsigned char r, g, b, code; } c;
+} SpriteColor;
+
 typedef struct SpriteFrameState {
-    /* 0x00 */ unsigned char pad_00[8];
+    /* 0x00 */ void *unk_00;       /* frame entry pointer (select_sprite_entry reads ->value) */
+    /* 0x04 */ signed char unk_04;
+    /* 0x05 */ unsigned char unk_05; /* select_sprite_entry: frame value / D_80080A84 */
+    /* 0x06 */ short unk_06;
     /* 0x08 */ void *source;       /* func_8003DE58 attachment-point source */
-    /* 0x0C */ int unk_0C;
-    /* 0x10 */ int unk_10;
+    /* 0x0C */ SpriteColor color;
+    /* 0x10 */ unsigned short tpage_abr;
+    /* 0x12 */ unsigned short clut;
     /* 0x14 */ unsigned short flags;
-    /* 0x16 */ unsigned char pad_16[0xE];
+    /* 0x16 */ unsigned short angle_x;
+    /* 0x18 */ unsigned short angle_y;
+    /* 0x1A */ unsigned short angle_z;
+    /* 0x1C */ unsigned short scale_x;
+    /* 0x1E */ unsigned short scale_y;
+    /* 0x20 */ unsigned short unk_20;
+    /* 0x22 */ unsigned short unk_22;
     /* 0x24 */ unsigned char unk_24;
     /* 0x25 */ unsigned char unk_25;
     /* 0x26 */ unsigned char unk_26; /* func_8009FB34 room result */

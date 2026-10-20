@@ -13,19 +13,19 @@ typedef struct S_800B0FD4_2 {
 } S_800B0FD4_2;
 
 
-s32 get_item_sell_money();                             /* extern */
-s32 get_item_buy_money();                         /* extern */
-s32 lookup_item_category_mapped_value();                          /* extern */
+s32 get_item_sell_money(void *);                             /* extern */
+s32 get_item_buy_money(void *);                         /* extern */
+s32 lookup_item_category_mapped_value(s32, s32);                          /* extern */
 s32 select_item_data();                      /* extern */
 s32 func_8004DC14();                        /* extern */
-char *func_8004E5A0();     /* extern */
-u8 *remap_flagged_string_bytes();                   /* extern */
+char * func_8004E5A0(int, unsigned short, char *);     /* extern */
+u8 * remap_flagged_string_bytes(u8 *);                   /* extern */
 s32 func_8004E928();              /* extern */
 char *strcat();        /* extern */
-void update_current_shop_page();                      /* extern */
-void update_shop_state_flags();                      /* extern */
-s32 allocate_and_initialize_shop_object();                             /* extern */
-s32 check_shop_entry_type_and_flags();                             /* extern */
+void update_current_shop_page(void *);                      /* extern */
+struct S_func_800B361C_0; void update_shop_state_flags(struct S_func_800B361C_0 *);                      /* extern */
+s32 allocate_and_initialize_shop_object(s32);                             /* extern */
+s32 check_shop_entry_type_and_flags(void *);                             /* extern */
 void reset_five_shop_slots(void *);                            /* extern */
 extern M2C_UNK D_800D1600;
 
@@ -69,14 +69,14 @@ void populate_shop_item_rows(S_800B0FD4_0 *ctx) {
         *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_10 = lookup_item_category_mapped_value(item->unk_01, item->unk_00);
         *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_38 =
             func_8004DC14(select_item_data(ctx->unk_24 + item_offset, &item_info), item_info);
-        if (check_shop_entry_type_and_flags(ctx->unk_24 + item_offset) != 0) {
+        if (check_shop_entry_type_and_flags((void *)(ctx->unk_24 + item_offset)) != 0) {
             if (ctx->unk_18 == 0) {
-                item_value = get_item_buy_money(ctx->unk_24 + item_offset);
+                item_value = get_item_buy_money((void *)(ctx->unk_24 + item_offset));
             } else {
-                item_value = get_item_sell_money(ctx->unk_24 + item_offset);
+                item_value = get_item_sell_money((void *)(ctx->unk_24 + item_offset));
             }
-            func_8004E5A0(item_value, 8, &price_text);
-            remap_flagged_string_bytes(&price_text);
+            func_8004E5A0(item_value, 8, (char *)(&price_text));
+            remap_flagged_string_bytes((u8 *)(&price_text));
             strcat(&price_text, &D_800D1600);
             *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_4C = func_8004E928(&price_text, 0);
         }
@@ -87,6 +87,6 @@ void populate_shop_item_rows(S_800B0FD4_0 *ctx) {
         *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_60 = item_value;
         row_offset += 4;
     }
-    update_shop_state_flags(ctx);
+    update_shop_state_flags((struct S_func_800B361C_0 *)(ctx));
     update_current_shop_page(ctx);
 }

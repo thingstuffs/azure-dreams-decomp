@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -27,7 +28,6 @@ typedef struct S_80170D58_1 {
     s32 unk_64;
     s32 unk_68;
 } S_80170D58_1;   /* arg0 in update_motion_and_grow_sprite */
-
 
 extern void func_800478B8(void *entity);
 extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);
@@ -86,16 +86,16 @@ void update_motion_and_grow_sprite(void *motion, void *position, void *sprite)
         func_800478B8(sprite);
     }
 
-    scale_x = ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v + 0x64;
-    ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = scale_x;
+    scale_x = ((SpriteFrameState *)sprite)->scale_x + 0x64;
+    ((SpriteFrameState *)sprite)->scale_x = scale_x;
     if (scale_x > 0x1000) {
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = 0x1000;
+        ((SpriteFrameState *)sprite)->scale_x = 0x1000;
     }
 
-    scale_y = ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v + 0x64;
-    ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = scale_y;
+    scale_y = ((SpriteFrameState *)sprite)->scale_y + 0x64;
+    ((SpriteFrameState *)sprite)->scale_y = scale_y;
     if (scale_y > 0x1000) {
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = 0x1000;
+        ((SpriteFrameState *)sprite)->scale_y = 0x1000;
     }
 
     life_ticks = ((S_80170D58_1 *)motion)->unk_26.u - 1;
@@ -105,7 +105,7 @@ void update_motion_and_grow_sprite(void *motion, void *position, void *sprite)
         object_flag_block.flags |= 0x8000;
     }
 
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+    if (((SpriteFrameState *)sprite)->flags & 0x8000) {
         (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }

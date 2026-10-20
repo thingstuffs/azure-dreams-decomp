@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
@@ -17,22 +18,6 @@ typedef struct S_80174EB4_1 {
     void * unk_04;
     void * unk_08;
 } S_80174EB4_1;   /* slot in create_copied_render_object */
-
-typedef struct S_80174EB4_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    s32 unk_28;
-} S_80174EB4_2;   /* prim in create_copied_render_object */
 
 typedef struct S_80174EB4_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -60,7 +45,7 @@ s32 create_copied_render_object(s32 priority, EntityRec *source_state, Rec_func_
     u16 offsets[3];
     void *object;
     S_80174EB4_5 *state;
-    S_80174EB4_2 *primitive;
+    SpriteFrameState *primitive;
     S_80174EB4_1 *context;
 
     object = allocate_list_node(0x312, priority - 0x20);
@@ -74,13 +59,13 @@ s32 create_copied_render_object(s32 priority, EntityRec *source_state, Rec_func_
 
         primitive = ((S_80174EB4_0 *)object)->unk_0C;
         primitive->unk_28 = render_data->unk_28;
-        primitive->unk_0E = 0x80;
-        primitive->unk_0D = 0x80;
-        primitive->unk_0C = 0x80;
-        primitive->unk_1E = 0x1000;
-        primitive->unk_1C = 0x1000;
-        primitive->unk_14 |= 0xC;
-        primitive->unk_10 |= 0x20;
+        primitive->color.c.b = 0x80;
+        primitive->color.c.g = 0x80;
+        primitive->color.c.r = 0x80;
+        primitive->scale_y = 0x1000;
+        primitive->scale_x = 0x1000;
+        primitive->flags |= 0xC;
+        primitive->tpage_abr |= 0x20;
         select_sprite_entry(primitive, 0x38, 0);
 
         {

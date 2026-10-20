@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 card_boot_has_selected_channel();                                /* extern */
+s32 card_boot_has_selected_channel(void);                                /* extern */
 
 typedef struct S_80027A68_0 {
     s32 unk_00;

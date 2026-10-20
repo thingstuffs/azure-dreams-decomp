@@ -1,12 +1,13 @@
 #include "dungeon/monster/dragon/spawn_effect_object.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/dragon/spawn_effect_object.h"
 
 void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
     void *obj;
     S_8014C854_2 *part_a;
-    S_8014C854_3 *part_b;
+    SpriteFrameState *part_b;
     S_8014C854_1 *work;
     S_8014C854_4 *actor;
     s32 flags;
@@ -32,7 +33,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
         kind = spawn_flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;
-        part_b->unk_2C = D_8014FC7C;
+        part_b->frameTable = D_8014FC7C;
         part_b->unk_24 = saved_x;
 
         if (kind == 1) {
@@ -51,7 +52,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
                     work->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_8014FCDC;
+                    part_b->frameTable = D_8014FCDC;
                 }
             }
         }

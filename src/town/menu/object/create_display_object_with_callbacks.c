@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 
 typedef void (*Callback)(void);
@@ -10,14 +11,6 @@ typedef struct S_func_800A1C94_0 {
     u8 pad_14[0xC];
     Callback unk_20;
 } S_func_800A1C94_0;
-
-typedef struct S_func_800A1C94_1 {
-    u8 pad_00[6];
-    s16 unk_06;
-    u8 pad_08[0x14];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_func_800A1C94_1;
 
 typedef struct S_func_800A1C94_2 {
     u8 pad_00[0x10];
@@ -34,7 +27,7 @@ extern void initialize_indexed_render_state(void);
 void *create_display_object_with_callbacks(s32 payload_word, s32 payload_halfword)
 {
     S_func_800A1C94_0 *object;
-    S_func_800A1C94_1 *display;
+    SpriteFrameState *display;
     S_func_800A1C94_2 *payload;
 
     object = allocate_list_node(0x136, ((u8 *)(&D_80083498)));
@@ -50,8 +43,8 @@ void *create_display_object_with_callbacks(s32 payload_word, s32 payload_halfwor
     payload->unk_10 = payload_word;
     payload->unk_20 = payload_halfword;
 
-    display->unk_1E = 0xAAA;
-    display->unk_1C = 0xAAA;
+    display->scale_y = 0xAAA;
+    display->scale_x = 0xAAA;
     display->unk_06 = 9;
     return object;
 }

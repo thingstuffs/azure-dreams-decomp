@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -34,26 +35,10 @@ typedef struct S_800BBCA0_3 {
     s16 unk_4C;
 } S_800BBCA0_3;   /* motion in spawn_burst_particles_around_origin */
 
-typedef struct S_800BBCA0_4 {
-    u8 * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800BBCA0_4;   /* sprite in spawn_burst_particles_around_origin */
-
 typedef struct S_800BBCA0_5 {
     u8 pad_00[0x4];
     s32 unk_04;
 } S_800BBCA0_5;   /* spriteType in spawn_burst_particles_around_origin */
-
 
 extern s32 test_resident_bit(s32);
 extern void *allocate_list_node(s32, void *);
@@ -72,7 +57,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
     s32 spawn_count;
     s32 rand_value;
     u8 *object;
-    u8 *sprite;
+    SpriteFrameState *sprite;
     u8 *motion;
     s32 *position;
     s32 *velocity;
@@ -109,16 +94,16 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
                 ((S_800BBCA0_3 *)motion)->unk_0C = ((S_800BBCA0_2 *)origin)->unk_00.at02.v;
                 ((S_800BBCA0_3 *)motion)->unk_0E = ((S_800BBCA0_2 *)origin)->unk_04.at02.v;
                 ((S_800BBCA0_3 *)motion)->unk_10 = ((S_800BBCA0_2 *)origin)->unk_08.at02.v;
-                ((S_800BBCA0_4 *)sprite)->unk_1E = 0x100;
-                ((S_800BBCA0_4 *)sprite)->unk_1C = 0x100;
-                ((S_800BBCA0_4 *)sprite)->unk_10 = 0x20;
-                ((S_800BBCA0_4 *)sprite)->unk_14 |= 0xC;
+                sprite->scale_y = 0x100;
+                sprite->scale_x = 0x100;
+                sprite->tpage_abr = 0x20;
+                sprite->flags |= 0xC;
                 ((S_800BBCA0_3 *)motion)->unk_48 = 6;
-                ((S_800BBCA0_4 *)sprite)->unk_00 = sprite_type;
-                ((S_800BBCA0_4 *)sprite)->unk_08 = ((S_800BBCA0_5 *)sprite_type)->unk_04;
-                ((S_800BBCA0_4 *)sprite)->unk_04 = 0;
-                ((S_800BBCA0_4 *)sprite)->unk_05 = 0;
-                ((S_800BBCA0_4 *)sprite)->unk_0C = 0x101010;
+                sprite->unk_00 = sprite_type;
+                sprite->source = ((S_800BBCA0_5 *)sprite_type)->unk_04;
+                sprite->unk_04 = 0;
+                sprite->unk_05 = 0;
+                sprite->color.word = 0x101010;
             }
             spawn_count--;
         } while (spawn_count >= 0);
@@ -164,17 +149,17 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
                 velocity = ((S_800BBCA0_1 *)object)->unk_08;
                 velocity[5] = ((rand_value & 0x1FF) - 0x100) << 12;
 
-                ((S_800BBCA0_4 *)sprite)->unk_1E = 0x200;
-                ((S_800BBCA0_4 *)sprite)->unk_1C = 0x200;
-                ((S_800BBCA0_4 *)sprite)->unk_10 = 0x20;
-                ((S_800BBCA0_4 *)sprite)->unk_14 |= 0xC;
+                sprite->scale_y = 0x200;
+                sprite->scale_x = 0x200;
+                sprite->tpage_abr = 0x20;
+                sprite->flags |= 0xC;
                 ((S_800BBCA0_3 *)motion)->unk_48 = 0xF;
                 ((S_800BBCA0_3 *)motion)->unk_4C = 1;
-                ((S_800BBCA0_4 *)sprite)->unk_00 = sprite_type;
-                ((S_800BBCA0_4 *)sprite)->unk_08 = ((S_800BBCA0_5 *)sprite_type)->unk_04;
-                ((S_800BBCA0_4 *)sprite)->unk_04 = 0;
-                ((S_800BBCA0_4 *)sprite)->unk_05 = 0;
-                ((S_800BBCA0_4 *)sprite)->unk_0C = 0x808080;
+                sprite->unk_00 = sprite_type;
+                sprite->source = ((S_800BBCA0_5 *)sprite_type)->unk_04;
+                sprite->unk_04 = 0;
+                sprite->unk_05 = 0;
+                sprite->color.word = 0x808080;
             }
             spawn_count--;
         } while (spawn_count >= 0);

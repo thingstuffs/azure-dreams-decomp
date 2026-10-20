@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 typedef struct S_800A2000_0 {
@@ -19,29 +20,13 @@ typedef struct S_800A2000_1 {
     s32 unk_40;
 } S_800A2000_1;   /* payload in allocate_and_initialize_display_object */
 
-typedef struct S_800A2000_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    s16 unk_20;
-} S_800A2000_2;   /* display in allocate_and_initialize_display_object */
-
-
 extern void *allocate_list_node();
 
 /* Allocate an object and initialize its payload, display transform, and color. */
 void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param,
     s32 object_value) {
     void *obj = allocate_list_node(0x136, object_key - 0x20);
-    S_800A2000_2 *display;
+    SpriteFrameState *display;
     S_800A2000_1 *payload;
 
     if (obj == 0) {
@@ -56,14 +41,14 @@ void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, 
     payload->unk_20 = payload_halfword;
     payload->unk_40 = payload_value;
     display->unk_20 = 0x1000;
-    display->unk_1E = 0x1000;
-    display->unk_1C = 0x1000;
-    display->unk_12 = 0;
-    display->unk_14 = 0;
-    display->unk_10 = 0;
-    display->unk_0C = g_game_work.view.unk_090;
-    display->unk_0D = g_game_work.view.unk_091;
-    display->unk_0E = g_game_work.view.unk_092;
-    display->unk_14 = 0;
+    display->scale_y = 0x1000;
+    display->scale_x = 0x1000;
+    display->clut = 0;
+    display->flags = 0;
+    display->tpage_abr = 0;
+    display->color.c.r = g_game_work.view.unk_090;
+    display->color.c.g = g_game_work.view.unk_091;
+    display->color.c.b = g_game_work.view.unk_092;
+    display->flags = 0;
     return obj;
 }

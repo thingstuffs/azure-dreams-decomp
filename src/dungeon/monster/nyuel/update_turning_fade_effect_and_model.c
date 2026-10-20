@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/dungeon_effect_status.h"
@@ -15,7 +16,6 @@ typedef struct S_801749A8_8 {
     void * unk_08;
 } S_801749A8_8;
 
-
 typedef struct S_801749A8_10 {
     s32 unk_00;
     s32 unk_04;
@@ -26,7 +26,6 @@ typedef struct S_801749A8_11 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } S_801749A8_11;   /* ((Rec_D_80082E80 *)arg3)->unk_60.as_pv in update_turning_fade_effect_and_model */
-
 
 typedef struct S_801749A8_0_pre {
     u16 unk_00;
@@ -41,7 +40,6 @@ typedef struct S_801749A8_0 {
     void * unk_A4;
     s16 unk_A8;
 } S_801749A8_0;   /* arg0 in update_turning_fade_effect_and_model */
-
 
 typedef struct S_801749A8_2 {
     u8 pad_00[0xC];
@@ -63,7 +61,6 @@ typedef struct S_801749A8_3 {
     u8 unk_02;
 } S_801749A8_3;
 
-
 typedef struct S_801749A8_6_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -82,7 +79,6 @@ typedef struct S_801749A8_7 {
     u8 pad_16[0x16];
     u8 * unk_2C;
 } S_801749A8_7;
-
 
 extern s32 D_8006CD58[];
 struct S_8003E2D8;
@@ -115,7 +111,7 @@ extern u8 D_80174FCD[];
 extern s32 D_80174FD0[];
 
 /* Updates the turning, color fade, effect, and model replacement sequence. */
-void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, void *target) {
+void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, SpriteFrameState *actor, void *target) {
     u8 *target_color;
     s16 direction;
     s32 effect_choice;
@@ -205,7 +201,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, R
             effect_index = rand() % 3;
         }
         func_8003DB94(object, &D_8014A000[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
-        actor->unk_14.at00_u16.v = (u16) (actor->unk_14.at00_u16.v | 0x80);
+        actor->flags = (u16) (actor->flags | 0x80);
         ((S_801749A8_0 *)sequence)->unk_96 = 0U;
         ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
         create_cylindrical_effect(sequence, position, actor);

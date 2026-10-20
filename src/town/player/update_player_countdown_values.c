@@ -1,6 +1,6 @@
 #include "common.h"
 
-s16 approach_player_value();                   /* extern */
+s16 approach_player_value(s32, s16, s16);                   /* extern */
 void player_no_op(void);
 
 typedef struct S_8009A81C_0 {

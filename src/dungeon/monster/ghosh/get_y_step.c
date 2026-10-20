@@ -72,20 +72,20 @@ typedef struct S_8016BF74_8 {
    /* (arg3 + ((u8) ((S_8016BF74_1 *)arg3)->unk_71.s & 0x7F)) in advance_actor_path */
 
 
-s32 check_entity_relation();                     /* extern */
-void cycle_map_cell_flags();             /* extern */
-void update_map_cell_flags_with_item_limit();             /* extern */
-s32 check_diagonal_side_height();                /* extern */
+struct EntityRec; s32 check_entity_relation(struct EntityRec *, struct EntityRec *);                     /* extern */
+void cycle_map_cell_flags(s16, s16, u16);             /* extern */
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"             /* extern */
+s32 check_diagonal_side_height(s32, s16, s16, s16);                /* extern */
 s32 check_movement_clearance_and_height();    /* extern */
-s32 compare_monster_neighbor_values();                  /* extern */
-s16 get_actor_height_difference();                  /* extern */
+s32 compare_monster_neighbor_values(s32, s32, s32, s32);                  /* extern */
+struct EntityRec; s16 get_actor_height_difference(struct EntityRec *, struct EntityRec *);                  /* extern */
 void *find_valid_monster_neighbor();                /* extern */
 void *place_actor_at_directional_neighbor();           /* extern */
 u16 get_rounded_facing_and_rounding_flag();          /* extern */
-s32 rebuild_monster_reachable_tiles();  /* extern */
-s32 update_actor_proximity_flag(); /* extern */
+s32 rebuild_monster_reachable_tiles(u8 *, s32, u8 *, u16 *);  /* extern */
+s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *); /* extern */
 s32 generate_random_value();                            /* extern */
-void update_actor_status_and_food();                      /* extern */
+struct EntityRec; void update_actor_status_and_food(struct EntityRec *);                      /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
 s32 func_8016C720();          /* extern */
 typedef struct {
@@ -231,7 +231,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
                         return;
                     }
                 } else {
-                    rebuild_monster_reachable_tiles(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
+                    rebuild_monster_reachable_tiles((u8 *)(position), ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
                 }
             }
         } else {
@@ -267,7 +267,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
                             } else {
                             }
                         } else {
-                            rebuild_monster_reachable_tiles(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
+                            rebuild_monster_reachable_tiles((u8 *)(position), ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
                         }
                     } else {
                         ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
@@ -275,7 +275,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
                     }
                 }
             } else {
-                rebuild_monster_reachable_tiles(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
+                rebuild_monster_reachable_tiles((u8 *)(position), ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
             }
         }
         turn_index = 0;
@@ -329,7 +329,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
                 break;
             }
             if ((turn_index == 0) && (D_80082EA4 != position->unk_24.at00u.v)
-                && ((check_entity_relation(actor, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0)) {
+                && ((check_entity_relation(actor, (struct EntityRec *)(((s32)D_800814A8->unk_58) + 0x20)) << 0x10) != 0)) {
                 return;
             }
             turn_index += 1;

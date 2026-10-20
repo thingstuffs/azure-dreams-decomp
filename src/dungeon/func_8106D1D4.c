@@ -8,14 +8,14 @@ extern int abs(int);
 extern s32 D_8015EF68;
 extern u8 D_80161FB8[8];
 
-extern s32 get_cd_command_queue_depth();
-extern void select_sprite_entry();
+s32 get_cd_command_queue_depth(void);
+#include "engine/graphics/select_sprite_entry_api.h"
 extern void *scan_monster_along_heading();
-extern void set_record_integer_tile_center();
-extern void advance_status_timers();
+#include "dungeon/player/object/set_record_integer_tile_center_api.h"
+#include "dungeon/actor/state/advance_status_timers_api.h"
 extern void play_sound_if_enabled();
 extern s32 create_actor_spell_effect();
-extern void create_two_row_object_group();
+void create_two_row_object_group(void *, s16);
 
 typedef struct ItemSlots {
     u8 pad_00[8];
@@ -202,7 +202,7 @@ void advance_actor_animation_and_reset_motion(ActionState *action, EntityRec *mo
             if (sprite->directionFrames != D_80161FB8) {
                 (*(void * *)((u8 *)sprite + (0x2C))) = D_80161FB8;
                 select_sprite_entry(
-                    sprite,
+                    (struct S_80047784 *)(sprite),
                     D_80161FB8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }

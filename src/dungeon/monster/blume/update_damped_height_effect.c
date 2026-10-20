@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -26,7 +27,6 @@ typedef struct S_80171040_1 {
     s32 unk_AC;
     s32 unk_B0;
 } S_80171040_1;   /* arg0 in update_damped_height_effect */
-
 
 extern void func_800478B8(void *entity);
 extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);
@@ -82,7 +82,7 @@ void update_damped_height_effect(void *state, void *position, void *object)
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }
-    if (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0x8000) {
+    if (((SpriteFrameState *)object)->flags & 0x8000) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }

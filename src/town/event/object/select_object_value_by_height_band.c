@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
@@ -28,15 +29,15 @@ void select_object_value_by_height_band(Rec_func_80094268_arg0 *object, void *co
         table_delta = ((u16)position->z.w.i) - D_800D45AA[table_index];
         if (table_delta >= 0x19) {
             if (table_delta < 0x29) {
-                output->unk_08 =
+                ((SpriteFrameState *)output)->source =
                     ((HeightBandValues *)(object->unk_7C.as_pv))->unk_04;
                 return;
             }
-            output->unk_08 =
+            ((SpriteFrameState *)output)->source =
                 ((HeightBandValues *)(object->unk_7C.as_pv))->unk_08;
             return;
         }
     }
 
-    output->unk_08 = ((HeightBandValues *)(object->unk_7C.as_pv))->unk_00;
+    ((SpriteFrameState *)output)->source = ((HeightBandValues *)(object->unk_7C.as_pv))->unk_00;
 }

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_800A3508_1 {
     void * unk_00;
@@ -12,7 +12,6 @@ typedef struct S_800A3508_1 {
     s32 unk_30;
     s32 unk_34;
 } S_800A3508_1;   /* obj in initialize_randomized_motion_vector */
-
 
 extern s32 scale_random_to_unsigned_halfword_limit(s32);
 extern void func_8003DB94(void *, s32, s32);
@@ -27,7 +26,7 @@ extern s32 D_800D0B20[];
 extern s32 D_800D0B50[];
 
 /* Initializes the object record and a randomized motion vector. */
-void initialize_randomized_motion_vector(u8 *obj, s32 *vec, Rec_D_80082E80 *record)
+void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *record)
 {
     s32 tilt_angle;
     s32 scale;
@@ -40,13 +39,13 @@ void initialize_randomized_motion_vector(u8 *obj, s32 *vec, Rec_D_80082E80 *reco
     s32 unit_scale;
 
     unit_scale = 0x1000;
-    record->unk_1C.at02_s16.v = unit_scale;
-    record->unk_0C.at00_s32.v = 0x808080;
-    record->unk_1C.at00_s16.v = unit_scale;
-    record->unk_08 = D_800D0B50[((S_800A3508_1 *)obj)->unk_22];
+    record->scale_y = unit_scale;
+    record->color.word = 0x808080;
+    record->scale_x = unit_scale;
+    record->source = D_800D0B50[((S_800A3508_1 *)obj)->unk_22];
     record->unk_00 = 0;
-    record->unk_04.as_s8 = 0;
-    record->unk_05.as_s8 = 0;
+    record->unk_04 = 0;
+    record->unk_05 = 0;
 
     init_value = D_800D0B20[((S_800A3508_1 *)obj)->unk_22];
     if (init_value != 0) {

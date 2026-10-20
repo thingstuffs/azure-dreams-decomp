@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
@@ -37,14 +38,14 @@ void advance_normal_tile_center_motion(void *entity, EntityRec *motion, void *sp
     timer = g_dungeon_status.unk_04;
     if (timer != 0) {
         x_velocity =
-            ((((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16) -
+            ((((((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20) << 16) -
              motion->x.v) /
             timer;
         y_position = motion->y.v;
         motion->unk_0C = x_velocity;
         move_frames = g_dungeon_status.unk_04;
         motion->unk_10 =
-            ((((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16) -
+            ((((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 16) -
              y_position) /
             move_frames;
     }
@@ -61,9 +62,9 @@ void advance_normal_tile_center_motion(void *entity, EntityRec *motion, void *sp
 continue_update:
     flags = ((Rec_func_8008ACDC_arg0 *)entity)->unk_A2;
     if (!(flags & 0x10)) {
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_800DD050) {
+        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_800DD050) {
             ((Rec_func_8008ACDC_arg0 *)entity)->unk_A2 = flags | 1;
-            *(u8 **)((u8 *)sprite + 0x2C) = D_800DD050;
+            ((SpriteFrameState *)sprite)->frameTable = D_800DD050;
             set_sprite_animation_frame(
                 sprite,
                 D_800DD050[((g_game_work.view.viewAngle + facing->facing + 0x100) >> 9) & 7],
@@ -84,9 +85,9 @@ continue_update:
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
-    ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x4000;
+    ((SpriteFrameState *)sprite)->flags |= 0x4000;
     if ((s16)collect_ground_item(entity, motion, sprite, facing) > 0) {
         ((Rec_func_8008ACDC_arg0 *)entity)->unk_8C.as_s32 = (s32)handle_player_input;
     }

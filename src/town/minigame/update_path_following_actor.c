@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -31,7 +32,6 @@ typedef struct S_80023260_1 {
     s32 unk_14;
 } S_80023260_1;   /* arg1 in update_path_following_actor */
 
-
 typedef struct S_80023260_3 {
     s16 unk_00;
     s16 unk_02;
@@ -50,7 +50,6 @@ typedef struct S_80023260_5 {
     u8 pad_00[0x3C];
     s16 unk_3C;
 } S_80023260_5;
-
 
 void update_directional_record();      /* extern */
 void advance_bounded_entry_index();              /* extern */
@@ -156,14 +155,14 @@ void update_path_following_actor(void *actor, void *motion, void *sprite) {
         ((S_80023260_0 *)actor)->unk_2A = 0x800;
         sprite_config = D_80081458[0];
         directions = D_800D2388;
-        ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = directions;
-        ((Rec_D_80082E80 *)sprite)->unk_28.at00_s32.v = sprite_config;
+        ((SpriteFrameState *)sprite)->frameTable = directions;
+        ((SpriteFrameState *)sprite)->unk_28 = sprite_config;
         select_sprite_entry(sprite, D_800D2388[((g_game_work.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80023260_0 *)actor)->unk_18.p = (u16) (((S_80023260_0 *)actor)->unk_18.p + 1);
         break;
     case 3:
-        ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = D_800D2388 - 8;
+        ((SpriteFrameState *)sprite)->frameTable = D_800D2388 - 8;
         select_sprite_entry(sprite, (D_800D2388 - 8)[((g_game_work.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0);
         ((S_80023260_0 *)actor)->unk_18.p = idle_state;

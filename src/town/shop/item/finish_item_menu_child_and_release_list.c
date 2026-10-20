@@ -10,7 +10,7 @@ typedef struct S_800B06C4_0 {
 } S_800B06C4_0;   /* arg0 in finish_item_menu_child_and_release_list */
 
 
-void release_item_menu_list_object();                         /* extern */
+void release_item_menu_list_object(s32);                         /* extern */
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
 /* Set the record and global high flags, then process the stored record value. */

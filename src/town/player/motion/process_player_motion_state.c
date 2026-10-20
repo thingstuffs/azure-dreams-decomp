@@ -5,7 +5,7 @@
 
 
 void register_node_if_unregistered(void *block_data, s32 registration_id);
-extern void initialize_record_with_handler_table();
+#include "town/player/initialize_record_with_handler_table_api.h"
 extern u8 D_800970FC[];
 
 
@@ -13,5 +13,5 @@ extern u8 D_800970FC[];
 void process_player_motion_state(Rec_func_80094268_arg0 *object, s32 forwardedArg1, s32 forwardedArg2) {
     register_node_if_unregistered(object, &D_800970FC);
     D_80082660[object->unk_40].unk_00 = 0;
-    initialize_record_with_handler_table(object, forwardedArg1, forwardedArg2);
+    initialize_record_with_handler_table((Struct8009B1C8 *)(object), forwardedArg1, forwardedArg2);
 }

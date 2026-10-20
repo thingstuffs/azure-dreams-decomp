@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void card_boot_destroy_slot_selection_menu();                         /* extern */
+struct UnkStruct1E; void card_boot_destroy_slot_selection_menu(struct UnkStruct1E *);                         /* extern */
 typedef struct Node8002BB08 Node8002BB08;
 Node8002BB08 *init_card_boot_request_object();                /* extern */
 

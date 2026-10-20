@@ -1,9 +1,9 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
-
 
 typedef s32 M2C_UNK;
 
@@ -54,12 +54,6 @@ typedef struct S_80D65C5C_4 {
 
    /* ((S_80D65C5C_1 *)arg0)->unk_08 in spawn_directional_random_velocity_effect */
 
-typedef struct S_80D65C5C_6 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_80D65C5C_6;   /* ((S_80D65C5C_0 *)node)->unk_0C in spawn_directional_random_velocity_effect */
-
-
 extern s32 rand(void);
 extern void register_node(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
@@ -89,7 +83,7 @@ void spawn_directional_random_velocity_effect(S_80D65C5C_1 *source, s32 angle)
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_02 += direction_step[0] * 0x12;
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_06 += direction_step[1] * 0x12;
 
-        ((S_80D65C5C_6 *)(((S_80D65C5C_0 *)node)->unk_0C))->unk_06 = 6;
+        ((SpriteFrameState *)((S_80D65C5C_0 *)node)->unk_0C)->unk_06 = 6;
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_0C =
             ((rand() & 0x7FFF) - 0x4000) * 0x10;
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_10 =
@@ -111,16 +105,16 @@ void spawn_directional_random_velocity_effect(S_80D65C5C_1 *source, s32 angle)
         {
             S_80D65C5C_3 *part = ((S_80D65C5C_0 *)node)->unk_0C;
 
-            part->unk_14 |= 0xC;
-            part->unk_10 = 0x60;
-            part->unk_14 |= 2;
-            part->unk_1C = 0x800;
-            part->unk_1E = 0x800;
-            part->unk_0E = 0x80;
-            part->unk_0D = 0x80;
-            part->unk_0C = 0x80;
-            part->unk_14 |= 0x100;
-            part->unk_12 = 0x7DCF;
+            ((SpriteFrameState *)part)->flags |= 0xC;
+            ((SpriteFrameState *)part)->tpage_abr = 0x60;
+            ((SpriteFrameState *)part)->flags |= 2;
+            ((SpriteFrameState *)part)->scale_x = 0x800;
+            ((SpriteFrameState *)part)->scale_y = 0x800;
+            ((SpriteFrameState *)part)->color.c.b = 0x80;
+            ((SpriteFrameState *)part)->color.c.g = 0x80;
+            ((SpriteFrameState *)part)->color.c.r = 0x80;
+            ((SpriteFrameState *)part)->flags |= 0x100;
+            ((SpriteFrameState *)part)->clut = 0x7DCF;
             func_8003DB94(part, D_800DE870, 0);
         }
     }

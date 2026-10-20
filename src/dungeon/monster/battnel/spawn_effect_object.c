@@ -1,5 +1,6 @@
 #include "dungeon/monster/battnel/spawn_effect_object.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/battnel/spawn_effect_object.h"
 
 void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
 {
@@ -7,7 +8,7 @@ void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
     S_8014C854_1 *work;
     void *obj;
     S_8014C854_2 *part_a;
-    S_8014C854_3 *part_b;
+    SpriteFrameState *part_b;
     S_8014C854_4 *actor;
     s32 left;
     s32 right;
@@ -33,7 +34,7 @@ void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
         part_b = ((S_8014C854_0 *)obj)->unk_0C;
         kind = flags & 3;
         part_b->unk_25 = saved_arg2;
-        part_b->unk_2C = D_8014FD0C;
+        part_b->frameTable = D_8014FD0C;
         part_b->unk_24 = saved_arg1;
 
         if (kind == 1) {
@@ -53,7 +54,7 @@ void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
                     work->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_8014FD4C;
+                    part_b->frameTable = D_8014FD4C;
                 }
             }
         }

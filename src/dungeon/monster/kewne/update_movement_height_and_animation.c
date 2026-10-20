@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_800644B8(s32);
@@ -19,7 +19,6 @@ extern s32 D_801710EC;
 extern u8 D_80175E58[];
 extern u8 D_80175E60[];
 extern u8 D_80175E68[];
-
 
 typedef struct S_801728A8_0 {
     u8 pad_00[0x8C];
@@ -40,12 +39,10 @@ typedef struct S_801728A8_0 {
     s32 unk_AC;
 } S_801728A8_0;   /* arg0 in update_movement_height_and_animation */
 
-
 typedef struct S_801728A8_2 {
     u8 pad_00[0x2A];
     s16 unk_2A;
 } S_801728A8_2;   /* call_a0 in update_movement_height_and_animation */
-
 
 typedef struct S_801728A8_4 {
     u8 pad_00[0x2A];
@@ -67,9 +64,9 @@ void update_movement_height_and_animation(void *action, EntityRec *motion, void 
     switch (state) {
     case 0:
         {
-            if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+            if (((SpriteFrameState *)sprite)->flags & 0x8000) {
                 ((S_801728A8_0 *)action)->unk_9B.n = 4;
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
+                ((SpriteFrameState *)sprite)->flags |= 0x6000;
                 resolve_attack_damage_and_effects(actor, sprite, ((S_801728A8_2 *)actor)->unk_2A, 1);
                 return;
             }
@@ -85,7 +82,7 @@ void update_movement_height_and_animation(void *action, EntityRec *motion, void 
         if (((S_801728A8_0 *)action)->unk_A0.at02.v >= 0x31) {
             ((S_801728A8_0 *)action)->unk_A0.at02.v = 0x30;
         }
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
             return;
         }
         motion->flags14 = 0;
@@ -94,7 +91,7 @@ void update_movement_height_and_animation(void *action, EntityRec *motion, void 
         if (((S_801728A8_0 *)action)->unk_A0.at02.v < 0x30) {
             return;
         }
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175E58;
+        ((SpriteFrameState *)sprite)->frameTable = D_80175E58;
         select_sprite_entry(sprite,
             D_80175E58[((g_game_work.view.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
@@ -123,7 +120,7 @@ void update_movement_height_and_animation(void *action, EntityRec *motion, void 
                 return;
             }
         }
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175E60;
+        ((SpriteFrameState *)sprite)->frameTable = D_80175E60;
         select_sprite_entry(sprite,
             D_80175E60[((g_game_work.view.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
@@ -165,7 +162,7 @@ void update_movement_height_and_animation(void *action, EntityRec *motion, void 
             if (timer < 13) {
                 return;
             }
-            (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175E68;
+            ((SpriteFrameState *)sprite)->frameTable = D_80175E68;
             select_sprite_entry(sprite,
                 D_80175E68[((g_game_work.view.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
@@ -195,13 +192,13 @@ void update_movement_height_and_animation(void *action, EntityRec *motion, void 
             ((S_801728A8_0 *)action)->unk_A0.at02.v = 0;
         }
     case 4:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         reduce_actor_food_meter(actor, 0x100);
         ((S_801728A8_0 *)action)->unk_8C = &D_801710EC;
         g_dungeon_status.unk_0C = 0;

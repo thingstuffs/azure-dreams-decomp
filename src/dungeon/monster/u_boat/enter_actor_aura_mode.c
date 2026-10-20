@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
@@ -69,24 +70,6 @@ typedef struct S_80175BA8_5 {
     void * unk_44;
 } S_80175BA8_5;
 
-typedef struct S_80175BA8_6 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80175BA8_6;
-
-
-
-
 extern void *allocate_list_node();
 extern void register_node();
 extern void select_sprite_entry();
@@ -108,7 +91,7 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
     u16 first_delay;
     u16 second_delay;
     s32 phase;
-    void *effect_sprite;
+    SpriteFrameState *effect_sprite;
     void *effect;
     void *effect_state;
     MovingPosition *effect_position;
@@ -148,19 +131,19 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
                 ((S_80175BA8_5 *)effect_state)->unk_40 = actor_state;
                 ((S_80175BA8_5 *)effect_state)->unk_44 = position;
                 effect_sprite = ((S_80175BA8_4 *)effect)->unk_0C;
-                ((S_80175BA8_6 *)effect_sprite)->unk_10 = 0x40;
-                ((S_80175BA8_6 *)effect_sprite)->unk_14 |= 0xC;
+                effect_sprite->tpage_abr = 0x40;
+                effect_sprite->flags |= 0xC;
                 effect_position = ((S_80175BA8_4 *)effect)->unk_08;
                 effect_position->unk_02 = ((S_80175BA8_1 *)position)->unk_02;
                 effect_position->unk_06 = ((S_80175BA8_1 *)position)->unk_06;
                 effect_position->unk_0A = ((S_80175BA8_2 *)actor_info)->unk_88;
                 effect_sprite = ((S_80175BA8_4 *)effect)->unk_0C;
-                ((S_80175BA8_6 *)effect_sprite)->unk_1E = 0xA00;
-                ((S_80175BA8_6 *)effect_sprite)->unk_1C = 0xA00;
-                ((S_80175BA8_6 *)effect_sprite)->unk_0E = 0;
-                ((S_80175BA8_6 *)effect_sprite)->unk_0D = 0;
-                ((S_80175BA8_6 *)effect_sprite)->unk_0C = 0;
-                ((S_80175BA8_6 *)effect_sprite)->unk_08 = D_800E2488;
+                effect_sprite->scale_y = 0xA00;
+                effect_sprite->scale_x = 0xA00;
+                effect_sprite->color.c.b = 0;
+                effect_sprite->color.c.g = 0;
+                effect_sprite->color.c.r = 0;
+                effect_sprite->source = D_800E2488;
             }
         }
         if (((S_80175BA8_0 *)actor_state)->unk_92.s == 0) {

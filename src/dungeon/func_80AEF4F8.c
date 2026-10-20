@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource10_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void func_80170CF8(
     R10_80170CF8_S_80AC55DC_1 *origin, s16 effect_id, s32 effect_value, s16 duration,
@@ -6,7 +7,7 @@ void func_80170CF8(
 {
     void *node;
     R10_80170CF8_S_80AC55DC_2 *work;
-    R10_80170CF8_S_80AC55DC_4 *sprite;
+    SpriteFrameState *sprite;
     u16 sprite_flags;
     s32 step_x;
     s32 step_y;
@@ -49,14 +50,14 @@ void func_80170CF8(
         register_node(node, project_sprite_chain);
 
         sprite = ((R10_80170CF8_S_80AC55DC_0 *)node)->unk_0C;
-        sprite_flags = sprite->unk_14;
-        sprite->unk_10 = 0x20;
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_0E = 0;
-        sprite->unk_0D = 0;
-        sprite->unk_0C = 0;
-        sprite->unk_14 = sprite_flags | 0xC;
+        sprite_flags = sprite->flags;
+        sprite->tpage_abr = 0x20;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->color.c.b = 0;
+        sprite->color.c.g = 0;
+        sprite->color.c.r = 0;
+        sprite->flags = sprite_flags | 0xC;
         ((R10_80170CF8_S_80AC55DC_0 *)node)->unk_20 = effect_value;
         work->unk_08 = effect_value;
         func_8003DB94(sprite, ((u8 *)D_800DEC70), 0);

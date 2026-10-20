@@ -1,5 +1,6 @@
 #include "dungeon/monster/kraken/create_actor_child_display_c.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/kraken/create_actor_child_display_c.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
@@ -10,7 +11,7 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
     s8 held_b;
     void *obj;
     S_8015E86C_2 *part_a;
-    S_8015E86C_3 *part_b;
+    SpriteFrameState *part_b;
     S_8015E86C_4 *actor;
     s32 left;
     s32 right;
@@ -42,7 +43,7 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
         part_a->unk_0A = attr_c;
         part_b = ((S_8015E86C_0 *)obj)->unk_0C;
         kind = spawn_flags & 3;
-        part_b->unk_2C = D_8016218C;
+        part_b->frameTable = D_8016218C;
         part_b->unk_24 = held_a;
         part_b->unk_25 = held_b;
 
@@ -64,7 +65,7 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
                         ((S_8015E86C_1 *)work)->unk_1C |= 0x200;
                         right = generate_random_value();
                         set_or_clear_actor_status_slot(work, 1, (right & 0x3F) | 0x20);
-                        part_b->unk_2C = D_801621CC;
+                        part_b->frameTable = D_801621CC;
                     }
                 }
             }
@@ -106,7 +107,7 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
                     elem->unk_28 = child_arg;
                     elem->unk_14 = elem_flags | 0xC;
 
-                    elem->unk_12 = part_b->unk_12 - 128;
+                    elem->unk_12 = *(s16 *)&part_b->clut - 128;
                     elem->unk_0C = ((u32)(0x00C0C0C0));
                     ((S_8015E86C_9 *)(base->unk_A4))->unk_10 = process_effect_block_entries;
 

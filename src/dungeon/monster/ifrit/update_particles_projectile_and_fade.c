@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -47,20 +48,6 @@ typedef struct S_801733BC_4 {
     u32 unk_A4;
 } S_801733BC_4;   /* effectPart in update_particles_projectile_and_fade */
 
-typedef struct S_801733BC_5 {
-    u8 pad_00[0xC];
-    u32 unk_0C;
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0x8];
-    u32 unk_28;
-} S_801733BC_5;   /* objectPart in update_particles_projectile_and_fade */
-
-
 typedef struct S_801733BC_8 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -74,7 +61,6 @@ typedef struct S_801733BC_8 {
 } S_801733BC_8;   /* projectilePart in update_particles_projectile_and_fade */
 
    /* ((S_801733BC_2 *)object)->unk_08 in update_particles_projectile_and_fade */
-
 
 typedef struct {
     u16 x;
@@ -114,7 +100,7 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
     void *spawned_object;
     void *particle_callback;
     void *particle_state;
-    void *particle_render;
+    SpriteFrameState *particle_render;
     void *projectile_state;
 
     DungeonGlobalStatus *effect_list;
@@ -168,16 +154,16 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
                     particle_render = ((S_801733BC_2 *)spawned_object)->unk_0C;
                     owner = ((S_801733BC_0 *)render_part)->unk_28;
                     draw_command = 0x2E;
-                    ((S_801733BC_5 *)particle_render)->unk_28 = owner;
-                    ((S_801733BC_5 *)particle_render)->unk_1E = 0x1000;
-                    ((S_801733BC_5 *)particle_render)->unk_1C = 0x1000;
+                    particle_render->unk_28 = owner;
+                    particle_render->scale_y = 0x1000;
+                    particle_render->scale_x = 0x1000;
                     draw_zero = 0;
-                    ((S_801733BC_5 *)particle_render)->unk_14 = ((S_801733BC_0 *)render_part)->unk_14;
+                    particle_render->flags = ((S_801733BC_0 *)render_part)->unk_14;
                     draw_param = ((S_801733BC_0 *)render_part)->unk_12;
-                    ((S_801733BC_5 *)particle_render)->unk_10 = 0x20;
-                    ((S_801733BC_5 *)particle_render)->unk_0C = particle_color;
-                    ((S_801733BC_5 *)particle_render)->unk_14 |= 0xC;
-                    ((S_801733BC_5 *)particle_render)->unk_12 = draw_param;
+                    particle_render->tpage_abr = 0x20;
+                    particle_render->color.word = particle_color;
+                    particle_render->flags |= 0xC;
+                    particle_render->clut = draw_param;
                     select_sprite_entry(particle_render, draw_command, draw_zero);
                 }
             }

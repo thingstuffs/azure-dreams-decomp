@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 void *allocate_list_node();            /* extern */
 s32 register_node();           /* extern */
@@ -22,13 +23,6 @@ typedef struct S_800C1A44_1 {
     s16 unk_0A;
 } S_800C1A44_1;
 
-typedef struct S_800C1A44_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    s32 * unk_08;
-    s32 unk_0C;
-} S_800C1A44_2;
-
 typedef struct S_800C1A44_3 {
     u8 pad_00[0x48];
     s16 unk_48;
@@ -40,7 +34,7 @@ typedef struct S_800C1A44_3 {
 void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z) {
     void *object;
     S_800C1A44_1 *position;
-    S_800C1A44_2 *render_state;
+    SpriteFrameState *render_state;
     S_800C1A44_3 *object_state;
 
     object = allocate_list_node(0x12, ((s32 *)&D_80083498.next));
@@ -52,8 +46,8 @@ void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z) {
         position->unk_06 = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
         position->unk_0A = z;
         render_state = ((S_800C1A44_0 *)object)->unk_0C;
-        render_state->unk_08 = &D_800DF3C0[0];
-        render_state->unk_0C = 0x808080;
+        render_state->source = &D_800DF3C0[0];
+        render_state->color.word = 0x808080;
         render_state->unk_06 = 8;
         object_state = object + 0x20;
         object_state->unk_4C = 8;

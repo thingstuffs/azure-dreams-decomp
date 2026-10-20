@@ -17,11 +17,11 @@ typedef struct S_800B6094_6 {
 } S_800B6094_6;
 
 
-s32 runtime_test_table_byte_pattern();
+s32 runtime_test_table_byte_pattern(s16);
 s32 func_800498EC(s32 index);
-s32 func_80049918();
-s32 get_low_flag_priority();
-void set_display_entry_text_and_position();
+s32 func_80049918(s32);
+int get_low_flag_priority(int);
+struct S_800B5264_0; void set_display_entry_text_and_position(struct S_800B5264_0 *, s32, s32, s16, s32);
 s32 func_800B53BC(s32, const void *, s32, s32, s32);
 s32 build_encoded_display_sequence();
 
@@ -69,7 +69,7 @@ void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_
     text_y = (row_index * 0x10) + 0xD8;
     row_data = (S_800B6094_1 *)((row_index * 4) + display_base);
     entry_info = (S_800B6094_2 *)((entry->unk_00 * 0x14) + ((u8 *)D_8006DE24));
-    set_display_entry_text_and_position(row_data->unk_20, entry_info->unk_00, 0, 0x58, text_y);
+    set_display_entry_text_and_position((struct S_800B5264_0 *)(row_data->unk_20), entry_info->unk_00, 0, 0x58, text_y);
     func_800B53BC(row_data->unk_2C, build_encoded_display_sequence(entry->unk_01, text_buffer), 0, 0xA0, text_y);
     icon_id = get_low_flag_priority(entry_info->unk_10);
     icon_slot = row_data->unk_38;

@@ -1,6 +1,7 @@
 #include "modules/dungeon_resource06_slot0.h"
+#include "shared/sprite_frame_state.h"
 
-void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, EntityRec *entity)
+void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, SpriteFrameState *tile_state, EntityRec *entity)
 {
     s16 timer;
     s32 direction;
@@ -23,7 +24,7 @@ void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, Entit
             begin_actor_display_action(action, motion, tile_state, ((u8 *)D_8017586C));
             return;
         }
-        if (tile_state->unk_14.at00_u16.v & 0x8000) {
+        if (tile_state->flags & 0x8000) {
             action->unk_96.s = 0;
             action->unk_9B = 2;
             return;
@@ -45,7 +46,7 @@ void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, Entit
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
-        } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
+        } else if (tile_state->flags & 0x6000) {
             action->unk_96.s = 0;
         }
         if (action->unk_96.s != 0) {

@@ -70,8 +70,8 @@ extern void func_80066640();
 extern void func_800666E0();
 extern void func_800666F4();
 extern void func_80067F20();
-extern void copy_odd_halfwords_3();
-extern void copy_menu_vector_halfwords();
+struct MovingPosition; struct S_800A130C_0; void copy_odd_halfwords_3(struct S_800A130C_0 *, struct MovingPosition *);
+struct S_800A1330_0; struct S_800A1330_1; void copy_menu_vector_halfwords(struct S_800A1330_0 *, struct S_800A1330_1 *);
 extern s16 D_800D0A40;
 
 /* Project and enqueue a textured sprite quad with a translucent overlay. */
@@ -163,9 +163,9 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
         ((S_800A17CC_1 *)textured_quad)->unk_1D = bottom_v;
     }
 
-    copy_odd_halfwords_3((void *)0x1F800074, position);
-    copy_odd_halfwords_3((void *)0x1F80007C, position);
-    copy_odd_halfwords_3((void *)0x1F800084, position);
+    copy_odd_halfwords_3((void *)0x1F800074, (struct MovingPosition *)(position));
+    copy_odd_halfwords_3((void *)0x1F80007C, (struct MovingPosition *)(position));
+    copy_odd_halfwords_3((void *)0x1F800084, (struct MovingPosition *)(position));
     copy_menu_vector_halfwords((void *)0x1F80008C, (void *)0x1F800074);
 
     screen_xy0 = (void *)0x1F8000E8;

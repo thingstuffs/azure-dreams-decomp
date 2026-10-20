@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -19,7 +20,6 @@ typedef struct S_80ADF3AC_0 {
     u8 pad_A0[0x4];
     s32 unk_A4;
 } S_80ADF3AC_0;   /* arg0 in func_80ADF3AC */
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_800644B8(s32);
@@ -53,10 +53,10 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
     phase = ((S_80ADF3AC_0 *)action)->unk_9B;
     switch (phase) {
     case 0:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
             break;
         }
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015CE0C;
+        ((SpriteFrameState *)sprite)->frameTable = D_8015CE0C;
         select_sprite_entry(
             sprite,
             D_8015CE0C[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -70,7 +70,7 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         frames_left = ((S_80ADF3AC_0 *)action)->unk_9E.s;
         ((S_80ADF3AC_0 *)action)->unk_90 -= ((S_80ADF3AC_0 *)action)->unk_A4;
         if (frames_left != 0) {
-            target_x = ((Rec_D_80082E80 *)sprite)->unk_24;
+            target_x = ((SpriteFrameState *)sprite)->unk_24;
             pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -78,7 +78,7 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
             pos_y = motion->y.w.i;
             pos_y -= 0x20;
             motion->unk_10 =
-                (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - pos_y) << 16) /
+                (((((SpriteFrameState *)sprite)->unk_25 << 6) - pos_y) << 16) /
                 ((S_80ADF3AC_0 *)action)->unk_9E.s;
             ((S_80ADF3AC_0 *)action)->unk_A4 =
                 (-func_800644B8(((S_80ADF3AC_0 *)action)->unk_9E.s * 0x199)) << 10;
@@ -102,8 +102,8 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015CE14;
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            ((SpriteFrameState *)sprite)->frameTable = D_8015CE14;
             select_sprite_entry(
                 sprite,
                 D_8015CE14[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -112,10 +112,10 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         }
         break;
     case 3:
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == D_8015CDEC) {
+        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable == D_8015CDEC) {
             break;
         }
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015CDEC;
+        ((SpriteFrameState *)sprite)->frameTable = D_8015CDEC;
         select_sprite_entry(
             sprite,
             D_8015CDEC[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -129,7 +129,7 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
     reduce_actor_food_meter(entity, 4);
     advance_status_timers(entity);
     shared_state = &g_dungeon_status;
@@ -144,8 +144,8 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
     } else if (!(entity_flags & 0x410)) {
         if (entity_flags & 0x20000) {
             entity->facing = get_rounded_facing_and_rounding_flag(
-                ((Rec_D_80082E80 *)sprite)->unk_24,
-                ((Rec_D_80082E80 *)sprite)->unk_25,
+                ((SpriteFrameState *)sprite)->unk_24,
+                ((SpriteFrameState *)sprite)->unk_25,
                 D_80082E80.tileX,
                 D_80082E80.tileY,
                 &target_distance);

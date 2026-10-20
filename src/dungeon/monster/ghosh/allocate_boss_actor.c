@@ -1,10 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
-
-
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -15,7 +14,6 @@ extern u8 D_8016F2E0[];
 extern M2C_UNK D_8016F78C;
 extern u8 D_80174A2C[];
 extern void *D_80174CD8;
-
 
 typedef struct S_8016F160_0 {
     u8 pad_00[0x8];
@@ -37,16 +35,6 @@ typedef struct S_8016F160_2 {
     s16 unk_0A;
 } S_8016F160_2;   /* part_a in allocate_boss_actor */
 
-typedef struct S_8016F160_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8016F160_3;   /* part_b in allocate_boss_actor */
-
 typedef struct S_8016F160_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -64,7 +52,7 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
     s16 mode_kind;
     void *obj;
     S_8016F160_2 *part_a;
-    S_8016F160_3 *part_b;
+    SpriteFrameState *part_b;
     void *work;
     s16 saved_mode;
     s8 saved_config_24;
@@ -90,7 +78,7 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
         part_a->unk_0A = saved_config_0a;
         part_b = ((S_8016F160_0 *)obj)->unk_0C;
         mode_kind = mode & 3;
-        part_b->unk_2C = D_80174A2C;
+        part_b->frameTable = D_80174A2C;
         part_b->unk_25 = saved_config_25;
         actor = work;
         part_b->unk_24 = saved_config_24;
@@ -110,7 +98,7 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
         ((S_8016F160_4 *)actor_state)->unk_8C = &D_8016F78C;
         ((S_8016F160_4 *)actor_state)->unk_9B = 0;
         ((S_8016F160_4 *)actor_state)->unk_B0 = 0;
-        part_b->unk_14 |= 0x80;
+        part_b->flags |= 0x80;
         try_move_actor_to_valid_position(actor_state, part_a, part_b, work);
     }
     return work;

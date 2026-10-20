@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource08_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void func_8017245C(void *action, void *motion, void *sprite, void *actor)
 {
@@ -18,10 +19,10 @@ void func_8017245C(void *action, void *motion, void *sprite, void *actor)
     state = ((R08_8017245C_S_80172478_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
             break;
         }
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174C54);
+        ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80174C54);
         select_sprite_entry(
             sprite,
             ((u8 *)D_80174C54)[((g_game_work.view.viewAngle + ((R08_8017245C_S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -36,7 +37,7 @@ void func_8017245C(void *action, void *motion, void *sprite, void *actor)
         move_ticks = ((R08_8017245C_S_80172478_0 *)action)->unk_A8.s;
         ((R08_8017245C_S_80172478_0 *)action)->unk_90 -= ((R08_8017245C_S_80172478_0 *)action)->unk_A4;
         if (move_ticks != 0) {
-            target_x = ((Rec_D_80082E80 *)sprite)->unk_24;
+            target_x = ((SpriteFrameState *)sprite)->unk_24;
             pos_x = ((EntityRec *)motion)->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -46,7 +47,7 @@ void func_8017245C(void *action, void *motion, void *sprite, void *actor)
             pos_y = ((EntityRec *)motion)->y.w.i;
             pos_y -= 0x20;
             ((EntityRec *)motion)->unk_10 =
-                (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - pos_y) << 16) /
+                (((((SpriteFrameState *)sprite)->unk_25 << 6) - pos_y) << 16) /
                 ((R08_8017245C_S_80172478_0 *)action)->unk_A8.s;
 
             ((R08_8017245C_S_80172478_0 *)action)->unk_A4 =
@@ -75,8 +76,8 @@ void func_8017245C(void *action, void *motion, void *sprite, void *actor)
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174C5C);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80174C5C);
             select_sprite_entry(
                 sprite,
                 ((u8 *)D_80174C5C)[((g_game_work.view.viewAngle + ((R08_8017245C_S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -95,7 +96,7 @@ void func_8017245C(void *action, void *motion, void *sprite, void *actor)
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
-    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
     reduce_actor_food_meter(actor, 4);
     advance_status_timers(actor);
 
@@ -111,7 +112,7 @@ void func_8017245C(void *action, void *motion, void *sprite, void *actor)
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            ((R08_8017245C_S_80172478_2 *)actor)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag((s16)(((Rec_D_80082E80 *)sprite)->unk_24),(s16)(((Rec_D_80082E80 *)sprite)->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+            ((R08_8017245C_S_80172478_2 *)actor)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite)->unk_24,(s16)((SpriteFrameState *)sprite)->unk_25,(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
                 &direction_aux));
         }
     }

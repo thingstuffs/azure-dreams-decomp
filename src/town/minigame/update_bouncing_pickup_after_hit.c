@@ -1,13 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800206D0_arg1.h"
 #include "shared/town_state.h"
-
-
-
-
 
 typedef struct S_800236BC_1 {
     void * unk_00;
@@ -19,12 +16,10 @@ typedef struct S_800236BC_1 {
     s16 unk_54;
 } S_800236BC_1;   /* arg0 in update_bouncing_pickup_after_hit */
 
-
 typedef struct S_800236BC_3 {
     u8 pad_00[0x62];
     u16 unk_62;
 } S_800236BC_3;   /* ((S_800236BC_1 *)arg0)->unk_00 in update_bouncing_pickup_after_hit */
-
 
 extern void func_800478B8(void *);
 extern void SD_Call(s32);
@@ -103,10 +98,10 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
             ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0;
             if (((S_800236BC_1 *)object)->unk_06.s < 0) {
                 sprite_data = D_800244DC[((S_800236BC_1 *)object)->unk_54];
-                ((Rec_D_80082E80 *)sprite)->unk_12.at00_s16.v = 0;
-                ((Rec_D_80082E80 *)sprite)->unk_04.as_u8 = 0;
-                ((Rec_D_80082E80 *)sprite)->unk_05.as_u8 = 0;
-                ((Rec_D_80082E80 *)sprite)->unk_08 = sprite_data;
+                ((SpriteFrameState *)sprite)->clut = 0;
+                ((SpriteFrameState *)sprite)->unk_04 = 0;
+                ((SpriteFrameState *)sprite)->unk_05 = 0;
+                ((SpriteFrameState *)sprite)->source = sprite_data;
                 ((Rec_func_800206D0_arg1 *)motion)->unk_14 = 0;
                 ((S_800236BC_1 *)object)->unk_06.s = 150;
                 ((S_800236BC_1 *)object)->unk_04.u++;
@@ -170,11 +165,11 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
         {
             s32 sprite_flags;
             if ((((S_800236BC_1 *)object)->unk_06.u >> 2) & 1) {
-                sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 0x80;
+                sprite_flags = ((SpriteFrameState *)sprite)->flags | 0x80;
             } else {
-                sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xFF7F;
+                sprite_flags = ((SpriteFrameState *)sprite)->flags & 0xFF7F;
             }
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = sprite_flags;
+            ((SpriteFrameState *)sprite)->flags = sprite_flags;
         }
         ((S_800236BC_1 *)object)->unk_06.u--;
         if (((S_800236BC_1 *)object)->unk_06.s > 0) {

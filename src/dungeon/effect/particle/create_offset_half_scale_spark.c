@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
@@ -32,7 +33,7 @@ extern u8 D_80165580;
 
 void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_offset, s32 z_offset) {
     Object *obj;
-    Sprite *sprite;
+    SpriteFrameState *sprite;
     s32 z_fixed;
     u16 x;
     u16 y;
@@ -42,9 +43,9 @@ void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_o
         obj->callback = &D_80165580;
         register_node(obj, project_sprite_chain);
         sprite = obj->sprite;
-        sprite->field10 = 0x20;
-        sprite->field6 = 6;
-        sprite->flags14 |= 0xC;
+        sprite->tpage_abr = 0x20;
+        sprite->unk_06 = 6;
+        sprite->flags |= 0xC;
         {
             void *position;
 
@@ -61,11 +62,11 @@ void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_o
             *(u16 *)((u8 *)position + 0xA) = (u16)z_fixed;
         }
         sprite = obj->sprite;
-        sprite->scale1E = 0x800;
-        sprite->scale1C = 0x800;
-        sprite->colorE = 0x80;
-        sprite->colorD = 0x80;
-        sprite->colorC = 0x80;
+        sprite->scale_y = 0x800;
+        sprite->scale_x = 0x800;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
         func_8003DB94(sprite, D_800DE870, 0);
     }
 }

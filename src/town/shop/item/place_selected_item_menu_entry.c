@@ -11,7 +11,7 @@ typedef struct S_800AF8B0_2 {
 } S_800AF8B0_2;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_00 in place_selected_item_menu_entry */
 
 
-void *create_item_menu_display_controller(); /* extern */
+void * create_item_menu_display_controller(s32, s32, s32, s32, s32); /* extern */
 
 
 /* Positions an indexed entry in a two-column, five-row layout. */

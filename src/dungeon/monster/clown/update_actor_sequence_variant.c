@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
@@ -48,20 +49,20 @@ typedef struct EffectSpriteView {
 
 void func_8003DB94();
 s32 Control_CD();
-void sound_set_cd_cue_parameters();
-void run_cd_image_commands();
-int func_800445E0();
+#include "slus/sound_set_cd_cue_parameters_api.h"
+#include "engine/graphics/run_cd_image_commands_api.h"
+int func_800445E0(void);
 s32 register_node();
 s32 lookup_masked_byte_table();
 s32 func_80069EF8();
-void unlink_entity_node();
-void update_map_cell_flags_with_item_limit();
-void decrement_monster_entry_count();
-s32 advance_staged_entity_load();
+#include "dungeon/level/unlink_entity_node_api.h"
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+#include "dungeon/item/decrement_monster_entry_count_api.h"
+#include "dungeon/actor/advance_staged_entity_load_api.h"
 s32 play_sound_if_enabled();
 s32 create_status_linked_render_effect();
-s32 select_nearby_target_and_initialize_slot();
-void func_80161904();
+#include "dungeon/select_nearby_target_and_initialize_slot_api.h"
+struct R16_80173904_S_80173904_3; void func_80161904(s32, struct R16_80173904_S_80173904_3 *, s32, s32, s16, u16);
 extern s32 D_8006CD58;
 extern ColorChannels *D_800DCEEC[];
 extern s32 D_8014A000;
@@ -74,7 +75,7 @@ extern s32 D_801622E4;
 extern u8 D_801622E5;
 extern s32 D_801622E8;
 
-void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_80082E80 *actor, void *model) {
+void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *position, SpriteFrameState *actor, void *model) {
     s16 next_spawn;
     s16 next_trail;
     s16 spawn_count;
@@ -103,7 +104,7 @@ void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *pos
         state->unk_9B = (u8) (state->unk_9B + 1);
         return;
     case 1:
-        run_cd_image_commands(&D_801622CC, &D_801622E4, 0);
+        run_cd_image_commands(&D_801622CC, (u8 *)(&D_801622E4), 0);
         state->unk_A6 = 0;
         state->unk_9B = (u8) (state->unk_9B + 1);
         ((Rec_D_80082E80 *)model)->unk_8A = (u16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v;
@@ -119,12 +120,12 @@ void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *pos
             ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x200);
             return;
         }
-        run_cd_image_commands(&D_801622CC, &D_801622E4, 1);
+        run_cd_image_commands(&D_801622CC, (u8 *)(&D_801622E4), 1);
         sound_set_cd_cue_parameters(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         D_801622E5 = 0;
         Control_CD(0xFF, set_byte_one, &D_801622E5);
-        select_nearby_target_and_initialize_slot(model - 0x20, position, 8, 0x300);
+        select_nearby_target_and_initialize_slot((s32)(model - 0x20), position, 8, 0x300);
         state->unk_96 = 0x10U;
         state->unk_9B = (u8) (state->unk_9B + 1);
     case 3:
@@ -175,12 +176,12 @@ void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *pos
             effect_variant = func_80069EF8() % 3;
         }
         func_8003DB94(effect_sprite, D_801622D4[(s16) effect_variant] + (s8 *) &D_8014A000, 0);
-        actor->unk_14.at00_u16.v = (u16) (actor->unk_14.at00_u16.v | 0x80);
+        actor->flags = (u16) (actor->flags | 0x80);
         spawn_count = 0;
         state->unk_96 = 0U;
         state->unk_9B = (u8) (state->unk_9B + 1);
         do {
-            func_80161904(state, position, actor, model, func_80069EF8() & 0xFFF, 0);
+            func_80161904((s32)(state), (struct R16_80173904_S_80173904_3 *)(position), (s32)(actor), (s32)(model), func_80069EF8() & 0xFFF, 0);
             next_spawn = spawn_count + 1;
             spawn_count = next_spawn;
         } while (next_spawn < 8);
@@ -191,7 +192,7 @@ void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *pos
         if ((s16) elapsed < 0x1E) {
             trail_count = 0;
             do {
-                func_80161904(state, position, actor, model, func_80069EF8() & 0xFFF, 0);
+                func_80161904((s32)(state), (struct R16_80173904_S_80173904_3 *)(position), (s32)(actor), (s32)(model), func_80069EF8() & 0xFFF, 0);
                 next_trail = trail_count + 1;
                 trail_count = next_trail;
             } while (next_trail < 8);
@@ -217,7 +218,7 @@ void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *pos
         effect_sprite->flags = (s32) (effect_sprite->flags | 0x80000000);
         return;
     case 7:
-        ((Rec_D_80082E80 *)model)->unk_60.as_s32 = advance_staged_entity_load(actor, model);
+        ((Rec_D_80082E80 *)model)->unk_60.as_s32 = advance_staged_entity_load((s32)(actor), model);
         return;
     }
 }

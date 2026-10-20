@@ -1,12 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void card_boot_refresh_directory_summary();                            /* extern */
-void card_boot_erase_temporary_file();                            /* extern */
+void card_boot_refresh_directory_summary(void);                            /* extern */
+void card_boot_erase_temporary_file(void);                            /* extern */
 s32 card_boot_create_three_row_command_panel();                          /* extern */
 s32 render_rotated_grid_surface();            /* extern */
-void card_boot_initialize_slot_menu_request();                 /* extern */
-void *initialize_scene_object_in_buffer();   /* extern */
+void card_boot_initialize_slot_menu_request(void *, s32);                 /* extern */
+struct S_8003FE78; void * initialize_scene_object_in_buffer(s32, struct S_8003FE78 *, s16);   /* extern */
 s32 create_or_reset_seven_entry_menu_backdrop();                  /* extern */
 void update_inventory_menu(void *state_arg);
 extern M2C_UNK D_8002B7E0;
@@ -34,7 +34,7 @@ void *card_boot_create_slot_selection_menu(s32 init_value) {
     S_80025C7C_0 *state;
     void *object;
 
-    object = initialize_scene_object_in_buffer(0, &D_8002B7E0, 0x1C);
+    object = initialize_scene_object_in_buffer(0, (struct S_8003FE78 *)(&D_8002B7E0), 0x1C);
     state = object + 0x20;
     card_boot_initialize_slot_menu_request(state, init_value);
     card_boot_erase_temporary_file();

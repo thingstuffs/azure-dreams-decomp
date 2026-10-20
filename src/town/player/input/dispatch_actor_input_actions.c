@@ -5,32 +5,32 @@
 #include "shared/entity.h"
 
 
-extern s32 test_resident_bitmap_bit();
+#include "engine/object/test_resident_bitmap_bit_api.h"
 extern void submit_object_resource_data();
-extern s32 read_map_cell_at_world_position();
+s32 read_map_cell_at_world_position(s16, s16);
 extern void initialize_scene_action_record();
-extern void func_80093E58();
-extern void initialize_randomized_object_action();
-extern void func_80093FC8();
-extern void func_80094088();
-extern void initialize_actor_action_state();
-extern void initialize_action_object();
-extern void func_800943B8();
-extern void initialize_action_object_with_counter();
-extern void initialize_actor_movement_interaction_action();
-extern void trigger_event_hex_519_interval_multiples_enabled();
-extern void store_the_valid_shared_angle_in_offset_hex_10();
+void func_80093E58(s32 * *, void *, void *);
+struct Rec_func_80094268_arg0; void initialize_randomized_object_action(struct Rec_func_80094268_arg0 *, s32, s32);
+struct Rec_func_80094268_arg0; void func_80093FC8(struct Rec_func_80094268_arg0 *, s32, s32);
+struct Rec_func_80094268_arg0; void func_80094088(struct Rec_func_80094268_arg0 *, void *, void *);
+struct Rec_func_80094268_arg0; struct S_800942B0_0; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct S_800942B0_0 *, s32);
+void initialize_action_object(s32 * *, void *, void *);
+struct Rec_func_80094268_arg0; void func_800943B8(struct Rec_func_80094268_arg0 *, s32, s32);
+struct Rec_func_80094268_arg0; void initialize_action_object_with_counter(struct Rec_func_80094268_arg0 *, s32, s32);
+void initialize_actor_movement_interaction_action(s32 * *, void *, void *);
+void trigger_event_hex_519_interval_multiples_enabled(s32, s32);
+#include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
 extern void handle_adjust_vector_toward_selected_angle_limit_magnitude();
 extern void reduce_object_coordinates_toward_direction_dependent_limits_without_overshooting();
-extern void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58();
+void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(s32);
 extern void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides();
-extern s32 select_an_available_entry_matching_direction_returns_status();
-extern s32 select_an_eligible_source_entry_stores_pointer_in_destination();
+s32 select_an_available_entry_matching_direction_returns_status(void *);
+s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *);
 extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
-extern void compute_and_clamps_vector_based_adjustment_updates_town();
-extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
-extern void initialize_record_and_select_active_data();
-extern s32 check_masked_value_in_current_range();
+#include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
+#include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
+void initialize_record_and_select_active_data(s32, s32, s32);
+s32 check_masked_value_in_current_range(s32);
 
 extern s32 D_800CFCB4[];
 
@@ -60,16 +60,16 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
     height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, ((u8 *)&D_800FE488));
     if ((height - position->z.w.i) >= 4) {
         if (D_800CFCEF == 0) {
-            initialize_action_object(actor, position, context);
+            initialize_action_object((s32 * *)(actor), position, (void *)(context));
             return;
         }
     } else if (D_800CFCEF == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town(position, height, ((u8 *)&D_800FE488));
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(position), height, (struct TownVec * *)(((u8 *)&D_800FE488)));
     }
 
     input_flags = ((s32)input_state->unk_010);
     if (input_flags & 0x10) {
-        initialize_actor_action_state(actor, position, context);
+        initialize_actor_action_state((struct Rec_func_80094268_arg0 *)(actor), (struct S_800942B0_0 *)(position), context);
         return;
     }
 
@@ -77,14 +77,14 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
         action_result = select_an_eligible_source_entry_stores_pointer_in_destination(actor, D_800CFCB4);
         if (action_result != 0) {
             if (action_result == 2) {
-                initialize_actor_movement_interaction_action(actor, position, context);
+                initialize_actor_movement_interaction_action((s32 * *)(actor), position, (void *)(context));
                 return;
             } else {
-                initialize_action_object_with_counter(actor, position, context);
+                initialize_action_object_with_counter((struct Rec_func_80094268_arg0 *)(actor), (s32)(position), context);
                 return;
             }
         } else if (test_resident_bitmap_bit(0xA4) != 0) {
-            func_80094088(actor, position, context);
+            func_80094088((struct Rec_func_80094268_arg0 *)(actor), position, (void *)(context));
             return;
         }
         return;
@@ -95,12 +95,12 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
     if (action_result != 0) {
         if (action_result == -1) {
             store_the_valid_shared_angle_in_offset_hex_10(actor);
-            initialize_record_and_select_active_data(actor, position, context);
+            initialize_record_and_select_active_data((s32)(actor), (s32)(position), context);
             actor->unk_2C = 0;
             submit_object_resource_data(action_data[4]);
             return;
         } else {
-            func_800943B8(actor, position, context);
+            func_800943B8((struct Rec_func_80094268_arg0 *)(actor), (s32)(position), context);
             return;
         }
         return;
@@ -111,16 +111,16 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
         if (actor->unk_16 == 1) {
             tile_id = read_map_cell_at_world_position(position->x.w.i, position->y.w.i);
             if (check_masked_value_in_current_range((u16)tile_id) != 0 &&position->z.v > 0) {
-                func_80093FC8(actor, position, context);
+                func_80093FC8((struct Rec_func_80094268_arg0 *)(actor), (s32)(position), context);
                 return;
             } else {
-                func_80093E58(actor, position, context);
+                func_80093E58((s32 * *)(actor), position, (void *)(context));
                 return;
             }
         } else {
-            initialize_randomized_object_action(actor, position, context);
+            initialize_randomized_object_action((struct Rec_func_80094268_arg0 *)(actor), (s32)(position), context);
             store_the_valid_shared_angle_in_offset_hex_10(actor);
-            call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(position);
+            call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58((s32)(position));
             return;
         }
         return;

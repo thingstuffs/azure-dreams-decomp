@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -45,7 +46,7 @@ void update_object_movement_proximity_reactions(void *state_data, void *position
     u8 *effect;
     u8 *effect_state;
     u8 *effect_position;
-    u8 *effect_sprite;
+    SpriteFrameState *effect_sprite;
     TileObject *color_state;
 
     object = PTR(state, 0);
@@ -151,18 +152,18 @@ loop_0:
                 S32(effect_position, 8) = position[2];
                 S32(effect_state, 4) = S32(state, 4);
                 PTR(effect, 0x20) = object;
-                S16(effect_sprite, 0x1E) = 0x1000;
-                S16(effect_sprite, 0x1C) = 0x1000;
+                effect_sprite->scale_y = 0x1000;
+                effect_sprite->scale_x = 0x1000;
                 if (remaining != 0) {
-                    PTR(effect_sprite, 8) = D_800F795C;
+                    effect_sprite->source = D_800F795C;
                     S32(effect_position, 0x10) = 0x80000;
                 } else {
-                    PTR(effect_sprite, 8) = D_800F7950;
+                    effect_sprite->source = D_800F7950;
                     S32(effect_position, 0x10) = 0xFFF80000;
                 }
-                U8(effect_sprite, 4) = 0;
-                U8(effect_sprite, 5) = 0;
-                S32(effect_sprite, 0xC) = 0x00808080;
+                effect_sprite->unk_04 = 0;
+                effect_sprite->unk_05 = 0;
+                effect_sprite->color.word = 0x00808080;
             }
             remaining--;
         } while (remaining >= 0);

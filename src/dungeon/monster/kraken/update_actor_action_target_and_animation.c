@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -34,17 +35,12 @@ typedef struct S_801727C8_0 {
     s16 unk_A8;
 } S_801727C8_0;   /* arg0 in update_actor_action_target_and_animation */
 
-
    /* the 0x14 bytes before owner in update_actor_action_target_and_animation, addressed as owner[-1] */
-
-
-
 
 typedef struct S_801727C8_5 {
     u8 pad_00[0x4];
     u16 unk_04;
 } S_801727C8_5;
-
 
 extern void *D_80170838[];
 s32 get_cd_command_queue_depth();
@@ -156,7 +152,7 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
                 } else {
                     void *spawned_owner;
 
-                    spawned_owner = scan_monster_along_heading(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                    spawned_owner = scan_monster_along_heading(actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                         actor->facing, 0x10);
                     actor->target = spawned_owner;
                     abs_x = abs(actor->unk_72);
@@ -173,7 +169,7 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
             if (create_actor_spell_effect(actor, entry, is_special, action + 0x98) == 0) {
                 return;
             }
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
+            ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
             create_two_effect_groups(motion, sprite, actor, 0xA);
             play_sound_if_enabled(0x703);
             current_state = ((S_801727C8_0 *)action)->unk_9B;
@@ -188,7 +184,7 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_80EB6FC8 *)D_800814A8)->field_A6) - 1);
         advance_status_timers(actor);
@@ -201,43 +197,43 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 0x800);
+            ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags | 0x800);
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
+        ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
         ((S_801727C8_0 *)action)->unk_9B = (u8) (((S_801727C8_0 *)action)->unk_9B + 1);
 
     case 2:
         ticks_left = ((S_801727C8_0 *)action)->unk_96 - 1;
         ((S_801727C8_0 *)action)->unk_96 = ticks_left;
         if ((ticks_left << 0x10) > 0) {
-            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
                 return;
             }
         }
         ((S_801727C8_0 *)action)->unk_98 = (u16) (((S_801727C8_0 *)action)->unk_98 | 0x80);
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm) = &D_801741BC;
+        ((SpriteFrameState *)sprite)->frameTable = &D_801741BC;
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + &D_801741BC), 0);
         current_state = ((S_801727C8_0 *)action)->unk_9B;
         ((S_801727C8_0 *)action)->unk_9B = (u8) (current_state + 1);
         return;
 
     case 3:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm != &D_8017418C) {
-            if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        if ((*(M2C_UNK * *)&((SpriteFrameState *)sprite)->frameTable) != &D_8017418C) {
+            if (((SpriteFrameState *)sprite)->flags & 0x6000) {
                 ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 | 0x8000);
                 ((S_801727C8_0 *)action)->unk_A8 = 0;
-                (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm) = &D_8017418C;
+                ((SpriteFrameState *)sprite)->frameTable = &D_8017418C;
                 select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
                     + &D_8017418C), 0);
             }
@@ -246,7 +242,7 @@ void update_actor_action_target_and_animation(void *action, EntityRec *motion, v
             return;
         }
         g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
+        ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
         ((S_801727C8_0 *)action)->unk_8C = &update_actor_animation_and_dispatch;
         advance_status_timers(actor);
         if ((s8) ((u8)actor->unk_6D) > 0) {

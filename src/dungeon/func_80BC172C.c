@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_be1084.h"
+#include "shared/sprite_frame_state.h"
 
 void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 effect_param_arg, register s32 state_value_arg,
     register s32 unused_arg, register s32 offset_x_arg, register s32 offset_y_arg, register s32 offset_z_arg) {
@@ -23,7 +24,7 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
             ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_0A =
                 (s16) ((((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->unk_0A + offset_z) - 0x64);
         } while (0);
-        ((S_80BC172C_6 *)(((S_80BC172C_3 *)effect)->unk_0C))->unk_06 = 6;
+        ((SpriteFrameState *)((S_80BC172C_3 *)effect)->unk_0C)->unk_06 = 6;
         ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
         ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
         effect_data = effect + 0x20;

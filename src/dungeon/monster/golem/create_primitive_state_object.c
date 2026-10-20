@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
@@ -12,24 +13,6 @@ typedef struct S_80174A6C_0 {
     void * unk_0C;
     void * unk_10;
 } S_80174A6C_0;   /* obj in create_primitive_state_object */
-
-typedef struct S_80174A6C_1 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    s32 unk_28;
-} S_80174A6C_1;   /* prim in create_primitive_state_object */
 
 typedef struct S_80174A6C_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -57,7 +40,7 @@ s32 create_primitive_state_object(void *unused, Rec_func_80172D08_arg1 *src_stat
     u16 offsets[3];
     S_80174A6C_0 *obj;
     S_80174A6C_4 *dst_state;
-    S_80174A6C_1 *prim;
+    SpriteFrameState *prim;
 
     obj = func_8003FC64(0x312);
     if (obj != 0) {
@@ -66,14 +49,14 @@ s32 create_primitive_state_object(void *unused, Rec_func_80172D08_arg1 *src_stat
 
         prim = obj->unk_0C;
         prim->unk_28 = source->unk_28.at00_s32.v;
-        prim->unk_0E = 0x80;
-        prim->unk_0D = 0x80;
-        prim->unk_0C = 0x80;
-        prim->unk_1E = 0x2000;
-        prim->unk_1C = 0x2000;
+        prim->color.c.b = 0x80;
+        prim->color.c.g = 0x80;
+        prim->color.c.r = 0x80;
+        prim->scale_y = 0x2000;
+        prim->scale_x = 0x2000;
         prim->unk_06 = 1;
-        prim->unk_14 |= 0xC;
-        prim->unk_10 |= 0x20;
+        prim->flags |= 0xC;
+        prim->tpage_abr |= 0x20;
         select_sprite_entry(prim, 0x39, 0);
 
         {

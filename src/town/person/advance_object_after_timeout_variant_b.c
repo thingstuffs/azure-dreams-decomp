@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-void initialize_object_entries();          /* extern */
+#include "town/person/object/initialize_object_entries_api.h"          /* extern */
 extern M2C_UNK D_800C8FF0;
 extern M2C_UNK D_800D6268;
 
@@ -14,7 +14,7 @@ void advance_object_after_timeout_variant_2(Rec_func_80094268_arg0 *object, s32 
     remainingTicks = object->unk_6C.as_u16 - 1;
     object->unk_6C.as_u16 = remainingTicks;
     if ((remainingTicks << 0x10) <= 0) {
-        initialize_object_entries(object, updateContext, &D_800D6268);
+        initialize_object_entries((Struct800C5724 *)(object), (s8 *)(updateContext), &D_800D6268);
         object->unk_50.as_pm = &D_800C8FF0;
         object->unk_72.as_s16 = 0xC00;
         object->unk_6C.as_u16 = (u16) (object->unk_96.as_u8 * 3);

@@ -1,5 +1,6 @@
 #include "dungeon/monster/volcano/create_mode_configured_actor_object.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/volcano/create_mode_configured_actor_object.h"
 
 void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
@@ -13,7 +14,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
     s8 saved_b;
 
     {
-        void *arg3_part;
+        SpriteFrameState *arg3_part;
         void *arg2_work;
 
         saved_a = attr_a;
@@ -30,35 +31,35 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
             kind = spawn_flags & 3;
             ((S_8016A800_2 *)position)->unk_0A = saved_c;
             arg3_part = ((S_8016A800_1 *)root)->unk_0C;
-            ((S_8016A800_3 *)arg3_part)->unk_24 = saved_a;
-            ((S_8016A800_3 *)arg3_part)->unk_25 = saved_b;
+            arg3_part->unk_24 = saved_a;
+            arg3_part->unk_25 = saved_b;
             arg2_work = result;
 
             if (kind == 1) {
                 ((S_8016A800_0 *)result)->unk_8C = func_8016AE5C;
                 ((S_8016A800_0 *)result)->unk_14 |= 0x6000;
                 ((S_8016A800_0 *)result)->unk_1C |= 0x6000;
-                ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E510;
+                arg3_part->frameTable = D_8016E510;
             } else {
                 if (kind >= 2) {
                     ((S_8016A800_0 *)result)->unk_8C = func_8016AE5C;
                     ((S_8016A800_0 *)result)->unk_14 |= 0x2000;
                     ((S_8016A800_0 *)result)->unk_1C |= 0x2000;
-                    ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E510;
+                    arg3_part->frameTable = D_8016E510;
                 } else {
                     if ((s16)(spawn_flags & ~3) == 0) {
                         if (!(((S_8016A800_0 *)result)->unk_14 & 0x200)) {
                             spawn_flags = generate_random_value();
                             if (spawn_flags & 1) {
                                 set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
-                                ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E538;
+                                arg3_part->frameTable = D_8016E538;
                             }
                         }
                         ((S_8016A800_4 *)((void *)arg2_work))->unk_8C = func_8016AE5C;
-                        ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E510;
+                        arg3_part->frameTable = D_8016E510;
                     } else {
                         ((S_8016A800_0 *)result)->unk_8C = func_8016AE5C;
-                        ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E510;
+                        arg3_part->frameTable = D_8016E510;
                     }
 
                 }

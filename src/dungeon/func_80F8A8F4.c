@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_801740F4_1 {
     u8 pad_00[0x8C];
@@ -12,9 +12,6 @@ typedef struct S_801740F4_1 {
     s8 unk_9A;
     s8 unk_9B;
 } S_801740F4_1;   /* work in start_bank_actor_hit_reaction */
-
-
-
 
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes();
@@ -50,11 +47,11 @@ void start_bank_actor_hit_reaction(void *work, void *part_a, void *part_b, Entit
                 actor->facing = (u16)(((u16)actor->facing) + ((generate_random_value() & 7) << 9));
             }
         }
-        field_60 = place_actor_at_directional_neighbor(actor, ((Rec_D_80082E80 *)part_b)->unk_24, ((Rec_D_80082E80 *)part_b)->unk_25,
+        field_60 = place_actor_at_directional_neighbor(actor, ((SpriteFrameState *)part_b)->unk_24, ((SpriteFrameState *)part_b)->unk_25,
             (s16)((u16)actor->facing));
         table_base = D_80174B0C;
         actor->target = field_60;
-        (((Rec_D_80082E80 *)part_b)->unk_2C.as_pu8) = table_base;
+        ((SpriteFrameState *)part_b)->frameTable = table_base;
         select_sprite_entry(part_b, table_base[((s32)(g_game_work.view.viewAngle + (s16)((u16)actor->facing) + 0x100)
             >> 9) & 7], 0);
         actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);

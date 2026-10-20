@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void fill_ten_paged_output_slots();            /* extern */
+void fill_ten_paged_output_slots(s32 * *, s32 *, s32);            /* extern */
 
 typedef struct S_800B30D8_0 {
     void * unk_00;
@@ -19,5 +19,5 @@ void update_linked_record_data(S_800B30D8_0 *record) {
     void *source_record;
 
     source_record = record->unk_00;
-    fill_ten_paged_output_slots(record->unk_A8 + 0x18, source_record + 0x1C, ((S_800B30D8_1 *)source_record)->unk_3C);
+    fill_ten_paged_output_slots((s32 * *)(record->unk_A8 + 0x18), source_record + 0x1C, ((S_800B30D8_1 *)source_record)->unk_3C);
 }

@@ -7,25 +7,25 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "records/Rec_D_800CFCC4.h"
 
-void call_script();                         /* extern */
+void call_script(s32);                         /* extern */
 void submit_object_resource_data();                         /* extern */
 void set_default_scene_data_pointer();     /* extern */
-void initialize_actor_position_interaction_action();     /* extern */
-void initialize_input_driven_scene_object();     /* extern */
+struct Rec_func_80094268_arg0; void initialize_actor_position_interaction_action(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */
+struct S_800945B8_0; void initialize_input_driven_scene_object(s32 * *, struct S_800945B8_0 *, s32);     /* extern */
 void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
 void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
 void func_80094774(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
-s32 run_the_action_sequence_context_unless_flag_hex_a_5_set();                          /* extern */
-void store_the_valid_shared_angle_in_offset_hex_10();                      /* extern */
-void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();                      /* extern */
-void run_the_three_update_routines_context();                      /* extern */
-s32 select_an_available_entry_matching_direction_returns_status();                   /* extern */
-s32 get_status_active_entry_matching_direction();                       /* extern */
+s32 run_the_action_sequence_context_unless_flag_hex_a_5_set(s32);                          /* extern */
+#include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
+#include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
+void run_the_three_update_routines_context(s32);                      /* extern */
+s32 select_an_available_entry_matching_direction_returns_status(void *);                   /* extern */
+s32 get_status_active_entry_matching_direction(void *);                       /* extern */
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
-void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      /* extern */
+#include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
+#include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 void func_800988C8(s32 record, s32 setup_value, s32 init_value);
-void clear_entity_record_fields();                      /* extern */
+#include "town/player/object/entity_record_fields.h"                      /* extern */
 s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();                                /* extern */
 s32 select_response_for_source_and_target();                     /* extern */
 extern M2C_UNK D_80093B00;
@@ -75,23 +75,23 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
         }
     } else {
         if (D_800CFCEF == 0) {
-            compute_and_clamps_vector_based_adjustment_updates_town(position, ground_height, &D_800FE488);
+            compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(position), ground_height, (struct TownVec * *)(&D_800FE488));
         }
     }
     if (((s32)input->unk_010) & 0x10) {
-        initialize_input_driven_scene_object(actor, position, context);
+        initialize_input_driven_scene_object(actor, (struct S_800945B8_0 *)(position), context);
         return;
     }
     if (((s32)input->unk_010) & 0x80) {
         if ((D_800CFCC4 != NULL) && (((Rec_D_800CFCC4 *)D_800CFCC4)->unk_14 == 4)) {
-            run_the_three_update_routines_context(position);
+            run_the_three_update_routines_context((s32)(position));
             func_80094774(actor, position, context);
             D_800FE518[0] = 1;
             return;
         }
         clear_entity_record_fields(position);
-        run_the_three_update_routines_context(position);
-        if (run_the_action_sequence_context_unless_flag_hex_a_5_set(actor - 0x20) != 0) {
+        run_the_three_update_routines_context((s32)(position));
+        if (run_the_action_sequence_context_unless_flag_hex_a_5_set((s32)(actor - 0x20)) != 0) {
             set_default_scene_data_pointer(actor, position, context);
             D_800FE5D8 = &D_80093B00;
             return;
@@ -123,7 +123,7 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
             return;
         }
         if (input->buttons & 0xF000) {
-            initialize_actor_position_interaction_action(actor, position, context);
+            initialize_actor_position_interaction_action(actor, (s32)(position), context);
         }
     }
 }

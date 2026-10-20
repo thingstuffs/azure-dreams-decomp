@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_197e800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -10,19 +11,15 @@
 
    /* obj in update_directional_actor_effect */
 
-
    /* the 0x18 bytes before source in update_directional_actor_effect, addressed as source[-1] */
 
    /* display in update_directional_actor_effect */
 
    /* ((S_8002401C_0 *)obj)->unk_04 in update_directional_actor_effect */
 
-
-
 extern s32 D_80027328;
 extern u8 D_80027374[];
 extern u8 D_800273BE;
-
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The switch table follows it at 0x80024008
@@ -170,22 +167,11 @@ void update_directional_actor_effect(void *object)
 
    /* arg0 in update_brightening_fading_effect */
 
-
-
    /* arg1 in update_brightening_fading_effect */
-
-
 
    /* arg2 in update_brightening_fading_effect */
 
    /* ((S_8195EB88_0 *)arg0)->unk_0C in update_brightening_fading_effect */
-
-
-
-
-
-
-
 
 /* Updates the effect position, brightens and fades its primitive, and marks completion. */
 void update_brightening_fading_effect(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive)
@@ -248,7 +234,6 @@ void update_brightening_fading_effect(void *effect, S_8195EB88_2 *position, S_81
 
    /* arg0 in func_8002453C */
 
-
 #define NULL 0
 
 extern s32 D_80027380;
@@ -296,7 +281,6 @@ void *func_8002453C(S_8195ED3C_2 *source, s32 offset)
    /* arg0 in update_effect_and_spawn_fragments */
 
    /* arg1 in update_effect_and_spawn_fragments */
-
 
 extern s32 rand();
 
@@ -348,9 +332,6 @@ void update_effect_and_spawn_fragments(S_8195EE48_0 *state, S_8195EE48_1 *motion
 #define NULL 0
 #endif
 
-
-
-
    /* work in allocate_map_cell_object */
 
    /* render in allocate_map_cell_object */
@@ -361,7 +342,7 @@ void update_effect_and_spawn_fragments(S_8195EE48_0 *state, S_8195EE48_1 *motion
 void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
 {
     void *obj;
-    S_8195EF44_2 *work;
+    SpriteFrameState *work;
     MapGrid *map;
     u8 *coord;
     void *render;
@@ -376,7 +357,7 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
         cell_x = world_x / 64;
         cell_y = world_y / 64;
         cell = ((u16 *)map->cells)[(cell_x + (cell_y << map->shiftX)) * 3];
-        work->unk_08 = cell;
+        work->source = cell;
         if (cell == 0) {
             u16 obj_flags = *(u16 *)((u8 *)obj + 0x1E) | 0x8000;
             s32 global_flags = object_flag_block.flags | 0x8000;
@@ -395,11 +376,11 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
         ((S_8195EF44_4 *)render)->unk_0A = world_z;
         ((S_8195EF44_5 *)coord)->unk_3C = world_z;
         work->unk_20 = 0x1000;
-        work->unk_1E = 0x1000;
-        work->unk_1C = 0x1000;
-        work->unk_10 = 0x20;
-        work->unk_0C = 0x808080;
-        work->unk_14 = 0xC;
+        work->scale_y = 0x1000;
+        work->scale_x = 0x1000;
+        work->tpage_abr = 0x20;
+        work->color.word = 0x808080;
+        work->flags = 0xC;
         ((S_8195EF44_5 *)coord)->unk_4C = 0xC;
         ((S_8195EF44_5 *)coord)->unk_60 = coord_60;
         ((S_8195EF44_5 *)coord)->unk_62 = world_z;
@@ -411,15 +392,8 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
-
-
-
-
-
-
 extern u8 D_80027334[][8];
 extern u8 D_800273BE;
-
 
 /* Animate nearby tile heights and fade the color, then finalize the dungeon transition. */
 void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *origin) {
@@ -534,10 +508,8 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
 
    /* *global in project_height_grid_object_quad */
 
-
 #define VFIELD(p, type, offset) (*(volatile type *)((u8 *)(p) + (offset)))
 #define PFIELD(p, type, offset) (*(type *)((u8 *)(p) + (offset)))
-
 
 static __inline__ void set_v_width(s32 *rect, s32 v, s32 width)
 {
@@ -778,7 +750,6 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
 #include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 
-
 /* Sets tile bounds and dispatches tiles for a seven-by-seven grid. */
 s32 dispatch_seven_by_seven_tile_grid(void *tile_data, s32 draw_arg_1, s32 draw_arg_2) {
     s32 column;
@@ -821,15 +792,6 @@ s32 dispatch_seven_by_seven_tile_grid(void *tile_data, s32 draw_arg_1, s32 draw_
 #include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "m2c_compat.h"
-
-
-
-
-
-
-
-
-
 
 /* Clears the 8-by-8 grid and initializes an object at the given position. */
 void func_80025334(s16 x, s16 y, s16 z) {
@@ -889,11 +851,6 @@ void func_80025334(s16 x, s16 y, s16 z) {
 #include "common.h"
 #include "shared/object_flags.h"
 
-
-
-
-
-
 /* Advance motion, fade the effect, and flag expiry when its timer runs out. */
 void func_80025460(u16 *state, Motion *motion, Effect *effect)
 {
@@ -940,8 +897,6 @@ void func_80025460(u16 *state, Motion *motion, Effect *effect)
 
    /* (u8 *)((((S_8195FD40_0 *)scratch)->unk_C0 * 4) +
                               ((S_8195FD40_0 *)scratch)->unk_20) in func_80025540 */
-
-
 
 /* Transform a textured quad and add it to the ordering table if visible. */
 void func_80025540(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 depth_bias)
@@ -1060,9 +1015,6 @@ void func_80025540(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 d
 
 /* Object-list node header (0x20 bytes) that precedes each payload. */
 
-
-
-
 struct S_8195FD40_1;
 struct S_8195FD40_3;
 
@@ -1095,7 +1047,6 @@ s32 draw_linked_object_chain(void *payload, void *position, void *render)
    /* render in set_record_pair_to_one */
 
    /* primitive in set_record_pair_to_one */
-
 
 struct RegistrationNode;
 extern s32 rand();
@@ -1152,8 +1103,6 @@ void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
 extern u16 D_800273CC[];
 extern u8 D_8002744C[9];
 extern u8 D_8002744D[9];
-
-
 
 /* Sample a 7 by 7 area around the given tile and flag the tiles found there. */
 void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y) {
@@ -1224,8 +1173,6 @@ void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y) {
 #include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "shared/game_work.h"
-
-
 
 extern u16 D_800273CC[];
 extern u8 D_8002744C[9];
@@ -1298,9 +1245,6 @@ void func_80025C8C(void)
    /* planes + ((S_81960530_3 *)best)->unk_10 * 8 in select_containing_cell_surface */
 
    /* planes + ((S_81960530_4 *)current)->unk_10 * 8 in select_containing_cell_surface */
-
-
-
 
 /* Select a cell surface at the given position using plane height and containment tests. */
 void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
@@ -1406,7 +1350,6 @@ void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
 #include "shared/game_work.h"
 
 extern u8 D_801C9E40[16];
-
 
 /* Renders data with the active buffer offset between ordering-table commands. */
 void func_80026064(void *draw_data, s32 draw_mode)
@@ -1731,23 +1674,6 @@ void create_linked_objects(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effec
 #include "common.h"
 #include "shared/game_work.h"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #define SCRATCH ((Bank56_819611CC_Scratch *)0x1F800000)
 
 /* Project a textured quad and queue it with semitransparency when its depth is in range. */
@@ -1814,15 +1740,6 @@ s32 project_and_queue_semitransparent_quad(Quad *quad, s32 unused, Material *mat
 #include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "m2c_compat.h"
-
-
-
-
-
-
-
-
-
 
    /* arg2 in create_terrain_tile_quad */
 
@@ -1977,28 +1894,7 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 extern void **D_800E3D18;
-
 
 /* Interpolate the target position, fade its color, and finish the transition. */
 /* MECHANISM: state->state selects with a switch, cases 0..3 laid out in source order so the
@@ -2144,26 +2040,12 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
 #include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 
-
-
-
 #ifndef NULL
 #define NULL 0
 #endif
 
-
 extern s32 D_800273B0;
 extern u8 D_800CEEFC[];
-
-
-
-
-
-
-
-
-
-
 
 /* Allocates and initializes objects at the supplied position across nine slots. */
 void *allocate_nine_position_objects(void *position)
@@ -2209,17 +2091,17 @@ void *allocate_nine_position_objects(void *position)
             positions->unk_16 = pos_z;
             state->unk_3C = pos_z;
             control = ((S_81961A04_0 *)object)->unk_0C;
-            control->unk_08 = control_handler;
+            ((SpriteFrameState *)control)->source = control_handler;
             if (slot != last_slot) {
-                control->unk_1E = 0x200U;
+                ((SpriteFrameState *)control)->scale_y = 0x200U;
             } else {
-                control->unk_1E = 0x800U;
+                ((SpriteFrameState *)control)->scale_y = 0x800U;
             }
             slot_offset = (last_slot - slot) * 4;
             control_value = -0x80 - slot_offset;
-            control_scale = control->unk_1E;
-            control->unk_0C = (s8)control_value;
-            control->unk_1C = control_scale;
+            control_scale = ((SpriteFrameState *)control)->scale_y;
+            ((SpriteFrameState *)control)->color.c.r = (s8)control_value;
+            ((SpriteFrameState *)control)->scale_x = control_scale;
             state->unk_54 = slot;
             if (slot == last_slot) {
                 state->unk_54 = 7;

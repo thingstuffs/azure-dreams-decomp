@@ -61,10 +61,10 @@ typedef struct S_800AECA4_10 {
    /* ((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_00))->unk_04 in initialize_item_menu_list_entries */
 
 
-int func_80049E6C();
+int func_80049E6C(int);
 s32 func_8004DC14();
-s32 get_item_menu_table_entry();
-void animate_item_menu_cursor_transition();
+s32 get_item_menu_table_entry(s32);
+void animate_item_menu_cursor_transition(void *);
 extern u8 D_80077E84[12];
 extern u8 D_80077EF0[12];
 extern u8 D_80077EFC[12];

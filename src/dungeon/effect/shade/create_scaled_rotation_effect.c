@@ -1,6 +1,6 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
-
 
 extern s32 func_8003DB94();
 extern void register_node();
@@ -9,7 +9,6 @@ extern s32 func_80069EF8();
 extern u8 D_80025098[9];
 extern u8 D_80025AF0[9];
 extern u8 D_80045C34[9];
-
 
 typedef struct S_818C3A3C_0 {
     u8 pad_00[0x8];
@@ -31,21 +30,6 @@ typedef struct S_818C3A3C_2 {
     u8 pad_00[0x14];
     u16 unk_14;
 } S_818C3A3C_2;   /* arg0 in create_scaled_rotation_effect */
-
-typedef struct S_818C3A3C_3 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818C3A3C_3;
 
 typedef struct S_818C3A3C_4 {
     s32 unk_00;
@@ -72,7 +56,7 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
     s32 scale;
     s32 random_value;
     s32 biased_random;
-    S_818C3A3C_3 *sprite;
+    SpriteFrameState *sprite;
     void *effect_state;
     void *effect;
     S_818C3A3C_5 *effect_data;
@@ -90,13 +74,13 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
         *(u16 *)((u8 *)effect_state + 0x14) = owner->unk_14;
 
         sprite = ((S_818C3A3C_0 *)effect)->unk_0C;
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
-        sprite->unk_12 = 0x7DCF;
-        sprite->unk_14 |= 0xC;
-        sprite->unk_10 |= 0x20;
-        sprite->unk_14 |= 0x100;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->clut = 0x7DCF;
+        sprite->flags |= 0xC;
+        sprite->tpage_abr |= 0x20;
+        sprite->flags |= 0x100;
         func_8003DB94(sprite, effect_name, call_zero);
 
         biased_random = func_80069EF8();
@@ -104,11 +88,11 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
         if (random_value < 0) {
             biased_random = random_value + 0xFFF;
         }
-        sprite->unk_1A = (random_value % 4096);
+        sprite->angle_z = (random_value % 4096);
 
         scale = 0x1400 / ((S_818C3A3C_1 *)effect_state)->unk_14;
-        sprite->unk_1E = scale;
-        sprite->unk_1C = scale;
+        sprite->scale_y = scale;
+        sprite->scale_x = scale;
         register_node(effect, D_80045C34);
 
         effect_data = ((S_818C3A3C_0 *)effect)->unk_08;

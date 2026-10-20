@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/slus_callbacks.h"
@@ -34,18 +35,6 @@ typedef struct S_800B7D74_2 {
     s16 unk_16;
 } S_800B7D74_2;
 
-typedef struct S_800B7D74_3 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800B7D74_3;
-
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 struct S_80083178__jr {
     /* 0x00 */ char pad0[0xB0];
@@ -73,7 +62,7 @@ void advance_effect_fade_and_remove(void *effect, void *motion, void *primitive)
 void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant) {
     GameView *game_state = &g_game_work.view;
     s32 velocity_y;
-    S_800B7D74_3 *sprite;
+    SpriteFrameState *sprite;
     S_800B7D74_1 *motion;
     S_800B7D74_2 *effect_data;
     void *effect;
@@ -99,14 +88,14 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
         func_8003DB94(sprite, &D_8006E5D4, 0);
         break;
     case 1:
-        sprite->unk_08 = &D_8006E24C;
+        sprite->source = &D_8006E24C;
         motion->unk_16 = (s16) (-0x10 - (rand() & 0xF));
         motion->unk_0C.at00.v = (s32) (func_80064584(game_state->viewAngle - 0x300) << 7);
         motion->unk_10.at00.v = (s32) (func_800644B8(game_state->viewAngle - 0x300) << 7);
         effect_data->unk_12 = 1;
         break;
     case 2:
-        sprite->unk_08 = &D_8006E258;
+        sprite->source = &D_8006E258;
         motion->unk_16 = (s16) (-8 - (rand() & 0xF));
         motion->unk_0C.at00.v = (s32) (func_80064584(game_state->viewAngle + 0x500) << 7);
         motion->unk_10.at00.v = (s32) (func_800644B8(game_state->viewAngle + 0x500) << 7);
@@ -128,11 +117,11 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
         motion->unk_10.at00.v = velocity_y;
         motion->unk_16 = (s16) (-0xC - (rand() & 0xF));
     }
-    sprite->unk_0E = 0x80;
-    sprite->unk_0D = 0x80;
-    sprite->unk_0C = 0x80;
-    sprite->unk_1E = 0x1000;
-    sprite->unk_1C = 0x1000;
+    sprite->color.c.b = 0x80;
+    sprite->color.c.g = 0x80;
+    sprite->color.c.r = 0x80;
+    sprite->scale_y = 0x1000;
+    sprite->scale_x = 0x1000;
     effect_data->unk_14 = (s16) ((rand() & 0x1FF) - 0x100);
     effect_data->unk_16 = (s16) ((rand() & 0x1FF) - 0x100);
     effect_data->unk_10 = (s16) ((rand() & 0x1F) + 0x20);

@@ -1,10 +1,10 @@
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/effect/screen/change.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80083160.h"
-
 
 typedef struct S_8009BE2C_1 {
     u8 pad_00[0x3];
@@ -46,7 +46,6 @@ typedef struct S_8009BE2C_6 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
 } S_8009BE2C_6;
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 struct S_8003E2D8;
@@ -103,12 +102,6 @@ typedef struct S_8009BF7C_2 {
     void * unk_0C;
 } S_8009BF7C_2;
 
-typedef struct S_8009BF7C_3 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-} S_8009BF7C_3;
-
-
 void *allocate_list_node();                  /* extern */
 extern M2C_UNK D_8009BE2C;
 
@@ -118,15 +111,9 @@ typedef struct S_8009BF7C_0 {
     s32 * unk_10;
 } S_8009BF7C_0;
 
-typedef struct S_8009BF7C_1 {
-    u8 pad_00[0x5];
-    s8 unk_05;
-    s16 unk_06;
-} S_8009BF7C_1;
-
 /* Creates a type 0x212 object and initializes its flag and value. */
 void create_type_212_object(s32 flag, s8 value) {
-    S_8009BF7C_1 *state;
+    SpriteFrameState *state;
     S_8009BF7C_0 *object;
 
     object = allocate_list_node(0x212, ((s32)D_800E3D7C) - 0x20);
@@ -135,7 +122,7 @@ void create_type_212_object(s32 flag, s8 value) {
         object->unk_10 = &D_8009BE2C;
         state->unk_05 = value;
         state->unk_06 = (s16) value;
-        ((S_8009BF7C_3 *)(((S_8009BF7C_2 *)object)->unk_0C))->unk_04 = (s8) ((flag << 0x10) != 0);
+        ((SpriteFrameState *)((S_8009BF7C_2 *)object)->unk_0C)->unk_04 = (s8) ((flag << 0x10) != 0);
     }
 }
 #include "common.h"
@@ -235,7 +222,6 @@ extern M2C_UNK D_800E0DB8;
 extern M2C_UNK D_800E0DDD;
 extern M2C_UNK D_800E0DEA;
 extern ActiveEntry D_800E3648[32];
-
 
 typedef struct S_8009C12C_0 {
     u8 pad_00[0x13];
@@ -797,7 +783,6 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
 #define NULL 0
 #endif
 
-
 typedef struct S_8009CD58_1 {
     u8 unk_00;
     u8 unk_01;
@@ -880,12 +865,6 @@ typedef struct S_8009CE1C_3_pre {
     u8 pad_04[0x10];
 } S_8009CE1C_3_pre;   /* the 0x14 bytes before arg0 in apply_attack_power_and_element_effects, addressed as arg0[-1] */
 
-typedef struct S_8009CE1C_4 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_8009CE1C_4;   /* ((S_8009CE1C_3_pre *)arg0)[-1].unk_00 in apply_attack_power_and_element_effects */
-
-
 typedef struct S_8009CE1C_0 {
     u8 pad_00[0x11];
     u8 unk_11;
@@ -914,13 +893,6 @@ typedef struct S_8009CE1C_1 {
     u16 unk_9C;
 } S_8009CE1C_1;   /* arg0 in apply_attack_power_and_element_effects; pointer addresses record offset 0x14 */
 
-typedef struct S_8009CE1C_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8009CE1C_2;
-
-
 extern u8 D_800E3E41;
 void clear_player_linked_action_flags(void);
 s32 clamp_adjusted_value_0_to_99();
@@ -946,7 +918,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
     s32 affinity;
     s16 requested_bonus;
     s32 affinity_shift;
-    S_8009CE1C_2 *position;
+    SpriteFrameState *position;
     register u16 base = base_power;
     s16 element_mask = elements;
     s32 base_shift;
@@ -1050,7 +1022,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
         }
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_74 = source_flags;
         g_dungeon_status.unk_10 = target - 0x20;
-        if (!(((S_8009CE1C_4 *)(((S_8009CE1C_3_pre *)target)[-1].unk_00))->unk_14 & 0x8000)) {
+        if (!(((SpriteFrameState *)((S_8009CE1C_3_pre *)target)[-1].unk_00)->flags & 0x8000)) {
             func_800419EC(8, 0x10);
         }
         event_id = 0x601;
@@ -1159,9 +1131,6 @@ void process_global_buffer_and_submit(void) {
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 
-
-
-
 /* Update packed map levels for the current region or neighboring tiles, then submit the map. */
 void update_packed_map_levels(void) {
     TransitionWords map_params;
@@ -1246,9 +1215,6 @@ typedef struct S_8009D6F4_1 {
     u8 pad_00[0x2];
     u16 unk_02;
 } S_8009D6F4_1;   /* ((((row << shift) + col) * 6) + table) in refresh_packed_grid_nibbles */
-
-
-
 
 typedef struct S_8009D6F4_0 {
     u8 pad_00[0x14];
@@ -1353,13 +1319,11 @@ void refresh_packed_grid_nibbles(void) {
 #include "common.h"
 #include "shared/game_work.h"
 
-
 typedef struct {
     u8 pad0[0x14];
     s16 field_14;
     s16 field_16;
 } DungeonConfig;
-
 
 extern void create_type_212_object(s32 flag, s8 value);
 

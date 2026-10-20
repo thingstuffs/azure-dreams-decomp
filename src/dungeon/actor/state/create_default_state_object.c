@@ -1,24 +1,18 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 
 typedef s32 M2C_UNK;
 
-
 #ifndef NULL
 #define NULL 0
 #endif
-
 
 typedef struct S_800B0544_4 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
 } S_800B0544_4;   /* obj in create_default_state_object */
-
-typedef struct S_800B0544_5 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-} S_800B0544_5;   /* ((S_800B0544_4 *)obj)->unk_0C in create_default_state_object */
 
 typedef struct S_800B0544_6 {
     u8 pad_00[0x2];
@@ -28,7 +22,6 @@ typedef struct S_800B0544_6 {
     u8 pad_08[0x2];
     s16 unk_0A;
 } S_800B0544_6;   /* ((S_800B0544_4 *)obj)->unk_08 in create_default_state_object */
-
 
 extern int load_indexed_resource_package(short table_index);
 extern s32 register_node();
@@ -45,19 +38,6 @@ typedef struct S_800B0544_0 {
     s32 * unk_10;
 } S_800B0544_0;   /* obj in create_default_state_object */
 
-typedef struct S_800B0544_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-} S_800B0544_1;
-
-typedef struct S_800B0544_2 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800B0544_2;
-
 typedef struct S_800B0544_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -68,8 +48,8 @@ void create_default_state_object(s16 new_state) {
     s8 *state;
     s32 mode;
     S_800B0544_3 *obj_state;
-    S_800B0544_1 *color;
-    S_800B0544_2 *scale;
+    SpriteFrameState *color;
+    SpriteFrameState *scale;
     void *obj;
 
     state = &D_800DCF4C;
@@ -81,14 +61,14 @@ void create_default_state_object(s16 new_state) {
     if (obj != NULL) {
         ((S_800B0544_0 *)obj)->unk_10 = &D_800AFAD8;
         register_node(obj, &D_800AFBFC);
-        ((S_800B0544_5 *)(((S_800B0544_4 *)obj)->unk_0C))->unk_08 = &D_800DEF90;
+        ((SpriteFrameState *)((S_800B0544_4 *)obj)->unk_0C)->source = &D_800DEF90;
         color = ((S_800B0544_0 *)obj)->unk_0C;
-        color->unk_0E = 0xE0;
-        color->unk_0D = 0xE0;
-        color->unk_0C = 0xE0;
+        color->color.c.b = 0xE0;
+        color->color.c.g = 0xE0;
+        color->color.c.r = 0xE0;
         scale = ((S_800B0544_0 *)obj)->unk_0C;
-        scale->unk_1E = 0x1000;
-        scale->unk_1C = 0x1000;
+        scale->scale_y = 0x1000;
+        scale->scale_x = 0x1000;
         ((S_800B0544_6 *)(((S_800B0544_4 *)obj)->unk_08))->unk_02 = 0;
         ((S_800B0544_6 *)(((S_800B0544_4 *)obj)->unk_08))->unk_06 = 0;
         ((S_800B0544_6 *)(((S_800B0544_4 *)obj)->unk_08))->unk_0A = 0x4000;

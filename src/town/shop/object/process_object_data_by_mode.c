@@ -1,8 +1,8 @@
 #include "common.h"
 
-void initialize_display_entry();               /* extern */
+void initialize_display_entry(s32, void *, s32);               /* extern */
 void func_800B640C(s32, s32, s32);               /* extern */
-void join_monster_status_display_chains();                 /* extern */
+struct S_800B648C_0; void join_monster_status_display_chains(struct S_800B648C_0 *, s32);                 /* extern */
 typedef struct S_800B6508_0 {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -23,5 +23,5 @@ void process_object_data_by_mode(void *object) {
             ((S_800B6508_0 *)object)->unk_14);
         return;
     }
-    initialize_display_entry(((S_800B6508_0 *)object)->unk_04, ((S_800B6508_0 *)object)->unk_98, ((S_800B6508_0 *)object)->unk_14);
+    initialize_display_entry(((S_800B6508_0 *)object)->unk_04, (void *)(((S_800B6508_0 *)object)->unk_98), ((S_800B6508_0 *)object)->unk_14);
 }

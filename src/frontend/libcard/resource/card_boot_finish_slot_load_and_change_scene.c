@@ -5,9 +5,9 @@
  * Same struct family as src/code2.c / src/w_80041818.c's D_80082E60. */
 
 
-extern void card_boot_destroy_slot_selection_menu();
+struct UnkStruct1E; void card_boot_destroy_slot_selection_menu(struct UnkStruct1E *);
 extern void card_boot_close_events_and_resume_timer(void);
-extern void func_80040AA0();
+void func_80040AA0(s16);
 extern void runtime_save_or_restore_state(void);
 
 /* Selects object and global modes, sets the shared state flag, and runs updates. */

@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_cb9000.h"
+#include "shared/sprite_frame_state.h"
 
 void update_hop_to_tile_and_complete(CL_CB9000_801730E0_S_801730E0_0 *state, EntityRec *motion, Rec_D_80082E80 *action, EntityRec *entity) {
     s16 phase;
@@ -19,7 +20,7 @@ void update_hop_to_tile_and_complete(CL_CB9000_801730E0_S_801730E0_0 *state, Ent
         func_800419EC(4, 6);
         state->unk_9B = state->unk_9B + 1;
         if (entity->unk_28 != 0) {
-            if (action->unk_14.at00_u16.v & 0x8000) {
+            if (((SpriteFrameState *)action)->flags & 0x8000) {
                 state->unk_96.s = 0;
                 state->unk_9B = 2;
                 return;
@@ -40,7 +41,7 @@ void update_hop_to_tile_and_complete(CL_CB9000_801730E0_S_801730E0_0 *state, Ent
             ticks_left = state->unk_96.s - 1;
             state->unk_96.s = ticks_left;
         } else {
-            if (action->unk_14.at00_u16.v & 0x6000)
+            if (((SpriteFrameState *)action)->flags & 0x6000)
                 state->unk_96.s = 0;
         }
         if (state->unk_96.u != 0)
@@ -64,7 +65,7 @@ void update_hop_to_tile_and_complete(CL_CB9000_801730E0_S_801730E0_0 *state, Ent
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, action->unk_24, action->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)action)->unk_24, ((SpriteFrameState *)action)->unk_25);
         if (((s32)g_dungeon_status.unk_10) == ((u8 *)entity - 0x20)) {
             g_dungeon_status.unk_10 = ((s32)g_dungeon_status.unk_10) & 0x7FFFFFFF;
         }

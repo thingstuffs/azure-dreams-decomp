@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 
 #ifndef NULL
@@ -24,12 +25,6 @@ typedef struct S_func_80025BA0_1 {
     s32 unk_14;
 } S_func_80025BA0_1;
 
-typedef struct S_func_80025BA0_2 {
-    u8 pad_00[0x16];
-    s16 unk_16;
-    s16 unk_18;
-} S_func_80025BA0_2;
-
 typedef struct S_func_80025BA0_3 {
     u8 pad_00[0x1A];
     s16 unk_1A;
@@ -49,11 +44,6 @@ typedef struct S_func_80025BA0_3 {
     s32 unk_54;
     s32 unk_58;
 } S_func_80025BA0_3;
-
-typedef struct S_func_80025BA0_4 {
-    u8 pad_00[0x6476];
-    s16 unk_6476;
-} S_func_80025BA0_4;
 
 typedef struct {
     s16 x;
@@ -84,7 +74,7 @@ void spawn_randomized_quad_effects(void) {
     Cell *right;
     S_func_80025BA0_0 *effect;
     S_func_80025BA0_1 *motion;
-    S_func_80025BA0_2 *angles;
+    SpriteFrameState *angles;
     S_func_80025BA0_3 *quad_data;
     s32 quad_index;
     s32 row_start;
@@ -128,8 +118,8 @@ void spawn_randomized_quad_effects(void) {
             motion->unk_14 = ((func_80069EF8() & 0xF) - 8) << 0x10;
 
             angles = effect->unk_0C;
-            angles->unk_16 = (func_80069EF8() & 0x1FF) - 0x100;
-            angles->unk_18 = (func_80069EF8() & 0x1FF) - 0x100;
+            angles->angle_x = (func_80069EF8() & 0x1FF) - 0x100;
+            angles->angle_y = (func_80069EF8() & 0x1FF) - 0x100;
 
             quad_data = (S_func_80025BA0_3 *)((u8 *)effect + 0x20);
             quad_data->unk_1A = 0x20;

@@ -1,12 +1,11 @@
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
-
-
 
 typedef struct S_func_81888810_1 {
     u8 pad_00[0x2];
@@ -19,12 +18,6 @@ typedef struct S_func_81888810_1 {
     s32 unk_10;
     s32 unk_14;
 } S_func_81888810_1;
-
-typedef struct S_func_81888810_2 {
-    u8 pad_00[0x16];
-    s16 unk_16;
-    s16 unk_18;
-} S_func_81888810_2;
 
 typedef struct S_func_81888810_3 {
     u8 pad_00[0x1A];
@@ -45,11 +38,6 @@ typedef struct S_func_81888810_3 {
     s32 unk_50;
     s32 unk_54;
 } S_func_81888810_3;
-
-typedef struct S_func_81888810_4 {
-    u8 pad_00[0x632A];
-    s16 unk_632A;
-} S_func_81888810_4;
 
 typedef struct {
     s16 x;
@@ -77,7 +65,7 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
     Cell *upper_right;
     ObjectNodeHeader *fragment;
     S_func_81888810_1 *motion;
-    S_func_81888810_2 *angles;
+    SpriteFrameState *angles;
     S_func_81888810_3 *quad;
     s32 quad_index;
     s32 row_start;
@@ -121,8 +109,8 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
             motion->unk_14 = ((rand() & 0xF) - 8) << 0x10;
 
             angles = fragment->unk_0C;
-            angles->unk_16 = (rand() & 0x1FF) - 0x100;
-            angles->unk_18 = (rand() & 0x1FF) - 0x100;
+            angles->angle_x = (rand() & 0x1FF) - 0x100;
+            angles->angle_y = (rand() & 0x1FF) - 0x100;
 
             quad = (S_func_81888810_3 *)((u8 *)fragment + 0x20);
             quad->unk_1A = 0x20;

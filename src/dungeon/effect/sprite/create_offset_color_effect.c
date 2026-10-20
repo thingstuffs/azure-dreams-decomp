@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 
 typedef struct S_818BCFB0_0 {
@@ -20,18 +21,10 @@ typedef struct S_818BCFB0_1 {
     s8 unk_0E;
 } S_818BCFB0_1;   /* init_state in create_offset_color_effect */
 
-typedef struct S_818BCFB0_2 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818BCFB0_2;   /* state in create_offset_color_effect */
-
 typedef struct S_818BCFB0_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_818BCFB0_3;
-
-
 
 typedef struct {
     s32 word[6];
@@ -47,7 +40,7 @@ s32 create_offset_color_effect(s32 *initial_word, void *source_data, s16 offset)
     s32 offset_numerator;
     S_818BCFB0_3 *object_data;
     void *obj;
-    void *scale_state;
+    SpriteFrameState *scale_state;
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {
@@ -70,8 +63,8 @@ s32 create_offset_color_effect(s32 *initial_word, void *source_data, s16 offset)
         }
 
         scale_state = ((S_818BCFB0_0 *)obj)->unk_0C;
-        ((S_818BCFB0_2 *)scale_state)->unk_1E = 0x1000;
-        ((S_818BCFB0_2 *)scale_state)->unk_1C = 0x1000;
+        scale_state->scale_y = 0x1000;
+        scale_state->scale_x = 0x1000;
 
         object_data = ((S_818BCFB0_0 *)obj)->unk_08;
         offset_numerator = offset * 3;

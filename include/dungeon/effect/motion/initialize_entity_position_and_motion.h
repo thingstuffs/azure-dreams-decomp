@@ -146,13 +146,6 @@ typedef struct ovl_19a332c_81982F0C_S_8002470C_0 {
     s32 unk_10;
     s32 unk_14;
 } ovl_19a332c_81982F0C_S_8002470C_0;
-typedef struct ovl_19a332c_81982F0C_S_8002470C_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} ovl_19a332c_81982F0C_S_8002470C_1;
 typedef struct ovl_19a332c_81982F0C_S_8002470C_2 {
     u8 pad_00[0x30];
     s16 unk_30;
@@ -203,17 +196,6 @@ typedef struct ovl_19a332c_81983138_S_80024938_1 {
     s32 unk_10;
     s32 unk_14;
 } ovl_19a332c_81983138_S_80024938_1;
-typedef struct ovl_19a332c_81983138_S_80024938_2 {
-    u8 pad_00[0x8];
-    M2C_UNK * unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} ovl_19a332c_81983138_S_80024938_2;
 typedef struct ovl_19a332c_81983138_S_80024938_3 {
     u8 pad_00[0x30];
     s16 unk_30;

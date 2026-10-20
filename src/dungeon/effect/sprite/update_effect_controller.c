@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -37,32 +38,10 @@ typedef struct S_func_800D7FB8_1 {
     s16 unk_4A;
 } S_func_800D7FB8_1;
 
-
-
-typedef struct S_func_800D7FB8_3 {
-    u8 *unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[2];
-    u16 unk_14;
-    u8 pad_16[6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_func_800D7FB8_3;
-
 typedef struct S_func_800D7FB8_4 {
     u8 pad_00[4];
     s32 unk_04;
 } S_func_800D7FB8_4;
-
-typedef struct S_func_800D7FB8_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_func_800D7FB8_5;
 
 typedef struct S_func_800D7FB8_6 {
     s32 unk_00;
@@ -87,7 +66,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
     u16 finish_timer;
     u16 effect_timer;
     s32 resource_word;
-    S_func_800D7FB8_3 *sub_data;
+    SpriteFrameState *sub_data;
     Entry *entry;
 
     state = controller->unk_00;
@@ -107,16 +86,16 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
                 ((MovingPosition *)entry->child)->unk_02 = controller->unk_04;
                 ((MovingPosition *)entry->child)->unk_06 = controller->unk_06;
                 ((MovingPosition *)entry->child)->unk_0A = controller->unk_08;
-                sub_data->unk_1E = 0x400;
-                sub_data->unk_1C = 0x400;
-                sub_data->unk_10 = 0x20;
+                sub_data->scale_y = 0x400;
+                sub_data->scale_x = 0x400;
+                sub_data->tpage_abr = 0x20;
                 sub_data->unk_00 = D_800DEC00;
-                sub_data->unk_14 = (u16)(sub_data->unk_14 | 0xC);
+                sub_data->flags = (u16)(sub_data->flags | 0xC);
                 resource_word = ((S_func_800D7FB8_4 *)D_800DEC00)->unk_04;
                 sub_data->unk_04 = 0;
                 sub_data->unk_05 = 0;
-                sub_data->unk_0C = 0;
-                sub_data->unk_08 = resource_word;
+                sub_data->color.word = 0;
+                sub_data->source = resource_word;
                 __builtin_memcpy((u8 *)entry + 0x2C, (u8 *)controller + 4, 8);
                 entry_data->unk_4A = (spawn_index & 1) ? 1 : -1;
                 ((MovingPosition *)entry->child)->unk_0A = controller->unk_08;

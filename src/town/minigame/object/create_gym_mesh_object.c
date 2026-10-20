@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 
 #ifndef NULL
@@ -14,25 +15,6 @@ typedef struct S_80022E64_0 {
     s32 unk_20;
 } S_80022E64_0;   /* obj in create_gym_mesh_object */
 
-typedef struct S_80022E64_1 {
-    s32 unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    s16 unk_06;
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-    s16 unk_20;
-} S_80022E64_1;   /* data in create_gym_mesh_object */
-
-
 extern void register_node(void *, void *);
 extern u8 D_80046398[];
 
@@ -44,7 +26,7 @@ typedef struct Copy24 {
 void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_value_10, s32 object_value_20) {
     S_80022E64_0 *object;
     void *copy_dst;
-    S_80022E64_1 *object_data;
+    SpriteFrameState *object_data;
 
     object = func_8003FC64(0x136);
     if (object != NULL) {
@@ -54,20 +36,20 @@ void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_va
         object_data = object->unk_0C;
         object->unk_20 = object_value_20;
         object->unk_10 = object_value_10;
-        object_data->unk_1C = 0x1000;
-        object_data->unk_1E = 0x1000;
+        object_data->scale_x = 0x1000;
+        object_data->scale_y = 0x1000;
         object_data->unk_20 = 0x1000;
-        object_data->unk_12 = 0;
-        object_data->unk_14 = 0;
-        object_data->unk_10 = 0;
-        object_data->unk_16 = 0;
-        object_data->unk_18 = 0;
-        object_data->unk_1A = 0;
+        object_data->clut = 0;
+        object_data->flags = 0;
+        object_data->tpage_abr = 0;
+        object_data->angle_x = 0;
+        object_data->angle_y = 0;
+        object_data->angle_z = 0;
         object_data->unk_00 = 0;
         object_data->unk_04 = 0;
         object_data->unk_05 = 0;
         object_data->unk_06 = 0xA;
-        object_data->unk_0C = 0x808080;
-        object_data->unk_08 = data_value_08;
+        object_data->color.word = 0x808080;
+        object_data->source = data_value_08;
     }
 }

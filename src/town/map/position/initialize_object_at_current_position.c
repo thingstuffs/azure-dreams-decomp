@@ -5,12 +5,12 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-extern void *initialize_scene_object_in_buffer();
-extern void initialize_circular_list_head();
-extern void handle_insert_initialize_two_values_status_flags();
-extern void initialize_pointer_table_self_links();
-extern void initialize_the_store_two_values_set_state_flags();
-extern void run_the_three_update_routines_context();
+struct S_8003FE78; void * initialize_scene_object_in_buffer(s32, struct S_8003FE78 *, s16);
+void initialize_circular_list_head(void);
+struct Rec_D_800CFCB4; void handle_insert_initialize_two_values_status_flags(struct Rec_D_800CFCB4 *, s32, s32);
+void initialize_pointer_table_self_links(void);
+struct Rec_D_800FE490; void initialize_the_store_two_values_set_state_flags(struct Rec_D_800FE490 *, s32, s32);
+void run_the_three_update_routines_context(s32);
 extern s16 query_lowered_transform_position();
 
 extern M2C_UNK D_8006ADBC;
@@ -43,9 +43,9 @@ void initialize_object_at_current_position(void) {
     object->unk_0C = &D_80082E80.unk_000;
     object->unk_08 = &D_80083780.x.v;
     initialize_circular_list_head();
-    handle_insert_initialize_two_values_status_flags(&D_800CFCB4, &D_80083780.x.v, &D_800D0420);
+    handle_insert_initialize_two_values_status_flags(&D_800CFCB4, (s32)(&D_80083780.x.v), (s32)(&D_800D0420));
     initialize_pointer_table_self_links();
-    initialize_the_store_two_values_set_state_flags(&D_800FE490, &D_80083780.x.v, &D_800D0420);
+    initialize_the_store_two_values_set_state_flags(&D_800FE490, (s32)(&D_80083780.x.v), (s32)(&D_800D0420));
     {
         s8 *position_data;
         u16 *position_entry;
@@ -56,5 +56,5 @@ void initialize_object_at_current_position(void) {
         D_80083780.y.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_16 + position_entry[1]);
         D_80083780.z.w.i = query_lowered_transform_position(&D_80083780.x.v);
     }
-    run_the_three_update_routines_context(&D_80083780.x.v);
+    run_the_three_update_routines_context((s32)(&D_80083780.x.v));
 }

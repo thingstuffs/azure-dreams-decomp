@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_cc5000.h"
+#include "shared/sprite_frame_state.h"
 
 void *func_8015EA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 {
@@ -8,7 +9,7 @@ void *func_8015EA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     void *result;
     void *object;
     CL_CC5000_80170A5C_S_80170A5C_2 *part0;
-    CL_CC5000_80170A5C_S_80170A5C_3 *part1;
+    SpriteFrameState *part1;
     CL_CC5000_80170A5C_S_80170A5C_4 *result_copy;
 
     result = 0;
@@ -30,7 +31,7 @@ void *func_8015EA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
             kind = spawn_flags & 3;
             part1->unk_25 = attr_b;
             result_copy = result;
-            part1->unk_2C = handler;
+            part1->frameTable = handler;
         }
         part1->unk_24 = attr_a;
 
@@ -52,7 +53,7 @@ void *func_8015EA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
                    (((CL_CC5000_80170A5C_S_80170A5C_1 *)result)->unk_14 & 0x200) == 0 &&
                    (generate_random_value() & 1) != 0) {
             set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
-            part1->unk_2C = D_801632FC;
+            part1->frameTable = D_801632FC;
         }
 
         initialize_actor_sprite_and_animation(object, part0, part1, spawn_flags);

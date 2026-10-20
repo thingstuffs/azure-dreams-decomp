@@ -14,8 +14,8 @@ typedef struct S_800A7C98_0 {
 
 
 
-extern void register_node_if_unregistered();
-extern void clear_object_status_and_dispatch_target();
+void register_node_if_unregistered(void *, s32);
+#include "town/system/clear_object_status_and_dispatch_target_api.h"
 void handle_object_bounds_and_cleanup(void *object, void *check_data, void *fallback_data);
 extern M2C_UNK D_800F8F68;
 
@@ -23,6 +23,6 @@ extern M2C_UNK D_800F8F68;
 void initialize_resource_object(void *object, s32 unused, s32 context) {
     ((S_800A7C98_0_pre *)object)[-1].unk_00 = &handle_object_bounds_and_cleanup;
     ((S_800A7C98_0 *)object)->unk_50 = 0;
-    clear_object_status_and_dispatch_target(object, context, &D_800F8F68, 0);
-    register_node_if_unregistered(object, project_sprite_chain);
+    clear_object_status_and_dispatch_target(object, context, (int)(&D_800F8F68), 0);
+    register_node_if_unregistered(object, (s32)(project_sprite_chain));
 }

@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_cb3000.h"
+#include "shared/sprite_frame_state.h"
 
 void update_tile_movement_and_height(void *action, EntityRec *motion, void *map_entry, EntityRec *actor) {
     u16 facing_output;
@@ -16,32 +17,32 @@ void update_tile_movement_and_height(void *action, EntityRec *motion, void *map_
     phase = ((CB_80172458_S_80172458_0 *)action)->unk_9B;
     switch (phase) {
     case 0:
-        if (!(((Rec_D_80082E80 *)map_entry)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)map_entry)->flags & 0x6000)) {
             break;
         }
-        (*(u8 **)((u8 *)map_entry + 0x2C)) = D_801752CC;
+        ((SpriteFrameState *)map_entry)->frameTable = D_801752CC;
         select_sprite_entry(map_entry, D_801752CC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((CB_80172458_S_80172458_0 *)action)->unk_98 = (u16) (((CB_80172458_S_80172458_0 *)action)->unk_98 | 8);
         actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
         ((CB_80172458_S_80172458_0 *)action)->unk_9E = 5;
         ((CB_80172458_S_80172458_0 *)action)->unk_A0 = 0;
         ((CB_80172458_S_80172458_0 *)action)->unk_9B = (u8) (((CB_80172458_S_80172458_0 *)action)->unk_9B + 1);
-        ((CB_80172458_S_80172458_0 *)action)->unk_A6 = sample_terrain_surface_height((((Rec_D_80082E80 *)map_entry)->unk_24 << 6) | 0x20,
-            (((Rec_D_80082E80 *)map_entry)->unk_25 << 6) | 0x20, (s16) (((u16)actor->unk_88) - 0x20));
+        ((CB_80172458_S_80172458_0 *)action)->unk_A6 = sample_terrain_surface_height((((SpriteFrameState *)map_entry)->unk_24 << 6) | 0x20,
+            (((SpriteFrameState *)map_entry)->unk_25 << 6) | 0x20, (s16) (((u16)actor->unk_88) - 0x20));
         ((CB_80172458_S_80172458_0 *)action)->unk_A8 = (u16) ((u16)motion->z.w.i);
                         /* fall through */
     case 1:
         move_frames = ((CB_80172458_S_80172458_0 *)action)->unk_9E;
         ((CB_80172458_S_80172458_0 *)action)->unk_90 = (s32) (((CB_80172458_S_80172458_0 *)action)->unk_90 - ((CB_80172458_S_80172458_0 *)action)->unk_A0);
         if (move_frames != 0) {
-            move_value = ((Rec_D_80082E80 *)map_entry)->unk_24;
+            move_value = ((SpriteFrameState *)map_entry)->unk_24;
             move_operand = motion->x.w.i;
             move_value <<= 6;
             move_operand -= 0x20;
             move_value = ((move_value - move_operand) << 0x10) / move_frames;
             move_operand = motion->y.w.i;
             motion->unk_0C = move_value;
-            move_value = ((Rec_D_80082E80 *)map_entry)->unk_25;
+            move_value = ((SpriteFrameState *)map_entry)->unk_25;
             move_operand -= 0x20;
             move_value <<= 6;
             move_value -= move_operand;
@@ -101,8 +102,8 @@ void update_tile_movement_and_height(void *action, EntityRec *motion, void *map_
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entry)->unk_24, ((Rec_D_80082E80 *)map_entry)->unk_25);
-            (*(u8 **)((u8 *)map_entry + 0x2C)) = D_801752D4;
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entry)->unk_24, ((SpriteFrameState *)map_entry)->unk_25);
+            ((SpriteFrameState *)map_entry)->frameTable = D_801752D4;
             select_sprite_entry(map_entry, D_801752D4[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             func_800419EC(4, 8);
             emit_scattered_effects_unless_blocked(motion);
@@ -118,7 +119,7 @@ void update_tile_movement_and_height(void *action, EntityRec *motion, void *map_
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entry)->unk_24, ((Rec_D_80082E80 *)map_entry)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entry)->unk_24, ((SpriteFrameState *)map_entry)->unk_25);
         reduce_actor_food_meter(actor, 4);
         advance_status_timers(actor);
         if (g_dungeon_status.unk_08 != 0) {
@@ -132,8 +133,8 @@ void update_tile_movement_and_height(void *action, EntityRec *motion, void *map_
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-                actor->facing = get_rounded_facing_and_rounding_flag(((Rec_D_80082E80 *)map_entry)->unk_24,
-                    ((Rec_D_80082E80 *)map_entry)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &facing_output);
+                actor->facing = get_rounded_facing_and_rounding_flag(((SpriteFrameState *)map_entry)->unk_24,
+                    ((SpriteFrameState *)map_entry)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &facing_output);
             }
         }
         if ((check_actor_floor_trap(map_entry, actor) << 0x10) > 0) {

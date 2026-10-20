@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
@@ -17,7 +17,6 @@ extern u8 D_8017464C[8];
 extern u8 D_80174654[8];
 extern u8 D_8017465C[8];
 extern u8 D_80174664[8];
-
 
 typedef struct S_80172DB0_0 {
     u8 pad_00[0x8C];
@@ -32,7 +31,6 @@ typedef struct S_80172DB0_0 {
     s32 unk_AC;
     s32 unk_B0;
 } S_80172DB0_0;   /* arg0 in finish_staged_jump_at_tile_center */
-
 
 typedef struct S_80172DB0_3 {
     u8 pad_00[0x2];
@@ -54,10 +52,10 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
     switch (state) {
 
     case 0:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((S_80172DB0_0 *)action)->unk_9B = 5;
             ((S_80172DB0_0 *)action)->unk_96.u = 0;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
+            ((SpriteFrameState *)sprite)->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
@@ -67,7 +65,7 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
         if (((S_80172DB0_0 *)action)->unk_A4 != 0) {
             return;
         }
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_8017464C;
+        ((SpriteFrameState *)sprite)->frameTable = D_8017464C;
         select_sprite_entry(sprite,
             D_8017464C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
@@ -80,11 +78,11 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
         u16 timer = ((S_80172DB0_0 *)action)->unk_96.u;
 
         ((S_80172DB0_0 *)action)->unk_96.u = timer - 1;
-        if ((s16)timer > 0 && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if ((s16)timer > 0 && !(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
     }
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80174654;
+        ((SpriteFrameState *)sprite)->frameTable = D_80174654;
         select_sprite_entry(sprite,
             D_80174654[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
@@ -112,7 +110,7 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
             u16 timer = ((S_80172DB0_0 *)action)->unk_96.u;
 
             ((S_80172DB0_0 *)action)->unk_96.u = timer - 1;
-            if ((s16)timer > 0 && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            if ((s16)timer > 0 && !(((SpriteFrameState *)sprite)->flags & 0xE000)) {
                 return;
             }
         }
@@ -124,10 +122,10 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
     case 3:
         ((S_80172DB0_0 *)action)->unk_A4 += ((S_80172DB0_0 *)action)->unk_AC;
         ((S_80172DB0_0 *)action)->unk_AC += ((S_80172DB0_0 *)action)->unk_B0;
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_8017465C;
+        ((SpriteFrameState *)sprite)->frameTable = D_8017465C;
         select_sprite_entry(sprite,
             D_8017465C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
@@ -138,10 +136,10 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
         return;
 
     case 4:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80174664;
+        ((SpriteFrameState *)sprite)->frameTable = D_80174664;
         select_sprite_entry(sprite,
             D_80174664[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
@@ -149,14 +147,14 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
         ((S_80172DB0_0 *)action)->unk_A4 = 0;
         ((S_80172DB0_0 *)action)->unk_9B++;
         {
-            s32 target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+            s32 target_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
             s32 current_x = ((S_80172DB0_3 *)motion)->unk_02 - 0x20;
 
             ((S_80172DB0_3 *)motion)->unk_0C = ((target_x - current_x) << 16)
             / ((S_80172DB0_0 *)action)->unk_96.s;
         }
         {
-            s32 target_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+            s32 target_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
             s32 current_y = ((S_80172DB0_3 *)motion)->unk_06 - 0x20;
 
             ((S_80172DB0_3 *)motion)->unk_10 = ((target_y - current_y) << 16)
@@ -170,13 +168,13 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
 
         if (timer != 0) {
             {
-                s32 target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+                s32 target_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
                 s32 current_x = ((S_80172DB0_3 *)motion)->unk_02 - 0x20;
 
                 ((S_80172DB0_3 *)motion)->unk_0C = ((target_x - current_x) << 16) / timer;
             }
             {
-                s32 target_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+                s32 target_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
                 s32 current_y = ((S_80172DB0_3 *)motion)->unk_06 - 0x20;
 
                 ((S_80172DB0_3 *)motion)->unk_10 = ((target_y - current_y) << 16)
@@ -185,7 +183,7 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
         }
     }
         ((S_80172DB0_0 *)action)->unk_96.u--;
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         reduce_actor_food_meter(actor, 0x100);
@@ -194,8 +192,8 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
         advance_status_timers(actor);
         ((S_80172DB0_3 *)motion)->unk_10 = 0;
         ((S_80172DB0_3 *)motion)->unk_0C = 0;
-        ((S_80172DB0_3 *)motion)->unk_02 = (((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20;
-        ((S_80172DB0_3 *)motion)->unk_06 = (((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20;
+        ((S_80172DB0_3 *)motion)->unk_02 = (((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20;
+        ((S_80172DB0_3 *)motion)->unk_06 = (((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20;
         actor->unk_46 &= 0x7FFF;
     }
 }

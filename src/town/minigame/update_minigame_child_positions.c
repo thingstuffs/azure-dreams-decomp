@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 extern int abs(int);
@@ -58,7 +59,6 @@ void update_minigame_child_positions(void *state)
             S16_AT(state, 0x1E) = -0xB0;
         }
 
-
         child_index = 1;
         do {
             child_obj = func_8003FC64(0x136);
@@ -67,14 +67,14 @@ void update_minigame_child_positions(void *state)
                 PTR_AT(child_obj, 0x10) = D_80024334;
                 register_node(child_obj, project_sprite_chain);
                 kind = (s32)PTR_AT(child_obj, 0xC);
-                S16_AT(kind, 0x14) = 0xC;
+                ((SpriteFrameState *)kind)->flags = 0xC;
                 color = 0x00808080;
-                S16_AT(kind, 0x1E) = 0x800;
-                S16_AT(kind, 0x1C) = 0x800;
-                PTR_AT(kind, 8) = D_800F8E9C;
-                U8_AT(kind, 4) = 0;
-                U8_AT(kind, 5) = 0;
-                S32_AT(kind, 0xC) = color;
+                ((SpriteFrameState *)kind)->scale_y = 0x800;
+                ((SpriteFrameState *)kind)->scale_x = 0x800;
+                ((SpriteFrameState *)kind)->source = D_800F8E9C;
+                ((SpriteFrameState *)kind)->unk_04 = 0;
+                ((SpriteFrameState *)kind)->unk_05 = 0;
+                ((SpriteFrameState *)kind)->color.word = color;
                 PTR_AT(child_obj, 0x20) = state;
                 S16_AT(child_state, 8) = child_index;
             }

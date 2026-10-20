@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_198A800_H
 #define DUNGEON_OVL_198A800_H
 #include "shared/dungeon_effect_views.h"
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"
 
 /* Promoted Layer-2 record names and layouts are shared without changing the bodies. */
@@ -41,22 +42,6 @@ typedef struct S_8196B4A4_1 {
     void * unk_0C;
     void * unk_10;
 } S_8196B4A4_1;
-typedef struct S_8196B4A4_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8196B4A4_2;
 typedef struct S_8196B4A4_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -376,22 +361,6 @@ typedef struct S_8196B780_1 {
     void * unk_0C;
     void * unk_10;
 } S_8196B780_1;
-typedef struct S_8196B780_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8196B780_2;
 typedef struct S_8196B780_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -553,7 +522,7 @@ void func_80024874(void *motion, void *position, s32 update_id);
 void func_8002553C(void *source, s32 unused_position, s32 unused_render);
 void create_timed_rectangle_effect(void *owner);
 void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg);
-void func_800244E4(void *effect, S_8196ACE4_0 *position, Rec_D_80082E80 *sprite);
+void func_800244E4(void *effect, S_8196ACE4_0 *position, SpriteFrameState *sprite);
 void func_80024F80(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z);
 void func_80025A80(void *effect, void *position, void *sprite);
 void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive);

@@ -1,5 +1,5 @@
 #include "dungeon/effect/shade/fading_effect_set.h"
-
+#include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_188898c_entry)(void) = (void (*)(void))move_linked_effect_along_path;
 
 void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
@@ -50,7 +50,7 @@ void advance_fading_effect(void *effect, void *position, void *render_data)
 }
 
 void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81868A64_3 *source_pos, u8 intensity) {
-    ovl_188898c_81868A64_S_81868A64_1 *render_state;
+    SpriteFrameState *render_state;
     ovl_188898c_81868A64_S_81868A64_2 *effect_pos;
     ovl_188898c_81868A64_S_81868A64_0 *effect;
 
@@ -59,15 +59,15 @@ void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81
         render_state = effect->unk_0C;
         effect->unk_10 = (void *)advance_fading_effect;
         effect->unk_20 = user_data;
-        render_state->unk_0E = intensity;
-        render_state->unk_0D = intensity;
-        render_state->unk_0C = intensity;
+        render_state->color.c.b = intensity;
+        render_state->color.c.g = intensity;
+        render_state->color.c.r = intensity;
         func_8003DB94(render_state, &D_800DEDB0, 0);
-        render_state->unk_1E = 0x1800;
-        render_state->unk_1C = 0x1800;
-        render_state->unk_12 = 0x7E0B;
-        render_state->unk_10 = (u16) (render_state->unk_10 | 0x60);
-        render_state->unk_14 = (u16) (render_state->unk_14 | 0x10C);
+        render_state->scale_y = 0x1800;
+        render_state->scale_x = 0x1800;
+        render_state->clut = 0x7E0B;
+        render_state->tpage_abr = (u16) (render_state->tpage_abr | 0x60);
+        render_state->flags = (u16) (render_state->flags | 0x10C);
         register_node(effect, project_sprite_chain);
         effect_pos = effect->unk_08;
         effect_pos->unk_02 = (u16) source_pos->unk_02;
@@ -256,7 +256,7 @@ void shrink_and_brighten_effect(void *state_ref, void *unused, void *effect) {
 
 void delay_and_fade_particle(s32 value, void *source_data) {
     ovl_188898c_81868FDC_Object *obj;
-    ovl_188898c_81868FDC_Sprite *sprite;
+    SpriteFrameState *sprite;
     u16 *dst;
     u16 *src;
 
@@ -265,15 +265,15 @@ void delay_and_fade_particle(s32 value, void *source_data) {
         obj->callback = (void *)shrink_and_brighten_effect;
         sprite = obj->sprite;
         obj->value = value;
-        sprite->b = 0x80;
-        sprite->g = 0x80;
-        sprite->r = 0x80;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
         func_8003DB94(sprite, D_80025368, 0);
         sprite->scale_y = 0x4000;
         sprite->scale_x = 0x4000;
-        sprite->angle = 0x7E0B;
-        sprite->flags10 |= 0x60;
-        sprite->flags14 |= 0x10C;
+        sprite->clut = 0x7E0B;
+        sprite->tpage_abr |= 0x60;
+        sprite->flags |= 0x10C;
         register_node(obj, project_sprite_chain);
         dst = obj->dst;
         src = source_data;

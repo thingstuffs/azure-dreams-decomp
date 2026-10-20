@@ -1,6 +1,7 @@
 #include "modules/dungeon_resource07_slot0.h"
+#include "shared/sprite_frame_state.h"
 
-void advance_stored_path_motion(void *action, s32 action_id, void *entity, void *move_state) {
+void advance_stored_path_motion(void *action, s32 action_id, SpriteFrameState *entity, void *move_state) {
     void *state = move_state;
     s32 tile_mask;
     s16 move_result;
@@ -18,14 +19,14 @@ void advance_stored_path_motion(void *action, s32 action_id, void *entity, void 
         return;
     }
 
-    if (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8 != ((u8 *)D_80174138)) {
-        (*(u8 * *)((u8 *)entity + 0x2C)) = ((u8 *)D_80174138);
+    if (*(u8 * *)&entity->frameTable != ((u8 *)D_80174138)) {
+        entity->frameTable = ((u8 *)D_80174138);
         select_sprite_entry(
             entity,(s16)(((u8 *)D_80174138)[((g_game_work.view.viewAngle + ((R07_80171570_S_80171570_0 *)state)->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
     }
 
-    x = ((Rec_D_80082E80 *)entity)->unk_24;
-    y = ((Rec_D_80082E80 *)entity)->unk_25;
+    x = entity->unk_24;
+    y = entity->unk_25;
     tile_mask = 0x3000;
     if (((R07_80171570_S_80171570_0 *)state)->unk_1C & 0x2000) {
         tile_mask = 0x300;
@@ -36,15 +37,15 @@ void advance_stored_path_motion(void *action, s32 action_id, void *entity, void 
         (u8 *)action + 0x98));
     move_result = ((s16)check_movement_clearance_and_height((s16)(direction), entity, state, 0x20));
 
-    ((Rec_D_80082E80 *)entity)->unk_24 =
+    entity->unk_24 =
         ((R07_80171570_S_80171570_3 *)((u8 *)state + ((R07_80171570_S_80171570_0 *)state)->unk_8A))->unk_74;
     tile_mask = 0x3000;
-    ((Rec_D_80082E80 *)entity)->unk_25 =
+    entity->unk_25 =
         ((R07_80171570_S_80171570_3 *)((u8 *)state + ((R07_80171570_S_80171570_0 *)state)->unk_8A))->unk_7C;
     ((R07_80171570_S_80171570_0 *)state)->unk_8A = (u16)((R07_80171570_S_80171570_0 *)state)->unk_8A + 1;
 
-    new_x = ((Rec_D_80082E80 *)entity)->unk_24;
-    new_y = ((Rec_D_80082E80 *)entity)->unk_25;
+    new_x = entity->unk_24;
+    new_y = entity->unk_25;
     if (((R07_80171570_S_80171570_0 *)state)->unk_1C & 0x2000) {
         tile_mask = 0x300;
     }
@@ -52,7 +53,7 @@ void advance_stored_path_motion(void *action, s32 action_id, void *entity, void 
     ((R07_80171570_S_80171570_0 *)state)->unk_2A = direction;
 
     if (move_result == 3 && !(g_dungeon_status.flags & 0x80)
-        && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
+        && !(entity->flags & 0x8000)) {
         initialize_opposite_facing_effect(action, action_id, entity, state);
         ((R07_80171570_S_80171570_2 *)action)->unk_8C = 0;
     } else {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -44,7 +45,7 @@ extern u8 D_80161EC4[];
 extern u8 D_80161ECC[];
 
 /* Advances the actor state sequence and selects effects for its facing direction. */
-void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context, Rec_D_80082E80 *entity, EntityRec *actor)
+void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context, SpriteFrameState *entity, EntityRec *actor)
 {
     s32 direction;
     u8 *directionFrame;
@@ -58,13 +59,13 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         u8 *entryFrames;
         {
             DungeonGlobalStatus *dungeon_state;
-            if ((entity->unk_14.at00_u16.v & 0xE000) == 0) {
+            if ((entity->flags & 0xE000) == 0) {
                 return;
             }
 
             entryFrames = D_80161E94;
 
-            entity->unk_2C.as_pv = entryFrames;
+            entity->frameTable = entryFrames;
             direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
             direction &= 7;
             directionFrame = direction + entryFrames;
@@ -86,7 +87,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         }
         waitFrames = D_80161EBC;
 
-        entity->unk_2C.as_pv = waitFrames;
+        entity->frameTable = waitFrames;
         direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + waitFrames;
@@ -106,7 +107,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         }
         startFrames = D_80161EC4;
 
-        entity->unk_2C.as_pv = startFrames;
+        entity->frameTable = startFrames;
         direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + startFrames;
@@ -185,7 +186,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 TileObject *room_base = &D_80082E80;
-                s8 room_id = entity->unk_26.as_s8;
+                s8 room_id = *(s8 *)&entity->unk_26;
 
                 if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)get_tile_chebyshev_distance(room_base, entity) < 2) {
                     if ((generate_random_value() & 7) == 0) {
@@ -200,12 +201,12 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
 
         finishFrames = D_80161ECC;
 
-        entity->unk_2C.as_pv = finishFrames;
+        entity->frameTable = finishFrames;
         direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + finishFrames;
         select_sprite_entry(entity, *directionFrame, 0);
-        if ((entity->unk_14.at00_u16.v & 0x8000) != 0) {
+        if ((entity->flags & 0x8000) != 0) {
             break;
         }
         action->phase++;
@@ -223,7 +224,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         u32 phase_flag = 0x40000;
         u32 phase_flags;
 
-        if ((entity->unk_14.at00_u16.v & 0xE000) == 0) {
+        if ((entity->flags & 0xE000) == 0) {
             return;
         }
 
@@ -232,7 +233,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
 
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
-        entity->unk_2C.as_pv = restoreFrames;
+        entity->frameTable = restoreFrames;
         direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + restoreFrames;
@@ -252,7 +253,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
 
         idleFrames = D_80161E94;
 
-        entity->unk_2C.as_pv = idleFrames;
+        entity->frameTable = idleFrames;
         direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + idleFrames;

@@ -187,20 +187,6 @@ typedef struct Row_81922FB8_S_800247B8_1 {
     s32 unk_20;
 } Row_81922FB8_S_800247B8_1;   /* obj in func_800247B8 */
 
-typedef struct Row_81922FB8_S_800247B8_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_81922FB8_S_800247B8_2;   /* part in func_800247B8 */
-
 typedef struct Row_81922FB8_S_800247B8_4 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -314,13 +300,6 @@ typedef struct Row_81923534_S_80024D34_1 {
     void * unk_10;
 } Row_81923534_S_80024D34_1;   /* node in func_80024D34 */
 
-typedef struct Row_81923534_S_80024D34_2 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} Row_81923534_S_80024D34_2;   /* control in func_80024D34 */
-
 typedef struct Row_81923534_S_80024D34_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -329,19 +308,6 @@ typedef struct Row_81923534_S_80024D34_3 {
     u8 pad_08[0x2];
     s16 unk_0A;
 } Row_81923534_S_80024D34_3;   /* position in func_80024D34 */
-
-typedef struct Row_81923534_S_80024D34_5 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x3];
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_81923534_S_80024D34_5;   /* control2 in func_80024D34 */
 
 /* Creates and initializes an effect at a random offset from the given position. */
 /* extern */

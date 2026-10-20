@@ -1,10 +1,11 @@
 #include "modules/dungeon_ovl_9c32d4.h"
+#include "shared/sprite_frame_state.h"
 
 void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effect_data)
 {
     void *effect;
     ovl_9c32d4_809A35A0_S_80174DA0_2 *position;
-    ovl_9c32d4_809A35A0_S_80174DA0_3 *display;
+    SpriteFrameState *display;
     ovl_9c32d4_809A35A0_S_80174DA0_4 *state;
     void *parent_position;
     u16 coordinate;
@@ -27,10 +28,10 @@ void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effe
         position->unk_0A = coordinate;
 
         display = ((ovl_9c32d4_809A35A0_S_80174DA0_0 *)effect)->unk_0C;
-        display->unk_08 = D_80175F90;
-        display->unk_1E = 0x1000;
-        display->unk_1C = 0x1000;
-        display->unk_0C = 0;
+        display->source = D_80175F90;
+        display->scale_y = 0x1000;
+        display->scale_x = 0x1000;
+        display->color.word = 0;
         display->unk_06 = 8;
 
         parent_position = (*(void * *)&parent->z);

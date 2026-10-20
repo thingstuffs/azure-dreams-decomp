@@ -13,7 +13,7 @@ typedef struct S_800BC840_0 {
 
 void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 s32 register_node();              /* extern */
-void configure_the_set_mode_n_1();  /* extern */
+struct Rec_func_8008F074_arg0; void configure_the_set_mode_n_1(struct Rec_func_8008F074_arg0 *, s32, s32);  /* extern */
 extern M2C_UNK D_800BC764;
 extern M2C_UNK D_800D20CC;
 extern s32 D_800D20E4;
@@ -26,5 +26,5 @@ void initialize_record_resources(void *record, s32 init_context, s32 resource_ta
     register_node(record - 0x20, project_sprite_chain);
     ((S_800BC840_0 *)((u8 *)record - 0x10))->unk_58 = (s32) D_800D20E4;
     func_8003DB94(resource_target, &D_800F15E4, 0);
-    configure_the_set_mode_n_1(record, init_context, &D_800D20CC);
+    configure_the_set_mode_n_1(record, init_context, (s32)(&D_800D20CC));
 }

@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource03_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void complete_actor_jump_to_destination(void *jump, void *motion, void *map_entity, void *actor) {
     s32 facing_distance;
@@ -10,10 +11,10 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
     state = ((R03_80172258_S_80172258_0 *)jump)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((Rec_D_80082E80 *)map_entity)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)map_entity)->flags & 0x6000)) {
             break;
         }
-        (*(u8 * *)((u8 *)map_entity + 0x2C)) = ((u8 *)D_80173C94);
+        ((SpriteFrameState *)map_entity)->frameTable = ((u8 *)D_80173C94);
         select_sprite_entry(
             map_entity,
             ((u8 *)D_80173C94)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
@@ -29,13 +30,13 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
         ((R03_80172258_S_80172258_0 *)jump)->unk_90 -= ((R03_80172258_S_80172258_0 *)jump)->unk_A0;
         if (frames_left != 0) {
             {
-                s32 target_x = ((Rec_D_80082E80 *)map_entity)->unk_24 << 6;
+                s32 target_x = ((SpriteFrameState *)map_entity)->unk_24 << 6;
                 s32 current_x = ((EntityRec *)motion)->x.w.i - 0x20;
 
                 ((EntityRec *)motion)->unk_0C = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = ((Rec_D_80082E80 *)map_entity)->unk_25 << 6;
+                s32 target_y = ((SpriteFrameState *)map_entity)->unk_25 << 6;
                 s32 current_y = ((EntityRec *)motion)->y.w.i - 0x20;
 
                 ((EntityRec *)motion)->unk_10 = ((target_y - current_y) << 16) /
@@ -58,8 +59,8 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
-            (*(u8 * *)((u8 *)map_entity + 0x2C)) = ((u8 *)D_80173C9C);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
+            ((SpriteFrameState *)map_entity)->frameTable = ((u8 *)D_80173C9C);
             select_sprite_entry(
                 map_entity,
                 ((u8 *)D_80173C9C)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
@@ -76,7 +77,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
         reduce_actor_food_meter(actor, 4);
         advance_status_timers(actor);
         {
@@ -100,7 +101,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
             if (actor_flags & 0x20000) {
 
                 ((EntityRec *)actor)->facing = ((s16)get_rounded_facing_and_rounding_flag(
-                    ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25,
+                    ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &facing_distance));
             }
         }

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void clear_entity_record_fields();                     /* extern */
+#include "town/player/object/entity_record_fields.h"                     /* extern */
 extern s8 D_80082668;
 extern M2C_UNK D_80098104;
 
@@ -17,5 +17,5 @@ void set_handler_counter_and_clear_flag(S_80098C04_0 *state, s32 target) {
     state->unk_04 = &D_80098104;
     D_80082668 = 0;
     state->unk_0A = 0xC;
-    clear_entity_record_fields(target);
+    clear_entity_record_fields((struct EntityRec *)(target));
 }

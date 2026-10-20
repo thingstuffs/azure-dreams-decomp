@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void set_resident_bitmap_bit();                     /* extern */
-void unlink_scene_list_node();                      /* extern */
-void clear_object_slot_and_mark_removed();                      /* extern */
+void set_resident_bitmap_bit(s32);                     /* extern */
+#include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
+void clear_object_slot_and_mark_removed(void *);                      /* extern */
 
 typedef struct ReactionAccumulators {
     s32 unk_00;

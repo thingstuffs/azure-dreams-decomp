@@ -1,6 +1,6 @@
 #include "common.h"
 
-u8 *init_card_message_object();   /* extern */
+#include "frontend/card/message_object.h"   /* extern */
 
 /* Forwards the input to init_card_message_object with arguments 0xC, 0, and 0. */
 void card_dev_show_format_failure_notice(s32 input) {

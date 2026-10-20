@@ -1,6 +1,6 @@
 #include "common.h"
 
-void clear_entity_record_fields();                     /* extern */
+#include "town/player/object/entity_record_fields.h"                     /* extern */
 void refresh_object_position_and_initialize(void *context, void *object, s32 mode);
 
 typedef struct S_80098F10_0 {
@@ -10,6 +10,6 @@ typedef struct S_80098F10_0 {
 
 /* Run object setup and assign its next handler. */
 void clear_record_and_set_next_handler(S_80098F10_0 *object, s32 setup_arg) {
-    clear_entity_record_fields(setup_arg);
+    clear_entity_record_fields((struct EntityRec *)(setup_arg));
     object->unk_04 = &refresh_object_position_and_initialize;
 }

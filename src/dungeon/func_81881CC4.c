@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_18a0800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -20,12 +21,6 @@ typedef struct S_800254C4_3 {
     u8 pad_1E[0x8];
     s16 unk_26;
 } S_800254C4_3;   /* fields in allocate_jittered_effect_node */
-
-typedef struct S_800254C4_4 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-} S_800254C4_4;   /* ((S_800254C4_0 *)node)->unk_0C in allocate_jittered_effect_node */
-
 
 /* Allocates a node, copies or jitters its source values, and initializes its fields. */
 s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_mode) {
@@ -60,7 +55,7 @@ s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial
             }
             payload->unk_0A = value_0a;
         }
-        ((S_800254C4_4 *)(((S_800254C4_0 *)node)->unk_0C))->unk_0C = 0xF0;
+        ((SpriteFrameState *)((S_800254C4_0 *)node)->unk_0C)->color.c.r = 0xF0;
         {
             S_800254C4_3 *fields = node + 0x20;
 

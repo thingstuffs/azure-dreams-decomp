@@ -59,12 +59,12 @@ typedef struct S_80024390_4 {
 } S_80024390_4;   /* recordCursor in card_boot_format_saved_slot_details */
 
 
-u8 *func_8003AD08(); /* extern */
-void *decode_note_text(); /* extern */
-void *build_positioned_text_glyphs(); /* extern */
-char *func_8004E5A0(); /* extern */
+u8 * func_8003AD08(u32, u8 *); /* extern */
+void * decode_note_text(void *, u8 *, s32); /* extern */
+void * build_positioned_text_glyphs(u8 *, u8 *, s32); /* extern */
+char * func_8004E5A0(int, unsigned short, char *); /* extern */
 char *func_8004E5E8(); /* extern */
-u8 *remap_flagged_string_bytes(); /* extern */
+u8 * remap_flagged_string_bytes(u8 *); /* extern */
 void func_80069E38(void *destination, void *source);
 void func_80069E78(void *, void *);
 extern u8 D_800200A4[0x100];
@@ -105,19 +105,19 @@ void card_boot_format_saved_slot_details(void *record) {
     s32 *global_table;
 
     assetSlot = ((S_80024390_0 *)record)->unk_B4C;
-    func_8003AD08(((S_80024390_0 *)record)->unk_7C + 1, &textBuffer);
+    func_8003AD08(((S_80024390_0 *)record)->unk_7C + 1, (u8 *)(&textBuffer));
     func_80069E38(&textBuffer, D_800282D8);
     assetDataBase = D_80083EA4;
     func_80069E38(&textBuffer, (((S_80024390_0 *)record)->unk_7C << 7) + assetDataBase);
     asset0 = record + 0x84;
-    decode_note_text(asset0, &textBuffer, 1);
+    decode_note_text(asset0, (u8 *)(&textBuffer), 1);
     assetSlot->unk_00.s = asset0;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0xA8;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x110;
     assetSlot = ((S_80024390_0 *)record)->unk_B50;
     func_80069E78(&textBuffer, D_800282E8);
     asset1 = record + 0x204;
-    decode_note_text(asset1, &textBuffer, 1);
+    decode_note_text(asset1, (u8 *)(&textBuffer), 1);
     assetSlot->unk_00.s = asset1;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0xA0;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x110;
@@ -126,20 +126,20 @@ void card_boot_format_saved_slot_details(void *record) {
         table_base = D_800283A8;
         assetSlot = ((S_80024390_0 *)record)->unk_B54;
         func_80069E78(&textBuffer, table_base->unk_08);
-        func_8003AD08(((S_80024390_6 *)(((((S_80024390_0 *)record)->unk_7C << 7) + recordBase)))->unk_34, &numberBuffer);
+        func_8003AD08(((S_80024390_6 *)(((((S_80024390_0 *)record)->unk_7C << 7) + recordBase)))->unk_34, (u8 *)(&numberBuffer));
         func_80069E38(&textBuffer, &numberBuffer);
         func_80069E38(&textBuffer, table_base->unk_0C);
         asset2 = record + 0x384;
-        decode_note_text(asset2, &textBuffer, 1);
+        decode_note_text(asset2, (u8 *)(&textBuffer), 1);
         assetSlot->unk_00.s = asset2;
         ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0xB8;
         ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x140;
     }
     assetSlot = ((S_80024390_0 *)record)->unk_B58;
-    func_8004E5A0(((S_80024390_6 *)(((((S_80024390_0 *)record)->unk_7C << 7) + recordBase)))->unk_24, 0xA, &textBuffer);
-    remap_flagged_string_bytes(&textBuffer);
+    func_8004E5A0(((S_80024390_6 *)(((((S_80024390_0 *)record)->unk_7C << 7) + recordBase)))->unk_24, 0xA, (char *)(&textBuffer));
+    remap_flagged_string_bytes((u8 *)(&textBuffer));
     asset3 = record + 0x504;
-    build_positioned_text_glyphs(asset3, &textBuffer, 1);
+    build_positioned_text_glyphs(asset3, (u8 *)(&textBuffer), 1);
     assetSlot->unk_00.s = asset3;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0x148;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x110;
@@ -152,7 +152,7 @@ void card_boot_format_saved_slot_details(void *record) {
     if (hours < 0x3E8) {
         value = hours;
     }
-    func_8004E5A0(value, 3, &textBuffer);
+    func_8004E5A0(value, 3, (char *)(&textBuffer));
     func_80069E38(&textBuffer, D_800200A4);
     totalMinutes = elapsedSeconds / 60;
     func_8004E5E8(totalMinutes - (hours * 0x3C), 2, &numberBuffer);
@@ -160,9 +160,9 @@ void card_boot_format_saved_slot_details(void *record) {
     func_80069E38(&textBuffer, D_800200A4);
     func_8004E5E8(elapsedSeconds - (totalMinutes * 0x3C), 2, &numberBuffer);
     func_80069E38(&textBuffer, &numberBuffer);
-    remap_flagged_string_bytes(&textBuffer);
+    remap_flagged_string_bytes((u8 *)(&textBuffer));
     asset4 = record + 0x684;
-    build_positioned_text_glyphs(asset4, &textBuffer, 1);
+    build_positioned_text_glyphs(asset4, (u8 *)(&textBuffer), 1);
     assetSlot->unk_00.s = asset4;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0x150;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x120;
@@ -172,18 +172,18 @@ void card_boot_format_saved_slot_details(void *record) {
     if (displayValue < 0x3E8U) {
         boundedValue = displayValue;
     }
-    func_8004E5A0((s32) boundedValue, 3, &textBuffer);
-    remap_flagged_string_bytes(&textBuffer);
+    func_8004E5A0((s32) boundedValue, 3, (char *)(&textBuffer));
+    remap_flagged_string_bytes((u8 *)(&textBuffer));
     asset5 = record + 0x804;
-    build_positioned_text_glyphs(asset5, &textBuffer, 1);
+    build_positioned_text_glyphs(asset5, (u8 *)(&textBuffer), 1);
     assetSlot->unk_00.s = asset5;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0x100;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x120;
     assetSlot = ((S_80024390_0 *)record)->unk_B64;
-    func_8004E5A0(((S_80024390_6 *)(((((S_80024390_0 *)record)->unk_7C << 7) + recordBase)))->unk_28, 2, &textBuffer);
-    remap_flagged_string_bytes(&textBuffer);
+    func_8004E5A0(((S_80024390_6 *)(((((S_80024390_0 *)record)->unk_7C << 7) + recordBase)))->unk_28, 2, (char *)(&textBuffer));
+    remap_flagged_string_bytes((u8 *)(&textBuffer));
     asset6 = record + 0x984;
-    build_positioned_text_glyphs(asset6, &textBuffer, 1);
+    build_positioned_text_glyphs(asset6, (u8 *)(&textBuffer), 1);
     value = 0;
     loop_base = recordBase;
     global_table = D_80027FD4;

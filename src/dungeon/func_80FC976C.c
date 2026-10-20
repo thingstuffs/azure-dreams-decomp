@@ -1,4 +1,5 @@
 #include "shared/sprite_source.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/object_node.h"
@@ -70,8 +71,6 @@ typedef struct EffectObject {
     u8 pad_14[0xA6];
     u8 phase;
 } EffectObject;
-
-
 
 typedef struct EffectSprite {
     void * source;
@@ -252,7 +251,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
             {
                 s32 scale;
                 EffectObject *object;
-                void *part;
+                SpriteFrameState *part;
                 void *payload;
                 u32 color;
                 u32 payload_word;
@@ -282,17 +281,17 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
                     payload_word = motion->z;
                     color = 0x00800000;
                     ((EntityRec *)payload)->z.v = payload_word;
-                    ((EffectSprite *)part)->scaleY = 0x1000;
-                    ((EffectSprite *)part)->scaleX = 0x1000;
-                    ((EffectSprite *)part)->angle = 0;
-                    ((EffectSprite *)part)->source = D_800DEA68;
-                    ((EffectSprite *)part)->flags |= 0xC;
+                    part->scale_y = 0x1000;
+                    part->scale_x = 0x1000;
+                    part->tpage_abr = 0;
+                    part->unk_00 = D_800DEA68;
+                    part->flags |= 0xC;
                     texture_word = ((u32)((SpriteSourceEntry *)D_800DEA68)->unk_04);
                     color |= 0x8080;
-                    ((EffectSprite *)part)->frame = 0;
-                    ((EffectSprite *)part)->frameTick = 0;
-                    ((EffectSprite *)part)->color = color;
-                    ((EffectSprite *)part)->texture = texture_word;
+                    part->unk_04 = 0;
+                    part->unk_05 = 0;
+                    part->color.word = color;
+                    part->source = texture_word;
                     object->phase = 0;
                 }
 

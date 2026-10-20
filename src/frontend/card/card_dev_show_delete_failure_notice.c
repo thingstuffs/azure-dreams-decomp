@@ -1,6 +1,6 @@
 #include "common.h"
 
-u8 *init_card_message_object();   /* extern */
+#include "frontend/card/message_object.h"   /* extern */
 
 /* Pass the target to init_card_message_object with code 0x13 and zero options. */
 void card_dev_show_delete_failure_notice(s32 target) {

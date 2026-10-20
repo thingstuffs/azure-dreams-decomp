@@ -1,4 +1,6 @@
 #include "dungeon/effect/motion/update_directional_actor_effect.h"
+#include "shared/sprite_frame_state.h"
+#include "dungeon/effect/motion/update_directional_actor_effect.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -69,12 +71,6 @@ typedef struct S_8195281C_7 {
     void * unk_60;
 } S_8195281C_7;   /* D_800E3D7C[0] in func_8195281C */
 
-typedef struct S_8195281C_8 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_8195281C_8;
-
 typedef struct S_8195281C_9 {
     s32 unk_00;
 } S_8195281C_9;   /* D_800814A0 in func_8195281C */
@@ -85,9 +81,6 @@ typedef struct S_8195281C_10 {
     u8 pad_64[0x90];
     s32 * unk_F4;
 } S_8195281C_10;   /* ((S_8195281C_1 *)D_800814A8)->unk_00.i in func_8195281C */
-
-
-
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The switch table follows it at 0x80024008
@@ -249,9 +242,6 @@ typedef struct S_81952B4C_2 {
     u16 unk_1E;
 } S_81952B4C_2;   /* arg2 in update_spiraling_effect_growth_and_fade */
 
-
-
-
 /* Updates a spiraling effect's growth, motion, and fade-out. */
 void update_spiraling_effect_growth_and_fade(void *effect, void *position, void *sprite)
 {
@@ -404,7 +394,6 @@ typedef struct OriginHeight {
     u16 height;
 } OriginHeight;
 
-
 /* Spawn the spiraling effect unless the shared bank stop flag is set.
  * The third ABI argument is unused in retail. The final argument mirrors
  * the direction and is retained in the spawned state.
@@ -415,7 +404,7 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
     SpiralState *state;
     SpawnPosition *position;
     SpawnPosition *target_position;
-    SpawnSprite *sprite;
+    SpriteFrameState *sprite;
     s32 height;
     s32 coordinate;
     s32 coordinate_y;
@@ -429,8 +418,8 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
     register_node(node, (s32)D_800CEEFC);
     position = node->header.position;
     sprite = node->header.sprite;
-    sprite->frames = D_80024998;
-    sprite->size = 0x20;
+    sprite->source = D_80024998;
+    sprite->tpage_abr = 0x20;
     sprite->flags |= 0xC;
     state = &node->state;
     state->angle = angle;
@@ -459,7 +448,6 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
     state->lifetime = 0x40;
     state->mirrored = mirrored;
 }
-
 
 /* Processes both modes and sets completion flags on countdown expiry or an override. */
 void process_effect_modes_and_completion(void *state)

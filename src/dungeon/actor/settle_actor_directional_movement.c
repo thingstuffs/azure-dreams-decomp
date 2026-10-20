@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_800D9C7C_1 {
     u8 pad_00[0x8C];
@@ -14,16 +14,14 @@ typedef struct S_800D9C7C_1 {
     u8 unk_9B;
 } S_800D9C7C_1;   /* arg0 in settle_actor_directional_movement */
 
-
 extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
 extern u8 D_800D8C64[];
 
-
 /* Updates directional movement, decelerates it, and settles the entity at its tile. */
-void settle_actor_directional_movement(S_800D9C7C_1 *controller, EntityRec *motion, Rec_D_80082E80 *entity, EntityRec *source)
+void settle_actor_directional_movement(S_800D9C7C_1 *controller, EntityRec *motion, SpriteFrameState *entity, EntityRec *source)
 {
     s16 ticks_left;
     s32 direction;
@@ -46,7 +44,7 @@ void settle_actor_directional_movement(S_800D9C7C_1 *controller, EntityRec *moti
             begin_actor_display_action(controller, motion, entity, 0);
             return;
         }
-        if (entity->unk_14.at00_u16.v & 0x8000) {
+        if (entity->flags & 0x8000) {
             controller->unk_96.s = 0;
             controller->unk_9B = 2;
             return;
@@ -68,7 +66,7 @@ void settle_actor_directional_movement(S_800D9C7C_1 *controller, EntityRec *moti
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
         if (controller->unk_96.s > 0) {
             controller->unk_96.s = controller->unk_96.u - 1;
-        } else if (entity->unk_14.at00_u16.v & 0x6000) {
+        } else if (entity->flags & 0x6000) {
             controller->unk_96.s = 0;
         }
         if (controller->unk_96.s != 0) {

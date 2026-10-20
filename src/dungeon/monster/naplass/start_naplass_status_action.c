@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -11,7 +12,6 @@ s16 set_or_clear_actor_status_slot();    /* extern */
 s32 advance_status_timers();                      /* extern */
 extern u8 D_801741D4[8];
 
-
 typedef struct S_80F60808_1 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -20,15 +20,14 @@ typedef struct S_80F60808_1 {
     s8 unk_9B;
 } S_80F60808_1;   /* arg0 in start_naplass_status_action */
 
-
 /* Start the actor's directional animation and update its action state when allowed. */
-void start_naplass_status_action(S_80F60808_1 *action_state, void *unused, Rec_D_80082E80 *sprite, EntityRec *actor) {
+void start_naplass_status_action(S_80F60808_1 *action_state, void *unused, SpriteFrameState *sprite, EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
         action_state->unk_9A = 0xD;
         action_state->unk_8C = 0;
         action_state->unk_9B = 0;
-        sprite->unk_2C.as_pm = &D_801741D4;
+        sprite->frameTable = &D_801741D4;
         select_sprite_entry(sprite, D_801741D4[(((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
         actor->flags1C = (s32) (actor->flags1C | 0x200);
         set_or_clear_actor_status_slot(actor, 1, 4);

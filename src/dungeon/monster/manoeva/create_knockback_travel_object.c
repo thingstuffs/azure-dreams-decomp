@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -100,7 +101,7 @@ void create_knockback_travel_object(u8 *owner_data, Position *position_arg, Sour
     s32 target_y;
     s32 target_x;
     Object *object;
-    Display *display;
+    SpriteFrameState *display;
     Work *work;
     u8 *special_data;
     s32 offset_x_index;
@@ -156,11 +157,11 @@ void create_knockback_travel_object(u8 *owner_data, Position *position_arg, Sour
     work->source = source_arg;
     work->position = position_arg;
 
-    display->f1E = 0x1000;
-    display->f1C = 0x1000;
-    display->color = 0x00808080;
-    display->f28 = source_arg->f28;
-    display->f12 = source_arg->f12;
+    display->scale_y = 0x1000;
+    display->scale_x = 0x1000;
+    display->color.word = 0x00808080;
+    display->unk_28 = source_arg->f28;
+    display->clut = source_arg->f12;
 
     offset_x_index = ((g_game_work.view.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
     local_offset.x = D_801766F0[offset_x_index];

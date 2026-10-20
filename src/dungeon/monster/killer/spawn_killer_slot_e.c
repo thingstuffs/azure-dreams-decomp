@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -22,14 +23,6 @@ typedef struct S_80FE7000_2 {
     s16 unk_0A;
 } S_80FE7000_2;   /* position in spawn_killer_slot_e */
 
-typedef struct S_80FE7000_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80FE7000_3;   /* part_b in spawn_killer_slot_e */
-
 typedef struct S_80FE7000_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -44,7 +37,6 @@ typedef struct S_80FE7000_4 {
          check for the proven-region rename of func_80164800. */
 void func_80164800(void);
 #endif
-
 
 extern void *allocate_list_node();
 extern void register_node();
@@ -72,8 +64,6 @@ extern u8 D_80166A74[];
 extern u8 D_80166A6C[];
 extern u8 D_80166A64[];
 
-
-
 void *spawn_killer_slot_e(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 #ifdef __mips__
     #endif
@@ -85,7 +75,7 @@ void *spawn_killer_slot_e(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     void *result = 0;
     void *created;
     void *position;
-    S_80FE7000_3 *part_b;
+    SpriteFrameState *part_b;
     S_80FE7000_4 *actor;
     s32 left;
     s32 right;
@@ -114,7 +104,7 @@ void *spawn_killer_slot_e(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
         kind = spawn_flags & 3;
         part_b->unk_25 = held_b;
         actor = result;
-        part_b->unk_2C = D_80168038;
+        part_b->frameTable = D_80168038;
         part_b->unk_24 = held_a;
 
         if (kind == 1) {
@@ -132,7 +122,7 @@ void *spawn_killer_slot_e(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
                         ((S_80FE7000_1 *)result)->unk_1C |= 0x200;
                         set_or_clear_actor_status_slot(result, 1,
                             (generate_random_value() & 0x3F) | 0x20);
-                        part_b->unk_2C = D_80168088;
+                        part_b->frameTable = D_80168088;
                     }
                 }
             }

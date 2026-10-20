@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 
 typedef struct S_80170890_0 {
@@ -21,16 +22,6 @@ typedef struct S_80170890_2 {
     s16 unk_0A;
 } S_80170890_2;   /* part_a in create_flagged_dungeon_actor_object */
 
-typedef struct S_80170890_3 {
-    u8 pad_00[0x8];
-    u8 ** unk_08;
-    u8 pad_0C[0x18];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80170890_3;   /* part_b in create_flagged_dungeon_actor_object */
-
 typedef struct S_80170890_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -47,7 +38,6 @@ typedef struct S_80170890_4 {
 typedef struct S_80170890_5 {
     u16 unk_00;
 } S_80170890_5;   /* (u8 *)(((index + count) << 2) + (u32)table) + 6 in create_flagged_dungeon_actor_object */
-
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -70,7 +60,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
     void *obj;
     void *work = 0;
     void *part_a;
-    S_80170890_3 *part_b;
+    SpriteFrameState *part_b;
     S_80170890_4 *actor;
     s32 kind;
     s32 left;
@@ -93,7 +83,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         part_b->unk_25 = saved_variant;
         part_b->unk_24 = saved_kind_id;
         actor = work;
-        part_b->unk_2C = D_80176460;
+        part_b->frameTable = D_80176460;
 
         if (kind == 1) {
             left = ((S_80170890_1 *)work)->unk_14 | 0x6000;
@@ -111,7 +101,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
                     if (generate_random_value() & 1) {
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->unk_2C = D_80176470;
+                        part_b->frameTable = D_80176470;
                     }
                 }
             }
@@ -125,7 +115,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         actor->unk_92 = -32;
 
         {
-            u8 *cursor = part_b->unk_08;
+            u8 *cursor = (*(u8 ** *)&part_b->source);
             s32 count = 0;
             s32 index;
             u16 packet[4];
@@ -140,7 +130,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
                 cursor += 12;
                 count += 1;
             }
-            table = part_b->unk_08;
+            table = (*(u8 ** *)&part_b->source);
             value = (((S_80170890_5 *)((u8 *)(((index + count) << 2) + (u32)table) + 6))->unk_00 >> 6) - 1;
             packet[1] = value;
             actor->unk_B0 = value << 6;

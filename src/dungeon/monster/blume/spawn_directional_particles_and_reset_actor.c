@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -21,7 +22,6 @@ typedef struct S_80174BEC_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_80174BEC_0;   /* arg0 in spawn_directional_particles_and_reset_actor */
-
 
 typedef struct S_80174BEC_3 {
     u8 pad_00[0x24];
@@ -52,29 +52,12 @@ typedef struct S_80174BEC_4 {
     s16 unk_20;
 } S_80174BEC_4;   /* object in spawn_directional_particles_and_reset_actor */
 
-typedef struct S_80174BEC_5 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0xC];
-    u8 * unk_2C;
-} S_80174BEC_5;   /* render in spawn_directional_particles_and_reset_actor */
-
    /* position in spawn_directional_particles_and_reset_actor */
 
 typedef struct S_80174BEC_7 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_80174BEC_7;   /* map in spawn_directional_particles_and_reset_actor */
-
 
 typedef struct {
     u16 x;
@@ -131,14 +114,14 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
         source_pos->unk_0C = 0;
         ((S_80174BEC_0 *)state)->unk_96.s = 0;
         ((S_80174BEC_0 *)state)->unk_9B++;
-        ((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v &= 0x9FFF;
+        ((SpriteFrameState *)source_render)->flags &= 0x9FFF;
 
     case 1:
         frame = ((S_80174BEC_0 *)state)->unk_96.u;
         if (frame == 0 || frame == 7) {
             s16 particle_index;
 
-            if (!(((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0x8000)) {
+            if (!(((SpriteFrameState *)source_render)->flags & 0x8000)) {
                 play_sound_if_enabled(0x80D);
             }
 
@@ -185,10 +168,10 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
                             copy_dst += 0x10;
                         } while (copy_src != copy_end);
 
-                        ((S_80174BEC_5 *)render)->unk_14 &= 0xFFFC;
+                        ((SpriteFrameState *)render)->flags &= 0xFFFC;
                         register_node(particle, project_sprite_chain);
                         animation = D_8017541C[0];
-                        ((S_80174BEC_5 *)render)->unk_2C = D_8017541C;
+                        ((SpriteFrameState *)render)->frameTable = D_8017541C;
                         select_sprite_entry(render, animation, 0);
 
                         position = ((S_80174BEC_4 *)particle)->unk_08;
@@ -228,11 +211,11 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
                         << 19;
                         ((S_80174BEC_3 *)motion)->unk_AC = -((func_80069EF8() & 0x7FFF) * 2);
                         ((S_80174BEC_3 *)motion)->unk_B0 = 0x1000;
-                        ((S_80174BEC_5 *)render)->unk_1E = 0x1000;
-                        ((S_80174BEC_5 *)render)->unk_1C = 0x1000;
-                        ((S_80174BEC_5 *)render)->unk_0E = 0x80;
-                        ((S_80174BEC_5 *)render)->unk_0D = 0x80;
-                        ((S_80174BEC_5 *)render)->unk_0C = 0x80;
+                        ((SpriteFrameState *)render)->scale_y = 0x1000;
+                        ((SpriteFrameState *)render)->scale_x = 0x1000;
+                        ((SpriteFrameState *)render)->color.c.b = 0x80;
+                        ((SpriteFrameState *)render)->color.c.g = 0x80;
+                        ((SpriteFrameState *)render)->color.c.r = 0x80;
                     }
                 }
             }
@@ -269,9 +252,9 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
                         register_node(particle, project_sprite_chain);
 
                         render = ((S_80174BEC_4 *)particle)->unk_0C;
-                        ((S_80174BEC_5 *)render)->unk_14 |= 0x0C;
-                        ((S_80174BEC_5 *)render)->unk_10 = 0x60;
-                        ((S_80174BEC_5 *)render)->unk_14 |= 2;
+                        ((SpriteFrameState *)render)->flags |= 0x0C;
+                        ((SpriteFrameState *)render)->tpage_abr = 0x60;
+                        ((SpriteFrameState *)render)->flags |= 2;
 
                         position = ((S_80174BEC_4 *)particle)->unk_08;
                         ((MovingPosition *)position)->unk_02 = ((u16)source_pos->x.w.i);
@@ -310,13 +293,13 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
                         << 19;
                         ((S_80174BEC_3 *)motion)->unk_68 = -((func_80069EF8() & 0x7FFF) * 2);
                         ((S_80174BEC_3 *)motion)->unk_74 = 0x400;
-                        ((S_80174BEC_5 *)render)->unk_1C = 0x800;
-                        ((S_80174BEC_5 *)render)->unk_1E = 0x800;
-                        ((S_80174BEC_5 *)render)->unk_0D = 0x80;
-                        ((S_80174BEC_5 *)render)->unk_0C = 0x80;
-                        ((S_80174BEC_5 *)render)->unk_0E = 0;
-                        ((S_80174BEC_5 *)render)->unk_12 = 0x7DCF;
-                        ((S_80174BEC_5 *)render)->unk_14 |= 0x100;
+                        ((SpriteFrameState *)render)->scale_x = 0x800;
+                        ((SpriteFrameState *)render)->scale_y = 0x800;
+                        ((SpriteFrameState *)render)->color.c.g = 0x80;
+                        ((SpriteFrameState *)render)->color.c.r = 0x80;
+                        ((SpriteFrameState *)render)->color.c.b = 0;
+                        ((SpriteFrameState *)render)->clut = 0x7DCF;
+                        ((SpriteFrameState *)render)->flags |= 0x100;
                         func_8003DB94(render, D_800DE870, 0);
                     }
                 }
@@ -324,7 +307,7 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
         }
 
         ((S_80174BEC_0 *)state)->unk_96.s++;
-        if (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000) {
+        if (((SpriteFrameState *)source_render)->flags & 0xE000) {
             void *active_object;
 
             ((S_80174BEC_0 *)state)->unk_9B++;
@@ -336,18 +319,18 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
         return;
 
     case 2:
-        if (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000) {
+        if (((SpriteFrameState *)source_render)->flags & 0xE000) {
             s32 direction_index;
 
             source_pos->flags14 = 0;
             source_pos->unk_10 = 0;
             source_pos->unk_0C = 0;
-            set_record_integer_tile_center(source_pos, ((Rec_D_80082E80 *)source_render)->unk_24, ((Rec_D_80082E80 *)source_render)->unk_25);
-            if (((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 != D_801753BC) {
-                ((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 = D_801753BC;
-                ((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v &= 0xF7FF;
+            set_record_integer_tile_center(source_pos, ((SpriteFrameState *)source_render)->unk_24, ((SpriteFrameState *)source_render)->unk_25);
+            if (*(u8 * *)&((SpriteFrameState *)source_render)->frameTable != D_801753BC) {
+                ((SpriteFrameState *)source_render)->frameTable = D_801753BC;
+                ((SpriteFrameState *)source_render)->flags &= 0xF7FF;
                 direction_index = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
-                select_sprite_entry(source_render, ((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8[direction_index & 7], 0);
+                select_sprite_entry(source_render, (*(u8 * *)&((SpriteFrameState *)source_render)->frameTable)[direction_index & 7], 0);
                 ((S_80174BEC_0 *)state)->unk_96.s = 0x14;
                 ((S_80174BEC_0 *)state)->unk_9B++;
             }
@@ -360,7 +343,7 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
 
             timer = ((S_80174BEC_0 *)state)->unk_96.s;
             ((S_80174BEC_0 *)state)->unk_96.s = timer - 1;
-            if ((s16)timer <= 0 || (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000)) {
+            if ((s16)timer <= 0 || (((SpriteFrameState *)source_render)->flags & 0xE000)) {
                 reduce_actor_food_meter(actor, 0x1000);
                 ((S_80174BEC_0 *)state)->unk_8C = D_80171E20;
                 g_dungeon_status.unk_0C = 0;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -22,17 +23,6 @@ typedef struct S_80170F9C_2 {
     s16 unk_0A;
 } S_80170F9C_2;   /* part_a in create_configured_actor_sprite */
 
-typedef struct S_80170F9C_3 {
-    u8 pad_00[0x1C];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0x4];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80170F9C_3;   /* part_b in create_configured_actor_sprite */
-
 typedef struct S_80170F9C_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -45,7 +35,6 @@ typedef struct S_80170F9C_4 {
     u8 pad_9D[0x18];
     s8 unk_B5;
 } S_80170F9C_4;   /* work_copy in create_configured_actor_sprite */
-
 
 extern void *allocate_list_node();
 extern void register_node();
@@ -71,7 +60,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
     u16 saved_y;
     void *object;
     S_80170F9C_2 *part_a;
-    S_80170F9C_3 *part_b;
+    SpriteFrameState *part_b;
     S_80170F9C_1 *work;
     S_80170F9C_4 *work_copy;
 
@@ -89,7 +78,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
         part_a->unk_0A = held_value_0A;
         part_b = ((S_80170F9C_0 *)object)->unk_0C;
         work_copy = work;
-        part_b->unk_2C = D_800E23E0;
+        part_b->frameTable = D_800E23E0;
         part_b->unk_24 = held_value_24;
         part_b->unk_25 = held_value_25;
 
@@ -104,7 +93,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
                 if (generate_random_value() & 1) {
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_800E2428;
+                    part_b->frameTable = D_800E2428;
                 }
             }
         }
@@ -118,13 +107,13 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
         try_move_actor_to_valid_position(work_copy, part_a, part_b, work);
 
         work_copy->unk_B5 = 0;
-        saved_x = part_b->unk_1C;
-        saved_y = part_b->unk_1E;
-        part_b->unk_1C = 0;
-        part_b->unk_1E = 0;
+        saved_x = part_b->scale_x;
+        saved_y = part_b->scale_y;
+        part_b->scale_x = 0;
+        part_b->scale_y = 0;
         create_owner_linked_directional_object(work_copy, part_a, part_b);
-        part_b->unk_1C = saved_x;
-        part_b->unk_1E = saved_y;
+        part_b->scale_x = saved_x;
+        part_b->scale_y = saved_y;
     }
 
     return work;

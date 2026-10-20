@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -27,7 +28,6 @@ typedef struct S_80172DEC_3 {
     u8 unk_24;
     u8 unk_25;
 } S_80172DEC_3;   /* rec in advance_action_through_recovery */
-
 
 extern s32 get_cd_command_queue_depth(void);
 extern void select_sprite_entry(void *, s32, s32);
@@ -117,7 +117,7 @@ void advance_action_through_recovery(void *action_state, EntityRec *transform, v
                     }
                 } else {
                     actor->target =
-                        scan_monster_along_heading(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                        scan_monster_along_heading(actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                                       actor->facing, 0x10);
                     abs_x = abs(actor->unk_72);
                     abs_y = abs(actor->unk_73);
@@ -131,7 +131,7 @@ void advance_action_through_recovery(void *action_state, EntityRec *transform, v
             if (create_actor_spell_effect(actor, motion, use_global_target, (u8 *)action_state + 0x98) == 0) {
                 return;
             }
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_effect_groups(transform, sprite, actor, 0x10);
             ((S_80172DEC_0 *)action_state)->unk_9B = ((S_80172DEC_0 *)action_state)->unk_9B + 1;
@@ -141,7 +141,7 @@ void advance_action_through_recovery(void *action_state, EntityRec *transform, v
         transform->flags14 = 0;
         transform->unk_10 = 0;
         transform->unk_0C = 0;
-        set_record_integer_tile_center(transform, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(transform, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1;
         advance_status_timers(actor);
@@ -154,17 +154,17 @@ void advance_action_through_recovery(void *action_state, EntityRec *transform, v
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            ((SpriteFrameState *)sprite)->flags |= 0x800;
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         ((S_80172DEC_0 *)action_state)->unk_9B = ((S_80172DEC_0 *)action_state)->unk_9B + 1;
                                         /* fallthrough */
     case 2:
-        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3 && (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000))
+        if ((((SpriteFrameState *)sprite)->unk_04 == 3 && (((SpriteFrameState *)sprite)->flags & 0x1000))
             ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            (((SpriteFrameState *)sprite)->flags & 0xE000)) {
+            ((SpriteFrameState *)sprite)->flags |= 0x800;
             ((S_80172DEC_0 *)action_state)->unk_96 = 0xE;
             ((S_80172DEC_0 *)action_state)->unk_98 |= 0x80;
         }
@@ -172,20 +172,20 @@ void advance_action_through_recovery(void *action_state, EntityRec *transform, v
         ((S_80172DEC_0 *)action_state)->unk_96 = ticks_left;
         if ((s16)ticks_left <= 0) {
             ((S_80172DEC_0 *)action_state)->unk_96 = 0;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         }
-        if ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) == 0) {
+        if ((((SpriteFrameState *)sprite)->flags & 0xE000) == 0) {
             return;
         }
         transform->flags14 = 0;
         transform->unk_10 = 0;
         transform->unk_0C = 0;
-        set_record_integer_tile_center(transform, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(transform, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         {
             u8 *direction_table = D_80175258;
 
-            if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != direction_table) {
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
+            if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != direction_table) {
+                ((SpriteFrameState *)sprite)->frameTable = direction_table;
                 select_sprite_entry(sprite,
                     direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
@@ -195,7 +195,7 @@ void advance_action_through_recovery(void *action_state, EntityRec *transform, v
             return;
         }
         g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         ((S_80172DEC_0 *)action_state)->unk_8C = D_80170F6C;
         advance_status_timers(actor);
         if (actor->unk_6D > 0) {

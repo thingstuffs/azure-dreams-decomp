@@ -27,29 +27,29 @@ typedef struct S_8016A36C_3 {
 
 
 
-void select_sprite_entry();
+#include "engine/graphics/select_sprite_entry_api.h"
 void func_800478B8();
 s32 func_80069EF8();
-s32 check_entity_relation();
+struct EntityRec; s32 check_entity_relation(struct EntityRec *, struct EntityRec *);
 s8 find_active_rect_containing_point();
-s32 compare_monster_neighbor_values();
+s32 compare_monster_neighbor_values(s32, s32, s32, s32);
 s32 get_rounded_facing_and_rounding_flag();
 s32 can_entity_gain_level();
-void update_actor_status_and_food();
+struct EntityRec; void update_actor_status_and_food(struct EntityRec *);
 void begin_pushed_actor_move();
 s32 begin_ready_actor_directional_action();
-s32 advance_actor_pending_action();
-void begin_actor_move_to_target_facing();
-s32 reset_actor_action_state();
-void begin_actor_spell_action();
+s32 advance_actor_pending_action(void *, s32, void *, void *);
+struct EntityRec; struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct EntityRec *);
+s32 reset_actor_action_state(void *, s32, void *, u8 *);
+void begin_actor_spell_action(void *, s32, void *, u8 *, s32);
 void advance_multi_form_turn_path(void *, void *, void *, void *);
-void advance_actor_movement_step();
-s32 try_actor_attack();
-void start_actor_attack();
-s32 resolve_actor_movement_action();
+void advance_actor_movement_step(u8 *, void *, u8 *, u8 *);
+struct EntityRec; struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(struct Rec_func_800A9E70_arg0 *, s32, struct Rec_D_80082E80 *, struct EntityRec *);
+void start_actor_attack(void *, s32, s32, void *);
+struct Rec_func_800A9E70_arg0; s32 resolve_actor_movement_action(struct Rec_func_800A9E70_arg0 *, s32, s32, s32);
 void update_multi_form_actor_movement();
-void complete_actor_facing_action();
-void start_actor_directional_action();
+struct EntityRec; struct Rec_func_800A9E70_arg0; void complete_actor_facing_action(struct Rec_func_800A9E70_arg0 *, s32, s32, struct EntityRec *);
+struct EntityRec; struct Rec_func_800A9E70_arg0; void start_actor_directional_action(struct Rec_func_800A9E70_arg0 *, void *, void *, struct EntityRec *);
 s32 advance_actor_effect_sequence_2();
 extern u8 D_801739A0;
 extern u8 D_801739A8;
@@ -112,7 +112,7 @@ void update_multi_form_actor_control(void *actor, void *context, void *sprite, E
         }
     }
     if (entity->tileY == 0) {
-        advance_actor_pending_action(actor, context, sprite, entity);
+        advance_actor_pending_action(actor, (s32)(context), sprite, entity);
         inactive_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
         switch (inactive_pose) {
         case 0xD:
@@ -177,7 +177,7 @@ block_32:
         default:
             goto block_37;
         }
-        if (reset_actor_action_state(actor, context, sprite, &D_80173AC0) != 0) {
+        if (reset_actor_action_state(actor, (s32)(context), sprite, (u8 *)(&D_80173AC0)) != 0) {
             return;
         }
     }
@@ -283,12 +283,12 @@ block_37:
             return;
         }
         if (((S_8016A36C_3 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            advance_actor_movement_step(actor, context, sprite, entity);
+            advance_actor_movement_step(actor, context, sprite, (u8 *)(entity));
             return;
         }
         if (!(entity->unk_46 & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
-                if ((check_entity_relation(entity, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
+                if ((check_entity_relation(entity, (struct EntityRec *)(((s32)D_800814A8->unk_58) + 0x20)) << 0x10) != 0) {
                     return;
                 }
             }
@@ -299,26 +299,26 @@ block_37:
                 entity->unk_46 = (u16) (entity->unk_46 & 0x7FFF);
                 return;
             }
-            if ((resolve_actor_movement_action(actor, context, sprite, 0) << 0x10) == 0) {
+            if ((resolve_actor_movement_action(actor, (s32)(context), (s32)(sprite), 0) << 0x10) == 0) {
                 return;
             }
             action_flags = entity->unk_46 | 0x4000;
             entity->unk_46 = action_flags;
             if (!(action_flags & 0x8000)) {
-                advance_actor_movement_step(actor, context, sprite, entity);
+                advance_actor_movement_step(actor, context, sprite, (u8 *)(entity));
                 return;
             }
         }
         action_id = entity->unk_46 & 0x3FFF;
         switch (action_id) {
         case 8:
-            if ((try_actor_attack(actor, context, sprite, entity) << 0x10) != 0) {
+            if ((try_actor_attack(actor, (s32)(context), sprite, entity) << 0x10) != 0) {
                 return;
             }
-            start_actor_attack(actor, context, sprite, entity);
+            start_actor_attack(actor, (s32)(context), (s32)(sprite), entity);
             return;
         case 9:
-            complete_actor_facing_action(actor, context, sprite, entity);
+            complete_actor_facing_action(actor, (s32)(context), (s32)(sprite), entity);
             return;
         case 10:
             start_actor_directional_action(actor, context, sprite, entity);
@@ -345,21 +345,21 @@ block_37:
             action_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
             switch (action_pose) {
             case 0:
-                begin_actor_spell_action(actor, context, sprite, &D_801739E0, &update_multi_form_actor_control);
+                begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&D_801739E0), (s32)(&update_multi_form_actor_control));
                 return;
             case 1:
-                begin_actor_spell_action(actor, context, sprite, &D_801739E8, &update_multi_form_actor_control);
+                begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&D_801739E8), (s32)(&update_multi_form_actor_control));
                 return;
             case 2:
-                begin_actor_spell_action(actor, context, sprite, &D_801739F0, &update_multi_form_actor_control);
+                begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&D_801739F0), (s32)(&update_multi_form_actor_control));
                 return;
             case 3:
-                begin_actor_spell_action(actor, context, sprite, &D_801739F8, &update_multi_form_actor_control);
+                begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&D_801739F8), (s32)(&update_multi_form_actor_control));
                 return;
             }
             return;
         default:
-            advance_actor_movement_step(actor, context, sprite, entity);
+            advance_actor_movement_step(actor, context, sprite, (u8 *)(entity));
             return;
         }
     }

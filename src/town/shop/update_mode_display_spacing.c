@@ -9,7 +9,7 @@ typedef struct S_800B65D8_4 {
 
 
 s32 func_80048DA0();                         /* extern */
-s32 func_80048DCC();                             /* extern */
+int func_80048DCC(int);                             /* extern */
 s32 func_80048DE8();                             /* extern */
 void set_monster_status_panel_height();                    /* extern */
 extern u8 D_80089344[];

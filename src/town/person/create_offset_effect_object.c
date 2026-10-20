@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -12,7 +13,6 @@ void load_indexed_state_value();      /* extern */
 typedef struct S_800C8B8C_0 S_800C8B8C_0;
 void call_owner_callback(S_800C8B8C_0 *owner);
 extern M2C_UNK D_800EE344;
-
 
 typedef struct S_800C8A68_0 {
     u8 pad_00[0x8];
@@ -36,19 +36,11 @@ typedef struct S_800C8A68_3 {
     s16 unk_90;
 } S_800C8A68_3;
 
-typedef struct S_800C8A68_4 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800C8A68_4;
-
 /* Allocate and initialize an object at an offset from the supplied position. */
 s32 create_offset_effect_object(IntVector3 *source_pos) {
     S_800C8A68_1 *position;
     S_800C8A68_3 *object_state;
-    S_800C8A68_4 *render_state;
+    SpriteFrameState *render_state;
     void *object;
     s32 offset_z;
 
@@ -68,9 +60,9 @@ s32 create_offset_effect_object(IntVector3 *source_pos) {
     ((S_800C8A68_0 *)object)->unk_10 = &call_owner_callback;
     object_state->unk_90 = 2;
     load_indexed_state_value(object_state, position, render_state);
-    render_state->unk_1E = 0x1000;
-    render_state->unk_1C = 0x1000;
-    render_state->unk_0C = 0x808080;
+    render_state->scale_y = 0x1000;
+    render_state->scale_x = 0x1000;
+    render_state->color.word = 0x808080;
     func_8003DB94(render_state, &D_800EE344, 0);
     register_node_if_unregistered(object_state, project_sprite_chain);
     return (s32) object;

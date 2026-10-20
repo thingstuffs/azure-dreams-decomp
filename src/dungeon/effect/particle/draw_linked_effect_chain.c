@@ -1,4 +1,5 @@
 #include "dungeon/effect/particle/draw_linked_effect_chain.h"
+#include "shared/sprite_frame_state.h"
 #include "dungeon/effect/particle/draw_linked_effect_chain.h"
 
 void func_8002408C(void *quad, void *position, void *render_state, s16 depth_bias)
@@ -200,7 +201,7 @@ void update_effect_countdown_fields(void *object_data)
 #include "../../modules/ovl_19c088c_data.c"
 #include "dungeon/effect/particle/draw_linked_effect_chain.h"
 
-void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, Rec_D_80082E80 *primitive)
+void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteFrameState *primitive)
 {
     s32 brightness;
     s32 x;
@@ -215,9 +216,9 @@ void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, Rec_D_8
     func_800478B8(primitive);
     brightness = ((s16)((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3A.s << 7) /
             ((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3C;
-    primitive->unk_0C.at02_s8.v = brightness;
-    primitive->unk_0C.at01_s8.v = brightness;
-    primitive->unk_0C.at00_s8.v = brightness;
+    primitive->color.c.b = brightness;
+    primitive->color.c.g = brightness;
+    primitive->color.c.r = brightness;
     x = motion->unk_00;
     dx = motion->unk_0C;
     y = motion->unk_04;
@@ -377,7 +378,7 @@ void func_80024C50(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2
 {
     Row_819A1450_LocalTable direction_table;
     void *node;
-    Row_819A1450_S_819A1450_2 *part;
+    SpriteFrameState *part;
     Row_819A1450_S_819A1450_3 *coords;
     u8 *setup;
     s16 direction;
@@ -392,9 +393,9 @@ void func_80024C50(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2
         register_node(node, project_sprite_chain);
 
         part = ((Row_819A1450_S_819A1450_1 *)node)->unk_0C;
-        part->unk_10 = 0x20;
-        part->unk_14 |= 0xC;
-        part->unk_1A = (rand() & 7) << 9;
+        part->tpage_abr = 0x20;
+        part->flags |= 0xC;
+        part->angle_z = (rand() & 7) << 9;
         part->unk_06 = 0;
 
         coords = ((Row_819A1450_S_819A1450_1 *)node)->unk_08;
@@ -413,11 +414,11 @@ void func_80024C50(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2
             (s32)direction_table.entries[direction].second << 20;
 
         part = ((Row_819A1450_S_819A1450_1 *)node)->unk_0C;
-        part->unk_1E = 0x800;
-        part->unk_1C = 0x800;
-        part->unk_0E = 0x80;
-        part->unk_0D = 0x80;
-        part->unk_0C = 0x80;
+        part->scale_y = 0x800;
+        part->scale_x = 0x800;
+        part->color.c.b = 0x80;
+        part->color.c.g = 0x80;
+        part->color.c.r = 0x80;
         func_8003DB94(part, D_800DEC00, 0);
     }
 }

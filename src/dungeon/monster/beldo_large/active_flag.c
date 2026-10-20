@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
@@ -29,23 +30,10 @@ typedef struct S_80173140_2 {
     u16 unk_0A;
 } S_80173140_2;
 
-
-typedef struct S_80173140_4 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    union { s32 * s; void * u; } unk_2C;   /* accessed as both */
-} S_80173140_4;
-
 typedef struct S_80173140_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_80173140_5;   /* ((Rec_D_800E3D7C *)(&D_80083498))->unk_08.at00_pv.v in create_scripted_encounter_object */
-
 
 void *allocate_list_node();            /* extern */
 s32 register_node();           /* extern */
@@ -75,7 +63,7 @@ void create_scripted_encounter_object(void) {
     s32 origin_x;
     s32 origin_y;
     void *object_attrs;
-    void *sprite;
+    SpriteFrameState *sprite;
     void *state;
     S_80173140_1 *st;
 
@@ -91,16 +79,16 @@ void create_scripted_encounter_object(void) {
             (u16) ((S_80173140_5 *)((*(void * *)&((EntityRec *)(((s32 *)&D_80083498.next)))->z)))->unk_0A;
         sprite = ((S_80173140_0 *)object)->unk_0C;
         origin_x = D_80082E80.tileX;
-        ((S_80173140_4 *)sprite)->unk_24 = (u8) (origin_x - 1);
+        sprite->unk_24 = (u8) (origin_x - 1);
         origin_y = D_80082E80.tileY;
-        ((S_80173140_4 *)sprite)->unk_2C.s = &D_80173DA4;
-        ((S_80173140_4 *)sprite)->unk_25 = (u8) (origin_y + 7);
+        sprite->frameTable = &D_80173DA4;
+        sprite->unk_25 = (u8) (origin_y + 7);
         initialize_actor_sprite_and_animation(object, object_attrs, sprite, 0);
         (*(s16 *)((u8 *)st + 0x2A)) = 0xC00;
-        select_sprite_entry(sprite, ((u8 *) ((S_80173140_4 *)sprite)->unk_2C.u)[((s32) (g_game_work.view.viewAngle + 0xD00)
+        select_sprite_entry(sprite, ((u8 *) sprite->frameTable)[((s32) (g_game_work.view.viewAngle + 0xD00)
             >> 9) & 7], 0);
-        ((S_80173140_4 *)sprite)->unk_1E = 0x1000;
-        ((S_80173140_4 *)sprite)->unk_1C = 0x1000;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
         flag_mask = 0x40000;
         state_flags = st->unk_1C | flag_mask;
         st->unk_1C = state_flags;
@@ -108,8 +96,8 @@ void create_scripted_encounter_object(void) {
         masked_flags = active_flag(st->unk_1C);
         initial_offset = -0x20;
         st->unk_92 = initial_offset;
-        cell_x = ((S_80173140_4 *)sprite)->unk_24;
-        cell_y = ((S_80173140_4 *)sprite)->unk_25;
+        cell_x = sprite->unk_24;
+        cell_y = sprite->unk_25;
         cell_mask = 0x3000;
         if (masked_flags) {
             cell_mask = 0x300;

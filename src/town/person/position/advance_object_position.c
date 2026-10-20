@@ -4,7 +4,7 @@
 
 void add_hex_20000_s_signed_offset_hex_14();                      /* extern */
 s16 query_lowered_transform_position();                          /* extern */
-void apply_object_setup_and_update();        /* extern */
+void apply_object_setup_and_update(void *, s32, s32);        /* extern */
 
 /* extern */
 
@@ -14,7 +14,7 @@ void advance_object_position(s32 context, EntityRec *object, s32 finish_arg) {
     if (query_lowered_transform_position(object) < object->z.w.i) {
         object->z.w.i = query_lowered_transform_position(object);
         object->flags14 = 0;
-        apply_object_setup_and_update(context, object, finish_arg);
+        apply_object_setup_and_update((void *)(context), (s32)(object), finish_arg);
         return;
     }
     add_hex_20000_s_signed_offset_hex_14(object);

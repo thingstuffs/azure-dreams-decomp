@@ -1,7 +1,8 @@
 #include "modules/dungeon_ovl_e0365c.h"
+#include "shared/sprite_frame_state.h"
 
 s32 create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *initial_position, E_801742AC_S_80DE6AAC_4 *tile_origin) {
-    E_801742AC_S_80DE6AAC_3 *sprite;
+    SpriteFrameState *sprite;
     E_801742AC_S_80DE6AAC_5 *position;
     E_801742AC_S_80DE6AAC_1 *effect_state;
     void *effect;
@@ -13,15 +14,15 @@ s32 create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *init
         ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_20 = 0;
         effect_state->unk_02 = (s16)(((u16)source->unk_2A >> 9) & 7);
         sprite = ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_0C;
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
-        sprite->unk_12 = 0x7E40;
-        sprite->unk_14 = (u16)(sprite->unk_14 | 0x100);
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->clut = 0x7E40;
+        sprite->flags = (u16)(sprite->flags | 0x100);
         func_8003DB94(sprite, &D_800DEEC0, 0);
         func_800478B8(sprite);
-        sprite->unk_1E = 0x800;
-        sprite->unk_1C = 0x800;
+        sprite->scale_y = 0x800;
+        sprite->scale_x = 0x800;
         register_node(effect, project_sprite_chain);
         position = ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_08;
         *(E_801742AC_Copy24 *)position = *(E_801742AC_Copy24 *)initial_position;

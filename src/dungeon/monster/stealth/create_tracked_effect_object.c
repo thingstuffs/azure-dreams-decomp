@@ -1,13 +1,13 @@
 #include "dungeon/monster/stealth/create_tracked_effect_object.h"
-
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/stealth/create_tracked_effect_object.h"
 
 void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value0A)
 {
     s32 modeBits;
     s32 optionValue;
     void *objectBaseForCallbacks;
-    S_8015E854_3 *data0C;
+    SpriteFrameState *data0C;
     S_8015E854_2 *data08;
     void *objectState;
     void *objectBase;
@@ -26,7 +26,7 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
         data0C = ((S_8015E854_0 *)objectBase)->unk_0C;
         data0C->unk_25 = value25;
         objectState = result;
-        data0C->unk_2C = D_80161D30;
+        data0C->frameTable = D_80161D30;
         modeBits = mode & 3;
         data0C->unk_24 = value24;
         if (modeBits == 1) {
@@ -40,7 +40,7 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
                 if (generate_random_value() & 1) {
                     result->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
-                    data0C->unk_2C = D_80161D78;
+                    data0C->frameTable = D_80161D78;
                 }
             }
             optionValue = generate_random_value() & 3;
@@ -55,9 +55,9 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
         } else {
             objectBaseForCallbacks = (u8 *)objectState - 0x20;
             ((S_8015E854_4 *)objectState)->unk_A6 = 1;
-            data0C->unk_10 = 0x60;
-            data0C->unk_14 |= 0xC;
-            data0C->unk_12 -= 0x80;
+            data0C->tpage_abr = 0x60;
+            data0C->flags |= 0xC;
+            data0C->clut -= 0x80;
             unlink_node(objectBaseForCallbacks);
             retire_tracked_effect_by_id(objectBaseForCallbacks);
         }

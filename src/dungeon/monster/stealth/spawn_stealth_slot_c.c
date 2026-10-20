@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_7f217800.h"
-
+#include "shared/sprite_frame_state.h"
+#include "modules/dungeon_ovl_7f217800.h"
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select, then finish through the mode branch that either zeroes or arms the actor's 0xA6 state. */
 void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
@@ -7,7 +8,7 @@ void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     s32 kind;
     s32 mode;
     void *object_base;
-    S_80158854_3 *part1;
+    SpriteFrameState *part1;
     S_80158854_2 *part0;
     void *actor;
     void *object;
@@ -26,7 +27,7 @@ void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         part1 = ((S_80158854_0 *)object)->unk_0C;
         part1->unk_25 = variant;
         actor = result;
-        part1->unk_2C = D_8015BD30;
+        part1->frameTable = D_8015BD30;
         kind = flags & 3;
         part1->unk_24 = kind_id;
         if (kind == 1) {
@@ -40,7 +41,7 @@ void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
                 if (generate_random_value() & 1) {
                     result->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
-                    part1->unk_2C = D_8015BD78;
+                    part1->frameTable = D_8015BD78;
                 }
             }
             mode = generate_random_value() & 3;
@@ -55,9 +56,9 @@ void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         } else {
             object_base = (u8 *)actor - 0x20;
             ((S_80158854_4 *)actor)->unk_A6 = 1;
-            part1->unk_10 = 0x60;
-            part1->unk_14 |= 0xC;
-            part1->unk_12 -= 0x80;
+            part1->tpage_abr = 0x60;
+            part1->flags |= 0xC;
+            part1->clut -= 0x80;
             unlink_node(object_base);
             retire_tracked_effect_by_id(object_base);
         }

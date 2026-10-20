@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct {
     signed short x;
@@ -14,7 +14,6 @@ extern void play_sound_if_enabled(s32);
 extern s32 sample_terrain_surface_height(u16, u16, signed short);
 
 extern DirectionDelta D_800E2468[];
-
 
 typedef struct S_80174C64_0 {
     u8 pad_00[0x92];
@@ -36,7 +35,6 @@ typedef struct S_80174C64_0 {
     u8 unk_B4;
 } S_80174C64_0;   /* arg0 in update_actor_movement_history */
 
-
 typedef struct S_80174C64_2 {
     u8 pad_00[0x62];
     u16 unk_62;
@@ -50,7 +48,7 @@ typedef struct S_80174C64_3 {
 } S_80174C64_3;   /* (u8 *)((unsigned long)base + ((i - 1) << 2)) in update_actor_movement_history */
 
 /* Updates movement, turning, position history, and timed stop states. */
-void update_actor_movement_history(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record, void *object)
+void update_actor_movement_history(S_80174C64_0 *motion, void *position, SpriteFrameState *record, void *object)
 {
     u16 angle;
     u16 next_angle;
@@ -74,7 +72,7 @@ void update_actor_movement_history(S_80174C64_0 *motion, void *position, Rec_D_8
     case 0:
         switch (motion->unk_B2) {
         case 0:
-            if (record->unk_14.at00_u16.v & 0x8000) {
+            if (record->flags & 0x8000) {
                 motion->unk_B3 = 2;
                 break;
             }
@@ -143,7 +141,7 @@ void update_actor_movement_history(S_80174C64_0 *motion, void *position, Rec_D_8
     case 1:
         switch (motion->unk_B2) {
         case 0:
-            if (record->unk_14.at00_u16.v & 0x8000) {
+            if (record->flags & 0x8000) {
                 motion->unk_B3 = 2;
                 break;
             }
@@ -183,7 +181,7 @@ void update_actor_movement_history(S_80174C64_0 *motion, void *position, Rec_D_8
     }
 
     if (state == 1) {
-        if (record->unk_14.at00_u16.v & 0x8000) {
+        if (record->flags & 0x8000) {
             motion->unk_B3 = 2;
         } else {
             {
@@ -405,7 +403,7 @@ state1_minus_angle:
     if (state == 2) {
         (*(u16 *)((u8 *)object + 0x2A)) &= 0xFC00;
         motion->unk_9B++;
-        record->unk_14.at00_u16.v |= 0x80;
+        record->flags |= 0x80;
         motion->unk_92 = 0;
         motion->unk_B1 = 0;
         motion->unk_96 = 0;
@@ -440,7 +438,7 @@ state3_test:
             break;
 
         case 2:
-            record->unk_14.at00_u16.v |= 0x80;
+            record->flags |= 0x80;
             motion->unk_96 = 20;
             motion->unk_B1++;
             break;
@@ -470,7 +468,7 @@ state3_test:
         }
             (*(u16 *)((u8 *)object + 0x2A)) &= 0xFC00;
             motion->unk_9B++;
-            record->unk_14.at00_u16.v |= 0x80;
+            record->flags |= 0x80;
             motion->unk_92 = 0;
             motion->unk_B1 = 0;
             motion->unk_96 = 0;

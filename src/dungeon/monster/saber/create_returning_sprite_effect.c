@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
@@ -37,20 +38,6 @@ typedef struct S_80AC55DC_2 {
     s32 unk_54;
 } S_80AC55DC_2;   /* work in create_returning_sprite_effect */
 
-typedef struct S_80AC55DC_4 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80AC55DC_4;   /* sprite in create_returning_sprite_effect */
-
 typedef struct S_80AC55DC_5 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -61,7 +48,6 @@ typedef struct S_80AC55DC_5 {
 } S_80AC55DC_5;   /* ((S_80AC55DC_0 *)node)->unk_08 in create_returning_sprite_effect */
 
    /* ((S_80AC55DC_1 *)arg0)->unk_08 in create_returning_sprite_effect */
-
 
 extern void register_node(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
@@ -76,7 +62,7 @@ void create_returning_sprite_effect(
 {
     void *node;
     S_80AC55DC_2 *work;
-    S_80AC55DC_4 *sprite;
+    SpriteFrameState *sprite;
     u16 sprite_flags;
     s32 step_x;
     s32 step_y;
@@ -119,14 +105,14 @@ void create_returning_sprite_effect(
         register_node(node, project_sprite_chain);
 
         sprite = ((S_80AC55DC_0 *)node)->unk_0C;
-        sprite_flags = sprite->unk_14;
-        sprite->unk_10 = 0x20;
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_0E = 0;
-        sprite->unk_0D = 0;
-        sprite->unk_0C = 0;
-        sprite->unk_14 = sprite_flags | 0xC;
+        sprite_flags = sprite->flags;
+        sprite->tpage_abr = 0x20;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->color.c.b = 0;
+        sprite->color.c.g = 0;
+        sprite->color.c.r = 0;
+        sprite->flags = sprite_flags | 0xC;
         ((S_80AC55DC_0 *)node)->unk_20 = effect_value;
         work->unk_08 = effect_value;
         func_8003DB94(sprite, D_800DEC70, 0);

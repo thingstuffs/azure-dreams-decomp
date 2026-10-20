@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -30,7 +31,6 @@ typedef struct S_800B63A8_1 {
     u8 unk_18;
 } S_800B63A8_1;   /* arg0 in advance_effect_fade_and_flag */
 
-
 extern void func_800478B8(void *entity);            /* extern */
 
 /* Advance effect motion, fade its color, and flag it when its lifetime expires. */
@@ -57,28 +57,28 @@ void advance_effect_fade_and_flag(void *effect, void *motion, void *primitive) {
     ((S_800B63A8_0 *)motion)->unk_04 = (s32) (((S_800B63A8_0 *)motion)->unk_04 + velocity_y);
     ((S_800B63A8_0 *)motion)->unk_08 = (s32) (((S_800B63A8_0 *)motion)->unk_08 + velocity_z);
     func_800478B8(primitive);
-    red = ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v;
+    red = ((SpriteFrameState *)primitive)->color.c.r;
     if (red != 0) {
         faded_red = red - ((S_800B63A8_1 *)effect)->unk_14;
-        ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v = faded_red;
+        ((SpriteFrameState *)primitive)->color.c.r = faded_red;
         if ((u32) (faded_red & 0xFF) >= 0x81U) {
-            ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v = 0x80U;
+            ((SpriteFrameState *)primitive)->color.c.r = 0x80U;
         }
     }
-    green = ((Rec_D_80082E80 *)primitive)->unk_0C.at01_u8.v;
+    green = ((SpriteFrameState *)primitive)->color.c.g;
     if (green != 0) {
         faded_green = green - ((S_800B63A8_1 *)effect)->unk_16;
-        ((Rec_D_80082E80 *)primitive)->unk_0C.at01_u8.v = faded_green;
+        ((SpriteFrameState *)primitive)->color.c.g = faded_green;
         if ((u32) (faded_green & 0xFF) >= 0x81U) {
-            ((Rec_D_80082E80 *)primitive)->unk_0C.at01_u8.v = 0x80U;
+            ((SpriteFrameState *)primitive)->color.c.g = 0x80U;
         }
     }
-    blue = ((Rec_D_80082E80 *)primitive)->unk_0C.at02_u8.v;
+    blue = ((SpriteFrameState *)primitive)->color.c.b;
     if (blue != 0) {
         faded_blue = blue - ((S_800B63A8_1 *)effect)->unk_18;
-        ((Rec_D_80082E80 *)primitive)->unk_0C.at02_u8.v = faded_blue;
+        ((SpriteFrameState *)primitive)->color.c.b = faded_blue;
         if ((u32) (faded_blue & 0xFF) >= 0x81U) {
-            ((Rec_D_80082E80 *)primitive)->unk_0C.at02_u8.v = 0x80U;
+            ((SpriteFrameState *)primitive)->color.c.b = 0x80U;
         }
     }
     life_left = ((S_800B63A8_1 *)effect)->unk_0E - 1;

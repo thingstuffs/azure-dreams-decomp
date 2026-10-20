@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 
@@ -18,7 +19,6 @@ typedef struct {
     u16 unk14;
 } StructArg2;
 
-
 void unlink_node(void *);
 void register_node(void *, void *);
 
@@ -32,26 +32,26 @@ s32 update_actor_fade_in(StructArg0 *object_arg, s32 unused, StructArg2 *effect_
 
     switch (phase) {
     case 0:
-        effect->unk0F++;
-        effect->unk0C += (0x80 - effect->unk0C) / effect->unk0F;
-        effect->unk0D += (0x80 - effect->unk0D) / effect->unk0F;
-        effect->unk0E += (0x80 - effect->unk0E) / effect->unk0F;
-        if (effect->unk0F >= 8) {
-            effect->unk0E = 0x80;
-            effect->unk0D = 0x80;
-            effect->unk0C = 0x80;
+        ((SpriteFrameState *)effect)->color.c.code++;
+        ((SpriteFrameState *)effect)->color.c.r += (0x80 - ((SpriteFrameState *)effect)->color.c.r) / ((SpriteFrameState *)effect)->color.c.code;
+        ((SpriteFrameState *)effect)->color.c.g += (0x80 - ((SpriteFrameState *)effect)->color.c.g) / ((SpriteFrameState *)effect)->color.c.code;
+        ((SpriteFrameState *)effect)->color.c.b += (0x80 - ((SpriteFrameState *)effect)->color.c.b) / ((SpriteFrameState *)effect)->color.c.code;
+        if (((SpriteFrameState *)effect)->color.c.code >= 8) {
+            ((SpriteFrameState *)effect)->color.c.b = 0x80;
+            ((SpriteFrameState *)effect)->color.c.g = 0x80;
+            ((SpriteFrameState *)effect)->color.c.r = 0x80;
             object->unk9B++;
         }
         return 0;
     case 1:
-        effect->unk0F--;
-        if (effect->unk0F != 0) {
+        ((SpriteFrameState *)effect)->color.c.code--;
+        if (((SpriteFrameState *)effect)->color.c.code != 0) {
             return 0;
         }
         owner = (StructArg0 *)((u8 *)object - 0x20);
         unlink_node(owner);
-        effect->unk12 += 0x80;
-        effect->unk14 &= 0xFFF3;
+        ((SpriteFrameState *)effect)->clut += 0x80;
+        ((SpriteFrameState *)effect)->flags &= 0xFFF3;
         register_node(owner, project_sprite_chain);
         effect_count = ((u16)g_dungeon_status.unk_0A);
         effect_count--;

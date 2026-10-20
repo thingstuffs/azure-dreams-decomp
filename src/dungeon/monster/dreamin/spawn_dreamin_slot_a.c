@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -24,14 +25,6 @@ typedef struct S_80DB3000_2 {
     s16 unk_0A;
 } S_80DB3000_2;
 
-typedef struct S_80DB3000_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80DB3000_3;
-
 typedef struct S_80DB3000_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -40,9 +33,6 @@ typedef struct S_80DB3000_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_80DB3000_4;
-
-
-
 
 void *allocate_list_node();
 s32 register_node(); /* extern */
@@ -62,7 +52,7 @@ void *move_expand_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y
     s32 spawn_mode;
     s32 flags_14;
     s32 flags_1c;
-    S_80DB3000_3 *placement;
+    SpriteFrameState *placement;
     S_80DB3000_2 *properties;
     void *object;
     S_80DB3000_4 *extended_state;
@@ -89,7 +79,7 @@ void *move_expand_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y
         spawn_mode = spawn_flags & 3;
         placement->unk_25 = saved_y;
         extended_state = state;
-        placement->unk_2C = &D_8014F86C;
+        placement->frameTable = &D_8014F86C;
         placement->unk_24 = saved_x;
         if (spawn_mode == 1) {
             flags_14 = state->unk_14 | 0x6000;

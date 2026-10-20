@@ -18,19 +18,6 @@ typedef struct ovl_188898c_81868A64_S_81868A64_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } ovl_188898c_81868A64_S_81868A64_0;
-typedef struct ovl_188898c_81868A64_S_81868A64_1 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} ovl_188898c_81868A64_S_81868A64_1;
 typedef struct ovl_188898c_81868A64_S_81868A64_2 {
     u8 pad_00[0x2];
     u16 unk_02;

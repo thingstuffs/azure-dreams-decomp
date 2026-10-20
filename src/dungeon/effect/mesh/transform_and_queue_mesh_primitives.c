@@ -1,4 +1,5 @@
 #include "modules/dungeon_native_abi.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct S_func_8187A800_0 {
     u8 pad_00[0x14];
@@ -21,10 +22,10 @@ const u8 D_80024004[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x8
 const u8 D_80024034[4] = {0x81,0x44,0x0,0x0};
 extern s32 D_800E1CB0;
 
-void func_800240B8(S_func_8187A800_0 *target, s32 effect_arg, void *unused);
+void func_800240B8(S_func_8187A800_0 *target, s32 effect_arg, SpriteFrameState *unused);
 
 /* Attempts to apply an effect and reports the outcome for flagged targets. */
-void func_800240B8(S_func_8187A800_0 *target, s32 effect_arg, void *unused)
+void func_800240B8(S_func_8187A800_0 *target, s32 effect_arg, SpriteFrameState *unused)
 {
     s32 message;
     s32 message_start;
@@ -148,12 +149,6 @@ typedef struct S_func_800241A8_1 {
     s32 unk_100;
 } S_func_800241A8_1;
 
-
-
-
-
-
-
 typedef struct S_func_800241A8_5 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
@@ -219,7 +214,6 @@ typedef struct S_func_800241A8_6 {
     } unk_24;
 } S_func_800241A8_6;
 
-
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -266,16 +260,16 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
     scratch->unk_88 = transform->unk_02;
     scratch->unk_8C = transform->unk_06;
     scratch->unk_90 = transform->unk_0A;
-    object->unk_14 |= 0x8000;
+    ((SpriteFrameState *)object)->flags |= 0x8000;
 
     func_800649A0();
 
     scratch->unk_3C = 0x2000;
     scratch->unk_38 = 0x2000;
     scratch->unk_34 = 0x2000;
-    scratch->unk_A4 = object->unk_16;
-    scratch->unk_A8 = object->unk_1A;
-    scratch->unk_A6 = object->unk_18;
+    scratch->unk_A4 = ((SpriteFrameState *)object)->angle_x;
+    scratch->unk_A8 = ((SpriteFrameState *)object)->angle_z;
+    scratch->unk_A6 = ((SpriteFrameState *)object)->angle_y;
     func_80065820((u8 *)scratch + 0xA4, (u8 *)scratch + 0x74);
     func_80064AE0(&matrix);
     func_80064840(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
@@ -284,8 +278,8 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
     func_80064CF0((u8 *)scratch + 0x54);
 
     depth_offset = (s16)depth_bias;
-    texture = object->unk_08;
-    scratch->unk_28 = object->unk_14;
+    texture = ((SpriteFrameState *)object)->source;
+    scratch->unk_28 = ((SpriteFrameState *)object)->flags;
 
     for (;;) {
         if (mesh->unk_4E != 0) {
@@ -336,7 +330,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
                   ((u16)(packet->unk_22.as_u16_22 + 0x20) < 0x121)))) {
                 packet->unk_00.as_u8_03.unk_03 = 9;
                 packet->unk_04.as_u8_07.unk_07 = 0x2C;
-                object->unk_14 &= 0x7FFF;
+                ((SpriteFrameState *)object)->flags &= 0x7FFF;
 
                 scratch->unk_14.as_s32_14 += scratch->unk_0C.as_s32_0C;
                 if (scratch->unk_14.as_s32_14 & 0x100) {
@@ -351,7 +345,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
 
                 {
                     u32 palette_id;
-                    texture_adjust = object->unk_12;
+                    texture_adjust = ((SpriteFrameState *)object)->clut;
                     if (texture_adjust != 0) {
                         if (scratch->unk_28 & 0x100) {
                             packet->unk_0E = texture_adjust;
@@ -370,7 +364,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
                 packet->unk_14.as_u16_14 = scratch->unk_10.as_u16_10 +
                                            scratch->unk_14.as_u16_14;
 
-                texture_adjust = object->unk_10;
+                texture_adjust = ((SpriteFrameState *)object)->tpage_abr;
                 if (texture_adjust != 0) {
                     packet->unk_16 = texture_adjust + (texture->tpage & 0xFF9F);
                 } else {
@@ -392,14 +386,14 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
                 }
 
                 texture_flags = texture->texture_flags;
-                object->unk_0C.as_u8_0F.unk_0F = texture_flags;
+                ((SpriteFrameState *)object)->color.c.code = texture_flags;
                 render_flags = scratch->unk_28;
                 if (render_flags & 8) {
-                    object->unk_0C.as_u8_0F.unk_0F = (render_flags & 4) ?
+                    ((SpriteFrameState *)object)->color.c.code = (render_flags & 4) ?
                         (texture_flags | 2) : (texture_flags & 0xFD);
                 }
 
-                packet->unk_04.as_u32_04 = object->unk_0C.as_u32_0C;
+                packet->unk_04.as_u32_04 = *(u32 *)&((SpriteFrameState *)object)->color.word;
                 setaddr(packet, getaddr((u32 *)scratch->unk_24 + scratch->unk_100));
                 setaddr((u32 *)scratch->unk_24 + scratch->unk_100, packet);
             }
@@ -464,13 +458,13 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
             render_flags = scratch->unk_28;
             if (render_flags & 8) {
                 if (render_flags & 4) {
-                    object->unk_0C.as_u8_0F.unk_0F |= 2;
+                    ((SpriteFrameState *)object)->color.c.code |= 2;
                 } else {
-                    object->unk_0C.as_u8_0F.unk_0F &= 0xFD;
+                    ((SpriteFrameState *)object)->color.c.code &= 0xFD;
                 }
             }
 
-            render_flags = object->unk_0C.as_u32_0C;
+            render_flags = *(u32 *)&((SpriteFrameState *)object)->color.word;
             line->unk_00.as_u8_03.unk_03 = 3;
             line->unk_04.as_u32_04 = render_flags;
             line->unk_04.as_u8_07.unk_07 = 0x42;
@@ -518,8 +512,6 @@ s32 decrement_object_counter(void *record, void *context, void *data) {
 #include "shared/game_work.h"
 #include "shared/position_views.h"
 
-
-
 typedef struct S_8187B1F4_1 {
     u8 pad_00[0x90];
     s32 unk_90;
@@ -559,26 +551,12 @@ typedef struct S_8187B1F4_4 {
     } unk_04;   /* overlapping accesses */
 } S_8187B1F4_4;
 
-typedef struct S_8187B1F4_5 {
-    u32 unk_00;
-} S_8187B1F4_5;   /* (u8 *)VFIELD(scratch, void *, 0x24) +
-                           VFIELD(scratch, u32, 0x100) * 4 in project_shaded_points_to_ordering_table */
-
 typedef struct S_8187B1F4_6 {
     u32 unk_00;
     u8 pad_04[0x4];
     u8 * unk_08;
     u8 * unk_0C;
 } S_8187B1F4_6;   /* tail in project_shaded_points_to_ordering_table */
-
-typedef struct S_8187B1F4_7 {
-    u32 unk_00;
-} S_8187B1F4_7;
-
-typedef struct S_8187B1F4_8 {
-    u32 unk_00;
-} S_8187B1F4_8;   /* state in project_shaded_points_to_ordering_table */
-
 
 #define VFIELD(base, type, offset) (((struct { u8 _pad_[offset]; type v; } *)(base))->v)
 
@@ -743,7 +721,6 @@ typedef struct S_8187B540_1 {
     u16 unk_A0;
 } S_8187B540_1;   /* obj in func_80024D40 */
 
-
 extern s16 D_8002694C[5];
 
 /* Add the object increment to the target and flag completion when its countdown expires. */
@@ -896,10 +873,6 @@ typedef struct S_func_800250B0_0 {
     s32 unk_20;
 } S_func_800250B0_0;
 
-
-
-
-
 typedef struct S_func_800250B0_3 {
     u8 pad_00[0x04];
     s16 unk_04;
@@ -998,8 +971,6 @@ typedef struct S_8187B9E8_0 {
     s16 unk_44[23];
     s16 unk_72[23];
 } S_8187B9E8_0;   /* v in func_800251E8 */
-
-
 
    /* r0 in func_800251E8 */
 
@@ -1114,10 +1085,7 @@ typedef struct S_8187BB80_1 {
     u16 unk_14;
 } S_8187BB80_1;   /* aux in advance_fading_effect_animation */
 
-
-
 extern s16 D_8002694C[5];
-
 
 /* Advance the effect animation, fade its colors, and mark it for removal when its lifetime ends. */
 void advance_fading_effect_animation(void *effect_data, s32 unused_arg, void *color_data) {
@@ -1246,8 +1214,6 @@ void advance_fading_effect_animation(void *effect_data, s32 unused_arg, void *co
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
 
-
-
 typedef struct S_8187BE9C_0 {
     u8 pad_00[0x2];
     union { u16 s; s16 u; } unk_02;   /* accessed as both */
@@ -1270,7 +1236,6 @@ typedef struct S_8187BE9C_1 {
     u8 pad_0F[0x5];
     u16 unk_14;
 } S_8187BE9C_1;   /* arg2 in create_object_offset */
-
 
 extern s16 D_8002694C[5];
 

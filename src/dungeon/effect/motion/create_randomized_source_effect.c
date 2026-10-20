@@ -1,13 +1,14 @@
 #include "dungeon/effect/motion/create_randomized_source_effect.h"
+#include "shared/sprite_frame_state.h"
+#include "dungeon/effect/motion/create_randomized_source_effect.h"
 
-
-void func_80024048(void *motion, Row_8191C848_S_8191C848_3 *position, Rec_D_80082E80 *status) {
+void func_80024048(void *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status) {
     s32 y_step_scaled;
     Row_8191C848_S_8191C848_1 *counter_state;
     counter_state = ((Row_8191C848_S_8191C848_0 *)motion)->unk_00;
     counter_state->unk_14 = (u16) (counter_state->unk_14 + 1);
     func_800478B8(status);
-    if (status->unk_14.at00_u16.v & 0x6000) {
+    if (status->flags & 0x6000) {
         ((Row_8191C848_S_8191C848_0_pre *)motion)[-1].unk_00 = (u16) (((Row_8191C848_S_8191C848_0_pre *)motion)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
@@ -23,7 +24,7 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
     s32 random_value;
     Row_8191C938_CopyBlock *object_block;
     Row_8191C938_S_8191C938_1 *state;
-    Row_8191C938_S_8191C938_2 *render_data;
+    SpriteFrameState *render_data;
     void *object;
     Row_8191C938_CopyBlock *source_block;
     void *result;
@@ -40,16 +41,16 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
         state->unk_08 = random_value % 0x1000;
         state->unk_0A = 0x10;
         render_data = ((Row_8191C938_S_8191C938_0 *)object)->unk_0C;
-        render_data->unk_0D = 0x80;
-        render_data->unk_0C = 0x80;
-        render_data->unk_0E = 0;
-        render_data->unk_12 = 0x7DCF;
-        render_data->unk_14 |= 0xC;
-        render_data->unk_10 |= 0x20;
-        render_data->unk_14 |= 0x100;
+        render_data->color.c.g = 0x80;
+        render_data->color.c.r = 0x80;
+        render_data->color.c.b = 0;
+        render_data->clut = 0x7DCF;
+        render_data->flags |= 0xC;
+        render_data->tpage_abr |= 0x20;
+        render_data->flags |= 0x100;
         func_8003DB94(render_data, D_800DED70, 0);
-        render_data->unk_1E = 0x1000;
-        render_data->unk_1C = 0x1000;
+        render_data->scale_y = 0x1000;
+        render_data->scale_x = 0x1000;
         register_node(object, project_sprite_chain);
         object_block = ((Row_8191C938_S_8191C938_0 *)object)->unk_08;
         source_block = source->unk_20;
@@ -153,7 +154,7 @@ s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
     s32 angle_random;
     s32 adjusted_depth;
     s32 angle;
-    Row_8191CBCC_S_8191CBCC_3 *render;
+    SpriteFrameState *render;
     Row_8191CBCC_S_8191CBCC_1 *state;
     void *object;
 
@@ -169,12 +170,12 @@ s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
         state->unk_14.s = (u16) params->unk_12;
         state->unk_16 = (s16) (0x1C - params->unk_10.s);
         render = ((Row_8191CBCC_S_8191CBCC_0 *)object)->unk_0C;
-        render->unk_0E = 0x80;
-        render->unk_0D = 0x80;
-        render->unk_0C = 0x80;
-        render->unk_08 = &D_80024F74;
-        render->unk_14 = (u16) (render->unk_14 | 0xC);
-        render->unk_10 = (u16) (render->unk_10 | 0x60);
+        render->color.c.b = 0x80;
+        render->color.c.g = 0x80;
+        render->color.c.r = 0x80;
+        render->source = &D_80024F74;
+        render->flags = (u16) (render->flags | 0xC);
+        render->tpage_abr = (u16) (render->tpage_abr | 0x60);
         angle = rand();
         angle_random = angle;
         angle >>= 0xC;
@@ -182,10 +183,10 @@ s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
             angle = (s32) (angle_random + 0xFFF) >> 0xC;
         }
         angle = angle_random - (angle << 0xC);
-        render->unk_1A = (s16)angle;
+        render->angle_z = (s16)angle;
         size_fixed = params->unk_10.u << 8;
-        render->unk_1E = size_fixed;
-        render->unk_1C = size_fixed;
+        render->scale_y = size_fixed;
+        render->scale_x = size_fixed;
         register_node(object, &D_80045C34);
         {
             Row_8191CBCC_S_8191CBCC_4 *transform;

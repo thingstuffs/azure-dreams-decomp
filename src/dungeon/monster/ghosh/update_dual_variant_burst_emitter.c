@@ -19,7 +19,7 @@ typedef struct S_801723D0_2 {
 } S_801723D0_2;   /* arg0 in update_dual_variant_burst_emitter; pointer addresses record offset 0x2 */
 
 
-void spawn_jittered_trail_particle(); /* extern */
+struct S_80171F30_1; void spawn_jittered_trail_particle(struct S_80171F30_1 *, s32, s16, s16); /* extern */
 
 /* Advance record values, perform six updates, and flag an expired counter. */
 void update_dual_variant_burst_emitter(void *record_data, S_801723D0_0 *offset_record, S_801723D0_1 *value_record) {
@@ -29,12 +29,12 @@ void update_dual_variant_burst_emitter(void *record_data, S_801723D0_0 *offset_r
     base_addr = record_data - 0x20;
     offset_record->unk_02 = (u16) (offset_record->unk_02 + 0x10);
     value_record->unk_1A = (u16) (value_record->unk_1A + 0x1F4);
-    spawn_jittered_trail_particle(base_addr, 0x8080, 0x1C, 1);
-    spawn_jittered_trail_particle(base_addr, 0x8080, 0x1C, 1);
-    spawn_jittered_trail_particle(base_addr, 0x8080, 0x1C, 1);
-    spawn_jittered_trail_particle(base_addr, 0x8080, 0x1C, 2);
-    spawn_jittered_trail_particle(base_addr, 0x8080, 0x1C, 2);
-    spawn_jittered_trail_particle(base_addr, 0x8080, 0x1C, 2);
+    spawn_jittered_trail_particle((struct S_80171F30_1 *)(base_addr), 0x8080, 0x1C, 1);
+    spawn_jittered_trail_particle((struct S_80171F30_1 *)(base_addr), 0x8080, 0x1C, 1);
+    spawn_jittered_trail_particle((struct S_80171F30_1 *)(base_addr), 0x8080, 0x1C, 1);
+    spawn_jittered_trail_particle((struct S_80171F30_1 *)(base_addr), 0x8080, 0x1C, 2);
+    spawn_jittered_trail_particle((struct S_80171F30_1 *)(base_addr), 0x8080, 0x1C, 2);
+    spawn_jittered_trail_particle((struct S_80171F30_1 *)(base_addr), 0x8080, 0x1C, 2);
     remaining = ((S_801723D0_2 *)((u8 *)record_data - 0x2))->unk_18 - 1;
     ((S_801723D0_2 *)((u8 *)record_data - 0x2))->unk_18 = remaining;
     if ((remaining << 0x10) <= 0) {

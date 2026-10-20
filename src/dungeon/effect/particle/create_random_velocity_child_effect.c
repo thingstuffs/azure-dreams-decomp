@@ -1,20 +1,17 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
-
 
 #ifndef NULL
 #define NULL 0
 #endif
-
-
 
 typedef struct S_80164ED0_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
 } S_80164ED0_2;
-
 
 typedef struct S_80164ED0_4 {
     u8 pad_00[0x2];
@@ -29,12 +26,6 @@ typedef struct S_80164ED0_4 {
 } S_80164ED0_4;
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_random_velocity_child_effect */
-
-typedef struct S_80164ED0_6 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_80164ED0_6;
-
 
 void *allocate_list_node();
 s32 register_node();
@@ -72,7 +63,7 @@ void create_random_velocity_child_effect(EntityRec *parent, s32 state_value, s16
         (((MovingPosition *)((*(void * *)&parent->z)))->unk_06 + offset_y);
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0A = (s16)
         (((MovingPosition *)((*(void * *)&parent->z)))->unk_0A + offset_z);
-        ((S_80164ED0_6 *)(((S_80164ED0_2 *)effect)->unk_0C))->unk_06 = 6;
+        ((SpriteFrameState *)((S_80164ED0_2 *)effect)->unk_0C)->unk_06 = 6;
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0C = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 6);
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_10 = (s32)

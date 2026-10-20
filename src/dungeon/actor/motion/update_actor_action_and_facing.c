@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -14,7 +15,7 @@ extern void apply_clamped_actor_value_delta(void *actor);
 extern void *D_800DD274[8];
 
 /* Refresh the directional sprite and advance the actor state when sprite flags are set. */
-void update_actor_action_and_facing_2(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
+void update_actor_action_and_facing_2(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, SpriteFrameState *sprite, EntityRec *actor)
 {
     s32 tracked_addr;
 
@@ -23,8 +24,8 @@ void update_actor_action_and_facing_2(Rec_func_8008ACDC_arg0 *state, EntityRec *
         state->unk_9B.as_u8++;
     }
 
-    if (sprite->unk_14.at00_u16.v & 0xE000) {
-        sprite->unk_2C.as_pv = D_800DD274;
+    if (sprite->flags & 0xE000) {
+        sprite->frameTable = D_800DD274;
         func_8003DB94(
             sprite,
             D_800DD274[

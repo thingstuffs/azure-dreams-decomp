@@ -1,6 +1,7 @@
 #include "modules/dungeon_resource07_slot0.h"
+#include "shared/sprite_frame_state.h"
 
-void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
+void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, EntityRec *motion, SpriteFrameState *sprite, EntityRec *actor)
 {
     s16 timer;
     s32 direction_y;
@@ -16,10 +17,10 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
     state = action->unk_9B;
     switch (state) {
     case 0:
-        if (sprite->unk_14.at00_u16.v & 0x8000) {
+        if (sprite->flags & 0x8000) {
             action->unk_9B = 3;
             action->unk_96.s = 0;
-            sprite->unk_14.at00_u16.v |= 0x6000;
+            sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
@@ -36,7 +37,7 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
         direction_y = (*(s16 *)((u8 *)(((s8 *)dir_step_y)) + (direction * 2)));
         motion->flags14 = 0;
         motion->unk_10 = direction_y * 0x60000;
-        sprite->unk_2C.as_pv = ((u8 *)D_80174140);
+        sprite->frameTable = ((u8 *)D_80174140);
         select_sprite_entry(sprite,
             (*(u8 *)((u8 *)(((u8 *)D_80174140)) + (((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7))),
             0);
@@ -49,8 +50,8 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
         y_velocity = motion->unk_10;
         motion->unk_0C = x_velocity - (x_velocity >> 2);
         motion->unk_10 = y_velocity - (y_velocity >> 2);
-        if (sprite->unk_14.at00_u16.v & 0xE000) {
-            sprite->unk_2C.as_pv = ((u8 *)D_80174170);
+        if (sprite->flags & 0xE000) {
+            sprite->frameTable = ((u8 *)D_80174170);
             select_sprite_entry(sprite,
                 (*(u8 *)((u8 *)(((u8 *)D_80174170)) + (((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7))),
                 0);
@@ -81,15 +82,15 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
             motion->unk_10 = speed_component + (speed_component >> 2);
         }
 
-        if (((sprite->unk_04.as_s8 == 3) &&
-             (sprite->unk_14.at00_u16.v & 0x1000)) ||
-            (sprite->unk_14.at00_u16.v & 0x8000)) {
+        if (((sprite->unk_04 == 3) &&
+             (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
 
-        if (((sprite->unk_04.as_s8 == 5) &&
-             (sprite->unk_14.at00_u16.v & 0x1000)) ||
-            (sprite->unk_14.at00_u16.v & 0x8000)) {
+        if (((sprite->unk_04 == 5) &&
+             (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0x8000)) {
             motion->unk_0C =
                 ((((sprite->unk_24 << 6) + 0x20) << 16) -
                  motion->x.v) / action->unk_96.s;
@@ -99,7 +100,7 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
         }
 
         if ((action->unk_96.s <= 0) ||
-            (sprite->unk_14.at00_u16.v & 0x8000)) {
+            (sprite->flags & 0x8000)) {
             action->unk_9B += 1;
             return;
         }
@@ -107,7 +108,7 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
 
     case 3:
         if ((action->unk_96.s <= 0) ||
-            (sprite->unk_14.at00_u16.v & 0x8000)) {
+            (sprite->flags & 0x8000)) {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;

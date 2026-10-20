@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -24,18 +25,6 @@ typedef struct S_80170BB0_2 {
     s16 unk_0A;
 } S_80170BB0_2;   /* part_a in create_configured_effect_actor */
 
-typedef struct S_80170BB0_3 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80170BB0_3;   /* part_b in create_configured_effect_actor */
-
 typedef struct S_80170BB0_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -46,7 +35,6 @@ typedef struct S_80170BB0_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_80170BB0_4;   /* actor2 in create_configured_effect_actor */
-
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -67,7 +55,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
     s32 flags1c;
     void *object;
     S_80170BB0_2 *part_a;
-    S_80170BB0_3 *part_b;
+    SpriteFrameState *part_b;
     void *handler;
     S_80170BB0_1 *actor;
     S_80170BB0_4 *actor2;
@@ -88,7 +76,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
         kind = mask & 3;
         part_b->unk_25 = value_at_25;
         actor2 = actor;
-        part_b->unk_2C = handler;
+        part_b->frameTable = handler;
         part_b->unk_24 = value_at_24;
         actor->unk_9E = 0;
 
@@ -104,7 +92,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
             actor->unk_1C = flags1c;
         } else if (((mask & ~3) << 16) == 0 && !(actor->unk_14 & 0x200) && (generate_random_value() & 1)) {
             set_or_clear_actor_status_slot(actor, 1, (generate_random_value() & 0x3F) | 0x20);
-            part_b->unk_2C = D_80174158;
+            part_b->frameTable = D_80174158;
         }
 
         initialize_actor_sprite_and_animation(object, part_a, part_b, mask);
@@ -113,8 +101,8 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
         actor2->unk_8C = D_801714D4;
         actor->unk_1C |= 0x40000;
         actor2->unk_92 = -0x20;
-        part_b->unk_10 = 0x20;
-        part_b->unk_14 |= 0xC;
+        part_b->tpage_abr = 0x20;
+        part_b->flags |= 0xC;
         try_move_actor_to_valid_position(actor2, part_a, part_b, actor);
     }
     return actor;

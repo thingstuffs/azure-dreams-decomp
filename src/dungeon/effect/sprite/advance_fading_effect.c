@@ -1,5 +1,5 @@
 #include "dungeon/effect/sprite/advance_fading_effect.h"
-
+#include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_188298c_entry)(void) = (void (*)(void))move_to_linked_object_and_apply_arrival_effects;
 
 void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
@@ -92,7 +92,7 @@ void advance_counter_and_propagate_target_flags(void *state, s32 context, Rec_D_
     if ((s16) update_count == 0xA) {
         spawn_jittered_type_212_effect(((ovl_188298c_81862B74_S_81862B74_0 *)state)->unk_00, context);
     }
-    if (target->unk_14.at00_u16.v & 0x6000) {
+    if (((SpriteFrameState *)target)->flags & 0x6000) {
         ((ovl_188298c_81862B74_S_81862B74_0_pre *)state)[-1].unk_00 = (u16) (((ovl_188298c_81862B74_S_81862B74_0_pre *)state)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
@@ -544,7 +544,6 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
             } while (step < 8);
 
             {
-
 
                 prefix = (ovl_188298c_818632E4_RootPrefix *)ctrl->target;
                 ((ovl_188298c_818632E4_Fixed32 *)prefix)[2].val = 0;

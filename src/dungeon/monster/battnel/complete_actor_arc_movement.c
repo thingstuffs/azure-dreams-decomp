@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -16,7 +17,6 @@ typedef struct S_80172290_0 {
     u8 pad_9C[0x4];
     s32 unk_A0;
 } S_80172290_0;   /* arg0 in complete_actor_arc_movement */
-
 
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(void *, s32, s32);
@@ -47,13 +47,13 @@ void complete_actor_arc_movement(S_80172290_0 *animation, EntityRec *motion, Rec
         animation->unk_90 -= animation->unk_A0;
         if (frames_left != 0) {
             {
-                s32 target_x = destination->unk_24 << 6;
+                s32 target_x = ((SpriteFrameState *)destination)->unk_24 << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
                 motion->unk_0C = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = destination->unk_25 << 6;
+                s32 target_y = ((SpriteFrameState *)destination)->unk_25 << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->unk_10 =
@@ -76,7 +76,7 @@ void complete_actor_arc_movement(S_80172290_0 *animation, EntityRec *motion, Rec
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            set_record_integer_tile_center(motion, destination->unk_24, destination->unk_25);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)destination)->unk_24, ((SpriteFrameState *)destination)->unk_25);
             animation->unk_9B++;
         }
     }
@@ -85,7 +85,7 @@ void complete_actor_arc_movement(S_80172290_0 *animation, EntityRec *motion, Rec
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, destination->unk_24, destination->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)destination)->unk_24, ((SpriteFrameState *)destination)->unk_25);
         reduce_actor_food_meter(entity, 4);
         advance_status_timers(entity);
 
@@ -106,7 +106,7 @@ void complete_actor_arc_movement(S_80172290_0 *animation, EntityRec *motion, Rec
             if (entity_flags & 0x20000) {
 
                 entity->facing = get_rounded_facing_and_rounding_flag(
-                    destination->unk_24, destination->unk_25,
+                    ((SpriteFrameState *)destination)->unk_24, ((SpriteFrameState *)destination)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &query_output);
             }
         }

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
@@ -26,7 +27,6 @@ typedef struct {
     u16 counter_copy;
 } InterpTarget;
 
-
 s32 func_80064BC0(void *, void *);
 s32 func_80064CF0(void *);
 s32 func_80064D80(void *);
@@ -40,7 +40,7 @@ void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 upda
     s32 alloc_flags;
     void *position;
     void *object;
-    void *render_data;
+    SpriteFrameState *render_data;
     void *state;
     u8 *scratchpad;
     MapGrid *view_config;
@@ -78,10 +78,10 @@ void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 upda
         *(u16 *)((u8 *)position + 2) = *(u16 *)(scratchpad + 0xF0);
         *(u16 *)((u8 *)position + 6) = *(u16 *)(scratchpad + 0xF2);
         render_data = *(void **)((u8 *)object + 0xC);
-        *(s16 *)((u8 *)render_data + 0x14) = 0xC;
-        *(void **)((u8 *)render_data + 8) = &D_800DD824;
-        *(s16 *)((u8 *)render_data + 0x1E) = 0x2000;
-        *(s16 *)((u8 *)render_data + 0x1C) = 0x2000;
+        render_data->flags = 0xC;
+        render_data->source = &D_800DD824;
+        render_data->scale_y = 0x2000;
+        render_data->scale_x = 0x2000;
         state = (u8 *)object + 0x20;
         *(s16 *)((u8 *)state + 0x1C) = 8;
         *(s32 *)((u8 *)object + 0x20) = initial_value;

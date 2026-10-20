@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 
@@ -51,26 +52,11 @@ typedef struct S_800D2CB4_2 {
     s16 unk_0A;
 } S_800D2CB4_2;
 
-typedef struct S_800D2CB4_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-    s8 unk_26;
-} S_800D2CB4_3;
-
 /* Creates a dungeon object at the given tile and initializes its graphics and state. */
 void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {
     s32 tile_flags;
     s16 saved_kind;
-    S_800D2CB4_3 *graphics;
+    SpriteFrameState *graphics;
     S_800D2CB4_2 *position;
     void *object;
     S_800D2CB4_0 *state;
@@ -102,19 +88,19 @@ void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16
         graphics->unk_24 = saved_x;
         graphics->unk_25 = saved_y;
         func_8003DB94(graphics, &D_800DEF08, 0);
-        graphics->unk_12 = 0x7E02;
-        graphics->unk_1C = 0x1800;
-        graphics->unk_1E = 0x2000;
-        graphics->unk_14 = (u16) (graphics->unk_14 | 0xC);
-        graphics->unk_10 = (u16) (graphics->unk_10 | 0x20);
-        graphics->unk_14 = (u16) (graphics->unk_14 | 0x100);
+        graphics->clut = 0x7E02;
+        graphics->scale_x = 0x1800;
+        graphics->scale_y = 0x2000;
+        graphics->flags = (u16) (graphics->flags | 0xC);
+        graphics->tpage_abr = (u16) (graphics->tpage_abr | 0x20);
+        graphics->flags = (u16) (graphics->flags | 0x100);
         ((S_800D2CB4_1 *)object)->unk_10 = &func_800D2E9C;
         state->unk_8C = &advance_actor_status_turn_second;
         graphics->unk_26 = find_active_rect_containing_point(graphics->unk_24, graphics->unk_25);
         set_record_integer_tile_center(position, graphics->unk_24, graphics->unk_25);
         state->unk_88 = sample_terrain_surface_height(position->unk_02, position->unk_06, position->unk_0A);
-        graphics->unk_0C = 0x808080;
-        graphics->unk_14 = (u16) (graphics->unk_14 | 0x8000);
+        graphics->color.word = 0x808080;
+        graphics->flags = (u16) (graphics->flags | 0x8000);
         clear_entry_flag_and_link_owner(object);
         call_x = graphics->unk_24;
         call_y = graphics->unk_25;

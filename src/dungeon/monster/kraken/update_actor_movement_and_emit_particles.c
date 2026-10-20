@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -30,7 +31,6 @@ typedef struct S_80172D1C_3 {
     s16 unk_48;
 } S_80172D1C_3;   /* (u8 *)calc_other in update_actor_movement_and_emit_particles */
 
-
 typedef struct S_80172D1C_5 {
     u8 pad_00[0xC];
     s32 unk_0C;
@@ -44,12 +44,6 @@ typedef struct S_80172D1C_5 {
     s32 unk_28;
 } S_80172D1C_5;   /* part in update_actor_movement_and_emit_particles */
 
-
-typedef struct S_80172D1C_7 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_80172D1C_7;   /* global_base in update_actor_movement_and_emit_particles */
-
 typedef struct S_80172D1C_8 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -61,7 +55,6 @@ typedef struct S_80172D1C_8 {
     s32 unk_10;
     s32 unk_14;
 } S_80172D1C_8;   /* ((S_80172D1C_1 *)obj)->unk_08 in update_actor_movement_and_emit_particles */
-
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -122,13 +115,13 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
                 ((S_80172D1C_8 *)(((ProjectileObject *)particle)->unk_08))->unk_14 = (-4 - (rand() & 3)) << 16;
 
                 ((S_80172D1C_3 *)particle_work)->unk_48 = 10;
-                sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_28.at00_s32.v;
+                sprite_flags = ((SpriteFrameState *)sprite)->unk_28;
                 component_work = ((S_80172D1C_5 *)particle_sprite)->unk_14 | 0xC;
                 ((S_80172D1C_5 *)particle_sprite)->unk_1E = 0x1800;
                 ((S_80172D1C_5 *)particle_sprite)->unk_1C = 0x1800;
                 ((S_80172D1C_5 *)particle_sprite)->unk_28 = sprite_flags;
                 ((S_80172D1C_5 *)particle_sprite)->unk_14 = component_work;
-                component_work_2 = ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;
+                component_work_2 = ((SpriteFrameState *)sprite)->clut;
                 ((S_80172D1C_5 *)particle_sprite)->unk_10 = 0x20;
                 ((S_80172D1C_5 *)particle_sprite)->unk_12 = component_work_2 - 0x80;
                 select_sprite_entry(particle_sprite, 0x2D, 0);
@@ -150,7 +143,7 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
             begin_actor_display_action(actor, motion, sprite, D_80174194);
             break;
         }
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((ActorActionTimerView *)actor)->unk_96.s = 0;
             ((ActorActionTimerView *)actor)->unk_9B = 2;
             break;
@@ -177,7 +170,7 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
         if (timer > 0) {
             ((ActorActionTimerView *)actor)->unk_96.s = ((ActorActionTimerView *)actor)->unk_96.u - 1;
         } else {
-            if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+            if (((SpriteFrameState *)sprite)->flags & 0x6000) {
                 ((ActorActionTimerView *)actor)->unk_96.s = 0;
             }
         }
@@ -198,7 +191,7 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
 
     case 2:
         if (((ActorActionTimerView *)actor)->unk_96.s != 0) {
-            speed_work = ((Rec_D_80082E80 *)sprite)->unk_24;
+            speed_work = ((SpriteFrameState *)sprite)->unk_24;
             component_work = ((S_80172D1C_2 *)motion)->unk_02.u;
             speed_work <<= 6;
             component_work -= 0x20;
@@ -207,7 +200,7 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
             speed_work >>= 1;
             ((S_80172D1C_2 *)motion)->unk_0C.u = speed_work;
 
-            speed_work = ((Rec_D_80082E80 *)sprite)->unk_25;
+            speed_work = ((SpriteFrameState *)sprite)->unk_25;
             component_work = ((S_80172D1C_2 *)motion)->unk_06.u;
             speed_work <<= 6;
             component_work -= 0x20;
@@ -229,8 +222,8 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
             ((S_80172D1C_2 *)motion)->unk_14 = 0;
             ((S_80172D1C_2 *)motion)->unk_10.s = 0;
             ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_8017418C;
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            ((SpriteFrameState *)sprite)->frameTable = D_8017418C;
             select_sprite_entry(sprite,
                           D_8017418C[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                           0);

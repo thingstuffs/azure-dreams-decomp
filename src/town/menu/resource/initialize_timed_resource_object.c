@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern void register_node_if_unregistered();
+void register_node_if_unregistered(void *, s32);
 extern void project_sprite_chain();
 void finalize_object_or_select_town_record(void *object, void *check_context, void *record_holder);
 extern s32 D_800D0E44;
@@ -15,5 +15,5 @@ void initialize_timed_resource_object(void *object, s32 unused, void *context) {
     D_800D0E44 = 0x14;
     resource_base = &D_800F8A70;
     *(void **) ((s8 *) context + 8) = (void *) ((s8 *) resource_base + 0xF0);
-    register_node_if_unregistered(object, project_sprite_chain);
+    register_node_if_unregistered(object, (s32)(project_sprite_chain));
 }

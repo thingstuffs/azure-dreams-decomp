@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource07_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void advance_actor_stored_path_2(void *action, EntityRec *motion, void *sprite, void *actor) {
     u16 pos[3];
@@ -89,8 +90,8 @@ copy_existing:
 
                     ((EntityRec *)actor)->target = (void *)scan_monster_along_heading(
                         actor,
-                        ((Rec_D_80082E80 *)sprite)->unk_24,
-                        ((Rec_D_80082E80 *)sprite)->unk_25,
+                        ((SpriteFrameState *)sprite)->unk_24,
+                        ((SpriteFrameState *)sprite)->unk_25,
                         ((EntityRec *)actor)->facing,
                         0x10);
                     x = ((EntityRec *)actor)->unk_72;
@@ -106,7 +107,7 @@ copy_existing:
             pos[1] = ((u16)motion->y.w.i);
             pos[2] = ((u16)motion->z.w.i);
             if (create_actor_spell_effect(actor, item, is_special, (u8 *)action + 0x98)) {
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
                 play_sound_if_enabled(0x703);
                 create_two_row_object_group(pos, (s16)((*item - 1) % 3));
                 ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
@@ -118,7 +119,7 @@ copy_existing:
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.unk_0C = 0;
         {
             u8 *active_entity = (u8 *)D_800814A8;
@@ -134,18 +135,18 @@ copy_existing:
     case 1:
         item = (u8 *)(s32)get_cd_command_queue_depth();
         if (item) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            ((SpriteFrameState *)sprite)->flags |= 0x800;
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
                         /* fall through */
 
     case 2:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174180);
+        ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80174180);
         select_sprite_entry(
             sprite,
             ((u8 *)D_80174180)[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
@@ -163,10 +164,10 @@ copy_existing:
             }
         }
 
-        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 12 &&
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+        if ((((SpriteFrameState *)sprite)->unk_04 == 12 &&
+            (((SpriteFrameState *)sprite)->flags & 0x1000)) ||
+            (((SpriteFrameState *)sprite)->flags & 0xE000)) {
+            ((SpriteFrameState *)sprite)->flags |= 0x800;
             ((Rec_func_80172CC0_arg0 *)action)->unk_96.as_u16 = 0x10;
             ((Rec_func_80172CC0_arg0 *)action)->unk_98 |= 0x80;
         }
@@ -176,21 +177,21 @@ copy_existing:
             ((Rec_func_80172CC0_arg0 *)action)->unk_96.as_u16 = anim_timer;
             if ((s16)anim_timer <= 0) {
                 ((Rec_func_80172CC0_arg0 *)action)->unk_96.as_u16 = 0;
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
             }
         }
 
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
 
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pv != ((u8 *)D_80174148)) {
-            (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174148);
+        if (((SpriteFrameState *)sprite)->frameTable != ((u8 *)D_80174148)) {
+            ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80174148);
             select_sprite_entry(
                 sprite,
                 ((u8 *)D_80174148)[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
@@ -203,7 +204,7 @@ copy_existing:
             }
             g_dungeon_status.unk_0A--;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         ((Rec_func_80172CC0_arg0 *)action)->unk_8C.as_pv = ((void *)func_80170E54);
         advance_status_timers(actor);
         if ((*(s8 *)((u8 *)actor + 0x6D)) > 0) {

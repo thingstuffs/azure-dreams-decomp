@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 test_resident_bitmap_bit();
+#include "engine/object/test_resident_bitmap_bit_api.h"
 /* Returns the selected query result, testing for zero for check type 3. */
 s32 get_query_result_for_check_type(s32 check_type)
 {

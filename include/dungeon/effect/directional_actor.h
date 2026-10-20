@@ -65,24 +65,6 @@ typedef struct Row_818E0800_S_818E0800_5 {
     u16 unk_4C;
 } Row_818E0800_S_818E0800_5;   /* work in func_8002401C */
 
-typedef struct Row_818E0800_S_818E0800_6 {
-    void * unk_00;
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[0x2];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-} Row_818E0800_S_818E0800_6;   /* state in func_8002401C */
-
 typedef struct Row_818E0800_S_818E0800_7 {
     u8 pad_00[0x4];
     void * unk_04;

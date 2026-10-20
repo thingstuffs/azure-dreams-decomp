@@ -1,13 +1,14 @@
 #ifndef DUNGEON_OVL_1894800_H
 #define DUNGEON_OVL_1894800_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"
 typedef struct LinkedRenderNode {
     u8 pad0[8];
     void *context;
     void *data;
 } LinkedRenderNode;
-void project_textured_quad_or_callback(void *, void *, void *, s16);
+void project_textured_quad_or_callback(void *, void *, SpriteFrameState *, s16);
 void func_80024758(void *, void *, void *, u16);
 s32 project_linked_quad_record(void *, void *, void *);
 s32 draw_chained_object_records(void *, void *, void *);

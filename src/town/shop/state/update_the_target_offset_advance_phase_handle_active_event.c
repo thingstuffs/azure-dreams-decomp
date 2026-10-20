@@ -8,7 +8,7 @@
 
 short SD_Call(int flags);
 s32 func_800644B8();                             /* extern */
-void initialize_the_town_entity_synchronize_slot_state(); /* extern */
+struct Rec_func_80094268_arg0; void initialize_the_town_entity_synchronize_slot_state(struct Rec_func_80094268_arg0 *, s32, s32, void *); /* extern */
 typedef struct AllocatedObject AllocatedObject;
 AllocatedObject *allocate_object_with_callbacks();                      /* extern */
 void check_adjusted_input_indices();                      /* extern */
@@ -28,6 +28,6 @@ void update_the_target_offset_advance_phase_handle_active_event(void *state, s32
         check_adjusted_input_indices(target);
         allocate_object_with_callbacks(target);
         SD_Call(0x513);
-        initialize_the_town_entity_synchronize_slot_state(state, active_event, target, context);
+        initialize_the_town_entity_synchronize_slot_state(state, active_event, (s32)(target), (void *)(context));
     }
 }

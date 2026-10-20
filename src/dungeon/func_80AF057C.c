@@ -1,6 +1,7 @@
 #include "modules/dungeon_resource10_slot0.h"
+#include "shared/sprite_frame_state.h"
 
-void func_80171D7C(void *movement, void *motion, void *entity, void *path_state) {
+void func_80171D7C(void *movement, void *motion, SpriteFrameState *entity, void *path_state) {
     void *state = path_state;
     s32 move_flags;
     s16 heading;
@@ -22,16 +23,16 @@ void func_80171D7C(void *movement, void *motion, void *entity, void *path_state)
         return;
     }
 
-    if (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8 != ((u8 *)D_80175980)) {
-        (*(u8 * *)((u8 *)entity + (0x2C))) = ((u8 *)D_80175980);
+    if (*(u8 * *)&entity->frameTable != ((u8 *)D_80175980)) {
+        entity->frameTable = ((u8 *)D_80175980);
         select_sprite_entry(
             entity,
             ((u8 *)D_80175980)[((g_game_work.view.viewAngle + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
-    x = ((Rec_D_80082E80 *)entity)->unk_24;
-    y = ((Rec_D_80082E80 *)entity)->unk_25;
+    x = entity->unk_24;
+    y = entity->unk_25;
     move_flags = 0x3000;
     if (((R10_80171D7C_S_80171CD4_0 *)state)->unk_1C & 0x2000) {
         move_flags = 0x300;
@@ -46,16 +47,16 @@ void func_80171D7C(void *movement, void *motion, void *entity, void *path_state)
         (u8 *)movement + 0x98));
     move_result = ((s16)check_movement_clearance_and_height(heading, entity, state, 0x20));
 
-    ((Rec_D_80082E80 *)entity)->unk_24 =
+    entity->unk_24 =
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_8A.s))->unk_74;
     move_flags = 0x3000;
-    ((Rec_D_80082E80 *)entity)->unk_25 =
+    entity->unk_25 =
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_8A.s))->unk_7C;
     ((R10_80171D7C_S_80171CD4_0 *)state)->unk_8A.u++;
 
     {
-        s32 next_x = ((Rec_D_80082E80 *)entity)->unk_24;
-        s32 next_y = ((Rec_D_80082E80 *)entity)->unk_25;
+        s32 next_x = entity->unk_24;
+        s32 next_y = entity->unk_25;
 
         if (((R10_80171D7C_S_80171CD4_0 *)state)->unk_1C & 0x2000) {
             move_flags = 0x300;
@@ -65,7 +66,7 @@ void func_80171D7C(void *movement, void *motion, void *entity, void *path_state)
 
     ((R10_80171D7C_S_80171CD4_0 *)state)->unk_2A = heading;
     if (move_result == 3) {
-        if (!(g_dungeon_status.flags & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
+        if (!(g_dungeon_status.flags & 0x80) && !(entity->flags & 0x8000)) {
             func_80172730(movement, motion, entity, state);
             ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
         } else {

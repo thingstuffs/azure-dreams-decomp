@@ -1,11 +1,12 @@
 #include "dungeon/monster/noise/start_directional_action_and_record_tile.h"
+#include "shared/sprite_frame_state.h"
 
 /* Advances a timed actor effect, spawning and positioning its visual object before cleanup. */
 void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, void *source_mesh, EntityRec *actor)
 {
     T_801748D0_LocalFrame frame;
     void *effect_body;
-    T_801748D0_S_801748D0_7 *effect_mesh;
+    SpriteFrameState *effect_mesh;
     void *anchor_pos;
     T_801748D0_S_801748D0_11 *owner_link;
     void *linked_owner;
@@ -68,19 +69,19 @@ void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, 
             effect_mesh = ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_0C;
             anchor_pos = ((T_801748D0_S_801748D0_3 *)effect_body)->unk_A8;
             *(T_801748D0_MeshCopy *)effect_mesh = *(T_801748D0_MeshCopy *)source_mesh;
-            mesh_flags = effect_mesh->unk_14;
-            effect_mesh->unk_1E = 0x400;
-            effect_mesh->unk_1C = 0x400;
-            effect_mesh->unk_0E = 0x80;
-            effect_mesh->unk_0D = 0x80;
-            effect_mesh->unk_0C = 0x80;
-            effect_mesh->unk_10 = 0x20;
-            effect_mesh->unk_12 = 0xFF80;
+            mesh_flags = effect_mesh->flags;
+            effect_mesh->scale_y = 0x400;
+            effect_mesh->scale_x = 0x400;
+            effect_mesh->color.c.b = 0x80;
+            effect_mesh->color.c.g = 0x80;
+            effect_mesh->color.c.r = 0x80;
+            effect_mesh->tpage_abr = 0x20;
+            effect_mesh->clut = 0xFF80;
             mesh_flags |= 0xC;
-            effect_mesh->unk_14 = mesh_flags;
+            effect_mesh->flags = mesh_flags;
             register_node((void *)object_or_height, project_sprite_chain);
             call_value = D_80174ED0[0];
-            effect_mesh->unk_2C = D_80174ED0;
+            effect_mesh->frameTable = D_80174ED0;
             select_sprite_entry(effect_mesh, call_value, 0);
             object_or_height = (s32)((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at00.v;
             ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_02 = ((T_801748D0_S_801748D0_9 *)anchor_pos)->unk_02;

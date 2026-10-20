@@ -1,12 +1,11 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 
-
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_salam_particles */
-
 
 void *allocate_list_node();               /* extern */
 s32 register_node();           /* extern */
@@ -36,16 +35,6 @@ typedef struct S_800CAFDC_1 {
     s16 unk_16;
 } S_800CAFDC_1;
 
-typedef struct S_800CAFDC_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    M2C_UNK * unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800CAFDC_2;
-
 typedef struct S_800CAFDC_3 {
     u8 pad_00[0x96];
     s16 unk_96;
@@ -60,7 +49,7 @@ void spawn_salam_particles(EntityRec *source, s16 effect_param, s32 render_param
     S_800CAFDC_3 *effect_state;
     S_800CAFDC_1 *motion;
     void *particle;
-    S_800CAFDC_2 *render;
+    SpriteFrameState *render;
 
     remaining = 2;
     do {
@@ -78,10 +67,10 @@ void spawn_salam_particles(EntityRec *source, s16 effect_param, s32 render_param
             motion->unk_16 = (s16) ((0 - (rand() & 7)) - 8);
             render = ((S_800CAFDC_0 *)particle)->unk_0C;
             effect_state = particle + 0x20;
-            render->unk_1E = 0x1000;
-            render->unk_1C = 0x1000;
-            render->unk_08 = &D_800E03B0;
-            render->unk_0C = render_param;
+            render->scale_y = 0x1000;
+            render->scale_x = 0x1000;
+            render->source = &D_800E03B0;
+            render->color.word = render_param;
             render->unk_06 = 8;
             effect_state->unk_B0 = effect_param;
             effect_state->unk_96 = (s16) ((rand() & 0xFF) | 0x80);

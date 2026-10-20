@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -13,7 +14,6 @@ typedef struct S_80173964_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_80173964_0;   /* arg0 in move_actor_briefly_and_realign */
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
@@ -51,7 +51,7 @@ void move_actor_briefly_and_realign(void *action, EntityRec *motion, void *actor
             begin_actor_display_action(action, motion, actor, D_80174E24);
             return;
         }
-        if (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)actor)->flags & 0x8000) {
             ((S_80173964_0 *)action)->unk_96.s = 0;
             ((S_80173964_0 *)action)->unk_9B = 3;
         }
@@ -68,7 +68,7 @@ void move_actor_briefly_and_realign(void *action, EntityRec *motion, void *actor
             motion->unk_10 =
                 *(s16 *)((u8 *)((s8 *)dir_step_y) +
                          ((entity->unk_6A >> 8) & 0xE)) << 20;
-            ((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v |= 0x800;
+            ((SpriteFrameState *)actor)->flags |= 0x800;
             return;
         }
         if (timer >= 7) {
@@ -82,7 +82,7 @@ void move_actor_briefly_and_realign(void *action, EntityRec *motion, void *actor
             return;
         }
         if (timer == state) {
-            ((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v &= 0xF7FF;
+            ((SpriteFrameState *)actor)->flags &= 0xF7FF;
             return;
         }
         if (timer != 0) {
@@ -104,10 +104,10 @@ void move_actor_briefly_and_realign(void *action, EntityRec *motion, void *actor
         }
         timer = ((S_80173964_0 *)action)->unk_96.s;
         if (timer != 0) {
-            target_x = ((Rec_D_80082E80 *)actor)->unk_24 << 6;
+            target_x = ((SpriteFrameState *)actor)->unk_24 << 6;
             current_x = motion->x.w.i - 0x20;
             motion->unk_0C = ((target_x - current_x) << 16) / timer;
-            target_y = ((Rec_D_80082E80 *)actor)->unk_25 << 6;
+            target_y = ((SpriteFrameState *)actor)->unk_25 << 6;
             current_y = motion->y.w.i - 0x20;
             motion->unk_10 =
                 ((target_y - current_y) << 16) / ((S_80173964_0 *)action)->unk_96.s;
@@ -127,9 +127,9 @@ void move_actor_briefly_and_realign(void *action, EntityRec *motion, void *actor
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
-        if (((Rec_D_80082E80 *)actor)->unk_2C.as_pv == D_80174DFC) {
-            (*(void * *)((u8 *)actor + 0x2C)) = D_80174DEC;
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25);
+        if (((SpriteFrameState *)actor)->frameTable == D_80174DFC) {
+            ((SpriteFrameState *)actor)->frameTable = D_80174DEC;
             select_sprite_entry(
                 actor,
                 D_80174DEC[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],

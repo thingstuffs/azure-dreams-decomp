@@ -1,11 +1,10 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_effect_views.h"
 #include "shared/vector.h"
-
-
 
 typedef struct Motion {
     s32 x;
@@ -15,8 +14,6 @@ typedef struct Motion {
     s32 unk10;
     s32 dz;
 } Motion;
-
-
 
 typedef struct Sprite {
     u8 pad0[0xC];
@@ -64,7 +61,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
     u16 *source_color;
     u16 *original_palette;
     Object *particle;
-    Sprite *sprite;
+    SpriteFrameState *sprite;
 
     gravity = 0x38000;
     state->timer--;
@@ -89,12 +86,12 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
                 particle->position->x = motion->x + ((rand() & 0x1FF) - 0x100) * 0x2000;
                 particle->position->y = motion->y + ((rand() & 0x1FF) - 0x100) * 0x2000;
                 particle->position->z = motion->z;
-                sprite->unk10 = 0x60;
-                sprite->scale_x = 0x1000;
+                sprite->tpage_abr = 0x60;
                 sprite->scale_y = 0x1000;
+                sprite->scale_x = 0x1000;
                 sprite->flags |= 0xC;
                 func_8003DB94(sprite, D_800F15AC, 0);
-                sprite->color = 0x606060;
+                sprite->color.word = 0x606060;
             }
             index--;
         } while (index >= 0);

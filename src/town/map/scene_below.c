@@ -13,10 +13,10 @@ typedef struct S_800B70EC_0 {
 } S_800B70EC_0;   /* work in initialize_building_scene_assets */
 
 
-extern void runtime_load_packed_resource_chunks();
+void runtime_load_packed_resource_chunks(s16, u8 *);
 extern void func_80067014();
 extern void func_8006733C();
-extern void clear_and_initialize_building_grid();
+void clear_and_initialize_building_grid(s32);
 
 
 extern u8 D_800D2FB4[];
@@ -104,7 +104,7 @@ void initialize_building_scene_assets(void) {
 
     func_80067014(0);
     *(void **)asset_state = asset_data;
-    clear_and_initialize_building_grid(asset_data);
+    clear_and_initialize_building_grid((s32)(asset_data));
     scene_table = D_800D2FB4;
     {
         u8 *entry = &scene_table[D_800D381A[0] << 5];

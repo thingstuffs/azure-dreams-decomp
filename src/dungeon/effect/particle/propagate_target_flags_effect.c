@@ -1,4 +1,5 @@
 #include "dungeon/effect/particle/propagate_target_flags_effect.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
@@ -18,9 +19,6 @@
 void (*const dungeon_198a800_entry)(Work *, s32, s32) = update_staged_particle_effect;
 const NativeOffsets58 D_80024004 = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};
 const RectTable D_80024024 = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
-
-
-
 
 /* Updates a countdown-driven visual and clears its owner slot when the countdown expires. */
 extern u32 func_80065420(void *, void *, void *, void *);
@@ -150,7 +148,6 @@ s32 func_80024124(PointRecord *first_point, EntityRec *first_position)
     return 0;
 }
 
-
 /* Subtracts 8 from the object counter and sets flags when it reaches zero. */
 void advance_counter_and_propagate_target_flags(void *object)
 {
@@ -212,13 +209,10 @@ void func_800243C4(ObjectNodeHeader *parent, s32 state_14_value, s32 state_08_va
 
    /* page_8002 in func_8196ACE4 */
 
-
    /* page_8008 in func_8196ACE4 */
 
-
-
 /* Update effect motion, collisions, sprite fading and growth, and expiration. */
-void func_800244E4(void *effect, S_8196ACE4_0 *position, Rec_D_80082E80 *sprite) {
+void func_800244E4(void *effect, S_8196ACE4_0 *position, SpriteFrameState *sprite) {
     s32 height;
     s16 life_left;
     s32 brightness;
@@ -273,24 +267,24 @@ void func_800244E4(void *effect, S_8196ACE4_0 *position, Rec_D_80082E80 *sprite)
         }
     }
     brightness = (s32) (((S_8196ACE4_1 *)effect)->unk_2C << 7) / (s16) ((S_8196ACE4_1 *)effect)->unk_2E;
-    sprite->unk_0C.at02_s8.v = (s8) brightness;
-    sprite->unk_0C.at01_s8.v = (s8) brightness;
-    sprite->unk_0C.at00_s8.v = (s8) brightness;
+    sprite->color.c.b = (s8) brightness;
+    sprite->color.c.g = (s8) brightness;
+    sprite->color.c.r = (s8) brightness;
     anim_tick = ((S_8196ACE4_1 *)effect)->unk_34 + 1;
     ((S_8196ACE4_1 *)effect)->unk_34 = anim_tick;
     if ((s16) anim_tick == 3) {
         func_800478B8(sprite);
         ((S_8196ACE4_1 *)effect)->unk_34 = 0U;
     }
-    scale_x = sprite->unk_1C.at00_u16.v + 0xC8;
-    sprite->unk_1C.at00_u16.v = scale_x;
+    scale_x = sprite->scale_x + 0xC8;
+    sprite->scale_x = scale_x;
     if ((u32) (scale_x & 0xFFFF) >= 0x1001U) {
-        sprite->unk_1C.at00_u16.v = 0x1000U;
+        sprite->scale_x = 0x1000U;
     }
-    scale_y = sprite->unk_1C.at02_u16.v + 0xC8;
-    sprite->unk_1C.at02_u16.v = scale_y;
+    scale_y = sprite->scale_y + 0xC8;
+    sprite->scale_y = scale_y;
     if ((u32) (scale_y & 0xFFFF) >= 0x1001U) {
-        sprite->unk_1C.at02_u16.v = 0x1000U;
+        sprite->scale_y = 0x1000U;
     }
     life_left = (u16) ((S_8196ACE4_1 *)effect)->unk_2C - 1;
     ((S_8196ACE4_1 *)effect)->unk_2C = life_left;
@@ -301,7 +295,7 @@ void func_800244E4(void *effect, S_8196ACE4_0 *position, Rec_D_80082E80 *sprite)
             ((S_8196ACE4_4 *)status_page)->unk_14A0 |= 0x8000;
         }
     }
-    if (sprite->unk_14.at00_u16.v & 0x8000) {
+    if (sprite->flags & 0x8000) {
         ((S_8196ACE4_1_pre *)effect)[-1].unk_00 = (u16) (((S_8196ACE4_1_pre *)effect)[-1].unk_00 | 0x8000);
         {
             u8 *status_page = (u8 *)0x80080000;
@@ -313,8 +307,6 @@ void func_800244E4(void *effect, S_8196ACE4_0 *position, Rec_D_80082E80 *sprite)
    /* arg0 in func_8196B074 */
 
    /* arg1 in func_8196B074 */
-
-
 
 /* Advance motion, resolve collisions, and mark expired objects for removal. */
 void func_80024874(void *motion, void *position, s32 update_id) {
@@ -361,7 +353,6 @@ void func_80024874(void *motion, void *position, s32 update_id) {
     }
 }
 
-
 /* Dim the effect's color and flag completion when its countdown expires. */
 void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive) {
     u16 ticks_left = *(u16 *)((u8 *)effect + 0x2C);
@@ -390,20 +381,11 @@ void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive) {
     }
 }
 
-
-
-
-
-
-
-
-
-
 /* Creates an effect with randomized position offsets and initializes its rendering state. */
 void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z) {
     Effect *effect;
     EffectState *state;
-    RenderState *render;
+    SpriteFrameState *render;
     Vec3u16 *position;
     s16 size;
     s32 jitter;
@@ -418,7 +400,7 @@ void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z
         register_node(effect, (s32)project_sprite_chain);
         render = effect->visual.render;
         render->flags |= 0xC;
-        render->unk_10 = 0x60;
+        render->tpage_abr = 0x60;
         render->flags |= 2;
         render->unk_06 = 0;
         position = effect->coordinates.position;
@@ -440,12 +422,12 @@ void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z
         state->seed = rand();
         state->scale = 0x1000;
         render = effect->visual.render;
-        render->unk_1C = 0xC00;
-        render->unk_1E = 0xC00;
-        render->unk_0E = 0x80;
-        render->unk_0D = 0x80;
-        render->unk_0C = 0x80;
-        render->unk_12 = 0x7DCF;
+        render->scale_x = 0xC00;
+        render->scale_y = 0xC00;
+        render->color.c.b = 0x80;
+        render->color.c.g = 0x80;
+        render->color.c.r = 0x80;
+        render->clut = 0x7DCF;
         render->flags |= 0x100;
         func_8003DB94(render, D_800DE870, 0);
     }
@@ -464,12 +446,6 @@ void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z
    /* arg0 in func_8196B4A4 */
 
 
-
-
-
-
-
-
 /* Spawns a sprite effect with randomized position and motion based on the source direction. */
 void func_80024CA4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z)
@@ -477,7 +453,7 @@ void func_80024CA4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_
     LocalPoints direction_points;
     void *effect;
     S_8196B4A4_0 *motion;
-    S_8196B4A4_2 *sprite;
+    SpriteFrameState *sprite;
     S_8196B4A4_3 *position;
     LocalPoint *directions;
     LocalPoint *direction;
@@ -495,9 +471,9 @@ void func_80024CA4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_
         register_node(effect, (s32)project_sprite_chain);
 
         sprite = ((S_8196B4A4_1 *)effect)->unk_0C;
-        sprite->unk_10 = 0x20;
-        sprite->unk_14 |= 0xC;
-        sprite->unk_1A = (((s16)rand()) & 7) << 9;
+        sprite->tpage_abr = 0x20;
+        sprite->flags |= 0xC;
+        sprite->angle_z = (((s16)rand()) & 7) << 9;
         sprite->unk_06 = 0;
 
         position = ((S_8196B4A4_1 *)effect)->unk_08;
@@ -531,11 +507,11 @@ void func_80024CA4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_
             -0x80000 + ((((s16)rand()) & 0x3FFF) << 6);
 
         sprite = ((S_8196B4A4_1 *)effect)->unk_0C;
-        sprite->unk_1C = sprite->unk_1E = 0x800;
-        sprite->unk_0C = sprite->unk_0D =
-            sprite->unk_0E = 0x80;
-        sprite->unk_12 = 0x7DCE;
-        sprite->unk_14 |= 0x100;
+        sprite->scale_x = sprite->scale_y = 0x800;
+        sprite->color.c.r = sprite->color.c.g =
+            sprite->color.c.b = 0x80;
+        sprite->clut = 0x7DCE;
+        sprite->flags |= 0x100;
         func_8003DB94(sprite, D_800DEC70, 0);
     }
 }
@@ -557,12 +533,6 @@ void func_80024CA4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_
    /* arg0 in func_8196B780 */
 
 
-
-
-
-
-
-
 /* Spawns an effect with randomized position and direction-based motion. */
 void func_80024F80(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 y,
                    s16 z)
@@ -570,7 +540,7 @@ void func_80024F80(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 
     LocalPoints points;
     void *effect;
     S_8196B780_0 *motion;
-    S_8196B780_2 *sprite;
+    SpriteFrameState *sprite;
     S_8196B780_3 *position;
     LocalPoint *point_base;
     LocalPoint *point;
@@ -588,9 +558,9 @@ void func_80024F80(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 
         register_node(effect, (s32)project_sprite_chain);
 
         sprite = ((S_8196B780_1 *)effect)->unk_0C;
-        sprite->unk_10 = 0x20;
-        sprite->unk_14 |= 0xC;
-        sprite->unk_1A = (((s16)rand()) & 7) << 9;
+        sprite->tpage_abr = 0x20;
+        sprite->flags |= 0xC;
+        sprite->angle_z = (((s16)rand()) & 7) << 9;
         sprite->unk_06 = 0;
 
         position = ((S_8196B780_1 *)effect)->unk_08;
@@ -624,11 +594,11 @@ void func_80024F80(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 
             -0x80000 + ((((s16)rand()) & 0x3FFF) << 6);
 
         sprite = ((S_8196B780_1 *)effect)->unk_0C;
-        sprite->unk_1C = sprite->unk_1E = 0x1000;
-        sprite->unk_0C = sprite->unk_0D =
-            sprite->unk_0E = 0x80;
-        sprite->unk_12 = 0x7DCE;
-        sprite->unk_14 |= 0x100;
+        sprite->scale_x = sprite->scale_y = 0x1000;
+        sprite->color.c.r = sprite->color.c.g =
+            sprite->color.c.b = 0x80;
+        sprite->clut = 0x7DCE;
+        sprite->flags |= 0x100;
         func_8003DB94(sprite, D_800DECF8, 0);
     }
 }
@@ -642,20 +612,6 @@ void func_80024F80(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 
    /* obj in func_8196BA5C */
 
    /* the 0x18 bytes before D_800814A8 in func_8196BA5C, addressed as D_800814A8[-1] */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* Creates an object in the first free rectangle slot and marks completion when the timer expires. */
@@ -760,13 +716,6 @@ void create_timed_rectangle_effect(void *owner) {
 
    /* the 0x18 bytes before arg0 in func_8196BD3C, addressed as arg0[-1] */
 
-
-
-
-
-
-
-
 /* Creates a display object at the source position with zero scale and color. */
 void func_8002553C(void *source, s32 unused_position, s32 unused_render) {
     void *object;
@@ -812,8 +761,6 @@ void func_8002553C(void *source, s32 unused_position, s32 unused_render) {
 
    /* arg2 in func_8196BE48 */
 
-
-
 /* Advance the effect animation, offset its sprite, and mark it expired when its lifetime ends. */
 void update_timed(void *effect_data, s32 unused, void *sprite) {
     u8 *effect = effect_data;
@@ -853,7 +800,6 @@ void update_timed(void *effect_data, s32 unused, void *sprite) {
 
    /* arg2 in advance_effect_animation */
 
-
 /* Advance the effect animation and flag completion when its countdown expires. */
 void func_80025724(void *effect, s32 unused, S_8196BF24_1 *transform) {
     u8 next_u;
@@ -880,9 +826,6 @@ void func_80025724(void *effect, s32 unused, S_8196BF24_1 *transform) {
    /* arg2 in update_renders */
 
    /* camera in update_renders */
-
-
-
 
 /* Updates and renders a shrinking object with collision and lifetime checks. */
 void func_800257B0(void *object, void *position, void *render_state)
@@ -970,10 +913,6 @@ void func_800257B0(void *object, void *position, void *render_state)
    /* arg0 in func_8196C280 */
 
    /* arg2 in func_8196C280 */
-
-
-
-
 
 /* Move the effect with collision checks, shrink its sprite, and expire it when finished. */
 void func_80025A80(void *effect, void *position, void *sprite) {
@@ -1063,28 +1002,6 @@ void func_80025A80(void *effect, void *position, void *sprite) {
         object_flag_block.flags |= 0x8000;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

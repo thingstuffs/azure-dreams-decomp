@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
 typedef struct S_801745F0_0 S_801745F0_0;
@@ -15,11 +16,10 @@ typedef struct S_80174690_5 {
     s32 unk_28;
 } S_80174690_5;
 
-
 void *allocate_list_node();               /* extern */
 s32 register_node();           /* extern */
 void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);    /* extern */
-void copy_linked_position_and_check_status(void *object, S_801745F0_0 *dest, Rec_D_80082E80 *status);
+void copy_linked_position_and_check_status(void *object, S_801745F0_0 *dest, SpriteFrameState *status);
 
 typedef struct S_80174690_0 {
     u8 pad_00[0xC];
@@ -39,22 +39,9 @@ typedef struct S_80174690_2 {
     void * unk_0C;
 } S_80174690_2;   /* arg0 in create_action_sprite_effect */
 
-typedef struct S_80174690_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    s32 unk_28;
-} S_80174690_3;
-
 /* Creates an effect from the source and initializes its sprite and callbacks. */
 void create_action_sprite_effect(S_80174690_2 *source) {
-    S_80174690_3 *sprite;
+    SpriteFrameState *sprite;
     S_80174690_1 *effect_data;
     void *effect;
 
@@ -65,11 +52,11 @@ void create_action_sprite_effect(S_80174690_2 *source) {
         effect_data = effect + 0x20;
         effect_data->unk_18 = (void *) source->unk_0C;
         effect_data->unk_1C = (s32) source->unk_08;
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_0C = 0x808080;
-        sprite->unk_12 = (u16) (sprite->unk_12 - 0x80);
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->color.word = 0x808080;
+        sprite->clut = (u16) (sprite->clut - 0x80);
+        sprite->flags = (u16) (sprite->flags | 0xC);
         sprite->unk_28 = (s32) ((S_80174690_5 *)(((S_80174690_4 *)effect_data)->unk_18))->unk_28;
         select_sprite_entry(sprite, 0x44, 0);
         register_node(effect, project_sprite_chain);

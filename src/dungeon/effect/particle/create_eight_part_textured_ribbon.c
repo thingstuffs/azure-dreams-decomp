@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 /* cfail-repair: true-name warm-start */
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -43,13 +44,6 @@ typedef struct S_801690D8_2 {
     s32 * unk_10;
 } S_801690D8_2;
 
-typedef struct S_801690D8_3 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_801690D8_3;
-
 typedef struct S_801690D8_4 {
     s32 unk_00;
     s32 unk_04;
@@ -67,16 +61,6 @@ typedef struct S_801690D8_6 {
     u16 unk_2A;
 } S_801690D8_6;   /* arg0_work in create_eight_part_textured_ribbon */
 
-typedef struct S_801690D8_7 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_801690D8_7;
-
 typedef struct {
     u8 bytes[32];
 } Copy32;
@@ -87,7 +71,6 @@ extern u8 D_800DEAE0[3];
 extern Copy32 D_801648DC;
 void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in);
 extern u8 D_80175DD8[96];
-
 
 typedef struct S_801690D8_8 {
     u16 unk_00;
@@ -119,9 +102,9 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 u
     s32 prev_tip_y;
     s32 tip_x;
     s32 tip_y;
-    S_801690D8_3 *render_flags;
+    SpriteFrameState *render_flags;
     S_801690D8_4 *position;
-    S_801690D8_7 *appearance;
+    SpriteFrameState *appearance;
     S_801690D8_0 *effect;
     void *object;
     S_801690D8_6 *heading_source;
@@ -158,8 +141,8 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 u
             ((S_801690D8_2 *)object)->unk_10 = &update_animated_textured_ribbon;
             register_node(object, project_sprite_chain);
             render_flags = ((S_801690D8_2 *)object)->unk_0C;
-            render_flags->unk_10 = 0x20;
-            render_flags->unk_14 = (u16) (render_flags->unk_14 | 0x8C);
+            render_flags->tpage_abr = 0x20;
+            render_flags->flags = (u16) (render_flags->flags | 0x8C);
             position = ((S_801690D8_2 *)object)->unk_08;
             position->unk_00 = (s32) origin_pos->unk_00;
             position->unk_04 = (s32) origin_pos->unk_04;
@@ -227,15 +210,15 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 u
             }
             effect->unk_82 = (u16) (effect->unk_82 + (base_y >> 0x10));
             appearance = ((S_801690D8_2 *)object)->unk_0C;
-            appearance->unk_1E = 0x1000;
-            appearance->unk_1C = 0x1000;
-            appearance->unk_0D = 0x60U;
+            appearance->scale_y = 0x1000;
+            appearance->scale_x = 0x1000;
+            appearance->color.c.g = 0x60U;
             effect->unk_00 = (
-                appearance->unk_0C = 0xF0U,
-                appearance->unk_0E = 0xFFU,
-                appearance->unk_0C);
-            effect->unk_01 = (u8) appearance->unk_0D;
-            effect->unk_02 = (u8) appearance->unk_0E;
+                appearance->color.c.r = 0xF0U,
+                appearance->color.c.b = 0xFFU,
+                appearance->color.c.r);
+            effect->unk_01 = (u8) appearance->color.c.g;
+            effect->unk_02 = (u8) appearance->color.c.b;
             func_8003DB94(appearance, &D_800DEAE0, 0);
             ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_00 = effect->unk_80;
             ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_02 = (u16) effect->unk_82;

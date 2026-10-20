@@ -1,5 +1,5 @@
 #include "common.h"
-s32 func_8004B8BC();              /* extern */
+int func_8004B8BC(int, int);              /* extern */
 extern s32 D_80100AF0[];
 
 /* sn_namewin_open: Open the name window and store its handle. */

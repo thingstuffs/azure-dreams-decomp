@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
-
 
 typedef void (*Callback)(void);
 
@@ -15,7 +15,6 @@ extern void D_8016AAA4(void);
 extern void D_8016DFB8(void);
 extern void D_8016E000(void);
 extern void D_8016AF68(void);
-
 
 typedef struct S_8016A898_0 {
     u8 pad_00[0x13];
@@ -32,11 +31,6 @@ typedef struct S_8016A898_1 {
     s16 unk_0A;
 } S_8016A898_1;   /* motion in copy_part_state */
 
-typedef struct S_8016A898_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_8016A898_2;   /* tail_entity in copy_part_state */
-
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
 {
@@ -48,8 +42,8 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
     s32 held_c;
     void *tail_actor;
     void *state_data;
-    S_8016A898_2 *tail_entity;
-    void *part_data;
+    SpriteFrameState *tail_entity;
+    SpriteFrameState *part_data;
     s32 value;
     u16 tail_flags;
 
@@ -67,9 +61,9 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
         motion = (*(void * *)((u8 *)object + 8));
         motion->unk_0A = held_c;
         part_data = (*(void * *)((u8 *)object + 0xC));
-        (*(u8 *)((u8 *)((void *)part_data) + 0x25)) = held_b;
-        (*(Callback *)((u8 *)((void *)part_data) + 0x2C)) = D_8016DFB8;
-        (*(u8 *)((u8 *)((void *)part_data) + 0x24)) = held_a;
+        part_data->unk_25 = held_b;
+        part_data->frameTable = D_8016DFB8;
+        part_data->unk_24 = held_a;
         state_data = result;
 
         if ((spawn_flags & 3) == 1) {
@@ -88,7 +82,7 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
                         ((S_8016A898_0 *)result)->unk_1C |= 0x200;
                         value = generate_random_value();
                         set_or_clear_actor_status_slot(result, 1, (value & 0x3F) | 0x20);
-                        (*(Callback *)((u8 *)((void *)part_data) + 0x2C)) = D_8016E000;
+                        part_data->frameTable = D_8016E000;
                     }
                 }
             }
@@ -99,10 +93,10 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
         (*(u8 *)((u8 *)tail_actor + 0x9A)) = 0xFF;
         (*(s8 *)((u8 *)tail_actor + 0x9C)) = -1;
         (*(Callback *)((u8 *)tail_actor + 0x8C)) = D_8016AF68;
-        tail_flags = (*(u16 *)((u8 *)((void *)part_data) + 0x14));
+        tail_flags = part_data->flags;
         tail_entity = (void *)part_data;
         tail_flags |= 0xC;
-        tail_entity->unk_14 = tail_flags;
+        tail_entity->flags = tail_flags;
         (*(s16 *)((u8 *)tail_actor + 0xAA)) = ((S_8016A898_0 *)result)->unk_14.u16 & 7;
         try_move_actor_to_valid_position(tail_actor, motion, tail_entity, result);
     }

@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_7f1ed800.h"
-
+#include "shared/sprite_frame_state.h"
+#include "modules/dungeon_ovl_7f1ed800.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *func_80158894(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
@@ -7,7 +8,7 @@ void *func_80158894(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
     s32 kind;
     void *obj;
     S_80158894_2 *part_a;
-    S_80158894_3 *part_b;
+    SpriteFrameState *part_b;
     S_80158894_1 *work;
     S_80158894_4 *actor;
     s32 left;
@@ -33,7 +34,7 @@ void *func_80158894(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
         kind = spawn_flags & 3;
         part_b->unk_25 = held_b;
         actor = work;
-        part_b->unk_2C = D_8015CA7C;
+        part_b->frameTable = D_8015CA7C;
         part_b->unk_24 = held_a;
 
         if (kind == 1) {
@@ -53,7 +54,7 @@ void *func_80158894(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
                     work->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_8015CAD4;
+                    part_b->frameTable = D_8015CAD4;
                 }
             }
         }

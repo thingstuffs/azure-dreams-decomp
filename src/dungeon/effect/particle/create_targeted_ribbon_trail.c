@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -75,7 +76,7 @@ void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unus
     LocalPositionTable positions;
     EffectObject *object;
     EffectPayload *payload;
-    RenderState *render;
+    SpriteFrameState *render;
     Vec3 *effect_position;
     register EffectSource *held_source;
     s32 mode;
@@ -101,7 +102,7 @@ void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unus
 
         render = object->render;
         intensity = 0x60;
-        render->intensity = intensity;
+        render->tpage_abr = intensity;
         render->flags |= 0x8C;
 
         effect_position = object->position;
@@ -120,21 +121,21 @@ void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unus
         payload->vertices[3][2] = -0x14;
 
         render = (RenderState *)PTR_AT(object, 0xC);
-        S16_AT(render, 0x1E) = 0x1000;
-        S16_AT(render, 0x1C) = 0x1000;
-        render->blue = intensity;
-        render->green = intensity;
-        render->red = intensity;
+        render->scale_y = 0x1000;
+        render->scale_x = 0x1000;
+        render->color.c.b = intensity;
+        render->color.c.g = intensity;
+        render->color.c.r = intensity;
 
         mode = (s16)color_mode;
         if (mode == 0) {
-            render->red = 0xC0;
+            render->color.c.r = 0xC0;
         }
         if (mode == 1) {
-            render->green = 0xC0;
+            render->color.c.g = 0xC0;
         }
         if (mode == 2) {
-            render->blue = 0xC0;
+            render->color.c.b = 0xC0;
         }
 
         payload->position[0] =

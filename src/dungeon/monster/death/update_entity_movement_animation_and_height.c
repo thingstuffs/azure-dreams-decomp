@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
@@ -23,7 +23,6 @@ extern u8 D_8015C65C[8];
 extern u8 D_8015C664[8];
 extern u8 D_8015C66C[8];
 extern Callback D_8015C6A0[];
-
 
 typedef struct S_801593A8_2 {
     u8 pad_00[0x1C];
@@ -102,44 +101,44 @@ void update_entity_movement_animation_and_height(void *entity, EntityRec *motion
         (*(u8 *)((u8 *)entity + 0x9D)) = 0;
     }
     (*(s32 *)((u8 *)entity + 0x90)) += motion->flags14;
-    initial_sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
+    initial_sprite_flags = ((SpriteFrameState *)sprite)->flags;
 
     if (!(initial_sprite_flags & 0x8000)) {
         direction = ((g_game_work.view.viewAngle + ((S_801593A8_2 *)entity_base)->unk_2A + 0x100) >> 9) & 7;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction) {
             select_indirect_table_entry(sprite,
-                *(u8 *)(((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 + direction),
-                ((Rec_D_80082E80 *)sprite)->unk_04.as_s8);
+                *(u8 *)(*(u8 * *)&((SpriteFrameState *)sprite)->frameTable + direction),
+                ((SpriteFrameState *)sprite)->unk_04);
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
         {
             u32 facing_flags;
             if (dir_sprite_flag[direction] != 0) {
-                facing_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 1;
+                facing_flags = ((SpriteFrameState *)sprite)->flags | 1;
             } else {
-                facing_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xFFFE;
+                facing_flags = ((SpriteFrameState *)sprite)->flags & 0xFFFE;
             }
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = facing_flags;
+            ((SpriteFrameState *)sprite)->flags = facing_flags;
         }
         apply_monster_koyaw_data(((S_801593A8_2 *)entity_base)->unk_1C, (u8 *)sprite + 0xC);
         if (!(((S_801593A8_2 *)entity_base)->unk_1C & 0x20)) {
-            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
+            if (!(((SpriteFrameState *)sprite)->flags & 0x40)) {
                 func_800478B8(sprite);
             }
         } else {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x7000;
+            ((SpriteFrameState *)sprite)->flags |= 0x7000;
             ((S_801593A8_2 *)entity_base)->unk_1C &= 0xFFFBFFFF;
         }
 
         ((S_801593A8_2 *)entity_base)->unk_1C &= 0xF7FFFFFF;
         flags = ((S_801593A8_2 *)entity_base)->unk_1C;
         if (flags & 0x40000) {
-            sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
+            sprite_flags = ((SpriteFrameState *)sprite)->flags;
             if (!(sprite_flags & 0x40)) {
-                u8 *direction_frames = ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8;
+                u8 *direction_frames = *(u8 * *)&((SpriteFrameState *)sprite)->frameTable;
 
                 if (direction_frames == D_8015C634) {
-                    if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3 && (sprite_flags & 0x1000)) {
+                    if (((SpriteFrameState *)sprite)->unk_04 == 3 && (sprite_flags & 0x1000)) {
                         (*(s32 *)((u8 *)entity + 0xAC)) = 0x60000;
                         (*(s32 *)((u8 *)entity + 0xB0)) = (s32)0xFFFF3000;
                     }
@@ -198,9 +197,9 @@ void update_entity_movement_animation_and_height(void *entity, EntityRec *motion
         }
     } else {
         if (initial_sprite_flags & 0x800) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = initial_sprite_flags & 0x8FFF;
+            ((SpriteFrameState *)sprite)->flags = initial_sprite_flags & 0x8FFF;
         } else {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = initial_sprite_flags | 0x7000;
+            ((SpriteFrameState *)sprite)->flags = initial_sprite_flags | 0x7000;
         }
         ((S_801593A8_2 *)entity_base)->unk_1C &= 0xF7FFFFFF;
         flags = ((S_801593A8_2 *)entity_base)->unk_1C;
@@ -227,8 +226,8 @@ void update_entity_movement_animation_and_height(void *entity, EntityRec *motion
                 }
             }
         } else {
-            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
-                u8 *direction_frames = ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8;
+            if (!(((SpriteFrameState *)sprite)->flags & 0x40)) {
+                u8 *direction_frames = *(u8 * *)&((SpriteFrameState *)sprite)->frameTable;
 
                 if (direction_frames == D_8015C634) {
                     (*(s32 *)((u8 *)entity + 0xAC)) = 0;
@@ -265,8 +264,8 @@ void update_entity_movement_animation_and_height(void *entity, EntityRec *motion
     flags = ((S_801593A8_2 *)entity_base)->unk_1C;
     if (flags & 0x40000000) {
         ((S_801593A8_2 *)entity_base)->unk_1C = flags & 0xBFFFFFFF;
-        ground_height = sample_terrain_surface_height((((Rec_D_80082E80 *)sprite)->unk_24 << 6) | 0x20,
-                              (((Rec_D_80082E80 *)sprite)->unk_25 << 6) | 0x20,
+        ground_height = sample_terrain_surface_height((((SpriteFrameState *)sprite)->unk_24 << 6) | 0x20,
+                              (((SpriteFrameState *)sprite)->unk_25 << 6) | 0x20,
                               (s16)(((S_801593A8_2 *)entity_base)->unk_88 - 0x20));
         if (ground_height < 0x200) {
             (*(s16 *)((u8 *)entity + 0x92)) =
@@ -278,5 +277,5 @@ void update_entity_movement_animation_and_height(void *entity, EntityRec *motion
     motion->z.w.i = ((S_801593A8_2 *)entity_base)->unk_88 +
                              (u16)(*(s16 *)((u8 *)entity + 0x92)) -
                              (*(u16 *)((u8 *)entity + 0xA6));
-    ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x40;
+    ((SpriteFrameState *)sprite)->flags |= 0x40;
 }

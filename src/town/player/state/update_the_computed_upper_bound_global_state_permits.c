@@ -3,7 +3,7 @@
 #include "shared/entity.h"
 
 s32 handle_query_position_after_subtracting_global_z_offset(EntityRec *);                                /* extern */
-void set_the_clear_secondary_refresh_global_flag_set();                 /* extern */
+struct EntityRec; void set_the_clear_secondary_refresh_global_flag_set(struct EntityRec *, s32);                 /* extern */
 extern s32 D_800FE5D4;
 
 

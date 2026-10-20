@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -28,14 +29,6 @@ typedef struct S_81029000_2 {
     s16 unk_0A;
 } S_81029000_2;   /* part_a in spawn_garuda_slot_a */
 
-typedef struct S_81029000_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    s32 * unk_2C;
-} S_81029000_3;   /* part_b in spawn_garuda_slot_a */
-
 typedef struct S_81029000_4 {
     u8 pad_00[0x8C];
     s32 * unk_8C;
@@ -47,7 +40,6 @@ typedef struct S_81029000_4 {
     s8 unk_9C;
 } S_81029000_4;   /* actor in spawn_garuda_slot_a */
 
-
 void *allocate_list_node();
 s32 register_node();
 s16 set_or_clear_actor_status_slot();
@@ -58,8 +50,6 @@ void func_8014CA78(void *obj, void *input_motion, void *input_part);
 void func_8014D058(ActionState *actor, void *context, ActorSprite *sprite_arg, CreatureState *creature);
 extern M2C_UNK D_80150880;
 extern M2C_UNK D_801508E0;
-
-
 
 void *spawn_garuda_slot_a(s16, s16, s16, s16)
 
@@ -73,7 +63,7 @@ void *spawn_garuda_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     S_81029000_1 *work = NULL;
     void *obj;
     S_81029000_2 *part_a;
-    S_81029000_3 *part_b;
+    SpriteFrameState *part_b;
     S_81029000_4 *actor;
     s8 held_a;
     s16 held_c;
@@ -95,7 +85,7 @@ void *spawn_garuda_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
         kind = spawn_flags & 3;
         part_b->unk_25 = held_b;
         actor = work;
-        part_b->unk_2C = &D_80150880;
+        part_b->frameTable = &D_80150880;
         part_b->unk_24 = held_a;
         if (kind == 1) {
             work->unk_14 |= 0x6000;
@@ -111,7 +101,7 @@ void *spawn_garuda_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
                         work->unk_1C |= 0x200;
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->unk_2C = &D_801508E0;
+                        part_b->frameTable = &D_801508E0;
                     }
                 }
             }

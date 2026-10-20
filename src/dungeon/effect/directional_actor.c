@@ -1,5 +1,6 @@
 #include "dungeon/effect/directional_actor.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/effect/directional_actor.h"
 
 void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0800_10 *actor_state)
 {
@@ -7,7 +8,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
     void *actor_base;
     void *entity;
     void *target;
-    void *render_state;
+    SpriteFrameState *render_state;
     void *particle;
     register void *sprite_set;
     s32 particles_left;
@@ -64,14 +65,14 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
                     ((Row_818E0800_S_818E0800_5 *)particle)->unk_10 = particle_z;
                 }
                 ((Row_818E0800_S_818E0800_5 *)particle)->unk_18 = func_80069EF8();
-                ((Row_818E0800_S_818E0800_6 *)render_state)->unk_1E = 0x1000;
-                ((Row_818E0800_S_818E0800_6 *)render_state)->unk_1C = 0x1000;
-                ((Row_818E0800_S_818E0800_6 *)render_state)->unk_10 = 0x60;
-                ((Row_818E0800_S_818E0800_6 *)render_state)->unk_00 = sprite_set;
-                ((Row_818E0800_S_818E0800_6 *)render_state)->unk_14 |= 0xC;
-                ((Row_818E0800_S_818E0800_6 *)render_state)->unk_08 = ((Row_818E0800_S_818E0800_7 *)sprite_set)->unk_04;
-                ((Row_818E0800_S_818E0800_6 *)render_state)->unk_04 = 0;
-                ((Row_818E0800_S_818E0800_6 *)render_state)->unk_05 = 0;
+                render_state->scale_y = 0x1000;
+                render_state->scale_x = 0x1000;
+                render_state->tpage_abr = 0x60;
+                render_state->unk_00 = sprite_set;
+                render_state->flags |= 0xC;
+                render_state->source = ((Row_818E0800_S_818E0800_7 *)sprite_set)->unk_04;
+                render_state->unk_04 = 0;
+                render_state->unk_05 = 0;
                 ((Row_818E0800_S_818E0800_4 *)entity)->unk_20 = effect_arg;
                 ((Row_818E0800_S_818E0800_5 *)particle)->unk_4C = 0;
             }
@@ -95,14 +96,14 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
             ((Row_818E0800_S_818E0800_1 *)actor)->unk_73.s = ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_25;
         } else {
             render_state = ((Row_818E0800_S_818E0800_9_pre *)found_target)[-1].unk_00;
-            if (((Row_818E0800_S_818E0800_6 *)render_state)->unk_14 & 0x8000) {
+            if (render_state->flags & 0x8000) {
                 if (actor_state->unk_14 & 0x8000) {
                     effect_arg->z.w.i = 0xF0;
                     return;
                 }
             }
-            ((Row_818E0800_S_818E0800_1 *)actor)->unk_72.s = ((Row_818E0800_S_818E0800_6 *)render_state)->unk_24;
-            ((Row_818E0800_S_818E0800_1 *)actor)->unk_73.s = ((Row_818E0800_S_818E0800_6 *)render_state)->unk_25;
+            ((Row_818E0800_S_818E0800_1 *)actor)->unk_72.s = render_state->unk_24;
+            ((Row_818E0800_S_818E0800_1 *)actor)->unk_73.s = render_state->unk_25;
         }
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v =
             ((Row_818E0800_S_818E0800_12 *)(((Row_818E0800_S_818E0800_3 *)actor_base)->unk_08))->unk_00.at02.v;

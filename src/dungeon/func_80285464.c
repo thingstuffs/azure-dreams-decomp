@@ -1,4 +1,5 @@
 #include "dungeon/level/generate.h"
+#include "shared/sprite_frame_state.h"
 
 void load_dungeon_layout(s16 layout_number)
 {
@@ -17,7 +18,7 @@ void load_dungeon_layout(s16 layout_number)
     u16 shift_y;
 
     layout_index = layout_number - 1;
-    data_2 = (*(u8 * *)D_8008148C);
+    data_2 = *(u8 * *)&((SpriteFrameState *)D_8008148C)->unk_00;
     (*(u8 * *)D_80081480) = data_2;
     layout_id = D_8001F604[layout_index];
     cfg = &g_game_work.map;

@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_7f211800.h"
-
+#include "shared/sprite_frame_state.h"
+#include "modules/dungeon_ovl_7f211800.h"
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 void *func_8016A894(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
@@ -7,7 +8,7 @@ void *func_8016A894(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     s32 kind;
     void *obj;
     S_8016A894_2 *part_a;
-    S_8016A894_3 *part_b;
+    SpriteFrameState *part_b;
     S_8016A894_1 *work;
     S_8016A894_4 *actor;
     s32 left;
@@ -34,7 +35,7 @@ void *func_8016A894(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         actor = work;
-        part_b->unk_2C = D_8016EA7C;
+        part_b->frameTable = D_8016EA7C;
         part_b->unk_24 = saved_kind_id;
 
         if (kind == 1) {
@@ -57,7 +58,7 @@ void *func_8016A894(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
                     work->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_8016EAD4;
+                    part_b->frameTable = D_8016EAD4;
                 }
             }
         }

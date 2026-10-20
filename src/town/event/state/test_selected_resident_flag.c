@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 test_resident_bitmap_bit();                         /* extern */
+#include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
 extern s16 D_800D1064[];
 
 /* Passes the selected table entry to test_resident_bitmap_bit. */

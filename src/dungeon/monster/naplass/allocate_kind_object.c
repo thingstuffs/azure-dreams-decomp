@@ -1,5 +1,6 @@
 #include "dungeon/monster/naplass/allocate_kind_object.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/naplass/allocate_kind_object.h"
 
 /* Allocate an object, initialize its parts and kind flags, and return its work area. */
 void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 value_0a)
@@ -7,7 +8,7 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
     s32 kind;
     void *obj;
     S_8015E870_2 *part_a;
-    S_8015E870_3 *part_b;
+    SpriteFrameState *part_b;
     S_8015E870_1 *work;
     S_8015E870_4 *actor;
     register s32 flags_14;
@@ -35,7 +36,7 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
         kind = spawn_flags & 3;
         part_b->unk_25 = saved_value_25;
         actor = work;
-        part_b->unk_2C = D_80162194;
+        part_b->frameTable = D_80162194;
         part_b->unk_24 = saved_value_24;
 
         if (kind == 1) {
@@ -55,7 +56,7 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
                 work->unk_1C |= 0x200;
                 set_or_clear_actor_status_slot(work, 1,
                               (generate_random_value() & 0x3F) | 0x20);
-                part_b->unk_2C = D_801621DC;
+                part_b->frameTable = D_801621DC;
             }
         }
         init_obj = obj;
@@ -63,7 +64,7 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &func_8015EE68;
-        part_b->unk_14 |= 0xC;
+        part_b->flags |= 0xC;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -27,7 +28,6 @@ typedef struct S_8016D0E0_1 {
     u8 pad_2C[0x1A];
     u16 unk_46;
 } S_8016D0E0_1;   /* arg3 in update_hop_to_tile_and_complete */
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_800644B8(s32);
@@ -66,7 +66,7 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
             break;
         }
 
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EED0;
+        ((SpriteFrameState *)sprite)->frameTable = D_8016EED0;
         select_sprite_entry(
             sprite,
             D_8016EED0[((g_game_work.view.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -81,7 +81,7 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
         move_ticks = ((S_8016D0E0_0 *)action)->unk_9E.u;
         ((S_8016D0E0_0 *)action)->unk_90 -= ((S_8016D0E0_0 *)action)->unk_A0;
         if (move_ticks != 0) {
-            tile_x = ((Rec_D_80082E80 *)sprite)->unk_24;
+            tile_x = ((SpriteFrameState *)sprite)->unk_24;
             position_x = ((EntityRec *)motion)->x.w.i;
             tile_x <<= 6;
             position_x -= 0x20;
@@ -90,7 +90,7 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
             position_y = ((EntityRec *)motion)->y.w.i;
             position_y -= 0x20;
             ((EntityRec *)motion)->unk_10 =
-                (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - position_y) << 16) /
+                (((((SpriteFrameState *)sprite)->unk_25 << 6) - position_y) << 16) /
                 ((S_8016D0E0_0 *)action)->unk_9E.u;
             ((S_8016D0E0_0 *)action)->unk_A0 =
                 (-func_800644B8(((S_8016D0E0_0 *)action)->unk_9E.u * 0x199)) << 10;
@@ -112,9 +112,9 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EED8;
+            ((SpriteFrameState *)sprite)->frameTable = D_8016EED8;
             select_sprite_entry(
                 sprite,
                 D_8016EED8[((g_game_work.view.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -125,8 +125,8 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
 
     case 3:
         anim_table = D_8016EEB8;
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != anim_table) {
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != anim_table) {
+            ((SpriteFrameState *)sprite)->frameTable = anim_table;
             select_sprite_entry(
                 sprite,
                 anim_table[((g_game_work.view.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -146,7 +146,7 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
-    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
     reduce_actor_food_meter(actor, 4);
     advance_status_timers(actor);
 
@@ -162,7 +162,7 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             ((S_8016D0E0_1 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
-                ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                 D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
         }
     }

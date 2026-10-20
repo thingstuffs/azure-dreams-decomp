@@ -55,13 +55,13 @@ typedef struct ActorAbilityView {
 extern int abs(int);
 
 extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
-extern void *create_actor_spell_effect();
+struct EntityRec; void * create_actor_spell_effect(void *, struct EntityRec *, s16, void *);
 extern s32 play_sound_if_enabled(s32);
 extern void create_two_effect_groups(void *, void *, void *, s32);
-extern void set_record_integer_tile_center();
+#include "dungeon/player/object/set_record_integer_tile_center_api.h"
 extern s32 advance_status_timers(void *);
 extern s32 get_cd_command_queue_depth(void);
-extern void select_sprite_entry();
+#include "engine/graphics/select_sprite_entry_api.h"
 
 extern void update_action_behavior_facing_and_animation(void *, void *, void *, void *);
 extern u8 D_8016EEF8[];
@@ -184,7 +184,7 @@ void update_action_movement_landing_and_recovery(ActorActionView *action, Entity
                 position[0] = ((u16)motion->x.w.i);
                 position[1] = ((u16)motion->y.w.i);
                 position[2] = ((u16)motion->z.w.i);
-                target_sprite_or_effect = (s32)create_actor_spell_effect(move_actor, selector, special,
+                target_sprite_or_effect = (s32)create_actor_spell_effect(move_actor, (struct EntityRec *)(selector), special,
                                             &action->flags);
             }
             if (!target_sprite_or_effect) {
@@ -297,7 +297,7 @@ void update_action_movement_landing_and_recovery(ActorActionView *action, Entity
             sprite->scaleY = 0x0C00;
             effect = D_8016EF00;
             sprite->frameTable = effect;
-            select_sprite_entry(sprite,
+            select_sprite_entry((struct S_80047784 *)(sprite),
                 effect[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             action->flags &= 0xFFF7;
@@ -320,7 +320,7 @@ void update_action_movement_landing_and_recovery(ActorActionView *action, Entity
             return;
         }
         sprite->frameTable = D_8016EEF8;
-        select_sprite_entry(sprite,
+        select_sprite_entry((struct S_80047784 *)(sprite),
             D_8016EEF8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->timer.raw = 10;
@@ -375,7 +375,7 @@ void update_action_movement_landing_and_recovery(ActorActionView *action, Entity
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         if (sprite->frameTable != D_8016EF00) {
             sprite->frameTable = D_8016EF00;
-            select_sprite_entry(sprite,
+            select_sprite_entry((struct S_80047784 *)(sprite),
                 D_8016EF00[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }

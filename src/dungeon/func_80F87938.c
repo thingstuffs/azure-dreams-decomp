@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_fa7000.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -20,19 +21,6 @@ typedef struct S_80171138_0 {
 
    /* arg3 in update_bank_actor_state */
 
-typedef struct S_80171138_2 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
-    u8 pad_27[0x5];
-    void * unk_2C;
-} S_80171138_2;   /* arg2 in update_bank_actor_state */
-
-
 extern s8 find_active_rect_containing_point(u8, u8);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_food(void *);
@@ -52,7 +40,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
 {
     void *actor;
     void *context;
-    void *sprite;
+    SpriteFrameState *sprite;
     ActorUnsignedFlagsView *stats;
     s32 angle_aux;
     s32 status_flags;
@@ -73,10 +61,10 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
 
     if (stats->unk_25 == 0) {
         advance_actor_pending_action(actor, context, sprite, stats);
-        if (((S_80171138_2 *)sprite)->unk_2C == D_80174AFC) {
+        if (sprite->frameTable == D_80174AFC) {
             return;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
+        sprite->frameTable = D_80174AF4;
         select_sprite_entry(sprite,
             D_80174AF4[((g_game_work.view.viewAngle + stats->unk_2A + 0x100) >> 9) & 7],
             0);
@@ -84,7 +72,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
     }
 
     if (stats->unk_1C & 0x200) {
-        if (((S_80171138_2 *)sprite)->unk_2C == D_80174AFC) {
+        if (sprite->frameTable == D_80174AFC) {
             ((S_80171138_0 *)actor)->unk_9A = 0xD;
             ((S_80171138_0 *)actor)->unk_9B = 1;
             ((S_80171138_0 *)actor)->unk_8C = 0;
@@ -106,9 +94,9 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
             ((S_80171138_0 *)actor)->unk_9A = 0xE;
         }
 
-        if (((S_80171138_2 *)sprite)->unk_2C != D_80174AD4) {
+        if (sprite->frameTable != D_80174AD4) {
             ((S_80171138_0 *)actor)->unk_A0 = 0;
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AD4;
+            sprite->frameTable = D_80174AD4;
             select_sprite_entry(sprite,
                 D_80174AD4[((g_game_work.view.viewAngle + stats->unk_2A + 0x100) >> 9) & 7],
                 ((S_80171138_0 *)actor)->unk_A0);
@@ -135,15 +123,15 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
         }
     }
 
-    tile_index = find_active_rect_containing_point(((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v);
-    ((S_80171138_2 *)sprite)->unk_26 = tile_index;
+    tile_index = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+    sprite->unk_26 = tile_index;
 
     if (stats->unk_6D > 0) {
         if (stats->unk_1C & 0x20) {
             update_actor_status_and_food(stats);
             return;
         }
-        if (!(((S_80171138_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX))) {
+        if (!(*(u16 *)&sprite->unk_24 == *(u16 *)(&D_80082E80.tileX))) {
             action_state = stats->unk_46;
             if (!(action_state & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
@@ -184,7 +172,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
                     s16 facing_angle;
 
                     facing_angle = (s16)get_rounded_facing_and_rounding_flag(
-                        ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
+                        sprite->unk_24, sprite->unk_25,
                         D_80082E80.tileX, D_80082E80.tileY,
                         &angle_aux);
                     player = D_800814A8;
@@ -229,10 +217,10 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
     {
 
         if ((compare_monster_neighbor_values(
-                ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
+                sprite->unk_24, sprite->unk_25,
                 D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
             stats->unk_2A = (s16)get_rounded_facing_and_rounding_flag(
-                ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
+                sprite->unk_24, sprite->unk_25,
                 D_80082E80.tileX, D_80082E80.tileY, &angle_aux);
         }
     }

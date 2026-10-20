@@ -1,10 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
-
-
 
 typedef struct S_80170884_0 {
     u8 pad_00[0x8];
@@ -26,14 +25,6 @@ typedef struct S_80170884_2 {
     s16 unk_0A;
 } S_80170884_2;   /* part_a in build_projected_tile_packets */
 
-typedef struct S_80170884_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80170884_3;   /* part_b in build_projected_tile_packets */
-
 typedef struct S_80170884_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -42,7 +33,6 @@ typedef struct S_80170884_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_80170884_4;   /* actor in build_projected_tile_packets */
-
 
 extern void *allocate_list_node();
 extern void register_node();
@@ -61,7 +51,7 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
     s32 kind;
     void *object;
     S_80170884_2 *part_a;
-    S_80170884_3 *part_b;
+    SpriteFrameState *part_b;
     S_80170884_1 *work;
     S_80170884_4 *actor;
     s32 value_14;
@@ -87,7 +77,7 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
         kind = mask & 3;
         part_b->unk_25 = value_25;
         actor = work;
-        part_b->unk_2C = D_80174820;
+        part_b->frameTable = D_80174820;
         part_b->unk_24 = value_24;
 
         if (kind == 1) {
@@ -107,7 +97,7 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
                     work->unk_1C |= 0x200;
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_80174860;
+                    part_b->frameTable = D_80174860;
                 }
             }
         }

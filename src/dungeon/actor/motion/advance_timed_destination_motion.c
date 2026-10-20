@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct { u8 pad0[2]; u16 field2; s16 field4; u8 pad6[6]; } D_80083460_t;
 extern u8 D_80096384[];
@@ -14,7 +14,7 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 
 /* Advances timed movement toward a destination and handles completion. */
-void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, EntityRec *motion, Rec_D_80082E80 *destination, EntityRec *actor) {
+void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, EntityRec *motion, SpriteFrameState *destination, EntityRec *actor) {
     u16 delay;
     u8 state;
     s32 vertical_speed;
@@ -74,7 +74,7 @@ void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, EntityRec 
         action->unk_8C.as_pv = D_80096384;
         return;
     case 12:
-        if (destination->unk_14.at00_u16.v & 0x6000) {
+        if (destination->flags & 0x6000) {
             g_dungeon_status.unk_04 = 0;
             if (action->unk_100 >= 0) {
                 begin_player_trap_trigger(action, motion, destination, actor);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -10,19 +11,16 @@ typedef struct S_801588E8_0 {
     s16 unk_AC;
 } S_801588E8_0;   /* arg0 in apply_countdown_scaled_color_intensity; pointer addresses record offset 0x2 */
 
-
-
-
 /* Apply countdown-scaled intensity, decrement the timer, and flag completion at zero. */
-void apply_countdown_scaled_color_intensity(void *record_data, void *unused, Rec_D_80082E80 *color) {
+void apply_countdown_scaled_color_intensity(void *record_data, void *unused, SpriteFrameState *color) {
     s16 ticks_left;
     s32 intensity;
 
     intensity = (s32) (((S_801588E8_0 *)((u8 *)record_data - 0x2))->unk_98
         << 7) / (s16) ((S_801588E8_0 *)((u8 *)record_data - 0x2))->unk_AC;
-    color->unk_0C.at02_s8.v = (s8) intensity;
-    color->unk_0C.at01_s8.v = (s8) intensity;
-    color->unk_0C.at00_s8.v = (s8) intensity;
+    color->color.c.b = (s8) intensity;
+    color->color.c.g = (s8) intensity;
+    color->color.c.r = (s8) intensity;
     func_800478B8(color);
     ticks_left = (u16) ((S_801588E8_0 *)((u8 *)record_data - 0x2))->unk_98 - 1;
     ((S_801588E8_0 *)((u8 *)record_data - 0x2))->unk_98 = ticks_left;

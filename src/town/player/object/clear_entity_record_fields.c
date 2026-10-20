@@ -1,4 +1,4 @@
-#include "common.h"
+#include "town/player/object/entity_record_fields.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 
@@ -18,22 +19,6 @@ typedef struct S_80172F44_1 {
     void * unk_10;
 } S_80172F44_1;   /* object in create_boss_randomized_effect */
 
-typedef struct S_80172F44_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80172F44_2;   /* display in create_boss_randomized_effect */
-
 typedef struct S_80172F44_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -46,7 +31,6 @@ typedef struct S_80172F44_4 {
     s32 unk_08;
 } S_80172F44_4;   /* arg0 in create_boss_randomized_effect */
 
-
 extern void register_node(void *entry, void *registration_id);
 extern s32 rand(void);
 extern void func_8003DB94(void *ptr, void *ptr1, s32 value);
@@ -58,7 +42,7 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
 {
     void *object;
     S_80172F44_3 *transform;
-    S_80172F44_2 *display;
+    SpriteFrameState *display;
     u8 *state;
     s32 random_value;
     s32 z_fixed;
@@ -72,9 +56,9 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
         register_node(object, project_sprite_chain);
 
         display = ((S_80172F44_1 *)object)->unk_0C;
-        display->unk_10 = 0x40;
+        display->tpage_abr = 0x40;
         display->unk_06 = 6;
-        display->unk_14 |= 0xC;
+        display->flags |= 0xC;
 
         transform = ((S_80172F44_1 *)object)->unk_08;
         transform->unk_00.at00.v = position->unk_00;
@@ -95,13 +79,13 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
         ((S_80172F44_0 *)state)->unk_60 = random_value - 0x40000;
 
         display = ((S_80172F44_1 *)object)->unk_0C;
-        display->unk_1E = 0x400;
-        display->unk_1C = 0x400;
-        display->unk_0E = 0x16;
-        display->unk_0D = 0x16;
-        display->unk_0C = 0x16;
-        display->unk_12 = 0x7DCF;
-        display->unk_14 |= 0x100;
+        display->scale_y = 0x400;
+        display->scale_x = 0x400;
+        display->color.c.b = 0x16;
+        display->color.c.g = 0x16;
+        display->color.c.r = 0x16;
+        display->clut = 0x7DCF;
+        display->flags |= 0x100;
         func_8003DB94(display, D_800DE870, 0);
     }
 }

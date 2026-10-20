@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource10_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void *func_80170F3C(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
 {
@@ -8,7 +9,7 @@ void *func_80170F3C(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
     void *result;
     void *object;
     R10_80170F3C_S_80170F3C_2 *part0;
-    R10_80170F3C_S_80170F3C_3 *part1;
+    SpriteFrameState *part1;
     R10_80170F3C_S_80170F3C_4 *result_copy;
 
     result = 0;
@@ -30,7 +31,7 @@ void *func_80170F3C(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
             kind = flags & 3;
             part1->unk_25 = variant;
             result_copy = result;
-            part1->unk_2C = handler;
+            part1->frameTable = handler;
         }
         part1->unk_24 = kind_id;
 
@@ -52,7 +53,7 @@ void *func_80170F3C(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
                    (((R10_80170F3C_S_80170F3C_1 *)result)->unk_14 & 0x200) == 0 &&
                    (generate_random_value() & 1) != 0) {
             set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
-            part1->unk_2C = ((u8 *)D_801759E8);
+            part1->frameTable = ((u8 *)D_801759E8);
         }
 
         initialize_actor_sprite_and_animation(object, part0, part1,(s16)(flags));

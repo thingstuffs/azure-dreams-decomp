@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void process_object_data_by_mode();                      /* extern */
-void process_handled_entry_types();                         /* extern */
-s32 invalidate_cached_state_and_queue_read();                      /* extern */
+void process_object_data_by_mode(void *);                      /* extern */
+void process_handled_entry_types(void * *);                         /* extern */
+s32 invalidate_cached_state_and_queue_read(void *);                      /* extern */
 
 typedef struct S_800B6C30_0 {
     u8 pad_00[0x4];
@@ -19,7 +19,7 @@ void change_monster_status_display_target(s32 objectAddress, s32 field04Value, s
 
     if (objectAddress != 0) {
         objectState = objectAddress + 0x20;
-        process_handled_entry_types(objectState->unk_98);
+        process_handled_entry_types((void * *)(objectState->unk_98));
         objectState->unk_08 = field08Value;
         objectState->unk_04 = field04Value;
         process_object_data_by_mode(objectState);

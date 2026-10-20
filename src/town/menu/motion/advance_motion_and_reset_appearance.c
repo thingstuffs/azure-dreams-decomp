@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
@@ -8,7 +9,6 @@ void func_800478B8(void *entity);
 void add_motion_deltas_to_position();                      /* extern */
 extern M2C_UNK D_800A38A8;
 extern M2C_UNK D_800D0B20;
-
 
 typedef struct S_800A378C_0 {
     s32 * unk_00;
@@ -22,7 +22,7 @@ typedef struct S_800A378C_0 {
 } S_800A378C_0;   /* arg0 in advance_motion_and_reset_appearance */
 
 /* Updates the transform until the countdown expires, then resets appearance and advances state. */
-void advance_motion_and_reset_appearance(S_800A378C_0 *state, EntityRec *transform, Rec_D_80082E80 *appearance) {
+void advance_motion_and_reset_appearance(S_800A378C_0 *state, EntityRec *transform, SpriteFrameState *appearance) {
     s32 ticks_left;
 
     ticks_left = state->unk_24 - 1;
@@ -31,11 +31,11 @@ void advance_motion_and_reset_appearance(S_800A378C_0 *state, EntityRec *transfo
         transform->unk_0C = 0;
         transform->unk_10 = 0;
         transform->flags14 = 0;
-        appearance->unk_0C.at02_s8.v = 0x40;
-        appearance->unk_0C.at01_s8.v = 0x40;
-        appearance->unk_0C.at00_s8.v = 0x40;
-        appearance->unk_10.as_s16 = 0x20;
-        appearance->unk_14.at00_u16.v = (u16) (appearance->unk_14.at00_u16.v | 0x1C);
+        appearance->color.c.b = 0x40;
+        appearance->color.c.g = 0x40;
+        appearance->color.c.r = 0x40;
+        appearance->tpage_abr = 0x20;
+        appearance->flags = (u16) (appearance->flags | 0x1C);
         state->unk_00 = &D_800A38A8;
         transform->unk_0C = 0;
         transform->unk_10 = 0;

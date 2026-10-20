@@ -22,9 +22,6 @@ typedef struct T_80170D40_S_80170D40_1 {
     u8 unk_0E;
 } T_80170D40_S_80170D40_1;   /* arg2 in func_80170D40 */
 
-
-
-
 typedef struct T_80170DC4_S_80170DC4_0_pre {
     u16 unk_00;
 } T_80170DC4_S_80170DC4_0_pre;   /* the 0x2 bytes before arg0 in func_80170DC4, addressed as arg0[-1] */
@@ -43,10 +40,6 @@ typedef struct T_80170DC4_S_80170DC4_1 {
     s8 unk_0E;
 } T_80170DC4_S_80170DC4_1;   /* arg2 in func_80170DC4 */
 
-
-
-
-
 typedef struct {
     u8 red;
     u8 green;
@@ -62,10 +55,6 @@ typedef struct {
     s8 green;
     s8 blue;
 } T_80170E2C_FadeOutput;
-
-
-
-
 
 #include "records/Rec_D_80082E80.h"
 
@@ -94,9 +83,6 @@ typedef struct T_80170F94_S_80170F94_1 {
     s32 unk_50;
     s32 unk_54;
 } T_80170F94_S_80170F94_1;   /* arg0 in func_80170F94 */
-
-
-
 
 #include "shared/object_node.h"
 #include "shared/entity_height_offsets.h"
@@ -132,18 +118,6 @@ typedef struct T_8017121C_S_8017121C_1 {
     void * unk_10;
 } T_8017121C_S_8017121C_1;   /* effect in func_8017121C */
 
-typedef struct T_8017121C_S_8017121C_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} T_8017121C_S_8017121C_2;   /* part in func_8017121C */
-
 typedef struct T_8017121C_S_8017121C_3 {
     u8 pad_00[0x2];
     union { u16 s; s16 u; } unk_02;   /* accessed as both */
@@ -152,7 +126,6 @@ typedef struct T_8017121C_S_8017121C_3 {
     u8 pad_08[0x2];
     union { u16 s; s16 u; } unk_0A;   /* accessed as both */
 } T_8017121C_S_8017121C_3;   /* coords in func_8017121C */
-
 
 typedef struct T_8017121C_S_8017121C_5_pre {
     void * unk_00;
@@ -163,7 +136,6 @@ typedef struct T_8017121C_S_8017121C_6 {
     u8 pad_00[0x8];
     void * unk_08;
 } T_8017121C_S_8017121C_6;   /* source in func_8017121C */
-
 
 typedef struct T_8017121C_S_8017121C_8_pre {
     void * unk_00;
@@ -184,25 +156,16 @@ typedef struct T_8017121C_S_8017121C_10 {
     u8 unk_13;
 } T_8017121C_S_8017121C_10;   /* ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in func_8017121C */
 
-
-
 typedef struct T_8017121C_Vec3u16 {
     u16 raw_y;
     u16 y;
     u16 z;
 } T_8017121C_Vec3u16;
 
-
-
-
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 
-
 typedef struct { s32 w0, w1, w2, w3; } Blk16;
-
-
-
 
 typedef struct T_801714FC_S_801714FC_1 {
     u8 pad_00[0x94];
@@ -245,7 +208,6 @@ typedef struct T_801714FC_S_801714FC_4 {
     u16 unk_0A;
 } T_801714FC_S_801714FC_4;   /* q in func_801714FC */
 
-
 typedef struct T_801714FC_S_801714FC_6_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -265,8 +227,6 @@ typedef struct T_801714FC_S_801714FC_8 {
     u8 pad_00[0x13];
     u8 unk_13;
 } T_801714FC_S_801714FC_8;   /* ((S_801714FC_0 *)arg3)->unk_60.p in func_801714FC */
-
-
 
 s32 rand();                                 /* extern */
 
@@ -295,20 +255,6 @@ typedef struct T_80171790_S_80171790_1 {
     u8 unk_20;
 } T_80171790_S_80171790_1;   /* (void *) saved_obj_angle in func_80171790 */
 
-typedef struct T_80171790_S_80171790_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} T_80171790_S_80171790_2;   /* (void *) saved_data_scale in func_80171790 */
-
 typedef struct T_80171790_S_80171790_3 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -331,8 +277,6 @@ typedef struct T_80171790_S_80171790_5 {
     u8 pad_00[0xAE];
     s16 unk_AE;
 } T_80171790_S_80171790_5;   /* saved_arg0 in func_80171790 */
-
-
 
 typedef struct {
     u8 data[12];
@@ -367,9 +311,6 @@ typedef struct {
     u8 pad14[0x30];
     T_80171928_Blob12 blob;
 } T_80171928_Object;
-
-
-
 
 typedef struct T_80171A38_S_80171A38_0_pre {
     u16 unk_00;
@@ -428,16 +369,11 @@ typedef struct T_80171A38_S_80171A38_6 {
     void * unk_08;
 } T_80171A38_S_80171A38_6;   /* ((T_80171A38_S_80171A38_1 *)record)->unk_0C in func_80171A38 */
 
-
 typedef struct {
     s16 x;
     s16 y;
     s16 z;
 } T_80171A38_Vec3s;
-
-
-
-
 
 typedef struct T_80171BEC_S_80171BEC_0 {
     u8 pad_00[0x8];
@@ -486,7 +422,6 @@ typedef struct T_80171BEC_S_80171BEC_5 {
     s32 unk_08;
 } T_80171BEC_S_80171BEC_5;   /* owner in func_80171BEC */
 
-
 typedef struct {
     u16 x;
     u16 y;
@@ -496,9 +431,6 @@ typedef struct {
 typedef struct {
     u8 bytes[12];
 } T_80171BEC_Packed3;
-
-
-
 
 #include "shared/sprite_frame_state.h"
 
@@ -515,8 +447,6 @@ typedef struct T_80171D64_S_80171D64_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } T_80171D64_S_80171D64_4;   /* the record, addressed through its copy in func_80171D64 */
-
-
 
 extern void func_800478B8(void *entity);
 extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);

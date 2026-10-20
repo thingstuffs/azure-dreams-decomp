@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -7,12 +8,10 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80173DD4_arg0.h"
 
-
 typedef struct S_80173DD4_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_80173DD4_3;   /* counter_base in update_actor_behavior_2 */
-
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -44,19 +43,17 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
     DungeonGlobalStatus *global_base;
     s32 state;
 
-
-
     state = ((Rec_func_80173DD4_arg0 *)controller)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)object)->flags & 0xE000)) {
             create_randomized_motion_object(controller, context_in);
             create_randomized_motion_object(controller, context_in);
             create_randomized_motion_object(controller, context_in);
             create_randomized_motion_object(controller, context_in);
             break;
         }
-        (*(void * *)((u8 *)object + 0x2C)) = D_80176470;
+        ((SpriteFrameState *)object)->frameTable = D_80176470;
         select_sprite_entry(object,
             D_80176470[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
@@ -69,12 +66,12 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
         break;
     case 1:
         if ((get_entity_effect_value(actor, 1) << 16) == 0) {
-        (*(void * *)((u8 *)object + 0x2C)) = D_80176478;
+        ((SpriteFrameState *)object)->frameTable = D_80176478;
         select_sprite_entry(object,
             D_80176478[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&actor->flags1C) |= 0x40000;
-        if (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)object)->flags & 0x8000) {
             ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
             break;
         }
@@ -135,7 +132,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 TileObject *origin = &D_80082E80;
-                s8 tile = ((Rec_D_80082E80 *)object)->unk_26.as_s8;
+                s8 tile = *(s8 *)&((SpriteFrameState *)object)->unk_26;
 
                 if (((tile == origin->unk_026) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, object) < 2)) {
@@ -148,12 +145,12 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
                 break;
             }
         }
-        (*(void * *)((u8 *)object + 0x2C)) = D_80176478;
+        ((SpriteFrameState *)object)->frameTable = D_80176478;
         select_sprite_entry(object,
             D_80176478[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&actor->flags1C) |= 0x40000;
-        if (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)object)->flags & 0x8000) {
             ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
             break;
         }
@@ -165,7 +162,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
         }
         break;
     case 2:
-        if (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0xE000) {
+        if (((SpriteFrameState *)object)->flags & 0xE000) {
             u8 *counter_base;
 
             counter_base = (u8 *)&g_dungeon_status.unk_00;

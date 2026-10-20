@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
@@ -7,12 +8,10 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 
-
 typedef struct {
     s16 x;
     s16 y;
 } Pair16;
-
 
 extern void func_8003DB94(void *, void *, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
@@ -33,7 +32,6 @@ extern u8 D_801714B8;
 extern u8 D_8017609C[];
 extern u8 D_801760A4[];
 extern Pair16 D_8017610C[];
-
 
 typedef struct S_801757E0_0_pre {
     void * unk_00;
@@ -94,20 +92,6 @@ typedef struct S_801757E0_4 {
     void * unk_10;
 } S_801757E0_4;   /* object in update_action_and_check_forward_tile */
 
-typedef struct S_801757E0_5 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_801757E0_5;   /* display in update_action_and_check_forward_tile */
-
 typedef struct S_801757E0_6 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -129,7 +113,7 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
     s32 target_y;
     void *particle;
     void *particle_work;
-    void *sprite;
+    SpriteFrameState *sprite;
     MovingPosition *particle_transform;
     void *owner;
     Pair16 *directions;
@@ -166,9 +150,9 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
                 register_node(particle, project_sprite_chain);
 
                 sprite = ((S_801757E0_4 *)particle)->unk_0C;
-                ((S_801757E0_5 *)sprite)->unk_14 |= 0x0C;
-                ((S_801757E0_5 *)sprite)->unk_10 = 0x60;
-                ((S_801757E0_5 *)sprite)->unk_14 |= 2;
+                sprite->flags |= 0x0C;
+                sprite->tpage_abr = 0x60;
+                sprite->flags |= 2;
 
                 owner = ((S_801757E0_0_pre *)actor)[-1].unk_00;
                 particle_transform = ((S_801757E0_4 *)particle)->unk_08;
@@ -193,13 +177,13 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
                 ((S_801757E0_3 *)particle_work)->unk_64 = 0x6000;
 
                 sprite = ((S_801757E0_4 *)particle)->unk_0C;
-                ((S_801757E0_5 *)sprite)->unk_1C = 0x800;
-                ((S_801757E0_5 *)sprite)->unk_1E = 0x800;
-                ((S_801757E0_5 *)sprite)->unk_0E = 0x80;
-                ((S_801757E0_5 *)sprite)->unk_0D = 0x80;
-                ((S_801757E0_5 *)sprite)->unk_0C = 0x80;
-                ((S_801757E0_5 *)sprite)->unk_12 = 0x7DCF;
-                ((S_801757E0_5 *)sprite)->unk_14 |= 0x100;
+                sprite->scale_x = 0x800;
+                sprite->scale_y = 0x800;
+                sprite->color.c.b = 0x80;
+                sprite->color.c.g = 0x80;
+                sprite->color.c.r = 0x80;
+                sprite->clut = 0x7DCF;
+                sprite->flags |= 0x100;
                 func_8003DB94(sprite, D_800DE870, 0);
             }
         }

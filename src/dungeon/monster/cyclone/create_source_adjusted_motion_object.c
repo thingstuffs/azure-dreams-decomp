@@ -1,9 +1,9 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_moving_views.h"
-
 
 typedef struct {
     u32 words[6];
@@ -21,7 +21,6 @@ extern void *resolve_record_orientation_or_fallback(void *ptr, void *ptr1, Vec3u
 
 extern u8 D_80175978;
 
-
 typedef struct S_80175D04_0 {
     u8 pad_00[0x2A];
     u16 unk_2A;
@@ -35,19 +34,6 @@ typedef struct S_80175D04_1 {
     u8 pad_04[0x2];
     u16 unk_06;
 } S_80175D04_1;   /* &local in create_source_adjusted_motion_object */
-
-typedef struct S_80175D04_2 {
-    u8 pad_00[0xC];
-    u32 unk_0C;
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    s32 unk_28;
-} S_80175D04_2;   /* render in create_source_adjusted_motion_object */
 
 typedef struct S_80175D04_3 {
     u8 pad_00[0x8];
@@ -79,7 +65,7 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
     Copy24 *motion;
     void *object;
     MovingPosition *child_pos;
-    S_80175D04_2 *render;
+    SpriteFrameState *render;
 
     direction_bits = actor->unk_2A;
     target_pos = *start_pos;
@@ -102,11 +88,11 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
 
         render = (*(void * *)((u8 *)object + 0xC));
         render->unk_28 = source->unk_28;
-        render->unk_1E = 0x800;
-        render->unk_1C = 0x800;
-        render->unk_0C = 0x00808080;
-        render->unk_14 |= 0xC;
-        render->unk_10 |= 0x20;
+        render->scale_y = 0x800;
+        render->scale_x = 0x800;
+        render->color.word = 0x00808080;
+        render->flags |= 0xC;
+        render->tpage_abr |= 0x20;
         select_sprite_entry(render, 0x47, 0);
 
         child_pos = (*(void * *)((u8 *)object + 8));

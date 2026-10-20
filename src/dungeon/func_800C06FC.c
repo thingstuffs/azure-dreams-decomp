@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -13,7 +14,7 @@ extern s32 register_node();
 extern s32 play_sound_if_enabled();
 extern s32 draw_linked_sprites_clipped();
 struct S_800C5D80_0;
-extern void advance_effect_motion_and_fade(void *effect_data, struct S_800C5D80_0 *motion, Rec_D_80082E80 *primitive);
+extern void advance_effect_motion_and_fade(void *effect_data, struct S_800C5D80_0 *motion, SpriteFrameState *primitive);
 
 typedef struct S_800C5E5C_0 {
     u8 pad_00[0x8];
@@ -33,17 +34,6 @@ typedef struct S_800C5E5C_1 {
     s32 unk_14;
 } S_800C5E5C_1;
 
-typedef struct S_800C5E5C_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800C5E5C_2;
-
 typedef struct S_800C5E5C_3 {
     u8 pad_00[0xC];
     s16 unk_0C;
@@ -57,7 +47,7 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
     s32 effect_index;
     s32 effect_offset;
     s32 size;
-    S_800C5E5C_2 *sprite;
+    SpriteFrameState *sprite;
     DungeonGlobalStatus *counter;
     void *effect;
     S_800C5E5C_1 *transform;
@@ -89,22 +79,22 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
             transform->unk_14 = effect_offset;
             sprite = ((S_800C5E5C_0 *)effect)->unk_0C;
             func_8003DB94(sprite, sprite_id, 0);
-            sprite_flags = sprite->unk_14;
+            sprite_flags = sprite->flags;
             {
                 s32 color;
                 color = 0x808080;
-                sprite->unk_0C = color;
+                sprite->color.word = color;
             }
             {
                 s32 scale;
                 scale = 0x1000;
-                sprite->unk_1E = scale;
-                sprite->unk_1C = scale;
+                sprite->scale_y = scale;
+                sprite->scale_x = scale;
             }
             effect_state = effect + 0x20;
-            sprite->unk_10 = size;
+            sprite->tpage_abr = size;
             sprite_flags |= 0xC;
-            sprite->unk_14 = sprite_flags;
+            sprite->flags = sprite_flags;
             effect_state->unk_10 = size;
             effect_state->unk_0C = effect_index;
             if (effect_index == 0) {

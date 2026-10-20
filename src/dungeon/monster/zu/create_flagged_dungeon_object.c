@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -22,14 +23,6 @@ typedef struct S_80FA5000_2 {
     s16 unk_0A;
 } S_80FA5000_2;   /* part_a in create_flagged_dungeon_object */
 
-typedef struct S_80FA5000_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80FA5000_3;   /* part_b in create_flagged_dungeon_object */
-
 typedef struct S_80FA5000_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -42,7 +35,6 @@ typedef struct S_80FA5000_4 {
     u8 pad_9D[0x3];
     s16 unk_A0;
 } S_80FA5000_4;   /* actor in create_flagged_dungeon_object */
-
 
 extern void *allocate_list_node();
 extern void register_node();
@@ -67,7 +59,7 @@ void *create_flagged_dungeon_object(s16 mask, s16 value_24, s16 value_25, s16 va
     void *work = 0;
     void *obj;
     void *part_a;
-    S_80FA5000_3 *part_b;
+    SpriteFrameState *part_b;
     S_80FA5000_4 *actor;
     s32 left;
     s32 right;
@@ -91,7 +83,7 @@ void *create_flagged_dungeon_object(s16 mask, s16 value_24, s16 value_25, s16 va
         kind = mask & 3;
         part_b->unk_25 = saved_arg2;
         actor = work;
-        part_b->unk_2C = D_80156AD4;
+        part_b->frameTable = D_80156AD4;
         part_b->unk_24 = saved_arg1;
 
         if (kind == 1) {
@@ -112,7 +104,7 @@ void *create_flagged_dungeon_object(s16 mask, s16 value_24, s16 value_25, s16 va
                         ((S_80FA5000_1 *)work)->unk_1C |= 0x200;
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->unk_2C = D_80156AFC;
+                        part_b->frameTable = D_80156AFC;
                     }
                 }
             }

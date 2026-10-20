@@ -9,7 +9,7 @@ extern s32 runtime_initialize_polygon_edges(s32, s32 *, u16 *);
 extern void func_80064624(s32, s32);
 extern void func_80064D20(void *);
 extern void func_80064D50(void *);
-void draw_empty_map_cell_quads();                         /* extern */
+void draw_empty_map_cell_quads(u32);                         /* extern */
 extern u8 D_8006ADBC[];
 extern s32 D_800D1548[3];
 extern u8 D_800D1554[9];

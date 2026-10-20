@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/vector.h"
 
@@ -33,25 +34,6 @@ typedef struct S_800224E0_3 {
     void * unk_4C;
 } S_800224E0_3;   /* slot in create_minigame_display_objects */
 
-typedef struct S_800224E0_4 {
-    s32 unk_00;
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-    s16 unk_20;
-} S_800224E0_4;   /* draw in create_minigame_display_objects */
-
-
 extern u8 D_80020224[];
 extern u8 D_80022768[];
 extern u8 D_80023404[];
@@ -83,7 +65,7 @@ void create_minigame_display_objects(void)
     u8 *child_slot;
     u8 *callback;
     IntVector3 *prim;
-    u8 *draw_state;
+    SpriteFrameState *draw_state;
     u8 *object_state;
     u8 *child_script;
     u32 neutral_color;
@@ -131,21 +113,21 @@ void create_minigame_display_objects(void)
         prim = ((S_800224E0_0 *)obj)->unk_08;
         draw_state = ((S_800224E0_0 *)obj)->unk_0C;
         ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
-        ((S_800224E0_4 *)draw_state)->unk_1C = 0x1000;
-        ((S_800224E0_4 *)draw_state)->unk_1E = 0x1000;
-        ((S_800224E0_4 *)draw_state)->unk_20 = 0x1000;
-        ((S_800224E0_4 *)draw_state)->unk_08 = 0x2C;
-        ((S_800224E0_4 *)draw_state)->unk_12 = 0;
-        ((S_800224E0_4 *)draw_state)->unk_14 = 0;
-        ((S_800224E0_4 *)draw_state)->unk_10 = 0;
-        ((S_800224E0_4 *)draw_state)->unk_16 = 0;
-        ((S_800224E0_4 *)draw_state)->unk_18 = 0;
-        ((S_800224E0_4 *)draw_state)->unk_1A = 0;
-        ((S_800224E0_4 *)draw_state)->unk_00 = 0;
-        ((S_800224E0_4 *)draw_state)->unk_04 = 0;
-        ((S_800224E0_4 *)draw_state)->unk_05 = 0;
-        draw_state = (u8 *)&((S_800224E0_4 *)draw_state)->unk_0C;
-        *(u32 *)draw_state = neutral_color;
+        draw_state->scale_x = 0x1000;
+        draw_state->scale_y = 0x1000;
+        draw_state->unk_20 = 0x1000;
+        draw_state->source = 0x2C;
+        draw_state->clut = 0;
+        draw_state->flags = 0;
+        draw_state->tpage_abr = 0;
+        draw_state->angle_x = 0;
+        draw_state->angle_y = 0;
+        draw_state->angle_z = 0;
+        draw_state->unk_00 = 0;
+        draw_state->unk_04 = 0;
+        draw_state->unk_05 = 0;
+        draw_state = (u8 *)&draw_state->color.word;
+        draw_state->unk_00 = neutral_color;
         prim->x = 0x04400000;
         prim->y = 0x02C00000;
         object_state = obj + 0x20;

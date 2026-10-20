@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_18D6800_H
 #define DUNGEON_OVL_18D6800_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dir_step.h"
@@ -440,17 +441,6 @@ typedef struct B28_818B6954_S_818B6954_1 {
     s16 unk_04;
     s16 unk_06;
 } B28_818B6954_S_818B6954_1;
-typedef struct B28_818B6954_S_818B6954_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} B28_818B6954_S_818B6954_2;
 typedef struct B28_818B68B8_S_818B68B8_0_pre {
     u16 unk_00;
 } B28_818B68B8_S_818B68B8_0_pre;
@@ -467,7 +457,7 @@ typedef struct B28_818B68B8_S_818B68B8_2 {
     s32 unk_08;
 } B28_818B68B8_S_818B68B8_2;
 void interpolate_view_parameters(EntityRec *target, s32 gain_param, s32 ignored_context);
-void func_800240B8(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, Rec_D_80082E80 *status);
+void func_800240B8(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status);
 s32 func_80024154(s32 context_value, void *source_state, s32 render_param, s32 ignored_context);
 void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, M2C_UNK render_arg, B28_818B6AFC_FxColorOut *color_out);
 s32 func_80024790(s32 texture_index, u8 *color_source);

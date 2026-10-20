@@ -1,11 +1,11 @@
 #ifndef DUNGEON_OVL_18C4828_H
 #define DUNGEON_OVL_18C4828_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
-
 
 /* Applies a flag-adjusted stat increase to an eligible target and updates its state. */
 typedef struct {
@@ -24,19 +24,6 @@ typedef struct Row_818A4948_S_func_818A4948_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } Row_818A4948_S_func_818A4948_0;
-
-typedef struct Row_818A4948_S_func_818A4948_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x3];
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_818A4948_S_func_818A4948_1;
 
 typedef struct Row_818A4948_S_func_818A4948_2 {
     u8 pad_00[0x2];
@@ -61,18 +48,6 @@ typedef struct Row_818A4A64_S_818A4A64_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } Row_818A4A64_S_818A4A64_0;   /* temp_v0 in func_80024264 */
-
-typedef struct Row_818A4A64_S_818A4A64_1 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_818A4A64_S_818A4A64_1;   /* temp_s0 in func_80024264 */
 
 typedef struct Row_818A4A64_S_818A4A64_2 {
     u8 pad_00[0x2];
@@ -156,20 +131,6 @@ typedef struct Row_818A4CA0_S_818A4CA0_2 {
     u16 unk_0A;
 } Row_818A4CA0_S_818A4CA0_2;   /* arg1 in func_800244A0 */
 
-typedef struct Row_818A4CA0_S_818A4CA0_3 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_818A4CA0_S_818A4CA0_3;   /* temp_s0 in func_800244A0 */
-
 typedef struct Row_818A4CA0_S_818A4CA0_4 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -202,22 +163,6 @@ typedef struct Row_818A4ED0_S_818A4ED0_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } Row_818A4ED0_S_818A4ED0_0;   /* temp_v0 in func_800246D0 */
-
-typedef struct Row_818A4ED0_S_818A4ED0_1 {
-    u8 pad_00[0x8];
-    M2C_UNK * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_818A4ED0_S_818A4ED0_1;   /* temp_s0 in func_800246D0 */
 
 typedef struct Row_818A4ED0_S_818A4ED0_2 {
     u8 pad_00[0x2];
@@ -260,7 +205,7 @@ void func_800240C4(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
 void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords);
 void func_80024230(void **object_ref, long long value);
 void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position);
-void func_80024340(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 *position, Rec_D_80082E80 *object);
+void func_80024340(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 *position, SpriteFrameState *object);
 s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A4CA0_S_818A4CA0_2 *origin, s16 effect_param, s16 frame_index);
 void func_80024674(void **object_ref, s32 unused, Row_818A4E74_S_func_818A4E74_1 *target);
 s32 create_randomly_rotated_effect(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *spawn_position);

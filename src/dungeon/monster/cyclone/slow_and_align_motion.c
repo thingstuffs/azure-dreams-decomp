@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
@@ -13,7 +14,6 @@ typedef struct S_80173770_0 {
     u8 unk_9B;
 } S_80173770_0;   /* arg0 in slow_and_align_motion */
 
-
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
@@ -22,7 +22,7 @@ extern u8 D_80171094;
 extern u8 D_801764B0;
 
 /* Slows directional motion, then aligns the entity to its tile and finishes the motion state. */
-void slow_and_align_motion(S_80173770_0 *motion_state, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity)
+void slow_and_align_motion(S_80173770_0 *motion_state, EntityRec *motion, SpriteFrameState *tile, EntityRec *entity)
 {
     s16 frames_left;
     s32 velocity_or_entity;
@@ -50,7 +50,7 @@ void slow_and_align_motion(S_80173770_0 *motion_state, EntityRec *motion, Rec_D_
             begin_actor_display_action(motion_state, motion, tile, &D_801764B0);
             return;
         }
-        if (tile->unk_14.at00_u16.v & 0x8000) {
+        if (tile->flags & 0x8000) {
             motion_state->unk_96.s = 0;
             motion_state->unk_9B = 2;
             return;
@@ -74,7 +74,7 @@ void slow_and_align_motion(S_80173770_0 *motion_state, EntityRec *motion, Rec_D_
 
         if (motion_state->unk_96.s > 0) {
             motion_state->unk_96.u = motion_state->unk_96.u - 1;
-        } else if (tile->unk_14.at00_u16.v & 0x6000) {
+        } else if (tile->flags & 0x6000) {
             motion_state->unk_96.s = 0;
         }
 

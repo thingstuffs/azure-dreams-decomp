@@ -4,8 +4,8 @@
 struct Dst;
 struct Elem;
 void func_8003DB94(struct Dst *state, struct Elem *entries, short index); /* extern */
-void handle_insert_initialize_two_values_status_flags();  /* extern */
-void initialize_optional_object_state(); /* extern */
+struct Rec_D_800CFCB4; void handle_insert_initialize_two_values_status_flags(struct Rec_D_800CFCB4 *, s32, s32);  /* extern */
+struct Rec_D_80082E80; void initialize_optional_object_state(void *, s32, struct Rec_D_80082E80 *, s32); /* extern */
 extern s32 D_800D0678[];
 extern M2C_UNK D_800D0690;
 extern u8 D_800ED15C[];
@@ -14,8 +14,8 @@ extern u8 D_800ED15C[];
 /* Initialize the object's sprite and behavior, then set its state bytes. */
 void initialize_object_sprite(Rec_D_800CFCB4 *object, s32 context, s32 sprite) {
     func_8003DB94(sprite, &D_800ED15C, 0);
-    handle_insert_initialize_two_values_status_flags(object, context, &D_800D0678);
-    initialize_optional_object_state(object, context, sprite, &D_800D0690);
+    handle_insert_initialize_two_values_status_flags(object, context, (s32)(&D_800D0678));
+    initialize_optional_object_state(object, context, (struct Rec_D_80082E80 *)(sprite), (s32)(&D_800D0690));
     object->unk_4D.as_s8 = 0xD;
     object->unk_4C = 7;
 }

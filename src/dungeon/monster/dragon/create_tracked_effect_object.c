@@ -1,12 +1,13 @@
 #include "dungeon/monster/dragon/create_tracked_effect_object.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/dragon/create_tracked_effect_object.h"
 
 void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
 {
     s32 kind;
     void *obj;
     S_8015E854_2 *part_a;
-    S_8015E854_3 *part_b;
+    SpriteFrameState *part_b;
     S_8015E854_1 *work;
     S_8015E854_4 *actor;
     u32 flag_bits;
@@ -34,7 +35,7 @@ void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
         kind = flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;
-        part_b->unk_2C = D_80161C7C;
+        part_b->frameTable = D_80161C7C;
         part_b->unk_24 = saved_x;
 
         if (kind == 1) {
@@ -59,7 +60,7 @@ void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
                         work->unk_1C |= 0x200;
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->unk_2C = D_80161CDC;
+                        part_b->frameTable = D_80161CDC;
                     }
                 }
             }

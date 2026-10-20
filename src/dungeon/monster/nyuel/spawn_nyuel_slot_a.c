@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_bdb094.h"
-
+#include "shared/sprite_frame_state.h"
+#include "modules/dungeon_ovl_bdb094.h"
 
 Func80BBB094PartC *func_8014C894(s32 spawn_flags, s16 attr_a, s32 attr_b, s32 attr_c)
 {
@@ -10,7 +11,7 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s16 attr_a, s32 attr_b, s32 at
     Func80BBB094Object *obj;
     Func80BBB094PartA *partA;
     s16 savedArg0;
-    Func80BBB094PartB *partB;
+    SpriteFrameState *partB;
     s32 mode;
     s32 flag;
     s32 randomTest;
@@ -27,8 +28,8 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s16 attr_a, s32 attr_b, s32 at
         partA->unkA = (s32)slot1;
         slot1 = (unsigned long)obj->unkC;
         partB = (Func80BBB094PartB *)slot1;
-        partB->unk24 = attr_a;
-        partB->unk25 = arg2Reg;
+        partB->unk_24 = attr_a;
+        partB->unk_25 = arg2Reg;
         resultAlias = result;
 
         mode = spawn_flags & 3;
@@ -36,12 +37,12 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s16 attr_a, s32 attr_b, s32 at
             result->unk8C = D_8014CE9C;
             result->unk14 |= 0x6000;
             result->unk1C |= 0x6000;
-            partB->unk2C = D_80150ED8;
+            partB->frameTable = D_80150ED8;
         } else if (mode >= 2) {
             result->unk8C = D_8014CE9C;
             result->unk14 |= 0x2000;
             result->unk1C |= 0x2000;
-            partB->unk2C = D_80150ED8;
+            partB->frameTable = D_80150ED8;
         } else {
             spawn_flags = (s16)(spawn_flags & -4);
             if (spawn_flags == 0) {
@@ -52,15 +53,15 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s16 attr_a, s32 attr_b, s32 at
                         s32 random = generate_random_value();
 
                         set_or_clear_actor_status_slot(result, 1, (random & 0x3F) | 0x20);
-                        partB->unk2C = D_80150F00;
+                        partB->frameTable = D_80150F00;
                     }
                 } else {
                 }
                 resultAlias->unk8C = (void *)D_8014CE9C;
-                partB->unk2C = D_80150ED8;
+                partB->frameTable = D_80150ED8;
             } else {
                 result->unk8C = (void *)D_8014CE9C;
-                partB->unk2C = D_80150ED8;
+                partB->frameTable = D_80150ED8;
             }
         }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -12,7 +13,6 @@ typedef struct S_800DA014_0 {
     u8 pad_90[0xB];
     u8 unk_9B;
 } S_800DA014_0;   /* in_arg0 in advance_actor_action_controller */
-
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -40,12 +40,12 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
     state = ((S_800DA014_0 *)controller)->unk_9B;
     switch (state) {
     case 0:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
             u8 *direction_table;
             DungeonGlobalStatus *system_base;
 
             direction_table = D_800E262C;
-            (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
+            ((SpriteFrameState *)sprite)->frameTable = direction_table;
             func_8003DB94(sprite,
                 *(void **)(direction_table + (((g_game_work.view.viewAngle + actor->facing + 0x100) >> 7) & 28)),
                 0);
@@ -112,7 +112,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
             s8 coordinate;
 
             reference_sprite = &D_80082E80;
-            coordinate = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
+            coordinate = *(s8 *)&((SpriteFrameState *)sprite)->unk_26;
             if ((((coordinate == reference_sprite->unk_026) &&
                         (coordinate >= 0)) ||
                  (get_tile_chebyshev_distance(reference_sprite, sprite) < 2)) &&
@@ -125,7 +125,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
             u8 *direction_table;
 
             direction_table = D_800E262C;
-            (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
+            ((SpriteFrameState *)sprite)->frameTable = direction_table;
             func_8003DB94(sprite,
                 *(void **)(direction_table + (((g_game_work.view.viewAngle + actor->facing + 0x100) >> 7) & 28)),
                 0);
@@ -134,7 +134,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
         }
     }
 
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0x8000)) {
             DungeonGlobalStatus *system_base = &g_dungeon_status;
 
             (*(u16 *)&system_base->unk_0A)++;
@@ -143,7 +143,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
         }
         break;
     case 2:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         {

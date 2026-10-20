@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 
 typedef struct S_800AB538_0 {
@@ -36,13 +37,6 @@ typedef struct S_800AB538_3 {
     s32 unk_10;
     s32 unk_14;
 } S_800AB538_3;   /* p1 in update_actor_hop_and_shrink */
-
-typedef struct S_800AB538_4 {
-    u8 pad_00[0x1C];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_800AB538_4;   /* p2 in update_actor_hop_and_shrink */
-
 
 extern s32 func_800644B8();
 
@@ -104,9 +98,9 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, void *scale, void
             }
         }
 
-        scale_value = ((S_800AB538_4 *)scale)->unk_1C - ((S_800AB538_1 *)render)->unk_8A;
-        ((S_800AB538_4 *)scale)->unk_1C = scale_value;
-        ((S_800AB538_4 *)scale)->unk_1E = scale_value;
+        scale_value = ((SpriteFrameState *)scale)->scale_x - ((S_800AB538_1 *)render)->unk_8A;
+        ((SpriteFrameState *)scale)->scale_x = scale_value;
+        ((SpriteFrameState *)scale)->scale_y = scale_value;
 
         frames_left = ((S_800AB538_0 *)animation)->unk_96.u - 1;
         ((S_800AB538_0 *)animation)->unk_96.s = frames_left;
@@ -121,8 +115,8 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, void *scale, void
         }
         break;
     case 2:
-        ((S_800AB538_4 *)scale)->unk_1E = 0;
-        ((S_800AB538_4 *)scale)->unk_1C = 0;
+        ((SpriteFrameState *)scale)->scale_y = 0;
+        ((SpriteFrameState *)scale)->scale_x = 0;
 
         {
             s32 flags = ((S_800AB538_1 *)render)->unk_1C;

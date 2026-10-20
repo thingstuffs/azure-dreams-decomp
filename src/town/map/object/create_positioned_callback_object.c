@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 
 typedef struct {
@@ -53,10 +54,10 @@ void create_positioned_callback_object(Input *position, s32 object_value, s32 da
         neutral_color = 0x808080;
         *(s16 *)(sub + 2) = 0x1E;
         field_base = (u8 *)object->data;
-        *(s16 *)(field_base + 0x1E) = 0x1000;
-        *(s16 *)(field_base + 0x1C) = 0x1000;
-        *(s32 *)(field_base + 8) = data_value;
-        *(s32 *)(field_base + 0xC) = neutral_color;
-        *(s16 *)(field_base + 0x10) = 0x60;
+        ((SpriteFrameState *)field_base)->scale_y = 0x1000;
+        ((SpriteFrameState *)field_base)->scale_x = 0x1000;
+        ((SpriteFrameState *)field_base)->source = data_value;
+        ((SpriteFrameState *)field_base)->color.word = neutral_color;
+        ((SpriteFrameState *)field_base)->tpage_abr = 0x60;
     }
 }

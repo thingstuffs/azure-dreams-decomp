@@ -1,8 +1,8 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/dungeon_moving_views.h"
-
 
 typedef s32 M2C_UNK;
 
@@ -26,15 +26,6 @@ typedef struct S_80D65810_1 {
     void * unk_10;
 } S_80D65810_1;
 
-typedef struct S_80D65810_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x8];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_80D65810_2;
-
 typedef struct S_80D65810_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -43,20 +34,6 @@ typedef struct S_80D65810_3 {
 } S_80D65810_3;
 
    /* input in create_origin_motion_effect */
-
-typedef struct S_80D65810_5 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x3];
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80D65810_5;
-
 
 M2C_UNK func_8003DB94();
 s32 register_node();
@@ -73,8 +50,8 @@ void create_origin_motion_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2
     s16 y;
     s16 z;
     s32 size;
-    S_80D65810_2 *render;
-    S_80D65810_5 *sprite;
+    SpriteFrameState *render;
+    SpriteFrameState *sprite;
     S_80D65810_0 *motion;
     S_80D65810_3 *position;
     void *effect;
@@ -92,12 +69,12 @@ void create_origin_motion_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2
         ((S_80D65810_1 *)effect)->unk_10 = update_effect_collision_and_lifetime;
         register_node(effect, project_sprite_chain);
         render = ((S_80D65810_1 *)effect)->unk_0C;
-        render->unk_14 |= 0xC;
+        render->flags |= 0xC;
         size = 0x60;
-        render->unk_10 = size;
+        render->tpage_abr = size;
         render->unk_06 = 0;
-        render_flags = render->unk_14;
-        render->unk_14 = (u16)(render_flags | 2);
+        render_flags = render->flags;
+        render->flags = (u16)(render_flags | 2);
         position = ((S_80D65810_1 *)effect)->unk_08;
         position->unk_00.at02.v = x;
         position->unk_04.at02.v = (u16)y;
@@ -116,13 +93,13 @@ void create_origin_motion_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2
         position->unk_04.at02.v = (u16)(position->unk_04.at02.v + origin->unk_06);
         position->unk_0A = (u16)(position->unk_0A + origin->unk_0A);
         sprite = ((S_80D65810_1 *)effect)->unk_0C;
-        sprite->unk_1C = 0xC00;
-        sprite->unk_1E = 0xC00;
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
-        sprite->unk_12 = 0x7DCF;
-        sprite->unk_14 = (u16)(sprite->unk_14 | 0x100);
+        sprite->scale_x = 0xC00;
+        sprite->scale_y = 0xC00;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->clut = 0x7DCF;
+        sprite->flags = (u16)(sprite->flags | 0x100);
         func_8003DB94(sprite, D_800DE870, 0);
     }
 }

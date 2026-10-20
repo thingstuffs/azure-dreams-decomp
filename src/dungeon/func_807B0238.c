@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_7ce800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -9,7 +10,6 @@ typedef struct S_807B0238_3 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_807B0238_3;
-
 
 typedef struct S_807B0238_5 {
     u8 pad_00[0x2];
@@ -22,7 +22,6 @@ typedef struct S_807B0238_5 {
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_800F7A38 */
 
-
 s32 rand();                                /* extern */
 extern M2C_UNK D_800FBE24;
 
@@ -31,16 +30,6 @@ typedef struct S_807B0238_0 {
     void * unk_0C;
     s32 * unk_10;
 } S_807B0238_0;
-
-typedef struct S_807B0238_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    s32 * unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_807B0238_1;
 
 typedef struct S_807B0238_2 {
     u8 pad_00[0x14];
@@ -53,7 +42,7 @@ typedef struct S_807B0238_2 {
 void func_800F7A38(EntityRec *source, s16 state_value, s32 render_value) {
     S_807B0238_2 *effect_state;
     void *effect;
-    S_807B0238_1 *render_data;
+    SpriteFrameState *render_data;
 
     effect = allocate_list_node(0x212, source);
     if (effect != NULL) {
@@ -67,10 +56,10 @@ void func_800F7A38(EntityRec *source, s16 state_value, s32 render_value) {
             (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_0A + (rand() & 0x3F)) - 0x20);
         render_data = ((S_807B0238_0 *)effect)->unk_0C;
         effect_state = effect + 0x20;
-        render_data->unk_08 = &D_800FBE24;
-        render_data->unk_1E = 0x1000;
-        render_data->unk_1C = 0x1000;
-        render_data->unk_0C = render_value;
+        render_data->source = &D_800FBE24;
+        render_data->scale_y = 0x1000;
+        render_data->scale_x = 0x1000;
+        render_data->color.word = render_value;
         render_data->unk_06 = 8;
         effect_state->unk_14 = state_value;
         effect_state->unk_32 = (s16) ((rand() & 0xFF) | 0x80);

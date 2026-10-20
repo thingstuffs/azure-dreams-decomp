@@ -6,9 +6,9 @@
 extern s32 Control_CD();
 extern s32 get_enabled_record_flag_priority();
 extern s16 get_mapped_object_code();
-extern void initialize_coordinate_entry();
-extern void clear_monster_status_texture();
-extern s32 release_monster_status_request_handles();
+void initialize_coordinate_entry(void *);
+void clear_monster_status_texture(void *);
+struct Rec_func_800B683C_arg0; s32 release_monster_status_request_handles(struct Rec_func_800B683C_arg0 *);
 extern s16 D_80083D78[8];
 extern u8 D_800B5B20[16];
 
@@ -41,7 +41,7 @@ s32 invalidate_cached_state_and_queue_read(void *state) {
         cache_addr <<= 2;
         cache_addr += (s32)D_80083D78;
         ((S_800B6E3C_2 *)((void *)cache_addr))->unk_02 = -1;
-        clear_monster_status_texture(((Rec_func_800B683C_arg0 *)state)->unk_14);
+        clear_monster_status_texture((void *)(((Rec_func_800B683C_arg0 *)state)->unk_14));
         ((Rec_func_800B683C_arg0 *)state)->unk_DC = 0;
         initialize_coordinate_entry(state);
         ((Rec_func_800B683C_arg0 *)state)->unk_D0 = Control_CD(6, state + 0xD8, NULL);

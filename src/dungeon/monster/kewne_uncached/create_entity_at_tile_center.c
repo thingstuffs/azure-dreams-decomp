@@ -1,9 +1,10 @@
 #include "dungeon/monster/kewne_uncached/create_entity_at_tile_center.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/kewne_uncached/create_entity_at_tile_center.h"
 
 void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
     Func812A5000Parent *parent;
-    Func812A5000Child *tile_state;
+    SpriteFrameState *tile_state;
     Func812A5000Child *position;
     Func812A5000Entity *entity;
 
@@ -19,11 +20,11 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
         register_node(parent, project_sprite_chain);
         tile_state = parent->child0;
         position = parent->child1;
-        tile_state->field24 = tile_x;
-        tile_state->field25 = tile_y;
-        tile_state->field2C = D_80175C30;
-        position->field2 = (s16)((tile_state->field24 << 6) + 0x20);
-        position->field6 = (s16)((tile_state->field25 << 6) + 0x20);
+        tile_state->unk_24 = tile_x;
+        tile_state->unk_25 = tile_y;
+        tile_state->frameTable = D_80175C30;
+        position->field2 = (s16)((tile_state->unk_24 << 6) + 0x20);
+        position->field6 = (s16)((tile_state->unk_25 << 6) + 0x20);
         position->fieldA = height;
         entity->field2A = (s16)(get_direction_toward_target_position(position) << 9);
         entity->field13 = 2;

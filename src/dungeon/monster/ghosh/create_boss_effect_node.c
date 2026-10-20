@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/entity_objects.h"
@@ -33,7 +34,7 @@ void create_boss_effect_node(void)
         register_node(node, project_sprite_chain);
 
         effect = node->partC;
-        *(s16 *)((u8 *)effect + 6) = 0;
+        ((SpriteFrameState *)effect)->unk_06 = 0;
         part_words = (u32 *)node->part8;
         part_words[0] = ((u32)D_80083780.x.v);
         part_words[1] = ((u32)D_80083780.y.v);
@@ -42,9 +43,9 @@ void create_boss_effect_node(void)
         effect = (s16 *)node->partC;
         effect[15] = 0x1000;
         effect[14] = 0x1000;
-        ((u8 *)effect)[14] = 0;
-        ((u8 *)effect)[13] = 0;
-        ((u8 *)effect)[12] = 0;
+        ((SpriteFrameState *)effect)->color.c.b = 0;
+        ((SpriteFrameState *)effect)->color.c.g = 0;
+        ((SpriteFrameState *)effect)->color.c.r = 0;
         effect[10] |= 0x80;
         func_8003DB94(effect, D_800DE870, 0);
     }

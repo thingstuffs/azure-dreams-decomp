@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -35,27 +36,6 @@ typedef struct S_800D24A8_2 {
     s16 unk_0A;
 } S_800D24A8_2;
 
-typedef struct S_800D24A8_3 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    union {
-        struct { u8 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-    s8 unk_26;
-} S_800D24A8_3;
-
-
 void *allocate_list_node();            /* extern */
 s32 register_node();           /* extern */
 void clear_entry_flag_and_link_owner();                      /* extern */
@@ -71,7 +51,7 @@ extern M2C_UNK D_800E221C;
 void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {
     s32 tile_flags;
     s16 saved_kind;
-    S_800D24A8_3 *sprite;
+    SpriteFrameState *sprite;
     S_800D24A8_2 *position;
     void *object;
     S_800D24A8_0 *state;
@@ -100,12 +80,12 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
         position = ((S_800D24A8_1 *)object)->unk_08;
         position->unk_0A = saved_height;
         sprite = ((S_800D24A8_1 *)object)->unk_0C;
-        sprite->unk_08 = &D_800E221C;
-        sprite->unk_0C.at02.v = 0x80;
-        sprite->unk_0C.at01.v = 0x80;
-        sprite->unk_0C.at00.v = 0x80;
-        sprite->unk_1E = 0x1400;
-        sprite->unk_1C = 0x1400;
+        sprite->source = &D_800E221C;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->scale_y = 0x1400;
+        sprite->scale_x = 0x1400;
         sprite->unk_24 = saved_tile_x;
         sprite->unk_25 = saved_tile_y;
         ((S_800D24A8_1 *)object)->unk_10 = &update_actor_gravity;
@@ -113,8 +93,8 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
         sprite->unk_26 = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
         set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
         state->unk_88 = sample_terrain_surface_height(position->unk_02, position->unk_06, position->unk_0A);
-        sprite->unk_0C.at00u.v = 0x2C808080;
-        sprite->unk_14 = (u16) (sprite->unk_14 | 0x8000);
+        sprite->color.word = 0x2C808080;
+        sprite->flags = (u16) (sprite->flags | 0x8000);
         clear_entry_flag_and_link_owner(object);
         flag_tile_x = sprite->unk_24;
         flag_tile_y = sprite->unk_25;

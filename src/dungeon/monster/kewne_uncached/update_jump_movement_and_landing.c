@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_800644B8(s32);
@@ -19,7 +19,6 @@ extern s32 D_80171FA4;
 extern u8 D_80175C48[];
 extern u8 D_80175C50[];
 extern u8 D_80175C58[];
-
 
 typedef struct S_80173408_0 {
     u8 pad_00[0x8C];
@@ -39,12 +38,10 @@ typedef struct S_80173408_0 {
     s32 unk_AC;
 } S_80173408_0;   /* arg0 in update_jump_movement_and_landing */
 
-
 typedef struct S_80173408_2 {
     u8 pad_00[0x2A];
     s16 unk_2A;
 } S_80173408_2;   /* call_a0 in update_jump_movement_and_landing */
-
 
 typedef struct S_80173408_4 {
     u8 pad_00[0x2A];
@@ -67,9 +64,9 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
     switch (state) {
     case 0:
         {
-            if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+            if (((SpriteFrameState *)sprite)->flags & 0x8000) {
                 ((S_80173408_0 *)jump)->unk_9B.n = 4;
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
+                ((SpriteFrameState *)sprite)->flags |= 0x6000;
                 resolve_attack_damage_and_effects(actor, sprite, ((S_80173408_2 *)actor)->unk_2A, 1);
                 return;
             }
@@ -85,7 +82,7 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
         if (((S_80173408_0 *)jump)->unk_A0.at02.v >= 0x31) {
             ((S_80173408_0 *)jump)->unk_A0.at02.v = 0x30;
         }
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
             return;
         }
         motion->flags14 = 0;
@@ -94,7 +91,7 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
         if (((S_80173408_0 *)jump)->unk_A0.at02.v < 0x30) {
             return;
         }
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C48;
+        ((SpriteFrameState *)sprite)->frameTable = D_80175C48;
         select_sprite_entry(sprite,
             D_80175C48[((g_game_work.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
@@ -132,7 +129,7 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
                 return;
             }
         }
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C50;
+        ((SpriteFrameState *)sprite)->frameTable = D_80175C50;
         select_sprite_entry(sprite,
             D_80175C50[((g_game_work.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
@@ -175,7 +172,7 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
             if (timer < 13) {
                 return;
             }
-            (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C58;
+            ((SpriteFrameState *)sprite)->frameTable = D_80175C58;
             select_sprite_entry(sprite,
                 D_80175C58[((g_game_work.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
@@ -205,13 +202,13 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
             ((S_80173408_0 *)jump)->unk_A0.at02.v = 0;
         }
     case 4:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         reduce_actor_food_meter(actor, 0x100);
         ((S_80173408_0 *)jump)->unk_8C = &D_80171FA4;
         g_dungeon_status.unk_0C = 0;

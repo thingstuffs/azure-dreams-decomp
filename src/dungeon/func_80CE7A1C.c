@@ -1,4 +1,5 @@
 #include "dungeon/monster/troll/troll_flash_effects.h"
+#include "shared/sprite_frame_state.h"
 
 /* Creates an effect and sets its movement toward a tracked target or grid position. */
 void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target)
@@ -10,7 +11,7 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
     T_8017121C_S_8017121C_3 *coords;
     u8 *effect_state;
     T_8017121C_S_8017121C_6 *source;
-    T_8017121C_S_8017121C_2 *part;
+    SpriteFrameState *part;
     T_8017121C_S_8017121C_9 *target_coords;
     s16 *direction_table;
     void *tracked_target;
@@ -50,7 +51,7 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
     register_node(init_effect, init_data);
 
     part = ((T_8017121C_S_8017121C_1 *)effect)->unk_0C;
-    part->unk_14 &= 0xFFF3;
+    part->flags &= 0xFFF3;
 
     coords = ((T_8017121C_S_8017121C_1 *)effect)->unk_08;
     coords->unk_02.s = origin->unk_02;
@@ -63,21 +64,21 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
         coords->unk_06.s += offset.y;
         coords->unk_0A.s += offset.z;
         part = ((T_8017121C_S_8017121C_1 *)effect)->unk_0C;
-        part->unk_1E = 0x1000;
-        part->unk_1C = 0x1000;
+        part->scale_y = 0x1000;
+        part->scale_x = 0x1000;
     } else {
         coords->unk_0A.s -= 0x14;
         part = ((T_8017121C_S_8017121C_1 *)effect)->unk_0C;
-        part->unk_1E = 0x1000;
-        part->unk_1C = 0x1000;
+        part->scale_y = 0x1000;
+        part->scale_x = 0x1000;
     }
-    part->unk_0E = 0xA0;
-    part->unk_0D = 0xA0;
-    part->unk_0C = 0xA0;
+    part->color.c.b = 0xA0;
+    part->color.c.g = 0xA0;
+    part->color.c.r = 0xA0;
     ((T_8017121C_S_8017121C_0 *)effect_state)->unk_00 = 0xA0;
-    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_01 = part->unk_0D;
+    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_01 = part->color.c.g;
 
-    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_02 = part->unk_0E;
+    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_02 = part->color.c.b;
 
     if (target->target == NULL) {
         ((T_8017121C_S_8017121C_0 *)effect_state)->unk_60 = 0;

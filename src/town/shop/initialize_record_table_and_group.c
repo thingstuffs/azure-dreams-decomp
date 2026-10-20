@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 s32 func_800B0718();                                /* extern */
-void get_zero_based_group_index();                      /* extern */
+struct TownB4C60; void get_zero_based_group_index(struct TownB4C60 *);                      /* extern */
 
 typedef struct S_800B2B60_0 {
     u8 pad_00[0x28];

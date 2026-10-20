@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
@@ -20,12 +21,6 @@ typedef struct S_80174910_9 {
     u8 pad_00[0x8];
     u8 * unk_08;
 } S_80174910_9;   /* ((S_80174910_6 *)arg0)->unk_0C in create_three_linked_palette_objects */
-
-typedef struct S_80174910_10 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-} S_80174910_10;
-
 
 void *allocate_list_node();               /* extern */
 s32 register_node();           /* extern */
@@ -64,21 +59,10 @@ typedef struct S_80174910_2 {
     void * unk_0C;
 } S_80174910_2;   /* arg0 in create_three_linked_palette_objects */
 
-typedef struct S_80174910_3 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80174910_3;
-
 typedef struct S_80174910_4 {
     u8 pad_00[0x6];
     u16 unk_06;
 } S_80174910_4;
-
-typedef struct S_80174910_5 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-} S_80174910_5;
 
 /* Creates three linked objects and initializes their shared palette data. */
 void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param) {
@@ -93,8 +77,8 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
     u8 *texture_entry;
     void *object;
     S_80174910_1 *object_data;
-    S_80174910_3 *scale_state;
-    S_80174910_5 *render_state;
+    SpriteFrameState *scale_state;
+    SpriteFrameState *render_state;
     void *object_callback;
 
     object_index = 0;
@@ -121,8 +105,8 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
             object_data->unk_2E = third_component;
             object_data->unk_2C = third_component;
             scale_state = ((S_80174910_0 *)object)->unk_0C;
-            scale_state->unk_1E = 0x1000;
-            scale_state->unk_1C = 0x1000;
+            scale_state->scale_y = 0x1000;
+            scale_state->scale_x = 0x1000;
             register_node(object, project_sprite_chain);
             if (object_index == 0) {
                 texture_entry = ((S_80174910_9 *)(((S_80174910_6 *)source)->unk_0C))->unk_08;
@@ -146,8 +130,8 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
                 } while (next_palette_x < 0x100);
             }
             render_state = ((S_80174910_0 *)object)->unk_0C;
-            render_state->unk_12 = (u16) (render_state->unk_12 - 0x40);
-            ((S_80174910_10 *)(((S_80174910_7 *)object)->unk_0C))->unk_10 = 0x20;
+            render_state->clut = (u16) (render_state->clut - 0x40);
+            ((SpriteFrameState *)((S_80174910_7 *)object)->unk_0C)->tpage_abr = 0x20;
         }
         object_index += 1;
     } while (object_index < 3);

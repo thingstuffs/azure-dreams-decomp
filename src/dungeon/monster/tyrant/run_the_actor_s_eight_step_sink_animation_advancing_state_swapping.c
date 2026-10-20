@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -20,13 +21,6 @@ typedef struct S_80173C5C_0 {
     s16 unk_AE;
 } S_80173C5C_0;   /* work in run_the_actor_s_eight_step_sink_animation_advancing_state_swapping */
 
-
-typedef struct S_80173C5C_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80173C5C_4;   /* counters in run_the_actor_s_eight_step_sink_animation_advancing_state_swapping */
-
-
 extern u8 D_80173FD0[];
 extern u8 D_80173FB8[];
 extern s32 D_80170F68;
@@ -39,7 +33,7 @@ extern u8 D_80173FD8;
 extern M2C_UNK D_80173FE0;
 
 /* Run the actor's eight-step sink animation, advancing its state and swapping the sprite each step. */
-void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C5C_0 *work, EntityRec *part_a, Rec_D_80082E80 *part_b, EntityRec *actor) {
+void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C5C_0 *work, EntityRec *part_a, SpriteFrameState *part_b, EntityRec *actor) {
     u8 *unused_ptr;
     s32 value;
     u16 flags;
@@ -53,7 +47,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
     case 0:
     case 4:
         play_sound_if_enabled(0x51C);
-        flags = part_b->unk_14.at00_u16.v;
+        flags = part_b->flags;
         if (flags & 0x8000) {
             work->unk_9B = 7;
             return;
@@ -61,7 +55,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
         if (!(flags & 0xE000)) {
             return;
         }
-        part_b->unk_2C.as_pu8 = &D_80173FD8;
+        part_b->frameTable = &D_80173FD8;
         select_sprite_entry(part_b, (&D_80173FD8)[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         work->unk_98 = (u16) (work->unk_98 | 8);
         part_a->flags14 = 0xFFF00000;
@@ -101,24 +95,24 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
         part_a->unk_10 = 0;
         part_a->unk_0C = 0;
         set_record_integer_tile_center(part_a, part_b->unk_24, part_b->unk_25);
-        part_b->unk_2C.as_pu8 = &D_80173FE0;
+        part_b->frameTable = &D_80173FE0;
         select_sprite_entry(part_b, ((u8 *) ((u32) ((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
             + (u32) &D_80173FE0)))[0], 0);
         work->unk_9B++;
         return;
     case 3:
-        if (!(part_b->unk_14.at00_u16.v & 0xE000)) {
+        if (!(part_b->flags & 0xE000)) {
             return;
         }
-        part_b->unk_2C.as_pu8 = D_80173FD0;
+        part_b->frameTable = D_80173FD0;
         select_sprite_entry(part_b, D_80173FD0[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         work->unk_9B++;
         return;
     case 7:
-        if (!(part_b->unk_14.at00_u16.v & 0xE000)) {
+        if (!(part_b->flags & 0xE000)) {
             return;
         }
-        part_b->unk_2C.as_pu8 = D_80173FB8;
+        part_b->frameTable = D_80173FB8;
         select_sprite_entry(part_b, D_80173FB8[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
         advance_status_timers(actor);

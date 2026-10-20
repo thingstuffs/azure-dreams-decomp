@@ -43,16 +43,6 @@ typedef struct ovl_18b8824_81898A64_S_80024264_0 {
     s32 unk_20;
     s16 unk_24;
 } ovl_18b8824_81898A64_S_80024264_0;
-typedef struct ovl_18b8824_81898A64_S_80024264_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xB];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} ovl_18b8824_81898A64_S_80024264_1;
 typedef struct ovl_18b8824_81898A64_S_80024264_2 {
     s32 unk_00;
     s32 unk_04;
@@ -86,19 +76,6 @@ typedef struct ovl_18b8824_81898C1C_S_8002441C_0 {
     s32 unk_20;
     s16 unk_24;
 } ovl_18b8824_81898C1C_S_8002441C_0;
-typedef struct ovl_18b8824_81898C1C_S_8002441C_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} ovl_18b8824_81898C1C_S_8002441C_1;
 typedef struct ovl_18b8824_81898C1C_S_8002441C_2 {
     s32 unk_00;
     s32 unk_04;

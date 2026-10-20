@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
 extern u8 D_80080000[];
-
 
    /* arg1 in spawn_random_velocity_offset_effect */
 
@@ -19,7 +19,6 @@ typedef struct S_80AC5820_1 {
 } S_80AC5820_1;   /* arg0 in spawn_random_velocity_offset_effect */
 
    /* other in spawn_random_velocity_offset_effect */
-
 
 extern void func_800478B8();
 extern s32 func_80065420(void *, void *, void *, void *);
@@ -61,7 +60,7 @@ void spawn_random_velocity_offset_effect(void *state, MovingPosition *position, 
     angle_bias = &D_800DCECC[
         ((*(s16 *)(angle_page + 0x3228) +
           ((S_80AC5820_1 *)state)->unk_94 + 0x100) >> 9) & 7];
-    result->unk_06.as_s16 = position_value - reference_value - *angle_bias * 2;
+    ((SpriteFrameState *)result)->unk_06 = position_value - reference_value - *angle_bias * 2;
 
     func_800478B8(result);
     ticks_left = ((S_80AC5820_1 *)state)->unk_96 - 1;

@@ -1,5 +1,6 @@
 #include "dungeon/monster/univern/create_actor_child_display_b.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/univern/create_actor_child_display_b.h"
 
 void *create_actor_child_display_b(s32 kind, s32 part_x, s32 part_y, s32 initial_value)
 {
@@ -14,7 +15,7 @@ void *create_actor_child_display_b(s32 kind, s32 part_x, s32 part_y, s32 initial
     void *outer;
     void *stable_object;
     s32 kind_copy;
-    void *part;
+    SpriteFrameState *part;
     void *allocated;
     s32 allocation_size;
     ObjectNodeHeader *allocation_pool;
@@ -50,10 +51,10 @@ void *create_actor_child_display_b(s32 kind, s32 part_x, s32 part_y, s32 initial
             ((S_8015E89C_2 *)copy)->unk_08.at02.v = saved_value;
             stable_object = object;
             part = ((S_8015E89C_2 *)root)->unk_0C;
-            ((S_8015E89C_3 *)part)->unk_2C = part_callback;
+            part->frameTable = part_callback;
         }
-        ((S_8015E89C_3 *)part)->unk_24 = saved_part_byte_24;
-        ((S_8015E89C_3 *)part)->unk_25 = saved_y;
+        part->unk_24 = saved_part_byte_24;
+        part->unk_25 = saved_y;
 
         {
             s32 flags_14;
@@ -77,7 +78,7 @@ void *create_actor_child_display_b(s32 kind, s32 part_x, s32 part_y, s32 initial
                             ((S_8015E89C_1 *)object)->unk_1C |= 0x200;
                             set_or_clear_actor_status_slot(object, 1,
                                 (generate_random_value() & 0x3F) | 0x20);
-                            ((S_8015E89C_3 *)part)->unk_2C = D_801624FC;
+                            part->frameTable = D_801624FC;
                         }
                     }
                 }
@@ -124,7 +125,7 @@ void *create_actor_child_display_b(s32 kind, s32 part_x, s32 part_y, s32 initial
 
                     item = (u8 *)(void *)saved_kind + item_offset;
                     ((S_8015E89C_6 *)(void *)saved_kind)->unk_04 |= 0x8000;
-                    part_value = ((S_8015E89C_3 *)part)->unk_28;
+                    part_value = part->unk_28;
                     ((S_8015E89C_7 *)item)->unk_10 = 0x20;
                     ((S_8015E89C_7 *)item)->unk_0C = 0x00808080;
                     ((S_8015E89C_7 *)item)->unk_28 = part_value;

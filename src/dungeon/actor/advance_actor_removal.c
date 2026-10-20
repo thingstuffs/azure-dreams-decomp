@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-
 
 typedef struct S_800AB778_19 {
     u8 pad_00[0x3D7C];
@@ -43,11 +43,9 @@ typedef struct S_800AB778_25 {
     u8 unk_03;
 } S_800AB778_25;   /* ((S_800AB778_23 *)(((S_800AB778_20 *)page16)->unk_3D7C))->unk_110 in advance_actor_removal */
 
-
 typedef struct S_800AB778_0_pre {
     u16 unk_00;
 } S_800AB778_0_pre;   /* the 0x2 bytes before arg3 in advance_actor_removal, addressed as arg3[-1] */
-
 
 typedef struct S_800AB778_1 {
     u8 pad_00[0x96];
@@ -55,11 +53,6 @@ typedef struct S_800AB778_1 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_800AB778_1;   /* arg0 in advance_actor_removal */
-
-typedef struct S_800AB778_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800AB778_2;   /* state0 in advance_actor_removal */
 
 typedef struct S_800AB778_3 {
     u8 pad_00[0xC];
@@ -77,12 +70,6 @@ typedef struct S_800AB778_3 {
     u8 unk_24;
     u8 unk_25;
 } S_800AB778_3;   /* arg2 in advance_actor_removal */
-
-typedef struct S_800AB778_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800AB778_4;   /* state4_head in advance_actor_removal */
-
 
 typedef struct S_800AB778_6 {
     u8 pad_00[0xAC];
@@ -110,12 +97,6 @@ typedef struct S_800AB778_10 {
     s32 unk_00;
 } S_800AB778_10;   /* &D_800814A0 in advance_actor_removal */
 
-typedef struct S_800AB778_11 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_800AB778_11;   /* state4_tail in advance_actor_removal */
-
 typedef struct S_800AB778_12 {
     u8 pad_00[0xAC];
     s32 unk_AC;
@@ -141,12 +122,6 @@ typedef struct S_800AB778_15 {
 typedef struct S_800AB778_16 {
     s32 unk_00;
 } S_800AB778_16;   /* global16 in advance_actor_removal */
-
-typedef struct S_800AB778_17 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800AB778_17;   /* state16_tail in advance_actor_removal */
-
 
 typedef struct {
     u8 pad00[0x13];
@@ -265,33 +240,33 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
             state->unk_9B = 0x10;
             break;
         }
-        if (visual->unk_12 == 0) {
-            visual->unk_12 = 0xFF80U;
+        if (((SpriteFrameState *)visual)->clut == 0) {
+            ((SpriteFrameState *)visual)->clut = 0xFF80U;
         }
-        visual->unk_10 = 0x20;
-        visual->unk_14 |= 0xC;
+        ((SpriteFrameState *)visual)->tpage_abr = 0x20;
+        ((SpriteFrameState *)visual)->flags |= 0xC;
         state->unk_96.s = 0x10;
         ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v |= 0x10000000;
         state->unk_9B++;
         break;
 
     case 4:
-        visual->unk_0C -=
-            (s32)visual->unk_0C / state->unk_96.s;
-        visual->unk_0D -=
-            (s32)visual->unk_0D / state->unk_96.s;
-        visual->unk_0E -=
-            (s32)visual->unk_0E / state->unk_96.s;
-        scale_x = visual->unk_1C;
-        visual->unk_1C = scale_x +
+        ((SpriteFrameState *)visual)->color.c.r -=
+            (s32)((SpriteFrameState *)visual)->color.c.r / state->unk_96.s;
+        ((SpriteFrameState *)visual)->color.c.g -=
+            (s32)((SpriteFrameState *)visual)->color.c.g / state->unk_96.s;
+        ((SpriteFrameState *)visual)->color.c.b -=
+            (s32)((SpriteFrameState *)visual)->color.c.b / state->unk_96.s;
+        scale_x = ((SpriteFrameState *)visual)->scale_x;
+        ((SpriteFrameState *)visual)->scale_x = scale_x +
             ((s32)(0x400 - scale_x) / state->unk_96.s);
-        scale_y = visual->unk_1E;
-        visual->unk_1E = scale_y +
+        scale_y = ((SpriteFrameState *)visual)->scale_y;
+        ((SpriteFrameState *)visual)->scale_y = scale_y +
             ((s32)(0x400 - scale_y) / state->unk_96.s);
         fade_ticks = state->unk_96.u - 1;
         state->unk_96.s = fade_ticks;
         if (((fade_ticks << 0x10) > 0) &&
-            !(visual->unk_14 & 0x8000)) {
+            !(((SpriteFrameState *)visual)->flags & 0x8000)) {
             return 0;
         }
         event_source = get_unused_text_buffer();
@@ -340,8 +315,8 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         }
         if ((get_entity_effect_value(actor, 0x1B) << 0x10) == 0) {
             effect_actor_flags = ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v;
-            effect_x = visual->unk_24;
-            effect_y = visual->unk_25;
+            effect_x = ((SpriteFrameState *)visual)->unk_24;
+            effect_y = ((SpriteFrameState *)visual)->unk_25;
             effect_flags = 0x3000;
             if (effect_actor_flags & 0x2000) {
                 effect_flags = 0x300;
@@ -398,8 +373,8 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         clear_slot_and_update_linked_state(globals16->unk_110);
         if ((get_entity_effect_value(actor, 0x1B) << 0x10) == 0) {
             effect_actor_flags = ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v;
-            effect_x = visual->unk_24;
-            effect_y = visual->unk_25;
+            effect_x = ((SpriteFrameState *)visual)->unk_24;
+            effect_y = ((SpriteFrameState *)visual)->unk_25;
             effect_flags = 0x3000;
             if (effect_actor_flags & 0x2000) {
                 effect_flags = 0x300;

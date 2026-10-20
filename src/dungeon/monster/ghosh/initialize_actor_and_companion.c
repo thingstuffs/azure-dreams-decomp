@@ -63,14 +63,14 @@ typedef struct S_8016AEDC_6 {
 } S_8016AEDC_6;   /* spawned in initialize_actor_and_companion */
 
 
-extern void *allocate_list_node();
-extern void func_80042640();
+struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
+void func_80042640(void *, s16);
 extern void register_node();
-extern void retain_spawn_resource();
+s32 retain_spawn_resource(s16, s16);
 extern s8 random_dungeon_range_16();
-extern void initialize_actor_sprite_and_animation();
-extern void try_move_actor_to_valid_position();
-extern void *allocate_boss_actor();
+void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
+s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
+void * allocate_boss_actor(s16, s16, s16, s16);
 
 extern u8 D_8016B0E8[];
 extern s32 D_8016B778;
@@ -96,7 +96,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
     work = 0;
     saved_config_24 = config_24;
     saved_config_25 = config_25;
-    object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x112, (struct ObjectNodeHeader * *)(((u8 *)(&D_80083498))));
     saved_config_0a = config_0a;
     if (object != 0) {
         work = object + 0x20;

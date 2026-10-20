@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
@@ -13,7 +14,6 @@ typedef struct S_80172FE4_0 {
     u8 unk_9B;
 } S_80172FE4_0;   /* arg0 in update_directional_grid_movement */
 
-
 extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
@@ -21,9 +21,8 @@ extern void apply_clamped_actor_value_delta();
 extern u8 D_80170EA8;
 extern s32 D_80174068;
 
-
 /* Updates directional movement, then stops or returns the entity to its grid position. */
-void update_directional_grid_movement(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *entity, EntityRec *source)
+void update_directional_grid_movement(S_80172FE4_0 *action, EntityRec *motion, SpriteFrameState *entity, EntityRec *source)
 {
     s16 timer;
     s32 current_x;
@@ -49,7 +48,7 @@ void update_directional_grid_movement(S_80172FE4_0 *action, EntityRec *motion, R
             begin_actor_display_action(action, motion, entity, &D_80174068);
             return;
         }
-        if (entity->unk_14.at00_u16.v & 0x8000) {
+        if (entity->flags & 0x8000) {
             action->unk_96.s = 0;
             action->unk_9B = 2;
             return;
@@ -79,7 +78,7 @@ void update_directional_grid_movement(S_80172FE4_0 *action, EntityRec *motion, R
         }
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
-        } else if (entity->unk_14.at00_u16.v & 0x6000) {
+        } else if (entity->flags & 0x6000) {
             action->unk_96.s = 0;
         }
         if (action->unk_96.s != 0) {

@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 void initialize_state_from_terminated_entries(s32);                            /* extern */
-void initialize_mode_state_tables();                            /* extern */
+void initialize_mode_state_tables(void);                            /* extern */
 extern s16 D_8006ADD4;
 
 /* Dispatch to the parameterized handler in state 12 or the default handler otherwise. */

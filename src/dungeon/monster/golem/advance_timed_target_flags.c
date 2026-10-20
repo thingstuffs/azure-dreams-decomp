@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -11,7 +12,6 @@ extern s32 D_80175F38;
 s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s32);
 void select_sprite_entry(void *, s32, s32);
 void func_800478B8(void *);
-
 
 typedef struct S_80174D24_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -33,7 +33,6 @@ typedef struct S_80174D24_2 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_80174D24_2;   /* object in advance_timed_target_flags */
-
 
 typedef struct S_80174D24_4 {
     u8 pad_00[0x2C];
@@ -82,11 +81,11 @@ void advance_timed_target_flags(void *state, void *output, void *target)
     switch (phase) {
     case 0:
         func_800478B8(target);
-        target_flags = ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v;
+        target_flags = ((SpriteFrameState *)target)->flags;
         if ((target_flags & 0x6000) == 0) {
             return;
         }
-        ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v = target_flags | 0x80;
+        ((SpriteFrameState *)target)->flags = target_flags | 0x80;
         ((S_80174D24_0 *)state)->unk_02 = 0;
         ((S_80174D24_0 *)state)->unk_00.u++;
         break;
@@ -95,7 +94,7 @@ void advance_timed_target_flags(void *state, void *output, void *target)
         if (signed_ticks < 0x40) {
             return;
         }
-        ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v &= 0xFF7F;
+        ((SpriteFrameState *)target)->flags &= 0xFF7F;
         select_sprite_entry(target, 0x38, 0);
         ((S_80174D24_0 *)state)->unk_02 = 0;
         ((S_80174D24_0 *)state)->unk_00.s = 0;

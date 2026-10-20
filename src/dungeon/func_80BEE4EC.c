@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource16_slot0.h"
+#include "shared/sprite_frame_state.h"
 
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_80082E80 *actor, void *model) {
     s16 next_spawn;
@@ -101,7 +102,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
             effect_value = func_80069EF8() % 3;
         }
         func_8003DB94(effect_sprite, ((s32 *)D_801742D4)[(s16) effect_value] + (s8 *) ((s32 *)D_8014A000), 0);
-        actor->unk_14.at00_u16.v = (u16) (actor->unk_14.at00_u16.v | 0x80);
+        ((SpriteFrameState *)actor)->flags = (u16) (((SpriteFrameState *)actor)->flags | 0x80);
         spawn_count = 0;
         state->unk_96 = 0U;
         state->unk_9B = (u8) (state->unk_9B + 1);
@@ -139,7 +140,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
         state->unk_96 = 0x10U;
         state->unk_9B = (u8) (state->unk_9B + 1);
         decrement_monster_entry_count(((Rec_D_80082E80 *)model)->unk_12.at01_u8.v, 3);
-        update_map_cell_flags_with_item_limit(actor->unk_24, actor->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25, 0x300);
         unlink_entity_node(model);
         effect_sprite = model - 0x20;
         effect_sprite->unk_10 = (s32) (effect_sprite->unk_10 | 0x80000000);

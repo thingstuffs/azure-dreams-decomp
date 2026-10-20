@@ -1,5 +1,6 @@
 #include "dungeon/monster/volcano/create_tracked_effect_object.h"
-
+#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/volcano/create_tracked_effect_object.h"
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
@@ -13,7 +14,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
     register s8 saved_variant;
     s8 saved_kind_id;
     void *part_a;
-    S_8015E854_3 *part_b;
+    SpriteFrameState *part_b;
     void *actor;
 
     work = 0;
@@ -40,7 +41,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
             right = ((S_8015E854_0 *)work)->unk_1C | 0x6000;
             ((S_8015E854_0 *)work)->unk_14 = left;
             ((S_8015E854_0 *)work)->unk_1C = right;
-            part_b->unk_2C = D_80162510;
+            part_b->frameTable = D_80162510;
         } else {
             if (kind >= 2) {
                 ((S_8015E854_0 *)work)->unk_8C = func_8015EE5C;
@@ -48,21 +49,21 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
                 right = ((S_8015E854_0 *)work)->unk_1C | 0x2000;
                 ((S_8015E854_0 *)work)->unk_14 = left;
                 ((S_8015E854_0 *)work)->unk_1C = right;
-                part_b->unk_2C = D_80162510;
+                part_b->frameTable = D_80162510;
             } else {
                 if (((flags & ~3) << 16) == 0) {
                     if (!(((S_8015E854_0 *)work)->unk_14 & 0x200)) {
                         if (generate_random_value() & 1) {
                             set_or_clear_actor_status_slot(work, 1,
                                           (generate_random_value() & 0x3F) | 0x20);
-                            part_b->unk_2C = D_80162538;
+                            part_b->frameTable = D_80162538;
                         }
                     }
                     ((S_8015E854_4 *)actor)->unk_8C = func_8015EE5C;
-                    part_b->unk_2C = D_80162510;
+                    part_b->frameTable = D_80162510;
                 } else {
                     ((S_8015E854_0 *)work)->unk_8C = func_8015EE5C;
-                    part_b->unk_2C = D_80162510;
+                    part_b->frameTable = D_80162510;
                 }
             }
         }

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct { u16 flags; } EffectFieldView_80DB9C2CPrefix;
-
 
 typedef struct S_8017142C_0 {
     s16 unk_00;
@@ -31,8 +31,6 @@ typedef struct S_8017142C_1 {
         struct { u8 pad[0x2]; s16 v; } at02;
     } unk_08;   /* overlapping accesses */
 } S_8017142C_1;   /* arg1 in update_growing_colliding_effect */
-
-
 
 extern s32 func_800478B8();
 extern s32 check_left_tile_and_center_height();
@@ -93,15 +91,15 @@ void update_growing_colliding_effect(void *effect, void *position, void *sprite)
         if (!(anim_tick & 3)) {
             func_800478B8(sprite);
         }
-        move_scale_x = ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v + 0x64;
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = move_scale_x;
+        move_scale_x = ((SpriteFrameState *)sprite)->scale_x + 0x64;
+        ((SpriteFrameState *)sprite)->scale_x = move_scale_x;
         if ((u32)(move_scale_x & 0xFFFF) >= 0x2001U) {
-            ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = 0x2000;
+            ((SpriteFrameState *)sprite)->scale_x = 0x2000;
         }
-        move_scale_y = ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v + 0x64;
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = move_scale_y;
+        move_scale_y = ((SpriteFrameState *)sprite)->scale_y + 0x64;
+        ((SpriteFrameState *)sprite)->scale_y = move_scale_y;
         if ((u32)(move_scale_y & 0xFFFF) >= 0x2001U) {
-            ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = 0x2000;
+            ((SpriteFrameState *)sprite)->scale_y = 0x2000;
         }
         move_ticks_left = ((S_8017142C_0 *)effect)->unk_24 - 1;
         ((S_8017142C_0 *)effect)->unk_24 = move_ticks_left;
@@ -109,7 +107,7 @@ void update_growing_colliding_effect(void *effect, void *position, void *sprite)
             ((S_8017142C_0 *)effect)->unk_1A = 0;
             ((S_8017142C_0 *)effect)->unk_00 = (u16)((S_8017142C_0 *)effect)->unk_00 + 1;
         }
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             (((EffectFieldView_80DB9C2CPrefix *)effect)[-1].flags) |= 0x8000;
             object_flag_block.flags |= 0x8000;
         }
@@ -123,15 +121,15 @@ void update_growing_colliding_effect(void *effect, void *position, void *sprite)
             ((S_8017142C_0 *)effect)->unk_64 = 0;
             ((S_8017142C_0 *)effect)->unk_60 = 0;
         }
-        fade_scale_x = ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v + 0xC8;
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = fade_scale_x;
+        fade_scale_x = ((SpriteFrameState *)sprite)->scale_x + 0xC8;
+        ((SpriteFrameState *)sprite)->scale_x = fade_scale_x;
         if ((u32)(fade_scale_x & 0xFFFF) >= 0x2001U) {
-            ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = 0x2000;
+            ((SpriteFrameState *)sprite)->scale_x = 0x2000;
         }
-        fade_scale_y = ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v + 0xC8;
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = fade_scale_y;
+        fade_scale_y = ((SpriteFrameState *)sprite)->scale_y + 0xC8;
+        ((SpriteFrameState *)sprite)->scale_y = fade_scale_y;
         if ((u32)(fade_scale_y & 0xFFFF) >= 0x2001U) {
-            ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = 0x2000;
+            ((SpriteFrameState *)sprite)->scale_y = 0x2000;
         }
         ((S_8017142C_1 *)position)->unk_08.at00.v += ((S_8017142C_0 *)effect)->unk_68;
         ((S_8017142C_0 *)effect)->unk_68 += ((S_8017142C_0 *)effect)->unk_74;
@@ -149,9 +147,9 @@ void update_growing_colliding_effect(void *effect, void *position, void *sprite)
             }
         }
         fade_level = ((s16)((S_8017142C_0 *)effect)->unk_24 << 7) / (s16)((S_8017142C_0 *)effect)->unk_26;
-        ((Rec_D_80082E80 *)sprite)->unk_0C.at02_s8.v = 0;
-        ((Rec_D_80082E80 *)sprite)->unk_0C.at01_s8.v = fade_level;
-        ((Rec_D_80082E80 *)sprite)->unk_0C.at00_s8.v = fade_level;
+        ((SpriteFrameState *)sprite)->color.c.b = 0;
+        ((SpriteFrameState *)sprite)->color.c.g = fade_level;
+        ((SpriteFrameState *)sprite)->color.c.r = fade_level;
         fade_ticks_left = ((S_8017142C_0 *)effect)->unk_24 - 1;
         ((S_8017142C_0 *)effect)->unk_24 = fade_ticks_left;
         if ((fade_ticks_left << 0x10) <= 0) {

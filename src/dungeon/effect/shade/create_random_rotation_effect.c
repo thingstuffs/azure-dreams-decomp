@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -18,7 +19,6 @@ typedef union {
 #define NULL 0
 #endif
 
-
 extern s32 func_8003DB94();
 extern s32 register_node();
 extern s32 func_800644B8();
@@ -27,7 +27,6 @@ extern s32 func_80069EF8();
 
 extern u8 D_80024710[];
 extern u8 D_800DEC70[];
-
 
 typedef struct S_818C2FAC_0 {
     u8 pad_00[0x8];
@@ -43,21 +42,6 @@ typedef struct S_818C2FAC_1 {
     s16 unk_04;
     s16 unk_06;
 } S_818C2FAC_1;   /* work in create_random_rotation_effect */
-
-typedef struct S_818C2FAC_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818C2FAC_2;   /* (void *)temp in create_random_rotation_effect */
 
 /* Creates an effect with a selected appearance, random rotation, and a directional offset. */
 s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 direction)
@@ -97,12 +81,12 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
         effect_state->unk_06 = 0;
 
         render_or_radius = (uptr)((S_818C2FAC_0 *)((void *)effect))->unk_0C;
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_0E = 0x80;
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_0D = 0x80;
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_0C = 0x80;
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_14 |= 0xC;
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_10 |= 0x60;
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_14 |= 0x100;
+        ((SpriteFrameState *)render_or_radius)->color.c.b = 0x80;
+        ((SpriteFrameState *)render_or_radius)->color.c.g = 0x80;
+        ((SpriteFrameState *)render_or_radius)->color.c.r = 0x80;
+        ((SpriteFrameState *)render_or_radius)->flags |= 0xC;
+        ((SpriteFrameState *)render_or_radius)->tpage_abr |= 0x60;
+        ((SpriteFrameState *)render_or_radius)->flags |= 0x100;
 
         variant_seed = (*(s16 *)((u8 *)((void *)data_addr) + 0x12));
         biased_seed = variant_seed;
@@ -110,16 +94,16 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
 
         switch (variant) {
         case 0:
-            ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7DCF;
+            ((SpriteFrameState *)render_or_radius)->clut = 0x7DCF;
             break;
         case 1:
-            ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7E00;
+            ((SpriteFrameState *)render_or_radius)->clut = 0x7E00;
             break;
         case 2:
-            ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7E01;
+            ((SpriteFrameState *)render_or_radius)->clut = 0x7E01;
             break;
         case 3:
-            ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7E02;
+            ((SpriteFrameState *)render_or_radius)->clut = 0x7E02;
             break;
         }
         {
@@ -131,9 +115,9 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
         }
         random_value = func_80069EF8();
         biased_random = random_value;
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1A = (random_value % 4096);
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1E = 0x1000;
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1C = 0x1000;
+        ((SpriteFrameState *)render_or_radius)->angle_z = (random_value % 4096);
+        ((SpriteFrameState *)render_or_radius)->scale_y = 0x1000;
+        ((SpriteFrameState *)render_or_radius)->scale_x = 0x1000;
         register_node((void *)effect, project_sprite_chain);
 
         data_addr = ((S_818C2FAC_0 *)((void *)effect))->unk_08;

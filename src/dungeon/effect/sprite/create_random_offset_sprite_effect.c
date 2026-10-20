@@ -1,11 +1,11 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 
 struct Dst;
 struct Elem;
-
 
 void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 extern s32 register_node();
@@ -17,7 +17,7 @@ extern M2C_UNK D_800DEDB0[3];
 void create_random_offset_sprite_effect(s32 effect_param, void *source_pos)
 {
     s32 random_offset;
-    void *sprite;
+    SpriteFrameState *sprite;
     int color;
     void *effect_pos;
     void *effect;
@@ -28,17 +28,17 @@ void create_random_offset_sprite_effect(s32 effect_param, void *source_pos)
         sprite = *((void **)(((s8 *)effect) + 0xC));
         *((s32 *)(((s8 *)effect) + 0x20)) = effect_param;
         color = 0x80;
-        *((s8 *)(((s8 *)sprite) + 0xE)) = color;
-        *((s8 *)(((s8 *)sprite) + 0xD)) = color;
-        *((s8 *)(((s8 *)sprite) + 0xC)) = color;
+        sprite->color.c.b = color;
+        sprite->color.c.g = color;
+        sprite->color.c.r = color;
         func_8003DB94(sprite, D_800DEDB0, 0);
-        *((s16 *)(((s8 *)sprite) + 0x1E)) = 0x1800;
-        *((s16 *)(((s8 *)sprite) + 0x1C)) = 0x1800;
-        *((s16 *)(((s8 *)sprite) + 0x12)) = 0x7E0B;
-        *((u16 *)(((s8 *)sprite) + 0x10)) =
-            (u16)(*((u16 *)(((s8 *)sprite) + 0x10)) | 0x60);
-        *((u16 *)(((s8 *)sprite) + 0x14)) =
-            (u16)(*((u16 *)(((s8 *)sprite) + 0x14)) | 0x10C);
+        sprite->scale_y = 0x1800;
+        sprite->scale_x = 0x1800;
+        sprite->clut = 0x7E0B;
+        sprite->tpage_abr =
+            (u16)(sprite->tpage_abr | 0x60);
+        sprite->flags =
+            (u16)(sprite->flags | 0x10C);
         register_node(effect, project_sprite_chain);
         effect_pos = *((void **)(((s8 *)effect) + 8));
         rand();

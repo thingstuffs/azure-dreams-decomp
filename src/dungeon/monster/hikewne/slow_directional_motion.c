@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
@@ -12,7 +13,6 @@ typedef struct S_80173294_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_80173294_0;   /* arg0 in slow_directional_motion */
-
 
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
@@ -49,7 +49,7 @@ void slow_directional_motion(S_80173294_0 *motion_state, EntityRec *motion, Rec_
             begin_actor_display_action(motion_state, motion, tile_state, &D_80174148);
             return;
         }
-        if (tile_state->unk_14.at00_u16.v & 0x8000) {
+        if (((SpriteFrameState *)tile_state)->flags & 0x8000) {
             motion_state->unk_96.s = 0;
             motion_state->unk_9B = 2;
             return;
@@ -75,7 +75,7 @@ void slow_directional_motion(S_80173294_0 *motion_state, EntityRec *motion, Rec_
 
         if (motion_state->unk_96.s > 0) {
             motion_state->unk_96.u = motion_state->unk_96.u - 1;
-        } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
+        } else if (((SpriteFrameState *)tile_state)->flags & 0x6000) {
             motion_state->unk_96.s = 0;
         }
 
@@ -99,14 +99,14 @@ void slow_directional_motion(S_80173294_0 *motion_state, EntityRec *motion, Rec_
             s32 tile_coord;
             s32 offset_coord;
 
-            tile_coord = tile_state->unk_24 << 6;
+            tile_coord = ((SpriteFrameState *)tile_state)->unk_24 << 6;
             offset_coord = motion->x.w.i;
             offset_coord -= 0x20;
             motion->unk_0C = ((tile_coord - offset_coord) << 15) / timer;
 
             offset_coord = motion->y.w.i;
             offset_coord -= 0x20;
-            tile_coord = tile_state->unk_25 << 6;
+            tile_coord = ((SpriteFrameState *)tile_state)->unk_25 << 6;
             motion->unk_10 =
                 ((tile_coord - offset_coord) << 15) / motion_state->unk_96.s;
         }
@@ -120,8 +120,8 @@ void slow_directional_motion(S_80173294_0 *motion_state, EntityRec *motion, Rec_
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, tile_state->unk_24,
-            tile_state->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)tile_state)->unk_24,
+            ((SpriteFrameState *)tile_state)->unk_25);
         {
 
             x_speed_or_entity = ((s32)g_dungeon_status.unk_10);

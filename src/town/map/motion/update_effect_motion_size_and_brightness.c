@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/position_views.h"
@@ -15,9 +16,7 @@ typedef struct S_800BC00C_0 {
     s16 unk_4E;
 } S_800BC00C_0;   /* arg0 in update_effect_motion_size_and_brightness; pointer addresses record offset 0x2 */
 
-
    /* arg1 in update_effect_motion_size_and_brightness */
-
 
 typedef struct {
     s32 f0;
@@ -30,7 +29,7 @@ typedef struct {
 void func_800478B8(void *entity);                      /* extern */
 
 /* Update effect motion, size and brightness, then mark it finished. */
-s32 update_effect_motion_size_and_brightness(void *effect_fields, SignedPositionView *position, Rec_D_80082E80 *sprite) {
+s32 update_effect_motion_size_and_brightness(void *effect_fields, SignedPositionView *position, SpriteFrameState *sprite) {
     s16 state;
     s32 fade_end_state;
     s32 global_flags;
@@ -43,10 +42,10 @@ s32 update_effect_motion_size_and_brightness(void *effect_fields, SignedPosition
     state = ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E;
     switch (state) {
     case 0:
-        size = sprite->unk_1C.at02_u16.v + 0x80;
-        sprite->unk_1C.at02_u16.v = size;
-        sprite->unk_1C.at00_u16.v = size;
-        sprite->unk_0C.at00_s32.v = (s32) (sprite->unk_0C.at00_s32.v + 0x80808);
+        size = sprite->scale_y + 0x80;
+        sprite->scale_y = size;
+        sprite->scale_x = size;
+        sprite->color.word = (s32) (sprite->color.word + 0x80808);
         position->unk_02 = (s16) ((u16) position->unk_02 + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields
             - 0x2))->unk_0E - position->unk_02) >> 2));
         position->unk_06 = (s16) ((u16) position->unk_06 + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields
@@ -69,9 +68,9 @@ s32 update_effect_motion_size_and_brightness(void *effect_fields, SignedPosition
         motion->f10 = motion->f10 - (motion->f10 >> 3);
         motion->f14 = motion->f14 - (motion->f14 >> 3);
     }
-        sprite->unk_0C.at00_s32.v = (s32) (sprite->unk_0C.at00_s32.v + 0xFFF7F7F8);
+        sprite->color.word = (s32) (sprite->color.word + 0xFFF7F7F8);
         fade_end_state = 0xFF;
-        if ((u8) sprite->unk_0C.at00_s32.v == 0) {
+        if ((u8) sprite->color.word == 0) {
             return (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = fade_end_state);
         }
         return fade_end_state;

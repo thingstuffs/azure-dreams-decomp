@@ -29,7 +29,7 @@ struct TownCopy84 {
     s32 words[21];
 };
 
-void register_node_if_unregistered();                   /* extern */
+void register_node_if_unregistered(void *, s32);                   /* extern */
 void *runtime_get_mode_indexed_value();               /* extern */
 void func_8003E188(s32 field_index, s32 flag);        /* extern */
 typedef struct S_800422DC_Other S_800422DC_Other;
@@ -40,7 +40,7 @@ typedef struct S_800423C0_Obj S_800423C0_Obj;
 void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source);      /* extern */
 void func_80042640(void *obj, s16 monsterId);               /* extern */
 void *memset(); /* extern */
-void set_object_state_for_mode();    /* extern */
+void set_object_state_for_mode(void *, void *, s32, s32);    /* extern */
 #include "records/Rec_D_800CFCB4.h"
 typedef struct S_8009F374_2 S_8009F374_2;
 #include "shared/entity.h"
@@ -75,7 +75,7 @@ void initialize_the_town_entity_synchronize_slot_state(Rec_func_80094268_arg0 *e
     void *data_base;
 
     slot_index = entity->unk_95;
-    register_node_if_unregistered(entity, project_sprite_chain);
+    register_node_if_unregistered(entity, (s32)(project_sprite_chain));
     slot_state = (slot_index * 4) + 0x80010000;
     slot_state->unk_981 = 0x13;
     memset(&D_80100A10, 0, 0x54);

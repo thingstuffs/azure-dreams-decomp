@@ -104,19 +104,6 @@ typedef struct R10_80170CF8_S_80AC55DC_2 {
     s32 unk_50;
     s32 unk_54;
 } R10_80170CF8_S_80AC55DC_2;
-typedef struct R10_80170CF8_S_80AC55DC_4 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} R10_80170CF8_S_80AC55DC_4;
 typedef struct R10_80170CF8_S_80AC55DC_5 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -150,13 +137,6 @@ typedef struct R10_80170F3C_S_80170F3C_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
 } R10_80170F3C_S_80170F3C_2;
-typedef struct R10_80170F3C_S_80170F3C_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} R10_80170F3C_S_80170F3C_3;
 typedef struct R10_80170F3C_S_80170F3C_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -186,17 +166,6 @@ typedef struct R10_80171104_S_80171104_2 {
     s32 unk_10;
     s32 unk_14;
 } R10_80171104_S_80171104_2;
-typedef struct R10_801717F4_S_801717F4_2 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   
-    u8 unk_26;
-    u8 pad_27[0x5];
-    void * unk_2C;
-} R10_801717F4_S_801717F4_2;
 typedef struct R10_80171D7C_S_80171CD4_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -869,11 +838,11 @@ void func_80170CF8(
 void *func_80170F3C(s16 flags, s16 kind_id, s16 variant, s32 spawn_value);
 void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *object);
 void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityRec *entity_arg);
-void func_80171D7C(void *movement, void *motion, void *entity, void *path_state);
+void func_80171D7C(void *movement, void *motion, SpriteFrameState *entity, void *path_state);
 void func_80171FE8(void *move_data, void *context, void *position_data, void *actor_data);
-void func_80172730(void *actor_state, void *action_state, void *sprite, void *orientation);
+void func_80172730(void *actor_state, void *action_state, SpriteFrameState *sprite, void *orientation);
 s32 func_801727B8(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, EntityRec *actor);
-void func_8017297C(void *action_state, void *action_context, void *sprite, EntityRec *actor);
+void func_8017297C(void *action_state, void *action_context, SpriteFrameState *sprite, EntityRec *actor);
 s32 func_80172A94(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void func_80172BD8(void *entity_arg, s32 unused, s32 check_arg, s32 actor_arg);
 void func_80172C54(void *action, EntityRec *motion, void *sprite, EntityRec *actor);
@@ -894,7 +863,7 @@ void create_positioned_sprite_effect(Resource10CallbackState *state, void *motio
 void func_801743F4(Resource10CallbackState *state, void *motion, void *position, void *actor);
 void resolve_linked_attack_hits_and_particle_bursts(void *node, s32 target_x, s32 target_y, s32 target_height);
 void prepare_directional_attacks_for_neighbor_entities(void *node, s32 tile_x, s32 tile_y, s16 target_height);
-void select_actor_target_and_advance_status(void *action_state, s32 effect_arg, void *anim_state, EntityRec *actor);
+void select_actor_target_and_advance_status(void *action_state, s32 effect_arg, SpriteFrameState *anim_state, EntityRec *actor);
 void advance_directional_attack_sequence(void *action, void *position, void *sprite, EntityRec *entity);
 s32 func_80174BE4(void *initial_payload, s32 entry_data, R10_80174BE4_Entry *entry, s32 unused);
 void update_effect_motion_and_brightness(void *effect, void *motion, void *render);

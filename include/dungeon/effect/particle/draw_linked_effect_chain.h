@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_19C088C_H
 #define DUNGEON_OVL_19C088C_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -293,23 +294,6 @@ typedef struct Row_819A1450_S_819A1450_1 {
     void * unk_10;
 } Row_819A1450_S_819A1450_1;   /* node in func_80024C50 */
 
-typedef struct Row_819A1450_S_819A1450_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_819A1450_S_819A1450_2;   /* part in func_80024C50 */
-
 typedef struct Row_819A1450_S_819A1450_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -496,8 +480,6 @@ s32 func_80053EF0(s32);
 void play_sound_if_enabled(s32);
 void D_80024C50(void *, void *, void *, s32, s32, s32);
 
-
-
 extern const Row_819A1450_LocalTable D_80024034;
 extern u8 D_800246F0[];
 extern u8 D_800DEC00[];
@@ -514,7 +496,7 @@ extern Row_819A1654_Blob24 D_80026198[];
 void func_8002408C(void *quad, void *position, void *render_state, s16 depth_bias);
 s32 draw_linked_effect_chain(void *state, void *position, void *appearance);
 void update_effect_countdown_fields(void *object_data);
-void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, Rec_D_80082E80 *primitive);
+void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteFrameState *primitive);
 void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState, void *unused, Row_819A0FC0_S_func_819A0FC0_1 *primitive);
 void func_80024834(void *fade_data);
 void advance_object_motion_and_animation(void *effect);

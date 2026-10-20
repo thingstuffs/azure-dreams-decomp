@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -6,7 +7,6 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
-
 
 extern void func_8003DB94();
 extern void func_80040AA0(s32);
@@ -35,14 +35,13 @@ extern void (*D_800DD830[])();
 extern u8 D_800E3544[];
 extern s32 D_800E4940[];
 
-
 typedef struct S_80096384_5 {
     u8 unk_00;
     u8 unk_01;
 } S_80096384_5;   /* temp_v0_2 in handle_actor_commands_and_facing */
 
 /* Handles actor commands, turns toward the requested direction, and updates the sprite. */
-void handle_actor_commands_and_facing(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor_data)
+void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameState *sprite, EntityRec *actor_data)
 {
     s16 status_value;
     s16 input_angle;
@@ -72,7 +71,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, Rec_D_80082E80 
     s32 command_state;
 
     if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != idle_state) {
-        sprite->unk_2C.as_pv = D_800DD274;
+        sprite->frameTable = D_800DD274;
         func_8003DB94(sprite,
             *(void **)((u8 *)D_800DD274 +
                 ((((s32)(input->view.viewAngle +
@@ -80,7 +79,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, Rec_D_80082E80 
             0);
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 = idle_state;
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFEFF;
-        sprite->unk_14.at00_u16.v &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_s8 = 0;
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
         select_position_data_and_update_owner(sprite, actor_data);
@@ -289,7 +288,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, Rec_D_80082E80 
     tail_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
     if (tail_flags & 1) {
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFFE;
-        sprite->unk_2C.as_pv = D_800DD274;
+        sprite->frameTable = D_800DD274;
         func_8003DB94(sprite,
             *(void **)((u8 *)D_800DD274 +
                 ((((s32)(g_game_work.view.viewAngle + actor_data->facing +

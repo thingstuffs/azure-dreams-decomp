@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
-
 
 typedef void (*Callback)(void);
 
@@ -76,7 +76,7 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
     void *created;
     u8 *work = 0;
     u8 *position;
-    u8 *monster;
+    SpriteFrameState *monster;
     u8 *actor;
     s32 kind;
     Rect rect;
@@ -104,10 +104,10 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
         position = (*(u8 * *)((u8 *)created + 8));
         ((S_80FB1000_1 *)position)->unk_0A = value3_saved;
         monster = (*(u8 * *)((u8 *)created + 0xC));
-        (*(u8 *)((u8 *)monster + 0x25)) = value2_byte;
+        monster->unk_25 = value2_byte;
         actor = work;
-        (*(Callback *)((u8 *)monster + 0x2C)) = func_80175258;
-        (*(u8 *)((u8 *)monster + 0x24)) = value1_saved;
+        monster->frameTable = func_80175258;
+        monster->unk_24 = value1_saved;
 
         kind = (s32)mode & 3;
         if (kind == 1) {
@@ -128,7 +128,7 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
                     ((S_80FB1000_0 *)work)->unk_1C |= 0x200;
                     value = generate_random_value();
                     set_or_clear_actor_status_slot(work, 1, (value & 0x3F) | 0x20);
-                    (*(Callback *)((u8 *)monster + 0x2C)) = func_80175298;
+                    monster->frameTable = func_80175298;
                 }
             }
         }
@@ -136,13 +136,13 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
         init_object = created;
         initialize_actor_sprite_and_animation(init_object, position, monster, (s16)mode_copy);
         i = 0;
-        value = (*(u16 *)((u8 *)monster + 0x12));
+        value = monster->clut;
         (*(u8 *)((u8 *)actor + 0x9A)) = 0xFF;
         (*(s8 *)((u8 *)actor + 0x9C)) = -1;
         (*(Callback *)((u8 *)actor + 0x8C)) = update_long_actor_action;
         (*(s16 *)((u8 *)actor + 0xAE)) = value;
 
-        entry = (*(u8 * *)((u8 *)monster + 8));
+        entry = *(u8 * *)&monster->source;
         while (1) {
             scale = i << 1;
             if (!(entry[0] & 0x20)) {
@@ -151,7 +151,7 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
             entry += 12;
             i++;
         }
-        value = ((S_80FB1000_2 *)((*(u8 * *)((u8 *)monster + 8)) + (scale + i) * 4))->unk_06 >> 6;
+        value = ((S_80FB1000_2 *)(*(u8 * *)&monster->source + (scale + i) * 4))->unk_06 >> 6;
         rect.x = 0;
         rect.y = value;
         rect.w = 0x100;

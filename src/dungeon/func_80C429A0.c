@@ -1,7 +1,8 @@
 #include "dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.h"
+#include "shared/sprite_frame_state.h"
 
 /* Update the effect's orbit and height, fade its color, and mark it for removal when its life expires. */
-void update_orbit_height_and_fade_effect(void *effect, EntityRec *position, Rec_D_80082E80 *primitive) {
+void update_orbit_height_and_fade_effect(void *effect, EntityRec *position, SpriteFrameState *primitive) {
     s16 life;
     s16 angle;
     s16 next_life;
@@ -18,9 +19,9 @@ void update_orbit_height_and_fade_effect(void *effect, EntityRec *position, Rec_
     }
     life = ((T_801741A0_S_801741A0_0 *)effect)->unk_1A;
     if (life < 0xA) {
-        primitive->unk_0C.at00_s8.v = (s8) ((((T_801741A0_S_801741A0_0 *)effect)->unk_00 * life) / 9);
-        primitive->unk_0C.at01_s8.v = (s8) ((((T_801741A0_S_801741A0_0 *)effect)->unk_01 * ((T_801741A0_S_801741A0_0 *)effect)->unk_1A) / 9);
-        primitive->unk_0C.at02_s8.v = (s8) ((((T_801741A0_S_801741A0_0 *)effect)->unk_02 * ((T_801741A0_S_801741A0_0 *)effect)->unk_1A) / 9);
+        primitive->color.c.r = (s8) ((((T_801741A0_S_801741A0_0 *)effect)->unk_00 * life) / 9);
+        primitive->color.c.g = (s8) ((((T_801741A0_S_801741A0_0 *)effect)->unk_01 * ((T_801741A0_S_801741A0_0 *)effect)->unk_1A) / 9);
+        primitive->color.c.b = (s8) ((((T_801741A0_S_801741A0_0 *)effect)->unk_02 * ((T_801741A0_S_801741A0_0 *)effect)->unk_1A) / 9);
     }
     next_life = (u16) ((T_801741A0_S_801741A0_0 *)effect)->unk_1A - 1;
     ((T_801741A0_S_801741A0_0 *)effect)->unk_1A = next_life;

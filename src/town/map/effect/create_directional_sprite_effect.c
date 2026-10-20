@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -6,13 +7,11 @@
 #include "shared/object_payload.h"
 #include "shared/vector.h"
 
-
 typedef struct S_800BC574_7 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
 } S_800BC574_7;
-
 
 void *allocate_list_node();            /* extern */
 s32 register_node();           /* extern */
@@ -32,25 +31,6 @@ typedef struct S_800BC574_0 {
 
    /* held_arg0 in create_directional_sprite_effect */
 
-typedef struct S_800BC574_3 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} S_800BC574_3;   /* held_base in create_directional_sprite_effect */
-
-typedef struct S_800BC574_4 {
-    s32 * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800BC574_4;
-
 typedef struct S_800BC574_5 {
     u8 pad_00[0xC];
     s32 unk_0C;
@@ -59,7 +39,7 @@ typedef struct S_800BC574_5 {
 /* Creates an effect at the supplied position with directional motion and initializes its sprite. */
 s32 create_directional_sprite_effect(void *position, s16 angle) {
     s32 position_z;
-    S_800BC574_4 *sprite;
+    SpriteFrameState *sprite;
     S_800BC574_0 *effect;
     IntVector3 *source_pos = position;
     GameWork *world_state = &g_game_work;
@@ -95,20 +75,20 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
             s32 table_word;
 
             init_value_2 = 0x1000;
-            sprite->unk_1E = init_value_2;
-            sprite->unk_1C = init_value_2;
+            sprite->scale_y = init_value_2;
+            sprite->scale_x = init_value_2;
             init_value = (s32) effect->unk_08;
             init_value = ((S_800BC574_5 *)((void *) init_value))->unk_0C;
             if (init_value > 0) {
-                sprite->unk_14 = (u16) (sprite->unk_14 | 1);
+                sprite->flags = (u16) (sprite->flags | 1);
             }
             sprite_table = (IntVector3 *)&D_800F15E4;
             sprite->unk_00 = sprite_table;
             table_word = sprite_table->y;
             sprite->unk_04 = 0;
             sprite->unk_05 = 0;
-            sprite->unk_0C = 0x808080;
-            sprite->unk_08 = table_word;
+            sprite->color.word = 0x808080;
+            sprite->source = table_word;
         }
     }
     return 0;

@@ -1,12 +1,13 @@
 #include "modules/dungeon_ovl_190681c.h"
-
+#include "shared/sprite_frame_state.h"
+#include "modules/dungeon_ovl_190681c.h"
 
 void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) {
     u8 *actor;
     u8 *actor_data;
     u8 *actor_header;
     u8 *particle;
-    u8 *render_data;
+    SpriteFrameState *render_data;
     u8 *particle_data;
     s32 count;
     s32 state;
@@ -76,17 +77,17 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
                 {
                     s16 flags;
                     u8 *tpl;
-                    S16(render_data, 30) = 4096;
-                    S16(render_data, 28) = 4096;
-                    S16(render_data, 16) = 32;
-                    flags = U16(render_data, 20);
-                    S32(render_data, 12) = 0x101010;
-                    S32(render_data, 0) = (s32)template_data;
-                    S16(render_data, 20) = flags | 0xc;
-                    tpl = (u8 *)S32(render_data, 0);
-                    S32(render_data, 8) = S32(tpl, 4);
-                    U8(render_data, 4) = 0;
-                    U8(render_data, 5) = 0;
+                    render_data->scale_y = 4096;
+                    render_data->scale_x = 4096;
+                    render_data->tpage_abr = 32;
+                    flags = render_data->flags;
+                    render_data->color.word = 0x101010;
+                    render_data->unk_00 = (s32)template_data;
+                    render_data->flags = flags | 0xc;
+                    tpl = (u8 *)*(s32 *)&render_data->unk_00;
+                    render_data->source = S32(tpl, 4);
+                    render_data->unk_04 = 0;
+                    render_data->unk_05 = 0;
                 }
                 S32(particle, 32) = (s32)effect;
                 S16(particle_data, 76) = 0;
@@ -94,7 +95,6 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
             distance--;
         }
     }
-
 
     {
         s32 mode = S16(effect, 10);
@@ -118,14 +118,14 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
                     U8(actor, 115) = U8(actor_data, 37);
                 } else {
                     render_data = (u8 *)S32(target, -20);
-                    if ((U16(render_data, 20) & 0x8000) != 0) {
+                    if ((render_data->flags & 0x8000) != 0) {
                         if ((U16(context_arg, 20) & 0x8000) != 0) {
                             U16(effect, 10) = 240;
                             return;
                         }
                     }
-                    U8(actor, 114) = U8(render_data, 36);
-                    U8(actor, 115) = U8(render_data, 37);
+                    U8(actor, 114) = render_data->unk_24;
+                    U8(actor, 115) = render_data->unk_25;
                 }
                 {
                     u8 *effect_header = effect - 32;
