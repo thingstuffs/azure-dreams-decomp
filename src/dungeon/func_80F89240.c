@@ -208,7 +208,7 @@ void update_bank_actor_targeted_action(void *owner_input, EntityRec *motion_inpu
 
         if (((S_80172A40_4 *)actor_input)->unk_2C != D_80174AD4) {
             (*(u8 * *)((u8 *)actor_input + 0x2C)) = D_80174AD4;
-            func_80047784(actor_input,
+            select_sprite_entry(actor_input,
                           D_80174AD4[((g_game_work.view.viewAngle +
                                        object->facing + 0x100) >> 9) & 7],
                           ((S_80172A40_0 *)owner_input)->unk_A0);

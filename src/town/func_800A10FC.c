@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Initialize the entity from its table entry and invoke its callback. */
 void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_8009E85C_1 *placement, func_800A10FC_S_8009E85C_2 *state) {
@@ -26,7 +26,7 @@ void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_800
             ((func_800A10FC_S_8009E85C_6 *)(table_page + ((table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4)
             + 0x983] & 0x3F) * 0x54)))->unk_A94);
     }
-    func_80033CD8(entity, func_80045340);
+    register_node_if_unregistered(entity, project_sprite_chain);
     init_flags = 0x20;
     state->unk_10 = init_flags;
     flags = state->unk_14.s;

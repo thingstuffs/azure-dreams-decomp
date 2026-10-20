@@ -1,5 +1,5 @@
 #include "shared/entity.h"
-#include "modules/dungeon_ovl_183a800.h"
+#include "dungeon/effect/particle/render_textured_effect_parts.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_node.h"
@@ -29,7 +29,7 @@ void func_80024758(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
     EntityRec *dest_z;
 
     /* the parent's next slot is the list head the new node links behind */
-    spawned = func_8003FD64(0x211, (ObjectNodeHeader **)source_obj);
+    spawned = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
         spawned->unk_10 = (void *)func_80024604;
         jitter_x = rand() & 0x1F;
@@ -59,7 +59,7 @@ void func_80024758(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        func_8004491C(spawned, (s32)(s32)func_800241EC);
+        register_node(spawned, (s32)(s32)func_800241EC);
         fields->color = saved_field_28;
     }
 }

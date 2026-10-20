@@ -443,7 +443,7 @@
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_engine_trap_effects.imports.json",
-      "declaration": "src/dungeon/func_800C92E4.c"
+      "declaration": "src/dungeon/effect/trap.c"
     },
     "D_8014A000": {
       "symbol": "D_8014A000",
@@ -452,7 +452,7 @@
       "view_bytes": 1,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_engine_trap_effects.imports.json",
-      "declaration": "src/dungeon/func_800C72B4.c"
+      "declaration": "src/dungeon/effect/trap.c"
     }
   },
   "functions": {

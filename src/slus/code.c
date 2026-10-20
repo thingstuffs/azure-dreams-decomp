@@ -189,13 +189,13 @@ short get_bounded_stride_index(unsigned int value, unsigned int base, unsigned s
 }
 
 extern void func_800423C0(void *a0, short a1);
-extern void func_80042984(void *a0);
+extern void update_owner_class_bits(void *a0);
 
 /* Configure an entity with a signed halfword value and update its status. */
 void func_800424E0(void *entity, int value)
 {
     func_800423C0(entity, (short)value);
-    func_80042984(entity);
+    update_owner_class_bits(entity);
 }
 
 /* Return zero for any argument list. */
@@ -225,7 +225,7 @@ int func_800445E0(void)
     return ticks + status[1];
 }
 
-extern void func_800463EC(void *a0, int a1, void *a2, short a3);
+extern void draw_lit_mesh(void *a0, int a1, void *a2, short a3);
 
 typedef struct Node46398 {
     char pad0[6];
@@ -242,7 +242,7 @@ int func_80046398(void *object, int value, void *record)
 
     do {
         node = (Node46398 *)record;
-        func_800463EC(current, value, record, node->field6);
+        draw_lit_mesh(current, value, record, node->field6);
         record = *(void **)((char *)current - 8);
         current = (char *)record + 0x20;
         if (record == 0)
@@ -255,22 +255,22 @@ int func_80046398(void *object, int value, void *record)
     return 0;
 }
 
-extern int func_80044BB0(void);
+extern int draw_linked_sprites(void);
 
 /* Return the query result as a signed halfword. */
 short func_80047714(void)
 {
-    return (short)func_80044BB0();
+    return (short)draw_linked_sprites();
 }
 
-extern void func_800477F4(void *actor);
-extern void func_80047694(void *entry_state);
+extern void advance_actor_step_sequence(void *actor);
+extern void upload_entry_textures(void *entry_state);
 
 /* Run both update steps on an entity. */
 void func_800478B8(void *entity)
 {
-    func_800477F4(entity);
-    func_80047694(entity);
+    advance_actor_step_sequence(entity);
+    upload_entry_textures(entity);
 }
 
 extern void bzero(void *dst, int n);
@@ -313,12 +313,12 @@ typedef struct {
     unsigned short unk14;
 } Struct_80048374;
 
-extern void func_80047784(Struct_80048374 *a0, short a1, short a2);
+extern void select_sprite_entry(Struct_80048374 *a0, short a1, short a2);
 
 /* Set entity flag 0x400 and reselect its entry. */
 void func_80048374(Struct_80048374 *entity, short index, short offset) {
     entity->unk14 |= 0x400;
-    func_80047784(entity, index, offset);
+    select_sprite_entry(entity, index, offset);
 }
 
 extern int load_resource_and_mirror_palette(short a0, int a1);
@@ -435,18 +435,18 @@ int func_8004928C(Struct8004928C *record)
 
 extern int D_800713FC[4]; /* >8B forces hi/lo addressing (matches target's lui/addiu) */
 
-extern int func_80049374(void *a0, int *a1);
+extern int get_item_name_text(void *a0, int *a1);
 
 /* Process an object using the fixed global table. */
 int func_80049490(void *object) {
-    return func_80049374(object, D_800713FC);
+    return get_item_name_text(object, D_800713FC);
 }
 
-extern int func_80042A80(void);
+extern int get_item_category_flags(void);
 
 /* Return flag bit 0x400 from the status query. */
 int func_800494FC(void) {
-    return func_80042A80() & 0x400;
+    return get_item_category_flags() & 0x400;
 }
 
 /* Map the first set low flag bit to priority 0, 1, or 2, defaulting to 3. */
@@ -520,25 +520,25 @@ int func_80049E6C(int index)
     return values[index];
 }
 
-extern int func_800438E4(void *a1);
+extern int get_scaled_byte_value(void *a1);
 
 /* Forward the second argument to the object query. */
 int func_8004A4C4(void *unused, void *object) {
-    return func_800438E4(object);
+    return get_scaled_byte_value(object);
 }
 
-extern s32 func_8004A574(u8 *item, s32 flag);
+extern s32 calc_item_value(u8 *item, s32 flag);
 
 /* file_load_com: process the item with mode one. */
 s32 get_item_sell_money(void *item)
 {
-    return func_8004A574(item, 1);
+    return calc_item_value(item, 1);
 }
 
 /* func_koya_mon_talk_pal_ld: process the item with mode zero. */
 s32 get_item_buy_money(void *item)
 {
-    return func_8004A574(item, 0);
+    return calc_item_value(item, 0);
 }
 
 extern void bzero(void *ptr, int len);
@@ -582,12 +582,12 @@ int compare_mapped_leading_bytes(unsigned char **left, unsigned char **right)
     return D_80081540[*left_text] - D_80081540[*right_text];
 }
 
-extern void func_8004AEC4(void);
+extern void selection_sort_elements(void);
 
-/* Invoke func_8004AEC4. */
+/* Invoke selection_sort_elements. */
 void func_8004AFC8(void)
 {
-    func_8004AEC4();
+    selection_sort_elements();
 }
 
 extern void create_callback_pair_payload(int a0, int a1, void *a2);
@@ -643,12 +643,12 @@ void load_bin_nametwin(void)
     func_8004B634();
 }
 
-extern int func_8004B854(int a0, int a1, int a2);
+extern int create_item_view_for_entry(int a0, int a1, int a2);
 
 /* Forward an object and value with a zero event parameter. */
 int func_8004B8BC(int object, int value)
 {
-    return func_8004B854(object, value, 0);
+    return create_item_view_for_entry(object, value, 0);
 }
 
 extern unsigned char D_80080A84;
@@ -807,7 +807,7 @@ void *func_8004EE70(void *object)
 extern void func_8004EF90(void *a0);
 extern void func_8004EFF4(void *a0);
 extern void func_8004F068(void *a0);
-extern void func_8004F1E8(void *a0);
+extern void init_tpage_prims(void *a0);
 extern void layout_menu_backdrop_display_entries(void *a0);
 
 /* Initialize four embedded records and then the containing object. */
@@ -816,7 +816,7 @@ void build_menu_backdrop_display_buffers(void *object)
     func_8004EF90((char *)object + 0x8);
     func_8004EFF4((char *)object + 0x80);
     func_8004F068((char *)object + 0xF8);
-    func_8004F1E8((char *)object + 0x170);
+    init_tpage_prims((char *)object + 0x170);
     layout_menu_backdrop_display_entries(object);
 }
 
@@ -895,12 +895,12 @@ void func_800502E0(char *object)
     func_80021300(func_8004FF00(object));
 }
 
-extern void func_80050308(void *a0);
+extern void handle_object_input(void *a0);
 
-/* Forward the object to func_80050308. */
+/* Forward the object to handle_object_input. */
 void func_80050494(void *object)
 {
-    func_80050308(object);
+    handle_object_input(object);
 }
 
 struct VtableObj {
@@ -936,23 +936,23 @@ void func_80050CAC(void) {
     func_80050BA4(value);
 }
 
-extern void func_8003AEF8(void *a0);
+extern void run_deferred_callbacks(void *a0);
 extern unsigned char D_800717D0[16];
 
 /* Process the global buffer D_800717D0. */
 void func_80050F84(void)
 {
-    func_8003AEF8(&D_800717D0);
+    run_deferred_callbacks(&D_800717D0);
 }
 
-extern void func_8003AEF8(void *a0);
+extern void run_deferred_callbacks(void *a0);
 
 extern char D_800717E8[12];
 
 /* Process the global buffer D_800717E8. */
 void func_80050FA8(void)
 {
-    func_8003AEF8(D_800717E8);
+    run_deferred_callbacks(D_800717E8);
 }
 
 extern char D_80080C1C;
@@ -964,7 +964,7 @@ void func_80051500(void)
     file_load_com(&D_80080C1C);
 }
 
-extern void func_80051548(void);
+extern void update_staged_motion_effect(void);
 
 typedef struct {
     unsigned char pad0[0x10];
@@ -973,14 +973,14 @@ typedef struct {
     short field2C;
 } Struct_80051528;
 
-/* Mark the object when its callback is func_80051548. */
+/* Mark the object when its callback is update_staged_motion_effect. */
 void func_80051528(Struct_80051528 *object) {
-    if (object->func == func_80051548) {
+    if (object->func == update_staged_motion_effect) {
         object->field2C = 1;
     }
 }
 
-extern void func_800517CC(void);
+extern void update_sine_motion_effect(void);
 
 typedef struct {
     char pad_00[0x10];
@@ -989,15 +989,15 @@ typedef struct {
     unsigned short flag_2C;
 } Entity;
 
-/* Mark the entity when its callback is func_800517CC. */
+/* Mark the entity when its callback is update_sine_motion_effect. */
 void func_800517AC(Entity *entity)
 {
-    if (entity->update_func == func_800517CC) {
+    if (entity->update_func == update_sine_motion_effect) {
         entity->flag_2C = 1;
     }
 }
 
-extern void func_80051CC4(void);
+extern void update_fade_in_out_effect(void);
 
 typedef struct {
     unsigned char pad_00[0x10];
@@ -1006,9 +1006,9 @@ typedef struct {
     short field_2C;
 } Obj;
 
-/* Mark the object when its callback is func_80051CC4. */
+/* Mark the object when its callback is update_fade_in_out_effect. */
 void func_80051CA4(Obj *object) {
-    if (object->update_func == func_80051CC4) {
+    if (object->update_func == update_fade_in_out_effect) {
         object->field_2C = 1;
     }
 }
@@ -1020,12 +1020,12 @@ typedef struct {
     short flag_2C;
 } Obj80051F38;
 
-extern void func_80051F58(void);
+extern void update_color_fade_effect(void);
 
-/* Mark the object when its callback is func_80051F58. */
+/* Mark the object when its callback is update_color_fade_effect. */
 void func_80051F38(Obj80051F38 *object)
 {
-    if (object->update_func == func_80051F58) {
+    if (object->update_func == update_color_fade_effect) {
         object->flag_2C = 1;
     }
 }
@@ -1039,11 +1039,11 @@ typedef struct {
     u16 unk2A;
 } Entity1;
 
-extern void func_8005313C(void *a0);
+extern void play_timed_animation_sequence(void *a0);
 
-/* Mark the entity when its callback is func_8005313C. */
+/* Mark the entity when its callback is play_timed_animation_sequence. */
 void func_800530A4(Entity1 *entity) {
-    if (entity->unk10 == func_8005313C) {
+    if (entity->unk10 == play_timed_animation_sequence) {
         entity->unk2A = 1;
     }
 }
@@ -1201,12 +1201,12 @@ int func_80058E50(int *counter, int delta)
 void func_80058E64(u8 status) {
 }
 
-extern void func_8005A33C(void);
+extern void service_audio_timer(void);
 
-/* Invoke func_8005A33C. */
+/* Invoke service_audio_timer. */
 void func_8005A37C(void)
 {
-    func_8005A33C();
+    service_audio_timer();
 }
 
 /* Store the first word of the global state. */
@@ -1238,14 +1238,14 @@ void func_8005A420(void) {
 }
 
 extern void audio_reset_all_voices(void);
-extern void func_8005A26C(void);
+extern void reset_sound_slots(void);
 extern void func_8005D7BC(void);
 
 /* Run the three initialization routines in order. */
 void func_8005A4B8(void)
 {
     audio_reset_all_voices();
-    func_8005A26C();
+    reset_sound_slots();
     func_8005D7BC();
 }
 
@@ -1441,12 +1441,12 @@ s32 func_8005E4A0(s32 first, s32 second) {
     return func_8005E4C4(first, second, 0xCC, 0xCD);
 }
 
-extern void func_8005E7B0(int a0, int a1);
+extern void read_spu_register_pair(int a0, int a1);
 
-/* Invoke func_8005E7B0 with values 0xCC and 0xCD. */
+/* Invoke read_spu_register_pair with values 0xCC and 0xCD. */
 void func_8005E78C(void)
 {
-    func_8005E7B0(0xCC, 0xCD);
+    read_spu_register_pair(0xCC, 0xCD);
 }
 
 extern void func_8005F134(void *a0);

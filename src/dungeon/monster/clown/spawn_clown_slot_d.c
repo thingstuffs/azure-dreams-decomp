@@ -1,0 +1,130 @@
+#include "common.h"
+#include "shared/object_node.h"
+#include "shared/slus_callbacks.h"
+#include "m2c_compat.h"
+
+typedef struct S_80BFD000_0 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    u8 * unk_10;
+} S_80BFD000_0;
+
+typedef struct S_80BFD000_1 {
+    u8 pad_00[0x13];
+    s8 unk_13;
+    s32 unk_14;
+    u8 pad_18[0x4];
+    s32 unk_1C;
+} S_80BFD000_1;
+
+typedef struct S_80BFD000_2 {
+    u8 pad_00[0xA];
+    s16 unk_0A;
+} S_80BFD000_2;
+
+typedef struct S_80BFD000_3 {
+    u8 pad_00[0x24];
+    s8 unk_24;
+    s8 unk_25;
+    u8 pad_26[0x6];
+    s32 * unk_2C;
+} S_80BFD000_3;
+
+typedef struct S_80BFD000_4 {
+    u8 pad_00[0x8C];
+    s32 * unk_8C;
+    u8 pad_90[0x2];
+    s16 unk_92;
+    u8 pad_94[0x6];
+    u8 unk_9A;
+    u8 pad_9B[0x1];
+    s8 unk_9C;
+} S_80BFD000_4;   /* actor in spawn_clown_slot_d */
+
+
+
+
+
+
+extern u8 D_8015EA58[];
+void *allocate_list_node();
+s32 register_node();
+s16 set_or_clear_actor_status_slot();
+s32 generate_random_value();
+void initialize_actor_sprite_and_animation();
+s32 try_move_actor_to_valid_position();
+extern M2C_UNK D_8015F014;
+extern M2C_UNK D_8016220C;
+extern M2C_UNK D_8016225C;
+
+/* Create a dungeon actor and initialize its placement, flags, and behavior. */
+void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_value) {
+    s32 unused_byte_neg_ba0;
+    s32 unused_byte_21d8;
+    s32 kind_or_bits;
+    S_80BFD000_1 *actor_state = NULL;
+    void *object;
+    S_80BFD000_3 *placement;
+    S_80BFD000_2 *attributes;
+    S_80BFD000_4 *actor;
+    s8 saved_x;
+    s16 saved_value;
+    s8 saved_y;
+    s32 flags_14;
+    s32 flags_1c;
+    void *query_object;
+    void *query_attributes;
+
+    saved_x = tile_x;
+    saved_value = spawn_value;
+    saved_y = tile_y;
+    unused_byte_21d8 = (s32) *(s8 *)0x21D8;
+    unused_byte_neg_ba0 = (s32) *(s8 *)-0xBA0;
+    object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    if (object != NULL) {
+        actor_state = object + 0x20;
+        actor = actor_state;
+        ((S_80BFD000_0 *)object)->unk_10 = D_8015EA58;
+        actor_state->unk_13 = 0x10;
+        register_node(object, project_sprite_chain);
+        attributes = ((S_80BFD000_0 *)object)->unk_08;
+        attributes->unk_0A = saved_value;
+        placement = ((S_80BFD000_0 *)object)->unk_0C;
+        kind_or_bits = spawn_flags & 3;
+        placement->unk_25 = saved_y;
+        placement->unk_2C = &D_8016220C;
+        placement->unk_24 = saved_x;
+        if (kind_or_bits == 1) {
+            flags_14 = actor_state->unk_14 | 0x6000;
+            flags_1c = actor_state->unk_1C | 0x6000;
+            actor_state->unk_14 = flags_14;
+            actor_state->unk_1C = flags_1c;
+        } else if (kind_or_bits >= 2) {
+            flags_14 = actor_state->unk_14 | 0x2000;
+            flags_1c = actor_state->unk_1C | 0x2000;
+            actor_state->unk_14 = flags_14;
+            actor_state->unk_1C = flags_1c;
+        } else {
+            if (((spawn_flags & ~3) << 0x10) == 0) {
+                query_object = object;
+                if (!(actor_state->unk_14 & 0x200)) {
+                    query_attributes = attributes;
+                    kind_or_bits = generate_random_value();
+                    if (kind_or_bits & 1) {
+                        set_or_clear_actor_status_slot(actor_state, 1, (generate_random_value() & 0x3F) | 0x20);
+                        placement->unk_2C = &D_8016225C;
+                    }
+                }
+            }
+        }
+        initialize_actor_sprite_and_animation(object, attributes, placement, spawn_flags);
+        actor->unk_9A = 0xFF;
+        actor->unk_9C = -1;
+        actor->unk_8C = &D_8015F014;
+        actor_state->unk_1C = (s32) (actor_state->unk_1C | 0x40000);
+        actor->unk_92 = -0x20;
+        try_move_actor_to_valid_position(actor, attributes, placement, actor_state);
+    }
+    return actor_state;
+}

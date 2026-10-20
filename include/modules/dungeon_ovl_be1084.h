@@ -135,7 +135,9 @@ typedef struct S_80BC1528_2 {
    /* ((S_80BC1528_1 *)saved_arg0)->unk_08 in func_80170D28 */
 
 
+extern void *allocate_list_node(s32, void *);
 extern void *func_8003FD64(s32, void *);
+extern void register_node();
 extern void func_8004491C();
 
 /* Creates an offset effect and initializes its motion back toward the parent. */

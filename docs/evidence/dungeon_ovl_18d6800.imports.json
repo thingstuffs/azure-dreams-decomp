@@ -137,7 +137,7 @@
       ],
       "contract": {
         "prototype": "ObjectNodeHeader *func_8003FC64(int flags)",
-        "source": "src/slus/w_8003FC64.c",
+        "source": "src/engine/scene/zero_words.c",
         "source_sha256": "1bae9d01f320d222ebca3e233564cdf56d4d6dcb48baf16ac657ac375219748c",
         "basis": "Canonical shared/object_node.h API and landed typed callee; incoming explicit allocator casts are retained."
       }
@@ -184,7 +184,7 @@
           "a2 +6 signed halfword, a2 +0x14 flags",
           "a1 forwarded to renderer"
         ],
-        "source": "src/slus/w_80045C34.c",
+        "source": "src/engine/graphics/draw_linked_sprites_clipped.c",
         "source_sha256": "8f636917549d1d8fef3f97272da4683350240245a71433fb01f6a4ad99dae45c",
         "retail_extent": 144,
         "retail_first_word": "e0ffbd27",

@@ -20,7 +20,7 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
         }
         animation_table = ((u8 *)D_80174254);
         (*(void * *)((u8 *)map_object + (0x2C))) = animation_table;
-        func_80047784(map_object,
+        select_sprite_entry(map_object,
             ((u8 *)animation_table)[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
             0);
         return;
@@ -58,7 +58,7 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
             animation_table = ((u8 *)D_8017420C);
             if (current_animation != animation_table) {
                 (*(void * *)((u8 *)map_object + (0x2C))) = animation_table;
-                func_80047784(map_object,
+                select_sprite_entry(map_object,
                     ((u8 *)animation_table)[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
                     0);
                 ((R16_80171014_S_80171014_2 *)map_object)->unk_05 = 1;

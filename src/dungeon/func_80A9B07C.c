@@ -18,12 +18,12 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     saved_tile_x = tile_x;
     saved_part_id = part_id;
     saved_tile_y = tile_y;
-    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((R08_8017087C_S_8017087C_0 *)obj)->unk_10 = ((u8 *)func_80170A50);
         work->unk_13 = 0x8;
-        func_8004491C(obj, func_80045340);
+        register_node(obj, project_sprite_chain);
 
         part_a = ((R08_8017087C_S_8017087C_0 *)obj)->unk_08;
         part_a->unk_0A = saved_part_id;

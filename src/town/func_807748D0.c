@@ -13,7 +13,7 @@ void dispatch_town_callback_or_fallback(s32 value0, s32 value1)
     ptr = *(void **)ptr;
 
     if (ptr == 0) {
-        func_80016128(value0, value1);
+        set_shared_buffer_pointers(value0, value1);
         return;
     }
     ((Callback)ptr)();

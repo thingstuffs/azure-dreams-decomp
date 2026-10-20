@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "main/func_80010F94",
-      "tu": "src/main/func_80010F94.c",
+      "tu": "src/frontend/libcard/card_boot_set_slot_index_and_owner.c",
       "home": "main/func_80010F94",
       "foff": "0x260F94",
       "vma": "0x80023F94",
@@ -25,7 +25,7 @@
     },
     {
       "row": "main/func_80011D10",
-      "tu": "src/main/func_80011D10.c",
+      "tu": "src/frontend/libcard/advance_timed_visual.c",
       "home": "main/func_80011D10",
       "foff": "0x261D10",
       "vma": "0x80024D10",
@@ -33,7 +33,7 @@
     },
     {
       "row": "main/func_8001292C",
-      "tu": "src/main/func_8001292C.c",
+      "tu": "src/frontend/libcard/set_record_pair_to_one.c",
       "home": "main/func_8001292C",
       "foff": "0x26292C",
       "vma": "0x8002592C",
@@ -41,7 +41,7 @@
     },
     {
       "row": "main/func_8001344C",
-      "tu": "src/main/func_8001344C.c",
+      "tu": "src/frontend/libcard/card_boot_enter_overwrite_confirmation.c",
       "home": "main/func_8001344C",
       "foff": "0x26344C",
       "vma": "0x8002644C",
@@ -49,7 +49,7 @@
     },
     {
       "row": "main/func_80013E90",
-      "tu": "src/main/func_80013E90.c",
+      "tu": "src/frontend/libcard/card_boot_initialize_paired_choice_panel.c",
       "home": "main/func_80013E90",
       "foff": "0x263E90",
       "vma": "0x80026E90",
@@ -57,7 +57,7 @@
     },
     {
       "row": "main/func_800140E0",
-      "tu": "src/main/func_800140E0.c",
+      "tu": "src/frontend/libcard/card_boot_initialize_save_heading_layout.c",
       "home": "main/func_800140E0",
       "foff": "0x2640E0",
       "vma": "0x800270E0",
@@ -65,7 +65,7 @@
     },
     {
       "row": "main/func_8001431C",
-      "tu": "src/main/func_80011D10.c",
+      "tu": "src/frontend/libcard/advance_timed_visual.c",
       "home": "main/func_80011D10",
       "foff": "0x26431C",
       "vma": "0x8002731C",

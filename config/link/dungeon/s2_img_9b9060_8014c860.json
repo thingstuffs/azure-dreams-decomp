@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_8099BD68",
-      "tu": "src/dungeon/func_8097DD68.c",
+      "tu": "src/dungeon/actor/forward_actor_defeat_removal.c",
       "home": "dungeon/func_8097DD68",
       "foff": "0x9BBD68",
       "vma": "0x8014F568",
@@ -23,7 +23,7 @@
     {
       "row": "dungeon/func_8099BE0C",
       "home": "dungeon/func_80977E0C",
-      "tu": "src/dungeon/func_80977E0C.c",
+      "tu": "src/dungeon/monster/hikewne/advance_actor_state_sequence.c",
       "foff": "0x009BBE0C",
       "vma": "0x8014F60C",
       "size": 1184,

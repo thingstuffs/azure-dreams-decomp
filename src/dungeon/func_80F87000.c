@@ -75,12 +75,12 @@ void *func_80170880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     saved_kind_id = kind_id;
     saved_spawn = spawn_value;
     saved_variant = variant;
-    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80F87000_0 *)obj)->unk_10 = update_bank_actor_movement;
         ((S_80F87000_1 *)work)->unk_13 = 0x26;
-        func_8004491C(obj, func_80045340);
+        register_node(obj, project_sprite_chain);
 
         part_a = ((S_80F87000_0 *)obj)->unk_08;
         part_a->unk_0A = saved_spawn;

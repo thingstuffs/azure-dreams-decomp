@@ -51,7 +51,7 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
     object = func_8003FC64(0x202);
     if (object != 0) {
         ((S_80024FD8_0 *)object)->unk_10 = move_and_fade_effect;
-        func_8004491C(object, (s32)func_80045C34);
+        register_node(object, (s32)draw_linked_sprites_clipped);
         position = ((S_80024FD8_0 *)object)->unk_08;
         position->unk_02 = source_pos->unk_02;
         position->unk_06 = source_pos->unk_06;

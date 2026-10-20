@@ -17,7 +17,7 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Enti
 
             direction_anims = D_80174538;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 direction_anims[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             g_dungeon_status.unk_0A--;
@@ -25,7 +25,7 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Enti
         }
         return;
     case 1:
-        if ((func_80042900(entity, 1) << 16) != 0) {
+        if ((get_entity_effect_value(entity, 1) << 16) != 0) {
             s32 entity_flags;
 
             if (g_dungeon_status.flags & 0x1000) {
@@ -73,9 +73,9 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Enti
             }
 
             update_actor_status_and_food(entity);
-            func_800A9A04(entity);
+            on_actor_status_updated(entity);
 
-            if ((func_80042900(entity, 1) << 16) != 0) {
+            if ((get_entity_effect_value(entity, 1) << 16) != 0) {
                 TileObject *origin;
                 s8 coordinate;
 
@@ -85,11 +85,11 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Enti
                             (coordinate >= 0)) ||
                      (get_tile_chebyshev_distance(origin, sprite) < 2)) &&
                     ((generate_random_value() & 7) == 0)) {
-                    func_80042B68(entity, 1);
+                    clear_slots_of_type(entity, 1);
                 }
             }
 
-            if ((func_80042900(entity, 1) << 16) != 0) {
+            if ((get_entity_effect_value(entity, 1) << 16) != 0) {
                 return;
             }
         }
@@ -99,7 +99,7 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Enti
 
             direction_anims = D_80174520;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 direction_anims[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             entity->flags1C &= ~0x200;

@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_18a6800.h"
+#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/game_work.h"

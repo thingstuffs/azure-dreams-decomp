@@ -1,0 +1,397 @@
+#include "shared/object_node.h"
+#include "common.h"
+#include "shared/dungeon_floor.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+
+
+extern void func_8003DB94(void *, void *, s32);
+extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
+extern void select_sprite_entry(void *, s32, s32);
+extern void func_800478B8(void *);
+extern s32 rand(void);
+extern s32 check_entity_relation(void *, void *);
+extern s32 find_active_rect_containing_point(s32, s32);
+extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *);
+extern s32 can_entity_gain_level(void *);
+extern void update_actor_status_and_food(void *);
+extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
+extern void advance_actor_pending_action(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern s32 reset_actor_action_state(void *, void *, void *, void *);
+extern void process_selected_actor_record(void *, void *, void *, void *);
+extern void begin_actor_spell_action(void *, void *, void *, void *, void *);
+extern void initialize_object_rendering_and_params(void *, void *, void *);
+extern void func_80171C3C(void *, void *, void *, void *);
+extern void func_80171E80(void *, void *, void *, void *);
+extern s32 func_8017263C(void *, void *, void *, void *);
+extern void func_80172800(void *, void *, void *, void *);
+extern s32 func_80172918(void *, void *, void *, s32);
+extern void func_8017412C(void *, void *, void *, void *);
+extern void func_801756E0(void *, void *, void *, void *);
+
+extern u8 D_800DEA68[];
+extern void *D_80170808[];
+extern u8 D_80170A0C[];
+extern u8 D_801714B8;
+extern u8 D_8017609C[];
+extern u8 D_801760A4[];
+extern u8 D_801760AC[];
+extern u8 D_801760DC[];
+extern u8 D_801760E4[];
+extern u8 D_801760EC[];
+
+
+typedef struct S_801714B8_0_pre {
+    void * unk_00;
+    u8 pad_04[0x10];
+} S_801714B8_0_pre;   /* the 0x14 bytes before arg0 in update_actor_timed_effects, addressed as arg0[-1] */
+
+typedef struct S_801714B8_0 {
+    u8 pad_00[0x8C];
+    s32 unk_8C;
+    u8 pad_90[0x8];
+    u16 unk_98;
+    u8 unk_9A;
+    u8 unk_9B;
+    u8 pad_9C[0x2];
+    union { s16 s; u16 u; } unk_9E;   /* accessed as both */
+    s16 unk_A0;
+} S_801714B8_0;   /* arg0 in update_actor_timed_effects */
+
+typedef struct S_801714B8_1 {
+    u8 pad_00[0x1C];
+    u32 unk_1C;
+    u8 pad_20[0x5];
+    u8 unk_25;
+    u8 pad_26[0x4];
+    union { s16 s; u16 u; } unk_2A;   /* accessed as both */
+    u8 pad_2C[0x1A];
+    u16 unk_46;
+    u8 pad_48[0x1C];
+    s16 unk_64;
+    u8 pad_66[0x7];
+    s8 unk_6D;
+} S_801714B8_1;   /* arg3 in update_actor_timed_effects */
+
+typedef struct S_801714B8_2 {
+    u8 pad_00[0x14];
+    u16 unk_14;
+    u8 pad_16[0xE];
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
+    u8 unk_26;
+    u8 pad_27[0x5];
+    void * unk_2C;
+} S_801714B8_2;   /* arg2 in update_actor_timed_effects */
+
+
+typedef struct S_801714B8_6 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    void * unk_10;
+} S_801714B8_6;   /* object in update_actor_timed_effects */
+
+typedef struct S_801714B8_7 {
+    u8 pad_00[0x1C];
+    u16 unk_1C;
+    u8 pad_1E[0xA];
+    void * unk_28;
+} S_801714B8_7;   /* object_data in update_actor_timed_effects */
+
+typedef struct S_801714B8_8 {
+    u8 pad_00[0x8];
+    void * unk_08;
+} S_801714B8_8;   /* owner in update_actor_timed_effects */
+
+typedef struct S_801714B8_9 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u8 pad_04[0x2];
+    u16 unk_06;
+    u8 pad_08[0x2];
+    u16 unk_0A;
+    u8 pad_0C[0x8];
+    u16 unk_14;
+} S_801714B8_9;   /* part in update_actor_timed_effects */
+
+/* Updates actor behavior, facing, and timed animation effects in the dungeon. */
+void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg)
+{
+    void *actor;
+    void *context;
+    void *sprite;
+    void *stats;
+    s32 room_id;
+    s32 distance;
+    u16 spawn_offset[3];
+    u32 initial_flags = g_dungeon_status.flags;
+
+    actor = actor_arg;
+    context = context_arg;
+    sprite = sprite_arg;
+    stats = stats_arg;
+
+    if (initial_flags & 0x1000) {
+        ((S_801714B8_0 *)actor)->unk_9A = 0xE;
+        func_80171C3C(actor, context, sprite, stats);
+        return;
+    }
+
+
+    if (((S_801714B8_1 *)stats)->unk_25 == 0) {
+        advance_actor_pending_action(actor, context, sprite, stats);
+        if (((S_801714B8_2 *)sprite)->unk_2C != D_801760EC) {
+            u8 *state_table = D_801760E4;
+
+            (((S_801714B8_2 *)sprite)->unk_2C) = state_table;
+            select_sprite_entry(sprite,
+                state_table[((g_game_work.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                0);
+            return;
+        }
+        return;
+    }
+
+    if (((S_801714B8_1 *)stats)->unk_1C & 0x200) {
+        if (((S_801714B8_2 *)sprite)->unk_2C == D_801760EC) {
+            ((S_801714B8_0 *)actor)->unk_9A = 0xD;
+            ((S_801714B8_0 *)actor)->unk_9B = 1;
+            ((S_801714B8_0 *)actor)->unk_8C = 0;
+            ((S_801714B8_1 *)stats)->unk_1C &= ~0x40000;
+            return;
+        }
+        if (reset_actor_action_state(actor, context, sprite, D_801760E4)) {
+            return;
+        }
+    }
+
+    if (!(g_dungeon_status.flags & 0x2000)) {
+        if (((S_801714B8_1 *)stats)->unk_1C & 0x100) {
+            begin_pushed_actor_move(actor, context, sprite, stats);
+            return;
+        }
+
+
+        if (((S_801714B8_0 *)actor)->unk_9A != 0xE) {
+            u8 state = 0xE;
+            u8 *state_table = D_8017609C;
+
+            if (((S_801714B8_2 *)sprite)->unk_2C != state_table) {
+                (((S_801714B8_2 *)sprite)->unk_2C) = state_table;
+                select_sprite_entry(sprite,
+                    state_table[((g_game_work.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    0);
+            }
+            ((S_801714B8_0 *)actor)->unk_9E.s = 0;
+            ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;
+            ((S_801714B8_0 *)actor)->unk_9A = state;
+        }
+
+        ((S_801714B8_0 *)actor)->unk_98 &= 0xFFF3;
+        if (((S_801714B8_1 *)stats)->unk_64 != 0) {
+            if (begin_ready_actor_directional_action(actor, context, sprite, D_801760AC)) {
+                return;
+            }
+        }
+
+        if (((S_801714B8_1 *)stats)->unk_1C & 0x80000) {
+            begin_actor_move_to_target_facing(actor, context, sprite, stats);
+            func_8017412C(actor, context, sprite, stats);
+            return;
+        }
+
+        if ((s16)can_entity_gain_level(stats) != 0) {
+            process_selected_actor_record(actor, context, sprite, stats);
+        }
+    }
+
+    room_id = find_active_rect_containing_point(((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v);
+    ((S_801714B8_2 *)sprite)->unk_26 = room_id;
+
+    if (((S_801714B8_1 *)stats)->unk_6D > 0) {
+        if (!(((S_801714B8_1 *)stats)->unk_1C & 0x20)) {
+            if (((S_801714B8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+                func_80171E80(actor, context, sprite, stats);
+                return;
+            }
+            if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
+                if (g_dungeon_status.flags & 0x2000) {
+                    if ((s16)check_entity_relation(stats,
+                            (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                        return;
+                    }
+                }
+                if ((s16)func_80172918(actor, context, sprite, 0) == 0) {
+                    return;
+                }
+                ((S_801714B8_1 *)stats)->unk_46 |= 0x4000;
+                if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
+                    func_80171E80(actor, context, sprite, stats);
+                    return;
+                }
+            }
+
+            switch (((S_801714B8_1 *)stats)->unk_46 & 0x3FFF) {
+            case 8:
+                if ((s16)func_8017263C(actor, context, sprite, stats) == 0) {
+                    func_80172800(actor, context, sprite, stats);
+                    return;
+                }
+                return;
+
+            case 9:
+                func_801756E0(actor, context, sprite, stats);
+                return;
+
+            case 5:
+            case 6:
+            case 7:
+            {
+                EntityRec *player;
+                s16 heading;
+
+                heading = get_rounded_facing_and_rounding_flag(
+                    ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &distance);
+                player = D_800814A8;
+                ((S_801714B8_1 *)stats)->unk_2A.s = heading;
+                if (player->unk_9A == 0x11) {
+                    begin_actor_spell_action(actor, context, sprite, D_801760DC, &D_801714B8);
+                    return;
+                }
+                break;
+            }
+            case 1:
+            case 2:
+            case 3:
+                goto aaf_cleanup;
+            case 12:
+                break;
+            default:
+                goto ordinary_cleanup;
+            }
+        }
+special_cleanup:
+        update_actor_status_and_food(stats);
+        return;
+
+aaf_cleanup:
+        begin_actor_spell_action(actor, context, sprite, D_801760DC, &D_801714B8);
+        return;
+
+ordinary_cleanup:
+        func_80171E80(actor, context, sprite, stats);
+        return;
+    } else if (!(((S_801714B8_1 *)stats)->unk_1C & 0x2000)) {
+        s32 room_index = (s8)room_id;
+
+        if ((room_index < 0) || !(D_800E2970[room_index].flags & 2)) {
+            if (!(((S_801714B8_1 *)stats)->unk_1C & 0x430)) {
+
+                if ((s16)compare_monster_neighbor_values(
+                        ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
+                        D_80082E80.tileX, D_80082E80.tileY) != 0) {
+                    ((S_801714B8_1 *)stats)->unk_2A.s = get_rounded_facing_and_rounding_flag(
+                        ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
+                        D_80082E80.tileX, D_80082E80.tileY,
+                        &distance);
+                }
+            }
+        }
+    }
+
+    if (g_dungeon_status.flags & 0x2000) {
+        return;
+    }
+    if (((S_801714B8_2 *)sprite)->unk_14 & 0x40) {
+        return;
+    }
+    if (((S_801714B8_1 *)stats)->unk_1C & 0x20) {
+        return;
+    }
+
+    {
+        u8 *main_table = D_8017609C;
+
+        if (((S_801714B8_2 *)sprite)->unk_2C != main_table) {
+            if (((S_801714B8_2 *)sprite)->unk_2C != D_801760A4) {
+                (((S_801714B8_2 *)sprite)->unk_2C) = main_table;
+                select_sprite_entry(sprite,
+                    main_table[((g_game_work.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    0);
+                ((S_801714B8_0 *)actor)->unk_9E.s = 0;
+                ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;
+            }
+        }
+
+        if (((S_801714B8_2 *)sprite)->unk_2C == main_table) {
+            s16 idle_timer = ((S_801714B8_0 *)actor)->unk_9E.u;
+
+            ((S_801714B8_0 *)actor)->unk_9E.u = idle_timer + 1;
+            if (idle_timer >= ((S_801714B8_0 *)actor)->unk_A0) {
+                void *object;
+                u8 *object_data;
+
+                u8 *alt_table = D_801760A4;
+
+                (((S_801714B8_2 *)sprite)->unk_2C) = alt_table;
+                select_sprite_entry(sprite,
+                    alt_table[((g_game_work.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    0);
+                func_800478B8(sprite);
+
+                do {
+                    object = func_8003FC64(0x212);
+                } while (0);
+                if (object != 0) {
+                    initialize_object_rendering_and_params(object, actor, context);
+                    ((S_801714B8_6 *)object)->unk_10 = D_80170A0C;
+                    object_data = (u8 *)object + 0x20;
+                    ((S_801714B8_7 *)object_data)->unk_28 = context;
+                    ((S_801714B8_7 *)object_data)->unk_1C = ((S_801714B8_1 *)stats)->unk_2A.u;
+
+                    {
+                        void *owner = ((S_801714B8_0_pre *)actor)[-1].unk_00;
+
+                        if (resolve_record_orientation_or_fallback(
+                                ((S_801714B8_8 *)owner)->unk_08, owner, spawn_offset, 0xF)) {
+                            void *part = ((S_801714B8_6 *)object)->unk_08;
+
+                            ((S_801714B8_9 *)part)->unk_02 += spawn_offset[0];
+                            ((S_801714B8_9 *)part)->unk_06 += spawn_offset[1];
+                            ((S_801714B8_9 *)part)->unk_0A += spawn_offset[2];
+                        }
+                    }
+                    {
+                        void *part = ((S_801714B8_6 *)object)->unk_0C;
+                        ((S_801714B8_9 *)part)->unk_14 |= 0x80;
+                        func_8003DB94(part, &D_800DEA68, 0);
+                    }
+                }
+            }
+        }
+    }
+
+    if (((S_801714B8_2 *)sprite)->unk_2C == D_801760A4 &&
+        (((S_801714B8_2 *)sprite)->unk_14 & 0x6000)) {
+        u8 *state_table = D_8017609C;
+
+        (((S_801714B8_2 *)sprite)->unk_2C) = state_table;
+        select_sprite_entry(sprite,
+            state_table[((g_game_work.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+            0);
+        ((S_801714B8_0 *)actor)->unk_9E.s = 0;
+        ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;
+    }
+}

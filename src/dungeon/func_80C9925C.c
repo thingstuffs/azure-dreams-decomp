@@ -12,13 +12,13 @@ void *func_8016AA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     CL_CB9000_80170A5C_S_80170A5C_4 *result_copy;
 
     result = 0;
-    object = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
         ((CL_CB9000_80170A5C_S_80170A5C_0 *)object)->unk_10 = func_8016AC24;
         ((CL_CB9000_80170A5C_S_80170A5C_1 *)result)->unk_13 = 20;
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
 
         {
             void *handler;

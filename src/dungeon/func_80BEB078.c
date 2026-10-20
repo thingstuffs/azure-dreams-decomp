@@ -18,14 +18,14 @@ void *func_80170878(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     held_a = attr_a;
     held_c = attr_c;
     held_b = attr_b;
-    created = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    created = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
     flags_copy = spawn_flags;
     if (created != 0) {
 
         result = (u8 *)created + 0x20;
         ((R16_80170878_S_80170878_0 *)created)->unk_10 = update_entity_facing_and_ground;
         ((R16_80170878_S_80170878_1 *)result)->unk_13 = 0x10;
-        func_8004491C(created, func_80045340);
+        register_node(created, project_sprite_chain);
 
         position = ((R16_80170878_S_80170878_0 *)created)->unk_08;
         ((R16_80170878_S_80170878_2 *)position)->unk_0A = held_c;

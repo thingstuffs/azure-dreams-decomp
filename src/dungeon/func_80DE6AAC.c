@@ -22,7 +22,7 @@ s32 create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *init
         func_800478B8(sprite);
         sprite->unk_1E = 0x800;
         sprite->unk_1C = 0x800;
-        func_8004491C(effect, func_80045340);
+        register_node(effect, project_sprite_chain);
         position = ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_08;
         *(E_801742AC_Copy24 *)position = *(E_801742AC_Copy24 *)initial_position;
         {

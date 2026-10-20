@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 s16 find_first_qualifying_cell(s16 record_id, s16 *out_x, s16 *out_y, s32 search_mode)
 {

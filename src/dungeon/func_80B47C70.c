@@ -26,7 +26,7 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, R
         return;
 
     case 1:
-        func_80041588(((u8 *)D_80175B0C), ((u8 *)D_80175B24), 0);
+        run_cd_image_commands(((u8 *)D_80175B0C), ((u8 *)D_80175B24), 0);
         ((R12_80175470_S_80175470_0 *)sequence)->unk_AC = 0;
         ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
         ((R12_80175470_S_80175470_1 *)actor)->unk_8A = ((R12_80175470_S_80175470_1 *)actor)->unk_2A.u;
@@ -42,7 +42,7 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, R
             return;
         }
 
-        func_80041588(((u8 *)D_80175B0C), ((u8 *)D_80175B24), 1);
+        run_cd_image_commands(((u8 *)D_80175B0C), ((u8 *)D_80175B24), 1);
         sound_set_cd_cue_parameters(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), 0);
         (*(u8 *)D_80175B25) = 0;
@@ -82,7 +82,7 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, R
             return;
         }
         node->unk_10.p = ((u8 *)fade_effect_to_neutral);
-        func_8004491C(node, ((u8 *)func_8017458C));
+        register_node(node, ((u8 *)func_8017458C));
         ((R12_80175470_S_80175470_0 *)sequence)->unk_A8 = node;
         model_color = 0x00808080;
         *(s32 *)node->unk_08 = ((s32 *)position)[0];

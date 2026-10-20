@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void adjust_random_parity_tile_heights(floor_generate_isolated_80289EC0_Rect *rect, s32 rng_input_1)
 {

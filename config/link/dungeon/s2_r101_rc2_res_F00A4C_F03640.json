@@ -22,7 +22,7 @@
     },
     {
       "row": "dungeon/func_80EE271C",
-      "tu": "src/dungeon/func_809D1AC0.c",
+      "tu": "src/dungeon/actor/forward_actor_defeat_removal_second.c",
       "home": "dungeon/func_809D1AC0",
       "foff": "0xF0271C",
       "vma": "0x80173F1C",
@@ -36,7 +36,7 @@
     {
       "row": "dungeon/func_80EE30E0",
       "home": "dungeon/func_80EE30E0",
-      "tu": "src/dungeon/func_80EE30E0.c",
+      "tu": "src/dungeon/monster/weadog/spawn_moving_actor.c",
       "foff": "0x00F030E0",
       "vma": "0x801748E0",
       "size": 1376

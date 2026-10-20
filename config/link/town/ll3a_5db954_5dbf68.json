@@ -10,7 +10,7 @@
     {
       "row": "town/func_8065B9CC",
       "home": "town/func_8032BAF8",
-      "tu": "src/town/func_8032BAF8.c",
+      "tu": "src/town/scene/lookup_with_override_fallback.c",
       "foff": "0x005DB9CC",
       "vma": "0x800161CC",
       "size": 132,
@@ -27,7 +27,7 @@
     {
       "row": "town/func_8065BA50",
       "home": "town/func_8065BA50",
-      "tu": "src/town/func_8065BA50.c",
+      "tu": "src/town/scene/check_inputs_after_threshold_two.c",
       "foff": "0x005DBA50",
       "vma": "0x80016250",
       "size": 96
@@ -35,7 +35,7 @@
     {
       "row": "town/func_8065BAB0",
       "home": "town/func_8032BAF8",
-      "tu": "src/town/func_8032BAF8.c",
+      "tu": "src/town/scene/lookup_with_override_fallback.c",
       "foff": "0x005DBAB0",
       "vma": "0x800162B0",
       "size": 132,
@@ -52,7 +52,7 @@
     {
       "row": "town/func_8065BB34",
       "home": "town/func_8065BB34",
-      "tu": "src/town/func_8065BB34.c",
+      "tu": "src/town/scene/check_inputs_only_prerequisite_least.c",
       "foff": "0x005DBB34",
       "vma": "0x80016334",
       "size": 96
@@ -60,7 +60,7 @@
     {
       "row": "town/func_8065BB94",
       "home": "town/func_8032BAF8",
-      "tu": "src/town/func_8032BAF8.c",
+      "tu": "src/town/scene/lookup_with_override_fallback.c",
       "foff": "0x005DBB94",
       "vma": "0x80016394",
       "size": 132,
@@ -77,7 +77,7 @@
     {
       "row": "town/func_8065BC18",
       "home": "town/func_800B0DB0",
-      "tu": "src/town/func_800B0DB0.c",
+      "tu": "src/town/shop/item/item_menu_return_zero.c",
       "foff": "0x005DBC18",
       "vma": "0x80016418",
       "size": 8,
@@ -89,7 +89,7 @@
     {
       "row": "town/func_8065BC20",
       "home": "town/func_8032BAF8",
-      "tu": "src/town/func_8032BAF8.c",
+      "tu": "src/town/scene/lookup_with_override_fallback.c",
       "foff": "0x005DBC20",
       "vma": "0x80016420",
       "size": 132,
@@ -106,7 +106,7 @@
     {
       "row": "town/func_8065BCFC",
       "home": "town/func_8032BAF8",
-      "tu": "src/town/func_8032BAF8.c",
+      "tu": "src/town/scene/lookup_with_override_fallback.c",
       "foff": "0x005DBCFC",
       "vma": "0x800164FC",
       "size": 132,
@@ -123,7 +123,7 @@
     {
       "row": "town/func_8065BD80",
       "home": "town/func_8065BA50",
-      "tu": "src/town/func_8065BA50.c",
+      "tu": "src/town/scene/check_inputs_after_threshold_two.c",
       "foff": "0x005DBD80",
       "vma": "0x80016580",
       "size": 96,
@@ -137,7 +137,7 @@
     {
       "row": "town/func_8065BDE0",
       "home": "town/func_8032BAF8",
-      "tu": "src/town/func_8032BAF8.c",
+      "tu": "src/town/scene/lookup_with_override_fallback.c",
       "foff": "0x005DBDE0",
       "vma": "0x800165E0",
       "size": 132,
@@ -154,7 +154,7 @@
     {
       "row": "town/func_8065BE64",
       "home": "town/func_8065BB34",
-      "tu": "src/town/func_8065BB34.c",
+      "tu": "src/town/scene/check_inputs_only_prerequisite_least.c",
       "foff": "0x005DBE64",
       "vma": "0x80016664",
       "size": 96,
@@ -167,7 +167,7 @@
     },
     {
       "row": "town/func_8065BEC4",
-      "tu": "src/town/func_8065BEC4.c",
+      "tu": "src/town/scene/select_status_override_result.c",
       "home": "town/func_8065BEC4",
       "foff": "0x5DBEC4",
       "vma": "0x800166C4",

@@ -1,0 +1,5 @@
+#include "dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.h"
+#include "../../func_80C427F4.c"
+#include "../../func_80C4286C.c"
+#include "../../func_80C429A0.c"
+#include "../../func_80C42B74.c"

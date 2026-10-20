@@ -17,7 +17,7 @@ void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite,
         g_dungeon_status.unk_0A--;
         direction_anims = ((u8 *)D_80174190);
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             direction_anims[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
@@ -30,7 +30,7 @@ void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite,
         if (entity->tileY != 0) {
 
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174188);
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 ((u8 *)D_80174188)[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             (((u32)entity->flags1C)) |= 0x40000;
@@ -76,13 +76,13 @@ void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite,
         }
 
         update_actor_status_and_food(entity);
-        func_800A9A04(entity);
+        on_actor_status_updated(entity);
         if (entity->tileY == 0) {
             return;
         }
 
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174188);
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             ((u8 *)D_80174188)[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         entity->flags1C |= 0x40000;

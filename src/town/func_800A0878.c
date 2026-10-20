@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Creates an object with the supplied data, position, and callback mode. */
 void *create_configured_object(void *object_data, void *source_position, s32 alternate_callback)
@@ -9,7 +9,7 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
     void *object;
     u8 type;
 
-    created = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
+    created = allocate_list_node(0x136, ((u8 *)(&D_80083498)));
     if (created == 0) {
         return 0;
     }

@@ -8,7 +8,7 @@ struct Dst;
 struct Elem;
 
 extern s32 func_8003DB94(struct Dst *state, struct Elem *entries, s32 index);  /* extern */
-extern s32 func_8004491C();
+extern s32 register_node();
 s32 rand();                                /* extern */
 extern s32 play_sound_if_enabled();
 extern void damp_effect_motion_and_fade(void *effect, s32 *motion, void *primitive);
@@ -81,7 +81,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
             particle = func_8003FC64(alloc_flags);
             if (particle != 0) {
                 ((S_800C5BBC_0 *)particle)->unk_10 = damp_effect_motion_and_fade;
-                func_8004491C(particle, func_80045340);
+                register_node(particle, project_sprite_chain);
                 position = ((S_800C5BBC_0 *)particle)->unk_08;
                 position->unk_02 = (u16) x;
                 position->unk_06 = y;

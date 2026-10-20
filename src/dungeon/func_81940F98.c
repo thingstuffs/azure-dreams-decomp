@@ -16,9 +16,9 @@ typedef struct Object {
     void *callback;
 } Object;
 
-extern Object *func_8003FD64();
+extern Object *allocate_list_node();
 extern s32 rand(void);
-extern void func_8004491C(Object *, void *);
+extern void register_node(Object *, void *);
 extern u8 D_800244E4[];
 extern u8 D_80024734[];
 
@@ -35,7 +35,7 @@ void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_
     u8 *state;
     s32 jitter;
 
-    spawned = func_8003FD64(0x211, parent);
+    spawned = allocate_list_node(0x211, parent);
     if (spawned != 0) {
         spawned->callback = D_80024734;
         jitter = rand();
@@ -54,7 +54,7 @@ void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_
             (jitter & 0x1F) + (held_z_offset - 0x10);
         *(s16 *)(state + 0x14) = state_14;
         *(s16 *)(state + 0x32) = state_32_value;
-        func_8004491C(spawned, D_800244E4);
+        register_node(spawned, D_800244E4);
         *(s32 *)(state + 8) = state_08_value;
     }
 }

@@ -42,7 +42,7 @@ s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         ((R03_80171DA0_S_80171DA0_1 *)sprite_arg)->unk_2C = ((u8 *)D_80173C7C);
-        func_80047784(sprite_arg, (((u8 *)D_80173C7C))[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite_arg, (((u8 *)D_80173C7C))[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->unk_6D--;
         prepare_directional_attack(actor, sprite_arg, actor->facing, 1, 0);
         return 1;

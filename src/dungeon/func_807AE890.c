@@ -43,7 +43,7 @@ void create_positioned_view_marker(s16 x, s16 y) {
     object = func_8003FC64(0x16);
     if (object != NULL) {
         object->unk_10 = (void *)func_800F6070;
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
         render_state = object->unk_0C;
         render_config = (u32) *((u32 *)(&g_game_work.view.unk_090));
         render_state->unk_1E = 0x1000;

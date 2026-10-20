@@ -189,7 +189,7 @@
       ],
       "contract": {
         "prototype": "ObjectNodeHeader *func_8003FC64(int flags)",
-        "source": "src/slus/w_8003FC64.c",
+        "source": "src/engine/scene/zero_words.c",
         "source_sha256": "1bae9d01f320d222ebca3e233564cdf56d4d6dcb48baf16ac657ac375219748c",
         "basis": "Canonical shared/object_node.h API and landed typed callee; incoming explicit allocator casts are retained."
       }

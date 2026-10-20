@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "main/func_8001CD24",
-      "tu": "src/main/func_8001CD24.c",
+      "tu": "src/frontend/card/card_dev_refresh_options_object.c",
       "home": "main/func_8001CD24",
       "foff": "0x26CD24",
       "vma": "0x80403D24",
@@ -17,7 +17,7 @@
     },
     {
       "row": "main/func_8001D308",
-      "tu": "src/main/func_80010F94.c",
+      "tu": "src/frontend/libcard/card_boot_set_slot_index_and_owner.c",
       "home": "main/func_80010F94",
       "foff": "0x26D308",
       "vma": "0x80404308",
@@ -29,7 +29,7 @@
     },
     {
       "row": "main/func_8001D570",
-      "tu": "src/main/func_8001CD24.c",
+      "tu": "src/frontend/card/card_dev_refresh_options_object.c",
       "home": "main/func_8001CD24",
       "foff": "0x26D570",
       "vma": "0x80404570",
@@ -58,7 +58,7 @@
     },
     {
       "row": "main/func_8001E9A8",
-      "tu": "src/main/func_8001CD24.c",
+      "tu": "src/frontend/card/card_dev_refresh_options_object.c",
       "home": "main/func_8001CD24",
       "foff": "0x26E9A8",
       "vma": "0x804059A8",
@@ -72,7 +72,7 @@
     },
     {
       "row": "main/func_8001EA3C",
-      "tu": "src/main/func_8001EA3C.c",
+      "tu": "src/frontend/card/card_dev_commit_pending_value.c",
       "home": "main/func_8001EA3C",
       "foff": "0x26EA3C",
       "vma": "0x80405A3C",
@@ -80,7 +80,7 @@
     },
     {
       "row": "main/func_8001EA64",
-      "tu": "src/main/func_80011FAC.c",
+      "tu": "src/frontend/libcard/state/card_boot_poll_status_and_dismiss_dialog.c",
       "home": "main/func_80011FAC",
       "foff": "0x26EA64",
       "vma": "0x80405A64",
@@ -96,7 +96,7 @@
     },
     {
       "row": "main/func_8001EED4",
-      "tu": "src/main/func_80012494.c",
+      "tu": "src/frontend/libcard/card_boot_enter_copying_progress.c",
       "home": "main/func_80012494",
       "foff": "0x26EED4",
       "vma": "0x80405ED4",
@@ -110,7 +110,7 @@
     },
     {
       "row": "main/func_8001F358",
-      "tu": "src/main/func_8001292C.c",
+      "tu": "src/frontend/libcard/set_record_pair_to_one.c",
       "home": "main/func_8001292C",
       "foff": "0x26F358",
       "vma": "0x80406358",
@@ -122,7 +122,7 @@
     },
     {
       "row": "main/func_8001F9FC",
-      "tu": "src/main/func_8001EA3C.c",
+      "tu": "src/frontend/card/card_dev_commit_pending_value.c",
       "home": "main/func_8001EA3C",
       "foff": "0x26F9FC",
       "vma": "0x804069FC",
@@ -134,7 +134,7 @@
     },
     {
       "row": "main/func_8001FA24",
-      "tu": "src/main/func_80011FAC.c",
+      "tu": "src/frontend/libcard/state/card_boot_poll_status_and_dismiss_dialog.c",
       "home": "main/func_80011FAC",
       "foff": "0x26FA24",
       "vma": "0x80406A24",
@@ -150,7 +150,7 @@
     },
     {
       "row": "main/func_8001FB9C",
-      "tu": "src/main/func_80012494.c",
+      "tu": "src/frontend/libcard/card_boot_enter_copying_progress.c",
       "home": "main/func_80012494",
       "foff": "0x26FB9C",
       "vma": "0x80406B9C",
@@ -164,7 +164,7 @@
     },
     {
       "row": "main/func_8001FC2C",
-      "tu": "src/main/func_8001344C.c",
+      "tu": "src/frontend/libcard/card_boot_enter_overwrite_confirmation.c",
       "home": "main/func_8001344C",
       "foff": "0x26FC2C",
       "vma": "0x80406C2C",
@@ -179,7 +179,7 @@
     },
     {
       "row": "main/func_8001FC74",
-      "tu": "src/main/func_80013494.c",
+      "tu": "src/frontend/libcard/card_boot_enter_insufficient_space_advice.c",
       "home": "main/func_80013494",
       "foff": "0x26FC74",
       "vma": "0x80406C74",
@@ -194,7 +194,7 @@
     },
     {
       "row": "main/func_8001FCB8",
-      "tu": "src/main/func_80013494.c",
+      "tu": "src/frontend/libcard/card_boot_enter_insufficient_space_advice.c",
       "home": "main/func_80013494",
       "foff": "0x26FCB8",
       "vma": "0x80406CB8",
@@ -209,7 +209,7 @@
     },
     {
       "row": "main/func_80020688",
-      "tu": "src/main/func_80013E90.c",
+      "tu": "src/frontend/libcard/card_boot_initialize_paired_choice_panel.c",
       "home": "main/func_80013E90",
       "foff": "0x270688",
       "vma": "0x80407688",
@@ -223,7 +223,7 @@
     },
     {
       "row": "main/func_80020964",
-      "tu": "src/main/func_800140E0.c",
+      "tu": "src/frontend/libcard/card_boot_initialize_save_heading_layout.c",
       "home": "main/func_800140E0",
       "foff": "0x270964",
       "vma": "0x80407964",
@@ -238,7 +238,7 @@
     },
     {
       "row": "main/func_80020D38",
-      "tu": "src/main/func_8001CD24.c",
+      "tu": "src/frontend/card/card_dev_refresh_options_object.c",
       "home": "main/func_8001CD24",
       "foff": "0x270D38",
       "vma": "0x80407D38",
@@ -252,7 +252,7 @@
     },
     {
       "row": "main/func_80020DB8",
-      "tu": "src/main/func_80011FAC.c",
+      "tu": "src/frontend/libcard/state/card_boot_poll_status_and_dismiss_dialog.c",
       "home": "main/func_80011FAC",
       "foff": "0x270DB8",
       "vma": "0x80407DB8",

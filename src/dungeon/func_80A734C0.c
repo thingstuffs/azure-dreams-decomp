@@ -146,7 +146,7 @@ copy_existing:
             return;
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174180);
-        func_80047784(
+        select_sprite_entry(
             sprite,
             ((u8 *)D_80174180)[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
             0);
@@ -191,7 +191,7 @@ copy_existing:
 
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pv != ((u8 *)D_80174148)) {
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174148);
-            func_80047784(
+            select_sprite_entry(
                 sprite,
                 ((u8 *)D_80174148)[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
                 0);

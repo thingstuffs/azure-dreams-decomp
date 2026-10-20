@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Cleans up an object when its state check succeeds, or dispatches its callback and updates it. */
 void cleanup_or_dispatch_object(void *object, s32 source, s32 context) {
@@ -10,7 +10,7 @@ void cleanup_or_dispatch_object(void *object, s32 source, s32 context) {
         if (status_ptr != NULL) {
             *status_ptr = 0;
         }
-        func_80033D08(object);
+        unlink_node_if_registered(object);
         ((func_800A05E0_S_8009DD40_0_pre *)object)[-1].unk_00 = (u16) (((func_800A05E0_S_8009DD40_0_pre *)object)[-1].unk_00 | 0x8000);
         object_flag_block.flags = object_flag_block.flags | 0x8000;
         return;

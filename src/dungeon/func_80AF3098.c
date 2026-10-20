@@ -80,7 +80,7 @@ void advance_directional_attack_sequence(void *action, void *position, void *spr
             if (((R10_80174898_S_80174898_2 *)sprite)->unk_2C != ((u8 *)D_80175988)) {
                 ((R10_80174898_S_80174898_2 *)sprite)->unk_2C = ((u8 *)D_80175988);
                 ((R10_80174898_S_80174898_2 *)sprite)->unk_14 &= 0xF7FF;
-                func_80047784(sprite,
+                select_sprite_entry(sprite,
                     ((R10_80174898_S_80174898_2 *)sprite)->unk_2C[((g_game_work.view.viewAngle +
                         entity->facing + 0x100) >> 9) & 7],
                     0);

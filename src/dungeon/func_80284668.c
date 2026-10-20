@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void fill_generation_cell_marks(s16 start_x, s16 y, s16 width, s32 height, u16 fill_value) {
     s16 rows_left;

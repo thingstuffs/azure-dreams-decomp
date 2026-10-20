@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f43f800_p02.h"
+#include "dungeon/monster/noise/move_fade_and_accelerate_effect.h"
 
 /* Move and fade the effect, apply vertical acceleration, and flag it when its lifetime ends. */
 void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, IntVector3 *position)

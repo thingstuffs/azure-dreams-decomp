@@ -24,7 +24,7 @@ void func_80171D7C(void *movement, void *motion, void *entity, void *path_state)
 
     if (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8 != ((u8 *)D_80175980)) {
         (*(u8 * *)((u8 *)entity + (0x2C))) = ((u8 *)D_80175980);
-        func_80047784(
+        select_sprite_entry(
             entity,
             ((u8 *)D_80175980)[((g_game_work.view.viewAngle + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);

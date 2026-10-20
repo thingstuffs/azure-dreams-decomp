@@ -10,14 +10,14 @@
     {
       "row": "town/func_806C5940",
       "home": "town/func_806C5940",
-      "tu": "src/town/func_806C5940.c",
+      "tu": "src/town/scene/event/process_event_ids.c",
       "foff": "0x00645940",
       "vma": "0x80016940",
       "size": 40
     },
     {
       "row": "town/func_806C5968",
-      "tu": "src/town/func_806C5968.c",
+      "tu": "src/town/scene/hooks/forward_request_with_tables_d.c",
       "home": "town/func_806C5968",
       "foff": "0x645968",
       "vma": "0x80016968",
@@ -25,7 +25,7 @@
     },
     {
       "row": "town/func_806C59A0",
-      "tu": "src/town/func_806C5940.c",
+      "tu": "src/town/scene/event/process_event_ids.c",
       "home": "town/func_806C5940",
       "foff": "0x6459A0",
       "vma": "0x800169A0",
@@ -38,7 +38,7 @@
     },
     {
       "row": "town/func_806C59C8",
-      "tu": "src/town/func_806C5968.c",
+      "tu": "src/town/scene/hooks/forward_request_with_tables_d.c",
       "home": "town/func_806C5968",
       "foff": "0x6459C8",
       "vma": "0x800169C8",
@@ -54,7 +54,7 @@
     {
       "row": "town/func_806C5B24",
       "home": "town/func_8032BFE8",
-      "tu": "src/town/func_8032BFE8.c",
+      "tu": "src/town/scene/dispatch_first.c",
       "foff": "0x00645B24",
       "vma": "0x80016B24",
       "size": 56,
@@ -69,7 +69,7 @@
     {
       "row": "town/func_806C5BE8",
       "home": "town/func_8032BFE8",
-      "tu": "src/town/func_8032BFE8.c",
+      "tu": "src/town/scene/dispatch_first.c",
       "foff": "0x00645BE8",
       "vma": "0x80016BE8",
       "size": 56,
@@ -84,7 +84,7 @@
     {
       "row": "town/func_806C5C6C",
       "home": "town/func_8032BFE8",
-      "tu": "src/town/func_8032BFE8.c",
+      "tu": "src/town/scene/dispatch_first.c",
       "foff": "0x00645C6C",
       "vma": "0x80016C6C",
       "size": 56,
@@ -99,7 +99,7 @@
     {
       "row": "town/func_806C5D08",
       "home": "town/func_8032BFE8",
-      "tu": "src/town/func_8032BFE8.c",
+      "tu": "src/town/scene/dispatch_first.c",
       "foff": "0x00645D08",
       "vma": "0x80016D08",
       "size": 56,
@@ -114,7 +114,7 @@
     {
       "row": "town/func_806C5DA4",
       "home": "town/func_8032BFE8",
-      "tu": "src/town/func_8032BFE8.c",
+      "tu": "src/town/scene/dispatch_first.c",
       "foff": "0x00645DA4",
       "vma": "0x80016DA4",
       "size": 56,
@@ -129,7 +129,7 @@
     {
       "row": "town/func_806C5E40",
       "home": "town/func_8032BFE8",
-      "tu": "src/town/func_8032BFE8.c",
+      "tu": "src/town/scene/dispatch_first.c",
       "foff": "0x00645E40",
       "vma": "0x80016E40",
       "size": 56,
@@ -144,7 +144,7 @@
     {
       "row": "town/func_806C5F8C",
       "home": "town/func_806C5940",
-      "tu": "src/town/func_806C5940.c",
+      "tu": "src/town/scene/event/process_event_ids.c",
       "foff": "0x00645F8C",
       "vma": "0x80016F8C",
       "size": 40,

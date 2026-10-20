@@ -57,12 +57,15 @@ extern u8 D_8015BD30[];
 extern u8 D_8015BD78[];
 extern void func_80158F74();
 
+extern void *allocate_list_node();
 extern void *func_8003FD64();
+extern s32 register_node();
 extern s32 func_8004491C();
 extern s32 generate_random_value();
 extern s16 set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern s32 try_move_actor_to_valid_position();
+extern void unlink_node();
 extern void func_80044A50();
 extern void retire_tracked_effect_by_id();
 

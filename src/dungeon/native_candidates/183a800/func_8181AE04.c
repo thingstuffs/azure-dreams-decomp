@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_183a800.h"
+#include "dungeon/effect/particle/render_textured_effect_parts.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"

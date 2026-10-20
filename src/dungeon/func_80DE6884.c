@@ -35,7 +35,7 @@ void create_four_directional_effects(void *owner_arg, void *motion_arg, void *or
             render_data->unk_1A = rand() % 0x1000;
             render_data->unk_1E = 0x1000;
             render_data->unk_1C = 0x1000;
-            func_8004491C(effect, func_80045340);
+            register_node(effect, project_sprite_chain);
             motion = effect->unk_08;
             *(E_80174084_S_80DE6884_3 *)motion = *(E_80174084_S_80DE6884_3 *)motion_arg;
             motion->unk_00.at02.v = offset_coord(motion->unk_00.at02.v, offsets[0]);

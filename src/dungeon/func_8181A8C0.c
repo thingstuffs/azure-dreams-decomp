@@ -42,7 +42,7 @@ typedef struct {
     void *field10;
 } D8181A8C0Object;
 
-s32 func_8004491C(void *, void *);
+s32 register_node(void *, void *);
 void func_8003DB94(void *, void *, s32);
 extern M2C_UNK D_8002404C;
 
@@ -61,7 +61,7 @@ void func_8181A8C0(void *unused_context, void *origin, s32 unused_id, s16 offset
         header->f2 = 1;
         header->f4 = 1;
         object->field10 = &D_8002404C;
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
         asset_param = 0x60;
         setup_mode = 2;
         asset = object->fieldc;

@@ -19,7 +19,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
         return;
 
     case 1:
-        func_80041588(((u8 *)D_80174CF4), ((u8 *)D_80174D18), 0);
+        run_cd_image_commands(((u8 *)D_80174CF4), ((u8 *)D_80174D18), 0);
         ((R08_80174648_S_80174648_0 *)effect_state)->unk_B0 = 0;
         ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
         saved_angle = ((R08_80174648_S_80174648_1 *)actor)->unk_2A.u;
@@ -37,7 +37,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             ((R08_80174648_S_80174648_1 *)actor)->unk_2A.u = angle + 0x200;
             return;
         }
-        func_80041588((u8 *)((void * *)D_80174CFC) - 8, (u8 *)((void * *)D_80174D1C) - 4, 1);
+        run_cd_image_commands((u8 *)((void * *)D_80174CFC) - 8, (u8 *)((void * *)D_80174D1C) - 4, 1);
         sound_set_cd_cue_parameters(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
         effect_id = func_800445E0();
         Control_CD(0x15, effect_id, 0);
@@ -86,7 +86,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
                 return;
             }
             effect_work->unk_10.p = ((u8 *)func_8017451C);
-            func_8004491C(effect_work, ((u8 *)start_bank_actor_hit_reaction));
+            register_node(effect_work, ((u8 *)start_bank_actor_hit_reaction));
             color = 0x00808080;
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_AC = effect_work;
             ((R08_80174648_S_80174648_9 *)(effect_work->unk_08))->unk_00 = position->x.v;

@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 s32 load_generation_resource_slot(s16 resource_index) {
     s16 slot_index;

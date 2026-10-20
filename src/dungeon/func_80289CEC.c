@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void pick_relative_room_edge_point(s16 side, s16 *out_x, s16 *out_y, floor_generate_isolated_80289CEC_Entry *room) {
     if (room->fieldA == 0) {

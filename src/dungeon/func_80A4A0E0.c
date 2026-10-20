@@ -19,7 +19,7 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
         ((R06_801738E0_S_801738E0_2 *)scene_state)->unk_0A--;
         direction_anims = ((u8 *)D_80175894);
         (*(void * *)((u8 *)anim + 0x2C)) = direction_anims;
-        func_80047784(anim,
+        select_sprite_entry(anim,
             direction_anims[((g_game_work.view.viewAngle + ((R06_801738E0_S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((R06_801738E0_S_801738E0_0 *)entity)->unk_9B++;
@@ -34,7 +34,7 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
             s32 *scene_state;
 
             (*(void * *)((u8 *)anim + 0x2C)) = ((u8 *)D_8017588C);
-            func_80047784(anim,
+            select_sprite_entry(anim,
                 ((u8 *)D_8017588C)[((g_game_work.view.viewAngle + ((R06_801738E0_S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((R06_801738E0_S_801738E0_3 *)actor)->unk_1C |= 0x40000;
@@ -90,13 +90,13 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
         }
 
         update_actor_status_and_food(actor);
-        func_800A9A04(actor);
+        on_actor_status_updated(actor);
         if (((R06_801738E0_S_801738E0_3 *)actor)->unk_25 == 0) {
             return;
         }
 
         (*(void * *)((u8 *)anim + 0x2C)) = ((u8 *)D_8017588C);
-        func_80047784(anim,
+        select_sprite_entry(anim,
             ((u8 *)D_8017588C)[((g_game_work.view.viewAngle + ((R06_801738E0_S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((R06_801738E0_S_801738E0_3 *)actor)->unk_1C |= 0x40000;

@@ -1,4 +1,4 @@
-#include "slus/cd_cohort_types.h"
+#include "engine/scene/cd_cohort_types.h"
 u8 D_800814D0 = 0;
 u8 D_800814D4 = 0;
 u32 D_800814CC = 0;

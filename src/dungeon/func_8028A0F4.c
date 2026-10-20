@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect, s32 update_id)
 {

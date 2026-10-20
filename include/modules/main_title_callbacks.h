@@ -10,6 +10,7 @@ struct ColorEffect;
 s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data);
 void assign_object_descriptor_on_check(s32 object_data_addr);
 void run_flag_handler_and_set_2000_flags(void *entry);
+void mark_object_flags_dirty(unsigned short *data);
 void func_80089A14(unsigned short *data);
 void handle_settings_menu_input(struct Menu *menu);
 s32 build_settings_sprite_tiles(void *node_data, void *scroll_state);

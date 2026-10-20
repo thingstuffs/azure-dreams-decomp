@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_806D49D0",
-      "tu": "src/town/func_806D49D0.c",
+      "tu": "src/town/scene/event/forward_four_args.c",
       "home": "town/func_806D49D0",
       "foff": "0x6549D0",
       "vma": "0x800169D0",
@@ -17,7 +17,7 @@
     },
     {
       "row": "town/func_806D49F0",
-      "tu": "src/town/func_806D49F0.c",
+      "tu": "src/town/scene/event/process_request_checking_threshold_b.c",
       "home": "town/func_806D49F0",
       "foff": "0x6549F0",
       "vma": "0x800169F0",
@@ -25,7 +25,7 @@
     },
     {
       "row": "town/func_806D4A90",
-      "tu": "src/town/func_806D49D0.c",
+      "tu": "src/town/scene/event/forward_four_args.c",
       "home": "town/func_806D49D0",
       "foff": "0x654A90",
       "vma": "0x80016A90",
@@ -38,7 +38,7 @@
     },
     {
       "row": "town/func_806D4AB0",
-      "tu": "src/town/func_806D49F0.c",
+      "tu": "src/town/scene/event/process_request_checking_threshold_b.c",
       "home": "town/func_806D49F0",
       "foff": "0x654AB0",
       "vma": "0x80016AB0",
@@ -64,7 +64,7 @@
     },
     {
       "row": "town/func_806D561C",
-      "tu": "src/town/func_8048189C.c",
+      "tu": "src/town/scene/hooks/is_pair_result_valid_b.c",
       "home": "town/func_8048189C",
       "foff": "0x65561C",
       "vma": "0x8001761C",
@@ -77,7 +77,7 @@
     },
     {
       "row": "town/func_806D5904",
-      "tu": "src/town/func_80481B84.c",
+      "tu": "src/town/scene/flags/query_referenced_flag_table_entry.c",
       "home": "town/func_80481B84",
       "foff": "0x655904",
       "vma": "0x80017904",
@@ -91,7 +91,7 @@
     },
     {
       "row": "town/func_806D5AF8",
-      "tu": "src/town/func_80481D78.c",
+      "tu": "src/town/scene/flags/get_first_entry_flag.c",
       "home": "town/func_80481D78",
       "foff": "0x655AF8",
       "vma": "0x80017AF8",
@@ -106,7 +106,7 @@
     },
     {
       "row": "town/func_806D5FDC",
-      "tu": "src/town/func_8048225C.c",
+      "tu": "src/town/scene/dialogue/select_string_state_dependent_choice_second.c",
       "home": "town/func_8048225C",
       "foff": "0x655FDC",
       "vma": "0x80017FDC",
@@ -119,7 +119,7 @@
     },
     {
       "row": "town/func_806D606C",
-      "tu": "src/town/func_804822EC.c",
+      "tu": "src/town/scene/hooks/get_shared_entry_buffer_l.c",
       "home": "town/func_804822EC",
       "foff": "0x65606C",
       "vma": "0x8001806C",

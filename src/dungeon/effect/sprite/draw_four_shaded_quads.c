@@ -1,0 +1,366 @@
+#include "common.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_moving_views.h"
+
+typedef struct S_func_818BC9CC_0 {
+    u8 pad_00[0x4];
+    s16 unk_04;
+    u8 pad_06[0x2];
+    union {
+        s16 as_s16;
+        u16 as_u16;
+    } unk_08;
+    u8 pad_0A[0x2];
+    u16 unk_0C;
+    u8 unk_0E;
+} S_func_818BC9CC_0;
+
+
+
+typedef struct S_func_818BC9CC_2 {
+    u8 pad_00[0x18];
+    void *unk_18;
+    u8 pad_1C[0x48];
+    u16 unk_64;
+    u16 unk_66;
+    u16 unk_68;
+    u8 pad_6A[0x2];
+    u16 unk_6C;
+    u16 unk_6E;
+    u16 unk_70;
+    u8 pad_72[0x2];
+    u16 unk_74;
+    u16 unk_76;
+    u16 unk_78;
+    u8 pad_7A[0x2];
+    u16 unk_7C;
+    u16 unk_7E;
+    u16 unk_80;
+    u8 pad_82[0x32];
+    u32 unk_B4;
+    u8 pad_B8[0x20];
+    u16 unk_D8;
+    u16 unk_DA;
+    u16 unk_DC;
+    u16 unk_DE;
+    u16 unk_E0;
+    u16 unk_E2;
+    u16 unk_E4;
+    u16 unk_E6;
+} S_func_818BC9CC_2;
+
+typedef struct S_func_818BC9CC_3 {
+    union {
+        u32 as_u32;
+        struct {
+            u8 pad_00[3];
+            u8 unk_03;
+        } as_bytes;
+    } unk_00;
+    u8 unk_04;
+    u8 unk_05;
+    u8 unk_06;
+    u8 unk_07;
+    u16 unk_08;
+    u16 unk_0A;
+    u8 unk_0C;
+    u8 unk_0D;
+    u16 unk_0E;
+    u8 unk_10;
+    u8 unk_11;
+    u8 unk_12;
+    u8 pad_13[0x1];
+    u16 unk_14;
+    u16 unk_16;
+    u8 unk_18;
+    u8 unk_19;
+    u16 unk_1A;
+    u8 unk_1C;
+    u8 unk_1D;
+    u8 unk_1E;
+    u8 pad_1F[0x1];
+    u16 unk_20;
+    u16 unk_22;
+    u8 unk_24;
+    u8 unk_25;
+    u8 pad_26[0x2];
+    u8 unk_28;
+    u8 unk_29;
+    u8 unk_2A;
+    u8 pad_2B[0x1];
+    u16 unk_2C;
+    u16 unk_2E;
+    u8 unk_30;
+    u8 unk_31;
+} S_func_818BC9CC_3;
+
+typedef struct S_func_818BC9CC_4 {
+    u32 unk_00;
+} S_func_818BC9CC_4;
+
+typedef struct S_func_818BC9CC_5 {
+    u8 pad_00[0x8D0];
+    void *unk_8D0;
+} S_func_818BC9CC_5;
+
+typedef struct S_func_818BC9CC_6 {
+    void *unk_00;
+    u8 pad_04[0xC4];
+    s16 unk_C8;
+} S_func_818BC9CC_6;
+
+typedef struct { unsigned addr : 24; unsigned len : 8; } PacketTag;
+
+#define OT_ADDR(sc) ((u32 *)((((S_func_818BC9CC_2 *)(sc))->unk_B4 << 2) + (u32)(sc)->unk_18))
+
+extern s32 func_800644B8(s32);
+extern s32 func_80064584(s32);
+extern u32 func_80065590(void *, void *, void *, void *, void *, void *,
+                         void *, void *, void *, void *);
+extern u16 func_80066460(s32, s32, s32, s32);
+extern void func_80067F20(void *, s32, s32, u16, void *);
+
+/* Draw four shaded textured quads around the given position. */
+s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
+{
+    S_func_818BC9CC_2 *scratch;
+    S_func_818BC9CC_3 *packet;
+    S_func_818BC9CC_4 *draw_mode;
+    S_func_818BC9CC_4 *draw_mode_2;
+    S_func_818BC9CC_5 *render_ctx;
+    S_func_818BC9CC_5 *full_ctx;
+    S_func_818BC9CC_5 *tile_ctx;
+    GameWork *render_state;
+    s32 page_depth;
+    s32 page_blend;
+    s32 page_x;
+    u32 y_extent;
+    u32 x_extent;
+    u32 depth;
+    s32 quad_index;
+    u32 far_z;
+    u32 z_extent;
+    u32 far_y;
+    s32 angle;
+    u16 texture_v;
+    u16 coord;
+    u8 intensity;
+    s16 tile_window[4];
+    s16 full_window[4];
+
+    render_state = &g_game_work;
+    scratch = (S_func_818BC9CC_2 *)0x1F800000;
+    angle = render_state->view.viewAngle;
+    scratch->unk_18 = (u8 *)((S_func_818BC9CC_6 *)((u8 *)(&g_game_work)))->unk_00 + 0xB0;
+    x_extent = (u32)((func_80064584(angle) >> 4) * effect->unk_08.as_s16) >> 8;
+    y_extent = (u32)((func_800644B8(angle) >> 4) * effect->unk_08.as_s16) >> 8;
+    texture_v = (effect->unk_04 % 4) << 3;
+
+    quad_index = 0;
+
+    do {
+        render_ctx = render_state->unk_000;
+        packet = render_ctx->unk_8D0;
+        render_ctx->unk_8D0 = (u8 *)packet + 0x34;
+
+        packet->unk_00.as_bytes.unk_03 = 0x0C;
+        packet->unk_07 = 0x3E;
+        packet->unk_1A = func_80066460(0, 1, 0x280, 0x100);
+        packet->unk_0E = effect->unk_0C;
+        packet->unk_0C = 0;
+        packet->unk_0D = (u8)texture_v;
+        packet->unk_18 = 0x3F;
+        packet->unk_19 = (u8)texture_v;
+        packet->unk_24 = 0x3F;
+        packet->unk_25 = texture_v + 0x3F;
+        packet->unk_31 = texture_v + 0x3F;
+        packet->unk_30 = 0;
+        packet->unk_04 = effect->unk_0E;
+        packet->unk_05 = effect->unk_0E;
+        intensity = effect->unk_0E;
+        packet->unk_10 = 0;
+        packet->unk_11 = 0;
+        packet->unk_12 = 0;
+        packet->unk_1C = 0;
+        packet->unk_1D = 0;
+        packet->unk_1E = 0;
+        packet->unk_28 = 0;
+        packet->unk_29 = 0;
+        packet->unk_2A = 0;
+        packet->unk_06 = intensity;
+
+        switch (quad_index) {
+        case 0:
+            coord = position->unk_02;
+            scratch->unk_74 = coord;
+            scratch->unk_64 = coord;
+            coord = position->unk_02 + x_extent;
+            scratch->unk_7C = coord;
+            scratch->unk_6C = coord;
+            coord = position->unk_06;
+            scratch->unk_76 = coord;
+            scratch->unk_66 = coord;
+            coord = position->unk_06 - y_extent;
+            scratch->unk_7E = coord;
+            scratch->unk_6E = coord;
+            coord = position->unk_0A;
+            scratch->unk_70 = coord;
+            scratch->unk_68 = coord;
+            far_z = position->unk_0A;
+            z_extent = effect->unk_08.as_u16;
+            far_z = far_z + z_extent;
+            scratch->unk_80 = far_z;
+            scratch->unk_78 = far_z;
+            break;
+        case 1:
+            coord = position->unk_02;
+            scratch->unk_74 = coord;
+            scratch->unk_64 = coord;
+            coord = position->unk_02 - x_extent;
+            scratch->unk_7C = coord;
+            scratch->unk_6C = coord;
+            coord = position->unk_06;
+            scratch->unk_76 = coord;
+            scratch->unk_66 = coord;
+            coord = position->unk_06 + y_extent;
+            scratch->unk_7E = coord;
+            scratch->unk_6E = coord;
+            coord = position->unk_0A;
+            scratch->unk_70 = coord;
+            scratch->unk_68 = coord;
+            far_z = position->unk_0A;
+            far_z = far_z + effect->unk_08.as_u16;
+            scratch->unk_80 = far_z;
+            scratch->unk_78 = far_z;
+            break;
+        case 2:
+            coord = position->unk_02;
+            scratch->unk_74 = coord;
+            scratch->unk_64 = coord;
+            coord = position->unk_02 + x_extent;
+            scratch->unk_7C = coord;
+            scratch->unk_6C = coord;
+            coord = position->unk_06;
+            scratch->unk_76 = coord;
+            scratch->unk_66 = coord;
+            far_y = (u32)position->unk_06 - y_extent;
+            scratch->unk_7E = far_y;
+            scratch->unk_6E = far_y;
+            coord = position->unk_0A;
+            scratch->unk_70 = coord;
+            scratch->unk_68 = coord;
+            far_z = position->unk_0A;
+            far_z -= effect->unk_08.as_u16;
+            scratch->unk_80 = far_z;
+            scratch->unk_78 = far_z;
+            break;
+        case 3:
+            coord = position->unk_02;
+            scratch->unk_74 = coord;
+            scratch->unk_64 = coord;
+            coord = position->unk_02 - x_extent;
+            scratch->unk_7C = coord;
+            scratch->unk_6C = coord;
+            coord = position->unk_06;
+            scratch->unk_76 = coord;
+            scratch->unk_66 = coord;
+            far_y = (u32)position->unk_06 + y_extent;
+            scratch->unk_7E = far_y;
+            scratch->unk_6E = far_y;
+            coord = position->unk_0A;
+            scratch->unk_70 = coord;
+            scratch->unk_68 = coord;
+            far_z = position->unk_0A;
+            far_z -= effect->unk_08.as_u16;
+            scratch->unk_80 = far_z;
+            scratch->unk_78 = far_z;
+            break;
+        }
+
+        {
+            void *vertex0 = (u8 *)scratch + 0x64;
+            void *vertex1 = (u8 *)scratch + 0x6C;
+            void *vertex2 = (u8 *)scratch + 0x74;
+            void *vertex3 = (u8 *)scratch + 0x7C;
+
+            depth = func_80065590(vertex0, vertex1, vertex2, vertex3,
+                              (u8 *)scratch + 0xD8, (u8 *)scratch + 0xDC,
+                              (u8 *)scratch + 0xE0, (u8 *)scratch + 0xE4,
+                              (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
+        }
+        ((S_func_818BC9CC_2 *)scratch)->unk_B4 = depth;
+        packet->unk_08 = scratch->unk_D8;
+        packet->unk_0A = scratch->unk_DA;
+        packet->unk_14 = scratch->unk_DC;
+        packet->unk_16 = scratch->unk_DE;
+        packet->unk_20 = scratch->unk_E0;
+        packet->unk_22 = scratch->unk_E2;
+        packet->unk_2C = scratch->unk_E4;
+        packet->unk_2E = scratch->unk_E6;
+
+        if (scratch->unk_B4 < 0x1E0U) {
+            full_window[1] = 0;
+            full_window[0] = 0;
+            full_ctx = render_state->unk_000;
+            full_window[3] = 0xFF;
+            full_window[2] = 0xFF;
+            draw_mode = full_ctx->unk_8D0;
+            full_ctx->unk_8D0 = (u8 *)draw_mode + 0x0C;
+            func_80067F20(draw_mode, 0, 0, func_80066460(0, 1, 0x280, 0x100), full_window);
+            page_depth = 0;
+
+            page_blend = 1;
+            page_x = 0x280;
+
+            {
+                u32 *ot;
+
+                ot = OT_ADDR(scratch);
+                ((PacketTag *)draw_mode)->addr = ((PacketTag *)ot)->addr;
+            }
+            {
+                u32 *ot;
+
+                ot = OT_ADDR(scratch);
+                ((PacketTag *)ot)->addr = (u32)draw_mode;
+            }
+            {
+                u32 *ot;
+
+                ot = OT_ADDR(scratch);
+                ((PacketTag *)packet)->addr = ((PacketTag *)ot)->addr;
+            }
+            {
+                u32 *ot;
+
+                ot = OT_ADDR(scratch);
+                ((PacketTag *)ot)->addr = (u32)packet;
+            }
+
+            tile_window[0] = 0;
+            tile_window[1] = 0x80;
+            tile_ctx = render_state->unk_000;
+            tile_window[3] = 0x40;
+            tile_window[2] = 0x40;
+            draw_mode_2 = tile_ctx->unk_8D0;
+            tile_ctx->unk_8D0 = (u8 *)draw_mode_2 + 0x0C;
+            func_80067F20(draw_mode_2, 0, 0, func_80066460(page_depth, page_blend, page_x, 0x100), tile_window);
+
+            {
+                u32 *ot;
+
+                ot = OT_ADDR(scratch);
+                ((PacketTag *)draw_mode_2)->addr = ((PacketTag *)ot)->addr;
+            }
+            {
+                u32 *ot;
+
+                ot = OT_ADDR(scratch);
+                ((PacketTag *)ot)->addr = (u32)draw_mode_2;
+            }
+        }
+        quad_index++;
+    } while (quad_index < 4);
+
+    return 0;
+}

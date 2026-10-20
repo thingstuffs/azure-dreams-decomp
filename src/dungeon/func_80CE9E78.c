@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p03.h"
+#include "dungeon/monster/troll/advance_actor_stored_path.h"
 
 /* Reset display state and apply the kind-specific directional entry when its table changes. */
 void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused, Rec_D_80082E80 *display, T_80173678_S_80173678_1 *entity) {
@@ -17,7 +17,7 @@ void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused
             return;
         }
         display->unk_2C.as_pu8 = direction_table;
-        func_80047784(display,
+        select_sprite_entry(display,
                       direction_table[((g_game_work.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
                       0);
         return;
@@ -28,7 +28,7 @@ void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused
             return;
         }
         display->unk_2C.as_pu8 = direction_table;
-        func_80047784(display,
+        select_sprite_entry(display,
                       direction_table[((g_game_work.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
                       0);
         return;
@@ -39,7 +39,7 @@ void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused
             return;
         }
         display->unk_2C.as_pu8 = direction_table;
-        func_80047784(display,
+        select_sprite_entry(display,
                       direction_table[((g_game_work.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
                       0);
     }

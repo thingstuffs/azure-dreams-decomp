@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f559800.h"
+#include "dungeon/monster/clown/create_flagged_actor_object.h"
 
 void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id)
 {
@@ -18,12 +18,12 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
     saved_x = tile_x;
     saved_id = object_id;
     saved_y = tile_y;
-    object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
     if (object != 0) {
         state = object + 0x20;
         ((S_8016A878_0 *)object)->unk_10 = D_8016AA58;
         state->unk_13 = 0x10;
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
         object_data = ((S_8016A878_0 *)object)->unk_08;
         object_data->unk_0A = saved_id;
         placement = ((S_8016A878_0 *)object)->unk_0C;

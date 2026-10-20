@@ -19,7 +19,7 @@ void update_actor_object_motion(void *motion, void *unused, void *actor, void *p
     direction_table = ((R06_80171964_S_8017169C_1 *)actor)->unk_2C;
     if (direction_table != ((u8 *)D_8017586C)) {
         (*(u8 * *)((u8 *)actor + 0x2C)) = ((u8 *)D_8017586C);
-        func_80047784(
+        select_sprite_entry(
             actor,
             ((u8 *)D_8017586C)[((g_game_work.view.viewAngle + ((R06_80171964_S_8017169C_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);

@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_812B4130",
       "home": "dungeon/func_812A8130",
-      "tu": "src/dungeon/func_812A8130.c",
+      "tu": "src/dungeon/monster/kewne_uncached/update_staged_movement_height_and_animation.c",
       "foff": "0x12d4130",
       "vma": "0x80167930",
       "size": 1188,
@@ -25,7 +25,7 @@
     },
     {
       "row": "dungeon/func_812B50B0",
-      "tu": "src/dungeon/func_8097DD68.c",
+      "tu": "src/dungeon/actor/forward_actor_defeat_removal.c",
       "home": "dungeon/func_8097DD68",
       "foff": "0x12D50B0",
       "vma": "0x801688B0",

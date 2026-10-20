@@ -52,7 +52,9 @@ typedef union Row_818E6F98_WorkOutput {
 
 /* Queues a textured quad at the supplied world position. */
 int abs(int);
+void *allocate_list_node(s32, void *);
 void *func_8003FD64(s32, void *);
+void register_node(void *, void *);
 void func_8004491C(void *, void *);
 s32 func_80069EF8();
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
@@ -60,6 +62,7 @@ s32 get_definition_entry_byte_13(s16 entry_index);
 s32 scan_monster_along_heading(void *, u8, u8, s16, s32);
 s16 sample_terrain_surface_height(s32, s32, s16);
 void play_sound_if_enabled(s32);
+void unlink_node(void *);
 void func_80044A50(void *);
 void func_800419EC(s32, s32);
 void copy_selected_table_pair(s32, s16);

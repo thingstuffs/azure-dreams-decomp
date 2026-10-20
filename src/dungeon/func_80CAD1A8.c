@@ -25,7 +25,7 @@ void func_8015A9A8(void *action, void *motion, void *sprite, void *actor)
         ((CL_CCB000_801729A8_S_801729A8_3 *)motion)->unk_10 = 0;
         ((CL_CCB000_801729A8_S_801729A8_3 *)motion)->unk_0C = 0;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015D2DC;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_8015D2DC[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         next_state = ((CL_CCB000_801729A8_S_801729A8_0 *)action)->unk_9B;

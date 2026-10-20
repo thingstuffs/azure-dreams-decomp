@@ -1,31 +1,31 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/region_5dd4fc_5dd580",
- "container": "town",
- "foff": "0x5dd4fc",
- "size": "0x84",
- "vma": "0x80017cfc",
- "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase r121w_s1_town_5db954",
- "entries": [
-  {
-   "row": "town/func_8065D4FC",
-   "home": "town/func_8032FC84",
-   "tu": "src/town/func_8032FC84.c",
-   "foff": "0x5dd4fc",
-   "vma": "0x80017cfc",
-   "size": 132,
-   "bindings": {
-    "0x8001b8a8": "0x80018138",
-    "0x8001c370": "0x800183e8",
-    "0x8001c480": "0x800183f8",
-    "0x8001da10": "0x80018578",
-    "0x8001dc10": "0x800185b8",
-    "0x8001dcd0": "0x80018600",
-    "0x80016748": "0x80016840",
-    "0x80019860": "0x800170d8",
-    "0x8001a044": "0x800178bc"
-   },
-   "evidence": "docs/evidence/r121w_s1.receipt.json: town/func_8065D4FC"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/region_5dd4fc_5dd580",
+  "container": "town",
+  "foff": "0x5dd4fc",
+  "size": "0x84",
+  "vma": "0x80017cfc",
+  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase r121w_s1_town_5db954",
+  "entries": [
+    {
+      "row": "town/func_8065D4FC",
+      "home": "town/func_8032FC84",
+      "tu": "src/town/scene/object/init_object_set_runtime_pointers.c",
+      "foff": "0x5dd4fc",
+      "vma": "0x80017cfc",
+      "size": 132,
+      "bindings": {
+        "0x8001b8a8": "0x80018138",
+        "0x8001c370": "0x800183e8",
+        "0x8001c480": "0x800183f8",
+        "0x8001da10": "0x80018578",
+        "0x8001dc10": "0x800185b8",
+        "0x8001dcd0": "0x80018600",
+        "0x80016748": "0x80016840",
+        "0x80019860": "0x800170d8",
+        "0x8001a044": "0x800178bc"
+      },
+      "evidence": "docs/evidence/r121w_s1.receipt.json: town/func_8065D4FC"
+    }
+  ]
 }

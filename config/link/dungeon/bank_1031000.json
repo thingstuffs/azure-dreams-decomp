@@ -11,7 +11,7 @@
     {
       "row": "dungeon/func_81011278",
       "home": "dungeon/func_81005278",
-      "tu": "src/dungeon/func_81005278.c",
+      "tu": "src/dungeon/monster/garuda/update_object_movement_facing_terrain.c",
       "foff": "0x01031278",
       "vma": "0x80164A78",
       "size": 1504,
@@ -34,7 +34,7 @@
     },
     {
       "row": "dungeon/func_81011858",
-      "tu": "src/dungeon/func_81017858.c",
+      "tu": "src/dungeon/monster/garuda/update_creature_animation_dispatch_dungeon_action.c",
       "home": "dungeon/func_81017858",
       "foff": "0x1031858",
       "vma": "0x80165058",
@@ -81,7 +81,7 @@
     },
     {
       "row": "dungeon/func_81012AE0",
-      "tu": "src/dungeon/func_81006AE0.c",
+      "tu": "src/dungeon/monster/garuda/advance_actor_walk_animation.c",
       "home": "dungeon/func_81006AE0",
       "foff": "0x1032AE0",
       "vma": "0x801662E0",
@@ -89,7 +89,7 @@
     },
     {
       "row": "dungeon/func_81012C14",
-      "tu": "src/dungeon/func_80976E28.c",
+      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
       "home": "dungeon/func_80976E28",
       "foff": "0x1032C14",
       "vma": "0x80166414",
@@ -97,7 +97,7 @@
     },
     {
       "row": "dungeon/func_81012D58",
-      "tu": "src/dungeon/func_80976F6C.c",
+      "tu": "src/dungeon/monster/hikewne/select_state_table_with_flagged_offset.c",
       "home": "dungeon/func_80976F6C",
       "foff": "0x1032D58",
       "vma": "0x80166558",
@@ -105,7 +105,7 @@
     },
     {
       "row": "dungeon/func_81012DEC",
-      "tu": "src/dungeon/func_800CEE70.c",
+      "tu": "src/dungeon/actor/install_actor_action_handler.c",
       "home": "dungeon/func_800CEE70",
       "foff": "0x1032DEC",
       "vma": "0x801665EC",
@@ -120,7 +120,7 @@
     },
     {
       "row": "dungeon/func_81012E50",
-      "tu": "src/dungeon/func_81006E50.c",
+      "tu": "src/dungeon/monster/garuda/advance_actor_animation_sequence.c",
       "home": "dungeon/func_81006E50",
       "foff": "0x1032E50",
       "vma": "0x80166650",
@@ -128,7 +128,7 @@
     },
     {
       "row": "dungeon/func_81013034",
-      "tu": "src/dungeon/func_81007034.c",
+      "tu": "src/dungeon/monster/garuda/update_jump_motion.c",
       "home": "dungeon/func_81007034",
       "foff": "0x1033034",
       "vma": "0x80166834",
@@ -137,7 +137,7 @@
     {
       "row": "dungeon/func_810134E0",
       "home": "dungeon/func_810074E0",
-      "tu": "src/dungeon/func_810074E0.c",
+      "tu": "src/dungeon/monster/garuda/return_actor_to_tile_center.c",
       "foff": "0x010334E0",
       "vma": "0x80166CE0",
       "size": 816,
@@ -156,7 +156,7 @@
     },
     {
       "row": "dungeon/func_81013810",
-      "tu": "src/dungeon/func_81007810.c",
+      "tu": "src/dungeon/monster/garuda/update_garuda_defeat_removal.c",
       "home": "dungeon/func_81007810",
       "foff": "0x1033810",
       "vma": "0x80167010",
@@ -169,7 +169,7 @@
     },
     {
       "row": "dungeon/func_81013830",
-      "tu": "src/dungeon/func_80E10550.c",
+      "tu": "src/dungeon/monster/cyclone/reset_record_motion_field.c",
       "home": "dungeon/func_80E10550",
       "foff": "0x1033830",
       "vma": "0x80167030",
@@ -177,7 +177,7 @@
     },
     {
       "row": "dungeon/func_8101385C",
-      "tu": "src/dungeon/func_800AD92C.c",
+      "tu": "src/dungeon/effect/advance_actor_removal_callback.c",
       "home": "dungeon/func_800AD92C",
       "foff": "0x103385C",
       "vma": "0x8016705C",
@@ -192,7 +192,7 @@
     },
     {
       "row": "dungeon/func_8101387C",
-      "tu": "src/dungeon/func_800AD94C.c",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
       "home": "dungeon/func_800AD94C",
       "foff": "0x103387C",
       "vma": "0x8016707C",
@@ -207,7 +207,7 @@
     },
     {
       "row": "dungeon/func_810138B4",
-      "tu": "src/dungeon/func_810078B4.c",
+      "tu": "src/dungeon/monster/garuda/update_actor_status_callback.c",
       "home": "dungeon/func_810078B4",
       "foff": "0x10338B4",
       "vma": "0x801670B4",
@@ -215,7 +215,7 @@
     },
     {
       "row": "dungeon/func_81013CE0",
-      "tu": "src/dungeon/func_81007CE0.c",
+      "tu": "src/dungeon/monster/garuda/advance_entity_directional_events.c",
       "home": "dungeon/func_81007CE0",
       "foff": "0x1033CE0",
       "vma": "0x801674E0",
@@ -223,7 +223,7 @@
     },
     {
       "row": "dungeon/func_81014034",
-      "tu": "src/dungeon/func_809A2D74.c",
+      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0x1034034",
       "vma": "0x80167834",
@@ -239,7 +239,7 @@
     },
     {
       "row": "dungeon/func_81014160",
-      "tu": "src/dungeon/func_800ADA84.c",
+      "tu": "src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c",
       "home": "dungeon/func_800ADA84",
       "foff": "0x1034160",
       "vma": "0x80167960",
@@ -254,7 +254,7 @@
     },
     {
       "row": "dungeon/func_81014198",
-      "tu": "src/dungeon/func_800ADABC.c",
+      "tu": "src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c",
       "home": "dungeon/func_800ADABC",
       "foff": "0x1034198",
       "vma": "0x80167998",
@@ -269,7 +269,7 @@
     },
     {
       "row": "dungeon/func_810141D0",
-      "tu": "src/dungeon/func_800ADAF4.c",
+      "tu": "src/dungeon/effect/advance_actor_fade_in_and_dispatch.c",
       "home": "dungeon/func_800ADAF4",
       "foff": "0x10341D0",
       "vma": "0x801679D0",
@@ -285,7 +285,7 @@
     {
       "row": "dungeon/func_81014208",
       "home": "dungeon/func_81008208",
-      "tu": "src/dungeon/func_81008208.c",
+      "tu": "src/dungeon/monster/garuda/complete_timed_tile_movement.c",
       "foff": "0x01034208",
       "vma": "0x80167A08",
       "size": 1116,
@@ -310,7 +310,7 @@
     },
     {
       "row": "dungeon/func_81014664",
-      "tu": "src/dungeon/func_81008664.c",
+      "tu": "src/dungeon/monster/garuda/update_garuda_paired_move.c",
       "home": "dungeon/func_81008664",
       "foff": "0x1034664",
       "vma": "0x80167E64",

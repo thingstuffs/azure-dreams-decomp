@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Process each zero-terminated value list in the null-terminated entry array. */
 void process_zero_terminated_entry_lists(void **entries) {

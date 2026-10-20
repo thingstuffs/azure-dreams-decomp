@@ -159,7 +159,7 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
             ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_1A = 1;
             ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_1C = 1;
             ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_10 = ((u8 *)update_turning_fade_effect_and_model);
-            func_8004491C(meridian_object, &func_80174954);
+            register_node(meridian_object, &func_80174954);
             meridian_render = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_0C;
             ((R12_801749EC_S_801749EC_8 *)meridian_render)->unk_10 = 0x20;
             ((R12_801749EC_S_801749EC_8 *)meridian_render)->unk_14 = (u16) (((R12_801749EC_S_801749EC_8 *)meridian_render)->unk_14 | 0xC);
@@ -203,7 +203,7 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
                 ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_1A = 1;
                 ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_1C = 1;
                 ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_10 = ((u8 *)update_turning_fade_effect_and_model);
-                func_8004491C(ring_object, &func_80174954);
+                register_node(ring_object, &func_80174954);
                 ring_render = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_0C;
                 {
                     u16 object_flags;

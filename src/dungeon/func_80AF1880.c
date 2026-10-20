@@ -27,7 +27,7 @@ void advance_timed_attack_animation_and_damage(void *action, void *motion, void 
             u8 *direction_table = ((u8 *)D_801759C0);
 
             (*(u8 * *)((u8 *)sprite + (0x2C))) = direction_table;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                           direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                           0);
             ((R10_80173080_S_80173080_0 *)action)->unk_96.u = 0;

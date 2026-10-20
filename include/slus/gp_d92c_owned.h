@@ -19,6 +19,7 @@ extern u8 D_80080AA0;
 extern void drain_cd_command_queue(void);
 extern int func_80053EF0(int);
 extern void func_8003E758(void);
+extern void update_vsync_frame_id(int);
 extern void func_80044618(int);
 extern short SD_Call(int a0);
 extern void func_80040AA0(int);
@@ -29,6 +30,7 @@ extern void reset_game_state_preserving_session_fields(void);
 
 /* Handles a held button combination and restores saved settings when it triggers. */
 
+int update_shoulder_button_angle(void);
 int func_8003D92C(void);
 
 #endif

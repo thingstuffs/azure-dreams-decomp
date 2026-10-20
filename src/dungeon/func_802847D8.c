@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void append_generation_region_entry(s16 row_index, s16 first_byte, s16 second_byte, s16 value) {
     s32 row_offset;

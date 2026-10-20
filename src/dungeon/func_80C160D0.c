@@ -19,7 +19,7 @@ void advance_entity_along_path_2(void *motion, s32 unused, void *entity, void *p
     direction_table = ((SpriteTableView *)entity)->unk_2C;
     if (direction_table != ((u8 *)D_80174494) && direction_table != ((u8 *)D_8017449C)) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = ((u8 *)D_8017449C);
-        func_80047784(
+        select_sprite_entry(
             entity,
             ((u8 *)D_8017449C)[((g_game_work.view.viewAngle + ((R17_801718D0_S_801718D0_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);

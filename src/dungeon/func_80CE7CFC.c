@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p01.h"
+#include "dungeon/monster/troll/troll_flash_effects.h"
 
 /* Create and position an effect using a linked object or stored tile coordinates. */
 void create_actor_action_effect(void *source_object, void *source_pos, void *sprite_template, EntityRec *actor)
@@ -13,7 +13,7 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
     if (((s32)actor->target) == 0 &&actor->unk_72 >= 0) {
         return;
     }
-    effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    effect = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
     if (effect == 0) {
         return;
     }
@@ -40,9 +40,9 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
     ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0D = 0x80;
     ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0C = 0x80;
     ((T_801714FC_S_801714FC_3 *)effect_data)->unk_14 = ((T_801714FC_S_801714FC_3 *)effect_data)->unk_14 & 0xfff3;
-    func_8004491C(effect, func_80045340);
+    register_node(effect, project_sprite_chain);
     (*(void * *)((u8 *)effect_data + 0x2c)) = (void *)&D_80175EB4;
-    func_80047784(effect_data,
+    select_sprite_entry(effect_data,
         ((u8 *)&D_80175EB4)[(((s32)g_game_work.view.viewAngle + (s32)actor->facing + 0x100) >> 9) & 7],
         0);
     effect_data = ((T_801714FC_S_801714FC_2 *)effect)->unk_08;

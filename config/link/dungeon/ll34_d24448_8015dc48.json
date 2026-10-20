@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80D04448",
-      "tu": "src/dungeon/func_800CEE70.c",
+      "tu": "src/dungeon/actor/install_actor_action_handler.c",
       "home": "dungeon/func_800CEE70",
       "foff": "0xD24448",
       "vma": "0x8015DC48",

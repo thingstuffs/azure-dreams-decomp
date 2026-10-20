@@ -7,7 +7,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-extern void func_80047784(void *, u8, s32);
+extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(u8, u8);
 extern s32 compare_monster_neighbor_values(u8, u8, u8, u8);
@@ -109,7 +109,7 @@ void update_overlay_actor_action(ActorActionWork *action, void *context, ActorSp
         }
         if (sprite->directionFrames != D_80161E8C) {
             sprite->directionFrames = D_80161E8C;
-            func_80047784(
+            select_sprite_entry(
                 sprite,
                 D_80161E8C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);

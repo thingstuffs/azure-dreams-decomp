@@ -20,7 +20,7 @@ void update_bank_actor_sprite_state(BankActorState *actor, s32 action, SpriteFra
     } else if (sprite->frameTable == D_80174AFC &&
                !(target->flags1C & 0x208)) {
         sprite->frameTable = D_80174AD4;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
                       D_80174AD4[((g_game_work.view.viewAngle + target->facing + 0x100) >> 9) & 7],
                       0);
     }

@@ -1,5 +1,5 @@
 #include "shared/entity.h"
-#include "modules/dungeon_ovl_183a800.h"
+#include "dungeon/effect/particle/render_textured_effect_parts.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"

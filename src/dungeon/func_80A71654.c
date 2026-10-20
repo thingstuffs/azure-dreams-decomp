@@ -27,7 +27,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
             high_table = next_state;
         }
         (*(void * *)((u8 *)object + 0x2C)) = high_table;
-        func_80047784(object,
+        select_sprite_entry(object,
             *((u8 *)(((g_game_work.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7) + (u32)high_table),
             0);
         return;
@@ -56,7 +56,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
             table = ((u8 *)D_80174148);
             if (((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p != table) {
                 (*(void * *)((u8 *)object + 0x2C)) = table;
-                func_80047784(object,
+                select_sprite_entry(object,
                     table[((g_game_work.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7],
                     0);
             }
@@ -74,7 +74,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
             begin_actor_move_to_target_facing(record, entity, object, other_entity);
             func_80173EF4(record, entity, object, other_entity);
             (*(void * *)((u8 *)object + 0x2C)) = ((u8 *)D_80174140);
-            func_80047784(object,
+            select_sprite_entry(object,
                 *((u8 *)(((g_game_work.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7) + (u32)((u8 *)D_80174140)),
                 0);
             return;
@@ -186,7 +186,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
     if ((((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p != table) &&
         (((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p != ((u8 *)D_80174140))) {
         (*(void * *)((u8 *)object + 0x2C)) = table;
-        func_80047784(object,
+        select_sprite_entry(object,
             table[((g_game_work.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800A9E70_arg0 *)record)->unk_AA = 1;
@@ -202,7 +202,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
         } else {
             ((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p = ((u8 *)D_80174140);
         }
-        func_80047784(object,
+        select_sprite_entry(object,
             ((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p2[
                 ((g_game_work.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7],
             0);
@@ -222,13 +222,13 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
         u8 *base;
         s32 base_word;
 
-        created = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+        created = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
         ((Rec_func_800A9E70_arg0 *)record)->unk_A0.at00_pv.v = created;
         object = created;
         if (object == 0) {
             return;
         }
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
         color = (void *)0x00808080;
         ((R07_80170E54_S_80170E54_2 *)object)->unk_10 = ((u8 *)D_800D79B0);
         ((R07_80170E54_S_80170E54_9 *)(((R07_80170E54_S_80170E54_2 *)object)->unk_08))->unk_02 =

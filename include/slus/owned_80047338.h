@@ -37,6 +37,7 @@ extern u16 D_8008151E;
 
 /* Packs a texture into the atlas, decodes its data, and uploads it to VRAM. */
 
+void pack_texture_into_vram_wide(S_80047338_hdr *texture, S_80047338_rec *record, s32 data_offset);
 void func_80047338(S_80047338_hdr *texture, S_80047338_rec *record, s32 data_offset);
 
 #endif

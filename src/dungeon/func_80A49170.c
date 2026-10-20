@@ -139,7 +139,7 @@ void start_selected_move_and_reset_action(void *action, EntityRec *position, voi
         set_record_integer_tile_center(position, ((R06_80172970_S_80172970_4 *)sprite)->unk_24, ((R06_80172970_S_80172970_4 *)sprite)->unk_25);
         if (((R06_80172970_S_80172970_4 *)sprite)->unk_2C != ((u8 *)D_8017586C)) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_8017586C);
-            func_80047784(
+            select_sprite_entry(
                 sprite,
                 ((u8 *)D_8017586C)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);

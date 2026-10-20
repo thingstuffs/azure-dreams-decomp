@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 s16 count_unblocked_cells_in_generation_region(s16 entry_index) {
     s16 count = 0;

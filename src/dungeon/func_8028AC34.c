@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void clear_region_grid_rectangle(floor_generate_isolated_8028AC34_S_8001DC34_0 *region)
 {

@@ -40,7 +40,7 @@ typedef struct ActorActionView {
     union { u16 raw; s16 signedValue; } startHeight;
 } ActorActionView;
 
-extern void func_80047784();
+extern void select_sprite_entry();
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
@@ -91,7 +91,7 @@ void update_action_behavior_facing_and_animation(ActorActionView *action, void *
             u8 *next_anim_table = &D_8016EF40;
 
             (sprite->frameTable) = next_anim_table;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 next_anim_table[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
         }
@@ -123,7 +123,7 @@ void update_action_behavior_facing_and_animation(ActorActionView *action, void *
             anim_table = D_8016EF00;
             if (sprite->frameTable != anim_table) {
                 (sprite->frameTable) = anim_table;
-                func_80047784(sprite,
+                select_sprite_entry(sprite,
                     anim_table[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
             }
@@ -266,7 +266,7 @@ void update_action_behavior_facing_and_animation(ActorActionView *action, void *
     }
 
     (sprite->frameTable) = anim_table;
-    func_80047784(sprite,
+    select_sprite_entry(sprite,
         anim_table[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
 }

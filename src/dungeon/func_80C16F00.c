@@ -36,7 +36,7 @@ void update_staged_movement_and_direction(void *action, void *motion, void *spri
         if (!(flags & 0xE000))
             return;
         FPTR(sprite, 0x2C) = ((u8 *)D_801744B4);
-        func_80047784(sprite, ((u8 *)D_801744B4)[((g_game_work.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, ((u8 *)D_801744B4)[((g_game_work.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         F32(motion, 0xC) = (-step_x) << 18;
         F32(motion, 0x10) = (-step_y) << 18;
         F16(action, 0x98) |= 8;
@@ -66,7 +66,7 @@ void update_staged_movement_and_direction(void *action, void *motion, void *spri
             F32(motion, 0x10) = 0;
             F32(motion, 0x14) = 0;
             FPTR(sprite, 0x2C) = ((u8 *)D_801744BC);
-            func_80047784(sprite, ((u8 *)D_801744BC)[((g_game_work.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(sprite, ((u8 *)D_801744BC)[((g_game_work.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         }
         if (FS16(action, 0x96) > 0)
             return;
@@ -76,7 +76,7 @@ void update_staged_movement_and_direction(void *action, void *motion, void *spri
         F32(motion, 0xC) = (step_x << 18) + (step_x << 17);
         F32(motion, 0x10) = (step_y << 18) + (step_y << 17);
         FPTR(sprite, 0x2C) = ((u8 *)D_801744C4);
-        func_80047784(sprite, ((u8 *)D_801744C4)[((g_game_work.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, ((u8 *)D_801744C4)[((g_game_work.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         F8(action, 0x9B)++;
         return;
 
@@ -100,7 +100,7 @@ void update_staged_movement_and_direction(void *action, void *motion, void *spri
         if (!(F16(sprite, 0x14) & 0xE000))
             return;
         FPTR(sprite, 0x2C) = ((u8 *)D_801744CC);
-        func_80047784(sprite, ((u8 *)D_801744CC)[((g_game_work.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, ((u8 *)D_801744CC)[((g_game_work.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         F32(motion, 0x14) = 0;
         F32(action, 0x90) = 0;
         F16(action, 0x98) &= 0xFFF7;
@@ -134,7 +134,7 @@ void update_staged_movement_and_direction(void *action, void *motion, void *spri
         g_dungeon_status.unk_0C = 0;
         advance_status_timers(actor);
         FPTR(sprite, 0x2C) = ((u8 *)D_8017449C);
-        func_80047784(sprite, ((u8 *)D_8017449C)[((g_game_work.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, ((u8 *)D_8017449C)[((g_game_work.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         if (FS8(actor, 0x6D) == 0) {
             F16(actor, 0x46) &= 0x7FFF;
             return;

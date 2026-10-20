@@ -34,7 +34,7 @@ s32 initialize_transition_action(void *action_state, s32 action_id, void *source
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         (*(u8 * *)((u8 *)source_obj + 0x2C)) = ((u8 *)D_80174214);
-        func_80047784(
+        select_sprite_entry(
             source_obj,
             ((u8 *)D_80174214)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);

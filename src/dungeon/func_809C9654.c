@@ -20,7 +20,7 @@ void func_80170E54(void *controller, void *context, void *entity, EntityRec *act
             void *record = entity;
             entity = (u8 *)entity + 0x2C;
             *(void **)entity = early_table;
-            func_80047784(record,
+            select_sprite_entry(record,
                 early_table[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                 0);
             return;
@@ -53,7 +53,7 @@ void func_80170E54(void *controller, void *context, void *entity, EntityRec *act
             anim_table = ((u8 *)D_80173C7C);
             if (((R03_80170E54_S_80170E54_2 *)entity)->unk_2C != anim_table) {
                 (*(void * *)((u8 *)entity + (0x2C))) = anim_table;
-                func_80047784(entity,
+                select_sprite_entry(entity,
                     anim_table[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                     0);
             }
@@ -175,7 +175,7 @@ void func_80170E54(void *controller, void *context, void *entity, EntityRec *act
         return;
     }
     (*(void * *)((u8 *)entity + (0x2C))) = anim_table;
-    func_80047784(entity,
+    select_sprite_entry(entity,
         *(u8 *)((u32)(((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
 }

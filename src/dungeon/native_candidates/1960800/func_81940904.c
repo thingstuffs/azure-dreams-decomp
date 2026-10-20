@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_1960800.h"
+#include "dungeon/effect/particle/advance_object_spawning_displays_high.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -82,7 +82,7 @@ void func_80024104(void *owner) {
             ((S_80024104_0 *)effect_work)->unk_32 = slot;
             ((S_80024104_0 *)effect_work)->unk_60 = owner;
             ((S_80024104_1 *)effect)->unk_10 = func_8002405C;
-            func_8004491C(effect, (s32)func_80045340);
+            register_node(effect, (s32)project_sprite_chain);
 
             display = ((S_80024104_1 *)effect)->unk_0C;
             display->field6 = 4;

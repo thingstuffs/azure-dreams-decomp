@@ -23,7 +23,7 @@ void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, EntityR
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         sprite->unk_2C.as_pu8 = direction_frames;
-        func_80047784(sprite,(u8)(direction_frames[((s32) (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+        select_sprite_entry(sprite,(u8)(direction_frames[((s32) (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7]), 0);
         action->unk_96 = 9;
         action->unk_9B++;

@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Scale a coordinate pair by 64 and append it to the null-terminated pointer list. */
 void **scale_coordinates_and_append_pointers(s32 firstX, s32 firstY, s32 secondX, s32 secondY,

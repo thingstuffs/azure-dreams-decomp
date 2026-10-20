@@ -118,7 +118,7 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
         ((EntityRec *)actor)->flags1C |= 0x08000000;
         ((EntityRec *)actor)->flags1C |= 0x00040000;
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_8017449C);
-        func_80047784(sprite,(u8)(((u8 *)D_8017449C)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7]),
+        select_sprite_entry(sprite,(u8)(((u8 *)D_8017449C)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7]),
             0);
 
         {

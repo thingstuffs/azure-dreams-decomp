@@ -1,0 +1,22 @@
+#include "common.h"
+
+typedef struct S_80050640 {
+    void (*vtable)(void *a0, s32 a1, s32 a2, s32 a3);
+    s32 unk4;
+    s32 counter; /* 0x8 */
+    u8 pad0C[0x58 - 0xC];
+    u8 buf58[8]; /* passed to set_color_components_and_scaled_fields as a0 */
+} S_80050640;
+
+extern void set_color_components_and_scaled_fields(void *a0, s32 a1, s32 a2);
+extern void func_800505BC(void *a0, s32 a1, s32 a2, s32 a3);
+extern void handle_object_input(void *a0);
+
+/* Starts the ratio ramp using the current counter, advances it, and updates the object. */
+void start_gauge_ramp(S_80050640 *obj)
+{
+    set_color_components_and_scaled_fields(&obj->buf58, obj->counter++, 3);
+
+    obj->vtable = (void (*)(void *, s32, s32, s32))func_800505BC;
+    handle_object_input(obj);
+}

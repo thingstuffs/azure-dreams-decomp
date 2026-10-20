@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p03.h"
+#include "dungeon/monster/troll/advance_actor_stored_path.h"
 
 /* Initializes an actor action and resolves its target and chained effects. */
 s32 check_and_prepare_actor_move(void *action_state, s32 facing, void *origin, void *actor)

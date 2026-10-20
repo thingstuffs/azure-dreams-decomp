@@ -14,7 +14,7 @@ void func_80173BBC(void *action, void *context, void *sprite_in, void *actor_in)
             return;
         }
         (*(void * *)((u8 *)sprite_in + 0x2C)) = ((u8 *)D_801759E8);
-        func_80047784(sprite_in,
+        select_sprite_entry(sprite_in,
             ((u8 *)D_801759E8)[((g_game_work.view.viewAngle + ((R10_80173BBC_S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         {
@@ -28,7 +28,7 @@ void func_80173BBC(void *action, void *context, void *sprite_in, void *actor_in)
         return;
 
     case 1:
-        if ((func_80042900(actor_in, 1) << 16) != 0) {
+        if ((get_entity_effect_value(actor_in, 1) << 16) != 0) {
             status = &g_dungeon_status;
             if (status->flags & 0x1000) {
                 return;
@@ -68,8 +68,8 @@ void func_80173BBC(void *action, void *context, void *sprite_in, void *actor_in)
                 }
             }
             update_actor_status_and_food(actor_in);
-            func_800A9A04(actor_in);
-            if ((func_80042900(actor_in, 1) << 16) != 0) {
+            on_actor_status_updated(actor_in);
+            if ((get_entity_effect_value(actor_in, 1) << 16) != 0) {
                 s8 coordinate = ((R10_80173BBC_S_80173D4C_1 *)sprite_in)->unk_26;
                 TileObject *origin = &D_80082E80;
                 s32 probe_result;
@@ -79,25 +79,25 @@ void func_80173BBC(void *action, void *context, void *sprite_in, void *actor_in)
                     actor_to_check = actor_in;
                     if (probe_result < 2) {
                         if (!(generate_random_value(actor_in) & 7)) {
-                            func_80042B68(actor_in, 1);
+                            clear_slots_of_type(actor_in, 1);
                         }
                         actor_to_check = actor_in;
                     }
                 } else {
                     if (!(generate_random_value(origin) & 7)) {
-                        func_80042B68(actor_in, 1);
+                        clear_slots_of_type(actor_in, 1);
                     }
                     actor_to_check = actor_in;
                 }
             } else {
                 actor_to_check = actor_in;
             }
-            if ((func_80042900(actor_to_check, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor_to_check, 1) << 16) != 0) {
                 return;
             }
 
             (*(void * *)((u8 *)sprite_in + 0x2C)) = ((u8 *)D_801759F0);
-            func_80047784(sprite_in,
+            select_sprite_entry(sprite_in,
                 ((u8 *)D_801759F0)[((g_game_work.view.viewAngle + ((R10_80173BBC_S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                 0);
             if (((R10_80173BBC_S_80173D4C_1 *)sprite_in)->unk_14 & 0x8000) {
@@ -110,7 +110,7 @@ void func_80173BBC(void *action, void *context, void *sprite_in, void *actor_in)
             return;
         }
         (*(void * *)((u8 *)sprite_in + 0x2C)) = ((u8 *)D_801759F0);
-        func_80047784(sprite_in,
+        select_sprite_entry(sprite_in,
             ((u8 *)D_801759F0)[((g_game_work.view.viewAngle + ((R10_80173BBC_S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         if (((R10_80173BBC_S_80173D4C_1 *)sprite_in)->unk_14 & 0x8000) {

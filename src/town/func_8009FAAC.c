@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Classifies a record using its attached state and two position tests. */
 s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position_data)

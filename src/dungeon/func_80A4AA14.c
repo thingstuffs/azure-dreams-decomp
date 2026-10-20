@@ -29,7 +29,7 @@ void advance_actor_action_and_update_status(
     R06_80174214_S_80174214_3 *y_dest;
     R06_80174214_S_80174214_5 *z_dest;
 
-    object_fields = func_8003FD64(0x211, source_obj);
+    object_fields = allocate_list_node(0x211, source_obj);
     if (object_fields != NULL) {
         object_fields->unk_10 = (s32)((u8 *)advance_randomized_motion_and_complete);
         x_jitter = rand() & 0x1F;
@@ -60,7 +60,7 @@ void advance_actor_action_and_update_status(
         z_dest->unk_0A = (s16)z_pos;
         fields->unk_14 = saved_value_34;
         fields->unk_32 = saved_value_52;
-        func_8004491C(object_fields, init_data);
+        register_node(object_fields, init_data);
         fields->unk_08.u = saved_value_28;
     }
 }

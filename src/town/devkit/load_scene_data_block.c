@@ -1,0 +1,62 @@
+#include "common.h"
+
+typedef struct {
+    u8 pad00[0x68];
+    void (*func68)(void *, void *, s32);
+    u8 pad6C[8];
+    void (*func74)(s32);
+} CallbackTable;
+
+typedef struct {
+    u8 pad00[0x10];
+    u8 *data;
+} TownObject;
+
+extern s32 D_8070309C;
+extern CallbackTable *D_807030B8;
+extern u8 D_807028F4[];
+extern u8 D_8070291C[];
+extern TownObject *D_807030AC;
+extern u8 D_80702FB8[];
+extern u8 *D_8070306C[];
+extern u8 **D_807030B4;
+extern void func_80702A54(void);
+
+/* Reset the town display, pick the scene's data block and relocate its pointer table. */
+void load_scene_data_block(s32 scene, s32 mode)
+{
+    s32 sentinel;
+    u8 *ptr;
+    s32 first;
+
+    if (D_8070309C != 0) {
+        D_807030B8->func68(D_807028F4, D_8070291C, 0xE2);
+        D_807030B8->func74(1);
+    }
+
+    D_8070309C = 1;
+    func_80702A54();
+
+    if (mode == (2)) {
+        D_807030AC->data = D_80702FB8;
+    } else {
+        D_807030AC->data = D_8070306C[scene];
+    }
+    ptr = D_807030AC->data;
+    first = ptr[1];
+    sentinel = 0x80;
+    if (first != sentinel) {
+        s32 terminator;
+        terminator = 0x80;
+        ptr++;
+loop_0:
+        {
+            u32 index = *(u32 *)(ptr + 11);
+            u8 **table = D_807030B4;
+            *(u32 *)(ptr + 11) = (u32)table[index];
+            ptr += 20;
+        }
+        if (*ptr != terminator)
+            goto loop_0;
+    }
+}

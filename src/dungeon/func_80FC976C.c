@@ -98,9 +98,9 @@ typedef struct PlayerAction {
     u8 action;
 } PlayerAction;
 
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
-extern void func_80047784(void *, s32, s32);
+extern void *allocate_list_node(s32, void *);
+extern void register_node(void *, void *);
+extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(s32, s32);
@@ -163,7 +163,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
                 sprite->directionFrames = next_frames;
                 post_index = ((g_game_work.view.viewAngle +
                     entity->facing.s + 0x100) >> 9) & 7;
-                func_80047784(sprite,
+                select_sprite_entry(sprite,
                     *(u8 *)((unsigned long)post_index +
                             (unsigned long)next_frames),
                     0);
@@ -198,7 +198,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
             if (current_state != state) {
                 if (sprite->directionFrames != D_8015D258) {
                     sprite->directionFrames = D_8015D258;
-                    func_80047784(sprite,
+                    select_sprite_entry(sprite,
                         D_8015D258[((g_game_work.view.viewAngle + entity->facing.s + 0x100) >> 9) & 7],
                         0);
                 }
@@ -239,7 +239,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
                 if (entity->motionFlags & 0x1000000) {
                     action_state->specialPhase.u++;
                     sprite->directionFrames = D_8015D2A0;
-                    func_80047784(sprite,
+                    select_sprite_entry(sprite,
                         D_8015D2A0[((g_game_work.view.viewAngle + entity->facing.s + 0x100) >> 9) & 7],
                         0);
                     action_state->ticks = 0;
@@ -269,9 +269,9 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
                 motion->dy = motion->dy +
                     (motion->dy * scale >> 9);
 
-                object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+                object = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
                 if (object != 0) {
-                    func_8004491C(object, func_80045340);
+                    register_node(object, project_sprite_chain);
                     payload = object->motion;
                     object->updateData = D_8015D174;
                     part = object->sprite;
@@ -356,7 +356,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
                     entity->motionFlags &= ~0x20000;
                     entity->facing.s = action_state->savedFacing;
                     sprite->directionFrames = D_8015D258;
-                    func_80047784(sprite,
+                    select_sprite_entry(sprite,
                         D_8015D258[((g_game_work.view.viewAngle + entity->facing.s + 0x100) >> 9) & 7],
                         0);
                     action_state->specialPhase.u = 0;
@@ -501,7 +501,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
             sprite->directionFrames = next_frames;
             post_index = ((g_game_work.view.viewAngle +
                 entity->facing.s + 0x100) >> 9) & 7;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 *(u8 *)((unsigned long)post_index +
                         (unsigned long)next_frames),
                 0);

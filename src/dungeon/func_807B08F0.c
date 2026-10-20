@@ -25,7 +25,7 @@ void func_800F80F0(s16 tile_x, s16 tile_y, s16 initial_value) {
     object = func_8003FC64(2);
     if (object != NULL) {
         ((S_807B08F0_0 *)object)->unk_10 = (void *)func_800F81A0;
-        func_8004491C(object, (void *)render_particle_effect_object);
+        register_node(object, (void *)render_particle_effect_object);
         state = object + 0x20;
         ((S_807B08F0_0 *)object)->unk_20 = (u16) (tile_x * 0x40 + 0x20);
         state->unk_02 = (u16) (tile_y * 0x40 + 0x20);

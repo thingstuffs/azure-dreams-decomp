@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_183a800.h"
+#include "dungeon/effect/particle/render_textured_effect_parts.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -32,7 +32,7 @@ void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offs
         state->unk_02 = effect_value;
         state->unk_60 = (s32) ((rand() & 0x1FFFF) + 0x10000);
         ((S_8181B1A0_1 *)effect)->unk_10 = &func_80024878;
-        func_8004491C(effect, (s32)func_80045340);
+        register_node(effect, (s32)project_sprite_chain);
         render = ((S_8181B1A0_1 *)effect)->unk_0C;
         render->unk_14 = (u16) (render->unk_14 | 0xC);
         position = ((S_8181B1A0_1 *)effect)->unk_08;

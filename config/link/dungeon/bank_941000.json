@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_809217A4",
-      "tu": "src/dungeon/func_809217A4.c",
+      "tu": "src/dungeon/effect/sprite/play_transition_sound_and_reset_status.c",
       "home": "dungeon/func_809217A4",
       "foff": "0x9417A4",
       "vma": "0x800F67A4",
@@ -17,7 +17,7 @@
     },
     {
       "row": "dungeon/func_809217CC",
-      "tu": "src/dungeon/func_809217CC.c",
+      "tu": "src/dungeon/actor/no_op_hook_third.c",
       "home": "dungeon/func_809217CC",
       "foff": "0x9417CC",
       "vma": "0x800F67CC",

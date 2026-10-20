@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_80DDD7D8",
       "home": "dungeon/func_800CDF70",
-      "tu": "src/dungeon/func_800CDF70.c",
+      "tu": "src/dungeon/actor/state/process_actor_state_chain.c",
       "foff": "0xdfd7d8",
       "vma": "0x8014cfd8",
       "size": 104,
@@ -22,7 +22,7 @@
     },
     {
       "row": "dungeon/func_80DE0940",
-      "tu": "src/dungeon/func_8097DD68.c",
+      "tu": "src/dungeon/actor/forward_actor_defeat_removal.c",
       "home": "dungeon/func_8097DD68",
       "foff": "0xE00940",
       "vma": "0x80150140",

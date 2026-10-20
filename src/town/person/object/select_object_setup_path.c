@@ -1,0 +1,23 @@
+#include "common.h"
+
+extern s32 service_script_controller(void *, s32, s32, s32);
+extern s32 check_active_transform_object(void *other);
+extern void initialize_object_and_update(void *object, s32 setupParam1, s32 setupParam2);
+extern void initialize_object_handlers(void *object, s32 setupParam1, s32 setupParam2);
+extern u8 D_80082A39[16];
+
+/* Select the object setup path after a successful request. */
+s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param) {
+    if (service_script_controller(object, request_data, request_param, check_param) == 0) {
+        return 0;
+    }
+
+    if (check_active_transform_object(object) != 0 ||
+        D_80082A39[0] == *(s32 *)((u8 *)object + 0x60)) {
+        initialize_object_and_update(object, request_data, request_param);
+        return 1;
+    }
+
+    initialize_object_handlers(object, request_data, request_param);
+    return 1;
+}

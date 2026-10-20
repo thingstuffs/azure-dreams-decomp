@@ -8,6 +8,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/dungeon_moving_views.h"
 extern u8 D_80174AD4[];
+void select_sprite_entry();
 void func_80047784();
 s32 compare_monster_neighbor_values();
 /* This retail bank used the signed-halfword declaration. */
@@ -22,7 +23,9 @@ s32 advance_status_timers();
 void reduce_actor_food_meter();
 s32 begin_ready_actor_directional_action();
 s32 get_rounded_facing_and_rounding_flag();
+void * allocate_list_node();
 void * func_8003FD64();
+s32 register_node();
 s32 func_8004491C();
 s32 play_sound_if_enabled();
 void *func_80170880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);

@@ -76,7 +76,7 @@ void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, u8
         func_8006658C(packet_list, region_packet);
         actor->state++;
     } else if (state == 1) {
-        func_8004491C((u8 *)actor - 0x20, process_linked_mesh_states_mode_0);
+        register_node((u8 *)actor - 0x20, process_linked_mesh_states_mode_0);
         actor->state++;
     } else if (state == 3) {
         decay_level = ((ovl_9c32d4_809A32D4_S_80174AD4_4 *)effect_data)->unk_0C;

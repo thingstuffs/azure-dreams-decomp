@@ -10,7 +10,7 @@ s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, R08_801
         scratch->value = ((s16 *)D_80174D14)[0];
 
         if (!(entry->unk14 & 0x80)) {
-            func_800453E0(payload, entry_data, entry,(s16)(entry->unk06));
+            project_sprite_commands(payload, entry_data, entry,(s16)(entry->unk06));
         }
 
         next_entry = *(R08_801740F4_Entry **)((u8 *)payload - 8);

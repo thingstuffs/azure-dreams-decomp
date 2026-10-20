@@ -1,0 +1,44 @@
+#include "common.h"
+#include "shared/record_ptrs.h"
+#include "shared/town_root.h"
+
+
+typedef struct S_8072A398_4 {
+    u8 pad_00[0x4];
+    u16 unk_04;
+} S_8072A398_4;   /* ((S_8072A398_2 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_1C in submit_position_with_service_258 */
+
+typedef struct S_8072A398_5 {
+    u8 pad_00[0x8];
+    u16 unk_08;
+} S_8072A398_5;   /* (*(void **)((u8 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v) + 0x1C)) in submit_position_with_service_258 */
+
+
+extern s32 D_80017B78;
+
+typedef struct S_8072A398_0 {
+    u8 pad_00[0x4];
+    s32 unk_04;
+    s32 unk_08;
+} S_8072A398_0;
+
+/* Configures the active object with two 16.16 coordinates and a zero third component. */
+void submit_position_with_service_258(void) {
+    s32 *fixed_coords;
+
+    ((s32 (*) (s32))D_80016000->unk_20->callback_258)(0xC);
+    D_80017B78 =
+        ((S_8072A398_4 *)(D_80016000->unk_1C))->unk_04
+    << 0x10;
+    fixed_coords = &D_80017B78;
+    ((S_8072A398_0 *)fixed_coords)->unk_04 =
+        (s32) (((S_8072A398_5 *)((*(void **)((u8 *)(D_80016000)
+        + 0x1C))))->unk_08 << 0x10);
+    ((S_8072A398_0 *)fixed_coords)->unk_08 = 0;
+    ((s32 (*) (s32 *))D_80016000->unk_20->callback_224)(fixed_coords);
+    ((s32 (*) (s32))D_80016000->unk_20->callback_208)(0);
+}
+
+/* MECHANISM: Declaring D_80016000 as a wide array holds its 0x80010000 page in s0,
+   producing the 0x18 frame with only s0/ra saved and repeated 0x6000 page loads.
+   Storing the shifted +4 field before zeroing +8 lets a0 become the record pointer in retail order. */

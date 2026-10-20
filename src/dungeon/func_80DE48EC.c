@@ -89,7 +89,7 @@ return_tail:
     ((E_801720EC_S_801720EC_2 *)action_state)->unk_8C = 0;
     ((E_801720EC_S_801720EC_2 *)action_state)->unk_9A = 0x17;
     (((SpriteFieldView_80DE48EC *)sprite)->field_2C) = D_80174558;
-    func_80047784(sprite,
+    select_sprite_entry(sprite,
                   D_80174558[((g_game_work.view.viewAngle + ((E_801720EC_S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
                   0);
     advance_status_timers(actor);

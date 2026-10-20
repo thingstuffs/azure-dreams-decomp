@@ -18,7 +18,7 @@ extern u8 D_800E0BA1[];
 
 void func_800419EC();
 void func_80040AA0();
-s32 func_800429E4();
+s32 get_entity_class();
 void mark_sprite_resources_for_purge();
 void snapshot_inventory_and_familiars();
 void snapshot_inventory_familiar_records();
@@ -256,18 +256,18 @@ L_zero:
             if (phase == (s16)find_active_monster_record(*(u8 *)(ep + 36), *(u8 *)(ep + 37))) {
                 if (*(u8 *)(e + 19) == 0) {
                     D_800E296C |= 0x2000;
-                    create_orbiting_teleport_effect(e, tbl[func_800429E4(e)], 0, 0);
+                    create_orbiting_teleport_effect(e, tbl[get_entity_class(e)], 0, 0);
                     p = D_800E3D7C;
                     q = ((u8 *)p->unk_AC);
                     if (q != 0) {
-                        create_orbiting_teleport_effect(q, tbl[func_800429E4(q)], 0, 0);
+                        create_orbiting_teleport_effect(q, tbl[get_entity_class(q)], 0, 0);
                     }
                     {
                         EntityRec *p2 = D_800E3D7C;
                         q = ((u8 *)p2->unk_B0);
                     }
                     if (q != 0) {
-                        create_orbiting_teleport_effect(q, tbl[func_800429E4(q)], 1, 0);
+                        create_orbiting_teleport_effect(q, tbl[get_entity_class(q)], 1, 0);
                     }
                     *(s16 *)(w + 18) = 1;
                 } else if (*(u32 *)(e + 20) & 0x4000) {

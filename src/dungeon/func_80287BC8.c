@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 s32 has_generation_link_within_pair(s16 value_a, s16 value_b)
 {

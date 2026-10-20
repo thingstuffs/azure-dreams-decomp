@@ -323,7 +323,7 @@
       "vma": 2148018876,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_town_map.h",
+      "declaration": "include/dungeon/level/townmap.h",
       "evidence": "docs/evidence/dungeon_town_map.imports.json"
     },
     "D_80083160": {
@@ -350,7 +350,7 @@
       "vma": 2148516888,
       "view_bytes": 1,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_town_map.h",
+      "declaration": "include/dungeon/level/townmap.h",
       "evidence": "docs/evidence/dungeon_town_map.imports.json"
     }
   },

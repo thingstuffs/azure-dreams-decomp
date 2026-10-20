@@ -25,10 +25,10 @@ extern u8 D_800DEB28[];
 extern s32 create_an_copied_position_packed_data_initialize_rendering_state(void *, void *, void *, void *, s32, s32, s32, s32);
 extern s32 advance_object_spawning_displays_high(void *, void *, void *);
 extern s32 draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
-extern s32 func_8003DF74(void *, void *, void *, s32);
+extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 func_80069EF8(void);
 extern s32 handle_spawn_initialize_randomized_offset_parent(void *, s32, s32, s32, s16, s16, s16);
-extern s32 func_8004491C(void *, void *);
+extern s32 register_node(void *, void *);
 extern s32 func_80053EF0(s32);
 extern void play_sound_if_enabled(s32);
 extern void func_8003DB94(void *, void *, void *);
@@ -143,7 +143,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
         }
         if (F(effect, s16, 0x20) < 11) {
             u8 *dungeon = ((u8 *)(&D_80082E80));
-            if (func_8003DF74(F(dungeon, void *, 8), dungeon,
+            if (get_sprite_attachment_vector(F(dungeon, void *, 8), dungeon,
                               (u8 *)effect + 0xC, 0) != 0) {
                 particle_index = 0;
                 do
@@ -171,7 +171,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                     if (particle != 0) {
                         F(particle, s16, 0x4A) = 8;
                         F(particle, void *, 0x10) = spawn_data;
-                        func_8004491C(particle, func_80045340);
+                        register_node(particle, project_sprite_chain);
                         sprite = F(particle, void *, 0xC);
                         F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
                         position = F(particle, void *, 8);
@@ -259,7 +259,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                         if (particle != 0) {
                             F(particle, s16, 0x4A) = 8;
                             F(particle, void *, 0x10) = spawn_data;
-                            func_8004491C(particle, func_80045340);
+                            register_node(particle, project_sprite_chain);
                             sprite = F(particle, void *, 0xC);
                             F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
                             position = F(particle, void *, 8);
@@ -342,10 +342,10 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
             return;
         }
         init_object = particle;
-        animation_m = func_80045340;
+        animation_m = project_sprite_chain;
         F(particle, s16, 0x4A) = 6;
         F(particle, void *, 0x10) = (void *)((u32)&D_800248B8);
-        func_8004491C(init_object, animation_m);
+        register_node(init_object, animation_m);
         bits = 0x20;
         sprite = F(particle, void *, 0xC);
         {
@@ -362,7 +362,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
         }
         {
             u8 *dungeon = ((u8 *)(&D_80082E80));
-            if (func_8003DF74(F(dungeon, void *, 8), dungeon,
+            if (get_sprite_attachment_vector(F(dungeon, void *, 8), dungeon,
                               (u8 *)effect + 0xC, 0) != 0) {
                 F(position, u32, 0) += (u32)(F(effect, s16, 0xC) << 16);
                 F(position, u32, 4) += (u32)(F(effect, s16, 0xE) << 16);
@@ -391,7 +391,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                     burst_tail = (u8 *)particle + 0x20;
                     F(burst_tail, s16, 0x2A) = 12;
                     F(particle, void *, 0x10) = particle_script;
-                    func_8004491C(particle, func_80045340);
+                    register_node(particle, project_sprite_chain);
                     sprite = F(particle, void *, 0xC);
                     F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
                     F(sprite, u16, 0x10) = 0x60;
@@ -399,7 +399,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                         F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
                     }
                     position = F(particle, void *, 8);
-                    if (func_8003DF74(F(spawn_data, void *, 8), spawn_data, (u8 *)effect + 0xC, 0) != 0) {
+                    if (get_sprite_attachment_vector(F(spawn_data, void *, 8), spawn_data, (u8 *)effect + 0xC, 0) != 0) {
                         F(effect, u16, 0xC) = (u16)(F(effect, u16, 0xC) + F(world_offset, u16, 2));
                         F(effect, u16, 0xE) = (u16)(F(effect, u16, 0xE) + F(world_offset, u16, 6));
                         F(effect, u16, 0x10) = (u16)(F(effect, u16, 0x10) + F(world_offset, u16, 0xA));

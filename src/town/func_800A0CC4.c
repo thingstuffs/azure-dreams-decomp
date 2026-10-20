@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* kewn_namewin_close_check: Copies the entered name to the main and matching item buffers when the close flag is set. */
 s32 kewn_namewin_close_check(void) {

@@ -25,7 +25,7 @@ void complete_timed_actor_animation(void *action, void *motion, void *sprite, vo
         ((CB_801729A8_S_801729A8_3 *)motion)->unk_10 = 0;
         ((CB_801729A8_S_801729A8_3 *)motion)->unk_0C = 0;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801752DC;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_801752DC[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         next_state = ((CB_801729A8_S_801729A8_0 *)action)->unk_9B;

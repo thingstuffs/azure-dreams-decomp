@@ -1,0 +1,23 @@
+#include "common.h"
+#include "shared/object_node.h"
+#include "shared/entity_objects.h"
+#include "shared/dungeon_status.h"
+
+extern void *allocate_list_node(s32 kind, void *owner);
+extern void update_effect_controller(void);
+
+/* Increment the dungeon count and initialize a new object's callback and rotation. */
+void create_rotating_effect(void)
+{
+    u8 *object;
+
+    g_dungeon_status.unk_0A++;
+    object = allocate_list_node(2, ((s32 *)(&D_80083498)));
+    if (object != 0) {
+        *(void (**)(void))(object + 0x10) = update_effect_controller;
+        object += 0x20;
+        *(u16 *)(object + 4) = ((u16)D_80083780.x.w.i);
+        *(u16 *)(object + 6) = ((u16)D_80083780.y.w.i);
+        *(u16 *)(object + 8) = ((u16)D_80083780.z.w.i) - 0x30;
+    }
+}

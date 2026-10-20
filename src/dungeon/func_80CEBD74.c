@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p07.h"
+#include "dungeon/monster/troll/update_actor_activity_state.h"
 
 /* Updates the actor's directional animation and advances its action state. */
 void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *animation, T_80175574_Obj3 *actor)
@@ -25,7 +25,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E54;
                 table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E54;
-                func_80047784(animation,
+                select_sprite_entry(animation,
                     *(u8 *)table_entry,
                     0);
                 break;
@@ -33,7 +33,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E5C;
                 table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E5C;
-                func_80047784(animation,
+                select_sprite_entry(animation,
                     *(u8 *)table_entry,
                     0);
                 break;
@@ -41,7 +41,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E64;
                 table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E64;
-                func_80047784(animation,
+                select_sprite_entry(animation,
                     *(u8 *)table_entry,
                     0);
                 break;
@@ -65,7 +65,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
                 table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
-                func_80047784(animation,
+                select_sprite_entry(animation,
                     *(u8 *)table_entry,
                     0);
             }
@@ -77,7 +77,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
                 table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
-                func_80047784(animation,
+                select_sprite_entry(animation,
                     *(u8 *)table_entry,
                     0);
             }
@@ -89,7 +89,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
                 table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
-                func_80047784(animation,
+                select_sprite_entry(animation,
                     *(u8 *)table_entry,
                     0);
             }
@@ -103,7 +103,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E6C;
                 table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E6C;
-                func_80047784(animation,
+                select_sprite_entry(animation,
                     *(u8 *)table_entry,
                     0);
                 break;
@@ -111,7 +111,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E74;
                 table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E74;
-                func_80047784(animation,
+                select_sprite_entry(animation,
                     *(u8 *)table_entry,
                     0);
                 break;
@@ -119,7 +119,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E7C;
                 table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E7C;
-                func_80047784(animation,
+                select_sprite_entry(animation,
                     *(u8 *)table_entry,
                     0);
                 break;
@@ -159,7 +159,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 }
             }
             update_actor_status_and_food(actor);
-            func_800A9A04(actor);
+            on_actor_status_updated(actor);
             if (((EntityRec *)actor)->tileY == 0) {
                 return;
             }
@@ -168,7 +168,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E6C;
                 table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E6C;
-                func_80047784(animation,
+                select_sprite_entry(animation,
                     *(u8 *)table_entry,
                     0);
                 break;
@@ -176,7 +176,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E74;
                 table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E74;
-                func_80047784(animation,
+                select_sprite_entry(animation,
                     *(u8 *)table_entry,
                     0);
                 break;
@@ -184,7 +184,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E7C;
                 table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E7C;
-                func_80047784(animation,
+                select_sprite_entry(animation,
                     *(u8 *)table_entry,
                     0);
                 break;

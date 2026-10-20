@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void update_region_until_complete(Rec_func_8001CE44_arg0 *region, s16 update_id) {
     do {

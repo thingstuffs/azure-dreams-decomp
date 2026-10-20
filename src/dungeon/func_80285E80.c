@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 s32 setup_dungeon_floor_encounters(void)
 {
@@ -44,7 +44,7 @@ s32 setup_dungeon_floor_encounters(void)
 
             if (((s16 *)D_8008146C)[0] == 0x28) {
                 floor_event = 1;
-                if (func_80033BC0(0xA2) != 0) {
+                if (test_resident_bit(0xA2) != 0) {
                     floor_group = 7;
                 } else {
                     floor_group = -1;
@@ -56,7 +56,7 @@ s32 setup_dungeon_floor_encounters(void)
             } else if (((s16 *)D_8008146C)[0] == 2 && floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_022c != 1) {
                 floor_event = 2;
                 D_800E296C |= 0x10000000;
-            } else if (((s16 *)D_8008146C)[0] == 0x1F && func_80033BC0(0x1389) == 0) {
+            } else if (((s16 *)D_8008146C)[0] == 0x1F && test_resident_bit(0x1389) == 0) {
                 D_800E39C8[6] = 1;
                 D_800E39C8[7] = 1;
                 ((u8 *)D_800E3648)[0] = 0x37;
@@ -72,7 +72,7 @@ s32 setup_dungeon_floor_encounters(void)
                     D_80080A88[0] = 0;
                 }
                 if (D_80080A88[0] == 0) {
-                    func_80044698();
+                    wait_until_sound_idle();
                     D_80080A88[0] = 1;
                     SD_Call(0x200);
                     func_800542BC();
@@ -105,7 +105,7 @@ s32 setup_dungeon_floor_encounters(void)
                 floor_group = generate_random_value() & 7;
                 encounter_status = load_object_into_alternate_buffer(floor_group + 1, 1, 1);
                 if (encounter_status == 0) {
-                    func_80044698();
+                    wait_until_sound_idle();
                     SD_Call(0x200);
                     func_800542BC();
                     load_object_into_alternate_buffer(0, 1, 0);

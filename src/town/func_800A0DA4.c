@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Sets object type fields and selects the corresponding resource. */
 void set_object_types_and_resource(void *object, s32 index, void *output)

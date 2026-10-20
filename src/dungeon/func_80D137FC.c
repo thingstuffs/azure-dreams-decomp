@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f43f800_p06.h"
+#include "dungeon/monster/noise/advance_action_and_spawn_random_effects.h"
 
 /* Advance the action animation and spawn pairs of effects with randomized velocities. */
 void advance_action_and_spawn_random_effects(void *action, void *motion, void *sprite, EntityRec *actor) {
@@ -54,7 +54,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
         return;
     }
     (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80174EB8;
-    func_80047784(sprite, D_80174EB8[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+    select_sprite_entry(sprite, D_80174EB8[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
 
     ((T_80172FFC_S_80172FFC_0 *)action)->unk_96 = 0U;
     ((T_80172FFC_S_80172FFC_0 *)action)->unk_9B = (u8) (((T_80172FFC_S_80172FFC_0 *)action)->unk_9B + 1);
@@ -72,7 +72,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
     }
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80174E90;
-        func_80047784(sprite, D_80174E90[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, D_80174E90[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     }
     spawn_tick = ((T_80172FFC_S_80172FFC_0 *)action)->unk_96;
     if ((u32) (spawn_tick - 9) < 5U) {
@@ -84,7 +84,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
         spawn_count = 0;
         screen_pos = (s32 *)&effect_work.out18;
         do {
-            effect = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
+            effect = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
             effect_data = effect + 0x20;
             if (effect != NULL) {
                 ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_96 = 0x19;
@@ -99,10 +99,10 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
                 ((T_80172FFC_S_80172FFC_6 *)effect_sprite)->unk_0E = 0x80;
                 ((T_80172FFC_S_80172FFC_6 *)effect_sprite)->unk_0D = 0x80;
                 ((T_80172FFC_S_80172FFC_6 *)effect_sprite)->unk_0C = 0x80;
-                func_8004491C(effect, func_80045340);
+                register_node(effect, project_sprite_chain);
                 animation = D_80174EC0;
                 ((T_80172FFC_S_80172FFC_6 *)effect_sprite)->unk_2C = &D_80174EC0;
-                func_80047784(effect_sprite, animation, 0);
+                select_sprite_entry(effect_sprite, animation, 0);
                 effect_motion = ((T_80172FFC_S_80172FFC_5 *)effect)->unk_08;
                 ((T_80172FFC_S_80172FFC_7 *)effect_motion)->unk_02 = (u16) ((T_80172FFC_S_80172FFC_3 *)motion)->unk_02;
                 ((T_80172FFC_S_80172FFC_7 *)effect_motion)->unk_06 = (u16) ((T_80172FFC_S_80172FFC_3 *)motion)->unk_06;

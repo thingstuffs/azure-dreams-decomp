@@ -1,117 +1,117 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/ll3a_657a24_658580",
- "container": "town",
- "foff": "0x00657A24",
- "size": "0x00000B5C",
- "vma": "0x80016224",
- "evidence": "config/overlays/town.rowbase.jsonl proven region sweep_657A24",
- "entries": [
-  {
-   "row": "town/func_806D7AE0",
-   "home": "town/func_8032C020",
-   "tu": "src/town/func_8032C020.c",
-   "foff": "0x00657AE0",
-   "vma": "0x800162E0",
-   "size": 84,
-   "bindings": {
-    "0x8001B0C8": "0x800187FC",
-    "0x80019BC0": "0x800178D0",
-    "0x80019B54": "0x80017978",
-    "0x80016820": "0x800162E0"
-   },
-   "evidence": "LL3a attestation sha256:50dd643e72dc95a217e23e09f4a11f0f36c8a3250460f20a5b7124ace2dac9e6; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "town/func_806D7B34",
-   "home": "town/func_806D7B34",
-   "tu": "src/town/func_806D7B34.c",
-   "foff": "0x00657B34",
-   "vma": "0x80016334",
-   "size": 232
-  },
-  {
-   "row": "town/func_806D7C1C",
-   "home": "town/func_8032C0AC",
-   "tu": "src/town/func_8032C0AC.c",
-   "foff": "0x00657C1C",
-   "vma": "0x8001641C",
-   "size": 84,
-   "bindings": {
-    "0x8001B0C8": "0x800187FC",
-    "0x80019BC0": "0x800178D0",
-    "0x80019B54": "0x80017978",
-    "0x800168AC": "0x8001641C"
-   },
-   "evidence": "LL3a attestation sha256:725750fb5223bd44d1db530db83221e57cc17c68c5266c0293d1f379bcc2fb43; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "town/func_806D7C70",
-   "home": "town/func_806D7B34",
-   "tu": "src/town/func_806D7B34.c",
-   "foff": "0x00657C70",
-   "vma": "0x80016470",
-   "size": 232,
-   "bindings": {
-    "0x80018998": "0x800189B8",
-    "0x80019104": "0x80019104",
-    "0x80017B0C": "0x80017B0C",
-    "0x80017A54": "0x80017A54",
-    "0x80019AB6": "0x80019E93",
-    "0x8001ABCC": "0x8001ABCC",
-    "0x80019397": "0x80019397",
-    "0x80016334": "0x80016470"
-   },
-   "evidence": "LL3a attestation sha256:0e78fc4b1c3197b0a243c4777da35f3f63bfae04e64a1416a4228186788e8ebd; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "town/func_806D7D58",
-   "home": "town/func_8032C138",
-   "tu": "src/town/func_8032C138.c",
-   "foff": "0x00657D58",
-   "vma": "0x80016558",
-   "size": 84,
-   "bindings": {
-    "0x8001B0C8": "0x800187FC",
-    "0x80019BC0": "0x800178D0",
-    "0x80019B54": "0x80017978",
-    "0x80016938": "0x80016558"
-   },
-   "evidence": "LL3a attestation sha256:be88a78f7a84a5956a8887ea5333d3a523a1233724bfdb36053d338a163cc1d7; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "town/func_806D7EA0",
-   "home": "town/func_8032C1F0",
-   "tu": "src/town/func_8032C1F0.c",
-   "foff": "0x00657EA0",
-   "vma": "0x800166A0",
-   "size": 84,
-   "bindings": {
-    "0x8001B0C8": "0x800187FC",
-    "0x80019BC0": "0x800178D0",
-    "0x80019B54": "0x80017978",
-    "0x800169F0": "0x800166A0"
-   },
-   "evidence": "LL3a attestation sha256:86f2c05791d51126b180d5b89784f87c37660c063f2c05bf0ccd45293b09294b; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "town/func_806D7EF4",
-   "home": "town/func_806D7B34",
-   "tu": "src/town/func_806D7B34.c",
-   "foff": "0x00657EF4",
-   "vma": "0x800166F4",
-   "size": 232,
-   "bindings": {
-    "0x80018998": "0x800189F8",
-    "0x80019104": "0x80019104",
-    "0x80017B0C": "0x80017B0C",
-    "0x80017A54": "0x80017A54",
-    "0x80019AB6": "0x8001A212",
-    "0x8001ABCC": "0x8001ABCC",
-    "0x80019397": "0x80019397",
-    "0x80016334": "0x800166F4"
-   },
-   "evidence": "LL3a attestation sha256:eca293cbf1515d3d0d6008aaf157f06c62d4755f48f6417a4ac54930ebefe088; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll3a_657a24_658580",
+  "container": "town",
+  "foff": "0x00657A24",
+  "size": "0x00000B5C",
+  "vma": "0x80016224",
+  "evidence": "config/overlays/town.rowbase.jsonl proven region sweep_657A24",
+  "entries": [
+    {
+      "row": "town/func_806D7AE0",
+      "home": "town/func_8032C020",
+      "tu": "src/town/scene/run_preliminary_callback_count_ten.c",
+      "foff": "0x00657AE0",
+      "vma": "0x800162E0",
+      "size": 84,
+      "bindings": {
+        "0x8001B0C8": "0x800187FC",
+        "0x80019BC0": "0x800178D0",
+        "0x80019B54": "0x80017978",
+        "0x80016820": "0x800162E0"
+      },
+      "evidence": "LL3a attestation sha256:50dd643e72dc95a217e23e09f4a11f0f36c8a3250460f20a5b7124ace2dac9e6; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_806D7B34",
+      "home": "town/func_806D7B34",
+      "tu": "src/town/scene/check_inputs_only_prerequisite_least_third.c",
+      "foff": "0x00657B34",
+      "vma": "0x80016334",
+      "size": 232
+    },
+    {
+      "row": "town/func_806D7C1C",
+      "home": "town/func_8032C0AC",
+      "tu": "src/town/scene/event/process_request_after_threshold.c",
+      "foff": "0x00657C1C",
+      "vma": "0x8001641C",
+      "size": 84,
+      "bindings": {
+        "0x8001B0C8": "0x800187FC",
+        "0x80019BC0": "0x800178D0",
+        "0x80019B54": "0x80017978",
+        "0x800168AC": "0x8001641C"
+      },
+      "evidence": "LL3a attestation sha256:725750fb5223bd44d1db530db83221e57cc17c68c5266c0293d1f379bcc2fb43; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_806D7C70",
+      "home": "town/func_806D7B34",
+      "tu": "src/town/scene/check_inputs_only_prerequisite_least_third.c",
+      "foff": "0x00657C70",
+      "vma": "0x80016470",
+      "size": 232,
+      "bindings": {
+        "0x80018998": "0x800189B8",
+        "0x80019104": "0x80019104",
+        "0x80017B0C": "0x80017B0C",
+        "0x80017A54": "0x80017A54",
+        "0x80019AB6": "0x80019E93",
+        "0x8001ABCC": "0x8001ABCC",
+        "0x80019397": "0x80019397",
+        "0x80016334": "0x80016470"
+      },
+      "evidence": "LL3a attestation sha256:0e78fc4b1c3197b0a243c4777da35f3f63bfae04e64a1416a4228186788e8ebd; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_806D7D58",
+      "home": "town/func_8032C138",
+      "tu": "src/town/scene/event/process_request_after_threshold_b.c",
+      "foff": "0x00657D58",
+      "vma": "0x80016558",
+      "size": 84,
+      "bindings": {
+        "0x8001B0C8": "0x800187FC",
+        "0x80019BC0": "0x800178D0",
+        "0x80019B54": "0x80017978",
+        "0x80016938": "0x80016558"
+      },
+      "evidence": "LL3a attestation sha256:be88a78f7a84a5956a8887ea5333d3a523a1233724bfdb36053d338a163cc1d7; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_806D7EA0",
+      "home": "town/func_8032C1F0",
+      "tu": "src/town/scene/event/process_request_checking_threshold.c",
+      "foff": "0x00657EA0",
+      "vma": "0x800166A0",
+      "size": 84,
+      "bindings": {
+        "0x8001B0C8": "0x800187FC",
+        "0x80019BC0": "0x800178D0",
+        "0x80019B54": "0x80017978",
+        "0x800169F0": "0x800166A0"
+      },
+      "evidence": "LL3a attestation sha256:86f2c05791d51126b180d5b89784f87c37660c063f2c05bf0ccd45293b09294b; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_806D7EF4",
+      "home": "town/func_806D7B34",
+      "tu": "src/town/scene/check_inputs_only_prerequisite_least_third.c",
+      "foff": "0x00657EF4",
+      "vma": "0x800166F4",
+      "size": 232,
+      "bindings": {
+        "0x80018998": "0x800189F8",
+        "0x80019104": "0x80019104",
+        "0x80017B0C": "0x80017B0C",
+        "0x80017A54": "0x80017A54",
+        "0x80019AB6": "0x8001A212",
+        "0x8001ABCC": "0x8001ABCC",
+        "0x80019397": "0x80019397",
+        "0x80016334": "0x800166F4"
+      },
+      "evidence": "LL3a attestation sha256:eca293cbf1515d3d0d6008aaf157f06c62d4755f48f6417a4ac54930ebefe088; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    }
+  ]
 }

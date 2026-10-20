@@ -9,7 +9,7 @@ void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void
     if (effect != NULL) {
         effect->unk_3A = 0x2D;
         effect->unk_10 = ((void *)update_timed_effect_and_expire);
-        func_8004491C(effect, func_80045340);
+        register_node(effect, project_sprite_chain);
         effect_pos = effect->unk_08;
         effect_pos->unk_02 = (u16) ((u16)source_pos->x.w.i);
         effect_pos->unk_06 = (u16) ((u16)source_pos->y.w.i);

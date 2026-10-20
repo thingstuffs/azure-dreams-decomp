@@ -14,7 +14,7 @@ void func_8017339C(void *action, void *context, void *sprite_in, void *actor_in)
             return;
         }
         (*(void * *)((u8 *)sprite_in + 0x2C)) = D_801752FC;
-        func_80047784(sprite_in,
+        select_sprite_entry(sprite_in,
             D_801752FC[((g_game_work.view.viewAngle + ((CB_8017339C_S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         {
@@ -28,7 +28,7 @@ void func_8017339C(void *action, void *context, void *sprite_in, void *actor_in)
         return;
 
     case 1:
-        if ((func_80042900(actor_in, 1) << 16) != 0) {
+        if ((get_entity_effect_value(actor_in, 1) << 16) != 0) {
             status = &g_dungeon_status;
             if (status->flags & 0x1000) {
                 return;
@@ -68,9 +68,9 @@ void func_8017339C(void *action, void *context, void *sprite_in, void *actor_in)
                 }
             }
             update_actor_status_and_food(actor_in);
-            func_800A9A04(actor_in);
+            on_actor_status_updated(actor_in);
             do {
-            if ((func_80042900(actor_in, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor_in, 1) << 16) != 0) {
                 s8 coordinate = ((CB_8017339C_S_80173D4C_1 *)sprite_in)->unk_26;
                 TileObject *origin = &D_80082E80;
                 s32 probe_result;
@@ -82,11 +82,11 @@ void func_8017339C(void *action, void *context, void *sprite_in, void *actor_in)
                         break;
                     }
                     if (!(generate_random_value(actor_in) & 7)) {
-                        func_80042B68(actor_in, 1);
+                        clear_slots_of_type(actor_in, 1);
                     }
                 } else {
                     if (!(generate_random_value(origin) & 7)) {
-                        func_80042B68(actor_in, 1);
+                        clear_slots_of_type(actor_in, 1);
                     }
                 }
             }
@@ -94,12 +94,12 @@ void func_8017339C(void *action, void *context, void *sprite_in, void *actor_in)
             actor_to_check = actor_in;
             } while (0);
 
-            if ((func_80042900(actor_to_check, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor_to_check, 1) << 16) != 0) {
                 return;
             }
 
             (*(void * *)((u8 *)sprite_in + 0x2C)) = D_80175304;
-            func_80047784(sprite_in,
+            select_sprite_entry(sprite_in,
                 D_80175304[((g_game_work.view.viewAngle + ((CB_8017339C_S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                 0);
             if (((CB_8017339C_S_80173D4C_1 *)sprite_in)->unk_14 & 0x8000) {
@@ -112,7 +112,7 @@ void func_8017339C(void *action, void *context, void *sprite_in, void *actor_in)
             return;
         }
         (*(void * *)((u8 *)sprite_in + 0x2C)) = D_80175304;
-        func_80047784(sprite_in,
+        select_sprite_entry(sprite_in,
             D_80175304[((g_game_work.view.viewAngle + ((CB_8017339C_S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         if (((CB_8017339C_S_80173D4C_1 *)sprite_in)->unk_14 & 0x8000) {

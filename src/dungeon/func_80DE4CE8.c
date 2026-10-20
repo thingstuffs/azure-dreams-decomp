@@ -55,7 +55,7 @@ void update_actor_hop_to_tile(void *anim, EntityRec *motion, void *actor, Entity
             motion->unk_0C = 0;
             set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
             (*(void * *)((u8 *)actor + 0x2C)) = D_80174520;
-            func_80047784(
+            select_sprite_entry(
                 actor,
                 D_80174520[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                 0);
@@ -97,7 +97,7 @@ void update_actor_hop_to_tile(void *anim, EntityRec *motion, void *actor, Entity
 
         if ((check_actor_floor_trap(actor, actor_state) << 16) > 0) {
             ((E_801724E8_S_801724E8_0 *)anim)->unk_8C = update_actor_behavior_facing_and_animation_2;
-            func_800A9A04(actor_state);
+            on_actor_status_updated(actor_state);
         }
     }
 }

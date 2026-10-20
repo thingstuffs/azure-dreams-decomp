@@ -20,7 +20,7 @@ void func_8015A458(void *action, EntityRec *motion, void *map_entry, EntityRec *
             break;
         }
         (*(u8 **)((u8 *)map_entry + 0x2C)) = D_8015D2CC;
-        func_80047784(map_entry, D_8015D2CC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(map_entry, D_8015D2CC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((CL_CCB000_80172458_S_80172458_0 *)action)->unk_98 = (u16) (((CL_CCB000_80172458_S_80172458_0 *)action)->unk_98 | 8);
         actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
         ((CL_CCB000_80172458_S_80172458_0 *)action)->unk_9E = 5;
@@ -103,7 +103,7 @@ void func_8015A458(void *action, EntityRec *motion, void *map_entry, EntityRec *
             motion->unk_0C = 0;
             set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entry)->unk_24, ((Rec_D_80082E80 *)map_entry)->unk_25);
             (*(u8 **)((u8 *)map_entry + 0x2C)) = D_8015D2D4;
-            func_80047784(map_entry, D_8015D2D4[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(map_entry, D_8015D2D4[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             func_800419EC(4, 8);
             emit_scattered_effects_unless_blocked(motion);
             ((CL_CCB000_80172458_S_80172458_0 *)action)->unk_9B = 3U;
@@ -138,7 +138,7 @@ void func_8015A458(void *action, EntityRec *motion, void *map_entry, EntityRec *
         }
         if ((check_actor_floor_trap(map_entry, actor) << 0x10) > 0) {
             ((CL_CCB000_80172458_S_80172458_0 *)action)->unk_8C = func_8015902C;
-            func_800A9A04(actor);
+            on_actor_status_updated(actor);
         }
     }
 }

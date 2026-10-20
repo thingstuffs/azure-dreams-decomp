@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_808C4BE4",
-      "tu": "src/town/func_80878714.c",
+      "tu": "src/town/shop/state/shop_test_indexed_flag.c",
       "home": "town/func_80878714",
       "foff": "0x844BE4",
       "vma": "0x80000BE4",

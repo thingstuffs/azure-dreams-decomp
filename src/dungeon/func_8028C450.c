@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_spawns.h"
+#include "dungeon/level/spawn.h"
 
 void draw_dungeon_value_and_label(void)
 {

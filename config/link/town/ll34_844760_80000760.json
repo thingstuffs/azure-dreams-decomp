@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_808C4760",
-      "tu": "src/town/func_808B7D44.c",
+      "tu": "src/town/scene/print_scene_sequence_number_sno.c",
       "home": "town/func_808B7D44",
       "foff": "0x844760",
       "vma": "0x80000760",

@@ -66,10 +66,12 @@ typedef struct S_func_80035484_5 {
 extern void runtime_initialize_state_value(void *modelPtr, s32 value);
 extern void func_800350B0(void *configPtr, void *statePtr);
 extern void *initialize_runtime_node_storage(s32 value, s32 address, s32 value2, void **tablePtr);
+extern s32 register_node(void *objectPtr, void (*callback)(void));
 extern s32 func_8004491C(void *objectPtr, void (*callback)(void));
 
 extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);
 extern void invoke_window_object_callback(void *callbackData);
+extern void init_window_object(void *callbackData);
 extern void func_80035614(void *callbackData);
 
 extern s16 D_8006A93C[];
@@ -80,6 +82,7 @@ extern void *D_80082BC0[3];
 
 /* Creates a runtime object and initializes its model, transform, and appearance. */
 
+void create_window_object(s32 object_addr, S_func_80035484_4 *model, S_func_80035484_5 *config);
 void func_80035484(s32 object_addr, S_func_80035484_4 *model, S_func_80035484_5 *config);
 
 #endif

@@ -14,7 +14,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
             break;
         }
         (*(u8 * *)((u8 *)map_entity + 0x2C)) = ((u8 *)D_80173C94);
-        func_80047784(
+        select_sprite_entry(
             map_entity,
             ((u8 *)D_80173C94)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
@@ -60,7 +60,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
             ((EntityRec *)motion)->unk_0C = 0;
             set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
             (*(u8 * *)((u8 *)map_entity + 0x2C)) = ((u8 *)D_80173C9C);
-            func_80047784(
+            select_sprite_entry(
                 map_entity,
                 ((u8 *)D_80173C9C)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
@@ -108,7 +108,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
 finish:
         if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
             ((R03_80172258_S_80172258_0 *)jump)->unk_8C = ((void *)func_80170E54);
-            func_800A9A04(actor);
+            on_actor_status_updated(actor);
         }
     }
 }

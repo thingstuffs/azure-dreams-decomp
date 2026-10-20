@@ -9,7 +9,7 @@ extern s32 D_80158F68;
 extern u8 D_8015BFB8[8];
 
 extern s32 get_cd_command_queue_depth();
-extern void func_80047784();
+extern void select_sprite_entry();
 extern void *scan_monster_along_heading();
 extern void set_record_integer_tile_center();
 extern void advance_status_timers();
@@ -204,7 +204,7 @@ void advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4(A
             set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
             if (sprite->directionFrames != D_8015BFB8) {
                 sprite->directionFrames = D_8015BFB8;
-                func_80047784(
+                select_sprite_entry(
                     sprite,
                     D_8015BFB8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);

@@ -10,7 +10,7 @@ void create_tinted_rotated_sprite(s32 unused_0, R08_801741D0_S_801741D0_3 *sourc
     node = func_8003FC64(0x212);
     if (node != NULL) {
         ((R08_801741D0_S_801741D0_0 *)node)->unk_10 = ((u8 *)advance_object_angle_and_height);
-        func_8004491C(node, func_80045340);
+        register_node(node, project_sprite_chain);
 
         sprite = ((R08_801741D0_S_801741D0_0 *)node)->unk_0C;
         sprite->unk_10 = 0x60;

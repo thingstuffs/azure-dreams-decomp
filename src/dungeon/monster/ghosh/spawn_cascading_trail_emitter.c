@@ -1,0 +1,91 @@
+#include "shared/object_node.h"
+#include "common.h"
+#include "shared/dungeon_sprite_data.h"
+#include "shared/slus_callbacks.h"
+#include "records/Rec_D_80174CD8.h"
+
+struct Dst;
+struct Elem;
+
+
+typedef struct S_801722F0_1 {
+    u8 pad_00[0x16];
+    s16 unk_16;
+    s16 unk_18;
+} S_801722F0_1;
+
+typedef struct S_801722F0_2 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    s32 * unk_10;
+} S_801722F0_2;
+
+typedef struct S_801722F0_3 {
+    u8 pad_00[0x6];
+    s16 unk_06;
+    u8 pad_08[0x4];
+    u8 unk_0C;
+    u8 unk_0D;
+    u8 unk_0E;
+    u8 pad_0F[0x5];
+    u16 unk_14;
+    u8 pad_16[0x6];
+    s16 unk_1C;
+    s16 unk_1E;
+} S_801722F0_3;
+
+typedef struct S_801722F0_4 {
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
+} S_801722F0_4;
+
+typedef struct S_801722F0_5 {
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
+} S_801722F0_5;
+
+
+s32 register_node();
+extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+s32 play_sound_if_enabled();
+extern void update_cascading_trail_emitter(void *record_data);
+extern Rec_D_80174CD8 *D_80174CD8;
+
+/* Create an effect at the source position and play its sound. */
+void spawn_cascading_trail_emitter(void) {
+    S_801722F0_3 *sprite;
+    void *setup_data;
+    S_801722F0_5 *source_pos;
+    void *effect;
+    S_801722F0_1 *effect_params;
+    S_801722F0_4 *effect_pos;
+
+    source_pos = D_80174CD8->unk_08;
+    effect = func_8003FC64(0x212);
+    if (effect != 0) {
+        setup_data = project_sprite_chain;
+        effect_params = effect + 0x20;
+        effect_params->unk_16 = 0x1E;
+        effect_params->unk_18 = 0x1E;
+        ((S_801722F0_2 *)effect)->unk_10 = &update_cascading_trail_emitter;
+        register_node(effect, setup_data);
+        sprite = ((S_801722F0_2 *)effect)->unk_0C;
+        sprite->unk_06 = 0;
+        effect_pos = ((S_801722F0_2 *)effect)->unk_08;
+        effect_pos->unk_00 = (s32) source_pos->unk_00;
+        effect_pos->unk_04 = (s32) source_pos->unk_04;
+        effect_pos->unk_08 = (s32) source_pos->unk_08;
+        sprite = ((S_801722F0_2 *)effect)->unk_0C;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0x80);
+        func_8003DB94(sprite, D_800DE870, 0);
+        play_sound_if_enabled(0x703);
+    }
+}

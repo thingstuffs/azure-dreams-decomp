@@ -47,7 +47,7 @@ void fade_sprites_and_remove_entity(void *actor, s32 unused, void *sprite, void 
                     do {
                         group_sprite = sprite_group + sprite_offset;
                         U32(group_sprite, 0xC) = white_rgb;
-                        func_80047784(group_sprite,(u8)(0x23), 0);
+                        select_sprite_entry(group_sprite,(u8)(0x23), 0);
                         sprite_offset += 0x30;
                         sprite_index++;
                     } while (sprite_index < S16(sprite_group, 2));
@@ -84,7 +84,7 @@ void fade_sprites_and_remove_entity(void *actor, s32 unused, void *sprite, void 
         }
         if (U16(sprite_group, 0x1C) & 0x6000) {
             PTR(sprite, 0x2C) = ((u8 *)D_8017588C);
-            func_80047784(sprite,(u8)(((u8 *)D_8017588C)[((g_game_work.view.viewAngle + S16(entity, 0x2A) + 0x100) >> 9) & 7]),
+            select_sprite_entry(sprite,(u8)(((u8 *)D_8017588C)[((g_game_work.view.viewAngle + S16(entity, 0x2A) + 0x100) >> 9) & 7]),
                 0);
             U16(actor, 0x96) = 0x80;
             U8(actor, 0x9B) = U8(actor, 0x9B) + 1;

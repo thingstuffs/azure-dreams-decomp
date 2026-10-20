@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void clear_generation_cell_grid(void) {
     s8 *entry_start;

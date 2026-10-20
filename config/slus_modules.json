@@ -65,7 +65,7 @@
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h",
-        "include/slus/entry_words.h"
+        "include/engine/menu/entry_words.h"
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
@@ -112,7 +112,7 @@
         "include/globals.h",
         "include/include_asm.h",
         "include/records/Rec_func_80034F58_arg0.h",
-        "include/slus/render_words.h"
+        "include/engine/object/render_words.h"
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
@@ -480,7 +480,7 @@
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h",
-        "include/slus/state_defaults.h"
+        "include/engine/util/state_defaults.h"
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
@@ -565,7 +565,7 @@
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h",
-        "include/slus/slot_transition.h"
+        "include/engine/scene/slot_transition.h"
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
@@ -623,7 +623,7 @@
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h",
-        "include/slus/slot_transition.h"
+        "include/engine/scene/slot_transition.h"
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
@@ -660,7 +660,7 @@
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h",
-        "include/slus/konami_runtime_gp_count.h"
+        "include/engine/resource/konami_runtime_gp_count.h"
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
@@ -704,7 +704,7 @@
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h",
-        "include/slus/gp_shared_slots.h"
+        "include/engine/scene/gp_shared_slots.h"
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
@@ -786,7 +786,7 @@
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h",
-        "include/slus/gp_split_storage.h"
+        "include/engine/texture/gp_split_storage.h"
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
@@ -939,7 +939,7 @@
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h",
-        "include/slus/cache_afe.h"
+        "include/engine/effect/cache_afe.h"
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
@@ -1158,7 +1158,7 @@
       ],
       "headers": [
         "include/common.h",
-        "include/slus/address_slot.h"
+        "include/engine/scene/address_slot.h"
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
@@ -1192,7 +1192,7 @@
       ],
       "headers": [
         "include/common.h",
-        "include/slus/command_words.h"
+        "include/engine/scene/command_words.h"
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
@@ -1326,7 +1326,7 @@
       ],
       "headers": [
         "include/common.h",
-        "include/slus/gp_order_bytes_owner.h"
+        "include/engine/menu/gp_order_bytes_owner.h"
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
@@ -1624,8 +1624,8 @@
       "evidence": "docs/evidence/slus_r118_cd_command_state.md",
       "headers": [
         "include/common.h",
-        "include/slus/cd_state.h",
-        "include/slus/cd_cohort_types.h"
+        "include/engine/scene/cd_state.h",
+        "include/engine/scene/cd_cohort_types.h"
       ],
       "members": [
         {
@@ -2283,7 +2283,7 @@
       ],
       "headers": [
         "include/common.h",
-        "include/slus/sound_pitch_conversions.h"
+        "include/engine/audio/sound_pitch_conversions.h"
       ],
       "recipe": {
         "ccver": "2.7.2",
@@ -2321,7 +2321,7 @@
       ],
       "headers": [
         "include/common.h",
-        "include/slus/sound_register_helpers.h"
+        "include/engine/audio/spu/sound_register_helpers.h"
       ],
       "recipe": {
         "ccver": "2.7.2",
@@ -2359,7 +2359,7 @@
       ],
       "headers": [
         "include/common.h",
-        "include/slus/sound_range_records.h"
+        "include/engine/audio/spu/sound_range_records.h"
       ],
       "recipe": {
         "ccver": "2.7.2",
@@ -2397,7 +2397,7 @@
       ],
       "headers": [
         "include/common.h",
-        "include/slus/sound_transfer_helpers.h"
+        "include/engine/audio/spu/sound_transfer_helpers.h"
       ],
       "recipe": {
         "ccver": "2.7.2",
@@ -2542,8 +2542,8 @@
       ],
       "headers": [
         "include/common.h",
-        "include/slus/sound_reset_state.h",
-        "include/slus/sound_range_records.h"
+        "include/engine/audio/spu/sound_reset_state.h",
+        "include/engine/audio/spu/sound_range_records.h"
       ],
       "recipe": {
         "ccver": "2.7.2",
@@ -2574,7 +2574,7 @@
       ],
       "headers": [
         "include/common.h",
-        "include/slus/sound_transfer_frontends.h"
+        "include/engine/audio/spu/sound_transfer_frontends.h"
       ],
       "recipe": {
         "ccver": "2.7.2",
@@ -2598,7 +2598,7 @@
       ],
       "headers": [
         "include/common.h",
-        "include/slus/sound_event_service.h",
+        "include/engine/audio/spu/sound_event_service.h",
         "include/slus/sound_dma_lifecycle.h"
       ],
       "recipe": {
@@ -2623,7 +2623,7 @@
       ],
       "headers": [
         "include/common.h",
-        "include/slus/sound_register_helpers.h"
+        "include/engine/audio/spu/sound_register_helpers.h"
       ],
       "recipe": {
         "ccver": "2.7.2",
@@ -2648,7 +2648,7 @@
       "headers": [
         "include/common.h",
         "include/slus/sound_dma_lifecycle.h",
-        "include/slus/sound_reverb.h"
+        "include/engine/audio/spu/sound_reverb.h"
       ],
       "recipe": {
         "ccver": "2.7.2",

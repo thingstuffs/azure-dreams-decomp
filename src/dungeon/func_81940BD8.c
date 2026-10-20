@@ -21,7 +21,7 @@ typedef struct {
 } Part;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_8004491C(void *, void *);                /* extern */
+void register_node(void *, void *);                /* extern */
 void func_80024104(void *owner);
 extern u8 D_800256E0[12];
 
@@ -64,7 +64,7 @@ void advance_object_spawning_displays_high(void *source) {
         state->unk_2A = 0xB;
         state->unk_60 = source;
         (*(s32 **)((u8 *)object + 0x10)) = &func_80024104;
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
         part = (*(Part **)((u8 *)object + 0xC));
         part->field10 = 0x20;
         part->field6 = 0;

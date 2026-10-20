@@ -97,7 +97,7 @@ void func_8017380C(void *action, EntityRec *motion, void *entity, EntityRec *act
 
             direction_table = ((u8 *)D_80175988);
             (*(void * *)((u8 *)entity + 0x2C)) = direction_table;
-            func_80047784(entity,
+            select_sprite_entry(entity,
                 direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }

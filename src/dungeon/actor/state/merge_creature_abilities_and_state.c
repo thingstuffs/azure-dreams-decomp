@@ -1,0 +1,652 @@
+/* cfail-repair: tf7-phase1-cache-v3 */
+#include "common.h"
+#include "shared/def_table.h"
+#include "shared/record_ptrs.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
+
+s16 find_matching_initial_stat_slot();
+void *select_object_by_flags_and_keys(void *, void *, u16 *);
+void zero_words();
+void apply_entity_effects(void *);
+void copy_entity_record();
+void update_owner_class_bits();
+void clear_slot_and_update_linked_state();
+void unlink_entity_node();
+void update_map_cell_flags_with_item_limit();
+void decrement_monster_entry_count();
+s32 find_entity_slot_by_field_ac();
+void func_800A31D0();
+s16 find_slot_by_item_group();
+typedef struct {
+    u8 pad_00[0x10];
+    u8 flags;
+    u8 pad_11[3];
+} D_8006DE24_Record;
+extern u8 D_80010980[];
+extern u8 D_800287B4[];
+extern s32 D_8006D6D8[4];
+extern void *D_800E3DF0[];
+extern u8 D_800E3E48[];
+extern u8 D_80080000[];
+extern u8 D_80030000[];
+
+
+typedef struct S_800277F4_0 {
+    u8 pad_00[0xE];
+    u8 unk_0E;
+    u8 pad_0F[0x4];
+    u8 unk_13;
+    s32 unk_14;
+    u8 pad_18[0x4];
+    s32 unk_1C;
+    u8 pad_20[0x4];
+    union {
+        struct { u16 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
+    u8 pad_26[0x1D];
+    u8 unk_43;
+    s8 unk_44;
+    u8 pad_45[0x3];
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x3]; u8 v; } at03;
+    } unk_48;   /* overlapping accesses */
+    u8 pad_4C[0x8];
+    s32 unk_54;
+    u8 pad_58[0xE];
+    u8 unk_66;
+} S_800277F4_0;
+
+typedef struct S_800277F4_1 {
+    s8 unk_00;
+    u8 pad_01[0x1];
+    s8 unk_02;
+} S_800277F4_1;
+
+typedef struct S_800277F4_2 {
+    u8 pad_00[0x8];
+    u8 unk_08;
+    u8 pad_09[0x1];
+    u8 unk_0A;
+} S_800277F4_2;
+
+typedef struct S_800277F4_3 {
+    u8 pad_00[0x8];
+    u8 unk_08;
+    u8 pad_09[0x1];
+    u8 unk_0A;
+} S_800277F4_3;
+
+typedef struct S_800277F4_4 {
+    u8 unk_00;
+    u8 pad_01[0x1];
+    u8 unk_02;
+} S_800277F4_4;
+
+typedef struct S_800277F4_5 {
+    u8 pad_00[0x8];
+    u8 unk_08;
+    u8 pad_09[0x1];
+    u8 unk_0A;
+} S_800277F4_5;   /* copy_src in merge_creature_abilities_and_state */
+
+typedef struct S_800277F4_6 {
+    u8 pad_00[0x8];
+    u8 unk_08;
+    u8 pad_09[0x1];
+    u8 unk_0A;
+} S_800277F4_6;
+
+typedef struct S_800277F4_7 {
+    u8 pad_00[0x8];
+    u8 unk_08;
+    u8 pad_09[0x1];
+    u8 unk_0A;
+} S_800277F4_7;
+
+typedef struct S_800277F4_8_pre {
+    void * unk_00;
+    u8 pad_04[0xE];
+    u16 unk_12;
+} S_800277F4_8_pre;
+
+typedef struct S_800277F4_8 {
+    u8 pad_00[0xE];
+    u8 unk_0E;
+    u8 pad_0F[0x4];
+    u8 unk_13;
+    u8 pad_14[0x8];
+    s32 unk_1C;
+    u8 pad_20[0x4];
+    u16 unk_24;
+    u8 pad_26[0x1D];
+    u8 unk_43;
+    u8 pad_44[0x10];
+    s32 unk_54;
+} S_800277F4_8;
+
+typedef struct S_800277F4_9 {
+    u8 pad_00[0x8];
+    u8 unk_08;
+} S_800277F4_9;
+
+typedef struct S_800277F4_10 {
+    u8 pad_00[0x8];
+    u8 unk_08;
+} S_800277F4_10;
+
+typedef struct S_800277F4_11 {
+    u8 pad_00[0xA];
+    u8 unk_0A;
+} S_800277F4_11;
+
+typedef struct S_800277F4_12 {
+    u8 pad_00[0x8];
+    u8 unk_08;
+    u8 pad_09[0x1];
+    u8 unk_0A;
+} S_800277F4_12;
+
+typedef struct S_800277F4_13 {
+    u8 unk_00;
+    u8 pad_01[0x1];
+    u8 unk_02;
+} S_800277F4_13;
+
+typedef struct S_800277F4_14 {
+    u8 pad_00[0x8];
+    u8 unk_08;
+    u8 pad_09[0x1];
+    u8 unk_0A;
+} S_800277F4_14;   /* fallback_source in merge_creature_abilities_and_state */
+
+typedef struct S_800277F4_15 {
+    u8 unk_00;
+    u8 pad_01[0x1];
+    s8 unk_02;
+} S_800277F4_15;
+
+typedef struct S_800277F4_16 {
+    u8 pad_00[0x8];
+    u8 unk_08;
+    u8 pad_09[0x1];
+    u8 unk_0A;
+} S_800277F4_16;
+
+typedef struct S_800277F4_17 {
+    u8 pad_00[0xD0];
+    void * unk_D0;
+} S_800277F4_17;   /* slot_addr in merge_creature_abilities_and_state */
+
+
+
+typedef struct S_800277F4_19 {
+    u8 pad_00[0xD0];
+    s32 unk_D0;
+} S_800277F4_19;   /* runtime_addr in merge_creature_abilities_and_state */
+
+typedef struct S_800277F4_20 {
+    u8 pad_00[0x3];
+    u8 unk_03;
+} S_800277F4_20;
+
+/* Merges two creatures' abilities and state, optionally copying the result and removing the donor. */
+void *merge_creature_abilities_and_state(void *first, void *second, void *destination) {
+    u8 merge_buffer[17];
+#define donor_seen (merge_buffer + 3)
+#define merged_abilities (merge_buffer + 8)
+    u16 merged_element;
+    u16 ability_limit;
+    s32 element_mask;
+    u8 *clear_donor_seen;
+    u8 *clear_result_seen;
+    u8 *clear_abilities;
+    u8 *ability_ids;
+    D_8006DE24_Record *result_seen;
+    u8 *other_data;
+    s32 map_mask;
+    s16 result_primary;
+    s16 donor_primary;
+    u8 *merge_out;
+    s16 other_match;
+    s16 ability_count;
+    s16 source_side;
+    s32 match_offset;
+    s32 result_traits;
+    u16 next_clear;
+    s32 donor_traits;
+    s32 donor_trait_bits;
+    s32 ability_offset;
+    s32 clear_shifted;
+    s32 clear_slot;
+    s32 ability_index;
+    s32 allowed_elements;
+    s32 slot_index;
+    s32 slot_flags;
+    s32 global_flags;
+    s32 owner_action;
+    s32 scan_index;
+
+    u8 *ability_data;
+    u8 *slot_addr;
+    u8 *slot_base;
+    u8 matched_ability;
+    u8 ability_level;
+    u8 result_kind;
+    u8 level_cap;
+    u8 donor_owner;
+    u8 room_x;
+    u8 room_y;
+    u8 merge_key;
+    void *donor_ability;
+    void *primary_output;
+    void *merged_entry;
+    void *donor_position;
+    void *result_ability;
+    void *fallback_output;
+    void *result_primary_data;
+    u8 *visited_slot;
+    void *donor_primary_data;
+    void *donor_runtime;
+    void *clear_entry;
+    void *source;
+    void *other;
+    void *result;
+    void *donor;
+    void *first_creature = first;
+    s32 seen_mark;
+    void *key_source;
+    void *level_source;
+
+    {
+        void *second_creature;
+        second_creature = second;
+        ability_limit = 2;
+        result = select_object_by_flags_and_keys(first_creature, second_creature, &merged_element);
+        if (result == 0) {
+            return 0;
+        }
+        {
+            void *copy_target = destination;
+            if (copy_target != 0) {
+                copy_entity_record(copy_target, result);
+                if (first_creature == result) {
+                    first_creature = destination;
+                    result = first_creature;
+                } else {
+                    second_creature = destination;
+                    result = second_creature;
+                }
+            }
+            donor = second_creature;
+            if (first_creature != result) {
+                donor = first_creature;
+            }
+        }
+        ability_count = 2;
+        clear_abilities = merged_abilities;
+        clear_result_seen = merge_buffer;
+        clear_donor_seen = donor_seen;
+        clear_shifted = ((S_800277F4_0 *)result)->unk_14 & ~7;
+        ((S_800277F4_0 *)result)->unk_14 = clear_shifted;
+        element_mask = merged_element;
+        clear_shifted |= element_mask;
+        ((S_800277F4_0 *)result)->unk_14 = clear_shifted;
+        do {
+            {
+                clear_shifted = ability_count << 0x10;
+                next_clear = ability_count - 1;
+                ability_count = next_clear;
+                clear_slot = clear_shifted >> 0x10;
+                clear_entry = clear_abilities + (clear_slot * 3);
+                ((S_800277F4_1 *)clear_entry)->unk_00 = 0;
+                ((S_800277F4_1 *)clear_entry)->unk_02 = 0;
+                clear_donor_seen[clear_slot] = 0;
+                clear_result_seen[clear_slot] = 0;
+            }
+        } while ((s16) next_clear >= 0);
+        ability_count = 0;
+        result_primary = find_matching_initial_stat_slot(result, clear_donor_seen, clear_result_seen, clear_abilities);
+        if (result_primary >= 0) {
+            {
+                u8 *primary_seen_base =
+                    (u8 *) &merged_element + result_primary - 0x28;
+
+                seen_mark = 1;
+                primary_seen_base[0x10] = (u8) seen_mark;
+            }
+            result_primary_data = result + (result_primary * 3);
+            element_mask = (s16) find_slot_by_item_group(donor, ((S_800277F4_2 *)result_primary_data)->unk_08);
+            if (element_mask >= 0) {
+                donor_seen[element_mask] = (u8) seen_mark;
+                donor_ability = donor + (element_mask * 3);
+            }
+            if (element_mask >= 0 &&
+                (u8) ((S_800277F4_2 *)result_primary_data)->unk_0A < (u8) ((S_800277F4_3 *)donor_ability)->unk_0A) {
+                primary_output = merged_abilities + ((s16)ability_count * 3);
+                ((S_800277F4_4 *)primary_output)->unk_00 = ((S_800277F4_3 *)donor_ability)->unk_08;
+                ((S_800277F4_4 *)primary_output)->unk_02 = ((S_800277F4_3 *)donor_ability)->unk_0A;
+            } else {
+                {
+                    s32 copy_dst_index = (s16) ability_count;
+                    s32 copy_dst_offset;
+                    u8 *copy_dst;
+                    s32 copy_src_index;
+                    u8 *copy_src;
+
+                    copy_dst_offset = copy_dst_index * 3;
+                    copy_dst = merged_abilities;
+                    copy_src_index = (s16) result_primary;
+
+                    copy_src = result + (copy_src_index * 3);
+
+                    (*(u8 *)((u8 *)copy_dst + copy_dst_offset)) = (u8) ((S_800277F4_5 *)copy_src)->unk_08;
+                    (*(u8 *)((u8 *)copy_dst + copy_dst_offset + 2)) = (u8) ((S_800277F4_5 *)copy_src)->unk_0A;
+                }
+            }
+            ability_count += 1;
+        }
+merge_donor_primary:
+        donor_primary = find_matching_initial_stat_slot(donor);
+        if (donor_primary >= 0) {
+            {
+                u8 *frame_base =
+                    (u8 *) &merged_element - 0x28;
+                u8 *visited_base =
+                    frame_base + 0x13;
+                visited_slot = visited_base + donor_primary;
+            }
+            if (*visited_slot == 0) {
+                donor_primary_data = donor + (donor_primary * 3);
+                merge_out = (u8 *)find_slot_by_item_group(result, ((S_800277F4_6 *)donor_primary_data)->unk_08);
+                if (((s16)merge_out) >= 0) {
+                    merge_buffer[((s16)merge_out)] = 1;
+                }
+                *visited_slot = 1;
+                if (((s16)merge_out) >= 0) {
+                    result_ability = result + (((s16)merge_out) * 3);
+                }
+                if (((s16)merge_out) >= 0 &&
+                    (u8) ((S_800277F4_6 *)donor_primary_data)->unk_0A
+                        < (u8) ((S_800277F4_7 *)result_ability)->unk_0A) {
+                    s32 copy_dst_index = (s16) ability_count;
+                    s32 copy_dst_offset;
+                    u8 *copy_dst;
+
+                    copy_dst_offset = copy_dst_index * 3;
+                    copy_dst = merged_abilities;
+
+                    matched_ability = ((S_800277F4_7 *)result_ability)->unk_08;
+                    copy_dst[copy_dst_offset + 0] = matched_ability;
+                    copy_dst[copy_dst_offset + 2] = ((S_800277F4_7 *)result_ability)->unk_0A;
+                } else {
+                    s32 copy_dst_index = (s16) ability_count;
+                    s32 copy_dst_offset;
+                    u8 *copy_dst;
+                    s32 copy_src_index;
+                    u8 *copy_src;
+
+                    copy_dst_offset = copy_dst_index * 3;
+                    copy_dst = merged_abilities;
+                    copy_src_index = (s16) donor_primary;
+
+                    copy_src = donor + (copy_src_index * 3);
+
+                    copy_dst[copy_dst_offset + 0] = (u8) ((S_800277F4_5 *)copy_src)->unk_08;
+                    copy_dst[copy_dst_offset + 2] = (u8) ((S_800277F4_5 *)copy_src)->unk_0A;
+                }
+                ability_count += 1;
+            }
+        }
+        {
+            u16 merge_limit = 3;
+            if ((((S_800277F4_0 *)result)->unk_0E != 0) || (((S_800277F4_8 *)donor)->unk_0E != 0)) {
+                ability_limit = merge_limit;
+                source_side = 0;
+            } else {
+                source_side = 0;
+            }
+        }
+        scan_index = 0;
+        result_seen = (D_8006DE24_Record *)merge_buffer;
+        merge_out = merged_abilities;
+        for (; scan_index < 6; scan_index++) {
+            if ((s16)ability_count >= (s32) ability_limit) {
+                break;
+            }
+            source = donor;
+            if (source_side == 0) {
+                source = result;
+            }
+            ability_index = scan_index >> 1;
+            ability_offset = ability_index * 3;
+            if ((((S_800277F4_9 *)((source + ability_offset)))->unk_08 != 0)
+                && (*((source_side * 3) + ((u8 *)result_seen) + ability_index) == 0)) {
+                other = donor;
+                if (source_side != 0) {
+                    other = result;
+                }
+                key_source = donor;
+                if (source_side == 0) {
+                    key_source = result;
+                }
+                merge_key = ((S_800277F4_10 *)((key_source + ability_offset)))->unk_08;
+                other_match = find_slot_by_item_group(other, merge_key);
+                if (other_match >= 0) {
+                    other_data = (u8 *)result_seen;
+                    if (source_side == 0) {
+                        other_data = donor_seen;
+                    }
+                    *(other_data + other_match) = 1;
+                    level_source = donor;
+                    if (source_side == 0) {
+                        level_source = result;
+                    }
+                    other_data = donor;
+
+                    ability_data = level_source + ability_offset;
+                    if (source_side != 0) {
+                        other_data = result;
+                    }
+                    match_offset = other_match * 3;
+                }
+                if (other_match >= 0 &&
+                    (u8) ((S_800277F4_11 *)ability_data)->unk_0A
+                        < (u8) ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A) {
+                    other_data = donor;
+                    ability_data = merge_out + ((s16)ability_count * 3);
+                    if (source_side != 0) {
+                        other_data = result;
+                    }
+                    *ability_data = ((S_800277F4_12 *)((other_data + match_offset)))->unk_08;
+                    other_data = donor;
+                    if (source_side != 0) {
+                        other_data = result;
+                    }
+                    ability_data[2] = ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A;
+                } else {
+                    fallback_output = merge_out + ((s16)ability_count * 3);
+                    clear_result_seen = donor;
+                    if (source_side == 0) {
+                        clear_result_seen = result;
+                    }
+                    {
+                        s32 fallback_index = scan_index >> 1;
+                        s32 fallback_twice = fallback_index * 2;
+                        s32 fallback_offset = fallback_twice + fallback_index;
+                        u8 *fallback_source;
+                        u8 *second_source;
+
+                        fallback_source = clear_result_seen + fallback_offset;
+
+                        ((S_800277F4_13 *)fallback_output)->unk_00 = ((S_800277F4_14 *)fallback_source)->unk_08;
+                        second_source = donor;
+                        if (source_side == 0) {
+                            second_source = result;
+                        }
+
+
+                        ((S_800277F4_13 *)fallback_output)->unk_02 = ((S_800277F4_14 *)(second_source
+                            + fallback_offset))->unk_0A;
+                    }
+                }
+                merged_entry = merge_out + ((s16)ability_count * 3);
+                if (((S_800277F4_15 *)merged_entry)->unk_00 == 0x2E) {
+                    ((S_800277F4_15 *)merged_entry)->unk_00 = 0U;
+                    ((S_800277F4_15 *)merged_entry)->unk_02 = 0;
+                }
+                ability_count += 1;
+                {
+                    u8 *visited_row = (u8 *) ((source_side * 3) + (s32) ((u8 *)result_seen));
+                    s32 visited_index = scan_index >> 1;
+                    visited_row[visited_index] = 1;
+                }
+            }
+            source_side ^= 1;
+        }
+        if ((ability_count << 0x10) == 0) {
+            s32 default_index;
+            default_index = ((S_800277F4_0 *)result)->unk_13;
+            default_index += (s32)D_800287B4;
+            merged_abilities[0] = *(u8 *) default_index;
+            merged_abilities[2] = 1;
+        }
+        scan_index = 2;
+        result_seen = D_8006DE24;
+        ability_ids = &merge_buffer[8];
+        for (; scan_index >= 0; scan_index--) {
+            {
+                s32 ability_id = ability_ids[scan_index * 3];
+                if (ability_id != 0) {
+                    u8 ability = ability_id;
+                    allowed_elements = ((S_800277F4_0 *)result)->unk_14;
+                    if (!(result_seen[ability].flags & 7 & allowed_elements)) {
+                        if (allowed_elements & 1) {
+                            ability_ids[scan_index * 3] = (u8) ((((ability - 1) / 3) * 3) + 1);
+                        } else if (allowed_elements & 2) {
+                            ability_ids[scan_index * 3] = (u8) ((((ability - 1) / 3) * 3) + 2);
+                        } else if (allowed_elements & 4) {
+                            ability_ids[scan_index * 3] = (u8) ((((ability - 1) / 3) * 3) + 3);
+                        }
+                    }
+                }
+            }
+            ((S_800277F4_16 *)((result + (scan_index * 3))))->unk_08 = (u8) ability_ids[scan_index * 3];
+            ability_level = ability_ids[(scan_index * 3) + 2];
+            ((S_800277F4_16 *)((result + (scan_index * 3))))->unk_0A = ability_level;
+        }
+        {
+            s32 donor_kind = ((S_800277F4_8 *)donor)->unk_13;
+            s32 base_kind = ((S_800277F4_0 *)result)->unk_13;
+            s32 *donor_mask_ptr, *result_mask_ptr;
+            s32 result_mask, base_traits;
+            s32 *trait_table = D_8006D6D8;
+
+            donor_trait_bits = ((S_800277F4_8 *)donor)->unk_54;
+            donor_mask_ptr = trait_table + donor_kind;
+            result_mask_ptr = trait_table + base_kind;
+            donor_traits = *donor_mask_ptr & donor_trait_bits;
+            base_traits = ((S_800277F4_0 *)result)->unk_54;
+            result_mask = *result_mask_ptr;
+            ((S_800277F4_0 *)result)->unk_54 = (s32) ((base_traits & result_mask) | donor_traits);
+        }
+        apply_entity_effects(result);
+        ((S_800277F4_0 *)result)->unk_24.at00.v = (u16) ((u32) ((((S_800277F4_0 *)result)->unk_24.at00.v
+            + ((S_800277F4_8 *)donor)->unk_24) & 0xFFFF) >> 1);
+        level_cap = ((S_800277F4_0 *)result)->unk_66;
+        if (level_cap < (u8) ((S_800277F4_0 *)result)->unk_24.at01.v) {
+            ((S_800277F4_0 *)result)->unk_24.at01.v = level_cap;
+        }
+        ((S_800277F4_0 *)result)->unk_24.at00u.v = 0xFF;
+        if (((S_800277F4_0 *)result)->unk_24.at01.v != 0) {
+            ((S_800277F4_0 *)result)->unk_1C = (s32) (((S_800277F4_0 *)result)->unk_1C & ~8);
+        }
+        if (destination == 0) {
+            update_owner_class_bits(result);
+        }
+        if ((((S_800277F4_0 *)result)->unk_48.at01.v != 0) && !(((S_800277F4_0 *)result)->unk_48.at03.v & 0x20)) {
+            ((S_800277F4_0 *)result)->unk_48.at00.v = 0;
+        }
+        owner_action = 0;
+        if ((u8) ((S_800277F4_0 *)result)->unk_43 < 0x40U) {
+            owner_action = ((u8) ((S_800277F4_8 *)donor)->unk_43 < 0x40U) * 2;
+        } else {
+            donor_owner = ((S_800277F4_8 *)donor)->unk_43;
+            if (donor_owner < 0x40U) {
+                owner_action = 1;
+
+                ((S_800277F4_0 *)result)->unk_43 = donor_owner;
+                slot_index = owner_action;
+                ((S_800277F4_0 *)result)->unk_44 = (s8) slot_index;
+            }
+        }
+        if (destination == 0) {
+            func_800A31D0(donor);
+            decrement_monster_entry_count(((S_800277F4_8 *)donor)->unk_13, 3);
+            slot_index = find_entity_slot_by_field_ac(donor);
+            {
+                u8 *slot_page = D_80080000;
+                slot_base = *(u8 **) (slot_page + 0x14A8);
+            }
+            slot_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (s32) slot_base);
+
+            slot_flags = (*(s32 *)((u8 *)donor + 0x1C)) & 0x2000;
+            donor_position = ((S_800277F4_8_pre *)donor)[-1].unk_00;
+            donor_runtime = ((S_800277F4_17 *)slot_addr)->unk_D0;
+            room_x = ((MovingTile *)donor_position)->unk_24;
+            room_y = ((MovingTile *)donor_position)->unk_25;
+            map_mask = 0x3000;
+            if (slot_flags != 0) {
+                map_mask = 0x300;
+            }
+            update_map_cell_flags_with_item_limit(room_x, room_y, map_mask);
+            unlink_entity_node(donor);
+            if (owner_action == 1) {
+                u8 *room_page = (u8 *) 0x80010000;
+
+                room_page[0x980 + (((S_800277F4_8 *)donor)->unk_43 * 4)] = ((S_800277F4_0 *)result)->unk_13;
+                ((S_800277F4_8 *)donor)->unk_43 = 0xFF;
+            } else if (owner_action == 2) {
+                u32 room_base = 0x80010000;
+                s32 room_index;
+                room_index = ((S_800277F4_8 *)donor)->unk_43;
+
+                room_base |= 0x980;
+
+                *(s32 *) (room_base + (room_index * 4)) = 0;
+            }
+            slot_index = find_entity_slot_by_field_ac(donor);
+            {
+                u8 *slot_page = D_80080000;
+                u8 *runtime_base;
+                u8 *runtime_addr;
+                runtime_base = *(u8 **) (slot_page + 0x14A8);
+                runtime_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (s32) runtime_base);
+
+                ((S_800277F4_19 *)runtime_addr)->unk_D0 = 0;
+            }
+            zero_words(&D_800E3E48[(((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F) * 0x8C], 0x23);
+            D_800E3DF0[((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F] = 0;
+            clear_slot_and_update_linked_state(donor_runtime);
+            result_traits = ((S_800277F4_0 *)result)->unk_54;
+            if ((result_traits & 0x800000) &&
+                ((result_kind = ((S_800277F4_0 *)result)->unk_13) != 2) &&
+                (result_kind != 0x39)) {
+                ((S_800277F4_0 *)result)->unk_54 = (s32) (result_traits & 0xFF7FFFFF);
+            }
+            (*(u16 *)((u8 *)donor + -2)) = (u16) (((S_800277F4_8_pre *)donor)[-1].unk_12 | 0x8000);
+            global_flags = object_flag_block.flags;
+            global_flags |= 0x8000;
+            object_flag_block.flags = global_flags;
+return_tail:
+            return result;
+        }
+        goto return_tail;
+    }
+    return result;
+}
+

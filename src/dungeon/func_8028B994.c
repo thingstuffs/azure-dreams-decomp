@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_spawns.h"
+#include "dungeon/level/spawn.h"
 
 void build_cumulative_item_weights(void)
 {

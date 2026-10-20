@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void load_dungeon_layout(s16 layout_number)
 {
@@ -146,7 +146,7 @@ void load_dungeon_layout(s16 layout_number)
         entry_index++;
     }
 
-    func_8004068C(data, ((u8 *)D_800EA000));
+    decompress_lz(data, ((u8 *)D_800EA000));
     for (entry_index = 0; D_800E3548[entry_index].kind != 0; entry_index++) {
         placed_record = &((floor_generate_isolated_80285464_RecB *)D_800E36C8)[entry_index];
         map_value = get_surface_height_at_coordinates(placed_record->f0 << 6, placed_record->f1 << 6);

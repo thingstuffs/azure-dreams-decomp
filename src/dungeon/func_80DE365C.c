@@ -23,7 +23,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
             return;
         }
         (*(void * *)((u8 *)sprite_in + 0x2C)) = D_80174530;
-        func_80047784(sprite_in,
+        select_sprite_entry(sprite_in,
             D_80174530[((g_game_work.view.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         return;
@@ -59,7 +59,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
                 anim_table = D_80174520;
                 if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_2C != anim_table) {
                     (*(void * *)((u8 *)sprite_in + 0x2C)) = anim_table;
-                    func_80047784(sprite_in,
+                    select_sprite_entry(sprite_in,
                         anim_table[((g_game_work.view.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                 }
@@ -204,7 +204,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
 
 update_table:
     (*(void * *)((u8 *)sprite_in + 0x2C)) = anim_table;
-    func_80047784(sprite_in,
+    select_sprite_entry(sprite_in,
         *(u8 *)((u32)(((g_game_work.view.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7) +
                 (u32)anim_table),
         0);

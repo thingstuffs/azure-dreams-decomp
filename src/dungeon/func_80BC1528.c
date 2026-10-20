@@ -13,7 +13,7 @@ void create_parent_return_effect(
     s32 rounded_step_x;
     s32 rounded_step_z;
 
-    effect = func_8003FD64(0x211, parent);
+    effect = allocate_list_node(0x211, parent);
     if (effect != 0) {
         ((S_80BC1528_0 *)effect)->unk_10 = advance_effect_toward_target;
 
@@ -53,7 +53,7 @@ void create_parent_return_effect(
 
         effect_data->unk_14 = effect_param;
         effect_data->unk_32 = duration;
-        func_8004491C(effect, build_projected_tile_packets, step_x);
+        register_node(effect, build_projected_tile_packets, step_x);
         rounded_step_x = initial_value;
         ((S_80BC1528_0 *)effect)->unk_20 = rounded_step_x;
         effect_data->unk_08 = initial_value;

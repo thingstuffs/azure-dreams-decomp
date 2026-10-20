@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_spawns.h"
+#include "dungeon/level/spawn.h"
 
 s32 select_weighted_floor_item(s8 *category_out, s8 *item_out) {
     s32 category_index;

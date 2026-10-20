@@ -30,12 +30,12 @@ are already excluded by L4).  A row that cannot reach L5 stays at L4 with its re
 `not_in_module`).  See docs/PIN_CAMPAIGN_CHARTER.md "Rulings 2026-09-22 (evening)" and "Rulings
 2026-09-22 (afternoon, goal round)".
 """
-import re, collections, sys
+import re, collections, sys, hashlib
 from row_cache import RowCache, FactInputs, text_key
 from pathlib import Path
 from common import ROOT, LEDGER, rows, read_jsonl, write_jsonl, raw_path, sha_file
 from frozen_raw import entry as frozen_entry
-from source_layout import row_path as layout_row_path
+from source_layout import row_path as layout_row_path, own_source as layout_own_source
 from census import (M2C_LOCAL_RE, audit_index, DECL_LINE, DEF_HEADER_RE,
                      audit_sites, live_sites as census_live_sites)
 from pin_census import arm_labels, HAS_PP_RE, sites_of, strip_composite_asm
@@ -491,14 +491,17 @@ def row_view(r, by_id, root=None):
     facts keyed by id stay its own.  Any other row returns itself unchanged."""
     home = by_id.get(r.get("source_row") or "")
     h = home or r
-    cp = layout_row_path(r, root or ROOT)
-    text = cp.read_text(errors="replace")
+    # An inlined member (ledger/layout_inline.jsonl) shares its TU with its siblings: read only its
+    # own fragment, so no sibling's body, pins, asm or includes is scanned as this row's text.
+    text, first_written = layout_own_source(r, root or ROOT)
     evidence_root = Path(root or ROOT)
     if (evidence_root / "config/frozen_raw.jsonl").is_file():
         baseline = frozen_entry(f"raw/{h['container']}/{Path(h['c_path']).name}", evidence_root)
         # evaluate_row only tests equality with the pinned text. Keep the exact
         # equality fact without storing the first-pass source in the public tree.
-        equal = baseline is not None and sha_file(cp) == baseline["sha256"]
+        # (An inlined fragment is compared with its include spellings restored.)
+        equal = (baseline is not None and first_written is not None
+                 and hashlib.sha256(first_written).hexdigest() == baseline["sha256"])
         raw_text = text if equal else "\0frozen-first-pass-differs\0"
     elif (evidence_root / "raw").is_dir():
         # Small synthetic tests still model the original text directly.

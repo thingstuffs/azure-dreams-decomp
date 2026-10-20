@@ -21,6 +21,7 @@ typedef struct {
 extern D_80079958_t D_80079958;
 
 extern s32 func_8005E4C4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void read_spu_register_pair(int a0, int a1);
 extern void func_8005E7B0(int a0, int a1);
 extern void func_8005F134(void *a0);
 extern void func_8005E97C(int a0, int a1);

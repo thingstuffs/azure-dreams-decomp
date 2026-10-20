@@ -72,7 +72,7 @@ extern RectTable D_80024004;
 extern u8 D_8002405C[];
 extern PackedVec3 D_800256E0;
 
-extern void func_8004491C(void *, void *);
+extern void register_node(void *, void *);
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect16 *, void *, s32, s32);
 
 /* Creates a display effect in a free slot and expires the owner when its timer ends. */
@@ -132,7 +132,7 @@ void func_80024104(void *owner) {
             ((S_80024104_0 *)effect_work)->unk_32 = slot;
             ((S_80024104_0 *)effect_work)->unk_60 = owner;
             ((S_80024104_1 *)effect)->unk_10 = D_8002405C;
-            func_8004491C(effect, func_80045340);
+            register_node(effect, project_sprite_chain);
 
             display = ((S_80024104_1 *)effect)->unk_0C;
             display->field6 = 4;

@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_80875684",
-      "tu": "src/town/func_808753FC.c",
+      "tu": "src/town/scene/hooks/return_argument_b.c",
       "home": "town/func_808753FC",
       "foff": "0x7F5684",
       "vma": "0x80701684",

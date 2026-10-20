@@ -1,0 +1,59 @@
+#ifndef DUNGEON_OVL_7F0F7800_P07_H
+#define DUNGEON_OVL_7F0F7800_P07_H
+#include "common.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+
+typedef struct T_80173AD4_S_80173AD4_0 {
+    u8 pad_00[0x14];
+    u16 unk_14;
+    u8 pad_16[0x6];
+    s32 unk_1C;
+    u8 pad_20[0xA];
+    s16 unk_2A;
+    u8 pad_2C[0x41];
+    u8 unk_6D;
+    u8 pad_6E[0x3];
+    u8 unk_71;
+} T_80173AD4_S_80173AD4_0;   /* actor in func_80173AD4 */
+
+   /* state in func_80173AD4 */
+
+typedef struct T_80173AD4_S_80173AD4_2 {
+    u8 pad_00[0x8C];
+    s32 unk_8C;
+    u8 pad_90[0x6];
+    s16 unk_96;
+    u16 unk_98;
+    s8 unk_9A;
+    s8 unk_9B;
+    u8 pad_9C[0xA];
+    u16 unk_A6;
+    u8 pad_A8[0x2];
+    s16 unk_AA;
+} T_80173AD4_S_80173AD4_2;   /* work in func_80173AD4 */
+
+typedef struct T_80173AD4_S_80173AD4_3 {
+    u8 pad_00[0x12];
+    u16 unk_12;
+    u8 pad_14[0x10];
+    u8 unk_24;
+    u8 unk_25;
+} T_80173AD4_S_80173AD4_3;   /* part_b in func_80173AD4 */
+
+
+
+extern s32 select_sprite_entry();
+extern s32 func_80047784();
+extern s32 get_unused_text_buffer();
+extern s32 expand_text_control_codes();
+extern void * func_80099290();
+extern s32 append_entity_display_text();
+extern void cycle_map_cell_flags();
+extern void update_map_cell_flags_with_item_limit();
+extern s32 has_pending_dungeon_activity();
+extern s32 display_text_with_fullwidth_adjustment();
+extern u8 D_80170854[];
+extern u8 D_80173FD0[];
+void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, void *part_a, void *part_b_in, void *actor);
+#endif

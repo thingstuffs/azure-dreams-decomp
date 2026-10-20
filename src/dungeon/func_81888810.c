@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_18a6800.h"
+#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 
@@ -100,7 +100,7 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
         if (fragment != NULL) {
             object_or_x = (s32)fragment;
             fragment->unk_10 = handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends;
-            func_8004491C((void *)object_or_x, (s32)handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth);
+            register_node((void *)object_or_x, (s32)handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth);
 
             row_start = quad_index & ~0xF;
             column_or_coord = (quad_index + 1) & 0xF;

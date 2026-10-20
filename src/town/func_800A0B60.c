@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Initializes the shared state from the selected table entry and stores the result. */
 s32 initialize_shared_state_from_table(void) {

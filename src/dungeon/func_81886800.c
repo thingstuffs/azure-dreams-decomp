@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_18a6800.h"
+#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
@@ -258,7 +258,7 @@ typedef struct S_func_81886800_19 {
 
 
 extern void draw_textured_ellipse(void *, void *, s32, s32);
-extern s32 func_8003DF74(void *, void *, void *, s32);
+extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 func_800644B8(s32);
 extern s32 set_item_w0(s32, s32, s32, s32);
 extern s32 check_left_tile_and_center_height(s32, s32, s32);
@@ -312,7 +312,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
     effect->unk_0A.u16++;
 
     case 1:
-    if (func_8003DF74(
+    if (get_sprite_attachment_vector(
             ((S_func_81886800_10 *)(owner_base->unk_0C))->unk_08.ptr,
             owner_base->unk_0C, surface_pos, 0) == 0) {
         if ((((S_func_81886800_10 *)(owner_base->unk_0C))->unk_14 & 0x8000) == 0) {
@@ -336,7 +336,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
             break;
         }
         if ((effect->unk_12 & 4) == 0) {
-            func_8004491C((u8 *)effect - 0x20, func_80045340);
+            register_node((u8 *)effect - 0x20, project_sprite_chain);
             sprite->unk_10 = 0x20;
             sprite->unk_0C.parts.unk_0E = 0x80;
             sprite->unk_0C.parts.unk_0D = 0x80;

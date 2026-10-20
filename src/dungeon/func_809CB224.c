@@ -139,7 +139,7 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
 
             if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != direction_table) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
-                func_80047784(sprite,
+                select_sprite_entry(sprite,
                     direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }

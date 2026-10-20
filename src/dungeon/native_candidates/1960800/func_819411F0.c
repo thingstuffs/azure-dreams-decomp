@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_1960800.h"
+#include "dungeon/effect/particle/advance_object_spawning_displays_high.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -34,7 +34,7 @@ void *func_800249F0(void *source, void *unused_1, void *unused_2, void *packed_d
         state = object + 0x20;
         state->unk_2A = 0x3C;
         (*(M2C_UNK **)((u8 *)object + 0x10)) = &decrement_object_counter;
-        func_8004491C(object, (s32)func_80045340);
+        register_node(object, (s32)project_sprite_chain);
         render_state = (*(void **)((u8 *)object + 0xC));
         ((S_800249F0_1 *)render_state)->unk_14 |= 0xC;
         render_param_copy = render_param;

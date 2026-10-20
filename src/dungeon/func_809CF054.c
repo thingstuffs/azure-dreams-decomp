@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_9ef054.h"
+#include "dungeon/monster/dragon/create_mode_configured_actor.h"
 
 void *create_mode_configured_actor_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
 {
@@ -18,12 +18,12 @@ void *create_mode_configured_actor_object(s16 kind_flags, s16 byte_24, s16 byte_
     saved_byte_24 = byte_24;
     saved_value_0a = value_0a;
     saved_byte_25 = byte_25;
-    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->unk_10 = D_8016AA28;
         work->unk_13 = 0x3;
-        func_8004491C(obj, func_80045340);
+        register_node(obj, project_sprite_chain);
 
         part_a = obj->unk_08;
         part_a->unk_0A = saved_value_0a;

@@ -1,67 +1,67 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/region_2ab9c0_2b09ec",
- "container": "town",
- "foff": "0x2ab9c0",
- "size": "0x502c",
- "vma": "0x800161c0",
- "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase sweep_2AB9C0",
- "entries": [
-  {
-   "row": "town/func_8032E9EC",
-   "home": "town/func_8032E9EC",
-   "tu": "src/town/func_8032E9EC.c",
-   "foff": "0x2ae9ec",
-   "vma": "0x800191ec",
-   "size": 64
-  },
-  {
-   "row": "town/func_8032F060",
-   "home": "town/func_8032F060",
-   "tu": "src/town/func_8032F060.c",
-   "foff": "0x2af060",
-   "vma": "0x80019860",
-   "size": 148
-  },
-  {
-   "row": "town/func_8032F468",
-   "home": "town/func_8032F468",
-   "tu": "src/town/func_8032F468.c",
-   "foff": "0x2af468",
-   "vma": "0x80019c68",
-   "size": 112
-  },
-  {
-   "row": "town/func_8032F4D8",
-   "home": "town/func_8032F4D8",
-   "tu": "src/town/func_8032F4D8.c",
-   "foff": "0x2af4d8",
-   "vma": "0x80019cd8",
-   "size": 108
-  },
-  {
-   "row": "town/func_8032F544",
-   "home": "town/func_8032F544",
-   "tu": "src/town/func_8032F544.c",
-   "foff": "0x2af544",
-   "vma": "0x80019d44",
-   "size": 92
-  },
-  {
-   "row": "town/func_8032F5FC",
-   "home": "town/func_8032F5FC",
-   "tu": "src/town/func_8032F5FC.c",
-   "foff": "0x2af5fc",
-   "vma": "0x80019dfc",
-   "size": 172
-  },
-  {
-   "row": "town/func_8032F6A8",
-   "home": "town/func_8032F6A8",
-   "tu": "src/town/func_8032F6A8.c",
-   "foff": "0x2af6a8",
-   "vma": "0x80019ea8",
-   "size": 220
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/region_2ab9c0_2b09ec",
+  "container": "town",
+  "foff": "0x2ab9c0",
+  "size": "0x502c",
+  "vma": "0x800161c0",
+  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase sweep_2AB9C0",
+  "entries": [
+    {
+      "row": "town/func_8032E9EC",
+      "home": "town/func_8032E9EC",
+      "tu": "src/town/shop/state/set_lshop_special_flag.c",
+      "foff": "0x2ae9ec",
+      "vma": "0x800191ec",
+      "size": 64
+    },
+    {
+      "row": "town/func_8032F060",
+      "home": "town/func_8032F060",
+      "tu": "src/town/scene/update_dependent_entry_ids.c",
+      "foff": "0x2af060",
+      "vma": "0x80019860",
+      "size": 148
+    },
+    {
+      "row": "town/func_8032F468",
+      "home": "town/func_8032F468",
+      "tu": "src/town/scene/process_checked_entry.c",
+      "foff": "0x2af468",
+      "vma": "0x80019c68",
+      "size": 112
+    },
+    {
+      "row": "town/func_8032F4D8",
+      "home": "town/func_8032F4D8",
+      "tu": "src/town/scene/all_entries_pass_check.c",
+      "foff": "0x2af4d8",
+      "vma": "0x80019cd8",
+      "size": 108
+    },
+    {
+      "row": "town/func_8032F544",
+      "home": "town/func_8032F544",
+      "tu": "src/town/scene/flags/resolve_entry_flag.c",
+      "foff": "0x2af544",
+      "vma": "0x80019d44",
+      "size": 92
+    },
+    {
+      "row": "town/func_8032F5FC",
+      "home": "town/func_8032F5FC",
+      "tu": "src/town/scene/motion/apply_entry_position.c",
+      "foff": "0x2af5fc",
+      "vma": "0x80019dfc",
+      "size": 172
+    },
+    {
+      "row": "town/func_8032F6A8",
+      "home": "town/func_8032F6A8",
+      "tu": "src/town/scene/process_town_records.c",
+      "foff": "0x2af6a8",
+      "vma": "0x80019ea8",
+      "size": 220
+    }
+  ]
 }

@@ -1,24 +1,24 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/region_d23818_d23850",
- "container": "dungeon",
- "foff": "0xd23818",
- "size": "0x38",
- "vma": "0x8015d018",
- "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase r121w_s1_dungeon_d1f000",
- "entries": [
-  {
-   "row": "dungeon/func_80D03818",
-   "home": "dungeon/func_800AD508",
-   "tu": "src/dungeon/func_800AD508.c",
-   "foff": "0xd23818",
-   "vma": "0x8015d018",
-   "size": 56,
-   "bindings": {
-    "0x800b2a60": "0x8015a4bc",
-    "0x800ab378": "0x800abdbc"
-   },
-   "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80D03818"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/region_d23818_d23850",
+  "container": "dungeon",
+  "foff": "0xd23818",
+  "size": "0x38",
+  "vma": "0x8015d018",
+  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase r121w_s1_dungeon_d1f000",
+  "entries": [
+    {
+      "row": "dungeon/func_80D03818",
+      "home": "dungeon/func_800AD508",
+      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
+      "foff": "0xd23818",
+      "vma": "0x8015d018",
+      "size": 56,
+      "bindings": {
+        "0x800b2a60": "0x8015a4bc",
+        "0x800ab378": "0x800abdbc"
+      },
+      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80D03818"
+    }
+  ]
 }

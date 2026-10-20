@@ -1,7 +1,0 @@
-#include "common.h"
-void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_context);                            /* extern */
-
-/* Forward the object and callback arguments to apply_object_setup_and_update. */
-void func_800C3C5C(void *object, s32 callback_arg_1, s32 callback_arg_2) {
-    apply_object_setup_and_update(object, callback_arg_1, callback_arg_2);
-}

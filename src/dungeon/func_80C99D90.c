@@ -20,7 +20,7 @@ void func_8016B590(void *motion, s32 update_param, void *entity, void *state) {
 
     if (((CL_CB9000_80171590_S_80171590_1 *)entity)->unk_2C != D_8016F2AC) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_8016F2AC;
-        func_80047784(
+        select_sprite_entry(
             entity,
             D_8016F2AC[((g_game_work.view.viewAngle + ((CL_CB9000_80171590_S_80171590_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);

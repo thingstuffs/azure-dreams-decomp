@@ -9,9 +9,9 @@ typedef struct CounterBlock {
 } CounterBlock;
 
 s32 func_8003DB94();        /* extern */
-extern s32 func_8004491C();
+extern s32 register_node();
 extern s32 play_sound_if_enabled();
-extern s32 func_80045C34();
+extern s32 draw_linked_sprites_clipped();
 struct S_800C5D80_0;
 extern void advance_effect_motion_and_fade(void *effect_data, struct S_800C5D80_0 *motion, Rec_D_80082E80 *primitive);
 
@@ -81,7 +81,7 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
         }
         if (effect != 0) {
             ((S_800C5E5C_0 *)effect)->unk_10 = advance_effect_motion_and_fade;
-            func_8004491C(effect, func_80045C34);
+            register_node(effect, draw_linked_sprites_clipped);
             transform = ((S_800C5E5C_0 *)effect)->unk_08;
             transform->unk_02 = x;
             transform->unk_06 = y;

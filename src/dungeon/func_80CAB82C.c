@@ -15,7 +15,7 @@ void func_8015902C(CL_CCB000_8017102C_S_8017102C_0 *state, void *motion, CL_CCB0
   advance_actor_pending_action(state,motion,sprite,actor);
   if(sprite->unk_2C==D_8015D2FC) return;
   sprite->unk_2C=D_8015D2F4;
-  func_80047784(sprite,D_8015D2F4[((g_game_work.view.viewAngle+actor->unk_2A+0x100)>>9)&7],0);
+  select_sprite_entry(sprite,D_8015D2F4[((g_game_work.view.viewAngle+actor->unk_2A+0x100)>>9)&7],0);
   return;
  }
  {
@@ -37,7 +37,7 @@ void func_8015902C(CL_CCB000_8017102C_S_8017102C_0 *state, void *motion, CL_CCB0
    if(state->unk_9A!=14) {
     if(sprite->unk_2C!=D_8015D2B4) {
      sprite->unk_2C=D_8015D2B4;
-     func_80047784(sprite,D_8015D2B4[((g_game_work.view.viewAngle+actor->unk_2A+0x100)>>9)&7],0);
+     select_sprite_entry(sprite,D_8015D2B4[((g_game_work.view.viewAngle+actor->unk_2A+0x100)>>9)&7],0);
     }
     state->unk_9A=14;
    }
@@ -106,5 +106,5 @@ void func_8015902C(CL_CCB000_8017102C_S_8017102C_0 *state, void *motion, CL_CCB0
   if(sprite->unk_2C==frames) return;
  }
  sprite->unk_2C=frames;
- func_80047784(sprite,*((((g_game_work.view.viewAngle+actor->unk_2A+0x100)>>9)&7)+frames),0);
+ select_sprite_entry(sprite,*((((g_game_work.view.viewAngle+actor->unk_2A+0x100)>>9)&7)+frames),0);
 }

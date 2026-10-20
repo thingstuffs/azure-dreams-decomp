@@ -805,7 +805,7 @@
       "vma": 2147557520,
       "view_bytes": 12,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_floor_generate.h",
+      "declaration": "include/dungeon/level/generate.h",
       "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
     },
     "D_80012D52": {
@@ -814,7 +814,7 @@
       "vma": 2147560786,
       "view_bytes": 1,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_floor_generate.h",
+      "declaration": "include/dungeon/level/generate.h",
       "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
     },
     "D_80080000": {
@@ -824,7 +824,7 @@
       "view_bytes": 5292,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_floor_generate.imports.json",
-      "declaration": "src/dungeon/func_8199A800.c"
+      "declaration": "src/dungeon/effect/mesh/update_directional_actor_effect.c"
     },
     "D_80082E60": {
       "symbol": "D_80082E60",
@@ -841,7 +841,7 @@
       "vma": 2148019819,
       "view_bytes": 9,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_floor_generate.h",
+      "declaration": "include/dungeon/level/generate.h",
       "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
     },
     "D_80083160": {
@@ -886,7 +886,7 @@
       "vma": 2148442106,
       "view_bytes": 1,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_floor_generate.h",
+      "declaration": "include/dungeon/level/generate.h",
       "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
     },
     "D_800EA000": {
@@ -895,7 +895,7 @@
       "vma": 2148442112,
       "view_bytes": 24576,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_floor_generate.h",
+      "declaration": "include/dungeon/level/generate.h",
       "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
     },
     "D_800F0000": {
@@ -904,7 +904,7 @@
       "vma": 2148466688,
       "view_bytes": 1,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_floor_generate.h",
+      "declaration": "include/dungeon/level/generate.h",
       "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
     },
     "D_8014A000": {
@@ -913,7 +913,7 @@
       "vma": 2148835328,
       "view_bytes": 32,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_floor_generate.h",
+      "declaration": "include/dungeon/level/generate.h",
       "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
     },
     "D_801BEE40": {
@@ -922,7 +922,7 @@
       "vma": 2149314112,
       "view_bytes": 16,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_floor_generate.h",
+      "declaration": "include/dungeon/level/generate.h",
       "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
     },
     "D_801C4640": {
@@ -931,7 +931,7 @@
       "vma": 2149336640,
       "view_bytes": 16,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_floor_generate.h",
+      "declaration": "include/dungeon/level/generate.h",
       "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
     }
   },

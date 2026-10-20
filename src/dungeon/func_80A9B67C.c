@@ -20,7 +20,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
             return;
         }
         object->frameTable = ((u8 *)D_80174C84);
-        func_80047784(object,
+        select_sprite_entry(object,
             ((u8 *)D_80174C84)[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
         return;
@@ -54,7 +54,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
                 anim_table = ((u8 *)D_80174C3C);
                 if (object->frameTable != anim_table) {
                     object->frameTable = anim_table;
-                    func_80047784(object,
+                    select_sprite_entry(object,
                         anim_table[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
                         0);
                 }
@@ -74,7 +74,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
             begin_actor_move_to_target_facing(actor, position, object, actor_data);
             func_80173F20(actor, position, object, actor_data);
             object->frameTable = ((u8 *)D_80174C34);
-            func_80047784(object,
+            select_sprite_entry(object,
                 ((u8 *)D_80174C34)[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
                 0);
             return;
@@ -191,7 +191,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
     if ((object->frameTable != anim_table) &&
         (object->frameTable != ((u8 *)D_80174C34))) {
         object->frameTable = anim_table;
-        func_80047784(object,
+        select_sprite_entry(object,
             anim_table[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800A9E70_arg0 *)actor)->unk_AA = 1;
@@ -207,7 +207,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
         } else {
             object->frameTable = ((u8 *)D_80174C34);
         }
-        func_80047784(object,
+        select_sprite_entry(object,
             ((u8 *)object->frameTable)[
                 ((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
@@ -226,13 +226,13 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
         void *tint;
         u8 *sprite_data;
 
-        effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+        effect = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
         ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_pv.v = effect;
         object = effect;
         if (object == 0) {
             return;
         }
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
         tint = (void *)0x00808080;
         ((ObjectNodeHeader *)object)->unk_10 = ((u8 *)D_800D79B0);
         ((EntityRec *)((ObjectNodeHeader *)object)->unk_08)->x.w.i =

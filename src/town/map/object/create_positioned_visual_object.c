@@ -1,0 +1,53 @@
+#include "modules/town_map_props.h"
+#include "shared/object_node.h"
+#include "common.h"
+#include "m2c_compat.h"
+#include "shared/vector.h"
+
+
+
+typedef struct S_800BDBD0_0 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    s32 unk_10;
+} S_800BDBD0_0;
+
+typedef struct S_800BDBD0_1 {
+    u8 pad_00[0x8];
+    s32 unk_08;
+    s32 unk_0C;
+    u8 pad_10[0xA];
+    s16 unk_1A;
+    s16 unk_1C;
+    s16 unk_1E;
+    s16 unk_20;
+} S_800BDBD0_1;
+
+
+
+
+/* Creates an object at the supplied position and initializes its visual properties. */
+void *create_positioned_visual_object(TownPropPosition *source_pos, s32 object_data, s32 angle, s32 visual_data) {
+    S_800BDBD0_0 *object;
+    S_800BDBD0_1 *visual;
+    IntVector3 *position;
+
+    object = func_8003FC64(0x136);
+    if (object != NULL) {
+        register_node(object, func_80046398);
+        visual = object->unk_0C;
+        object->unk_10 = object_data;
+        visual->unk_1A = (s16) angle;
+        visual->unk_1C = 0x1000;
+        visual->unk_1E = 0x1000;
+        visual->unk_20 = 0x1000;
+        visual->unk_0C = 0x808080;
+        visual->unk_08 = visual_data;
+        position = object->unk_08;
+        position->x = source_pos->unk_00;
+        position->y = source_pos->unk_04;
+        position->z = source_pos->unk_08;
+    }
+    return object;
+}

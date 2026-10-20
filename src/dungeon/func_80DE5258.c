@@ -100,7 +100,7 @@ void update_actor_spell_action(void *arg0, E_80172A58_S_80172A58_6 *arg1, E_8017
             set_record_integer_tile_center(arg1, arg2->unk_24, arg2->unk_25);
             if (arg2->unk_2C != D_80174520) {
                 arg2->unk_2C = D_80174520;
-                func_80047784(arg2, *((((s32) (g_game_work.view.viewAngle + ((E_80172A58_S_80172A58_1 *)arg3)->unk_2A + 0x100) >> 9) & 7) + D_80174520), 0);
+                select_sprite_entry(arg2, *((((s32) (g_game_work.view.viewAngle + ((E_80172A58_S_80172A58_1 *)arg3)->unk_2A + 0x100) >> 9) & 7) + D_80174520), 0);
             }
             if (g_dungeon_status.unk_0C == 0) {
                 g_dungeon_status.unk_0A = (u16) (g_dungeon_status.unk_0A - 1);

@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 s32 classify_directional_movement(s16 input_x, s16 input_y, s32 current_height, s16 direction)
 {

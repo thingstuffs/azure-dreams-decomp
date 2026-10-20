@@ -1,0 +1,152 @@
+#include "common.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+
+#define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
+#define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
+#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
+#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
+#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
+#define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
+
+extern void select_sprite_entry(void *, u8, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
+
+extern u8 D_80171FA4[];
+extern u8 D_80175C78[];
+extern u8 D_80080000[];
+
+/* Updates action movement and directional animation through three states. */
+void update_actor_behavior_2(void *action, void *motion, void *object, void *actor)
+{
+    s32 delta_x;
+    s32 delta_y;
+    s32 direction_off;
+    s32 facing_idx;
+    s32 object_type;
+    s32 anim_table;
+    s32 next_tick;
+    u16 flags;
+    s32 state;
+
+    state = U8(action, 0x9B);
+    switch (state) {
+    case 0:
+    {
+        u8 *facing_ptr;
+
+        flags = U16(object, 0x14);
+        if (flags & 0x8000) {
+            U16(object, 0x14) = flags | 0x6000;
+            U8(action, 0x9B) = 2;
+            resolve_attack_damage_and_effects(actor, object, S16(actor, 0x2A), 1);
+            return;
+        }
+        if ((flags & 0x6000) == 0) {
+            return;
+        }
+        if (S16(action, 0x92) != 0) {
+            return;
+        }
+        PTR(object, 0x2C) = D_80175C78;
+        facing_ptr = &D_80175C78[((g_game_work.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7];
+        select_sprite_entry(object, *facing_ptr, 0);
+        U16(action, 0x96) = 0;
+        play_sound_if_enabled(0x808);
+        U8(action, 0x9B)++;
+        return;
+    }
+
+    case 1:
+    {
+        u8 *direction_base;
+        u8 *direction_base_2;
+        s32 motion_x;
+        s32 motion_y;
+        s32 signed_value;
+
+        anim_table = U16(action, 0x96);
+        direction_base = (u8 *)&dir_step_x;
+        next_tick = anim_table + 1;
+        anim_table -= 3;
+        U16(action, 0x96) = next_tick;
+        direction_off = (U16(actor, 0x2A) >> 8) & 0xE;
+        anim_table = (u32)anim_table < 8U;
+        direction_base = (u8 *)(direction_off + (s32)direction_base);
+        delta_x = *(s16 *)direction_base;
+        direction_base_2 = (u8 *)&dir_step_y;
+        signed_value = *(s16 *)((s32)(direction_off + (s32)direction_base_2));
+        delta_x = -delta_x;
+        delta_x <<= 16;
+        signed_value = -signed_value;
+        delta_y = signed_value << 16;
+        if (anim_table) {
+            motion_x = S32(motion, 0xC) - delta_x;
+            motion_y = S32(motion, 0x10) - delta_y;
+            S32(motion, 0xC) = motion_x;
+            S32(motion, 0x10) = motion_y;
+        } else {
+            signed_value = (s16)next_tick;
+            if (signed_value < 0x12) {
+                motion_x = S32(motion, 0xC) + delta_x;
+                motion_y = S32(motion, 0x10) + delta_y;
+                S32(motion, 0xC) = motion_x;
+                S32(motion, 0x10) = motion_y;
+            } else {
+                S32(motion, 0x14) = 0;
+                S32(motion, 0x10) = 0;
+                S32(motion, 0xC) = 0;
+            }
+        }
+        object_type = S8(object, 4);
+        if (object_type == 5 && (U16(object, 0x14) & 0x9000)) {
+            resolve_attack_damage_and_effects(actor, object, S16(actor, 0x2A), 1);
+            anim_table = 0x80170000;
+        } else {
+            anim_table = 0x80170000;
+        }
+        {
+            u8 *facing_ptr;
+
+            if ((U16(object, 0x14) & 0x6000) == 0) {
+                return;
+            }
+            anim_table += 0x5CA8;
+            facing_ptr = (u8 *)D_80080000;
+            PTR(object, 0x2C) = (void *)anim_table;
+            facing_idx = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
+            facing_idx &= 7;
+            facing_ptr = (u8 *)(facing_idx + anim_table);
+            select_sprite_entry(object, *facing_ptr, 0);
+        }
+        S32(motion, 0x14) = 0;
+        S32(motion, 0x10) = 0;
+        S32(motion, 0xC) = 0;
+        set_record_integer_tile_center(motion, U8(object, 0x24), U8(object, 0x25));
+        U8(action, 0x9B)++;
+        return;
+    }
+
+    case 2:
+    {
+        void *actor_arg;
+
+        if ((U16(object, 0x14) & 0xE000) == 0) {
+            return;
+        }
+        reduce_actor_food_meter(actor, 0x100);
+        actor_arg = actor;
+        PTR(action, 0x8C) = D_80171FA4;
+        S32(D_80080000, 0x346C) = 0;
+        advance_status_timers(actor_arg);
+        U16(actor, 0x46) &= 0x7FFF;
+    }
+
+    }
+    return;
+}

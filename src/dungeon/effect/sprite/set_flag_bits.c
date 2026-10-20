@@ -1,0 +1,100 @@
+#include "shared/object_node.h"
+#include "common.h"
+#include "shared/slus_callbacks.h"
+typedef struct S_8092192C_0 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    s32 * unk_10;
+} S_8092192C_0;
+
+typedef struct S_8092192C_1 {
+    u8 pad_00[0x6];
+    s16 unk_06;
+    u8 pad_08[0x8];
+    s16 unk_10;
+    u8 pad_12[0x2];
+    union { u16 s; u16 u; } unk_14;   /* accessed as both */
+} S_8092192C_1;
+
+typedef struct S_8092192C_2 {
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
+} S_8092192C_2;   /* arg0 in func_8092192C */
+
+typedef struct S_8092192C_3 {
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
+} S_8092192C_3;
+
+typedef struct S_8092192C_4 {
+    u8 pad_00[0xC];
+    u8 unk_0C;
+    u8 unk_0D;
+    u8 unk_0E;
+    u8 pad_0F[0xD];
+    s16 unk_1C;
+    s16 unk_1E;
+} S_8092192C_4;
+
+
+extern u8 D_800DEC70[];
+s32 register_node();
+void func_8003DB94();
+void func_800F68AC(s16 *state, s32 *position, u16 *object);
+
+static __inline__ u32 set_flag_bits(u32 flags, u32 mask)
+{
+    return flags | mask;
+}
+
+/* Creates and initializes an object at the supplied position plus coordinate offsets. */
+void func_8092192C(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offset_z) {
+    u16 flags;
+    s32 render_value;
+    void *render_state;
+    S_8092192C_4 *sprite;
+    S_8092192C_0 *object;
+    S_8092192C_3 *position;
+    u32 sprite_data_addr;
+    s32 base_x;
+    s32 base_y;
+    s32 base_z;
+
+    object = func_8003FC64(0x212);
+    if (object != 0) {
+        object->unk_10 = &func_800F68AC;
+        register_node(object, project_sprite_chain);
+        render_state = object->unk_0C;
+        flags = ((S_8092192C_1 *)render_state)->unk_14.s;
+        render_value = 0x20;
+        ((S_8092192C_1 *)render_state)->unk_10 = render_value;
+        flags = set_flag_bits(flags, 0xC);
+        ((S_8092192C_1 *)render_state)->unk_14.u = flags;
+        render_value = 6;
+        ((S_8092192C_1 *)render_state)->unk_06 = render_value;
+        flags = set_flag_bits(flags, 2);
+        ((S_8092192C_1 *)render_state)->unk_14.u = flags;
+        position = object->unk_08;
+        base_x = (s32) base_pos->unk_00;
+        sprite_data_addr = 0x800E0000;
+        position->unk_00.at00.v = base_x;
+        base_y = (s32) base_pos->unk_04;
+        sprite_data_addr = (u32)D_800DEC70;
+        position->unk_04.at00.v = base_y;
+        base_z = (s32) base_pos->unk_08;
+        position->unk_00.at02.v = (u16) (position->unk_00.at02.v + offset_x);
+        position->unk_08.at00.v = base_z;
+        position->unk_04.at02.v = (u16) (position->unk_04.at02.v + offset_y);
+        position->unk_08.at02.v = (u16) (position->unk_08.at02.v + offset_z);
+        render_state = object->unk_0C;
+        ((S_8092192C_4 *)render_state)->unk_1E = 0x800;
+        ((S_8092192C_4 *)render_state)->unk_1C = 0x800;
+        ((S_8092192C_4 *)render_state)->unk_0E = 0x80;
+        ((S_8092192C_4 *)render_state)->unk_0D = 0x80;
+        ((S_8092192C_4 *)render_state)->unk_0C = 0x80;
+        func_8003DB94(render_state, (void *) sprite_data_addr, 0);
+    }
+}

@@ -1,26 +1,26 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/heur_4897c",
- "container": "town",
- "foff": "0x4897c",
- "size": "0x48",
- "vma": "0x800c60dc",
- "evidence": "work/native_lane/r121_heur/evidence/placements.json",
- "entries": [
-  {
-   "row": "town/func_8004897C",
-   "tu": "src/town/func_800D1E48.c",
-   "home": "town/func_800D1E48",
-   "foff": "0x4897c",
-   "vma": "0x800c60dc",
-   "size": 72,
-   "bindings": {
-    "0x800d7b0c": "0x800d55e8",
-    "0x800d7b14": "0x800d55f0",
-    "0x800d7b3c": "0x800d5618",
-    "0x800d7b40": "0x800d561c"
-   },
-   "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/heur_4897c",
+  "container": "town",
+  "foff": "0x4897c",
+  "size": "0x48",
+  "vma": "0x800c60dc",
+  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "entries": [
+    {
+      "row": "town/func_8004897C",
+      "tu": "src/town/scene/initialize_scene_slot_v.c",
+      "home": "town/func_800D1E48",
+      "foff": "0x4897c",
+      "vma": "0x800c60dc",
+      "size": 72,
+      "bindings": {
+        "0x800d7b0c": "0x800d55e8",
+        "0x800d7b14": "0x800d55f0",
+        "0x800d7b3c": "0x800d5618",
+        "0x800d7b40": "0x800d561c"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
+    }
+  ]
 }

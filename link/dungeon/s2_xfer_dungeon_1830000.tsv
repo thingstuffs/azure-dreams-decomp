@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_xfer_dungeon_1830000","n":"0x4800","o":"0x1830000","p":["95e05be8834848954fb72264c61dfaa4e15296a89b9fb262f1d26d415959a1af","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:acd06e631dd337c492c1377ecda2e603412f42b69132c7448e962f9c819589ee"],"t":[14188,0,64,4124,0,0,56],"v":"0x80025000"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"strongly_code"},{"census_label":"proven_code"},{},{"bindings":{"0x80028320":"0x800283b4"},"evidence":"docs/evidence/r121w_s2_receipts.json#dungeon/func_81810808"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: sliver_between_noncode"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_xfer_dungeon_1830000","n":"0x4800","o":"0x1830000","p":["95e05be8834848954fb72264c61dfaa4e15296a89b9fb262f1d26d415959a1af","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:6d6f67ca32d0ae860f44e1b7ca3ec254b16efce8569eac3c7743f36887d99888"],"t":[14188,0,64,4124,0,0,56],"v":"0x80025000"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"strongly_code"},{"census_label":"proven_code"},{"tu":"src/dungeon/system/process_record_resolved_value.c"},{"bindings":{"0x80028320":"0x800283b4"},"evidence":"docs/evidence/r121w_s2_receipts.json#dungeon/func_81810808","tu":"src/dungeon/system/process_record_resolved_value.c"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: sliver_between_noncode"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 25362432	64	a	census:audit+noncode_confirmed	e55c6d3fd5d31581815191de87c3e2524935b3bda75f48c4b77a68dd3cd4dda2	0
 25362496	64	r	census:T2_framed_ref:jal+jtbl+ptr		1
@@ -9,18 +9,18 @@ o	n	k	r	h	x
 25376748	144	a	census:audit+noncode_confirmed	e5b73e62ca504c6e8f04f2ff95b8fbf50752a9539232b703579b0e7106f4a61c	0
 25376892	12	a	census:neighbour:proven_data	04d1f9b88e2e9cb31a625d9bbe97d2686b1b2caa84dfc0b4b2f15b2bdefe4554	5
 25376904	664	a	census:audit+noncode_confirmed	a59bd431319d4243056581f4dcd9d97f1e7658af7a42c4b5a250150beb3d3fa5	0
-25377568	16	u	census:unresolved:audit_data_unconfirmed		3
+25377568	16	u	census:unresolved:audit_data_unconfirmed		6
 25377584	2116	a	census:audit+noncode_confirmed	d7f3daf96f63808cd62f558bbd31ac1084af788d3dff311d0755b4a00da213b8	0
-25379700	40	u	census:unresolved:audit_data_unconfirmed		3
-25379740	206	a	census:format:sjis	7eb1f35a3b3c90bdf3461c66ca3e14a13e9afac69ea08603f2d5b53d7efa0e79	6
+25379700	40	u	census:unresolved:audit_data_unconfirmed		6
+25379740	206	a	census:format:sjis	7eb1f35a3b3c90bdf3461c66ca3e14a13e9afac69ea08603f2d5b53d7efa0e79	7
 25379946	10	a	census:audit+noncode_confirmed	122f13bf349c744032ba9a93a5d0febda4ab4bb63837608a18fb48ea8d17eac4	0
-25379956	34	a	census:format:sjis	e50829ed73d25d962fbdfce5751a050f7e89be2512f829a40430918f5ed9435f	6
+25379956	34	a	census:format:sjis	e50829ed73d25d962fbdfce5751a050f7e89be2512f829a40430918f5ed9435f	7
 25379990	2	a	census:audit+noncode_confirmed	96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7	0
-25379992	44	a	census:format:ptrtab	31f93e4007d381dbde2be452aaff0f5e84abb81922c76a353b309a8e8cfc15c6	7
+25379992	44	a	census:format:ptrtab	31f93e4007d381dbde2be452aaff0f5e84abb81922c76a353b309a8e8cfc15c6	8
 25380036	12	a	census:audit+noncode_confirmed	9370a1a4c9b93ac73c971210387e463f83c893e5095c26a2e64da16ba3622139	0
-25380048	20	a	census:format:ptrtab	b14e3daea92368f132238093e551879a459995b7dfc9042ab231943ba22ad4b2	7
+25380048	20	a	census:format:ptrtab	b14e3daea92368f132238093e551879a459995b7dfc9042ab231943ba22ad4b2	8
 25380068	20	a	census:audit+noncode_confirmed	d3176673f37412f2f1a4b17e49e8e8bfa87b78a5d2bb314feb710018ded53f50	0
 25380088	8	a	census:neighbour:proven_data	f41690bcfb1dd51947921756950c472876272d6f589156941b92fb33db173baf	5
 25380096	20	a	census:audit+noncode_confirmed	1dbf5207d2fb20350e16bb4a493d25f8fc45fc9a987753ef57bc3d9733694976	0
-25380116	32	a	census:format:ptrtab	dd25111ab5a1e6927e103868e5817732241a4f00aa995a15468bd9e5555e5417	7
+25380116	32	a	census:format:ptrtab	dd25111ab5a1e6927e103868e5817732241a4f00aa995a15468bd9e5555e5417	8
 25380148	716	a	census:audit+noncode_confirmed	3ddc41d497f8f7c3cc96c4ca28a76b9a11fad5bea17ad5ab86e777c7e4d4cb69	0

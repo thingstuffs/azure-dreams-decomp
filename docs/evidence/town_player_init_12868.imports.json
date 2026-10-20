@@ -107,7 +107,7 @@
       "vma": 2147921340,
       "view_bytes": 28,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_player_init.h",
+      "declaration": "include/town/player/initialize_scene_for_mode.h",
       "evidence": "docs/evidence/town_player_init_12868.imports.json"
     },
     "D_8006ADD4": {
@@ -116,7 +116,7 @@
       "vma": 2147921364,
       "view_bytes": 2,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_player_init.h",
+      "declaration": "include/town/player/initialize_scene_for_mode.h",
       "evidence": "docs/evidence/town_player_init_12868.imports.json"
     },
     "D_80080A80": {
@@ -125,7 +125,7 @@
       "vma": 2148010624,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_player_init.h",
+      "declaration": "include/town/player/initialize_scene_for_mode.h",
       "evidence": "docs/evidence/town_player_init_12868.imports.json"
     },
     "D_80082BC0": {
@@ -134,7 +134,7 @@
       "vma": 2148019136,
       "view_bytes": 36,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_player_init.h",
+      "declaration": "include/town/player/initialize_scene_for_mode.h",
       "evidence": "docs/evidence/town_player_init_12868.imports.json"
     },
     "D_80082E80": {
@@ -143,7 +143,7 @@
       "vma": 2148019840,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_player_init.h",
+      "declaration": "include/town/player/initialize_scene_for_mode.h",
       "evidence": "docs/evidence/town_player_init_12868.imports.json"
     },
     "D_80083160": {
@@ -152,7 +152,7 @@
       "vma": 2148020576,
       "view_bytes": 512,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_player_init.h",
+      "declaration": "include/town/player/initialize_scene_for_mode.h",
       "evidence": "docs/evidence/town_player_init_12868.imports.json"
     },
     "D_80083498": {
@@ -161,7 +161,7 @@
       "vma": 2148021400,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_player_init.h",
+      "declaration": "include/town/player/initialize_scene_for_mode.h",
       "evidence": "docs/evidence/town_player_init_12868.imports.json"
     },
     "D_800834B8": {
@@ -170,7 +170,7 @@
       "vma": 2148021432,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_player_init.h",
+      "declaration": "include/town/player/initialize_scene_for_mode.h",
       "evidence": "docs/evidence/town_player_init_12868.imports.json"
     },
     "D_80083780": {
@@ -179,7 +179,7 @@
       "vma": 2148022144,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_player_init.h",
+      "declaration": "include/town/player/initialize_scene_for_mode.h",
       "evidence": "docs/evidence/town_player_init_12868.imports.json"
     }
   },

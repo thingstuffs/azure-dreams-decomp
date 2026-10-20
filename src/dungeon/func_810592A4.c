@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f0f7800_p01.h"
+#include "dungeon/monster/tyrant/update_entity_callbacks_directional_animation_movement_ground_contact.h"
 
 /* Updates entity callbacks, directional animation, movement, and ground contact. */
 void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, void *part)
@@ -78,7 +78,7 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
         wobble_base += wobble;
         ((T_80170AA4_S_80170AA4_0 *)part)->unk_12 = wobble_base;
     } else if (((*(s32 *)((u8 *)actor + 0x14)) & 7) != (*(s16 *)((u8 *)actor + 0xAA))) {
-        func_80042984(actor);
+        update_owner_class_bits(actor);
         (*(s16 *)((u8 *)actor + 0xAA)) = (*(u16 *)((u8 *)actor + 0x14)) & 7;
     }
 

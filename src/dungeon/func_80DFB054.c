@@ -20,12 +20,12 @@ void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_
     saved_arg1 = part_b_value_a;
     saved_arg3 = part_a_value;
     saved_arg2 = part_b_value_b;
-    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
     final_arg0 = value;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80158854_0 *)work)->unk_13 = 0x1C;
-        func_8004491C(obj, func_80045340);
+        register_node(obj, project_sprite_chain);
 
         part_a = obj->unk_08;
         ((SignedHeightView *)part_a)->unk_0A = saved_arg3;

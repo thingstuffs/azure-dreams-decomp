@@ -12,5 +12,6 @@ extern FirstEntry D_800E36C8[64];
 extern SecondEntry D_800E39C8[32];
 extern u8 D_800E03D4[];
 extern u8 D_800E3D40;
+extern s32 draw_linked_sprites_clipped();
 extern s32 func_80045C34();
 #endif

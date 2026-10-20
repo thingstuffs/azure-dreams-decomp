@@ -33,7 +33,7 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
         ((R12_80172654_S_80172654_4 *)motion)->unk_10 = (-dir_y) << 17;
         ((R12_80172654_S_80172654_4 *)motion)->unk_14 = 0;
         (*(void **)((u8 *)entity + 0x2C)) = ((u8 *)D_80175A4C);
-        func_80047784(entity,(u8)(((u8 *)D_80175A4C)[((g_game_work.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        select_sprite_entry(entity,(u8)(((u8 *)D_80175A4C)[((g_game_work.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
         next_state = ((R12_80172654_S_80172654_0 *)action)->unk_9B.u;
         timer = 8;
@@ -48,7 +48,7 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
         ((R12_80172654_S_80172654_4 *)motion)->unk_10 = 0;
         ((R12_80172654_S_80172654_4 *)motion)->unk_0C = 0;
         (*(void **)((u8 *)entity + 0x2C)) = ((u8 *)D_80175A8C);
-        func_80047784(entity,(u8)(((u8 *)D_80175A8C)[((g_game_work.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        select_sprite_entry(entity,(u8)(((u8 *)D_80175A8C)[((g_game_work.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
         next_state = ((R12_80172654_S_80172654_0 *)action)->unk_9B.u;
         next_state += 1;
@@ -65,9 +65,9 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
                 effect_offset[1] = 0;
                 effect_offset[0] = 0;
             }
-            effect = func_8003FD64(0x12, ((u8 *)(&D_80083498)));
+            effect = allocate_list_node(0x12, ((u8 *)(&D_80083498)));
             if (effect != NULL) {
-                func_8004491C(effect, ((u8 *)build_linked_curved_wireframe_grid));
+                register_node(effect, ((u8 *)build_linked_curved_wireframe_grid));
                 ((R12_80172654_S_80172654_5 *)effect)->unk_10 = ((u8 *)dim_effect_after_delay);
                 ((R12_80172654_S_80172654_5 *)effect)->unk_20 = ((R12_80172654_S_80172654_4 *)motion)->unk_00.at02.v + effect_offset[0];
                 effect_data = (u8 *)effect + 0x20;
@@ -104,7 +104,7 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
         if ((timer << 16) > 0)
             return;
         (*(void **)((u8 *)entity + 0x2C)) = ((u8 *)D_80175A4C);
-        func_80047784(entity,(u8)(((u8 *)D_80175A4C)[((g_game_work.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        select_sprite_entry(entity,(u8)(((u8 *)D_80175A4C)[((g_game_work.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
         ((R12_80172654_S_80172654_0 *)action)->unk_96.s = state;
         ((R12_80172654_S_80172654_0 *)action)->unk_9B.s = 0xFF;

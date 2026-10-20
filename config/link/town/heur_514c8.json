@@ -1,25 +1,25 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/heur_514c8",
- "container": "town",
- "foff": "0x514c8",
- "size": "0x50",
- "vma": "0x800cec28",
- "evidence": "work/native_lane/r121_heur/evidence/placements.json",
- "entries": [
-  {
-   "row": "town/func_800514C8",
-   "tu": "src/town/func_800CA800.c",
-   "home": "town/func_800CA800",
-   "foff": "0x514c8",
-   "vma": "0x800cec28",
-   "size": 80,
-   "bindings": {
-    "0x800d5fe8": "0x800d72ac",
-    "0x80082680": "0x80082688",
-    "0x800c7cf0": "0x800ce558"
-   },
-   "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/heur_514c8",
+  "container": "town",
+  "foff": "0x514c8",
+  "size": "0x50",
+  "vma": "0x800cec28",
+  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "entries": [
+    {
+      "row": "town/func_800514C8",
+      "tu": "src/town/person/initialize_actor_slot_four_countdown.c",
+      "home": "town/func_800CA800",
+      "foff": "0x514c8",
+      "vma": "0x800cec28",
+      "size": 80,
+      "bindings": {
+        "0x800d5fe8": "0x800d72ac",
+        "0x80082680": "0x80082688",
+        "0x800c7cf0": "0x800ce558"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void fill_inactive_interior_cells(s16 value) {
     MapGrid *state;

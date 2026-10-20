@@ -1,0 +1,100 @@
+#include "shared/object_node.h"
+#include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
+
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x12];
+    u16 field_12;
+} RenderDataFieldView_80E12058;
+
+
+#ifndef NULL
+#define NULL 0
+#endif
+
+
+typedef struct S_80175858_0 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    s32 * unk_10;
+} S_80175858_0;
+
+typedef struct S_80175858_1 {
+    u8 pad_00[0x4];
+    union { u16 s; s16 u; } unk_04;   /* accessed as both */
+} S_80175858_1;
+
+typedef struct S_80175858_2 {
+    u8 pad_00[0x2A];
+    u16 unk_2A;
+} S_80175858_2;   /* arg0_hold in create_directional_render_object */
+
+typedef struct S_80175858_3 {
+    u8 pad_00[0xC];
+    s32 unk_0C;
+    u8 pad_10[0xC];
+    s16 unk_1C;
+    s16 unk_1E;
+    u8 pad_20[0x8];
+    s32 unk_28;
+} S_80175858_3;
+
+typedef struct S_80175858_4 {
+    u8 pad_00[0x12];
+    u16 unk_12;
+    u8 pad_14[0x14];
+    s32 unk_28;
+} S_80175858_4;   /* arg2_hold in create_directional_render_object */
+
+
+
+typedef struct {
+    s32 words[6];
+} Copy24;
+
+void register_node(void *, void *);
+void select_sprite_entry(void *, u8, s32);
+extern u8 D_8017573C;
+extern u8 D_80176498[];
+
+/* Allocate and initialize an object with source direction, render properties, and copied data. */
+void *create_directional_render_object(void *direction_src, Copy24 *initial_data, void *render_src) {
+    void *render_data;
+    void *object_state;
+    void *object;
+    void *data_dst;
+    u16 render_attr;
+    void *direction_ref = direction_src;
+    Copy24 *data_src = initial_data;
+    void *render_ref = render_src;
+
+    object = func_8003FC64(0x312);
+    if (object != NULL) {
+        ((S_80175858_0 *)object)->unk_10 = &D_8017573C;
+        register_node(object, project_sprite_chain);
+        object_state = object + 0x20;
+        ((S_80175858_1 *)object_state)->unk_04.s =
+            (u16)((S_80175858_2 *)direction_ref)->unk_2A;
+        render_data = ((S_80175858_0 *)object)->unk_0C;
+        ((S_80175858_3 *)render_data)->unk_28 =
+            ((S_80175858_4 *)render_ref)->unk_28;
+        render_attr = ((S_80175858_4 *)render_ref)->unk_12;
+        ((S_80175858_3 *)render_data)->unk_0C = 0x808080;
+        ((S_80175858_3 *)render_data)->unk_1E = 0x800;
+        ((S_80175858_3 *)render_data)->unk_1C = 0x800;
+        (((RenderDataFieldView_80E12058 *)render_data)->field_12) = render_attr;
+        select_sprite_entry(
+            render_data,
+            D_80176498[
+                ((g_game_work.view.viewAngle + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
+                7],
+            0);
+        data_dst = ((S_80175858_0 *)object)->unk_08;
+        *(Copy24 *)data_dst = *data_src;
+        return object;
+    }
+    return NULL;
+}

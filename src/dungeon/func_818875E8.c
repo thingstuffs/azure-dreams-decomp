@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_18a6800.h"
+#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
@@ -52,7 +52,7 @@ ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_upda
     object = func_8003FC64(0x202);
     if (object != NULL) {
         object->unk_10 = (void *)handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark;
-        func_8004491C(object, (s32)&D_800CEEFC);
+        register_node(object, (s32)&D_800CEEFC);
         transition = object->unk_08;
         transition->start[0].value = endpoints->start[0].value;
         transition->start[1].value = endpoints->start[1].value;

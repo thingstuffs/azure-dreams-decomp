@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_18a6800.h"
+#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "m2c_compat.h"
@@ -78,10 +78,10 @@ void *create_object_offset(MovingPosition *origin, s16 angle, s16 radius, s16 he
     S_8002569C_5 *paired_slot;
     S_8002569C_3 *object_data;
 
-    object = func_8003FD64(0x202, alloc_arg);
+    object = allocate_list_node(0x202, alloc_arg);
     if (object != NULL) {
         ((S_8002569C_0 *)object)->unk_10 = (s32 *)advance_the_effect_state_updates_motion_sets_display_color;
-        func_8004491C(object, (s32 *)build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list);
+        register_node(object, (s32 *)build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list);
         positions = ((S_8002569C_0 *)object)->unk_08;
         positions->unk_02 = (s16) (origin->unk_02 + ((s32) (func_80064584(angle) * radius) >> 0xF));
         positions->unk_06 = (s16) (origin->unk_06 + ((s32) (func_800644B8(angle) * radius) >> 0xF));

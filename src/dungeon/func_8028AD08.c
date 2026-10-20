@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void advance_generation_step_pair(void *step_state, s32 update_id)
 {

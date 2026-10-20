@@ -3,7 +3,9 @@
 #include "shared/dungeon_height_query.h"
 #include "shared/dungeon_trail_views.h"
 extern int abs(int);
+void *allocate_list_node(s32, void *);
 void *func_8003FD64(s32, void *);
+void register_node(void *, void *);
 void func_8004491C(void *, void *);
 s32 func_80069EF8(void);
 void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);

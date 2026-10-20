@@ -27,5 +27,5 @@ void func_8004DD2C(void *context)
     buffer_value = write_index + 1;
     D_80081554 = buffer_value;
     submit_index = D_80081558;
-    func_8003528C((s32)&D_80083D98[submit_index]);
+    set_script_record_buffer((s32)&D_80083D98[submit_index]);
 }

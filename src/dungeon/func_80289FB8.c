@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void initialize_random_room_slot(void *room, s32 rng_arg1)
 {

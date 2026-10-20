@@ -1,4 +1,4 @@
-#include "slus/cd_cohort_types.h"
+#include "engine/scene/cd_cohort_types.h"
 
 
 /* Returns the stored flags with bit 2 set when D_80080AD4 is nonzero. */

@@ -97,10 +97,10 @@ extern u8 D_8016E850[];
 
 extern s32 get_cd_command_queue_depth();
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
-extern void func_80045340(void);
-extern void func_80047784(void *, s32, s32);
+extern void *allocate_list_node(s32, void *);
+extern void register_node(void *, void *);
+extern void project_sprite_chain(void);
+extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_80069EF8(void);
 extern void *scan_monster_along_heading(void *, s32, s32, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
@@ -254,9 +254,9 @@ void update_dungeon_item_action(void *action, EntityRec *motion, void *sprite, E
             if (!(((ActionSpriteView *)sprite)->flags & 0x8000)) {
                 flags = ((ItemActionState *)action)->flags;
                 ((ItemActionState *)action)->flags = flags | 0x8000;
-                effect = func_8003FD64(0x112, ((u8 *)&D_80083498));
+                effect = allocate_list_node(0x112, ((u8 *)&D_80083498));
                 if (effect != 0) {
-                    func_8004491C(effect, func_80045340);
+                    register_node(effect, project_sprite_chain);
                     effect_state = (u8 *)effect + 0x20;
                     ((ImpactObjectView *)effect)->update = func_8016E0FC;
                     ((ImpactMotionView *)(((ImpactObjectView *)effect)->position))->x =
@@ -274,7 +274,7 @@ void update_dungeon_item_action(void *action, EntityRec *motion, void *sprite, E
                     ((ImpactSpriteView *)target_sprite)->flags = ((ActionSpriteView *)sprite)->flags;
                     ((ImpactSpriteView *)target_sprite)->drawAttributes = ((ActionSpriteView *)sprite)->drawAttributes;
                     ((ImpactSpriteView *)target_sprite)->colorOrModel.model = ((ActionSpriteView *)sprite)->model;
-                    func_80047784(target_sprite, 0x2D, 0);
+                    select_sprite_entry(target_sprite, 0x2D, 0);
                 }
             }
         }
@@ -290,9 +290,9 @@ void update_dungeon_item_action(void *action, EntityRec *motion, void *sprite, E
             particles_left = 7;
             callback = (void *)D_8016E0FC;
             do {
-                effect = func_8003FD64(0x112, ((u8 *)&D_80083498));
+                effect = allocate_list_node(0x112, ((u8 *)&D_80083498));
                 if (effect != 0) {
-                    func_8004491C(effect, func_80045340);
+                    register_node(effect, project_sprite_chain);
                     ((ImpactObjectView *)effect)->update = callback;
                     ((ImpactMotionView *)(((ImpactObjectView *)effect)->position))->x =
                         ((u16)motion->x.w.i) + effect_offset[0] + (func_80069EF8() & 0xF) - 8;
@@ -318,7 +318,7 @@ void update_dungeon_item_action(void *action, EntityRec *motion, void *sprite, E
                     ((ImpactSpriteView *)target_sprite)->drawOffset = 0x60;
                     ((ImpactSpriteView *)target_sprite)->colorOrModel.color = 0x00808080;
                     ((ImpactSpriteView *)target_sprite)->flags |= 0xC;
-                    func_80047784(target_sprite, 0x2F, 0);
+                    select_sprite_entry(target_sprite, 0x2F, 0);
                 }
                 particles_left--;
             } while (particles_left >= 0);
@@ -327,7 +327,7 @@ void update_dungeon_item_action(void *action, EntityRec *motion, void *sprite, E
         if (((ActionSpriteView *)sprite)->flags & 0xE000) {
             ((ActionSpriteView *)sprite)->flags &= 0xF7FF;
             ((ActionSpriteView *)sprite)->animationTable = D_8016E850;
-            func_80047784(
+            select_sprite_entry(
                 sprite,
                 D_8016E850[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
@@ -345,7 +345,7 @@ void update_dungeon_item_action(void *action, EntityRec *motion, void *sprite, E
         set_record_integer_tile_center(motion, ((ActionSpriteView *)sprite)->tileX, ((ActionSpriteView *)sprite)->tileY);
         if (((ActionSpriteView *)sprite)->animationTable != D_8016E820) {
             ((ActionSpriteView *)sprite)->animationTable = D_8016E820;
-            func_80047784(
+            select_sprite_entry(
                 sprite,
                 D_8016E820[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);

@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p01.h"
+#include "dungeon/monster/troll/troll_flash_effects.h"
 
 /* Decrement the countdown, update three scaled output components, and flag completion. */
 void update_normalized_gray_fade(void *countdownState, s32 unused, T_80170DC4_S_80170DC4_1 *output) {

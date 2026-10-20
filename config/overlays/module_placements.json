@@ -753,7 +753,7 @@
           "view_bytes": 4,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/dungeon_ovl_7f0f7800_p03.imports.json",
-          "declaration": "include/modules/dungeon_ovl_7f0f7800_p03.h"
+          "declaration": "include/dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.h"
         },
         {
           "symbol": "D_80083460",
@@ -936,7 +936,7 @@
           "view_bytes": 4,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/dungeon_ovl_7f0f7800_p03.imports.json",
-          "declaration": "include/modules/dungeon_ovl_7f0f7800_p03.h"
+          "declaration": "include/dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.h"
         },
         {
           "symbol": "D_80083460",
@@ -1119,7 +1119,7 @@
           "view_bytes": 4,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/dungeon_ovl_7f0f7800_p03.imports.json",
-          "declaration": "include/modules/dungeon_ovl_7f0f7800_p03.h"
+          "declaration": "include/dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.h"
         },
         {
           "symbol": "D_80083460",
@@ -1302,7 +1302,7 @@
           "view_bytes": 4,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/dungeon_ovl_7f0f7800_p03.imports.json",
-          "declaration": "include/modules/dungeon_ovl_7f0f7800_p03.h"
+          "declaration": "include/dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.h"
         },
         {
           "symbol": "D_80083460",
@@ -1485,7 +1485,7 @@
           "view_bytes": 4,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/dungeon_ovl_7f0f7800_p03.imports.json",
-          "declaration": "include/modules/dungeon_ovl_7f0f7800_p03.h"
+          "declaration": "include/dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.h"
         },
         {
           "symbol": "D_80083460",
@@ -1668,7 +1668,7 @@
           "view_bytes": 4,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/dungeon_ovl_7f0f7800_p03.imports.json",
-          "declaration": "include/modules/dungeon_ovl_7f0f7800_p03.h"
+          "declaration": "include/dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.h"
         },
         {
           "symbol": "D_80083460",

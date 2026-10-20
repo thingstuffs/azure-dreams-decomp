@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p03.h"
+#include "dungeon/monster/troll/advance_actor_stored_path.h"
 
 /* Resolves action targets, updates the actor position, and sets the follow-up state. */
 void prepare_actor_path_movement(void *action_input, s32 x_offset_input, void *position_input, void *actor_input)

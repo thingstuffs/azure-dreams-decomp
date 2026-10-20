@@ -41,7 +41,7 @@ s32 update_actor_animation_behavior_and_facing(Rec_func_800A9E70_arg0 *action_st
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         sprite->frameTable = D_80174C3C;
-        func_80047784(sprite, (D_80174C3C)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, (D_80174C3C)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->unk_6D--;
         prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         return 1;

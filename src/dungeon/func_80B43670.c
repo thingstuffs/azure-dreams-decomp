@@ -28,7 +28,7 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
         {
             u8 *effects = ((u8 *)D_80175A94);
             (*(void * *)((u8 *)sprite + (0x2C))) = effects;
-            func_80047784(
+            select_sprite_entry(
                 sprite,(u8)(effects[((g_game_work.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
                 0);
         }
@@ -61,7 +61,7 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
 
             if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_2C != effect) {
                 (*(void * *)((u8 *)sprite + (0x2C))) = effect;
-                func_80047784(
+                select_sprite_entry(
                     sprite,(u8)(effect[((g_game_work.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
                     0);
             }
@@ -186,7 +186,7 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
     {
         u8 *effects = effect_table;
         (*(void * *)((u8 *)sprite + (0x2C))) = effects;
-        func_80047784(
+        select_sprite_entry(
             sprite,(u8)(effects[((g_game_work.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
             0);
     }

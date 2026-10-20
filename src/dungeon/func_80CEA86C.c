@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p04.h"
+#include "dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.h"
 
 /* Animate movement to the target tile and finalize the actor when the timer expires. */
 void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *actor)
@@ -110,6 +110,6 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
     }
     if ((check_actor_floor_trap(tile, actor) << 16) > 0) {
         animation->unk_8C = update_actor_behavior;
-        func_800A9A04(actor);
+        on_actor_status_updated(actor);
     }
 }

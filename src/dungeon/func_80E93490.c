@@ -61,7 +61,7 @@ extern void create_two_effect_groups(void *, void *, void *, s32);
 extern void set_record_integer_tile_center();
 extern s32 advance_status_timers(void *);
 extern s32 get_cd_command_queue_depth(void);
-extern void func_80047784();
+extern void select_sprite_entry();
 
 extern void update_action_behavior_facing_and_animation(void *, void *, void *, void *);
 extern u8 D_8016EEF8[];
@@ -297,7 +297,7 @@ void update_action_movement_landing_and_recovery(ActorActionView *action, Entity
             sprite->scaleY = 0x0C00;
             effect = D_8016EF00;
             sprite->frameTable = effect;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 effect[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             action->flags &= 0xFFF7;
@@ -320,7 +320,7 @@ void update_action_movement_landing_and_recovery(ActorActionView *action, Entity
             return;
         }
         sprite->frameTable = D_8016EEF8;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_8016EEF8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->timer.raw = 10;
@@ -375,7 +375,7 @@ void update_action_movement_landing_and_recovery(ActorActionView *action, Entity
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         if (sprite->frameTable != D_8016EF00) {
             sprite->frameTable = D_8016EF00;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 D_8016EF00[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }

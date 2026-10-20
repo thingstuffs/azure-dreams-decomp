@@ -4,8 +4,11 @@
 #include "shared/object_node.h"
 
 
+extern u8 *allocate_list_node();
 extern u8 *func_8003FD64();
+extern void register_node();
 extern void func_8004491C();
+extern void project_sprite_chain(void);
 extern void func_80045340(void);
 extern u32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot();

@@ -1,0 +1,115 @@
+#include "slus/jtbl_80041344.h"
+
+#include "common.h"
+
+/* Rodata owner: the row's switch emits its jump table(s) into this object's .rodata,
+ * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
+
+#include "slus/jtbl_80041344.h"
+
+void run_image_load_commands(s32 data_base, void *scratch)
+{
+    S_80041344 *entry = (S_80041344 *)data_base;
+    u16 entry_size;
+    s32 color_index, item_index, item_count;
+    s32 reloc_addr;
+    s32 vram_offset, palette_count;
+    s32 cmd_index;
+    u16 *color;
+    void *src;
+    void *src_addr;
+    s32 flags;
+    S_80041344 *command;
+
+    for (;;) {
+        cmd_index = entry->cmd - 1;
+        command = entry;
+        switch (cmd_index) {
+        default:
+            return;
+        case 0:
+        decompress_lz((void *)(data_base + command->offset), scratch);
+        LoadImage((void *)&entry->u, scratch);
+        DrawSync(0);
+        break;
+        case 4:
+        LoadImage((void *)&entry->u, (void *)(data_base + command->offset));
+        DrawSync(0);
+        break;
+        case 1:
+        vram_offset = entry->u.t.x;
+        palette_count = entry->u.t.y;
+        src_addr = (void *)command->offset;
+        flags = (s16)entry->u.t.w;
+        src = ((void *)((void *)(data_base + (s32)src_addr)));
+        goto call_tile;
+        case 5:
+        cmd_index = entry->u.t.w;
+        vram_offset = entry->u.t.x;
+        palette_count = entry->u.t.y;
+        src_addr = (void *)command->offset;
+        cmd_index |= 2;
+        src = ((void *)((void *)(data_base + (s32)src_addr)));
+        goto sign_flags;
+        case 6:
+        src = (void *)(data_base + command->offset);
+        item_count = entry->u.t.y << 4;
+        color = (u16 *)src + 1;
+        for (item_index = 1; item_index < item_count; item_index++) {
+            *color |= 0x8000;
+            color++;
+        }
+        cmd_index = entry->u.t.w;
+        vram_offset = entry->u.t.x;
+        palette_count = entry->u.t.y;
+        cmd_index |= 4;
+        goto sign_flags;
+        case 7:
+        src = (void *)(data_base + command->offset);
+        color = (u16 *)src;
+        item_count = entry->u.t.y;
+        for (item_index = 0; item_index < item_count; item_index++) {
+            color++;
+            for (color_index = 1; color_index < 16; color_index++) {
+                *color |= 0x8000;
+                color++;
+            }
+        }
+        cmd_index = entry->u.t.w;
+        vram_offset = entry->u.t.x;
+        palette_count = entry->u.t.y;
+        cmd_index |= 2;
+sign_flags:
+        item_index = (u32)cmd_index << 16;
+        item_index >>= 16;
+        flags = item_index;
+call_tile:
+        upload_vram_row_and_cache(src, vram_offset, palette_count, flags);
+        DrawSync(0);
+        break;
+        case 2:
+        src_addr = (void *)command->offset;
+        decompress_lz((void *)(data_base + (s32)src_addr),
+                      (void *)(D_80080A8C + command->u.m.a));
+        break;
+        case 3:
+        src_addr = (void *)0x80080000;
+        memcpy((void *)((u32 *)src_addr)[0x2A3],
+               (void *)(data_base + command->offset),
+               command->u.m.b + command->u.m.a);
+        break;
+        case 8:
+        reloc_addr = data_base + command->offset;
+        for (item_index = entry->u.t.x; item_index > 0; item_index--) {
+            *(s32 *)(reloc_addr + 4) = data_base + *(s32 *)(reloc_addr + 4);
+        }
+        }
+        entry_size = entry->size;
+        entry = (S_80041344 *)((u8 *)entry + entry_size);
+        if (entry_size == 0) {
+            *(u32 *)0x80080A8C = 0;
+            return;
+        }
+    }
+    return;
+}

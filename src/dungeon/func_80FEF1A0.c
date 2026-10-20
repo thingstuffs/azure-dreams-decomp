@@ -117,9 +117,9 @@ typedef struct DungeonActionCounters {
 } DungeonActionCounters;
 
 extern s32 get_cd_command_queue_depth(void);
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
-extern void func_80047784(void *, s32, s32);
+extern void *allocate_list_node(s32, void *);
+extern void register_node(void *, void *);
+extern void select_sprite_entry(void *, s32, s32);
 extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
@@ -246,13 +246,13 @@ void func_801609A0(ActionState *actor, VecData *motion, ActorSprite *sprite, Cre
             if (!(actor->flags & 0x2000)) {
                 void *new_effect;
 
-                new_effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+                new_effect = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
                 actor->effect = new_effect;
                 effect = new_effect;
                 if (effect != 0) {
                     VecData *effect_motion;
 
-                    func_8004491C(effect, func_80045340);
+                    register_node(effect, project_sprite_chain);
                     effect->updateData = D_800D7960;
                     effect_motion = effect->motion;
                     *effect_motion = *motion;
@@ -286,7 +286,7 @@ void func_801609A0(ActionState *actor, VecData *motion, ActorSprite *sprite, Cre
                 effect_sprite = ((EffectObject *)effect_sprite)->sprite;
                 animations = effect_sprite->directionFrames;
                 direction = ((g_game_work.view.viewAngle + actor_data->facing.s + 0x100) >> 9) & 7;
-                func_80047784(effect_sprite, animations[direction], 0);
+                select_sprite_entry(effect_sprite, animations[direction], 0);
             }
             if (create_actor_spell_effect(actor_data, item_slot, use_player,
                               &actor->flags) == 0) {
@@ -341,7 +341,7 @@ void func_801609A0(ActionState *actor, VecData *motion, ActorSprite *sprite, Cre
             actor->effect = 0;
         }
         sprite->directionFrames = D_80162038;
-        func_80047784(
+        select_sprite_entry(
             sprite,
             D_80162038[((g_game_work.view.viewAngle + actor_data->facing.s + 0x100) >> 9) & 7],
             0);

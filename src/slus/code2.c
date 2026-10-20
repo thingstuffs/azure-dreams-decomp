@@ -238,12 +238,12 @@ struct Source_827C *bind_sprite_resource_slot_record(struct Source_827C *source,
 
 typedef struct { short a, b; } TableValuePair;
 extern TableValuePair D_80013564[];
-extern int func_8004A6C0(int first_value, int second_value);
+extern int find_item_data_slot(int first_value, int second_value);
 
 /* Clears both shorts of the selected D_80013564 entry when its index is below 20. */
 void item_clear_recorded_category_pair(int first_value, int second_value)
 {
-    int index = func_8004A6C0(first_value, second_value);
+    int index = find_item_data_slot(first_value, second_value);
     if (index < 0x14) {
         /* Keep the fixed table page separate from the scaled entry offset. */
         u32 table_page = 0x80010000;

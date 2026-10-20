@@ -1,0 +1,220 @@
+#include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/game_work.h"
+#include "shared/object_flags.h"
+
+typedef struct TownObject {
+    u8 pad0[0x70];
+    s16 state;
+    s16 value72;
+    u8 pad74[2];
+    s16 random76;
+} TownObject;
+
+typedef struct TownState {
+    TownObject *objects[3];
+    s16 state;
+    s16 timer;
+    s16 table_x;
+    s16 field12;
+    s16 threshold;
+    u16 counter;
+    s16 table_y;
+    u16 flags;
+} TownState;
+
+extern u16 D_800135BE;
+extern u8 D_80026F80[];
+extern s16 D_800834C8[1];
+
+extern void create_tinted_animated_particle(s32, s32, s32, s32);
+extern void clear_resident_bit(s32);
+extern void set_resident_bit(s32);
+extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
+extern void clear_alternate_texture_regions(s32);
+extern void func_80048568(s32);
+extern void SD_Call(s32);
+extern s32 rand(void);
+extern void initialize_global_player_object(void);
+extern void initialize_player_object_data(void);
+extern void tw_sd_sq_ld_call(s32, s32);
+
+/* Advances a three-object shuffle sequence and handles its effects and completion. */
+void update_tako_minigame(TownState *state)
+{
+    GameWork *scene_data;
+    s32 phase;
+    s32 loop_index;
+    s32 particle_x;
+
+    scene_data = &g_game_work;
+    if (((u32)scene_data->unk_010) & 0x40) {
+        state->counter = 0;
+    }
+    state->counter++;
+
+    phase = state->state;
+    switch (phase) {
+    default:
+        break;
+
+    case 0:
+        func_80048568(5);
+        initialize_global_player_object();
+        state->state = 1;
+        /* Fall through to the camera phase. */
+    case 1:
+        {
+            TownState *init_state = state;
+            TownObject *first_object;
+            u16 round_delay;
+
+            scene_data->view.unk_094 +=
+                (-0x80 - scene_data->view.unk_094) >> 1;
+            first_object = *(TownObject **)init_state;
+            if (first_object->state != 1) {
+                break;
+            }
+            scene_data->view.unk_094 = -0x80;
+            init_state->counter = 0;
+            round_delay = *(u16 *)(D_80026F80 +
+                            init_state->table_x * 40 + init_state->table_y * 400);
+            init_state->state = 2;
+            init_state->timer = round_delay;
+            break;
+        }
+
+    case 2:
+        D_800834C8[0] = 0x400;
+        {
+            u16 flags = state->flags;
+
+            if (flags & 1) {
+                state->flags = flags & ~1;
+                state->table_x++;
+                if (state->table_x >= 10) {
+                    state->state = 3;
+                    state->timer = 30;
+                    return;
+                }
+                state->timer = *(u16 *)(D_80026F80 +
+                                        state->table_x * 40 + state->table_y * 400);
+                return;
+            }
+        }
+
+        state->timer--;
+        if (state->timer > 0) {
+            break;
+    }
+    state->flags |= 1;
+    do {
+        TownObject **object_slot;
+
+        loop_index = 2;
+        object_slot = &state->objects[2];
+        do {
+            (*object_slot)->random76 = rand() % 3;
+            object_slot--;
+            loop_index--;
+        } while (loop_index >= 0);
+    } while (state->objects[0]->random76 == state->objects[1]->random76 ||
+             state->objects[1]->random76 == state->objects[2]->random76 ||
+             state->objects[2]->random76 == state->objects[0]->random76);
+    break;
+
+case 3:
+    if (state->flags & 4) {
+        break;
+    }
+    state->timer--;
+    if (state->timer > 0) {
+        break;
+    }
+    SD_Call(0xB1);
+    {
+        TownObject **object_slot;
+        s32 object_state;
+
+        loop_index = 2;
+        object_state = loop_index;
+        object_slot = &state->objects[2];
+        do {
+            u8 *object_body = (u8 *)*object_slot + 0x20;
+
+            object_slot--;
+            loop_index--;
+            *(s16 *)(object_body + 0x52) = 0;
+            *(s16 *)(object_body + 0x50) = object_state;
+        } while (loop_index >= 0);
+    }
+    initialize_player_object_data();
+    initialize_global_player_object();
+    state->timer = 25;
+    state->state = 4;
+    break;
+
+case 4:
+    if (state->timer < 15) {
+        scene_data->view.unk_094 >>= 1;
+    }
+    state->timer--;
+    if (state->timer >= 0) {
+
+        loop_index = 7;
+        D_80082E80.unk_00E += (0x90 - D_80082E80.unk_00E) >> 1;
+        D_80082E80.unk_00D = D_80082E80.unk_00E;
+        D_80082E80.unk_00C = D_80082E80.unk_00E;
+        do {
+            particle_x = D_80083780.x.v +
+                (((rand() & 0x3F) - 0x20) << 16);
+            create_tinted_animated_particle(0xF0F0F0, particle_x,
+                          D_80083780.y.v +
+                          (((rand() & 0x3F) - 0x20) << 16),
+                          0);
+            loop_index--;
+        } while (loop_index >= 0);
+    }
+    if (state->flags & 2) {
+        break;
+    }
+    if (state->timer > 0) {
+        break;
+    }
+    scene_data->view.unk_094 = 0;
+    state->state = 5;
+    state->flags |= 8;
+    break;
+
+case 5:
+    {
+        u16 progress;
+        s32 threshold;
+
+        tw_sd_sq_ld_call(0x20, 0x200);
+        initialize_player_object_data();
+        progress = D_800135BE;
+        D_800135BE = progress;
+        threshold = state->threshold;
+        if ((s16)progress < threshold) {
+            sound_set_cd_cue_parameters(0, 0x2C3D, 0x01000001, 0x01000271);
+            SD_Call(0x300);
+            D_800135BE = state->threshold;
+            set_resident_bit(0xAE4);
+        } else {
+            sound_set_cd_cue_parameters(0, 0x2C3D, 0, 0x01000290);
+            SD_Call(0x300);
+            clear_resident_bit(0xAE4);
+        }
+        clear_alternate_texture_regions(2);
+        *(u32 *)(&D_80082E80.unk_00C) = 0x00808080;
+        *(u16 *)((u8 *)state - 2) |= 0x8000;
+        object_flag_block.flags |= 0x8000;
+        break;
+    }
+
+    }
+    state->flags &= ~6;
+    return;
+}

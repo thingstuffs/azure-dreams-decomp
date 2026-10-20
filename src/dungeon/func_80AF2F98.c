@@ -9,7 +9,7 @@ void select_actor_target_and_advance_status(void *action_state, s32 effect_arg, 
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
             (*(s32 * *)((u8 *)anim_state + 0x2C)) = ((s32 *)D_801759D8);
-            func_80047784(anim_state,
+            select_sprite_entry(anim_state,
                           *((((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
                             + (u8 *)((s32 *)D_801759D8)),
                           0);

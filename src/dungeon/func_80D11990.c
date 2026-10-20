@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f43f800_p02.h"
+#include "dungeon/monster/noise/move_fade_and_accelerate_effect.h"
 
 /* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 void *func_80171190(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
@@ -21,12 +21,12 @@ void *func_80171190(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     saved_kind_id = kind_id;
     saved_spawn = spawn_value;
     saved_variant = variant;
-    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (T_80171190_Work *)((u8 *)obj + 0x20);
         obj->unk_10 = D_80171358;
         work->byte13 = 0x17;
-        func_8004491C(obj, func_80045340);
+        register_node(obj, project_sprite_chain);
 
         resource = D_80174E88;
         part_a = obj->unk_08;

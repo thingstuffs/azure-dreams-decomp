@@ -70,7 +70,7 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
     object = func_8003FC64(0x202);
     if (object != 0) {
         object->unk_10 = fade_effect_color_below_eight;
-        func_8004491C(object, (s32)process_linked_mesh_states_mode_0);
+        register_node(object, (s32)process_linked_mesh_states_mode_0);
         transition = object->unk_08;
         transition->unk_02 = (u16) endpoints->unk_02;
         transition->unk_06 = (u16) endpoints->unk_06;

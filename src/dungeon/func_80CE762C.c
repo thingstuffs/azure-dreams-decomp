@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p01.h"
+#include "dungeon/monster/troll/troll_flash_effects.h"
 
 /* Advance the RGB fade toward black and set completion flags when it ends. */
 void update_saved_rgb_fade(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_FadeOutput *output)

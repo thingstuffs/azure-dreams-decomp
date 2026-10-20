@@ -2031,12 +2031,14 @@
 0x80406AA8	func_80406AA8	update_menu_object_state	(medium) src/main/func_8001FAA8.c:34-58: Updates state and selects its next callback from the current entry check; caller none recorded in image-local inventory
 0x80406DA0	func_80406DA0	handle_menu_selection_input	(medium) src/main/func_8001FDA0.c:27-96: Handles menu selection, held-button repeats and menu exit; caller none recorded in image-local inventory
 0x8015888C	func_8015888C	create_configured_overlay_actor	(medium) src/dungeon/func_8101D000.c:65-124: Creates the overlay object, fills its two parts from kind and variant data and applies the selected flag pair; caller none recorded in image-local inventory
+0x8015888C	func_8015888C	spawn_garuda_slot_c	(medium) src/dungeon/func_8101D000.c:65-124: Creates the overlay object, fills its two parts from kind and variant data and applies the selected flag pair; caller none recorded in image-local inventory
 0x8015A834	func_8015A834	run_selected_actor_action	(medium) src/dungeon/func_8101F034.c:69-234: Starts the selected actor action, waits for completion and resets its state; caller none recorded in image-local inventory
 0x80159058	func_80159058	update_creature_action	(medium) src/dungeon/func_8101D858.c:90-275: Updates creature animation and dispatches its dungeon action; caller none recorded in image-local inventory
 0x8016D514	func_8016D514	advance_flashing_sprite_sequence	(medium) src/dungeon/func_80EE7D14.c:50-132: Advances a timed sprite flashing sequence and cleans up the actor when it finishes; caller none recorded in image-local inventory
 0x8016A8BC	func_8016A8BC	update_moving_object_landing	(medium) src/dungeon/func_80EE5000.c:106-329: Updates motion, landing interpolation and completion of a moving object; caller none recorded in image-local inventory
 0x8016D7B0	func_8016D7B0	advance_targeted_actor_action	(medium) src/dungeon/func_80EE7FB0.c:75-310: Updates an actor action through targeting, particle effects and recovery; caller none recorded in image-local inventory
 0x8015E878	func_8015E878	create_dungeon_actor	(medium) src/dungeon/func_80BFD000.c:62-130: Creates a dungeon actor and initializes its placement, flags and behavior; caller none recorded in image-local inventory
+0x8015E878	func_8015E878	spawn_clown_slot_d	(medium) src/dungeon/func_80BFD000.c:62-130: Creates a dungeon actor and initializes its placement, flags and behavior; caller none recorded in image-local inventory
 0x80161CEC	func_80161CEC	update_actor_sequence_variant	(medium) src/dungeon/func_80C004EC.c:77-223: Updates the actor sequence variant and its movement and completion state; caller none recorded in image-local inventory
 0x801605A4	func_801605A4	update_actor_motion_variant	(medium) src/dungeon/func_80BFEDA4.c:82-259: Updates actor motion variant, animation and transition state; caller none recorded in image-local inventory
 0x8015F014	func_8015F014	update_actor_action_variant	(medium) src/dungeon/func_80BFD814.c:66-256: Updates actor action variant, movement and completion state; caller none recorded in image-local inventory
@@ -2060,6 +2062,7 @@
 0x801711A4	func_801711A4	update_actor_animation_and_dispatch	(medium) src/dungeon/func_80EB59A4.c:69-236: Updates actor animation and dispatches dungeon actions from status and position; caller none recorded in image-local inventory
 0x80170B64	func_80170B64	update_actor_callbacks_movement_and_terrain	(medium) src/dungeon/func_80EB5364.c:81-286: Updates actor callbacks, movement, sprite direction and terrain-relative height; caller none recorded in image-local inventory
 0x8014C8A8	func_8014C8A8	create_configured_overlay_actor_alt	(medium) src/dungeon/func_80FFF000.c:73-139: Creates the overlay object, fills its two parts and applies the selected flag pair; caller none recorded in image-local inventory
+0x8014C8A8	func_8014C8A8	spawn_killer_slot_a	(medium) src/dungeon/func_80FFF000.c:73-139: Creates the overlay object, fills its two parts and applies the selected flag pair; caller none recorded in image-local inventory
 0x8014CEA8	func_8014CEA8	update_entity_action_facing_alt	(medium) src/dungeon/func_80FFF6A8.c:60-241: Updates entity action, facing direction and animation from dungeon state; caller none recorded in image-local inventory
 0x8014E9A0	func_8014E9A0	advance_actor_item_use_alt	(medium) src/dungeon/func_810011A0.c:137-371: Updates item use, its visual effect and the actor's return to idle; caller none recorded in image-local inventory
 0x80164880	func_80164880	create_configured_overlay_actor_third	(medium) src/dungeon/func_80F93000.c:65-131: Creates the overlay object, fills its two parts and applies the selected flag pair; caller none recorded in image-local inventory
@@ -2633,6 +2636,7 @@
 0x80407E64	func_80407E64	card_boot_poll_status_and_select_context	(high) src/main/func_80020E64.c:28-61: Polls status and selects the corresponding context update and data; caller cardBootDispatch at src/main/func_80020E64.c:28
 0x804081AC	func_804081AC	card_boot_handle_menu_selection_input	(high) src/main/func_800211AC.c:34-97: Handles menu selection input and refreshes the displayed state pair; caller cardBootDispatch at src/main/func_800211AC.c:34
 0x8014C88C	func_8014C88C	spawn_overlay_attribute_effect	(high) src/dungeon/func_81029000.c:65-124: Spawns the overlay effect object, fills its parts from attributes, and arms its handlers; caller dungeonEffectDispatch at src/dungeon/func_81029000.c:65
+0x8014C88C	func_8014C88C	spawn_garuda_slot_a	(high) src/dungeon/func_81029000.c:65-124: Spawns the overlay effect object, fills its parts from attributes, and arms its handlers; caller dungeonEffectDispatch at src/dungeon/func_81029000.c:65
 0x8014E834	func_8014E834	start_actor_action_and_reset	(high) src/dungeon/func_8102B034.c:69-234: Starts selected actor action, waits for completion, and resets actor state; caller dungeonActionDispatch at src/dungeon/func_8102B034.c:69
 0x8014D058	func_8014D058	update_creature_animation_and_action	(high) src/dungeon/func_81029858.c:90-275: Updates creature animation and dispatches its dungeon action; caller dungeonActionDispatch at src/dungeon/func_81029858.c:90
 0x8014FE64	func_8014FE64	update_paired_actor_movement_and_tiles	(high) src/dungeon/func_8102C664.c:116-503: Updates paired actor movement, tile placement, animation, and restored flags; caller dungeonActionDispatch at src/dungeon/func_8102C664.c:116
@@ -2661,16 +2665,19 @@
 0x800247D4	func_800247D4	draw_animated_shaded_lines	(high) src/dungeon/func_8185CFD4.c:79-325: Draws eight shaded lines with animated endpoints and inserts them into ordering table; caller dungeonRenderDispatch at src/dungeon/func_8185CFD4.c:79
 0x80024C88	func_80024C88	move_to_target_and_run_child_effects	(high) src/dungeon/func_8185D488.c:89-357: Moves to a target cell, runs child effects, and retires the controller; caller dungeonEffectDispatch at src/dungeon/func_8185D488.c:89
 0x8014C8A4	func_8014C8A4	create_monster_actor_and_palette	(high) src/dungeon/func_80FD5000.c:83-178: Creates a monster actor and initializes its state, placement, and palette; caller dungeonActorDispatch at src/dungeon/func_80FD5000.c:83
+0x8014C8A4	func_8014C8A4	spawn_mandara_slot_a	(high) src/dungeon/func_80FD5000.c:83-178: Creates a monster actor and initializes its state, placement, and palette; caller dungeonActorDispatch at src/dungeon/func_80FD5000.c:83
 0x8014EDEC	func_8014EDEC	advance_actor_item_action_and_recovery	(high) src/dungeon/func_80FD75EC.c:70-234: Advances actor action through item-slot selection, execution, and recovery; caller dungeonActionDispatch at src/dungeon/func_80FD75EC.c:70
 0x8014CF6C	func_8014CF6C	update_creature_action_and_animation	(high) src/dungeon/func_80FD576C.c:136-502: Updates creature action, animation, and inactive-entity return path; caller dungeonActionDispatch at src/dungeon/func_80FD576C.c:136
 0x80402BE0	func_80402BE0	card_boot_position_four_display_items	(high) src/main/func_8001BBE0.c:7-43: Positions and updates four display items using the selected table row; caller cardBootDispatch at src/main/func_8001BBE0.c:7
 0x804027F8	func_804027F8	card_boot_handle_menu_actions_and_repeat	(high) src/main/func_8001B7F8.c:23-83: Handles menu actions, directional selection, and key repeat; caller cardBootDispatch at src/main/func_8001B7F8.c:23
 0x80402A1C	func_80402A1C	card_boot_build_four_layout_command_groups	(high) src/main/func_8001BA1C.c:17-98: Builds four groups of drawing commands sized from the selected layout; caller cardBootDispatch at src/main/func_8001BA1C.c:17
 0x801528A8	func_801528A8	allocate_actor_and_initialize_parts	(high) src/dungeon/func_80FF9000.c:69-139: Allocates an actor and initializes its parts, position, and spawn flags; caller dungeonActorDispatch at src/dungeon/func_80FF9000.c:69
+0x801528A8	func_801528A8	spawn_killer_slot_b	(high) src/dungeon/func_80FF9000.c:69-139: Allocates an actor and initializes its parts, position, and spawn flags; caller dungeonActorDispatch at src/dungeon/func_80FF9000.c:69
 0x80171080	func_80171080	spawn_configured_overlay_object_b	(high) src/dungeon/func_80C69880.c:56-119: Spawns the overlay object, fills subparts from kind and variant data, applies selected flags, and runs setup calls; caller dungeonEffectDispatch at src/dungeon/func_80C69880.c:56
 0x80172E04	func_80172E04	advance_timed_actor_animation_and_restore	(high) src/dungeon/func_80C6B604.c:36-103: Advances timed actor animation sequence and restores actor state on completion; caller dungeonActionDispatch at src/dungeon/func_80C6B604.c:36
 0x80173078	func_80173078	update_item_action_animation_and_effects	(high) src/dungeon/func_80C6B878.c:48-292: Updates item action, animation, particle effects, and completion state; caller dungeonActionDispatch at src/dungeon/func_80C6B878.c:48
 0x80152874	func_80152874	allocate_object_with_flags_and_placement	(high) src/dungeon/func_80DAD000.c:59-123: Allocates and initializes a dungeon object with requested flags and placement; caller dungeonActorDispatch at src/dungeon/func_80DAD000.c:59
+0x80152874	func_80152874	spawn_dreamin_slot_b	(high) src/dungeon/func_80DAD000.c:59-123: Allocates and initializes a dungeon object with requested flags and placement; caller dungeonActorDispatch at src/dungeon/func_80DAD000.c:59
 0x8001AEC8	func_8001AEC8	invoke_callback_30_c_9000	(high) src/town/func_803306C8.c:13-15: Invokes callback offset 0x30C with value 0x9000; caller townEventDispatch at src/town/func_803306C8.c:13
 0x8001B0C8	func_8001B0C8	get_linked_record_field_2_d_60	(high) src/town/func_803308C8.c:9-11: Returns field 0x2D60 from the record linked through D_80016000; caller townEventDispatch at src/town/func_803308C8.c:9
 0x8001AE50	func_8001AE50	invoke_callback_280_c_1	(high) src/town/func_80330650.c:8-10: Invokes callback offset 0x280 with command 0xC1; caller townEventDispatch at src/town/func_80330650.c:8
@@ -2921,6 +2928,7 @@
 0x8004A940	func_8004A940	table_handle_assign_consecutive_n_19_byte_data_blocks_items_selected_category_index	(high) src/slus/w_8004A940.c:33-48: Assign consecutive 19-byte data blocks to the items selected by the category/index table.; caller func_8004AB7C at src/slus/w_8004AB7C.c:28
 0x8004AFE8	func_8004AFE8	table_count_consecutive_pointer_entries_whose_target_byte_matches_first_target_byte	(high) src/slus/w_8004AFE8.c:9-29: Counts consecutive pointer entries whose target byte matches the first target byte.; caller func_8004B08C at src/slus/w_8004B08C.c:17
 0x8015E88C	func_8015E88C	handle_spawn_overlay_s_effect_allocate_fill_two_parts_attributes_arm	(medium) src/dungeon/func_81017000.c:65-124: Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers.; caller <none> at <none>:0
+0x8015E88C	func_8015E88C	spawn_garuda_slot_d	(medium) src/dungeon/func_81017000.c:65-124: Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers.; caller <none> at <none>:0
 0x80160834	func_80160834	start_the_selected_actor_action_waits_completion_resets_state	(medium) src/dungeon/func_81019034.c:69-234: Starts the selected actor action, waits for completion, and resets its state.; caller <none> at <none>:0
 0x8015F058	func_8015F058	update_creature_animation_dispatch_dungeon_action	(medium) src/dungeon/func_81017858.c:90-275: Update creature animation and dispatch its dungeon action.; caller <none> at <none>:0
 0x80161E64	func_80161E64	update_paired_actor_movement_tile_placement_animations_restored_flags	(medium) src/dungeon/func_8101A664.c:116-503: Updates paired actor movement, tile placement, animations, and restored flags.; caller <none> at <none>:0
@@ -2943,13 +2951,16 @@
 0x801590F4	func_801590F4	update_dungeon_action_behavior_facing_animation_state	(medium) src/dungeon/func_80EA38F4.c:74-272: Updates dungeon action behavior, facing, and animation from its current state.; caller <none> at <none>:0
 0x8015AC90	func_8015AC90	update_the_actor_action_sequence_including_movement_landing_recovery_at_8015_ac_90	(medium) src/dungeon/func_80EA5490.c:76-405: Updates the actor action sequence, including movement, landing, and recovery.; caller <none> at <none>:0
 0x8016A880	func_8016A880	handle_spawn_overlay_s_effect_allocate_fill_two_parts_attributes_arm_at_8016_a_880	(medium) src/dungeon/func_80F8D000.c:65-129: Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers.; caller <none> at <none>:0
+0x8016A880	func_8016A880	spawn_zu_slot_f	(medium) src/dungeon/func_80F8D000.c:65-129: Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers.; caller <none> at <none>:0
 0x8015BC5C	func_8015BC5C	run_the_actor_s_eight_step_sink_animation_advancing_phase_swapping	(medium) src/dungeon/func_8107445C.c:35-127: Run the actor's eight-step sink animation, advancing its phase and swapping the sprite each step.; caller <none> at <none>:0
 0x8015A9D4	func_8015A9D4	advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4	(medium) src/dungeon/func_810731D4.c:71-229: Advance the actor animation state and reset movement when it finishes.; caller <none> at <none>:0
 0x80158F68	func_80158F68	update_a_dungeon_actor_s_behavior_facing_animation_state	(medium) src/dungeon/func_81071768.c:57-242: Updates a dungeon actor's behavior, facing, and animation from its current state.; caller <none> at <none>:0
 0x801588A8	func_801588A8	create_and_initializes_dungeon_flags_placement_parameters	(medium) src/dungeon/func_80FF3000.c:64-122: Allocates and initializes a dungeon object with flags and placement parameters.; caller <none> at <none>:0
+0x801588A8	func_801588A8	spawn_killer_slot_c	(medium) src/dungeon/func_80FF3000.c:64-122: Allocates and initializes a dungeon object with flags and placement parameters.; caller <none> at <none>:0
 0x80158EA8	func_80158EA8	update_the_entity_action_facing_direction_animation_dungeon_state	(medium) src/dungeon/func_80FF36A8.c:60-241: Updates the entity action, facing direction, and animation from dungeon state.; caller <none> at <none>:0
 0x8015A9A0	func_8015A9A0	update_item_use_visual_effect_actor_s_return_idle	(medium) src/dungeon/func_80FF51A0.c:137-371: Updates item use, its visual effect, and the actor's return to idle.; caller <none> at <none>:0
 0x8015E880	func_8015E880	handle_spawn_overlay_s_effect_allocate_fill_two_parts_attributes_arm_at_8015_e_880	(medium) src/dungeon/func_80F99000.c:65-131: Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers.; caller <none> at <none>:0
+0x8015E880	func_8015E880	spawn_zu_slot_d	(medium) src/dungeon/func_80F99000.c:65-131: Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers.; caller <none> at <none>:0
 0x80025874	func_80025874	create_and_initializes_copying_n_24_bytes_source_data	(high) src/dungeon/func_81912074.c:38-65: Allocates and initializes an object, copying 24 bytes of source data into it.; caller func_80025954 at src/dungeon/func_81912154.c:125
 0x80024170	func_80024170	create_an_effect_position_randomized_sprite_angle	(high) src/dungeon/func_81910970.c:60-100: Creates an effect at the supplied position with a randomized sprite angle.; caller func_80025954 at src/dungeon/func_81912154.c:125
 0x80025954	func_80025954	update_movement_toward_target_along_direction_advances_action_phases	(medium) src/dungeon/func_81912154.c:125-380: Updates movement toward a target or along a direction and advances the action phases.; caller <none> at <none>:0
@@ -2967,6 +2978,7 @@
 0x800247D0	func_800247D0	update_an_effect_through_attachment_motion_timed_cleanup	(medium) src/dungeon/func_818C8FD0.c:42-264: Updates an effect through attachment, motion, and timed cleanup.; caller <none> at <none>:0
 0x801763D0	func_801763D0	update_an_effect_s_lifetime_fades_color_advances_motion	(medium) src/dungeon/func_80E3CBD0.c:6-29: Updates an effect's lifetime, fades its color, and advances its motion.; caller <none> at <none>:0
 0x80176480	func_80176480	handle_spawns_up_sixteen_particles_randomized_offsets_velocities	(medium) src/dungeon/func_80E3CC80.c:67-105: Spawns up to sixteen particles with randomized offsets and velocities.; caller <none> at <none>:0
+0x80176480	func_80176480	spawn_manoeva_particle_burst	(medium) src/dungeon/func_80E3CC80.c:67-105: Spawns up to sixteen particles with randomized offsets and velocities.; caller <none> at <none>:0
 0x8016F9A0	func_8016F9A0	update_direction_tables_kind_flags_processes_state	(medium) src/dungeon/func_80CF21A0.c:41-138: Updates direction tables by kind and flags, then processes the object state.; caller <none> at <none>:0
 0x8016E3C4	func_8016E3C4	advance_the_actor_s_action_animation_triggers_timed_effects	(medium) src/dungeon/func_80CF0BC4.c:40-139: Advances the actor's action animation and triggers timed effects.; caller <none> at <none>:0
 0x801708AC	func_801708AC	create_and_initializes_entity_center_specified_tile	(medium) src/dungeon/func_812A50AC.c:57-95: Creates and initializes an entity at the center of the specified tile.; caller <none> at <none>:0
@@ -3538,6 +3550,7 @@
 0x801609D4	func_801609D4	advance_actor_animation_and_reset_motion	(medium) src/dungeon/func_8106D1D4.c:68-226: advances the actor animation state and resets movement when it finishes; caller none in src/dungeon (callback entry)
 0x8015EF68	func_8015EF68	update_dungeon_actor_behavior_and_animation	(medium) src/dungeon/func_8106B768.c:69-254: updates a dungeon actor's behavior, facing, and animation from its current state; caller none in src/dungeon (callback entry)
 0x8016A8A8	func_8016A8A8	create_dungeon_object_with_parts	(medium) src/dungeon/func_80FE1000.c:58-123: creates a dungeon object and initializes its kind flags and part parameters; caller none in src/dungeon (object factory)
+0x8016A8A8	func_8016A8A8	spawn_killer_slot_f	(medium) src/dungeon/func_80FE1000.c:58-123: creates a dungeon object and initializes its kind flags and part parameters; caller none in src/dungeon (object factory)
 0x8016AEA8	func_8016AEA8	update_dungeon_entity_action_and_facing	(medium) src/dungeon/func_80FE16A8.c:60-241: updates the entity action, facing direction, and animation from dungeon state; caller none in src/dungeon (callback entry)
 0x8016C9A0	func_8016C9A0	update_item_use_effect_and_idle_return	(medium) src/dungeon/func_80FE31A0.c:137-371: updates item use, its visual effect, and the actor's return to idle; caller none in src/dungeon (callback entry)
 0x80152880	func_80152880	create_flagged_dungeon_object	(medium) src/dungeon/func_80FA5000.c:64-130: allocates the object, initializes its parts from the arguments, applies kind flags, and runs setup callbacks; caller none in src/dungeon (object factory)
@@ -4085,6 +4098,7 @@
 0x8014E9D4	func_8014E9D4	advance_actor_animation_and_reset_movement	(medium) src/dungeon/func_8107F1D4.c:71-: Advances actor animation state and resets movement when it finishes; caller none found in src/dungeon
 0x8014CF68	func_8014CF68	update_actor_behavior_facing_and_animation	(medium) src/dungeon/func_8107D768.c:57-: Updates dungeon actor behavior, facing and animation from current state; caller none found in src/dungeon
 0x8015E8A8	func_8015E8A8	allocate_and_initialize_node	(medium) src/dungeon/func_80FED000.c:63-: Allocates and initializes a dungeon node with supplied setup and placement; caller none found in src/dungeon
+0x8015E8A8	func_8015E8A8	spawn_killer_slot_d	(medium) src/dungeon/func_80FED000.c:63-: Allocates and initializes a dungeon node with supplied setup and placement; caller none found in src/dungeon
 0x80158880	func_80158880	create_masked_effect_node	(medium) src/dungeon/func_80F9F000.c:64-: Allocates and initializes a masked effect node from four setup values; caller none found in src/dungeon
 0x8015AA40	func_8015AA40	advance_item_action_variant_b	(medium) src/dungeon/func_80FA1240.c:77-: Advances item action through movement, effect activation, animation and cleanup; caller none found in src/dungeon
 0x80159138	func_80159138	update_actor_behavior_variant_e	(medium) src/dungeon/func_80F9F938.c:78-: Updates actor behavior through movement, facing, animation and action-state dispatch; caller none found in src/dungeon
@@ -4732,6 +4746,7 @@
 0x818C3898	func_818C3898	update_rotating_effect_lifetime	(medium) src/dungeon/func_818C3898.c:37-79: Advance effect motion, color, rotation, and size, and flag lifetime expiration.; caller none in local inventory
 0x818C29D4	func_818C29D4	draw_shaded_textured_quad	(medium) src/dungeon/func_818C29D4.c:109-217: Builds and queues a shaded textured quad with texture-window commands.; caller none in local inventory
 0x8016A88C	func_8016A88C	create_kind_variant_object	(medium) src/dungeon/func_8100B000.c:65-124: Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls.; caller none in local inventory
+0x8016A88C	func_8016A88C	spawn_garuda_slot_f	(medium) src/dungeon/func_8100B000.c:65-124: Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls.; caller none in local inventory
 0x8016C834	func_8016C834	start_selected_actor_action	(medium) src/dungeon/func_8100D034.c:69-234: Starts the selected actor action, waits for completion, and resets its state.; caller none in local inventory
 0x8016B058	func_8016B058	dispatch_creature_action	(medium) src/dungeon/func_8100B858.c:90-275: Update creature animation and dispatch its dungeon action.; caller none in local inventory
 0x8014F514	func_8014F514	update_actor_action_state_machine	(medium) src/dungeon/func_80F05D14.c:56-138: mechanics are recorded in the local inventory; caller none in local inventory
@@ -4759,6 +4774,7 @@
 0x80052A90	func_80052A90	draw_double_byte_text	(high) src/slus/w_80052A90.c:19-80: Draws a two-byte character string by copying font tiles to successive screen positions.; caller func_80052C10 at src/slus/w_80052C10.c:23
 0x80052774	func_80052774	draw_shaded_horizontal_line	(high) src/slus/w_80052774.c:22-113: Draw a shaded horizontal line with dimmer translucent lines above and below.; caller func_80052CE0 at src/slus/w_80052CE0.c:36
 0x801648A8	func_801648A8	create_overlay_effect_object_1007000	(medium) src/dungeon/func_80FE7000.c:83-150: Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers.; caller none in local inventory
+0x801648A8	func_801648A8	spawn_killer_slot_e	(medium) src/dungeon/func_80FE7000.c:83-150: Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers.; caller none in local inventory
 0x80164EA8	func_80164EA8	update_overlay_actor_state	(medium) src/dungeon/func_80FE76A8.c:60-241: Updates the entity action, facing direction, and animation from dungeon state.; caller none in local inventory
 0x801669A0	func_801669A0	update_overlay_item_use	(medium) src/dungeon/func_80FE91A0.c:137-371: Updates item use, its visual effect, and the actor's return to idle.; caller none in local inventory
 0x80174254	func_80174254	advance_effect_record_counters	(medium) src/dungeon/func_80DE6A54.c:9-21: Advances the counter, increments both fields for the first eight steps, and updates the record.; caller none in local inventory
@@ -5795,7 +5811,9 @@
 0x80160870	func_80160870	advance_actor_ability_and_reset_state	(medium) src/dungeon/func_80DA3070.c:72: Advances actor ability, waits for completion, and resets the action state.
 0x80164B40	func_80164B40	update_actor_facing_and_lifecycle_2	(medium) src/dungeon/func_80FBD340.c:8-64: Refreshes actor facing and lifecycle state, selects the directional table entry and applies actor data.
 0x80165010	func_80165010	create_origin_relative_effect	(medium) src/dungeon/func_80D71810.c:74: Creates an effect relative to the origin and initializes its motion and appearance.
+0x80165010	func_80165010	create_baloon_puff_effect	(medium) src/dungeon/func_80D71810.c:74: Creates an effect relative to the origin and initializes its motion and appearance.
 0x8016545C	func_8016545C	spawn_randomized_directional_sprite_effect	(medium) src/dungeon/func_80D71C5C.c:77: Spawns a directional sprite effect near the source with randomized velocity.
+0x8016545C	func_8016545C	spawn_baloon_directional_puff	(medium) src/dungeon/func_80D71C5C.c:77: Spawns a directional sprite effect near the source with randomized velocity.
 0x80166C54	func_80166C54	complete_timed_actor_hop_and_restore_state	(medium) src/dungeon/func_80AFD454.c:39: Updates a timed hop to a tile and restores the actor's animation and movement state.
 0x8016A854	func_8016A854	create_mode_configured_actor_object	(medium) src/dungeon/func_80DE9000.c:3-70: Allocates object type 0x112, stores the supplied actor attributes and applies mode-selected flags.
 0x8016A874	func_8016A874	damp_and_fade_effect_sprite	(medium) src/dungeon/func_80D17000.c:66: Move and damp the effect, expand and fade its sprite, and expire its lifetime.
@@ -6165,3 +6183,926 @@
 0x800C4328	func_800C4328	reset_object_handler_field_72_value_800	docs/evidence/r121w_heur3/receipts.json: complete native C, callback entry and inherited matched interface
 0x800C4450	func_800C4450	reset_object_handler_field_72_value_400	docs/evidence/r121w_heur3/receipts.json: complete native C, callback entry and inherited matched interface
 0x800C4644	func_800C4644	reset_object_handler_field_6c_value_15_46ee4	docs/evidence/r121w_heur3/receipts.json: complete native C, callback entry and inherited matched interface
+0x7FFE93E8	func_7FFE93E8	create_long_positioned_color_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_7FFE93E8.c
+0x7FFEAC44	func_7FFEAC44	create_medium_positioned_color_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_7FFEAC44.c
+0x7FFEBCCC	func_7FFEBCCC	create_short_positioned_color_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_7FFEBCCC.c
+0x7FFFE188	func_7FFFE188	follow_target_until_timeout	owner decisions 65+68; shard:dungeon; src/dungeon/func_7FFFE188.c
+0x7FFFE25C	func_7FFFE25C	track_player_and_dispatch_handler	owner decisions 65+68; shard:dungeon; src/dungeon/func_7FFFE25C.c
+0x7FFFE4E4	func_7FFFE4E4	update_falling_motion	owner decisions 65+68; shard:dungeon; src/dungeon/func_7FFFE4E4.c
+0x8008ACD4	func_8008ACD4	no_op_hook_second	owner decisions 65+68; shard:dungeon; src/dungeon/func_80085574.c
+0x80096100	func_80096100	update_sound_settings_from_pad	owner decisions 65+68; shard:dungeon; src/dungeon/func_800909A0.c
+0x800A08A0	func_800A08A0	spawn_floor_monster_from_table	owner decisions 65+68; shard:dungeon; src/dungeon/func_8009B140.c
+0x800A9A04	func_800A9A04	on_actor_status_updated	owner decisions 65+68; shard:dungeon; src/dungeon/func_800A42A4.c
+0x800A9C10	func_800A9C10	no_op_actor_dispatch	owner decisions 65+68; shard:dungeon; src/dungeon/func_800A44B0.c
+0x800C8310	func_800C8310	is_linked_entity_flagged_80000	owner decisions 65+68; shard:dungeon; src/dungeon/func_800C2BB0.c
+0x800C8408	func_800C8408	is_linked_entity_flagged_2000000	owner decisions 65+68; shard:dungeon; src/dungeon/func_800C2CA8.c
+0x800C8484	func_800C8484	is_linked_entity_flagged_10000000	owner decisions 65+68; shard:dungeon; src/dungeon/func_800C2D24.c
+0x800C8500	func_800C8500	is_linked_entity_flagged_100000	owner decisions 65+68; shard:dungeon; src/dungeon/func_800C2DA0.c
+0x800CEEF4	func_800CEEF4	return_zero_hook	owner decisions 65+68; shard:dungeon; src/dungeon/func_800C9794.c
+0x800D28E4	func_800D28E4	advance_actor_status_turn	owner decisions 65+68; shard:dungeon; src/dungeon/func_800CD184.c
+0x800D29D8	func_800D29D8	slide_actor_along_facing	owner decisions 65+68; shard:dungeon; src/dungeon/func_800CD278.c
+0x800D3140	func_800D3140	advance_actor_status_turn_second	owner decisions 65+68; shard:dungeon; src/dungeon/func_800CD9E0.c
+0x800D3234	func_800D3234	slide_actor_along_facing_second	owner decisions 65+68; shard:dungeon; src/dungeon/func_800CDAD4.c
+0x800D4634	func_800D4634	slide_actor_along_facing_third	owner decisions 65+68; shard:dungeon; src/dungeon/func_800CEED4.c
+0x800D7A04	func_800D7A04	return_zero_hook_second	owner decisions 65+68; shard:dungeon; src/dungeon/func_800D22A4.c
+0x800D7A0C	func_800D7A0C	return_zero_hook_third	owner decisions 65+68; shard:dungeon; src/dungeon/func_800D22AC.c
+0x800DA728	func_800DA728	run_terrain_tile_interpolation	owner decisions 65+68; shard:dungeon; src/dungeon/func_800D4FC8.c
+0x800DA798	func_800DA798	run_actor_fade_in	owner decisions 65+68; shard:dungeon; src/dungeon/func_800D5038.c
+0x800F67CC	func_800F67CC	no_op_hook_third	owner decisions 65+68; shard:dungeon; src/dungeon/func_809217CC.c
+0x8016D568	func_8016D568	forward_actor_defeat_removal	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_8097DD68.c
+0x80155568	func_80155568	update_hikewne_defeat_removal	owner decisions 65+68; shard:dungeon; src/dungeon/func_80995D68.c
+0x809A0A34	func_809A0A34	start_kewne_attack_action	owner decisions 65+68; shard:dungeon; src/dungeon/func_809A0A34.c
+0x809A0B58	func_809A0B58	update_kewne_charge_counter	owner decisions 65+68; shard:dungeon; src/dungeon/func_809A0B58.c
+0x8016DDAC	func_8016DDAC	update_kewne_defeat_removal_slot_f	owner decisions 65+68; shard:dungeon; src/dungeon/func_809A85AC.c
+0x80167DAC	func_80167DAC	update_kewne_defeat_removal_slot_e	owner decisions 65+68; shard:dungeon; src/dungeon/func_809AE5AC.c
+0x80161DAC	func_80161DAC	update_kewne_defeat_removal_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_809B45AC.c
+0x8015BDAC	func_8015BDAC	update_kewne_defeat_removal_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_809BA5AC.c
+0x80155DAC	func_80155DAC	update_kewne_defeat_removal_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_809C05AC.c
+0x8014FDAC	func_8014FDAC	update_kewne_defeat_removal_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_809C65AC.c
+0x8016D2C0	func_8016D2C0	forward_actor_defeat_removal_second	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_809D1AC0.c
+0x8016B40C	func_8016B40C	choose_flame_action	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80A4DC0C.c
+0x8016540C	func_8016540C	choose_flame_action_slot_e	owner decisions 65+68; shard:dungeon; src/dungeon/func_80A53C0C.c
+0x8015F40C	func_8015F40C	choose_flame_action_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80A59C0C.c
+0x8015940C	func_8015940C	choose_flame_action_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80A5FC0C.c
+0x8015340C	func_8015340C	choose_flame_action_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_80A65C0C.c
+0x8014D40C	func_8014D40C	choose_flame_action_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_80A6BC0C.c
+0x8016D234	func_8016D234	update_griffon_recoil	owner decisions 65+68; shard:dungeon; src/dungeon/func_80AA3A34.c
+0x80171158	func_80171158	spawn_saber	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80AC5958.c
+0x8016ACF8	func_8016ACF8	create_returning_sprite_effect_snowman	owner decisions 65+68; shard:dungeon; src/dungeon/func_80AF54F8.c
+0x8016D0A4	func_8016D0A4	update_nyuel_defeat_removal_slot_f	owner decisions 65+68; shard:dungeon; src/dungeon/func_80B9F8A4.c
+0x801670A4	func_801670A4	update_nyuel_defeat_removal_slot_e	owner decisions 65+68; shard:dungeon; src/dungeon/func_80BA58A4.c
+0x801610A4	func_801610A4	update_nyuel_defeat_removal_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80BAB8A4.c
+0x8015B0A4	func_8015B0A4	update_nyuel_defeat_removal_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80BB18A4.c
+0x801550A4	func_801550A4	update_nyuel_defeat_removal_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_80BB78A4.c
+0x8014F0A4	func_8014F0A4	update_nyuel_defeat_removal_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_80BBD8A4.c
+0x8016CCAC	func_8016CCAC	update_clown_defeat_removal_slot_f	owner decisions 65+68; shard:dungeon; src/dungeon/func_80BF34AC.c
+0x8015ACAC	func_8015ACAC	update_clown_defeat_removal_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80C054AC.c
+0x8015EE7C	func_8015EE7C	choose_unicorn_action	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80C5167C.c
+0x80158E7C	func_80158E7C	choose_unicorn_action_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80C5767C.c
+0x80152E7C	func_80152E7C	choose_unicorn_action_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_80C5D67C.c
+0x8014CE7C	func_8014CE7C	choose_unicorn_action_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_80C6367C.c
+0x80160FA0	func_80160FA0	update_pulunpa_defeat_removal	owner decisions 65+68; shard:dungeon; src/dungeon/func_80CD17A0.c
+0x80174FB8	func_80174FB8	update_troll_defeat_removal_slot_g	owner decisions 65+68; shard:dungeon; src/dungeon/func_80CEB7B8.c
+0x8016EFB8	func_8016EFB8	update_troll_defeat_removal	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80CF17B8.c
+0x80168FB8	func_80168FB8	update_troll_defeat_removal_slot_e	owner decisions 65+68; shard:dungeon; src/dungeon/func_80CF77B8.c
+0x80162FB8	func_80162FB8	update_troll_defeat_removal_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80CFD7B8.c
+0x8015CFB8	func_8015CFB8	update_troll_defeat_removal_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D037B8.c
+0x80156FB8	func_80156FB8	update_troll_defeat_removal_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D097B8.c
+0x80150FB8	func_80150FB8	update_troll_defeat_removal_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D0F7B8.c
+0x80155B4C	func_80155B4C	update_noise_knockback	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80D3234C.c
+0x80171780	func_80171780	spawn_baloon	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80D65F80.c
+0x801724B0	func_801724B0	advance_baloon_along_path	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80D66CB0.c
+0x8015F010	func_8015F010	create_baloon_puff_effect_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D77810.c
+0x8015F45C	func_8015F45C	spawn_baloon_directional_puff_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D77C5C.c
+0x80159010	func_80159010	create_baloon_puff_effect_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D7D810.c
+0x8015945C	func_8015945C	spawn_baloon_directional_puff_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D7DC5C.c
+0x80153010	func_80153010	create_baloon_puff_effect_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D83810.c
+0x8015345C	func_8015345C	spawn_baloon_directional_puff_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D83C5C.c
+0x8014D010	func_8014D010	create_baloon_puff_effect_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D89810.c
+0x8014D45C	func_8014D45C	spawn_baloon_directional_puff_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D89C5C.c
+0x8016D1BC	func_8016D1BC	update_volcano_defeat_removal	owner decisions 65+68; shard:dungeon; src/dungeon/func_80DEB9BC.c
+0x80E12A58	func_80E12A58	consume_object_code_19	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E12A58.c
+0x80E12AA4	func_80E12AA4	show_entity_message	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E12AA4.c
+0x80E12B30	func_80E12B30	show_entity_message_with_prefix	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E12B30.c
+0x8017618C	func_8017618C	spawn_manoeva_from_record	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E3C98C.c
+0x80170480	func_80170480	spawn_manoeva_particle_burst_slot_g	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E42C80.c
+0x8016A480	func_8016A480	spawn_manoeva_particle_burst_slot_f	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E48C80.c
+0x80164480	func_80164480	spawn_manoeva_particle_burst_slot_e	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E4EC80.c
+0x8015E480	func_8015E480	spawn_manoeva_particle_burst_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E54C80.c
+0x80158480	func_80158480	spawn_manoeva_particle_burst_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E5AC80.c
+0x80152480	func_80152480	spawn_manoeva_particle_burst_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E60C80.c
+0x80170AF4	func_80170AF4	spawn_picket	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80E8B2F4.c
+0x80160C90	func_80160C90	update_picket_move_action_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E9F490.c
+0x80158908	func_80158908	pick_up_adjacent_item	owner decisions 65+68; shard:dungeon; src/dungeon/func_80EA3000.c
+0x8014EC90	func_8014EC90	update_picket_move_action_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_80EB1490.c
+0x80EB886C	func_80EB886C	update_linear_motion_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_80EB886C.c
+0x80EF98E0	func_80EF98E0	update_weadog_timed_move	owner decisions 65+68; shard:dungeon; src/dungeon/func_80EF98E0.c
+0x80F36D0C	func_80F36D0C	update_viper_item_grab	owner decisions 65+68; shard:dungeon; src/dungeon/func_80F36D0C.c
+0x80F606C0	func_80F606C0	update_shrinking_homing_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_80F606C0.c
+0x80F60808	func_80F60808	start_naplass_status_action	owner decisions 65+68; shard:dungeon; src/dungeon/func_80F60808.c
+0x801708A8	func_801708A8	spawn_killer	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80FDB000.c
+0x80173010	func_80173010	update_garuda_defeat_removal	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_81007810.c
+0x81008664	func_81008664	update_garuda_paired_move	owner decisions 65+68; shard:dungeon; src/dungeon/func_81008664.c
+0x8016C404	func_8016C404	jump_tyrant_to_tile	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_81060C04.c
+0x80166404	func_80166404	jump_tyrant_to_tile_slot_e	owner decisions 65+68; shard:dungeon; src/dungeon/func_81066C04.c
+0x80154404	func_80154404	jump_tyrant_to_tile_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_81078C04.c
+0x801735B4	func_801735B4	no_op_golem_hook	owner decisions 65+68; shard:dungeon; src/dungeon/func_81085DB4.c
+0x810886D4	func_810886D4	consume_pending_flag	owner decisions 65+68; shard:dungeon; src/dungeon/func_810886D4.c
+0x80172328	func_80172328	return_zero_beldo_hook	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_81252B28.c
+0x801738F0	func_801738F0	no_op_beldo_hook	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_812540F0.c
+0x80173BE8	func_80173BE8	no_op_beldo_hook_second	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_812543E8.c
+0x8127C3E0	func_8127C3E0	step_beldo_old_toward_target	owner decisions 65+68; shard:dungeon; src/dungeon/func_8127C3E0.c
+0x801748B0	func_801748B0	update_kewne_uncached_defeat_removal_slot_g	owner decisions 65+68; shard:dungeon; src/dungeon/func_812A90B0.c
+0x8016BFA4	func_8016BFA4	choose_kewne_uncached_action	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_812AC7A4.c
+0x801568B0	func_801568B0	update_kewne_uncached_defeat_removal_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_812C70B0.c
+0x8015786C	func_8015786C	create_attached_effect_kewne_uncached	owner decisions 65+68; shard:dungeon; src/dungeon/func_812C806C.c
+0x8016DA9C	func_8016DA9C	no_op_ghosh_hook	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_8132629C.c
+0x8016DEE8	func_8016DEE8	check_ghosh_bound	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_813266E8.c
+0x8016DF08	func_8016DF08	no_op_ghosh_hook_second	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_81326708.c
+0x80170214	func_80170214	return_zero_ghosh_hook	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_81328A14.c
+0x8016EE44	func_8016EE44	no_op_beldo_large_hook	owner decisions 65+68; shard:dungeon; src/dungeon/func_81337E44.c
+0x8016F3A8	func_8016F3A8	reset_beldo_large_state	owner decisions 65+68; shard:dungeon; src/dungeon/func_813383A8.c
+0x8016F3C4	func_8016F3C4	advance_beldo_large_mode	owner decisions 65+68; shard:dungeon; src/dungeon/func_813383C4.c
+0x8016F3E8	func_8016F3E8	set_beldo_large_mode	owner decisions 65+68; shard:dungeon; src/dungeon/func_813383E8.c
+0x8016F408	func_8016F408	is_beldo_large_mode	owner decisions 65+68; shard:dungeon; src/dungeon/func_81338408.c
+0x80025530	func_80025530	get_work_value	owner decisions 65+68; shard:dungeon; src/dungeon/func_81810530.c
+0x80026CCC	func_80026CCC	get_work_value_third	owner decisions 65+68; shard:dungeon; src/dungeon/func_81811CCC.c
+0x81814A80	func_81814A80	accumulate_effect_motion	owner decisions 65+68; shard:dungeon; src/dungeon/func_81814A80.c
+0x81814EDC	func_81814EDC	update_spark_emitter_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_81814EDC.c
+0x8185C98C	func_8185C98C	update_growing_sprite_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_8185C98C.c
+0x8185CA1C	func_8185CA1C	create_random_offset_sprite_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_8185CA1C.c
+0x8185CB30	func_8185CB30	update_expanding_spiral_motion	owner decisions 65+68; shard:dungeon; src/dungeon/func_8185CB30.c
+0x8185CCD4	func_8185CCD4	update_expanding_spiral_sprite	owner decisions 65+68; shard:dungeon; src/dungeon/func_8185CCD4.c
+0x8185CE28	func_8185CE28	create_expanding_spiral_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_8185CE28.c
+0x818BC888	func_818BC888	update_ramping_color_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BC888.c
+0x818BC9CC	func_818BC9CC	draw_four_shaded_quads	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BC9CC.c
+0x818BCFB0	func_818BCFB0	create_offset_color_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BCFB0.c
+0x818BD0C0	func_818BD0C0	update_triple_flash_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BD0C0.c
+0x818BD1C4	func_818BD1C4	create_channel_tinted_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BD1C4.c
+0x818BD3B0	func_818BD3B0	update_orbital_motion_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BD3B0.c
+0x818BD52C	func_818BD52C	create_phase_colored_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BD52C.c
+0x818BD74C	func_818BD74C	update_color_cycling_shrink_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BD74C.c
+0x818BDB44	func_818BDB44	create_random_spin_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BDB44.c
+0x818BDD8C	func_818BDD8C	create_owner_tinted_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BDD8C.c
+0x818C2824	func_818C2824	apply_random_value_gain	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C2824.c
+0x818C28C0	func_818C28C0	update_fading_intensity_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C28C0.c
+0x818C2F10	func_818C2F10	update_vertical_drift_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C2F10.c
+0x818C2FAC	func_818C2FAC	create_random_rotation_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C2FAC.c
+0x818C3208	func_818C3208	update_fading_drift_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C3208.c
+0x818C32F4	func_818C32F4	create_dimmed_copy_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C32F4.c
+0x818C370C	func_818C370C	create_random_variant_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C370C.c
+0x818C3A3C	func_818C3A3C	create_scaled_rotation_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C3A3C.c
+0x818C3B90	func_818C3B90	update_directed_movement_sequence	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C3B90.c
+0x818FEDEC	func_818FEDEC	update_eight_frame_animation_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818FEDEC.c
+0x80024740	func_80024740	draw_gradient_line_chain	owner decisions 65+68; shard:dungeon; src/dungeon/func_81934F40.c
+0x80024A88	func_80024A88	update_drifting_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_81947288.c
+0x81958F28	func_81958F28	update_following_color_blend_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_81958F28.c
+0x819598B4	func_819598B4	update_ring_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_819598B4.c
+0x81959E04	func_81959E04	spawn_ring_sparks	owner decisions 65+68; shard:dungeon; src/dungeon/func_81959E04.c
+0x8195AB84	func_8195AB84	create_linked_object_chain	owner decisions 65+68; shard:dungeon; src/dungeon/func_8195AB84.c
+0x8195AE0C	func_8195AE0C	step_entry_index_within_bounds	owner decisions 65+68; shard:dungeon; src/dungeon/func_8195AE0C.c
+0x81977E0C	func_81977E0C	update_expanding_fade_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_81977E0C.c
+0x81978140	func_81978140	update_timed_movement_sequence	owner decisions 65+68; shard:dungeon; src/dungeon/func_81978140.c
+0x8197829C	func_8197829C	create_interpolated_line_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_8197829C.c
+0x81978428	func_81978428	update_placed_effect_animation	owner decisions 65+68; shard:dungeon; src/dungeon/func_81978428.c
+0x80088B48	func_80088B48	sync_object_with_sub_object	owner decisions 65+68; shard:slus_main; src/main/func_7FDD1BE8.c
+0x80089A14	func_80089A14	mark_object_flags_dirty	owner decisions 65+68; shard:slus_main; src/main/func_7FDD2AB4.c
+0x7FDD3D54	func_7FDD3D54	fill_value_output_fields	owner decisions 65+68; shard:slus_main; src/main/func_7FDD3D54.c
+0x8002137C	func_8002137C	consume_pending_event_flag	owner decisions 65+68; shard:slus_main; src/main/func_8000E37C.c
+0x80021904	func_80021904	no_op_card_stub	owner decisions 65+68; shard:slus_main; src/main/func_8000E904.c
+0x8002388C	func_8002388C	card_dev_store_word	owner decisions 65+68; shard:slus_main; src/main/func_8001088C.c
+0x8002519C	func_8002519C	no_op_card_hook	owner decisions 65+68; shard:slus_main; src/main/func_8001219C.c
+0x80019908	func_80019908	reset_card_selection_state	owner decisions 65+68; shard:slus_main; src/main/func_80019908.c
+0x80019948	func_80019948	toggle_card_selection_state	owner decisions 65+68; shard:slus_main; src/main/func_80019948.c
+0x80019998	func_80019998	clear_card_selection_flag	owner decisions 65+68; shard:slus_main; src/main/func_80019998.c
+0x800199C0	func_800199C0	card_dev_event_ioe_handler	owner decisions 65+68; shard:slus_main; src/main/func_800199C0.c
+0x800199D4	func_800199D4	card_dev_event_error_handler	owner decisions 65+68; shard:slus_main; src/main/func_800199D4.c
+0x800199E8	func_800199E8	card_dev_event_timeout_handler	owner decisions 65+68; shard:slus_main; src/main/func_800199E8.c
+0x800199FC	func_800199FC	card_dev_event_new_handler	owner decisions 65+68; shard:slus_main; src/main/func_800199FC.c
+0x80019A10	func_80019A10	card_dev_open_events	owner decisions 65+68; shard:slus_main; src/main/func_80019A10.c
+0x80019E34	func_80019E34	card_dev_init	owner decisions 65+68; shard:slus_main; src/main/func_80019E34.c
+0x80019EF8	func_80019EF8	card_dev_close_events	owner decisions 65+68; shard:slus_main; src/main/func_80019EF8.c
+0x8001A0E0	func_8001A0E0	card_dev_get_op_state	owner decisions 65+68; shard:slus_main; src/main/func_8001A0E0.c
+0x8001A22C	func_8001A22C	card_dev_advance_boot_step	owner decisions 65+68; shard:slus_main; src/main/func_8001A22C.c
+0x8001A3A8	func_8001A3A8	card_dev_clear_op_busy	owner decisions 65+68; shard:slus_main; src/main/func_8001A3A8.c
+0x8001A3D0	func_8001A3D0	card_dev_clear_op_failed	owner decisions 65+68; shard:slus_main; src/main/func_8001A3D0.c
+0x8001A3F8	func_8001A3F8	card_dev_wait_poll_ready	owner decisions 65+68; shard:slus_main; src/main/func_8001A3F8.c
+0x8001A4E4	func_8001A4E4	card_dev_drain_hw_events	owner decisions 65+68; shard:slus_main; src/main/func_8001A4E4.c
+0x8001A578	func_8001A578	card_dev_drain_sw_events	owner decisions 65+68; shard:slus_main; src/main/func_8001A578.c
+0x8001A8FC	func_8001A8FC	card_dev_print_status	owner decisions 65+68; shard:slus_main; src/main/func_8001A8FC.c
+0x8001A9A4	func_8001A9A4	card_dev_has_selected_channel	owner decisions 65+68; shard:slus_main; src/main/func_8001A9A4.c
+0x8001AA50	func_8001AA50	card_dev_calc_remaining_8k_blocks	owner decisions 65+68; shard:slus_main; src/main/func_8001AA50.c
+0x8001ABF4	func_8001ABF4	card_dev_build_slot_path	owner decisions 65+68; shard:slus_main; src/main/func_8001ABF4.c
+0x8001AC70	func_8001AC70	card_dev_read_file_units_128	owner decisions 65+68; shard:slus_main; src/main/func_8001AC70.c
+0x8001AD28	func_8001AD28	card_dev_write_file_units_128	owner decisions 65+68; shard:slus_main; src/main/func_8001AD28.c
+0x8001AE14	func_8001AE14	card_dev_get_slot_marker	owner decisions 65+68; shard:slus_main; src/main/func_8001AE14.c
+0x8001AE2C	func_8001AE2C	card_dev_load_slot_metadata	owner decisions 65+68; shard:slus_main; src/main/func_8001AE2C.c
+0x8001AF98	func_8001AF98	card_dev_store_save_xor_checksum	owner decisions 65+68; shard:slus_main; src/main/func_8001AF98.c
+0x8001AFEC	func_8001AFEC	card_dev_verify_save_xor_checksum	owner decisions 65+68; shard:slus_main; src/main/func_8001AFEC.c
+0x8001B084	func_8001B084	card_dev_write_save_via_temporary_path	owner decisions 65+68; shard:slus_main; src/main/func_8001B084.c
+0x8001B214	func_8001B214	card_dev_cache_slot_summary	owner decisions 65+68; shard:slus_main; src/main/func_8001B214.c
+0x8001B268	func_8001B268	card_dev_get_remaining_block_summary	owner decisions 65+68; shard:slus_main; src/main/func_8001B268.c
+0x8001B290	func_8001B290	card_dev_count_cached_slots	owner decisions 65+68; shard:slus_main; src/main/func_8001B290.c
+0x8001B3C4	func_8001B3C4	card_dev_run_temp_slot_operation	owner decisions 65+68; shard:slus_main; src/main/func_8001B3C4.c
+0x8001B3E4	func_8001B3E4	update_object_and_flag_linked	owner decisions 65+68; shard:slus_main; src/main/func_8001B3E4.c
+0x8001B428	func_8001B428	create_card_object	owner decisions 65+68; shard:slus_main; src/main/func_8001B428.c
+0x8001B4A4	func_8001B4A4	refresh_object_value	owner decisions 65+68; shard:slus_main; src/main/func_8001B4A4.c
+0x8001B508	func_8001B508	find_text_word_bounds	owner decisions 65+68; shard:slus_main; src/main/func_8001B508.c
+0x8001B5B8	func_8001B5B8	init_menu_row_entry	owner decisions 65+68; shard:slus_main; src/main/func_8001B5B8.c
+0x8001B74C	func_8001B74C	layout_last_row_item	owner decisions 65+68; shard:slus_main; src/main/func_8001B74C.c
+0x8001B93C	func_8001B93C	clear_global_if_value_zero	owner decisions 65+68; shard:slus_main; src/main/func_8001B93C.c
+0x8001B974	func_8001B974	card_dev_init_view_defaults	owner decisions 65+68; shard:slus_main; src/main/func_8001B974.c
+0x8001BBB8	func_8001BBB8	center_view_on_object	owner decisions 65+68; shard:slus_main; src/main/func_8001BBB8.c
+0x8001BCD4	func_8001BCD4	init_frame_primitive_pairs	owner decisions 65+68; shard:slus_main; src/main/func_8001BCD4.c
+0x8001BD90	func_8001BD90	init_dialog_object	owner decisions 65+68; shard:slus_main; src/main/func_8001BD90.c
+0x8001BDC8	func_8001BDC8	bind_dialog_template	owner decisions 65+68; shard:slus_main; src/main/func_8001BDC8.c
+0x8001BDF0	func_8001BDF0	init_menu_entry_pointers	owner decisions 65+68; shard:slus_main; src/main/func_8001BDF0.c
+0x8001BEA4	func_8001BEA4	set_layout_params	owner decisions 65+68; shard:slus_main; src/main/func_8001BEA4.c
+0x8001BF04	func_8001BF04	init_menu_object	owner decisions 65+68; shard:slus_main; src/main/func_8001BF04.c
+0x8001C0CC	func_8001C0CC	card_dev_show_format_confirmation	owner decisions 65+68; shard:slus_main; src/main/func_8001C0CC.c
+0x8001C0F4	func_8001C0F4	card_dev_show_no_memory_card_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C0F4.c
+0x8001C11C	func_8001C11C	card_dev_show_please_wait_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C11C.c
+0x8001C144	func_8001C144	card_dev_show_overwrite_failure_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C144.c
+0x8001C16C	func_8001C16C	card_dev_show_formatting_progress	owner decisions 65+68; shard:slus_main; src/main/func_8001C16C.c
+0x8001C194	func_8001C194	card_dev_show_overwrite_confirmation	owner decisions 65+68; shard:slus_main; src/main/func_8001C194.c
+0x8001C1BC	func_8001C1BC	card_dev_show_saving_progress	owner decisions 65+68; shard:slus_main; src/main/func_8001C1BC.c
+0x8001C1E4	func_8001C1E4	card_dev_show_loading_progress	owner decisions 65+68; shard:slus_main; src/main/func_8001C1E4.c
+0x8001C20C	func_8001C20C	card_dev_show_insufficient_space_overwrite_advice	owner decisions 65+68; shard:slus_main; src/main/func_8001C20C.c
+0x8001C234	func_8001C234	card_dev_show_insufficient_space_card_advice	owner decisions 65+68; shard:slus_main; src/main/func_8001C234.c
+0x8001C25C	func_8001C25C	card_dev_show_load_failure_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C25C.c
+0x8001C284	func_8001C284	card_dev_show_format_failure_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C284.c
+0x8001C2AC	func_8001C2AC	card_dev_show_format_success_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C2AC.c
+0x8001C2D4	func_8001C2D4	card_dev_show_damaged_memory_card_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C2D4.c
+0x8001C324	func_8001C324	card_dev_show_copying_progress	owner decisions 65+68; shard:slus_main; src/main/func_8001C324.c
+0x8001C34C	func_8001C34C	card_dev_show_copy_failure_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C34C.c
+0x8001C374	func_8001C374	card_dev_show_overwrite_protected_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C374.c
+0x8001C39C	func_8001C39C	card_dev_show_delete_confirmation	owner decisions 65+68; shard:slus_main; src/main/func_8001C39C.c
+0x8001C3C4	func_8001C3C4	card_dev_show_delete_failure_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C3C4.c
+0x8001C3EC	func_8001C3EC	fade_four_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001C3EC.c
+0x8001C43C	func_8001C43C	update_global_dialog_state	owner decisions 65+68; shard:slus_main; src/main/func_8001C43C.c
+0x8001C698	func_8001C698	card_dev_init_row_tables	owner decisions 65+68; shard:slus_main; src/main/func_8001C698.c
+0x8001C738	func_8001C738	card_dev_init_row_layout	owner decisions 65+68; shard:slus_main; src/main/func_8001C738.c
+0x8001C7F4	func_8001C7F4	card_dev_bind_row_labels	owner decisions 65+68; shard:slus_main; src/main/func_8001C7F4.c
+0x8001C8C8	func_8001C8C8	card_dev_init_row_panel	owner decisions 65+68; shard:slus_main; src/main/func_8001C8C8.c
+0x8001CAA0	func_8001CAA0	card_dev_bind_panel_template	owner decisions 65+68; shard:slus_main; src/main/func_8001CAA0.c
+0x8001CB7C	func_8001CB7C	card_dev_set_word	owner decisions 65+68; shard:slus_main; src/main/func_8001CB7C.c
+0x8001CD24	func_8001CD24	card_dev_refresh_options_object	owner decisions 65+68; shard:slus_main; src/main/func_8001CD24.c
+0x8001CD7C	func_8001CD7C	card_dev_begin_value_transition	owner decisions 65+68; shard:slus_main; src/main/func_8001CD7C.c
+0x8001CDA0	func_8001CDA0	card_dev_init_row_view	owner decisions 65+68; shard:slus_main; src/main/func_8001CDA0.c
+0x8001CE54	func_8001CE54	card_dev_layout_title_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001CE54.c
+0x8001CF7C	func_8001CF7C	card_dev_layout_selected_slot_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001CF7C.c
+0x8001D0C8	func_8001D0C8	card_dev_layout_option_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001D0C8.c
+0x8001D224	func_8001D224	card_dev_clear_object_state	owner decisions 65+68; shard:slus_main; src/main/func_8001D224.c
+0x8001D22C	func_8001D22C	card_background_bind_template	owner decisions 65+68; shard:slus_main; src/main/func_8001D22C.c
+0x8001D54C	func_8001D54C	card_dev_clear_ten_values	owner decisions 65+68; shard:slus_main; src/main/func_8001D54C.c
+0x8001D668	func_8001D668	card_dev_reset_object_tint	owner decisions 65+68; shard:slus_main; src/main/func_8001D668.c
+0x8001D6C8	func_8001D6C8	card_dev_select_sub_block	owner decisions 65+68; shard:slus_main; src/main/func_8001D6C8.c
+0x8001D7B0	func_8001D7B0	card_background_init_prims	owner decisions 65+68; shard:slus_main; src/main/func_8001D7B0.c
+0x8001D818	func_8001D818	card_background_init_overlay_prims	owner decisions 65+68; shard:slus_main; src/main/func_8001D818.c
+0x8001D8F8	func_8001D8F8	card_background_layout_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001D8F8.c
+0x8001DA3C	func_8001DA3C	card_background_build_draw_packets	owner decisions 65+68; shard:slus_main; src/main/func_8001DA3C.c
+0x8001DB10	func_8001DB10	card_background_init_components	owner decisions 65+68; shard:slus_main; src/main/func_8001DB10.c
+0x8001DB5C	func_8001DB5C	card_background_bind_dialog_template	owner decisions 65+68; shard:slus_main; src/main/func_8001DB5C.c
+0x8001DB84	func_8001DB84	card_background_init_entry_tables	owner decisions 65+68; shard:slus_main; src/main/func_8001DB84.c
+0x8001DC3C	func_8001DC3C	card_background_set_word	owner decisions 65+68; shard:slus_main; src/main/func_8001DC3C.c
+0x8001DDBC	func_8001DDBC	card_dev_flag_object_dirty	owner decisions 65+68; shard:slus_main; src/main/func_8001DDBC.c
+0x8001DDEC	func_8001DDEC	card_background_build_border_packets	owner decisions 65+68; shard:slus_main; src/main/func_8001DDEC.c
+0x8001E6CC	func_8001E6CC	card_info_bind_template	owner decisions 65+68; shard:slus_main; src/main/func_8001E6CC.c
+0x8001E7A8	func_8001E7A8	card_info_set_word	owner decisions 65+68; shard:slus_main; src/main/func_8001E7A8.c
+0x8001EA00	func_8001EA00	card_info_set_value_and_refresh	owner decisions 65+68; shard:slus_main; src/main/func_8001EA00.c
+0x8001EA3C	func_8001EA3C	card_dev_commit_pending_value	owner decisions 65+68; shard:slus_main; src/main/func_8001EA3C.c
+0x8001EC44	func_8001EC44	card_dev_no_op_save	owner decisions 65+68; shard:slus_main; src/main/func_8001EC44.c
+0x8001EC4C	func_8001EC4C	card_dev_start_next_screen	owner decisions 65+68; shard:slus_main; src/main/func_8001EC4C.c
+0x8001ED2C	func_8001ED2C	card_dev_save_wait_countdown	owner decisions 65+68; shard:slus_main; src/main/func_8001ED2C.c
+0x8001EEAC	func_8001EEAC	card_dev_menu_wait_countdown	owner decisions 65+68; shard:slus_main; src/main/func_8001EEAC.c
+0x8001EFC4	func_8001EFC4	card_dev_update_menu_input	owner decisions 65+68; shard:slus_main; src/main/func_8001EFC4.c
+0x8001F274	func_8001F274	card_dev_select_slot_callback	owner decisions 65+68; shard:slus_main; src/main/func_8001F274.c
+0x8001F2F4	func_8001F2F4	card_dev_dispatch_callback_by_index	owner decisions 65+68; shard:slus_main; src/main/func_8001F2F4.c
+0x8001F568	func_8001F568	card_dev_set_object_value	owner decisions 65+68; shard:slus_main; src/main/func_8001F568.c
+0x8001F570	func_8001F570	card_dev_run_init_hook	owner decisions 65+68; shard:slus_main; src/main/func_8001F570.c
+0x8001F590	func_8001F590	card_dev_update_save_slot_selection	owner decisions 65+68; shard:slus_main; src/main/func_8001F590.c
+0x8001F678	func_8001F678	card_dev_create_save_screen	owner decisions 65+68; shard:slus_main; src/main/func_8001F678.c
+0x8001F720	func_8001F720	card_dev_refresh_save_screen	owner decisions 65+68; shard:slus_main; src/main/func_8001F720.c
+0x8001FA74	func_8001FA74	card_dev_start_default_screen	owner decisions 65+68; shard:slus_main; src/main/func_8001FA74.c
+0x8001FB74	func_8001FB74	card_dev_load_wait_countdown	owner decisions 65+68; shard:slus_main; src/main/func_8001FB74.c
+0x8001FF0C	func_8001FF0C	card_dev_load_set_object_value	owner decisions 65+68; shard:slus_main; src/main/func_8001FF0C.c
+0x8001FF14	func_8001FF14	card_dev_load_forward_object_value	owner decisions 65+68; shard:slus_main; src/main/func_8001FF14.c
+0x8001FF34	func_8001FF34	card_dev_update_load_slot_highlight	owner decisions 65+68; shard:slus_main; src/main/func_8001FF34.c
+0x8002001C	func_8002001C	card_dev_create_load_screen	owner decisions 65+68; shard:slus_main; src/main/func_8002001C.c
+0x80020160	func_80020160	card_dev_update_slot_pair_rows	owner decisions 65+68; shard:slus_main; src/main/func_80020160.c
+0x80020298	func_80020298	card_dev_init_two_rows	owner decisions 65+68; shard:slus_main; src/main/func_80020298.c
+0x80020458	func_80020458	card_dev_layout_two_rows_callbacks	owner decisions 65+68; shard:slus_main; src/main/func_80020458.c
+0x800204C4	func_800204C4	card_dev_layout_two_rows	owner decisions 65+68; shard:slus_main; src/main/func_800204C4.c
+0x80020558	func_80020558	card_dev_init_slot_rows	owner decisions 65+68; shard:slus_main; src/main/func_80020558.c
+0x800205A8	func_800205A8	card_dev_bind_slot_rows_template	owner decisions 65+68; shard:slus_main; src/main/func_800205A8.c
+0x800207D4	func_800207D4	card_dev_flag_slot_dirty	owner decisions 65+68; shard:slus_main; src/main/func_800207D4.c
+0x80020830	func_80020830	card_dev_set_slot_value_checked	owner decisions 65+68; shard:slus_main; src/main/func_80020830.c
+0x8002087C	func_8002087C	card_dev_refresh_slot_outputs	owner decisions 65+68; shard:slus_main; src/main/func_8002087C.c
+0x8002089C	func_8002089C	card_dev_init_output_pointers	owner decisions 65+68; shard:slus_main; src/main/func_8002089C.c
+0x800208D8	func_800208D8	card_dev_bind_slot_label	owner decisions 65+68; shard:slus_main; src/main/func_800208D8.c
+0x80020AEC	func_80020AEC	card_dev_bind_info_template	owner decisions 65+68; shard:slus_main; src/main/func_80020AEC.c
+0x80020BC8	func_80020BC8	card_sme_set_word	owner decisions 65+68; shard:slus_main; src/main/func_80020BC8.c
+0x80020D0C	func_80020D0C	card_sme_fade_entry	owner decisions 65+68; shard:slus_main; src/main/func_80020D0C.c
+0x80020D90	func_80020D90	card_sme_commit_pending_value	owner decisions 65+68; shard:slus_main; src/main/func_80020D90.c
+0x80021394	func_80021394	card_dev_set_record_fields	owner decisions 65+68; shard:slus_main; src/main/func_80021394.c
+0x804083A0	func_804083A0	card_dev_create_slot_screen_objects	owner decisions 65+68; shard:slus_main; src/main/func_800213A0.c
+0x8040855C	func_8040855C	card_dev_enter_mode_first_effect	owner decisions 65+68; shard:slus_main; src/main/func_8002155C.c
+0x8040859C	func_8040859C	card_dev_enter_mode_second_effect	owner decisions 65+68; shard:slus_main; src/main/func_8002159C.c
+0x804085DC	func_804085DC	card_dev_enter_mode_default_effect	owner decisions 65+68; shard:slus_main; src/main/func_800215DC.c
+0x8040861C	func_8040861C	libcard_query_status	owner decisions 65+68; shard:slus_main; src/main/func_8002161C.c
+0x80408684	func_80408684	libcard_select_slot	owner decisions 65+68; shard:slus_main; src/main/func_80021684.c
+0x804086DC	func_804086DC	libcard_init	owner decisions 65+68; shard:slus_main; src/main/func_800216DC.c
+0x80408730	func_80408730	libcard_start	owner decisions 65+68; shard:slus_main; src/main/func_80021730.c
+0x80408768	func_80408768	libcard_stop	owner decisions 65+68; shard:slus_main; src/main/func_80021768.c
+0x800438E4	func_800438E4	get_scaled_byte_value	owner decisions 65+68; shard:slus_main; src/slus/code12.c
+0x8005E7B0	func_8005E7B0	read_spu_register_pair	owner decisions 65+68; shard:slus_main; src/slus/code15.c
+0x8005097C	func_8005097C	init_panel_prims	owner decisions 65+68; shard:slus_main; src/slus/code4.c
+0x80047DB8	func_80047DB8	queue_cd_resource	owner decisions 65+68; shard:slus_main; src/slus/code7.c
+0x8004B404	func_8004B404	create_callback_pair_default	owner decisions 65+68; shard:slus_main; src/slus/code7.c
+0x80033B78	func_80033B78	clear_resident_bit	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80033B78.c
+0x80033B9C	func_80033B9C	set_resident_bit	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80033B9C.c
+0x80033BC0	func_80033BC0	test_resident_bit	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80033BC0.c
+0x80033CD8	func_80033CD8	register_node_if_unregistered	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80033CD8.c
+0x80033D08	func_80033D08	unlink_node_if_registered	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80033D08.c
+0x80034E48	func_80034E48	reset_graphics_state	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80034E48.c
+0x80034EB4	func_80034EB4	clear_graphics_record	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80034EB4.c
+0x80034EF8	func_80034EF8	init_graphics_state_fields	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80034EF8.c
+0x80034F58	func_80034F58	create_default_window_object	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80034F58.c
+0x80034F9C	func_80034F9C	set_flag_if_list_nonempty	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80034F9C.c
+0x80034FD0	func_80034FD0	is_list_nonempty	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80034FD0.c
+0x800350D4	func_800350D4	remove_all_controller_nodes	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800350D4.c
+0x80035208	func_80035208	call_script	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80035208.c
+0x80035234	func_80035234	start_script	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80035234.c
+0x80035260	func_80035260	set_script_address	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80035260.c
+0x8003528C	func_8003528C	set_script_record_buffer	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003528C.c
+0x800352B4	func_800352B4	flag_script_list_nonempty	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800352B4.c
+0x800352D8	func_800352D8	is_script_list_nonempty	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800352D8.c
+0x800352FC	func_800352FC	service_script_controller	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800352FC.c
+0x80035320	func_80035320	set_script_record_byte	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80035320.c
+0x80035614	func_80035614	init_window_object	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80035614.c
+0x8003566C	func_8003566C	scroll_window_x	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003566C.c
+0x80035820	func_80035820	cleanup_window_object	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80035820.c
+0x80035AAC	func_80035AAC	set_window_handler	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80035AAC.c
+0x80035BE0	func_80035BE0	window_wait_then_play_sound	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80035BE0.c
+0x80035E58	func_80035E58	create_window_overlay_object	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80035E58.c
+0x8003605C	func_8003605C	update_window_state	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003605C.c
+0x80036110	func_80036110	scroll_window_y	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80036110.c
+0x800362D0	func_800362D0	init_menu_choice_object	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800362D0.c
+0x80036434	func_80036434	confirm_menu_choice	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80036434.c
+0x800364EC	func_800364EC	init_menu_choice_timed	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800364EC.c
+0x80036574	func_80036574	update_menu_choice_timed	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80036574.c
+0x8003661C	func_8003661C	confirm_timed_menu_choice	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003661C.c
+0x8003666C	func_8003666C	init_menu_choice_wide	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003666C.c
+0x80036880	func_80036880	confirm_list_menu_choice	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80036880.c
+0x800368D0	func_800368D0	mark_menu_slot_used	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800368D0.c
+0x80036900	func_80036900	advance_cursor_extent	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80036900.c
+0x80036B10	func_80036B10	create_cursor_object	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80036B10.c
+0x80036C44	func_80036C44	update_cursor_callback	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80036C44.c
+0x80036D4C	func_80036D4C	create_blinking_cursor_object	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80036D4C.c
+0x80036ED4	func_80036ED4	init_cursor_display_object	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80036ED4.c
+0x80037030	func_80037030	init_cursor_color_object	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80037030.c
+0x8003719C	func_8003719C	init_cursor_sprite_object	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003719C.c
+0x80037394	func_80037394	update_cursor_blink_colors	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80037394.c
+0x80037534	func_80037534	unlink_cursor_when_finished	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80037534.c
+0x800375C0	func_800375C0	copy_window_params	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800375C0.c
+0x80037714	func_80037714	draw_window_rects	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80037714.c
+0x80037C7C	func_80037C7C	update_window_extents	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80037C7C.c
+0x80037D50	func_80037D50	update_text_row_scale	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80037D50.c
+0x80037D9C	func_80037D9C	init_message_window	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80037D9C.c
+0x80037F70	func_80037F70	sync_message_window_state	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80037F70.c
+0x8003800C	func_8003800C	sync_message_window_data	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003800C.c
+0x80038128	func_80038128	wait_message_countdown	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80038128.c
+0x800381D0	func_800381D0	select_message_wait_handler	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800381D0.c
+0x80038288	func_80038288	choose_message_wait_handler	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80038288.c
+0x800382F0	func_800382F0	finish_message_when_idle	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800382F0.c
+0x80038394	func_80038394	wait_message_resident_bit	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80038394.c
+0x800383D4	func_800383D4	wait_message_entry_ready	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800383D4.c
+0x80038408	func_80038408	wait_message_motion_accept	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80038408.c
+0x80038478	func_80038478	advance_message_on_flag	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80038478.c
+0x800384A8	func_800384A8	wait_message_voice_busy	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800384A8.c
+0x800384F8	func_800384F8	wait_message_voice_idle	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800384F8.c
+0x80038538	func_80038538	play_message_advance_sound	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80038538.c
+0x80038588	func_80038588	advance_message_on_confirm_flag	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80038588.c
+0x800385E8	func_800385E8	advance_message_on_input_flag	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800385E8.c
+0x80038648	func_80038648	advance_message_on_ready_flag	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80038648.c
+0x80038690	func_80038690	run_message_opcode_handler	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80038690.c
+0x8003875C	func_8003875C	run_message_table_handler	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003875C.c
+0x800387D0	func_800387D0	scroll_message_rows	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800387D0.c
+0x800389B4	func_800389B4	advance_message_when_voice_idle	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_800389B4.c
+0x80038CB8	func_80038CB8	render_message_glyphs	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80038CB8.c
+0x80038F48	func_80038F48	process_message_control_bytes	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80038F48.c
+0x80039AF0	func_80039AF0	read_message_byte	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80039AF0.c
+0x8003AC1C	func_8003AC1C	draw_glyph_row	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003AC1C.c
+0x8003AE28	func_8003AE28	move_vram_rect	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003AE28.c
+0x8003AE60	func_8003AE60	fill_vram_rect	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003AE60.c
+0x8003AEC8	func_8003AEC8	init_town_paired_state	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003AEC8.c
+0x8003AEF8	func_8003AEF8	run_deferred_callbacks	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003AEF8.c
+0x8003B06C	func_8003B06C	init_town_runtime_objects	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B06C.c
+0x8003B0B4	func_8003B0B4	setup_town_scene	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B0B4.c
+0x8003B188	func_8003B188	queue_town_movie_first	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B188.c
+0x8003B1B4	func_8003B1B4	init_town_runtime_sleep	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B1B4.c
+0x8003B1E4	func_8003B1E4	queue_town_movie_second	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B1E4.c
+0x8003B210	func_8003B210	init_town_runtime	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B210.c
+0x8003B238	func_8003B238	queue_town_movie_third	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B238.c
+0x8003B264	func_8003B264	init_town_runtime_with_sequence	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B264.c
+0x8003B298	func_8003B298	queue_town_movie_fourth	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B298.c
+0x8003B2C4	func_8003B2C4	init_town_runtime_with_sound_effect	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B2C4.c
+0x8003B2F8	func_8003B2F8	queue_town_movie_fifth	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B2F8.c
+0x8003B324	func_8003B324	move_town_vram_strip	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B324.c
+0x8003B35C	func_8003B35C	queue_town_movie_and_load_resources	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B35C.c
+0x8003B400	func_8003B400	queue_town_movie_sixth	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B400.c
+0x8003B42C	func_8003B42C	set_resident_mode_flags	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B42C.c
+0x8003B64C	func_8003B64C	clear_town_item_entries	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B64C.c
+0x8003B8DC	func_8003B8DC	delete_all_town_items	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B8DC.c
+0x8003B92C	func_8003B92C	add_counter_increment_capped	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B92C.c
+0x8003B988	func_8003B988	reset_town_items	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B988.c
+0x8003B9B8	func_8003B9B8	delete_items_and_reset_state	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003B9B8.c
+0x8003BA24	func_8003BA24	change_map_by_home_rank	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003BA24.c
+0x8003BA60	func_8003BA60	change_map_by_home_rank_secondary	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003BA60.c
+0x8003BA9C	func_8003BA9C	change_map_by_home_rank_tertiary	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003BA9C.c
+0x8003BAD8	func_8003BAD8	select_second_house_map	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003BAD8.c
+0x8003C0C8	func_8003C0C8	update_node_registration	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003C0C8.c
+0x8003C24C	func_8003C24C	begin_fade_to_black	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003C24C.c
+0x8003C2B8	func_8003C2B8	clear_fade_manager	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003C2B8.c
+0x8003C2F8	func_8003C2F8	begin_fade_out_intensity	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003C2F8.c
+0x8003C364	func_8003C364	flag_fade_manager_dirty	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003C364.c
+0x8003C3B4	func_8003C3B4	run_node_callback_and_set_marker	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003C3B4.c
+0x8003C450	func_8003C450	ramp_fade_up_fast	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003C450.c
+0x8003C488	func_8003C488	ramp_fade_up_slow	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003C488.c
+0x8003C4C8	func_8003C4C8	fade_manager_step_black	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003C4C8.c
+0x8003C520	func_8003C520	fade_manager_step_out	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003C520.c
+0x8003C890	func_8003C890	has_table_entry	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003C890.c
+0x8003C8E4	func_8003C8E4	find_sound_table_entry	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_8003C8E4.c
+0x8003D0F0	func_8003D0F0	draw_sprite_list	owner decisions 65+68; shard:slus_main; src/slus/w_8003D0F0.c
+0x8003DF74	func_8003DF74	get_sprite_attachment_vector	owner decisions 65+68; shard:slus_main; src/slus/w_8003DF74.c
+0x8003FB98	func_8003FB98	evict_node_and_allocate	owner decisions 65+68; shard:slus_main; src/slus/w_8003FB98.c
+0x8003FD64	func_8003FD64	allocate_list_node	owner decisions 65+68; shard:slus_main; src/slus/w_8003FD64.c
+0x800400B8	func_800400B8	update_active_nodes	owner decisions 65+68; shard:slus_main; src/slus/w_800400B8.c
+0x8004068C	func_8004068C	decompress_lz	owner decisions 65+68; shard:slus_main; src/slus/w_8004068C.c
+0x80040C08	func_80040C08	select_next_scene_mode	owner decisions 65+68; shard:slus_main; src/slus/w_80040C08.c
+0x80041818	func_80041818	play_scene_movie	owner decisions 65+68; shard:slus_main; src/slus/w_80041818.c
+0x80041A10	func_80041A10	init_frame_buffers	owner decisions 65+68; shard:slus_main; src/slus/w_80041A10.c
+0x80041E70	func_80041E70	apply_entity_effects	owner decisions 65+68; shard:slus_main; src/slus/w_80041E70.c
+0x80042710	func_80042710	copy_entity_record	owner decisions 65+68; shard:slus_main; src/slus/w_80042710.c
+0x80042900	func_80042900	get_entity_effect_value	owner decisions 65+68; shard:slus_main; src/slus/w_80042900.c
+0x80042984	func_80042984	update_owner_class_bits	owner decisions 65+68; shard:slus_main; src/slus/w_80042984.c
+0x800429E4	func_800429E4	get_entity_class	owner decisions 65+68; shard:slus_main; src/slus/w_800429E4.c
+0x80042A80	func_80042A80	get_item_category_flags	owner decisions 65+68; shard:slus_main; src/slus/w_80042A80.c
+0x80042B68	func_80042B68	clear_slots_of_type	owner decisions 65+68; shard:slus_main; src/slus/w_80042B68.c
+0x80043458	func_80043458	reset_entry_flags	owner decisions 65+68; shard:slus_main; src/slus/w_80043458.c
+0x800434E4	func_800434E4	reset_state_defaults	owner decisions 65+68; shard:slus_main; src/slus/w_800434E4.c
+0x80043568	func_80043568	reset_tagged_entry_states	owner decisions 65+68; shard:slus_main; src/slus/w_80043568.c
+0x80043868	func_80043868	calc_gauge_fill	owner decisions 65+68; shard:slus_main; src/slus/w_80043868.c
+0x8004397C	func_8004397C	set_code_for_entity_mode	owner decisions 65+68; shard:slus_main; src/slus/w_8004397C.c
+0x80043C30	func_80043C30	init_frame_buffers_for_scene	owner decisions 65+68; shard:slus_main; src/slus/w_80043C30.c
+0x80043CD0	func_80043CD0	set_next_scene_phase	owner decisions 65+68; shard:slus_main; src/slus/w_80043CD0.c
+0x8004491C	func_8004491C	register_node	owner decisions 65+68; shard:slus_main; src/slus/w_8004491C.c
+0x80044A50	func_80044A50	unlink_node	owner decisions 65+68; shard:slus_main; src/slus/w_80044A50.c
+0x80044BB0	func_80044BB0	draw_linked_sprites	owner decisions 65+68; shard:slus_main; src/slus/w_80044BB0.c
+0x80044D24	func_80044D24	draw_sprite_parts	owner decisions 65+68; shard:slus_main; src/slus/w_80044D24.c
+0x80045C34	func_80045C34	draw_linked_sprites_clipped	owner decisions 65+68; shard:slus_main; src/slus/w_80045C34.c
+0x80045CC4	func_80045CC4	draw_sprite_clipped	owner decisions 65+68; shard:slus_main; src/slus/w_80045CC4.c
+0x800463EC	func_800463EC	draw_lit_mesh	owner decisions 65+68; shard:slus_main; src/slus/w_800463EC.c
+0x80046884	func_80046884	build_screen_outline	owner decisions 65+68; shard:slus_main; src/slus/w_80046884.c
+0x80046A5C	func_80046A5C	world_to_local_position	owner decisions 65+68; shard:slus_main; src/slus/w_80046A5C.c
+0x800475A4	func_800475A4	upload_entry_textures_wide	owner decisions 65+68; shard:slus_main; src/slus/w_800475A4.c
+0x8004761C	func_8004761C	upload_entry_textures_narrow	owner decisions 65+68; shard:slus_main; src/slus/w_8004761C.c
+0x80047694	func_80047694	upload_entry_textures	owner decisions 65+68; shard:slus_main; src/slus/w_80047694.c
+0x80047784	func_80047784	select_sprite_entry	owner decisions 65+68; shard:slus_main; src/slus/w_80047784.c
+0x800477F4	func_800477F4	advance_actor_step_sequence	owner decisions 65+68; shard:slus_main; src/slus/w_800477F4.c
+0x800482C8	func_800482C8	upload_eligible_entries_by_mode	owner decisions 65+68; shard:slus_main; src/slus/w_800482C8.c
+0x8004878C	func_8004878C	decode_compressed_image_to_vram	owner decisions 65+68; shard:slus_main; src/slus/w_8004878C.c
+0x80048870	func_80048870	upload_tile_texture	owner decisions 65+68; shard:slus_main; src/slus/w_80048870.c
+0x80048998	func_80048998	register_sprite_slot	owner decisions 65+68; shard:slus_main; src/slus/w_80048998.c
+0x80048A44	func_80048A44	set_sprite_animation_frame	owner decisions 65+68; shard:slus_main; src/slus/w_80048A44.c
+0x80048AC8	func_80048AC8	step_actor_animation	owner decisions 65+68; shard:slus_main; src/slus/w_80048AC8.c
+0x80048D60	func_80048D60	refresh_vram_blocks_on_flag	owner decisions 65+68; shard:slus_main; src/slus/w_80048D60.c
+0x80049150	func_80049150	allocate_entry_slots	owner decisions 65+68; shard:slus_main; src/slus/w_80049150.c
+0x800492B0	func_800492B0	resolve_indexed_value	owner decisions 65+68; shard:slus_main; src/slus/w_800492B0.c
+0x80049330	func_80049330	resolve_record_value	owner decisions 65+68; shard:slus_main; src/slus/w_80049330.c
+0x80049374	func_80049374	get_item_name_text	owner decisions 65+68; shard:slus_main; src/slus/w_80049374.c
+0x8004951C	func_8004951C	format_item_name	owner decisions 65+68; shard:slus_main; src/slus/w_8004951C.c
+0x80049790	func_80049790	create_item_label	owner decisions 65+68; shard:slus_main; src/slus/w_80049790.c
+0x800499E8	func_800499E8	build_tinted_gradient_rect	owner decisions 65+68; shard:slus_main; src/slus/w_800499E8.c
+0x8004A24C	func_8004A24C	init_menu_panel	owner decisions 65+68; shard:slus_main; src/slus/w_8004A24C.c
+0x8004A464	func_8004A464	flag_object_and_release_inner	owner decisions 65+68; shard:slus_main; src/slus/w_8004A464.c
+0x8004A574	func_8004A574	calc_item_value	owner decisions 65+68; shard:slus_main; src/slus/w_8004A574.c
+0x8004A6C0	func_8004A6C0	find_item_data_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8004A6C0.c
+0x8004A700	func_8004A700	alloc_item_data_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8004A700.c
+0x8004A784	func_8004A784	get_item_data_record	owner decisions 65+68; shard:slus_main; src/slus/w_8004A784.c
+0x8004A7D8	func_8004A7D8	free_item_data_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8004A7D8.c
+0x8004A83C	func_8004A83C	get_or_create_item_data	owner decisions 65+68; shard:slus_main; src/slus/w_8004A83C.c
+0x8004AA78	func_8004AA78	shuffle_category_item_data	owner decisions 65+68; shard:slus_main; src/slus/w_8004AA78.c
+0x8004AC3C	func_8004AC3C	select_item_data	owner decisions 65+68; shard:slus_main; src/slus/w_8004AC3C.c
+0x8004AEC4	func_8004AEC4	selection_sort_elements	owner decisions 65+68; shard:slus_main; src/slus/w_8004AEC4.c
+0x8004B1DC	func_8004B1DC	release_counted_entries	owner decisions 65+68; shard:slus_main; src/slus/w_8004B1DC.c
+0x8004B248	func_8004B248	release_null_terminated_entries	owner decisions 65+68; shard:slus_main; src/slus/w_8004B248.c
+0x8004B324	func_8004B324	mark_record_pair_dirty	owner decisions 65+68; shard:slus_main; src/slus/w_8004B324.c
+0x8004B568	func_8004B568	read_vram_blocks_to_buffer	owner decisions 65+68; shard:slus_main; src/slus/w_8004B568.c
+0x8004B660	func_8004B660	open_view_primary	owner decisions 65+68; shard:slus_main; src/slus/w_8004B660.c
+0x8004B6BC	func_8004B6BC	open_view_secondary	owner decisions 65+68; shard:slus_main; src/slus/w_8004B6BC.c
+0x8004B718	func_8004B718	open_view_default	owner decisions 65+68; shard:slus_main; src/slus/w_8004B718.c
+0x8004B774	func_8004B774	open_view_alternate	owner decisions 65+68; shard:slus_main; src/slus/w_8004B774.c
+0x8004B854	func_8004B854	create_item_view_for_entry	owner decisions 65+68; shard:slus_main; src/slus/w_8004B854.c
+0x8004BDDC	func_8004BDDC	build_gouraud_quad_packet	owner decisions 65+68; shard:slus_main; src/slus/w_8004BDDC.c
+0x8004C080	func_8004C080	apply_command_colors	owner decisions 65+68; shard:slus_main; src/slus/w_8004C080.c
+0x8004C36C	func_8004C36C	draw_tinted_node_sprites	owner decisions 65+68; shard:slus_main; src/slus/w_8004C36C.c
+0x8004CAA0	func_8004CAA0	draw_tinted_node_sprites_scratch	owner decisions 65+68; shard:slus_main; src/slus/w_8004CAA0.c
+0x8004CD28	func_8004CD28	emit_gpu_packets	owner decisions 65+68; shard:slus_main; src/slus/w_8004CD28.c
+0x8004D294	func_8004D294	set_camera_targets	owner decisions 65+68; shard:slus_main; src/slus/w_8004D294.c
+0x8004D45C	func_8004D45C	set_camera_targets_packed	owner decisions 65+68; shard:slus_main; src/slus/w_8004D45C.c
+0x8004D5D0	func_8004D5D0	copy_camera_rotation	owner decisions 65+68; shard:slus_main; src/slus/w_8004D5D0.c
+0x8004D690	func_8004D690	run_view_slot_callback	owner decisions 65+68; shard:slus_main; src/slus/w_8004D690.c
+0x8004D70C	func_8004D70C	run_view_callbacks	owner decisions 65+68; shard:slus_main; src/slus/w_8004D70C.c
+0x8004D75C	func_8004D75C	move_view_record	owner decisions 65+68; shard:slus_main; src/slus/w_8004D75C.c
+0x8004D7A8	func_8004D7A8	queue_view_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8004D7A8.c
+0x8004D7E8	func_8004D7E8	restore_view_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8004D7E8.c
+0x8004DA74	func_8004DA74	decode_note_text	owner decisions 65+68; shard:slus_main; src/slus/w_8004DA74.c
+0x8004E0AC	func_8004E0AC	poll_resident_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8004E0AC.c
+0x8004EAC4	func_8004EAC4	write_char_pair	owner decisions 65+68; shard:slus_main; src/slus/w_8004EAC4.c
+0x8004F1E8	func_8004F1E8	init_tpage_prims	owner decisions 65+68; shard:slus_main; src/slus/w_8004F1E8.c
+0x8004FF20	func_8004FF20	call_state_callback	owner decisions 65+68; shard:slus_main; src/slus/w_8004FF20.c
+0x8004FFA8	func_8004FFA8	run_state_callback_and_restore	owner decisions 65+68; shard:slus_main; src/slus/w_8004FFA8.c
+0x80050308	func_80050308	handle_object_input	owner decisions 65+68; shard:slus_main; src/slus/w_80050308.c
+0x800504B4	func_800504B4	decay_gauge_counters	owner decisions 65+68; shard:slus_main; src/slus/w_800504B4.c
+0x80050640	func_80050640	start_gauge_ramp	owner decisions 65+68; shard:slus_main; src/slus/w_80050640.c
+0x8005084C	func_8005084C	init_gauge_blocks	owner decisions 65+68; shard:slus_main; src/slus/w_8005084C.c
+0x800509C4	func_800509C4	set_gauge_context	owner decisions 65+68; shard:slus_main; src/slus/w_800509C4.c
+0x80050A00	func_80050A00	init_gauge_object	owner decisions 65+68; shard:slus_main; src/slus/w_80050A00.c
+0x80050CDC	func_80050CDC	fade_effect_parts	owner decisions 65+68; shard:slus_main; src/slus/w_80050CDC.c
+0x800510A0	func_800510A0	load_scene_record	owner decisions 65+68; shard:slus_main; src/slus/w_800510A0.c
+0x800510DC	func_800510DC	propagate_scene_flag	owner decisions 65+68; shard:slus_main; src/slus/w_800510DC.c
+0x80051164	func_80051164	start_scene_load_task	owner decisions 65+68; shard:slus_main; src/slus/w_80051164.c
+0x80051548	func_80051548	update_staged_motion_effect	owner decisions 65+68; shard:slus_main; src/slus/w_80051548.c
+0x80051CC4	func_80051CC4	update_fade_in_out_effect	owner decisions 65+68; shard:slus_main; src/slus/w_80051CC4.c
+0x80051E94	func_80051E94	init_fade_in_out_effect	owner decisions 65+68; shard:slus_main; src/slus/w_80051E94.c
+0x80051F58	func_80051F58	update_color_fade_effect	owner decisions 65+68; shard:slus_main; src/slus/w_80051F58.c
+0x800520B4	func_800520B4	init_color_fade_effect	owner decisions 65+68; shard:slus_main; src/slus/w_800520B4.c
+0x800525D4	func_800525D4	create_cd_cue_effect	owner decisions 65+68; shard:slus_main; src/slus/w_800525D4.c
+0x80052FE8	func_80052FE8	init_shaded_line_effect	owner decisions 65+68; shard:slus_main; src/slus/w_80052FE8.c
+0x800530C4	func_800530C4	reset_group_and_flag_children	owner decisions 65+68; shard:slus_main; src/slus/w_800530C4.c
+0x8005313C	func_8005313C	play_timed_animation_sequence	owner decisions 65+68; shard:slus_main; src/slus/w_8005313C.c
+0x80053858	func_80053858	build_text_glyph_sprites	owner decisions 65+68; shard:slus_main; src/slus/w_80053858.c
+0x80053F98	func_80053F98	init_audio_subsystem	owner decisions 65+68; shard:slus_main; src/slus/w_80053F98.c
+0x800540A8	func_800540A8	reset_audio_command_state	owner decisions 65+68; shard:slus_main; src/slus/w_800540A8.c
+0x800541E8	func_800541E8	reinit_audio_voices	owner decisions 65+68; shard:slus_main; src/slus/w_800541E8.c
+0x80054228	func_80054228	stop_audio_playback	owner decisions 65+68; shard:slus_main; src/slus/w_80054228.c
+0x800543C8	func_800543C8	service_audio_channels	owner decisions 65+68; shard:slus_main; src/slus/w_800543C8.c
+0x8005440C	func_8005440C	service_audio_events	owner decisions 65+68; shard:slus_main; src/slus/w_8005440C.c
+0x80054538	func_80054538	update_audio_ramp	owner decisions 65+68; shard:slus_main; src/slus/w_80054538.c
+0x800545F4	func_800545F4	update_audio_fade	owner decisions 65+68; shard:slus_main; src/slus/w_800545F4.c
+0x800546B0	func_800546B0	check_cd_stream_end	owner decisions 65+68; shard:slus_main; src/slus/w_800546B0.c
+0x80054704	func_80054704	update_cd_stream_flags	owner decisions 65+68; shard:slus_main; src/slus/w_80054704.c
+0x80054788	func_80054788	dispatch_audio_event	owner decisions 65+68; shard:slus_main; src/slus/w_80054788.c
+0x800549FC	func_800549FC	select_marker_table	owner decisions 65+68; shard:slus_main; src/slus/w_800549FC.c
+0x80054C58	func_80054C58	activate_pending_playback	owner decisions 65+68; shard:slus_main; src/slus/w_80054C58.c
+0x8005500C	func_8005500C	dispatch_audio_command	owner decisions 65+68; shard:slus_main; src/slus/w_8005500C.c
+0x800550E8	func_800550E8	start_pending_selection	owner decisions 65+68; shard:slus_main; src/slus/w_800550E8.c
+0x8005537C	func_8005537C	set_playback_note	owner decisions 65+68; shard:slus_main; src/slus/w_8005537C.c
+0x800553D4	func_800553D4	handle_audio_status_code	owner decisions 65+68; shard:slus_main; src/slus/w_800553D4.c
+0x8005552C	func_8005552C	decode_audio_selector	owner decisions 65+68; shard:slus_main; src/slus/w_8005552C.c
+0x800557C8	func_800557C8	pop_audio_queue	owner decisions 65+68; shard:slus_main; src/slus/w_800557C8.c
+0x80055864	func_80055864	init_audio_staging_buffers	owner decisions 65+68; shard:slus_main; src/slus/w_80055864.c
+0x800559B4	func_800559B4	reset_audio_status	owner decisions 65+68; shard:slus_main; src/slus/w_800559B4.c
+0x80055ADC	func_80055ADC	build_record_pointer_table	owner decisions 65+68; shard:slus_main; src/slus/w_80055ADC.c
+0x80056E10	func_80056E10	start_channel_note	owner decisions 65+68; shard:slus_main; src/slus/w_80056E10.c
+0x800588C8	func_800588C8	find_sequence_tag	owner decisions 65+68; shard:slus_main; src/slus/w_800588C8.c
+0x80058B2C	func_80058B2C	read_sequence_halfword	owner decisions 65+68; shard:slus_main; src/slus/w_80058B2C.c
+0x80058B70	func_80058B70	init_sequence_playback	owner decisions 65+68; shard:slus_main; src/slus/w_80058B70.c
+0x80058E6C	func_80058E6C	handle_sequence_meta_event	owner decisions 65+68; shard:slus_main; src/slus/w_80058E6C.c
+0x8005947C	func_8005947C	dispatch_sequence_event	owner decisions 65+68; shard:slus_main; src/slus/w_8005947C.c
+0x80059D60	func_80059D60	get_sequence_play_state	owner decisions 65+68; shard:slus_main; src/slus/w_80059D60.c
+0x80059F8C	func_80059F8C	reserve_sound_ram_block	owner decisions 65+68; shard:slus_main; src/slus/w_80059F8C.c
+0x8005A1D0	func_8005A1D0	release_sound_ram_block	owner decisions 65+68; shard:slus_main; src/slus/w_8005A1D0.c
+0x8005A26C	func_8005A26C	reset_sound_slots	owner decisions 65+68; shard:slus_main; src/slus/w_8005A26C.c
+0x8005A33C	func_8005A33C	service_audio_timer	owner decisions 65+68; shard:slus_main; src/slus/w_8005A33C.c
+0x8005A3F0	func_8005A3F0	set_audio_entry_count	owner decisions 65+68; shard:slus_main; src/slus/w_8005A3F0.c
+0x8005A608	func_8005A608	init_sound_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8005A608.c
+0x8005A778	func_8005A778	init_sound_slot_from_header	owner decisions 65+68; shard:slus_main; src/slus/w_8005A778.c
+0x8005A90C	func_8005A90C	upload_sample_to_sound_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8005A90C.c
+0x8005AAA8	func_8005AAA8	bind_sound_slot_owner	owner decisions 65+68; shard:slus_main; src/slus/w_8005AAA8.c
+0x8005AB50	func_8005AB50	read_sound_slot_chunk	owner decisions 65+68; shard:slus_main; src/slus/w_8005AB50.c
+0x8005AC68	func_8005AC68	free_sound_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8005AC68.c
+0x8005B070	func_8005B070	suspend_sequence_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8005B070.c
+0x8005B16C	func_8005B16C	activate_sequence_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8005B16C.c
+0x8005B378	func_8005B378	set_audio_bank	owner decisions 65+68; shard:slus_main; src/slus/w_8005B378.c
+0x8005B470	func_8005B470	copy_sound_slot_info	owner decisions 65+68; shard:slus_main; src/slus/w_8005B470.c
+0x8005C130	func_8005C130	start_sequence_in_free_slot	owner decisions 65+68; shard:slus_main; src/slus/w_8005C130.c
+0x8005C5D0	func_8005C5D0	update_sequence_slot_state	owner decisions 65+68; shard:slus_main; src/slus/w_8005C5D0.c
+0x8009B2BC	func_8009B2BC	noop_hook	owner decisions 65+68; shard:town; src/town/func_8009DB5C.c
+0x8009C46C	func_8009C46C	run_object_secondary_callback	owner decisions 65+68; shard:town; src/town/func_8009ED0C.c
+0x800A9C6C	func_800A9C6C	test_resident_bit_11fa	owner decisions 65+68; shard:town; src/town/func_800AC50C.c
+0x800A9C8C	func_800A9C8C	test_resident_bit_11fb	owner decisions 65+68; shard:town; src/town/func_800AC52C.c
+0x800B1F10	func_800B1F10	dispatch_indexed_handler	owner decisions 65+68; shard:town; src/town/func_800B47B0.c
+0x800B1F48	func_800B1F48	dispatch_indexed_handler_alt	owner decisions 65+68; shard:town; src/town/func_800B47E8.c
+0x800B2344	func_800B2344	find_unused_default_pool_slot	owner decisions 65+68; shard:town; src/town/func_800B4BE4.c
+0x800B2400	func_800B2400	move_item_to_list	owner decisions 65+68; shard:town; src/town/func_800B4CA0.c
+0x800B2A38	func_800B2A38	fill_item_value_buffer	owner decisions 65+68; shard:town; src/town/func_800B52D8.c
+0x800BB6C4	func_800BB6C4	clear_object_link_and_complete	owner decisions 65+68; shard:town; src/town/func_800BDF64.c
+0x800BB720	func_800BB720	init_object_with_countdown	owner decisions 65+68; shard:town; src/town/func_800BDFC0.c
+0x800BF3F0	func_800BF3F0	spawn_fixed_effect_object	owner decisions 65+68; shard:town; src/town/func_800C1C90.c
+0x800BF654	func_800BF654	spawn_effect_object_with_packet	owner decisions 65+68; shard:town; src/town/func_800C1EF4.c
+0x800C3C5C	func_800C3C5C	apply_object_setup_update	owner decisions 65+68; shard:town; src/town/func_800C64FC.c
+0x800C51DC	func_800C51DC	init_actor_handler_state	owner decisions 65+68; shard:town; src/town/func_800C7A7C.c
+0x800C5214	func_800C5214	create_user_data_object_b	owner decisions 65+68; shard:town; src/town/func_800C7AB4.c
+0x800C5368	func_800C5368	init_actor_slot_30	owner decisions 65+68; shard:town; src/town/func_800C7C08.c
+0x800C86CC	func_800C86CC	forward_three_args	owner decisions 65+68; shard:town; src/town/func_800CAF6C.c
+0x800C8A68	func_800C8A68	create_offset_effect_object	owner decisions 65+68; shard:town; src/town/func_800CB308.c
+0x800C8C3C	func_800C8C3C	step_falling_object	owner decisions 65+68; shard:town; src/town/func_800CB4DC.c
+0x804056CC	func_804056CC	register_owner_handler_table	owner decisions 65+68; shard:town; src/town/func_802EE6CC.c
+0x804057A8	func_804057A8	write_value_through_pointer	owner decisions 65+68; shard:town; src/town/func_802EE7A8.c
+0x80408394	func_80408394	set_record_values	owner decisions 65+68; shard:town; src/town/func_802F1394.c
+0x802F14DC	func_802F14DC	register_object_handles_and_flag	owner decisions 65+68; shard:town; src/town/func_802F14DC.c
+0x8001DD74	func_8001DD74	blit_default_rectangle	owner decisions 65+68; shard:town; src/town/func_80333574.c
+0x8001FBB4	func_8001FBB4	noop_hook_b	owner decisions 65+68; shard:town; src/town/func_80353EE4.c
+0x8001FBD4	func_8001FBD4	noop_hook_c	owner decisions 65+68; shard:town; src/town/func_80353F04.c
+0x80468248	func_80468248	run_scene_service_218	owner decisions 65+68; shard:town; src/town/func_80468248.c
+0x80019358	func_80019358	run_event_a1	owner decisions 65+68; shard:town; src/town/func_80468358.c
+0x80019378	func_80019378	run_scene_service_310_twice	owner decisions 65+68; shard:town; src/town/func_80468378.c
+0x8046A1E4	func_8046A1E4	store_entry_value_in_state_6	owner decisions 65+68; shard:town; src/town/func_8046A1E4.c
+0x8046A45C	func_8046A45C	store_entry_value_in_state_4	owner decisions 65+68; shard:town; src/town/func_8046A45C.c
+0x8046B708	func_8046B708	run_scene_service_2d8_with_3	owner decisions 65+68; shard:town; src/town/func_8046B708.c
+0x8001DA24	func_8001DA24	is_pair_result_valid	owner decisions 65+68; shard:town; src/town/func_8046CA24.c
+0x8001E7E4	func_8001E7E4	record_value_table_contains_first_byte	owner decisions 65+68; shard:town; src/town/func_8046D7E4.c
+0x80017100	func_80017100	lookup_entry_with_default_fallback	owner decisions 65+68; shard:town; src/town/func_80470100.c
+0x800175B4	func_800175B4	lookup_entry_with_fallback_b	owner decisions 65+68; shard:town; src/town/func_804705B4.c
+0x80017724	func_80017724	check_ready_or_run_followup	owner decisions 65+68; shard:town; src/town/func_80470724.c
+0x80017758	func_80017758	lookup_entry_with_fallback_c	owner decisions 65+68; shard:town; src/town/func_80470758.c
+0x8001799C	func_8001799C	lookup_entry_with_fallback_after_refresh	owner decisions 65+68; shard:town; src/town/func_8047099C.c
+0x80017A70	func_80017A70	lookup_entry_with_fallback_d	owner decisions 65+68; shard:town; src/town/func_80470A70.c
+0x80017B40	func_80017B40	lookup_entry_with_fallback_e	owner decisions 65+68; shard:town; src/town/func_80470B40.c
+0x80018198	func_80018198	clear_state_history_and_head_indices	owner decisions 65+68; shard:town; src/town/func_80471198.c
+0x800182E0	func_800182E0	store_price_from_entries	owner decisions 65+68; shard:town; src/town/func_804712E0.c
+0x8001830C	func_8001830C	has_enough_money_for_stored_price	owner decisions 65+68; shard:town; src/town/func_8047130C.c
+0x80018380	func_80018380	clear_entry_buffer	owner decisions 65+68; shard:town; src/town/func_80471380.c
+0x800183A8	func_800183A8	get_stored_price	owner decisions 65+68; shard:town; src/town/func_804713A8.c
+0x800183E0	func_800183E0	queue_entry_buffer	owner decisions 65+68; shard:town; src/town/func_804713E0.c
+0x800186D8	func_800186D8	get_record_value_tier	owner decisions 65+68; shard:town; src/town/func_804716D8.c
+0x800187E8	func_800187E8	invoke_system_callback_11	owner decisions 65+68; shard:town; src/town/func_804717E8.c
+0x80018F74	func_80018F74	apply_four_values_and_refresh	owner decisions 65+68; shard:town; src/town/func_80471F74.c
+0x80019098	func_80019098	call_value_handler_mode_0	owner decisions 65+68; shard:town; src/town/func_80472098.c
+0x800190B8	func_800190B8	call_value_handler_index_plus_4	owner decisions 65+68; shard:town; src/town/func_804720B8.c
+0x80019778	func_80019778	is_four_arg_result_valid	owner decisions 65+68; shard:town; src/town/func_80472778.c
+0x8001A5BC	func_8001A5BC	call_scene_service_280_d1	owner decisions 65+68; shard:town; src/town/func_804735BC.c
+0x8001A634	func_8001A634	call_scene_service_30c_8000	owner decisions 65+68; shard:town; src/town/func_80473634.c
+0x8001A670	func_8001A670	call_scene_service_2f4_fixed	owner decisions 65+68; shard:town; src/town/func_80473670.c
+0x80017298	func_80017298	run_event_14	owner decisions 65+68; shard:town; src/town/func_80476298.c
+0x800172B8	func_800172B8	forward_request_with_local_template	owner decisions 65+68; shard:town; src/town/func_804762B8.c
+0x80017338	func_80017338	run_event_15	owner decisions 65+68; shard:town; src/town/func_80476338.c
+0x800173C0	func_800173C0	run_event_403_get_buffer	owner decisions 65+68; shard:town; src/town/func_804763C0.c
+0x804763E4	func_804763E4	run_scene_service_208_zero	owner decisions 65+68; shard:town; src/town/func_804763E4.c
+0x80018018	func_80018018	run_event_400	owner decisions 65+68; shard:town; src/town/func_80477018.c
+0x80018C84	func_80018C84	is_result_valid	owner decisions 65+68; shard:town; src/town/func_80477C84.c
+0x80016278	func_80016278	run_scene_service_26c_with_state	owner decisions 65+68; shard:town; src/town/func_8047E278.c
+0x800162B8	func_800162B8	run_scene_service_224	owner decisions 65+68; shard:town; src/town/func_8047E2B8.c
+0x80016328	func_80016328	call_scene_service_280_1705	owner decisions 65+68; shard:town; src/town/func_8047E328.c
+0x80016360	func_80016360	call_scene_service_280_1706	owner decisions 65+68; shard:town; src/town/func_8047E360.c
+0x80016408	func_80016408	invoke_system_callback_29	owner decisions 65+68; shard:town; src/town/func_8047E408.c
+0x80480198	func_80480198	run_scene_service_2dc_zero	owner decisions 65+68; shard:town; src/town/func_80480198.c
+0x800163D8	func_800163D8	prepare_and_register_entry_buffer	owner decisions 65+68; shard:town; src/town/func_804803D8.c
+0x8001789C	func_8001789C	is_pair_result_valid_b	owner decisions 65+68; shard:town; src/town/func_8048189C.c
+0x800182EC	func_800182EC	get_shared_entry_buffer_l	owner decisions 65+68; shard:town; src/town/func_804822EC.c
+0x800187DC	func_800187DC	record_value_table_contains_first_byte_c	owner decisions 65+68; shard:town; src/town/func_804827DC.c
+0x804B78EC	func_804B78EC	forward_stored_pair	owner decisions 65+68; shard:town; src/town/func_804B78EC.c
+0x804B791C	func_804B791C	set_global_entry_pair	owner decisions 65+68; shard:town; src/town/func_804B791C.c
+0x80016150	func_80016150	query_event_50d	owner decisions 65+68; shard:town; src/town/func_804B7950.c
+0x80016170	func_80016170	query_event_50e	owner decisions 65+68; shard:town; src/town/func_804B7970.c
+0x80016248	func_80016248	query_event_510	owner decisions 65+68; shard:town; src/town/func_804B7A48.c
+0x80016268	func_80016268	query_event_511	owner decisions 65+68; shard:town; src/town/func_804B7A68.c
+0x804B7AC0	func_804B7AC0	consume_ready_entry	owner decisions 65+68; shard:town; src/town/func_804B7AC0.c
+0x804B7B30	func_804B7B30	select_data_and_count_entry	owner decisions 65+68; shard:town; src/town/func_804B7B30.c
+0x80016C74	func_80016C74	request_entry_rescan	owner decisions 65+68; shard:town; src/town/func_804D1474.c
+0x80016C84	func_80016C84	find_eligible_entry_b	owner decisions 65+68; shard:town; src/town/func_804D1484.c
+0x8050E188	func_8050E188	is_state_counter_35be_at_least_51	owner decisions 65+68; shard:town; src/town/func_8050E188.c
+0x80016220	func_80016220	call_scene_service_280_b1	owner decisions 65+68; shard:town; src/town/func_8050E220.c
+0x8051E904	func_8051E904	lookup_entry_apply_record_code	owner decisions 65+68; shard:town; src/town/func_8051E904.c
+0x8051E954	func_8051E954	submit_three_word_command	owner decisions 65+68; shard:town; src/town/func_8051E954.c
+0x8051E9F4	func_8051E9F4	run_scene_services_20c_228	owner decisions 65+68; shard:town; src/town/func_8051E9F4.c
+0x8051EA54	func_8051EA54	run_events_5a5_5c2_and_reset	owner decisions 65+68; shard:town; src/town/func_8051EA54.c
+0x8051EA90	func_8051EA90	increment_and_check_three	owner decisions 65+68; shard:town; src/town/func_8051EA90.c
+0x8051EAB0	func_8051EAB0	is_script_flag_5bf_set	owner decisions 65+68; shard:town; src/town/func_8051EAB0.c
+0x8051EAD0	func_8051EAD0	run_events_1476_5c3	owner decisions 65+68; shard:town; src/town/func_8051EAD0.c
+0x8051EAF8	func_8051EAF8	is_player_in_target_region	owner decisions 65+68; shard:town; src/town/func_8051EAF8.c
+0x8051EB6C	func_8051EB6C	is_script_flag_9a_set	owner decisions 65+68; shard:town; src/town/func_8051EB6C.c
+0x8051EBA4	func_8051EBA4	is_script_flag_11fa_clear	owner decisions 65+68; shard:town; src/town/func_8051EBA4.c
+0x8051EC18	func_8051EC18	run_event_5c7_get_buffer	owner decisions 65+68; shard:town; src/town/func_8051EC18.c
+0x8051EC3C	func_8051EC3C	is_script_flag_5bc_set	owner decisions 65+68; shard:town; src/town/func_8051EC3C.c
+0x8051EC5C	func_8051EC5C	is_script_flag_5be_clear	owner decisions 65+68; shard:town; src/town/func_8051EC5C.c
+0x8051EC7C	func_8051EC7C	is_script_flag_5bd_set	owner decisions 65+68; shard:town; src/town/func_8051EC7C.c
+0x8051ECA4	func_8051ECA4	lookup_entry_value	owner decisions 65+68; shard:town; src/town/func_8051ECA4.c
+0x8051EE00	func_8051EE00	apply_event_5bc_and_record_code	owner decisions 65+68; shard:town; src/town/func_8051EE00.c
+0x8051FC84	func_8051FC84	run_event_5c8_and_set_entry_state	owner decisions 65+68; shard:town; src/town/func_8051FC84.c
+0x8051FCE8	func_8051FCE8	call_scene_service_280_with_flag_8000	owner decisions 65+68; shard:town; src/town/func_8051FCE8.c
+0x8051FD20	func_8051FD20	call_scene_service_280_1700	owner decisions 65+68; shard:town; src/town/func_8051FD20.c
+0x8051FD58	func_8051FD58	call_scene_service_280_with_flag_1000	owner decisions 65+68; shard:town; src/town/func_8051FD58.c
+0x8054FA64	func_8054FA64	reset_selection_index	owner decisions 65+68; shard:town; src/town/func_8054FA64.c
+0x8054FAA0	func_8054FAA0	run_scene_service_230_by_index	owner decisions 65+68; shard:town; src/town/func_8054FAA0.c
+0x8054FAEC	func_8054FAEC	has_money_at_least_100	owner decisions 65+68; shard:town; src/town/func_8054FAEC.c
+0x8054FB14	func_8054FB14	get_money_hundreds_capped	owner decisions 65+68; shard:town; src/town/func_8054FB14.c
+0x8054FB90	func_8054FB90	run_service_1f4_then_event_596	owner decisions 65+68; shard:town; src/town/func_8054FB90.c
+0x8054FBD0	func_8054FBD0	run_events_58e_596	owner decisions 65+68; shard:town; src/town/func_8054FBD0.c
+0x800167CC	func_800167CC	try_decrement_state_counter	owner decisions 65+68; shard:town; src/town/func_805797CC.c
+0x8059E620	func_8059E620	is_status_zero	owner decisions 65+68; shard:town; src/town/func_8059E620.c
+0x8059E640	func_8059E640	is_check_d_2_zero	owner decisions 65+68; shard:town; src/town/func_8059E640.c
+0x8059E664	func_8059E664	call_scene_service_220_d_2	owner decisions 65+68; shard:town; src/town/func_8059E664.c
+0x8059E6A4	func_8059E6A4	release_object_slot_d_2	owner decisions 65+68; shard:town; src/town/func_8059E6A4.c
+0x800166D0	func_800166D0	return_argument	owner decisions 65+68; shard:town; src/town/func_8059E6D0.c
+0x8059E6D8	func_8059E6D8	has_money_at_least	owner decisions 65+68; shard:town; src/town/func_8059E6D8.c
+0x8059E700	func_8059E700	subtract_money	owner decisions 65+68; shard:town; src/town/func_8059E700.c
+0x8059EAA0	func_8059EAA0	set_current_entry_value	owner decisions 65+68; shard:town; src/town/func_8059EAA0.c
+0x8001610C	func_8001610C	set_scene_mode_1	owner decisions 65+68; shard:town; src/town/func_805D210C.c
+0x805D213C	func_805D213C	enter_mode_4_when_state_2	owner decisions 65+68; shard:town; src/town/func_805D213C.c
+0x80016194	func_80016194	query_event_631	owner decisions 65+68; shard:town; src/town/func_805D2194.c
+0x805D21B4	func_805D21B4	clear_indexed_entry_flag	owner decisions 65+68; shard:town; src/town/func_805D21B4.c
+0x805D21D8	func_805D21D8	set_indexed_entry_flag_b	owner decisions 65+68; shard:town; src/town/func_805D21D8.c
+0x805D2250	func_805D2250	select_fallback_when_below_threshold	owner decisions 65+68; shard:town; src/town/func_805D2250.c
+0x805D2D5C	func_805D2D5C	update_entry_state_and_clear	owner decisions 65+68; shard:town; src/town/func_805D2D5C.c
+0x805D30BC	func_805D30BC	run_event_639	owner decisions 65+68; shard:town; src/town/func_805D30BC.c
+0x805D30DC	func_805D30DC	query_event_639	owner decisions 65+68; shard:town; src/town/func_805D30DC.c
+0x805D30FC	func_805D30FC	run_event_63c_alt	owner decisions 65+68; shard:town; src/town/func_805D30FC.c
+0x805D311C	func_805D311C	run_event_63c	owner decisions 65+68; shard:town; src/town/func_805D311C.c
+0x805D31E8	func_805D31E8	run_event_638	owner decisions 65+68; shard:town; src/town/func_805D31E8.c
+0x805D3208	func_805D3208	select_table_for_selector	owner decisions 65+68; shard:town; src/town/func_805D3208.c
+0x805D32DC	func_805D32DC	load_entry_value_and_handle_followup	owner decisions 65+68; shard:town; src/town/func_805D32DC.c
+0x805D3370	func_805D3370	select_record_pointer_by_status_b	owner decisions 65+68; shard:town; src/town/func_805D3370.c
+0x805D34AC	func_805D34AC	run_event_626	owner decisions 65+68; shard:town; src/town/func_805D34AC.c
+0x805D34CC	func_805D34CC	query_event_626	owner decisions 65+68; shard:town; src/town/func_805D34CC.c
+0x805D352C	func_805D352C	init_entry_pointers	owner decisions 65+68; shard:town; src/town/func_805D352C.c
+0x805D3588	func_805D3588	run_events_3eb_631_with_service	owner decisions 65+68; shard:town; src/town/func_805D3588.c
+0x805D363C	func_805D363C	is_check_below_minus_47	owner decisions 65+68; shard:town; src/town/func_805D363C.c
+0x805D365C	func_805D365C	set_player_position_record	owner decisions 65+68; shard:town; src/town/func_805D365C.c
+0x805D3700	func_805D3700	get_cue_table_entry	owner decisions 65+68; shard:town; src/town/func_805D3700.c
+0x805D376C	func_805D376C	are_all_checks_set	owner decisions 65+68; shard:town; src/town/func_805D376C.c
+0x805D37B4	func_805D37B4	get_selected_row_field_4	owner decisions 65+68; shard:town; src/town/func_805D37B4.c
+0x805D380C	func_805D380C	copy_selected_row_to_player_position	owner decisions 65+68; shard:town; src/town/func_805D380C.c
+0x805D3860	func_805D3860	cache_current_entry_index	owner decisions 65+68; shard:town; src/town/func_805D3860.c
+0x805D38A0	func_805D38A0	request_handler_for_current_kind	owner decisions 65+68; shard:town; src/town/func_805D38A0.c
+0x805D391C	func_805D391C	get_cached_entry_value	owner decisions 65+68; shard:town; src/town/func_805D391C.c
+0x805D3984	func_805D3984	has_money_at_least_cached_value	owner decisions 65+68; shard:town; src/town/func_805D3984.c
+0x805D39AC	func_805D39AC	subtract_cached_value_from_money	owner decisions 65+68; shard:town; src/town/func_805D39AC.c
+0x805D39D4	func_805D39D4	is_money_below	owner decisions 65+68; shard:town; src/town/func_805D39D4.c
+0x805D39F4	func_805D39F4	get_lookup_value_by_row_byte	owner decisions 65+68; shard:town; src/town/func_805D39F4.c
+0x805D3A34	func_805D3A34	is_selected_row_id_5c	owner decisions 65+68; shard:town; src/town/func_805D3A34.c
+0x805D3A94	func_805D3A94	is_selected_row_byte_at_least_2	owner decisions 65+68; shard:town; src/town/func_805D3A94.c
+0x805D3AC8	func_805D3AC8	init_sequential_command_records	owner decisions 65+68; shard:town; src/town/func_805D3AC8.c
+0x805D3B14	func_805D3B14	register_command_records	owner decisions 65+68; shard:town; src/town/func_805D3B14.c
+0x805D3B74	func_805D3B74	copy_packed_text_to_entries	owner decisions 65+68; shard:town; src/town/func_805D3B74.c
+0x805D3C60	func_805D3C60	copy_packed_text_to_entries_alt	owner decisions 65+68; shard:town; src/town/func_805D3C60.c
+0x805D3D50	func_805D3D50	set_selected_row_from_object_lookup	owner decisions 65+68; shard:town; src/town/func_805D3D50.c
+0x806011BC	func_806011BC	run_event_fa3	owner decisions 65+68; shard:town; src/town/func_806011BC.c
+0x800161DC	func_800161DC	point_shared_buffer_at_data	owner decisions 65+68; shard:town; src/town/func_806011DC.c
+0x80601228	func_80601228	request_handler_kind_10_17	owner decisions 65+68; shard:town; src/town/func_80601228.c
+0x8060127C	func_8060127C	cache_scaled_service_result	owner decisions 65+68; shard:town; src/town/func_8060127C.c
+0x806012DC	func_806012DC	submit_request_1_1	owner decisions 65+68; shard:town; src/town/func_806012DC.c
+0x80614930	func_80614930	advance_player_position_b	owner decisions 65+68; shard:town; src/town/func_80614930.c
+0x80614978	func_80614978	is_player_state_nonzero	owner decisions 65+68; shard:town; src/town/func_80614978.c
+0x80614998	func_80614998	is_player_state_not_1	owner decisions 65+68; shard:town; src/town/func_80614998.c
+0x806149C0	func_806149C0	is_player_state_not_2	owner decisions 65+68; shard:town; src/town/func_806149C0.c
+0x806149E8	func_806149E8	is_player_state_not_3	owner decisions 65+68; shard:town; src/town/func_806149E8.c
+0x80614A10	func_80614A10	remap_player_state	owner decisions 65+68; shard:town; src/town/func_80614A10.c
+0x80614AC8	func_80614AC8	shift_player_x	owner decisions 65+68; shard:town; src/town/func_80614AC8.c
+0x80614B88	func_80614B88	is_player_counter_at_threshold	owner decisions 65+68; shard:town; src/town/func_80614B88.c
+0x80016BB0	func_80016BB0	forward_request_with_shared_table	owner decisions 65+68; shard:town; src/town/func_806153B0.c
+0x80016C5C	func_80016C5C	run_event_1478	owner decisions 65+68; shard:town; src/town/func_8061545C.c
+0x80632120	func_80632120	select_data_with_override_flag_12	owner decisions 65+68; shard:town; src/town/func_80632120.c
+0x8001764C	func_8001764C	record_value_table_contains_first_byte_d	owner decisions 65+68; shard:town; src/town/func_8063364C.c
+0x80016768	func_80016768	forward_pair_to_handler	owner decisions 65+68; shard:town; src/town/func_8065BF68.c
+0x80016788	func_80016788	get_state_record_byte	owner decisions 65+68; shard:town; src/town/func_8065BF88.c
+0x8065BFB4	func_8065BFB4	passes_flag_test_or_stage_2	owner decisions 65+68; shard:town; src/town/func_8065BFB4.c
+0x8065C000	func_8065C000	passes_flag_test_or_stage_3	owner decisions 65+68; shard:town; src/town/func_8065C000.c
+0x8065C17C	func_8065C17C	cache_row_value_and_get_id	owner decisions 65+68; shard:town; src/town/func_8065C17C.c
+0x8065C1A0	func_8065C1A0	cache_player_lookup_index	owner decisions 65+68; shard:town; src/town/func_8065C1A0.c
+0x8065C1C4	func_8065C1C4	chain_table_value_through_services	owner decisions 65+68; shard:town; src/town/func_8065C1C4.c
+0x8065C250	func_8065C250	chain_services_48_3c	owner decisions 65+68; shard:town; src/town/func_8065C250.c
+0x8065C2C4	func_8065C2C4	save_player_value_and_run_service_44	owner decisions 65+68; shard:town; src/town/func_8065C2C4.c
+0x8065C308	func_8065C308	run_service_4c_with_saved_values	owner decisions 65+68; shard:town; src/town/func_8065C308.c
+0x8065C34C	func_8065C34C	request_handler_state_9	owner decisions 65+68; shard:town; src/town/func_8065C34C.c
+0x8065C3AC	func_8065C3AC	request_handler_command_17	owner decisions 65+68; shard:town; src/town/func_8065C3AC.c
+0x8065C9D0	func_8065C9D0	forward_indexed_record_to_handler	owner decisions 65+68; shard:town; src/town/func_8065C9D0.c
+0x80016320	func_80016320	lookup_entry_with_special_id	owner decisions 65+68; shard:town; src/town/func_8067F320.c
+0x8001679C	func_8001679C	store_run_operation_result	owner decisions 65+68; shard:town; src/town/func_8067F79C.c
+0x80697184	func_80697184	forward_entry_index	owner decisions 65+68; shard:town; src/town/func_80697184.c
+0x806971A4	func_806971A4	lookup_entry_with_fallback_level_10	owner decisions 65+68; shard:town; src/town/func_806971A4.c
+0x8069725C	func_8069725C	lookup_entry_with_fallback_level_20	owner decisions 65+68; shard:town; src/town/func_8069725C.c
+0x80697314	func_80697314	lookup_entry_with_fallback_level_30	owner decisions 65+68; shard:town; src/town/func_80697314.c
+0x806973CC	func_806973CC	lookup_slot_record_with_substitute	owner decisions 65+68; shard:town; src/town/func_806973CC.c
+0x80697474	func_80697474	run_event_helper_get_buffer	owner decisions 65+68; shard:town; src/town/func_80697474.c
+0x806974E0	func_806974E0	forward_request_if_ready	owner decisions 65+68; shard:town; src/town/func_806974E0.c
+0x8069761C	func_8069761C	register_shared_data	owner decisions 65+68; shard:town; src/town/func_8069761C.c
+0x806976E8	func_806976E8	cache_object_field_and_get_id	owner decisions 65+68; shard:town; src/town/func_806976E8.c
+0x8069770C	func_8069770C	store_lookup_result	owner decisions 65+68; shard:town; src/town/func_8069770C.c
+0x806977DC	func_806977DC	forward_shared_data	owner decisions 65+68; dedupe1:group; src/town/func_806977DC.c
+0x80697824	func_80697824	get_stored_amount	owner decisions 65+68; shard:town; src/town/func_80697824.c
+0x806C50F8	func_806C50F8	run_scene_service_218_g	owner decisions 65+68; shard:town; src/town/func_806C50F8.c
+0x806C51B0	func_806C51B0	submit_player_position_record	owner decisions 65+68; shard:town; src/town/func_806C51B0.c
+0x806C5244	func_806C5244	run_scene_services_214_20c_228	owner decisions 65+68; shard:town; src/town/func_806C5244.c
+0x80016D40	func_80016D40	set_flag_7d5_if_ready	owner decisions 65+68; shard:town; src/town/func_806C5D40.c
+0x80016E78	func_80016E78	set_flag_7d7_if_ready	owner decisions 65+68; shard:town; src/town/func_806C5E78.c
+0x80016180	func_80016180	forward_pair_to_handler_b	owner decisions 65+68; shard:town; src/town/func_806C9180.c
+0x806D2898	func_806D2898	point_shared_buffer_at_data_e	owner decisions 65+68; shard:town; src/town/func_806D2898.c
+0x806D2BB8	func_806D2BB8	get_or_init_masked_entry	owner decisions 65+68; shard:town; src/town/func_806D2BB8.c
+0x806D2C3C	func_806D2C3C	copy_records_with_control_bits	owner decisions 65+68; shard:town; src/town/func_806D2C3C.c
+0x80016920	func_80016920	init_request_if_flag_1455	owner decisions 65+68; shard:town; src/town/func_806D4920.c
+0x800168EC	func_800168EC	run_handler_after_flag_3ec	owner decisions 65+68; shard:town; src/town/func_806D80EC.c
+0x80016B24	func_80016B24	call_scene_service_54_2	owner decisions 65+68; shard:town; src/town/func_806D8324.c
+0x80016D80	func_80016D80	get_helper_result	owner decisions 65+68; shard:town; src/town/func_806D8580.c
+0x806F18F8	func_806F18F8	submit_position_record_copy	owner decisions 65+68; shard:town; src/town/func_806F18F8.c
+0x806F1A08	func_806F1A08	run_event_fe5_attach_data	owner decisions 65+68; shard:town; src/town/func_806F1A08.c
+0x806F1A40	func_806F1A40	raise_event_be9_by_mode	owner decisions 65+68; shard:town; src/town/func_806F1A40.c
+0x80016E90	func_80016E90	set_selection_index_1	owner decisions 65+68; shard:town; src/town/func_806F2690.c
+0x800181B4	func_800181B4	call_scene_service_238_f_201	owner decisions 65+68; shard:town; src/town/func_8070F1B4.c
+0x800181EC	func_800181EC	call_scene_service_238_f_200	owner decisions 65+68; shard:town; src/town/func_8070F1EC.c
+0x80018224	func_80018224	call_scene_service_238_e_200	owner decisions 65+68; shard:town; src/town/func_8070F224.c
+0x80018510	func_80018510	select_data_for_selector	owner decisions 65+68; shard:town; src/town/func_8070F510.c
+0x8070F594	func_8070F594	run_events_935_936_set_data	owner decisions 65+68; shard:town; src/town/func_8070F594.c
+0x800186BC	func_800186BC	get_shared_entry_buffer_y	owner decisions 65+68; shard:town; src/town/func_8070F6BC.c
+0x800186F8	func_800186F8	get_primary_price	owner decisions 65+68; shard:town; src/town/func_8070F6F8.c
+0x80018708	func_80018708	get_secondary_price	owner decisions 65+68; shard:town; src/town/func_8070F708.c
+0x80018768	func_80018768	subtract_primary_price	owner decisions 65+68; shard:town; src/town/func_8070F768.c
+0x80018790	func_80018790	subtract_secondary_price	owner decisions 65+68; shard:town; src/town/func_8070F790.c
+0x8070F7B8	func_8070F7B8	run_event_118a_point_buffer	owner decisions 65+68; shard:town; src/town/func_8070F7B8.c
+0x8072A244	func_8072A244	init_scene_pointers	owner decisions 65+68; shard:town; src/town/func_8072A244.c
+0x8072A2C8	func_8072A2C8	run_service_270_then_event_bdb	owner decisions 65+68; shard:town; src/town/func_8072A2C8.c
+0x8072A398	func_8072A398	submit_position_with_service_258	owner decisions 65+68; shard:town; src/town/func_8072A398.c
+0x80016FFC	func_80016FFC	enable_position_offset	owner decisions 65+68; shard:town; src/town/func_8072AFFC.c
+0x80761C28	func_80761C28	run_events_9da_to_9dc	owner decisions 65+68; shard:town; src/town/func_80761C28.c
+0x80761C70	func_80761C70	lookup_slot_record_with_flag_substitute	owner decisions 65+68; shard:town; src/town/func_80761C70.c
+0x80016128	func_80016128	set_shared_buffer_pointers	owner decisions 65+68; shard:town; src/town/func_80774928.c
+0x8080BFFC	func_8080BFFC	create_record_with_three_data_blocks	owner decisions 65+68; shard:town; src/town/func_8080BFFC.c
+0x8080C090	func_8080C090	create_payload_object	owner decisions 65+68; shard:town; src/town/func_8080C090.c
+0x8080C134	func_8080C134	create_eight_objects_from_kind_table	owner decisions 65+68; shard:town; src/town/func_8080C134.c
+0x8080C24C	func_8080C24C	create_object_from_pairs_and_words	owner decisions 65+68; shard:town; src/town/func_8080C24C.c
+0x8080C324	func_8080C324	init_panel_display_nodes	owner decisions 65+68; shard:town; src/town/func_8080C324.c
+0x8080C650	func_8080C650	update_sequenced_object	owner decisions 65+68; shard:town; src/town/func_8080C650.c
+0x8080DAB8	func_8080DAB8	draw_projected_linked_records	owner decisions 65+68; shard:town; src/town/func_8080DAB8.c
+0x8080DD10	func_8080DD10	raise_object_flag_when_zero	owner decisions 65+68; shard:town; src/town/func_8080DD10.c
+0x8080DD50	func_8080DD50	raise_object_flag_when_linked_state_7	owner decisions 65+68; shard:town; src/town/func_8080DD50.c
+0x8080DF94	func_8080DF94	step_cutscene_actor	owner decisions 65+68; shard:town; src/town/func_8080DF94.c
+0x8080E480	func_8080E480	copy_entry_payload_and_count_down	owner decisions 65+68; shard:town; src/town/func_8080E480.c
+0x8080E534	func_8080E534	fall_to_ground_height	owner decisions 65+68; shard:town; src/town/func_8080E534.c
+0x80529194	func_80529194	return_zero_fn_p	owner decisions 65+68; shard:town; src/town/func_8080E594.c
+0x8080E59C	func_8080E59C	create_town_object_group	owner decisions 65+68; shard:town; src/town/func_8080E59C.c
+0x808105EC	func_808105EC	fall_to_height_capped_at_zero	owner decisions 65+68; shard:town; src/town/func_808105EC.c
+0x80810650	func_80810650	create_resource_pair_object	owner decisions 65+68; shard:town; src/town/func_80810650.c
+0x808106A4	func_808106A4	increment_counter_and_load_resource	owner decisions 65+68; shard:town; src/town/func_808106A4.c
+0x808106E0	func_808106E0	create_title_menu_cursor	owner decisions 65+68; shard:town; src/town/func_808106E0.c
+0x80810EAC	func_80810EAC	raise_object_flag_when_linked_flag_2	owner decisions 65+68; shard:town; src/town/func_80810EAC.c
+0x80810F00	func_80810F00	process_entry_and_raise_object_flag	owner decisions 65+68; shard:town; src/town/func_80810F00.c
+0x80811034	func_80811034	raise_object_flag_when_countdown_expires	owner decisions 65+68; shard:town; src/town/func_80811034.c
+0x808119EC	func_808119EC	create_town_hud	owner decisions 65+68; shard:town; src/town/func_808119EC.c
+0x808128B8	func_808128B8	step_tile_column_animation	owner decisions 65+68; shard:town; src/town/func_808128B8.c
+0x80812A2C	func_80812A2C	draw_wrapped_tile_column	owner decisions 65+68; shard:town; src/town/func_80812A2C.c
+0x80812B70	func_80812B70	step_falling_town_object	owner decisions 65+68; shard:town; src/town/func_80812B70.c
+0x808135E0	func_808135E0	build_visible_item_line_packets	owner decisions 65+68; shard:town; src/town/func_808135E0.c
+0x808138C0	func_808138C0	create_colored_object_at_position	owner decisions 65+68; shard:town; src/town/func_808138C0.c
+0x808139C8	func_808139C8	create_sprite_object	owner decisions 65+68; shard:town; src/town/func_808139C8.c
+0x80814610	func_80814610	update_motion_and_brightness	owner decisions 65+68; shard:town; src/town/func_80814610.c
+0x80024B04	func_80024B04	raise_object_flag_when_timer_expires	owner decisions 65+68; shard:town; src/town/func_8081AB04.c
+0x80875364	func_80875364	advance_stage_1_when_ready	owner decisions 65+68; shard:town; src/town/func_80875364.c
+0x807013FC	func_807013FC	return_argument_b	owner decisions 65+68; shard:town; src/town/func_808753FC.c
+0x80701510	func_80701510	noop_hook_i	owner decisions 65+68; shard:town; src/town/func_80875510.c
+0x80701518	func_80701518	advance_stage_2_when_ready	owner decisions 65+68; shard:town; src/town/func_80875518.c
+0x80701800	func_80701800	noop_hook_j	owner decisions 65+68; shard:town; src/town/func_80875800.c
+0x80878A78	func_80878A78	load_scene_data_block	owner decisions 65+68; shard:town; src/town/func_80878A78.c
+0x8087FDA4	func_8087FDA4	run_stage_updates_when_ready	owner decisions 65+68; shard:town; src/town/func_8087FDA4.c
+0x8088124C	func_8088124C	finish_stage_for_index	owner decisions 65+68; shard:town; src/town/func_8088124C.c
+0x8088134C	func_8088134C	dispatch_first_rejected_entry	owner decisions 65+68; shard:town; src/town/func_8088134C.c
+0x80700D24	func_80700D24	shift_index_and_add_offset	owner decisions 65+68; shard:town; src/town/func_80883524.c
+0x807002A4	func_807002A4	forward_indexed_table_value	owner decisions 65+68; shard:town; src/town/func_808B2AA4.c
+0x808B2CB0	func_808B2CB0	set_slot_bit_when_allowed	owner decisions 65+68; shard:town; src/town/func_808B2CB0.c
+0x8070066C	func_8070066C	noop_hook_k	owner decisions 65+68; shard:town; src/town/func_808B2E6C.c
+0x808B2FE4	func_808B2FE4	refresh_status_when_alt_gate_passes	owner decisions 65+68; shard:town; src/town/func_808B2FE4.c
+0x808B3074	func_808B3074	refresh_status_when_second_gate_passes	owner decisions 65+68; shard:town; src/town/func_808B3074.c
+0x8070090C	func_8070090C	dispatch_first_failed_entry	owner decisions 65+68; shard:town; src/town/func_808B310C.c
+0x808B32AC	func_808B32AC	update_flag_page_2_value	owner decisions 65+68; shard:town; src/town/func_808B32AC.c
+0x80700B7C	func_80700B7C	dispatch_first_failed_entry_b	owner decisions 65+68; shard:town; src/town/func_808B337C.c
+0x80700D6C	func_80700D6C	clear_indexed_flag_bit_unless_index_one	owner decisions 65+68; shard:town; src/town/func_808B356C.c
+0x808B8184	func_808B8184	get_table_value_plus_offset	owner decisions 65+68; shard:town; src/town/func_808B8184.c
+0x80003B14	func_80003B14	get_adjusted_base_value	owner decisions 65+68; shard:town; src/town/func_808B8314.c
+0x80003DCC	func_80003DCC	shift_index_and_add_offset_b	owner decisions 65+68; shard:town; src/town/func_808B85CC.c
+0xA07007B0	func_A07007B0	trace_work_record_kinds	owner decisions 65+68; shard:town; src/town/func_808B97B0.c
+0xA07008AC	func_A07008AC	shift_index_and_add_offset_c	owner decisions 65+68; shard:town; src/town/func_808B98AC.c
+0x800007E8	func_800007E8	is_next_entry_zero_after_skipping	owner decisions 65+68; shard:town; src/town/func_808BAFE8.c
+0x800008A0	func_800008A0	advance_shop_entry_index_278	owner decisions 65+68; shard:town; src/town/func_808BB0A0.c
+0x80000A38	func_80000A38	dispatch_first_rejected_entry_b	owner decisions 65+68; shard:town; src/town/func_808BB238.c
+0x80000ED8	func_80000ED8	invoke_runtime_callback_zero	owner decisions 65+68; shard:town; src/town/func_808BB6D8.c
+0x80000884	func_80000884	is_next_entry_zero_after_skipping_b	owner decisions 65+68; shard:town; src/town/func_808C4884.c
+0x800008F4	func_800008F4	post_code_107_if_entry_bit_0	owner decisions 65+68; shard:town; src/town/func_808C48F4.c
+0x8000093C	func_8000093C	advance_shop_entry_index_107	owner decisions 65+68; shard:town; src/town/func_808C493C.c
+0x800009D4	func_800009D4	select_first_unmet_table_entry	owner decisions 65+68; shard:town; src/town/func_808C49D4.c
+0x80000A30	func_80000A30	pass_pair_table_values	owner decisions 65+68; shard:town; src/town/func_808C4A30.c
+0x80000ADC	func_80000ADC	get_selected_table_value_plus_offset	owner decisions 65+68; shard:town; src/town/func_808C4ADC.c
+0x800164D8	func_800164D8	check_record_flag_if_global_clear	owner decisions 65+68; shard:town; src/town/func_8094D4D8.c
+0x8094D708	func_8094D708	run_callbacks_until_zero	owner decisions 65+68; shard:town; src/town/func_8094D708.c
+0x8094F01C	func_8094F01C	init_first_buffer_pointer	owner decisions 65+68; shard:town; src/town/func_8094ECC4.c
+0x8095001C	func_8095001C	reset_byte_pointer	owner decisions 65+68; shard:town; src/town/func_8095001C.c
+0x80123124	func_80123124	clear_global_entry_flag	owner decisions 65+68; shard:town; src/town/func_8096AC8C.c
+0x801231DC	func_801231DC	remove_scene_runtime_callback	owner decisions 65+68; shard:town; src/town/func_8096AD44.c
+0x80125F98	func_80125F98	refresh_catalog_scroll_indicators	owner decisions 65+68; shard:town; src/town/func_8096DB00.c
+0x80024860	func_80024860	update_shrinking_effect_sprite	owner decisions 65+68; shard:dungeon; src/dungeon/modules/ovl_1852800.c
+0x800248F0	func_800248F0	update_homing_brightening_effect	owner decisions 65+68; shard:dungeon; src/dungeon/modules/ovl_1852800.c
+0x80158878	func_80158878	spawn_clown_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/modules/ovl_7f535800.c
+0x8016A86C	func_8016A86C	spawn_kraken	owner decisions 65+68; shard:dungeon; src/dungeon/modules/ovl_edb06c.c
+0x8003D92C	func_8003D92C	update_shoulder_button_angle	owner decisions 65+68; shard:slus_main; src/slus/gp_d92c_owned.c
+0x80045340	func_80045340	project_sprite_chain	owner decisions 65+68; shard:slus_main; src/slus/gp_shared_81510.c
+0x800453E0	func_800453E0	project_sprite_commands	owner decisions 65+68; shard:slus_main; src/slus/gp_shared_81510.c
+0x80035484	func_80035484	create_window_object	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80035484_owned.c
+0x80038A10	func_80038A10	update_message_window	owner decisions 65+68; shard:slus_main; src/slus/konami_runtime_w_80038A10_owned.c
+0x8004B08C	func_8004B08C	sort_entries_by_category	owner decisions 65+68; shard:slus_main; src/slus/sort_rank_81540_owned.c
+0x80041344	func_80041344	run_image_load_commands	owner decisions 65+68; shard:slus_main; src/slus/w_80041344_jtbl_owned.c
+0x80041588	func_80041588	run_cd_image_commands	owner decisions 65+68; shard:slus_main; src/slus/w_80041588_jtbl_owned.c
+0x80042BDC	func_80042BDC	end_status_effect_message	owner decisions 65+68; shard:slus_main; src/slus/w_80042BDC_jtbl_owned.c
+0x8004437C	func_8004437C	select_sound_stream	owner decisions 65+68; shard:slus_main; src/slus/w_8004437C_pair.c
+0x8004450C	func_8004450C	load_sound_set	owner decisions 65+68; shard:slus_main; src/slus/w_8004437C_pair.c
+0x80044618	func_80044618	update_vsync_frame_id	owner decisions 65+68; shard:slus_main; src/slus/w_80044618_owned.c
+0x80044698	func_80044698	wait_until_sound_idle	owner decisions 65+68; shard:slus_main; src/slus/w_80044698_owned.c
+0x80047338	func_80047338	pack_texture_into_vram_wide	owner decisions 65+68; shard:slus_main; src/slus/w_80047338_owned.c
+0x80047468	func_80047468	pack_texture_into_vram_narrow	owner decisions 65+68; shard:slus_main; src/slus/w_80047468_owned.c
+0x80047E78	func_80047E78	load_cd_resource	owner decisions 65+68; shard:slus_main; src/slus/w_80047E78_owned.c
+0x800508F0	func_800508F0	fill_primitive_pair	owner decisions 65+68; shard:slus_main; src/slus/w_800508F0_owned.c
+0x800517CC	func_800517CC	update_sine_motion_effect	owner decisions 65+68; shard:slus_main; src/slus/w_800517CC_jtbl_owned.c
+0x80052144	func_80052144	update_scene_effect_controller	owner decisions 65+68; shard:slus_main; src/slus/w_80052144_jtbl_owned.c
+0x80052CE0	func_80052CE0	update_shaded_line_effect	owner decisions 65+68; shard:slus_main; src/slus/w_80052CE0_jtbl_owned.c
+0x80053CFC	func_80053CFC	start_cd_read	owner decisions 65+68; shard:slus_main; src/slus/w_80053CFC_owned.c
+0x80054F9C	func_80054F9C	set_sound_task_priority	owner decisions 65+68; shard:slus_main; src/slus/w_80054F9C_jtbl_owned.c
+0x80057A94	func_80057A94	apply_tone_parameter_command	owner decisions 65+68; shard:slus_main; src/slus/w_80057A94_jtbl_owned.c

@@ -17,7 +17,7 @@ void func_80173114(void *actor, void *context, void *animation, EntityRec *entit
         g_dungeon_status.unk_0A--;
         direction_anims = ((u8 *)D_8017425C);
         (*(void * *)((u8 *)animation + 0x2C)) = direction_anims;
-        func_80047784(animation,
+        select_sprite_entry(animation,
             direction_anims[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
@@ -30,7 +30,7 @@ void func_80173114(void *actor, void *context, void *animation, EntityRec *entit
         if (entity->tileY != 0) {
 
             (*(void * *)((u8 *)animation + 0x2C)) = ((u8 *)D_80174264);
-            func_80047784(animation,
+            select_sprite_entry(animation,
                 ((u8 *)D_80174264)[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             entity->flags1C |= 0x40000;
@@ -84,13 +84,13 @@ void func_80173114(void *actor, void *context, void *animation, EntityRec *entit
         }
 
         update_actor_status_and_food(entity);
-        func_800A9A04(entity);
+        on_actor_status_updated(entity);
         if (entity->tileY == 0) {
             return;
         }
 
         (*(void * *)((u8 *)animation + 0x2C)) = ((u8 *)D_80174264);
-        func_80047784(animation,
+        select_sprite_entry(animation,
             ((u8 *)D_80174264)[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         entity->flags1C |= 0x40000;

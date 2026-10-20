@@ -76,10 +76,10 @@ void func_800F81A0(S_807B09A0_0 *emitter) {
     tick_count = emitter->unk_08 + 1;
     emitter->unk_08 = tick_count;
     if (tick_count & 1) {
-        particle = func_8003FD64(0x312, ((s32 *)&D_80083498.next));
+        particle = allocate_list_node(0x312, ((s32 *)&D_80083498.next));
         if (particle != NULL) {
             particle->unk_10 = (void *)func_800F89B8;
-            func_8004491C(particle, func_80045340);
+            register_node(particle, project_sprite_chain);
             sprite = particle->unk_0C;
             spawn_x = (emitter->unk_00 + (rand() % 48)) - 0x18;
             ((S_807B09A0_5 *)(((S_807B09A0_4 *)particle)->unk_08))->unk_02 = spawn_x;

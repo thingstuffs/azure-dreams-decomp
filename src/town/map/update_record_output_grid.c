@@ -1,0 +1,61 @@
+#include "modules/town_map_props.h"
+#include "common.h"
+#include "shared/dungeon_delay_views.h"
+#include "shared/town_pointees.h"
+
+typedef struct S_800BDE7C_0 {
+    u8 pad_00[0x68];
+    union { s16 s; u16 u; } unk_68;   /* accessed as both */
+    u8 pad_6A[0x36];
+    s32 * unk_A0;
+} S_800BDE7C_0;   /* arg0 in update_record_output_grid */
+
+   /* arg2 in update_record_output_grid */
+
+
+
+void update_record_output_grid(S_800BDE7C_0 *record, s32 unused_value, TownGridOutputView *output, s32 unused_value2)
+{
+    s16 state;
+        /* MATCH: Preserve retail's source register after making call arguments explicit. */
+    s32 *source;
+        /* MATCH: Keep incoming call arguments in their ABI registers across dispatch. */
+    S_800BDE7C_0 *call_arg0 = record;
+    TownGridOutputView *call_arg2 = output;
+
+    state = record->unk_68.s;
+    source = record->unk_A0;
+
+    switch (state) {
+    case 0:
+        if (service_script_controller() == 0) {
+            return;
+        }
+        if (check_transform_identifier_and_hook(record) == 0) {
+            return;
+        }
+        output->unk_08 = source[1];
+        record->unk_68.u = record->unk_68.u + 1;
+        return;
+    case 1:
+    case 3:
+        if ((service_script_controller() == 0) || (check_transform_identifier_and_hook(record) == 0)) {
+            record->unk_68.u = (record->unk_68.u + 1) & 3;
+        }
+        return;
+    case 2:
+        if (service_script_controller() == 0) {
+            return;
+        }
+        if (check_transform_identifier_and_hook(record) == 0) {
+            return;
+        }
+        output->unk_08 = source[0];
+        record->unk_68.u = record->unk_68.u + 1;
+        return;
+    }
+}
+
+/* MECHANISM: The third ABI argument is kept live in s2, with arg0/source held in s0/s1,
+   producing the retail 0x20 frame and save order. The state switch preserves the
+   retail dispatch and the duplicated increment blocks; state 1/3 alone applies the modulo mask. */

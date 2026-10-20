@@ -1,0 +1,125 @@
+#include "shared/object_node.h"
+#include "common.h"
+#include "m2c_compat.h"
+#include "shared/slus_callbacks.h"
+
+
+
+#ifndef NULL
+#define NULL 0
+#endif
+
+
+
+extern s32 register_node();
+extern s32 rand();
+extern M2C_UNK D_800254E0;
+extern M2C_UNK D_80025DF8;
+
+typedef struct S_818BDD8C_0 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    s32 * unk_10;
+    u8 pad_14[0xC];
+    void * unk_20;
+} S_818BDD8C_0;
+
+typedef struct S_818BDD8C_1 {
+    u8 pad_00[0x10];
+    s16 unk_10;
+    u8 pad_12[0x2];
+    u16 unk_14;
+} S_818BDD8C_1;
+
+typedef struct S_818BDD8C_2 {
+    u8 pad_00[0x12];
+    u16 unk_12;
+} S_818BDD8C_2;   /* arg0 in create_owner_tinted_effect */
+
+typedef struct S_818BDD8C_3 {
+    u8 pad_00[0x8];
+    s32 * unk_08;
+    u8 unk_0C;
+    u8 unk_0D;
+    u8 unk_0E;
+    u8 pad_0F[0x1];
+    u16 unk_10;
+    s16 unk_12;
+    u16 unk_14;
+    u8 pad_16[0x4];
+    s16 unk_1A;
+    s16 unk_1C;
+    s16 unk_1E;
+} S_818BDD8C_3;
+
+typedef struct S_818BDD8C_4 {
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_818BDD8C_4;   /* arg1 in create_owner_tinted_effect */
+
+typedef struct S_818BDD8C_5 {
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_818BDD8C_5;
+
+/* Creates an object with its owner, rendering parameters, and supplied data. */
+void *create_owner_tinted_effect(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data)
+{
+    s32 copy_word_2;
+    s32 copy_word_3;
+    s32 copy_word_0;
+    s32 copy_word_1;
+    s32 draw_flags;
+    s16 render_flags;
+    S_818BDD8C_3 *render;
+    void *object;
+    S_818BDD8C_1 *state;
+    S_818BDD8C_5 *object_data;
+
+    object = func_8003FC64(0x212);
+    if (object != NULL) {
+        state = object + 0x20;
+        ((S_818BDD8C_0 *)object)->unk_10 = &D_800254E0;
+        ((S_818BDD8C_0 *)object)->unk_20 = owner;
+        state->unk_10 = 0;
+        state->unk_14 = (u16)owner->unk_12;
+        render = ((S_818BDD8C_0 *)object)->unk_0C;
+        render->unk_0E = 0x80;
+        render->unk_0D = 0x80;
+        render->unk_0C = 0x80;
+        render->unk_12 = 0x7E01;
+        render->unk_08 = &D_80025DF8;
+        render->unk_14 |= 0xC;
+        render->unk_10 |= 0x20;
+        render->unk_14 |= 0x100;
+        {
+            void *call_obj;
+            s32 scale;
+
+            render->unk_1A = (s16)(rand() % 0x1000);
+            call_obj = object;
+            scale = 0x400;
+            render->unk_1E = scale;
+            render->unk_1C = scale;
+            register_node(call_obj, project_sprite_chain);
+        }
+        object_data = ((S_818BDD8C_0 *)object)->unk_08;
+        *object_data = *(S_818BDD8C_5 *)initial_data;
+        return object;
+    }
+    return 0;
+}
+
+/* MECHANISM: The natural 0x20 frame holds owner/object/initial_data in s0/s1/s2.
+   A v1 flags accumulator plus a separate v0 flags word prevents OR fusion;
+   pinned a0/v0 lifetimes and a fence place li before the callback la pair,
+   while the kept destination and v0 result preserve the retail tail ABI. */

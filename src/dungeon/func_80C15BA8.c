@@ -21,7 +21,7 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744EC);
-        func_80047784(
+        select_sprite_entry(
             sprite,(u8)(((u8 *)D_801744EC)[((g_game_work.view.viewAngle + status->facing + 0x100) >> 9) & 7]),
             0);
         return;
@@ -54,7 +54,7 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
             (((R17_801713A8_S_801713A8_2 *)sprite)->unk_2C != ((u8 *)D_8017449C))) {
             ((Rec_func_800A9E70_arg0 *)actor)->unk_A8 = 0;
             (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_8017449C);
-            func_80047784(
+            select_sprite_entry(
                 sprite,(u8)(((u8 *)D_8017449C)[((g_game_work.view.viewAngle + status->facing + 0x100) >> 9) & 7]),
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_A8);
         }

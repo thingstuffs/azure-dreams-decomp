@@ -69,7 +69,7 @@
       "view_bytes": 2,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_c5909c.imports.json",
-      "declaration": "include/modules/dungeon_ovl_c5909c.h"
+      "declaration": "include/dungeon/monster/univern/create_actor_child_display.h"
     }
   },
   "functions": {

@@ -10,11 +10,11 @@
 extern s32 func_800B0198(void *a0, s32 a1);
 extern s32 link_item_menu_object_entries(s32 a0);
 extern s32 initialize_item_menu_state(void *a0, s32 a1);
-extern void func_8004491C(void *a0, void *a1);
-/* Same callback registered by func_80050EF8 via func_8004491C in this
+extern void register_node(void *a0, void *a1);
+/* Same callback registered by func_80050EF8 via register_node in this
  * overlay -- a real code symbol, not the data global m2c guessed. */
-extern int func_8004CAA0(void *a0, int a1, void *a2);
-extern void func_8004B248(u16 **a0);
+extern int draw_tinted_node_sprites_scratch(void *a0, int a1, void *a2);
+extern void release_null_terminated_entries(u16 **a0);
 
 /* Allocate and initialize an object, register its callback, and flag initialization failure. */
 void *create_item_menu_child_object(s32 init_value)
@@ -29,10 +29,10 @@ void *create_item_menu_child_object(s32 init_value)
             *(void **)((u8 *)object + 0xC) = (u8 *)object + 0xB8;
             *(s32 *)((u8 *)object_data + 0xA4) = link_item_menu_object_entries(*(s32 *)((u8 *)object_data + 0xA8));
             initialize_item_menu_state(object_data, init_value);
-            func_8004491C(object, (void *)func_8004CAA0);
+            register_node(object, (void *)draw_tinted_node_sprites_scratch);
             return object;
         }
-        func_8004B248((u16 **)((u8 *)object + 0xCC));
+        release_null_terminated_entries((u16 **)((u8 *)object + 0xCC));
         *(u16 *)((u8 *)object + 0x1E) |= 0x8000;
         object = 0;
         object_flag_block.flags |= 0x8000;

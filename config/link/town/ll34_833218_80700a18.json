@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_808B3218",
-      "tu": "src/town/func_80875510.c",
+      "tu": "src/town/scene/hooks/noop_hook_i.c",
       "home": "town/func_80875510",
       "foff": "0x833218",
       "vma": "0x80700A18",

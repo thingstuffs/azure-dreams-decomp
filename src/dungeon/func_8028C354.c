@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_spawns.h"
+#include "dungeon/level/spawn.h"
 
 void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param)
 {
@@ -11,7 +11,7 @@ void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param)
     object = func_8003FC64(2);
     if (object != NULL) {
         ((floor_spawns_isolated_8028C354_S_8001F354_0 *)object)->unk_10 = (s32)D_800A5AF0;
-        func_8004491C(object, D_80044BB0);
+        register_node(object, D_80044BB0);
         position = (s16 *)((floor_spawns_isolated_8028C354_S_8001F354_0 *)object)->unk_08;
         position[1] = x + 0x280;
         position[3] = y;

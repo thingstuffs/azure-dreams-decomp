@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Initializes the shared data pointer, clears its first word and returns it. */
 s32 *initialize_shared_script_data(void) {

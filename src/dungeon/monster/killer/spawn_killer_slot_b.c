@@ -1,0 +1,139 @@
+/* cfail-repair: tf7-phase1-cache-v3 */
+#include "common.h"
+#include "shared/object_node.h"
+#include "shared/slus_callbacks.h"
+#include "m2c_compat.h"
+
+typedef struct S_80FF9000_0 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    s32 * unk_10;
+} S_80FF9000_0;   /* obj in spawn_killer_slot_b */
+
+typedef struct S_80FF9000_1 {
+    u8 pad_00[0x13];
+    s8 unk_13;
+    s32 unk_14;
+    u8 pad_18[0x4];
+    s32 unk_1C;
+} S_80FF9000_1;   /* work in spawn_killer_slot_b */
+
+typedef struct S_80FF9000_2 {
+    u8 pad_00[0xA];
+    s16 unk_0A;
+} S_80FF9000_2;   /* part_a in spawn_killer_slot_b */
+
+typedef struct S_80FF9000_3 {
+    u8 pad_00[0x24];
+    s8 unk_24;
+    s8 unk_25;
+    u8 pad_26[0x6];
+    s32 * unk_2C;
+} S_80FF9000_3;   /* part_b in spawn_killer_slot_b */
+
+typedef struct S_80FF9000_4 {
+    u8 pad_00[0x8C];
+    s32 * unk_8C;
+    u8 pad_90[0xA];
+    u8 unk_9A;
+    u8 pad_9B[0x1];
+    s8 unk_9C;
+} S_80FF9000_4;   /* actor in spawn_killer_slot_b */
+
+#if 0 /* rowbase_rename_reverify precondition marker: dead declaration, never
+seen by the real compiler;
+satisfies the tool's textual defines()
+check for the proven-region rename of func_80152800. */
+    void func_80152800(void);
+#endif
+
+void *allocate_list_node();
+s32 register_node();
+s16 set_or_clear_actor_status_slot();
+s32 generate_random_value();
+void initialize_actor_sprite_and_animation();
+s32 try_move_actor_to_valid_position();
+void *func_80152988();
+void *func_80152A00();
+extern u8 D_80152A7C[];
+extern M2C_UNK D_80152EA8;
+extern M2C_UNK D_80156038;
+extern M2C_UNK D_80156088;
+
+
+
+void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) ;
+
+/* Allocates an actor and initializes its parts, position, and spawn flags. */
+void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) {
+    s16 saved_x;
+    s16 saved_y;
+    s16 init_flags;
+    S_80FF9000_1 *work;
+    s32 alloc_kind;
+    void *alloc_desc;
+    s32 random_bits;
+    s32 extra_flags;
+    s32 kind;
+    s32 flags_14;
+    s32 flags_1c;
+    S_80FF9000_3 *part_b;
+    S_80FF9000_2 *part_a;
+    void *obj;
+    S_80FF9000_4 *actor;
+
+    work = NULL;
+    alloc_kind = 0x112;
+    saved_x = grid_x;
+    alloc_desc = ((s32 *)&D_80083498.next);
+    saved_y = grid_y;
+    random_bits = (s32) *(s8 *)0x4A64;
+    obj = allocate_list_node(alloc_kind, alloc_desc);
+    init_flags = spawn_flags;
+    if (obj != NULL) {
+        work = obj + 0x20;
+        ((S_80FF9000_0 *)obj)->unk_10 = &D_80152A7C;
+        work->unk_13 = 0x28;
+        register_node(obj, project_sprite_chain);
+        part_a = ((S_80FF9000_0 *)obj)->unk_08;
+        part_a->unk_0A = part_value;
+        part_b = ((S_80FF9000_0 *)obj)->unk_0C;
+        kind = spawn_flags & 3;
+        part_b->unk_25 = saved_y;
+        actor = work;
+        part_b->unk_2C = &D_80156038;
+        part_b->unk_24 = saved_x;
+
+        if (kind == 1) {
+            flags_14 = work->unk_14 | 0x6000;
+            flags_1c = work->unk_1C | 0x6000;
+            work->unk_14 = flags_14;
+            work->unk_1C = flags_1c;
+        } else if (kind >= 2) {
+            flags_14 = work->unk_14 | 0x2000;
+            flags_1c = work->unk_1C | 0x2000;
+            work->unk_14 = flags_14;
+            work->unk_1C = flags_1c;
+        } else {
+            extra_flags = (spawn_flags & ~3) << 0x10;
+            if (extra_flags == 0) {
+                if (!(work->unk_14 & 0x200)) {
+                    random_bits = generate_random_value();
+                    if (random_bits & 1) {
+                        work->unk_1C = (s32) (work->unk_1C | 0x200);
+                        set_or_clear_actor_status_slot(work, 1, (generate_random_value() & 0x3F) | 0x20);
+                        part_b->unk_2C = &D_80156088;
+                    }
+                }
+            }
+        }
+
+        initialize_actor_sprite_and_animation((s32)obj, part_a, part_b, init_flags);
+        actor->unk_9A = 0xFF;
+        actor->unk_9C = -1;
+        actor->unk_8C = &D_80152EA8;
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
+    }
+    return work;
+}

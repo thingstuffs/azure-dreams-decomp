@@ -19,7 +19,7 @@ void finish_actor_action_animation(void *action, void *motion, void *anim, void 
         ((R16_801723F0_S_801723F0_3 *)motion)->unk_10 = 0;
         ((R16_801723F0_S_801723F0_3 *)motion)->unk_0C = 0;
         (*(u8 * *)((u8 *)anim + 0x2C)) = ((u8 *)D_8017423C);
-        func_80047784(anim,(u8)(((u8 *)D_8017423C)[((s32)(g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7]),
+        select_sprite_entry(anim,(u8)(((u8 *)D_8017423C)[((s32)(g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7]),
             0);
         ((R16_801723F0_S_801723F0_0 *)action)->unk_96 = 0;
         ((R16_801723F0_S_801723F0_0 *)action)->unk_9B++;

@@ -10,7 +10,7 @@
     {
       "row": "town/func_806A90F8",
       "home": "town/func_800B0DB0",
-      "tu": "src/town/func_800B0DB0.c",
+      "tu": "src/town/shop/item/item_menu_return_zero.c",
       "foff": "0x006290F8",
       "vma": "0x800160F8",
       "size": 8,
@@ -23,7 +23,7 @@
     {
       "row": "town/func_806A9168",
       "home": "town/func_8032ECE4",
-      "tu": "src/town/func_8032ECE4.c",
+      "tu": "src/town/scene/find_entry_index_assert.c",
       "foff": "0x00629168",
       "vma": "0x80016168",
       "size": 212,
@@ -38,7 +38,7 @@
     {
       "row": "town/func_806A923C",
       "home": "town/func_8032EDB8",
-      "tu": "src/town/func_8032EDB8.c",
+      "tu": "src/town/scene/find_entry_index_assert_b.c",
       "foff": "0x0062923C",
       "vma": "0x8001623C",
       "size": 240,
@@ -52,7 +52,7 @@
     {
       "row": "town/func_806A932C",
       "home": "town/func_8032EEA8",
-      "tu": "src/town/func_8032EEA8.c",
+      "tu": "src/town/scene/find_entry_by_paired_key.c",
       "foff": "0x0062932C",
       "vma": "0x8001632C",
       "size": 60,
@@ -64,7 +64,7 @@
     {
       "row": "town/func_806A9368",
       "home": "town/func_8032EEE4",
-      "tu": "src/town/func_8032EEE4.c",
+      "tu": "src/town/scene/find_masked_record_and_initialize.c",
       "foff": "0x00629368",
       "vma": "0x80016368",
       "size": 136,
@@ -78,7 +78,7 @@
     {
       "row": "town/func_806A93F0",
       "home": "town/func_8032EF6C",
-      "tu": "src/town/func_8032EF6C.c",
+      "tu": "src/town/scene/populate_and_dispatch_entry_records.c",
       "foff": "0x006293F0",
       "vma": "0x800163F0",
       "size": 244,
@@ -91,7 +91,7 @@
     {
       "row": "town/func_806A94E4",
       "home": "town/func_8032F060",
-      "tu": "src/town/func_8032F060.c",
+      "tu": "src/town/scene/update_dependent_entry_ids.c",
       "foff": "0x006294E4",
       "vma": "0x800164E4",
       "size": 148,
@@ -106,7 +106,7 @@
     {
       "row": "town/func_806A9578",
       "home": "town/func_8032F0F4",
-      "tu": "src/town/func_8032F0F4.c",
+      "tu": "src/town/scene/apply_entry_keyed_values.c",
       "foff": "0x00629578",
       "vma": "0x80016578",
       "size": 100,
@@ -120,7 +120,7 @@
     {
       "row": "town/func_806A95DC",
       "home": "town/func_8032F158",
-      "tu": "src/town/func_8032F158.c",
+      "tu": "src/town/scene/flags/set_indexed_entry_flag.c",
       "foff": "0x006295DC",
       "vma": "0x800165DC",
       "size": 48,
@@ -133,7 +133,7 @@
     {
       "row": "town/func_806A960C",
       "home": "town/func_8032F188",
-      "tu": "src/town/func_8032F188.c",
+      "tu": "src/town/scene/flags/update_entry_flags.c",
       "foff": "0x0062960C",
       "vma": "0x8001660C",
       "size": 84,
@@ -147,7 +147,7 @@
     {
       "row": "town/func_806A9660",
       "home": "town/func_8032F1DC",
-      "tu": "src/town/func_8032F1DC.c",
+      "tu": "src/town/scene/flags/check_record_flag_if_unblocked.c",
       "foff": "0x00629660",
       "vma": "0x80016660",
       "size": 88,
@@ -161,7 +161,7 @@
     {
       "row": "town/func_806A96B8",
       "home": "town/func_8032F234",
-      "tu": "src/town/func_8032F234.c",
+      "tu": "src/town/scene/check_callback_record_bytes.c",
       "foff": "0x006296B8",
       "vma": "0x800166B8",
       "size": 132,
@@ -174,7 +174,7 @@
     {
       "row": "town/func_806A9760",
       "home": "town/func_8032F2DC",
-      "tu": "src/town/func_8032F2DC.c",
+      "tu": "src/town/scene/find_entry_index_by_grid_bytes.c",
       "foff": "0x00629760",
       "vma": "0x80016760",
       "size": 120,
@@ -187,7 +187,7 @@
     {
       "row": "town/func_806A97D8",
       "home": "town/func_8032F354",
-      "tu": "src/town/func_8032F354.c",
+      "tu": "src/town/scene/apply_selected_entry_values.c",
       "foff": "0x006297D8",
       "vma": "0x800167D8",
       "size": 108,
@@ -202,7 +202,7 @@
     {
       "row": "town/func_806A9844",
       "home": "town/func_8032F3C0",
-      "tu": "src/town/func_8032F3C0.c",
+      "tu": "src/town/scene/flags/set_current_entry_script_flag.c",
       "foff": "0x00629844",
       "vma": "0x80016844",
       "size": 84,
@@ -217,7 +217,7 @@
     {
       "row": "town/func_806A9898",
       "home": "town/func_8032F3C0",
-      "tu": "src/town/func_8032F3C0.c",
+      "tu": "src/town/scene/flags/set_current_entry_script_flag.c",
       "foff": "0x00629898",
       "vma": "0x80016898",
       "size": 84,
@@ -232,7 +232,7 @@
     {
       "row": "town/func_806A98EC",
       "home": "town/func_8032F468",
-      "tu": "src/town/func_8032F468.c",
+      "tu": "src/town/scene/process_checked_entry.c",
       "foff": "0x006298EC",
       "vma": "0x800168EC",
       "size": 112,
@@ -247,7 +247,7 @@
     {
       "row": "town/func_806A995C",
       "home": "town/func_8032F4D8",
-      "tu": "src/town/func_8032F4D8.c",
+      "tu": "src/town/scene/all_entries_pass_check.c",
       "foff": "0x0062995C",
       "vma": "0x8001695C",
       "size": 108,
@@ -260,7 +260,7 @@
     {
       "row": "town/func_806A99C8",
       "home": "town/func_8032F544",
-      "tu": "src/town/func_8032F544.c",
+      "tu": "src/town/scene/flags/resolve_entry_flag.c",
       "foff": "0x006299C8",
       "vma": "0x800169C8",
       "size": 92,
@@ -274,7 +274,7 @@
     {
       "row": "town/func_806A9A80",
       "home": "town/func_8032F5FC",
-      "tu": "src/town/func_8032F5FC.c",
+      "tu": "src/town/scene/motion/apply_entry_position.c",
       "foff": "0x00629A80",
       "vma": "0x80016A80",
       "size": 172,
@@ -290,7 +290,7 @@
     {
       "row": "town/func_806A9B2C",
       "home": "town/func_8032F6A8",
-      "tu": "src/town/func_8032F6A8.c",
+      "tu": "src/town/scene/process_town_records.c",
       "foff": "0x00629B2C",
       "vma": "0x80016B2C",
       "size": 220,
@@ -305,7 +305,7 @@
     },
     {
       "row": "town/func_806A9C18",
-      "tu": "src/town/func_80481D78.c",
+      "tu": "src/town/scene/flags/get_first_entry_flag.c",
       "home": "town/func_80481D78",
       "foff": "0x629C18",
       "vma": "0x80016C18",
@@ -321,7 +321,7 @@
     {
       "row": "town/func_806A9CC8",
       "home": "town/func_8032F844",
-      "tu": "src/town/func_8032F844.c",
+      "tu": "src/town/scene/object/build_object_set_and_select_lists.c",
       "foff": "0x00629CC8",
       "vma": "0x80016CC8",
       "size": 864,
@@ -342,7 +342,7 @@
     {
       "row": "town/func_806AA028",
       "home": "town/func_8032FBA4",
-      "tu": "src/town/func_8032FBA4.c",
+      "tu": "src/town/scene/mark_indexed_records.c",
       "foff": "0x0062A028",
       "vma": "0x80017028",
       "size": 88,
@@ -354,7 +354,7 @@
     {
       "row": "town/func_806AA080",
       "home": "town/func_8032FBFC",
-      "tu": "src/town/func_8032FBFC.c",
+      "tu": "src/town/scene/save_context_and_dispatch_entry_type.c",
       "foff": "0x0062A080",
       "vma": "0x80017080",
       "size": 124,
@@ -369,7 +369,7 @@
     {
       "row": "town/func_806AA108",
       "home": "town/func_8032FC84",
-      "tu": "src/town/func_8032FC84.c",
+      "tu": "src/town/scene/object/init_object_set_runtime_pointers.c",
       "foff": "0x0062A108",
       "vma": "0x80017108",
       "size": 132,
@@ -391,7 +391,7 @@
     {
       "row": "town/func_806AA198",
       "home": "town/func_800B0DB0",
-      "tu": "src/town/func_800B0DB0.c",
+      "tu": "src/town/shop/item/item_menu_return_zero.c",
       "foff": "0x0062A198",
       "vma": "0x80017198",
       "size": 8,
@@ -404,7 +404,7 @@
     {
       "row": "town/func_806AA1A0",
       "home": "town/func_8032EBF4",
-      "tu": "src/town/func_8032EBF4.c",
+      "tu": "src/town/shop/clear_bytes.c",
       "foff": "0x0062A1A0",
       "vma": "0x800171A0",
       "size": 40,
@@ -416,7 +416,7 @@
     {
       "row": "town/func_806AA1C8",
       "home": "town/func_8032EC1C",
-      "tu": "src/town/func_8032EC1C.c",
+      "tu": "src/town/scene/copy_words.c",
       "foff": "0x0062A1C8",
       "vma": "0x800171C8",
       "size": 44,
@@ -428,7 +428,7 @@
     {
       "row": "town/func_806AA1F4",
       "home": "town/func_8032EC48",
-      "tu": "src/town/func_8032EC48.c",
+      "tu": "src/town/scene/dialogue/copy_string.c",
       "foff": "0x0062A1F4",
       "vma": "0x800171F4",
       "size": 60,
@@ -440,7 +440,7 @@
     {
       "row": "town/func_806AA230",
       "home": "town/func_8032EC84",
-      "tu": "src/town/func_8032EC84.c",
+      "tu": "src/town/scene/dialogue/append_string.c",
       "foff": "0x0062A230",
       "vma": "0x80017230",
       "size": 96,
@@ -452,7 +452,7 @@
     {
       "row": "town/func_806AA290",
       "home": "town/func_803304E8",
-      "tu": "src/town/func_803304E8.c",
+      "tu": "src/town/player/state/set_script_flag_bit.c",
       "foff": "0x0062A290",
       "vma": "0x80017290",
       "size": 120,
@@ -465,7 +465,7 @@
     {
       "row": "town/func_806AA308",
       "home": "town/func_80330560",
-      "tu": "src/town/func_80330560.c",
+      "tu": "src/town/player/state/clear_script_flag_bit.c",
       "foff": "0x0062A308",
       "vma": "0x80017308",
       "size": 128,
@@ -478,7 +478,7 @@
     {
       "row": "town/func_806AA388",
       "home": "town/func_803305E0",
-      "tu": "src/town/func_803305E0.c",
+      "tu": "src/town/player/state/get_script_flag_mask.c",
       "foff": "0x0062A388",
       "vma": "0x80017388",
       "size": 112,

@@ -76,9 +76,9 @@ void update_bank_timed_effect(void *state_input, void *motion_input, void *anima
             spawn_offset[0] = 0;
         }
 
-        effect_object = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
+        effect_object = allocate_list_node(0x201, ((u8 *)(&D_80083498)));
         if (effect_object != NULL) {
-            func_8004491C(effect_object, D_80174688);
+            register_node(effect_object, D_80174688);
             PTR_AT(effect_object, 0x10) = create_cylindrical_effect;
             spawned_data = (u8 *)effect_object + 0x20;
             S16_AT(spawned_data, 0x0C) = U16_AT(motion, 2) + spawn_offset[0];
@@ -124,7 +124,7 @@ void update_bank_timed_effect(void *state_input, void *motion_input, void *anima
         }
 
         PTR_AT(animation_input, 0x2C) = D_80174B14;
-        func_80047784(animation_input,
+        select_sprite_entry(animation_input,
             D_80174B14[((g_game_work.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
             0);
         next_state = U8_AT(state_input, 0x9B);
@@ -137,7 +137,7 @@ void update_bank_timed_effect(void *state_input, void *motion_input, void *anima
             S32_AT(motion, 0x0C) = 0;
             reduce_actor_food_meter(actor_input, 0x800);
             PTR_AT(animation_input, 0x2C) = D_80174ACC;
-            func_80047784(animation_input,
+            select_sprite_entry(animation_input,
                 D_80174ACC[((g_game_work.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
                 0);
             g_dungeon_status.unk_0A--;

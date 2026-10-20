@@ -1,0 +1,308 @@
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+#include "../../ovmovie/modules/ovmovie_libpress_storage.c"
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+
+/* Apply the requested mode, performing setup when it is zero. */
+void set_movie_decode_mode(s32 mode) {
+    if (mode == 0) {
+        func_8005FFFC();
+    }
+    reset_decoder_and_load_tables(mode);
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+
+typedef struct S_80040F10_0 {
+    s32 unk_00;
+} S_80040F10_0;
+
+typedef struct S_80040F10_1 {
+    s32 unk_00;
+} S_80040F10_1;
+
+typedef struct S_80040F10_2 {
+    s32 unk_00;
+} S_80040F10_2;
+
+typedef struct S_80040F10_3 {
+    s32 unk_00;
+} S_80040F10_3;
+
+typedef struct S_80040F10_4 {
+    s32 unk_00;
+} S_80040F10_4;
+
+typedef struct S_80040F10_5 {
+    s32 unk_00;
+} S_80040F10_5;
+
+/* Copy three global data blocks into a contiguous 256-byte buffer. */
+s32 *copy_decoder_tables_to_buffer(s8 *buffer) {
+    s8 *first_src;
+    s8 *second_src;
+    s8 *third_src;
+    s8 *first_dst;
+    s8 *second_dst;
+    s8 *third_dst;
+    s32 first_word;
+    s32 second_word;
+    s32 third_word;
+    s32 first_countdown;
+    s32 second_countdown;
+    s32 third_countdown;
+
+    first_dst = buffer;
+    first_src = D_80178240;
+    first_countdown = 0xF;
+    do {
+        first_word = ((S_80040F10_0 *)first_src)->unk_00;
+        first_src += 4;
+        first_countdown -= 1;
+        ((S_80040F10_1 *)first_dst)->unk_00 = first_word;
+        first_dst += 4;
+    } while (first_countdown != -1);
+    second_dst = buffer + 0x40;
+    second_src = D_80178280;
+    second_countdown = 0xF;
+    do {
+        second_word = ((S_80040F10_2 *)second_src)->unk_00;
+        second_src += 4;
+        second_countdown -= 1;
+        ((S_80040F10_3 *)second_dst)->unk_00 = second_word;
+        second_dst += 4;
+    } while (second_countdown != -1);
+    third_dst = buffer + 0x80;
+    third_src = &D_801782C4;
+    third_countdown = 0x1F;
+    do {
+        third_word = ((S_80040F10_4 *)third_src)->unk_00;
+        third_src += 4;
+        third_countdown -= 1;
+        ((S_80040F10_5 *)third_dst)->unk_00 = third_word;
+        third_dst += 4;
+    } while (third_countdown != -1);
+    return buffer;
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+
+
+
+
+typedef struct S_80040F9C_0 {
+    s32 unk_00;
+} S_80040F9C_0;   /* src in copy_decoder_blocks_to_globals */
+
+typedef struct S_80040F9C_1 {
+    s32 unk_00;
+} S_80040F9C_1;   /* dst in copy_decoder_blocks_to_globals */
+
+/* Copies two 64-byte blocks into global buffers and processes two global regions. */
+s8 *copy_decoder_blocks_to_globals(s8 *data) {
+    s8 *data_start;
+    s8 *src;
+    s8 *dst;
+    s32 word;
+    s32 word_index;
+
+    data_start = data;
+    src = data;
+    dst = D_80178240;
+    word_index = 0xF;
+    do {
+        word = ((S_80040F9C_0 *)src)->unk_00;
+        src += 4;
+        word_index -= 1;
+        ((S_80040F9C_1 *)dst)->unk_00 = word;
+        dst += 4;
+    } while (word_index != -1);
+
+    dst = D_80178280;
+    src = data_start + 0x40;
+    word_index = 0xF;
+    do {
+        word = ((S_80040F9C_0 *)src)->unk_00;
+        src += 4;
+        word_index -= 1;
+        ((S_80040F9C_1 *)dst)->unk_00 = word;
+        dst += 4;
+    } while (word_index != -1);
+
+    start_decoder_input_dma((s32 *)&D_8017823C, 0x20);
+    start_decoder_input_dma((s32 *)&D_801782C0, 0x20);
+    return data_start;
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+/* Returns the unsigned 16-bit value at the given pointer. */
+s32 func_80177838(u16 *value_ptr) {
+    return *value_ptr;
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+
+/* Apply option flags to a command word and dispatch its update. */
+void configure_decoder_command_flags(s32 *command, s32 flags)
+{
+    if (flags & 1) {
+        *command &= ~0x08000000;
+    } else {
+        *command |= 0x08000000;
+    }
+
+    if (flags & 2) {
+        *command |= 0x02000000;
+    } else {
+        *command &= ~0x02000000;
+    }
+
+    start_decoder_input_dma(command, *(u16 *)command);
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+/* Send the output DMA request to the decoder. */
+void request_decoder_output_dma(s32 destination, u32 words) { start_decoder_output_dma(destination, words); }
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+
+/* Read status bit 29, or refresh and hand back the refresher's status. */
+s32 read_decoder_input_dma_status(s32 read_status_bit) {
+    if (read_status_bit != 0) {
+        return (read_decoder_status_register() >> 0x1D) & 1;
+    }
+    return wait_for_decoder_input_dma();
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+
+/* Read status bit 24, or refresh and hand back the refresher's status. */
+s32 read_decoder_output_dma_status(s32 read_status_bit) {
+    if (read_status_bit != 0) {
+        return (read_decoder_status_register() >> 0x18) & 1;
+    }
+    return wait_for_decoder_output_dma();
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+
+/* Forwards the value to func_8006005C with a zero first argument. */
+s32 register_mode_zero_callback(void (*callback)(void)) {
+    return func_8006005C(0, callback);
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+
+/* Passes 1 and the supplied value to func_8006005C. */
+s32 register_mode_one_callback(void (*callback)(void)) {
+    return func_8006005C(1, callback);
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+/* Reset the decoder and optionally upload its quantization and coefficient tables. */
+static void reset_decoder_and_load_tables(s32 mode) {
+    switch (mode) {
+    case 0:
+        *(volatile u32 *)D_80178380 = 0x80000000;
+        *(volatile u32 *)D_80178354 = 0;
+        *(volatile u32 *)D_80178360 = 0;
+        *(volatile u32 *)D_80178380 = 0x60000000;
+        start_decoder_input_dma((s32 *)&D_8017823C, 0x20);
+        start_decoder_input_dma((s32 *)&D_801782C0, 0x20);
+        return;
+    case 1:
+        *(volatile u32 *)D_80178380 = 0x80000000;
+        *(volatile u32 *)D_80178354 = 0;
+        *(volatile u32 *)D_80178360 = 0;
+        (void)*(volatile s32 *)D_80178360;
+        *(volatile u32 *)D_80178380 = 0x60000000;
+        return;
+    default:
+        printf(&D_80176800, mode);
+        return;
+    }
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+
+/* Writes the command word and starts a transfer of the remaining input data. */
+static void start_decoder_input_dma(s32 *input_data, u32 word_count) {
+    wait_for_decoder_input_dma();
+    *D_80178384 |= 0x88;
+    *D_8017834C = input_data + 1;
+    *D_80178350 = ((word_count >> 5) << 0x10) | 0x20;
+    *D_8017837C = *input_data;
+    *D_80178354 = 0x01000201;
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+
+/* Starts a DMA transfer to memory in 32-word blocks. */
+static void start_decoder_output_dma(s32 dest_addr, u32 word_count) {
+    wait_for_decoder_output_dma();
+    *D_80178384 |= 0x88;
+    *D_80178360 = 0;
+    *D_80178358 = dest_addr;
+    *D_8017835C = ((word_count >> 5) << 0x10) | 0x20;
+    *D_80178360 = 0x01000200;
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+
+static s32 wait_for_decoder_input_dma(void) {
+    volatile s32 polls_left = 0x100000;
+    if (*D_80178380 & 0x20000000) {
+        do {
+            if (--polls_left == -1) {
+                report_decoder_error_and_reset((const char *)&D_8017681C);
+                return -1;
+            }
+        } while (*D_80178380 & 0x20000000);
+    }
+    return 0;
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+/* Wait for output DMA completion, resetting the decoder on timeout. */
+static s32 wait_for_decoder_output_dma(void) {
+    volatile s32 polls_left = 0x100000;
+    if (*D_80178360 & 0x01000000) {
+        do {
+            if (--polls_left == -1) {
+                report_decoder_error_and_reset((const char *)&D_8017682C);
+                return -1;
+            }
+        } while (*D_80178360 & 0x01000000);
+    }
+    return 0;
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+
+/* Return the value pointed to by D_80178380. */
+static u32 read_decoder_status_register(void) {
+    return *(s32 *)D_80178380;
+}
+#include "../../ovmovie/modules/ovmovie_libpress.h"
+
+
+/* Prints decoder diagnostics and resets the decoder and its DMA channels. */
+static s32 report_decoder_error_and_reset(const char *diagnostic_value) {
+    u32 decoder_status;
+    u32 input_dma_busy;
+    u32 output_dma_busy;
+    s32 result;
+
+    printf(&D_8017689C, diagnostic_value);
+    decoder_status = *(volatile u32 *) D_80178380;
+    input_dma_busy = (*(volatile u32 *)D_80178354 >> 0x18) & 1;
+    output_dma_busy = (*(volatile u32 *) D_80178360 >> 0x18) & 1;
+    printf(&D_8017683C, input_dma_busy, output_dma_busy, *D_8017834C, *D_80178358);
+    printf(&D_80176864, (u32) ~decoder_status >> 0x1F, (decoder_status >> 0x1E) & 1, (decoder_status >> 0x1D) & 1,
+           (decoder_status >> 0x1C) & 1, (decoder_status >> 0x1B) & 1, (decoder_status >> 0x19) & 1,
+           (decoder_status >> 0x17) & 1);
+    *D_80178380 = 0x80000000;
+    *D_80178354 = 0;
+    *D_80178360 = 0;
+    result = 0;
+    (void) *(volatile u32 *) D_80178360;
+    *D_80178380 = 0x60000000;
+    return result;
+}

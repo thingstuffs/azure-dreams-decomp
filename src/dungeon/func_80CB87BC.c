@@ -42,7 +42,7 @@ s32 func_8014DFBC(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         ((CL_CD7000_80171FBC_S_80171DA0_1 *)sprite_arg)->unk_2C = D_801512B4;
-        func_80047784(sprite_arg, D_801512B4[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite_arg, D_801512B4[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->unk_6D--;
         prepare_directional_attack(actor, sprite_arg, actor->facing, 1, 0);
         return 1;

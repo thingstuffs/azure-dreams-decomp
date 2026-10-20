@@ -1,4 +1,4 @@
-#include "slus/cd_cohort_types.h"
+#include "engine/scene/cd_cohort_types.h"
 
 /* Two adjacent scalar globals (loaded/stored individually via $gp) that are
  * also treated as one small struct when their combined address is taken. */

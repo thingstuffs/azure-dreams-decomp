@@ -61,7 +61,7 @@ extern void create_two_effect_groups(void *, void *, void *, s32);
 extern void set_record_integer_tile_center();
 extern s32 advance_status_timers(void *);
 extern s32 get_cd_command_queue_depth(void);
-extern void func_80047784();
+extern void select_sprite_entry();
 
 extern void update_dungeon_action_behavior_facing_animation_state(void *, void *, void *, void *);
 extern u8 D_8015CEF8[];
@@ -297,7 +297,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
             sprite->scaleY = 0x0C00;
             effect = D_8015CF00;
             sprite->frameTable = effect;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 effect[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             action->flags &= 0xFFF7;
@@ -320,7 +320,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
             return;
         }
         sprite->frameTable = D_8015CEF8;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_8015CEF8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->timer.raw = 10;
@@ -375,7 +375,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         if (sprite->frameTable != D_8015CF00) {
             sprite->frameTable = D_8015CF00;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 D_8015CF00[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }

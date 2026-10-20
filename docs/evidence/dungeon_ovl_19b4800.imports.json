@@ -113,7 +113,7 @@
       "vma": 2148019860,
       "view_bytes": 2,
       "owner": "resident_runtime:slus",
-      "declaration": "src/dungeon/func_81994D8C.c",
+      "declaration": "src/dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.c",
       "evidence": "docs/evidence/dungeon_ovl_19b4800.imports.json"
     },
     "D_80083160": {

@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_80468BB0",
-      "tu": "src/town/func_80468BB0.c",
+      "tu": "src/town/scene/pass_callback_selected_entry.c",
       "home": "town/func_80468BB0",
       "foff": "0x3E8BB0",
       "vma": "0x80019BB0",
@@ -17,7 +17,7 @@
     },
     {
       "row": "town/func_803C8BFC",
-      "tu": "src/town/func_80468BB0.c",
+      "tu": "src/town/scene/pass_callback_selected_entry.c",
       "home": "town/func_80468BB0",
       "foff": "0x3E8BFC",
       "vma": "0x80019BFC",
@@ -25,7 +25,7 @@
     },
     {
       "row": "town/func_803C8C48",
-      "tu": "src/town/func_80468BB0.c",
+      "tu": "src/town/scene/pass_callback_selected_entry.c",
       "home": "town/func_80468BB0",
       "foff": "0x3E8C48",
       "vma": "0x80019C48",
@@ -37,7 +37,7 @@
     },
     {
       "row": "town/func_803C8C94",
-      "tu": "src/town/func_80468BB0.c",
+      "tu": "src/town/scene/pass_callback_selected_entry.c",
       "home": "town/func_80468BB0",
       "foff": "0x3E8C94",
       "vma": "0x80019C94",
@@ -49,7 +49,7 @@
     },
     {
       "row": "town/func_80468CE0",
-      "tu": "src/town/func_80468CE0.c",
+      "tu": "src/town/scene/apply_signed_stat_deltas.c",
       "home": "town/func_80468CE0",
       "foff": "0x3E8CE0",
       "vma": "0x80019CE0",
@@ -57,7 +57,7 @@
     },
     {
       "row": "town/func_803C8D60",
-      "tu": "src/town/func_80468CE0.c",
+      "tu": "src/town/scene/apply_signed_stat_deltas.c",
       "home": "town/func_80468CE0",
       "foff": "0x3E8D60",
       "vma": "0x80019D60",
@@ -65,7 +65,7 @@
     },
     {
       "row": "town/func_80469664",
-      "tu": "src/town/func_80469664.c",
+      "tu": "src/town/scene/prepare_selected_entry_buffer.c",
       "home": "town/func_80469664",
       "foff": "0x3E9664",
       "vma": "0x8001A664",
@@ -73,7 +73,7 @@
     },
     {
       "row": "town/func_803C96D0",
-      "tu": "src/town/func_80469664.c",
+      "tu": "src/town/scene/prepare_selected_entry_buffer.c",
       "home": "town/func_80469664",
       "foff": "0x3E96D0",
       "vma": "0x8001A6D0",
@@ -81,7 +81,7 @@
     },
     {
       "row": "town/func_8046979C",
-      "tu": "src/town/func_8046979C.c",
+      "tu": "src/town/scene/prepare_stored_value_pair.c",
       "home": "town/func_8046979C",
       "foff": "0x3E979C",
       "vma": "0x8001A79C",
@@ -89,7 +89,7 @@
     },
     {
       "row": "town/func_803C97E8",
-      "tu": "src/town/func_8046979C.c",
+      "tu": "src/town/scene/prepare_stored_value_pair.c",
       "home": "town/func_8046979C",
       "foff": "0x3E97E8",
       "vma": "0x8001A7E8",
@@ -97,7 +97,7 @@
     },
     {
       "row": "town/func_80469C10",
-      "tu": "src/town/func_80469C10.c",
+      "tu": "src/town/scene/store_lookup_state_entry.c",
       "home": "town/func_80469C10",
       "foff": "0x3E9C10",
       "vma": "0x8001AC10",
@@ -105,7 +105,7 @@
     },
     {
       "row": "town/func_803C9C9C",
-      "tu": "src/town/func_80469C10.c",
+      "tu": "src/town/scene/store_lookup_state_entry.c",
       "home": "town/func_80469C10",
       "foff": "0x3E9C9C",
       "vma": "0x8001AC9C",
@@ -113,7 +113,7 @@
     },
     {
       "row": "town/func_8046C280",
-      "tu": "src/town/func_8046C280.c",
+      "tu": "src/town/scene/get_indexed_vertex_and_trace.c",
       "home": "town/func_8046C280",
       "foff": "0x3EC280",
       "vma": "0x8001D280",
@@ -121,7 +121,7 @@
     },
     {
       "row": "town/func_803CC450",
-      "tu": "src/town/func_8032ECE4.c",
+      "tu": "src/town/scene/find_entry_index_assert.c",
       "home": "town/func_8032ECE4",
       "foff": "0x3EC450",
       "vma": "0x8001D450",
@@ -129,7 +129,7 @@
     },
     {
       "row": "town/func_803CC524",
-      "tu": "src/town/func_8032EDB8.c",
+      "tu": "src/town/scene/find_entry_index_assert_b.c",
       "home": "town/func_8032EDB8",
       "foff": "0x3EC524",
       "vma": "0x8001D524",
@@ -137,7 +137,7 @@
     },
     {
       "row": "town/func_803CC614",
-      "tu": "src/town/func_8032EEA8.c",
+      "tu": "src/town/scene/find_entry_by_paired_key.c",
       "home": "town/func_8032EEA8",
       "foff": "0x3EC614",
       "vma": "0x8001D614",
@@ -145,7 +145,7 @@
     },
     {
       "row": "town/func_803CC650",
-      "tu": "src/town/func_8032EEE4.c",
+      "tu": "src/town/scene/find_masked_record_and_initialize.c",
       "home": "town/func_8032EEE4",
       "foff": "0x3EC650",
       "vma": "0x8001D650",
@@ -153,7 +153,7 @@
     },
     {
       "row": "town/func_803CC860",
-      "tu": "src/town/func_8032F0F4.c",
+      "tu": "src/town/scene/apply_entry_keyed_values.c",
       "home": "town/func_8032F0F4",
       "foff": "0x3EC860",
       "vma": "0x8001D860",
@@ -161,7 +161,7 @@
     },
     {
       "row": "town/func_803CCA48",
-      "tu": "src/town/func_8032F2DC.c",
+      "tu": "src/town/scene/find_entry_index_by_grid_bytes.c",
       "home": "town/func_8032F2DC",
       "foff": "0x3ECA48",
       "vma": "0x8001DA48",
@@ -169,7 +169,7 @@
     },
     {
       "row": "town/func_803CD310",
-      "tu": "src/town/func_8032FBA4.c",
+      "tu": "src/town/scene/mark_indexed_records.c",
       "home": "town/func_8032FBA4",
       "foff": "0x3ED310",
       "vma": "0x8001E310",
@@ -177,7 +177,7 @@
     },
     {
       "row": "town/func_803CD368",
-      "tu": "src/town/func_8032FBFC.c",
+      "tu": "src/town/scene/save_context_and_dispatch_entry_type.c",
       "home": "town/func_8032FBFC",
       "foff": "0x3ED368",
       "vma": "0x8001E368",
@@ -185,7 +185,7 @@
     },
     {
       "row": "town/func_8046D7E4",
-      "tu": "src/town/func_8046D7E4.c",
+      "tu": "src/town/scene/hooks/record_value_table_contains_first_byte.c",
       "home": "town/func_8046D7E4",
       "foff": "0x3ED7E4",
       "vma": "0x8001E7E4",

@@ -82,7 +82,7 @@ void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, u8 
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1A = 1;
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1C = 1;
             ((R06_80174934_S_80174934_2 *)strip_obj)->unk_10 = ((u8 *)advance_record_countdown);
-            func_8004491C(init_obj, callback);
+            register_node(init_obj, callback);
 
             render_ctl = ((R06_80174934_S_80174934_2 *)strip_obj)->unk_0C;
             ((R06_80174934_S_80174934_3 *)render_ctl)->unk_10 = 0x20;

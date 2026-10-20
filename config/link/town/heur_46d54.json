@@ -1,19 +1,19 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/heur_46d54",
- "container": "town",
- "foff": "0x46d54",
- "size": "0x64",
- "vma": "0x800c44b4",
- "evidence": "work/native_lane/r121_heur/evidence/placements.json",
- "entries": [
-  {
-   "row": "town/func_800C6D54",
-   "tu": "src/town/func_800C6D54.c",
-   "home": "town/func_800C6D54",
-   "foff": "0x46d54",
-   "vma": "0x800c44b4",
-   "size": 100
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/heur_46d54",
+  "container": "town",
+  "foff": "0x46d54",
+  "size": "0x64",
+  "vma": "0x800c44b4",
+  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "entries": [
+    {
+      "row": "town/func_800C6D54",
+      "tu": "src/town/person/reset_actor_handler_from_linked_entries.c",
+      "home": "town/func_800C6D54",
+      "foff": "0x46d54",
+      "vma": "0x800c44b4",
+      "size": 100
+    }
+  ]
 }

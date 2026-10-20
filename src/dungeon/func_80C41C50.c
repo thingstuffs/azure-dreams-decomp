@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f511800_p03.h"
+#include "dungeon/monster/unicorn/update_directional_motion_and_recenter_actor.h"
 
 /* Fade the entity sprite, then remove the entity and update its tile flags. */
 void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, void *entity)

@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p03.h"
+#include "dungeon/monster/troll/advance_actor_stored_path.h"
 
 /* Select a movement direction, move the actor, and update its path history and height. */
 void select_and_advance_actor_move(u8 *move_input, void *action_context, u8 *position, u8 *actor) {

@@ -9,5 +9,5 @@ void func_8004DDE4(void *data)
     runtime_register_object_or_fallback_slot(data);
     D_80083D98[D_80081554++] = 0x20C11;
     D_80083D98[D_80081554++] = 1;
-    func_8003528C((s32)&D_80083D98[D_80081558]);
+    set_script_record_buffer((s32)&D_80083D98[D_80081558]);
 }

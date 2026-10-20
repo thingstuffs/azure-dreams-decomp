@@ -57,7 +57,7 @@ typedef struct TargetKind {
     u8 kind;
 } TargetKind;
 
-extern void func_80047784(void *, s32, s32);
+extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
@@ -107,7 +107,7 @@ void dispatch_creature_action(ActionState *actor, void *context, ActorSprite *sp
         }
         anim_table = D_8016E8D8;
         sprite_arg->directionFrames = anim_table;
-        func_80047784(sprite_arg, ((u8 *) anim_table)[(((g_game_work.view.viewAngle + (creature->facing)) + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite_arg, ((u8 *) anim_table)[(((g_game_work.view.viewAngle + (creature->facing)) + 0x100) >> 9) & 7], 0);
         return;
     }
     sprite = sprite_arg;
@@ -139,7 +139,7 @@ void dispatch_creature_action(ActionState *actor, void *context, ActorSprite *sp
             anim_table = D_8016E880;
             if (current_anim != anim_table) {
                 sprite->directionFrames = anim_table;
-                func_80047784(sprite, ((u8 *) anim_table)[(((g_game_work.view.viewAngle + (creature->facing)) + 0x100) >> 9) & 7], 0);
+                select_sprite_entry(sprite, ((u8 *) anim_table)[(((g_game_work.view.viewAngle + (creature->facing)) + 0x100) >> 9) & 7], 0);
                 sprite->frameTick = 1;
                 actor->motionOffset.signedValue = 0;
                 actor->motionTicks = 0;

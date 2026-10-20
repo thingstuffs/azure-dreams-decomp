@@ -43,6 +43,7 @@ extern u8 D_8007382B[0x10];
 
 /* Apply a command value to a cell field or dispatch a control message. */
 
+void apply_tone_parameter_command(S_80057A94 *command);
 void func_80057A94(S_80057A94 *command);
 
 #endif

@@ -34,6 +34,7 @@ extern Shared83160 D_80083160;
 extern s32 D_800814A0;
 
 
+extern void reset_group_and_flag_children(void *);
 extern void func_800530C4(void *);
 extern s16 SD_Call(s32);
 extern s32 func_80053EF0(s32);
@@ -46,6 +47,7 @@ extern void func_80041094(s32, s32, s32, s32, s32);
 
 /* Advances the timed child sequence and retires the controller when all children finish. */
 
+void update_scene_effect_controller(Controller *controller);
 void func_80052144(Controller *controller);
 
 #endif

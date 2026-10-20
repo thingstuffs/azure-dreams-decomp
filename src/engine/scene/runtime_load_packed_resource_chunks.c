@@ -1,0 +1,75 @@
+#include "shared/runtime_dispatch.h"
+#include "common.h"
+
+typedef struct Info80046E38 {
+    s32 *data;
+    u16 count;
+} Info80046E38;
+
+typedef struct Pair80046E38 {
+    s32 first;
+    s32 second;
+} Pair80046E38;
+
+extern s32 DrawSync(s32);
+extern void Control_CD(s32, s32 *, s32);
+extern void drain_cd_command_queue(void);
+extern void pack_tagged_resource_descriptor(s32, s32, s32 *, s32);
+extern u8 *decompress_lz(u8 *, u8 *);
+extern void runtime_set_list_pointers_from_type_offsets(u8 *, s16);
+
+extern Info80046E38 *D_8006E7F0[];
+extern s32 D_80080A7C;
+extern u8 *D_80081480;
+extern u8 *D_8008148C[3];
+
+
+/* Processes the selected entry stream and updates the drawing buffer and mode mask. */
+void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
+{
+    Pair80046E38 pair;
+    u8 *stream_start;
+    s32 buffer_start;
+    s32 data_offset;
+    s32 remaining;
+    u8 *table_base;
+    s32 table_offset;
+    s32 shifted_id;
+    Info80046E38 **entry_slot;
+    Info80046E38 *entry;
+    s32 *entry_data;
+
+    stream_start = stream;
+    D_80081480 = D_8008148C[0];
+    buffer_start = (s32)D_8008148C[0];
+    DrawSync(0);
+
+    shifted_id = entry_id << 16;
+    table_base = (u8 *)D_8006E7F0;
+    table_offset = shifted_id >> 14;
+    entry_slot = (Info80046E38 **)(table_offset + (u32)table_base);
+    entry_data = (*entry_slot)->data;
+    pair = *(Pair80046E38 *)entry_data;
+    entry = *entry_slot;
+    remaining = entry->count;
+    data_offset = entry->data[1];
+
+    if (remaining > 0) {
+        do {
+            Control_CD(6, (s32 *)&pair, 0);
+            data_offset += 0x10;
+            drain_cd_command_queue();
+            stream = decompress_lz(D_80081480, stream);
+            remaining--;
+            pack_tagged_resource_descriptor(0x10, 0, (s32 *)&pair, data_offset);
+        } while (remaining > 0);
+    }
+
+    runtime_set_list_pointers_from_type_offsets(stream_start, entry_id);
+    if (D_80082E60.mode != 2) {
+        D_80080A7C = 0x8000;
+    } else {
+        D_80080A7C = 0x4000;
+    }
+    D_80081480 = (u8 *)((buffer_start + 3) & ~3);
+}

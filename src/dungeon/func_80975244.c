@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_9950e8.h"
+#include "dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.h"
 
 void create_directional_template_effect(void *unused, MovingPosition *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
     S_80975244_2 *sprite;
@@ -10,7 +10,7 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
     Block16 *dst;
     Block16 *end;
 
-    effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    effect = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
     template_data = sprite_template;
     if (effect != NULL) {
         effect_state = effect + 0x20;
@@ -36,9 +36,9 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
         sprite->unk_12 = 0xFF80;
         sprite->unk_22 = 0xFFF1;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
-        func_8004491C(effect, func_80045340);
+        register_node(effect, project_sprite_chain);
         sprite->unk_2C = &D_80174128;
-        func_80047784(sprite, *((((s32) (g_game_work.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
+        select_sprite_entry(sprite, *((((s32) (g_game_work.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + D_80174128), 0);
         effect_pos = ((S_80975244_1 *)effect)->unk_08;
         effect_pos->unk_02 = (u16) source_pos->unk_02;

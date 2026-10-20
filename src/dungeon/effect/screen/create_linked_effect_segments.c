@@ -1,0 +1,127 @@
+#include "common.h"
+#include "shared/object_node.h"
+#include "shared/entity_objects.h"
+#include "m2c_compat.h"
+#include "records/Rec_func_800243C4_arg1.h"
+
+extern u8 D_800DF334[];
+void spawn_spiraling();
+void *allocate_list_node();
+s32 func_800644B8();
+s32 func_80064584();
+s16 forward_monster_coordinate_delta();
+void draw_textured_ellipse();
+extern M2C_UNK D_80028214;
+extern M2C_UNK D_80024728;
+
+
+typedef struct S_80024ED4_1 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    s32 * unk_10;
+} S_80024ED4_1;
+
+typedef struct S_80024ED4_2 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u8 pad_04[0x2];
+    u16 unk_06;
+    u8 pad_08[0x2];
+    u16 unk_0A;
+    u8 pad_0C[0x2];
+    u16 unk_0E;
+    u8 pad_10[0x2];
+    u16 unk_12;
+    u8 pad_14[0x2];
+    u16 unk_16;
+} S_80024ED4_2;
+
+typedef struct S_80024ED4_3 {
+    u8 pad_00[0x8];
+    s32 * unk_08;
+    u8 pad_0C[0x10];
+    s16 unk_1C;
+    s16 unk_1E;
+} S_80024ED4_3;
+
+typedef struct S_80024ED4_4 {
+    u8 pad_00[0x8];
+    s32 unk_08;
+    u8 pad_0C[0x8];
+    s16 unk_14;
+    s16 unk_16;
+    s16 unk_18;
+    u8 pad_1A[0x16];
+    s16 unk_30;
+    u8 pad_32[0x6];
+    s16 unk_38;
+} S_80024ED4_4;
+
+/* Creates up to sixteen linked effect segments at the given position. */
+void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
+    s32 setup_params[2];
+    s32 segment_index;
+    s32 alloc_flags;
+    s16 angle;
+    u16 x;
+    u16 y;
+    u16 z;
+    u8 *parent;
+    S_80024ED4_2 *coords;
+    S_80024ED4_4 *segment_state;
+    void *segment;
+    S_80024ED4_3 *render_state;
+    void *previous_segment;
+
+    previous_segment = NULL;
+    segment_index = 0;
+    angle = forward_monster_coordinate_delta(D_80083780.x.w.i, D_80083780.y.w.i, position->unk_02, position->unk_06);
+    do {
+        alloc_flags = 0x12;
+        if (segment_index != 0) {
+            alloc_flags = 0x212;
+        }
+        parent = previous_segment;
+        if (previous_segment == NULL) {
+            parent = ((u8 *)(&D_80083498));
+        }
+        segment = allocate_list_node(alloc_flags, parent);
+        segment_state = segment + 0x20;
+        if (segment != NULL) {
+            coords = ((S_80024ED4_1 *)segment)->unk_08;
+            ((S_80024ED4_1 *)segment)->unk_10 = &D_80024728;
+            x = (u16) position->unk_02;
+            coords->unk_02 = x;
+            coords->unk_0E = x;
+            y = (u16) position->unk_06;
+            coords->unk_06 = y;
+            coords->unk_12 = y;
+            z = position->unk_0A.as_u16;
+            coords->unk_0A = z;
+            coords->unk_16 = z;
+            render_state = ((S_80024ED4_1 *)segment)->unk_0C;
+            render_state->unk_08 = &D_80028214;
+            render_state->unk_1E = 0x800;
+            render_state->unk_1C = 0x800;
+            segment_state->unk_30 = 0x10;
+            if (segment_index == 0) {
+                segment_state->unk_14 = (s16) (coords->unk_02 + (func_80064584(angle) >> 5));
+                segment_state->unk_16 = (s16) (coords->unk_06 + (func_800644B8(angle) >> 5));
+                segment_state->unk_18 = (s16) (coords->unk_0A - 0x40);
+                spawn_spiraling((s16) coords->unk_02, (s16) coords->unk_06, (s16) coords->unk_0A, segment_state->unk_14,
+                    (s32) segment_state->unk_16, (s32) segment_state->unk_18, segment + 0x2C);
+                setup_params[0] = 0x01200340;
+                setup_params[1] = 0x200020;
+                draw_textured_ellipse(D_800DF334, setup_params, 1, 0);
+            }
+            segment_state->unk_08 = previous_segment;
+            previous_segment = segment;
+            segment_state->unk_38 = segment_index;
+        } else {
+            return previous_segment;
+        }
+        segment_index++;
+    } while (segment_index < 0x10);
+    return segment;
+}

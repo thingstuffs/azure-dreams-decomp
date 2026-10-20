@@ -1,11 +1,11 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Sets the object state for the selected mode and flags. */
 void set_object_state_for_mode(void *owner, void *object, s32 mode, s32 flags) {
     if (mode == 2) {
         ((Rec_func_80094268_arg0 *)owner)->unk_93 = 1;
         (*(s32 *)((u8 *)object + (0x28))) = D_80081458[0];
-        func_80047784(object, D_800D07AC, 0);
+        select_sprite_entry(object, D_800D07AC, 0);
         return;
     }
     func_8003DB94(object, D_800D07A4[mode], 0);

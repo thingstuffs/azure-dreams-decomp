@@ -244,7 +244,7 @@
       "view_bytes": 5292,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_18d0850.imports.json",
-      "declaration": "src/dungeon/func_8199A800.c"
+      "declaration": "src/dungeon/effect/mesh/update_directional_actor_effect.c"
     },
     "D_800814A0": {
       "symbol": "D_800814A0",

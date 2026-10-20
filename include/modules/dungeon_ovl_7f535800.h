@@ -11,7 +11,9 @@ extern s32 D_80159014;
 extern s32 D_8015C20C;
 extern s32 D_8015C25C;
 
+extern void *allocate_list_node();
 extern void *func_8003FD64();
+extern void register_node();
 extern void func_8004491C();
 extern void set_or_clear_actor_status_slot();
 extern s32 generate_random_value();
@@ -57,5 +59,6 @@ typedef struct S_80158878_4 {
 
 /* Allocates an object and initializes its state and attached data. */
 
+void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value);
 void *func_80158878(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value);
 #endif

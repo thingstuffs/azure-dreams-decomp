@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p01.h"
+#include "dungeon/monster/troll/troll_flash_effects.h"
 
 /* Creates and initializes an object at an offset from the supplied position. */
 void spawn_growing_rotating_flash(void *unused, s32 *position) {
@@ -13,7 +13,7 @@ void spawn_growing_rotating_flash(void *unused, s32 *position) {
         header->value18 = 0x1C;
         header->value1a = 0x1C;
         object->field10 = &update_growing_rotating_flash;
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
         child = object->child;
         child->value10 = 0x60;
         child->flags14 |= 0xC;

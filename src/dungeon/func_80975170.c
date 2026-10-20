@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_9950e8.h"
+#include "dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.h"
 
 void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform, Rec_D_80082E80 *render_state)
 {

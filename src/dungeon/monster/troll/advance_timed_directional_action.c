@@ -1,0 +1,133 @@
+#include "common.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "records/Rec_D_80082E80.h"
+#include "shared/entity.h"
+#include "records/Rec_func_8017121C_arg1.h"
+
+typedef struct S_801743C4_0 {
+    u8 pad_00[0x8C];
+    u8 * unk_8C;
+    u8 pad_90[0x6];
+    union { u16 s; s16 u; } unk_96;   /* accessed as both */
+    u8 pad_98[0x3];
+    u8 unk_9B;
+    u8 pad_9C[0xE];
+    s16 unk_AA;
+} S_801743C4_0;   /* arg0 in advance_timed_directional_action */
+
+
+extern void select_sprite_entry(void *, s32, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
+extern void create_targeted_motion_effect(void *, void *, void *, void *);
+extern void create_actor_action_effect(void *, void *, void *, void *);
+
+extern u8 D_801724BC[];
+extern u8 D_80175DDC[8];
+extern u8 D_80175DE4[8];
+extern u8 D_80175DEC[8];
+
+/* Advance a timed action sequence with directional animation and sound effects. */
+void advance_timed_directional_action(void *action, void *motion, void *sprite, EntityRec *entity)
+{
+    s16 timer;
+    u8 state;
+
+    state = ((S_801743C4_0 *)action)->unk_9B;
+    switch (state) {
+
+    case 0:
+        ((Rec_func_8017121C_arg1 *)motion)->unk_14 = 0;
+        ((Rec_func_8017121C_arg1 *)motion)->unk_10 = 0;
+        ((Rec_func_8017121C_arg1 *)motion)->unk_0C = 0;
+        ((S_801743C4_0 *)action)->unk_96.s = 0;
+        ((S_801743C4_0 *)action)->unk_9B++;
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            return;
+        }
+
+    case 1:
+        timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
+        ((S_801743C4_0 *)action)->unk_96.s = timer;
+        if ((timer != 4) && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            return;
+        }
+        ((S_801743C4_0 *)action)->unk_96.s = 0;
+        ((S_801743C4_0 *)action)->unk_9B++;
+        switch (entity->unk_48) {
+        case 13:
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80175DDC;
+            select_sprite_entry(sprite,
+                D_80175DDC[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                0);
+            return;
+        case 14:
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80175DE4;
+            select_sprite_entry(sprite,
+                D_80175DE4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                0);
+            return;
+        case 15:
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80175DEC;
+            select_sprite_entry(sprite,
+                D_80175DEC[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                0);
+            ((S_801743C4_0 *)action)->unk_9B = 5;
+            play_sound_if_enabled(0x60C);
+            return;
+        default:
+            return;
+        }
+
+    case 2:
+        timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
+        ((S_801743C4_0 *)action)->unk_96.s = timer;
+        if ((timer == 5) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            resolve_attack_damage_and_effects(entity, sprite, entity->facing, 1);
+            ((S_801743C4_0 *)action)->unk_96.s = 0;
+            ((S_801743C4_0 *)action)->unk_9B++;
+        }
+        if (((S_801743C4_0 *)action)->unk_96.u == 3) {
+            play_sound_if_enabled(0x804);
+            return;
+        }
+        return;
+
+    case 3:
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+            reduce_actor_food_meter(entity, 0x100);
+            ((S_801743C4_0 *)action)->unk_8C = D_801724BC;
+            g_dungeon_status.unk_0C = 0;
+            advance_status_timers(entity);
+            entity->unk_46 &= 0x7FFF;
+        }
+        return;
+
+    case 5:
+        timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
+        ((S_801743C4_0 *)action)->unk_96.s = timer;
+        if ((timer == 10) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
+            play_sound_if_enabled(0x804);
+            create_targeted_motion_effect(action, motion, sprite, entity);
+            create_actor_action_effect(action, motion, sprite, entity);
+        }
+        if ((((S_801743C4_0 *)action)->unk_96.u == 12) ||
+            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            resolve_attack_damage_and_effects(entity, sprite, entity->facing,
+                ((S_801743C4_0 *)action)->unk_AA);
+        }
+        if ((((S_801743C4_0 *)action)->unk_96.u == 20) ||
+            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+            ((S_801743C4_0 *)action)->unk_96.s = 0;
+            ((S_801743C4_0 *)action)->unk_9B = 3;
+        }
+    case 4:
+    default:
+        return;
+    }
+}

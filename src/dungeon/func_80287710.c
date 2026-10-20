@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void reset_generation_link_scratch(void) {
     s32 entry_index;

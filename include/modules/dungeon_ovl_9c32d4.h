@@ -175,6 +175,7 @@ typedef struct ovl_9c32d4_809A38E4_RingRadii {
     u16 outer_x;
     u16 outer_y;
 } ovl_9c32d4_809A38E4_RingRadii;
+extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_80067E2C(void *, void *);
@@ -183,12 +184,14 @@ void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_
                    s32 draw_bucket, s32 start_segment, s32 end_segment);
 extern void process_linked_mesh_states_mode_0(void);
 extern u8 D_801C9E40[16];
+extern void *allocate_list_node();
 extern void *func_8003FD64();
 extern u8 D_80175F90[12];
 extern s16 D_8006CCD8[];
 extern s16 D_8006CCE8[];
 extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 height);
 extern s32 D_800814A0;
+extern void project_sprite_chain(void);
 extern void func_80045340(void);
 extern u32 func_80069EF8(void);
 extern u8 D_80175F9C[12];

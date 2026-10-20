@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_spawns.h"
+#include "dungeon/level/spawn.h"
 
 void populate_floor_item_records(void)
 {

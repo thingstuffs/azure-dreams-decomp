@@ -16,7 +16,7 @@ void update_actor_state_by_flags(void *in_actor, void *in_context, void *in_spri
             return;
         }
         (*(void * *)((u8 *)in_sprite + 0x2C)) = ((u8 *)D_80175894);
-        func_80047784(in_sprite,(u8)(((u8 *)D_80175894)[((g_game_work.view.viewAngle + ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7]),
+        select_sprite_entry(in_sprite,(u8)(((u8 *)D_80175894)[((g_game_work.view.viewAngle + ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7]),
             0);
         ((R06_801734B0_S_801734B0_0 *)in_actor)->unk_96 = 0;
         {
@@ -30,9 +30,9 @@ void update_actor_state_by_flags(void *in_actor, void *in_context, void *in_spri
         return;
 
     case 1:
-        if ((func_80042900(in_entity, 1) << 16) == 0) {
+        if ((get_entity_effect_value(in_entity, 1) << 16) == 0) {
             (*(void * *)((u8 *)in_sprite + 0x2C)) = ((u8 *)D_80175894);
-            func_80047784(in_sprite,(u8)(((u8 *)D_80175894)[((g_game_work.view.viewAngle + ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7]),
+            select_sprite_entry(in_sprite,(u8)(((u8 *)D_80175894)[((g_game_work.view.viewAngle + ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7]),
                 0);
             ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_1C.s |= 0x40000;
             if (!(((R06_801734B0_S_801734B0_1 *)in_sprite)->unk_14 & 0x8000)) {
@@ -96,24 +96,24 @@ void update_actor_state_by_flags(void *in_actor, void *in_context, void *in_spri
                 }
             }
             update_actor_status_and_food(in_entity);
-            func_800A9A04(in_entity);
-            if ((func_80042900(in_entity, 1) << 16) != 0) {
+            on_actor_status_updated(in_entity);
+            if ((get_entity_effect_value(in_entity, 1) << 16) != 0) {
                 TileObject *origin = &D_80082E80;
                 s8 tile = ((R06_801734B0_S_801734B0_1 *)in_sprite)->unk_26;
 
                 if (((tile == origin->unk_026) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, in_sprite) < 2)) {
                     if (!(generate_random_value() & 7)) {
-                        func_80042B68(in_entity, 1);
+                        clear_slots_of_type(in_entity, 1);
                     }
                 }
             }
-            if ((func_80042900(in_entity, 1) << 16) != 0) {
+            if ((get_entity_effect_value(in_entity, 1) << 16) != 0) {
                 return;
             }
         }
         (*(void * *)((u8 *)in_sprite + 0x2C)) = ((u8 *)D_80175894);
-        func_80047784(in_sprite,(u8)(((u8 *)D_80175894)[((g_game_work.view.viewAngle + ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7]),
+        select_sprite_entry(in_sprite,(u8)(((u8 *)D_80175894)[((g_game_work.view.viewAngle + ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7]),
             0);
         {
             u32 updated_flags;

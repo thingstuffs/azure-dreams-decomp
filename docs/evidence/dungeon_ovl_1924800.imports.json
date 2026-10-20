@@ -217,7 +217,7 @@
       "view_bytes": 1,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_1924800.imports.json",
-      "declaration": "include/modules/dungeon_ovl_1924800.h"
+      "declaration": "include/dungeon/effect/mesh/build_textured_sprite_strips.h"
     }
   },
   "functions": {

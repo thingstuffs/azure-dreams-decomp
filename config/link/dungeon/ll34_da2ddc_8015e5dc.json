@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80D82DDC",
-      "tu": "src/dungeon/func_800CF1BC.c",
+      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
       "home": "dungeon/func_800CF1BC",
       "foff": "0xDA2DDC",
       "vma": "0x8015E5DC",

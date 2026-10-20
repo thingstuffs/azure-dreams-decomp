@@ -145,7 +145,7 @@
       "view_bytes": 12,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_19c088c.imports.json",
-      "declaration": "src/dungeon/func_8196C568.c"
+      "declaration": "src/dungeon/effect/particle/propagate_target_flags_effect.c"
     },
     "D_80082E94": {
       "symbol": "D_80082E94",
@@ -153,7 +153,7 @@
       "vma": 2148019860,
       "view_bytes": 2,
       "owner": "resident_runtime:slus",
-      "declaration": "src/dungeon/func_81994D8C.c",
+      "declaration": "src/dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.c",
       "evidence": "docs/evidence/dungeon_ovl_19c088c.imports.json"
     },
     "D_80083160": {

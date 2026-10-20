@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p03.h"
+#include "dungeon/monster/troll/advance_actor_stored_path.h"
 
 /* Advances the actor along its stored path and updates its movement state. */
 void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, void *path_state)
@@ -34,7 +34,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
         direction_addr =
             ((g_game_work.view.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
         direction_addr += (unsigned long)direction_table;
-        func_80047784(actor, *(u8 *)direction_addr, 0);
+        select_sprite_entry(actor, *(u8 *)direction_addr, 0);
     }
         break;
     case 0xE:
@@ -45,7 +45,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
         direction_addr =
             ((g_game_work.view.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
         direction_addr += (unsigned long)direction_table;
-        func_80047784(actor, *(u8 *)direction_addr, 0);
+        select_sprite_entry(actor, *(u8 *)direction_addr, 0);
     }
         break;
     case 0xF:
@@ -56,7 +56,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
         direction_addr =
             ((g_game_work.view.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
         direction_addr += (unsigned long)direction_table;
-        func_80047784(actor, *(u8 *)direction_addr, 0);
+        select_sprite_entry(actor, *(u8 *)direction_addr, 0);
     }
         break;
     default:

@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Classify an object using its state and two positions relative to the geometry bounds. */
 s32 classify_object_against_bounds(func_8009F880_S_8009CFE0_0 *object, void *position_data)

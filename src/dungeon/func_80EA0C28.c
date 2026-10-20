@@ -66,7 +66,7 @@ extern u8 D_80162F58[];
 extern u16 D_80162FC4[];
 extern u16 D_80162FD4[];
 
-extern void func_80047784();
+extern void select_sprite_entry();
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern void set_record_integer_tile_center();
@@ -108,7 +108,7 @@ void update_entity_movement_and_recovery_animation(ActorActionView *action, Acto
         update_map_cell_flags_with_item_limit(sprite->tile.bytes.x, sprite->tile.bytes.y,
             (entity->flags & 0x2000) ? 0x300 : 0x3000);
         (sprite->frameTable) = D_80162EF8;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_80162EF8[((g_game_work.view.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
         motion->velocityX = (x_step << 19) + (x_step << 18);
         motion->velocityY = (y_step << 19) + (y_step << 18);
@@ -126,7 +126,7 @@ void update_entity_movement_and_recovery_animation(ActorActionView *action, Acto
         motion->velocityY = 0;
         motion->velocityX = 0;
         (sprite->frameTable) = D_80162F58;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_80162F58[((g_game_work.view.viewAngle +
                 entity->facing.signedValue + 0x100) >> 9) & 7], 0);
         action->timer.raw = 0;
@@ -142,7 +142,7 @@ void update_entity_movement_and_recovery_animation(ActorActionView *action, Acto
         motion->velocityY = 0;
         motion->velocityX = 0;
         (sprite->frameTable) = D_80162F00;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_80162F00[((g_game_work.view.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
         if (entity->flags & 0x2000) {
             action->timer.raw = 7;
@@ -158,7 +158,7 @@ void update_entity_movement_and_recovery_animation(ActorActionView *action, Acto
             u16 angle = entity->facing.raw;
             if ((entity->facing.signedValue == 0x400) ||
                 (sprite->flags & 0x8000)) {
-                func_80047784(sprite, 0x37, 0);
+                select_sprite_entry(sprite, 0x37, 0);
                 action->phase++;
                 return;
             }
@@ -174,7 +174,7 @@ void update_entity_movement_and_recovery_animation(ActorActionView *action, Acto
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        func_80047784(sprite, 0x38, 0);
+        select_sprite_entry(sprite, 0x38, 0);
         attempts_left = 0x40;
         player_tile = &D_80082E80;
         floor_limits = D_80081468;
@@ -228,7 +228,7 @@ void update_entity_movement_and_recovery_animation(ActorActionView *action, Acto
             entity->groundHeight = height;
             sprite->frameTable = D_80162F00;
             reduce_actor_food_meter(entity, 0x200);
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 sprite->frameTable[((g_game_work.view.viewAngle + entity->facing.signedValue + 0x100)
                     >> 9) & 7], 0);
             cycle_map_cell_flags(sprite->tile.bytes.x, sprite->tile.bytes.y,

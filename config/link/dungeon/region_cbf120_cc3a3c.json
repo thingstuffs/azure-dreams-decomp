@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80CA1B04",
-      "tu": "src/dungeon/func_809D1AC0.c",
+      "tu": "src/dungeon/actor/forward_actor_defeat_removal_second.c",
       "home": "dungeon/func_809D1AC0",
       "foff": "0xCC1B04",
       "vma": "0x80167304",
@@ -23,7 +23,7 @@
     {
       "row": "dungeon/func_80CA1B9C",
       "home": "dungeon/func_80AC854C",
-      "tu": "src/dungeon/func_80AC854C.c",
+      "tu": "src/dungeon/monster/saber/advance_actor_action_and_direction.c",
       "foff": "0x00CC1B9C",
       "vma": "0x8016739C",
       "size": 912,

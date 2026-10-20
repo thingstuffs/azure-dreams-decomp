@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p01.h"
+#include "dungeon/monster/troll/troll_flash_effects.h"
 
 /* Creates a render object at the supplied position with an optional owner offset. */
 void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 *base_position)
@@ -9,11 +9,11 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
     void *owner;
     T_80171BEC_S_80171BEC_2 *position;
 
-    object = func_8003FD64(0x212, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x212, ((s32 *)&D_80083498.next));
     if (object != 0) {
         ((T_80171BEC_S_80171BEC_0 *)object)->unk_40 = attachment;
         ((T_80171BEC_S_80171BEC_0 *)object)->unk_10 = &update_tracked_attachment_sprite;
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
 
         render = ((T_80171BEC_S_80171BEC_0 *)object)->unk_0C;
         render->unk_10 = 0x20;

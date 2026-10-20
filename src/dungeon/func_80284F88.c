@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 s16 find_highest_eligible_sample(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
 {

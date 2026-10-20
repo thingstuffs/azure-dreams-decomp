@@ -18,7 +18,7 @@ void initialize_bank_actor_action(Rec_func_800A9E70_arg0 *action_state, s32 moti
             action_state->unk_9A.as_s8 = 0x11;
             action_state->unk_8C = 0;
             action_state->unk_9B.as_s8 = 0;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                           *((u8 *)sprite->frameTable + (((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7)),
                           0);
             entity->unk_6D--;

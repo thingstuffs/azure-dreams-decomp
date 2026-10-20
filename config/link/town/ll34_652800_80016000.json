@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_806D2890",
-      "tu": "src/town/func_800B0DB0.c",
+      "tu": "src/town/shop/item/item_menu_return_zero.c",
       "home": "town/func_800B0DB0",
       "foff": "0x652890",
       "vma": "0x80016090",
@@ -21,7 +21,7 @@
     },
     {
       "row": "town/func_806D2AB0",
-      "tu": "src/town/func_806D2AB0.c",
+      "tu": "src/town/scene/find_entry_28_index_or_assert_rev_b.c",
       "home": "town/func_806D2AB0",
       "foff": "0x652AB0",
       "vma": "0x800162B0",
@@ -29,7 +29,7 @@
     },
     {
       "row": "town/func_806D2B7C",
-      "tu": "src/town/func_8032EEA8.c",
+      "tu": "src/town/scene/find_entry_by_paired_key.c",
       "home": "town/func_8032EEA8",
       "foff": "0x652B7C",
       "vma": "0x8001637C",
@@ -41,7 +41,7 @@
     },
     {
       "row": "town/func_806D2BB8",
-      "tu": "src/town/func_806D2BB8.c",
+      "tu": "src/town/scene/get_or_init_masked_entry.c",
       "home": "town/func_806D2BB8",
       "foff": "0x652BB8",
       "vma": "0x800163B8",
@@ -49,7 +49,7 @@
     },
     {
       "row": "town/func_806D2C3C",
-      "tu": "src/town/func_806D2C3C.c",
+      "tu": "src/town/scene/copy_records_with_control_bits.c",
       "home": "town/func_806D2C3C",
       "foff": "0x652C3C",
       "vma": "0x8001643C",
@@ -57,7 +57,7 @@
     },
     {
       "row": "town/func_806D35DC",
-      "tu": "src/town/func_806D35DC.c",
+      "tu": "src/town/scene/copy_words_rev_b.c",
       "home": "town/func_806D35DC",
       "foff": "0x6535DC",
       "vma": "0x80016DDC",

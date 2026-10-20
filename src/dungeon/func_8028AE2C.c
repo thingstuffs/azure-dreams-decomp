@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void update_active_area_tiles(void) {
     floor_generate_isolated_8028AE2C_DungeonArea *area;

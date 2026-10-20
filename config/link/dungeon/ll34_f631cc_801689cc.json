@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80F431CC",
-      "tu": "src/dungeon/func_800AD508.c",
+      "tu": "src/dungeon/effect/state/set_effect_state_pointer_on_success.c",
       "home": "dungeon/func_800AD508",
       "foff": "0xF631CC",
       "vma": "0x801689CC",

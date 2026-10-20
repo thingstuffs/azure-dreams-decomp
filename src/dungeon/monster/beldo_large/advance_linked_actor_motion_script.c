@@ -1,0 +1,826 @@
+#include "shared/runtime_dispatch.h"
+/* cfail-repair: tf7-phase1-cache-v3 */
+#include "common.h"
+#include "shared/dir_step.h"
+#include "shared/entity_objects.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "shared/entity.h"
+#include "records/Rec_D_800E3D7C.h"
+
+typedef struct S_80171D74_0 {
+    s32 unk_00;
+} S_80171D74_0;   /* D_8008333C in advance_linked_actor_motion_script */
+
+typedef struct S_80171D74_1 {
+    u8 pad_00[0x92];
+    union { s16 s; u16 u; } unk_92;   /* accessed as both */
+    s16 unk_94;
+    u16 unk_96;
+    u8 pad_98[0x2];
+    u8 unk_9A;
+    u8 pad_9B[0x3];
+    s16 unk_9E;
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_A0;   /* overlapping accesses */
+} S_80171D74_1;   /* arg0 in advance_linked_actor_motion_script */
+
+typedef struct S_80171D74_2 {
+    u8 pad_00[0x8];
+    void * unk_08;
+} S_80171D74_2;   /* D_80175D50[0] in advance_linked_actor_motion_script */
+
+typedef struct S_80171D74_3 {
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+    } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_04;   /* overlapping accesses */
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_80171D74_3;   /* arg1 in advance_linked_actor_motion_script */
+
+typedef struct S_80171D74_4 {
+    u8 pad_00[0x2A];
+    union { u16 n; u16 v; } unk_2A;   /* accessed as both */
+    u8 pad_2C[0x5C];
+    u16 unk_88;
+} S_80171D74_4;
+
+typedef struct S_80171D74_5 {
+    u8 pad_00[0x4];
+    s8 unk_04;
+    u8 pad_05[0xF];
+    u16 unk_14;
+    u8 pad_16[0x16];
+    union { s32 * p; u8 * p2; } unk_2C;   /* accessed as both */
+} S_80171D74_5;   /* arg2 in advance_linked_actor_motion_script */
+
+typedef struct S_80171D74_6 {
+    s16 unk_00;
+} S_80171D74_6;   /* D_80083228 in advance_linked_actor_motion_script */
+
+typedef struct S_80171D74_7 {
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
+    s32 unk_08;
+} S_80171D74_7;
+
+typedef struct S_80171D74_8 {
+    u8 pad_00[0x27];
+    u8 unk_27;
+    u8 pad_28[0x2];
+    u16 unk_2A;
+} S_80171D74_8;
+
+
+typedef struct S_80171D74_10 {
+    u8 pad_00[0x32];
+    s16 unk_32;
+} S_80171D74_10;   /* D_80175DB8[0] in advance_linked_actor_motion_script */
+
+typedef struct S_80171D74_11 {
+    s16 unk_00;
+    u16 unk_02;
+} S_80171D74_11;   /* sp2_base16 in advance_linked_actor_motion_script */
+
+typedef struct S_80171D74_13 {
+    u8 pad_00[0x4];
+    u16 unk_04;
+} S_80171D74_13;
+
+typedef struct S_80171D74_14 {
+    u8 pad_00[0x4];
+    u16 unk_04;
+} S_80171D74_14;
+
+typedef struct S_80171D74_15 {
+    u8 pad_00[0x4];
+    u16 unk_04;
+} S_80171D74_15;
+
+typedef struct S_80171D74_16 {
+    u8 pad_00[0x4];
+    u16 unk_04;
+} S_80171D74_16;
+
+typedef struct S_80171D74_17 {
+    u8 pad_00[0x4];
+    u16 unk_04;
+} S_80171D74_17;
+
+typedef struct S_80171D74_18 {
+    u8 pad_00[0x4];
+    u16 unk_04;
+} S_80171D74_18;
+
+typedef struct S_80171D74_19 {
+    u8 pad_00[0x4];
+    u16 unk_04;
+} S_80171D74_19;
+
+typedef struct S_80171D74_20 {
+    u8 pad_00[0x4];
+    u16 unk_04;
+} S_80171D74_20;
+
+typedef struct S_80171D74_21 {
+    u8 pad_00[0x4];
+    u16 unk_04;
+} S_80171D74_21;
+
+
+typedef struct { u32 v; } __attribute__((packed)) UA32;
+typedef struct { UA32 word[8]; } __attribute__((packed)) Table32;
+
+typedef struct { s16 x; u16 y; } ScriptDirection;
+
+#define SP1_X_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->x)
+#define SP1_Y_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->y)
+#define SP2_X_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->x)
+#define SP2_Y_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->y)
+
+void func_80041094(); /* extern */
+void select_indirect_table_entry();              /* extern */
+void select_sprite_entry();         /* extern */
+void func_800478B8();  /* extern */
+s32 func_800644B8();                     /* extern */
+void snapshot_inventory_and_familiars();                 /* extern */
+void snapshot_inventory_familiar_records();                            /* extern */
+void play_sound_if_enabled();             /* extern */
+s32 is_special_floor_entry_absent();                      /* extern */
+void create_rotating_clipped_sprite();             /* extern */
+void create_color_cycling_pulse();                      /* extern */
+void create_layered_sprite_pulse();                      /* extern */
+void create_forward_layered_sprite_pulse();                  /* extern */
+void update_phase_driven_motion_offset();      /* extern */
+void apply_script_direction_record();      /* extern */
+void create_action_offset_object();                            /* extern */
+extern Table32 D_8016482C;
+extern Table32 D_80164AC0;
+extern u8 D_80173DA4[16];
+extern u8 D_80173DAC[16];
+extern u8 D_80173DB4[16];
+extern void *D_80175D50[3];
+extern void *D_80175D54[3];
+extern void *D_80175DB8[16];
+
+/* Advances a scripted movement sequence and updates the sprite facing. */
+void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *sprite_in) {
+    Table32 offset_table;
+    Table32 direction_table;
+    s16 right_angle;
+    s16 quarter_turn;
+    s16 sprite_dir;
+    s16 turn_frame;
+    s16 spin_frame;
+    s16 owner_height;
+    s16 turn_value;
+    s16 facing_angle;
+    s32 speed;
+    MapGrid *map_info;
+    s32 map_tiles;
+    u16 left_angle;
+    u16 wait_frame;
+    u16 return_frames;
+    u16 arc_frame;
+    u16 approach_frames;
+    u16 bounce_frame;
+    u16 spin_up_frame;
+    u16 launch_frame;
+    u16 hop_frame;
+    u16 wobble_frame;
+    u16 frame_or_height;
+    u16 spiral_frame;
+    u16 effect_wait_frame;
+    u16 rise_frame;
+    u16 finish_frame;
+    u16 pause_frame;
+    u16 sway_frame;
+    u16 lift_frame;
+    u16 slide_frame;
+    u16 appear_frame;
+    u16 travel_frame;
+    u16 turned_angle;
+    u16 old_angle;
+    s32 phase;
+    s32 hop_vel_y;
+    s32 launch_vel_y;
+    S_80171D74_8 *target_state;
+    s32 launch_vel_z;
+    s32 hop_vel_z;
+    S_80171D74_4 *owner_state;
+    S_80171D74_7 *target_pos;
+    S_80171D74_13 *tile_nw;
+    S_80171D74_14 *tile_n;
+    S_80171D74_15 *tile_ne;
+    S_80171D74_16 *tile_w;
+    S_80171D74_17 *tile_center;
+    S_80171D74_18 *tile_e;
+    S_80171D74_19 *tile_sw;
+    S_80171D74_20 *tile_s;
+    S_80171D74_21 *tile_se;
+    s32 angle_tmp;
+
+    offset_table = *((Table32 *)(&D_8016482C));
+    direction_table = *((Table32 *)(&D_80164AC0));
+    map_info = &g_game_work.map;
+    map_tiles = ((S_80171D74_0 *)((s32 *)(&g_game_work.map)))->unk_00;
+    owner_state = D_80175D54[0] + 0x20;
+    func_800478B8(sprite_in);
+    phase = ((S_80171D74_1 *)state_in)->unk_9A;
+    target_pos = ((S_80171D74_2 *)(D_80175D50[0]))->unk_08;
+    target_state = D_80175D50[0] + 0x20;
+    switch (phase) {
+    case 0:
+        wait_frame = ((S_80171D74_1 *)state_in)->unk_96;
+        ((S_80171D74_1 *)state_in)->unk_96 = (u16) (wait_frame + 1);
+        if ((s16) wait_frame >= 0x1E) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            ((S_80171D74_3 *)motion_in)->unk_10 = (s32) 0xFFF80000;
+        }
+        update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        break;
+    case 1:
+        ((S_80171D74_3 *)motion_in)->unk_04.at00.v = ((S_80171D74_3 *)motion_in)->unk_04.at00.v
+        + ((S_80171D74_3 *)motion_in)->unk_10;
+        rise_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = rise_frame;
+        if ((s16) rise_frame >= 0x38) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
+        }
+        update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        break;
+    case 2:
+        pause_frame = ((S_80171D74_1 *)state_in)->unk_96;
+        ((S_80171D74_1 *)state_in)->unk_96 = (u16) (pause_frame + 1);
+        if ((s16) pause_frame >= 0x1E) {
+            u8 next_phase;
+            next_phase = ((S_80171D74_1 *)state_in)->unk_9A;
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            next_phase = next_phase + 1;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) next_phase;
+        }
+        update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        break;
+    case 3:
+        sway_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = sway_frame;
+        if ((s16) sway_frame == 3) {
+            owner_state->unk_2A.n = (u16) (owner_state->unk_2A.n + 0x200);
+        }
+        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 4) {
+            owner_state->unk_2A.n = (u16) (owner_state->unk_2A.n + 0x200);
+        }
+        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 0x12) {
+            owner_state->unk_2A.n = (u16) (owner_state->unk_2A.n - 0x200);
+        }
+        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 0x14) {
+            owner_state->unk_2A.n = (u16) (owner_state->unk_2A.n - 0x200);
+        }
+        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 0x1E) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
+            ((S_80171D74_3 *)motion_in)->unk_10 = (s32) 0xFFF80000;
+        }
+        update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        break;
+    case 4:
+        ((S_80171D74_3 *)motion_in)->unk_04.at00.v = ((S_80171D74_3 *)motion_in)->unk_04.at00.v
+        + ((S_80171D74_3 *)motion_in)->unk_10;
+        lift_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = lift_frame;
+        if ((s16) lift_frame >= 0x10) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
+        }
+        update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        break;
+    case 6:
+        ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DAC;
+        select_sprite_entry(sprite_in, D_80173DAC[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00
+            + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 3);
+        ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+        ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+        ((S_80171D74_3 *)motion_in)->unk_0C = (s32) 0x00020000;
+        break;
+    case 7:
+        ((S_80171D74_3 *)motion_in)->unk_00.at00.v = (s32) (((S_80171D74_3 *)motion_in)->unk_00.at00.v
+            + ((S_80171D74_3 *)motion_in)->unk_0C);
+        slide_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = slide_frame;
+        if ((s16) slide_frame >= 8) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
+            ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 | 0x80);
+            ((S_80171D74_3 *)motion_in)->unk_04.at02.v = 1;
+            ((S_80171D74_3 *)motion_in)->unk_00.at02.v = 1U;
+        }
+        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 3) {
+            create_rotating_clipped_sprite(target_pos, 0);
+            create_rotating_clipped_sprite(target_pos, 1);
+            create_color_cycling_pulse(target_pos);
+            create_layered_sprite_pulse(target_pos);
+        }
+        break;
+    case 9:
+        create_forward_layered_sprite_pulse(phase, target_state);
+        ((S_80171D74_1 *)state_in)->unk_96 = 0;
+        ((S_80171D74_1 *)state_in)->unk_9A++;
+        break;
+    case 10:
+        appear_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = appear_frame;
+        if ((s16) appear_frame >= 2) {
+            u8 *offset_base = (u8 *)&offset_table;
+            u8 *direction_base;
+            s32 angle_input_m;
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 & 0xFF7F);
+            ((S_80171D74_3 *)motion_in)->unk_00.at02.v = (u16) (target_pos->unk_00.at02.v + (SP1_X_AT(offset_base,
+                target_state->unk_2A) * 0x28));
+            ((S_80171D74_3 *)motion_in)->unk_04.at02.v = (s16) (target_pos->unk_04.at02.v + ((s16) SP1_Y_AT(offset_base,
+                target_state->unk_2A) * 0x28));
+            ((S_80171D74_1 *)state_in)->unk_92.s = -0x18;
+            ((S_80171D74_1 *)state_in)->unk_9E = 0;
+            ((S_80171D74_1 *)state_in)->unk_A0.at00.v = 0;
+            angle_input_m = target_state->unk_2A;
+            angle_tmp = angle_input_m - 0x400;
+            angle_input_m = angle_tmp;
+            if ((angle_tmp << 0x10) < 0) {
+                angle_input_m = angle_tmp + 0x1000;
+            }
+            owner_state->unk_2A.n = angle_input_m;
+            ((S_80171D74_1 *)state_in)->unk_94 = 1;
+            ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DB4;
+            select_sprite_entry(sprite_in, D_80173DB4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00
+                + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
+            direction_base = (u8 *)&direction_table;
+            ((S_80171D74_3 *)motion_in)->unk_0C = (s32) (0 - (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x10));
+            ((S_80171D74_3 *)motion_in)->unk_10 = (void *) (0 - (SP2_Y_AT(direction_base, owner_state->unk_2A.n)
+                << 0x10));
+            create_action_offset_object();
+            update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        }
+        break;
+    case 11:
+        {
+            s32 pos_x = ((S_80171D74_3 *)motion_in)->unk_00.at00.v;
+            s32 vel_x = ((S_80171D74_3 *)motion_in)->unk_0C;
+            s32 pos_y = ((S_80171D74_3 *)motion_in)->unk_04.at00.v;
+            s32 vel_y = ((S_80171D74_3 *)motion_in)->unk_10;
+            ((S_80171D74_3 *)motion_in)->unk_00.at00.v = pos_x + vel_x;
+            ((S_80171D74_3 *)motion_in)->unk_04.at00.v = pos_y + vel_y;
+        }
+        travel_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = travel_frame;
+        if ((s16) travel_frame >= 0x14) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+        }
+        update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        break;
+    case 13:
+        old_angle = owner_state->unk_2A.n;
+        turned_angle = old_angle + 0x200;
+        owner_state->unk_2A.n = turned_angle;
+        if ((s16) turned_angle >= 0x1000) {
+            owner_state->unk_2A.n = (u16) (old_angle - 0xE00);
+        }
+        ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+        ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+        target_state->unk_27 = 3;
+        goto shared_tail;
+    case 15:
+        ((S_80171D74_1 *)state_in)->unk_96 = 0x1EU;
+        ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+                    /* fallthrough */
+    case 16:
+        ((S_80171D74_3 *)motion_in)->unk_0C = (((Rec_D_800E3D7C *)(((s32 *)(&D_80083780))))->unk_00.at00_vs32.v - ((S_80171D74_3 *)motion_in)->unk_00.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        ((S_80171D74_3 *)motion_in)->unk_10 = (((Rec_D_800E3D7C *)(((s32 *)(&D_80083780))))->unk_04.at00_s32.v - ((S_80171D74_3 *)motion_in)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        ((S_80171D74_3 *)motion_in)->unk_00.at00.v += ((S_80171D74_3 *)motion_in)->unk_0C;
+        ((S_80171D74_3 *)motion_in)->unk_04.at00.v += ((S_80171D74_3 *)motion_in)->unk_10;
+        return_frames = ((S_80171D74_1 *)state_in)->unk_96 - 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = return_frames;
+        if ((return_frames << 0x10) <= 0) {
+            u8 *direction_entry;
+            s32 angle_input_m;
+            u32 direction_offset;
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            ((S_80171D74_10 *)(D_80175DB8[0]))->unk_32 = 3;
+            ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DA4;
+            select_sprite_entry(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00
+                + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
+            angle_input_m = owner_state->unk_2A.n;
+            angle_tmp = angle_input_m + 0x200;
+            angle_input_m = angle_tmp;
+            if ((s16) angle_tmp >= 0x1000) {
+                angle_input_m = angle_tmp - 0x1000;
+            }
+            direction_offset = (u16) angle_input_m >> 7;
+            direction_offset &= 0x1C;
+            direction_entry = (u8 *)&direction_table;
+            direction_entry += direction_offset;
+            ((S_80171D74_3 *)motion_in)->unk_0C = (s32) (((S_80171D74_11 *)direction_entry)->unk_00 << 0x10);
+            ((S_80171D74_3 *)motion_in)->unk_10 = (s32) (((S_80171D74_11 *)direction_entry)->unk_02 << 0x10);
+        }
+        update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        break;
+    case 17:
+        {
+            s32 pos_x = ((S_80171D74_3 *)motion_in)->unk_00.at00.v;
+            s32 vel_x = ((S_80171D74_3 *)motion_in)->unk_0C;
+            s32 pos_y = ((S_80171D74_3 *)motion_in)->unk_04.at00.v;
+            s32 vel_y = ((S_80171D74_3 *)motion_in)->unk_10;
+            ((S_80171D74_3 *)motion_in)->unk_00.at00.v = pos_x + vel_x;
+            ((S_80171D74_3 *)motion_in)->unk_04.at00.v = pos_y + vel_y;
+        }
+        {
+            s32 height_offset;
+            u16 next_frame;
+            height_offset = ((S_80171D74_1 *)state_in)->unk_92.u;
+            next_frame = ((S_80171D74_1 *)state_in)->unk_96;
+            height_offset = height_offset - 2;
+            next_frame = next_frame + 1;
+            arc_frame = next_frame;
+            ((S_80171D74_1 *)state_in)->unk_96 = arc_frame;
+            ((S_80171D74_1 *)state_in)->unk_92.u = height_offset;
+        }
+        if ((s16) arc_frame >= 0x28) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            ((S_80171D74_3 *)motion_in)->unk_10 = 0;
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
+        }
+        turn_frame = (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        if ((turn_frame == 0xA) || (turn_frame == 0x14) || (turn_frame == 0x1E)) {
+            s32 angle_input_m;
+            angle_input_m = owner_state->unk_2A.n;
+            angle_tmp = angle_input_m - 0x200;
+            angle_input_m = angle_tmp;
+            if ((angle_tmp << 0x10) < 0) {
+                angle_input_m = angle_tmp + 0x1000;
+            }
+            owner_state->unk_2A.n = angle_input_m;
+            if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 0x1E) {
+                play_sound_if_enabled(0x81A);
+            }
+        }
+        update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        break;
+    case 19:
+        ((S_80171D74_1 *)state_in)->unk_96 = 0x14U;
+        ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+        tile_nw = ((0x1F << map_info->shiftX) * 6) + map_tiles + 0xBA;
+        tile_nw->unk_04 = (u16) (tile_nw->unk_04 & 0x7FFF);
+        tile_n = ((0x1F << map_info->shiftX) * 6) + map_tiles + 0xC0;
+        tile_n->unk_04 = (u16) (tile_n->unk_04 & 0x7FFF);
+        tile_ne = ((0x1F << map_info->shiftX) * 6) + map_tiles + 0xC6;
+        tile_ne->unk_04 = (u16) (tile_ne->unk_04 & 0x7FFF);
+        tile_w = ((0x20 << map_info->shiftX) * 6) + map_tiles + 0xBA;
+        tile_w->unk_04 = (u16) (tile_w->unk_04 & 0x7FFF);
+        tile_center = ((0x20 << map_info->shiftX) * 6) + map_tiles + 0xC0;
+        tile_center->unk_04 = (u16) (tile_center->unk_04 & 0x7FFF);
+        tile_e = ((0x20 << map_info->shiftX) * 6) + map_tiles + 0xC6;
+        tile_e->unk_04 = (u16) (tile_e->unk_04 & 0x7FFF);
+        tile_sw = ((0x21 << map_info->shiftX) * 6) + map_tiles + 0xBA;
+        tile_sw->unk_04 = (u16) (tile_sw->unk_04 & 0x7FFF);
+        tile_s = ((0x21 << map_info->shiftX) * 6) + map_tiles + 0xC0;
+        tile_s->unk_04 = (u16) (tile_s->unk_04 & 0x7FFF);
+        tile_se = ((0x21 << map_info->shiftX) * 6) + map_tiles + 0xC6;
+        tile_se->unk_04 = (u16) (tile_se->unk_04 & 0x7FFF);
+        ((S_80171D74_3 *)motion_in)->unk_0C = (s32) target_pos->unk_00.at00.v;
+        ((S_80171D74_3 *)motion_in)->unk_10 = (void *) target_pos->unk_04.at00.v;
+        ((S_80171D74_3 *)motion_in)->unk_14 = (void *) target_pos->unk_08;
+                    /* fallthrough */
+    case 20:
+        ((S_80171D74_3 *)motion_in)->unk_00.at00.v += (((S_80171D74_3 *)motion_in)->unk_0C
+            - ((S_80171D74_3 *)motion_in)->unk_00.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        ((S_80171D74_3 *)motion_in)->unk_04.at00.v += (((S_80171D74_3 *)motion_in)->unk_10
+            - ((S_80171D74_3 *)motion_in)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        ((S_80171D74_3 *)motion_in)->unk_08.at00.v += (((S_80171D74_3 *)motion_in)->unk_14
+            - ((S_80171D74_3 *)motion_in)->unk_08.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        approach_frames = ((S_80171D74_1 *)state_in)->unk_96 - 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = approach_frames;
+        if ((approach_frames << 0x10) <= 0) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0;
+            ((S_80171D74_1 *)state_in)->unk_9A++;
+        }
+        break;
+    case 21:
+        if (((S_80171D74_5 *)sprite_in)->unk_04 == 0) {
+            ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 | 0x800);
+        }
+        break;
+    case 22:
+        {
+            u16 next_frame;
+            if (((S_80171D74_5 *)sprite_in)->unk_04 == 0) {
+                ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 | 0x800);
+                bounce_frame = ((S_80171D74_1 *)state_in)->unk_96;
+                next_frame = bounce_frame + 1;
+            } else {
+                bounce_frame = ((S_80171D74_1 *)state_in)->unk_96;
+                next_frame = bounce_frame + 1;
+            }
+            ((S_80171D74_1 *)state_in)->unk_96 = next_frame;
+            if ((u32) (bounce_frame - 0xA) < 8U) {
+                ((S_80171D74_1 *)state_in)->unk_A0.at00.v = (s32) (func_800644B8(((s32) (next_frame << 0x10) >> 8) - 0xA00)
+                    << 8);
+                ((S_80171D74_3 *)motion_in)->unk_08.at02.v = (u16) (owner_state->unk_88
+                    - ((S_80171D74_1 *)state_in)->unk_A0.at02.v);
+            }
+        }
+        spin_frame = (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        if ((spin_frame == 0x19) || (spin_frame == 0x1E) || (spin_frame == 0x23) || (spin_frame == 0x28)) {
+            s32 angle_input_m;
+            angle_input_m = owner_state->unk_2A.n;
+            angle_tmp = angle_input_m - 0x200;
+            angle_input_m = angle_tmp;
+            if ((angle_tmp << 0x10) < 0) {
+                angle_input_m = angle_tmp + 0x1000;
+            }
+            owner_state->unk_2A.n = angle_input_m;
+        }
+        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 >= 0x2D) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_92.s = -0x18;
+            ((S_80171D74_1 *)state_in)->unk_9E = 0;
+            ((S_80171D74_1 *)state_in)->unk_A0.at00.v = 0;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            ((S_80171D74_3 *)motion_in)->unk_08.at02.v = owner_state->unk_88;
+        }
+        break;
+    case 24:
+        spin_up_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = spin_up_frame;
+        if (((s16) spin_up_frame == 5) || ((s16) spin_up_frame == 0xA) || ((s16) spin_up_frame == 0xF)
+            || ((s16) spin_up_frame == 0x14)) {
+            s32 angle_input_m;
+            angle_input_m = owner_state->unk_2A.n;
+            angle_tmp = angle_input_m - 0x200;
+            angle_input_m = angle_tmp;
+            if ((angle_tmp << 0x10) < 0) {
+                angle_input_m = angle_tmp + 0x1000;
+            }
+            owner_state->unk_2A.n = angle_input_m;
+        }
+        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 >= 0x18) {
+            u8 *direction_base;
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DA4;
+            ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 & 0xF7FF);
+            select_sprite_entry(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00
+                + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
+            direction_base = (u8 *)&direction_table;
+            ((S_80171D74_3 *)motion_in)->unk_0C = (s32) (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x14);
+            ((S_80171D74_3 *)motion_in)->unk_10 = (s32) (SP2_Y_AT(direction_base, owner_state->unk_2A.n) << 0x14);
+            ((S_80171D74_3 *)motion_in)->unk_14 = (void *)0xFFF00000;
+        }
+        break;
+    case 25:
+        launch_vel_y = ((S_80171D74_3 *)motion_in)->unk_10;
+        launch_vel_z = ((S_80171D74_3 *)motion_in)->unk_14;
+        ((S_80171D74_3 *)motion_in)->unk_00.at00.v = (s32) (((S_80171D74_3 *)motion_in)->unk_00.at00.v
+            + ((S_80171D74_3 *)motion_in)->unk_0C);
+        ((S_80171D74_3 *)motion_in)->unk_04.at00.v = (void *) (((S_80171D74_3 *)motion_in)->unk_04.at00.v + launch_vel_y);
+        ((S_80171D74_3 *)motion_in)->unk_08.at00.v = (void *) (((S_80171D74_3 *)motion_in)->unk_08.at00.v + launch_vel_z);
+        launch_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = launch_frame;
+        if ((s16) launch_frame >= 0x28) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0;
+            ((S_80171D74_1 *)state_in)->unk_9A++;
+        }
+        break;
+    case 30:
+        {
+            u8 *direction_base;
+            u16 angle;
+            u16 direction_y;
+            angle = owner_state->unk_2A.v;
+            direction_base = (u8 *)&direction_table;
+            ((S_80171D74_3 *)motion_in)->unk_0C = (s32) (SP2_X_AT(direction_base, angle) << 0x13);
+            direction_y = SP2_Y_AT(direction_base, owner_state->unk_2A.n);
+            ((S_80171D74_3 *)motion_in)->unk_14 = (void *)0xFFFB0000;
+            ((S_80171D74_3 *)motion_in)->unk_10 = (void *) (direction_y << 0x13);
+            ((S_80171D74_1 *)state_in)->unk_96 = 0;
+            ((S_80171D74_1 *)state_in)->unk_9A++;
+            break;
+        }
+    case 31:
+        hop_vel_y = ((S_80171D74_3 *)motion_in)->unk_10;
+        hop_vel_z = ((S_80171D74_3 *)motion_in)->unk_14;
+        ((S_80171D74_3 *)motion_in)->unk_00.at00.v = (s32) (((S_80171D74_3 *)motion_in)->unk_00.at00.v
+            + ((S_80171D74_3 *)motion_in)->unk_0C);
+        ((S_80171D74_3 *)motion_in)->unk_04.at00.v = (void *) (((S_80171D74_3 *)motion_in)->unk_04.at00.v + hop_vel_y);
+        ((S_80171D74_3 *)motion_in)->unk_08.at00.v = (void *) (((S_80171D74_3 *)motion_in)->unk_08.at00.v + hop_vel_z);
+        hop_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = hop_frame;
+        if ((s16) hop_frame >= 5) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            ((S_80171D74_3 *)motion_in)->unk_14 = 0;
+            ((S_80171D74_3 *)motion_in)->unk_10 = 0;
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
+        }
+        break;
+    case 32:
+        wobble_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = wobble_frame;
+        if (((s16) wobble_frame == 2) || ((s16) wobble_frame == 8) || ((s16) wobble_frame == 0xA)
+            || ((s16) wobble_frame == 0x10) || ((s16) wobble_frame == 0x12)) {
+            turn_value = owner_state->unk_2A.n;
+            right_angle = turn_value + 0x200;
+            turn_value = right_angle;
+            if (right_angle >= 0x1000) {
+                turn_value = right_angle - 0x1000;
+            }
+            owner_state->unk_2A.n = (u16) turn_value;
+        }
+        turn_value = (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        if ((turn_value == 4) || (turn_value == 6) || (turn_value == 0xC) || (turn_value == 0xE) || (turn_value == 0x14)) {
+            turn_value = owner_state->unk_2A.n;
+            left_angle = turn_value - 0x200;
+            turn_value = left_angle;
+            if ((s16) left_angle < 0) {
+                turn_value = left_angle + 0x1000;
+            }
+            owner_state->unk_2A.n = turn_value;
+        }
+        turn_value = (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        if (turn_value == 0x1A) {
+            ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DA4;
+            ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 & 0xF7FF);
+            select_sprite_entry(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00
+                + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
+        }
+        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 >= 0x1E) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            ((S_80171D74_3 *)motion_in)->unk_14 = (void *)0xFFF80000;
+        }
+        break;
+    case 33:
+        ((S_80171D74_3 *)motion_in)->unk_08.at00.v = (void *) (((S_80171D74_3 *)motion_in)->unk_08.at00.v
+            + ((S_80171D74_3 *)motion_in)->unk_14);
+        frame_or_height = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = frame_or_height;
+        if ((s16) frame_or_height >= 0xA) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            frame_or_height = ((S_80171D74_3 *)motion_in)->unk_08.at02.v;
+            ((S_80171D74_3 *)motion_in)->unk_14 = 0;
+            ((S_80171D74_3 *)motion_in)->unk_10 = 0;
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
+            owner_height = owner_state->unk_88;
+            ((S_80171D74_1 *)state_in)->unk_9E = 0;
+            ((S_80171D74_1 *)state_in)->unk_A0.at00.v = 0;
+            ((S_80171D74_1 *)state_in)->unk_92.u = (u16) (frame_or_height - owner_height);
+            facing_angle = owner_state->unk_2A.n;
+            quarter_turn = facing_angle + 0x400;
+            facing_angle = quarter_turn;
+            if (quarter_turn >= 0x1000) {
+                facing_angle = quarter_turn - 0x1000;
+            }
+            owner_state->unk_2A.n = (u16) facing_angle;
+            select_sprite_entry(sprite_in, *(((S_80171D74_5 *)sprite_in)->unk_2C.p2
+                + (((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00 + facing_angle + 0x100)
+                    >> 9) & 7)), 0);
+        }
+        break;
+    case 34:
+        {
+            spiral_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+            ((S_80171D74_1 *)state_in)->unk_96 = spiral_frame;
+            if ((spiral_frame & 3) == 3) {
+                s32 angle_input_m;
+                angle_input_m = owner_state->unk_2A.n;
+                angle_tmp = angle_input_m - 0x200;
+                angle_input_m = angle_tmp;
+                if ((angle_tmp << 0x10) < 0) {
+                    angle_input_m = angle_tmp + 0x1000;
+                }
+                owner_state->unk_2A.n = angle_input_m;
+            }
+            speed = ((0x61 - (s16) ((S_80171D74_1 *)state_in)->unk_96) * 0x60000) / 97;
+            {
+                u8 *direction_base = (u8 *)&direction_table;
+                s32 direction_x = SP2_X_AT(direction_base, owner_state->unk_2A.n);
+                ((S_80171D74_3 *)motion_in)->unk_0C = speed * direction_x;
+                angle_tmp = (s32)&direction_table;
+                {
+                    s16 direction_y = (s16) SP2_Y_AT(angle_tmp, owner_state->unk_2A.n);
+                    ((S_80171D74_3 *)motion_in)->unk_10 = speed * direction_y;
+                }
+                ((S_80171D74_3 *)motion_in)->unk_00.at00.v += ((S_80171D74_3 *)motion_in)->unk_0C;
+                ((S_80171D74_3 *)motion_in)->unk_04.at00.v += ((S_80171D74_3 *)motion_in)->unk_10;
+            }
+            if ((s16) ((S_80171D74_1 *)state_in)->unk_96 >= 0x58) {
+                ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+                ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+                {
+                    ((S_80171D74_3 *)motion_in)->unk_00.at02.v = ((u16)D_80083780.x.w.i);
+                    ((S_80171D74_3 *)motion_in)->unk_04.at02u.v = ((u16)D_80083780.y.w.i);
+                }
+            }
+        }
+    case 5:
+    case 12:
+    case 14:
+    case 18:
+shared_tail:
+        update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        break;
+    case 40:
+        if ((is_special_floor_entry_absent(phase, target_state) << 0x10) != 0) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
+        }
+        break;
+    case 41:
+        effect_wait_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = effect_wait_frame;
+        if ((s16) effect_wait_frame >= 0x3C) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0;
+            ((S_80171D74_1 *)state_in)->unk_9A++;
+        }
+        break;
+    case 45:
+        if ((is_special_floor_entry_absent(phase, target_state) << 0x10) != 0) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
+        }
+        apply_script_direction_record(state_in, motion_in, sprite_in);
+        update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        break;
+    case 46:
+        finish_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
+        ((S_80171D74_1 *)state_in)->unk_96 = finish_frame;
+        if ((s16) finish_frame >= 0x3C) {
+            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+        }
+        apply_script_direction_record(state_in, motion_in, sprite_in);
+        update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        break;
+    case 35:
+        apply_script_direction_record(state_in, motion_in, sprite_in);
+        update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
+        break;
+
+    case 42:
+        snapshot_inventory_and_familiars(((s32)D_800E3D7C), target_state);
+        snapshot_inventory_familiar_records();
+        D_80082E60.flags16 = 0x8000;
+        func_80041094(6, 0, 0, 0, 0x8000);
+        ((S_80171D74_1 *)state_in)->unk_9A++;
+        break;
+    case 47:
+        snapshot_inventory_and_familiars(((s32)D_800E3D7C), target_state);
+        snapshot_inventory_familiar_records();
+        D_80082E60.flags16 = 0x8000;
+        func_80041094(6, 0, 0, 0, 0x8000);
+        ((S_80171D74_1 *)state_in)->unk_9A++;
+        break;
+    case 48:
+    default:
+            break;
+    }
+    if (D_80175D54[0] != 0) {
+        sprite_dir = ((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.viewAngle)))->unk_00
+            + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7;
+        if (((S_80171D74_1 *)state_in)->unk_94 != sprite_dir) {
+            select_indirect_table_entry(sprite_in, *(((S_80171D74_5 *)sprite_in)->unk_2C.p2 + sprite_dir),
+                ((S_80171D74_5 *)sprite_in)->unk_04);
+            ((S_80171D74_1 *)state_in)->unk_94 = sprite_dir;
+        }
+        {
+            u16 sprite_flags;
+            if ((*(u8 *)((u8 *)dir_sprite_flag + sprite_dir)) != 0) {
+                sprite_flags = ((S_80171D74_5 *)sprite_in)->unk_14 | 1;
+            } else {
+                sprite_flags = ((S_80171D74_5 *)sprite_in)->unk_14 & 0xFFFE;
+            }
+            ((S_80171D74_5 *)sprite_in)->unk_14 = sprite_flags;
+        }
+    }
+    return;
+
+}

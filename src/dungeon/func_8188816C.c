@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_18a6800.h"
+#include "dungeon/effect/sprite/create_radial_effect_from_source.h"
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -49,7 +49,7 @@ void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
     effect = func_8003FC64(0x202);
     if (effect != NULL) {
         effect->unk_10 = (s32 *)advance_and_fade_effect_flagging_expiration_timer_runs_out;
-        func_8004491C(effect, func_80045340);
+        register_node(effect, project_sprite_chain);
         transform = effect->unk_08;
         transform->unk_02 = x;
         transform->unk_06 = y;

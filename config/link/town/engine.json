@@ -1,1492 +1,1492 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/engine",
- "container": "town",
- "foff": "0xB000",
- "size": "0x8B0A0",
- "vma": "0x80088760",
- "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x8007D760: xfer_town_B000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
- "entries": [
-  {
-   "row": "town/func_80097C00",
-   "tu": "src/town/func_80097C00.c",
-   "home": "town/func_80097C00",
-   "foff": "0x17C00",
-   "vma": "0x80095360",
-   "size": 40
-  },
-  {
-   "row": "town/func_8009C3A0",
-   "tu": "src/town/func_8009C3A0.c",
-   "home": "town/func_8009C3A0",
-   "foff": "0x1C3A0",
-   "vma": "0x80099B00",
-   "size": 112
-  },
-  {
-   "row": "town/func_800A0C74",
-   "tu": "src/town/func_800A0C74.c",
-   "home": "town/func_800A0C74",
-   "foff": "0x20C74",
-   "vma": "0x8009E3D4",
-   "size": 24
-  },
-  {
-   "row": "town/func_800A9DF4",
-   "tu": "src/town/func_800A9DF4.c",
-   "home": "town/func_800A9DF4",
-   "foff": "0x29DF4",
-   "vma": "0x800A7554",
-   "size": 100
-  },
-  {
-   "row": "town/func_800B0208",
-   "tu": "src/town/func_800B0208.c",
-   "home": "town/func_800B0208",
-   "foff": "0x30208",
-   "vma": "0x800AD968",
-   "size": 52
-  },
-  {
-   "row": "town/func_800B1FD4",
-   "tu": "src/town/func_800B1FD4.c",
-   "home": "town/func_800B1FD4",
-   "foff": "0x31FD4",
-   "vma": "0x800AF734",
-   "size": 80
-  },
-  {
-   "row": "town/func_800B2670",
-   "tu": "src/town/func_800B2670.c",
-   "home": "town/func_800B2670",
-   "foff": "0x32670",
-   "vma": "0x800AFDD0",
-   "size": 64
-  },
-  {
-   "row": "town/func_800B26B0",
-   "tu": "src/town/func_800B26B0.c",
-   "home": "town/func_800B26B0",
-   "foff": "0x326B0",
-   "vma": "0x800AFE10",
-   "size": 240
-  },
-  {
-   "row": "town/func_800B2BB8",
-   "tu": "src/town/func_800B2BB8.c",
-   "home": "town/func_800B2BB8",
-   "foff": "0x32BB8",
-   "vma": "0x800B0318",
-   "size": 156
-  },
-  {
-   "row": "town/func_800B2C54",
-   "tu": "src/town/func_800B2C54.c",
-   "home": "town/func_800B2C54",
-   "foff": "0x32C54",
-   "vma": "0x800B03B4",
-   "size": 100
-  },
-  {
-   "row": "town/func_80012FB8",
-   "tu": "src/town/func_800B0208.c",
-   "home": "town/func_800B0208",
-   "foff": "0x32FB8",
-   "vma": "0x800B0718",
-   "size": 52
-  },
-  {
-   "row": "town/func_80014198",
-   "tu": "src/town/func_800B2670.c",
-   "home": "town/func_800B2670",
-   "foff": "0x34198",
-   "vma": "0x800B18F8",
-   "size": 64
-  },
-  {
-   "row": "town/func_800B566C",
-   "tu": "src/town/func_800B566C.c",
-   "home": "town/func_800B566C",
-   "foff": "0x3566C",
-   "vma": "0x800B2DCC",
-   "size": 112
-  },
-  {
-   "row": "town/func_80015BBC",
-   "tu": "src/town/func_800B1FD4.c",
-   "home": "town/func_800B1FD4",
-   "foff": "0x35BBC",
-   "vma": "0x800B331C",
-   "size": 80
-  },
-  {
-   "row": "town/func_80015DF8",
-   "tu": "src/town/func_800B2670.c",
-   "home": "town/func_800B2670",
-   "foff": "0x35DF8",
-   "vma": "0x800B3558",
-   "size": 64,
-   "bindings": {
-    "0x800D15B8": "0x800D1650"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_80015E38",
-   "tu": "src/town/func_800B26B0.c",
-   "home": "town/func_800B26B0",
-   "foff": "0x35E38",
-   "vma": "0x800B3598",
-   "size": 240
-  },
-  {
-   "row": "town/func_80016284",
-   "tu": "src/town/func_800B2BB8.c",
-   "home": "town/func_800B2BB8",
-   "foff": "0x36284",
-   "vma": "0x800B39E4",
-   "size": 156
-  },
-  {
-   "row": "town/func_80016320",
-   "tu": "src/town/func_800B2C54.c",
-   "home": "town/func_800B2C54",
-   "foff": "0x36320",
-   "vma": "0x800B3A80",
-   "size": 100,
-   "bindings": {
-    "0x800B0318": "0x800B39E4"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800B6A28",
-   "tu": "src/town/func_800B6A28.c",
-   "home": "town/func_800B6A28",
-   "foff": "0x36A28",
-   "vma": "0x800B4188",
-   "size": 228
-  },
-  {
-   "row": "town/func_80016B0C",
-   "tu": "src/town/func_800B6A28.c",
-   "home": "town/func_800B6A28",
-   "foff": "0x36B0C",
-   "vma": "0x800B426C",
-   "size": 228
-  },
-  {
-   "row": "town/func_80016FEC",
-   "tu": "src/town/func_800B566C.c",
-   "home": "town/func_800B566C",
-   "foff": "0x36FEC",
-   "vma": "0x800B474C",
-   "size": 112
-  },
-  {
-   "row": "town/func_80017300",
-   "tu": "src/town/func_800B1FD4.c",
-   "home": "town/func_800B1FD4",
-   "foff": "0x37300",
-   "vma": "0x800B4A60",
-   "size": 80
-  },
-  {
-   "row": "town/func_800178C0",
-   "tu": "src/town/func_800B2BB8.c",
-   "home": "town/func_800B2BB8",
-   "foff": "0x378C0",
-   "vma": "0x800B5020",
-   "size": 156
-  },
-  {
-   "row": "town/func_800B8368",
-   "tu": "src/town/func_800B8368.c",
-   "home": "town/func_800B8368",
-   "foff": "0x38368",
-   "vma": "0x800B5AC8",
-   "size": 88
-  },
-  {
-   "row": "town/func_80018CAC",
-   "tu": "src/town/func_800B8368.c",
-   "home": "town/func_800B8368",
-   "foff": "0x38CAC",
-   "vma": "0x800B640C",
-   "size": 88
-  },
-  {
-   "row": "town/func_800BA1D4",
-   "tu": "src/town/func_800BA1D4.c",
-   "home": "town/func_800BA1D4",
-   "foff": "0x3A1D4",
-   "vma": "0x800B7934",
-   "size": 68
-  },
-  {
-   "row": "town/func_8001A3E8",
-   "tu": "src/town/func_800BA1D4.c",
-   "home": "town/func_800BA1D4",
-   "foff": "0x3A3E8",
-   "vma": "0x800B7B48",
-   "size": 68
-  },
-  {
-   "row": "town/func_800BC77C",
-   "tu": "src/town/func_800BC77C.c",
-   "home": "town/func_800BC77C",
-   "foff": "0x3C77C",
-   "vma": "0x800B9EDC",
-   "size": 152
-  },
-  {
-   "row": "town/func_8001C814",
-   "tu": "src/town/func_800BC77C.c",
-   "home": "town/func_800BC77C",
-   "foff": "0x3C814",
-   "vma": "0x800B9F74",
-   "size": 152
-  },
-  {
-   "row": "town/func_800240A4",
-   "tu": "src/town/func_800A0C74.c",
-   "home": "town/func_800A0C74",
-   "foff": "0x440A4",
-   "vma": "0x800C1804",
-   "size": 24
-  },
-  {
-   "row": "town/func_800C4F04",
-   "tu": "src/town/func_800C4F04.c",
-   "home": "town/func_800C4F04",
-   "foff": "0x44F04",
-   "vma": "0x800C2664",
-   "size": 92
-  },
-  {
-   "row": "town/func_80025020",
-   "tu": "src/town/func_800C4F04.c",
-   "home": "town/func_800C4F04",
-   "foff": "0x45020",
-   "vma": "0x800C2780",
-   "size": 92
-  },
-  {
-   "row": "town/func_800C5084",
-   "tu": "src/town/func_800C5084.c",
-   "home": "town/func_800C5084",
-   "foff": "0x45084",
-   "vma": "0x800C27E4",
-   "size": 88
-  },
-  {
-   "row": "town/func_80025130",
-   "tu": "src/town/func_800C5084.c",
-   "home": "town/func_800C5084",
-   "foff": "0x45130",
-   "vma": "0x800C2890",
-   "size": 88
-  },
-  {
-   "row": "town/func_800C55D4",
-   "tu": "src/town/func_800C55D4.c",
-   "home": "town/func_800C55D4",
-   "foff": "0x455D4",
-   "vma": "0x800C2D34",
-   "size": 96
-  },
-  {
-   "row": "town/func_80025634",
-   "tu": "src/town/func_80097C00.c",
-   "home": "town/func_80097C00",
-   "foff": "0x45634",
-   "vma": "0x800C2D94",
-   "size": 40
-  },
-  {
-   "row": "town/func_8002565C",
-   "tu": "src/town/func_800C55D4.c",
-   "home": "town/func_800C55D4",
-   "foff": "0x4565C",
-   "vma": "0x800C2DBC",
-   "size": 96
-  },
-  {
-   "row": "town/func_800C5D8C",
-   "tu": "src/town/func_800C5D8C.c",
-   "home": "town/func_800C5D8C",
-   "foff": "0x45D8C",
-   "vma": "0x800C34EC",
-   "size": 112
-  },
-  {
-   "row": "town/func_800C5DFC",
-   "tu": "src/town/func_800C5DFC.c",
-   "home": "town/func_800C5DFC",
-   "foff": "0x45DFC",
-   "vma": "0x800C355C",
-   "size": 548
-  },
-  {
-   "row": "town/func_800C6064",
-   "tu": "src/town/func_800C6064.c",
-   "home": "town/func_800C6064",
-   "foff": "0x46064",
-   "vma": "0x800C37C4",
-   "size": 104
-  },
-  {
-   "row": "town/func_800C60CC",
-   "tu": "src/town/func_800C60CC.c",
-   "home": "town/func_800C60CC",
-   "foff": "0x460CC",
-   "vma": "0x800C382C",
-   "size": 308
-  },
-  {
-   "row": "town/func_800C6494",
-   "tu": "src/town/func_800C6494.c",
-   "home": "town/func_800C6494",
-   "foff": "0x46494",
-   "vma": "0x800C3BF4",
-   "size": 52
-  },
-  {
-   "row": "town/func_800C76D0",
-   "tu": "src/town/func_800C76D0.c",
-   "home": "town/func_800C76D0",
-   "foff": "0x476D0",
-   "vma": "0x800C4E30",
-   "size": 216
-  },
-  {
-   "row": "town/func_80027C98",
-   "tu": "src/town/func_800C76D0.c",
-   "home": "town/func_800C76D0",
-   "foff": "0x47C98",
-   "vma": "0x800C53F8",
-   "size": 216
-  },
-  {
-   "row": "town/func_800C7EFC",
-   "tu": "src/town/func_800C7EFC.c",
-   "home": "town/func_800C7EFC",
-   "foff": "0x47EFC",
-   "vma": "0x800C565C",
-   "size": 76
-  },
-  {
-   "row": "town/func_800C7FC4",
-   "tu": "src/town/func_800C7FC4.c",
-   "home": "town/func_800C7FC4",
-   "foff": "0x47FC4",
-   "vma": "0x800C5724",
-   "size": 80
-  },
-  {
-   "row": "town/func_80028014",
-   "tu": "src/town/func_800C7FC4.c",
-   "home": "town/func_800C7FC4",
-   "foff": "0x48014",
-   "vma": "0x800C5774",
-   "size": 80,
-   "bindings": {
-    "0x80082710": "0x80082710",
-    "0x800C5620": "0x800C5620"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_80028064",
-   "tu": "src/town/func_800C7FC4.c",
-   "home": "town/func_800C7FC4",
-   "foff": "0x48064",
-   "vma": "0x800C57C4",
-   "size": 80,
-   "bindings": {
-    "0x80082710": "0x80082710",
-    "0x800C5620": "0x800C5620",
-    "0x800D5360": "0x800D53B0"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800C8104",
-   "tu": "src/town/func_800C8104.c",
-   "home": "town/func_800C8104",
-   "foff": "0x48104",
-   "vma": "0x800C5864",
-   "size": 72
-  },
-  {
-   "row": "town/func_800C81E4",
-   "tu": "src/town/func_800C81E4.c",
-   "home": "town/func_800C81E4",
-   "foff": "0x481E4",
-   "vma": "0x800C5944",
-   "size": 88
-  },
-  {
-   "row": "town/func_8002829C",
-   "tu": "src/town/func_800C81E4.c",
-   "home": "town/func_800C81E4",
-   "foff": "0x4829C",
-   "vma": "0x800C59FC",
-   "size": 88,
-   "bindings": {
-    "0x800C5ADC": "0x800C5C70",
-    "0x800D54BC": "0x800D54D4"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800C82F4",
-   "tu": "src/town/func_800C82F4.c",
-   "home": "town/func_800C82F4",
-   "foff": "0x482F4",
-   "vma": "0x800C5A54",
-   "size": 136
-  },
-  {
-   "row": "town/func_800C86A0",
-   "tu": "src/town/func_800C86A0.c",
-   "home": "town/func_800C86A0",
-   "foff": "0x486A0",
-   "vma": "0x800C5E00",
-   "size": 92
-  },
-  {
-   "row": "town/func_800286FC",
-   "tu": "src/town/func_800C86A0.c",
-   "home": "town/func_800C86A0",
-   "foff": "0x486FC",
-   "vma": "0x800C5E5C",
-   "size": 92
-  },
-  {
-   "row": "town/func_80028758",
-   "tu": "src/town/func_800C86A0.c",
-   "home": "town/func_800C86A0",
-   "foff": "0x48758",
-   "vma": "0x800C5EB8",
-   "size": 92,
-   "bindings": {
-    "0x800D5540": "0x800D5568"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800287B4",
-   "tu": "src/town/func_800C86A0.c",
-   "home": "town/func_800C86A0",
-   "foff": "0x487B4",
-   "vma": "0x800C5F14",
-   "size": 92,
-   "bindings": {
-    "0x800D5540": "0x800D557C"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_80028AAC",
-   "tu": "src/town/func_800A9DF4.c",
-   "home": "town/func_800A9DF4",
-   "foff": "0x48AAC",
-   "vma": "0x800C620C",
-   "size": 100
-  },
-  {
-   "row": "town/func_800C8B84",
-   "tu": "src/town/func_800C8B84.c",
-   "home": "town/func_800C8B84",
-   "foff": "0x48B84",
-   "vma": "0x800C62E4",
-   "size": 96
-  },
-  {
-   "row": "town/func_800C90B4",
-   "tu": "src/town/func_800C90B4.c",
-   "home": "town/func_800C90B4",
-   "foff": "0x490B4",
-   "vma": "0x800C6814",
-   "size": 108
-  },
-  {
-   "row": "town/func_80029180",
-   "tu": "src/town/func_800C90B4.c",
-   "home": "town/func_800C90B4",
-   "foff": "0x49180",
-   "vma": "0x800C68E0",
-   "size": 108,
-   "bindings": {
-    "0x800C641C": "0x800C645C"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002924C",
-   "tu": "src/town/func_800C90B4.c",
-   "home": "town/func_800C90B4",
-   "foff": "0x4924C",
-   "vma": "0x800C69AC",
-   "size": 108,
-   "bindings": {
-    "0x800C641C": "0x800C641C"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_80029318",
-   "tu": "src/town/func_800C90B4.c",
-   "home": "town/func_800C90B4",
-   "foff": "0x49318",
-   "vma": "0x800C6A78",
-   "size": 108,
-   "bindings": {
-    "0x800C641C": "0x800C6478"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800293E4",
-   "tu": "src/town/func_800C90B4.c",
-   "home": "town/func_800C90B4",
-   "foff": "0x493E4",
-   "vma": "0x800C6B44",
-   "size": 108,
-   "bindings": {
-    "0x800C641C": "0x800C641C"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800296B0",
-   "tu": "src/town/func_800C8B84.c",
-   "home": "town/func_800C8B84",
-   "foff": "0x496B0",
-   "vma": "0x800C6E10",
-   "size": 96
-  },
-  {
-   "row": "town/func_80029808",
-   "tu": "src/town/func_800C81E4.c",
-   "home": "town/func_800C81E4",
-   "foff": "0x49808",
-   "vma": "0x800C6F68",
-   "size": 88,
-   "bindings": {
-    "0x800D54BC": "0x800D5B90"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_80029860",
-   "tu": "src/town/func_800C81E4.c",
-   "home": "town/func_800C81E4",
-   "foff": "0x49860",
-   "vma": "0x800C6FC0",
-   "size": 88,
-   "bindings": {
-    "0x800C5ADC": "0x800C3BF4"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800298B8",
-   "tu": "src/town/func_800C81E4.c",
-   "home": "town/func_800C81E4",
-   "foff": "0x498B8",
-   "vma": "0x800C7018",
-   "size": 88
-  },
-  {
-   "row": "town/func_80029A40",
-   "tu": "src/town/func_800C81E4.c",
-   "home": "town/func_800C81E4",
-   "foff": "0x49A40",
-   "vma": "0x800C71A0",
-   "size": 88,
-   "bindings": {
-    "0x800C5ADC": "0x800C7138",
-    "0x800D54BC": "0x800D5CAC"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_80029A98",
-   "tu": "src/town/func_800C6494.c",
-   "home": "town/func_800C6494",
-   "foff": "0x49A98",
-   "vma": "0x800C71F8",
-   "size": 52
-  },
-  {
-   "row": "town/func_80029ACC",
-   "tu": "src/town/func_800C81E4.c",
-   "home": "town/func_800C81E4",
-   "foff": "0x49ACC",
-   "vma": "0x800C722C",
-   "size": 88,
-   "bindings": {
-    "0x800C5ADC": "0x800C71F8",
-    "0x800D54BC": "0x800D5CF4"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_80029EA4",
-   "tu": "src/town/func_800C5D8C.c",
-   "home": "town/func_800C5D8C",
-   "foff": "0x49EA4",
-   "vma": "0x800C7604",
-   "size": 112,
-   "bindings": {
-    "0x800C382C": "0x800C7AC4"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800C9F14",
-   "tu": "src/town/func_800C9F14.c",
-   "home": "town/func_800C9F14",
-   "foff": "0x49F14",
-   "vma": "0x800C7674",
-   "size": 564
-  },
-  {
-   "row": "town/func_800CA710",
-   "tu": "src/town/func_800CA710.c",
-   "home": "town/func_800CA710",
-   "foff": "0x4A710",
-   "vma": "0x800C7E70",
-   "size": 64
-  },
-  {
-   "row": "town/func_8002A750",
-   "tu": "src/town/func_800CA710.c",
-   "home": "town/func_800CA710",
-   "foff": "0x4A750",
-   "vma": "0x800C7EB0",
-   "size": 64
-  },
-  {
-   "row": "town/func_8002A7B0",
-   "tu": "src/town/func_800C7FC4.c",
-   "home": "town/func_800C7FC4",
-   "foff": "0x4A7B0",
-   "vma": "0x800C7F10",
-   "size": 80,
-   "bindings": {
-    "0x80082710": "0x80082680",
-    "0x800C5620": "0x800C7CB4",
-    "0x800D5360": "0x800D5FE8"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800CA8A0",
-   "tu": "src/town/func_800CA8A0.c",
-   "home": "town/func_800CA8A0",
-   "foff": "0x4A8A0",
-   "vma": "0x800C8000",
-   "size": 88
-  },
-  {
-   "row": "town/func_800CA950",
-   "tu": "src/town/func_800CA950.c",
-   "home": "town/func_800CA950",
-   "foff": "0x4A950",
-   "vma": "0x800C80B0",
-   "size": 76
-  },
-  {
-   "row": "town/func_800CAC2C",
-   "tu": "src/town/func_800CAC2C.c",
-   "home": "town/func_800CAC2C",
-   "foff": "0x4AC2C",
-   "vma": "0x800C838C",
-   "size": 100
-  },
-  {
-   "row": "town/func_8002AC90",
-   "tu": "src/town/func_800CAC2C.c",
-   "home": "town/func_800CAC2C",
-   "foff": "0x4AC90",
-   "vma": "0x800C83F0",
-   "size": 100
-  },
-  {
-   "row": "town/func_8002ACF4",
-   "tu": "src/town/func_800CAC2C.c",
-   "home": "town/func_800CAC2C",
-   "foff": "0x4ACF4",
-   "vma": "0x800C8454",
-   "size": 100,
-   "bindings": {
-    "0x800D6244": "0x800D6220"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002AD58",
-   "tu": "src/town/func_800C90B4.c",
-   "home": "town/func_800C90B4",
-   "foff": "0x4AD58",
-   "vma": "0x800C84B8",
-   "size": 108,
-   "bindings": {
-    "0x800C641C": "0x800C8928"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800CAEA0",
-   "tu": "src/town/func_800CAEA0.c",
-   "home": "town/func_800CAEA0",
-   "foff": "0x4AEA0",
-   "vma": "0x800C8600",
-   "size": 68
-  },
-  {
-   "row": "town/func_8002AEE4",
-   "tu": "src/town/func_800CAEA0.c",
-   "home": "town/func_800CAEA0",
-   "foff": "0x4AEE4",
-   "vma": "0x800C8644",
-   "size": 68
-  },
-  {
-   "row": "town/func_8002AF28",
-   "tu": "src/town/func_800CAEA0.c",
-   "home": "town/func_800CAEA0",
-   "foff": "0x4AF28",
-   "vma": "0x800C8688",
-   "size": 68,
-   "bindings": {
-    "0x800D62C4": "0x800D6220"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800CAF8C",
-   "tu": "src/town/func_800CAF8C.c",
-   "home": "town/func_800CAF8C",
-   "foff": "0x4AF8C",
-   "vma": "0x800C86EC",
-   "size": 156
-  },
-  {
-   "row": "town/func_800CB028",
-   "tu": "src/town/func_800CB028.c",
-   "home": "town/func_800CB028",
-   "foff": "0x4B028",
-   "vma": "0x800C8788",
-   "size": 128
-  },
-  {
-   "row": "town/func_800CB0A8",
-   "tu": "src/town/func_800CB0A8.c",
-   "home": "town/func_800CB0A8",
-   "foff": "0x4B0A8",
-   "vma": "0x800C8808",
-   "size": 84
-  },
-  {
-   "row": "town/func_800CB1C8",
-   "tu": "src/town/func_800CB1C8.c",
-   "home": "town/func_800CB1C8",
-   "foff": "0x4B1C8",
-   "vma": "0x800C8928",
-   "size": 52
-  },
-  {
-   "row": "town/func_8002B23C",
-   "tu": "src/town/func_800C90B4.c",
-   "home": "town/func_800C90B4",
-   "foff": "0x4B23C",
-   "vma": "0x800C899C",
-   "size": 108,
-   "bindings": {
-    "0x800C641C": "0x800C895C"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002BB44",
-   "tu": "src/town/func_800C5D8C.c",
-   "home": "town/func_800C5D8C",
-   "foff": "0x4BB44",
-   "vma": "0x800C92A4",
-   "size": 112,
-   "bindings": {
-    "0x800C382C": "0x800C9610"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002BBB4",
-   "tu": "src/town/func_800C5D8C.c",
-   "home": "town/func_800C5D8C",
-   "foff": "0x4BBB4",
-   "vma": "0x800C9314",
-   "size": 112
-  },
-  {
-   "row": "town/func_8002BC24",
-   "tu": "src/town/func_800C5DFC.c",
-   "home": "town/func_800C5DFC",
-   "foff": "0x4BC24",
-   "vma": "0x800C9384",
-   "size": 548,
-   "bindings": {
-    "0x800C37C4": "0x800C95A8"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002BE48",
-   "tu": "src/town/func_800C6064.c",
-   "home": "town/func_800C6064",
-   "foff": "0x4BE48",
-   "vma": "0x800C95A8",
-   "size": 104,
-   "bindings": {
-    "0x800C34EC": "0x800C92A4"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002BEB0",
-   "tu": "src/town/func_800C6064.c",
-   "home": "town/func_800C6064",
-   "foff": "0x4BEB0",
-   "vma": "0x800C9610",
-   "size": 104,
-   "bindings": {
-    "0x800C34EC": "0x800C9314"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002BF18",
-   "tu": "src/town/func_800C60CC.c",
-   "home": "town/func_800C60CC",
-   "foff": "0x4BF18",
-   "vma": "0x800C9678",
-   "size": 308
-  },
-  {
-   "row": "town/func_8002C094",
-   "tu": "src/town/func_800C5D8C.c",
-   "home": "town/func_800C5D8C",
-   "foff": "0x4C094",
-   "vma": "0x800C97F4",
-   "size": 112,
-   "bindings": {
-    "0x800C382C": "0x800C9DB8"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002C104",
-   "tu": "src/town/func_800C9F14.c",
-   "home": "town/func_800C9F14",
-   "foff": "0x4C104",
-   "vma": "0x800C9864",
-   "size": 564
-  },
-  {
-   "row": "town/func_8002C374",
-   "tu": "src/town/func_8009C3A0.c",
-   "home": "town/func_8009C3A0",
-   "foff": "0x4C374",
-   "vma": "0x800C9AD4",
-   "size": 112
-  },
-  {
-   "row": "town/func_800CC4F4",
-   "tu": "src/town/func_800CC4F4.c",
-   "home": "town/func_800CC4F4",
-   "foff": "0x4C4F4",
-   "vma": "0x800C9C54",
-   "size": 64
-  },
-  {
-   "row": "town/func_8002C5E0",
-   "tu": "src/town/func_800CC4F4.c",
-   "home": "town/func_800CC4F4",
-   "foff": "0x4C5E0",
-   "vma": "0x800C9D40",
-   "size": 64,
-   "bindings": {
-    "0x800D64DC": "0x800D6518"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002C934",
-   "tu": "src/town/func_800CA710.c",
-   "home": "town/func_800CA710",
-   "foff": "0x4C934",
-   "vma": "0x800CA094",
-   "size": 64
-  },
-  {
-   "row": "town/func_8002C974",
-   "tu": "src/town/func_800CA710.c",
-   "home": "town/func_800CA710",
-   "foff": "0x4C974",
-   "vma": "0x800CA0D4",
-   "size": 64
-  },
-  {
-   "row": "town/func_8002CCAC",
-   "tu": "src/town/func_800C7EFC.c",
-   "home": "town/func_800C7EFC",
-   "foff": "0x4CCAC",
-   "vma": "0x800CA40C",
-   "size": 76
-  },
-  {
-   "row": "town/func_8002CD6C",
-   "tu": "src/town/func_800C7FC4.c",
-   "home": "town/func_800C7FC4",
-   "foff": "0x4CD6C",
-   "vma": "0x800CA4CC",
-   "size": 80,
-   "bindings": {
-    "0x800D5360": "0x800D652C"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002CDBC",
-   "tu": "src/town/func_800C7FC4.c",
-   "home": "town/func_800C7FC4",
-   "foff": "0x4CDBC",
-   "vma": "0x800CA51C",
-   "size": 80,
-   "bindings": {
-    "0x800D5360": "0x800D6504"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002CEEC",
-   "tu": "src/town/func_800CA8A0.c",
-   "home": "town/func_800CA8A0",
-   "foff": "0x4CEEC",
-   "vma": "0x800CA64C",
-   "size": 88,
-   "bindings": {
-    "0x800C7E70": "0x800CA094"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002D02C",
-   "tu": "src/town/func_800CA950.c",
-   "home": "town/func_800CA950",
-   "foff": "0x4D02C",
-   "vma": "0x800CA78C",
-   "size": 76
-  },
-  {
-   "row": "town/func_8002D08C",
-   "tu": "src/town/func_800C7FC4.c",
-   "home": "town/func_800C7FC4",
-   "foff": "0x4D08C",
-   "vma": "0x800CA7EC",
-   "size": 80,
-   "bindings": {
-    "0x800D5360": "0x800D6554"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002D12C",
-   "tu": "src/town/func_800C8104.c",
-   "home": "town/func_800C8104",
-   "foff": "0x4D12C",
-   "vma": "0x800CA88C",
-   "size": 72
-  },
-  {
-   "row": "town/func_8002D558",
-   "tu": "src/town/func_800C82F4.c",
-   "home": "town/func_800C82F4",
-   "foff": "0x4D558",
-   "vma": "0x800CACB8",
-   "size": 136,
-   "bindings": {
-    "0x800C3BF4": "0x800C3BF4"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002D5E0",
-   "tu": "src/town/func_800C82F4.c",
-   "home": "town/func_800C82F4",
-   "foff": "0x4D5E0",
-   "vma": "0x800CAD40",
-   "size": 136,
-   "bindings": {
-    "0x800C3BF4": "0x800C3BF4",
-    "0x800D54DC": "0x800D6734",
-    "0x800D55E8": "0x800D6770",
-    "0x800D55F0": "0x800D6778",
-    "0x800D5618": "0x800D67A0",
-    "0x800D561C": "0x800D67A4"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002DC48",
-   "tu": "src/town/func_800C90B4.c",
-   "home": "town/func_800C90B4",
-   "foff": "0x4DC48",
-   "vma": "0x800CB3A8",
-   "size": 108
-  },
-  {
-   "row": "town/func_8002DE10",
-   "tu": "src/town/func_800C90B4.c",
-   "home": "town/func_800C90B4",
-   "foff": "0x4DE10",
-   "vma": "0x800CB570",
-   "size": 108,
-   "bindings": {
-    "0x800C641C": "0x800CB060"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002DEDC",
-   "tu": "src/town/func_800C90B4.c",
-   "home": "town/func_800C90B4",
-   "foff": "0x4DEDC",
-   "vma": "0x800CB63C",
-   "size": 108
-  },
-  {
-   "row": "town/func_8002DFA8",
-   "tu": "src/town/func_800CB1C8.c",
-   "home": "town/func_800CB1C8",
-   "foff": "0x4DFA8",
-   "vma": "0x800CB708",
-   "size": 52
-  },
-  {
-   "row": "town/func_8002DFDC",
-   "tu": "src/town/func_800CB1C8.c",
-   "home": "town/func_800CB1C8",
-   "foff": "0x4DFDC",
-   "vma": "0x800CB73C",
-   "size": 52,
-   "bindings": {
-    "0x800D6330": "0x800D6988",
-    "0x800D6338": "0x800D6990",
-    "0x800D6360": "0x800D69B8",
-    "0x800D6364": "0x800D69BC"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800CE7E8",
-   "tu": "src/town/func_800CE7E8.c",
-   "home": "town/func_800CE7E8",
-   "foff": "0x4E7E8",
-   "vma": "0x800CBF48",
-   "size": 100
-  },
-  {
-   "row": "town/func_800CE888",
-   "tu": "src/town/func_800CE888.c",
-   "home": "town/func_800CE888",
-   "foff": "0x4E888",
-   "vma": "0x800CBFE8",
-   "size": 68
-  },
-  {
-   "row": "town/func_8002E8CC",
-   "tu": "src/town/func_800CE888.c",
-   "home": "town/func_800CE888",
-   "foff": "0x4E8CC",
-   "vma": "0x800CC02C",
-   "size": 68
-  },
-  {
-   "row": "town/func_800CE910",
-   "tu": "src/town/func_800CE910.c",
-   "home": "town/func_800CE910",
-   "foff": "0x4E910",
-   "vma": "0x800CC070",
-   "size": 320
-  },
-  {
-   "row": "town/func_8002EDC4",
-   "tu": "src/town/func_800C76D0.c",
-   "home": "town/func_800C76D0",
-   "foff": "0x4EDC4",
-   "vma": "0x800CC524",
-   "size": 216
-  },
-  {
-   "row": "town/func_8002EFFC",
-   "tu": "src/town/func_800C81E4.c",
-   "home": "town/func_800C81E4",
-   "foff": "0x4EFFC",
-   "vma": "0x800CC75C",
-   "size": 88,
-   "bindings": {
-    "0x800D54BC": "0x800D6DBC"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002F054",
-   "tu": "src/town/func_800C81E4.c",
-   "home": "town/func_800C81E4",
-   "foff": "0x4F054",
-   "vma": "0x800CC7B4",
-   "size": 88,
-   "bindings": {
-    "0x800D54BC": "0x800D6DD0"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002F0AC",
-   "tu": "src/town/func_800C81E4.c",
-   "home": "town/func_800C81E4",
-   "foff": "0x4F0AC",
-   "vma": "0x800CC80C",
-   "size": 88,
-   "bindings": {
-    "0x800D54BC": "0x800D6DE4"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002F260",
-   "tu": "src/town/func_800C81E4.c",
-   "home": "town/func_800C81E4",
-   "foff": "0x4F260",
-   "vma": "0x800CC9C0",
-   "size": 88,
-   "bindings": {
-    "0x800C5ADC": "0x800C3BF4",
-    "0x800D54BC": "0x800D6E68"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002F40C",
-   "tu": "src/town/func_800CE7E8.c",
-   "home": "town/func_800CE7E8",
-   "foff": "0x4F40C",
-   "vma": "0x800CCB6C",
-   "size": 100
-  },
-  {
-   "row": "town/func_8002F470",
-   "tu": "src/town/func_800CE7E8.c",
-   "home": "town/func_800CE7E8",
-   "foff": "0x4F470",
-   "vma": "0x800CCBD0",
-   "size": 100,
-   "bindings": {
-    "0x800CBFAC": "0x800CCC70"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002F580",
-   "tu": "src/town/func_800CE888.c",
-   "home": "town/func_800CE888",
-   "foff": "0x4F580",
-   "vma": "0x800CCCE0",
-   "size": 68,
-   "bindings": {
-    "0x800D6AA8": "0x800D6F24"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002F5C4",
-   "tu": "src/town/func_800CE888.c",
-   "home": "town/func_800CE888",
-   "foff": "0x4F5C4",
-   "vma": "0x800CCD24",
-   "size": 68,
-   "bindings": {
-    "0x800D6AA8": "0x800D6EE8"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8002F9F8",
-   "tu": "src/town/func_800CE910.c",
-   "home": "town/func_800CE910",
-   "foff": "0x4F9F8",
-   "vma": "0x800CD158",
-   "size": 320
-  },
-  {
-   "row": "town/func_8003030C",
-   "tu": "src/town/func_8009C3A0.c",
-   "home": "town/func_8009C3A0",
-   "foff": "0x5030C",
-   "vma": "0x800CDA6C",
-   "size": 112,
-   "bindings": {
-    "0x8009A1A4": "0x800CDF54"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800D0638",
-   "tu": "src/town/func_800D0638.c",
-   "home": "town/func_800D0638",
-   "foff": "0x50638",
-   "vma": "0x800CDD98",
-   "size": 100
-  },
-  {
-   "row": "town/func_800D069C",
-   "tu": "src/town/func_800D069C.c",
-   "home": "town/func_800D069C",
-   "foff": "0x5069C",
-   "vma": "0x800CDDFC",
-   "size": 80
-  },
-  {
-   "row": "town/func_800306EC",
-   "tu": "src/town/func_800D069C.c",
-   "home": "town/func_800D069C",
-   "foff": "0x506EC",
-   "vma": "0x800CDE4C",
-   "size": 80
-  },
-  {
-   "row": "town/func_8003073C",
-   "tu": "src/town/func_800D0638.c",
-   "home": "town/func_800D0638",
-   "foff": "0x5073C",
-   "vma": "0x800CDE9C",
-   "size": 100
-  },
-  {
-   "row": "town/func_800307F4",
-   "tu": "src/town/func_800CC4F4.c",
-   "home": "town/func_800CC4F4",
-   "foff": "0x507F4",
-   "vma": "0x800CDF54",
-   "size": 64,
-   "bindings": {
-    "0x800C9864": "0x800CDADC"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_80030834",
-   "tu": "src/town/func_800D0638.c",
-   "home": "town/func_800D0638",
-   "foff": "0x50834",
-   "vma": "0x800CDF94",
-   "size": 100,
-   "bindings": {
-    "0x800CD650": "0x800CDBB8"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800308EC",
-   "tu": "src/town/func_800CC4F4.c",
-   "home": "town/func_800CC4F4",
-   "foff": "0x508EC",
-   "vma": "0x800CE04C",
-   "size": 64,
-   "bindings": {
-    "0x800C9864": "0x800CDCA8"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800D0968",
-   "tu": "src/town/func_800D0968.c",
-   "home": "town/func_800D0968",
-   "foff": "0x50968",
-   "vma": "0x800CE0C8",
-   "size": 212
-  },
-  {
-   "row": "town/func_800D0B74",
-   "tu": "src/town/func_800D0B74.c",
-   "home": "town/func_800D0B74",
-   "foff": "0x50B74",
-   "vma": "0x800CE2D4",
-   "size": 184
-  },
-  {
-   "row": "town/func_80030DF8",
-   "tu": "src/town/func_800D0968.c",
-   "home": "town/func_800D0968",
-   "foff": "0x50DF8",
-   "vma": "0x800CE558",
-   "size": 212
-  },
-  {
-   "row": "town/func_80030ECC",
-   "tu": "src/town/func_800D0B74.c",
-   "home": "town/func_800D0B74",
-   "foff": "0x50ECC",
-   "vma": "0x800CE62C",
-   "size": 184
-  },
-  {
-   "row": "town/func_80030F84",
-   "tu": "src/town/func_800CAF8C.c",
-   "home": "town/func_800CAF8C",
-   "foff": "0x50F84",
-   "vma": "0x800CE6E4",
-   "size": 156
-  },
-  {
-   "row": "town/func_80031020",
-   "tu": "src/town/func_800CB028.c",
-   "home": "town/func_800CB028",
-   "foff": "0x51020",
-   "vma": "0x800CE780",
-   "size": 128
-  },
-  {
-   "row": "town/func_8003116C",
-   "tu": "src/town/func_800CB028.c",
-   "home": "town/func_800CB028",
-   "foff": "0x5116C",
-   "vma": "0x800CE8CC",
-   "size": 128,
-   "bindings": {
-    "0x800C86EC": "0x800CE800"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800311EC",
-   "tu": "src/town/func_800C7FC4.c",
-   "home": "town/func_800C7FC4",
-   "foff": "0x511EC",
-   "vma": "0x800CE94C",
-   "size": 80,
-   "bindings": {
-    "0x80082710": "0x80082688",
-    "0x800C5620": "0x800CE08C",
-    "0x800D5360": "0x800D72AC"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8003128C",
-   "tu": "src/town/func_800CB0A8.c",
-   "home": "town/func_800CB0A8",
-   "foff": "0x5128C",
-   "vma": "0x800CE9EC",
-   "size": 84,
-   "bindings": {
-    "0x800C8788": "0x800CE19C"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_800313A0",
-   "tu": "src/town/func_800CB0A8.c",
-   "home": "town/func_800CB0A8",
-   "foff": "0x513A0",
-   "vma": "0x800CEB00",
-   "size": 84,
-   "bindings": {
-    "0x800C8788": "0x800CE38C"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_8003147C",
-   "tu": "src/town/func_800CA950.c",
-   "home": "town/func_800CA950",
-   "foff": "0x5147C",
-   "vma": "0x800CEBDC",
-   "size": 76,
-   "bindings": {
-    "0x80082680": "0x80082688",
-    "0x800C7EF0": "0x800CE538",
-    "0x800D5FA0": "0x800D72C0"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
-  },
-  {
-   "row": "town/func_80031F20",
-   "tu": "src/town/func_800C81E4.c",
-   "home": "town/func_800C81E4",
-   "foff": "0x51F20",
-   "vma": "0x800CF680",
-   "size": 88,
-   "bindings": {
-    "0x800D54BC": "0x800D7C68"
-   },
-   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/engine",
+  "container": "town",
+  "foff": "0xB000",
+  "size": "0x8B0A0",
+  "vma": "0x80088760",
+  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x8007D760: xfer_town_B000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "entries": [
+    {
+      "row": "town/func_80097C00",
+      "tu": "src/town/player/view_relative_angle_sector.c",
+      "home": "town/func_80097C00",
+      "foff": "0x17C00",
+      "vma": "0x80095360",
+      "size": 40
+    },
+    {
+      "row": "town/func_8009C3A0",
+      "tu": "src/town/player/state/advance_player_state.c",
+      "home": "town/func_8009C3A0",
+      "foff": "0x1C3A0",
+      "vma": "0x80099B00",
+      "size": 112
+    },
+    {
+      "row": "town/func_800A0C74",
+      "tu": "src/town/func_800A0C74.c",
+      "home": "town/func_800A0C74",
+      "foff": "0x20C74",
+      "vma": "0x8009E3D4",
+      "size": 24
+    },
+    {
+      "row": "town/func_800A9DF4",
+      "tu": "src/town/menu/animation/initialize_emote_animation.c",
+      "home": "town/func_800A9DF4",
+      "foff": "0x29DF4",
+      "vma": "0x800A7554",
+      "size": 100
+    },
+    {
+      "row": "town/func_800B0208",
+      "tu": "src/town/shop/count_nonzero_fixed_table_words.c",
+      "home": "town/func_800B0208",
+      "foff": "0x30208",
+      "vma": "0x800AD968",
+      "size": 52
+    },
+    {
+      "row": "town/func_800B1FD4",
+      "tu": "src/town/shop/position/position_item_menu_side_indicators.c",
+      "home": "town/func_800B1FD4",
+      "foff": "0x31FD4",
+      "vma": "0x800AF734",
+      "size": 80
+    },
+    {
+      "row": "town/func_800B2670",
+      "tu": "src/town/shop/item/initialize_item_menu_panel_rectangle.c",
+      "home": "town/func_800B2670",
+      "foff": "0x32670",
+      "vma": "0x800AFDD0",
+      "size": 64
+    },
+    {
+      "row": "town/func_800B26B0",
+      "tu": "src/town/shop/object/link_item_menu_object_entries.c",
+      "home": "town/func_800B26B0",
+      "foff": "0x326B0",
+      "vma": "0x800AFE10",
+      "size": 240
+    },
+    {
+      "row": "town/func_800B2BB8",
+      "tu": "src/town/shop/item/clear_item_menu_entry_groups.c",
+      "home": "town/func_800B2BB8",
+      "foff": "0x32BB8",
+      "vma": "0x800B0318",
+      "size": 156
+    },
+    {
+      "row": "town/func_800B2C54",
+      "tu": "src/town/shop/state/reset_item_menu_object_state.c",
+      "home": "town/func_800B2C54",
+      "foff": "0x32C54",
+      "vma": "0x800B03B4",
+      "size": 100
+    },
+    {
+      "row": "town/func_80012FB8",
+      "tu": "src/town/shop/count_nonzero_fixed_table_words.c",
+      "home": "town/func_800B0208",
+      "foff": "0x32FB8",
+      "vma": "0x800B0718",
+      "size": 52
+    },
+    {
+      "row": "town/func_80014198",
+      "tu": "src/town/shop/item/initialize_item_menu_panel_rectangle.c",
+      "home": "town/func_800B2670",
+      "foff": "0x34198",
+      "vma": "0x800B18F8",
+      "size": 64
+    },
+    {
+      "row": "town/func_800B566C",
+      "tu": "src/town/shop/arrange_ten_objects_in_columns.c",
+      "home": "town/func_800B566C",
+      "foff": "0x3566C",
+      "vma": "0x800B2DCC",
+      "size": 112
+    },
+    {
+      "row": "town/func_80015BBC",
+      "tu": "src/town/shop/position/position_item_menu_side_indicators.c",
+      "home": "town/func_800B1FD4",
+      "foff": "0x35BBC",
+      "vma": "0x800B331C",
+      "size": 80
+    },
+    {
+      "row": "town/func_80015DF8",
+      "tu": "src/town/shop/item/initialize_item_menu_panel_rectangle.c",
+      "home": "town/func_800B2670",
+      "foff": "0x35DF8",
+      "vma": "0x800B3558",
+      "size": 64,
+      "bindings": {
+        "0x800D15B8": "0x800D1650"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_80015E38",
+      "tu": "src/town/shop/object/link_item_menu_object_entries.c",
+      "home": "town/func_800B26B0",
+      "foff": "0x35E38",
+      "vma": "0x800B3598",
+      "size": 240
+    },
+    {
+      "row": "town/func_80016284",
+      "tu": "src/town/shop/item/clear_item_menu_entry_groups.c",
+      "home": "town/func_800B2BB8",
+      "foff": "0x36284",
+      "vma": "0x800B39E4",
+      "size": 156
+    },
+    {
+      "row": "town/func_80016320",
+      "tu": "src/town/shop/state/reset_item_menu_object_state.c",
+      "home": "town/func_800B2C54",
+      "foff": "0x36320",
+      "vma": "0x800B3A80",
+      "size": 100,
+      "bindings": {
+        "0x800B0318": "0x800B39E4"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800B6A28",
+      "tu": "src/town/shop/copy_display_template_blocks.c",
+      "home": "town/func_800B6A28",
+      "foff": "0x36A28",
+      "vma": "0x800B4188",
+      "size": 228
+    },
+    {
+      "row": "town/func_80016B0C",
+      "tu": "src/town/shop/copy_display_template_blocks.c",
+      "home": "town/func_800B6A28",
+      "foff": "0x36B0C",
+      "vma": "0x800B426C",
+      "size": 228
+    },
+    {
+      "row": "town/func_80016FEC",
+      "tu": "src/town/shop/arrange_ten_objects_in_columns.c",
+      "home": "town/func_800B566C",
+      "foff": "0x36FEC",
+      "vma": "0x800B474C",
+      "size": 112
+    },
+    {
+      "row": "town/func_80017300",
+      "tu": "src/town/shop/position/position_item_menu_side_indicators.c",
+      "home": "town/func_800B1FD4",
+      "foff": "0x37300",
+      "vma": "0x800B4A60",
+      "size": 80
+    },
+    {
+      "row": "town/func_800178C0",
+      "tu": "src/town/shop/item/clear_item_menu_entry_groups.c",
+      "home": "town/func_800B2BB8",
+      "foff": "0x378C0",
+      "vma": "0x800B5020",
+      "size": 156
+    },
+    {
+      "row": "town/func_800B8368",
+      "tu": "src/town/shop/initialize_display_entry.c",
+      "home": "town/func_800B8368",
+      "foff": "0x38368",
+      "vma": "0x800B5AC8",
+      "size": 88
+    },
+    {
+      "row": "town/func_80018CAC",
+      "tu": "src/town/shop/initialize_display_entry.c",
+      "home": "town/func_800B8368",
+      "foff": "0x38CAC",
+      "vma": "0x800B640C",
+      "size": 88
+    },
+    {
+      "row": "town/func_800BA1D4",
+      "tu": "src/town/map/position/apply_building_tile_entry.c",
+      "home": "town/func_800BA1D4",
+      "foff": "0x3A1D4",
+      "vma": "0x800B7934",
+      "size": 68
+    },
+    {
+      "row": "town/func_8001A3E8",
+      "tu": "src/town/map/position/apply_building_tile_entry.c",
+      "home": "town/func_800BA1D4",
+      "foff": "0x3A3E8",
+      "vma": "0x800B7B48",
+      "size": 68
+    },
+    {
+      "row": "town/func_800BC77C",
+      "tu": "src/town/map/state/update_inactive_object_state.c",
+      "home": "town/func_800BC77C",
+      "foff": "0x3C77C",
+      "vma": "0x800B9EDC",
+      "size": 152
+    },
+    {
+      "row": "town/func_8001C814",
+      "tu": "src/town/map/state/update_inactive_object_state.c",
+      "home": "town/func_800BC77C",
+      "foff": "0x3C814",
+      "vma": "0x800B9F74",
+      "size": 152
+    },
+    {
+      "row": "town/func_800240A4",
+      "tu": "src/town/func_800A0C74.c",
+      "home": "town/func_800A0C74",
+      "foff": "0x440A4",
+      "vma": "0x800C1804",
+      "size": 24
+    },
+    {
+      "row": "town/func_800C4F04",
+      "tu": "src/town/person/object/initialize_transform_object_values.c",
+      "home": "town/func_800C4F04",
+      "foff": "0x44F04",
+      "vma": "0x800C2664",
+      "size": 92
+    },
+    {
+      "row": "town/func_80025020",
+      "tu": "src/town/person/object/initialize_transform_object_values.c",
+      "home": "town/func_800C4F04",
+      "foff": "0x45020",
+      "vma": "0x800C2780",
+      "size": 92
+    },
+    {
+      "row": "town/func_800C5084",
+      "tu": "src/town/person/initialize_indexed_transform_resource.c",
+      "home": "town/func_800C5084",
+      "foff": "0x45084",
+      "vma": "0x800C27E4",
+      "size": 88
+    },
+    {
+      "row": "town/func_80025130",
+      "tu": "src/town/person/initialize_indexed_transform_resource.c",
+      "home": "town/func_800C5084",
+      "foff": "0x45130",
+      "vma": "0x800C2890",
+      "size": 88
+    },
+    {
+      "row": "town/func_800C55D4",
+      "tu": "src/town/person/store_value_table_and_reset_target.c",
+      "home": "town/func_800C55D4",
+      "foff": "0x455D4",
+      "vma": "0x800C2D34",
+      "size": 96
+    },
+    {
+      "row": "town/func_80025634",
+      "tu": "src/town/player/view_relative_angle_sector.c",
+      "home": "town/func_80097C00",
+      "foff": "0x45634",
+      "vma": "0x800C2D94",
+      "size": 40
+    },
+    {
+      "row": "town/func_8002565C",
+      "tu": "src/town/person/store_value_table_and_reset_target.c",
+      "home": "town/func_800C55D4",
+      "foff": "0x4565C",
+      "vma": "0x800C2DBC",
+      "size": 96
+    },
+    {
+      "row": "town/func_800C5D8C",
+      "tu": "src/town/person/run_unhandled_update_and_choose_direction.c",
+      "home": "town/func_800C5D8C",
+      "foff": "0x45D8C",
+      "vma": "0x800C34EC",
+      "size": 112
+    },
+    {
+      "row": "town/func_800C5DFC",
+      "tu": "src/town/person/motion/advance_bounded_motion.c",
+      "home": "town/func_800C5DFC",
+      "foff": "0x45DFC",
+      "vma": "0x800C355C",
+      "size": 548
+    },
+    {
+      "row": "town/func_800C6064",
+      "tu": "src/town/person/state/initialize_object_assigns_state_data.c",
+      "home": "town/func_800C6064",
+      "foff": "0x46064",
+      "vma": "0x800C37C4",
+      "size": 104
+    },
+    {
+      "row": "town/func_800C60CC",
+      "tu": "src/town/person/choose_random_movement_direction.c",
+      "home": "town/func_800C60CC",
+      "foff": "0x460CC",
+      "vma": "0x800C382C",
+      "size": 308
+    },
+    {
+      "row": "town/func_800C6494",
+      "tu": "src/town/person/state/dispatch_status_triggered_update.c",
+      "home": "town/func_800C6494",
+      "foff": "0x46494",
+      "vma": "0x800C3BF4",
+      "size": 52
+    },
+    {
+      "row": "town/func_800C76D0",
+      "tu": "src/town/person/animate_scale_and_restore.c",
+      "home": "town/func_800C76D0",
+      "foff": "0x476D0",
+      "vma": "0x800C4E30",
+      "size": 216
+    },
+    {
+      "row": "town/func_80027C98",
+      "tu": "src/town/person/animate_scale_and_restore.c",
+      "home": "town/func_800C76D0",
+      "foff": "0x47C98",
+      "vma": "0x800C53F8",
+      "size": 216
+    },
+    {
+      "row": "town/func_800C7EFC",
+      "tu": "src/town/person/decrement_countdown_call.c",
+      "home": "town/func_800C7EFC",
+      "foff": "0x47EFC",
+      "vma": "0x800C565C",
+      "size": 76
+    },
+    {
+      "row": "town/func_800C7FC4",
+      "tu": "src/town/person/state/initialize_actor_clear_shared_flag.c",
+      "home": "town/func_800C7FC4",
+      "foff": "0x47FC4",
+      "vma": "0x800C5724",
+      "size": 80
+    },
+    {
+      "row": "town/func_80028014",
+      "tu": "src/town/person/state/initialize_actor_clear_shared_flag.c",
+      "home": "town/func_800C7FC4",
+      "foff": "0x48014",
+      "vma": "0x800C5774",
+      "size": 80,
+      "bindings": {
+        "0x80082710": "0x80082710",
+        "0x800C5620": "0x800C5620"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_80028064",
+      "tu": "src/town/person/state/initialize_actor_clear_shared_flag.c",
+      "home": "town/func_800C7FC4",
+      "foff": "0x48064",
+      "vma": "0x800C57C4",
+      "size": 80,
+      "bindings": {
+        "0x80082710": "0x80082710",
+        "0x800C5620": "0x800C5620",
+        "0x800D5360": "0x800D53B0"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800C8104",
+      "tu": "src/town/person/adjust_two_state_values.c",
+      "home": "town/func_800C8104",
+      "foff": "0x48104",
+      "vma": "0x800C5864",
+      "size": 72
+    },
+    {
+      "row": "town/func_800C81E4",
+      "tu": "src/town/person/state/initialize_actor_clear_table_flag.c",
+      "home": "town/func_800C81E4",
+      "foff": "0x481E4",
+      "vma": "0x800C5944",
+      "size": 88
+    },
+    {
+      "row": "town/func_8002829C",
+      "tu": "src/town/person/state/initialize_actor_clear_table_flag.c",
+      "home": "town/func_800C81E4",
+      "foff": "0x4829C",
+      "vma": "0x800C59FC",
+      "size": 88,
+      "bindings": {
+        "0x800C5ADC": "0x800C5C70",
+        "0x800D54BC": "0x800D54D4"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800C82F4",
+      "tu": "src/town/person/object/initialize_object_tables.c",
+      "home": "town/func_800C82F4",
+      "foff": "0x482F4",
+      "vma": "0x800C5A54",
+      "size": 136
+    },
+    {
+      "row": "town/func_800C86A0",
+      "tu": "src/town/person/state/initialize_actor_state_table.c",
+      "home": "town/func_800C86A0",
+      "foff": "0x486A0",
+      "vma": "0x800C5E00",
+      "size": 92
+    },
+    {
+      "row": "town/func_800286FC",
+      "tu": "src/town/person/state/initialize_actor_state_table.c",
+      "home": "town/func_800C86A0",
+      "foff": "0x486FC",
+      "vma": "0x800C5E5C",
+      "size": 92
+    },
+    {
+      "row": "town/func_80028758",
+      "tu": "src/town/person/state/initialize_actor_state_table.c",
+      "home": "town/func_800C86A0",
+      "foff": "0x48758",
+      "vma": "0x800C5EB8",
+      "size": 92,
+      "bindings": {
+        "0x800D5540": "0x800D5568"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800287B4",
+      "tu": "src/town/person/state/initialize_actor_state_table.c",
+      "home": "town/func_800C86A0",
+      "foff": "0x487B4",
+      "vma": "0x800C5F14",
+      "size": 92,
+      "bindings": {
+        "0x800D5540": "0x800D557C"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_80028AAC",
+      "tu": "src/town/menu/animation/initialize_emote_animation.c",
+      "home": "town/func_800A9DF4",
+      "foff": "0x48AAC",
+      "vma": "0x800C620C",
+      "size": 100
+    },
+    {
+      "row": "town/func_800C8B84",
+      "tu": "src/town/person/try_apply_threshold_effect_variant_b.c",
+      "home": "town/func_800C8B84",
+      "foff": "0x48B84",
+      "vma": "0x800C62E4",
+      "size": 96
+    },
+    {
+      "row": "town/func_800C90B4",
+      "tu": "src/town/person/run_record_countdown_follow_up.c",
+      "home": "town/func_800C90B4",
+      "foff": "0x490B4",
+      "vma": "0x800C6814",
+      "size": 108
+    },
+    {
+      "row": "town/func_80029180",
+      "tu": "src/town/person/run_record_countdown_follow_up.c",
+      "home": "town/func_800C90B4",
+      "foff": "0x49180",
+      "vma": "0x800C68E0",
+      "size": 108,
+      "bindings": {
+        "0x800C641C": "0x800C645C"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002924C",
+      "tu": "src/town/person/run_record_countdown_follow_up.c",
+      "home": "town/func_800C90B4",
+      "foff": "0x4924C",
+      "vma": "0x800C69AC",
+      "size": 108,
+      "bindings": {
+        "0x800C641C": "0x800C641C"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_80029318",
+      "tu": "src/town/person/run_record_countdown_follow_up.c",
+      "home": "town/func_800C90B4",
+      "foff": "0x49318",
+      "vma": "0x800C6A78",
+      "size": 108,
+      "bindings": {
+        "0x800C641C": "0x800C6478"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800293E4",
+      "tu": "src/town/person/run_record_countdown_follow_up.c",
+      "home": "town/func_800C90B4",
+      "foff": "0x493E4",
+      "vma": "0x800C6B44",
+      "size": 108,
+      "bindings": {
+        "0x800C641C": "0x800C641C"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800296B0",
+      "tu": "src/town/person/try_apply_threshold_effect_variant_b.c",
+      "home": "town/func_800C8B84",
+      "foff": "0x496B0",
+      "vma": "0x800C6E10",
+      "size": 96
+    },
+    {
+      "row": "town/func_80029808",
+      "tu": "src/town/person/state/initialize_actor_clear_table_flag.c",
+      "home": "town/func_800C81E4",
+      "foff": "0x49808",
+      "vma": "0x800C6F68",
+      "size": 88,
+      "bindings": {
+        "0x800D54BC": "0x800D5B90"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_80029860",
+      "tu": "src/town/person/state/initialize_actor_clear_table_flag.c",
+      "home": "town/func_800C81E4",
+      "foff": "0x49860",
+      "vma": "0x800C6FC0",
+      "size": 88,
+      "bindings": {
+        "0x800C5ADC": "0x800C3BF4"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800298B8",
+      "tu": "src/town/person/state/initialize_actor_clear_table_flag.c",
+      "home": "town/func_800C81E4",
+      "foff": "0x498B8",
+      "vma": "0x800C7018",
+      "size": 88
+    },
+    {
+      "row": "town/func_80029A40",
+      "tu": "src/town/person/state/initialize_actor_clear_table_flag.c",
+      "home": "town/func_800C81E4",
+      "foff": "0x49A40",
+      "vma": "0x800C71A0",
+      "size": 88,
+      "bindings": {
+        "0x800C5ADC": "0x800C7138",
+        "0x800D54BC": "0x800D5CAC"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_80029A98",
+      "tu": "src/town/person/state/dispatch_status_triggered_update.c",
+      "home": "town/func_800C6494",
+      "foff": "0x49A98",
+      "vma": "0x800C71F8",
+      "size": 52
+    },
+    {
+      "row": "town/func_80029ACC",
+      "tu": "src/town/person/state/initialize_actor_clear_table_flag.c",
+      "home": "town/func_800C81E4",
+      "foff": "0x49ACC",
+      "vma": "0x800C722C",
+      "size": 88,
+      "bindings": {
+        "0x800C5ADC": "0x800C71F8",
+        "0x800D54BC": "0x800D5CF4"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_80029EA4",
+      "tu": "src/town/person/run_unhandled_update_and_choose_direction.c",
+      "home": "town/func_800C5D8C",
+      "foff": "0x49EA4",
+      "vma": "0x800C7604",
+      "size": 112,
+      "bindings": {
+        "0x800C382C": "0x800C7AC4"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800C9F14",
+      "tu": "src/town/person/motion/advance_mother_event_bounded_motion.c",
+      "home": "town/func_800C9F14",
+      "foff": "0x49F14",
+      "vma": "0x800C7674",
+      "size": 564
+    },
+    {
+      "row": "town/func_800CA710",
+      "tu": "src/town/person/decrement_mother_event_timer_and_restore.c",
+      "home": "town/func_800CA710",
+      "foff": "0x4A710",
+      "vma": "0x800C7E70",
+      "size": 64
+    },
+    {
+      "row": "town/func_8002A750",
+      "tu": "src/town/person/decrement_mother_event_timer_and_restore.c",
+      "home": "town/func_800CA710",
+      "foff": "0x4A750",
+      "vma": "0x800C7EB0",
+      "size": 64
+    },
+    {
+      "row": "town/func_8002A7B0",
+      "tu": "src/town/person/state/initialize_actor_clear_shared_flag.c",
+      "home": "town/func_800C7FC4",
+      "foff": "0x4A7B0",
+      "vma": "0x800C7F10",
+      "size": 80,
+      "bindings": {
+        "0x80082710": "0x80082680",
+        "0x800C5620": "0x800C7CB4",
+        "0x800D5360": "0x800D5FE8"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800CA8A0",
+      "tu": "src/town/person/initialize_mother_event_countdown.c",
+      "home": "town/func_800CA8A0",
+      "foff": "0x4A8A0",
+      "vma": "0x800C8000",
+      "size": 88
+    },
+    {
+      "row": "town/func_800CA950",
+      "tu": "src/town/person/object/initialize_mother_event_object.c",
+      "home": "town/func_800CA950",
+      "foff": "0x4A950",
+      "vma": "0x800C80B0",
+      "size": 76
+    },
+    {
+      "row": "town/func_800CAC2C",
+      "tu": "src/town/person/object/initialize_object_configuration_x.c",
+      "home": "town/func_800CAC2C",
+      "foff": "0x4AC2C",
+      "vma": "0x800C838C",
+      "size": 100
+    },
+    {
+      "row": "town/func_8002AC90",
+      "tu": "src/town/person/object/initialize_object_configuration_x.c",
+      "home": "town/func_800CAC2C",
+      "foff": "0x4AC90",
+      "vma": "0x800C83F0",
+      "size": 100
+    },
+    {
+      "row": "town/func_8002ACF4",
+      "tu": "src/town/person/object/initialize_object_configuration_x.c",
+      "home": "town/func_800CAC2C",
+      "foff": "0x4ACF4",
+      "vma": "0x800C8454",
+      "size": 100,
+      "bindings": {
+        "0x800D6244": "0x800D6220"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002AD58",
+      "tu": "src/town/person/run_record_countdown_follow_up.c",
+      "home": "town/func_800C90B4",
+      "foff": "0x4AD58",
+      "vma": "0x800C84B8",
+      "size": 108,
+      "bindings": {
+        "0x800C641C": "0x800C8928"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800CAEA0",
+      "tu": "src/town/person/initialize_scene_slot_context.c",
+      "home": "town/func_800CAEA0",
+      "foff": "0x4AEA0",
+      "vma": "0x800C8600",
+      "size": 68
+    },
+    {
+      "row": "town/func_8002AEE4",
+      "tu": "src/town/person/initialize_scene_slot_context.c",
+      "home": "town/func_800CAEA0",
+      "foff": "0x4AEE4",
+      "vma": "0x800C8644",
+      "size": 68
+    },
+    {
+      "row": "town/func_8002AF28",
+      "tu": "src/town/person/initialize_scene_slot_context.c",
+      "home": "town/func_800CAEA0",
+      "foff": "0x4AF28",
+      "vma": "0x800C8688",
+      "size": 68,
+      "bindings": {
+        "0x800D62C4": "0x800D6220"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800CAF8C",
+      "tu": "src/town/person/position/advance_object_position.c",
+      "home": "town/func_800CAF8C",
+      "foff": "0x4AF8C",
+      "vma": "0x800C86EC",
+      "size": 156
+    },
+    {
+      "row": "town/func_800CB028",
+      "tu": "src/town/person/check_action_six_eligibility.c",
+      "home": "town/func_800CB028",
+      "foff": "0x4B028",
+      "vma": "0x800C8788",
+      "size": 128
+    },
+    {
+      "row": "town/func_800CB0A8",
+      "tu": "src/town/person/object/initialize_object_callback.c",
+      "home": "town/func_800CB0A8",
+      "foff": "0x4B0A8",
+      "vma": "0x800C8808",
+      "size": 84
+    },
+    {
+      "row": "town/func_800CB1C8",
+      "tu": "src/town/person/object/assign_four_object_data_pointers.c",
+      "home": "town/func_800CB1C8",
+      "foff": "0x4B1C8",
+      "vma": "0x800C8928",
+      "size": 52
+    },
+    {
+      "row": "town/func_8002B23C",
+      "tu": "src/town/person/run_record_countdown_follow_up.c",
+      "home": "town/func_800C90B4",
+      "foff": "0x4B23C",
+      "vma": "0x800C899C",
+      "size": 108,
+      "bindings": {
+        "0x800C641C": "0x800C895C"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002BB44",
+      "tu": "src/town/person/run_unhandled_update_and_choose_direction.c",
+      "home": "town/func_800C5D8C",
+      "foff": "0x4BB44",
+      "vma": "0x800C92A4",
+      "size": 112,
+      "bindings": {
+        "0x800C382C": "0x800C9610"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002BBB4",
+      "tu": "src/town/person/run_unhandled_update_and_choose_direction.c",
+      "home": "town/func_800C5D8C",
+      "foff": "0x4BBB4",
+      "vma": "0x800C9314",
+      "size": 112
+    },
+    {
+      "row": "town/func_8002BC24",
+      "tu": "src/town/person/motion/advance_bounded_motion.c",
+      "home": "town/func_800C5DFC",
+      "foff": "0x4BC24",
+      "vma": "0x800C9384",
+      "size": 548,
+      "bindings": {
+        "0x800C37C4": "0x800C95A8"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002BE48",
+      "tu": "src/town/person/state/initialize_object_assigns_state_data.c",
+      "home": "town/func_800C6064",
+      "foff": "0x4BE48",
+      "vma": "0x800C95A8",
+      "size": 104,
+      "bindings": {
+        "0x800C34EC": "0x800C92A4"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002BEB0",
+      "tu": "src/town/person/state/initialize_object_assigns_state_data.c",
+      "home": "town/func_800C6064",
+      "foff": "0x4BEB0",
+      "vma": "0x800C9610",
+      "size": 104,
+      "bindings": {
+        "0x800C34EC": "0x800C9314"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002BF18",
+      "tu": "src/town/person/choose_random_movement_direction.c",
+      "home": "town/func_800C60CC",
+      "foff": "0x4BF18",
+      "vma": "0x800C9678",
+      "size": 308
+    },
+    {
+      "row": "town/func_8002C094",
+      "tu": "src/town/person/run_unhandled_update_and_choose_direction.c",
+      "home": "town/func_800C5D8C",
+      "foff": "0x4C094",
+      "vma": "0x800C97F4",
+      "size": 112,
+      "bindings": {
+        "0x800C382C": "0x800C9DB8"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002C104",
+      "tu": "src/town/person/motion/advance_mother_event_bounded_motion.c",
+      "home": "town/func_800C9F14",
+      "foff": "0x4C104",
+      "vma": "0x800C9864",
+      "size": 564
+    },
+    {
+      "row": "town/func_8002C374",
+      "tu": "src/town/player/state/advance_player_state.c",
+      "home": "town/func_8009C3A0",
+      "foff": "0x4C374",
+      "vma": "0x800C9AD4",
+      "size": 112
+    },
+    {
+      "row": "town/func_800CC4F4",
+      "tu": "src/town/person/object/initialize_reaction_object.c",
+      "home": "town/func_800CC4F4",
+      "foff": "0x4C4F4",
+      "vma": "0x800C9C54",
+      "size": 64
+    },
+    {
+      "row": "town/func_8002C5E0",
+      "tu": "src/town/person/object/initialize_reaction_object.c",
+      "home": "town/func_800CC4F4",
+      "foff": "0x4C5E0",
+      "vma": "0x800C9D40",
+      "size": 64,
+      "bindings": {
+        "0x800D64DC": "0x800D6518"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002C934",
+      "tu": "src/town/person/decrement_mother_event_timer_and_restore.c",
+      "home": "town/func_800CA710",
+      "foff": "0x4C934",
+      "vma": "0x800CA094",
+      "size": 64
+    },
+    {
+      "row": "town/func_8002C974",
+      "tu": "src/town/person/decrement_mother_event_timer_and_restore.c",
+      "home": "town/func_800CA710",
+      "foff": "0x4C974",
+      "vma": "0x800CA0D4",
+      "size": 64
+    },
+    {
+      "row": "town/func_8002CCAC",
+      "tu": "src/town/person/decrement_countdown_call.c",
+      "home": "town/func_800C7EFC",
+      "foff": "0x4CCAC",
+      "vma": "0x800CA40C",
+      "size": 76
+    },
+    {
+      "row": "town/func_8002CD6C",
+      "tu": "src/town/person/state/initialize_actor_clear_shared_flag.c",
+      "home": "town/func_800C7FC4",
+      "foff": "0x4CD6C",
+      "vma": "0x800CA4CC",
+      "size": 80,
+      "bindings": {
+        "0x800D5360": "0x800D652C"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002CDBC",
+      "tu": "src/town/person/state/initialize_actor_clear_shared_flag.c",
+      "home": "town/func_800C7FC4",
+      "foff": "0x4CDBC",
+      "vma": "0x800CA51C",
+      "size": 80,
+      "bindings": {
+        "0x800D5360": "0x800D6504"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002CEEC",
+      "tu": "src/town/person/initialize_mother_event_countdown.c",
+      "home": "town/func_800CA8A0",
+      "foff": "0x4CEEC",
+      "vma": "0x800CA64C",
+      "size": 88,
+      "bindings": {
+        "0x800C7E70": "0x800CA094"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002D02C",
+      "tu": "src/town/person/object/initialize_mother_event_object.c",
+      "home": "town/func_800CA950",
+      "foff": "0x4D02C",
+      "vma": "0x800CA78C",
+      "size": 76
+    },
+    {
+      "row": "town/func_8002D08C",
+      "tu": "src/town/person/state/initialize_actor_clear_shared_flag.c",
+      "home": "town/func_800C7FC4",
+      "foff": "0x4D08C",
+      "vma": "0x800CA7EC",
+      "size": 80,
+      "bindings": {
+        "0x800D5360": "0x800D6554"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002D12C",
+      "tu": "src/town/person/adjust_two_state_values.c",
+      "home": "town/func_800C8104",
+      "foff": "0x4D12C",
+      "vma": "0x800CA88C",
+      "size": 72
+    },
+    {
+      "row": "town/func_8002D558",
+      "tu": "src/town/person/object/initialize_object_tables.c",
+      "home": "town/func_800C82F4",
+      "foff": "0x4D558",
+      "vma": "0x800CACB8",
+      "size": 136,
+      "bindings": {
+        "0x800C3BF4": "0x800C3BF4"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002D5E0",
+      "tu": "src/town/person/object/initialize_object_tables.c",
+      "home": "town/func_800C82F4",
+      "foff": "0x4D5E0",
+      "vma": "0x800CAD40",
+      "size": 136,
+      "bindings": {
+        "0x800C3BF4": "0x800C3BF4",
+        "0x800D54DC": "0x800D6734",
+        "0x800D55E8": "0x800D6770",
+        "0x800D55F0": "0x800D6778",
+        "0x800D5618": "0x800D67A0",
+        "0x800D561C": "0x800D67A4"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002DC48",
+      "tu": "src/town/person/run_record_countdown_follow_up.c",
+      "home": "town/func_800C90B4",
+      "foff": "0x4DC48",
+      "vma": "0x800CB3A8",
+      "size": 108
+    },
+    {
+      "row": "town/func_8002DE10",
+      "tu": "src/town/person/run_record_countdown_follow_up.c",
+      "home": "town/func_800C90B4",
+      "foff": "0x4DE10",
+      "vma": "0x800CB570",
+      "size": 108,
+      "bindings": {
+        "0x800C641C": "0x800CB060"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002DEDC",
+      "tu": "src/town/person/run_record_countdown_follow_up.c",
+      "home": "town/func_800C90B4",
+      "foff": "0x4DEDC",
+      "vma": "0x800CB63C",
+      "size": 108
+    },
+    {
+      "row": "town/func_8002DFA8",
+      "tu": "src/town/person/object/assign_four_object_data_pointers.c",
+      "home": "town/func_800CB1C8",
+      "foff": "0x4DFA8",
+      "vma": "0x800CB708",
+      "size": 52
+    },
+    {
+      "row": "town/func_8002DFDC",
+      "tu": "src/town/person/object/assign_four_object_data_pointers.c",
+      "home": "town/func_800CB1C8",
+      "foff": "0x4DFDC",
+      "vma": "0x800CB73C",
+      "size": 52,
+      "bindings": {
+        "0x800D6330": "0x800D6988",
+        "0x800D6338": "0x800D6990",
+        "0x800D6360": "0x800D69B8",
+        "0x800D6364": "0x800D69BC"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800CE7E8",
+      "tu": "src/town/person/state/initialize_indexed_callback_state.c",
+      "home": "town/func_800CE7E8",
+      "foff": "0x4E7E8",
+      "vma": "0x800CBF48",
+      "size": 100
+    },
+    {
+      "row": "town/func_800CE888",
+      "tu": "src/town/person/object/initialize_object_and_advance.c",
+      "home": "town/func_800CE888",
+      "foff": "0x4E888",
+      "vma": "0x800CBFE8",
+      "size": 68
+    },
+    {
+      "row": "town/func_8002E8CC",
+      "tu": "src/town/person/object/initialize_object_and_advance.c",
+      "home": "town/func_800CE888",
+      "foff": "0x4E8CC",
+      "vma": "0x800CC02C",
+      "size": 68
+    },
+    {
+      "row": "town/func_800CE910",
+      "tu": "src/town/person/motion/update_jump_motion.c",
+      "home": "town/func_800CE910",
+      "foff": "0x4E910",
+      "vma": "0x800CC070",
+      "size": 320
+    },
+    {
+      "row": "town/func_8002EDC4",
+      "tu": "src/town/person/animate_scale_and_restore.c",
+      "home": "town/func_800C76D0",
+      "foff": "0x4EDC4",
+      "vma": "0x800CC524",
+      "size": 216
+    },
+    {
+      "row": "town/func_8002EFFC",
+      "tu": "src/town/person/state/initialize_actor_clear_table_flag.c",
+      "home": "town/func_800C81E4",
+      "foff": "0x4EFFC",
+      "vma": "0x800CC75C",
+      "size": 88,
+      "bindings": {
+        "0x800D54BC": "0x800D6DBC"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002F054",
+      "tu": "src/town/person/state/initialize_actor_clear_table_flag.c",
+      "home": "town/func_800C81E4",
+      "foff": "0x4F054",
+      "vma": "0x800CC7B4",
+      "size": 88,
+      "bindings": {
+        "0x800D54BC": "0x800D6DD0"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002F0AC",
+      "tu": "src/town/person/state/initialize_actor_clear_table_flag.c",
+      "home": "town/func_800C81E4",
+      "foff": "0x4F0AC",
+      "vma": "0x800CC80C",
+      "size": 88,
+      "bindings": {
+        "0x800D54BC": "0x800D6DE4"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002F260",
+      "tu": "src/town/person/state/initialize_actor_clear_table_flag.c",
+      "home": "town/func_800C81E4",
+      "foff": "0x4F260",
+      "vma": "0x800CC9C0",
+      "size": 88,
+      "bindings": {
+        "0x800C5ADC": "0x800C3BF4",
+        "0x800D54BC": "0x800D6E68"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002F40C",
+      "tu": "src/town/person/state/initialize_indexed_callback_state.c",
+      "home": "town/func_800CE7E8",
+      "foff": "0x4F40C",
+      "vma": "0x800CCB6C",
+      "size": 100
+    },
+    {
+      "row": "town/func_8002F470",
+      "tu": "src/town/person/state/initialize_indexed_callback_state.c",
+      "home": "town/func_800CE7E8",
+      "foff": "0x4F470",
+      "vma": "0x800CCBD0",
+      "size": 100,
+      "bindings": {
+        "0x800CBFAC": "0x800CCC70"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002F580",
+      "tu": "src/town/person/object/initialize_object_and_advance.c",
+      "home": "town/func_800CE888",
+      "foff": "0x4F580",
+      "vma": "0x800CCCE0",
+      "size": 68,
+      "bindings": {
+        "0x800D6AA8": "0x800D6F24"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002F5C4",
+      "tu": "src/town/person/object/initialize_object_and_advance.c",
+      "home": "town/func_800CE888",
+      "foff": "0x4F5C4",
+      "vma": "0x800CCD24",
+      "size": 68,
+      "bindings": {
+        "0x800D6AA8": "0x800D6EE8"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8002F9F8",
+      "tu": "src/town/person/motion/update_jump_motion.c",
+      "home": "town/func_800CE910",
+      "foff": "0x4F9F8",
+      "vma": "0x800CD158",
+      "size": 320
+    },
+    {
+      "row": "town/func_8003030C",
+      "tu": "src/town/player/state/advance_player_state.c",
+      "home": "town/func_8009C3A0",
+      "foff": "0x5030C",
+      "vma": "0x800CDA6C",
+      "size": 112,
+      "bindings": {
+        "0x8009A1A4": "0x800CDF54"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800D0638",
+      "tu": "src/town/person/object/initialize_object_from_context.c",
+      "home": "town/func_800D0638",
+      "foff": "0x50638",
+      "vma": "0x800CDD98",
+      "size": 100
+    },
+    {
+      "row": "town/func_800D069C",
+      "tu": "src/town/person/object/initialize_object_and_data_pointer.c",
+      "home": "town/func_800D069C",
+      "foff": "0x5069C",
+      "vma": "0x800CDDFC",
+      "size": 80
+    },
+    {
+      "row": "town/func_800306EC",
+      "tu": "src/town/person/object/initialize_object_and_data_pointer.c",
+      "home": "town/func_800D069C",
+      "foff": "0x506EC",
+      "vma": "0x800CDE4C",
+      "size": 80
+    },
+    {
+      "row": "town/func_8003073C",
+      "tu": "src/town/person/object/initialize_object_from_context.c",
+      "home": "town/func_800D0638",
+      "foff": "0x5073C",
+      "vma": "0x800CDE9C",
+      "size": 100
+    },
+    {
+      "row": "town/func_800307F4",
+      "tu": "src/town/person/object/initialize_reaction_object.c",
+      "home": "town/func_800CC4F4",
+      "foff": "0x507F4",
+      "vma": "0x800CDF54",
+      "size": 64,
+      "bindings": {
+        "0x800C9864": "0x800CDADC"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_80030834",
+      "tu": "src/town/person/object/initialize_object_from_context.c",
+      "home": "town/func_800D0638",
+      "foff": "0x50834",
+      "vma": "0x800CDF94",
+      "size": 100,
+      "bindings": {
+        "0x800CD650": "0x800CDBB8"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800308EC",
+      "tu": "src/town/person/object/initialize_reaction_object.c",
+      "home": "town/func_800CC4F4",
+      "foff": "0x508EC",
+      "vma": "0x800CE04C",
+      "size": 64,
+      "bindings": {
+        "0x800C9864": "0x800CDCA8"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800D0968",
+      "tu": "src/town/person/motion/move_halfway_toward_transition_target.c",
+      "home": "town/func_800D0968",
+      "foff": "0x50968",
+      "vma": "0x800CE0C8",
+      "size": 212
+    },
+    {
+      "row": "town/func_800D0B74",
+      "tu": "src/town/person/tick_countdown_toward_target.c",
+      "home": "town/func_800D0B74",
+      "foff": "0x50B74",
+      "vma": "0x800CE2D4",
+      "size": 184
+    },
+    {
+      "row": "town/func_80030DF8",
+      "tu": "src/town/person/motion/move_halfway_toward_transition_target.c",
+      "home": "town/func_800D0968",
+      "foff": "0x50DF8",
+      "vma": "0x800CE558",
+      "size": 212
+    },
+    {
+      "row": "town/func_80030ECC",
+      "tu": "src/town/person/tick_countdown_toward_target.c",
+      "home": "town/func_800D0B74",
+      "foff": "0x50ECC",
+      "vma": "0x800CE62C",
+      "size": 184
+    },
+    {
+      "row": "town/func_80030F84",
+      "tu": "src/town/person/position/advance_object_position.c",
+      "home": "town/func_800CAF8C",
+      "foff": "0x50F84",
+      "vma": "0x800CE6E4",
+      "size": 156
+    },
+    {
+      "row": "town/func_80031020",
+      "tu": "src/town/person/check_action_six_eligibility.c",
+      "home": "town/func_800CB028",
+      "foff": "0x51020",
+      "vma": "0x800CE780",
+      "size": 128
+    },
+    {
+      "row": "town/func_8003116C",
+      "tu": "src/town/person/check_action_six_eligibility.c",
+      "home": "town/func_800CB028",
+      "foff": "0x5116C",
+      "vma": "0x800CE8CC",
+      "size": 128,
+      "bindings": {
+        "0x800C86EC": "0x800CE800"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800311EC",
+      "tu": "src/town/person/state/initialize_actor_clear_shared_flag.c",
+      "home": "town/func_800C7FC4",
+      "foff": "0x511EC",
+      "vma": "0x800CE94C",
+      "size": 80,
+      "bindings": {
+        "0x80082710": "0x80082688",
+        "0x800C5620": "0x800CE08C",
+        "0x800D5360": "0x800D72AC"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8003128C",
+      "tu": "src/town/person/object/initialize_object_callback.c",
+      "home": "town/func_800CB0A8",
+      "foff": "0x5128C",
+      "vma": "0x800CE9EC",
+      "size": 84,
+      "bindings": {
+        "0x800C8788": "0x800CE19C"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800313A0",
+      "tu": "src/town/person/object/initialize_object_callback.c",
+      "home": "town/func_800CB0A8",
+      "foff": "0x513A0",
+      "vma": "0x800CEB00",
+      "size": 84,
+      "bindings": {
+        "0x800C8788": "0x800CE38C"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_8003147C",
+      "tu": "src/town/person/object/initialize_mother_event_object.c",
+      "home": "town/func_800CA950",
+      "foff": "0x5147C",
+      "vma": "0x800CEBDC",
+      "size": 76,
+      "bindings": {
+        "0x80082680": "0x80082688",
+        "0x800C7EF0": "0x800CE538",
+        "0x800D5FA0": "0x800D72C0"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_80031F20",
+      "tu": "src/town/person/state/initialize_actor_clear_table_flag.c",
+      "home": "town/func_800C81E4",
+      "foff": "0x51F20",
+      "vma": "0x800CF680",
+      "size": 88,
+      "bindings": {
+        "0x800D54BC": "0x800D7C68"
+      },
+      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    }
+  ],
+  "symbols": {
+    "0x80082680": "0x800826B8",
+    "0x80082710": "0x800826B8",
+    "0x800891F8": "0x8008926C",
+    "0x8009A1A4": "0x800C9D40",
+    "0x800B5174": "0x800B5C60",
+    "0x800B52F4": "0x800B5D70",
+    "0x800B5774": "0x800B5E28",
+    "0x800B59A4": "0x800B63EC",
+    "0x800C26C0": "0x800C27DC",
+    "0x800C283C": "0x800C28E8",
+    "0x800C2D0C": "0x800C2D94",
+    "0x800C5620": "0x800C9F1C",
+    "0x800C56A8": "0x800CA458",
+    "0x800C5ADC": "0x800C3C28",
+    "0x800C641C": "0x800CB028",
+    "0x800C7A6C": "0x800C9DB8",
+    "0x800C7EF0": "0x800CA3EC",
+    "0x800C9864": "0x800C9B44",
+    "0x800CBFAC": "0x800CCC34",
+    "0x800CD650": "0x800CD9F4",
+    "0x800CD70C": "0x800CD87C",
+    "0x800CE9EC": "0x800C4174",
+    "0x800D0E04": "0x800ED15C",
+    "0x800D15B8": "0x800D161C",
+    "0x800D16FC": "0x800D172C",
+    "0x800D5360": "0x800D539C",
+    "0x800D5388": "0x800D64DC",
+    "0x800D54BC": "0x800D5BB4",
+    "0x800D54DC": "0x800D675C",
+    "0x800D5540": "0x800D5554",
+    "0x800D55E8": "0x800D67AC",
+    "0x800D55F0": "0x800D67B4",
+    "0x800D5618": "0x800D67DC",
+    "0x800D561C": "0x800D67E0",
+    "0x800D5670": "0x800D59C4",
+    "0x800D5FA0": "0x800D64C8",
+    "0x800D5FE8": "0x800D64DC",
+    "0x800D6244": "0x800D62C4",
+    "0x800D627C": "0x800D72D4",
+    "0x800D6290": "0x800D72E8",
+    "0x800D62C4": "0x800D6244",
+    "0x800D6330": "0x800D69DC",
+    "0x800D6338": "0x800D69E4",
+    "0x800D6360": "0x800D6A0C",
+    "0x800D6364": "0x800D6A10",
+    "0x800D64DC": "0x800D72E8",
+    "0x800D6A70": "0x800D6EE8",
+    "0x800D6AA8": "0x800D6A70",
+    "0x800D6ABC": "0x800D6F4C",
+    "0x800D6AD0": "0x800D6F60"
   }
- ],
- "symbols": {
-  "0x80082680": "0x800826B8",
-  "0x80082710": "0x800826B8",
-  "0x800891F8": "0x8008926C",
-  "0x8009A1A4": "0x800C9D40",
-  "0x800B5174": "0x800B5C60",
-  "0x800B52F4": "0x800B5D70",
-  "0x800B5774": "0x800B5E28",
-  "0x800B59A4": "0x800B63EC",
-  "0x800C26C0": "0x800C27DC",
-  "0x800C283C": "0x800C28E8",
-  "0x800C2D0C": "0x800C2D94",
-  "0x800C5620": "0x800C9F1C",
-  "0x800C56A8": "0x800CA458",
-  "0x800C5ADC": "0x800C3C28",
-  "0x800C641C": "0x800CB028",
-  "0x800C7A6C": "0x800C9DB8",
-  "0x800C7EF0": "0x800CA3EC",
-  "0x800C9864": "0x800C9B44",
-  "0x800CBFAC": "0x800CCC34",
-  "0x800CD650": "0x800CD9F4",
-  "0x800CD70C": "0x800CD87C",
-  "0x800CE9EC": "0x800C4174",
-  "0x800D0E04": "0x800ED15C",
-  "0x800D15B8": "0x800D161C",
-  "0x800D16FC": "0x800D172C",
-  "0x800D5360": "0x800D539C",
-  "0x800D5388": "0x800D64DC",
-  "0x800D54BC": "0x800D5BB4",
-  "0x800D54DC": "0x800D675C",
-  "0x800D5540": "0x800D5554",
-  "0x800D55E8": "0x800D67AC",
-  "0x800D55F0": "0x800D67B4",
-  "0x800D5618": "0x800D67DC",
-  "0x800D561C": "0x800D67E0",
-  "0x800D5670": "0x800D59C4",
-  "0x800D5FA0": "0x800D64C8",
-  "0x800D5FE8": "0x800D64DC",
-  "0x800D6244": "0x800D62C4",
-  "0x800D627C": "0x800D72D4",
-  "0x800D6290": "0x800D72E8",
-  "0x800D62C4": "0x800D6244",
-  "0x800D6330": "0x800D69DC",
-  "0x800D6338": "0x800D69E4",
-  "0x800D6360": "0x800D6A0C",
-  "0x800D6364": "0x800D6A10",
-  "0x800D64DC": "0x800D72E8",
-  "0x800D6A70": "0x800D6EE8",
-  "0x800D6AA8": "0x800D6A70",
-  "0x800D6ABC": "0x800D6F4C",
-  "0x800D6AD0": "0x800D6F60"
- }
 }

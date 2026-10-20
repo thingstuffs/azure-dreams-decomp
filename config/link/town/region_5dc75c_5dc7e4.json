@@ -1,24 +1,24 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/region_5dc75c_5dc7e4",
- "container": "town",
- "foff": "0x5dc75c",
- "size": "0x88",
- "vma": "0x80016f5c",
- "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase r121w_s1_town_5db954",
- "entries": [
-  {
-   "row": "town/func_8065C75C",
-   "home": "town/func_8032EEE4",
-   "tu": "src/town/func_8032EEE4.c",
-   "foff": "0x5dc75c",
-   "vma": "0x80016f5c",
-   "size": 136,
-   "bindings": {
-    "0x8001dccc": "0x800185fc",
-    "0x800196a8": "0x80016f20"
-   },
-   "evidence": "docs/evidence/r121w_s1.receipt.json: town/func_8065C75C"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/region_5dc75c_5dc7e4",
+  "container": "town",
+  "foff": "0x5dc75c",
+  "size": "0x88",
+  "vma": "0x80016f5c",
+  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase r121w_s1_town_5db954",
+  "entries": [
+    {
+      "row": "town/func_8065C75C",
+      "home": "town/func_8032EEE4",
+      "tu": "src/town/scene/find_masked_record_and_initialize.c",
+      "foff": "0x5dc75c",
+      "vma": "0x80016f5c",
+      "size": 136,
+      "bindings": {
+        "0x8001dccc": "0x800185fc",
+        "0x800196a8": "0x80016f20"
+      },
+      "evidence": "docs/evidence/r121w_s1.receipt.json: town/func_8065C75C"
+    }
+  ]
 }

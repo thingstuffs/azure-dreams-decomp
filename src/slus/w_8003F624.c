@@ -1,4 +1,4 @@
-#include "slus/cd_state.h"
+#include "engine/scene/cd_state.h"
 
 /* D_800814D4 uses a GP-relative scalar store. CdControlB's parameter
  * address uses D_800814D3[1], an external address view of the

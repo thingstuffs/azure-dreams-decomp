@@ -300,7 +300,7 @@
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json",
-      "declaration": "src/dungeon/func_8009C5EC.c"
+      "declaration": "src/dungeon/player/object/can_entity_gain_level.c"
     },
     "D_80083498": {
       "symbol": "D_80083498",

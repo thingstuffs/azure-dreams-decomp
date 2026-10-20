@@ -194,7 +194,7 @@ void update_bank_staged_movement(void *action, void *motion, void *map_actor, vo
             ((S_80172494_3 *)motion)->unk_14 = 0;
             (((Rec_D_80082E80 *)map_actor)->unk_2C.as_pv) = D_80174AE4;
             direction_index = (g_game_work.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
-            func_80047784(map_actor, D_80174AE4[direction_index & 7], 0);
+            select_sprite_entry(map_actor, D_80174AE4[direction_index & 7], 0);
         }
         if (((S_80172494_1 *)action)->unk_96.u > 0) {
             return;
@@ -249,9 +249,9 @@ void update_bank_staged_movement(void *action, void *motion, void *map_actor, vo
             (((S_80172494_1 *)action)->unk_96.u != 0)) {
             index = 9;
             do {
-                particle = func_8003FD64(0x312, ((s32 *)&D_80083498.next));
+                particle = allocate_list_node(0x312, ((s32 *)&D_80083498.next));
                 if (particle != NULL) {
-                    func_8004491C(particle, func_80045340);
+                    register_node(particle, project_sprite_chain);
                     particle_motion = (u8 *)particle + 0x20;
                     ((S_80172494_4 *)particle)->unk_10 = update_bank_effect_fade;
                     particle_sprite = ((S_80172494_4 *)particle)->unk_0C;
@@ -297,7 +297,7 @@ void update_bank_staged_movement(void *action, void *motion, void *map_actor, vo
         g_dungeon_status.unk_0C = 0;
         (((Rec_D_80082E80 *)map_actor)->unk_2C.as_pv) = D_80174AD4;
         direction_index_2 = (g_game_work.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
-        func_80047784(map_actor, D_80174AD4[direction_index_2 & 7], 0);
+        select_sprite_entry(map_actor, D_80174AD4[direction_index_2 & 7], 0);
         advance_status_timers(actor_arg);
         if (((S_80172494_0 *)actor_arg)->unk_6D == 0) {
             ((S_80172494_0 *)actor_arg)->unk_46 &= 0x7FFF;

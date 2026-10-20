@@ -2,7 +2,7 @@
   "schema": "azure-clean.resource-loader-static.v1",
   "domain": "Conditional static transfer path; no runtime occurrence is claimed.",
   "loader": "func_800A0B94",
-  "source": "src/dungeon/func_8009B434.c",
+  "source": "src/dungeon/item/load_monster_resource_data.c",
   "source_sha256": "0f42cf43c2ba3196794e1bafb2288783c1032a5e2fa58c6afc1f5d6c13b35606",
   "normal_lba": "0x4340 + (resource_id - 1) * 0x54 + slot * 12",
   "normal_destination": "0x80170800 - slot * 0x6000",

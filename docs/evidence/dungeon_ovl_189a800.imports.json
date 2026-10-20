@@ -115,7 +115,7 @@
       "view_bytes": 26520,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_189a800.imports.json",
-      "declaration": "src/dungeon/func_8187C45C.c"
+      "declaration": "src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c"
     },
     "D_80080000": {
       "symbol": "D_80080000",
@@ -124,7 +124,7 @@
       "view_bytes": 12644,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_189a800.imports.json",
-      "declaration": "src/dungeon/func_8187B5A0.c"
+      "declaration": "src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c"
     },
     "D_800814A0": {
       "symbol": "D_800814A0",

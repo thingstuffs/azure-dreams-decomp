@@ -24,7 +24,7 @@ void update_staged_movement_and_return_to_tile(void *action, EntityRec *motion, 
             dir_step_y[direction_offset] * 3 << 16;
         motion->flags14 = 0;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174C34);
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             ((u8 *)D_80174C34)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
@@ -44,7 +44,7 @@ void update_staged_movement_and_return_to_tile(void *action, EntityRec *motion, 
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174C64);
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             ((u8 *)D_80174C64)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
@@ -63,7 +63,7 @@ void update_staged_movement_and_return_to_tile(void *action, EntityRec *motion, 
         }
         play_sound_if_enabled(0x808);
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174C6C);
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             ((u8 *)D_80174C6C)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((R08_80172830_S_80172830_0 *)action)->unk_96 = 0x14;

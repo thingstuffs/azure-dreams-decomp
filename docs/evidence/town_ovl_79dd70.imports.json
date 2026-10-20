@@ -60,17 +60,17 @@
   ],
   "producer_abi": {
     "func_8004491C": {
-      "source": "src/slus/w_8004491C.c",
+      "source": "src/engine/node/register_node.c",
       "declaration": "s32 func_8004491C(struct RegistrationNode *, s32 registration_id)",
       "use": "The routine address 0x80045340 is a signed registration ID, not a storage buffer."
     },
     "func_80045340": {
-      "source": "src/slus/w_80045340.c",
+      "source": "src/engine/graphics/sprite_projection.c",
       "declaration": "s32 func_80045340(void *, s32, struct S_80045340_Entry *, s32)",
       "use": "Address only; no call is emitted by this module."
     },
     "func_800206D0": {
-      "source": "src/town/func_8081DED0.c",
+      "source": "src/town/minigame/update_bouncing_pickup.c",
       "declaration": "void func_800206D0(void *, void *, void *)",
       "use": "The three-pointer callback matches the adjacent owned-bank producer signature."
     }

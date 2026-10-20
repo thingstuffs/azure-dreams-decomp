@@ -40,7 +40,7 @@
       "view_bytes": 16,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_190c800.imports.json",
-      "declaration": "src/dungeon/func_81960864.c"
+      "declaration": "src/dungeon/effect/particle/update_brightening_fading_effect.c"
     }
   }
 }

@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Sets up town state and runs initialization and list callbacks. */
 void init_and_publish_script_state(void **entries) {

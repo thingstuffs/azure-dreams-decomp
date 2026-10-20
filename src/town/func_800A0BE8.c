@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Passes D_80100AF4 to process_object_pointer_array and returns zero. */
 s32 pass_shared_data_to_window_handler(void) {

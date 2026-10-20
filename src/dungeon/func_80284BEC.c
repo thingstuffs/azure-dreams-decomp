@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 s32 mark_path_through_neighboring_tiles(s16 region_id) {
     s16 *dx = dir_step_x;

@@ -24,7 +24,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
         }
         animations = ((u8 *)D_801759E0);
         (*(void * *)((u8 *)sprite_arg + (0x2C))) = animations;
-        func_80047784(sprite_arg,
+        select_sprite_entry(sprite_arg,
             animations[((g_game_work.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
             0);
         return;
@@ -59,7 +59,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
 
                 if (((R10_801717F4_S_801717F4_2 *)sprite_arg)->unk_2C != animations) {
                     (*(void * *)((u8 *)sprite_arg + (0x2C))) = animations;
-                    func_80047784(sprite_arg,
+                    select_sprite_entry(sprite_arg,
                         animations[((g_game_work.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
                         0);
                 }
@@ -81,7 +81,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
             begin_actor_move_to_target_facing(actor_arg, context_arg, sprite_arg, entity_arg);
             func_80174258(actor_arg, context_arg, sprite_arg, entity_arg);
             (*(void * *)((u8 *)sprite_arg + (0x2C))) = ((u8 *)D_80175988);
-            func_80047784(sprite_arg,
+            select_sprite_entry(sprite_arg,
                 ((u8 *)D_80175988)[((g_game_work.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_90.at00_s32.v = 0;

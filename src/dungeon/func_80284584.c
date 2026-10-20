@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 s16 find_first_nonzero_rectangle_field(s16 start_x, s16 start_y, s16 width, s16 height) {
     MapGrid *config;

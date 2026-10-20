@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* t_soukowin_close_check: Returns the storage window close flag. */
 s32 t_soukowin_close_check(void) {

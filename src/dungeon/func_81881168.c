@@ -22,7 +22,7 @@ void *create_initialized_effect_object(s32 resource_id, MovingPosition *source_v
     MovingPosition *target_values;
     S_80024968_0 *object;
 
-    object = func_8003FD64(2, (ObjectNodeHeader **)(resource_id - 0x20));
+    object = allocate_list_node(2, (ObjectNodeHeader **)(resource_id - 0x20));
     if (object != NULL) {
         target_values = object->unk_08;
         object->unk_10 = tint_effect_and_advance_motion;

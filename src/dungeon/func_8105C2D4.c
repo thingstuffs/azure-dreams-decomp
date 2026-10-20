@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f0f7800_p07.h"
+#include "dungeon/monster/tyrant/handle_kill_actor_clear_flags_fire_burst_tile_post_death_message.h"
 
 /* Kill the actor: clear its flags, fire the burst at its tile and post its death message. */
 void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, void *part_a, void *part_b_in, void *actor) {
@@ -40,7 +40,7 @@ void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work
         ((T_80173AD4_S_80173AD4_0 *)actor)->unk_1C = (s32) (((T_80173AD4_S_80173AD4_0 *)actor)->unk_1C & ~0x2000);
         cycle_map_cell_flags(((T_80173AD4_S_80173AD4_3 *)part_b)->unk_24, ((T_80173AD4_S_80173AD4_3 *)part_b)->unk_25, 0x3000);
         (*(u8 **)((u8 *)part_b + 0x2C)) = D_80173FD0;
-        func_80047784(part_b, D_80173FD0[((g_game_work.view.viewAngle + ((T_80173AD4_S_80173AD4_0 *)actor)->unk_2A + 0x100)
+        select_sprite_entry(part_b, D_80173FD0[((g_game_work.view.viewAngle + ((T_80173AD4_S_80173AD4_0 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0);
         msg = get_unused_text_buffer();
         msg_actor = actor;

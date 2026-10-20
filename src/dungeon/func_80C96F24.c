@@ -58,7 +58,7 @@ void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, void *origin, v
                 ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_2C =
                     init_value - ((CB_80174724_S_80C96F24_2 *)owner)->unk_A4;
                 ((CB_80174724_S_80C96F24_3 *)effect)->unk_10 = create_angular_offset_effect;
-                func_8004491C(effect, advance_boss_command_stream);
+                register_node(effect, advance_boss_command_stream);
 
                 render_state = ((CB_80174724_S_80C96F24_3 *)effect)->unk_0C;
                 ((CB_80174724_S_80C96F24_4 *)render_state)->unk_10 = 0x20;

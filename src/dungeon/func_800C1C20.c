@@ -51,11 +51,11 @@ typedef struct {
 } DungeonObject;
 
 extern void copy_words_forward(void *, void *, s32);
-extern DungeonObject *func_8003FD64(s32, void *);
-extern s32 func_8004491C();
+extern DungeonObject *allocate_list_node(s32, void *);
+extern s32 register_node();
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern s32 func_80045C34();
+extern s32 draw_linked_sprites_clipped();
 extern u8 D_800777E8[];
 extern void update_timed_tile_effect();
 extern void update_pulsing_color_fade();
@@ -77,12 +77,12 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
     s32 angle;
     void *callback_fn;
 
-    parent = func_8003FD64(0x12, ((u8 *)(&D_80083498)));
+    parent = allocate_list_node(0x12, ((u8 *)(&D_80083498)));
     if (parent != NULL) {
         s16 frame;
         u16 state_limit;
         parent->callback = update_timed_tile_effect;
-        func_8004491C(parent, func_80045C34);
+        register_node(parent, draw_linked_sprites_clipped);
         color = 0x404040;
         state = &parent->state;
         remaining = 0xB;
@@ -110,14 +110,14 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
         state->speed = speed;
         callback_fn = update_pulsing_color_fade;
         do {
-            child = func_8003FD64(0x12, parent);
+            child = allocate_list_node(0x12, parent);
             if (child != NULL) {
                 DungeonObject *init_child;
                 void *child_resource;
                 init_child = child;
                 child_resource = D_800D0774;
                 child->callback = callback_fn;
-                func_8004491C(init_child, child_resource);
+                register_node(init_child, child_resource);
                 child_coord = child->coord;
                 child_coord->x = (s16) (center->x + (func_80064584(angle) >> 7));
                 child_coord->y = (s16) (center->y + (func_800644B8(angle) >> 7));

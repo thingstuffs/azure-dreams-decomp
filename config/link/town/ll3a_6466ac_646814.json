@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_806C66AC",
-      "tu": "src/town/func_80481098.c",
+      "tu": "src/town/scene/select_handler_state_code.c",
       "home": "town/func_80481098",
       "foff": "0x6466AC",
       "vma": "0x800176AC",
@@ -24,7 +24,7 @@
     {
       "row": "town/func_806C66D4",
       "home": "town/func_8032E9EC",
-      "tu": "src/town/func_8032E9EC.c",
+      "tu": "src/town/shop/state/set_lshop_special_flag.c",
       "foff": "0x006466D4",
       "vma": "0x800176D4",
       "size": 64,
@@ -37,7 +37,7 @@
     {
       "row": "town/func_806C6714",
       "home": "town/func_8032EA2C",
-      "tu": "src/town/func_8032EA2C.c",
+      "tu": "src/town/shop/process_lshop_entries.c",
       "foff": "0x00646714",
       "vma": "0x80017714",
       "size": 188,
@@ -52,7 +52,7 @@
     },
     {
       "row": "town/func_806C67D0",
-      "tu": "src/town/func_804811BC.c",
+      "tu": "src/town/scene/process_flagged_entries_mode_append.c",
       "home": "town/func_804811BC",
       "foff": "0x6467D0",
       "vma": "0x800177D0",
@@ -65,7 +65,7 @@
     },
     {
       "row": "town/func_806C67F0",
-      "tu": "src/town/func_804811DC.c",
+      "tu": "src/town/scene/process_flagged_entries_follow_four.c",
       "home": "town/func_804811DC",
       "foff": "0x6467F0",
       "vma": "0x800177F0",

@@ -46,7 +46,7 @@ void func_80170CF8(
         work->unk_14 = effect_id;
         work->unk_32 = duration;
         work->unk_34 = duration;
-        func_8004491C(node, func_80045340);
+        register_node(node, project_sprite_chain);
 
         sprite = ((R10_80170CF8_S_80AC55DC_0 *)node)->unk_0C;
         sprite_flags = sprite->unk_14;

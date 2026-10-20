@@ -96,13 +96,13 @@ void create_anchored_directional_object(void *actor, void *motion, void *object)
                     animation_table = ((R17_80170BB8_S_80170BB8_1 *)object)->unk_2C;
                     if (animation_table == ((u8 *)D_8017449C)) {
                         (*(u8 * *)((u8 *)object + (0x2C))) = ((u8 *)D_80174494);
-                        func_80047784(object,
+                        select_sprite_entry(object,
                             ((u8 *)D_80174494)[((g_game_work.view.viewAngle + ((R17_80170BB8_S_if_0 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                             0);
                     }
                     else if (animation_table == ((u8 *)D_80174494)) {
                         (*(u8 * *)((u8 *)object + (0x2C))) = ((u8 *)D_8017449C);
-                        func_80047784(object,
+                        select_sprite_entry(object,
                             ((u8 *)D_8017449C)[((g_game_work.view.viewAngle + ((R17_80170BB8_S_if_0 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                             0);
                     }
@@ -181,13 +181,13 @@ void create_anchored_directional_object(void *actor, void *motion, void *object)
                     animation_table = ((R17_80170BB8_S_80170BB8_1 *)object)->unk_2C;
                     if (animation_table == ((u8 *)D_8017449C)) {
                         (*(u8 * *)((u8 *)object + (0x2C))) = ((u8 *)D_80174494);
-                        func_80047784(object,
+                        select_sprite_entry(object,
                             ((u8 *)D_80174494)[((g_game_work.view.viewAngle + ((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_2A + 0x100)
                                 >> 9) & 7],
                             0);
                     } else if (animation_table == ((u8 *)D_80174494)) {
                         (*(u8 * *)((u8 *)object + (0x2C))) = ((u8 *)D_8017449C);
-                        func_80047784(object,
+                        select_sprite_entry(object,
                             ((u8 *)D_8017449C)[((g_game_work.view.viewAngle + ((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_2A + 0x100)
                                 >> 9) & 7],
                             0);

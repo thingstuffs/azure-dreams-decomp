@@ -9,7 +9,7 @@ void begin_eligible_actor_action(Rec_func_800A9E70_arg0 *action_state, s32 conte
             action_state->unk_8C = 0;
             action_state->unk_9B.as_s8 = 0;
             animation->unk_2C.as_pu8 = ((u8 *)D_8017423C);
-            func_80047784(animation, ((u8 *)D_8017423C)[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(animation, ((u8 *)D_8017423C)[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
             action_state->unk_98 = (u16) (action_state->unk_98 | 8);
             prepare_directional_attack(actor, animation, actor->facing, 1, 0);

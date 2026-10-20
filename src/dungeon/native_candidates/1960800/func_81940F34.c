@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_1960800.h"
+#include "dungeon/effect/particle/advance_object_spawning_displays_high.h"
 #include "shared/object_flags.h"
 
 

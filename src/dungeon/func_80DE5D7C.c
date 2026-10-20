@@ -27,7 +27,7 @@ void handle_actor_action_effects(void *controller, void *context, void *sprite, 
         g_dungeon_status.unk_0A--;
         (((SpriteFieldView_80DE5D7C *)sprite)->field_2C) = initial_effect;
         direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
-        func_80047784(sprite, initial_effect[direction & 7], 0);
+        select_sprite_entry(sprite, initial_effect[direction & 7], 0);
         ((E_8017357C_S_8017357C_0 *)controller)->unk_9B++;
         return;
     }
@@ -77,7 +77,7 @@ void handle_actor_action_effects(void *controller, void *context, void *sprite, 
             }
 
             update_actor_status_and_food(actor);
-            func_800A9A04(actor);
+            on_actor_status_updated(actor);
             if (actor->tileY == 0) {
                 return;
             }
@@ -86,7 +86,7 @@ void handle_actor_action_effects(void *controller, void *context, void *sprite, 
         effect = D_80174520;
         (((SpriteFieldView_80DE5D7C *)sprite)->field_2C) = effect;
         direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
-        func_80047784(sprite, effect[direction & 7], 0);
+        select_sprite_entry(sprite, effect[direction & 7], 0);
         ((E_8017357C_S_8017357C_0 *)controller)->unk_8C = update_actor_behavior_facing_and_animation_2;
         actor->flags1C &= ~0x200;
     }

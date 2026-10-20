@@ -86,11 +86,14 @@ typedef struct S_8016A86C_9 {
 } S_8016A86C_9;   /* ((S_8016A86C_8 *)base)->unk_A4 in func_8016A86C */
 
 
+extern void *allocate_list_node();
 extern void *func_8003FD64();
+extern void register_node();
 extern void func_8004491C();
 extern s32 generate_random_value();
 extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
+extern void select_sprite_entry();
 extern void func_80047784();
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
 extern void try_move_actor_to_valid_position();
@@ -101,6 +104,7 @@ extern void func_8016B1A4();
 extern u8 D_8016E18C[];
 extern u8 D_8016E1CC[];
 
+void * spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value);
 void * func_8016A86C(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value);
 extern void * draw_sprite_effect_quads();
 #endif

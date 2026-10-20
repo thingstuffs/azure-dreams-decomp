@@ -16,7 +16,7 @@ void func_80172D50(void *actor, void *context, void *render_record, EntityRec *a
             return;
         }
         ((Rec_D_80082E80 *)render_record)->unk_2C.as_pv = ((u8 *)D_8017425C);
-        func_80047784(render_record,(u8)(((u8 *)D_8017425C)[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
+        select_sprite_entry(render_record,(u8)(((u8 *)D_8017425C)[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
             0);
         g_dungeon_status.unk_0A--;
         do {
@@ -25,7 +25,7 @@ void func_80172D50(void *actor, void *context, void *render_record, EntityRec *a
         return;
 
     case 1:
-        if ((func_80042900(actor_state, 1) << 16) != 0) {
+        if ((get_entity_effect_value(actor_state, 1) << 16) != 0) {
             global_base = &g_dungeon_status;
             if (global_base->flags & 0x1000) {
                 return;
@@ -72,24 +72,24 @@ void func_80172D50(void *actor, void *context, void *render_record, EntityRec *a
                 }
             }
             update_actor_status_and_food(actor_state);
-            func_800A9A04(actor_state);
-            if ((func_80042900(actor_state, 1) << 16) != 0) {
+            on_actor_status_updated(actor_state);
+            if ((get_entity_effect_value(actor_state, 1) << 16) != 0) {
                 TileObject *origin = &D_80082E80;
                 s8 tile = ((Rec_D_80082E80 *)render_record)->unk_26.as_s8;
 
                 if (((tile == origin->unk_026) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, render_record) < 2)) {
                     if (!(generate_random_value() & 7)) {
-                        func_80042B68(actor_state, 1);
+                        clear_slots_of_type(actor_state, 1);
                     }
                 }
             }
-            if ((func_80042900(actor_state, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor_state, 1) << 16) != 0) {
                 return;
             }
         }
         ((Rec_D_80082E80 *)render_record)->unk_2C.as_pv = ((u8 *)D_80174264);
-        func_80047784(render_record,(u8)(((u8 *)D_80174264)[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
+        select_sprite_entry(render_record,(u8)(((u8 *)D_80174264)[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
             0);
         (*(u32 *)&actor_state->flags1C) |= 0x40000;
         if (((Rec_D_80082E80 *)render_record)->unk_14.at00_u16.v & 0x8000) {

@@ -40,7 +40,7 @@ typedef struct ActorSpriteView {
     u8 *frameTable;
 } ActorSpriteView;
 
-extern void func_80047784();
+extern void select_sprite_entry();
 extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(u8, u8);
 extern s32 compare_monster_neighbor_values(u8, u8, u8, u8);
@@ -102,7 +102,7 @@ void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *spri
             if (action->behavior != 14) {
                 if (sprite->frameTable != D_8015586C) {
                     sprite->frameTable = D_8015586C;
-                    func_80047784(
+                    select_sprite_entry(
                         sprite,
                         D_8015586C[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
@@ -239,7 +239,7 @@ void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *spri
     }
     if (sprite->frameTable != D_8015586C) {
         sprite->frameTable = D_8015586C;
-        func_80047784(
+        select_sprite_entry(
             sprite,
             D_8015586C[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);

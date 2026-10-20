@@ -21,7 +21,7 @@ void func_8016ED14(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
         ((CL_CB9000_80174D14_S_80C97514_0 *)state)->unk_9B = next_state;
         return;
     case 1:
-        func_80041588(&D_8016F30C, &D_8016F3A8, 0);
+        run_cd_image_commands(&D_8016F30C, &D_8016F3A8, 0);
         ((CL_CB9000_80174D14_S_80C97514_0 *)state)->unk_A4 = 0;
         ((CL_CB9000_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CL_CB9000_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
         ((Rec_D_80082E80 *)actor)->unk_8A = (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
@@ -36,7 +36,7 @@ void func_8016ED14(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
             return;
         }
 
-        func_80041588(&D_8016F30C, &D_8016F3A8, 1);
+        run_cd_image_commands(&D_8016F30C, &D_8016F3A8, 1);
         sound_set_cd_cue_parameters(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         (*(s8 *)&D_8016F3A9) = 0;
@@ -77,7 +77,7 @@ void func_8016ED14(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
             return;
         }
         effect->unk_10 = func_8016EBE8;
-        func_8004491C(effect, func_80045340);
+        register_node(effect, project_sprite_chain);
         ((CL_CB9000_80174D14_S_80C97514_0 *)state)->unk_AC = effect;
         ((CL_CB9000_80174D14_S_80C97514_14 *)(((CL_CB9000_80174D14_S_80C97514_12 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
         ((CL_CB9000_80174D14_S_80C97514_14 *)(((CL_CB9000_80174D14_S_80C97514_12 *)effect)->unk_08))->unk_04 = (s32) position->y.v;

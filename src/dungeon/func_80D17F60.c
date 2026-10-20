@@ -7,7 +7,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 
-extern void func_80047784(void *, s32, s32);
+extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
 extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(s32, s32);
@@ -67,7 +67,7 @@ void update_actor_behavior_and_idle_delay(void *controller, void *context, void 
         advance_actor_pending_action(controller, context, sprite, actor);
         if (((ActorSpriteView *)sprite)->animationTable != D_8016EEF0) {
             ((ActorSpriteView *)sprite)->animationTable = D_8016EEE8;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 D_8016EEE8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             return;
@@ -104,7 +104,7 @@ void update_actor_behavior_and_idle_delay(void *controller, void *context, void 
                 anim_table = D_8016EE88;
                 if (((ActorSpriteView *)sprite)->animationTable != anim_table) {
                     ((ActorSpriteView *)sprite)->animationTable = anim_table;
-                    func_80047784(sprite,
+                    select_sprite_entry(sprite,
                         anim_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                         0);
                 }
@@ -238,7 +238,7 @@ void update_actor_behavior_and_idle_delay(void *controller, void *context, void 
         return;
     }
     ((ActorSpriteView *)sprite)->animationTable = anim_table;
-    func_80047784(sprite,
+    select_sprite_entry(sprite,
         anim_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
 }

@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p07.h"
+#include "dungeon/monster/troll/update_actor_activity_state.h"
 
 /* Updates actor state, directional animations, and the shared activity count. */
 void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void *actor_in) {
@@ -22,17 +22,17 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
         switch (kind) {
         case 13:
             ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E54;
-            func_80047784(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
+            select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                 + 0x100) >> 9) & 7) + (unsigned long)D_80175E54))->unk_00, 0);
             break;
         case 14:
             ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E5C;
-            func_80047784(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
+            select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                 + 0x100) >> 9) & 7) + (unsigned long)D_80175E5C))->unk_00, 0);
             break;
         case 15:
             ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E64;
-            func_80047784(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
+            select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                 + 0x100) >> 9) & 7) + (unsigned long)D_80175E64))->unk_00, 0);
             break;
         }
@@ -50,7 +50,7 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
             next_anim_table = D_80175E54;
             if (old_anim_table != next_anim_table) {
                 ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
-                func_80047784(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
+                select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
             }
             break;
@@ -59,7 +59,7 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
             next_anim_table = D_80175E5C;
             if (old_anim_table != next_anim_table) {
                 ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
-                func_80047784(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
+                select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
             }
             break;
@@ -68,28 +68,28 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
             next_anim_table = D_80175E64;
             if (old_anim_table != next_anim_table) {
                 ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
-                func_80047784(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
+                select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
             }
             break;
         }
 
-        if ((func_80042900(actor, 1) << 16) == 0) {
+        if ((get_entity_effect_value(actor, 1) << 16) == 0) {
             kind = ((T_80175050_S_80175050_2 *)actor)->unk_48;
             switch (kind) {
             case 13:
                 ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E6C;
-                func_80047784(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
+                select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)D_80175E6C))->unk_00, 0);
                 break;
             case 14:
                 ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E6C + 8;
-                func_80047784(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
+                select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)D_80175E6C + 8))->unk_00, 0);
                 break;
             case 15:
                 ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E7C;
-                func_80047784(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
+                select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)D_80175E7C))->unk_00, 0);
                 break;
             }
@@ -129,36 +129,36 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
                 }
             }
             update_actor_status_and_food(actor);
-            func_800A9A04(actor);
-            if ((func_80042900(actor, 1) << 16) != 0) {
+            on_actor_status_updated(actor);
+            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 TileObject *player;
                 player = &D_80082E80;
                 floor = ((T_80175050_S_80175050_1 *)sprite_in)->unk_26;
                 if ((floor == player->unk_026 && floor >= 0) || get_tile_chebyshev_distance(player, sprite_in) < 2) {
                     if (!(generate_random_value() & 7)) {
-                        func_80042B68(actor, 1);
+                        clear_slots_of_type(actor, 1);
                     }
                 }
             }
 
-            if ((func_80042900(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 return;
             }
             kind = ((T_80175050_S_80175050_2 *)actor)->unk_48;
             switch (kind) {
             case 13:
                 ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E6C;
-                func_80047784(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
+                select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)D_80175E6C))->unk_00, 0);
                 break;
             case 14:
                 ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E74;
-                func_80047784(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
+                select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)D_80175E74))->unk_00, 0);
                 break;
             case 15:
                 ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E7C;
-                func_80047784(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
+                select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)D_80175E7C))->unk_00, 0);
                 break;
             }

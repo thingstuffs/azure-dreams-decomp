@@ -138,7 +138,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
 
             if (((SpriteAnimationTableView *)sprite)->unk_2C != idle_frames) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = idle_frames;
-                func_80047784(sprite,
+                select_sprite_entry(sprite,
                     idle_frames[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }

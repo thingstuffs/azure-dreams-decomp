@@ -9,7 +9,7 @@ void func_8015CBE8(u8 *task, void *context, u8 *input)
         D_8015D3AC = *(s32 *)(input + 8);
         func_800478B8(input);
         if (*(u16 *)(input + 0x14) & 0xE000) {
-            func_80044A50(task - 0x20);
+            unlink_node(task - 0x20);
             *(s16 *)(task + 0x96) = 0x10;
             task[0x9A]++;
             return;

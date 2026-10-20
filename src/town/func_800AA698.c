@@ -3,7 +3,7 @@
 #include "shared/object_flags.h"
 
 extern s32 classify_object_against_bounds(void *, void *);
-extern void func_80033D08(void *object);
+extern void unlink_node_if_registered(void *object);
 extern void func_800478B8(void *fallback_data);
 
 void handle_object_bounds_and_cleanup(void *object, void *check_data, void *fallback_data)
@@ -15,7 +15,7 @@ void handle_object_bounds_and_cleanup(void *object, void *check_data, void *fall
         if (status_byte != 0) {
             *status_byte = 0;
         }
-        func_80033D08(object);
+        unlink_node_if_registered(object);
         *(u16 *)((u8 *)object - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
         return;

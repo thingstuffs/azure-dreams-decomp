@@ -335,7 +335,7 @@
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_engine_experience.imports.json",
-      "declaration": "src/dungeon/func_8009C5EC.c"
+      "declaration": "src/dungeon/player/object/can_entity_gain_level.c"
     },
     "D_800835E8": {
       "symbol": "D_800835E8",
@@ -344,7 +344,7 @@
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_engine_experience.imports.json",
-      "declaration": "src/dungeon/func_8009C5EC.c"
+      "declaration": "src/dungeon/player/object/can_entity_gain_level.c"
     }
   },
   "functions": {

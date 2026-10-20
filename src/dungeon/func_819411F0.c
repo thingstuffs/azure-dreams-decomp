@@ -6,7 +6,7 @@ typedef struct {
     s32 words[3];
 } __attribute__((packed)) Packed12;
 
-s32 func_8004491C();
+s32 register_node();
 extern void decrement_object_counter(void *object);
 
 
@@ -65,7 +65,7 @@ void *create_an_copied_position_packed_data_initialize_rendering_state(void *sou
         state = object + 0x20;
         state->unk_2A = 0x3C;
         (*(s32 **)((u8 *)object + 0x10)) = &decrement_object_counter;
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
         render_state = (*(void **)((u8 *)object + 0xC));
         ((S_800249F0_1 *)render_state)->unk_14 |= 0xC;
         render_param_copy = render_param;

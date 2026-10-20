@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void choose_random_region_feature(Rec_func_8001CE44_arg0 *region, s32 update_id) {
     u32 feature_roll;

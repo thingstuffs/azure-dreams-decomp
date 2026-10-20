@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_80D4D79C",
       "home": "dungeon/func_80D3B79C",
-      "tu": "src/dungeon/func_80D3B79C.c",
+      "tu": "src/dungeon/monster/u_boat/create_configured_actor_sprite.c",
       "foff": "0xd6d79c",
       "vma": "0x8015ef9c",
       "size": 532,
@@ -25,7 +25,7 @@
     {
       "row": "dungeon/func_80D4E944",
       "home": "dungeon/func_80D3C944",
-      "tu": "src/dungeon/func_80D3C944.c",
+      "tu": "src/dungeon/monster/u_boat/advance_aura_actor_turn_path.c",
       "foff": "0xd6e944",
       "vma": "0x80160144",
       "size": 692,
@@ -39,7 +39,7 @@
     {
       "row": "dungeon/func_80D4F8C4",
       "home": "dungeon/func_80D3D8C4",
-      "tu": "src/dungeon/func_80D3D8C4.c",
+      "tu": "src/dungeon/monster/u_boat/update_actor_timed_tile_motion.c",
       "foff": "0xd6f8c4",
       "vma": "0x801610c4",
       "size": 1000,
@@ -53,7 +53,7 @@
     {
       "row": "dungeon/func_80D4FD10",
       "home": "dungeon/func_80D3DD10",
-      "tu": "src/dungeon/func_80D3DD10.c",
+      "tu": "src/dungeon/monster/u_boat/advance_staged_actor_movement.c",
       "foff": "0xd6fd10",
       "vma": "0x80161510",
       "size": 1360,
@@ -67,7 +67,7 @@
     {
       "row": "dungeon/func_80D50260",
       "home": "dungeon/func_80D3E260",
-      "tu": "src/dungeon/func_80D3E260.c",
+      "tu": "src/dungeon/monster/u_boat/advance_actor_item_action.c",
       "foff": "0xd70260",
       "vma": "0x80161a60",
       "size": 1540,
@@ -80,7 +80,7 @@
     },
     {
       "row": "dungeon/func_80D50B38",
-      "tu": "src/dungeon/func_8097DD68.c",
+      "tu": "src/dungeon/actor/forward_actor_defeat_removal.c",
       "home": "dungeon/func_8097DD68",
       "foff": "0xD70B38",
       "vma": "0x80162338",
@@ -94,7 +94,7 @@
     {
       "row": "dungeon/func_80D51268",
       "home": "dungeon/func_80D3F268",
-      "tu": "src/dungeon/func_80D3F268.c",
+      "tu": "src/dungeon/monster/u_boat/update_actor_action_transition.c",
       "foff": "0xd71268",
       "vma": "0x80162a68",
       "size": 240,
@@ -108,7 +108,7 @@
     {
       "row": "dungeon/func_80D51D8C",
       "home": "dungeon/func_80D3FD8C",
-      "tu": "src/dungeon/func_80D3FD8C.c",
+      "tu": "src/dungeon/monster/u_boat/update_actor_timed_effect_action.c",
       "foff": "0xd71d8c",
       "vma": "0x8016358c",
       "size": 1564,
@@ -124,7 +124,7 @@
     {
       "row": "dungeon/func_80D52884",
       "home": "dungeon/func_80D40884",
-      "tu": "src/dungeon/func_80D40884.c",
+      "tu": "src/dungeon/monster/u_boat/leave_actor_aura_mode.c",
       "foff": "0xd72884",
       "vma": "0x80164084",
       "size": 640,

@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f43f800_p08.h"
+#include "dungeon/monster/noise/start_directional_action_and_record_tile.h"
 
 /* Start the actor's directional action and record the adjacent tile result. */
 void start_directional_action_and_record_tile(void *action_state, void *action_context, void *sprite, EntityRec *actor) {
@@ -13,7 +13,7 @@ void start_directional_action_and_record_tile(void *action_state, void *action_c
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
             (*(u8 **)((u8 *)sprite + 0x2C)) = &D_80174EC8;
-            func_80047784(
+            select_sprite_entry(
                 sprite,
                 *(&D_80174EC8 + (((s32)(g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                 0);

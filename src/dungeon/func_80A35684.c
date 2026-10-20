@@ -7,7 +7,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 
-extern void func_80047784(void *, s32, s32);
+extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
@@ -66,7 +66,7 @@ void update_actor_action_fourth(void *controller, void *context, void *entity, E
         if (((ActorSpriteView *)entity)->animationTable != D_8015C860) {
             u8 *early_table = D_8015C858;
             ((ActorSpriteView *)entity)->animationTable = early_table;
-            func_80047784(entity,
+            select_sprite_entry(entity,
                 early_table[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                 0);
             return;
@@ -99,7 +99,7 @@ void update_actor_action_fourth(void *controller, void *context, void *entity, E
             anim_table = D_8015C820;
             if (((ActorSpriteView *)entity)->animationTable != anim_table) {
                 ((ActorSpriteView *)entity)->animationTable = anim_table;
-                func_80047784(entity,
+                select_sprite_entry(entity,
                     anim_table[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                     0);
             }
@@ -225,7 +225,7 @@ void update_actor_action_fourth(void *controller, void *context, void *entity, E
         return;
     }
     ((ActorSpriteView *)entity)->animationTable = anim_table;
-    func_80047784(entity,
+    select_sprite_entry(entity,
         anim_table[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
         0);
 }

@@ -21,7 +21,7 @@ void initialize_destination_state(void *actor, void *actor_context, void *sprite
         }
         animation_table = ((u8 *)D_8017588C);
         (*(void * *)((u8 *)sprite + 0x2C)) = animation_table;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             animation_table[((g_game_work.view.viewAngle + ((R06_8017140C_S_8017140C_1 *)creature)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
@@ -57,7 +57,7 @@ void initialize_destination_state(void *actor, void *actor_context, void *sprite
         animation_table = ((u8 *)D_8017586C);
         if (current_animation != animation_table) {
             (*(void * *)((u8 *)sprite + 0x2C)) = animation_table;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 animation_table[((g_game_work.view.viewAngle + ((R06_8017140C_S_8017140C_1 *)creature)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((R06_8017140C_S_8017140C_2 *)sprite)->unk_05 = 1;

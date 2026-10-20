@@ -8,7 +8,7 @@
 
 
 extern s32 has_pending_actor_or_turn_action(void *);
-extern void func_800A9A04(void *);
+extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_food(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
@@ -58,7 +58,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
         (*(u16 *)&activity_counts->unk_0A)--;
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AFC;
         direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
-        func_80047784(sprite, D_80174AFC[direction & 7], 0);
+        select_sprite_entry(sprite, D_80174AFC[direction & 7], 0);
         ((S_801739F8_0 *)controller)->unk_9B++;
         return;
     }
@@ -69,7 +69,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
             direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
-            func_80047784(sprite, D_80174AF4[direction & 7], 0);
+            select_sprite_entry(sprite, D_80174AF4[direction & 7], 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
             activity_counts = &g_dungeon_status;
             (*(u16 *)&activity_counts->unk_0A)++;
@@ -117,14 +117,14 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
         }
 
         update_actor_status_and_food(entity);
-        func_800A9A04(entity);
+        on_actor_status_updated(entity);
         if (((EntityRec *)entity)->tileY == 0) {
             return;
         }
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
         direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
-        func_80047784(sprite, D_80174AF4[direction & 7], 0);
+        select_sprite_entry(sprite, D_80174AF4[direction & 7], 0);
         ((EntityRec *)entity)->flags1C |= 0x40000;
         ((UnsignedPositionXZView *)dungeon_state)->unk_0A++;
 

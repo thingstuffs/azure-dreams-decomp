@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f511800_p04.h"
+#include "dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.h"
 
 /* Creates a yellow effect at an angular offset from the supplied position. */
 void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unused_param_2, s32 unused_param_3,
@@ -16,7 +16,7 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
         effect_state->unk_1A = 0x14;
         effect_state->unk_1E = angle;
         ((T_80174374_S_80174374_1 *)effect)->unk_10 = &update_orbit_height_and_fade_effect;
-        func_8004491C(effect, func_80045340);
+        register_node(effect, project_sprite_chain);
 
         sprite = ((T_80174374_S_80174374_1 *)effect)->unk_0C;
         ((T_80174374_S_80174374_2 *)sprite)->unk_10 = 0x20;

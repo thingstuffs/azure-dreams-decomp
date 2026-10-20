@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_183a800.h"
+#include "dungeon/effect/particle/render_textured_effect_parts.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -28,7 +28,7 @@ void func_800240C0(void *unused_context, void *origin, s32 unused_id, s16 offset
         header->f2 = 1;
         header->f4 = 1;
         object->field10 = &render_textured_effect_parts;
-        func_8004491C(object, (s32)func_80045340);
+        register_node(object, (s32)project_sprite_chain);
         asset_param = 0x60;
         setup_mode = 2;
         asset = object->fieldc;

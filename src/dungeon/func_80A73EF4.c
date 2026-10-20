@@ -14,7 +14,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
         }
         {
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174190);
-            func_80047784(
+            select_sprite_entry(
                 sprite,(u8)(((u8 *)D_80174190)[((g_game_work.view.viewAngle
                              + actor->facing + 0x100)
                             >> 9) & 7]),
@@ -37,7 +37,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
             } else if (anim_table == ((u8 *)D_80174188)) {
                 ((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv = ((u8 *)D_80174190);
             }
-            func_80047784(
+            select_sprite_entry(
                 sprite,(u8)(((u8 *)((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv)
                     [((g_game_work.view.viewAngle
                        + actor->facing + 0x100)
@@ -45,9 +45,9 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
                 0);
         }
 
-        if ((func_80042900(actor, 1) << 16) == 0) {
+        if ((get_entity_effect_value(actor, 1) << 16) == 0) {
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174188);
-            func_80047784(
+            select_sprite_entry(
                 sprite,(u8)(((u8 *)D_80174188)[((g_game_work.view.viewAngle + actor->facing + 0x100)
                             >> 9) & 7]),
                 0);
@@ -104,8 +104,8 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
                 }
 
                 update_actor_status_and_food(actor);
-                func_800A9A04(actor);
-                if ((func_80042900(actor, 1) << 16) != 0) {
+                on_actor_status_updated(actor);
+                if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                     TileObject *room_base;
                     s32 room_id;
                     room_base = &D_80082E80;
@@ -114,16 +114,16 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
                          && (room_id >= 0))
                         || (((s16)get_tile_chebyshev_distance(room_base, sprite)) < 2)) {
                         if (!(generate_random_value() & 7)) {
-                            func_80042B68(actor, 1);
+                            clear_slots_of_type(actor, 1);
                         }
                     }
                 }
-                if ((func_80042900(actor, 1) << 16) != 0) {
+                if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                     return;
                 }
 
                 (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174188);
-                func_80047784(
+                select_sprite_entry(
                     sprite,(u8)(((u8 *)D_80174188)[((g_game_work.view.viewAngle + actor->facing + 0x100)
                                 >> 9) & 7]),
                     0);
@@ -153,7 +153,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
         }
         actor->flags1C &= ~0x200;
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174188);
-        func_80047784(
+        select_sprite_entry(
             sprite,(u8)(((u8 *)D_80174188)[((g_game_work.view.viewAngle + actor->facing + 0x100)
                         >> 9) & 7]),
             0);

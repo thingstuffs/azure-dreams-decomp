@@ -37,7 +37,7 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
         motion->flags14 = 0;
         motion->unk_10 = direction_y * 0x60000;
         sprite->unk_2C.as_pv = ((u8 *)D_80174140);
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             (*(u8 *)((u8 *)(((u8 *)D_80174140)) + (((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7))),
             0);
         action->unk_96.s = 0;
@@ -51,7 +51,7 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
         motion->unk_10 = y_velocity - (y_velocity >> 2);
         if (sprite->unk_14.at00_u16.v & 0xE000) {
             sprite->unk_2C.as_pv = ((u8 *)D_80174170);
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 (*(u8 *)((u8 *)(((u8 *)D_80174170)) + (((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7))),
                 0);
             action->unk_96.s = 0x14;

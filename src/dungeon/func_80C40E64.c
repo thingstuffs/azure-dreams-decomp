@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f511800_p01.h"
+#include "dungeon/monster/unicorn/settle_actor_after_movement.h"
 
 /* Advance the actor movement animation and settle it onto its destination tile. */
 void settle_actor_after_movement(void *animation, void *motion, void *sprite, void *actor)
@@ -25,7 +25,7 @@ void settle_actor_after_movement(void *animation, void *motion, void *sprite, vo
         }
 
         (*(u8 * *)((u8 *)sprite + 0x2C)) = &D_80174D7C;
-        func_80047784(
+        select_sprite_entry(
             sprite,
             *(&D_80174D7C +
               (((g_game_work.view.viewAngle + ((T_80172664_S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
@@ -53,7 +53,7 @@ void settle_actor_after_movement(void *animation, void *motion, void *sprite, vo
         }
 
         (*(u8 * *)((u8 *)sprite + 0x2C)) = &D_80174D84;
-        func_80047784(
+        select_sprite_entry(
             sprite,
             *(&D_80174D84 +
               (((g_game_work.view.viewAngle + ((T_80172664_S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
@@ -105,7 +105,7 @@ void settle_actor_after_movement(void *animation, void *motion, void *sprite, vo
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = &D_80174D8C;
-        func_80047784(
+        select_sprite_entry(
             sprite,
             *(&D_80174D8C +
               (((g_game_work.view.viewAngle + ((T_80172664_S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),

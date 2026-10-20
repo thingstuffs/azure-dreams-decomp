@@ -24,7 +24,7 @@ typedef struct S_807AFAE4_1 {
 void func_800F72E4(void *sourceData) {
     S_807AFAE4_0 *linkedObject;
 
-    linkedObject = func_8003FD64(2, sourceData - 0x20);
+    linkedObject = allocate_list_node(2, sourceData - 0x20);
     if (linkedObject != 0) {
         linkedObject->unk_10 = (void *)advance_linked_particle_effect_state;
         linkedObject->unk_20 = sourceData;

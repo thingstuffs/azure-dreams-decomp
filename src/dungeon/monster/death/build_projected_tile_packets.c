@@ -1,0 +1,7 @@
+#include "modules/dungeon_ovl_be1084.h"
+#include "../../func_80BC1084.c"
+#include "../../func_80BC1264.c"
+#include "../../func_80BC13FC.c"
+#include "../../func_80BC1528.c"
+#include "../../func_80BC172C.c"
+#include "../../func_80BC1880.c"

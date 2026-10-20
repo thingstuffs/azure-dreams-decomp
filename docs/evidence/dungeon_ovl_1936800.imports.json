@@ -254,7 +254,7 @@
       "view_bytes": 1,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_1936800.imports.json",
-      "declaration": "include/modules/dungeon_ovl_1936800.h"
+      "declaration": "include/dungeon/effect/motion/interpolate_view_parameters.h"
     }
   }
 }

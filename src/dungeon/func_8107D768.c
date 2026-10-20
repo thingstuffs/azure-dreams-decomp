@@ -7,8 +7,8 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-extern void func_80042B68(void *, s32);
-extern void func_80047784(void *, s32, s32);
+extern void clear_slots_of_type(void *, s32);
+extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
@@ -74,13 +74,13 @@ void update_actor_behavior_facing_and_animation(Rec_func_800A9E70_arg0 *action, 
         if (sprite->directionFrames != D_80150000) {
             inactive_anims = D_8014FFF8;
             sprite->directionFrames = inactive_anims;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 inactive_anims[((g_game_work.view.viewAngle + actor->facing + 0x100)
                     >> 9) & 7],
                 0);
         }
         action->unk_AE = 0;
-        func_80042B68(actor, 0x1A);
+        clear_slots_of_type(actor, 0x1A);
         return;
     }
 
@@ -109,7 +109,7 @@ void update_actor_behavior_facing_and_animation(Rec_func_800A9E70_arg0 *action, 
             anim_table = D_8014FFB8;
             if (sprite->directionFrames != anim_table) {
                 sprite->directionFrames = anim_table;
-                func_80047784(sprite,
+                select_sprite_entry(sprite,
                     anim_table[((g_game_work.view.viewAngle + actor->facing + 0x100)
                         >> 9) & 7],
                     0);
@@ -236,7 +236,7 @@ void update_actor_behavior_facing_and_animation(Rec_func_800A9E70_arg0 *action, 
         return;
     }
     sprite->directionFrames = anim_table;
-    func_80047784(sprite,
+    select_sprite_entry(sprite,
         ((((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + anim_table)[0],
         0);
 }

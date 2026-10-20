@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_spawns.h"
+#include "dungeon/level/spawn.h"
 
 void init_random_floor_item_parameters(void *entity_data) {
     u8 *entity = entity_data;

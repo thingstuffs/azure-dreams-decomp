@@ -1,25 +1,25 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/s2_r101_rc2_res_F236D8_F244E8",
- "container": "dungeon",
- "foff": "0xf236d8",
- "size": "0xe10",
- "vma": "0x8014ced8",
- "evidence": "docs/evidence/r121w_s2_receipts.json",
- "entries": [
-  {
-   "row": "dungeon/func_80F03C98",
-   "tu": "src/dungeon/func_80EDFC98.c",
-   "home": "dungeon/func_80EDFC98",
-   "foff": "0xf23c98",
-   "vma": "0x8014d498",
-   "size": 640,
-   "bindings": {
-    "0x80170ed8": "0x8014ced8",
-    "0x801712c4": "0x8014d2c4",
-    "0x801710b8": "0x8014d0b8"
-   },
-   "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80F03C98"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/s2_r101_rc2_res_F236D8_F244E8",
+  "container": "dungeon",
+  "foff": "0xf236d8",
+  "size": "0xe10",
+  "vma": "0x8014ced8",
+  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "entries": [
+    {
+      "row": "dungeon/func_80F03C98",
+      "tu": "src/dungeon/monster/weadog/create_random_color_offset_effect.c",
+      "home": "dungeon/func_80EDFC98",
+      "foff": "0xf23c98",
+      "vma": "0x8014d498",
+      "size": 640,
+      "bindings": {
+        "0x80170ed8": "0x8014ced8",
+        "0x801712c4": "0x8014d2c4",
+        "0x801710b8": "0x8014d0b8"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80F03C98"
+    }
+  ]
 }

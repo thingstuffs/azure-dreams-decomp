@@ -18,7 +18,7 @@ typedef struct S_8181B1A0_5 {
 } S_8181B1A0_5;   /* ((S_8181B1A0_4 *)arg0)->unk_08 in func_8181B1A0 */
 
 
-s32 func_8004491C();           /* extern */
+s32 register_node();           /* extern */
 s32 rand();                                /* extern */
 extern M2C_UNK D_80024878;
 extern M2C_UNK D_80025908[];
@@ -72,7 +72,7 @@ void func_8181B1A0(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 e
         state->unk_02 = effect_value;
         state->unk_60 = (s32) ((rand() & 0x1FFFF) + 0x10000);
         ((S_8181B1A0_1 *)effect)->unk_10 = &D_80024878;
-        func_8004491C(effect, func_80045340);
+        register_node(effect, project_sprite_chain);
         render = ((S_8181B1A0_1 *)effect)->unk_0C;
         render->unk_14 = (u16) (render->unk_14 | 0xC);
         position = ((S_8181B1A0_1 *)effect)->unk_08;

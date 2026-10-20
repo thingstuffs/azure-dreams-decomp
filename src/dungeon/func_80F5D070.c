@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_f7d070_p01.h"
+#include "dungeon/monster/naplass/allocate_actor_effect_object.h"
 
 /* Allocates an object, initializes its parts and actor state, and returns its work area. */
 void *allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value)
@@ -19,12 +19,12 @@ void *allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value)
     saved_x = x;
     saved_value = part_value;
     saved_y = y;
-    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->unk_10 = D_80170A3C;
         work->unk_13 = 0x25;
-        func_8004491C(obj, func_80045340);
+        register_node(obj, project_sprite_chain);
 
         part_a = obj->unk_08;
         part_a->unk_0A = saved_value;

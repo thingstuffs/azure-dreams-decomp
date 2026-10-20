@@ -1,0 +1,370 @@
+#include "common.h"
+#include "shared/object_node.h"
+#include "shared/tile_object.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "records/Rec_func_800AA258_arg2.h"
+#include "shared/entity.h"
+#include "records/Rec_D_80082E80.h"
+
+typedef struct S_8017382C_0 {
+    u8 pad_00[0x8C];
+    void * unk_8C;
+    u8 pad_90[0x6];
+    u16 unk_96;
+    u8 pad_98[0x3];
+    u8 unk_9B;
+    u8 pad_9C[0x10];
+    union { u16 s; s16 u; } unk_AC;   /* accessed as both */
+    u16 unk_AE;
+} S_8017382C_0;   /* arg0 in advance_actor_entry_active_exit_states */
+
+
+typedef struct S_8017382C_2 {
+    u8 unk_00;
+} S_8017382C_2;   /* records in advance_actor_entry_active_exit_states */
+
+typedef struct S_8017382C_3 {
+    u8 pad_00[0x6];
+    u16 unk_06;
+} S_8017382C_3;   /* entry in advance_actor_entry_active_exit_states */
+
+
+typedef struct S_8017382C_6 {
+    u8 pad_00[0x10];
+    void * unk_10;
+} S_8017382C_6;   /* effect in advance_actor_entry_active_exit_states */
+
+typedef struct S_8017382C_7 {
+    u8 pad_00[0x96];
+    s16 unk_96;
+    u8 pad_98[0x6];
+    s16 unk_9E;
+    s16 unk_A0;
+    s16 unk_A2;
+    s16 unk_A4;
+    s16 unk_A6;
+    s16 unk_A8;
+} S_8017382C_7;   /* child in advance_actor_entry_active_exit_states */
+
+
+extern void *allocate_list_node(s32, void *);
+extern s32 get_entity_effect_value(void *, s32);
+extern void clear_slots_of_type(void *, s32);
+extern void select_sprite_entry(void *, u8, s32);
+extern s32 func_8006649C(s32, s32);
+extern s32 check_entity_relation(void *, void *);
+extern s16 get_tile_chebyshev_distance(void *, void *);
+extern s32 has_pending_actor_or_turn_action(void *);
+extern s32 generate_random_value(void *);
+extern void on_actor_status_updated(void *);
+extern void update_actor_status_and_food(void *);
+extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
+extern void advance_actor_pending_action(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern void func_80174250(void *, void *, void *, void *);
+
+extern u8 D_80170F6C[];
+extern u8 D_80174424[];
+extern u8 D_80175298[];
+
+/* Advances the actor action through its entry, active, and exit animation states. */
+void advance_actor_entry_active_exit_states(void *action, void *context, void *sprite, EntityRec *actor)
+{
+    s32 state;
+    s32 record_index;
+    u8 *effect_state;
+
+    state = ((S_8017382C_0 *)action)->unk_9B;
+    switch (state) {
+    case 0:
+    {
+        s32 index_twice;
+        s32 word_offset;
+        u8 *facing_record;
+        u8 *record;
+        u8 *direction_table;
+        void *effect;
+        u16 facing;
+
+        record_index = 0;
+        if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
+            return;
+        }
+
+        ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12;
+        record = ((Rec_func_800AA258_arg2 *)sprite)->unk_08;
+        while (1) {
+            index_twice = record_index << 1;
+            if (!(((S_8017382C_2 *)record)->unk_00 & 0x20)) {
+                break;
+            }
+            record += 0xC;
+            record_index++;
+        }
+        word_offset = index_twice + record_index;
+        facing_record = (u8 *)((unsigned long)(word_offset << 2) +
+                       (unsigned long)((Rec_func_800AA258_arg2 *)sprite)->unk_08);
+        ((S_8017382C_0 *)action)->unk_AC.s =
+            ((S_8017382C_3 *)facing_record)->unk_06 & 0xFFC0;
+
+        direction_table = D_80175298;
+        (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pu8) = direction_table;
+        select_sprite_entry(
+            sprite,
+            direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            0);
+
+        g_dungeon_status.unk_0A--;
+        effect = allocate_list_node(0x10, ((u8 *)(&D_80083498)));
+        effect_state = (u8 *)effect + 0x20;
+        if (effect != 0) {
+            ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
+            ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
+            facing = ((S_8017382C_0 *)action)->unk_AC.s;
+            ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
+            ((S_8017382C_7 *)effect_state)->unk_A6 = 1;
+            ((S_8017382C_7 *)effect_state)->unk_A8 = 8;
+            ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)facing >> 6;
+            ((S_8017382C_0 *)action)->unk_96 = 8;
+            ((S_8017382C_7 *)effect_state)->unk_96 = 0;
+            ((S_8017382C_7 *)effect_state)->unk_9E = 0;
+        }
+        ((S_8017382C_0 *)action)->unk_9B++;
+        return;
+    }
+
+    case 1:
+    {
+        s32 angle_shifted;
+        s32 signed_angle;
+        s32 rounded_angle;
+        s32 angle_remainder;
+        u16 timer;
+
+        angle_shifted = ((S_8017382C_0 *)action)->unk_AE << 16;
+        signed_angle = angle_shifted >> 16;
+        rounded_angle = signed_angle;
+        if (rounded_angle < 0) {
+            rounded_angle += 7;
+        }
+        angle_remainder = signed_angle - ((rounded_angle >> 3) << 3);
+        ((Rec_func_800AA258_arg2 *)sprite)->unk_12 =
+            func_8006649C(
+                ((((s32)(angle_remainder << 16) >> 18) << 6) + 0x340),
+                ((angle_shifted >> 19) + 0x100)) -
+            ((S_8017382C_0 *)action)->unk_AC.s;
+
+        timer = ((S_8017382C_0 *)action)->unk_96 - 1;
+        ((S_8017382C_0 *)action)->unk_96 = timer;
+        if ((s16)timer > 0) {
+            if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000)) {
+                return;
+            }
+        }
+        ((Rec_func_800AA258_arg2 *)sprite)->unk_12 = ((S_8017382C_0 *)action)->unk_AE - 0x40;
+        ((S_8017382C_0 *)action)->unk_9B++;
+        return;
+    }
+
+    case 2:
+    {
+        s32 index_twice;
+        s32 word_offset;
+        u8 *facing_record;
+        u8 *record;
+        u8 *direction_table;
+        u8 *exit_table;
+        void *effect;
+        void *check_actor;
+        u16 facing;
+
+        if (((S_8017382C_0 *)action)->unk_AC.u == 0) {
+            record_index = 0;
+            record = ((Rec_func_800AA258_arg2 *)sprite)->unk_08;
+            while (1) {
+                index_twice = record_index << 1;
+                if (!(((S_8017382C_2 *)record)->unk_00 & 0x20)) {
+                    break;
+                }
+                record += 0xC;
+                record_index++;
+            }
+            word_offset = index_twice + record_index;
+            facing_record = (u8 *)((unsigned long)(word_offset << 2) +
+                           (unsigned long)((Rec_func_800AA258_arg2 *)sprite)->unk_08);
+            ((S_8017382C_0 *)action)->unk_AC.s =
+                ((S_8017382C_3 *)facing_record)->unk_06 & 0xFFC0;
+        }
+
+        if ((s16)get_entity_effect_value(actor, 1) == 0) {
+            direction_table = D_80175298;
+            (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pu8) = direction_table;
+            select_sprite_entry(
+                sprite,
+                direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+
+            effect = allocate_list_node(0x10, ((u8 *)(&D_80083498)));
+            effect_state = (u8 *)effect + 0x20;
+            if (effect != 0) {
+                ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
+                ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
+                facing = ((S_8017382C_0 *)action)->unk_AC.s;
+                ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
+                ((S_8017382C_7 *)effect_state)->unk_A6 = 1;
+                ((S_8017382C_7 *)effect_state)->unk_A8 = 8;
+                ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)facing >> 6;
+                ((S_8017382C_0 *)action)->unk_96 = 8;
+                ((S_8017382C_7 *)effect_state)->unk_96 = 0;
+                ((S_8017382C_7 *)effect_state)->unk_9E = 1;
+            }
+
+            ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12 + 0x40;
+            g_dungeon_status.unk_0A++;
+
+            ((S_8017382C_0 *)action)->unk_9B++;
+            return;
+        }
+
+        if (g_dungeon_status.flags & 0x1000) {
+            return;
+        }
+        if (actor->unk_64 != 0) {
+            if (begin_ready_actor_directional_action(action, context, sprite, 0) != 0) {
+                return;
+            }
+        }
+
+        if (actor->tileY == 0) {
+            if (g_dungeon_status.flags & 0x2008) {
+                return;
+            }
+            advance_actor_pending_action(action, context, sprite, actor);
+            return;
+        }
+
+        if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
+            return;
+        }
+
+        {
+            u32 actor_flags;
+
+            actor_flags = ((u32)actor->flags1C);
+            if (actor_flags & 0x100) {
+                begin_pushed_actor_move(action, context, sprite, actor);
+                return;
+            }
+            if (actor_flags & 0x80000) {
+                begin_actor_move_to_target_facing(action, context, sprite, actor);
+                func_80174250(action, context, sprite, actor);
+                return;
+            }
+        }
+
+        if (actor->unk_6D == 0) {
+            return;
+        }
+        if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
+            if ((s16)check_entity_relation(
+                    actor, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                return;
+            }
+        }
+
+        update_actor_status_and_food(actor);
+        on_actor_status_updated(actor);
+        if ((s16)get_entity_effect_value(actor, 1) != 0) {
+            s8 tile;
+
+            check_actor = ((u8 *)(&D_80082E80));
+            tile = ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_s8;
+            if ((tile != ((Rec_D_80082E80 *)((u8 *)(&D_80082E80)))->unk_26.as_s8) || (tile < 0)) {
+                s32 distance;
+
+                distance = (s16)get_tile_chebyshev_distance(((u8 *)(&D_80082E80)), sprite);
+                check_actor = actor;
+                if (distance >= 2) {
+                    goto second_call;
+                }
+            }
+            if (!(generate_random_value(check_actor) & 7)) {
+                clear_slots_of_type(actor, 1);
+            }
+        }
+
+        check_actor = actor;
+second_call:
+        if ((s16)get_entity_effect_value(check_actor, 1) != 0) {
+            return;
+        }
+
+        exit_table = D_80175298;
+        (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pu8) = exit_table;
+        select_sprite_entry(
+            sprite,
+            exit_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            0);
+
+        effect = allocate_list_node(0x10, ((u8 *)(&D_80083498)));
+        effect_state = (u8 *)effect + 0x20;
+        if (effect != 0) {
+            u16 facing;
+            ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
+            ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
+            facing = ((S_8017382C_0 *)action)->unk_AC.s;
+            ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
+            ((S_8017382C_7 *)effect_state)->unk_A6 = 1;
+            ((S_8017382C_7 *)effect_state)->unk_A8 = 8;
+            ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)facing >> 6;
+            ((S_8017382C_0 *)action)->unk_96 = 8;
+            ((S_8017382C_7 *)effect_state)->unk_96 = 0;
+            ((S_8017382C_7 *)effect_state)->unk_9E = 1;
+        }
+        g_dungeon_status.unk_0A++;
+        ((S_8017382C_0 *)action)->unk_9B++;
+        ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12 + 0x40;
+        return;
+    }
+
+    case 3:
+    {
+        s32 angle_shifted;
+        s32 signed_angle;
+        s32 rounded_angle;
+        s32 angle_remainder;
+        u16 timer;
+
+        angle_shifted = ((S_8017382C_0 *)action)->unk_AE << 16;
+        signed_angle = angle_shifted >> 16;
+        rounded_angle = signed_angle;
+        if (rounded_angle < 0) {
+            rounded_angle += 7;
+        }
+        angle_remainder = signed_angle - ((rounded_angle >> 3) << 3);
+        ((Rec_func_800AA258_arg2 *)sprite)->unk_12 =
+            func_8006649C(
+                ((((s32)(angle_remainder << 16) >> 18) << 6) + 0x340),
+                ((angle_shifted >> 19) + 0x102)) -
+            ((S_8017382C_0 *)action)->unk_AC.s;
+
+        if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000)) {
+            timer = ((S_8017382C_0 *)action)->unk_96 - 1;
+            ((S_8017382C_0 *)action)->unk_96 = timer;
+            if ((s16)timer > 0) {
+                return;
+            }
+        }
+
+        g_dungeon_status.unk_0A--;
+        actor->flags1C &= ~0x200;
+        ((S_8017382C_0 *)action)->unk_8C = D_80170F6C;
+        ((Rec_func_800AA258_arg2 *)sprite)->unk_12 = ((S_8017382C_0 *)action)->unk_AE;
+    }
+    }
+
+    return;
+}

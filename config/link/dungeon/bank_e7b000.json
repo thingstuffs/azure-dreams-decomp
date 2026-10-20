@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80E5B2D0",
-      "tu": "src/dungeon/func_80E372D0.c",
+      "tu": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
       "home": "dungeon/func_80E372D0",
       "foff": "0xE7B2D0",
       "vma": "0x8014CAD0",
@@ -20,7 +20,7 @@
     },
     {
       "row": "dungeon/func_80E5B6E4",
-      "tu": "src/dungeon/func_80E376E4.c",
+      "tu": "src/dungeon/monster/manoeva/update_actor_controller.c",
       "home": "dungeon/func_80E376E4",
       "foff": "0xE7B6E4",
       "vma": "0x8014CEE4",
@@ -42,7 +42,7 @@
     },
     {
       "row": "dungeon/func_80E5BEA4",
-      "tu": "src/dungeon/func_80E37EA4.c",
+      "tu": "src/dungeon/monster/manoeva/advance_actor_turn_path.c",
       "home": "dungeon/func_80E37EA4",
       "foff": "0xE7BEA4",
       "vma": "0x8014D6A4",
@@ -53,7 +53,7 @@
     },
     {
       "row": "dungeon/func_80E5C5CC",
-      "tu": "src/dungeon/func_80E385CC.c",
+      "tu": "src/dungeon/monster/manoeva/initialize_directional_state_sprite.c",
       "home": "dungeon/func_80E385CC",
       "foff": "0xE7C5CC",
       "vma": "0x8014DDCC",
@@ -86,7 +86,7 @@
     },
     {
       "row": "dungeon/func_80E5C914",
-      "tu": "src/dungeon/func_80E38914.c",
+      "tu": "src/dungeon/monster/manoeva/dispatch_actor_action_state.c",
       "home": "dungeon/func_80E38914",
       "foff": "0xE7C914",
       "vma": "0x8014E114",
@@ -97,7 +97,7 @@
     },
     {
       "row": "dungeon/func_80E5CA40",
-      "tu": "src/dungeon/func_80AC7330.c",
+      "tu": "src/dungeon/monster/saber/reset_eligible_entity_state.c",
       "home": "dungeon/func_80AC7330",
       "foff": "0xE7CA40",
       "vma": "0x8014E240",
@@ -121,7 +121,7 @@
     },
     {
       "row": "dungeon/func_80E5CEA4",
-      "tu": "src/dungeon/func_80E38EA4.c",
+      "tu": "src/dungeon/monster/manoeva/advance_actor_sprite_action.c",
       "home": "dungeon/func_80E38EA4",
       "foff": "0xE7CEA4",
       "vma": "0x8014E6A4",
@@ -132,7 +132,7 @@
     },
     {
       "row": "dungeon/func_80E5D0E4",
-      "tu": "src/dungeon/func_80E390E4.c",
+      "tu": "src/dungeon/monster/manoeva/update_actor_item_use_animation.c",
       "home": "dungeon/func_80E390E4",
       "foff": "0xE7D0E4",
       "vma": "0x8014E8E4",
@@ -144,7 +144,7 @@
     {
       "row": "dungeon/func_80E5D504",
       "home": "dungeon/func_80E39504",
-      "tu": "src/dungeon/func_80E39504.c",
+      "tu": "src/dungeon/monster/manoeva/update_actor_knockback.c",
       "foff": "0x00E7D504",
       "vma": "0x8014ED04",
       "size": 896,
@@ -167,7 +167,7 @@
     },
     {
       "row": "dungeon/func_80E5D884",
-      "tu": "src/dungeon/func_809D1AC0.c",
+      "tu": "src/dungeon/actor/forward_actor_defeat_removal_second.c",
       "home": "dungeon/func_809D1AC0",
       "foff": "0xE7D884",
       "vma": "0x8014F084",
@@ -180,7 +180,7 @@
     },
     {
       "row": "dungeon/func_80E5D8A4",
-      "tu": "src/dungeon/func_800AD90C.c",
+      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xE7D8A4",
       "vma": "0x8014F0A4",
@@ -194,7 +194,7 @@
     },
     {
       "row": "dungeon/func_80E5D8C4",
-      "tu": "src/dungeon/func_800AD92C.c",
+      "tu": "src/dungeon/effect/advance_actor_removal_callback.c",
       "home": "dungeon/func_800AD92C",
       "foff": "0xE7D8C4",
       "vma": "0x8014F0C4",
@@ -208,7 +208,7 @@
     },
     {
       "row": "dungeon/func_80E5D8E4",
-      "tu": "src/dungeon/func_800AD94C.c",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
       "home": "dungeon/func_800AD94C",
       "foff": "0xE7D8E4",
       "vma": "0x8014F0E4",
@@ -223,7 +223,7 @@
     {
       "row": "dungeon/func_80E5D91C",
       "home": "dungeon/func_80AC854C",
-      "tu": "src/dungeon/func_80AC854C.c",
+      "tu": "src/dungeon/monster/saber/advance_actor_action_and_direction.c",
       "foff": "0x00E7D91C",
       "vma": "0x8014F11C",
       "size": 912,
@@ -256,7 +256,7 @@
     },
     {
       "row": "dungeon/func_80E5DCAC",
-      "tu": "src/dungeon/func_80AC88DC.c",
+      "tu": "src/dungeon/monster/saber/update_actor_directional_animation.c",
       "home": "dungeon/func_80AC88DC",
       "foff": "0xE7DCAC",
       "vma": "0x8014F4AC",
@@ -269,7 +269,7 @@
     },
     {
       "row": "dungeon/func_80E5DFB8",
-      "tu": "src/dungeon/func_809A2D74.c",
+      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0xE7DFB8",
       "vma": "0x8014F7B8",
@@ -291,7 +291,7 @@
     },
     {
       "row": "dungeon/func_80E5E0E4",
-      "tu": "src/dungeon/func_800ADA84.c",
+      "tu": "src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c",
       "home": "dungeon/func_800ADA84",
       "foff": "0xE7E0E4",
       "vma": "0x8014F8E4",
@@ -305,7 +305,7 @@
     },
     {
       "row": "dungeon/func_80E5E11C",
-      "tu": "src/dungeon/func_800ADABC.c",
+      "tu": "src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c",
       "home": "dungeon/func_800ADABC",
       "foff": "0xE7E11C",
       "vma": "0x8014F91C",
@@ -319,7 +319,7 @@
     },
     {
       "row": "dungeon/func_80E5E18C",
-      "tu": "src/dungeon/func_80E3A18C.c",
+      "tu": "src/dungeon/monster/manoeva/transfer_linked_object_state.c",
       "home": "dungeon/func_80E3A18C",
       "foff": "0xE7E18C",
       "vma": "0x8014F98C",
@@ -330,7 +330,7 @@
     },
     {
       "row": "dungeon/func_80E5E440",
-      "tu": "src/dungeon/func_80E3A440.c",
+      "tu": "src/dungeon/monster/manoeva/initialize_object_and_clear_state.c",
       "home": "dungeon/func_80E3A440",
       "foff": "0xE7E440",
       "vma": "0x8014FC40",
@@ -341,7 +341,7 @@
     },
     {
       "row": "dungeon/func_80E5E540",
-      "tu": "src/dungeon/func_80E3A540.c",
+      "tu": "src/dungeon/monster/manoeva/reset_linked_entity_state.c",
       "home": "dungeon/func_80E3A540",
       "foff": "0xE7E540",
       "vma": "0x8014FD40",
@@ -352,7 +352,7 @@
     },
     {
       "row": "dungeon/func_80E5E578",
-      "tu": "src/dungeon/func_80E3A578.c",
+      "tu": "src/dungeon/monster/manoeva/update_actor_target_effect_action.c",
       "home": "dungeon/func_80E3A578",
       "foff": "0xE7E578",
       "vma": "0x8014FD78",
@@ -363,7 +363,7 @@
     },
     {
       "row": "dungeon/func_80E5EA7C",
-      "tu": "src/dungeon/func_80E3AA7C.c",
+      "tu": "src/dungeon/monster/manoeva/update_actor_fade_in_transition.c",
       "home": "dungeon/func_80E3AA7C",
       "foff": "0xE7EA7C",
       "vma": "0x8015027C",
@@ -385,7 +385,7 @@
     },
     {
       "row": "dungeon/func_80E5EDB8",
-      "tu": "src/dungeon/func_800CF1BC.c",
+      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
       "home": "dungeon/func_800CF1BC",
       "foff": "0xE7EDB8",
       "vma": "0x801505B8",
@@ -399,7 +399,7 @@
     },
     {
       "row": "dungeon/func_80E5EDF0",
-      "tu": "src/dungeon/func_80E3ADF0.c",
+      "tu": "src/dungeon/monster/manoeva/copy_linked_position_and_check_status.c",
       "home": "dungeon/func_80E3ADF0",
       "foff": "0xE7EDF0",
       "vma": "0x801505F0",
@@ -410,7 +410,7 @@
     },
     {
       "row": "dungeon/func_80E5EE90",
-      "tu": "src/dungeon/func_80E3AE90.c",
+      "tu": "src/dungeon/monster/manoeva/create_action_sprite_effect.c",
       "home": "dungeon/func_80E3AE90",
       "foff": "0xE7EE90",
       "vma": "0x80150690",
@@ -421,7 +421,7 @@
     },
     {
       "row": "dungeon/func_80E5F390",
-      "tu": "src/dungeon/func_80E3B390.c",
+      "tu": "src/dungeon/monster/manoeva/create_terrain_scaled_actor_effect.c",
       "home": "dungeon/func_80E3B390",
       "foff": "0xE7F390",
       "vma": "0x80150B90",
@@ -433,7 +433,7 @@
     {
       "row": "dungeon/func_80E5F4CC",
       "home": "dungeon/func_80E3B4CC",
-      "tu": "src/dungeon/func_80E3B4CC.c",
+      "tu": "src/dungeon/monster/manoeva/update_knockback_travel_object.c",
       "foff": "0x00E7F4CC",
       "vma": "0x80150CCC",
       "size": 928,
@@ -457,7 +457,7 @@
     },
     {
       "row": "dungeon/func_80E5F86C",
-      "tu": "src/dungeon/func_80E3B86C.c",
+      "tu": "src/dungeon/monster/manoeva/check_adjacent_tile_height.c",
       "home": "dungeon/func_80E3B86C",
       "foff": "0xE7F86C",
       "vma": "0x8015106C",
@@ -468,7 +468,7 @@
     },
     {
       "row": "dungeon/func_80E5F96C",
-      "tu": "src/dungeon/func_80E3B96C.c",
+      "tu": "src/dungeon/monster/manoeva/create_knockback_travel_object.c",
       "home": "dungeon/func_80E3B96C",
       "foff": "0xE7F96C",
       "vma": "0x8015116C",
@@ -479,7 +479,7 @@
     },
     {
       "row": "dungeon/func_80E5FD40",
-      "tu": "src/dungeon/func_800D1050.c",
+      "tu": "src/dungeon/effect/shade/draw_linked_depth_sliced_quads.c",
       "home": "dungeon/func_800D1050",
       "foff": "0xE7FD40",
       "vma": "0x80151540",
@@ -493,7 +493,7 @@
     },
     {
       "row": "dungeon/func_80E60460",
-      "tu": "src/dungeon/func_80E3C460.c",
+      "tu": "src/dungeon/monster/manoeva/update_offset_motion_object.c",
       "home": "dungeon/func_80E3C460",
       "foff": "0xE80460",
       "vma": "0x80151C60",
@@ -504,7 +504,7 @@
     },
     {
       "row": "dungeon/func_80E60574",
-      "tu": "src/dungeon/func_80E3C574.c",
+      "tu": "src/dungeon/monster/manoeva/draw_linked_record_chain.c",
       "home": "dungeon/func_80E3C574",
       "foff": "0xE80574",
       "vma": "0x80151D74",
@@ -515,7 +515,7 @@
     },
     {
       "row": "dungeon/func_80E605D0",
-      "tu": "src/dungeon/func_80E3C5D0.c",
+      "tu": "src/dungeon/monster/manoeva/spawn_offset_motion_object.c",
       "home": "dungeon/func_80E3C5D0",
       "foff": "0xE805D0",
       "vma": "0x80151DD0",
@@ -526,7 +526,7 @@
     },
     {
       "row": "dungeon/func_80E60770",
-      "tu": "src/dungeon/func_80E3C770.c",
+      "tu": "src/dungeon/monster/manoeva/update_timed_color_transition_effect.c",
       "home": "dungeon/func_80E3C770",
       "foff": "0xE80770",
       "vma": "0x80151F70",
@@ -537,7 +537,7 @@
     },
     {
       "row": "dungeon/func_80E6098C",
-      "tu": "src/dungeon/func_80E3C98C.c",
+      "tu": "src/dungeon/monster/manoeva/spawn_manoeva_from_record.c",
       "home": "dungeon/func_80E3C98C",
       "foff": "0xE8098C",
       "vma": "0x8015218C",
@@ -548,7 +548,7 @@
     },
     {
       "row": "dungeon/func_80E60BD0",
-      "tu": "src/dungeon/func_80E3CBD0.c",
+      "tu": "src/dungeon/monster/manoeva/update_an_effect_s_lifetime_fades_color_advances_motion.c",
       "home": "dungeon/func_80E3CBD0",
       "foff": "0xE80BD0",
       "vma": "0x801523D0",

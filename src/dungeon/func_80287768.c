@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 /* C89 default promotions keep the public final argument a word while this
  * definition gives the filter its original signed-halfword view. */

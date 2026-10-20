@@ -6,12 +6,14 @@
 extern u8 D_800DEA68[];
 extern u8 D_800DE990[];
 extern u8 D_800DECF8[];
+void *allocate_list_node(s32, void *);
 void *func_8003FD64(s32, void *);
 s32 func_80069EF8(void);
 s32 get_definition_entry_byte_13(s16);
 void *scan_monster_along_heading(void *, s32, s32, s32, s32);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 void play_sound_if_enabled(s32);
+void register_node(void *, void *);
 void func_8004491C(void *, void *);
 void func_800478B8(void *);
 void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);

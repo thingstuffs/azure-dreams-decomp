@@ -10,7 +10,7 @@ s32 func_80173E08(void *initial_payload, s32 entry_data, R06_80173E08_Entry *ent
         scratch->value = ((s16 *)D_8017591C)[0];
 
         if (!(entry->unk14 & 0x80)) {
-            func_800453E0(payload, entry_data, entry,(s16)(entry->unk06));
+            project_sprite_commands(payload, entry_data, entry,(s16)(entry->unk06));
         }
 
         next_entry = *(R06_80173E08_Entry **)((u8 *)payload - 8);

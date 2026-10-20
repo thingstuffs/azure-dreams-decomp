@@ -10,14 +10,14 @@
     {
       "row": "town/func_8008DB5C",
       "home": "town/func_8008DB5C",
-      "tu": "src/town/func_8008DB5C.c",
+      "tu": "src/town/scene/resource/jyotyu_set_reserve_all.c",
       "foff": "0x0000DB5C",
       "vma": "0x8008B2BC",
       "size": 8
     },
     {
       "row": "town/func_8008DB64",
-      "tu": "src/town/func_8008DB5C.c",
+      "tu": "src/town/scene/resource/jyotyu_set_reserve_all.c",
       "home": "town/func_8008DB5C",
       "foff": "0xDB64",
       "vma": "0x8008B2C4",
@@ -29,7 +29,7 @@
     },
     {
       "row": "town/func_8008DB6C",
-      "tu": "src/town/func_8008DB5C.c",
+      "tu": "src/town/scene/resource/jyotyu_set_reserve_all.c",
       "home": "town/func_8008DB5C",
       "foff": "0xDB6C",
       "vma": "0x8008B2CC",
@@ -41,7 +41,7 @@
     },
     {
       "row": "town/func_8008DB74",
-      "tu": "src/town/func_8008DB5C.c",
+      "tu": "src/town/scene/resource/jyotyu_set_reserve_all.c",
       "home": "town/func_8008DB5C",
       "foff": "0xDB74",
       "vma": "0x8008B2D4",
@@ -61,7 +61,7 @@
     },
     {
       "row": "town/func_80098460",
-      "tu": "src/town/func_80098460.c",
+      "tu": "src/town/player/call_callee_c_c_global_parameter.c",
       "home": "town/func_80098460",
       "foff": "0x18460",
       "vma": "0x80095BC0",
@@ -69,7 +69,7 @@
     },
     {
       "row": "town/func_80098490",
-      "tu": "src/town/func_80098460.c",
+      "tu": "src/town/player/call_callee_c_c_global_parameter.c",
       "home": "town/func_80098460",
       "foff": "0x18490",
       "vma": "0x80095BF0",
@@ -83,7 +83,7 @@
     },
     {
       "row": "town/func_800984C0",
-      "tu": "src/town/func_80098460.c",
+      "tu": "src/town/player/call_callee_c_c_global_parameter.c",
       "home": "town/func_80098460",
       "foff": "0x184C0",
       "vma": "0x80095C20",
@@ -98,14 +98,14 @@
     {
       "row": "town/func_80098A48",
       "home": "town/func_80098A48",
-      "tu": "src/town/func_80098A48.c",
+      "tu": "src/town/player/call_the_callee_callee_b.c",
       "foff": "0x00018A48",
       "vma": "0x800961A8",
       "size": 48
     },
     {
       "row": "town/func_800A1F74",
-      "tu": "src/town/func_8008DB5C.c",
+      "tu": "src/town/scene/resource/jyotyu_set_reserve_all.c",
       "home": "town/func_8008DB5C",
       "foff": "0x21F74",
       "vma": "0x8009F6D4",
@@ -117,7 +117,7 @@
     },
     {
       "row": "town/func_800A9E58",
-      "tu": "src/town/func_800A9E58.c",
+      "tu": "src/town/menu/object/create_preset_sprite_object.c",
       "home": "town/func_800A9E58",
       "foff": "0x29E58",
       "vma": "0x800A75B8",
@@ -126,14 +126,14 @@
     {
       "row": "town/func_800B0DB0",
       "home": "town/func_800B0DB0",
-      "tu": "src/town/func_800B0DB0.c",
+      "tu": "src/town/shop/item/item_menu_return_zero.c",
       "foff": "0x00030DB0",
       "vma": "0x800AE510",
       "size": 8
     },
     {
       "row": "town/func_800B29F8",
-      "tu": "src/town/func_800B29F8.c",
+      "tu": "src/town/menu/state/initialize_item_menu_state.c",
       "home": "town/func_800B29F8",
       "foff": "0x329F8",
       "vma": "0x800B0158",
@@ -149,7 +149,7 @@
     },
     {
       "row": "town/func_800B6108",
-      "tu": "src/town/func_800B29F8.c",
+      "tu": "src/town/menu/state/initialize_item_menu_state.c",
       "home": "town/func_800B29F8",
       "foff": "0x36108",
       "vma": "0x800B3868",
@@ -189,7 +189,7 @@
     },
     {
       "row": "town/func_800C3368",
-      "tu": "src/town/func_800C3368.c",
+      "tu": "src/town/scene/scr_koya_tamago_pal_ld.c",
       "home": "town/func_800C3368",
       "foff": "0x43368",
       "vma": "0x800C0AC8",
@@ -197,7 +197,7 @@
     },
     {
       "row": "town/func_800C3394",
-      "tu": "src/town/func_800C3368.c",
+      "tu": "src/town/scene/scr_koya_tamago_pal_ld.c",
       "home": "town/func_800C3368",
       "foff": "0x43394",
       "vma": "0x800C0AF4",
@@ -210,7 +210,7 @@
     },
     {
       "row": "town/func_800C33C0",
-      "tu": "src/town/func_800C3368.c",
+      "tu": "src/town/scene/scr_koya_tamago_pal_ld.c",
       "home": "town/func_800C3368",
       "foff": "0x433C0",
       "vma": "0x800C0B20",
@@ -223,7 +223,7 @@
     },
     {
       "row": "town/func_800C33EC",
-      "tu": "src/town/func_800C3368.c",
+      "tu": "src/town/scene/scr_koya_tamago_pal_ld.c",
       "home": "town/func_800C3368",
       "foff": "0x433EC",
       "vma": "0x800C0B4C",
@@ -236,7 +236,7 @@
     },
     {
       "row": "town/func_800C3418",
-      "tu": "src/town/func_800C3368.c",
+      "tu": "src/town/scene/scr_koya_tamago_pal_ld.c",
       "home": "town/func_800C3368",
       "foff": "0x43418",
       "vma": "0x800C0B78",
@@ -249,7 +249,7 @@
     },
     {
       "row": "town/func_800C3444",
-      "tu": "src/town/func_800C3368.c",
+      "tu": "src/town/scene/scr_koya_tamago_pal_ld.c",
       "home": "town/func_800C3368",
       "foff": "0x43444",
       "vma": "0x800C0BA4",
@@ -262,7 +262,7 @@
     },
     {
       "row": "town/func_800C3470",
-      "tu": "src/town/func_800C3368.c",
+      "tu": "src/town/scene/scr_koya_tamago_pal_ld.c",
       "home": "town/func_800C3368",
       "foff": "0x43470",
       "vma": "0x800C0BD0",
@@ -275,7 +275,7 @@
     },
     {
       "row": "town/func_800C37E0",
-      "tu": "src/town/func_8008DB5C.c",
+      "tu": "src/town/scene/resource/jyotyu_set_reserve_all.c",
       "home": "town/func_8008DB5C",
       "foff": "0x437E0",
       "vma": "0x800C0F40",
@@ -288,7 +288,7 @@
     {
       "row": "town/func_800C43C0",
       "home": "town/func_800C43C0",
-      "tu": "src/town/func_800C43C0.c",
+      "tu": "src/town/scene/mcard_end_check.c",
       "foff": "0x000443C0",
       "vma": "0x800C1B20",
       "size": 16
@@ -296,7 +296,7 @@
     {
       "row": "town/func_800C4404",
       "home": "town/func_800C43C0",
-      "tu": "src/town/func_800C43C0.c",
+      "tu": "src/town/scene/mcard_end_check.c",
       "foff": "0x00044404",
       "vma": "0x800C1B64",
       "size": 16,
@@ -314,7 +314,7 @@
     },
     {
       "row": "town/func_800C8B10",
-      "tu": "src/town/func_800A9E58.c",
+      "tu": "src/town/menu/object/create_preset_sprite_object.c",
       "home": "town/func_800A9E58",
       "foff": "0x48B10",
       "vma": "0x800C6270",
@@ -329,7 +329,7 @@
     },
     {
       "row": "town/func_800C8D68",
-      "tu": "src/town/func_800C8D68.c",
+      "tu": "src/town/person/object/initialize_object_slot_data.c",
       "home": "town/func_800C8D68",
       "foff": "0x48d68",
       "vma": "0x800c64c8",
@@ -337,7 +337,7 @@
     },
     {
       "row": "town/func_80028E68",
-      "tu": "src/town/func_800C8D68.c",
+      "tu": "src/town/person/object/initialize_object_slot_data.c",
       "home": "town/func_800C8D68",
       "foff": "0x48e68",
       "vma": "0x800c65c8",
@@ -358,7 +358,7 @@
     },
     {
       "row": "town/func_800C9120",
-      "tu": "src/town/func_800C9120.c",
+      "tu": "src/town/scene/initialize_scene_entry_group.c",
       "home": "town/func_800C9120",
       "foff": "0x49120",
       "vma": "0x800C6880",
@@ -366,7 +366,7 @@
     },
     {
       "row": "town/func_800C9384",
-      "tu": "src/town/func_800C9120.c",
+      "tu": "src/town/scene/initialize_scene_entry_group.c",
       "home": "town/func_800C9120",
       "foff": "0x49384",
       "vma": "0x800C6AE4",
@@ -383,7 +383,7 @@
     {
       "row": "town/func_800CC3E4",
       "home": "town/func_800CC3E4",
-      "tu": "src/town/func_800CC3E4.c",
+      "tu": "src/town/person/motion/advance_reaction_motion_to_limit.c",
       "foff": "0x0004C3E4",
       "vma": "0x800C9B44",
       "size": 200
@@ -391,7 +391,7 @@
     {
       "row": "town/func_800D0A3C",
       "home": "town/func_8009C3A0",
-      "tu": "src/town/func_8009C3A0.c",
+      "tu": "src/town/player/state/advance_player_state.c",
       "foff": "0x00050A3C",
       "vma": "0x800CE19C",
       "size": 112,
@@ -405,7 +405,7 @@
     {
       "row": "town/func_800D0AAC",
       "home": "town/func_800CC3E4",
-      "tu": "src/town/func_800CC3E4.c",
+      "tu": "src/town/person/motion/advance_reaction_motion_to_limit.c",
       "foff": "0x00050AAC",
       "vma": "0x800CE20C",
       "size": 200,
@@ -427,7 +427,7 @@
     {
       "row": "town/func_800D0C2C",
       "home": "town/func_8009C3A0",
-      "tu": "src/town/func_8009C3A0.c",
+      "tu": "src/town/player/state/advance_player_state.c",
       "foff": "0x00050C2C",
       "vma": "0x800CE38C",
       "size": 112,
@@ -441,7 +441,7 @@
     {
       "row": "town/func_800D0C9C",
       "home": "town/func_800CC3E4",
-      "tu": "src/town/func_800CC3E4.c",
+      "tu": "src/town/person/motion/advance_reaction_motion_to_limit.c",
       "foff": "0x00050C9C",
       "vma": "0x800CE3FC",
       "size": 200,
@@ -462,7 +462,7 @@
     },
     {
       "row": "town/func_800D1B68",
-      "tu": "src/town/func_800D1A4C.c",
+      "tu": "src/town/scene/initialize_scene_entry_group_h.c",
       "home": "town/func_800D1A4C",
       "foff": "0x51B68",
       "vma": "0x800CF2C8",
@@ -478,7 +478,7 @@
     },
     {
       "row": "town/func_800D1BC8",
-      "tu": "src/town/func_800D1AAC.c",
+      "tu": "src/town/scene/initialize_scene_entry_group_i.c",
       "home": "town/func_800D1AAC",
       "foff": "0x51BC8",
       "vma": "0x800CF328",

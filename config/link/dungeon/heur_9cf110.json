@@ -1,24 +1,24 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/heur_9cf110",
- "container": "dungeon",
- "foff": "0x9cf110",
- "size": "0x1c4",
- "vma": "0x80168910",
- "evidence": "work/native_lane/r121_heur/evidence/placements.json",
- "entries": [
-  {
-   "row": "dungeon/func_809CF110",
-   "tu": "src/dungeon/func_809A3110.c",
-   "home": "dungeon/func_809A3110",
-   "foff": "0x9cf110",
-   "vma": "0x80168910",
-   "size": 452,
-   "bindings": {
-    "0x801747b8": "0x801687b8",
-    "0x80175f70": "0x80169f70"
-   },
-   "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/heur_9cf110",
+  "container": "dungeon",
+  "foff": "0x9cf110",
+  "size": "0x1c4",
+  "vma": "0x80168910",
+  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "entries": [
+    {
+      "row": "dungeon/func_809CF110",
+      "tu": "src/dungeon/monster/kewne/create_three_linked_palette_objects.c",
+      "home": "dungeon/func_809A3110",
+      "foff": "0x9cf110",
+      "vma": "0x80168910",
+      "size": 452,
+      "bindings": {
+        "0x801747b8": "0x801687b8",
+        "0x80175f70": "0x80169f70"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
+    }
+  ]
 }

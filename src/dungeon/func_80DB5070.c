@@ -58,7 +58,7 @@ typedef struct PlayerActionCounterView {
 extern int abs(int);
 
 extern s32 get_cd_command_queue_depth(void);
-extern void func_80047784();
+extern void select_sprite_entry();
 extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center();
 extern s32 advance_status_timers(void *);
@@ -205,7 +205,7 @@ void advance_actor_ability_and_reset_action(ActorActionView *action, EntityRec *
 
             if (sprite->frameTable != direction_anims) {
                 (sprite->frameTable) = direction_anims;
-                func_80047784(sprite,
+                select_sprite_entry(sprite,
                     direction_anims[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }

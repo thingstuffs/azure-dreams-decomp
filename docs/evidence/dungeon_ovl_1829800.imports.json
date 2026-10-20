@@ -241,7 +241,7 @@
       "view_bytes": 16,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_1829800.imports.json",
-      "declaration": "include/modules/dungeon_ovl_1829800.h"
+      "declaration": "include/dungeon/menu/select.h"
     }
   },
   "function_maps": {

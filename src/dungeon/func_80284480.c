@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void mask_generation_cell_rect(s16 start_x, s16 start_y, s16 rect_width, s16 rect_height, u16 mask)
 {

@@ -19,7 +19,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
         return;
 
     case 1:
-        func_80041588(((u8 *)D_801758FC), ((u8 *)D_80175920), 0);
+        run_cd_image_commands(((u8 *)D_801758FC), ((u8 *)D_80175920), 0);
         ((R06_80175270_S_80175270_0 *)action)->unk_BA = 0;
         ((R06_80175270_S_80175270_0 *)action)->unk_9B++;
         ((R06_80175270_S_80175270_1 *)actor)->unk_8A = ((R06_80175270_S_80175270_1 *)actor)->unk_2A.u;
@@ -37,7 +37,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
             ((R06_80175270_S_80175270_1 *)actor)->unk_2A.u = angle + 0x200;
             return;
         }
-        func_80041588((u8 *)((s32 *)D_80175904) - 8, (u8 *)((void * *)D_80175924) - 4, 1);
+        run_cd_image_commands((u8 *)((s32 *)D_80175904) - 8, (u8 *)((void * *)D_80175924) - 4, 1);
         sound_set_cd_cue_parameters(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
         effect_id = func_800445E0();
         Control_CD(0x15, effect_id, 0);
@@ -87,7 +87,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
                 return;
             }
             work->unk_10.p = ((u8 *)fade_effect_to_neutral_and_finish);
-            func_8004491C(work, ((u8 *)func_80173E08));
+            register_node(work, ((u8 *)func_80173E08));
             color = 0x00808080;
             work->unk_08[0] = position->x.v;
             position_y_dst = work->unk_08;

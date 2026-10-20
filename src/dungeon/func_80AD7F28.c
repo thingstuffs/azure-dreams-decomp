@@ -7,7 +7,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 
-extern void func_80047784(void *, s32, s32);
+extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
@@ -69,7 +69,7 @@ void func_8015F728(void *controller, void *context, void *sprite, EntityRec *cre
             return;
         }
         ((ActorSpriteView *)sprite)->animationTable = D_80162E44;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_80162E44[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
             0);
         return;
@@ -103,7 +103,7 @@ void func_8015F728(void *controller, void *context, void *sprite, EntityRec *cre
                 anim_table = D_80162DEC;
                 if (((ActorSpriteView *)sprite)->animationTable != anim_table) {
                     ((ActorSpriteView *)sprite)->animationTable = anim_table;
-                    func_80047784(sprite,
+                    select_sprite_entry(sprite,
                         anim_table[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
                         0);
                 }
@@ -124,7 +124,7 @@ void func_8015F728(void *controller, void *context, void *sprite, EntityRec *cre
             begin_actor_move_to_target_facing(controller, context, sprite, creature);
             func_801623E8(controller, context, sprite, creature);
             ((ActorSpriteView *)sprite)->animationTable = D_80162DEC;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 D_80162DEC[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_800A9E70_arg0 *)controller)->unk_90.at00_s32.v = 0;
@@ -245,7 +245,7 @@ void func_8015F728(void *controller, void *context, void *sprite, EntityRec *cre
         return;
     }
     ((ActorSpriteView *)sprite)->animationTable = anim_table;
-    func_80047784(sprite,
+    select_sprite_entry(sprite,
         anim_table[((g_game_work.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
         0);
 }

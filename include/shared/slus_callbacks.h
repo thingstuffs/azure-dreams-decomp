@@ -6,6 +6,7 @@
  * address are code (0x80045340: addiu $sp,-32 / sw $s0 ...), defined by slus/w_80045340.
  * func_80045340: the callback 442 dungeon/town rows hand to func_8004491C (effect/particle registration); it walks
  * a group's entry chain (see slus/w_80045340).  Parameter types are void * here; the row keeps its own views. */
+int project_sprite_chain(void *group_data, int context, void *entry, int unused);
 int func_80045340(void *group_data, int context, void *entry, int unused);
 
 #endif

@@ -12,13 +12,13 @@ void *func_80170F3C(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
     R10_80170F3C_S_80170F3C_4 *result_copy;
 
     result = 0;
-    object = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
         ((R10_80170F3C_S_80170F3C_0 *)object)->unk_10 = ((u8 *)update_actor_callbacks_animation_and_ground);
         ((R10_80170F3C_S_80170F3C_1 *)result)->unk_13 = 10;
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
 
         {
             void *handler;

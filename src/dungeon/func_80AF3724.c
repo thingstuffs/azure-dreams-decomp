@@ -28,7 +28,7 @@ void spawn_randomized_oscillating_effect(s32 unused, R10_80174F24_S_func_80AF372
         } while (angle < 0x1000);
 
         object->unk_10 = ((u8 *)update_effect_motion_and_brightness);
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
 
         display = object->unk_0C;
         display->unk_10 = 0x20;

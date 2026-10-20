@@ -29,7 +29,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
         state->unk_9B = (u8) (state->unk_9B + 1);
         return;
     case 1:
-        func_80041588(((s32 *)D_801742CC), ((s32 *)D_801742E4), 0);
+        run_cd_image_commands(((s32 *)D_801742CC), ((s32 *)D_801742E4), 0);
         state->unk_A6 = 0;
         state->unk_9B = (u8) (state->unk_9B + 1);
         ((Rec_D_80082E80 *)model)->unk_8A = (u16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v;
@@ -45,7 +45,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
             ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x200);
             return;
         }
-        func_80041588(((s32 *)D_801742CC), ((s32 *)D_801742E4), 1);
+        run_cd_image_commands(((s32 *)D_801742CC), ((s32 *)D_801742E4), 1);
         sound_set_cd_cue_parameters(0, (*(s32 *)D_8006CD58), 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         (*(s8 *)((s32 *)D_801742E5)) = 0;
@@ -81,7 +81,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
             return;
         }
         effect->unk_10 = ((void *)fade_entity_colors_to_neutral);
-        func_8004491C(effect, ((void *)func_801736AC));
+        register_node(effect, ((void *)func_801736AC));
         color = 0x808080;
         state->unk_AC = effect;
         effect_model = model;

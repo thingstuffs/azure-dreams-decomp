@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f511800_p04.h"
+#include "dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.h"
 
 /* Advance state and decrement the record count, setting record and global flags at completion. */
 void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, s32 update_arg) {

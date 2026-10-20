@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_812CD0B0",
-      "tu": "src/dungeon/func_8097DD68.c",
+      "tu": "src/dungeon/actor/forward_actor_defeat_removal.c",
       "home": "dungeon/func_8097DD68",
       "foff": "0x12ED0B0",
       "vma": "0x801508B0",

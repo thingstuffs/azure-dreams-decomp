@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Store the current record's signed value and table lookup in the script globals. */
 s32 store_record_value_and_table_lookup(void) {

@@ -2,5 +2,5 @@
 #include "common.h"
 
 /* Returns without performing any work. */
-void func_80021904(void) {
+void no_op_card_stub(void) {
 }

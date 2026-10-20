@@ -1,0 +1,26 @@
+#include "common.h"
+#include "shared/object_flags.h"
+
+/* Sibling of set_object_cleanup_flag/set_object_and_global_removal_flag/propagate_scene_flag (D_800814A0 "used"/
+ * flags word family). Reuses ONE lui-computed base register across the
+ * load and store of D_800814A0 (no second lui) -- per code10.c that shape
+ * needs gcc>=2.8 (2.8.0/2.8.1/2.95.2) or 2.7.2-cdk; adjacent sibling
+ * func_8008EC14 (this container, immediately following) matched at 2.8.1. */
+extern void process_indexed_entry_record(s32 a0);
+
+extern void *D_800CFCA8[];
+
+/* Processes the current index, advances it, and marks completion at 128. */
+void advance_index_and_mark_completion(s32 *currentIndex)
+{
+    s32 nextIndex;
+
+    process_indexed_entry_record(*currentIndex);
+    nextIndex = *currentIndex + 1;
+    *currentIndex = nextIndex;
+    if (nextIndex >= 0x80) {
+        *(u16 *)((u8 *)currentIndex - 2) |= 0x8000;
+        D_800CFCA8[0] = 0;
+        object_flag_block.flags |= 0x8000;
+    }
+}

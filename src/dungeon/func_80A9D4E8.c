@@ -114,7 +114,7 @@ void update_item_activation_and_cleanup(void *action, EntityRec *motion, void *a
             return;
         }
         (*(void * *)((u8 *)actor + 0x2C)) = ((u8 *)D_80174C7C);
-        func_80047784(
+        select_sprite_entry(
             actor,
             ((u8 *)D_80174C7C)[((g_game_work.view.viewAngle + (object->facing) + 0x100) >> 9) & 7],
             0);
@@ -159,7 +159,7 @@ void update_item_activation_and_cleanup(void *action, EntityRec *motion, void *a
 
         if (((R08_80172CE8_S_80172CE8_3 *)actor)->unk_2C != ((u8 *)D_80174C3C)) {
             (*(void * *)((u8 *)actor + 0x2C)) = ((u8 *)D_80174C3C);
-            func_80047784(
+            select_sprite_entry(
                 actor,
                 ((u8 *)D_80174C3C)[((g_game_work.view.viewAngle + (object->facing) + 0x100) >> 9) & 7],
                 0);

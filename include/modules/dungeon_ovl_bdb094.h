@@ -45,7 +45,9 @@ extern u8 D_80150ED8[];
 extern u8 D_80150F00[];
 extern u8 D_8014CA98[];
 
+extern Func80BBB094Object *allocate_list_node(s32, void *);
 extern Func80BBB094Object *func_8003FD64(s32, void *);
+extern void register_node(Func80BBB094Object *, void *);
 extern void func_8004491C(Func80BBB094Object *, void *);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(Func80BBB094PartC *, s32, s32);

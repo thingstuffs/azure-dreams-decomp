@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_1960800.h"
+#include "dungeon/effect/particle/advance_object_spawning_displays_high.h"
 #include "common.h"
 
 
@@ -20,7 +20,7 @@ void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 s
     u8 *state;
     s32 jitter;
 
-    spawned = (Object *)func_8003FD64(0x211, (ObjectNodeHeader **)parent);
+    spawned = (Object *)allocate_list_node(0x211, (ObjectNodeHeader **)parent);
     if (spawned != 0) {
         spawned->callback = func_80024734;
         jitter = rand();
@@ -39,7 +39,7 @@ void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 s
             (jitter & 0x1F) + (held_z_offset - 0x10);
         *(s16 *)(state + 0x14) = state_14;
         *(s16 *)(state + 0x32) = state_32_value;
-        func_8004491C(spawned, (s32)func_800244E4);
+        register_node(spawned, (s32)func_800244E4);
         *(s32 *)(state + 8) = state_08_value;
     }
 }

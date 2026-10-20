@@ -7,7 +7,7 @@
 extern int abs(int);
 
 extern s32 get_cd_command_queue_depth(void);
-extern s32 func_80047784();
+extern s32 select_sprite_entry();
 extern void *scan_monster_along_heading();
 extern void set_record_integer_tile_center();
 extern void advance_status_timers();
@@ -231,7 +231,7 @@ void advance_overlay_actor_action(ActorActionWork *action, EntityRec *motion, Ac
         action->phase++;
         play_sound_if_enabled(0x703);
         sprite->directionFrames = D_80161EDC;
-        func_80047784(
+        select_sprite_entry(
             sprite,
             D_80161EDC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
@@ -282,7 +282,7 @@ void advance_overlay_actor_action(ActorActionWork *action, EntityRec *motion, Ac
             return;
         }
         sprite->directionFrames = D_80161E8C;
-        func_80047784(
+        select_sprite_entry(
             sprite,
             D_80161E8C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);

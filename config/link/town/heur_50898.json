@@ -1,23 +1,23 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/heur_50898",
- "container": "town",
- "foff": "0x50898",
- "size": "0x54",
- "vma": "0x800cdff8",
- "evidence": "work/native_lane/r121_heur/evidence/placements.json",
- "entries": [
-  {
-   "row": "town/func_80050898",
-   "tu": "src/town/func_800D07A0.c",
-   "home": "town/func_800D07A0",
-   "foff": "0x50898",
-   "vma": "0x800cdff8",
-   "size": 84,
-   "bindings": {
-    "0x800cda6c": "0x800cdc2c"
-   },
-   "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/heur_50898",
+  "container": "town",
+  "foff": "0x50898",
+  "size": "0x54",
+  "vma": "0x800cdff8",
+  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "entries": [
+    {
+      "row": "town/func_80050898",
+      "tu": "src/town/person/state/initialize_actor_reaction_and_fixed_state.c",
+      "home": "town/func_800D07A0",
+      "foff": "0x50898",
+      "vma": "0x800cdff8",
+      "size": 84,
+      "bindings": {
+        "0x800cda6c": "0x800cdc2c"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
+    }
+  ]
 }

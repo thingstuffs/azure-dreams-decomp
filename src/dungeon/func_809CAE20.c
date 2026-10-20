@@ -22,7 +22,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
         if (rand() & 3) {
             ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = ((u8 *)D_80173CBC);
             (*(s32 *)((u8 *)action + 0xA4)) = 0;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8
                     [((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
@@ -30,7 +30,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80173CA4);
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             ((u8 *)D_80173CA4)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((R03_80172620_S_80172620_0 *)action)->unk_9B++;
@@ -39,14 +39,14 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
     case 1:
         if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) &&
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) {
-            allocated_effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+            allocated_effect = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
             ((R03_80172620_S_80172620_0 *)action)->unk_A4.s = allocated_effect;
             effect = allocated_effect;
             if (effect != 0) {
                 s32 sprite_link;
                 s32 sprite_data;
 
-                func_8004491C(effect, func_80045340);
+                register_node(effect, project_sprite_chain);
                 ((R03_80172620_S_80172620_3 *)effect)->unk_10 = ((u8 *)D_800D7960);
                 effect_transform = ((R03_80172620_S_80172620_3 *)effect)->unk_08;
                 *(R03_80172620_Copy24 *)effect_transform = *(R03_80172620_Copy24 *)transform;
@@ -63,7 +63,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
                 sprite_data = ((Rec_D_80082E80 *)sprite)->unk_0C.at00_s32.v;
                 ((R03_80172620_S_80172620_4 *)effect_sprite)->unk_2C = ((u8 *)D_80173CB4);
                 ((R03_80172620_S_80172620_4 *)effect_sprite)->unk_0C = sprite_data;
-                func_80047784(effect_sprite,
+                select_sprite_entry(effect_sprite,
                     ((u8 *)D_80173CB4)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
@@ -73,7 +73,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80173CAC);
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             ((u8 *)D_80173CAC)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((R03_80172620_S_80172620_0 *)action)->unk_9B++;
@@ -84,7 +84,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
             void *active_effect;
 
             (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80173CBC);
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 ((u8 *)D_80173CBC)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             active_effect = ((R03_80172620_S_80172620_0 *)action)->unk_A4.s;

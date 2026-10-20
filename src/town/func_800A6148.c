@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 #include "common.h"
 
-extern void func_80033D08(void *object);
+extern void unlink_node_if_registered(void *object);
 
 void decrease_primitive_brightness_and_mark_cleanup(void *object, void *unusedContext, u8 *primitive)
 {
@@ -18,7 +18,7 @@ void decrease_primitive_brightness_and_mark_cleanup(void *object, void *unusedCo
     if (brightness != 0) {
         return;
     }
-    func_80033D08(object);
+    unlink_node_if_registered(object);
     *(u16 *)((u8 *)object - 2) |= 0x8000;
     object_flag_block.flags |= 0x8000;
 }

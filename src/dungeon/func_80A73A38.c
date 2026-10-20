@@ -59,7 +59,7 @@ void settle_directional_motion_at_tile(void *motion_state, void *motion, void *s
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174150);
-        func_80047784(
+        select_sprite_entry(
             sprite,
             ((u8 *)D_80174150)[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
@@ -74,7 +74,7 @@ void settle_directional_motion_at_tile(void *motion_state, void *motion, void *s
         }
 
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174150);
-        func_80047784(
+        select_sprite_entry(
             sprite,
             ((u8 *)D_80174150)[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);

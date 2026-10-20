@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 s32 is_value_within_inclusive_bounds(s16 value, s32 lower_bound, s16 upper_bound)
 {

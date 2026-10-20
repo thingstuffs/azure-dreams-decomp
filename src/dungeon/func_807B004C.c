@@ -50,10 +50,10 @@ void func_800F784C(void *parent_data) {
     S_807B004C_1 *render_state;
     S_807B004C_2 *child_data;
 
-    child = func_8003FD64(2, (u8 *)parent_data - 0x20);
+    child = allocate_list_node(2, (u8 *)parent_data - 0x20);
     if (child != 0) {
         ((S_807B004C_0 *)child)->unk_10 = update_owner_attached_color_effect;
-        func_8004491C(child, func_80045340);
+        register_node(child, project_sprite_chain);
         rect_origin = 0x01000340;
         rect_size = 0x200020;
         rect_ptr = &texture_rect;

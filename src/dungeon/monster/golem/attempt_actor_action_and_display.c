@@ -1,0 +1,114 @@
+#include "common.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+
+typedef struct S_80172050_0 {
+    u8 pad_00[0x2A];
+    s16 unk_2A;
+    u8 pad_2C[0x1A];
+    u16 unk_46;
+    u8 pad_48[0x29];
+    u8 unk_71;
+    u8 pad_72[0x12];
+    s8 unk_84;
+    s8 unk_85;
+} S_80172050_0;   /* actor in attempt_actor_action_and_display */
+
+typedef struct S_80172050_1 {
+    u8 pad_00[0x24];
+    u8 unk_24;
+    u8 unk_25;
+} S_80172050_1;   /* actor_info in attempt_actor_action_and_display */
+
+typedef struct S_80172050_2 {
+    u8 pad_00[0x8C];
+    s32 unk_8C;
+    u8 pad_90[0xA];
+    s8 unk_9A;
+    s8 unk_9B;
+} S_80172050_2;   /* out in attempt_actor_action_and_display */
+
+typedef struct S_80172050_3 {
+    u8 pad_00[0x2A];
+    s16 unk_2A;
+    u8 pad_2C[0x41];
+    u8 unk_6D;
+} S_80172050_3;   /* acting_actor in attempt_actor_action_and_display */
+
+
+extern void select_sprite_entry(void *, s32, s32);
+extern void prepare_directional_attack(void *, void *, s32, s32, s32);
+extern s32 get_actor_height_difference(s32, void *);
+extern s32 place_actor_at_directional_neighbor(void *, s32, s32, s32);
+extern s32 try_claim_dungeon_action_slot(void *);
+extern s32 check_entity_interaction_compatibility(void *, s32);
+extern void apply_camera_offset_and_select_target(void *, s32, s32, s32);
+
+extern u8 D_80175F48;
+
+/* Attempts an actor action and initializes its output and directional display on success. */
+s32 attempt_actor_action_and_display(void *action_out, s32 action_param, void *actor_info, void *acting_actor)
+{
+    s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
+    u8 *direction_table;
+    s32 computed_angle;
+    s32 result;
+    s32 action_code;
+    u16 state_flags;
+
+    ((S_80172050_0 *)acting_actor)->unk_71 &= 0x7F;
+    if (g_dungeon_status.flags & 0x2000) {
+        result = -1;
+        return result;
+    }
+
+    computed_angle = place_actor_at_directional_neighbor(acting_actor, ((S_80172050_1 *)actor_info)->unk_24,
+        ((S_80172050_1 *)actor_info)->unk_25, ((S_80172050_0 *)acting_actor)->unk_2A);
+    if ((check_entity_interaction_compatibility(((void *)(acting_actor)), computed_angle) << 16) == 0) {
+        result = 0;
+        return result;
+    }
+
+    state_flags = g_dungeon_status.flags;
+    if (state_flags & 0x2000) {
+        result = -1;
+        return result;
+    }
+    if (!(((S_80172050_0 *)acting_actor)->unk_46 & 0x8000)) {
+        if (state_flags & 8) {
+            result = -1;
+            return result;
+        }
+    }
+
+    if ((u16)(-get_actor_height_difference(computed_angle, acting_actor) + 0x3F) >= 0x7F) {
+        result = 0;
+        return result;
+    }
+    if ((try_claim_dungeon_action_slot(acting_actor) << 16) != 0) {
+        result = -1;
+        return result;
+    }
+
+    apply_camera_offset_and_select_target((u8 *)acting_actor - 0x20, action_param, 8, 0x300);
+    if ((try_claim_dungeon_action_slot(acting_actor) << 16) != 0) {
+        result = -1;
+    } else {
+        ((S_80172050_2 *)action_out)->unk_9A = 0x11;
+        action_code = 0x7C;
+        ((S_80172050_2 *)action_out)->unk_9B = 0;
+        ((S_80172050_2 *)action_out)->unk_8C = 0;
+        ((S_80172050_0 *)acting_actor)->unk_84 = action_code;
+        ((S_80172050_0 *)acting_actor)->unk_85 = 4;
+        direction_table = &D_80175F48;
+        (*(void * *)((u8 *)actor_info + 0x2C)) = direction_table;
+        select_sprite_entry(actor_info,
+            direction_table[((g_game_work.view.viewAngle + ((S_80172050_0 *)acting_actor)->unk_2A + 0x100) >> 9) & 7],
+            0);
+        ((S_80172050_3 *)acting_actor)->unk_6D--;
+        prepare_directional_attack(acting_actor, actor_info, ((S_80172050_3 *)acting_actor)->unk_2A, 1, 0);
+        result = 1;
+    }
+    return result;
+}
+

@@ -44,7 +44,7 @@
       "vma": 2147563284,
       "view_bytes": 2,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_door.h",
+      "declaration": "include/town/map/door.h",
       "evidence": "docs/evidence/town_door_22f08.imports.json"
     },
     "D_8006CD58": {
@@ -53,7 +53,7 @@
       "vma": 2147929432,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_door.h",
+      "declaration": "include/town/map/door.h",
       "evidence": "docs/evidence/town_door_22f08.imports.json"
     },
     "D_8008146C": {
@@ -62,7 +62,7 @@
       "vma": 2148013164,
       "view_bytes": 2,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_door.h",
+      "declaration": "include/town/map/door.h",
       "evidence": "docs/evidence/town_door_22f08.imports.json"
     },
     "D_80081498": {
@@ -71,7 +71,7 @@
       "vma": 2148013208,
       "view_bytes": 12,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_door.h",
+      "declaration": "include/town/map/door.h",
       "evidence": "docs/evidence/town_door_22f08.imports.json"
     },
     "D_800814A0": {
@@ -80,7 +80,7 @@
       "vma": 2148013216,
       "view_bytes": 16,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_door.h",
+      "declaration": "include/town/map/door.h",
       "evidence": "docs/evidence/town_door_22f08.imports.json"
     },
     "D_80082E60": {
@@ -89,7 +89,7 @@
       "vma": 2148019808,
       "view_bytes": 18,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_door.h",
+      "declaration": "include/town/map/door.h",
       "evidence": "docs/evidence/town_door_22f08.imports.json"
     },
     "D_800834B8": {
@@ -98,7 +98,7 @@
       "vma": 2148021432,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_door.h",
+      "declaration": "include/town/map/door.h",
       "evidence": "docs/evidence/town_door_22f08.imports.json"
     }
   },

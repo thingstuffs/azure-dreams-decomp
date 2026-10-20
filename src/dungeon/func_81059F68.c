@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f0f7800_p03.h"
+#include "dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.h"
 
 /* Updates actor movement, choosing a direction and recording its path. */
 void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void *entry_context, u8 *position, u8 *actor)

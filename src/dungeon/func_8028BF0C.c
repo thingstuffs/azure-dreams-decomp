@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_spawns.h"
+#include "dungeon/level/spawn.h"
 
 void restore_spawns_and_place_floor_traps(void) {
     u8 x;

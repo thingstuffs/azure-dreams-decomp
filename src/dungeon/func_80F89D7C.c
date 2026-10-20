@@ -22,12 +22,12 @@ typedef struct S_8017357C_0 {
    /* counter_base in handle_actor_action_effects */
 
 
-extern s32 func_80042900(void *, s32);
-extern void func_80042B68(void *, s32);
+extern s32 get_entity_effect_value(void *, s32);
+extern void clear_slots_of_type(void *, s32);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern s32 generate_random_value(void);
-extern void func_800A9A04(void *);
+extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_food(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -48,7 +48,7 @@ void handle_actor_action_effects(void *controller, EntityRec *motion, void *spri
             return;
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AFC;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_80174AFC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((TrailHeightView *)(u8 *)&g_dungeon_status.unk_00)->unk_0A = ((TrailHeightView *)(u8 *)&g_dungeon_status.unk_00)->unk_0A
@@ -56,9 +56,9 @@ void handle_actor_action_effects(void *controller, EntityRec *motion, void *spri
         ((S_8017357C_0 *)controller)->unk_9B++;
         return;
     case 1:
-        if ((func_80042900(actor, 1) << 16) == 0) {
+        if ((get_entity_effect_value(actor, 1) << 16) == 0) {
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174B04;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 D_80174B04[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             actor_flags = actor->flags1C | 0x40000;
@@ -116,23 +116,23 @@ void handle_actor_action_effects(void *controller, EntityRec *motion, void *spri
             }
         }
         update_actor_status_and_food(actor);
-        func_800A9A04(actor);
-        if ((func_80042900(actor, 1) << 16) != 0) {
+        on_actor_status_updated(actor);
+        if ((get_entity_effect_value(actor, 1) << 16) != 0) {
             TileObject *origin = &D_80082E80;
             s8 tile = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
 
             if (((tile == origin->unk_026) && (tile >= 0)) ||
                 ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
                 if (!(generate_random_value() & 7)) {
-                    func_80042B68(actor, 1);
+                    clear_slots_of_type(actor, 1);
                 }
             }
         }
-        if ((func_80042900(actor, 1) << 16) != 0) {
+        if ((get_entity_effect_value(actor, 1) << 16) != 0) {
             return;
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174B04;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_80174B04[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         actor_flags = actor->flags1C | 0x40000;
@@ -159,7 +159,7 @@ void handle_actor_action_effects(void *controller, EntityRec *motion, void *spri
         motion->flags14 = 0;
         ((S_8017357C_0 *)controller)->unk_A0 = 0;
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AD4;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_80174AD4[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {

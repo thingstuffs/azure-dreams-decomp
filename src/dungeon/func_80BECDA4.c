@@ -150,7 +150,7 @@ void update_overlay_object_action(void *owner, void *motion, void *actor, void *
             u8 *direction_table = ((u8 *)D_8017420C);
             if (((SpriteAnimationTableView *)actor)->unk_2C != direction_table) {
                 (*(u8 * *)((u8 *)actor + 0x2C)) = direction_table;
-                func_80047784(
+                select_sprite_entry(
                     actor,(u8)(direction_table[((g_game_work.view.viewAngle + ((R16_801725A4_S_801725A4_1 *)object)->unk_2A + 0x100) >> 9) & 7]),
                     0);
             }

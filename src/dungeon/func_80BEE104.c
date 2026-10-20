@@ -17,7 +17,7 @@ void create_angled_source_effect(
         state->unk_20 = 0x14;
         state->unk_1E = angle;
         ((R16_80173904_S_80173904_1 *)object)->unk_10 = ((void *)update_expanding_spiral_effect);
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
 
         display = ((R16_80173904_S_80173904_1 *)object)->unk_0C;
         display->unk_10 = 0x60;

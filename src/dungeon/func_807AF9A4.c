@@ -37,7 +37,7 @@ void advance_linked_particle_effect_state(S807AF9A4 *data)
         data->flag_e = 0;
         data->buf[0x20] = 0;
         data->flag_f = 1;
-        func_8004491C((u8 *)data - 0x20, (void *)draw_linked_particle_effect_primitives);
+        register_node((u8 *)data - 0x20, (void *)draw_linked_particle_effect_primitives);
         data->state = (u16) data->state + 1;
     }
     cycle_count = data->counter1 + 1;

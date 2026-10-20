@@ -5,12 +5,16 @@ from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import levels as L
 from gate import gen_noreturn_syms as G
+from source_layout import row_path, inline_records
 
 class ScopedLevelTests(unittest.TestCase):
     def test_real_returning_call_is_not_a_foreign_bank_tail(self):
         root=Path(__file__).resolve().parents[2]
         rows={r['id']:r for r in map(json.loads,(root/'ledger/rows.jsonl').read_text().splitlines())}
-        r=rows['dungeon/func_81874F04'];text=(root/'src/dungeon/func_81874F04.c').read_text()
+        r=rows['dungeon/func_81874F04'];data=row_path(r,root).read_bytes()
+        span=next((s for s in inline_records(root) if s['member_id']==r['id']),None)
+        if span:data=data[span['offset']:span['offset']+span['inlined_bytes']]
+        text=data.decode()
         self.assertIn('func_80024188',(root/'config/noreturn_syms.dungeon.txt').read_text())
         self.assertNotIn('func_80024188',G.scoped_census('dungeon',r['foff'],root=root)['names'])
         with patch.object(L,'ROOT',root):self.assertEqual(L.tail_jump_targets(r,text),[])

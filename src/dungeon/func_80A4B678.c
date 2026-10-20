@@ -36,7 +36,7 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
         sub->field_1A = initial_count;
         sub->field_1C = source->field_96;
         entity->callback = update_callback;
-        func_8004491C(setup_entity, func_80045340);
+        register_node(setup_entity, project_sprite_chain);
 
         prim = entity->prim;
         prim_flags_ptr = &prim->field_14;

@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Create a record, assign its handler, and run the remaining initialization routines. */
 void func_8009CE34(void) {

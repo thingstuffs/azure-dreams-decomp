@@ -23,10 +23,13 @@ void initialize_record_visual_state(struct S_800BDFA0_0 *record, s32 unused, s32
 void copy_record_state_to_destination(struct TownPropAnimationActor *self, s32 unused_value, struct TownPropAnimationDestination *destination);
 void advance_actor_animation_pose(struct S_800BE214_0 *actor, struct TrailHeightView *pose, Rec_D_80082E80 *animation);
 void func_8003DB94(void *destination, void *animation, s16 mode);
+void *allocate_list_node(s32 object_type, void *list);
 void *func_8003FD64(s32 object_type, void *list);
+s32 register_node(void *entry, s32 registration_id);
 s32 func_8004491C(void *entry, s32 registration_id);
 void func_800478B8(void *animation);
 s32 check_transform_identifier_and_hook(s32 requested_id);
+s32 service_script_controller(void);
 s32 func_800352FC(void);
 s32 func_80064584(s32 angle);
 s32 rand(void);

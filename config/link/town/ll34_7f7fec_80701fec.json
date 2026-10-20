@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_80878110",
-      "tu": "src/town/func_80878110.c",
+      "tu": "src/town/devkit/shop_skip_accepted_entries.c",
       "home": "town/func_80878110",
       "foff": "0x7F8110",
       "vma": "0x80702110",
@@ -17,7 +17,7 @@
     },
     {
       "row": "town/func_80878180",
-      "tu": "src/town/func_80878180.c",
+      "tu": "src/town/devkit/state/shop_set_entry_step_flag.c",
       "home": "town/func_80878180",
       "foff": "0x7F8180",
       "vma": "0x80702180",
@@ -25,7 +25,7 @@
     },
     {
       "row": "town/func_808781C8",
-      "tu": "src/town/func_808781C8.c",
+      "tu": "src/town/devkit/shop_advance_entry_step.c",
       "home": "town/func_808781C8",
       "foff": "0x7F81C8",
       "vma": "0x807021C8",
@@ -33,7 +33,7 @@
     },
     {
       "row": "town/func_80878260",
-      "tu": "src/town/func_80878260.c",
+      "tu": "src/town/devkit/shop_find_first_eligible_entry.c",
       "home": "town/func_80878260",
       "foff": "0x7F8260",
       "vma": "0x80702260",
@@ -41,7 +41,7 @@
     },
     {
       "row": "town/func_808782BC",
-      "tu": "src/town/func_808782BC.c",
+      "tu": "src/town/devkit/shop_process_entry_pairs.c",
       "home": "town/func_808782BC",
       "foff": "0x7F82BC",
       "vma": "0x807022BC",
@@ -49,7 +49,7 @@
     },
     {
       "row": "town/func_80878670",
-      "tu": "src/town/func_80878670.c",
+      "tu": "src/town/shop/state/shop_set_indexed_flag.c",
       "home": "town/func_80878670",
       "foff": "0x7F8670",
       "vma": "0x80702670",
@@ -57,7 +57,7 @@
     },
     {
       "row": "town/func_808786C0",
-      "tu": "src/town/func_808786C0.c",
+      "tu": "src/town/shop/state/shop_clear_indexed_flag.c",
       "home": "town/func_808786C0",
       "foff": "0x7F86C0",
       "vma": "0x807026C0",
@@ -65,7 +65,7 @@
     },
     {
       "row": "town/func_80878714",
-      "tu": "src/town/func_80878714.c",
+      "tu": "src/town/shop/state/shop_test_indexed_flag.c",
       "home": "town/func_80878714",
       "foff": "0x7F8714",
       "vma": "0x80702714",

@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_808B7ED8",
-      "tu": "src/town/func_80878180.c",
+      "tu": "src/town/devkit/state/shop_set_entry_step_flag.c",
       "home": "town/func_80878180",
       "foff": "0x837ED8",
       "vma": "0x800036D8",

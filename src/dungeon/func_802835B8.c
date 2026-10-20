@@ -45,7 +45,7 @@ void initialize_dungeon_actor(void) {
     D_800DCF5A = 1;
     allocation = initialize_scene_object_in_buffer(0, ((u8 *)(&D_80083498)), 0x53);
     ((dungeon_setup_802835B8_S_800165B8_0 *)allocation)->unk_10 = D_80089AA0;
-    func_8004491C(allocation, func_80045340);
+    register_node(allocation, project_sprite_chain);
     actor_storage = ((u8 *)(&D_80083780.x.v));
     ((dungeon_setup_802835B8_S_800165B8_0 *)allocation)->unk_08 = actor_storage;
     actor = actor_storage;
@@ -63,7 +63,7 @@ void initialize_dungeon_actor(void) {
 retry_position:
         do {
         } while (select_dungeon_spawn_tile(&pos_x, &pos_y) < 0);
-        if (D_80012090 != 0 || func_80033BC0(0x1389) != 0) {
+        if (D_80012090 != 0 || test_resident_bit(0x1389) != 0) {
             goto position_selected;
         }
         call_target = actor;
@@ -154,7 +154,7 @@ initialize_position:
     } while (entry_index >= 0);
     D_800E3D18 = D_800E3CF8;
 
-    if ((func_80042900(entity, 0xA) << 16) != 0) {
+    if ((get_entity_effect_value(entity, 0xA) << 16) != 0) {
         (*(void * *)((u8 *)state + 0x2C)) = D_800DD274;
         func_8003DB94(state,
             *(void **)((u8 *)D_800DD274 +

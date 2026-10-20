@@ -26,7 +26,7 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 
     saved_copy_value = copy_value;
     saved_tile_y = tile_y;
-    allocated = func_8003FD64(allocation_size, allocation_pool);
+    allocated = allocate_list_node(allocation_size, allocation_pool);
     kind_copy = saved_kind;
     root = allocated;
     if (allocated != 0) {
@@ -36,10 +36,10 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 
             object = (u8 *)allocated + 0x20;
             init_root = allocated;
-            setup = func_80045340;
+            setup = project_sprite_chain;
             ((R17_8017089C_S_8017089C_0 *)init_root)->unk_10 = ((u8 *)create_anchored_directional_object);
             ((R17_8017089C_S_8017089C_1 *)object)->unk_13 = 17;
-            func_8004491C(init_root, setup);
+            register_node(init_root, setup);
         }
 
         {
@@ -99,7 +99,7 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 
         do {
 
-            saved_copy_value = (s32)func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+            saved_copy_value = (s32)allocate_list_node(0x112, ((u8 *)(&D_80083498)));
             allocated = (void *)saved_copy_value;
             ((R17_8017089C_S_8017089C_5 *)outer)->unk_A4 = allocated;
             if (allocated != 0) {
@@ -134,7 +134,7 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
                     (*(void * *)((u8 *)item + 0x2C)) = table;
                     direction_index = (((*(s16 *)D_80083228) +
                         ((R17_8017089C_S_8017089C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
-                    func_80047784(item,
+                    select_sprite_entry(item,
                         *(u8 *)((R17_8017089C_uptr)direction_index + (R17_8017089C_uptr)table), call_zero);
                     item_offset += 0x30;
                     item_index++;

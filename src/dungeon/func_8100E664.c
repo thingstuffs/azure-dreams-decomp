@@ -96,7 +96,7 @@ typedef struct SignedHeight {
     s16 integer;
 } SignedHeight;
 
-void func_80047784();
+void select_sprite_entry();
 void cycle_map_cell_flags();
 s32 func_8009A2B8();
 void update_map_cell_flags_with_item_limit();
@@ -266,7 +266,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, ActorSp
         sprite->directionFrames = anim_table0;
         launch_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         launch_anim = launch_anim + (u32) anim_table0;
-        func_80047784(sprite, ((AnimationFrame *) launch_anim)->frame, 0);
+        select_sprite_entry(sprite, ((AnimationFrame *) launch_anim)->frame, 0);
         actor->phase = (u8) (actor->phase + 1);
     case 1:
         launch_ticks = (u16) actor->ticks - 1;
@@ -296,7 +296,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, ActorSp
         sprite->directionFrames = anim_table1;
         fall_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         fall_anim = fall_anim + (u32) anim_table1;
-        func_80047784(sprite, ((AnimationFrame *) fall_anim)->frame, 0);
+        select_sprite_entry(sprite, ((AnimationFrame *) fall_anim)->frame, 0);
         actor->phase = actor->phase + 1;
         return;
     case 2:
@@ -378,7 +378,7 @@ commit_tile_positions:
         *(u8 **)((u8 *)sprite + (u32)&((ActorSprite *)0)->directionFrames) = anim_table2;
         rise_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         rise_anim = rise_anim + (u32) anim_table2;
-        func_80047784(sprite, ((AnimationFrame *) rise_anim)->frame, 0);
+        select_sprite_entry(sprite, ((AnimationFrame *) rise_anim)->frame, 0);
         refresh_actor_proximity_state(entity);
         refresh_actor_proximity_state(partner);
         actor->phase = actor->phase + 1;
@@ -493,7 +493,7 @@ commit_tile_positions:
         sprite->directionFrames = anim_table3;
         idle_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         idle_anim = idle_anim + (u32) anim_table3;
-        func_80047784(sprite, ((AnimationFrame *) idle_anim)->frame, 0);
+        select_sprite_entry(sprite, ((AnimationFrame *) idle_anim)->frame, 0);
         ((CreatureState *)entity)->actionsLeft = 0;
         ((CreatureState *)entity)->action = (u16) (((CreatureState *)entity)->action & 0x7FFF);
         actor->phase = actor->phase + 1;

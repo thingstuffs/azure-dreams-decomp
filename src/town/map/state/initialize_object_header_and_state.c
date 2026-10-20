@@ -1,0 +1,37 @@
+#include "common.h"
+#include "shared/dungeon_delay_views.h"
+
+s32 register_node();           /* extern */
+void update_four_phase_animation(void *entity, void *context);
+s32 draw_randomized_white_points(void *first_object, void *first_coords);
+
+typedef struct S_800BB4A0_0 {
+    u8 pad_00[0x10];
+    s32 * unk_10;
+} S_800BB4A0_0;
+
+typedef struct S_800BB4A0_1 {
+    u8 pad_00[0x66];
+    s16 unk_66;
+    s16 unk_68;
+    u8 pad_6A[0x2];
+    s16 unk_6C;
+    u8 pad_6E[0x29];
+    s8 unk_97;
+} S_800BB4A0_1;   /* arg0 in initialize_object_header_and_state */
+
+   /* arg1 in initialize_object_header_and_state */
+
+/* Initializes an object's header and state, including its associated state value. */
+void initialize_object_header_and_state(void *objectState, DelayMotionZ *associatedState) {
+    S_800BB4A0_0 *objectHeader;
+
+    objectHeader = objectState - 0x20;
+    objectHeader->unk_10 = &update_four_phase_animation;
+    register_node(objectHeader, &draw_randomized_white_points);
+    ((S_800BB4A0_1 *)objectState)->unk_97 = 0x48;
+    ((S_800BB4A0_1 *)objectState)->unk_68 = 0;
+    ((S_800BB4A0_1 *)objectState)->unk_6C = 0;
+    ((S_800BB4A0_1 *)objectState)->unk_66 = 0;
+    associatedState->unk_08 = 0xFFA00000;
+}

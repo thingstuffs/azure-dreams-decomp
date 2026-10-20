@@ -16,8 +16,8 @@ void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_co
         ((R12_80175180_S_80175180_0 *)state)->unk_0A = ((R12_80175180_S_80175180_1 *)source_arg)->unk_96;
         ((R12_80175180_S_80175180_0 *)state)->unk_0C = 0;
         ((R12_80175180_S_80175180_2 *)effect)->unk_10 = ((u8 *)build_animated_spherical_wireframe);
-        source_arg = func_80045340;
-        func_8004491C(effect, source_arg);
+        source_arg = project_sprite_chain;
+        register_node(effect, source_arg);
         render_part = ((R12_80175180_S_80175180_2 *)effect)->unk_0C;
         render_flags = (*(u16 *)((u8 *)render_part + 0x14));
         render_flags |= 0xC;

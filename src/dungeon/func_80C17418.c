@@ -101,7 +101,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
 
             sub_actor->flags4 &= 0x7FFF;
             actor_base->f2C = (void (*)(void))((u8 *)D_801744E4);
-            func_80047784(
+            select_sprite_entry(
                 actor_base,
                 ((u8 *)D_801744E4)[((g_game_work.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
                 0);
@@ -142,7 +142,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
         state->u90.h.half92 += (-0x60 - (s16)state->u90.h.half92) >> 3;
         if (actor->flags14 & 0xE000) {
             actor->f2C = (void (*)(void))((u8 *)D_801744DC);
-            func_80047784(
+            select_sprite_entry(
                 actor,
                 ((u8 *)D_801744DC)[((g_game_work.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
                 0);
@@ -189,7 +189,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
             state->fA8 = 0;
             state->flags98 &= 0xBFFF;
             actor->f2C = (void (*)(void))((u8 *)D_80174494);
-            func_80047784(
+            select_sprite_entry(
                 actor,
                 ((u8 *)D_80174494)[((g_game_work.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
                 state->fA8);

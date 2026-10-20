@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f0f7800_p05.h"
+#include "dungeon/monster/tyrant/advance_a_timed_actor_animation_applies_completion_effects.h"
 
 /* Advances a timed actor animation and applies its completion effects. */
 void advance_a_timed_actor_animation_applies_completion_effects(T_801727CC_Obj0 *action, s32 context, T_801727CC_Obj2 *sprite, T_801727CC_Obj3 *actor) {
@@ -25,7 +25,7 @@ void advance_a_timed_actor_animation_applies_completion_effects(T_801727CC_Obj0 
             ticks_left = 4;
         }
         action->field96 = ticks_left;
-        func_80047784(sprite, sprite->field2C[(((s32) (g_game_work.view.viewAngle + actor->field2A + 0x100) >> 9) & 7)],
+        select_sprite_entry(sprite, sprite->field2C[(((s32) (g_game_work.view.viewAngle + actor->field2A + 0x100) >> 9) & 7)],
             0);
         action->field9B++;
         return;

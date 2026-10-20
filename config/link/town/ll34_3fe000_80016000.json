@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_8047F478",
-      "tu": "src/town/func_8032EBF4.c",
+      "tu": "src/town/shop/clear_bytes.c",
       "home": "town/func_8032EBF4",
       "foff": "0x3FF478",
       "vma": "0x80017478",
@@ -21,7 +21,7 @@
     },
     {
       "row": "town/func_8047F4A0",
-      "tu": "src/town/func_8032EC1C.c",
+      "tu": "src/town/scene/copy_words.c",
       "home": "town/func_8032EC1C",
       "foff": "0x3FF4A0",
       "vma": "0x800174A0",
@@ -33,7 +33,7 @@
     },
     {
       "row": "town/func_8047F4CC",
-      "tu": "src/town/func_8032EC48.c",
+      "tu": "src/town/scene/dialogue/copy_string.c",
       "home": "town/func_8032EC48",
       "foff": "0x3FF4CC",
       "vma": "0x800174CC",
@@ -45,7 +45,7 @@
     },
     {
       "row": "town/func_8047F508",
-      "tu": "src/town/func_8032EC84.c",
+      "tu": "src/town/scene/dialogue/append_string.c",
       "home": "town/func_8032EC84",
       "foff": "0x3FF508",
       "vma": "0x80017508",
@@ -57,7 +57,7 @@
     },
     {
       "row": "town/func_8047F568",
-      "tu": "src/town/func_803304E8.c",
+      "tu": "src/town/player/state/set_script_flag_bit.c",
       "home": "town/func_803304E8",
       "foff": "0x3FF568",
       "vma": "0x80017568",
@@ -70,7 +70,7 @@
     },
     {
       "row": "town/func_8047F5E0",
-      "tu": "src/town/func_80330560.c",
+      "tu": "src/town/player/state/clear_script_flag_bit.c",
       "home": "town/func_80330560",
       "foff": "0x3FF5E0",
       "vma": "0x800175E0",
@@ -83,7 +83,7 @@
     },
     {
       "row": "town/func_8047F660",
-      "tu": "src/town/func_803305E0.c",
+      "tu": "src/town/player/state/get_script_flag_mask.c",
       "home": "town/func_803305E0",
       "foff": "0x3FF660",
       "vma": "0x80017660",

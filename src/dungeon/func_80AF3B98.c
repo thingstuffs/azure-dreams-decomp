@@ -14,7 +14,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
         return;
 
     case 1:
-        func_80041588(((u8 *)D_801759F8), ((u8 *)D_80175A80), 0);
+        run_cd_image_commands(((u8 *)D_801759F8), ((u8 *)D_80175A80), 0);
         ((R10_80175398_S_80175398_0 *)transition)->unk_AC = 0;
         ((R10_80175398_S_80175398_0 *)transition)->unk_9B++;
         ((R10_80175398_S_80175398_1 *)actor)->unk_8A = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
@@ -33,7 +33,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
             ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u = angle + 0x200;
             return;
         }
-        func_80041588(((u8 *)D_801759F8), ((u8 *)D_80175A80), 1);
+        run_cd_image_commands(((u8 *)D_801759F8), ((u8 *)D_80175A80), 1);
         sound_set_cd_cue_parameters(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), 0);
         (*(u8 *)D_80175A81) = 0;
@@ -83,7 +83,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
             R10_80175398_DungeonEffect *effect = (R10_80175398_DungeonEffect *)object_data;
 
             effect->resource = ((u8 *)func_8017526C);
-            func_8004491C(effect, ((u8 *)func_80174BE4));
+            register_node(effect, ((u8 *)func_80174BE4));
             ((R10_80175398_S_80175398_0 *)transition)->unk_A8.p = effect;
             effect->child->x = ((R10_80175398_DungeonCopy3 *)position)->x;
             effect->child->y = ((R10_80175398_DungeonCopy3 *)position)->y;

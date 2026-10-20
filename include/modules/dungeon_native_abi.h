@@ -7,12 +7,14 @@
  * Retail 800478B8: updates the supplied render entry in place; callers discard no value.
  * The registration key may carry a callback's address (func_80045340).
  */
+ObjectNodeHeader *allocate_list_node(s32 flags, ObjectNodeHeader **head);
 ObjectNodeHeader *func_8003FD64(s32 flags, ObjectNodeHeader **head);
 /* Retail TUs declared 800BCB04 differently: the native banks below used s32,
  * while FA7000 declared s16. Preserve both declarations in their separate TUs;
  * the FA7000 row and native byte proofs cover its signed-halfword spelling. */
 #include "shared/dungeon_height_query.h"
 /* Some retail callers supply an additional ignored context word in a2. */
+s32 register_node(void *entry, s32 registration_key, ...);
 s32 func_8004491C(void *entry, s32 registration_key, ...);
 void func_800478B8(void *render_entry);
 s32 play_sound_if_enabled(s32 query_value);

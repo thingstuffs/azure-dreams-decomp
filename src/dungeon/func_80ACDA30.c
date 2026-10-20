@@ -51,9 +51,9 @@ typedef struct {
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 get_cd_command_queue_depth(void);
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
-extern void func_80047784(void *, s32, s32);
+extern void *allocate_list_node(s32, void *);
+extern void register_node(void *, void *);
+extern void select_sprite_entry(void *, s32, s32);
 extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
@@ -261,7 +261,7 @@ void update_three_action_records(void *action, EntityRec *motion, void *sprite, 
             timer = ((ItemEffectActionState *)action)->timer.unsignedTicks - 1;
             ((ItemEffectActionState *)action)->timer.unsignedTicks = timer;
             if (timer == 0xB || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-                effect_handle = (s32)func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+                effect_handle = (s32)allocate_list_node(0x112, ((u8 *)(&D_80083498)));
                 if (effect_handle != 0) {
                     void *actor_model;
                     u8 animation_id;
@@ -278,10 +278,10 @@ void update_three_action_records(void *action, EntityRec *motion, void *sprite, 
                     ((ItemEffectSpriteView *)item_slot)->blue = 0x80;
                     ((ItemEffectSpriteView *)item_slot)->green = 0x80;
                     ((ItemEffectSpriteView *)item_slot)->red = 0x80;
-                    func_8004491C((void *)effect_handle, func_80045340);
+                    register_node((void *)effect_handle, project_sprite_chain);
                     animation_id = D_8016EE34[0];
                     ((ItemEffectSpriteView *)item_slot)->animationTable = D_8016EE34;
-                    func_80047784(item_slot, animation_id, 0);
+                    select_sprite_entry(item_slot, animation_id, 0);
                     ((ItemEffectSpriteView *)item_slot)->drawOffset = 0x20;
                     ((ItemEffectSpriteView *)item_slot)->drawAttributes = 0xFF80;
                     ((ItemEffectSpriteView *)item_slot)->flags |= 0x0C;
@@ -364,7 +364,7 @@ void update_three_action_records(void *action, EntityRec *motion, void *sprite, 
                 animations = D_8016EDEC;
                 ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = animations;
                 direction = ((g_game_work.view.viewAngle + ((ActorActionBytesView *)actor)->facing + 0x100) >> 9) & 7;
-                func_80047784(sprite, animations[direction], 0);
+                select_sprite_entry(sprite, animations[direction], 0);
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
             }
             if (((s32)g_dungeon_status.unk_0C) != 0) {

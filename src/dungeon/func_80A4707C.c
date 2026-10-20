@@ -27,12 +27,12 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     saved_x = tile_x;
     saved_part_id = part_id;
     saved_y = tile_y;
-    obj = func_8003FD64((s32)alloc_or_entry, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node((s32)alloc_or_entry, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((R06_8017087C_S_8017087C_0 *)obj)->unk_10 = create_anchored_directional_object;
         ((R06_8017087C_S_8017087C_1 *)work)->unk_13 = 6;
-        func_8004491C(obj, func_80045340);
+        register_node(obj, project_sprite_chain);
 
         part_a = ((R06_8017087C_S_8017087C_0 *)obj)->unk_08;
         part_a->unk_0A = saved_part_id;
@@ -81,7 +81,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
         do {
             void *child_obj;
 
-            child_obj = func_8003FD64(274, ((u8 *)(&D_80083498)));
+            child_obj = allocate_list_node(274, ((u8 *)(&D_80083498)));
             ((R06_8017087C_S_8017087C_4 *)slot)->unk_A4 = child_obj;
             if (child_obj != 0) {
                 void *child_work = (u8 *)child_obj + 0x20;
@@ -115,7 +115,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
                         setup_value = ((R06_8017087C_S_8017087C_7 *)entry)->unk_14;
                         setup_value |= 0xC;
                         ((R06_8017087C_S_8017087C_7 *)entry)->unk_14 = setup_value;
-                        func_80047784(alloc_or_entry, entry_id, entry_mode);
+                        select_sprite_entry(alloc_or_entry, entry_id, entry_mode);
                         entry_offset += 48;
                         ((R06_8017087C_S_8017087C_7 *)entry)->unk_10 = 96;
                         ((R06_8017087C_S_8017087C_7 *)entry)->unk_12 = ((R06_8017087C_S_8017087C_3 *)part_b)->unk_12 - 128;

@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_808B7FB8",
-      "tu": "src/town/func_80878260.c",
+      "tu": "src/town/devkit/shop_find_first_eligible_entry.c",
       "home": "town/func_80878260",
       "foff": "0x837FB8",
       "vma": "0x800037B8",

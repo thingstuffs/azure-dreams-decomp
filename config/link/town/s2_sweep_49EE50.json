@@ -1,49 +1,49 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/s2_sweep_49EE50",
- "container": "town",
- "foff": "0x49ee50",
- "size": "0xe34",
- "vma": "0x80016650",
- "evidence": "docs/evidence/r121w_s2_wave2_receipts.json",
- "entries": [
-  {
-   "row": "town/func_8051EE50",
-   "tu": "src/town/func_8051EE50.c",
-   "home": "town/func_8051EE50",
-   "foff": "0x49ee50",
-   "vma": "0x80016650",
-   "size": 120
-  },
-  {
-   "row": "town/func_8047F068",
-   "tu": "src/town/func_8051EE50.c",
-   "home": "town/func_8051EE50",
-   "foff": "0x49f068",
-   "vma": "0x80016868",
-   "size": 120,
-   "bindings": {},
-   "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#town/func_8047F068"
-  },
-  {
-   "row": "town/func_8047F0E0",
-   "tu": "src/town/func_8051EE50.c",
-   "home": "town/func_8051EE50",
-   "foff": "0x49f0e0",
-   "vma": "0x800168e0",
-   "size": 120,
-   "bindings": {},
-   "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#town/func_8047F0E0"
-  },
-  {
-   "row": "town/func_8047F158",
-   "tu": "src/town/func_8051EE50.c",
-   "home": "town/func_8051EE50",
-   "foff": "0x49f158",
-   "vma": "0x80016958",
-   "size": 120,
-   "bindings": {},
-   "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#town/func_8047F158"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/s2_sweep_49EE50",
+  "container": "town",
+  "foff": "0x49ee50",
+  "size": "0xe34",
+  "vma": "0x80016650",
+  "evidence": "docs/evidence/r121w_s2_wave2_receipts.json",
+  "entries": [
+    {
+      "row": "town/func_8051EE50",
+      "tu": "src/town/scene/update_scene_and_select_action.c",
+      "home": "town/func_8051EE50",
+      "foff": "0x49ee50",
+      "vma": "0x80016650",
+      "size": 120
+    },
+    {
+      "row": "town/func_8047F068",
+      "tu": "src/town/scene/update_scene_and_select_action.c",
+      "home": "town/func_8051EE50",
+      "foff": "0x49f068",
+      "vma": "0x80016868",
+      "size": 120,
+      "bindings": {},
+      "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#town/func_8047F068"
+    },
+    {
+      "row": "town/func_8047F0E0",
+      "tu": "src/town/scene/update_scene_and_select_action.c",
+      "home": "town/func_8051EE50",
+      "foff": "0x49f0e0",
+      "vma": "0x800168e0",
+      "size": 120,
+      "bindings": {},
+      "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#town/func_8047F0E0"
+    },
+    {
+      "row": "town/func_8047F158",
+      "tu": "src/town/scene/update_scene_and_select_action.c",
+      "home": "town/func_8051EE50",
+      "foff": "0x49f158",
+      "vma": "0x80016958",
+      "size": 120,
+      "bindings": {},
+      "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#town/func_8047F158"
+    }
+  ]
 }

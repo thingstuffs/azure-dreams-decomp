@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_803D1544",
-      "tu": "src/town/func_8046C280.c",
+      "tu": "src/town/scene/get_indexed_vertex_and_trace.c",
       "home": "town/func_8046C280",
       "foff": "0x3F1544",
       "vma": "0x80018544",
@@ -17,7 +17,7 @@
     },
     {
       "row": "town/func_803D1824",
-      "tu": "src/town/func_8032EBF4.c",
+      "tu": "src/town/shop/clear_bytes.c",
       "home": "town/func_8032EBF4",
       "foff": "0x3F1824",
       "vma": "0x80018824",
@@ -25,7 +25,7 @@
     },
     {
       "row": "town/func_803D184C",
-      "tu": "src/town/func_8032EC1C.c",
+      "tu": "src/town/scene/copy_words.c",
       "home": "town/func_8032EC1C",
       "foff": "0x3F184C",
       "vma": "0x8001884C",
@@ -33,7 +33,7 @@
     },
     {
       "row": "town/func_803D1878",
-      "tu": "src/town/func_8032EC48.c",
+      "tu": "src/town/scene/dialogue/copy_string.c",
       "home": "town/func_8032EC48",
       "foff": "0x3F1878",
       "vma": "0x80018878",
@@ -41,7 +41,7 @@
     },
     {
       "row": "town/func_803D18B4",
-      "tu": "src/town/func_8032EC84.c",
+      "tu": "src/town/scene/dialogue/append_string.c",
       "home": "town/func_8032EC84",
       "foff": "0x3F18B4",
       "vma": "0x800188B4",
@@ -49,7 +49,7 @@
     },
     {
       "row": "town/func_803D1914",
-      "tu": "src/town/func_8032E364.c",
+      "tu": "src/town/scene/motion/copy_and_terminate_coordinate_entries.c",
       "home": "town/func_8032E364",
       "foff": "0x3F1914",
       "vma": "0x80018914",
@@ -57,7 +57,7 @@
     },
     {
       "row": "town/func_803D19FC",
-      "tu": "src/town/func_8032E44C.c",
+      "tu": "src/town/scene/sum_flagged_terminated_entries.c",
       "home": "town/func_8032E44C",
       "foff": "0x3F19FC",
       "vma": "0x800189FC",
@@ -65,7 +65,7 @@
     },
     {
       "row": "town/func_803D1AC4",
-      "tu": "src/town/func_8032E514.c",
+      "tu": "src/town/shop/object/clear_shop_object_and_link.c",
       "home": "town/func_8032E514",
       "foff": "0x3F1AC4",
       "vma": "0x80018AC4",
@@ -73,7 +73,7 @@
     },
     {
       "row": "town/func_803D1BE4",
-      "tu": "src/town/func_8032E634.c",
+      "tu": "src/town/shop/release_lshop_entry.c",
       "home": "town/func_8032E634",
       "foff": "0x3F1BE4",
       "vma": "0x80018BE4",
@@ -81,7 +81,7 @@
     },
     {
       "row": "town/func_803D1C58",
-      "tu": "src/town/func_8032E6A8.c",
+      "tu": "src/town/shop/compact_lshop_entry_list.c",
       "home": "town/func_8032E6A8",
       "foff": "0x3F1C58",
       "vma": "0x80018C58",
@@ -89,7 +89,7 @@
     },
     {
       "row": "town/func_803D1CD0",
-      "tu": "src/town/func_8032E720.c",
+      "tu": "src/town/shop/find_unused_shop_slot.c",
       "home": "town/func_8032E720",
       "foff": "0x3F1CD0",
       "vma": "0x80018CD0",
@@ -97,7 +97,7 @@
     },
     {
       "row": "town/func_803D1E70",
-      "tu": "src/town/func_8032E8C0.c",
+      "tu": "src/town/shop/append_shop_entry.c",
       "home": "town/func_8032E8C0",
       "foff": "0x3F1E70",
       "vma": "0x80018E70",
@@ -105,7 +105,7 @@
     },
     {
       "row": "town/func_803D1FDC",
-      "tu": "src/town/func_8032EA2C.c",
+      "tu": "src/town/shop/process_lshop_entries.c",
       "home": "town/func_8032EA2C",
       "foff": "0x3F1FDC",
       "vma": "0x80018FDC",
@@ -113,7 +113,7 @@
     },
     {
       "row": "town/func_803D2144",
-      "tu": "src/town/func_8032EB94.c",
+      "tu": "src/town/shop/lookup_lshop_value.c",
       "home": "town/func_8032EB94",
       "foff": "0x3F2144",
       "vma": "0x80019144",
@@ -121,7 +121,7 @@
     },
     {
       "row": "town/func_803D21A4",
-      "tu": "src/town/func_8032ECE4.c",
+      "tu": "src/town/scene/find_entry_index_assert.c",
       "home": "town/func_8032ECE4",
       "foff": "0x3F21A4",
       "vma": "0x800191A4",
@@ -129,7 +129,7 @@
     },
     {
       "row": "town/func_803D2278",
-      "tu": "src/town/func_8032EDB8.c",
+      "tu": "src/town/scene/find_entry_index_assert_b.c",
       "home": "town/func_8032EDB8",
       "foff": "0x3F2278",
       "vma": "0x80019278",
@@ -137,7 +137,7 @@
     },
     {
       "row": "town/func_803D2368",
-      "tu": "src/town/func_8032EEA8.c",
+      "tu": "src/town/scene/find_entry_by_paired_key.c",
       "home": "town/func_8032EEA8",
       "foff": "0x3F2368",
       "vma": "0x80019368",
@@ -145,7 +145,7 @@
     },
     {
       "row": "town/func_803D23A4",
-      "tu": "src/town/func_8032EEE4.c",
+      "tu": "src/town/scene/find_masked_record_and_initialize.c",
       "home": "town/func_8032EEE4",
       "foff": "0x3F23A4",
       "vma": "0x800193A4",
@@ -153,7 +153,7 @@
     },
     {
       "row": "town/func_803D25B4",
-      "tu": "src/town/func_8032F0F4.c",
+      "tu": "src/town/scene/apply_entry_keyed_values.c",
       "home": "town/func_8032F0F4",
       "foff": "0x3F25B4",
       "vma": "0x800195B4",
@@ -161,7 +161,7 @@
     },
     {
       "row": "town/func_803D279C",
-      "tu": "src/town/func_8032F2DC.c",
+      "tu": "src/town/scene/find_entry_index_by_grid_bytes.c",
       "home": "town/func_8032F2DC",
       "foff": "0x3F279C",
       "vma": "0x8001979C",
@@ -169,7 +169,7 @@
     },
     {
       "row": "town/func_803D3064",
-      "tu": "src/town/func_8032FBA4.c",
+      "tu": "src/town/scene/mark_indexed_records.c",
       "home": "town/func_8032FBA4",
       "foff": "0x3F3064",
       "vma": "0x8001A064",
@@ -177,7 +177,7 @@
     },
     {
       "row": "town/func_803D30BC",
-      "tu": "src/town/func_8032FBFC.c",
+      "tu": "src/town/scene/save_context_and_dispatch_entry_type.c",
       "home": "town/func_8032FBFC",
       "foff": "0x3F30BC",
       "vma": "0x8001A0BC",
@@ -185,7 +185,7 @@
     },
     {
       "row": "town/func_803D3144",
-      "tu": "src/town/func_8032FC84.c",
+      "tu": "src/town/scene/object/init_object_set_runtime_pointers.c",
       "home": "town/func_8032FC84",
       "foff": "0x3F3144",
       "vma": "0x8001A144",
@@ -193,7 +193,7 @@
     },
     {
       "row": "town/func_803D31DC",
-      "tu": "src/town/func_8032FDE4.c",
+      "tu": "src/town/scene/dialogue/prepare_shared_text_buffer.c",
       "home": "town/func_8032FDE4",
       "foff": "0x3F31DC",
       "vma": "0x8001A1DC",
@@ -201,7 +201,7 @@
     },
     {
       "row": "town/func_803D3220",
-      "tu": "src/town/func_803302F0.c",
+      "tu": "src/town/scene/get_current_nested_record_value.c",
       "home": "town/func_803302F0",
       "foff": "0x3F3220",
       "vma": "0x8001A220",
@@ -209,7 +209,7 @@
     },
     {
       "row": "town/func_803D3250",
-      "tu": "src/town/func_80330320.c",
+      "tu": "src/town/player/squared_distance.c",
       "home": "town/func_80330320",
       "foff": "0x3F3250",
       "vma": "0x8001A250",
@@ -217,7 +217,7 @@
     },
     {
       "row": "town/func_803D32A4",
-      "tu": "src/town/func_80330374.c",
+      "tu": "src/town/player/find_nearest_point.c",
       "home": "town/func_80330374",
       "foff": "0x3F32A4",
       "vma": "0x8001A2A4",
@@ -225,7 +225,7 @@
     },
     {
       "row": "town/func_80473418",
-      "tu": "src/town/func_803304E8.c",
+      "tu": "src/town/player/state/set_script_flag_bit.c",
       "home": "town/func_803304E8",
       "foff": "0x3F3418",
       "vma": "0x8001A418",
@@ -238,7 +238,7 @@
     },
     {
       "row": "town/func_80473490",
-      "tu": "src/town/func_80330560.c",
+      "tu": "src/town/player/state/clear_script_flag_bit.c",
       "home": "town/func_80330560",
       "foff": "0x3F3490",
       "vma": "0x8001A490",
@@ -251,7 +251,7 @@
     },
     {
       "row": "town/func_80473510",
-      "tu": "src/town/func_803305E0.c",
+      "tu": "src/town/player/state/get_script_flag_mask.c",
       "home": "town/func_803305E0",
       "foff": "0x3F3510",
       "vma": "0x8001A510",
@@ -265,7 +265,7 @@
     {
       "row": "town/func_804735BC",
       "home": "town/func_804735BC",
-      "tu": "src/town/func_804735BC.c",
+      "tu": "src/town/scene/service/call_scene_service_280_d1.c",
       "foff": "0x003F35BC",
       "vma": "0x8001A5BC",
       "size": 60
@@ -273,7 +273,7 @@
     {
       "row": "town/func_80473634",
       "home": "town/func_80473634",
-      "tu": "src/town/func_80473634.c",
+      "tu": "src/town/scene/service/call_scene_service_30c_8000.c",
       "foff": "0x003F3634",
       "vma": "0x8001A634",
       "size": 60
@@ -281,14 +281,14 @@
     {
       "row": "town/func_80473670",
       "home": "town/func_80473670",
-      "tu": "src/town/func_80473670.c",
+      "tu": "src/town/scene/service/call_scene_service_2f4_fixed.c",
       "foff": "0x003F3670",
       "vma": "0x8001A670",
       "size": 60
     },
     {
       "row": "town/func_804736AC",
-      "tu": "src/town/func_8033077C.c",
+      "tu": "src/town/player/sum_enabled_record_weights.c",
       "home": "town/func_8033077C",
       "foff": "0x3F36AC",
       "vma": "0x8001A6AC",
@@ -302,7 +302,7 @@
     },
     {
       "row": "town/func_80473768",
-      "tu": "src/town/func_80330838.c",
+      "tu": "src/town/player/record_value_table_contains.c",
       "home": "town/func_80330838",
       "foff": "0x3F3768",
       "vma": "0x8001A768",
@@ -315,7 +315,7 @@
     },
     {
       "row": "town/func_804737F8",
-      "tu": "src/town/func_803308C8.c",
+      "tu": "src/town/player/get_linked_record_field.c",
       "home": "town/func_803308C8",
       "foff": "0x3F37F8",
       "vma": "0x8001A7F8",
@@ -328,7 +328,7 @@
     },
     {
       "row": "town/func_80473818",
-      "tu": "src/town/func_803308E8.c",
+      "tu": "src/town/player/state/read_script_flag_range.c",
       "home": "town/func_803308E8",
       "foff": "0x3F3818",
       "vma": "0x8001A818",
@@ -341,7 +341,7 @@
     },
     {
       "row": "town/func_80473898",
-      "tu": "src/town/func_80330968.c",
+      "tu": "src/town/player/state/write_script_flag_range.c",
       "home": "town/func_80330968",
       "foff": "0x3F3898",
       "vma": "0x8001A898",

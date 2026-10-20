@@ -12,7 +12,7 @@ void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_ar
         effect_part = (u8 *)effect + 0x20;
         effect_part->unk_24 = 5;
         (*(void * *)((u8 *)effect + 0x10)) = fade_timed_primitive_effect;
-        func_8004491C(effect, func_80045340);
+        register_node(effect, project_sprite_chain);
         effect_data = (*(void * *)((u8 *)effect + 0xC));
         effect_data->unk_10 = 0x60;
         effect_data->unk_14 |= 0xC;

@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f43f800_p08.h"
+#include "dungeon/monster/noise/start_directional_action_and_record_tile.h"
 
 /* Advances a timed actor effect, spawning and positioning its visual object before cleanup. */
 void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, void *source_mesh, EntityRec *actor)
@@ -46,7 +46,7 @@ void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, 
         }
         count = 0;
         do {
-            object_or_height = (s32)func_8003FD64(0x112, &D_80083498);
+            object_or_height = (s32)allocate_list_node(0x112, &D_80083498);
             effect_body = (u8 *)((void *)object_or_height);
             effect_body += 0x20;
             if (((void *)object_or_height) == 0) {
@@ -78,10 +78,10 @@ void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, 
             effect_mesh->unk_12 = 0xFF80;
             mesh_flags |= 0xC;
             effect_mesh->unk_14 = mesh_flags;
-            func_8004491C((void *)object_or_height, func_80045340);
+            register_node((void *)object_or_height, project_sprite_chain);
             call_value = D_80174ED0[0];
             effect_mesh->unk_2C = D_80174ED0;
-            func_80047784(effect_mesh, call_value, 0);
+            select_sprite_entry(effect_mesh, call_value, 0);
             object_or_height = (s32)((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at00.v;
             ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_02 = ((T_801748D0_S_801748D0_9 *)anchor_pos)->unk_02;
             ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_06 = ((T_801748D0_S_801748D0_9 *)anchor_pos)->unk_06;
@@ -122,7 +122,7 @@ void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, 
             if (((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C != D_80174E88) {
                 ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C = D_80174E88;
                 ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_14 &= 0xF7FF;
-                func_80047784(source_mesh, ((u8 *)((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C)[((g_game_work.view.viewAngle
+                select_sprite_entry(source_mesh, ((u8 *)((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C)[((g_game_work.view.viewAngle
                     + actor->facing + 0x100) >> 9) & 7], 0);
             }
         }
@@ -140,7 +140,7 @@ void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, 
         if (((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C != D_80174E88) {
             ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C = D_80174E88;
             ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_14 &= 0xF7FF;
-            func_80047784(source_mesh, ((u8 *)((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C)[((g_game_work.view.viewAngle
+            select_sprite_entry(source_mesh, ((u8 *)((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C)[((g_game_work.view.viewAngle
                 + actor->facing + 0x100) >> 9) & 7], 0);
         }
         ((T_801748D0_S_801748D0_0 *)effect_state)->unk_9B++;

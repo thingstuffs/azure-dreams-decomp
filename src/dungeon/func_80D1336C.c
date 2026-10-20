@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f43f800_p05.h"
+#include "dungeon/monster/noise/update_timed_actor_movement_and_scale.h"
 
 /* Updates timed actor movement and sprite scaling, then handles completion. */
 void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_Motion *motion, T_80172B6C_Sprite *sprite, T_80172B6C_Actor *actor) {
@@ -15,7 +15,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
         if ((next_count << 16) > 0)
             break;
         sprite->ptr_2c = D_80174EA8;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
                       D_80174EA8[((g_game_work.view.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
                       0);
         state->flags_98 |= 8;
@@ -87,7 +87,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
             sprite->value_1e = 0x1000;
             sprite->value_1c = 0x1000;
             sprite->ptr_2c = D_80174EB0;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                           D_80174EB0[((g_game_work.view.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
                           0);
             state->state_9b += 1;
@@ -133,7 +133,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
             }
             if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
                 state->ptr_8c = update_actor_behavior_and_direction;
-                func_800A9A04(actor);
+                on_actor_status_updated(actor);
             }
         }
     }

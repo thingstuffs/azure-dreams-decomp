@@ -23,10 +23,12 @@ struct Func80038A10State {
 extern Func80038A10State *D_80081448;
 struct RuntimeContext;
 extern s32 func_80038AB8(struct RuntimeContext *, u8 *);
+extern void update_message_window(Func80038A10State *);
 extern void func_80038A10(Func80038A10State *);
 
 /* Processes the current state until processing stops or its handler changes. */
 
+void update_message_window(Func80038A10State *input_state);
 void func_80038A10(Func80038A10State *input_state);
 
 #endif

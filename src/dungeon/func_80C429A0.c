@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f511800_p04.h"
+#include "dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.h"
 
 /* Update the effect's orbit and height, fade its color, and mark it for removal when its life expires. */
 void update_orbit_height_and_fade_effect(void *effect, EntityRec *position, Rec_D_80082E80 *primitive) {

@@ -20,7 +20,7 @@ void advance_actor_path_script_step(void *controller, void *context, void *entit
 
     if (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8 != ((u8 *)D_80175A4C)) {
         (*(u8 * *)((u8 *)entity + (0x2C))) = ((u8 *)D_80175A4C);
-        func_80047784(
+        select_sprite_entry(
             entity,
             ((u8 *)D_80175A4C)[((g_game_work.view.viewAngle + ((R12_801713D4_S_8017139C_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);

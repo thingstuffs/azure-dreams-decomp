@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Initializes an object with default transform and global state values. */
 void initialize_object_transform_and_state(s32 slot_id, void *object, s32 object_id)
@@ -20,6 +20,6 @@ void initialize_object_transform_and_state(s32 slot_id, void *object, s32 object
     *(s32 *)((u8 *)object + 0) = 0;
     *(s8 *)((u8 *)object + 4) = 0;
     *(s8 *)((u8 *)object + 5) = 0;
-    func_8004491C(slot_id - 0x20, D_80046398);
+    register_node(slot_id - 0x20, D_80046398);
     *(s32 *)((u8 *)object + 8) = object_id;
 }

@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_80D8F668",
       "home": "dungeon/func_80D8F668",
-      "tu": "src/dungeon/func_80D8F668.c",
+      "tu": "src/dungeon/monster/dreamin/dispatch_actor_behavior_and_facing.c",
       "foff": "0x00DAF668",
       "vma": "0x80170E68",
       "size": 1312
@@ -30,7 +30,7 @@
     },
     {
       "row": "dungeon/func_80D918A4",
-      "tu": "src/dungeon/func_809D1AC0.c",
+      "tu": "src/dungeon/actor/forward_actor_defeat_removal_second.c",
       "home": "dungeon/func_809D1AC0",
       "foff": "0xDB18A4",
       "vma": "0x801730A4",

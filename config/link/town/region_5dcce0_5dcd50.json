@@ -1,25 +1,25 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/region_5dcce0_5dcd50",
- "container": "town",
- "foff": "0x5dcce0",
- "size": "0x70",
- "vma": "0x800174e0",
- "evidence": "docs/evidence/r121w_s1_wave2.receipt.json",
- "entries": [
-  {
-   "row": "town/func_8065CCE0",
-   "home": "town/func_8032F468",
-   "tu": "src/town/func_8032F468.c",
-   "foff": "0x5dcce0",
-   "vma": "0x800174e0",
-   "size": 112,
-   "bindings": {
-    "0x8001ace8": "0x80017e84",
-    "0x8001ad60": "0x80017efc",
-    "0x8001ade0": "0x80017f7c"
-   },
-   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8065CCE0"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/region_5dcce0_5dcd50",
+  "container": "town",
+  "foff": "0x5dcce0",
+  "size": "0x70",
+  "vma": "0x800174e0",
+  "evidence": "docs/evidence/r121w_s1_wave2.receipt.json",
+  "entries": [
+    {
+      "row": "town/func_8065CCE0",
+      "home": "town/func_8032F468",
+      "tu": "src/town/scene/process_checked_entry.c",
+      "foff": "0x5dcce0",
+      "vma": "0x800174e0",
+      "size": 112,
+      "bindings": {
+        "0x8001ace8": "0x80017e84",
+        "0x8001ad60": "0x80017efc",
+        "0x8001ade0": "0x80017f7c"
+      },
+      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8065CCE0"
+    }
+  ]
 }

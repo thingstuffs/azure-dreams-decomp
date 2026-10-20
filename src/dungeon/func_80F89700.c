@@ -147,7 +147,7 @@ void restore_bank_actor_tile(void *action, EntityRec *motion, void *sprite, Enti
         entity->flags1C |= 0x08000000;
         entity->flags1C |= 0x00040000;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174AD4;
-        func_80047784(
+        select_sprite_entry(
             sprite,
             D_80174AD4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);

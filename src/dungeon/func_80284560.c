@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void clear_thirty_six_table_fields(void) {
     s8 *entry;

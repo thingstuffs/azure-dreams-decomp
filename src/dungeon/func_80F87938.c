@@ -77,7 +77,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
             return;
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_80174AF4[((g_game_work.view.viewAngle + stats->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
@@ -109,7 +109,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
         if (((S_80171138_2 *)sprite)->unk_2C != D_80174AD4) {
             ((S_80171138_0 *)actor)->unk_A0 = 0;
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AD4;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 D_80174AD4[((g_game_work.view.viewAngle + stats->unk_2A + 0x100) >> 9) & 7],
                 ((S_80171138_0 *)actor)->unk_A0);
         }

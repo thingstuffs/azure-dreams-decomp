@@ -43,7 +43,7 @@ extern Copy12 D_800266A4;
 extern u8 D_800E3D68[256];
 
 extern void draw_textured_ellipse(void *, void *, s32, s32);
-extern s32 func_8003DF74(void *, void *, void *, s32);
+extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 func_80069EF8(void);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 extern s32 try_trigger_target_record_effect(void *, s32, void *);
@@ -325,7 +325,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         s32 tile_distance;
         s32 tile;
 
-        step_result = func_8003DF74(parent_base->unk_0C->unk_08,
+        step_result = get_sprite_attachment_vector(parent_base->unk_0C->unk_08,
             parent_base->unk_0C, &out_pair, 0);
         if (step_result == 0 && !(parent_base->unk_0C->unk_14 & 0x8000)) {
             return;
@@ -345,7 +345,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             return;
         }
         if (!(self->flags & 4)) {
-            func_8004491C((u8 *)self - 0x20, func_80045340);
+            register_node((u8 *)self - 0x20, project_sprite_chain);
             render_data->unk_10 = 0x20;
             render_data->unk_0C.at02.v = 0x20;
             render_data->unk_0C.at00u.v = 0x20;
@@ -478,7 +478,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 if (flash != 0) {
                     flash->unk_22 = 120;
                     flash->callback = advance_record_counter;
-                    func_8004491C(flash, func_80045340);
+                    register_node(flash, project_sprite_chain);
                     flash_data = flash->render;
                     flash_data->unk_14 |= 0x0C;
                     flash_data->unk_10 = 0;
@@ -518,7 +518,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                     index = 96;
                     particle_state->unk_9A = 0;
                     impact->callback = process_five_context_entries_or_fallback;
-                    func_8004491C(impact, func_80045340);
+                    register_node(impact, project_sprite_chain);
                     impact_data = impact->render;
                     impact_data->unk_14 = 0x0C;
                     impact_data->unk_10.s = index;
@@ -581,7 +581,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             }
             particle_state->unk_9A = 0;
             impact->callback = update_timed;
-            func_8004491C(impact, func_80045340);
+            register_node(impact, project_sprite_chain);
             flash_data = impact->render;
             render_flags = flash_data->unk_14 & 0xFFF3;
             flash_data->unk_14 = render_flags;
@@ -633,7 +633,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 particle_state->unk_0A = 10;
                 particle_state->unk_04 = 0;
                 impact->callback = advance_grayscale_fade;
-                func_8004491C(impact, func_80045340);
+                register_node(impact, project_sprite_chain);
                 particle_data = impact->render;
                 particle_data->unk_10.u = 0x20;
                 particle_data->unk_14 |= 0x0C;

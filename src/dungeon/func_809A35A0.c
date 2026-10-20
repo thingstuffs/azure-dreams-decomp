@@ -9,7 +9,7 @@ void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effe
     void *parent_position;
     u16 coordinate;
 
-    effect = func_8003FD64(0x12, parent);
+    effect = allocate_list_node(0x12, parent);
     if (effect != 0) {
         ((ovl_9c32d4_809A35A0_S_80174DA0_0 *)effect)->unk_10 = update_actor_render_effect_and_position;
         position = ((ovl_9c32d4_809A35A0_S_80174DA0_0 *)effect)->unk_08;

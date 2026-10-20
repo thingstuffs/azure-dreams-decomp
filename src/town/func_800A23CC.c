@@ -11,7 +11,7 @@ void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source);
 void func_80042640(void *obj, s16 monsterId);
 void *memset(void *, s32, u32);
 s32 find_first_vacant_record();              /* extern */
-void *func_800B2344();                              /* extern */
+void *find_unused_default_pool_slot();                              /* extern */
 extern s32 D_80100A10;
 typedef struct {
     s32 words[0x15];
@@ -53,7 +53,7 @@ void *copy_an_entry_slot_creating_associated_type_hex_13(s32 slot_index, S_8009F
     S_8009FB2C_2 *slot;
     void *slot_base;
 
-    entry = func_800B2344();
+    entry = find_unused_default_pool_slot();
     entry->unk_00 = (u8) source_entry->unk_00;
     entry->unk_01 = (u8) source_entry->unk_01;
     entry->unk_02 = (u8) source_entry->unk_02;

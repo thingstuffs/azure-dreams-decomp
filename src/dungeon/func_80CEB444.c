@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p06.h"
+#include "dungeon/monster/troll/advance_actor_timed_tile_motion.h"
 
 /* Updates timed movement toward the entity's tile and selects the next behavior. */
 void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, Rec_D_80082E80 *entity, void *actor)

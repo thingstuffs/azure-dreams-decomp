@@ -1,0 +1,140 @@
+#include "common.h"
+#include "shared/tile_object.h"
+#include "shared/game_work.h"
+#include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
+
+typedef struct S_800A4B88_0_pre {
+    s32 unk_00;
+    void * unk_04;
+    u8 pad_08[0x10];
+} S_800A4B88_0_pre;   /* the 0x18 bytes before arg0 in apply_entity_action_flags, addressed as arg0[-1] */
+
+
+
+
+
+/* cfail-repair: tf7-phase1-cache-v3 */
+void func_8003DB94();     /* extern */
+extern void func_8003E188(s32 field_index, s32 flag);            /* extern */
+void apply_entity_effects();                      /* extern */
+void restore_player_control_callback();              /* extern */
+void cycle_map_cell_flags();             /* extern */
+void update_map_cell_flags_with_item_limit();             /* extern */
+void begin_actor_flagged_action(); /* extern */
+void *reset_actor_animation_state();                      /* extern */
+extern s32 D_80083110[];
+extern u8 D_800DD274[];
+
+/* Applies an action to the object's flags and tile state, then updates the object. */
+void apply_entity_action_flags(void *object, s32 action) {
+    s32 clear_mask;
+    s32 enable_clear_mask;
+    s32 set_mask;
+    s32 disable_clear_mask;
+    s32 action_index;
+    s32 *reset_slot;
+    s32 updated_flags;
+    s32 reset_index;
+    TileObject *update_state;
+    u8 tile_x;
+    u8 tile_y;
+    void *position;
+
+    action_index = (s16) (action - 1);
+    switch (action_index) {
+    case 0:
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x200);
+        break;
+    case 1:
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x400);
+        break;
+    case 2:
+        ((EntityRec *)object)->flags1C = (s32) ((((EntityRec *)object)->flags1C & 0xFFFDFFFF) | 0x10);
+        break;
+    case 3:
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x20);
+        break;
+    case 4:
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x40);
+        break;
+    case 5:
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x80);
+        break;
+    case 7:
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x800);
+        break;
+    case 8:
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x1000);
+        break;
+    case 26:
+        position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
+        tile_x = ((MovingTile *)position)->unk_24;
+        tile_y = ((MovingTile *)position)->unk_25;
+        clear_mask = 0x3000;
+        if (((EntityRec *)object)->flags1C & 0x2000) {
+            clear_mask = 0x300;
+        }
+        update_map_cell_flags_with_item_limit(tile_x, tile_y, clear_mask);
+        break;
+    case 10:
+        position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
+        tile_x = ((MovingTile *)position)->unk_24;
+        tile_y = ((MovingTile *)position)->unk_25;
+        enable_clear_mask = 0x3000;
+        if (((EntityRec *)object)->flags1C & 0x2000) {
+            enable_clear_mask = 0x300;
+        }
+        update_map_cell_flags_with_item_limit(tile_x, tile_y, enable_clear_mask);
+        updated_flags = ((EntityRec *)object)->flags1C | 0x2000;
+        ((EntityRec *)object)->flags1C = updated_flags;
+        tile_x = ((MovingTile *)position)->unk_24;
+        tile_y = ((MovingTile *)position)->unk_25;
+        set_mask = 0x3000;
+        if (updated_flags & 0x2000) {
+            set_mask = 0x300;
+        }
+        cycle_map_cell_flags(tile_x, tile_y, set_mask);
+        break;
+    case 11:
+        position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
+        tile_x = ((MovingTile *)position)->unk_24;
+        tile_y = ((MovingTile *)position)->unk_25;
+        disable_clear_mask = 0x3000;
+        if (((EntityRec *)object)->flags1C & 0x2000) {
+            disable_clear_mask = 0x300;
+        }
+        update_map_cell_flags_with_item_limit(tile_x, tile_y, disable_clear_mask);
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C & ~0x2000);
+        tile_x = ((MovingTile *)position)->unk_24;
+        tile_y = ((MovingTile *)position)->unk_25;
+        set_mask = 0x3000;
+        cycle_map_cell_flags(tile_x, tile_y, set_mask);
+        break;
+    case 9:
+        func_8003E188(0x2E, 0);
+        if (((EntityRec *)object)->flags14 & 0x20000000) {
+            begin_actor_flagged_action(object, ((S_800A4B88_0_pre *)object)[-1].unk_00, ((S_800A4B88_0_pre *)object)[-1].unk_04,
+                object);
+            return;
+        }
+        reset_actor_animation_state(object);
+        if ((*(u8 *)((u8 *)&((EntityRec *)object)->unk_10 + 3)) != 0) {
+            break;
+        }
+        restore_player_control_callback(object, object);
+        update_state = &D_80082E80;
+        (((s32 *)update_state->unk_02C)) = D_800DD274;
+        func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (g_game_work.view.viewAngle + (((EntityRec *)object)->facing) + 0x100) >> 7) & 0x1C))), 0);
+        reset_index = 3;
+        reset_slot = D_80083110;
+        reset_slot += 3;
+        do {
+            *reset_slot = 0;
+            reset_index -= 1;
+            reset_slot -= 1;
+        } while (reset_index >= 0);
+    }
+    apply_entity_effects(object);
+    return;
+}

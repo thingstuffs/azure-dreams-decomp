@@ -6,7 +6,7 @@ void func_8016A87C(CL_CB9000_8017087C_Object *object, s32 field60_value, CL_CB90
     CL_CB9000_8017087C_CopyFields *copy;
 
     object->field60 = field60_value;
-    func_8004491C(object, func_80045340);
+    register_node(object, project_sprite_chain);
 
     part = object->part;
     part->field10 = 0x20;

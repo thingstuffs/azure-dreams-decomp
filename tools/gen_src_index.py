@@ -10,6 +10,7 @@ of the src text.  Until 2026-10-01 these files were written once at import (061b
 """
 import collections
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -36,7 +37,9 @@ def main():
         for r in sorted(rs, key=lambda r: r["id"]):
             name = r["id"].split("/", 1)[1]
             p = layout_row_path(r, ROOT)
-            display_path = p.relative_to(d).as_posix()
+            # LL7 (decision 65): a container's rows can live under another subsystem folder (MAIN.BIN code in
+            # src/frontend, src/engine) - link relative to this INDEX.md instead of assuming src/<container>/.
+            display_path = Path(os.path.relpath(p, d)).as_posix()
             pins = len(list(sites_of(p.read_text(errors="replace")))) if p.exists() else ""
             lv = lev.get(r["id"])
             out.append(f"| {display_path} | {name} | {r.get('size', '')} | {r['cfg']} | {'' if lv is None else lv} | "

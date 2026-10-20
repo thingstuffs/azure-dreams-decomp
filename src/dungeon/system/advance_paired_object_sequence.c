@@ -1,0 +1,47 @@
+#include "shared/runtime_dispatch.h"
+#include "common.h"
+
+typedef struct {
+    s32 field_0;
+    s32 field_4;
+    s32 field_8;
+    s32 field_C;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
+    s32 field_20;
+    s32 field_24;
+    s32 field_28;
+    s32 field_2C;
+    s32 field_30;
+    s32 field_34;
+} Entity;
+
+extern void inventory_process_resources_and_set_flags();
+extern void retire_menu_object();
+extern void cleanup_object_resources();
+extern void flag_object_and_release_inner();
+extern void set_state_flag_when_clear();
+extern void strcpy();
+
+/* Processes entity fields and copies its string for selected type and state values. */
+void advance_paired_object_sequence(Entity *entity) {
+    s32 state;
+
+    inventory_process_resources_and_set_flags(entity->field_20);
+    retire_menu_object(entity->field_24);
+    cleanup_object_resources(entity->field_28);
+    flag_object_and_release_inner(entity->field_2C, 0);
+    flag_object_and_release_inner(entity->field_30, 0);
+    flag_object_and_release_inner(entity->field_34, 0);
+    if (D_80082E60.mode != 1) {
+        set_state_flag_when_clear();
+    }
+    if (entity->field_14 == 0x13) {
+        state = entity->field_1C;
+        if (state == 2 || state == 0x39) {
+            strcpy((void *)0x80010238, entity->field_4);
+        }
+    }
+}

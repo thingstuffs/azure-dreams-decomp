@@ -13,7 +13,7 @@ void fade_entity_colors_to_neutral(void *entity_data, void *unused, void *source
         func_800478B8(source);
 
         if (*(u16 *)(source + 0x14) & 0xE000) {
-            func_80044A50(entity - 0x20);
+            unlink_node(entity - 0x20);
             *(u16 *)(entity + 0x96) = 0x10;
             entity[0x9A]++;
         }

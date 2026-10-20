@@ -166,7 +166,7 @@ void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80
 
             (*(void **)((u8 *)entity + 0x2C)) = D_801752B4;
             direction = (g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9;
-            func_80047784(entity, D_801752B4[direction & 7], 0);
+            select_sprite_entry(entity, D_801752B4[direction & 7], 0);
         }
         if (part->unk_0C != 0) {
             break;

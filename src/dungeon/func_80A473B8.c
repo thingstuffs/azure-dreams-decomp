@@ -97,7 +97,7 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
                     ((R06_80170BB8_S_80170BB8_3 *)((u8 *)loaded_height))->unk_04 &= 0x7FFF;
                     if (((R06_80170BB8_S_80170BB8_3 *)((u8 *)loaded_height))->unk_02 > 0) {
                         do {
-                            func_80047784((u8 *)direction + sprite_index * 0x30, 0x1C, 0);
+                            select_sprite_entry((u8 *)direction + sprite_index * 0x30, 0x1C, 0);
                             sprite_index++;
                         } while (sprite_index < ((R06_80170BB8_S_80170BB8_3 *)((u8 *)loaded_height))->unk_02);
                     }
@@ -117,25 +117,25 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
                 }
 
                 if ((*(u16 *)((u8 *)actor + 0x98)) & 0x1000) {
-                    func_80047784((u8 *)direction, 0x1D, 0);
-                    func_80047784((u8 *)direction + 0x30, 0x1D, 0);
+                    select_sprite_entry((u8 *)direction, 0x1D, 0);
+                    select_sprite_entry((u8 *)direction + 0x30, 0x1D, 0);
                     (*(u16 *)((u8 *)actor + 0x98)) &= 0xEFFF;
                 } else if (((*(u16 *)((u8 *)actor + 0x98)) & 0x2000) &&
                            (((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_14 & 0x6000)) {
 
                     if ((*(u8 *)((u8 *)actor + 0x9A)) == 7) {
-                        func_80047784((u8 *)direction, 0x19, 0);
-                        func_80047784((u8 *)direction + 0x30, 0x24, 0);
+                        select_sprite_entry((u8 *)direction, 0x19, 0);
+                        select_sprite_entry((u8 *)direction + 0x30, 0x24, 0);
                     } else {
                         s32 random_value;
 
-                        func_80047784((u8 *)direction, 0x19, 0);
+                        select_sprite_entry((u8 *)direction, 0x19, 0);
                         random_value = func_80069EF8();
                         ground_offset = 0x24;
                         if (random_value & 3) {
                             ground_offset = 0x19;
                         }
-                        func_80047784((u8 *)direction + 0x30, ground_offset, 0);
+                        select_sprite_entry((u8 *)direction + 0x30, ground_offset, 0);
                     }
                 }
             }

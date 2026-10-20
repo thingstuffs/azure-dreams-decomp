@@ -1,0 +1,95 @@
+#include "common.h"
+#include "shared/slus_callbacks.h"
+#include "records/Rec_D_80082E80.h"
+
+
+typedef struct S_800A3508_1 {
+    void * unk_00;
+    u8 pad_04[0x1E];
+    s16 unk_22;
+    s32 unk_24;
+    u8 pad_28[0x8];
+    s32 unk_30;
+    s32 unk_34;
+} S_800A3508_1;   /* obj in initialize_randomized_motion_vector */
+
+
+extern s32 scale_random_to_unsigned_halfword_limit(s32);
+extern void func_8003DB94(void *, s32, s32);
+extern void register_node(void *, void *);
+extern s32 func_800644B8(s32);
+extern s32 func_80064584(s32);
+extern void add_motion_deltas_to_position(void *);
+
+extern u8 D_800A378C[];
+extern s16 D_800D0B18[];
+extern s32 D_800D0B20[];
+extern s32 D_800D0B50[];
+
+/* Initializes the object record and a randomized motion vector. */
+void initialize_randomized_motion_vector(u8 *obj, s32 *vec, Rec_D_80082E80 *record)
+{
+    s32 tilt_angle;
+    s32 scale;
+    s32 direction_angle;
+    s32 direction_term;
+    s32 init_value;
+    s32 product;
+    s32 scale_numerator;
+    s32 scale_sample;
+    s32 unit_scale;
+
+    unit_scale = 0x1000;
+    record->unk_1C.at02_s16.v = unit_scale;
+    record->unk_0C.at00_s32.v = 0x808080;
+    record->unk_1C.at00_s16.v = unit_scale;
+    record->unk_08 = D_800D0B50[((S_800A3508_1 *)obj)->unk_22];
+    record->unk_00 = 0;
+    record->unk_04.as_s8 = 0;
+    record->unk_05.as_s8 = 0;
+
+    init_value = D_800D0B20[((S_800A3508_1 *)obj)->unk_22];
+    if (init_value != 0) {
+        func_8003DB94(record, init_value, 0);
+    }
+
+    register_node(obj - 0x20, project_sprite_chain);
+
+    if (((S_800A3508_1 *)obj)->unk_22 < 4) {
+        init_value = scale_random_to_unsigned_halfword_limit(0x1000);
+        tilt_angle = 0x400;
+        direction_angle = D_800D0B18[((S_800A3508_1 *)obj)->unk_22] + (init_value & 0xFFFF);
+    } else {
+        direction_angle = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
+        tilt_angle = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
+    }
+    scale_sample = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
+    scale_numerator = scale_sample + 0x1000;
+    if (scale_numerator < 0) {
+        scale_numerator = scale_sample + 0x101F;
+    }
+    scale = (s32)scale_numerator >> 5;
+    product = func_800644B8(direction_angle) * func_800644B8(tilt_angle);
+    if (product < 0) {
+        product += 0xFFF;
+    }
+    vec[3] = product >> 12;
+
+    direction_term = func_80064584(direction_angle);
+    product = direction_term * func_800644B8(tilt_angle);
+    vec[4] = (product / 4096);
+
+    vec[5] = func_80064584(tilt_angle);
+    vec[3] *= scale;
+    vec[4] *= scale;
+    vec[5] *= scale;
+
+    (*(s32 *)((u8 *)obj + 0x2C)) = vec[3] / 23;
+    ((S_800A3508_1 *)obj)->unk_30 = vec[4] / 23;
+    ((S_800A3508_1 *)obj)->unk_34 = vec[5] / 23;
+    ((S_800A3508_1 *)obj)->unk_24 = 0x18;
+    ((S_800A3508_1 *)obj)->unk_00 = D_800A378C;
+
+    add_motion_deltas_to_position(vec);
+    add_motion_deltas_to_position(vec);
+}

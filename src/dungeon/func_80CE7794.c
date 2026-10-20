@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p01.h"
+#include "dungeon/monster/troll/troll_flash_effects.h"
 
 /* Updates effect motion, handles collisions, grows the sprite, and flags expiration. */
 void update_growing_bouncing_effect(void *effect, void *position, void *sprite)

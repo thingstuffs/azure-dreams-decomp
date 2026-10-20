@@ -1,26 +1,26 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/s2_img_e512e8_8014cae8",
- "container": "dungeon",
- "foff": "0xe512e8",
- "size": "0x5970",
- "vma": "0x8014cae8",
- "evidence": "docs/evidence/r121w_s2_wave2_receipts.json",
- "entries": [
-  {
-   "row": "dungeon/func_80E312E8",
-   "tu": "src/dungeon/func_80E0D2E8.c",
-   "home": "dungeon/func_80E0D2E8",
-   "foff": "0xe512e8",
-   "vma": "0x8014cae8",
-   "size": 1452,
-   "bindings": {
-    "0x80171094": "0x8014d094",
-    "0x80176460": "0x80152460",
-    "0x80176490": "0x80152490",
-    "0x801766b8": "0x801526b8"
-   },
-   "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#dungeon/func_80E312E8"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/s2_img_e512e8_8014cae8",
+  "container": "dungeon",
+  "foff": "0xe512e8",
+  "size": "0x5970",
+  "vma": "0x8014cae8",
+  "evidence": "docs/evidence/r121w_s2_wave2_receipts.json",
+  "entries": [
+    {
+      "row": "dungeon/func_80E312E8",
+      "tu": "src/dungeon/monster/cyclone/update_actor_direction_and_ground.c",
+      "home": "dungeon/func_80E0D2E8",
+      "foff": "0xe512e8",
+      "vma": "0x8014cae8",
+      "size": 1452,
+      "bindings": {
+        "0x80171094": "0x8014d094",
+        "0x80176460": "0x80152460",
+        "0x80176490": "0x80152490",
+        "0x801766b8": "0x801526b8"
+      },
+      "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#dungeon/func_80E312E8"
+    }
+  ]
 }

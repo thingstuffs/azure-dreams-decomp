@@ -242,7 +242,7 @@
       "vma": 2147771288,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_town_windows.h",
+      "declaration": "include/town/menu/window.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_8006ADBC": {
@@ -251,7 +251,7 @@
       "vma": 2147921340,
       "view_bytes": 28,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_town_windows.h",
+      "declaration": "include/town/menu/window.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_8006ADC0": {
@@ -260,7 +260,7 @@
       "vma": 2147921344,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_town_windows.h",
+      "declaration": "include/town/menu/window.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_8006ADD4": {
@@ -269,7 +269,7 @@
       "vma": 2147921364,
       "view_bytes": 2,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_town_windows.h",
+      "declaration": "include/town/menu/window.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_8006E240": {
@@ -278,7 +278,7 @@
       "vma": 2147934784,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_town_windows.h",
+      "declaration": "include/town/menu/window.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_80081458": {
@@ -287,7 +287,7 @@
       "vma": 2148013144,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_town_windows.h",
+      "declaration": "include/town/menu/window.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_800814A0": {
@@ -296,7 +296,7 @@
       "vma": 2148013216,
       "view_bytes": 16,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_town_windows.h",
+      "declaration": "include/town/menu/window.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_80082A38": {
@@ -305,7 +305,7 @@
       "vma": 2148018744,
       "view_bytes": 84,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_town_windows.h",
+      "declaration": "include/town/menu/window.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_80082A80": {
@@ -314,7 +314,7 @@
       "vma": 2148018816,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_town_windows.h",
+      "declaration": "include/town/menu/window.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_80082BC0": {
@@ -323,7 +323,7 @@
       "vma": 2148019136,
       "view_bytes": 36,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_town_windows.h",
+      "declaration": "include/town/menu/window.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_80082D08": {
@@ -332,7 +332,7 @@
       "vma": 2148019464,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_town_windows.h",
+      "declaration": "include/town/menu/window.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_80083160": {
@@ -341,7 +341,7 @@
       "vma": 2148020576,
       "view_bytes": 512,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_town_windows.h",
+      "declaration": "include/town/menu/window.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_80083498": {
@@ -350,7 +350,7 @@
       "vma": 2148021400,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/town_town_windows.h",
+      "declaration": "include/town/menu/window.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     }
   },

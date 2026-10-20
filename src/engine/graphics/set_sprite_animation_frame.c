@@ -1,0 +1,59 @@
+#include "common.h"
+#include "shared/animation_views.h"
+
+/* Frame element pointed to by S_80048A44_Obj.unk0; only the first field (a u16) is read here */
+
+
+/* object touched by this function; only the accessed fields are named */
+typedef struct S_80048A44_Obj {
+    /* 0x00 */ AnimationFrameRate *unk0;
+    /* 0x04 */ u8 pad04;
+    /* 0x05 */ u8 unk5;
+    /* 0x06 */ u8 pad06[0x14 - 0x06];
+    /* 0x14 */ u16 unk14;
+} S_80048A44_Obj;
+
+/* callee's exact type, per S_800489F4_Obj */
+typedef struct S_800489F4_Frame {
+    /* 0x0 */ s32 unk0;
+    /* 0x4 */ void *unk4;
+} S_800489F4_Frame;
+
+typedef struct S_800489F4_Obj {
+    /* 0x00 */ S_800489F4_Frame *unk0;
+    /* 0x04 */ u8 unk4;
+    /* 0x05 */ u8 pad05[3];
+    /* 0x08 */ void *unk8;
+    /* 0x0C */ u8 pad0C[8];
+    /* 0x14 */ u16 unk14;
+    /* 0x16 */ u8 pad16[0x28 - 0x16];
+    /* 0x28 */ S_800489F4_Frame ****unk28;
+} S_800489F4_Obj;
+
+/* callee's exact type, per S_80083110 */
+typedef struct S_80083110 {
+    u8 pad0[8];
+    s32 field_8;
+    u8 pad1[0x28 - 0xC];
+    s32 field_28;
+} S_80083110;
+
+extern void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(S_800489F4_Obj *a0, s16 a1, s16 a2);
+extern void register_sprite_slot(S_80083110 *a0, s32 a1);
+
+/* one byte (the next named symbol is D_80080A85); an extern, so absolute in ASPSX */
+extern u8 D_80080A84;
+
+/* Selects and dispatches a frame, stores its scaled leading value, and clears flags 0x6000. */
+void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index) {
+    u16 frame_value;
+    u8 divisor;
+
+    texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags((S_800489F4_Obj *)obj, frame_group, frame_index);
+    register_sprite_slot((S_80083110 *)obj, slot_index);
+
+    frame_value = obj->unk0->value;
+    divisor = D_80080A84;
+    obj->unk14 = obj->unk14 & 0x9FFF;
+    obj->unk5 = (u8)((s32)frame_value / (s32)divisor);
+}

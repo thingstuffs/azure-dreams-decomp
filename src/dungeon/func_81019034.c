@@ -45,7 +45,7 @@ typedef struct TilePosition {
 } TilePosition;
 
 extern s32 get_cd_command_queue_depth(void);
-extern void func_80047784(void *, s32, s32);
+extern void select_sprite_entry(void *, s32, s32);
 extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
@@ -195,7 +195,7 @@ void start_the_selected_actor_action_waits_completion_resets_state(ActionState *
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         if (sprite->unk_2C != D_80162888) {
             sprite->unk_2C = D_80162888;
-            func_80047784(
+            select_sprite_entry(
                 sprite,
                 D_80162888[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);

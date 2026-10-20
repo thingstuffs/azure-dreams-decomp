@@ -55,7 +55,7 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
     object = func_8003FC64(0x16);
     if (object != NULL) {
         ((S_800F643C_0 *)object)->unk_10 = (void *)advance_dungeon_tile_action_state;
-        func_8004491C(object, (s32)func_80046398);
+        register_node(object, (s32)func_80046398);
         render_config = D_80083208;
         model = ((S_800F643C_0 *)object)->unk_0C;
         (*(s16 *)((u8 *)model + 0x20)) = 0x1000;

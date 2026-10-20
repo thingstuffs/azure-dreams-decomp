@@ -10,6 +10,6 @@ void func_80173EF4(R07_80173EF4_Actor *actor, s32 action, R07_80173EF4_Entity *e
     } else if (entity->unk_2C == ((u8 *)D_80174190) &&
                !(map_object->unk_1C & 0x208)) {
         entity->unk_2C = ((u8 *)D_80174138);
-        func_80047784(entity,(s16)(((u8 *)D_80174138)[((g_game_work.view.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
+        select_sprite_entry(entity,(s16)(((u8 *)D_80174138)[((g_game_work.view.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
     }
 }

@@ -1,0 +1,113 @@
+#include "common.h"
+#include "shared/game_work.h"
+
+typedef struct {
+    s32 field_00;
+    u8 unk04[8];
+    s32 field_0C;
+} Vec3;
+
+typedef struct {
+    u8 unk00[6];
+    s16 field_06;
+    u8 unk08[4];
+    u8 field_0C;
+    u8 field_0D;
+    u8 field_0E;
+    u8 unk0F;
+    s16 field_10;
+    u8 unk12[2];
+    u16 flags_14;
+    u8 unk16[6];
+    s16 field_1C;
+    s16 field_1E;
+    u8 unk20[12];
+    u8 *field_2C;
+} Sub;
+
+typedef struct {
+    u8 unk00[42];
+    s16 field_2A;
+    u8 unk2C[106];
+    u16 field_96;
+    u8 unk98[2];
+    u8 field_9A;
+    u8 unk9B[3];
+    s16 field_9E;
+} Extra;
+
+typedef struct {
+    u8 unk00[8];
+    Vec3 *position;
+    Sub *sub;
+    void *callback;
+} Node;
+
+extern u8 D_80174B30[9];
+extern Node *D_80174CDC;
+
+extern void func_800419EC(s32, s32);
+extern void create_offset_animation_sprite(void *, Vec3 *, Sub *);
+extern void play_sound_if_enabled(s32);
+extern void select_sprite_entry(Sub *, u8, s32);
+extern void func_80170CE0(void);
+extern void func_800478B8(Sub *);
+
+/* Delays an effect, then moves and fades its sprite before finishing. */
+void update_encounter_retreat_fade(void) {
+    Extra *effect;
+    Vec3 *position;
+    Sub *sprite;
+    Extra *direction_data;
+    Node *node;
+    s32 intensity;
+    u16 elapsed;
+    s32 state;
+    s32 duration;
+
+    node = D_80174CDC;
+    effect = (Extra *)((u8 *)node + 0x20);
+    position = node->position;
+    state = effect->field_9A;
+    sprite = node->sub;
+    direction_data = effect;
+
+    switch (state) {
+    case 0:
+        effect->field_9A = 1;
+        effect->field_96 = 0;
+
+    case 1:
+        elapsed = effect->field_96++;
+        if ((s16)elapsed >= 0x24) {
+            effect->field_96 = 0x14;
+            effect->field_9E = 0x14;
+            effect->field_9A++;
+            func_800419EC(6, 12);
+            create_offset_animation_sprite(effect, position, sprite);
+            play_sound_if_enabled(0x601);
+            position->field_0C = -0x200000;
+            sprite->field_10 = 0x20;
+            sprite->field_2C = D_80174B30;
+            sprite->flags_14 |= 0xC;
+            select_sprite_entry(sprite, D_80174B30[((g_game_work.view.viewAngle + direction_data->field_2A + 0x100) >> 9) & 7],
+                0);
+        }
+        break;
+
+    case 2:
+        position->field_00 += position->field_0C;
+        position->field_0C /= 2;
+        duration = effect->field_9E;
+        intensity = ((s32)(s16)(effect->field_96 - 1) << 7) / duration;
+        effect->field_96--;
+        sprite->field_0E = (s8)intensity;
+        sprite->field_0D = (s8)intensity;
+        sprite->field_0C = (s8)intensity;
+        if ((s16)effect->field_96 <= 0) {
+            func_80170CE0();
+        }
+    }
+
+    func_800478B8(sprite);
+}

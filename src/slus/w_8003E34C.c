@@ -1,4 +1,4 @@
-#include "slus/cd_cohort_types.h"
+#include "engine/scene/cd_cohort_types.h"
 
 /* Reset the global state fields and initialize the status bytes to 2 and 255. */
 void func_8003E34C(void) {

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7f535800.h"
 
-void *func_80158878(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
+void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
 {
     s32 init_mode;
     s32 state_flags;
@@ -18,12 +18,12 @@ void *func_80158878(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
     saved_x = pos_x;
     saved_value = init_value;
     saved_y = pos_y;
-    object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
     if (object != 0) {
         state = object + 0x20;
         ((S_80158878_0 *)object)->unk_10 = &D_80158A58;
         state->unk_13 = 0x10;
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
         config_data = ((S_80158878_0 *)object)->unk_08;
         config_data->unk_0A = saved_value;
         placement_data = ((S_80158878_0 *)object)->unk_0C;

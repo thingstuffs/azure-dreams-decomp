@@ -7,7 +7,7 @@ typedef struct
 }
 S_80050DA8_sub;
 extern s32 D_800814A0_abs __attribute__((section(".data")));
-extern void func_80050CDC(void);
+extern void fade_effect_parts(void);
 /* Starts the fade callback, releases the attachment, and sets global and child flags. */
 void func_80050DA8(u8 *object)
 {
@@ -19,7 +19,7 @@ void func_80050DA8(u8 *object)
         *((s32 *) (object_data + 0x08)) = 2;
         saved_value = *((s32 *) (object_data + 0x1C));
         attachment = *((void **) (object_data + 0x28));
-        *((void (**)(void)) (object_data - 0x10)) = func_80050CDC;
+        *((void (**)(void)) (object_data - 0x10)) = fade_effect_parts;
         D_80080B98 = saved_value;
         destroy_animated_selection_menu(attachment);
         child = *((S_80050DA8_sub **) (object_data + 0xA0));

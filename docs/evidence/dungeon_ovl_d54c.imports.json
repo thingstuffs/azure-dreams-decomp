@@ -86,7 +86,7 @@
       "vma": 2148610488,
       "view_bytes": 48,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_ovl_d54c.h",
+      "declaration": "include/dungeon/system/resource.h",
       "evidence": "docs/evidence/dungeon_ovl_d54c.imports.json"
     },
     "D_801131E4": {
@@ -95,7 +95,7 @@
       "vma": 2148610532,
       "view_bytes": 12,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_ovl_d54c.h",
+      "declaration": "include/dungeon/system/resource.h",
       "evidence": "docs/evidence/dungeon_ovl_d54c.imports.json"
     },
     "D_801131EC": {
@@ -104,7 +104,7 @@
       "vma": 2148610540,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_ovl_d54c.h",
+      "declaration": "include/dungeon/system/resource.h",
       "evidence": "docs/evidence/dungeon_ovl_d54c.imports.json"
     }
   },

@@ -12,7 +12,7 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
     void *effect;
     u16 parent_x;
 
-    effect = func_8003FD64(0x211, parent);
+    effect = allocate_list_node(0x211, parent);
     if (effect != NULL) {
         ((S_80BC172C_0 *)effect)->unk_10 = func_80170BFC;
         do {
@@ -31,7 +31,7 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
         effect_data->unk_14 = effect_param;
         effect_data->unk_32 = 5;
         effect_data->unk_34 = 5;
-        func_8004491C(effect, build_projected_tile_packets);
+        register_node(effect, build_projected_tile_packets);
         ((S_80BC172C_0 *)effect)->unk_20 = state_value;
         effect_data->unk_08 = state_value;
     }

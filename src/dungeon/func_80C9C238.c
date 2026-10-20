@@ -7,6 +7,6 @@ void func_8016DA38(S_80173A38_0 *arg0, void *arg1, CL_CB9000_80173A38_S_80173A38
         }
     } else if ((arg2->unk_2C == D_8016F2FC) && !(arg3->unk_1C & 0x208)) {
         arg2->unk_2C = D_8016F2AC;
-        func_80047784(arg2, *((((s32) (g_game_work.view.viewAngle + arg3->unk_2A + 0x100) >> 9) & 7) + D_8016F2AC), 0);
+        select_sprite_entry(arg2, *((((s32) (g_game_work.view.viewAngle + arg3->unk_2A + 0x100) >> 9) & 7) + D_8016F2AC), 0);
     }
 }

@@ -1,0 +1,202 @@
+#include "common.h"
+#include "shared/entity_objects.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+
+typedef union {
+    u16 unsigned_value;
+    s16 signed_value;
+} DungeonTimer;
+
+typedef struct {
+    u8 pad_00[0x8C];
+    u8 *unk_8C;
+    u8 pad_90[6];
+    DungeonTimer timer;
+    u8 pad_98[3];
+    u8 state;
+    u8 pad_9C[0x10];
+    u8 mode;
+} DungeonState;
+
+typedef struct {
+    u8 pad_00[0x0C];
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} DungeonWork;
+
+typedef struct {
+    u8 pad_00[0x14];
+    u16 flags;
+    u8 pad_16[0x0E];
+    u8 unk_24;
+    u8 unk_25;
+    u8 pad_26[6];
+    u8 *unk_2C;
+} DungeonObject;
+
+typedef struct {
+    u8 pad_00[0x2A];
+    s16 unk_2A;
+    u8 pad_2C[0x1A];
+    u16 unk_46;
+    u8 pad_48[0x2A];
+    u8 unk_72;
+    u8 unk_73;
+} DungeonInput;
+
+extern u8 D_801739E0[];
+extern u8 D_801739E8[];
+extern u8 D_801739F0[];
+extern u8 D_801739A0[];
+extern u8 D_801739A8[];
+extern u8 D_801739B0[];
+extern u8 D_8016A36C[];
+
+extern void select_sprite_entry(DungeonObject *, u8, s32);
+extern void set_record_integer_tile_center(DungeonWork *, u8, u8);
+extern void play_sound_if_enabled(s32);
+extern void create_layered_sprite_pulse(DungeonWork *);
+extern void create_targeted_ribbon_trail(DungeonState *, DungeonWork *, DungeonObject *, u8 *, s32);
+
+static __inline__ void set_direction_table(DungeonObject *object, DungeonInput *input, u8 *table) {
+    u32 direction_index;
+
+    object->unk_2C = table;
+    direction_index = ((s32)(g_game_work.view.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
+    select_sprite_entry(object, *((u8 *)((u32)direction_index + (u32)table)), 0);
+}
+
+/* Advance the timed dungeon object sequence and update its direction table. */
+void run_timed_three_effect_sequence(DungeonState *state, DungeonWork *work,
+                   DungeonObject *object, DungeonInput *input) {
+    u32 state_index;
+    state_index = state->state;
+    switch (state_index) {
+    case 1:
+    {
+        s32 mode;
+        mode = state->mode;
+        switch (mode) {
+        case 0:
+            set_direction_table(object, input, D_801739E0);
+            break;
+        case 1:
+            set_direction_table(object, input, D_801739E8);
+            break;
+        case 2:
+            set_direction_table(object, input, D_801739F0);
+            break;
+        case 3:
+            set_direction_table(object, input, D_801739E0 + 0x18);
+            break;
+        }
+    }
+        create_layered_sprite_pulse(work);
+        state->timer.unsigned_value = 6;
+        state->state = state->state + 1;
+        play_sound_if_enabled(0x703);
+        return;
+
+    case 2:
+    {
+        u16 timer;
+
+        timer = state->timer.unsigned_value - 1;
+        state->timer.unsigned_value = timer;
+        if ((timer << 16) <= 0 || (object->flags & 0xE000))
+            goto case0;
+        return;
+    }
+
+    case 3:
+    {
+        u16 timer;
+        s16 current_timer;
+
+        timer = state->timer.unsigned_value + 1;
+        state->timer.unsigned_value = timer;
+        if ((s16)timer == 1) {
+            create_targeted_ribbon_trail(state, work, object, ((u8 *)(&D_80083780)), 0);
+            current_timer = state->timer.signed_value;
+            if (current_timer == (s16)timer) {
+                create_targeted_ribbon_trail(state, work, object, ((u8 *)(&D_80083780)), current_timer);
+                if (state->timer.signed_value == current_timer)
+                    create_targeted_ribbon_trail(state, work, object, ((u8 *)(&D_80083780)), 2);
+            }
+        }
+        if (state->timer.signed_value == 0xB) {
+            state->timer.unsigned_value = 0;
+            state->state = state->state + 1;
+        }
+        return;
+    }
+
+    case 4:
+    {
+        s32 mode;
+        u8 *direction_table;
+        u8 *previous_table;
+
+        if (!(object->flags & 0xE000))
+            return;
+        work->unk_14 = 0;
+        work->unk_10 = 0;
+        work->unk_0C = 0;
+        set_record_integer_tile_center(work, object->unk_24, object->unk_25);
+        mode = state->mode;
+        switch (mode) {
+        case 0:
+            previous_table = object->unk_2C;
+            direction_table = D_801739A0;
+            break;
+        case 1:
+            previous_table = object->unk_2C;
+            direction_table = D_801739A8;
+            break;
+        case 2:
+            previous_table = object->unk_2C;
+            direction_table = D_801739B0;
+            break;
+        case 3:
+            previous_table = object->unk_2C;
+            direction_table = D_801739A0 + 0x18;
+            break;
+        default:
+            goto case0;
+        }
+        if (previous_table != direction_table) {
+            set_direction_table(object, input, direction_table);
+        }
+        state->timer.unsigned_value = 0;
+        state->state = state->state + 1;
+        return;
+    }
+
+    case 5:
+    {
+        u16 timer;
+
+        timer = state->timer.unsigned_value;
+        state->timer.unsigned_value = timer + 1;
+        if ((s16)timer < 0x3C)
+            return;
+    }
+
+case0:
+    case 0:
+        state->timer.unsigned_value = 0;
+        state->state = state->state + 1;
+        return;
+
+    case 6:
+        input->unk_73 = 0;
+        input->unk_72 = 0;
+        state->unk_8C = D_8016A36C;
+        g_dungeon_status.unk_0C = 0;
+        input->unk_46 = input->unk_46 & 0x7FFF;
+
+        return;
+    }
+}

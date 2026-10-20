@@ -46,7 +46,7 @@ typedef struct ActorSpriteView {
     u8 *directionFrames;
 } ActorSpriteView;
 
-extern void func_80047784(void *, u8, s32);
+extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(u8, u8);
 extern s32 compare_monster_neighbor_values(u8, u8, u8, u8);
@@ -104,7 +104,7 @@ void update_actor_action_and_target_state(ActorActionView *action_input, EntityR
             return;
         }
         sprite->directionFrames = D_80156AF4;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_80156AF4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         return;
@@ -136,7 +136,7 @@ void update_actor_action_and_target_state(ActorActionView *action_input, EntityR
         if (sprite->directionFrames != D_80156AD4) {
             action->frameParameter = 0;
             sprite->directionFrames = D_80156AD4;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 D_80156AD4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 action->frameParameter);
         }

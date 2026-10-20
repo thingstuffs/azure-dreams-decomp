@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_7FFEDB5C",
-      "tu": "src/dungeon/func_7FFEDB5C.c",
+      "tu": "src/dungeon/actor/jyotyu_set_reserve_all.c",
       "home": "dungeon/func_7FFEDB5C",
       "foff": "0xDB5C",
       "vma": "0x8008B2BC",
@@ -17,7 +17,7 @@
     },
     {
       "row": "dungeon/func_7FFEDB64",
-      "tu": "src/dungeon/func_7FFEDB5C.c",
+      "tu": "src/dungeon/actor/jyotyu_set_reserve_all.c",
       "home": "dungeon/func_7FFEDB5C",
       "foff": "0xDB64",
       "vma": "0x8008B2C4",
@@ -29,7 +29,7 @@
     },
     {
       "row": "dungeon/func_7FFEDB6C",
-      "tu": "src/dungeon/func_7FFEDB5C.c",
+      "tu": "src/dungeon/actor/jyotyu_set_reserve_all.c",
       "home": "dungeon/func_7FFEDB5C",
       "foff": "0xDB6C",
       "vma": "0x8008B2CC",
@@ -41,7 +41,7 @@
     },
     {
       "row": "dungeon/func_7FFEDB74",
-      "tu": "src/dungeon/func_7FFEDB5C.c",
+      "tu": "src/dungeon/actor/jyotyu_set_reserve_all.c",
       "home": "dungeon/func_7FFEDB5C",
       "foff": "0xDB74",
       "vma": "0x8008B2D4",
@@ -53,7 +53,7 @@
     },
     {
       "row": "dungeon/func_8002DB1C",
-      "tu": "src/dungeon/func_8002DB1C.c",
+      "tu": "src/dungeon/actor/object/initialize_seven_tick_object.c",
       "home": "dungeon/func_8002DB1C",
       "foff": "0x4DB1C",
       "vma": "0x800CB27C",
@@ -61,7 +61,7 @@
     },
     {
       "row": "dungeon/func_8002DCB4",
-      "tu": "src/dungeon/func_8002DB1C.c",
+      "tu": "src/dungeon/actor/object/initialize_seven_tick_object.c",
       "home": "dungeon/func_8002DB1C",
       "foff": "0x4DCB4",
       "vma": "0x800CB414",
@@ -72,7 +72,7 @@
     },
     {
       "row": "dungeon/func_8002DDB0",
-      "tu": "src/dungeon/func_8002DB1C.c",
+      "tu": "src/dungeon/actor/object/initialize_seven_tick_object.c",
       "home": "dungeon/func_8002DB1C",
       "foff": "0x4DDB0",
       "vma": "0x800CB510",
@@ -86,7 +86,7 @@
     },
     {
       "row": "dungeon/func_8002DF48",
-      "tu": "src/dungeon/func_8002DB1C.c",
+      "tu": "src/dungeon/actor/object/initialize_seven_tick_object.c",
       "home": "dungeon/func_8002DB1C",
       "foff": "0x4DF48",
       "vma": "0x800CB6A8",

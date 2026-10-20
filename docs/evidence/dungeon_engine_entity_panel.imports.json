@@ -106,7 +106,7 @@
       "view_bytes": 1,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_engine_entity_panel.imports.json",
-      "declaration": "src/dungeon/func_800ABD6C.c"
+      "declaration": "src/dungeon/menu/panel.c"
     },
     "D_80083498": {
       "symbol": "D_80083498",

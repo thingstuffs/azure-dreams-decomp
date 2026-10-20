@@ -71,7 +71,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         F(self, u16, 0xA)++;
 
     case 1:
-        if (func_8003DF74(F(F(owner_base, void *, 0xC), void *, 8),
+        if (get_sprite_attachment_vector(F(F(owner_base, void *, 0xC), void *, 8),
                           F(owner_base, void *, 0xC), attach_offset, 0) == 0) {
             if ((F(F(owner_base, void *, 0xC), u16, 0x14) & 0x8000) == 0) {
                 break;
@@ -90,7 +90,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
             break;
         }
         if ((F(self, u8, 0x16) & 4) == 0) {
-            func_8004491C((u8 *)self - 0x20, (s32)func_80045340);
+            register_node((u8 *)self - 0x20, (s32)project_sprite_chain);
             F(part, u16, 0x10) = 0x20;
             F(part, u8, 0x0E) = 0x80;
             F(part, u8, 0x0D) = 0x80;

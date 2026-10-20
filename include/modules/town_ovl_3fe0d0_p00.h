@@ -61,13 +61,18 @@ void initialize_context_entry_tables_variant_1(s32 unused_a, s32 unused_b);
 void initialize_context_entry_tables_variant_2(void);
 void advance_floor_event_counter(void);
 void set_active_position_state_record(void);
+void run_scene_service_26c_with_state(void);
 void func_80016278(void);
+void run_scene_service_224(void);
 void func_800162B8(void);
 void call_first_handler_if_flag_0x3ec_set(void);
+void call_scene_service_280_1705(void);
 void func_80016328(void);
+void call_scene_service_280_1706(void);
 void func_80016360(void);
 void configure_active_object_two_16(void);
 void select_table_result_with_override(void);
+void invoke_system_callback_29(void);
 void func_80016408(void);
 
 #endif

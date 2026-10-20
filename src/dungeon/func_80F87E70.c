@@ -51,7 +51,7 @@ void advance_bank_actor_path(void *motion, s32 unused, void *entity, void *path_
     anim_table = entity_view->unk_2C;
     if (anim_table != D_80174AD4) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_80174AD4;
-        func_80047784(
+        select_sprite_entry(
             entity,
             D_80174AD4[((g_game_work.view.viewAngle + ((S_80171670_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);

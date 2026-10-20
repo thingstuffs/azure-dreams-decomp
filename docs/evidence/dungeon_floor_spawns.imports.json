@@ -398,7 +398,7 @@
       "vma": 2147549184,
       "view_bytes": 8340,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_floor_spawns.h",
+      "declaration": "include/dungeon/level/spawn.h",
       "evidence": "docs/evidence/dungeon_floor_spawns.imports.json"
     },
     "D_800835E4": {
@@ -407,7 +407,7 @@
       "vma": 2148021732,
       "view_bytes": 8,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_floor_spawns.h",
+      "declaration": "include/dungeon/level/spawn.h",
       "evidence": "docs/evidence/dungeon_floor_spawns.imports.json"
     },
     "D_800835E8": {
@@ -416,7 +416,7 @@
       "vma": 2148021736,
       "view_bytes": 4,
       "owner": "resident_runtime:slus",
-      "declaration": "include/modules/dungeon_floor_spawns.h",
+      "declaration": "include/dungeon/level/spawn.h",
       "evidence": "docs/evidence/dungeon_floor_spawns.imports.json"
     }
   },

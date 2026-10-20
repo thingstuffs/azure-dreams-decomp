@@ -1,0 +1,67 @@
+#include "common.h"
+#include "shared/object_node.h"
+#include "shared/vector.h"
+
+#ifndef NULL
+#define NULL 0
+#endif
+
+
+typedef struct FiveWords {
+    s32 words[5];
+} FiveWords;
+
+typedef struct ObjectWithInitialWords {
+    ObjectNodeHeader header;
+    FiveWords initial_words;
+} ObjectWithInitialWords;
+
+extern void *func_800373DC(s32);
+extern void func_8003BC18(void *, void *);
+extern u8 D_8003C558[12];
+extern u8 D_8052F2C8[];
+extern u8 D_8028E170[];
+
+
+
+
+typedef struct S_808139C8_1 {
+    u8 pad_00[0x4];
+    s8 unk_04;
+    s8 unk_05;
+    u8 pad_06[0x2];
+    s32 unk_08;
+    s32 unk_0C;
+    u8 pad_10[0x4];
+    u16 unk_14;
+    u8 pad_16[0x6];
+    s16 unk_1C;
+    s16 unk_1E;
+} S_808139C8_1;
+
+/* Creates an object and initializes its position and sprite data. */
+void create_sprite_object(FiveWords *init_data, s32 y_position)
+{
+    IntVector3 *position;
+    u8 *object;
+    u8 *sprite;
+
+    object = func_800373DC(0x136);
+    if (object != NULL) {
+        ((ObjectWithInitialWords *)object)->initial_words = *init_data;
+        ((ObjectNodeHeader *)object)->unk_10 = D_8052F2C8;
+        func_8003BC18(object, D_8003C558);
+        position = ((ObjectNodeHeader *)object)->unk_08;
+        sprite = ((ObjectNodeHeader *)object)->unk_0C;
+        position->x = 0x05380000;
+        position->y = y_position;
+        position->z = 0xFFE00000;
+        ((S_808139C8_1 *)sprite)->unk_1E = 0x1000;
+        ((S_808139C8_1 *)sprite)->unk_1C = 0x1000;
+        ((S_808139C8_1 *)sprite)->unk_08 = (s32)D_8028E170;
+        ((S_808139C8_1 *)sprite)->unk_04 = 0;
+        ((S_808139C8_1 *)sprite)->unk_05 = 0;
+        ((S_808139C8_1 *)sprite)->unk_0C = 0x808080;
+        ((S_808139C8_1 *)sprite)->unk_14 = ((S_808139C8_1 *)sprite)->unk_14 | 0x80;
+    }
+}

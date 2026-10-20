@@ -63,7 +63,7 @@ typedef struct PlayerActionCountView {
 extern int abs(int);
 
 extern s32 get_cd_command_queue_depth(void);
-extern void func_80047784(void *, u8, s16);
+extern void select_sprite_entry(void *, u8, s16);
 extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
@@ -232,7 +232,7 @@ void update_actor_ability_action_and_effects(ActorActionView *action, EntityRec 
 
         if (sprite->directionFrames != D_80156AD4) {
             sprite->directionFrames = D_80156AD4;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                           D_80156AD4[((g_game_work.view.viewAngle +
                                        actor->facing + 0x100) >> 9) & 7],
                           action->frameParameter);

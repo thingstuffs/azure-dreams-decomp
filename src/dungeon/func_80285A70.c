@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 void setup_run_and_load_track(void) {
     floor_generate_isolated_80285A70_State13710 *state;

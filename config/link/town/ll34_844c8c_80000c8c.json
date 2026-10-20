@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_808C4C8C",
-      "tu": "src/town/func_80883524.c",
+      "tu": "src/town/scene/shift_index_and_add_offset.c",
       "home": "town/func_80883524",
       "foff": "0x844C8C",
       "vma": "0x80000C8C",

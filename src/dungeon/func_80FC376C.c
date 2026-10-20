@@ -80,9 +80,9 @@ typedef struct ParticleSpriteView {
     u16 scaleY;
 } ParticleSpriteView;
 
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
-extern void func_80047784(void *, s32, s32);
+extern void *allocate_list_node(s32, void *);
+extern void register_node(void *, void *);
+extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(s32, s32);
@@ -145,7 +145,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
                 direction_index = ((g_game_work.view.viewAngle +
                     entity->facing + 0x100) >> 9) & 7;
                 /* Keep the integer addition order used by the retail compiler. */
-                func_80047784(sprite,
+                select_sprite_entry(sprite,
                     *(u8 *)((u32)direction_index + (u32)direction_frames),
                     0);
             }
@@ -179,7 +179,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
             if (current_state != state) {
                 if (sprite->directionFrames != D_80163258) {
                     sprite->directionFrames = D_80163258;
-                    func_80047784(sprite,
+                    select_sprite_entry(sprite,
                         D_80163258[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                 }
@@ -220,7 +220,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
                 if (entity->flags14 & 0x1000000) {
                     action->effectState.phase++;
                     sprite->directionFrames = D_801632A0;
-                    func_80047784(sprite,
+                    select_sprite_entry(sprite,
                         D_801632A0[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     action->effectTicks = 0;
@@ -250,9 +250,9 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
                 motion->unk_10 = motion->unk_10 +
                     (motion->unk_10 * scale >> 9);
 
-                effect_object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+                effect_object = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
                 if (effect_object != 0) {
-                    func_8004491C(effect_object, func_80045340);
+                    register_node(effect_object, project_sprite_chain);
                     effect_position = effect_object->position;
                     effect_object->source = D_80163174;
                     effect_sprite = effect_object->sprite;
@@ -337,7 +337,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
                     entity->flags14 &= ~0x20000;
                     entity->facing = action->saved.facing;
                     sprite->directionFrames = D_80163258;
-                    func_80047784(sprite,
+                    select_sprite_entry(sprite,
                         D_80163258[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     action->effectState.phase = 0;
@@ -483,7 +483,7 @@ void update_actor_action_sequence_and_recovery(ActorActionView *action, EntityRe
             direction_index = ((g_game_work.view.viewAngle +
                 entity->facing + 0x100) >> 9) & 7;
             /* Keep the integer addition order used by the retail compiler. */
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 *(u8 *)((u32)direction_index + (u32)direction_frames),
                 0);
         }

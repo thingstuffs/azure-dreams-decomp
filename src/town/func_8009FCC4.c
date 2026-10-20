@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Create an object, initialize its position and render state, and invoke its callback. */
 s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, s32 state_98)
@@ -18,7 +18,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
 
     saved_angle_index = angle_index;
     saved_state_94 = state_94;
-    object = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x136, ((u8 *)(&D_80083498)));
     if (object == 0) {
         return 0;
     }

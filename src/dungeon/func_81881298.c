@@ -41,7 +41,7 @@ void *create_radial_effect_node(MovingPosition *source_coords)
     node = func_8003FC64(0x202);
     if (node != 0) {
         node->unk_10 = func_80024A00;
-        func_8004491C(node, (s32)func_80045340);
+        register_node(node, (s32)project_sprite_chain);
         coords = node->unk_08;
         coords->unk_02 = source_coords->unk_02;
         coords->unk_06 = source_coords->unk_06;

@@ -14,7 +14,7 @@ extern void bzero(void *p, s32 n);
 extern s32 table_handle_compares_two_records_subtracting_key_indexed_table_values(void *a0, void *a1);
 
 /* Sorts entries by category, then orders each group using discovery ranks from the original list. */
-void func_8004B08C(S_8004AFE8 **entries) {
+void sort_entries_by_category(S_8004AFE8 **entries) {
     S_8004AFE8 *original_entries[0x40];
     u8 discovery_ranks[0x80];
     s32 count;

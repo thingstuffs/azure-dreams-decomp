@@ -4,7 +4,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 
-extern void func_80047784(void *, s32, s32);
+extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -53,7 +53,7 @@ void func_80160FD8(void *sequence, void *motion, void *sprite, EntityRec *actor)
         if ((s16)++((AnimationSequenceState *)sequence)->timer.unsignedTicks == 4 ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
             ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = D_80162E1C;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 D_80162E1C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((AnimationSequenceState *)sequence)->timer.unsignedTicks = 0;

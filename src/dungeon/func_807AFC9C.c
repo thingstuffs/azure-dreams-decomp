@@ -60,10 +60,10 @@ void func_800F749C(s32 spawn_arg, MovingPosition *origin, S_807AFC9C_4 *source) 
     void *effect;
     S_807AFC9C_5 *effect_state;
 
-    effect = func_8003FD64(0x212, spawn_arg);
+    effect = allocate_list_node(0x212, spawn_arg);
     if (effect != NULL) {
         ((S_807AFC9C_0 *)effect)->unk_10 = (void *)func_800F7348;
-        func_8004491C(effect, func_80045340);
+        register_node(effect, project_sprite_chain);
         position = ((S_807AFC9C_0 *)effect)->unk_08;
         position->unk_02 = (s16) ((origin->unk_02 + (rand() & 0x3F)) - 0x20);
         position->unk_06 = (s16) ((origin->unk_06 + (rand() & 0x3F)) - 0x20);

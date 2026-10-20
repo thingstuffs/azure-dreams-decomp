@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f43f800_p02.h"
+#include "dungeon/monster/noise/move_fade_and_accelerate_effect.h"
 
 /* Spawns an effect at an offset from its parent with randomized velocity. */
 void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
@@ -10,7 +10,7 @@ void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 e
     T_80171020_S_80171020_1 *effect_state;
     void *effect;
 
-    effect = func_8003FD64(0x211, parent);
+    effect = allocate_list_node(0x211, parent);
     if (effect == NULL) {
         return;
     }
@@ -33,7 +33,7 @@ void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 e
     effect_state->unk_14 = saved_effect_id;
     effect_state->unk_32 = 0x14;
     effect_state->unk_34 = 0x14;
-    func_8004491C(effect, &create_timed_offset_motion_effect);
+    register_node(effect, &create_timed_offset_motion_effect);
     ((T_80171020_S_80171020_0 *)effect)->unk_20 = saved_effect_param;
     effect_state->unk_08 = saved_effect_param;
 }

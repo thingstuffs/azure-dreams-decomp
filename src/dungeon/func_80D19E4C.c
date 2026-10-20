@@ -37,7 +37,7 @@ typedef struct AbilityActionState {
 } AbilityActionState;
 
 s32 get_cd_command_queue_depth(void);
-void func_80047784();
+void select_sprite_entry();
 s32 func_80069EF8();
 void *scan_monster_along_heading();
 void set_record_integer_tile_center();
@@ -221,7 +221,7 @@ void func_8016D64C(void *action, EntityRec *motion, void *sprite, EntityRec *act
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm != D_8016EE88) {
             ((Rec_D_80082E80 *)sprite)->unk_2C.as_pm = D_8016EE88;
-            func_80047784(sprite, D_8016EE88[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(sprite, D_8016EE88[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v =
                 (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
         }

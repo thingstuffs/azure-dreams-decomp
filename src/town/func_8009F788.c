@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Builds the entry list and processes each entry's items at its coordinates. */
 void build_entry_list_and_process_items(void) {

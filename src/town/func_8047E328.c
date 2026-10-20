@@ -1,5 +1,0 @@
-#include "modules/town_ovl_3fe0d0_p00.h"
-
-void func_80016328(void) {
-    D_80016000->unk_20->callback_280(0x1705);
-}

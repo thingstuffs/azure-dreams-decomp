@@ -1,19 +1,19 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/heur_4ce0c",
- "container": "town",
- "foff": "0x4ce0c",
- "size": "0x50",
- "vma": "0x800ca56c",
- "evidence": "work/native_lane/r121_heur/evidence/placements.json",
- "entries": [
-  {
-   "row": "town/func_800CCE0C",
-   "tu": "src/town/func_800CCE0C.c",
-   "home": "town/func_800CCE0C",
-   "foff": "0x4ce0c",
-   "vma": "0x800ca56c",
-   "size": 80
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/heur_4ce0c",
+  "container": "town",
+  "foff": "0x4ce0c",
+  "size": "0x50",
+  "vma": "0x800ca56c",
+  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "entries": [
+    {
+      "row": "town/func_800CCE0C",
+      "tu": "src/town/person/initialize_actor_slot_eleven_countdown.c",
+      "home": "town/func_800CCE0C",
+      "foff": "0x4ce0c",
+      "vma": "0x800ca56c",
+      "size": 80
+    }
+  ]
 }

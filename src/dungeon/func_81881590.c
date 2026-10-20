@@ -65,7 +65,7 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
         effect = func_8003FC64(0x202);
         if (effect != NULL) {
             ((S_80024D90_0 *)effect)->unk_10 = callback;
-            func_8004491C(effect, (s32)func_80045C34);
+            register_node(effect, (s32)draw_linked_sprites_clipped);
             angle = effect_index << 8;
             position = ((S_80024D90_0 *)effect)->unk_08;
             value = origin->unk_02 + (func_80064584(angle) >> 7);

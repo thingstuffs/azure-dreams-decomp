@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_spawns.h"
+#include "dungeon/level/spawn.h"
 
 void clear_dungeon_cell_entries(void) {
     s32 entry_index;

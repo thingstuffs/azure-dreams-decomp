@@ -27,7 +27,7 @@ typedef struct ActorSpriteView {
     u8 *directionFrames;
 } ActorSpriteView;
 
-extern void func_80047784(void *, s32, s32);
+extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -61,7 +61,7 @@ void advance_actor_action_variant_a(ActorActionView *action, EntityRec *motion, 
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         sprite->directionFrames = D_80162EE0;
-        func_80047784(sprite,
+        select_sprite_entry(sprite,
             D_80162EE0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->timer.unsignedTicks = 0;

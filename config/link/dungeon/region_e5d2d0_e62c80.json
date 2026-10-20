@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_80E3F504",
       "home": "dungeon/func_80E39504",
-      "tu": "src/dungeon/func_80E39504.c",
+      "tu": "src/dungeon/monster/manoeva/update_actor_knockback.c",
       "foff": "0xe5f504",
       "vma": "0x8016cd04",
       "size": 896,
@@ -26,7 +26,7 @@
     },
     {
       "row": "dungeon/func_80E3F884",
-      "tu": "src/dungeon/func_809D1AC0.c",
+      "tu": "src/dungeon/actor/forward_actor_defeat_removal_second.c",
       "home": "dungeon/func_809D1AC0",
       "foff": "0xE5F884",
       "vma": "0x8016D084",
@@ -40,7 +40,7 @@
     {
       "row": "dungeon/func_80E414CC",
       "home": "dungeon/func_80E3B4CC",
-      "tu": "src/dungeon/func_80E3B4CC.c",
+      "tu": "src/dungeon/monster/manoeva/update_knockback_travel_object.c",
       "foff": "0x00E614CC",
       "vma": "0x8016ECCC",
       "size": 928,

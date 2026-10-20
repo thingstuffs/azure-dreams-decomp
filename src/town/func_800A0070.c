@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Clear each record's first byte until the end marker is reached. */
 void clear_record_20_status_bytes(s8 *records) {

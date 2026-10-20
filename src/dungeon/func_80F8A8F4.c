@@ -55,7 +55,7 @@ void start_bank_actor_hit_reaction(void *work, void *part_a, void *part_b, Entit
         table_base = D_80174B0C;
         actor->target = field_60;
         (((Rec_D_80082E80 *)part_b)->unk_2C.as_pu8) = table_base;
-        func_80047784(part_b, table_base[((s32)(g_game_work.view.viewAngle + (s16)((u16)actor->facing) + 0x100)
+        select_sprite_entry(part_b, table_base[((s32)(g_game_work.view.viewAngle + (s16)((u16)actor->facing) + 0x100)
             >> 9) & 7], 0);
         actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
         g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) + 1);

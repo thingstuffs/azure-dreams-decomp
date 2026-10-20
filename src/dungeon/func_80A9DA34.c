@@ -63,7 +63,7 @@ void advance_action_phase_and_process_actor(void *action, void *motion, void *sp
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174C44);
-        func_80047784(
+        select_sprite_entry(
             sprite,
             ((u8 *)D_80174C44)[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
@@ -80,7 +80,7 @@ void advance_action_phase_and_process_actor(void *action, void *motion, void *sp
         }
 
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174C44);
-        func_80047784(
+        select_sprite_entry(
             sprite,
             ((u8 *)D_80174C44)[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);

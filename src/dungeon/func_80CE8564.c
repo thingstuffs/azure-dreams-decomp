@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p01.h"
+#include "dungeon/monster/troll/troll_flash_effects.h"
 
 /* Creates an object and initializes its position, flags, and directional frame table. */
 void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height)
@@ -31,13 +31,13 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
     saved_x = sprite_x;
     call_position = (s32)((u8 *)(&D_80083498));
     saved_y = sprite_y;
-    object = func_8003FD64(call_object, (void *)call_position);
+    object = allocate_list_node(call_object, (void *)call_position);
     init_flags = spawn_flags;
     if (object != 0) {
         result = (EntityRec *)((u8 *)object + 0x20);
         object->unk_10 = D_801720B4;
         *(s8 *)((u8 *)result + 0x13) = 0x16;
-        func_8004491C(object, func_80045340);
+        register_node(object, project_sprite_chain);
 
         default_frames = (s32)D_80175E24;
         call_position = 0xE;
@@ -147,7 +147,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         if (current_frames != frame_table) {
             (sprite->frameTable) = frame_table;
             direction_index = ((g_game_work.view.viewAngle + result->facing + 0x100) >> 9) & 7;
-            func_80047784(sprite,
+            select_sprite_entry(sprite,
                 *(u8 *)((u32)direction_index + (u32)frame_table),
                 0);
         }

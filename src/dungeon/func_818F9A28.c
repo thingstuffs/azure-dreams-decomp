@@ -36,7 +36,7 @@ void create_random_jitter_child(
     EntityRec *dest_z;
 
     /* the parent's next slot is the list head the new node links behind */
-    spawned = func_8003FD64(0x211, (ObjectNodeHeader **)source_obj);
+    spawned = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
         spawned->unk_10 = (void *)raise_entity_to_ground;
         jitter_x = rand() & 0x1F;
@@ -67,7 +67,7 @@ void create_random_jitter_child(
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        func_8004491C(spawned, (s32)init_data);
+        register_node(spawned, (s32)init_data);
         fields->color = saved_field_28;
     }
 }

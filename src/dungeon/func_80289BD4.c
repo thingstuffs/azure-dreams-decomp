@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 s16 choose_unblocked_cardinal_direction(s16 x, s16 y, s16 dir)
 {

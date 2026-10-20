@@ -153,7 +153,7 @@
       "view_bytes": 12,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_198a800.imports.json",
-      "declaration": "src/dungeon/func_8196C568.c"
+      "declaration": "src/dungeon/effect/particle/propagate_target_flags_effect.c"
     },
     "D_80083160": {
       "symbol": "D_80083160",

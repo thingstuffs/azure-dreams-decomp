@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f469800_p01.h"
+#include "dungeon/monster/troll/troll_flash_effects.h"
 
 /* Update the effect transform, fade its color, and mark expiration when its timer runs out. */
 void update_growing_rotating_flash(void *effect, s32 unused, void *visual) {

@@ -1,31 +1,31 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/s2_w4t2_bank_3faa98",
- "container": "town",
- "foff": "0x3faa98",
- "size": "0x2450",
- "vma": "0x80017298",
- "evidence": "docs/evidence/r121w_s2_receipts.json",
- "entries": [
-  {
-   "row": "town/func_803DCE50",
-   "tu": "src/town/func_8032FC84.c",
-   "home": "town/func_8032FC84",
-   "foff": "0x3fce50",
-   "vma": "0x80019650",
-   "size": 132,
-   "bindings": {
-    "0x80016748": "0x8001741C",
-    "0x80019860": "0x80018A2C",
-    "0x8001A044": "0x80019210",
-    "0x8001B8A8": "0x80016320",
-    "0x8001C370": "0x80019BB8",
-    "0x8001C480": "0x80019BC8",
-    "0x8001DA10": "0x80019F88",
-    "0x8001DC10": "0x8001A008",
-    "0x8001DCD0": "0x8001A050"
-   },
-   "evidence": "docs/evidence/r121w_s2_receipts.json#town/func_803DCE50; B10 re-homed from town/func_803D3144 (now an LL placement of town/func_8032FC84): bindings translated through town/func_803D3144's object-screen resolution"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/s2_w4t2_bank_3faa98",
+  "container": "town",
+  "foff": "0x3faa98",
+  "size": "0x2450",
+  "vma": "0x80017298",
+  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "entries": [
+    {
+      "row": "town/func_803DCE50",
+      "tu": "src/town/scene/object/init_object_set_runtime_pointers.c",
+      "home": "town/func_8032FC84",
+      "foff": "0x3fce50",
+      "vma": "0x80019650",
+      "size": 132,
+      "bindings": {
+        "0x80016748": "0x8001741C",
+        "0x80019860": "0x80018A2C",
+        "0x8001A044": "0x80019210",
+        "0x8001B8A8": "0x80016320",
+        "0x8001C370": "0x80019BB8",
+        "0x8001C480": "0x80019BC8",
+        "0x8001DA10": "0x80019F88",
+        "0x8001DC10": "0x8001A008",
+        "0x8001DCD0": "0x8001A050"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#town/func_803DCE50; B10 re-homed from town/func_803D3144 (now an LL placement of town/func_8032FC84): bindings translated through town/func_803D3144's object-screen resolution"
+    }
+  ]
 }

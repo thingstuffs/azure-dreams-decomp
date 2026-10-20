@@ -1,11 +1,11 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Dispatches an object callback or switches the object to its alternate state. */
 void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context) {
     u8 saved_state;
 
     if (classify_record_by_state_and_position(object, source) == 2) {
-        func_80033D08(object);
+        unlink_node_if_registered(object);
         saved_state = object->unk_15;
         object->unk_15 = 0;
         ((func_800A075C_S_func_8009DEBC_1 *)((u8 *)object - 0x10))->unk_00 = reset_object_handler_and_saved_byte;

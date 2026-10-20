@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_183a800.h"
+#include "dungeon/effect/particle/render_textured_effect_parts.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
@@ -62,8 +62,10 @@
 
 
 
+extern s32 get_sprite_attachment_vector(s32, void *, s16 *, s32);
 extern s32 func_8003DF74(s32, void *, s16 *, s32);
 extern void func_800419EC(s32, s32, void *);
+extern void unlink_node(void *);
 extern void func_80044A50(void *);
 extern s32 func_80069EF8(void);
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
@@ -124,7 +126,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
 
     case 1:
         source_sprite = task->unk_0C;
-        if ((func_8003DF74(source_sprite->unk_08, source_sprite, offset, 0) != 0) ||
+        if ((get_sprite_attachment_vector(source_sprite->unk_08, source_sprite, offset, 0) != 0) ||
             (((S_80024BE8_22 *)(task->unk_0C))->unk_14 & 0x8000)) {
             ((S_80024BE8_5 *)motion)->unk_00.at02.v = origin->unk_02;
             ((S_80024BE8_5 *)motion)->unk_04.at02.v = origin->unk_06;
@@ -141,7 +143,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
 
             if (*((S_80024BE8_0 *)effect)->unk_04 & 0x80) {
                 if (!(((S_80024BE8_0 *)effect)->unk_7A & 4)) {
-                    func_8004491C((u8 *)effect - 0x20, (s32)func_80045340);
+                    register_node((u8 *)effect - 0x20, (s32)project_sprite_chain);
                     ((S_80024BE8_2 *)sprite)->unk_10 = 0x60;
                     ((S_80024BE8_2 *)sprite)->unk_14 |= 0xC;
                     ((S_80024BE8_0 *)effect)->unk_7A |= 4;
@@ -235,7 +237,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
 
         ((S_80024BE8_0 *)effect)->unk_7B--;
         if (((S_80024BE8_0 *)effect)->unk_7B <= 0) {
-            func_80044A50((u8 *)effect - 0x20);
+            unlink_node((u8 *)effect - 0x20);
             color_mode = 4;
             if (((S_80024BE8_3 *)source)->unk_60 != 0) {
                 ((S_80024BE8_0 *)effect)->unk_86.u = 0;
@@ -257,7 +259,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
                 impact = func_8003FC64(0x212);
                 if (impact != 0) {
                     ((S_80024BE8_11 *)impact)->unk_10 = func_80024B14;
-                    func_8004491C(impact, (s32)func_80045C34);
+                    register_node(impact, (s32)draw_linked_sprites_clipped);
                     impact_sprite = (s32)(((S_80024BE8_11 *)impact)->unk_0C);
                     ((S_80024BE8_12 *)(void *)impact_sprite)->unk_10 = 0;
                     ((S_80024BE8_12 *)(void *)impact_sprite)->unk_14 |= 0xC;
@@ -412,7 +414,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
         if (impact != 0) {
             ((S_80024BE8_15 *)impact)->unk_22 = 0x1E;
             ((S_80024BE8_15 *)impact)->unk_10 = create_radial_height_offset_effect;
-            func_8004491C(impact, (s32)func_80045340);
+            register_node(impact, (s32)project_sprite_chain);
             particle_sprite = ((S_80024BE8_15 *)impact)->unk_0C;
             ((S_80024BE8_16 *)particle_sprite)->unk_10 = 0;
             ((S_80024BE8_16 *)particle_sprite)->unk_14 |= 0xC;

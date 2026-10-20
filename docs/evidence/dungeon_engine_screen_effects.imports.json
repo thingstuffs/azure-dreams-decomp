@@ -40,7 +40,7 @@
       "view_bytes": 16,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_engine_screen_effects.imports.json",
-      "declaration": "src/dungeon/func_800B2BFC.c"
+      "declaration": "src/dungeon/effect/screen/menu.c"
     }
   },
   "functions": {

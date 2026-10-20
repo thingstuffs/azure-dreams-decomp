@@ -1,39 +1,39 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/s2_sweep_0FD1000",
- "container": "dungeon",
- "foff": "0xfd1000",
- "size": "0x4320",
- "vma": "0x80170800",
- "evidence": "docs/evidence/r121w_s2_receipts.json",
- "entries": [
-  {
-   "row": "dungeon/func_80FB2368",
-   "tu": "src/dungeon/func_80FB8368.c",
-   "home": "dungeon/func_80FB8368",
-   "foff": "0xfd2368",
-   "vma": "0x80171b68",
-   "size": 1864,
-   "bindings": {
-    "0x8016c314": "0x80172314"
-   },
-   "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80FB2368"
-  },
-  {
-   "row": "dungeon/func_80FB402C",
-   "home": "dungeon/func_80FB402C",
-   "tu": "src/dungeon/func_80FB402C.c",
-   "foff": "0x00FD402C",
-   "vma": "0x8017382C",
-   "size": 1768
-  },
-  {
-   "row": "dungeon/func_80FB4C24",
-   "home": "dungeon/func_80FB4C24",
-   "tu": "src/dungeon/func_80FB4C24.c",
-   "foff": "0x00FD4C24",
-   "vma": "0x80174424",
-   "size": 580
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/s2_sweep_0FD1000",
+  "container": "dungeon",
+  "foff": "0xfd1000",
+  "size": "0x4320",
+  "vma": "0x80170800",
+  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "entries": [
+    {
+      "row": "dungeon/func_80FB2368",
+      "tu": "src/dungeon/func_80FB8368.c",
+      "home": "dungeon/func_80FB8368",
+      "foff": "0xfd2368",
+      "vma": "0x80171b68",
+      "size": 1864,
+      "bindings": {
+        "0x8016c314": "0x80172314"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80FB2368"
+    },
+    {
+      "row": "dungeon/func_80FB402C",
+      "home": "dungeon/func_80FB402C",
+      "tu": "src/dungeon/monster/mandara/advance_actor_entry_active_exit_states.c",
+      "foff": "0x00FD402C",
+      "vma": "0x8017382C",
+      "size": 1768
+    },
+    {
+      "row": "dungeon/func_80FB4C24",
+      "home": "dungeon/func_80FB4C24",
+      "tu": "src/dungeon/monster/mandara/blend_animation_palette_and_complete.c",
+      "foff": "0x00FD4C24",
+      "vma": "0x80174424",
+      "size": 580
+    }
+  ]
 }

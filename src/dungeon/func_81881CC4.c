@@ -40,7 +40,7 @@ s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial
         s32 mode_test;
 
         ((S_800254C4_0 *)node)->unk_10 = update_spark_effect;
-        func_8004491C(node, (s32)queue_projected_point_primitives);
+        register_node(node, (s32)queue_projected_point_primitives);
         mode_test = mode << 0x10;
         {
             MovingPosition *payload = ((S_800254C4_0 *)node)->unk_08;

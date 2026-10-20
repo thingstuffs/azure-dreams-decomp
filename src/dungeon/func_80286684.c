@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_generate.h"
+#include "dungeon/level/generate.h"
 
 s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) {
     s16 activate_flag = activate;
@@ -38,7 +38,7 @@ s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) 
     D_80080AFC = buffer_index;
     if (requested_object != buffers[(s16)buffer_index]) {
         if (D_80080AF3 != (s16)mode) {
-            func_80044698();
+            wait_until_sound_idle();
         }
 
         header_object = *slot;
@@ -73,7 +73,7 @@ s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) 
         }
     }
 
-    func_8004450C(saved_mode);
+    load_sound_set(saved_mode);
     {
         s32 activate_tail_test =
             (s32)activate_tail << 16;

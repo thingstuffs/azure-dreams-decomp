@@ -1,0 +1,811 @@
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+/* Selector entry invokes this complete native state machine. */
+void (*const D_80024000)(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual) = build_inverted;
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void interpolate_view_parameters(void *tracker) {
+    s16 blend_ticks;
+    s16 next_ticks;
+    Row_81916800_S_81916800_2 *target_values;
+    GameView *blend_state;
+    u8 *countdown;
+    u8 *third_pending;
+
+    blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
+    blend_state = &g_game_work.view;
+    if (blend_ticks > 0) {
+        blend_state->unk_098 = (u16) ((u16)blend_state->unk_098) + ((s32) ((*(s16 *)((u8 *)tracker + 0x26))
+            - blend_state->unk_098) / blend_ticks);
+    }
+    next_ticks = (u16) (*(s16 *)((u8 *)tracker + 0x24)) - 1;
+    (*(s16 *)((u8 *)tracker + 0x24)) = next_ticks;
+    if (next_ticks < -0x80) {
+        (*(s16 *)((u8 *)tracker + 0x24)) = -0x80;
+    }
+    countdown = ((u8 *)D_800E3D20);
+    if (((Row_81916800_S_81916800_1 *)countdown)->unk_00.u != 0) {
+        ((Row_81916800_S_81916800_1 *)countdown)->unk_00.s = (s8) (((Row_81916800_S_81916800_1 *)countdown)->unk_00.u - 1);
+    }
+    (*(u16 *)((u8 *)tracker + 4)) = (u16) ((Row_81916800_S_81916800_4 *)(*(void **)((u8 *)tracker + 0xC)))->unk_02;
+    target_values = (*(void **)((u8 *)tracker + 0xC));
+    (*(u16 *)((u8 *)tracker + 6)) = (u16) target_values->unk_06;
+    (*(u16 *)((u8 *)tracker + 8)) = (u16) target_values->unk_0A;
+    blend_state->unk_0A4 = (u16) ((u16)blend_state->unk_0A4) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 4))
+        - blend_state->unk_0A4) >> 2);
+    blend_state->unk_0A6 = (u16) ((u16)blend_state->unk_0A6) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 6))
+        - blend_state->unk_0A6) >> 2);
+    third_pending = D_80025B1C;
+    if (((Row_81916800_S_81916800_3 *)third_pending)->unk_00.u != 0) {
+        blend_state->unk_0A8 = (u16) ((u16)blend_state->unk_0A8) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 8))
+            - blend_state->unk_0A8) >> 2);
+    }
+    ((Row_81916800_S_81916800_3 *)third_pending)->unk_00.s = (s8) (blend_state->unk_0A8 != (s16) (*(u16 *)((u8 *)tracker + 8)));
+    blend_state->unk_094 = (u16) ((s32) (((u16)blend_state->unk_094) << 0x10) >> 0x12);
+    blend_state->unk_096 = (u16) ((s32) (((u16)blend_state->unk_096) << 0x10) >> 0x12);
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_value, s16 request_param) {
+    GameView *state = &g_game_work.view;
+    Row_8191696C_S_8191696C_state *dispatch = (Row_8191696C_S_8191696C_state *)&state->slot[0].unk_04;
+    void *payload_start = (void *)((u8 *)&state->slot[0].unk_04 + 4);
+    s16 saved_value;
+    s32 prev_request_id;
+    s32 change_flags;
+
+    prev_request_id = dispatch->unkC4;
+    dispatch->unkC4 = request_id;
+    dispatch->unkE0 = 0;
+    dispatch->field_B8 = payload_start;
+    saved_value = request_value;
+    change_flags = prev_request_id != request_id;
+    if (dispatch->unkCC != 9) {
+        change_flags |= 2;
+    }
+    dispatch->unkCC = 0xC;
+    dispatch->unkD0 = 0;
+    dispatch->unkDE = request_param;
+    state->slot[0].callback = D_80024024;
+    if (change_flags & 1) {
+        ((s8 *)D_800E3D20)[0] = saved_value;
+    }
+    dispatch->unkDC = request_value;
+    return change_flags;
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void advance_motion_counters_position_set_completion_flags_past_lifetime(void *motion, void *position, s32 update_context)
+{
+    s32 y_step;
+    void *motion_state;
+    void *page;
+    void *owner;
+    owner = *((void **) (((s8 *) motion) + 0));
+    *((u16 *) (((s8 *) owner) + 0x14)) = (u16) ((*((u16 *) (((s8 *) owner) + 0x14))) + 1);
+    *((u16 *) (((s8 *) motion) + 4)) = (u16) ((*((u16 *) (((s8 *) motion) + 4))) + 1);
+    func_800478B8(update_context);
+    *((s32 *) (((s8 *) position) + 0)) = (s32) ((*((s32 *) (((s8 *) position) + 0)))
+        + ((func_80064584(*((s16 *) (((s8 *) motion) + 0xA))) >> 4) * (((*((s16 *) (((s8 *) motion) + 8)))
+        - ((s16) (*((u16 *) (((s8 *) motion) + 4))))) << 8)));
+    y_step = (func_800644B8(*((s16 *) (((s8 *) motion) + 0xA))) >> 4) * (((*((s16 *) (((s8 *) motion) + 8)))
+        - ((s16) (*((u16 *) (((s8 *) motion) + 4))))) << 8);
+    *((s32 *) (((s8 *) position) + 8)) = (s32) ((*((s32 *) (((s8 *) position) + 8))) + 0xFFFE0000);
+    motion_state = motion;
+    *((s32 *) (((s8 *) position) + 4)) = (s32) ((*((s32 *) (((s8 *) position) + 4))) + y_step);
+    if (((s16) (*((u16 *) (((s8 *) motion_state) + 4)))) > (*((s16 *) (((s8 *) motion_state) + 6)))) {
+        *((u16 *) (((s8 *) motion_state) + (-2))) = (u16) ((*((u16 *) (((s8 *) motion_state) + (-2)))) | 0x8000);
+        page = (void *) 0x80080000;
+        *((s32 *) (((s8 *) page) + 0x14A0)) = (s32) ((*((s32 *) (((s8 *) page) + 0x14A0))) | 0x8000);
+    }
+}
+/* MECHANISM: The seed preserves the 0x20 frame and the long-lived s1/s0 argument bases.
+   A literal 0x80080000 page local held by ASM_KEEP emits the branch-delay lui in v1.
+   Both flag RMW accesses use +0x14A0 from that base, closing all three addressing words. */
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void *initial_data, Row_81916AEC_S_800242EC_2 *source)
+{
+    Row_81916AEC_S_800242EC_3 *visual;
+    void *object;
+    Row_81916AEC_S_800242EC_1 *state;
+    Row_81916AEC_Copy6 *object_data;
+    void *result;
+
+    object = func_8003FC64(0x212);
+    if (object != NULL) {
+        state = (u8 *)object + 0x20;
+        ((Row_81916AEC_S_800242EC_0 *)object)->unk_10 = &D_800241E4;
+        ((Row_81916AEC_S_800242EC_0 *)object)->unk_20 = object_id;
+        state->unk_04 = 0;
+        state->unk_06 = 8;
+        state->unk_08 = 8;
+        state->unk_0A = source->unk_2A;
+        visual = ((Row_81916AEC_S_800242EC_0 *)object)->unk_0C;
+        visual->unk_0D = 0x30;
+        visual->unk_0C = 0x30;
+        visual->unk_0E = 0xC0;
+        visual->unk_12 = 0x7DCF;
+        visual->unk_14 |= 0xC;
+        visual->unk_10 |= 0x20;
+        visual->unk_14 |= 0x100;
+        func_8003DB94(visual, &D_800DEC70, 0);
+        visual->unk_1E = 0x1000;
+        visual->unk_1C = 0x1000;
+        register_node(object, project_sprite_chain);
+        object_data = ((Row_81916AEC_S_800242EC_0 *)object)->unk_08;
+        result = object;
+        *object_data = *(Row_81916AEC_Copy6 *)initial_data;
+        return object;
+    }
+    return NULL;
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown)
+{
+    Row_81916C1C_Inner81916C1C *tick_state;
+    Row_81916C1C_State81916C1C *render_state;
+    Row_81916C1C_Prim81916C1C *prim;
+    s32 step;
+    s8 x_value;
+    s8 remaining;
+
+    tick_state = *(Row_81916C1C_Inner81916C1C **)context;
+    tick_state->counter++;
+    render_state = g_game_work.unk_000;
+    prim = render_state->next;
+    render_state->next = prim + 1;
+    prim->x3 = 0x140;
+    prim->x2 = 0;
+    prim->y2 = 0;
+    prim->y3 = 0xE0;
+    step = countdown->count;
+    prim->y0 = 0xC0;
+    x_value = -0x40 - step * 0x30;
+    prim->x1 = x_value;
+    prim->x0 = x_value;
+    func_800667A8(prim, step);
+    prim->flags |= 2;
+    func_8006658C((u8 *)g_game_work.unk_000 + 0xB0, prim);
+    remaining = (u8)countdown->count - 1;
+    countdown->count = remaining;
+    if ((remaining << 24) == 0) {
+        *(u16 *)((u8 *)context - 2) |= 0x8000;
+        object_flag_block.flags |= 0x8000;
+    }
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
+    Row_81916D2C_S_8002452C_0 *object;
+
+    object = func_8003FC64(0x212);
+    if (object != NULL) {
+        object->unk_10 = &D_8002441C;
+        ((Row_81916D2C_S_8002452C_2 *)(((Row_81916D2C_S_8002452C_1 *)object)->unk_0C))->unk_05 = 4;
+        object->unk_20 = initial_value;
+    }
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void update_the_target_records_counts_flags_status(void *object_slot, void *unused, void *target)
+{
+    void *post_object;
+    void *pre_object;
+
+    pre_object = *(void **)object_slot;
+    *(u16 *)((u8 *)pre_object + 0x14) += 1;
+    func_800478B8(target);
+    if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
+        u16 object_count;
+        u16 slot_flags;
+        s32 global_flags;
+
+        slot_flags = *(u16 *)((u8 *)object_slot - 2);
+        post_object = *(void **)object_slot;
+        *(u16 *)((u8 *)object_slot - 2) = slot_flags | 0x8000;
+        global_flags = object_flag_block.flags;
+        object_count = *(u16 *)((u8 *)post_object + 0x18);
+        object_flag_block.flags = global_flags | 0x8000;
+        *(u16 *)((u8 *)post_object + 0x18) = object_count + 1;
+    }
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, Row_81916E00_Copy24 *initial_data) {
+    s32 owner_value;
+    Row_81916E00_S_80024600_1 *render_state;
+    Row_81916E00_S_80024600_0 *object;
+    Row_81916E00_Copy24 *object_data;
+
+    object = allocate_list_node(0x212, (s8 *) owner_data - 0x20);
+    if (object != NULL) {
+        object->unk_10 = &D_8002457C;
+        owner_value = *owner_data;
+        render_state = object->unk_0C;
+        object->unk_24 = 0;
+        object->unk_20 = owner_value;
+        render_state->unk_0C = 0x808080;
+        render_state->unk_12 = 0x7DCF;
+        render_state->unk_14 = (u16) (render_state->unk_14 | 0xC);
+        render_state->unk_10 = (u16) (render_state->unk_10 | 0x60);
+        render_state->unk_14 = (u16) (render_state->unk_14 | 0x100);
+        func_8003DB94(render_state, &D_800DEC50, 0);
+        render_state->unk_1E = 0x1000;
+        render_state->unk_1C = 0x1000;
+        register_node(object, project_sprite_chain);
+        object_data = object->unk_08;
+        *object_data = *initial_data;
+        return object;
+    } else {
+        return NULL;
+    }
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position) {
+    s32 angle_scale_x;
+    s32 angle_scale_y;
+    Row_81916F10_S_80024710_1 *state;
+
+    state = object->unk_00;
+    state->unk_14 = (u16) (state->unk_14 + 1);
+    angle_scale_x = func_800644B8(object->unk_0E);
+    position->unk_00 = (s32) (position->unk_00 + ((angle_scale_x >> 4) * (func_800644B8(object->unk_10) >> 4) * 0x1C));
+    angle_scale_y = func_800644B8(object->unk_0E);
+    position->unk_04 = (s32) (position->unk_04 + ((angle_scale_y >> 4) * (func_80064584(object->unk_10) >> 4) * 0x1C));
+    position->unk_08 = (s32) (position->unk_08 + ((func_80064584(object->unk_0E) >> 4) * 0x1C00));
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step)
+{
+    s16 saved_step = size_step;
+    void *effect;
+    Row_81917004_S_80024804_2 *part;
+    Row_81917004_Copy24 *position;
+    u8 *effect_state;
+    s32 scale_step;
+    s32 direction_factor;
+    s32 direction_factor_2;
+    s32 scaled_factor;
+    s32 random_value;
+    s16 part_scale;
+    s32 alloc_kind;
+    void *alloc_source;
+    s32 step_word;
+
+    alloc_kind = 0x212;
+    alloc_source = (u8 *)source - 0x20;
+    effect = allocate_list_node(alloc_kind, alloc_source);
+    if (effect != NULL) {
+        ((Row_81917004_S_80024804_0 *)effect)->unk_10 = &D_80024710;
+        ((Row_81917004_S_80024804_0 *)effect)->unk_20 = ((Row_81917004_S_80024804_1 *)source)->unk_00;
+
+        step_word = (s32)saved_step << 16;
+        part = ((Row_81917004_S_80024804_0 *)effect)->unk_0C;
+        part->unk_0D = -0x60 - ((step_word >> 16) << 6);
+        part->unk_0C = -0x60 - ((step_word >> 16) << 6);
+        part->unk_0E = 0xC0;
+        part->unk_12 = 0x7DCF;
+        part->unk_08 = &D_80025B10;
+
+        part->unk_14 |= 0x000C;
+        part->unk_10 |= 0x0020;
+        part->unk_14 |= 0x0100;
+
+        random_value = func_80069EF8();
+        effect_state = (u8 *)effect + 0x20;
+        part->unk_1A = random_value % 0x1000;
+
+        part_scale = ((step_word >> 16) << 8) + 0x500;
+        part->unk_1E = part_scale;
+        part->unk_1C = part_scale;
+        register_node(effect, project_sprite_chain);
+
+        position = ((Row_81917004_S_80024804_0 *)effect)->unk_08;
+        *position = *origin;
+
+        ((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.u = ((Row_81917004_S_80024804_1 *)source)->unk_0E;
+        ((Row_81917004_S_80024804_3 *)effect_state)->unk_10.u = ((Row_81917004_S_80024804_1 *)source)->unk_10;
+
+        direction_factor = func_800644B8(((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.s);
+        position->word[0] -= (scaled_factor = direction_factor >> 4) *
+            (func_800644B8(((Row_81917004_S_80024804_3 *)effect_state)->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
+
+        direction_factor_2 = func_800644B8(((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.s);
+        position->word[1] -= (scaled_factor = direction_factor_2 >> 4) *
+            (func_80064584(((Row_81917004_S_80024804_3 *)effect_state)->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
+
+        position->word[2] -=
+            ((func_80064584(((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.s) >> 4) * ((step_word >> 16) + 2)) << 11;
+        return effect;
+    }
+
+    return NULL;
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E80 *visual) {
+    s16 azimuth;
+    s16 polar_angle;
+    s32 radial_x;
+    s32 radial_y;
+    s32 rotation_rand;
+    s32 polar_rand;
+    s32 azimuth_rand;
+    s32 node_index;
+    s32 azimuth_biased;
+    s32 rotation_quotient;
+    s32 polar_quotient;
+    s32 *flags_base;
+    void **node_slot;
+    Row_81917234_S_80024A34_0 *node;
+
+    node_index = 0;
+    flags_base = (s32 *)(u32)0x80080000;
+    node_slot = (void **)object;
+    do {
+        if ((node = node_slot[5]) != NULL) {
+            u32 node_flags;
+            s32 global_flags;
+            node_flags = node->unk_1E;
+            global_flags = flags_base[0x528];
+            node_flags |= 0x8000;
+            global_flags = global_flags | 0x8000;
+            node->unk_1E = node_flags;
+            flags_base[0x528] = global_flags;
+        }
+        node_index += 1;
+        node_slot += 1;
+    } while (node_index < 3);
+    func_8003DB94(visual, D_800DEDB0, 0);
+    visual->unk_0C.at02_u8.v = 0xC0;
+    visual->unk_0C.at01_u8.v = 0xC0;
+    visual->unk_0C.at00_u8.v = 0xC0;
+    visual->unk_1C.at02_s16.v = 0x800;
+    visual->unk_1C.at00_s16.v = 0x800;
+    visual->unk_14.at00_u16.v = (u16) (visual->unk_14.at00_u16.v | 0xC);
+    visual->unk_10.as_u16 = (u16) (visual->unk_10.as_u16 | 0x20);
+    rotation_quotient = rand();
+    rotation_rand = rotation_quotient;
+    if (rotation_rand < 0) {
+        rotation_quotient = (s32) (rotation_rand + 0xFFF);
+    }
+    rotation_quotient >>= 0xC;
+    visual->unk_1A.as_s16 = (s16) (rotation_rand - (rotation_quotient << 0xC));
+    polar_rand = rand();
+    polar_quotient = polar_rand;
+    polar_quotient = polar_rand / 4096;
+    polar_angle = (polar_rand % 4096);
+    azimuth_rand = rand();
+    azimuth_biased = azimuth_rand;
+    azimuth = (azimuth_rand % 4096);
+    radial_x = func_800644B8(polar_angle);
+    position->unk_00 = (s32) (position->unk_00 + ((radial_x >> 4) * (func_800644B8(azimuth) >> 4) * 0x10));
+    radial_y = func_800644B8(polar_angle);
+    position->unk_04 = (s32) (position->unk_04 + ((radial_y >> 4) * (func_80064584(azimuth) >> 4) * 0x10));
+    position->unk_08 = (s32) (position->unk_08 + ((func_80064584(polar_angle) >> 4) << 0xC));
+    create_an_default_rendering_settings_copies_initial_data(object, position);
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void advance_radial_effect_state(void *motion, void *position, void *effect) {
+    s32 direction_scale;
+    s32 sin_a;
+    s32 sin_b;
+    s32 sin_c;
+    s32 target_x;
+    s32 current_x;
+    s32 next_x;
+    s32 next_distance;
+    s16 past_target;
+    u16 size;
+    u8 intensity;
+    void *object;
+    ObjectFlagBlock *global_flags;
+    s16 state;
+
+    object = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_00;
+    ((Row_8191740C_S_80024C0C_1 *)object)->unk_14++;
+    state = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.s;
+    switch (state) {
+    case 0:
+        ((Rec_D_80082E80 *)effect)->unk_1A.as_u16 += 0x200;
+        sin_a = func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
+        direction_scale = (sin_a >> 4) * (func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
+        ((Rec_func_80024600_arg1 *)position)->unk_00 += direction_scale * 0x1C;
+        sin_b = func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
+        direction_scale = (sin_b >> 4) * (func_80064584(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
+        ((Rec_func_80024600_arg1 *)position)->unk_04 += direction_scale * 0x1C;
+        ((Rec_func_80024600_arg1 *)position)->unk_08 += (func_80064584(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E) >> 4) * 0x1C00;
+        sin_c = func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
+        direction_scale = (sin_c >> 4) * (func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
+        current_x = ((Rec_func_80024600_arg1 *)position)->unk_00;
+        state = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_12;
+        next_x = current_x + direction_scale * 0x1C;
+        if (state != 0) {
+            target_x = ((Rec_func_80024600_arg1 *)position)->unk_0C;
+            past_target = target_x < current_x;
+        } else {
+            target_x = ((Rec_func_80024600_arg1 *)position)->unk_0C;
+            past_target = current_x < target_x;
+        }
+        if (past_target) {
+            s32 distance;
+
+            distance = current_x - target_x;
+            distance = abs(distance);
+            next_distance = next_x - target_x;
+            next_distance = abs(next_distance);
+            if (next_distance < distance) {
+                return;
+            }
+        }
+        initialize_the_s_visual_state_apply_random_spherical_position_offset(motion, position, effect);
+        ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.u++;
+        break;
+    case 1:
+        if (((Rec_D_80082E80 *)effect)->unk_0C.at00_u8.v != 0) {
+            intensity = ((Rec_D_80082E80 *)effect)->unk_0C.at02_u8.v - 0x20;
+            ((Rec_D_80082E80 *)effect)->unk_0C.at02_u8.v = intensity;
+            ((Rec_D_80082E80 *)effect)->unk_0C.at01_u8.v = intensity;
+            ((Rec_D_80082E80 *)effect)->unk_0C.at00_u8.v = intensity;
+        }
+        size = ((Rec_D_80082E80 *)effect)->unk_1C.at02_u16.v + 0x400;
+        ((Rec_D_80082E80 *)effect)->unk_1C.at02_u16.v = size;
+        ((Rec_D_80082E80 *)effect)->unk_1C.at00_u16.v = size;
+        func_800478B8(effect);
+        func_800478B8(effect);
+        if (((Rec_D_80082E80 *)effect)->unk_14.at00_u16.v & 0x6000) {
+            object = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_00;
+            ((Row_8191740C_S_80024C0C_1 *)object)->unk_16++;
+            global_flags = &object_flag_block;
+            (*(u16 *)((u8 *)motion + (-2))) |= 0x8000;
+            global_flags->flags |= 0x8000;
+        }
+        break;
+    }
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_80024E80_arg1 *start_pos) {
+    void *effect;
+    Row_81917680_S_80024E80_2 *state;
+    Row_81917680_S_80024E80_3 *render;
+    Row_81917680_S_80024E80_4 *endpoints;
+    s32 dx;
+    s32 dy;
+    s32 dz;
+    s32 slot_index;
+    u8 *slot_ptr;
+    s32 random_angle;
+
+    effect = allocate_list_node(0x212, (u8 *)owner - 0x20);
+    if (effect != 0) {
+        ((Row_81917680_S_80024E80_0 *)effect)->unk_10 = D_80024C0C;
+        state = (u8 *)effect + 0x20;
+        ((Row_81917680_S_80024E80_0 *)effect)->unk_20 = ((Row_81917680_S_80024E80_1 *)owner)->unk_00;
+        state->unk_04 = 0;
+
+        render = ((Row_81917680_S_80024E80_0 *)effect)->unk_0C;
+        render->unk_0E = 0x80;
+        render->unk_0D = 0x80;
+        render->unk_0C = 0x80;
+        render->unk_12 = 0x7DCF;
+        render->unk_08 = D_800DE39C;
+        render->unk_14 |= 0x100;
+
+        random_angle = rand();
+        render->unk_1A = random_angle % 0x1000;
+        render->unk_1E = 0x400;
+        render->unk_1C = 0x400;
+
+        register_node(effect, project_sprite_chain);
+
+        endpoints = ((Row_81917680_S_80024E80_0 *)effect)->unk_08;
+        *(Row_81917680_SixWords *)endpoints = *(Row_81917680_SixWords *)start_pos;
+        endpoints->unk_0C = ((Row_81917680_S_80024E80_1 *)owner)->unk_20;
+        endpoints->unk_10 = ((Row_81917680_S_80024E80_1 *)owner)->unk_24;
+        endpoints->unk_14 = ((Row_81917680_S_80024E80_1 *)owner)->unk_28;
+
+        dx = ((Row_81917680_S_80024E80_1 *)owner)->unk_20 - start_pos->unk_00.at00_s32.v;
+        dy = ((Row_81917680_S_80024E80_1 *)owner)->unk_24 - start_pos->unk_04.at00_s32.v;
+        dz = ((Row_81917680_S_80024E80_1 *)owner)->unk_28 - start_pos->unk_08.at00_s32.v;
+
+        state->unk_0E = func_80065F90(
+            func_800647A0((((dx >> 12) * (dx >> 12)) +
+                           ((dy >> 12) * (dy >> 12))) << 4),
+            dz >> 4);
+        state->unk_10 = func_80065F90(dx >> 4, dy >> 4);
+
+        if (dx < 0) {
+            state->unk_12 = 1;
+        }
+
+        slot_index = 0;
+        slot_ptr = state;
+        do {
+            ((Row_81917680_S_80024E80_6 *)slot_ptr)->unk_14 = create_radial_effect_from_source(state, endpoints, (s16)slot_index);
+            slot_index++;
+            slot_ptr += 4;
+        } while (slot_index < 3);
+
+        return effect;
+    }
+    return 0;
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void *effect, void *transform, void *visual) {
+    s32 scale;
+    s16 phase;
+    u8 brightness;
+    void *owner;
+
+    owner = ((Row_81917894_S_80025094_0 *)effect)->unk_00;
+    ((Row_81917894_S_80025094_1 *)owner)->unk_14 = (u16) (((Row_81917894_S_80025094_1 *)owner)->unk_14 + 1);
+    func_800478B8(visual);
+    ((Row_81917894_S_80025094_0 *)effect)->unk_06.u = (u16) (((Row_81917894_S_80025094_0 *)effect)->unk_06.u + 1);
+    ((Rec_D_80082E80 *)visual)->unk_1A.as_u16 = (u16) (((Rec_D_80082E80 *)visual)->unk_1A.as_u16 + 0x200);
+    phase = ((Row_81917894_S_80025094_0 *)effect)->unk_04.s;
+
+    switch (phase) {
+    case 0:
+    {
+        u16 radius;
+
+        if (((Row_81917894_S_80025094_0 *)effect)->unk_06.u & 1) {
+            radius = ((Row_81917894_S_80025094_0 *)effect)->unk_0A + 2;
+        } else {
+            radius = ((Row_81917894_S_80025094_0 *)effect)->unk_0A + 1;
+        }
+        ((Row_81917894_S_80025094_0 *)effect)->unk_0A = radius;
+    }
+        brightness = ((Rec_D_80082E80 *)visual)->unk_0C.at02_u8.v + 3;
+        ((Rec_D_80082E80 *)visual)->unk_0C.at02_u8.v = brightness;
+        ((Rec_D_80082E80 *)visual)->unk_0C.at01_u8.v = brightness;
+        ((Rec_D_80082E80 *)visual)->unk_0C.at00_u8.v = brightness;
+        scale = ((Row_81917894_S_80025094_0 *)effect)->unk_06.s << 5;
+        ((Rec_D_80082E80 *)visual)->unk_1C.at02_s16.v = scale;
+        ((Rec_D_80082E80 *)visual)->unk_1C.at00_s16.v = scale;
+        ((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v =
+            (u16) (((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v - 2);
+    case 1:
+        if ((s16) ((Row_81917894_S_80025094_0 *)effect)->unk_06.u >= 0x20) {
+            ((Row_81917894_S_80025094_0 *)effect)->unk_06.u = 0U;
+            ((Row_81917894_S_80025094_0 *)effect)->unk_04.u =
+                (u16) (((Row_81917894_S_80025094_0 *)effect)->unk_04.u + 1);
+        }
+        break;
+    case 2:
+        if ((s16) ((Row_81917894_S_80025094_0 *)effect)->unk_06.u >=
+            ((Row_81917894_S_80025094_0 *)effect)->unk_08) {
+            create_an_oriented_effect_between_position_owner(effect, transform);
+            (*(u16 *)((u8 *)effect + (-2))) =
+                (u16) (((Row_81917894_S_80025094_0_pre *)effect)[-1].unk_00 | 0x8000);
+            object_flag_block.flags |= 0x8000;
+            return;
+        }
+        break;
+    }
+
+    ((Rec_func_80024E80_arg1 *)transform)->unk_00.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)transform)->unk_0E
+        + ((s32) ((func_80064584(((Row_81917894_S_80025094_0 *)effect)->unk_0C) >> 4) * (s16) ((Row_81917894_S_80025094_0 *)effect)->unk_0A)
+           >> 8));
+    ((Rec_func_80024E80_arg1 *)transform)->unk_04.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)transform)->unk_12
+        + ((s32) ((func_800644B8(((Row_81917894_S_80025094_0 *)effect)->unk_0C) >> 4) * (s16) ((Row_81917894_S_80025094_0 *)effect)->unk_0A)
+           >> 8));
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index) {
+    s32 first_word;
+    s32 second_word;
+    s32 random_value;
+    s32 adjusted_random;
+    Row_81917A70_S_80025270_1 *state;
+    Row_81917A70_Copy24 *transform;
+    void *effect;
+    s16 saved_index;
+    effect = allocate_list_node(0x212, (u8 *)object - 0x20);
+    if (effect != NULL) {
+        saved_index = effect_index;
+        state = effect + 0x20;
+        ((Row_81917A70_S_80025270_0 *)effect)->unk_10 = &D_80025094;
+        ((Row_81917A70_S_80025270_0 *)effect)->unk_20 = (s32)object;
+        state->unk_08 = (s16) (saved_index * 7);
+        state->unk_04 = 0;
+        state->unk_06 = 0;
+        state->unk_0A = 0;
+        state->unk_0C = (s16) (saved_index * 0x600);
+        state->unk_20 = src_transform->wordC;
+        state->unk_24 = src_transform->word10;
+        state->unk_28 = src_transform->word14;
+        object = ((Row_81917A70_S_80025270_0 *)effect)->unk_0C;
+        ((Rec_D_80082E80 *)object)->unk_0C.at02_s8.v = 0x20;
+        ((Rec_D_80082E80 *)object)->unk_0C.at01_s8.v = 0x20;
+        ((Rec_D_80082E80 *)object)->unk_0C.at00_s8.v = 0x20;
+        ((Rec_D_80082E80 *)object)->unk_12.at00_s16.v = 0x7DCF;
+        ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v | 0xC);
+        ((Rec_D_80082E80 *)object)->unk_10.as_u16 = (u16) (((Rec_D_80082E80 *)object)->unk_10.as_u16 | 0x20);
+        ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v | 0x100);
+        func_8003DB94(object, &D_800DEB70, 0);
+        adjusted_random = rand();
+        random_value = adjusted_random;
+        if (random_value < 0) {
+            adjusted_random = random_value + 0xFFF;
+        }
+        ((Rec_D_80082E80 *)object)->unk_1A.as_s16 = (s16) (random_value % 4096);
+        ((Rec_D_80082E80 *)object)->unk_1C.at02_s16.v = 0x400;
+        ((Rec_D_80082E80 *)object)->unk_1C.at00_s16.v = 0x400;
+        register_node(effect, project_sprite_chain);
+        transform = ((Row_81917A70_S_80025270_0 *)effect)->unk_08;
+        *transform = *src_transform;
+        first_word = ((Row_81917A70_S_80025270_3 *)transform)->unk_00;
+        second_word = ((Row_81917A70_S_80025270_3 *)transform)->unk_04;
+        ((Row_81917A70_S_80025270_3 *)transform)->unk_0C = first_word;
+        ((Row_81917A70_S_80025270_3 *)transform)->unk_10 = second_word;
+        return (s32)effect;
+    }
+    return 0;
+}
+#include "dungeon/effect/motion/interpolate_view_parameters.h"
+
+void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual)
+{
+    EntityRec *actor;
+    EntityRec *target;
+    ObjectNodeHeader *node;
+    Row_81917C08_EffectMotion *target_motion;
+    Row_81917C08_EffectMotion *actor_motion;
+    Row_81917C08_ActorVisual *actor_visual;
+    Row_81917C08_ActorVisual *scan_visual;
+    Row_81917C08_EffectMotion destination;
+    s16 offset[3];
+    s16 dest_tile_y;
+    u16 tile_x, tile_y;
+    s32 steps;
+    s32 height;
+    s16 dest_tile_x;
+
+    action->ticks++;
+    actor = action->actor;
+    switch (action->phase) {
+    case 0:
+        action->ticks = 0;
+        action->completed_a = 0;
+        action->completed_b = 0;
+        action->phase++;
+        action->direction = ((u16)actor->facing >> 9) & 7;
+        visual->color = 0x808080;
+        begin_view_parameter_transition((ObjectNodeHeader *)actor - 1, motion, 8, 0x300);
+        /* The initial movement work is shared with phase 1. */
+    case 1:
+        node = (ObjectNodeHeader *)actor - 1;
+        actor_visual = node->unk_0C;
+        if (!resolve_record_orientation_or_fallback(actor_visual->resource, actor_visual, offset, 0)) {
+            if (!( ((Row_81917C08_ActorVisual *)node->unk_0C)->flags & 0x8000))
+                break;
+        }
+        actor_motion = node->unk_08;
+        motion->x.w.i = actor_motion->x.w.i;
+        motion->y.w.i = actor_motion->y.w.i;
+        motion->z.w.i = actor_motion->z.w.i;
+        if (!(((Row_81917C08_ActorVisual *)node->unk_0C)->flags & 0x8000)) {
+            motion->x.w.i += offset[0];
+            motion->y.w.i += offset[1];
+            motion->z.w.i += offset[2];
+        } else {
+            motion->z.w.i -= 0x40;
+        }
+        if (!(*action->flags & 0x80))
+            break;
+        steps = 0;
+        target = actor->target;
+        if (target) {
+            target_motion = ((ObjectNodeHeader *)target - 1)->unk_08;
+            motion->next_x = target_motion->x.v;
+            motion->next_y = target_motion->y.v;
+            motion->next_z = target_motion->z.v - (D_800DDC40[((u8 *)actor->target)[0x13]] << 15);
+        } else {
+            scan_visual = node->unk_0C;
+            tile_x = scan_visual->tile_x;
+            tile_y = scan_visual->tile_y;
+            dest_tile_x = tile_x;
+            dest_tile_y = tile_y;
+            do {
+                if (check_layer_offset_height((s16)tile_x * 0x40, (s16)tile_y * 0x40,
+                                 actor->unk_88, action->direction << 9))
+                    break;
+                height = sample_terrain_surface_height(((s16)tile_x + dir_step_x[action->direction]) * 0x40 + 0x20,
+                                     ((s16)tile_y + dir_step_y[action->direction]) * 0x40 + 0x20,
+                                     actor->unk_88 - 0x20);
+                if ((s16)height > 0x200 || (s16)(height - actor->unk_88) < -0x3F)
+                    break;
+                steps++;
+                tile_x += (u16)dir_step_x[action->direction];
+                tile_y += (u16)dir_step_y[action->direction];
+                dest_tile_y = tile_y;
+                dest_tile_x = tile_x;
+            } while (steps < 8);
+            target_motion = &destination;
+            target_motion->x.w.i = (dest_tile_x * 64) + ((dir_step_x[action->direction] + 1) * 32);
+            target_motion->y.w.i = (dest_tile_y * 64) + ((dir_step_y[action->direction] + 1) * 32);
+            target_motion->z.w.i = motion->z.w.i;
+            motion->next_x = target_motion->x.v;
+            motion->next_y = target_motion->y.v;
+            motion->next_z = motion->z.v - 0x200000;
+        }
+        create_an_initializes_visual_state_copies_initial_data(action, motion, actor);
+        action->ticks = 0;
+        action->phase++;
+        break;
+    case 2:
+        motion->x.v += ((func_80064584(actor->facing) >> 4) * (8 - action->ticks)) << 8;
+        motion->y.v += ((func_800644B8(actor->facing) >> 4) * (8 - action->ticks)) << 8;
+        motion->z.v -= 0x20000;
+        if (action->ticks == 5) {
+            play_sound_if_enabled(0x300);
+            for (steps = 0; steps < 8; steps++)
+                create_an_attached_effect_copied_transform_data_randomized_angle(action, motion, (s16)steps);
+        }
+        if (action->ticks >= 9) {
+            action->ticks = 0;
+            action->phase++;
+            break;
+        }
+        action->pending = 0;
+        return;
+    case 3:
+        if (action->ticks < 0xD)
+            motion->z.v -= 0x20000;
+        if (action->ticks < 0x3C)
+            break;
+        create_a_type_hex_212_initializes_handler_mode(action);
+        target = actor->target;
+        if (target) {
+            target_motion = ((ObjectNodeHeader *)target - 1)->unk_08;
+            motion->next_x = (target_motion->x.v - motion->x.v) / 32;
+            motion->next_y = (target_motion->y.v - motion->y.v) / 32;
+            motion->next_z = (target_motion->z.v -
+                (D_800DDC40[((u8 *)actor->target)[0x13]] << 15) - motion->z.v) / 32;
+        } else {
+            motion->next_x = (motion->next_x - motion->x.v) / 32;
+            motion->next_y = (motion->next_y - motion->y.v) / 32;
+            motion->next_z = (motion->next_z - motion->z.v) / 32;
+        }
+        action->ticks = 0;
+        action->phase++;
+        break;
+    case 4:
+        motion->x.v += motion->next_x;
+        motion->y.v += motion->next_y;
+        motion->z.v += motion->next_z;
+        if (action->ticks >= 0x20) {
+            action->ticks = 0;
+            action->phase++;
+            break;
+        }
+        action->pending = 0;
+        return;
+    case 5:
+        if (action->completed_a < 8 || action->completed_b < 8)
+            break;
+        if (actor->target)
+            apply_attack_power_and_element_effects(actor->target, 0x18, action->event_id, 2,
+                         action->direction << 9, actor, 1);
+        action->ticks = 0;
+        action->phase++;
+        break;
+    case 6:
+        if (!action->pending) {
+            D_8008346C.value = 0;
+            ((ObjectNodeHeader *)action)[-1].flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
+        }
+        break;
+    }
+    action->pending = 0;
+}

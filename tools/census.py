@@ -4,7 +4,8 @@ import argparse, json, re, collections
 from pathlib import Path
 import common
 from common import ROOT, LEDGER, rows, write_jsonl, raw_path
-from source_layout import row_path as layout_row_path, source_files as layout_source_files
+from source_layout import (row_path as layout_row_path, source_files as layout_source_files,
+                           source_segments as layout_source_segments)
 from pin_census import sites_of, arm_labels, HAS_PP_RE
 
 PIN_RE = re.compile(r"\bASM_([A-Z0-9_]+)\(")
@@ -85,19 +86,23 @@ def void_exact_targets():
             if not d.exists():
                 continue
             for f in layout_source_files(cdir, ROOT):
+                # A definition belongs to the row that OWNS its text, by layout identity: a moved
+                # file's row, or an inlined member's fragment of a merged TU (LL7).  The file stem
+                # is only the owner of an unregistered (flat/auxiliary) file, as before LL7.
                 try:
-                    text = f.read_text(errors="replace")
+                    segments = layout_source_segments(f, ROOT)
                 except OSError:
                     continue
-                for m in VOID_DEF_RE.finditer(text):
-                    b = base.get(f"{cdir}/{f.stem}")
-                    # mirrors levels.py's own L0 test: an slus row's baseline never carries
-                    # `exact` (only `status`), so its verdict is `status == "ok"` there
-                    if b and (b.get("exact") is True or (cdir == "slus" and b.get("status") == "ok")):
-                        # Audit sites use func_HEX identities even after a source rename.
-                        key = _func_key(m.group(1))
-                        if key:
-                            targets.add(key)
+                for owner, text in segments:
+                    for m in VOID_DEF_RE.finditer(text):
+                        b = base.get(owner or f"{cdir}/{f.stem}")
+                        # mirrors levels.py's own L0 test: an slus row's baseline never carries
+                        # `exact` (only `status`), so its verdict is `status == "ok"` there
+                        if b and (b.get("exact") is True or (cdir == "slus" and b.get("status") == "ok")):
+                            # Audit sites use func_HEX identities even after a source rename.
+                            key = _func_key(m.group(1))
+                            if key:
+                                targets.add(key)
         _VOID_EXACT_TARGETS = targets | declared_void_callees()
     return _VOID_EXACT_TARGETS
 

@@ -1,51 +1,51 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "town/ll3a_79d800_7a1c60",
- "container": "town",
- "foff": "0x0079D800",
- "size": "0x00004460",
- "vma": "0x80020000",
- "evidence": "config/overlays/town.rowbase.jsonl proven region sweep_79DED0",
- "entries": [
-  {
-   "row": "town/func_8081FBD8",
-   "home": "town/func_8008DB5C",
-   "tu": "src/town/func_8008DB5C.c",
-   "foff": "0x0079FBD8",
-   "vma": "0x800223D8",
-   "size": 8,
-   "bindings": {
-    "0x8008B2BC": "0x800223D8"
-   },
-   "evidence": "LL3a attestation sha256:f4e3a729116335b05de229141382a9c7f3e74b5b5a2588d9fab673b2355164bb; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "town/func_8081FBE0",
-   "home": "town/func_8008DB5C",
-   "tu": "src/town/func_8008DB5C.c",
-   "foff": "0x0079FBE0",
-   "vma": "0x800223E0",
-   "size": 8,
-   "bindings": {
-    "0x8008B2BC": "0x800223E0"
-   },
-   "evidence": "LL3a attestation sha256:5a16ea6b2bb35dca5ad2a23365ceaffca113e06f2d620f721779040b20e42253; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  },
-  {
-   "row": "town/func_8081FC4C",
-   "home": "town/func_808166F4",
-   "tu": "src/town/func_808166F4.c",
-   "foff": "0x0079FC4C",
-   "vma": "0x8002244C",
-   "size": 148,
-   "bindings": {
-    "0x8003FD64": "0x8003FD64",
-    "0x80083498": "0x80083498",
-    "0x8004491C": "0x8004491C",
-    "0x80053858": "0x80053858",
-    "0x800206F4": "0x8002244C"
-   },
-   "evidence": "LL3a attestation sha256:84cc999ba7c127985a8cbf878212181a103a777888d019acee181f76ac3cc1a1; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/ll3a_79d800_7a1c60",
+  "container": "town",
+  "foff": "0x0079D800",
+  "size": "0x00004460",
+  "vma": "0x80020000",
+  "evidence": "config/overlays/town.rowbase.jsonl proven region sweep_79DED0",
+  "entries": [
+    {
+      "row": "town/func_8081FBD8",
+      "home": "town/func_8008DB5C",
+      "tu": "src/town/scene/resource/jyotyu_set_reserve_all.c",
+      "foff": "0x0079FBD8",
+      "vma": "0x800223D8",
+      "size": 8,
+      "bindings": {
+        "0x8008B2BC": "0x800223D8"
+      },
+      "evidence": "LL3a attestation sha256:f4e3a729116335b05de229141382a9c7f3e74b5b5a2588d9fab673b2355164bb; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_8081FBE0",
+      "home": "town/func_8008DB5C",
+      "tu": "src/town/scene/resource/jyotyu_set_reserve_all.c",
+      "foff": "0x0079FBE0",
+      "vma": "0x800223E0",
+      "size": 8,
+      "bindings": {
+        "0x8008B2BC": "0x800223E0"
+      },
+      "evidence": "LL3a attestation sha256:5a16ea6b2bb35dca5ad2a23365ceaffca113e06f2d620f721779040b20e42253; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_8081FC4C",
+      "home": "town/func_808166F4",
+      "tu": "src/town/minigame/object/create_scene_object_with_byte_payload.c",
+      "foff": "0x0079FC4C",
+      "vma": "0x8002244C",
+      "size": 148,
+      "bindings": {
+        "0x8003FD64": "0x8003FD64",
+        "0x80083498": "0x80083498",
+        "0x8004491C": "0x8004491C",
+        "0x80053858": "0x80053858",
+        "0x800206F4": "0x8002244C"
+      },
+      "evidence": "LL3a attestation sha256:84cc999ba7c127985a8cbf878212181a103a777888d019acee181f76ac3cc1a1; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    }
+  ]
 }

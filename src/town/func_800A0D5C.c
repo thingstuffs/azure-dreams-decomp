@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* t_soukowin_open: Initialize and open the storage window, saving its handle. */
 s32 t_soukowin_open(void) {

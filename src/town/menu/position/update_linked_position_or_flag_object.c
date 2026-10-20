@@ -1,0 +1,76 @@
+#include "common.h"
+#include "shared/object_index_slots.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/object_links.h"
+#include "shared/object_payload.h"
+#include "shared/position_views.h"
+
+#define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
+
+extern s32 classify_object_against_bounds(void *, void *);
+extern void unlink_node_if_registered(void *object);
+extern s32 func_800644B8(s32 angle);
+extern s32 func_80064584(s32 angle);
+
+typedef struct {
+    s32 unused;
+    void *record;
+} D_80082660_entry;
+
+
+typedef struct S_func_800AA760_0 {
+    u8 pad_00[0x60];
+    u8 unk_60;
+    u8 pad_61[0x37];
+    s8 *unk_98;
+} S_func_800AA760_0;
+
+
+typedef struct S_func_800AA760_3 {
+    u8 pad_00[0x72];
+    s16 unk_72;
+} S_func_800AA760_3;
+
+
+/* Updates the linked position, or clears the object flag and sets cleanup bits. */
+void update_linked_position_or_flag_object(S_func_800AA760_0 *object, SignedPositionView *out_position)
+{
+    s32 x_offset;
+    s32 y_offset;
+    s8 *object_flag;
+    u8 link_id;
+    u8 link_index;
+    ObjectPayloadView *linked_record;
+    S_func_800AA760_3 *linked_entity;
+    MovingPosition *linked_position;
+
+    link_id = object->unk_60;
+    link_index = link_id & 0xFF;
+    if (classify_object_against_bounds(object, out_position) != 0) {
+        object_flag = object->unk_98;
+        if (object_flag != 0) {
+            *object_flag = 0;
+        }
+        unlink_node_if_registered(object);
+        ((ObjectRetirementFlags *)((u8 *)object - 2))->unk_00 |= 0x8000;
+        object_flag_block.flags |= 0x8000;
+        return;
+    }
+
+    if (link_index != 0) {
+        linked_record = D_80082660[link_index].object;
+        linked_entity = (S_func_800AA760_3 *)((u8 *)linked_record + 0x20);
+        if (linked_record != 0) {
+            linked_position = linked_record->unk_08;
+            x_offset = func_800644B8(linked_entity->unk_72);
+            out_position->unk_02 =
+                linked_position->unk_02 + (x_offset / 256);
+
+            y_offset = func_80064584(linked_entity->unk_72);
+            out_position->unk_06 =
+                linked_position->unk_06 + (y_offset / 256);
+            out_position->unk_0A = linked_position->unk_0A - 0x20;
+        }
+    }
+}

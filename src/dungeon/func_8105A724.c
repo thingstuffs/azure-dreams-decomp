@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_7f0f7800_p04.h"
+#include "dungeon/monster/tyrant/check_action_eligibility_updates_actor_state_directional_animation_success.h"
 
 /* Checks action eligibility and updates the actor state and directional animation on success. */
 s32 check_action_eligibility_updates_actor_state_directional_animation_success(void *action_state, s32 action_id, void *sprite, EntityRec *actor) {
@@ -53,7 +53,7 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(v
         target_direction = 0;
     }
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_80173FB8;
-    func_80047784(sprite,
+    select_sprite_entry(sprite,
         D_80173FB8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
     actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);

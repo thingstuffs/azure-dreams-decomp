@@ -58,7 +58,7 @@
       "view_bytes": 28,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_51e800.imports.json",
-      "declaration": "include/modules/dungeon_ovl_51e800.h"
+      "declaration": "include/dungeon/level/init_dungeon_view.h"
     },
     "D_801DA714": {
       "symbol": "D_801DA714",
@@ -67,7 +67,7 @@
       "view_bytes": 28,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_51e800.imports.json",
-      "declaration": "include/modules/dungeon_ovl_51e800.h"
+      "declaration": "include/dungeon/level/init_dungeon_view.h"
     }
   },
   "functions": {

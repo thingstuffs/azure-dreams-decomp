@@ -1,0 +1,159 @@
+#include "common.h"
+#include "shared/tile_object.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "shared/entity.h"
+
+extern void select_sprite_entry(void *, s32, s32);
+extern s32 func_800644B8(s32);
+extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void advance_status_timers(void *);
+extern void on_actor_status_updated(void *);
+extern s32 check_actor_floor_trap(void *, void *);
+extern u8 D_8016B778[];
+extern u8 D_8017467C[];
+extern u8 D_80174684[];
+
+typedef struct S_8016CB80_0 {
+    u8 pad_00[0x8C];
+    u8 * unk_8C;
+    s32 unk_90;
+    u8 pad_94[0x2];
+    u16 unk_96;
+    u16 unk_98;
+    u8 pad_9A[0x1];
+    u8 unk_9B;
+    u8 pad_9C[0x2];
+    s16 unk_9E;
+    s32 unk_A0;
+    u8 pad_A4[0xF];
+    u8 unk_B3;
+} S_8016CB80_0;   /* arg0 in update_movement_and_directional_animation */
+
+
+typedef struct S_8016CB80_2 {
+    u8 pad_00[0x24];
+    u8 unk_24;
+    u8 unk_25;
+    u8 pad_26[0x6];
+    union { void * p; u8 * p2; } unk_2C;   /* accessed as both */
+} S_8016CB80_2;   /* arg2 in update_movement_and_directional_animation */
+
+
+typedef struct S_8016CB80_4 {
+    u8 pad_00[0x8];
+    s16 unk_08;
+} S_8016CB80_4;   /* temp_a0_2 in update_movement_and_directional_animation */
+
+/* Updates movement, directional animation, and action completion. */
+void update_movement_and_directional_animation(void *state, void *motion_arg, void *actor_arg, void *entity_arg) {
+    void *motion = motion_arg;
+    void *actor = actor_arg;
+    void *entity = entity_arg;
+    s32 direction_info;
+    s32 move_ticks;
+    s32 next_move_ticks;
+    s32 tile_x;
+    s32 pixel_offset;
+    s32 pixel_y;
+    s32 entity_flags;
+    u16 action_ticks;
+    u16 status_flags;
+    s32 phase;
+    register void *current_anims;
+    u8 *anims;
+
+    phase = ((S_8016CB80_0 *)state)->unk_9B;
+    switch (phase) {
+    case 0:
+        ((S_8016CB80_0 *)state)->unk_98 = (u16) (((S_8016CB80_0 *)state)->unk_98 | 8);
+        ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C & 0xF7FFFFFF);
+        ((S_8016CB80_0 *)state)->unk_9E = 5;
+        ((S_8016CB80_0 *)state)->unk_A0 = 0;
+        ((S_8016CB80_0 *)state)->unk_9B = (u8) (((S_8016CB80_0 *)state)->unk_9B + 1);
+    case 1:
+        move_ticks = ((S_8016CB80_0 *)state)->unk_9E;
+        ((S_8016CB80_0 *)state)->unk_90 = (s32) (((S_8016CB80_0 *)state)->unk_90 - ((S_8016CB80_0 *)state)->unk_A0);
+        if (move_ticks != 0) {
+            tile_x = ((S_8016CB80_2 *)actor)->unk_24 << 6;
+            pixel_offset = ((EntityRec *)motion)->x.w.i - 0x20;
+            ((EntityRec *)motion)->unk_0C = (s32) ((s32) ((tile_x - pixel_offset) << 0x10) / move_ticks);
+            pixel_y = ((EntityRec *)motion)->y.w.i - 0x20;
+            ((EntityRec *)motion)->unk_10 = (s32) ((s32) (((((S_8016CB80_2 *)actor)->unk_25 << 6) - pixel_y)
+                << 0x10) / (s16) ((S_8016CB80_0 *)state)->unk_9E);
+            ((S_8016CB80_0 *)state)->unk_A0 = (s32) ((0 - func_800644B8(((S_8016CB80_0 *)state)->unk_9E * 0x199))
+                << 0xA);
+        }
+        ((S_8016CB80_0 *)state)->unk_90 = (s32) (((S_8016CB80_0 *)state)->unk_90 + ((S_8016CB80_0 *)state)->unk_A0);
+        next_move_ticks = (u16) ((S_8016CB80_0 *)state)->unk_9E - 1;
+        ((S_8016CB80_0 *)state)->unk_9E = next_move_ticks;
+        if ((next_move_ticks << 0x10) < 0) {
+            ((S_8016CB80_0 *)state)->unk_90 = 0;
+            ((S_8016CB80_0 *)state)->unk_98 = (u16) (((S_8016CB80_0 *)state)->unk_98 & 0xFFF7);
+            ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C | 0x08000000);
+            ((S_8016CB80_0 *)state)->unk_9B = (u8) (((S_8016CB80_0 *)state)->unk_9B + 1);
+        }
+    case 2:
+        if (((EntityRec *)entity)->flags1C & 0x08000000) {
+            ((S_8016CB80_0 *)state)->unk_98 = (u16) (((S_8016CB80_0 *)state)->unk_98 & 0xFFF7);
+            ((EntityRec *)motion)->flags14 = 0;
+            ((EntityRec *)motion)->unk_10 = 0;
+            ((EntityRec *)motion)->unk_0C = 0;
+            set_record_integer_tile_center(motion, ((S_8016CB80_2 *)actor)->unk_24, ((S_8016CB80_2 *)actor)->unk_25);
+            ((S_8016CB80_0 *)state)->unk_9B = (u8) (((S_8016CB80_0 *)state)->unk_9B + 1);
+        }
+        break;
+    case 3:
+        if (((S_8016CB80_0 *)state)->unk_B3 == 0) {
+            current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
+            anims = (u8 *)&D_8017467C;
+            if (current_anims != anims) {
+                (*(u8 **)((u8 *)actor + 0x2C)) = anims;
+                select_sprite_entry(actor, *(u8 *)((((s32) (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100)
+                    >> 9) & 7) + (u32)anims), 0);
+            }
+        } else {
+            current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
+            anims = D_80174684;
+            if (current_anims != anims) {
+                (*(u8 **)((u8 *)actor + 0x2C)) = anims;
+                select_sprite_entry(actor, *(u8 *)((((s32) (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100)
+                    >> 9) & 7) + (u32)anims), 0);
+            }
+        }
+        break;
+    }
+
+    action_ticks = ((S_8016CB80_0 *)state)->unk_96 - 1;
+    ((S_8016CB80_0 *)state)->unk_96 = action_ticks;
+    if ((action_ticks << 0x10) <= 0) {
+        ((EntityRec *)motion)->flags14 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
+        set_record_integer_tile_center(motion, ((S_8016CB80_2 *)actor)->unk_24, ((S_8016CB80_2 *)actor)->unk_25);
+        advance_status_timers(entity);
+        if (g_dungeon_status.unk_08 != 0) {
+            g_dungeon_status.unk_08 = (s16) ((u16) g_dungeon_status.unk_08 - 1);
+        }
+        entity_flags = ((EntityRec *)entity)->flags1C;
+        if (entity_flags & 0x2000) {
+            status_flags = ((EntityRec *)entity)->unk_46;
+            if (status_flags & 0x8000) {
+                ((EntityRec *)entity)->unk_46 = status_flags & 0x7FFF;
+            }
+        } else {
+            if (!(entity_flags & 0x410)) {
+                if (entity_flags & 0x20000) {
+                    ((EntityRec *)entity)->facing = get_rounded_facing_and_rounding_flag(((S_8016CB80_2 *)actor)->unk_24,
+                        ((S_8016CB80_2 *)actor)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &direction_info);
+                }
+            }
+        }
+        if ((check_actor_floor_trap(actor, entity) << 0x10) > 0) {
+            ((S_8016CB80_0 *)state)->unk_8C = D_8016B778;
+            on_actor_status_updated(entity);
+        }
+    }
+}
+

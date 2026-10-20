@@ -22,14 +22,14 @@ typedef struct ActorActionWork {
     union { s16 signedValue; u16 value; } pendingAmount;
 } ActorActionWork;
 
-extern s32 func_80042900(void *, s32);
-extern void func_80042B68(void *, s32);
-extern void func_80047784(void *, u8, s32);
+extern s32 get_entity_effect_value(void *, s32);
+extern void clear_slots_of_type(void *, s32);
+extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern s32 generate_random_value();
-extern void func_800A9A04(void *);
+extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_food(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
@@ -68,7 +68,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
             direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
             direction &= 7;
             directionFrame = direction + entryFrames;
-            func_80047784(entity, *directionFrame, 0);
+            select_sprite_entry(entity, *directionFrame, 0);
             dungeon_state = &g_dungeon_status;
             dungeon_state->unk_0A--;
             next_state = action->phase + 1;
@@ -90,7 +90,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + waitFrames;
-        func_80047784(entity, *directionFrame, 0);
+        select_sprite_entry(entity, *directionFrame, 0);
         action->phaseTicks = 0;
         next_state = action->phase + 1;
         action->phase = next_state;
@@ -110,7 +110,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + startFrames;
-        func_80047784(entity, *directionFrame, 0);
+        select_sprite_entry(entity, *directionFrame, 0);
         action->phaseTicks = 0;
         next_state = action->phase + 1;
         action->phase = next_state;
@@ -121,7 +121,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
     case 3:
     {
         u8 *finishFrames;
-        if ((func_80042900(actor, 1) << 16) != 0) {
+        if ((get_entity_effect_value(actor, 1) << 16) != 0) {
             DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             s32 actor_flags;
 
@@ -182,18 +182,18 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
             }
 
             update_actor_status_and_food(actor);
-            func_800A9A04(actor);
-            if ((func_80042900(actor, 1) << 16) != 0) {
+            on_actor_status_updated(actor);
+            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 TileObject *room_base = &D_80082E80;
                 s8 room_id = entity->unk_26.as_s8;
 
                 if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)get_tile_chebyshev_distance(room_base, entity) < 2) {
                     if ((generate_random_value() & 7) == 0) {
-                        func_80042B68(actor, 1);
+                        clear_slots_of_type(actor, 1);
                     }
                 }
             }
-            if ((func_80042900(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 return;
             }
         }
@@ -204,7 +204,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + finishFrames;
-        func_80047784(entity, *directionFrame, 0);
+        select_sprite_entry(entity, *directionFrame, 0);
         if ((entity->unk_14.at00_u16.v & 0x8000) != 0) {
             break;
         }
@@ -236,7 +236,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + restoreFrames;
-        func_80047784(entity, *directionFrame, 0);
+        select_sprite_entry(entity, *directionFrame, 0);
         action->phaseTicks = 0;
         next_state = action->phase + 1;
         action->phase = next_state;
@@ -256,7 +256,7 @@ void advance_overlay_actor_facing_effects(ActorActionWork *action, void *context
         direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + idleFrames;
-        func_80047784(entity, *directionFrame, 0);
+        select_sprite_entry(entity, *directionFrame, 0);
         {
             DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             dungeon_state->unk_0A--;

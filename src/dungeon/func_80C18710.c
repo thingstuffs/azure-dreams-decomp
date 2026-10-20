@@ -29,7 +29,7 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
         ((R17_80173F10_S_80173ED8_2 *)counter_state)->unk_0A--;
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744F4);
         direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
-        func_80047784(sprite,(u8)(((u8 *)D_801744F4)[direction & 7]), 0);
+        select_sprite_entry(sprite,(u8)(((u8 *)D_801744F4)[direction & 7]), 0);
         ((R17_80173F10_S_80173ED8_0 *)action)->unk_9B++;
         return;
     }
@@ -40,7 +40,7 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
 
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744EC);
             direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
-            func_80047784(sprite,(u8)(((u8 *)D_801744EC)[direction & 7]), 0);
+            select_sprite_entry(sprite,(u8)(((u8 *)D_801744EC)[direction & 7]), 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
             counter_state = (u8 *)&g_dungeon_status.unk_00;
             ((R17_80173F10_S_80173ED8_2 *)counter_state)->unk_0A++;
@@ -88,14 +88,14 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
         }
 
         update_actor_status_and_food(entity);
-        func_800A9A04(entity);
+        on_actor_status_updated(entity);
         if (((EntityRec *)entity)->tileY == 0) {
             return;
         }
 
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744EC);
         direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
-        func_80047784(sprite,(u8)(((u8 *)D_801744EC)[direction & 7]), 0);
+        select_sprite_entry(sprite,(u8)(((u8 *)D_801744EC)[direction & 7]), 0);
         ((EntityRec *)entity)->flags1C |= 0x40000;
         ((R17_80173F10_S_80173ED8_4 *)dungeon_state)->unk_0A++;
 

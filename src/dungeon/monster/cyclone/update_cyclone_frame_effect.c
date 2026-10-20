@@ -1,0 +1,41 @@
+#include "common.h"
+#include "shared/object_flags.h"
+
+extern void func_800478B8(void *object);
+extern void select_sprite_entry(void *object, s32 kind, s32 value);
+
+/* Advances animation and motion, updates the sprite frame, and marks completion at step eight. */
+void func_80175480(u16 *anim_state, u32 *motion, u16 *sprite) {
+    s32 step_bits;
+    s32 frame;
+    s32 rounded_frame;
+
+    step_bits = anim_state[0] + 1;
+    anim_state[0] = step_bits;
+    step_bits = step_bits << 16;
+    frame = step_bits >> 16;
+    if (frame >= 8) {
+        anim_state[-1] |= 0x8000;
+        object_flag_block.flags |= 0x8000;
+        return;
+    }
+    if (frame >= 6) {
+        s32 frame_offset;
+        frame_offset = frame + 6;
+        frame = ((s16 *)anim_state)[2] + frame_offset;
+        rounded_frame = frame;
+        sprite[9] = anim_state[3] + (frame % 8) + 8;
+    } else {
+        s32 frame_offset;
+        frame_offset = frame + 6;
+        frame = ((s16 *)anim_state)[2] + frame_offset;
+        rounded_frame = frame;
+        sprite[9] = anim_state[3] + (frame % 8);
+        motion[0] += motion[3];
+        motion[1] += motion[4];
+    }
+    func_800478B8(sprite);
+    if (sprite[10] & 0x6000) {
+        select_sprite_entry(sprite, 0x31, 0);
+    }
+}

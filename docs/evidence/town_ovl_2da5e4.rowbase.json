@@ -186,7 +186,7 @@
   "retail_code": [
     {
       "container": "slus",
-      "source": "src/slus/konami_runtime_w_8003BAF8.c",
+      "source": "src/engine/object/change_map.c",
       "source_sha256": "72abd076759753a2cb51e459e76e4c1408898dd3f973558525aaaffeb291550a",
       "vma": 2147728120,
       "foff": 62200,
@@ -913,7 +913,7 @@
     },
     {
       "container": "slus",
-      "source": "src/slus/konami_runtime_w_8003BD34.c",
+      "source": "src/engine/resource/runtime_copy_three_global_blocks.c",
       "source_sha256": "924e08fa9765008e13a31dcb9234f17626320da6f0e2710f9f19eb03ccc69811",
       "vma": 2147728692,
       "foff": 62772,
@@ -1671,7 +1671,7 @@
     },
     {
       "container": "slus",
-      "source": "src/slus/konami_runtime_w_80039D48.c",
+      "source": "src/engine/script/vm/vm_op_call_absolute_function.c",
       "source_sha256": "89c2f8fc3c8c04d64ec1aa4a9d2ab4a2bca5b7084f74150218c27306bb4bae00",
       "vma": 2147720520,
       "foff": 54600,
@@ -1828,7 +1828,7 @@
     },
     {
       "container": "slus",
-      "source": "src/slus/w_80053CFC.c",
+      "source": "src/engine/cd/start_cd_read.c",
       "source_sha256": "b03b967d6f165608e12a159474bc55dbcc9165dfa484bc0c906e69d890d2123c",
       "vma": 2147826940,
       "foff": 161020,
@@ -6144,7 +6144,7 @@
     },
     {
       "container": "town",
-      "source": "src/town/func_8032FC84.c",
+      "source": "src/town/scene/object/init_object_set_runtime_pointers.c",
       "source_sha256": "83bdf3e83c1ed51f0e7674fe7e409305593aadb82fee2c1194c4a73269a8ed2f",
       "vma": 2147591300,
       "foff": 2817156,
@@ -6321,7 +6321,7 @@
     },
     {
       "container": "town",
-      "source": "src/town/func_8032F844.c",
+      "source": "src/town/scene/object/build_object_set_and_select_lists.c",
       "source_sha256": "3a5115d5d7220037eb395daf57fcd6ab73d87067e681801cbf23ca2a43d57219",
       "vma": 2147590212,
       "foff": 2816068,
@@ -7413,7 +7413,7 @@
     },
     {
       "container": "town",
-      "source": "src/town/func_8032EEE4.c",
+      "source": "src/town/scene/find_masked_record_and_initialize.c",
       "source_sha256": "941ea646446953ce33c45274272668555b81f93ff3867c5aa36ff504ebabbb8c",
       "vma": 2147587812,
       "foff": 2813668,
@@ -7595,7 +7595,7 @@
     },
     {
       "container": "town",
-      "source": "src/town/func_8032BF48.c",
+      "source": "src/town/scene/event/initialize_active_event_data.c",
       "source_sha256": "719dbe2b61cad7724c304686ab85328ee5b6d27cb3faa3c0d8e730595cbc8ca8",
       "vma": 2147575624,
       "foff": 2801480,
@@ -7762,7 +7762,7 @@
     },
     {
       "container": "town",
-      "source": "src/town/func_8008D7CC.c",
+      "source": "src/town/scene/resource/find_packed_resource_descriptor.c",
       "source_sha256": "27a0ffabb5d267f9bb6466cf9687b35a6fff4e4e6857691fa1a433a840a67a24",
       "vma": 2148052780,
       "foff": 55244,
@@ -7939,7 +7939,7 @@
     },
     {
       "container": "town",
-      "source": "src/town/func_8008D850.c",
+      "source": "src/town/scene/resource/install_resource_descriptor_at_front.c",
       "source_sha256": "2f57c6c88e4f58ca532910b6a24dbb72a3c658f98aa6f029d2c6bf62d2a32dbc",
       "vma": 2148052912,
       "foff": 55376,

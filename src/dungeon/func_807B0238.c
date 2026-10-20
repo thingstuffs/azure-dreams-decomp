@@ -55,10 +55,10 @@ void func_800F7A38(EntityRec *source, s16 state_value, s32 render_value) {
     void *effect;
     S_807B0238_1 *render_data;
 
-    effect = func_8003FD64(0x212, source);
+    effect = allocate_list_node(0x212, source);
     if (effect != NULL) {
         ((S_807B0238_0 *)effect)->unk_10 = (void *)func_800F7910;
-        func_8004491C(effect, func_80045340);
+        register_node(effect, project_sprite_chain);
         ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_02 =
             (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_02 + (rand() & 0x3F)) - 0x20);
         ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_06 =

@@ -1,0 +1,89 @@
+#include "common.h"
+#include "shared/object_index_slots.h"
+
+#include "common.h"
+
+typedef struct RuntimeTail {
+    u8 pad00[0x85];
+    u8 field85;
+    u8 field86;
+    u8 field87;
+} RuntimeTail;
+
+typedef struct RuntimeState {
+    u8 pad00[3];
+    u8 field03;
+    u8 pad04[0x34];
+    s32 field38;
+    u8 pad3C[0x0C];
+    s32 field48[16];
+    void *field88;
+    RuntimeTail field8C;
+} RuntimeState;
+
+typedef struct RuntimeBlock {
+    s32 field00;
+    s32 field04;
+} RuntimeBlock;
+
+typedef struct RuntimeLinks {
+    RuntimeTail *field00;
+    RuntimeState *field04;
+} RuntimeLinks;
+
+typedef struct RuntimeTask {
+    u8 pad00[0x10];
+    void (*field10)(RuntimeLinks *);
+    u8 pad14[0x0C];
+    RuntimeLinks field20;
+} RuntimeTask;
+
+extern u8 D_80082BC0[9];
+extern RuntimeState D_80082A38;
+extern u8 D_800809C0[9];
+extern u8 D_80012D6E[9];
+
+extern void *initialize_scene_object_in_buffer(s32 flags_or_addr, void *buffer, s16 word_count);
+extern void sync_message_window_state(RuntimeLinks *context);
+extern void init_message_window(RuntimeState *input, u8 mode);
+extern void *memset(void *ptr, s32 value, u32 size);
+
+/* Create the runtime task and initialize its shared state and blocks. */
+void func_80037E58(void)
+{
+    RuntimeTask *task;
+    RuntimeLinks *links;
+    RuntimeState *state;
+    RuntimeState *linked_state;
+    void *state_data;
+    s32 index;
+
+    task = initialize_scene_object_in_buffer(0, D_80082BC0, 0x49);
+    links = &task->field20;
+    task->field10 = sync_message_window_state;
+    links->field04 = &D_80082A38;
+    links->field00 = &D_80082A38.field8C;
+
+    for (index = 0; index < 107; index++) {
+        memset(&D_80082660[index], 0, sizeof(RuntimeBlock));
+    }
+
+    for (index = 15; index >= 0; index--) {
+        D_80082A38.field48[index] = 0;
+    }
+
+    do {
+        state = &D_80082A38;
+    } while (0);
+    state_data = D_800809C0;
+    state->field88 = state_data;
+    state->field38 = 0;
+    do {
+        linked_state = links->field04;
+    } while (0);
+    linked_state->field03 = D_80012D6E[0];
+    init_message_window(links->field04, 3);
+    links->field00->field87 = 0;
+    links->field00->field85 = 0;
+    links->field00->field86 = links->field00->field85;
+}

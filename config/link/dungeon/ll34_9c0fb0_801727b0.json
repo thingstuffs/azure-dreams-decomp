@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_809A0FB0",
-      "tu": "src/dungeon/func_80976F6C.c",
+      "tu": "src/dungeon/monster/hikewne/select_state_table_with_flagged_offset.c",
       "home": "dungeon/func_80976F6C",
       "foff": "0x9C0FB0",
       "vma": "0x801727B0",

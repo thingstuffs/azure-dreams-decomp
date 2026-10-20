@@ -18,7 +18,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         if (sprite->unk_14 & 0x8000) {
             ((R17_801738E0_S_801738E0_0 *)actor)->unk_90 = 0;
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744FC);
-            func_80047784(
+            select_sprite_entry(
                 sprite,(u8)(((u8 *)D_801744FC)[
                     ((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
                 0);
@@ -38,7 +38,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             ((R17_801738E0_S_801738E0_3 *)motion)->unk_14 = initial_speed;
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
-        func_80047784(
+        select_sprite_entry(
             sprite,(u8)(*(u8 *)((((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7)
                     + (u32)anim_table)),
             0);
@@ -55,7 +55,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_90 = 0;
         ((R17_801738E0_S_801738E0_3 *)motion)->unk_14 = 0;
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744FC);
-        func_80047784(
+        select_sprite_entry(
             sprite,(u8)(((u8 *)D_801744FC)[
                 ((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
             0);
@@ -71,9 +71,9 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
     case 2:
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 &= 0xFFF7;
         ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C |= 0x08000000;
-        if ((func_80042900(entity, 1) << 16) == 0) {
+        if ((get_entity_effect_value(entity, 1) << 16) == 0) {
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744F4);
-            func_80047784(
+            select_sprite_entry(
                 sprite,(u8)(((u8 *)D_801744F4)[
                     ((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
                 0);
@@ -135,23 +135,23 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             }
         }
         update_actor_status_and_food(entity);
-        func_800A9A04(entity);
-        if ((func_80042900(entity, 1) << 16) != 0) {
+        on_actor_status_updated(entity);
+        if ((get_entity_effect_value(entity, 1) << 16) != 0) {
             TileObject *origin = &D_80082E80;
             s8 coordinate = sprite->unk_26;
 
             if ((((coordinate == origin->unk_026) && (coordinate >= 0)) ||
                  (((s16)get_tile_chebyshev_distance(origin, sprite)) < 2)) &&
                 ((generate_random_value() & 7) == 0)) {
-                func_80042B68(entity, 1);
+                clear_slots_of_type(entity, 1);
             }
         }
-        if ((func_80042900(entity, 1) << 16) != 0) {
+        if ((get_entity_effect_value(entity, 1) << 16) != 0) {
             return;
         }
 
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744F4);
-        func_80047784(
+        select_sprite_entry(
             sprite,(u8)(((u8 *)D_801744F4)[
                 ((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
             0);
@@ -175,7 +175,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744EC);
         }
 
-        func_80047784(
+        select_sprite_entry(
             sprite,(u8)(((u8 *)D_801744EC)[((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
             0);
 
@@ -191,7 +191,7 @@ advance_state:
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_A8 = 8;
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 &= 0xBFFF;
         (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_8017449C);
-        func_80047784(
+        select_sprite_entry(
             sprite,(u8)(((u8 *)D_8017449C)[
                 ((g_game_work.view.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
             0);

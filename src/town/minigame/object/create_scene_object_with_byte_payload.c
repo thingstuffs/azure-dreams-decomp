@@ -1,0 +1,33 @@
+#include "common.h"
+#include "shared/object_node.h"
+
+#ifndef NULL
+#define NULL 0
+#endif
+
+typedef struct S_800206F4_0 {
+    u8 pad_00[0x10];
+    s32 unk_10;
+} S_800206F4_0;   /* obj in create_scene_object_with_48_byte_payload */
+
+
+extern void *allocate_list_node();
+extern void register_node(void *, void *);
+extern s32 D_80053858[4];
+
+typedef struct CopyBlock {
+    s32 words[12];
+} CopyBlock;
+
+/* Creates an object with the supplied value and 48-byte initialization block. */
+void create_scene_object_with_48_byte_payload(s32 init_value, void *init_data)
+{
+    void *obj;
+
+    obj = allocate_list_node(1, ((u8 *)(&D_80083498)));
+    if (obj != NULL) {
+        *(CopyBlock *)((s8 *)obj + 0x20) = *(CopyBlock *)init_data;
+        ((S_800206F4_0 *)obj)->unk_10 = init_value;
+        register_node(obj, &D_80053858);
+    }
+}

@@ -21,7 +21,7 @@ void func_80173F4C(void *actor_in, s32 actor_index, void *target, void *entity_i
     }
     (*(void * *)((u8 *)target + 0x2C)) = ((u8 *)D_801759E8);
     direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
-    func_80047784(target,(u8)(((u8 *)D_801759E8)[direction & 7]), 0);
+    select_sprite_entry(target,(u8)(((u8 *)D_801759E8)[direction & 7]), 0);
     ((R10_80173F4C_S_801740DC_0 *)actor_in)->unk_9B++;
     return;
 
@@ -31,7 +31,7 @@ void func_80173F4C(void *actor_in, s32 actor_index, void *target, void *entity_i
 
         (*(void * *)((u8 *)target + 0x2C)) = ((u8 *)D_801759F0);
         direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
-        func_80047784(target,(u8)(((u8 *)D_801759F0)[direction & 7]), 0);
+        select_sprite_entry(target,(u8)(((u8 *)D_801759F0)[direction & 7]), 0);
         shared_counter = &g_dungeon_status;
         shared_counter->unk_0A++;
         ((R10_80173F4C_S_801740DC_0 *)actor_in)->unk_9B++;
@@ -71,13 +71,13 @@ void func_80173F4C(void *actor_in, s32 actor_index, void *target, void *entity_i
         } else {
             update_actor_status_and_food(entity);
         }
-        func_800A9A04(entity);
+        on_actor_status_updated(entity);
         if (entity->tileY == 0) {
             return;
         }
         (*(void * *)((u8 *)target + 0x2C)) = ((u8 *)D_801759F0);
         direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
-        func_80047784(target,(u8)(((u8 *)D_801759F0)[direction & 7]), 0);
+        select_sprite_entry(target,(u8)(((u8 *)D_801759F0)[direction & 7]), 0);
         shared_state->unk_0A++;
     }
     ((R10_80173F4C_S_801740DC_0 *)actor_in)->unk_9B++;

@@ -46,7 +46,7 @@ void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, 
         effect->timer = 0x80;
         effect->countdown = 0;
         direction_index = ((g_game_work.view.viewAngle + object->angle + 0x100) >> 9) & 7;
-        func_80047784(entity,(u8)(entity->table[direction_index]), 0);
+        select_sprite_entry(entity,(u8)(entity->table[direction_index]), 0);
         effect->state++;
         return;
     case 3:
@@ -69,7 +69,7 @@ void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, 
         }
         if ((entity->type == 2) && (entity->flags & 0x1000)) {
             direction_index = ((g_game_work.view.viewAngle + object->angle + 0x100) >> 9) & 7;
-            func_80047784(entity,(u8)(entity->table[direction_index]), 0);
+            select_sprite_entry(entity,(u8)(entity->table[direction_index]), 0);
         }
         if ((u8)entity->value < 0x11) {
             if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)object - 0x20)) {

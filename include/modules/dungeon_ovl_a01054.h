@@ -39,7 +39,9 @@ typedef struct S_80158854_4 {
 } S_80158854_4;   /* actor in func_80158854 */
 
 
+extern void *allocate_list_node();
 extern void *func_8003FD64();
+extern void register_node();
 extern void func_8004491C();
 extern s32 generate_random_value();
 extern void set_or_clear_actor_status_slot();

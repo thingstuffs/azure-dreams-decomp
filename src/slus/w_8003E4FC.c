@@ -1,5 +1,5 @@
 #include "modules/control_cd.h"
-#include "slus/cd_state.h"
+#include "engine/scene/cd_state.h"
 
 typedef struct EventSource_8003E4FC {
     s32 field0;

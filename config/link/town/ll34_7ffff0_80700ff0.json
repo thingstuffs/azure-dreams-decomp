@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_8087FFF0",
-      "tu": "src/town/func_8087FFF0.c",
+      "tu": "src/town/devkit/call_helper_fixed_id_b.c",
       "home": "town/func_8087FFF0",
       "foff": "0x7FFFF0",
       "vma": "0x80700FF0",

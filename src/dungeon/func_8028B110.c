@@ -1,4 +1,4 @@
-#include "modules/dungeon_floor_spawns.h"
+#include "dungeon/level/spawn.h"
 
 s32 is_floor_item_tile_occupied(s32 excluded_slot, s16 x, s16 y)
 {

@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Updates an object's pulse brightness and handles its completion state. */
 void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32 context, func_800A0FB4_S_func_8009E714_1 *primitive) {
@@ -14,16 +14,16 @@ void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32
         if (active_flag != 0) {
             *active_flag = 0;
         }
-        func_80033D08(object);
+        unlink_node_if_registered(object);
         ((func_800A0FB4_S_func_8009E714_2 *)object)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
         return;
     }
     if (status_match == 2) {
-        func_80033D08(object);
+        unlink_node_if_registered(object);
         return;
     }
-    func_80033CD8(object, func_80045340);
+    register_node_if_unregistered(object, project_sprite_chain);
     phase = object->unk_6C + 0x60;
     object->unk_6C = phase;
     wave = func_800644B8(phase);

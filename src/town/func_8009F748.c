@@ -1,4 +1,4 @@
-#include "modules/town_town_windows.h"
+#include "town/menu/window.h"
 
 /* Run both update routines on the shared state and clear the global flag. */
 void update_shared_state_and_clear_flag(void) {

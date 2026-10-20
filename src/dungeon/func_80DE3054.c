@@ -11,12 +11,12 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
  E_80170854_SpawnSprite *sprite;
  E_80170854_SpawnState *state;
  tile_x=attr_x; height=attr_height; tile_y=attr_y;
- object=func_8003FD64(0x112,&D_80083498);
+ object=allocate_list_node(0x112,&D_80083498);
  saved_flags=flags;
  if(object) {
   actor=(E_80170854_SpawnActor *)((u8 *)object+0x20);
   actor->kind=0x1C;
-  func_8004491C(object,func_80045340);
+  register_node(object,project_sprite_chain);
   motion=object->motion;
   kind=flags&3;
   motion->height=height;

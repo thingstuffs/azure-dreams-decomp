@@ -20,13 +20,13 @@ typedef struct ScriptContext {
     ScriptFlagRecord *flag_records;
 } ScriptContext;
 
-extern s32 func_80016278(ScriptEntry8 *entries, s32 entry_key);
+extern s32 run_scene_service_26c_with_state(ScriptEntry8 *entries, s32 entry_key);
 extern s32 func_80017498(s32 flag);
 
 /* Resolve a table entry to its referenced flag and query that flag. */
 void func_80016B34(ScriptEntry8 *entry_table, ScriptContext *context, s32 entry_key) {
     s32 entry_index;
 
-    entry_index = func_80016278(entry_table, entry_key);
+    entry_index = run_scene_service_26c_with_state(entry_table, entry_key);
     func_80017498(*(s16 *)((u8 *)context->flag_records + entry_table[entry_index].flag_index * 8 + 0x4));
 }

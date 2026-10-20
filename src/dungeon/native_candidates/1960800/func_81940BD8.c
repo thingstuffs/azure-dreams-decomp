@@ -1,4 +1,4 @@
-#include "modules/dungeon_ovl_1960800.h"
+#include "dungeon/effect/particle/advance_object_spawning_displays_high.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -31,7 +31,7 @@ void advance_object_spawning_displays_high(void *source, void *unused_position, 
         state->unk_2A = 0xB;
         state->unk_60 = source;
         (*(M2C_UNK **)((u8 *)object + 0x10)) = &func_80024104;
-        func_8004491C(object, (s32)func_80045340);
+        register_node(object, (s32)project_sprite_chain);
         part = (*(Part **)((u8 *)object + 0xC));
         part->field10 = 0x20;
         part->field6 = 0;
