@@ -1,0 +1,19 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/ll4c_home_1274430",
+  "container": "dungeon",
+  "foff": "0x1274430",
+  "size": 48,
+  "vma": "0x81254430",
+  "evidence": "ledger/splits/dungeon.jsonl: func_81254430 matched home source coordinates; baseline window config/overlays/dungeon_deep_1274.overlay.yaml; no destination load claim",
+  "entries": [
+    {
+      "row": "dungeon/func_81254430",
+      "tu": "src/dungeon/monster/beldo/reset_global_effect_configured_value.c",
+      "home": "dungeon/func_81254430",
+      "foff": "0x1274430",
+      "vma": "0x81254430",
+      "size": 48
+    }
+  ]
+}

@@ -1,5 +1,11 @@
-#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_native_fa7000_80170800","n":"0x3e88","o":"0xfa7000","p":["95e05be8834848954fb72264c61dfaa4e15296a89b9fb262f1d26d415959a1af","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:6d6f67ca32d0ae860f44e1b7ca3ec254b16efce8569eac3c7743f36887d99888"],"t":[16008,0,0,0,0,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s2_receipts.json","i":"dungeon/s2_native_fa7000_80170800","n":"0x3e88","o":"0xfa7000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:bc1203251b8190ab42b943a2820d64e4a2cb44615bc59384456551af8a3e59cd"],"t":[16008,0,0,0,0,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
-16412672	7316	r	census:c_row		0
+16412672	624	r	census:c_row		0
+"0xfa7270"	1736	c	census:registered_tu		["func_80F87270",null,"0x80170a70",1]
+16415032	4956	r	census:c_row		0
 "0xfa8c94"	1452	c	census:registered_tu		["func_80F88C94",null,"0x80172494",1]
-16421440	7240	r	census:c_row		0
+16421440	5156	r	census:c_row		0
+"0xfaa664"	56	c	census:registered_tu		["func_80F8A664",null,"0x80173e64",1]
+16426652	112	r	census:c_row		0
+"0xfaa70c"	488	c	census:registered_tu		["func_80F8A70C",null,"0x80173f0c",1]
+16427252	1428	r	census:c_row		0

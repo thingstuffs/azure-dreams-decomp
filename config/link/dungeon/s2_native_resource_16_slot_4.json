@@ -1,19 +1,35 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/s2_native_resource_16_slot_4",
- "container": "dungeon",
- "foff": "0xc23000",
- "size": "0x6000",
- "vma": "0x80158800",
- "evidence": "docs/evidence/r121w_s2_receipts.json",
- "entries": [
-  {
-   "row": "dungeon/func_80C03258",
-   "tu": "src/dungeon/func_80C03258.c",
-   "home": "dungeon/func_80C03258",
-   "foff": "0xc23258",
-   "vma": "0x80158a58",
-   "size": 1468
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/s2_native_resource_16_slot_4",
+  "container": "dungeon",
+  "foff": "0xc23000",
+  "size": "0x6000",
+  "vma": "0x80158800",
+  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "entries": [
+    {
+      "row": "dungeon/func_80C03258",
+      "tu": "src/dungeon/func_80BEB258.c",
+      "home": "dungeon/func_80BEB258",
+      "foff": "0xc23258",
+      "vma": "0x80158a58",
+      "size": 1468,
+      "bindings": {
+        "0x80047738": "0x80047738",
+        "0x800478B8": "0x800478B8",
+        "0x800644B8": "0x800644B8",
+        "0x8006CCF8": "0x8006CCF8",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x800A020C": "0x800A020C",
+        "0x800A9E70": "0x800A9E70",
+        "0x800AA36C": "0x800AA36C",
+        "0x800BCB04": "0x800BCB04",
+        "0x80171014": "0x80159014",
+        "0x8017420C": "0x8015C20C",
+        "0x8017426C": "0x8015C26C"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    }
+  ]
 }

@@ -113,6 +113,14 @@
       "size": 148
     },
     {
+      "row": "dungeon/func_80D67BB4",
+      "tu": "src/dungeon/monster/baloon/advance_actor_hop_animation.c",
+      "home": "dungeon/func_80D67BB4",
+      "foff": "0xd87bb4",
+      "vma": "0x801733b4",
+      "size": 992
+    },
+    {
       "row": "dungeon/func_80D67F94",
       "tu": "src/dungeon/func_80F88C30.c",
       "home": "dungeon/func_80F88C30",
@@ -143,6 +151,14 @@
       "foff": "0xD88A38",
       "vma": "0x80174238",
       "size": 724
+    },
+    {
+      "row": "dungeon/func_80D68D0C",
+      "tu": "src/dungeon/monster/baloon/update_monster_staged_motion.c",
+      "home": "dungeon/func_80D68D0C",
+      "foff": "0xd88d0c",
+      "vma": "0x8017450c",
+      "size": 1652
     },
     {
       "row": "dungeon/func_80D69380",

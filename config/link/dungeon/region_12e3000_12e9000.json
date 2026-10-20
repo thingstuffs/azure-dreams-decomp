@@ -8,6 +8,95 @@
   "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase xfer_dungeon_12E3000",
   "entries": [
     {
+      "row": "dungeon/func_812C4D10",
+      "tu": "src/dungeon/monster/kewne/advance_actor_path_and_facing.c",
+      "home": "dungeon/func_8099FE9C",
+      "foff": "0x12e4d10",
+      "vma": "0x80154510",
+      "size": 440,
+      "bindings": {
+        "0x80047784": "0x80047784",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x8009A21C": "0x8009A21C",
+        "0x8009A3D0": "0x8009A3D0",
+        "0x800A0818": "0x800A0818",
+        "0x80175E40": "0x80157C30"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_812C58A8",
+      "tu": "src/dungeon/monster/kewne/start_kewne_attack_action.c",
+      "home": "dungeon/func_809A0A34",
+      "foff": "0x12e58a8",
+      "vma": "0x801550a8",
+      "size": 292,
+      "bindings": {
+        "0x80047784": "0x80047784",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x8009C93C": "0x8009C93C",
+        "0x800A2B5C": "0x800A2B5C",
+        "0x800C7930": "0x800C7930",
+        "0x80175E70": "0x80157C60"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_812C5C08",
+      "tu": "src/dungeon/monster/kewne_uncached/update_jump_movement_and_landing.c",
+      "home": "dungeon/func_812A7C08",
+      "foff": "0x12e5c08",
+      "vma": "0x80155408",
+      "size": 1320,
+      "bindings": {
+        "0x80047784": "0x80047784",
+        "0x800644B8": "0x800644B8",
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x8009C12C": "0x8009C12C",
+        "0x800A2B04": "0x800A2B04",
+        "0x800A4ACC": "0x800A4ACC",
+        "0x800A56E0": "0x800A56E0",
+        "0x800AD594": "0x800AD594",
+        "0x80171FA4": "0x80153FA4",
+        "0x801753DC": "0x801573DC",
+        "0x80175C48": "0x80157C48",
+        "0x80175C50": "0x80157C50",
+        "0x80175C58": "0x80157C58"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_812C6130",
+      "tu": "src/dungeon/monster/kewne_uncached/update_staged_movement_height_and_animation.c",
+      "home": "dungeon/func_812A8130",
+      "foff": "0x12e6130",
+      "vma": "0x80155930",
+      "size": 1188,
+      "bindings": {
+        "0x80047784": "0x80047784",
+        "0x800644B8": "0x800644B8",
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x8009C12C": "0x8009C12C",
+        "0x800A2B04": "0x800A2B04",
+        "0x800A4ACC": "0x800A4ACC",
+        "0x800A56E0": "0x800A56E0",
+        "0x800AD594": "0x800AD594",
+        "0x80171FA4": "0x80153FA4",
+        "0x8017586C": "0x8015786C",
+        "0x80175C68": "0x80157C68",
+        "0x80175C70": "0x80157C70"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
       "row": "dungeon/func_812C7DA0",
       "home": "dungeon/func_809A32D4",
       "tu": "src/dungeon/func_809A32D4.c",
@@ -17,7 +106,11 @@
       "bindings": {
         "0x80174fc0": "0x800f7a38",
         "0x801750e4": "0x80157964",
-        "0x800B2C68": "0x800B2C68"
+        "0x800B2C68": "0x800B2C68",
+        "0x80173408": "0x80173408",
+        "0x80172234": "0x80172234",
+        "0x8017169C": "0x8017169C",
+        "0x80173930": "0x80173930"
       },
       "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_812C7DA0; LL3a preserves prior rule-3 binding"
     },
@@ -34,7 +127,11 @@
         "0x800644B8": "0x800644B8",
         "0x8006671C": "0x8006671C",
         "0x8006658C": "0x8006658C",
-        "0x801750E4": "0x80157964"
+        "0x801750E4": "0x80157964",
+        "0x80173408": "0x80173408",
+        "0x80172234": "0x80172234",
+        "0x8017169C": "0x8017169C",
+        "0x80173930": "0x80173930"
       },
       "evidence": "LL3a attestation sha256:94a8c2dd3459b081af330d9c7a950c26b36e6ddea1c3e4f83c09d46ae252ac79; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
@@ -48,7 +145,11 @@
       "bindings": {
         "0x800AB378": "0x800AC7EC",
         "0x800B2A60": "0x80153FA4",
-        "0x800B2C68": "0x80157BF8"
+        "0x800B2C68": "0x80157BF8",
+        "0x80173408": "0x80173408",
+        "0x80172234": "0x80172234",
+        "0x8017169C": "0x8017169C",
+        "0x80173930": "0x80173930"
       },
       "evidence": "LL3a attestation sha256:35bbdb796c2cdd455a2478aacf9ff0990845f89423071958c32e9391ce2190e7; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     }

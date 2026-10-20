@@ -138,6 +138,14 @@
       "size": 668
     },
     {
+      "row": "dungeon/func_80EE7FB0",
+      "tu": "src/dungeon/func_80EE7FB0.c",
+      "home": "dungeon/func_80EE7FB0",
+      "foff": "0xf07fb0",
+      "vma": "0x8016d7b0",
+      "size": 1412
+    },
+    {
       "row": "dungeon/func_80EE8534",
       "tu": "src/dungeon/monster/weadog/advance_actor_timed_transition.c",
       "home": "dungeon/func_80EE2534",

@@ -22,7 +22,11 @@
         "0x8004491C": "0x8004491C",
         "0x800DEC70": "0x800DEC70",
         "0x8003DB94": "0x8003DB94",
-        "0x8016ACF8": "0x8015ECF8"
+        "0x8016ACF8": "0x8015ECF8",
+        "0x80174C70": "0x80174C70",
+        "0x80174F24": "0x80174F24",
+        "0x80175398": "0x80175398",
+        "0x80171FE8": "0x80171FE8"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -75,6 +79,40 @@
         "0x8016D2C0": "0x8016D2C0"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
+    },
+    {
+      "row": "dungeon/func_80B027E8",
+      "tu": "src/dungeon/func_80AF07E8.c",
+      "home": "dungeon/func_80AF07E8",
+      "foff": "0xb227e8",
+      "vma": "0x8015ffe8",
+      "size": 1864,
+      "bindings": {
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x8006CD00": "0x8006CD00",
+        "0x800814A8": "0x800814A8",
+        "0x80082E80": "0x80082E80",
+        "0x80083460": "0x80083460",
+        "0x8009A180": "0x8009A180",
+        "0x8009A21C": "0x8009A21C",
+        "0x8009A3D0": "0x8009A3D0",
+        "0x8009A540": "0x8009A540",
+        "0x8009A66C": "0x8009A66C",
+        "0x8009FD7C": "0x8009FD7C",
+        "0x800A0134": "0x800A0134",
+        "0x800A02AC": "0x800A02AC",
+        "0x800A04F0": "0x800A04F0",
+        "0x800A0818": "0x800A0818",
+        "0x800A0E6C": "0x800A0E6C",
+        "0x800A19E4": "0x800A19E4",
+        "0x800A6D30": "0x800A6D30",
+        "0x800A9A0C": "0x800A9A0C",
+        "0x800BCB04": "0x800BCB04",
+        "0x800E2970": "0x800E2970",
+        "0x801727B8": "0x801607B8"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_80B02F30",
@@ -193,7 +231,11 @@
       "size": 32,
       "bindings": {
         "0x800AD058": "0x800AD058",
-        "0x8016D2C0": "0x80161B24"
+        "0x8016D2C0": "0x80161B24",
+        "0x80174C70": "0x80174C70",
+        "0x80174F24": "0x80174F24",
+        "0x80175398": "0x80175398",
+        "0x80171FE8": "0x80171FE8"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -207,7 +249,11 @@
       "bindings": {
         "0x80173D4C": "0x80173D4C",
         "0x8016ACF8": "0x8016ACF8",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80174C70": "0x80174C70",
+        "0x80174F24": "0x80174F24",
+        "0x80175398": "0x80175398",
+        "0x80171FE8": "0x80171FE8"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
@@ -221,7 +267,11 @@
       "bindings": {
         "0x80173D4C": "0x80173D4C",
         "0x8016ACF8": "0x8016ACF8",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80174C70": "0x80174C70",
+        "0x80174F24": "0x80174F24",
+        "0x80175398": "0x80175398",
+        "0x80171FE8": "0x80171FE8"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
@@ -235,7 +285,11 @@
       "bindings": {
         "0x80173D4C": "0x80173D4C",
         "0x8016ACF8": "0x8016ACF8",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80174C70": "0x80174C70",
+        "0x80174F24": "0x80174F24",
+        "0x80175398": "0x80175398",
+        "0x80171FE8": "0x80171FE8"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
@@ -322,7 +376,11 @@
       "bindings": {
         "0x80173D4C": "0x80173D4C",
         "0x8016ACF8": "0x8016ACF8",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80174C70": "0x80174C70",
+        "0x80174F24": "0x80174F24",
+        "0x80175398": "0x80175398",
+        "0x80171FE8": "0x80171FE8"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
@@ -336,7 +394,11 @@
       "bindings": {
         "0x80173D4C": "0x80173D4C",
         "0x8016ACF8": "0x8016ACF8",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80174C70": "0x80174C70",
+        "0x80174F24": "0x80174F24",
+        "0x80175398": "0x80175398",
+        "0x80171FE8": "0x80171FE8"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
@@ -350,7 +412,11 @@
       "bindings": {
         "0x80173D4C": "0x80173D4C",
         "0x8016ACF8": "0x8016ACF8",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80174C70": "0x80174C70",
+        "0x80174F24": "0x80174F24",
+        "0x80175398": "0x80175398",
+        "0x80171FE8": "0x80171FE8"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
@@ -421,6 +487,39 @@
       }
     },
     {
+      "row": "dungeon/func_80B05470",
+      "tu": "src/dungeon/func_80AF3470.c",
+      "home": "dungeon/func_80AF3470",
+      "foff": "0xb25470",
+      "vma": "0x80162c70",
+      "size": 692,
+      "bindings": {
+        "0x800644B8": "0x800644B8",
+        "0x80064584": "0x80064584",
+        "0x800814A0": "0x800814A0",
+        "0x80170874": "0x8015E874"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_80B05724",
+      "tu": "src/dungeon/func_80AF3724.c",
+      "home": "dungeon/func_80AF3724",
+      "foff": "0xb25724",
+      "vma": "0x80162f24",
+      "size": 668,
+      "bindings": {
+        "0x8003FC64": "0x8003FC64",
+        "0x8004491C": "0x8004491C",
+        "0x80045340": "0x80045340",
+        "0x80083160": "0x80083160",
+        "0x80170874": "0x8015E874",
+        "0x80174C70": "0x80162C70",
+        "0x80175A0C": "0x80163A0C"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
       "row": "dungeon/func_80B059C0",
       "tu": "src/dungeon/func_80AF39C0.c",
       "home": "dungeon/func_80AF39C0",
@@ -443,6 +542,51 @@
         "0x8016ACF8": "0x8016ACF8",
         "0x8016D2C0": "0x8016D2C0"
       }
+    },
+    {
+      "row": "dungeon/func_80B05B98",
+      "tu": "src/dungeon/func_80AF3B98.c",
+      "home": "dungeon/func_80AF3B98",
+      "foff": "0xb25b98",
+      "vma": "0x80163398",
+      "size": 1400,
+      "bindings": {
+        "0x8003DB94": "0x8003DB94",
+        "0x8003E140": "0x8003E140",
+        "0x8003E4FC": "0x8003E4FC",
+        "0x8003F540": "0x8003F540",
+        "0x8003FC64": "0x8003FC64",
+        "0x80041588": "0x80041588",
+        "0x800445E0": "0x800445E0",
+        "0x8004491C": "0x8004491C",
+        "0x80047738": "0x80047738",
+        "0x800498A0": "0x800498A0",
+        "0x80069EF8": "0x80069EF8",
+        "0x8006CD58": "0x8006CD58",
+        "0x800814A0": "0x800814A0",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x8009A028": "0x8009A028",
+        "0x8009A3D0": "0x8009A3D0",
+        "0x800A18E8": "0x800A18E8",
+        "0x800A504C": "0x800A504C",
+        "0x800A56E0": "0x800A56E0",
+        "0x800ADC4C": "0x800ADC4C",
+        "0x800C77D0": "0x800C77D0",
+        "0x800DCEEC": "0x800DCEEC",
+        "0x800DCF5C": "0x800DCF5C",
+        "0x8014A000": "0x8014A000",
+        "0x80174BE4": "0x80162BE4",
+        "0x80174F24": "0x80162F24",
+        "0x8017526C": "0x8016326C",
+        "0x801759F8": "0x801639F8",
+        "0x80175A00": "0x80163A00",
+        "0x80175A18": "0x80163A18",
+        "0x80175A80": "0x80163A80",
+        "0x80175A81": "0x80163A81",
+        "0x80175A84": "0x80163A84"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     }
   ],
   "symbols": {

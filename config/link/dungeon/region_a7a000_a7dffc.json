@@ -1,21 +1,167 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/region_a7a000_a7dffc",
- "container": "dungeon",
- "foff": "0xa7a000",
- "size": "0x3ffc",
- "vma": "0x8015f800",
- "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_a7a000_8015f800",
- "entries": [
-  {
-   "row": "dungeon/func_80A5CB34",
-   "home": "dungeon/func_80A4AB34",
-   "tu": "src/dungeon/func_80A4AB34.c",
-   "foff": "0xa7cb34",
-   "vma": "0x80162334",
-   "size": 1384,
-   "bindings": {},
-   "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80A5CB34"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/region_a7a000_a7dffc",
+  "container": "dungeon",
+  "foff": "0xa7a000",
+  "size": "0x3ffc",
+  "vma": "0x8015f800",
+  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_a7a000_8015f800",
+  "entries": [
+    {
+      "row": "dungeon/func_80A5A164",
+      "tu": "src/dungeon/monster/kewne/advance_actor_path_and_facing.c",
+      "home": "dungeon/func_8099FE9C",
+      "foff": "0xa7a164",
+      "vma": "0x8015f964",
+      "size": 440,
+      "bindings": {
+        "0x80047784": "0x80047784",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x8009A21C": "0x8009A21C",
+        "0x8009A3D0": "0x8009A3D0",
+        "0x800A0818": "0x800A0818",
+        "0x80175E40": "0x8016386C"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_80A5C694",
+      "tu": "src/dungeon/func_8181A9EC.c",
+      "home": "dungeon/func_8181A9EC",
+      "foff": "0xa7c694",
+      "vma": "0x80161e94",
+      "size": 592,
+      "bindings": {
+        "0x80065420": "0x80065420",
+        "0x80066460": "0x80066460",
+        "0x80067F20": "0x80067F20",
+        "0x80083160": "0x80083160"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_80A5C8E4",
+      "tu": "src/dungeon/func_80A4A8E4.c",
+      "home": "dungeon/func_80A4A8E4",
+      "foff": "0xa7c8e4",
+      "vma": "0x801620e4",
+      "size": 304,
+      "bindings": {
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x800814A0": "0x800814A0"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_80A5CA14",
+      "tu": "src/dungeon/func_80A4AA14.c",
+      "home": "dungeon/func_80A4AA14",
+      "foff": "0xa7ca14",
+      "vma": "0x80162214",
+      "size": 288,
+      "bindings": {
+        "0x8003FD64": "0x8003FD64",
+        "0x8004491C": "0x8004491C",
+        "0x80173E94": "0x80161E94",
+        "0x801740E4": "0x801620E4"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_80A5CB34",
+      "home": "dungeon/func_80A4AB34",
+      "tu": "src/dungeon/func_80A4AB34.c",
+      "foff": "0xa7cb34",
+      "vma": "0x80162334",
+      "size": 1384,
+      "bindings": {
+        "0x800241EC": "0x800241EC"
+      },
+      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80A5CB34"
+    },
+    {
+      "row": "dungeon/func_80A5D134",
+      "tu": "src/dungeon/func_80A4B134.c",
+      "home": "dungeon/func_80A4B134",
+      "foff": "0xa7d134",
+      "vma": "0x80162934",
+      "size": 1348,
+      "bindings": {
+        "0x8003FC64": "0x8003FC64",
+        "0x8004491C": "0x8004491C",
+        "0x80069EF8": "0x80069EF8",
+        "0x800814A0": "0x800814A0",
+        "0x80174214": "0x80162214",
+        "0x8017489C": "0x8016289C",
+        "0x801748F0": "0x801628F0",
+        "0x80175910": "0x80163910"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_80A5D678",
+      "tu": "src/dungeon/func_80A4B678.c",
+      "home": "dungeon/func_80A4B678",
+      "foff": "0xa7d678",
+      "vma": "0x80162e78",
+      "size": 496,
+      "bindings": {
+        "0x8003FC64": "0x8003FC64",
+        "0x8004491C": "0x8004491C",
+        "0x80045340": "0x80045340",
+        "0x800644B8": "0x800644B8",
+        "0x80064584": "0x80064584",
+        "0x80174934": "0x80162934"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_80A5DA70",
+      "tu": "src/dungeon/func_80A4BA70.c",
+      "home": "dungeon/func_80A4BA70",
+      "foff": "0xa7da70",
+      "vma": "0x80163270",
+      "size": 1420,
+      "bindings": {
+        "0x8003DB94": "0x8003DB94",
+        "0x8003E140": "0x8003E140",
+        "0x8003E4FC": "0x8003E4FC",
+        "0x8003F540": "0x8003F540",
+        "0x8003FC64": "0x8003FC64",
+        "0x80041588": "0x80041588",
+        "0x800445E0": "0x800445E0",
+        "0x8004491C": "0x8004491C",
+        "0x80047738": "0x80047738",
+        "0x800498A0": "0x800498A0",
+        "0x80069EF8": "0x80069EF8",
+        "0x8006CD58": "0x8006CD58",
+        "0x800814A0": "0x800814A0",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x8009A028": "0x8009A028",
+        "0x8009A3D0": "0x8009A3D0",
+        "0x800A18E8": "0x800A18E8",
+        "0x800A504C": "0x800A504C",
+        "0x800A56E0": "0x800A56E0",
+        "0x800ADC4C": "0x800ADC4C",
+        "0x800C77D0": "0x800C77D0",
+        "0x800DCEEC": "0x800DCEEC",
+        "0x800DCF5C": "0x800DCF5C",
+        "0x8014A000": "0x8014A000",
+        "0x80173E08": "0x80161E08",
+        "0x80174E78": "0x80162E78",
+        "0x80175114": "0x80163114",
+        "0x801758FC": "0x801638FC",
+        "0x80175904": "0x80163904",
+        "0x8017591C": "0x8016391C",
+        "0x80175920": "0x80163920",
+        "0x80175921": "0x80163921",
+        "0x80175924": "0x80163924",
+        "0x80175928": "0x80163928"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    }
+  ]
 }

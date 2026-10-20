@@ -1,0 +1,35 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/ll4c_region_9cb294",
+  "container": "dungeon",
+  "foff": "0x9cb294",
+  "size": "0x658",
+  "vma": "0x80164a94",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl: proven region ; LL4 copy conversion",
+  "entries": [
+    {
+      "row": "dungeon/func_809AB294",
+      "tu": "src/dungeon/monster/kewne/update_actor_callbacks_and_ground.c",
+      "home": "dungeon/func_8099F294",
+      "foff": "0x9cb294",
+      "vma": "0x80164a94",
+      "size": 1624,
+      "bindings": {
+        "0x80047738": "0x80047738",
+        "0x800478B8": "0x800478B8",
+        "0x800644B8": "0x800644B8",
+        "0x8006CCF8": "0x8006CCF8",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x800A020C": "0x800A020C",
+        "0x800A9E70": "0x800A9E70",
+        "0x800AA36C": "0x800AA36C",
+        "0x800BCB04": "0x800BCB04",
+        "0x801710EC": "0x801650EC",
+        "0x80175E40": "0x80169E40",
+        "0x80175ED8": "0x80169ED8"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    }
+  ]
+}

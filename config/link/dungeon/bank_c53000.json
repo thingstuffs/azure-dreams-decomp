@@ -91,7 +91,8 @@
       "vma": "0x8015469C",
       "size": 100,
       "bindings": {
-        "0x80170BB8": "0x80170BB8"
+        "0x80170BB8": "0x80170BB8",
+        "0x8017445C": "0x8017445C"
       }
     },
     {
@@ -134,7 +135,8 @@
       "vma": "0x80155868",
       "size": 32,
       "bindings": {
-        "0x80170BB8": "0x80170BB8"
+        "0x80170BB8": "0x80170BB8",
+        "0x8017445C": "0x8017445C"
       }
     },
     {
@@ -145,7 +147,8 @@
       "vma": "0x80155888",
       "size": 32,
       "bindings": {
-        "0x80170BB8": "0x80170BB8"
+        "0x80170BB8": "0x80170BB8",
+        "0x8017445C": "0x8017445C"
       }
     },
     {
@@ -156,7 +159,8 @@
       "vma": "0x801558A8",
       "size": 56,
       "bindings": {
-        "0x80170BB8": "0x80170BB8"
+        "0x80170BB8": "0x80170BB8",
+        "0x8017445C": "0x8017445C"
       }
     },
     {
@@ -199,7 +203,8 @@
       "vma": "0x8015637C",
       "size": 56,
       "bindings": {
-        "0x80170BB8": "0x80170BB8"
+        "0x80170BB8": "0x80170BB8",
+        "0x8017445C": "0x8017445C"
       }
     },
     {
@@ -210,7 +215,8 @@
       "vma": "0x801563B4",
       "size": 56,
       "bindings": {
-        "0x80170BB8": "0x80170BB8"
+        "0x80170BB8": "0x80170BB8",
+        "0x8017445C": "0x8017445C"
       }
     },
     {
@@ -221,7 +227,8 @@
       "vma": "0x801563EC",
       "size": 56,
       "bindings": {
-        "0x80170BB8": "0x80170BB8"
+        "0x80170BB8": "0x80170BB8",
+        "0x8017445C": "0x8017445C"
       }
     },
     {
@@ -232,8 +239,22 @@
       "vma": "0x80156424",
       "size": 56,
       "bindings": {
-        "0x80170BB8": "0x80170BB8"
+        "0x80170BB8": "0x80170BB8",
+        "0x8017445C": "0x8017445C"
       }
+    },
+    {
+      "row": "dungeon/func_80C36C5C",
+      "tu": "src/dungeon/func_80C18C5C.c",
+      "home": "dungeon/func_80C18C5C",
+      "foff": "0xc56c5c",
+      "vma": "0x8015645c",
+      "size": 56,
+      "bindings": {
+        "0x800AC7EC": "0x800AC7EC",
+        "0x801713A8": "0x801533A8"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     }
   ],
   "symbols": {

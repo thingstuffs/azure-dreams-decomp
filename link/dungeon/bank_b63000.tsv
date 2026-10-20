@@ -1,8 +1,10 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F60D800: native_resource_12_slot_0","i":"dungeon/bank_b63000","l":"bank_b63000_family","n":"0x6000","o":"0xB63000","p":["95e05be8834848954fb72264c61dfaa4e15296a89b9fb262f1d26d415959a1af","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:6d6f67ca32d0ae860f44e1b7ca3ec254b16efce8569eac3c7743f36887d99888"],"t":[21068,0,0,3508,0,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F60D800: native_resource_12_slot_0","i":"dungeon/bank_b63000","l":"bank_b63000_family","n":"0x6000","o":"0xB63000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:bc1203251b8190ab42b943a2820d64e4a2cb44615bc59384456551af8a3e59cd"],"t":[21068,0,0,3508,0,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 11939840	1648	r	census:c_row		0
 "0xB63670"	1380	c	census:registered_tu		["func_80B43670",null,"0x80170E70",1]
-11942868	3772	r	census:c_row		0
+11942868	600	r	census:c_row		0
+"0xb63e2c"	1864	c	census:registered_tu		["func_80B43E2C",null,"0x8017162c",1]
+11945332	1308	r	census:c_row		0
 "0xB64A90"	864	c	census:registered_tu		["func_80B44A90",null,"0x80172290",1]
 11947504	100	r	census:c_row		0
 "0xB64E54"	1188	c	census:registered_tu		["func_80B44E54",null,"0x80172654",1]
@@ -15,7 +17,8 @@ o	n	k	r	h	x
 "0xB67980"	236	c	census:registered_tu		["func_80B47980",null,"0x80175180",1]
 11958892	172	r	census:c_row		0
 "0xB67B18"	344	c	census:registered_tu		["func_80B47B18",null,"0x80175318",1]
-11959408	1500	r	census:c_row		0
+11959408	1444	r	census:c_row		0
+"0xb68214"	56	c	census:registered_tu		["func_80B48214",null,"0x80175a14",1]
 11960908	96	a	census:audit+noncode_confirmed	d87dcdb7d9c82186a9cc47a93953562ce9965d6e9892182c43585ae2d3e6ad6a	2
 11961004	24	a	census:format:ptrtab	ead48339143fe33024dcdc4399dfe3d1c5758b1bd414961e319abe9a3b1c5ced	3
 11961028	16	a	census:audit+noncode_confirmed	7242c175c3ab57b8e31b5214e80701b69d47a0b8da019567944bc053a7f8a295	2

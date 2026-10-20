@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7EEBC800: img_12a7060_80163860; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_81287098",
+      "tu": "src/dungeon/monster/beldo/update_actor_part_brightness.c",
+      "home": "dungeon/func_81251000",
+      "foff": "0x12a7098",
+      "vma": "0x80163898",
+      "size": 696,
+      "bindings": {
+        "0x8003DE58": "0x8003DA40",
+        "0x800478B8": "0x80047454",
+        "0x800814A0": "0x800803D4",
+        "0x800A56E0": "0x800A4398"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
       "row": "dungeon/func_81287350",
       "tu": "src/dungeon/monster/beldo/create_attached_sprite_with_offset.c",
       "home": "dungeon/func_81251350",
@@ -25,7 +40,17 @@
         "0x80083160": "0x80084818",
         "0x80047784": "0x80047320",
         "0x8003DE58": "0x8003DA40",
-        "0x80170B50": "0x80163B50"
+        "0x80170B50": "0x80163B50",
+        "0x81254430": "0x81254430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x8125414C": "0x8125414C",
+        "0x8017256C": "0x8017256C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -41,7 +66,18 @@
         "0x800F67A4": "0x800F67A4",
         "0x8017112C": "0x8017112C",
         "0x80170B50": "0x80170B50",
-        "0x80170E18": "0x80170E18"
+        "0x80170E18": "0x80170E18",
+        "0x81254430": "0x81254430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x80170898": "0x80170898",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x8125414C": "0x8125414C",
+        "0x8017256C": "0x8017256C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       }
     },
     {
@@ -60,7 +96,18 @@
         "0x80173EB4": "0x80166EB4",
         "0x80083160": "0x80084818",
         "0x80047784": "0x80047320",
-        "0x80170E18": "0x80163E18"
+        "0x80170E18": "0x80163E18",
+        "0x81254430": "0x81254430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x80170898": "0x80170898",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x8125414C": "0x8125414C",
+        "0x8017256C": "0x8017256C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -85,7 +132,18 @@
         "0x80083780": "0x800875C8",
         "0x80170B50": "0x80163B50",
         "0x80173C30": "0x80166C30",
-        "0x80170F84": "0x80163F84"
+        "0x80170F84": "0x80163F84",
+        "0x81254430": "0x81254430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x80170898": "0x80170898",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x8125414C": "0x8125414C",
+        "0x8017256C": "0x8017256C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -110,9 +168,60 @@
         "0x800A020C": "0x8009EFFC",
         "0x800478B8": "0x80047454",
         "0x800BCB04": "0x800BB784",
-        "0x8017112C": "0x8016412C"
+        "0x8017112C": "0x8016412C",
+        "0x81254430": "0x81254430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x80170898": "0x80170898",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x8125414C": "0x8125414C",
+        "0x8017256C": "0x8017256C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "dungeon/func_81287D14",
+      "tu": "src/dungeon/monster/beldo/update_object_animation.c",
+      "home": "dungeon/func_81251D14",
+      "foff": "0x12a7d14",
+      "vma": "0x80164514",
+      "size": 1196,
+      "bindings": {
+        "0x80013714": "0x80013714",
+        "0x80047784": "0x80047320",
+        "0x800814A8": "0x800803DC",
+        "0x80082E80": "0x80081490",
+        "0x80083160": "0x80084818",
+        "0x80083460": "0x80085990",
+        "0x8009A180": "0x80098F70",
+        "0x8009FB34": "0x8009E924",
+        "0x8009FD7C": "0x8009EB6C",
+        "0x800A0818": "0x8009F608",
+        "0x800A1C58": "0x800A0928",
+        "0x800A9A0C": "0x800A86C4",
+        "0x800AA258": "0x800A8F10",
+        "0x800AA6B4": "0x800A936C",
+        "0x800AA888": "0x800A9540",
+        "0x800AA924": "0x800A95DC",
+        "0x800AAB10": "0x800A97C8",
+        "0x800AAF00": "0x800A9BB8",
+        "0x800E2970": "0x800E1D50",
+        "0x80171514": "0x80164514",
+        "0x801719C0": "0x801649C0",
+        "0x80171BE0": "0x80164BE0",
+        "0x80172330": "0x80165330",
+        "0x801736B8": "0x801666B8",
+        "0x80173D6C": "0x80166D6C",
+        "0x80173E8C": "0x80166E8C",
+        "0x80173E94": "0x80166E94",
+        "0x80173EC4": "0x80166EC4",
+        "0x80173EE4": "0x80166EE4"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_812881C0",
@@ -126,7 +235,18 @@
         "0x800F67A4": "0x800F67A4",
         "0x8017112C": "0x8017112C",
         "0x80170B50": "0x80170B50",
-        "0x80170E18": "0x80170E18"
+        "0x80170E18": "0x80170E18",
+        "0x81254430": "0x81254430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x80170898": "0x80170898",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x8125414C": "0x8125414C",
+        "0x8017256C": "0x8017256C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       }
     },
     {
@@ -137,7 +257,16 @@
       "vma": "0x80164BE0",
       "size": 1864,
       "bindings": {
-        "0x800F67A4": "0x800F67A4"
+        "0x800F67A4": "0x800F67A4",
+        "0x81254430": "0x81254430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x8125414C": "0x8125414C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       }
     },
     {
@@ -149,7 +278,16 @@
       "size": 324,
       "bindings": {
         "0x800F67A4": "0x800F67A4",
-        "0x80173AAC": "0x80173AAC"
+        "0x80173AAC": "0x80173AAC",
+        "0x81254430": "0x81254430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x8125414C": "0x8125414C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       }
     },
     {
@@ -164,8 +302,59 @@
         "0x800F67A4": "0x800F67A4",
         "0x8017112C": "0x8017112C",
         "0x80170B50": "0x80170B50",
-        "0x80170E18": "0x80170E18"
+        "0x80170E18": "0x80170E18",
+        "0x81254430": "0x81254430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x80170898": "0x80170898",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x8125414C": "0x8125414C",
+        "0x8017256C": "0x8017256C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       }
+    },
+    {
+      "row": "dungeon/func_81288D08",
+      "tu": "src/dungeon/func_80F88C30.c",
+      "home": "dungeon/func_80F88C30",
+      "foff": "0x12a8d08",
+      "vma": "0x80165508",
+      "size": 100,
+      "bindings": {
+        "0x800AB378": "0x800AA030",
+        "0x800AD9B4": "0x800AC66C",
+        "0x80171138": "0x80164514"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_81288D6C",
+      "tu": "src/dungeon/monster/beldo/advance_actor_action_and_target.c",
+      "home": "dungeon/func_81252D6C",
+      "foff": "0x12a8d6c",
+      "vma": "0x8016556c",
+      "size": 1504,
+      "bindings": {
+        "0x8003F270": "0x8003EE70",
+        "0x80047784": "0x80047320",
+        "0x8006DE24": "0x8006CC74",
+        "0x800814A8": "0x800803DC",
+        "0x80083160": "0x80084818",
+        "0x80083460": "0x80085990",
+        "0x800A05A4": "0x8009F394",
+        "0x800A2B04": "0x800A17D4",
+        "0x800A4ACC": "0x800A3784",
+        "0x800A56E0": "0x800A4398",
+        "0x800A94A0": "0x800A8158",
+        "0x80170E18": "0x80163E18",
+        "0x80171514": "0x80164514",
+        "0x80173E8C": "0x80166E8C",
+        "0x80173EDC": "0x80166EDC"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_8128934C",
@@ -176,7 +365,16 @@
       "size": 724,
       "bindings": {
         "0x800F67A4": "0x800F67A4",
-        "0x80173AAC": "0x80173AAC"
+        "0x80173AAC": "0x80173AAC",
+        "0x81254430": "0x81254430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x8125414C": "0x8125414C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       }
     },
     {
@@ -192,7 +390,24 @@
         "0x80173AAC": "0x80173AAC",
         "0x8017112C": "0x8017112C",
         "0x80170B50": "0x80170B50",
-        "0x80170E18": "0x80170E18"
+        "0x80170E18": "0x80170E18",
+        "0x80173E00": "0x80173E00",
+        "0x81254430": "0x81254430",
+        "0x80172430": "0x80172430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x80173E64": "0x80173E64",
+        "0x80170898": "0x80170898",
+        "0x80173E9C": "0x80173E9C",
+        "0x80173ED4": "0x80173ED4",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x80173544": "0x80173544",
+        "0x8125414C": "0x8125414C",
+        "0x8017256C": "0x8017256C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       }
     },
     {
@@ -204,7 +419,16 @@
       "size": 44,
       "bindings": {
         "0x800F67A4": "0x800F67A4",
-        "0x80173AAC": "0x80173AAC"
+        "0x80173AAC": "0x80173AAC",
+        "0x81254430": "0x81254430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x8125414C": "0x8125414C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       }
     },
     {
@@ -215,8 +439,35 @@
       "vma": "0x80165E6C",
       "size": 32,
       "bindings": {
-        "0x800F67A4": "0x800F67A4"
+        "0x800F67A4": "0x800F67A4",
+        "0x80173E00": "0x80173E00",
+        "0x81254430": "0x81254430",
+        "0x80172430": "0x80172430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x80173E9C": "0x80173E9C",
+        "0x80173ED4": "0x80173ED4",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x80173544": "0x80173544",
+        "0x8125414C": "0x8125414C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       }
+    },
+    {
+      "row": "dungeon/func_8128968C",
+      "tu": "src/dungeon/func_80F89D44.c",
+      "home": "dungeon/func_80F89D44",
+      "foff": "0x12a968c",
+      "vma": "0x80165e8c",
+      "size": 56,
+      "bindings": {
+        "0x800ABDBC": "0x800AAA74",
+        "0x80171138": "0x80164514"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_81289B64",
@@ -241,9 +492,85 @@
         "0x800A9A0C": "0x800A86C4",
         "0x800A9A04": "0x800A86BC",
         "0x801714D4": "0x80164514",
-        "0x80173AAC": "0x80166364"
+        "0x80173AAC": "0x80166364",
+        "0x81254430": "0x81254430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x8125414C": "0x8125414C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "dungeon/func_81289EB8",
+      "tu": "src/dungeon/func_80F88C30.c",
+      "home": "dungeon/func_80F88C30",
+      "foff": "0x12a9eb8",
+      "vma": "0x801666b8",
+      "size": 100,
+      "bindings": {
+        "0x800AB378": "0x800AB4E4",
+        "0x800AD9B4": "0x800AC66C",
+        "0x80171138": "0x80164514"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_81289F1C",
+      "tu": "src/dungeon/func_80F8A600.c",
+      "home": "dungeon/func_80F8A600",
+      "foff": "0x12a9f1c",
+      "vma": "0x8016671c",
+      "size": 100,
+      "bindings": {
+        "0x800AC010": "0x800AACC8",
+        "0x800AD9B4": "0x800AC66C",
+        "0x80171138": "0x80164514"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_81289F80",
+      "tu": "src/dungeon/func_80F8A664.c",
+      "home": "dungeon/func_80F8A664",
+      "foff": "0x12a9f80",
+      "vma": "0x80166780",
+      "size": 56,
+      "bindings": {
+        "0x800AC480": "0x800AB138",
+        "0x80171138": "0x80164514"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_81289FB8",
+      "tu": "src/dungeon/func_80F8A69C.c",
+      "home": "dungeon/func_80F8A69C",
+      "foff": "0x12a9fb8",
+      "vma": "0x801667b8",
+      "size": 56,
+      "bindings": {
+        "0x800AC5C8": "0x800AB280",
+        "0x80171138": "0x80164514"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_81289FF0",
+      "tu": "src/dungeon/func_80F8A6D4.c",
+      "home": "dungeon/func_80F8A6D4",
+      "foff": "0x12a9ff0",
+      "vma": "0x801667f0",
+      "size": 56,
+      "bindings": {
+        "0x800ACE34": "0x800ABAEC",
+        "0x80171138": "0x80164514"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_8128A028",
@@ -258,8 +585,138 @@
         "0x80173AAC": "0x80173AAC",
         "0x8017112C": "0x8017112C",
         "0x80170B50": "0x80170B50",
-        "0x80170E18": "0x80170E18"
+        "0x80170E18": "0x80170E18",
+        "0x80173E00": "0x80173E00",
+        "0x81254430": "0x81254430",
+        "0x80172430": "0x80172430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x80173E64": "0x80173E64",
+        "0x80170898": "0x80170898",
+        "0x80173E9C": "0x80173E9C",
+        "0x80173ED4": "0x80173ED4",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x80173544": "0x80173544",
+        "0x8125414C": "0x8125414C",
+        "0x8017256C": "0x8017256C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       }
+    },
+    {
+      "row": "dungeon/func_8128A060",
+      "tu": "src/dungeon/monster/beldo/process_global_effect_flags.c",
+      "home": "dungeon/func_81254060",
+      "foff": "0x12aa060",
+      "vma": "0x80166860",
+      "size": 88,
+      "bindings": {
+        "0x800353F4": "0x8003500C",
+        "0x80083160": "0x80084818",
+        "0x80173FC8": "0x80166FC8"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_8128A0B8",
+      "tu": "src/dungeon/func_80F89D44.c",
+      "home": "dungeon/func_80F89D44",
+      "foff": "0x12aa0b8",
+      "vma": "0x801668b8",
+      "size": 56,
+      "bindings": {
+        "0x800ABDBC": "0x800AB4A4",
+        "0x80171138": "0x80164514"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_8128A0F8",
+      "tu": "src/dungeon/monster/beldo/reset_global_effect_state.c",
+      "home": "dungeon/func_812540F8",
+      "foff": "0x12aa0f8",
+      "vma": "0x801668f8",
+      "size": 60,
+      "bindings": {
+        "0x80173F84": "0x80166F84"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_8128A134",
+      "tu": "src/dungeon/monster/beldo/is_global_effect_enabled.c",
+      "home": "dungeon/func_81254134",
+      "foff": "0x12aa134",
+      "vma": "0x80166934",
+      "size": 24,
+      "bindings": {
+        "0x80013714": "0x80013714"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_8128A14C",
+      "tu": "src/dungeon/monster/beldo/reposition_global_effect_entity.c",
+      "home": "dungeon/func_8125414C",
+      "foff": "0x12aa14c",
+      "vma": "0x8016694c",
+      "size": 252,
+      "bindings": {
+        "0x80082E80": "0x80081490",
+        "0x8009A21C": "0x8009900C",
+        "0x8009A3D0": "0x800991C0",
+        "0x800A2B04": "0x800A17D4",
+        "0x80174710": "0x80167710"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_8128A248",
+      "tu": "src/dungeon/monster/beldo/update_global_effect_object.c",
+      "home": "dungeon/func_81254248",
+      "foff": "0x12aa248",
+      "vma": "0x80166a48",
+      "size": 156,
+      "bindings": {
+        "0x800814A0": "0x800803D4",
+        "0x8009A028": "0x80098E28",
+        "0x8009A3D0": "0x800991C0",
+        "0x800A32A4": "0x800A1F74",
+        "0x80174710": "0x80167710"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_8128A2E4",
+      "tu": "src/dungeon/monster/beldo/process_global_effect_slots.c",
+      "home": "dungeon/func_812542E4",
+      "foff": "0x12aa2e4",
+      "vma": "0x80166ae4",
+      "size": 144,
+      "bindings": {
+        "0x80099FDC": "0x80098DDC",
+        "0x800E3D7C": "0x800E397C",
+        "0x80173A48": "0x80166A48",
+        "0x80174710": "0x80167710"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_8128A374",
+      "tu": "src/dungeon/monster/beldo/clear_global_effect_flags.c",
+      "home": "dungeon/func_81254374",
+      "foff": "0x12aa374",
+      "vma": "0x80166b74",
+      "size": 76,
+      "bindings": {
+        "0x80013714": "0x80013714",
+        "0x8009FAC4": "0x8009E8B4",
+        "0x800A69E4": "0x800A569C",
+        "0x800E296C": "0x800E1D4C"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_8128A3C0",
@@ -271,9 +728,53 @@
       "bindings": {
         "0x800A56E0": "0x800A4398",
         "0x800DCF4D": "0x800DBB9D",
-        "0x800F67A4": "0x80166BC0"
+        "0x800F67A4": "0x80166BC0",
+        "0x80173E00": "0x80173E00",
+        "0x81254430": "0x81254430",
+        "0x80172430": "0x80172430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x80173E64": "0x80173E64",
+        "0x80170898": "0x80170898",
+        "0x80173E9C": "0x80173E9C",
+        "0x80173ED4": "0x80173ED4",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x80173544": "0x80173544",
+        "0x8125414C": "0x8125414C",
+        "0x8017256C": "0x8017256C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "dungeon/func_8128A3F0",
+      "tu": "src/dungeon/monster/beldo/load_global_effect_table_entry.c",
+      "home": "dungeon/func_812543F0",
+      "foff": "0x12aa3f0",
+      "vma": "0x80166bf0",
+      "size": 64,
+      "bindings": {
+        "0x80173FBC": "0x80166FBC",
+        "0x80174710": "0x80167710",
+        "0x80174714": "0x80167714",
+        "0x80174718": "0x80167718"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_8128A430",
+      "tu": "src/dungeon/monster/beldo/reset_global_effect_configured_value.c",
+      "home": "dungeon/func_81254430",
+      "foff": "0x12aa430",
+      "vma": "0x80166c30",
+      "size": 48,
+      "bindings": {
+        "0x80173F90": "0x80166F90"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_8128A56C",
@@ -287,7 +788,18 @@
         "0x800F67A4": "0x800F67A4",
         "0x8017112C": "0x8017112C",
         "0x80170B50": "0x80170B50",
-        "0x80170E18": "0x80170E18"
+        "0x80170E18": "0x80170E18",
+        "0x81254430": "0x81254430",
+        "0x81254248": "0x81254248",
+        "0x81254060": "0x81254060",
+        "0x80170898": "0x80170898",
+        "0x812542E4": "0x812542E4",
+        "0x812540F8": "0x812540F8",
+        "0x81254134": "0x81254134",
+        "0x8125414C": "0x8125414C",
+        "0x8017256C": "0x8017256C",
+        "0x81254374": "0x81254374",
+        "0x812543F0": "0x812543F0"
       }
     }
   ],

@@ -16,6 +16,38 @@
       "size": 72
     },
     {
+      "row": "town/func_80614978",
+      "tu": "src/town/scene/is_player_state_nonzero.c",
+      "home": "town/func_80614978",
+      "foff": "0x594978",
+      "vma": "0x80016178",
+      "size": 32
+    },
+    {
+      "row": "town/func_80614998",
+      "tu": "src/town/scene/is_player_state_not_1.c",
+      "home": "town/func_80614998",
+      "foff": "0x594998",
+      "vma": "0x80016198",
+      "size": 40
+    },
+    {
+      "row": "town/func_806149C0",
+      "tu": "src/town/scene/is_player_state_not_2.c",
+      "home": "town/func_806149C0",
+      "foff": "0x5949c0",
+      "vma": "0x800161c0",
+      "size": 40
+    },
+    {
+      "row": "town/func_806149E8",
+      "tu": "src/town/scene/is_player_state_not_3.c",
+      "home": "town/func_806149E8",
+      "foff": "0x5949e8",
+      "vma": "0x800161e8",
+      "size": 40
+    },
+    {
       "row": "town/func_80614AC8",
       "tu": "src/town/scene/shift_player_x.c",
       "home": "town/func_80614AC8",

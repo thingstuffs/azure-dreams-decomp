@@ -8,6 +8,14 @@
   "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase sweep_0E56C58",
   "entries": [
     {
+      "row": "dungeon/func_80E38ABC",
+      "tu": "src/dungeon/monster/manoeva/complete_airborne_actor_recovery.c",
+      "home": "dungeon/func_80E38ABC",
+      "foff": "0xe58abc",
+      "vma": "0x801722bc",
+      "size": 900
+    },
+    {
       "row": "dungeon/func_80E39504",
       "home": "dungeon/func_80E39504",
       "tu": "src/dungeon/monster/manoeva/update_actor_knockback.c",
@@ -49,12 +57,28 @@
       "evidence": "LL3a attestation sha256:7a963b5c50fe6a2d37106ea31544e28f5fcdcbb967b8d76a7abbaadb8c3afe31; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
     {
+      "row": "dungeon/func_80E3AF4C",
+      "tu": "src/dungeon/monster/manoeva/update_terrain_scaled_actor_effect.c",
+      "home": "dungeon/func_80E3AF4C",
+      "foff": "0xe5af4c",
+      "vma": "0x8017474c",
+      "size": 1092
+    },
+    {
       "row": "dungeon/func_80E3B4CC",
       "home": "dungeon/func_80E3B4CC",
       "tu": "src/dungeon/monster/manoeva/update_knockback_travel_object.c",
       "foff": "0x00E5B4CC",
       "vma": "0x80174CCC",
       "size": 928
+    },
+    {
+      "row": "dungeon/func_80E3BD94",
+      "tu": "src/dungeon/monster/manoeva/relocate_entity_after_animation.c",
+      "home": "dungeon/func_80E3BD94",
+      "foff": "0xe5bd94",
+      "vma": "0x80175594",
+      "size": 1740
     }
   ]
 }

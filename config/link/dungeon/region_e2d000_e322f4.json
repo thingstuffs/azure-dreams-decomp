@@ -19,6 +19,51 @@
         "0x80171e00": "0x80171ffc"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80E0E0B4"
+    },
+    {
+      "row": "dungeon/func_80E0F498",
+      "tu": "src/dungeon/monster/cyclone/advance_backward_forward_motion.c",
+      "home": "dungeon/func_80E0F498",
+      "foff": "0xe2f498",
+      "vma": "0x80172c98",
+      "size": 808
+    },
+    {
+      "row": "dungeon/func_80E10F2C",
+      "tu": "src/dungeon/func_80DE61E8.c",
+      "home": "dungeon/func_80DE61E8",
+      "foff": "0xe30f2c",
+      "vma": "0x8017472c",
+      "size": 56,
+      "bindings": {
+        "0x800AC7EC": "0x800AC7EC",
+        "0x80170E5C": "0x80171094"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_80E11764",
+      "tu": "src/dungeon/monster/cyclone/update_radial_motion_or_complete.c",
+      "home": "dungeon/func_80E11764",
+      "foff": "0xe31764",
+      "vma": "0x80174f64",
+      "size": 252
+    },
+    {
+      "row": "dungeon/func_80E11860",
+      "tu": "src/dungeon/monster/cyclone/create_randomized_motion_object.c",
+      "home": "dungeon/func_80E11860",
+      "foff": "0xe31860",
+      "vma": "0x80175060",
+      "size": 356
+    },
+    {
+      "row": "dungeon/func_80E12178",
+      "tu": "src/dungeon/monster/cyclone/advance_motion_output_animation.c",
+      "home": "dungeon/func_80E12178",
+      "foff": "0xe32178",
+      "vma": "0x80175978",
+      "size": 380
     }
   ]
 }

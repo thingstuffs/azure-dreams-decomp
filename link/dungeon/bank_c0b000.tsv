@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F565800: native_resource_16_slot_0","i":"dungeon/bank_c0b000","l":"bank_c0b000_family","n":"0x6000","o":"0xC0B000","p":["95e05be8834848954fb72264c61dfaa4e15296a89b9fb262f1d26d415959a1af","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:6d6f67ca32d0ae860f44e1b7ca3ec254b16efce8569eac3c7743f36887d99888"],"t":[14860,0,0,80,9636,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F565800: native_resource_16_slot_0","i":"dungeon/bank_c0b000","l":"bank_c0b000_family","n":"0x6000","o":"0xC0B000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:bc1203251b8190ab42b943a2820d64e4a2cb44615bc59384456551af8a3e59cd"],"t":[14860,0,0,80,9636,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 12627968	5836	r	census:c_row		0
 "0xC0C6CC"	452	c	census:registered_tu		["func_80BEC6CC",null,"0x80171ECC",1]
@@ -6,7 +6,9 @@ o	n	k	r	h	x
 12634548	572	r	census:c_row		0
 "0xC0CBF0"	436	c	census:registered_tu		["func_80BECBF0",null,"0x801723F0",1]
 "0xC0CDA4"	1076	c	census:registered_tu		["func_80BECDA4",null,"0x801725A4",1]
-12636632	4540	r	census:c_row		0
+12636632	3116	r	census:c_row		0
+"0xc0de04"	56	c	census:registered_tu		["func_80BEDE04",null,"0x80173604",1]
+12639804	1368	r	census:c_row		0
 "0xC0E394"	344	c	census:registered_tu		["func_80BEE394",null,"0x80173B94",1]
 12641516	1312	r	census:c_row		0
 12642828	96	d	census:noncode:decode		2

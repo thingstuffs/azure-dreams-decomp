@@ -1,11 +1,17 @@
-#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s1.receipt.json: rowbase sweep_0BB7000","i":"dungeon/region_bb7000_bbb6d8","n":"0x46d8","o":"0xbb7000","p":["95e05be8834848954fb72264c61dfaa4e15296a89b9fb262f1d26d415959a1af","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:6d6f67ca32d0ae860f44e1b7ca3ec254b16efce8569eac3c7743f36887d99888"],"t":[17988,0,0,148,0,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_code"},{"tu":"src/dungeon/monster/nyuel/run_selected_item_action.c"},{"bindings":{},"evidence":"docs/evidence/r121w_s1.receipt.json: dungeon/func_80B9A34C"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s1.receipt.json: rowbase sweep_0BB7000","i":"dungeon/region_bb7000_bbb6d8","n":"0x46d8","o":"0xbb7000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:bc1203251b8190ab42b943a2820d64e4a2cb44615bc59384456551af8a3e59cd"],"t":[17988,0,0,148,0,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_code"},{"tu":"src/dungeon/monster/nyuel/move_actor_with_vertical_arc.c"},{"tu":"src/dungeon/monster/nyuel/run_selected_item_action.c"},{"bindings":{"0x800AC7EC":"0x800AC7EC","0x80171014":"0x80170E9C"},"evidence":"LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"},{"bindings":{},"evidence":"docs/evidence/r121w_s1.receipt.json: dungeon/func_80B9A34C"},{"tu":"src/dungeon/monster/nyuel/create_cylindrical_effect.c"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 12283904	8	a	census:audit+noncode_confirmed	93be8bb4fb0182bc04507843818129acf2197a230cdab1dfc4c6c51bf854831d	0
 12283912	100	a	census:format:ptrtab	48a1bcd4554a9c14b21b2b9c0e55972c945ebba98cee36a70f284706c8d20ae6	1
 12284012	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	0
 12284016	36	a	census:format:ptrtab	d026bdff30b6559adee2638dffa8e6074d33f73898a885a120484f50e561f8d8	1
-12284052	8360	r	census:c_row		2
-"0x00BB913C"	1144	c	census:registered_tu		["func_80B9913C",null,"0x8017293C",3]
-12293556	3480	r	census:c_row		2
-"0xbba34c"	1384	c	census:registered_tu		["func_80B9A34C","func_80A4AB34","0x80173b4c",4]
-12298420	3620	r	census:c_row		2
+12284052	6340	r	census:c_row		2
+"0xbb8958"	872	c	census:registered_tu		["func_80B98958",null,"0x80172158",3]
+12291264	1148	r	census:c_row		2
+"0x00BB913C"	1144	c	census:registered_tu		["func_80B9913C",null,"0x8017293C",4]
+12293556	3100	r	census:c_row		2
+"0xbba1d0"	56	c	census:registered_tu		["func_80B9A1D0","func_80BEDE04","0x801739d0",5]
+12296712	324	r	census:c_row		2
+"0xbba34c"	1384	c	census:registered_tu		["func_80B9A34C","func_80A4AB34","0x80173b4c",6]
+12298420	1324	r	census:c_row		2
+"0xbbade0"	496	c	census:registered_tu		["func_80B9ADE0",null,"0x801745e0",7]
+12300240	1800	r	census:c_row		2

@@ -9,12 +9,38 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F1BD800: img_fad270_8016aa70_rc5_FADE70_FAF240, img_fad270_8016aa70_rc5_FAF700_FB125C, r101_rc5_func_80F8D938, r101_rc5_func_80F8F240, sweep_0FAD000",
   "entries": [
     {
+      "row": "dungeon/func_80F8D270",
+      "tu": "src/dungeon/func_80F87270.c",
+      "home": "dungeon/func_80F87270",
+      "foff": "0xfad270",
+      "vma": "0x8016aa70",
+      "size": 1736,
+      "bindings": {
+        "0x80047738": "0x80047738",
+        "0x800478B8": "0x800478B8",
+        "0x800644B8": "0x800644B8",
+        "0x8006CCF8": "0x8006CCF8",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x800A020C": "0x800A020C",
+        "0x800A9E70": "0x800A9E70",
+        "0x800AA36C": "0x800AA36C",
+        "0x800BCB04": "0x800BCB04",
+        "0x80171138": "0x8016B138",
+        "0x80174B1C": "0x8016EB1C"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
       "row": "dungeon/func_80F8E02C",
       "tu": "src/dungeon/func_80F8802C.c",
       "home": "dungeon/func_80F8802C",
       "foff": "0xFAE02C",
       "vma": "0x8016B82C",
-      "size": 1864
+      "size": 1864,
+      "bindings": {
+        "0x80F8ADE0": "0x80F8ADE0"
+      }
     },
     {
       "row": "dungeon/func_80F8E938",
@@ -22,7 +48,10 @@
       "home": "dungeon/func_80F88938",
       "foff": "0xFAE938",
       "vma": "0x8016C138",
-      "size": 288
+      "size": 288,
+      "bindings": {
+        "0x80F8ADE0": "0x80F8ADE0"
+      }
     },
     {
       "row": "dungeon/func_80F8EA58",
@@ -30,7 +59,10 @@
       "home": "dungeon/func_80F88A58",
       "foff": "0xFAEA58",
       "vma": "0x8016C258",
-      "size": 324
+      "size": 324,
+      "bindings": {
+        "0x80F8ADE0": "0x80F8ADE0"
+      }
     },
     {
       "row": "dungeon/func_80F8EB9C",
@@ -38,7 +70,10 @@
       "home": "dungeon/func_80F88B9C",
       "foff": "0xFAEB9C",
       "vma": "0x8016C39C",
-      "size": 148
+      "size": 148,
+      "bindings": {
+        "0x80F8ADE0": "0x80F8ADE0"
+      }
     },
     {
       "row": "dungeon/func_80F8EC30",
@@ -46,7 +81,10 @@
       "home": "dungeon/func_80F88C30",
       "foff": "0xFAEC30",
       "vma": "0x8016C430",
-      "size": 100
+      "size": 100,
+      "bindings": {
+        "0x80F8ADE0": "0x80F8ADE0"
+      }
     },
     {
       "row": "dungeon/func_80F8FA94",
@@ -54,7 +92,10 @@
       "home": "dungeon/func_80F89A94",
       "foff": "0xFAFA94",
       "vma": "0x8016D294",
-      "size": 624
+      "size": 624,
+      "bindings": {
+        "0x80F8ADE0": "0x80F8ADE0"
+      }
     },
     {
       "row": "dungeon/func_80F8FD04",
@@ -62,7 +103,10 @@
       "home": "dungeon/func_80F89D04",
       "foff": "0xFAFD04",
       "vma": "0x8016D504",
-      "size": 32
+      "size": 32,
+      "bindings": {
+        "0x80F8ADE0": "0x80F8ADE0"
+      }
     },
     {
       "row": "dungeon/func_80F8FD24",
@@ -70,7 +114,10 @@
       "home": "dungeon/func_80F89D24",
       "foff": "0xFAFD24",
       "vma": "0x8016D524",
-      "size": 32
+      "size": 32,
+      "bindings": {
+        "0x80F8ADE0": "0x80F8ADE0"
+      }
     },
     {
       "row": "dungeon/func_80F8FD44",
@@ -78,7 +125,10 @@
       "home": "dungeon/func_80F89D44",
       "foff": "0xFAFD44",
       "vma": "0x8016D544",
-      "size": 56
+      "size": 56,
+      "bindings": {
+        "0x80F8ADE0": "0x80F8ADE0"
+      }
     },
     {
       "row": "dungeon/func_80F90538",
@@ -86,7 +136,10 @@
       "home": "dungeon/func_80F8A538",
       "foff": "0xFB0538",
       "vma": "0x8016DD38",
-      "size": 200
+      "size": 200,
+      "bindings": {
+        "0x80F8ADE0": "0x80F8ADE0"
+      }
     },
     {
       "row": "dungeon/func_80F90600",
@@ -94,7 +147,23 @@
       "home": "dungeon/func_80F8A600",
       "foff": "0xFB0600",
       "vma": "0x8016DE00",
-      "size": 100
+      "size": 100,
+      "bindings": {
+        "0x80F8ADE0": "0x80F8ADE0"
+      }
+    },
+    {
+      "row": "dungeon/func_80F90664",
+      "tu": "src/dungeon/func_80F8A664.c",
+      "home": "dungeon/func_80F8A664",
+      "foff": "0xfb0664",
+      "vma": "0x8016de64",
+      "size": 56,
+      "bindings": {
+        "0x800AC480": "0x800AC480",
+        "0x80171138": "0x8016B138"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_80F9069C",
@@ -102,7 +171,10 @@
       "home": "dungeon/func_80F8A69C",
       "foff": "0xFB069C",
       "vma": "0x8016DE9C",
-      "size": 56
+      "size": 56,
+      "bindings": {
+        "0x80F8ADE0": "0x80F8ADE0"
+      }
     },
     {
       "row": "dungeon/func_80F906D4",
@@ -110,7 +182,36 @@
       "home": "dungeon/func_80F8A6D4",
       "foff": "0xFB06D4",
       "vma": "0x8016DED4",
-      "size": 56
+      "size": 56,
+      "bindings": {
+        "0x80F8ADE0": "0x80F8ADE0"
+      }
+    },
+    {
+      "row": "dungeon/func_80F9070C",
+      "tu": "src/dungeon/func_80F8A70C.c",
+      "home": "dungeon/func_80F8A70C",
+      "foff": "0xfb070c",
+      "vma": "0x8016df0c",
+      "size": 488,
+      "bindings": {
+        "0x800478B8": "0x800478B8",
+        "0x800814A0": "0x800814A0",
+        "0x800DBA90": "0x800DBA90"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_80F90DE0",
+      "tu": "src/dungeon/func_80F8ADE0.c",
+      "home": "dungeon/func_80F8ADE0",
+      "foff": "0xfb0de0",
+      "vma": "0x8016e5e0",
+      "size": 168,
+      "bindings": {
+        "0x800814A0": "0x800814A0"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_80F90E88",

@@ -1,0 +1,19 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/ll4c_home_7cfb48",
+  "container": "dungeon",
+  "foff": "0x7cfb48",
+  "size": 340,
+  "vma": "0x807afb48",
+  "evidence": "ledger/splits/dungeon.jsonl: func_807AFB48 matched home source coordinates; baseline window config/overlays/dungeon_deep_07cf.overlay.yaml; no destination load claim",
+  "entries": [
+    {
+      "row": "dungeon/func_807AFB48",
+      "tu": "src/dungeon/func_807AFB48.c",
+      "home": "dungeon/func_807AFB48",
+      "foff": "0x7cfb48",
+      "vma": "0x807afb48",
+      "size": 340
+    }
+  ]
+}

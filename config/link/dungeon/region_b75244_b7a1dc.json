@@ -1,21 +1,55 @@
 {
- "schema": "azure-clean.linklist.v0",
- "image": "dungeon/region_b75244_b7a1dc",
- "container": "dungeon",
- "foff": "0xb75244",
- "size": "0x4f98",
- "vma": "0x8015ea44",
- "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_b75244_8015ea44",
- "entries": [
-  {
-   "row": "dungeon/func_80B58E18",
-   "home": "dungeon/func_80B46E18",
-   "tu": "src/dungeon/func_80B46E18.c",
-   "foff": "0xb78e18",
-   "vma": "0x80162618",
-   "size": 828,
-   "bindings": {},
-   "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80B58E18"
-  }
- ]
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/region_b75244_b7a1dc",
+  "container": "dungeon",
+  "foff": "0xb75244",
+  "size": "0x4f98",
+  "vma": "0x8015ea44",
+  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_b75244_8015ea44",
+  "entries": [
+    {
+      "row": "dungeon/func_80B55E2C",
+      "tu": "src/dungeon/func_80B43E2C.c",
+      "home": "dungeon/func_80B43E2C",
+      "foff": "0xb75e2c",
+      "vma": "0x8015f62c",
+      "size": 1864,
+      "bindings": {
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x8006CD00": "0x8006CD00",
+        "0x800814A8": "0x800814A8",
+        "0x80082E80": "0x80082E80",
+        "0x80083460": "0x80083460",
+        "0x8009A180": "0x8009A180",
+        "0x8009A21C": "0x8009A21C",
+        "0x8009A3D0": "0x8009A3D0",
+        "0x8009A540": "0x8009A540",
+        "0x8009A66C": "0x8009A66C",
+        "0x8009FD7C": "0x8009FD7C",
+        "0x800A0134": "0x800A0134",
+        "0x800A02AC": "0x800A02AC",
+        "0x800A04F0": "0x800A04F0",
+        "0x800A0818": "0x800A0818",
+        "0x800A0E6C": "0x800A0E6C",
+        "0x800A19E4": "0x800A19E4",
+        "0x800A6D30": "0x800A6D30",
+        "0x800A9A0C": "0x800A9A0C",
+        "0x800BCB04": "0x800BCB04",
+        "0x800E2970": "0x800E2970",
+        "0x80171DD8": "0x8015FDD8"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_80B58E18",
+      "home": "dungeon/func_80B46E18",
+      "tu": "src/dungeon/func_80B46E18.c",
+      "foff": "0xb78e18",
+      "vma": "0x80162618",
+      "size": 828,
+      "bindings": {},
+      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80B58E18"
+    }
+  ]
 }

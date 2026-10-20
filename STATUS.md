@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-20T11:08:24Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-20T11:50:38Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -13,7 +13,7 @@ Generated 2026-10-20T11:08:24Z. Baseline: first-pass text frozen 2026-09-07.
 | **Byte-identical to retail** | 21,432 of 21,432 rows (100.0%), 8,028,304 bytes; 0 unverified |
 | **Code that is C** | 99.0% as C; 99.5% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
-| **Readability** | L3 90.5%, L4 0.0%, L5 0.0% of bytes (levels below) |
+| **Readability** | L3 90.6%, L4 0.0%, L5 0.0% of bytes (levels below) |
 | **Module certificates** | 0 of 300 current, 229 stale, 71 not certified yet |
 
 **Current proof state.** 300 of 300 module certificates are not current; L4 and L5, which need the module certificate, read 0.0% and 0.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
@@ -67,15 +67,15 @@ Baseline NOT exact: 0 rows
 | L0 | 8,028,304 | 100.0% |
 | L1 | 8,028,304 | 100.0% |
 | L2 | 8,028,304 | 100.0% |
-| L3 | 7,264,576 | 90.5% |
+| L3 | 7,273,860 | 90.6% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 3621 rows, 2,304,812 bytes (28.7%); records used: 98.
+On shared record headers (T7, `include/records/`): 3614 rows, 2,304,112 bytes (28.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 21,432 rows (8,028,304 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 21,432 rows (8,028,304 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -83,16 +83,16 @@ Defects still present in the current tree (files = source files, bytes = image b
 
 | defect still in the clean tree | files | bytes | % of bytes |
 |---|---:|---:|---:|
-| m2c local names | 35 | 36,004 | 0.4% |
-| goto | 181 | 400,472 | 5.0% |
+| m2c local names | 29 | 36,004 | 0.4% |
+| goto | 179 | 400,472 | 5.0% |
 | computed-goto jump table | 1 | 16 | 0.0% |
 | inline asm outside macros | 7 | 8,984 | 0.1% |
 | any fidelity site | 2 | 23,708 | 0.3% |
-| any live audit site, unnarrowed | 1,643 | 2,290,572 | 28.5% |
-| do{}while(0) scheduling barrier | 83 | 129,728 | 1.6% |
+| any live audit site, unnarrowed | 1,643 | 2,473,124 | 30.8% |
+| do{}while(0) scheduling barrier | 14 | 125,648 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 3,009 | 3,657,100 | 45.6% |
-| clean shape | 9,526 | 7,591,828 | 94.6% |
+| local address-named struct | 2,651 | 3,658,876 | 45.6% |
+| clean shape | 8,441 | 7,591,828 | 94.6% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
 
@@ -100,20 +100,20 @@ Defects still present in the current tree (files = source files, bytes = image b
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2331 | 510,576 | 6.4% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,449,308 | 18.1% | 0 | 0 | 0.0% |
-| m2c local names | 5181 | 2,162,116 | 26.9% | 35 | 36,004 | 0.4% |
+| m2c local names | 5181 | 2,162,116 | 26.9% | 29 | 36,004 | 0.4% |
 | ASM_ pins | 2135 | 1,456,292 | 18.1% | 0 | 0 | 0.0% |
-| goto | 1545 | 1,312,068 | 16.3% | 181 | 400,472 | 5.0% |
+| goto | 1545 | 1,312,068 | 16.3% | 179 | 400,472 | 5.0% |
 | computed-goto jump table | 317 | 436,504 | 5.4% | 1 | 16 | 0.0% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 3.0% | 7 | 8,984 | 0.1% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 8.4% | 0 | 0 | 0.0% |
 | any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 16.0% | 2 | 23,708 | 0.3% |
-| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 16.0% | 1643 | 2,290,572 | 28.5% |
+| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 16.0% | 1643 | 2,473,124 | 30.8% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 489,140 | 6.1% | 0 | 0 | 0.0% |
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.3% | 0 | 0 | 0.0% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 83 | 129,728 | 1.6% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 14 | 125,648 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.3% | 3009 | 3,657,100 | 45.6% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 9526 | 7,591,828 | 94.6% |
+| local address-named struct | 633 | 346,824 | 4.3% | 2651 | 3,658,876 | 45.6% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 8441 | 7,591,828 | 94.6% |
 
 </details>
 

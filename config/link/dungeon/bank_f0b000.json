@@ -16,7 +16,8 @@
       "vma": "0x801650B8",
       "size": 524,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       }
     },
     {
@@ -27,7 +28,8 @@
       "vma": "0x801652C4",
       "size": 468,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       }
     },
     {
@@ -38,7 +40,8 @@
       "vma": "0x80165718",
       "size": 456,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       }
     },
     {
@@ -50,7 +53,8 @@
       "size": 1032,
       "bindings": {
         "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
@@ -64,7 +68,8 @@
       "bindings": {
         "0x801748E0": "0x801748E0",
         "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       },
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
     },
@@ -76,7 +81,8 @@
       "vma": "0x8016624C",
       "size": 580,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       }
     },
     {
@@ -87,7 +93,8 @@
       "vma": "0x80166BD8",
       "size": 108,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       }
     },
     {
@@ -98,7 +105,8 @@
       "vma": "0x80166C44",
       "size": 452,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       }
     },
     {
@@ -109,7 +117,8 @@
       "vma": "0x80166E08",
       "size": 280,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       }
     },
     {
@@ -120,7 +129,8 @@
       "vma": "0x80166F20",
       "size": 324,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       }
     },
     {
@@ -132,7 +142,8 @@
       "size": 124,
       "bindings": {
         "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
@@ -144,7 +155,8 @@
       "vma": "0x801674B0",
       "size": 100,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       }
     },
     {
@@ -161,6 +173,32 @@
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
     },
     {
+      "row": "dungeon/func_80EEDFB0",
+      "tu": "src/dungeon/func_80EE7FB0.c",
+      "home": "dungeon/func_80EE7FB0",
+      "foff": "0xf0dfb0",
+      "vma": "0x801677b0",
+      "size": 1412,
+      "bindings": {
+        "0x8003F270": "0x8003F270",
+        "0x80047784": "0x80047784",
+        "0x80069EF8": "0x80069EF8",
+        "0x8006DE24": "0x8006DE24",
+        "0x800814A8": "0x800814A8",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x800A05A4": "0x800A05A4",
+        "0x800A2B04": "0x800A2B04",
+        "0x800A4ACC": "0x800A4ACC",
+        "0x800A56E0": "0x800A56E0",
+        "0x800A94A0": "0x800A94A0",
+        "0x8016B498": "0x80165498",
+        "0x8016BCE8": "0x80165CE8",
+        "0x8016EEB8": "0x80168EB8"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
       "row": "dungeon/func_80EEE534",
       "tu": "src/dungeon/monster/weadog/advance_actor_timed_transition.c",
       "home": "dungeon/func_80EE2534",
@@ -168,7 +206,8 @@
       "vma": "0x80167D34",
       "size": 488,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       }
     },
     {
@@ -194,7 +233,8 @@
       "bindings": {
         "0x801748E0": "0x801748E0",
         "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       },
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
     },
@@ -208,7 +248,8 @@
       "bindings": {
         "0x801748E0": "0x801748E0",
         "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       },
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
     },
@@ -222,7 +263,8 @@
       "bindings": {
         "0x801748E0": "0x801748E0",
         "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       },
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
     },
@@ -256,7 +298,8 @@
         "0x80174E54": "0x80168F08",
         "0x80171728": "0x80165CE8",
         "0x80173D4C": "0x80167FB4",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       },
       "evidence": "LL3a attestation sha256:96a40275c62bec0a62b2e5f55086b1c98d5b0e9c3e559cf617c89e02d09c9e0d; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
@@ -269,7 +312,8 @@
       "size": 780,
       "bindings": {
         "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
@@ -281,7 +325,8 @@
       "vma": "0x80168650",
       "size": 200,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       }
     },
     {
@@ -292,7 +337,8 @@
       "vma": "0x80168718",
       "size": 100,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       }
     },
     {
@@ -305,7 +351,8 @@
       "bindings": {
         "0x801748E0": "0x801748E0",
         "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       },
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
     },
@@ -319,7 +366,8 @@
       "bindings": {
         "0x801748E0": "0x801748E0",
         "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       },
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
     },
@@ -333,7 +381,8 @@
       "bindings": {
         "0x801748E0": "0x801748E0",
         "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       },
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
     },
@@ -345,7 +394,8 @@
       "vma": "0x80168824",
       "size": 188,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       }
     },
     {
@@ -372,7 +422,8 @@
         "0x80171CE8": "0x80165CE8",
         "0x80083460": "0x80083460",
         "0x801748E0": "0x801688E0",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x8016D7B0": "0x8016D7B0"
       },
       "evidence": "LL3a attestation sha256:920cbf8a4fbf1cc6b8dad7d4e699984685214338813e994cbd2c32ee6640e638; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     }

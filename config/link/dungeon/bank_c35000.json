@@ -55,6 +55,14 @@
       "foff": "0xC380E0",
       "vma": "0x801738E0",
       "size": 1584
+    },
+    {
+      "row": "dungeon/func_80C18C5C",
+      "tu": "src/dungeon/func_80C18C5C.c",
+      "home": "dungeon/func_80C18C5C",
+      "foff": "0xc38c5c",
+      "vma": "0x8017445c",
+      "size": 56
     }
   ]
 }

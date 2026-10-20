@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7B1800: bank_9bf000_assets, dungeon_func_809A2FB8_true_0x801747B8, engine_alias_copy7_9BF000, engine_alias_copy7_9C2650, img_9c079c_80171f9c, img_9c1000_80172800 (+6 more); symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"dungeon/bank_9bf000","l":"bank_9bf000_family","n":"0x6000","o":"0x9BF000","p":["95e05be8834848954fb72264c61dfaa4e15296a89b9fb262f1d26d415959a1af","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:6d6f67ca32d0ae860f44e1b7ca3ec254b16efce8569eac3c7743f36887d99888"],"t":[21900,0,0,2676,0,0,0],"v":"0x80170800","y":{"0x800B2A60":"0x801710EC","0x800D4494":"0x801710EC","0x800F749C":"0x801759CC","0x80171138":"0x801710EC","0x801717F4":"0x801710EC"}},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_code"},{"tu":"src/dungeon/monster/kewne/select_and_start_target_action.c"},{"tu":"src/dungeon/monster/kewne/advance_turn_animation_and_restore_heading.c"},{"bindings":{"0x8016D568":"0x8016D568"}},{"tu":"src/dungeon/monster/kewne/advance_item_action_and_cleanup.c"},{"tu":"src/dungeon/monster/kewne/decay_motion_and_align_actor.c"},{"bindings":{"0x800AD058":"0x800AD058","0x8016D568":"0x80173DAC"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv","tu":"src/dungeon/actor/forward_actor_defeat_removal.c"},{"bindings":{"0x8016D568":"0x8016D568"},"tu":"src/dungeon/monster/hikewne/reset_state_field_a.c"},{"bindings":{"0x8016D568":"0x8016D568"},"tu":"src/dungeon/effect/advance_actor_removal_callback.c"},{"tu":"src/dungeon/monster/kewne/advance_actor_action_and_refresh_animation.c"},{"tu":"src/dungeon/monster/kewne/advance_actor_action_and_update_status.c"},{"tu":"src/dungeon/monster/kewne/update_actor_state_after_map_check.c"},{"bindings":{"0x8016D568":"0x8016D568"},"tu":"src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c"},{"bindings":{"0x8016D568":"0x8016D568"},"tu":"src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c"},{"bindings":{"0x8016D568":"0x8016D568"},"tu":"src/dungeon/effect/advance_actor_fade_in_and_dispatch.c"},{"bindings":{"0x8016D568":"0x8016D568"},"tu":"src/dungeon/actor/set_actor_data_pointer.c"},{"tu":"src/dungeon/monster/kewne/update_effect_fade_and_history.c"},{},{"tu":"src/dungeon/monster/kewne/create_linked_source_object.c"},{"tu":"src/dungeon/monster/kewne/create_linked_child_object.c"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7B1800: bank_9bf000_assets, dungeon_func_809A2FB8_true_0x801747B8, engine_alias_copy7_9BF000, engine_alias_copy7_9C2650, img_9c079c_80171f9c, img_9c1000_80172800 (+6 more); symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"dungeon/bank_9bf000","l":"bank_9bf000_family","n":"0x6000","o":"0x9BF000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:bc1203251b8190ab42b943a2820d64e4a2cb44615bc59384456551af8a3e59cd"],"t":[21900,0,0,2676,0,0,0],"v":"0x80170800","y":{"0x800B2A60":"0x801710EC","0x800D4494":"0x801710EC","0x800F749C":"0x801759CC","0x80171138":"0x801710EC","0x801717F4":"0x801710EC"}},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_code"},{"tu":"src/dungeon/monster/kewne/update_actor_callbacks_and_ground.c"},{"tu":"src/dungeon/monster/kewne/advance_actor_path_and_facing.c"},{"tu":"src/dungeon/monster/kewne/select_and_start_target_action.c"},{"tu":"src/dungeon/monster/kewne/start_kewne_attack_action.c"},{"tu":"src/dungeon/monster/kewne/update_kewne_charge_counter.c"},{"tu":"src/dungeon/monster/kewne/advance_turn_animation_and_restore_heading.c"},{"bindings":{"0x8016D568":"0x8016D568","0x807AFB48":"0x807AFB48","0x807AFC9C":"0x807AFC9C"}},{"tu":"src/dungeon/monster/kewne/update_movement_height_and_animation.c"},{"tu":"src/dungeon/monster/kewne/update_staged_movement_and_idle.c"},{"tu":"src/dungeon/monster/kewne/advance_item_action_and_cleanup.c"},{"tu":"src/dungeon/monster/kewne/decay_motion_and_align_actor.c"},{"bindings":{"0x800AD058":"0x800AD058","0x8016D568":"0x80173DAC","0x807AFB48":"0x807AFB48","0x807AFC9C":"0x807AFC9C"},"evidence":"r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv","tu":"src/dungeon/actor/forward_actor_defeat_removal.c"},{"bindings":{"0x8016D568":"0x8016D568","0x807AFB48":"0x807AFB48","0x807AFC9C":"0x807AFC9C"},"tu":"src/dungeon/monster/hikewne/reset_state_field_a.c"},{"bindings":{"0x8016D568":"0x8016D568","0x807AFB48":"0x807AFB48","0x807AFC9C":"0x807AFC9C"},"tu":"src/dungeon/effect/advance_actor_removal_callback.c"},{"tu":"src/dungeon/monster/kewne/advance_actor_action_and_refresh_animation.c"},{"tu":"src/dungeon/monster/kewne/advance_actor_action_and_update_status.c"},{"tu":"src/dungeon/monster/kewne/update_actor_state_after_map_check.c"},{"bindings":{"0x8016D568":"0x8016D568","0x807AFB48":"0x807AFB48","0x807AFC9C":"0x807AFC9C"},"tu":"src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c"},{"bindings":{"0x8016D568":"0x8016D568","0x807AFB48":"0x807AFB48","0x807AFC9C":"0x807AFC9C"},"tu":"src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c"},{"bindings":{"0x8016D568":"0x8016D568","0x807AFB48":"0x807AFB48","0x807AFC9C":"0x807AFC9C"},"tu":"src/dungeon/effect/advance_actor_fade_in_and_dispatch.c"},{"bindings":{"0x8016D568":"0x8016D568","0x807AFB48":"0x807AFB48","0x807AFC9C":"0x807AFC9C"},"tu":"src/dungeon/actor/set_actor_data_pointer.c"},{"tu":"src/dungeon/monster/kewne/update_effect_fade_and_history.c"},{},{"tu":"src/dungeon/monster/kewne/create_linked_source_object.c"},{"bindings":{"0x800814A0":"0x800814A0"},"evidence":"LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"},{"bindings":{"0x8003FD64":"0x8003FD64","0x8004491C":"0x8004491C","0x80045340":"0x80045340","0x800F7348":"0x80175878","0x800FBE24":"0x80175F9C"},"evidence":"LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"},{"tu":"src/dungeon/monster/kewne/create_linked_child_object.c"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 10219520	8	a	census:audit+noncode_confirmed	d2b1c18b2ec559dff474bf6006958419f6b8670621b10baa7accef1aefd78ca3	0
 10219528	68	a	census:format:ptrtab	ee28eb62c3e61b89cb79255816b42c337498efb0a6c2dcd8978fe99d44423857	1
@@ -8,41 +8,48 @@ o	n	k	r	h	x
 10219624	44	a	census:format:ptrtab	96fef12bfdcf0cb339ca437f4a248fe631867d430a834f4498b12e37b5f94d5b	1
 10219668	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	0
 10219672	28	a	census:format:ptrtab	44f4b3238cf5ee3d8fc8a5d7399496b317e6c06fffbbe17a03a9c7ff7c9e7676	1
-10219700	4000	r	census:c_row		2
+10219700	480	r	census:c_row		2
+"0x9bf294"	1624	c	census:registered_tu		["func_8099F294",null,"0x80170a94",3]
+10221804	1456	r	census:c_row		2
+"0x9bfe9c"	440	c	census:registered_tu		["func_8099FE9C",null,"0x8017169c",4]
 10223700	1864	r	census:instance_proven		2
-"0x9C079C"	664	c	census:registered_tu		["func_809A079C",null,"0x80171F9C",3]
-10226228	588	r	census:c_row		2
-"0x9C0C80"	492	c	census:registered_tu		["func_809A0C80",null,"0x80172480",4]
+"0x9C079C"	664	c	census:registered_tu		["func_809A079C",null,"0x80171F9C",5]
+"0x9c0a34"	292	c	census:registered_tu		["func_809A0A34",null,"0x80172234",6]
+"0x9c0b58"	296	c	census:registered_tu		["func_809A0B58",null,"0x80172358",7]
+"0x9C0C80"	492	c	census:registered_tu		["func_809A0C80",null,"0x80172480",8]
 10227308	324	r	census:instance_proven		2
 10227632	148	r	census:c_row		2
-"0x9C1044"	100	c	census:registered_tu		["func_809A1044","func_80F88C30","0x80172844",5]
-10227880	3256	r	census:c_row		2
-"0x9C1D60"	1400	c	census:registered_tu		["func_809A1D60",null,"0x80173560",6]
-"0x9C22D8"	724	c	census:registered_tu		["func_809A22D8",null,"0x80173AD8",7]
-"0x9C25AC"	32	c	census:registered_tu		["func_809A25AC","func_8097DD68","0x80173DAC",8]
-"0x9C25CC"	44	c	census:registered_tu		["func_809A25CC","func_80977D88","0x80173DCC",9]
-"0x9C25F8"	32	c	census:registered_tu		["func_809A25F8","func_800AD92C","0x80173DF8",10]
-"0x9C2618"	56	c	census:registered_tu		["func_809A2618","func_80F89D44","0x80173E18",5]
-"0x9C2650"	964	c	census:registered_tu		["func_809A2650",null,"0x80173E50",11]
-"0x9C2A14"	864	c	census:registered_tu		["func_809A2A14",null,"0x80174214",12]
-"0x9C2D74"	200	c	census:registered_tu		["func_809A2D74",null,"0x80174574",13]
-"0x9C2E3C"	100	c	census:registered_tu		["func_809A2E3C","func_80F8A600","0x8017463C",5]
-"0x9C2EA0"	56	c	census:registered_tu		["func_809A2EA0","func_800ADA84","0x801746A0",14]
-"0x9C2ED8"	56	c	census:registered_tu		["func_809A2ED8","func_800ADABC","0x801746D8",15]
-"0x9C2F10"	56	c	census:registered_tu		["func_809A2F10","func_80AF4148","0x80174710",5]
-"0x9C2F48"	56	c	census:registered_tu		["func_809A2F48","func_800ADAF4","0x80174748",16]
-"0x9C2F80"	56	c	census:registered_tu		["func_809A2F80","func_800CF1BC","0x80174780",17]
-"0x9C2FB8"	344	c	census:registered_tu		["func_809A2FB8",null,"0x801747B8",18]
+"0x9C1044"	100	c	census:registered_tu		["func_809A1044","func_80F88C30","0x80172844",9]
+"0x9c10a8"	1332	c	census:registered_tu		["func_809A10A8",null,"0x801728a8",10]
+"0x9c15dc"	1200	c	census:registered_tu		["func_809A15DC",null,"0x80172ddc",11]
+10230412	724	r	census:c_row		2
+"0x9C1D60"	1400	c	census:registered_tu		["func_809A1D60",null,"0x80173560",12]
+"0x9C22D8"	724	c	census:registered_tu		["func_809A22D8",null,"0x80173AD8",13]
+"0x9C25AC"	32	c	census:registered_tu		["func_809A25AC","func_8097DD68","0x80173DAC",14]
+"0x9C25CC"	44	c	census:registered_tu		["func_809A25CC","func_80977D88","0x80173DCC",15]
+"0x9C25F8"	32	c	census:registered_tu		["func_809A25F8","func_800AD92C","0x80173DF8",16]
+"0x9C2618"	56	c	census:registered_tu		["func_809A2618","func_80F89D44","0x80173E18",9]
+"0x9C2650"	964	c	census:registered_tu		["func_809A2650",null,"0x80173E50",17]
+"0x9C2A14"	864	c	census:registered_tu		["func_809A2A14",null,"0x80174214",18]
+"0x9C2D74"	200	c	census:registered_tu		["func_809A2D74",null,"0x80174574",19]
+"0x9C2E3C"	100	c	census:registered_tu		["func_809A2E3C","func_80F8A600","0x8017463C",9]
+"0x9C2EA0"	56	c	census:registered_tu		["func_809A2EA0","func_800ADA84","0x801746A0",20]
+"0x9C2ED8"	56	c	census:registered_tu		["func_809A2ED8","func_800ADABC","0x801746D8",21]
+"0x9C2F10"	56	c	census:registered_tu		["func_809A2F10","func_80AF4148","0x80174710",9]
+"0x9C2F48"	56	c	census:registered_tu		["func_809A2F48","func_800ADAF4","0x80174748",22]
+"0x9C2F80"	56	c	census:registered_tu		["func_809A2F80","func_800CF1BC","0x80174780",23]
+"0x9C2FB8"	344	c	census:registered_tu		["func_809A2FB8",null,"0x801747B8",24]
 10236176	1168	r	census:c_row		2
-"0x9C35A0"	248	c	census:registered_tu		["func_809A35A0",null,"0x80174DA0",19]
-"0x9C3698"	296	c	census:registered_tu		["func_809A3698",null,"0x80174E98",19]
+"0x9C35A0"	248	c	census:registered_tu		["func_809A35A0",null,"0x80174DA0",25]
+"0x9C3698"	296	c	census:registered_tu		["func_809A3698",null,"0x80174E98",25]
 10237888	952	r	census:c_row		2
-"0x9C3B78"	860	c	census:registered_tu		["func_809A3B78","func_807AF648","0x80175378",5]
-"0x9C3ED4"	320	c	census:registered_tu		["func_809A3ED4","func_807AF9A4","0x801756D4",5]
-"0x9C4014"	100	c	census:registered_tu		["func_809A4014",null,"0x80175814",20]
-10240120	676	r	census:c_row		2
-"0x9C431C"	608	c	census:registered_tu		["func_809A431C","func_807AFDEC","0x80175B1C",5]
-"0x009C457C"	196	c	census:registered_tu		["func_809A457C",null,"0x80175D7C",21]
+"0x9C3B78"	860	c	census:registered_tu		["func_809A3B78","func_807AF648","0x80175378",9]
+"0x9C3ED4"	320	c	census:registered_tu		["func_809A3ED4","func_807AF9A4","0x801756D4",9]
+"0x9C4014"	100	c	census:registered_tu		["func_809A4014",null,"0x80175814",26]
+"0x9c4078"	340	c	census:registered_tu		["func_809A4078","func_807AFB48","0x80175878",27]
+"0x9c41cc"	336	c	census:registered_tu		["func_809A41CC","func_807AFC9C","0x801759cc",28]
+"0x9C431C"	608	c	census:registered_tu		["func_809A431C","func_807AFDEC","0x80175B1C",9]
+"0x009C457C"	196	c	census:registered_tu		["func_809A457C",null,"0x80175D7C",29]
 10241600	152	a	census:audit+noncode_confirmed	2ff3b584e5609bec5bebbcea084b5be8e5272e7190e87acd8ec0e9d211fdcd26	0
 10241752	24	a	census:format:ptrtab	e401070d03a15ad80eefd3fa1e6c348c6278f93d34670291085fc660c997d107	1
 10241776	16	a	census:audit+noncode_confirmed	55905a529b86476b1ae0bc15738f286e057c888fde4b03702863f6023ab4ebea	0

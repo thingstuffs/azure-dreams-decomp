@@ -1,10 +1,10 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F787800: native_resource_03_slot_0","i":"dungeon/bank_9e9000","l":"bank_9e9000_family","n":"0x6000","o":"0x9E9000","p":["95e05be8834848954fb72264c61dfaa4e15296a89b9fb262f1d26d415959a1af","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:6d6f67ca32d0ae860f44e1b7ca3ec254b16efce8569eac3c7743f36887d99888"],"t":[13428,0,0,76,11072,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F787800: native_resource_03_slot_0","i":"dungeon/bank_9e9000","l":"bank_9e9000_family","n":"0x6000","o":"0x9E9000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:bc1203251b8190ab42b943a2820d64e4a2cb44615bc59384456551af8a3e59cd"],"t":[13428,0,0,76,11072,0,0],"v":"0x80170800"},"p":[{"census_label":"proven_code"},{},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 10391552	552	r	census:c_row		0
 "0x9E9228"	1068	c	census:registered_tu		["func_809C9228",null,"0x80170A28",1]
 "0x9E9654"	1352	c	census:registered_tu		["func_809C9654",null,"0x80170E54",1]
 "0x9E9B9C"	600	c	census:registered_tu		["func_809C9B9C",null,"0x8017139C",1]
-10395124	1864	r	census:c_row		0
+"0x9e9df4"	1864	c	census:registered_tu		["func_809C9DF4",null,"0x801715f4",1]
 "0x9EA53C"	100	c	census:registered_tu		["func_809CA53C",null,"0x80171D3C",1]
 "0x9EA5A0"	452	c	census:registered_tu		["func_809CA5A0",null,"0x80171DA0",1]
 "0x9EA764"	280	c	census:registered_tu		["func_809CA764",null,"0x80171F64",1]
@@ -17,7 +17,8 @@ o	n	k	r	h	x
 10402496	152	r	census:c_row		0
 "0x9EBB58"	924	c	census:registered_tu		["func_809CBB58",null,"0x80173358",1]
 "0x9EBEF4"	828	c	census:registered_tu		["func_809CBEF4",null,"0x801736F4",1]
-10404400	580	r	census:c_row		0
+10404400	524	r	census:c_row		0
+"0x9ec43c"	56	c	census:registered_tu		["func_809CC43C",null,"0x80173c3c",1]
 10404980	120	d	census:noncode:decode		2
 10405100	24	a	census:format:ptrtab	d0553b83c6951cc3c5cbd81e6bf88a8ecc6b7ffb4b7bbfe6eaad4d5c56f69ac2	3
 10405124	16	d	census:noncode:entropy:unplaced		2

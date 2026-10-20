@@ -9,15 +9,37 @@
   "entries": [
     {
       "row": "dungeon/func_80FB2368",
-      "tu": "src/dungeon/func_80FB8368.c",
-      "home": "dungeon/func_80FB8368",
+      "tu": "src/dungeon/func_80CB8010.c",
+      "home": "dungeon/func_80CB8010",
       "foff": "0xfd2368",
       "vma": "0x80171b68",
       "size": 1864,
       "bindings": {
-        "0x8016c314": "0x80172314"
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x8006CD00": "0x8006CD00",
+        "0x800814A8": "0x800814A8",
+        "0x80082E80": "0x80082E80",
+        "0x80083460": "0x80083460",
+        "0x8009A180": "0x8009A180",
+        "0x8009A21C": "0x8009A21C",
+        "0x8009A3D0": "0x8009A3D0",
+        "0x8009A540": "0x8009A540",
+        "0x8009A66C": "0x8009A66C",
+        "0x8009FD7C": "0x8009FD7C",
+        "0x800A0134": "0x800A0134",
+        "0x800A02AC": "0x800A02AC",
+        "0x800A04F0": "0x800A04F0",
+        "0x800A0818": "0x800A0818",
+        "0x800A0E6C": "0x800A0E6C",
+        "0x800A19E4": "0x800A19E4",
+        "0x800A6D30": "0x800A6D30",
+        "0x800A9A0C": "0x800A9A0C",
+        "0x800BCB04": "0x800BCB04",
+        "0x800E2970": "0x800E2970",
+        "0x8014DFBC": "0x80172314"
       },
-      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80FB2368"
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_80FB402C",
@@ -34,6 +56,14 @@
       "foff": "0x00FD4C24",
       "vma": "0x80174424",
       "size": 580
+    },
+    {
+      "row": "dungeon/func_80FB4E68",
+      "tu": "src/dungeon/monster/mandara/spawn_rotate_and_restore_actor_state.c",
+      "home": "dungeon/func_80FB4E68",
+      "foff": "0xfd4e68",
+      "vma": "0x80174668",
+      "size": 1208
     }
   ]
 }

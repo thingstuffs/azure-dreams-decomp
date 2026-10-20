@@ -16,6 +16,14 @@
       "size": 532
     },
     {
+      "row": "dungeon/func_80D3B9B0",
+      "tu": "src/dungeon/monster/u_boat/update_actor_visual_motion.c",
+      "home": "dungeon/func_80D3B9B0",
+      "foff": "0xd5b9b0",
+      "vma": "0x801711b0",
+      "size": 1568
+    },
+    {
       "row": "dungeon/func_80D3C944",
       "home": "dungeon/func_80D3C944",
       "tu": "src/dungeon/monster/u_boat/advance_aura_actor_turn_path.c",

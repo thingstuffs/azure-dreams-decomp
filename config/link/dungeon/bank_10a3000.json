@@ -92,6 +92,14 @@
       "size": 124
     },
     {
+      "row": "dungeon/func_81085198",
+      "tu": "src/dungeon/monster/golem/advance_actor_hop_to_tile.c",
+      "home": "dungeon/func_81085198",
+      "foff": "0x10a5198",
+      "vma": "0x80172998",
+      "size": 780
+    },
+    {
       "row": "dungeon/func_810854A4",
       "tu": "src/dungeon/func_80F88C30.c",
       "home": "dungeon/func_80F88C30",
@@ -101,6 +109,14 @@
       "bindings": {
         "0x8016D2C0": "0x8016D2C0"
       }
+    },
+    {
+      "row": "dungeon/func_81085508",
+      "tu": "src/dungeon/monster/golem/advance_actor_height_arc.c",
+      "home": "dungeon/func_81085508",
+      "foff": "0x10a5508",
+      "vma": "0x80172d08",
+      "size": 1892
     },
     {
       "row": "dungeon/func_81085C6C",
@@ -154,7 +170,8 @@
       "size": 32,
       "bindings": {
         "0x800AD058": "0x800AD058",
-        "0x8016D2C0": "0x80174078"
+        "0x8016D2C0": "0x80174078",
+        "0x801739E8": "0x801739E8"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -166,7 +183,8 @@
       "vma": "0x80174098",
       "size": 32,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -177,7 +195,8 @@
       "vma": "0x801740B8",
       "size": 32,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -188,7 +207,8 @@
       "vma": "0x801740D8",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -199,7 +219,8 @@
       "vma": "0x80174110",
       "size": 808,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -210,7 +231,8 @@
       "vma": "0x80174438",
       "size": 608,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -243,7 +265,8 @@
       "vma": "0x801747C4",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -254,7 +277,8 @@
       "vma": "0x801747FC",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -265,7 +289,8 @@
       "vma": "0x80174834",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -276,8 +301,22 @@
       "vma": "0x8017486C",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x801739E8": "0x801739E8"
       }
+    },
+    {
+      "row": "dungeon/func_810870A4",
+      "tu": "src/dungeon/func_80DE61E8.c",
+      "home": "dungeon/func_80DE61E8",
+      "foff": "0x10a70a4",
+      "vma": "0x801748a4",
+      "size": 56,
+      "bindings": {
+        "0x800AC7EC": "0x800AC7EC",
+        "0x80170E5C": "0x80170E94"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_810870DC",
@@ -326,6 +365,30 @@
       "foff": "0x10A76B4",
       "vma": "0x80174EB4",
       "size": 356
+    },
+    {
+      "row": "dungeon/func_81087818",
+      "tu": "src/dungeon/monster/golem/update_staged_target_motion.c",
+      "home": "dungeon/func_81087818",
+      "foff": "0x10a7818",
+      "vma": "0x80175018",
+      "size": 2180
+    },
+    {
+      "row": "dungeon/func_8108809C",
+      "tu": "src/dungeon/monster/golem/create_randomized_offset_object.c",
+      "home": "dungeon/func_8108809C",
+      "foff": "0x10a809c",
+      "vma": "0x8017589c",
+      "size": 500
+    },
+    {
+      "row": "dungeon/func_81088290",
+      "tu": "src/dungeon/monster/golem/draw_randomized_shaded_polylines.c",
+      "home": "dungeon/func_81088290",
+      "foff": "0x10a8290",
+      "vma": "0x80175a90",
+      "size": 960
     },
     {
       "row": "dungeon/func_810886D4",

@@ -16,7 +16,8 @@
       "vma": "0x80152A84",
       "size": 1040,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -27,7 +28,8 @@
       "vma": "0x80152E94",
       "size": 2080,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -38,7 +40,8 @@
       "vma": "0x801536B4",
       "size": 580,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -49,7 +52,8 @@
       "vma": "0x801538F8",
       "size": 1864,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -60,7 +64,8 @@
       "vma": "0x80154040",
       "size": 16,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -71,7 +76,8 @@
       "vma": "0x80154050",
       "size": 456,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -82,7 +88,8 @@
       "vma": "0x80154218",
       "size": 284,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -93,7 +100,8 @@
       "vma": "0x80154334",
       "size": 164,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -104,7 +112,8 @@
       "vma": "0x801543D8",
       "size": 300,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -115,7 +124,8 @@
       "vma": "0x80154504",
       "size": 724,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -126,7 +136,8 @@
       "vma": "0x801547D8",
       "size": 324,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -137,8 +148,30 @@
       "vma": "0x8015491C",
       "size": 124,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
+    },
+    {
+      "row": "dungeon/func_810A3198",
+      "tu": "src/dungeon/monster/golem/advance_actor_hop_to_tile.c",
+      "home": "dungeon/func_81085198",
+      "foff": "0x10c3198",
+      "vma": "0x80154998",
+      "size": 780,
+      "bindings": {
+        "0x800644B8": "0x800644B8",
+        "0x80082E80": "0x80082E80",
+        "0x80083460": "0x80083460",
+        "0x800A0818": "0x800A0818",
+        "0x800A2B04": "0x800A2B04",
+        "0x800A4ACC": "0x800A4ACC",
+        "0x800A9A04": "0x800A9A04",
+        "0x800AD594": "0x800AD594",
+        "0x800AD9B4": "0x800AD9B4",
+        "0x80170E94": "0x80152E94"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_810A34A4",
@@ -149,8 +182,40 @@
       "size": 100,
       "bindings": {
         "0x8016D2C0": "0x8016D2C0",
-        "0x801735B4": "0x801735B4"
+        "0x801735B4": "0x801735B4",
+        "0x80175018": "0x80175018",
+        "0x81088650": "0x81088650",
+        "0x80175A90": "0x80175A90",
+        "0x8017589C": "0x8017589C",
+        "0x80172D08": "0x80172D08",
+        "0x80172998": "0x80172998",
+        "0x801739E8": "0x801739E8"
       }
+    },
+    {
+      "row": "dungeon/func_810A3508",
+      "tu": "src/dungeon/monster/golem/advance_actor_height_arc.c",
+      "home": "dungeon/func_81085508",
+      "foff": "0x10c3508",
+      "vma": "0x80154d08",
+      "size": 1892,
+      "bindings": {
+        "0x800644B8": "0x800644B8",
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x80083460": "0x80083460",
+        "0x8009C12C": "0x8009C12C",
+        "0x800A2B04": "0x800A2B04",
+        "0x800A44E0": "0x800A44E0",
+        "0x800A4ACC": "0x800A4ACC",
+        "0x800A56E0": "0x800A56E0",
+        "0x800AD594": "0x800AD594",
+        "0x800BCB04": "0x800BCB04",
+        "0x800DDC40": "0x800DDC40",
+        "0x80170E94": "0x80152E94",
+        "0x80174A6C": "0x80156A6C"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_810A3C6C",
@@ -160,7 +225,8 @@
       "vma": "0x8015546C",
       "size": 328,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -171,7 +237,8 @@
       "vma": "0x801555B4",
       "size": 8,
       "bindings": {
-        "0x801735B4": "0x801555B4"
+        "0x801735B4": "0x801555B4",
+        "0x81088650": "0x81088650"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -183,7 +250,8 @@
       "vma": "0x801555BC",
       "size": 760,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -194,7 +262,8 @@
       "vma": "0x801558B4",
       "size": 1236,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -205,7 +274,8 @@
       "vma": "0x80155D88",
       "size": 752,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -217,7 +287,14 @@
       "size": 32,
       "bindings": {
         "0x800AD058": "0x800AD058",
-        "0x8016D2C0": "0x80156078"
+        "0x8016D2C0": "0x80156078",
+        "0x80175018": "0x80175018",
+        "0x81088650": "0x81088650",
+        "0x80175A90": "0x80175A90",
+        "0x8017589C": "0x8017589C",
+        "0x80172D08": "0x80172D08",
+        "0x80172998": "0x80172998",
+        "0x801739E8": "0x801739E8"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -230,7 +307,14 @@
       "size": 32,
       "bindings": {
         "0x8016D2C0": "0x8016D2C0",
-        "0x801735B4": "0x801735B4"
+        "0x801735B4": "0x801735B4",
+        "0x80175018": "0x80175018",
+        "0x81088650": "0x81088650",
+        "0x80175A90": "0x80175A90",
+        "0x8017589C": "0x8017589C",
+        "0x80172D08": "0x80172D08",
+        "0x80172998": "0x80172998",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -242,7 +326,14 @@
       "size": 32,
       "bindings": {
         "0x8016D2C0": "0x8016D2C0",
-        "0x801735B4": "0x801735B4"
+        "0x801735B4": "0x801735B4",
+        "0x80175018": "0x80175018",
+        "0x81088650": "0x81088650",
+        "0x80175A90": "0x80175A90",
+        "0x8017589C": "0x8017589C",
+        "0x80172D08": "0x80172D08",
+        "0x80172998": "0x80172998",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -254,7 +345,14 @@
       "size": 56,
       "bindings": {
         "0x8016D2C0": "0x8016D2C0",
-        "0x801735B4": "0x801735B4"
+        "0x801735B4": "0x801735B4",
+        "0x80175018": "0x80175018",
+        "0x81088650": "0x81088650",
+        "0x80175A90": "0x80175A90",
+        "0x8017589C": "0x8017589C",
+        "0x80172D08": "0x80172D08",
+        "0x80172998": "0x80172998",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -265,7 +363,9 @@
       "vma": "0x80156110",
       "size": 808,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -276,7 +376,9 @@
       "vma": "0x80156438",
       "size": 608,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -287,7 +389,8 @@
       "vma": "0x80156698",
       "size": 200,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -298,7 +401,8 @@
       "vma": "0x80156760",
       "size": 100,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -310,7 +414,14 @@
       "size": 56,
       "bindings": {
         "0x8016D2C0": "0x8016D2C0",
-        "0x801735B4": "0x801735B4"
+        "0x801735B4": "0x801735B4",
+        "0x80175018": "0x80175018",
+        "0x81088650": "0x81088650",
+        "0x80175A90": "0x80175A90",
+        "0x8017589C": "0x8017589C",
+        "0x80172D08": "0x80172D08",
+        "0x80172998": "0x80172998",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -322,7 +433,14 @@
       "size": 56,
       "bindings": {
         "0x8016D2C0": "0x8016D2C0",
-        "0x801735B4": "0x801735B4"
+        "0x801735B4": "0x801735B4",
+        "0x80175018": "0x80175018",
+        "0x81088650": "0x81088650",
+        "0x80175A90": "0x80175A90",
+        "0x8017589C": "0x8017589C",
+        "0x80172D08": "0x80172D08",
+        "0x80172998": "0x80172998",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -334,7 +452,14 @@
       "size": 56,
       "bindings": {
         "0x8016D2C0": "0x8016D2C0",
-        "0x801735B4": "0x801735B4"
+        "0x801735B4": "0x801735B4",
+        "0x80175018": "0x80175018",
+        "0x81088650": "0x81088650",
+        "0x80175A90": "0x80175A90",
+        "0x8017589C": "0x8017589C",
+        "0x80172D08": "0x80172D08",
+        "0x80172998": "0x80172998",
+        "0x801739E8": "0x801739E8"
       }
     },
     {
@@ -346,8 +471,28 @@
       "size": 56,
       "bindings": {
         "0x8016D2C0": "0x8016D2C0",
-        "0x801735B4": "0x801735B4"
+        "0x801735B4": "0x801735B4",
+        "0x80175018": "0x80175018",
+        "0x81088650": "0x81088650",
+        "0x80175A90": "0x80175A90",
+        "0x8017589C": "0x8017589C",
+        "0x80172D08": "0x80172D08",
+        "0x80172998": "0x80172998",
+        "0x801739E8": "0x801739E8"
       }
+    },
+    {
+      "row": "dungeon/func_810A50A4",
+      "tu": "src/dungeon/func_80DE61E8.c",
+      "home": "dungeon/func_80DE61E8",
+      "foff": "0x10c50a4",
+      "vma": "0x801568a4",
+      "size": 56,
+      "bindings": {
+        "0x800AC7EC": "0x800AC7EC",
+        "0x80170E5C": "0x80152E94"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_810A50DC",
@@ -357,7 +502,8 @@
       "vma": "0x801568DC",
       "size": 292,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -368,7 +514,8 @@
       "vma": "0x80156A00",
       "size": 108,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -379,7 +526,8 @@
       "vma": "0x80156A6C",
       "size": 348,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -390,7 +538,8 @@
       "vma": "0x80156BC8",
       "size": 348,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -401,7 +550,8 @@
       "vma": "0x80156D24",
       "size": 400,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     },
     {
@@ -412,8 +562,73 @@
       "vma": "0x80156EB4",
       "size": 356,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
+    },
+    {
+      "row": "dungeon/func_810A5818",
+      "tu": "src/dungeon/monster/golem/update_staged_target_motion.c",
+      "home": "dungeon/func_81087818",
+      "foff": "0x10c5818",
+      "vma": "0x80157018",
+      "size": 2180,
+      "bindings": {
+        "0x8003DE58": "0x8003DE58",
+        "0x800478B8": "0x800478B8",
+        "0x800644B8": "0x800644B8",
+        "0x80064584": "0x80064584",
+        "0x80069EF8": "0x80069EF8",
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x800814A0": "0x800814A0",
+        "0x8009C12C": "0x8009C12C",
+        "0x800C77D0": "0x800C77D0",
+        "0x800DDC40": "0x800DDC40",
+        "0x80175A90": "0x80157A90",
+        "0x80175F68": "0x80157F68"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_810A609C",
+      "tu": "src/dungeon/monster/golem/create_randomized_offset_object.c",
+      "home": "dungeon/func_8108809C",
+      "foff": "0x10c609c",
+      "vma": "0x8015789c",
+      "size": 500,
+      "bindings": {
+        "0x8003DE58": "0x8003DE58",
+        "0x8003FD64": "0x8003FD64",
+        "0x8004491C": "0x8004491C",
+        "0x80045340": "0x80045340",
+        "0x80047784": "0x80047784",
+        "0x80175018": "0x80157018"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_810A6290",
+      "tu": "src/dungeon/monster/golem/draw_randomized_shaded_polylines.c",
+      "home": "dungeon/func_81088290",
+      "foff": "0x10c6290",
+      "vma": "0x80157a90",
+      "size": 960,
+      "bindings": {
+        "0x80065530": "0x80065530",
+        "0x80083160": "0x80083160"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_810A6650",
+      "tu": "src/dungeon/monster/golem/randomize_signed_offset.c",
+      "home": "dungeon/func_81088650",
+      "foff": "0x10c6650",
+      "vma": "0x80157e50",
+      "size": 132,
+      "bindings": {},
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_810A66D4",
@@ -423,7 +638,8 @@
       "vma": "0x80157ED4",
       "size": 60,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x81088650": "0x81088650"
       }
     }
   ],

@@ -33,6 +33,24 @@
       "size": 1320
     },
     {
+      "row": "dungeon/func_80EB5ECC",
+      "tu": "src/dungeon/monster/kewne/advance_actor_path_and_facing.c",
+      "home": "dungeon/func_8099FE9C",
+      "foff": "0xed5ecc",
+      "vma": "0x801716cc",
+      "size": 440,
+      "bindings": {
+        "0x80047784": "0x80047784",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x8009A21C": "0x8009A21C",
+        "0x8009A3D0": "0x8009A3D0",
+        "0x800A0818": "0x800A0818",
+        "0x80175E40": "0x80174174"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
       "row": "dungeon/func_80EB6084",
       "tu": "src/dungeon/func_80F8802C.c",
       "home": "dungeon/func_80F8802C",
@@ -78,7 +96,11 @@
       "home": "dungeon/func_800CEE70",
       "foff": "0xED6C90",
       "vma": "0x80172490",
-      "size": 100
+      "size": 100,
+      "bindings": {
+        "0x8017445C": "0x8017445C",
+        "0x8017169C": "0x8017169C"
+      }
     },
     {
       "row": "dungeon/func_80EB6CF4",
@@ -118,7 +140,11 @@
       "home": "dungeon/func_800AD90C",
       "foff": "0xED7CB4",
       "vma": "0x801734B4",
-      "size": 32
+      "size": 32,
+      "bindings": {
+        "0x8017445C": "0x8017445C",
+        "0x8017169C": "0x8017169C"
+      }
     },
     {
       "row": "dungeon/func_80EB7CD4",
@@ -126,7 +152,11 @@
       "home": "dungeon/func_800AD92C",
       "foff": "0xED7CD4",
       "vma": "0x801734D4",
-      "size": 32
+      "size": 32,
+      "bindings": {
+        "0x8017445C": "0x8017445C",
+        "0x8017169C": "0x8017169C"
+      }
     },
     {
       "row": "dungeon/func_80EB7CF4",
@@ -135,6 +165,14 @@
       "foff": "0xED7CF4",
       "vma": "0x801734F4",
       "size": 56
+    },
+    {
+      "row": "dungeon/func_80EB7D2C",
+      "tu": "src/dungeon/monster/kraken/update_actor_animation_timers_and_transitions.c",
+      "home": "dungeon/func_80EB7D2C",
+      "foff": "0xed7d2c",
+      "vma": "0x8017352c",
+      "size": 1188
     },
     {
       "row": "dungeon/func_80EB81D0",
@@ -150,7 +188,10 @@
       "home": "dungeon/func_809A2D74",
       "foff": "0xED8510",
       "vma": "0x80173D10",
-      "size": 200
+      "size": 200,
+      "bindings": {
+        "0x8017169C": "0x8017169C"
+      }
     },
     {
       "row": "dungeon/func_80EB85D8",
@@ -166,7 +207,11 @@
       "home": "dungeon/func_800ADA84",
       "foff": "0xED863C",
       "vma": "0x80173E3C",
-      "size": 56
+      "size": 56,
+      "bindings": {
+        "0x8017445C": "0x8017445C",
+        "0x8017169C": "0x8017169C"
+      }
     },
     {
       "row": "dungeon/func_80EB8674",
@@ -174,7 +219,11 @@
       "home": "dungeon/func_800ADABC",
       "foff": "0xED8674",
       "vma": "0x80173E74",
-      "size": 56
+      "size": 56,
+      "bindings": {
+        "0x8017445C": "0x8017445C",
+        "0x8017169C": "0x8017169C"
+      }
     },
     {
       "row": "dungeon/func_80EB86AC",
@@ -182,7 +231,11 @@
       "home": "dungeon/func_800ADAF4",
       "foff": "0xED86AC",
       "vma": "0x80173EAC",
-      "size": 56
+      "size": 56,
+      "bindings": {
+        "0x8017445C": "0x8017445C",
+        "0x8017169C": "0x8017169C"
+      }
     },
     {
       "row": "dungeon/func_80EB86E4",
@@ -206,7 +259,24 @@
       "home": "dungeon/func_800CF1BC",
       "foff": "0xED8904",
       "vma": "0x80174104",
-      "size": 56
+      "size": 56,
+      "bindings": {
+        "0x8017445C": "0x8017445C",
+        "0x8017169C": "0x8017169C"
+      }
+    },
+    {
+      "row": "dungeon/func_80EB893C",
+      "tu": "src/dungeon/func_80C18C5C.c",
+      "home": "dungeon/func_80C18C5C",
+      "foff": "0xed893c",
+      "vma": "0x8017413c",
+      "size": 56,
+      "bindings": {
+        "0x800AC7EC": "0x800AC7EC",
+        "0x801713A8": "0x801711A4"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     }
   ],
   "symbols": {

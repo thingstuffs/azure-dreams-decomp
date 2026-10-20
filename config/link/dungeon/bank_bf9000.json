@@ -27,7 +27,11 @@
       "vma": "0x80158BFC",
       "size": 300,
       "bindings": {
-        "0x8016DC20": "0x8016DC20"
+        "0x8016DC20": "0x8016DC20",
+        "0x80173604": "0x80173604",
+        "0x80171080": "0x80171080",
+        "0x801732C4": "0x801732C4",
+        "0x80170F2C": "0x80170F2C"
       }
     },
     {
@@ -40,6 +44,34 @@
       "bindings": {
         "0x8016DC20": "0x8016DC20"
       }
+    },
+    {
+      "row": "dungeon/func_80BD972C",
+      "tu": "src/dungeon/func_80BC172C.c",
+      "home": "dungeon/func_80BC172C",
+      "foff": "0xbf972c",
+      "vma": "0x80158f2c",
+      "size": 340,
+      "bindings": {
+        "0x8003FD64": "0x8003FD64",
+        "0x8004491C": "0x8004491C",
+        "0x80170884": "0x80158884",
+        "0x80170BFC": "0x80158BFC"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_80BD9880",
+      "tu": "src/dungeon/func_80BC1880.c",
+      "home": "dungeon/func_80BC1880",
+      "foff": "0xbf9880",
+      "vma": "0x80159080",
+      "size": 336,
+      "bindings": {
+        "0x80065420": "0x80065420",
+        "0x800814A0": "0x800814A0"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_80BD99D0",
@@ -137,7 +169,11 @@
       "vma": "0x8015AD4C",
       "size": 100,
       "bindings": {
-        "0x8016DC20": "0x8016DC20"
+        "0x8016DC20": "0x8016DC20",
+        "0x80173604": "0x80173604",
+        "0x80171080": "0x80171080",
+        "0x801732C4": "0x801732C4",
+        "0x80170F2C": "0x80170F2C"
       }
     },
     {
@@ -150,6 +186,38 @@
       "bindings": {
         "0x8016DC20": "0x8016DC20"
       }
+    },
+    {
+      "row": "dungeon/func_80BDBAC4",
+      "tu": "src/dungeon/monster/death/advance_actor_item_use_sequence.c",
+      "home": "dungeon/func_80BC3AC4",
+      "foff": "0xbfbac4",
+      "vma": "0x8015b2c4",
+      "size": 1872,
+      "bindings": {
+        "0x8003F270": "0x8003F270",
+        "0x8003FC64": "0x8003FC64",
+        "0x8004491C": "0x8004491C",
+        "0x80045340": "0x80045340",
+        "0x80047784": "0x80047784",
+        "0x80069EF8": "0x80069EF8",
+        "0x8006DE24": "0x8006DE24",
+        "0x800814A8": "0x800814A8",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x800A05A4": "0x800A05A4",
+        "0x800A2B04": "0x800A2B04",
+        "0x800A4ACC": "0x800A4ACC",
+        "0x800A56E0": "0x800A56E0",
+        "0x800A94A0": "0x800A94A0",
+        "0x80170D28": "0x80158D28",
+        "0x80170F2C": "0x80158F2C",
+        "0x80171080": "0x80159080",
+        "0x801719DC": "0x801599DC",
+        "0x80174634": "0x8015C634",
+        "0x80174694": "0x8015C694"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_80BDC214",
@@ -171,7 +239,11 @@
       "size": 32,
       "bindings": {
         "0x800AD058": "0x800AD058",
-        "0x8016DC20": "0x8015BC20"
+        "0x8016DC20": "0x8015BC20",
+        "0x80173604": "0x80173604",
+        "0x80171080": "0x80171080",
+        "0x801732C4": "0x801732C4",
+        "0x80170F2C": "0x80170F2C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -194,7 +266,11 @@
       "vma": "0x8015BC7C",
       "size": 32,
       "bindings": {
-        "0x8016DC20": "0x8016DC20"
+        "0x8016DC20": "0x8016DC20",
+        "0x80173604": "0x80173604",
+        "0x80171080": "0x80171080",
+        "0x801732C4": "0x801732C4",
+        "0x80170F2C": "0x80170F2C"
       }
     },
     {
@@ -205,7 +281,11 @@
       "vma": "0x8015BC9C",
       "size": 56,
       "bindings": {
-        "0x8016DC20": "0x8016DC20"
+        "0x8016DC20": "0x8016DC20",
+        "0x80173604": "0x80173604",
+        "0x80171080": "0x80171080",
+        "0x801732C4": "0x801732C4",
+        "0x80170F2C": "0x80170F2C"
       }
     },
     {
@@ -260,7 +340,11 @@
       "vma": "0x8015C51C",
       "size": 56,
       "bindings": {
-        "0x8016DC20": "0x8016DC20"
+        "0x8016DC20": "0x8016DC20",
+        "0x80173604": "0x80173604",
+        "0x80171080": "0x80171080",
+        "0x801732C4": "0x801732C4",
+        "0x80170F2C": "0x80170F2C"
       }
     },
     {
@@ -271,7 +355,11 @@
       "vma": "0x8015C554",
       "size": 56,
       "bindings": {
-        "0x8016DC20": "0x8016DC20"
+        "0x8016DC20": "0x8016DC20",
+        "0x80173604": "0x80173604",
+        "0x80171080": "0x80171080",
+        "0x801732C4": "0x801732C4",
+        "0x80170F2C": "0x80170F2C"
       }
     },
     {
@@ -282,7 +370,11 @@
       "vma": "0x8015C58C",
       "size": 56,
       "bindings": {
-        "0x8016DC20": "0x8016DC20"
+        "0x8016DC20": "0x8016DC20",
+        "0x80173604": "0x80173604",
+        "0x80171080": "0x80171080",
+        "0x801732C4": "0x801732C4",
+        "0x80170F2C": "0x80170F2C"
       }
     },
     {
@@ -293,8 +385,25 @@
       "vma": "0x8015C5C4",
       "size": 56,
       "bindings": {
-        "0x8016DC20": "0x8016DC20"
+        "0x8016DC20": "0x8016DC20",
+        "0x80173604": "0x80173604",
+        "0x80171080": "0x80171080",
+        "0x801732C4": "0x801732C4",
+        "0x80170F2C": "0x80170F2C"
       }
+    },
+    {
+      "row": "dungeon/func_80BDCDFC",
+      "tu": "src/dungeon/func_80BEDE04.c",
+      "home": "dungeon/func_80BEDE04",
+      "foff": "0xbfcdfc",
+      "vma": "0x8015c5fc",
+      "size": 56,
+      "bindings": {
+        "0x800AC7EC": "0x800AC7EC",
+        "0x80171014": "0x801599DC"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     }
   ],
   "symbols": {

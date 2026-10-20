@@ -349,6 +349,14 @@
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
     {
+      "row": "dungeon/func_80C42F04",
+      "tu": "src/dungeon/monster/unicorn/advance_actor_transition_replacement.c",
+      "home": "dungeon/func_80C42F04",
+      "foff": "0xc62f04",
+      "vma": "0x80174704",
+      "size": 1488
+    },
+    {
       "row": "dungeon/func_80C434D4",
       "home": "dungeon/func_800CF1BC",
       "tu": "src/dungeon/actor/set_actor_data_pointer.c",

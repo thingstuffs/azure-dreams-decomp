@@ -16,7 +16,9 @@
       "size": 32,
       "bindings": {
         "0x800AD058": "0x800AD058",
-        "0x8016D2C0": "0x8014F688"
+        "0x8016D2C0": "0x8014F688",
+        "0x801741D0": "0x801741D0",
+        "0x80174BF4": "0x80174BF4"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -55,6 +57,22 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "dungeon/func_80AC29D0",
+      "tu": "src/dungeon/func_80A9E9D0.c",
+      "home": "dungeon/func_80A9E9D0",
+      "foff": "0xae29d0",
+      "vma": "0x801501d0",
+      "size": 328,
+      "bindings": {
+        "0x8003FC64": "0x8003FC64",
+        "0x8004491C": "0x8004491C",
+        "0x80045340": "0x80045340",
+        "0x80174180": "0x80150180",
+        "0x80174D08": "0x80150D08"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
       "row": "dungeon/func_80AC2E48",
       "tu": "src/dungeon/func_80A9EE48.c",
       "home": "dungeon/func_80A9EE48",
@@ -74,6 +92,19 @@
         "0x8016D2C0": "0x8016D2C0"
       },
       "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80AC2E48"
+    },
+    {
+      "row": "dungeon/func_80AC33F4",
+      "tu": "src/dungeon/func_80A9F3F4.c",
+      "home": "dungeon/func_80A9F3F4",
+      "foff": "0xae33f4",
+      "vma": "0x80150bf4",
+      "size": 56,
+      "bindings": {
+        "0x800AC7EC": "0x800AC7EC",
+        "0x80170E7C": "0x8014CE7C"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     }
   ]
 }

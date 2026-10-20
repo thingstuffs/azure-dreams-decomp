@@ -123,8 +123,40 @@
       "vma": "0x8015A5BC",
       "size": 100,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80172620": "0x80172620",
+        "0x80173C3C": "0x80173C3C"
       }
+    },
+    {
+      "row": "dungeon/func_809E2E20",
+      "tu": "src/dungeon/func_809CAE20.c",
+      "home": "dungeon/func_809CAE20",
+      "foff": "0xa02e20",
+      "vma": "0x8015a620",
+      "size": 1028,
+      "bindings": {
+        "0x8003FD64": "0x8003FD64",
+        "0x8004491C": "0x8004491C",
+        "0x80045340": "0x80045340",
+        "0x80047784": "0x80047784",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x80083498": "0x80083498",
+        "0x8009C12C": "0x8009C12C",
+        "0x800A2B04": "0x800A2B04",
+        "0x800A4ACC": "0x800A4ACC",
+        "0x800A56E0": "0x800A56E0",
+        "0x800AD594": "0x800AD594",
+        "0x800D7960": "0x800D7960",
+        "0x800E3DE8": "0x800E3DE8",
+        "0x80170E54": "0x80158E54",
+        "0x80173CA4": "0x8015BCA4",
+        "0x80173CAC": "0x8015BCAC",
+        "0x80173CB4": "0x8015BCB4",
+        "0x80173CBC": "0x8015BCBC"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_809E3224",
@@ -157,7 +189,9 @@
       "size": 32,
       "bindings": {
         "0x800AD058": "0x800AD058",
-        "0x8016D2C0": "0x8015B2C0"
+        "0x8016D2C0": "0x8015B2C0",
+        "0x80172620": "0x80172620",
+        "0x80173C3C": "0x80173C3C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -169,7 +203,9 @@
       "vma": "0x8015B2E0",
       "size": 32,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80172620": "0x80172620",
+        "0x80173C3C": "0x80173C3C"
       }
     },
     {
@@ -180,7 +216,9 @@
       "vma": "0x8015B300",
       "size": 32,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80172620": "0x80172620",
+        "0x80173C3C": "0x80173C3C"
       }
     },
     {
@@ -191,7 +229,9 @@
       "vma": "0x8015B320",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80172620": "0x80172620",
+        "0x80173C3C": "0x80173C3C"
       }
     },
     {
@@ -246,7 +286,9 @@
       "vma": "0x8015BB5C",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80172620": "0x80172620",
+        "0x80173C3C": "0x80173C3C"
       }
     },
     {
@@ -257,7 +299,9 @@
       "vma": "0x8015BB94",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80172620": "0x80172620",
+        "0x80173C3C": "0x80173C3C"
       }
     },
     {
@@ -268,7 +312,9 @@
       "vma": "0x8015BBCC",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80172620": "0x80172620",
+        "0x80173C3C": "0x80173C3C"
       }
     },
     {
@@ -279,8 +325,23 @@
       "vma": "0x8015BC04",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0"
+        "0x8016D2C0": "0x8016D2C0",
+        "0x80172620": "0x80172620",
+        "0x80173C3C": "0x80173C3C"
       }
+    },
+    {
+      "row": "dungeon/func_809E443C",
+      "tu": "src/dungeon/func_809CC43C.c",
+      "home": "dungeon/func_809CC43C",
+      "foff": "0xa0443c",
+      "vma": "0x8015bc3c",
+      "size": 56,
+      "bindings": {
+        "0x800AC7EC": "0x800AC7EC",
+        "0x80170E54": "0x80158E54"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     }
   ],
   "symbols": {
